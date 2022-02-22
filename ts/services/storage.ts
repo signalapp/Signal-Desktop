@@ -12,6 +12,7 @@ import {
   deriveStorageManifestKey,
   encryptProfile,
   decryptProfile,
+  deriveMasterKeyFromGroupV1,
 } from '../Crypto';
 import {
   mergeAccountRecord,
@@ -1046,26 +1047,86 @@ async function processRemoteRecords(
       `count=${missingKeys.size}`
   );
 
+  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
   const droppedKeys = new Set<string>();
 
-  // Merge Account records last since it contains the pinned conversations
-  // and we need all other records merged first before we can find the pinned
-  // records in our db
-  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
-  const sortedStorageItems = decryptedStorageItems.sort((_, b) =>
-    b.itemType === ITEM_TYPE.ACCOUNT ? -1 : 1
-  );
+  // Drop all GV1 records for which we have GV2 record in the same manifest
+  const masterKeys = new Map<string, string>();
+  for (const { itemType, storageID, storageRecord } of decryptedStorageItems) {
+    if (itemType === ITEM_TYPE.GROUPV2 && storageRecord.groupV2?.masterKey) {
+      masterKeys.set(
+        Bytes.toBase64(storageRecord.groupV2.masterKey),
+        storageID
+      );
+    }
+  }
+
+  let accountItem: MergeableItemType | undefined;
+
+  const prunedStorageItems = decryptedStorageItems.filter(item => {
+    const { itemType, storageID, storageRecord } = item;
+    if (itemType === ITEM_TYPE.ACCOUNT) {
+      if (accountItem !== undefined) {
+        log.warn(
+          `storageService.process(${storageVersion}): duplicate account ` +
+            `record=${redactStorageID(storageID, storageVersion)} ` +
+            `previous=${redactStorageID(accountItem.storageID, storageVersion)}`
+        );
+        droppedKeys.add(accountItem.storageID);
+      }
+
+      accountItem = item;
+      return false;
+    }
+
+    if (itemType !== ITEM_TYPE.GROUPV1 || !storageRecord.groupV1?.id) {
+      return true;
+    }
+
+    const masterKey = deriveMasterKeyFromGroupV1(storageRecord.groupV1.id);
+    const gv2StorageID = masterKeys.get(Bytes.toBase64(masterKey));
+    if (!gv2StorageID) {
+      return true;
+    }
+
+    log.warn(
+      `storageService.process(${storageVersion}): dropping ` +
+        `GV1 record=${redactStorageID(storageID, storageVersion)} ` +
+        `GV2 record=${redactStorageID(gv2StorageID, storageVersion)} ` +
+        'is in the same manifest'
+    );
+    droppedKeys.add(storageID);
+
+    return false;
+  });
 
   try {
     log.info(
       `storageService.process(${storageVersion}): ` +
-        `attempting to merge records=${sortedStorageItems.length}`
+        `attempting to merge records=${prunedStorageItems.length}`
     );
-    const mergedRecords = await pMap(
-      sortedStorageItems,
-      (item: MergeableItemType) => mergeRecord(storageVersion, item),
-      { concurrency: 5 }
-    );
+    if (accountItem === undefined) {
+      log.warn(`storageService.process(${storageVersion}): no account record`);
+    } else {
+      log.info(
+        `storageService.process(${storageVersion}): account ` +
+          `record=${redactStorageID(accountItem.storageID, storageVersion)}`
+      );
+    }
+
+    const mergedRecords = [
+      ...(await pMap(
+        prunedStorageItems,
+        (item: MergeableItemType) => mergeRecord(storageVersion, item),
+        { concurrency: 5 }
+      )),
+
+      // Merge Account records last since it contains the pinned conversations
+      // and we need all other records merged first before we can find the pinned
+      // records in our db
+      ...(accountItem ? [await mergeRecord(storageVersion, accountItem)] : []),
+    ];
+
     log.info(
       `storageService.process(${storageVersion}): ` +
         `processed records=${mergedRecords.length}`
@@ -1190,7 +1251,9 @@ async function sync(
     throw new Error('storageService.sync: Cannot start; no storage key!');
   }
 
-  log.info('storageService.sync: starting...');
+  log.info(
+    `storageService.sync: starting... ignoreConflicts=${ignoreConflicts}`
+  );
 
   let manifest: Proto.ManifestRecord | undefined;
   try {
@@ -1329,6 +1392,9 @@ async function upload(fromSync = false): Promise<void> {
       false
     );
     await uploadManifest(version, generatedManifest);
+
+    // Clear pending delete keys after successful upload
+    await window.storage.put('storage-service-pending-deletes', []);
   } catch (err) {
     if (err.code === 409) {
       await sleep(conflictBackOff.getAndIncrement());
