@@ -2792,14 +2792,35 @@ export default class MessageReceiver
 }
 
 function envelopeTypeToCiphertextType(type: number | undefined): number {
-  if (type === Proto.Envelope.Type.CIPHERTEXT) {
+  const { Type } = Proto.Envelope;
+
+  if (type === Type.CIPHERTEXT) {
     return CiphertextMessageType.Whisper;
   }
-  if (type === Proto.Envelope.Type.PLAINTEXT_CONTENT) {
+  if (type === Type.KEY_EXCHANGE) {
+    throw new Error(
+      'envelopeTypeToCiphertextType: Cannot process KEY_EXCHANGE messages'
+    );
+  }
+  if (type === Type.PLAINTEXT_CONTENT) {
     return CiphertextMessageType.Plaintext;
   }
-  if (type === Proto.Envelope.Type.PREKEY_BUNDLE) {
+  if (type === Type.PREKEY_BUNDLE) {
     return CiphertextMessageType.PreKey;
   }
+  if (type === Type.RECEIPT) {
+    return CiphertextMessageType.Plaintext;
+  }
+  if (type === Type.UNIDENTIFIED_SENDER) {
+    throw new Error(
+      'envelopeTypeToCiphertextType: Cannot process UNIDENTIFIED_SENDER messages'
+    );
+  }
+  if (type === Type.UNKNOWN) {
+    throw new Error(
+      'envelopeTypeToCiphertextType: Cannot process UNKNOWN messages'
+    );
+  }
+
   throw new Error(`envelopeTypeToCiphertextType: Unknown type ${type}`);
 }
