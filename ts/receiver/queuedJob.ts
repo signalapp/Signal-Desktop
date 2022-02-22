@@ -248,12 +248,17 @@ async function handleRegularMessage(
 
   if (type === 'incoming') {
     updateReadStatus(message, conversation);
-    await conversation.setDidApproveMe(true);
+    if (conversation.isPrivate()) {
+      await conversation.setDidApproveMe(true);
+    }
   }
 
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
-    await conversation.setIsApproved(true);
+
+    if (conversation.isPrivate()) {
+      await conversation.setIsApproved(true);
+    }
   }
 
   const conversationActiveAt = conversation.get('active_at');
