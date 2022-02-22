@@ -12,36 +12,31 @@ import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
 import { BlockedNumberController } from '../../../util';
 import useKey from 'react-use/lib/useKey';
+import { ReduxConversationType } from '../../../state/ducks/conversations';
 
 /**
  * Blocks all message request conversations and synchronizes across linked devices
  * @returns void
  */
-async function handleBlockAllRequestsClick() {
-  // block all convo requests. Force sync if there were changes.
+async function handleBlockAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
   window?.log?.info('Blocking all conversations');
-  const conversations = getConversationController().getConversations();
-
-  if (!conversations) {
-    window?.log?.info('No message requests to block.');
-    return;
-  }
-
-  const convoRequestsToBlock = conversations.filter(
-    c => c.isPrivate() && c.get('active_at') && c.get('isApproved')
-  );
-
-  let syncRequired = false;
-
-  if (!convoRequestsToBlock) {
+  if (!convoRequests) {
     window?.log?.info('No conversation requests to block.');
     return;
   }
 
+  let syncRequired = false;
+  const convoController = getConversationController();
   await Promise.all(
-    convoRequestsToBlock.map(async convo => {
-      await BlockedNumberController.block(convo.id);
-      await convo.setIsApproved(false);
+    convoRequests.map(async convo => {
+      const { id } = convo;
+      const convoModel = convoController.get(id);
+      if (!convoModel.isBlocked()) {
+        await BlockedNumberController.block(id);
+        convoModel.commit();
+      }
+      await convoModel.setIsApproved(false);
+
       syncRequired = true;
     })
   );
@@ -58,6 +53,7 @@ export const OverlayMessageRequest = () => {
     dispatch(setOverlayMode(undefined));
   }
   const hasRequests = useSelector(getConversationRequests).length > 0;
+  const messageRequests = useSelector(getConversationRequests);
 
   const buttonText = window.i18n('clearAll');
 
@@ -71,8 +67,8 @@ export const OverlayMessageRequest = () => {
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.BrandOutline}
             text={buttonText}
-            onClick={() => {
-              void handleBlockAllRequestsClick();
+            onClick={async () => {
+              await handleBlockAllRequestsClick(messageRequests);
             }}
           />
         </>
