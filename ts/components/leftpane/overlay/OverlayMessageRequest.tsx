@@ -33,7 +33,7 @@ async function handleBlockAllRequestsClick(convoRequests: Array<ReduxConversatio
       const convoModel = convoController.get(id);
       if (!convoModel.isBlocked()) {
         await BlockedNumberController.block(id);
-        convoModel.commit();
+        await convoModel.commit();
       }
       await convoModel.setIsApproved(false);
 

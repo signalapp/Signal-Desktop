@@ -766,7 +766,6 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
  * Gets the count of messages for a direction
  * @param conversationId Conversation for messages to retrieve from
  * @param type outgoing/incoming
- * @returns
  */
 export async function getMessageCountByType(
   conversationId: string,

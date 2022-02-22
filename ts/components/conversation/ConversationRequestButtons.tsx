@@ -32,6 +32,7 @@ export const ConversationMessageRequestButtons = () => {
         }
       }
     }
+    // tslint:disable-next-line: no-floating-promises
     getIncomingMessages();
   });
 
@@ -68,7 +69,7 @@ export const ConversationMessageRequestButtons = () => {
 
   const handleAcceptConversationRequest = async () => {
     const { id } = selectedConversation;
-    const convo = await getConversationController().get(selectedConversation.id);
+    const convo = getConversationController().get(selectedConversation.id);
     await convo.setDidApproveMe(true);
     await approveConvoAndSendResponse(id, true);
   };

@@ -12,14 +12,14 @@ import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 import autoBind from 'auto-bind';
 import {
-  getMessageCountByType,
   getLastMessagesByConversation,
+  getMessageCountByType,
+  getMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
   removeMessage as dataRemoveMessage,
   saveMessages,
   updateConversation,
-  getMessagesByConversation,
 } from '../../ts/data/data';
 import { toHex } from '../session/utils/String';
 import {
@@ -638,11 +638,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         }
       }
 
-      if (uploads.body?.includes('unapprove')) {
-        this.setIsApproved(false);
-        this.setDidApproveMe(false);
-      }
-
       if (this.isOpenGroupV2()) {
         const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
         const roomInfos = this.toOpenGroupV2();
@@ -949,7 +944,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   ) {
     // if there's a message by the other user, they've replied to us which we consider an accepted convo
     if (!this.didApproveMe() && this.isPrivate()) {
-      this.setDidApproveMe(true);
+      await this.setDidApproveMe(true);
     }
 
     return this.addSingleMessage({
@@ -1396,7 +1391,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await (await getMessagesByConversation(this.id, { messageId: null })).length) === 1;
+        (await getMessagesByConversation(this.id, { messageId: null })).length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {

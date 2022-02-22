@@ -25,6 +25,7 @@ export const ConversationRequestinfo = () => {
         }
       }
     }
+    // tslint:disable-next-line: no-floating-promises
     getIncomingMessages();
   });
 
