@@ -16,6 +16,7 @@ import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { updateProfileOneAtATime } from './dataMessage';
 import { EnvelopePlus } from './types';
+import { ConversationInteraction } from '../interactions';
 
 async function handleOurProfileUpdate(
   sentAt: number | Long,
@@ -176,6 +177,10 @@ const handleContactReceived = async (
 
     // only set for explicit true/false values incase outdated sender doesn't have the fields
     if (contactReceived.isBlocked === true) {
+      if (contactConvo.isRequest()) {
+        // handling case where restored device's declined message requests were getting restored
+        ConversationInteraction.deleteAllMessagesByConvoIdNoConfirmation(contactConvo.id);
+      }
       await BlockedNumberController.block(contactConvo.id);
     } else if (contactReceived.isBlocked === false) {
       await BlockedNumberController.unblock(contactConvo.id);

@@ -716,6 +716,38 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  /**
+   * Does this conversation contain the properties to be considered a message request
+   */
+  public isRequest(): boolean {
+    // return !this.isMe() && !this.isApproved() && this.isPrivate() && !this.isBlocked();
+    return ConversationModel.hasValidRequestValues({
+      isMe: this.isMe(),
+      isApproved: this.isApproved(),
+      isBlocked: this.isBlocked(),
+      isPrivate: this.isPrivate(),
+    });
+  }
+
+  /**
+   * Method to evalute if a convo contains the right values
+   * @param values Required properties to evaluate if this is a message request
+   * @returns
+   */
+  public static hasValidRequestValues({
+    isMe,
+    isApproved,
+    isBlocked,
+    isPrivate,
+  }: {
+    isMe?: boolean;
+    isApproved?: boolean;
+    isBlocked?: boolean;
+    isPrivate?: boolean;
+  }): boolean {
+    return Boolean(!isMe && !isApproved && isPrivate && !isBlocked);
+  }
+
   public async sendMessageRequestResponse(isApproved: boolean) {
     if (!this.isPrivate()) {
       return;
