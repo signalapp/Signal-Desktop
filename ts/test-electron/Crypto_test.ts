@@ -165,12 +165,18 @@ describe('Crypto', () => {
 
   describe('generateRegistrationId', () => {
     it('generates an integer between 0 and 16383 (inclusive)', () => {
+      let max = 0;
       for (let i = 0; i < 100; i += 1) {
         const id = generateRegistrationId();
         assert.isAtLeast(id, 0);
         assert.isAtMost(id, 16383);
         assert(Number.isInteger(id));
+
+        max = Math.max(max, id);
       }
+
+      // Probability of this being false is ~ 10^{-181}
+      assert.isAtLeast(max, 0x100);
     });
   });
 

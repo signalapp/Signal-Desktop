@@ -35,7 +35,12 @@ export type EncryptedAttachment = {
 
 // Generate a number between zero and 16383
 export function generateRegistrationId(): number {
-  const id = new Uint16Array(getRandomBytes(2))[0];
+  const bytes = getRandomBytes(2);
+  const id = new Uint16Array(
+    bytes.buffer,
+    bytes.byteOffset,
+    bytes.byteLength / 2
+  )[0];
 
   // eslint-disable-next-line no-bitwise
   return id & 0x3fff;
