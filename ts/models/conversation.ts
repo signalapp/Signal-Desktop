@@ -631,8 +631,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const hasIncomingMessages = incomingMessageCount > 0;
       if (shouldApprove) {
         await this.setIsApproved(true);
-        if (!this.didApproveMe() && hasIncomingMessages) {
-          await this.setDidApproveMe(true);
+        if (hasIncomingMessages) {
+          if (!this.didApproveMe()) {
+            await this.setDidApproveMe(true);
+          }
+          // should only send once
           await this.sendMessageRequestResponse(true);
           void forceSyncConfigurationNowIfNeeded();
         }
