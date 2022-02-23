@@ -54,21 +54,33 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  const didWeHandleAConfigurationMessageAlready =
-    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-  if (didWeHandleAConfigurationMessageAlready) {
+  const lastConfigUpdate = await getItemById(hasSyncedInitialConfigurationItem);
+  const lastConfigTimestamp = lastConfigUpdate?.timestamp;
+  console.warn({ lastConfigUpdate });
+  console.warn({ lastConfigTimestamp });
+  const isNewerConfig = lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp);
+
+  // const didWeHandleAConfigurationMessageAlready =
+  //   (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+  // if (didWeHandleAConfigurationMessageAlready) {
+  if (isNewerConfig) {
     window?.log?.info(
       'Dropping configuration groups change as we already handled one... Only handling contacts '
     );
-    if (configMessage.contacts?.length) {
-      await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
+    if (isNewerConfig) {
+      if (configMessage.contacts?.length) {
+        await Promise.all(
+          configMessage.contacts.map(async c => handleContactReceived(c, envelope))
+        );
+      }
+      return;
     }
-    return;
   }
 
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
+    timestamp: _.toNumber(envelope.timestamp),
   });
 
   const numberClosedGroup = configMessage.closedGroups?.length || 0;
@@ -113,7 +125,7 @@ async function handleGroupsAndContactsFromConfigMessage(
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
-  if (configMessage.contacts?.length) {
+  if (configMessage.contacts?.length && isNewerConfig) {
     await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
   }
 }
@@ -140,11 +152,11 @@ const handleContactReceived = async (
       contactConvo.set('active_at', _.toNumber(envelope.timestamp));
     }
 
+    // checking for existence of field on protobuf
     if (contactReceived.isApproved === true) {
       if (!contactConvo.isApproved()) {
-        // checking for existence of field on protobuf
-        await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
         // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
+        await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
         await contactConvo.addSingleOutgoingMessage({
           sent_at: _.toNumber(envelope.timestamp),
           messageRequestResponse: {

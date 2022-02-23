@@ -38,6 +38,7 @@ let _shutdownPromise: any = null;
 export type StorageItem = {
   id: string;
   value: any;
+  timestamp?: number;
 };
 
 export type IdentityKey = {

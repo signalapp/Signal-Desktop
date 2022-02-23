@@ -632,6 +632,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (shouldApprove) {
         await this.setIsApproved(true);
         if (hasIncomingMessages) {
+          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
+          await this.addSingleOutgoingMessage({
+            sent_at: Date.now(),
+            messageRequestResponse: {
+              isApproved: 1,
+            },
+            unread: 1, // 1 means unread
+            expireTimer: 0,
+          });
+          this.updateLastMessage();
+
           if (!this.didApproveMe()) {
             await this.setDidApproveMe(true);
           }
