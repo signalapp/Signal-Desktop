@@ -28,7 +28,6 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
-import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import { CallingToastManager } from './CallingToastManager';
@@ -37,7 +36,6 @@ import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import type { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
-import type { UUIDStringType } from '../types/UUID';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 
@@ -49,16 +47,7 @@ export type PropsType = {
   hangUpActiveCall: () => void;
   i18n: LocalizerType;
   joinedAt?: number;
-  me: {
-    avatarPath?: string;
-    color?: AvatarColorType;
-    id: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-    title: string;
-    uuid: UUIDStringType;
-  };
+  me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;

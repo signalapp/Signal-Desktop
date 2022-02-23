@@ -7,7 +7,7 @@ import { memoize } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
 import { calling as callingService } from '../../services/calling';
-import { getUserUuid, getIntl, getTheme } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
@@ -323,12 +323,7 @@ const mapStateToProps = (state: StateType) => ({
   i18n: getIntl(state),
   isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
   incomingCall: mapStateToIncomingCallProp(state),
-  me: {
-    ...getMe(state),
-    // `getMe` returns a `ConversationType` which might not have a UUID, at least
-    //   according to the type. This ensures one is set.
-    uuid: getUserUuid(state),
-  },
+  me: getMe(state),
   notifyForCall,
   playRingtone,
   stopRingtone,

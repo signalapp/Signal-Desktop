@@ -832,11 +832,14 @@ function groupCallStateChange(
       didSomeoneStartPresenting = false;
     }
 
+    const { ourUuid } = getState().user;
+    strictAssert(ourUuid, 'groupCallStateChange failed to fetch our uuid');
+
     dispatch({
       type: GROUP_CALL_STATE_CHANGE,
       payload: {
         ...payload,
-        ourUuid: getState().user.ourUuid,
+        ourUuid,
       },
     });
 

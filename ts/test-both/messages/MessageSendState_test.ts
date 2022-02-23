@@ -222,6 +222,20 @@ describe('message send state utilities', () => {
         )
       );
     });
+
+    it('returns false if the message is for you but we have no conversationId', () => {
+      assert.isFalse(
+        isMessageJustForMe(
+          {
+            [ourConversationId]: {
+              status: SendStatus.Sent,
+              updatedAt: 123,
+            },
+          },
+          undefined
+        )
+      );
+    });
   });
 
   describe('sendStateReducer', () => {

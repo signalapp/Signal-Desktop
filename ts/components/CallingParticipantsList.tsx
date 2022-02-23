@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable react/no-array-index-key */
@@ -24,7 +24,7 @@ type ParticipantType = ConversationType & {
 export type PropsType = {
   readonly i18n: LocalizerType;
   readonly onClose: () => void;
-  readonly ourUuid: string;
+  readonly ourUuid: string | undefined;
   readonly participants: Array<ParticipantType>;
 };
 
@@ -113,7 +113,7 @@ export const CallingParticipantsList = React.memo(
                         sharedGroupNames={participant.sharedGroupNames}
                         size={32}
                       />
-                      {participant.uuid === ourUuid ? (
+                      {ourUuid && participant.uuid === ourUuid ? (
                         <span className="module-calling-participants-list__name">
                           {i18n('you')}
                         </span>

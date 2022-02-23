@@ -123,7 +123,7 @@ export const actions = {
 
 // Reducer
 
-function getEmptyState(): UpdatesStateType {
+export function getEmptyState(): UpdatesStateType {
   return {
     dialogType: DialogType.None,
     didSnooze: false,

@@ -104,12 +104,12 @@ type PropsForUnsupportedMessage = {
 
 export type GetPropsForBubbleOptions = Readonly<{
   conversationSelector: GetConversationByIdType;
-  ourConversationId: string;
+  ourConversationId?: string;
   ourNumber?: string;
-  ourUuid: UUIDStringType;
+  ourUuid?: UUIDStringType;
   selectedMessageId?: string;
   selectedMessageCounter?: number;
-  regionCode: string;
+  regionCode?: string;
   callSelector: CallSelectorType;
   activeCall?: CallStateType;
   accountSelector: AccountSelectorType;
@@ -195,7 +195,7 @@ export function getContactId(
     ourNumber,
     ourUuid,
   }: GetContactOptions
-): string {
+): string | undefined {
   const source = getSource(message, ourNumber);
   const sourceUuid = getSourceUuid(message, ourUuid);
 
@@ -1286,7 +1286,7 @@ export function getMessagePropStatus(
     MessageWithUIFieldsType,
     'type' | 'errors' | 'sendStateByConversationId'
   >,
-  ourConversationId: string
+  ourConversationId: string | undefined
 ): LastMessageStatus | undefined {
   if (!isOutgoing(message)) {
     return undefined;
@@ -1298,7 +1298,10 @@ export function getMessagePropStatus(
 
   const { sendStateByConversationId = {} } = message;
 
-  if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+  if (
+    ourConversationId &&
+    isMessageJustForMe(sendStateByConversationId, ourConversationId)
+  ) {
     const status =
       sendStateByConversationId[ourConversationId]?.status ??
       SendStatus.Pending;
@@ -1313,7 +1316,9 @@ export function getMessagePropStatus(
   }
 
   const sendStates = Object.values(
-    omit(sendStateByConversationId, ourConversationId)
+    ourConversationId
+      ? omit(sendStateByConversationId, ourConversationId)
+      : sendStateByConversationId
   );
   const highestSuccessfulStatus = sendStates.reduce(
     (result: SendStatus, { status }) => maxStatus(result, status),
@@ -1343,7 +1348,7 @@ export function getMessagePropStatus(
 
 export function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
-  regionCode: string,
+  regionCode: string | undefined,
   accountSelector: (identifier?: string) => boolean
 ): EmbeddedContactType | undefined {
   const contacts = message.contact;
@@ -1427,7 +1432,7 @@ function canReplyOrReact(
     MessageWithUIFieldsType,
     'deletedForEveryone' | 'sendStateByConversationId' | 'type'
   >,
-  ourConversationId: string,
+  ourConversationId: string | undefined,
   conversation: undefined | Readonly<ConversationType>
 ): boolean {
   const { deletedForEveryone, sendStateByConversationId } = message;
@@ -1455,7 +1460,12 @@ function canReplyOrReact(
   if (isOutgoing(message)) {
     return (
       isMessageJustForMe(sendStateByConversationId, ourConversationId) ||
-      someSendStatus(omit(sendStateByConversationId, ourConversationId), isSent)
+      someSendStatus(
+        ourConversationId
+          ? omit(sendStateByConversationId, ourConversationId)
+          : sendStateByConversationId,
+        isSent
+      )
     );
   }
 
@@ -1475,7 +1485,7 @@ export function canReply(
     | 'sendStateByConversationId'
     | 'type'
   >,
-  ourConversationId: string,
+  ourConversationId: string | undefined,
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
@@ -1496,7 +1506,7 @@ export function canReact(
     | 'sendStateByConversationId'
     | 'type'
   >,
-  ourConversationId: string,
+  ourConversationId: string | undefined,
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);

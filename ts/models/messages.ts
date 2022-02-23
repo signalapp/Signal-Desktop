@@ -389,7 +389,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         },
         contactNameColorSelector: (
           conversationId: string,
-          contactId: string
+          contactId: string | undefined
         ) => {
           const state = window.reduxStore.getState();
           const contactNameColorSelector = getContactNameColorSelector(state);

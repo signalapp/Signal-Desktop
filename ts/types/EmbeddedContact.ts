@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
@@ -86,7 +86,7 @@ const DEFAULT_ADDRESS_TYPE = Proto.DataMessage.Contact.PostalAddress.Type.HOME;
 export function embeddedContactSelector(
   contact: EmbeddedContactType,
   options: {
-    regionCode: string;
+    regionCode?: string;
     firstNumber?: string;
     isNumberOnSignal?: boolean;
     getAbsoluteAttachmentPath: (path: string) => string;

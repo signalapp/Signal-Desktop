@@ -274,7 +274,7 @@ function savePreferredLeftPaneWidth(
 
 // Reducer
 
-function getEmptyState(): ItemsStateType {
+export function getEmptyState(): ItemsStateType {
   return {
     defaultConversationColor: {
       color: ConversationColors[0],

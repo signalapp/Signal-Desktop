@@ -205,7 +205,7 @@ function errorRecording(
 
 // Reducer
 
-function getEmptyState(): AudioPlayerStateType {
+export function getEmptyState(): AudioPlayerStateType {
   return {
     recordingState: RecordingState.Idle,
   };

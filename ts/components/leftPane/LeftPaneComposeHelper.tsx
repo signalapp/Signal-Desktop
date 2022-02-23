@@ -24,7 +24,7 @@ export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemConversationType>;
   composeGroups: ReadonlyArray<ConversationListItemPropsType>;
 
-  regionCode: string;
+  regionCode: string | undefined;
   searchTerm: string;
   isFetchingUsername: boolean;
   isUsernamesEnabled: boolean;
@@ -355,7 +355,7 @@ function focusRef(el: HTMLElement | null) {
 
 function parsePhoneNumber(
   str: string,
-  regionCode: string
+  regionCode: string | undefined
 ): undefined | PhoneNumber {
   let result: PhoneNumber;
   try {

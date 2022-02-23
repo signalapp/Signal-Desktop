@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, pick, reject, groupBy, values } from 'lodash';
@@ -23,6 +23,7 @@ import type {
 import Data from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import type { StickersStateType } from '../state/ducks/stickers';
 
 export type RecentStickerType = Readonly<{
   stickerId: number;
@@ -30,12 +31,6 @@ export type RecentStickerType = Readonly<{
 }>;
 
 export type BlessedType = Pick<StickerPackType, 'key' | 'status'>;
-
-export type InitialState = {
-  packs: Record<string, StickerPackType>;
-  recentStickers: Array<RecentStickerType>;
-  blessedPacks: Record<string, boolean>;
-};
 
 export type DownloadMap = Record<
   string,
@@ -85,7 +80,7 @@ const STICKER_PACK_DEFAULTS: StickerPackType = {
 
 const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
 
-let initialState: InitialState | undefined;
+let initialState: StickersStateType | undefined;
 let packsToDownload: DownloadMap | undefined;
 const downloadQueue = new Queue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
@@ -104,6 +99,7 @@ export async function load(): Promise<void> {
     packs,
     recentStickers,
     blessedPacks,
+    installedPack: null,
   };
 
   packsToDownload = capturePacksToDownload(packs);
@@ -269,7 +265,7 @@ async function getRecentStickersForRedux(): Promise<Array<RecentStickerType>> {
   }));
 }
 
-export function getInitialState(): InitialState {
+export function getInitialState(): StickersStateType {
   strictAssert(initialState !== undefined, 'Stickers not initialized');
   return initialState;
 }

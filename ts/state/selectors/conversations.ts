@@ -365,9 +365,13 @@ export const getMe = createSelector(
   [getConversationLookup, getUserConversationId],
   (
     lookup: ConversationLookupType,
-    ourConversationId: string
+    ourConversationId: string | undefined
   ): ConversationType => {
-    return lookup[ourConversationId];
+    if (!ourConversationId) {
+      return getPlaceholderContact();
+    }
+
+    return lookup[ourConversationId] || getPlaceholderContact();
   }
 );
 
@@ -654,8 +658,6 @@ export const getConversationSelector = createSelector(
   ): GetConversationByIdType => {
     return (id?: string) => {
       if (!id) {
-        log.warn(`getConversationSelector: Called with a falsey id ${id}`);
-        // This will return a placeholder contact
         return selector(undefined);
       }
 
@@ -714,10 +716,10 @@ const getCachedConversationMemberColorsSelector = createSelector(
   getUserConversationId,
   (
     conversationSelector: GetConversationByIdType,
-    ourConversationId: string
+    ourConversationId: string | undefined
   ) => {
     return memoizee(
-      (conversationId: string) => {
+      (conversationId: string | undefined) => {
         const contactNameColors: Map<string, ContactNameColorType> = new Map();
         const {
           sortedGroupMembers = [],
@@ -726,7 +728,9 @@ const getCachedConversationMemberColorsSelector = createSelector(
         } = conversationSelector(conversationId);
 
         if (type === 'direct') {
-          contactNameColors.set(ourConversationId, ContactNameColors[0]);
+          if (ourConversationId) {
+            contactNameColors.set(ourConversationId, ContactNameColors[0]);
+          }
           contactNameColors.set(theirId, ContactNameColors[0]);
           return contactNameColors;
         }
@@ -751,7 +755,7 @@ const getCachedConversationMemberColorsSelector = createSelector(
 
 export type ContactNameColorSelectorType = (
   conversationId: string,
-  contactId: string
+  contactId: string | undefined
 ) => ContactNameColorType;
 
 export const getContactNameColorSelector = createSelector(
@@ -759,8 +763,13 @@ export const getContactNameColorSelector = createSelector(
   conversationMemberColorsSelector => {
     return (
       conversationId: string,
-      contactId: string
+      contactId: string | undefined
     ): ContactNameColorType => {
+      if (!contactId) {
+        log.warn('No color generated for missing contactId');
+        return ContactNameColors[0];
+      }
+
       const contactNameColors =
         conversationMemberColorsSelector(conversationId);
       const color = contactNameColors.get(contactId);
@@ -792,10 +801,10 @@ export const getMessageSelector = createSelector(
     messageLookup: MessageLookupType,
     selectedMessage: SelectedMessageType | undefined,
     conversationSelector: GetConversationByIdType,
-    regionCode: string,
-    ourNumber: string,
-    ourUuid: UUIDStringType,
-    ourConversationId: string,
+    regionCode: string | undefined,
+    ourNumber: string | undefined,
+    ourUuid: UUIDStringType | undefined,
+    ourConversationId: string | undefined,
     callSelector: CallSelectorType,
     activeCall: undefined | CallStateType,
     accountSelector: AccountSelectorType,

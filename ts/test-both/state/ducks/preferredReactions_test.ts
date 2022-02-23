@@ -10,7 +10,7 @@ import { noopAction } from '../../../state/ducks/noop';
 import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions';
 import {
   actions,
-  getInitialState,
+  getEmptyState,
   reducer,
 } from '../../../state/ducks/preferredReactions';
 
@@ -26,7 +26,7 @@ describe('preferred reactions duck', () => {
   });
 
   const stateWithOpenCustomizationModal = {
-    ...getInitialState(),
+    ...getEmptyState(),
     customizePreferredReactionsModal: {
       draftPreferredReactions: ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'],
       originalPreferredReactions: ['💙', '👍', '👎', '😂', '😮', '😢'],
@@ -59,7 +59,7 @@ describe('preferred reactions duck', () => {
 
     it("does nothing if the modal isn't open", () => {
       const action = cancelCustomizePreferredReactionsModal();
-      const result = reducer(getInitialState(), action);
+      const result = reducer(getEmptyState(), action);
 
       assert.notProperty(result, 'customizePreferredReactionsModal');
     });
@@ -76,7 +76,7 @@ describe('preferred reactions duck', () => {
     const { deselectDraftEmoji } = actions;
 
     it('is a no-op if the customization modal is not open', () => {
-      const state = getInitialState();
+      const state = getEmptyState();
       const action = deselectDraftEmoji();
       const result = reducer(state, action);
 
@@ -167,7 +167,7 @@ describe('preferred reactions duck', () => {
     const { replaceSelectedDraftEmoji } = actions;
 
     it('is a no-op if the customization modal is not open', () => {
-      const state = getInitialState();
+      const state = getEmptyState();
       const action = replaceSelectedDraftEmoji('🦈');
       const result = reducer(state, action);
 
@@ -350,7 +350,7 @@ describe('preferred reactions duck', () => {
       };
 
       it("does nothing if the modal isn't open", () => {
-        const result = reducer(getInitialState(), action);
+        const result = reducer(getEmptyState(), action);
 
         assert.notProperty(result, 'customizePreferredReactionsModal');
       });
@@ -404,7 +404,7 @@ describe('preferred reactions duck', () => {
       };
 
       it("does nothing if the modal isn't open", () => {
-        const state = getInitialState();
+        const state = getEmptyState();
         const result = reducer(state, action);
 
         assert.strictEqual(result, state);
@@ -428,7 +428,7 @@ describe('preferred reactions duck', () => {
     const { selectDraftEmojiToBeReplaced } = actions;
 
     it('is a no-op if the customization modal is not open', () => {
-      const state = getInitialState();
+      const state = getEmptyState();
       const action = selectDraftEmojiToBeReplaced(2);
       const result = reducer(state, action);
 

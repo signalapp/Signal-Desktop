@@ -48,7 +48,7 @@ function setActiveAudioID(
 
 // Reducer
 
-function getEmptyState(): AudioPlayerStateType {
+export function getEmptyState(): AudioPlayerStateType {
   return {
     activeAudioID: undefined,
     activeAudioContext: undefined,

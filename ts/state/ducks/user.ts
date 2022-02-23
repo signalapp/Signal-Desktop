@@ -14,12 +14,12 @@ export type UserStateType = {
   attachmentsPath: string;
   stickersPath: string;
   tempPath: string;
-  ourConversationId: string;
-  ourDeviceId: number;
-  ourUuid: UUIDStringType;
-  ourNumber: string;
+  ourConversationId: string | undefined;
+  ourDeviceId: number | undefined;
+  ourUuid: UUIDStringType | undefined;
+  ourNumber: string | undefined;
   platform: string;
-  regionCode: string;
+  regionCode: string | undefined;
   i18n: LocalizerType;
   interactionMode: 'mouse' | 'keyboard';
   theme: ThemeType;

@@ -157,7 +157,7 @@ export const actions = {
   toggleVerified,
 };
 
-function getEmptyState(): SafetyNumberStateType {
+export function getEmptyState(): SafetyNumberStateType {
   return {
     contacts: {},
   };

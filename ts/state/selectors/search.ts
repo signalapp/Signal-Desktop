@@ -211,7 +211,7 @@ export const getMessageSearchResultSelector = createSelector(
     selectedMessageId: string | undefined,
     conversationSelector: GetConversationByIdType,
     searchConversationId: string | undefined,
-    ourConversationId: string
+    ourConversationId: string | undefined
   ): GetMessageSearchResultByIdType => {
     return (id: string) => {
       const message = messageSearchResultLookup[id];

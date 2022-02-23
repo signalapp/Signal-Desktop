@@ -6401,7 +6401,7 @@
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/regenerator-runtime/runtime.js",
-    "line": "      wrap(innerFn, outerFn, self, tryLocsList)",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
   },
@@ -7819,13 +7819,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/jobs/helpers/syncHelpers.ts",
-    "line": "  await window.ConversationController.load();",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-11-04T16:14:03.477Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "ts/jobs/conversationJobQueue.ts",
     "line": "    await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
@@ -7834,6 +7827,13 @@
   {
     "rule": "jQuery-load(",
     "path": "ts/jobs/helpers/sendReaction.ts",
+    "line": "  await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/jobs/helpers/syncHelpers.ts",
     "line": "  await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-04T16:14:03.477Z"

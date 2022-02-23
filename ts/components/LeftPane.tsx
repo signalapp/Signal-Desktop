@@ -88,7 +88,7 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
-  regionCode: string;
+  regionCode: string | undefined;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
   crashReportCount: number;

@@ -82,12 +82,12 @@ function updateOrCreate(
 
 // Reducer
 
-export function getInitialState(): BadgesStateType {
+export function getEmptyState(): BadgesStateType {
   return { byId: {} };
 }
 
 export function reducer(
-  state: Readonly<BadgesStateType> = getInitialState(),
+  state: Readonly<BadgesStateType> = getEmptyState(),
   action: Readonly<ImageFileDownloadedActionType | UpdateOrCreateActionType>
 ): BadgesStateType {
   switch (action.type) {

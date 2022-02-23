@@ -1,9 +1,9 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
 
-import type { DeepPartial, Store } from 'redux';
+import type { Store } from 'redux';
 import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
 
 import promise from 'redux-promise-middleware';
@@ -54,5 +54,5 @@ const middlewareList = [
 const enhancer = applyMiddleware(...middlewareList);
 
 export const createStore = (
-  initialState: DeepPartial<StateType>
+  initialState: Readonly<StateType>
 ): Store<StateType> => reduxCreateStore(reducer, initialState, enhancer);

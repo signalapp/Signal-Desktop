@@ -150,14 +150,14 @@ const createProps = (
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
   i18n,
-  me: {
+  me: getDefaultConversation({
     color: AvatarColors[1],
     id: '6146087e-f7ef-457e-9a8d-47df1fdd6b25',
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',
     uuid: '3c134598-eecb-42ab-9ad3-2b0873f771b2',
-  },
+  }),
   openSystemPreferencesAction: action('open-system-preferences-action'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),

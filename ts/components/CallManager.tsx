@@ -40,14 +40,9 @@ import type {
   StartCallType,
 } from '../state/ducks/calling';
 import type { LocalizerType, ThemeType } from '../types/Util';
-import type { UUIDStringType } from '../types/UUID';
 import { missingCaseError } from '../util/missingCaseError';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
-
-type MeType = ConversationType & {
-  uuid: UUIDStringType;
-};
 
 export type PropsType = {
   activeCall?: ActiveCallType;
@@ -83,7 +78,7 @@ export type PropsType = {
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
   isGroupCallOutboundRingEnabled: boolean;
-  me: MeType;
+  me: ConversationType;
   notifyForCall: (title: string, isVideoCall: boolean) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;

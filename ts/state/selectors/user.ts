@@ -15,27 +15,27 @@ export const getUser = (state: StateType): UserStateType => state.user;
 
 export const getUserNumber = createSelector(
   getUser,
-  (state: UserStateType): string => state.ourNumber
+  (state: UserStateType): string | undefined => state.ourNumber
 );
 
 export const getUserDeviceId = createSelector(
   getUser,
-  (state: UserStateType): number => state.ourDeviceId
+  (state: UserStateType): number | undefined => state.ourDeviceId
 );
 
 export const getRegionCode = createSelector(
   getUser,
-  (state: UserStateType): string => state.regionCode
+  (state: UserStateType): string | undefined => state.regionCode
 );
 
 export const getUserConversationId = createSelector(
   getUser,
-  (state: UserStateType): string => state.ourConversationId
+  (state: UserStateType): string | undefined => state.ourConversationId
 );
 
 export const getUserUuid = createSelector(
   getUser,
-  (state: UserStateType): UUIDStringType => state.ourUuid
+  (state: UserStateType): UUIDStringType | undefined => state.ourUuid
 );
 
 export const getIntl = createSelector(

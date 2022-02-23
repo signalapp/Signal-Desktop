@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -21,6 +21,7 @@ import { getUserUuid, getIntl, getTheme } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { strictAssert } from '../../util/assert';
 
 export type OwnProps = {
   id: string;
@@ -46,6 +47,8 @@ const getOutgoingCallButtonStyle = (
   state: StateType
 ): OutgoingCallButtonStyle => {
   const { calling } = state;
+  const ourUuid = getUserUuid(state);
+  strictAssert(ourUuid, 'getOutgoingCallButtonStyle missing our uuid');
 
   if (getActiveCall(calling)) {
     return OutgoingCallButtonStyle.None;
@@ -61,7 +64,7 @@ const getOutgoingCallButtonStyle = (
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
         call?.callMode === CallMode.Group &&
-        isAnybodyElseInGroupCall(call.peekInfo, getUserUuid(state))
+        isAnybodyElseInGroupCall(call.peekInfo, ourUuid)
       ) {
         return OutgoingCallButtonStyle.Join;
       }

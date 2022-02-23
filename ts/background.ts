@@ -91,7 +91,6 @@ import { RotateSignedPreKeyListener } from './textsecure/RotateSignedPreKeyListe
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
-import { UsernameSaveState } from './state/ducks/conversationsEnums';
 import type { BadgesStateType } from './state/ducks/badges';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import { isIncoming } from './state/selectors/message';
@@ -116,7 +115,6 @@ import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
-import * as preferredReactions from './state/ducks/preferredReactions';
 import * as Conversation from './types/Conversation';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
@@ -128,10 +126,7 @@ import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import { isValidUuid, UUIDKind } from './types/UUID';
 import type { UUID } from './types/UUID';
 import * as log from './logging/log';
-import {
-  loadRecentEmojis,
-  getEmojiReducerState,
-} from './util/loadRecentEmojis';
+import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
 import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
@@ -143,6 +138,7 @@ import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
 import { updateOurUsername } from './util/updateOurUsername';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
+import { getInitialState } from './state/getInitialState';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -890,70 +886,7 @@ export async function startApp(): Promise<void> {
   function initializeRedux() {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = window.getConversations();
-    const conversations = convoCollection.map(conversation =>
-      conversation.format()
-    );
-    const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    const ourConversationId =
-      window.ConversationController.getOurConversationId();
-    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-
-    const themeSetting = window.Events.getThemeSetting();
-    const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
-
-    // TODO: DESKTOP-3125
-    const initialState = {
-      badges: initialBadgesState,
-      conversations: {
-        conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
-        conversationsByE164: window.Signal.Util.makeLookup(
-          conversations,
-          'e164'
-        ),
-        conversationsByUuid: window.Signal.Util.makeLookup(
-          conversations,
-          'uuid'
-        ),
-        conversationsByGroupId: window.Signal.Util.makeLookup(
-          conversations,
-          'groupId'
-        ),
-        conversationsByUsername: window.Signal.Util.makeLookup(
-          conversations,
-          'username'
-        ),
-        messagesByConversation: {},
-        messagesLookup: {},
-        verificationDataByConversation: {},
-        selectedConversationId: undefined,
-        selectedMessage: undefined,
-        selectedMessageCounter: 0,
-        selectedConversationPanelDepth: 0,
-        selectedConversationTitle: '',
-        showArchived: false,
-        usernameSaveState: UsernameSaveState.None,
-      },
-      emojis: getEmojiReducerState(),
-      items: window.storage.getItemsState(),
-      preferredReactions: preferredReactions.getInitialState(),
-      stickers: Stickers.getInitialState(),
-      user: {
-        attachmentsPath: window.baseAttachmentsPath,
-        stickersPath: window.baseStickersPath,
-        tempPath: window.baseTempPath,
-        regionCode: window.storage.get('regionCode'),
-        ourConversationId,
-        ourDeviceId,
-        ourNumber,
-        ourUuid,
-        platform: window.platform,
-        i18n: window.i18n,
-        interactionMode: window.getInteractionMode(),
-        theme,
-        version: window.getVersion(),
-      },
-    };
+    const initialState = getInitialState({ badges: initialBadgesState });
 
     const store = window.Signal.State.createStore(initialState);
     window.reduxStore = store;

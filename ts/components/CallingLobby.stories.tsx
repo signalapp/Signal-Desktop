@@ -61,11 +61,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     isGroupCall,
     isGroupCallOutboundRingEnabled: true,
     isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
-    me: overrideProps.me || {
-      color: AvatarColors[0],
-      id: UUID.generate().toString(),
-      uuid: UUID.generate().toString(),
-    },
+    me:
+      overrideProps.me ||
+      getDefaultConversation({
+        color: AvatarColors[0],
+        id: UUID.generate().toString(),
+        uuid: UUID.generate().toString(),
+      }),
     onCallCanceled: action('on-call-canceled'),
     onJoinCall: action('on-join-call'),
     outgoingRing: boolean('outgoingRing', Boolean(overrideProps.outgoingRing)),
@@ -105,12 +107,12 @@ story.add('No Camera, no avatar', () => {
 story.add('No Camera, local avatar', () => {
   const props = createProps({
     availableCameras: [],
-    me: {
+    me: getDefaultConversation({
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
       id: UUID.generate().toString(),
       uuid: UUID.generate().toString(),
-    },
+    }),
   });
   return <CallingLobby {...props} />;
 });
@@ -146,10 +148,10 @@ story.add('Group Call - 1 peeked participant (self)', () => {
   const uuid = UUID.generate().toString();
   const props = createProps({
     isGroupCall: true,
-    me: {
+    me: getDefaultConversation({
       id: UUID.generate().toString(),
       uuid,
-    },
+    }),
     peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],
   });
   return <CallingLobby {...props} />;

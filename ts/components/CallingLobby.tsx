@@ -19,9 +19,7 @@ import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
 } from './CallingLobbyJoinButton';
-import type { AvatarColorType } from '../types/Colors';
 import type { LocalizerType } from '../types/Util';
-import type { UUIDStringType } from '../types/UUID';
 import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -51,12 +49,7 @@ export type PropsType = {
   isGroupCall: boolean;
   isGroupCallOutboundRingEnabled: boolean;
   isCallFull?: boolean;
-  me: {
-    avatarPath?: string;
-    id: string;
-    color?: AvatarColorType;
-    uuid: UUIDStringType;
-  };
+  me: Readonly<Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'uuid'>>;
   onCallCanceled: () => void;
   onJoinCall: () => void;
   outgoingRing: boolean;

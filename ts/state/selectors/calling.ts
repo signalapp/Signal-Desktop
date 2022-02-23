@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -62,7 +62,12 @@ export const getIncomingCall = createSelector(
   getUserUuid,
   (
     callsByConversation: CallsByConversationType,
-    ourUuid: UUIDStringType
-  ): undefined | DirectCallStateType | GroupCallStateType =>
-    getIncomingCallHelper(callsByConversation, ourUuid)
+    ourUuid: UUIDStringType | undefined
+  ): undefined | DirectCallStateType | GroupCallStateType => {
+    if (!ourUuid) {
+      return undefined;
+    }
+
+    return getIncomingCallHelper(callsByConversation, ourUuid);
+  }
 );

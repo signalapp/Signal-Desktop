@@ -33,7 +33,7 @@ export const actions = {
 
 // Reducer
 
-function getEmptyState(): ExpirationStateType {
+export function getEmptyState(): ExpirationStateType {
   return {
     hasExpired: false,
   };

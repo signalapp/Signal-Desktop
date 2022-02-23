@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
@@ -24,6 +24,7 @@ import type {
 } from './conversations';
 import { getQuery, getSearchConversation } from '../selectors/search';
 import { getIntl, getUserConversationId } from '../selectors/user';
+import { strictAssert } from '../../util/assert';
 
 const {
   searchConversations: dataSearchConversations,
@@ -157,11 +158,16 @@ function updateSearchTerm(
     });
 
     const state = getState();
+    const ourConversationId = getUserConversationId(state);
+    strictAssert(
+      ourConversationId,
+      'updateSearchTerm our conversation is missing'
+    );
 
     doSearch({
       dispatch,
       noteToSelf: getIntl(state)('noteToSelf').toLowerCase(),
-      ourConversationId: getUserConversationId(state),
+      ourConversationId,
       query: getQuery(state),
       searchConversationId: getSearchConversation(state)?.id,
     });

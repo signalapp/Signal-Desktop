@@ -200,12 +200,12 @@ function selectDraftEmojiToBeReplaced(
 
 // Reducer
 
-export function getInitialState(): PreferredReactionsStateType {
+export function getEmptyState(): PreferredReactionsStateType {
   return {};
 }
 
 export function reducer(
-  state: Readonly<PreferredReactionsStateType> = getInitialState(),
+  state: Readonly<PreferredReactionsStateType> = getEmptyState(),
   action: Readonly<
     | CancelCustomizePreferredReactionsModalActionType
     | DeselectDraftEmojiActionType

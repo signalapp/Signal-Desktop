@@ -324,7 +324,7 @@ async function doUseSticker(
 
 // Reducer
 
-function getEmptyState(): StickersStateType {
+export function getEmptyState(): StickersStateType {
   return {
     installedPack: null,
     packs: {},
