@@ -2692,18 +2692,6 @@ async function updateGroup(
     activeAt = newAttributes.active_at;
   }
 
-  conversation.set({
-    ...newAttributes,
-    active_at: activeAt,
-    temporaryMemberCount: isInGroup
-      ? undefined
-      : newAttributes.temporaryMemberCount,
-  });
-
-  if (idChanged) {
-    conversation.trigger('idUpdated', conversation, 'groupId', previousId);
-  }
-
   // Save all synthetic messages describing group changes
   let syntheticSentAt = initialSentAt - (groupChangeMessages.length + 1);
   const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
@@ -2767,6 +2755,21 @@ async function updateGroup(
       window.MessageController.register(model.id, model);
       conversation.trigger('newmessage', model);
     });
+  }
+
+  // We update group membership last to ensure that all notifications are in place before
+  //   the group updates happen on the model.
+
+  conversation.set({
+    ...newAttributes,
+    active_at: activeAt,
+    temporaryMemberCount: isInGroup
+      ? undefined
+      : newAttributes.temporaryMemberCount,
+  });
+
+  if (idChanged) {
+    conversation.trigger('idUpdated', conversation, 'groupId', previousId);
   }
 
   // No need for convo.updateLastMessage(), 'newmessage' handler does that
