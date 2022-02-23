@@ -9,8 +9,8 @@ export const ConversationRequestinfo = () => {
   const selectedConversation = useSelector(getSelectedConversation);
   const showMsgRequestUI =
     !selectedConversation?.isApproved && selectedConversation?.type === 'private';
-
   const [hasIncomingMessages, setHasIncomingMessages] = useState(false);
+  const [incomingChecked, setIncomingChecked] = useState(false);
 
   useEffect(() => {
     async function getIncomingMessages() {
@@ -22,14 +22,17 @@ export const ConversationRequestinfo = () => {
         );
         if (msgCount > 0) {
           setHasIncomingMessages(true);
+        } else {
+          setHasIncomingMessages(false);
         }
+        setIncomingChecked(true);
       }
     }
     // tslint:disable-next-line: no-floating-promises
     getIncomingMessages();
   });
 
-  if (!showMsgRequestUI || !hasIncomingMessages) {
+  if (!showMsgRequestUI || !hasIncomingMessages || !incomingChecked) {
     return null;
   }
 

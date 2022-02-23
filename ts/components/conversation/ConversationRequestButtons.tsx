@@ -16,8 +16,8 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 
 export const ConversationMessageRequestButtons = () => {
   const selectedConversation = useSelector(getSelectedConversation);
-
-  const [hasIncoming, setHasIncomingMsg] = useState(false);
+  const [hasIncoming, setHasIncomingMsgs] = useState(false);
+  const [incomingChecked, setIncomingChecked] = useState(false);
 
   useEffect(() => {
     async function getIncomingMessages() {
@@ -28,15 +28,18 @@ export const ConversationMessageRequestButtons = () => {
           MessageDirection.incoming
         );
         if (msgCount > 0) {
-          setHasIncomingMsg(true);
+          setHasIncomingMsgs(true);
+        } else {
+          setHasIncomingMsgs(false);
         }
+        setIncomingChecked(true);
       }
     }
     // tslint:disable-next-line: no-floating-promises
     getIncomingMessages();
   });
 
-  if (!selectedConversation || !hasIncoming) {
+  if (!selectedConversation || !hasIncoming || !incomingChecked) {
     return null;
   }
 
