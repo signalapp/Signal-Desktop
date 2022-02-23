@@ -66,19 +66,11 @@ export function formatDateTimeShort(
   const now = Date.now();
   const diff = now - timestamp;
 
-  if (diff < MINUTE) {
-    return i18n('justNow');
-  }
-
-  if (diff < HOUR) {
-    return i18n('minutesAgo', [Math.floor(diff / MINUTE).toString()]);
+  if (diff < HOUR || isToday(timestamp)) {
+    return formatTime(i18n, rawTimestamp);
   }
 
   const m = moment(timestamp);
-
-  if (isToday(timestamp)) {
-    return m.format('LT');
-  }
 
   if (diff < WEEK && m.isSame(now, 'month')) {
     return m.format('ddd');
@@ -123,7 +115,10 @@ export function formatTime(
     return i18n('minutesAgo', [Math.floor(diff / MINUTE).toString()]);
   }
 
-  return moment(timestamp).format('LT');
+  return new Date(timestamp).toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit',
+  });
 }
 
 export function formatDate(
