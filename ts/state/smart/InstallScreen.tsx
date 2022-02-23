@@ -203,6 +203,8 @@ export function SmartInstallScreen(): ReactElement {
           updateProvisioningUrl,
           confirmNumber
         );
+
+        window.removeSetupMenuItems();
       } catch (err: unknown) {
         if (hasCleanedUp) {
           return;
