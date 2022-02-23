@@ -633,16 +633,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         await this.setIsApproved(true);
         if (hasIncomingMessages) {
           // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
-          await this.addSingleOutgoingMessage({
-            sent_at: Date.now(),
-            messageRequestResponse: {
-              isApproved: 1,
-            },
-            unread: 1, // 1 means unread
-            expireTimer: 0,
-          });
-          this.updateLastMessage();
-
+          await this.addOutgoingApprovalMessage(Date.now());
           if (!this.didApproveMe()) {
             await this.setDidApproveMe(true);
           }
@@ -727,6 +718,39 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       isBlocked: this.isBlocked(),
       isPrivate: this.isPrivate(),
     });
+  }
+
+  /**
+   * @param timestamp for determining the order for this message to appear like a regular message
+   */
+  public async addOutgoingApprovalMessage(timestamp: number) {
+    await this.addSingleOutgoingMessage({
+      sent_at: timestamp,
+      messageRequestResponse: {
+        isApproved: 1,
+      },
+      unread: 1, // 1 means unread
+      expireTimer: 0,
+    });
+
+    this.updateLastMessage();
+  }
+
+  /**
+   * @param timestamp For determining message order in conversation
+   * @param source For determining the conversation name used in the message.
+   */
+  public async addIncomingApprovalMessage(timestamp: number, source: string) {
+    await this.addSingleIncomingMessage({
+      sent_at: timestamp, // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+      source,
+      messageRequestResponse: {
+        isApproved: 1,
+      },
+      unread: 1, // 1 means unread
+      expireTimer: 0,
+    });
+    this.updateLastMessage();
   }
 
   /**

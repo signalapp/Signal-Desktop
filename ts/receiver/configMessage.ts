@@ -57,8 +57,6 @@ async function handleGroupsAndContactsFromConfigMessage(
 ) {
   const lastConfigUpdate = await getItemById(hasSyncedInitialConfigurationItem);
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
-  console.warn({ lastConfigUpdate });
-  console.warn({ lastConfigTimestamp });
   const isNewerConfig = lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp);
 
   // const didWeHandleAConfigurationMessageAlready =
@@ -158,15 +156,7 @@ const handleContactReceived = async (
       if (!contactConvo.isApproved()) {
         // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
-        await contactConvo.addSingleOutgoingMessage({
-          sent_at: _.toNumber(envelope.timestamp),
-          messageRequestResponse: {
-            isApproved: 1,
-          },
-          unread: 1, // 1 means unread
-          expireTimer: 0,
-        });
-        contactConvo.updateLastMessage();
+        await contactConvo.addOutgoingApprovalMessage(_.toNumber(envelope.timestamp));
       }
 
       if (contactReceived.didApproveMe === true) {

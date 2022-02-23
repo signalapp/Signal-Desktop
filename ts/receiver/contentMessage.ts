@@ -605,16 +605,10 @@ async function handleMessageRequestResponse(
   await conversationToApprove.setDidApproveMe(isApproved);
   if (isApproved === true) {
     // Conversation was not approved before so a sync is needed
-    await conversationToApprove.addSingleIncomingMessage({
-      sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
-      source: envelope.source,
-      messageRequestResponse: {
-        isApproved: 1,
-      },
-      unread: 1, // 1 means unread
-      expireTimer: 0,
-    });
-    conversationToApprove.updateLastMessage();
+    await conversationToApprove.addIncomingApprovalMessage(
+      _.toNumber(envelope.timestamp),
+      envelope.source
+    );
   }
 
   await removeFromCache(envelope);

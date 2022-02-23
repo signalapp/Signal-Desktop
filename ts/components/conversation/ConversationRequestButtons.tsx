@@ -73,6 +73,7 @@ export const ConversationMessageRequestButtons = () => {
     const { id } = selectedConversation;
     const convo = getConversationController().get(selectedConversation.id);
     await convo.setDidApproveMe(true);
+    await convo.addOutgoingApprovalMessage(Date.now());
     await approveConvoAndSendResponse(id, true);
   };
 
