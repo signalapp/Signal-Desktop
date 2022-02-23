@@ -39,6 +39,7 @@ import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
   isDirectConversation,
+  isGroup,
   isGroupV1,
 } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
@@ -112,6 +113,7 @@ import { showToast } from '../util/showToast';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { RecordingState } from '../state/ducks/audioRecorder';
+import { UUIDKind } from '../types/UUID';
 
 type AttachmentOptions = {
   messageId: string;
@@ -1253,11 +1255,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
     this.model.throttledFetchSMSOnlyUUID();
 
-    strictAssert(
-      this.model.throttledGetProfiles !== undefined,
-      'Conversation model should be initialized'
-    );
-    await this.model.throttledGetProfiles();
+    const ourUuid = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
+    if (
+      !isGroup(this.model.attributes) ||
+      (ourUuid && this.model.hasMember(ourUuid.toString()))
+    ) {
+      strictAssert(
+        this.model.throttledGetProfiles !== undefined,
+        'Conversation model should be initialized'
+      );
+      await this.model.throttledGetProfiles();
+    }
 
     this.model.updateVerified();
   }
