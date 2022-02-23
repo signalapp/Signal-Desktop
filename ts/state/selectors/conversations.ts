@@ -347,13 +347,19 @@ export const _getLeftPaneLists = (
     if (
       conversation.activeAt !== undefined &&
       conversation.type === ConversationTypeEnum.PRIVATE &&
-      conversation.isApproved
+      conversation.isApproved &&
+      !conversation.isBlocked
     ) {
       directConversations.push(conversation);
     }
 
-    if (!conversation.isApproved || !conversation.isBlocked) {
+    // if (!conversation.isApproved && !conversation.isBlocked) {
+    if (!conversation.isApproved) {
       // dont increase unread counter, don't push to convo list.
+      continue;
+    }
+
+    if (conversation.isBlocked) {
       continue;
     }
 
