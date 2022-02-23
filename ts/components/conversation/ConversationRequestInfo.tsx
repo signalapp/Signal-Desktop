@@ -3,12 +3,16 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getMessageCountByType } from '../../data/data';
 import { MessageDirection } from '../../models/messageType';
+import { getConversationController } from '../../session/conversations';
 import { getSelectedConversation } from '../../state/selectors/conversations';
 
 export const ConversationRequestinfo = () => {
   const selectedConversation = useSelector(getSelectedConversation);
   const showMsgRequestUI =
-    !selectedConversation?.isApproved && selectedConversation?.type === 'private';
+    selectedConversation &&
+    getConversationController()
+      .get(selectedConversation.id)
+      .isRequest();
   const [hasIncomingMessages, setHasIncomingMessages] = useState(false);
   const [incomingChecked, setIncomingChecked] = useState(false);
 

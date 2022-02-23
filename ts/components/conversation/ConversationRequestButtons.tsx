@@ -15,6 +15,7 @@ import { getSelectedConversation } from '../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
 export const ConversationMessageRequestButtons = () => {
+  const dispatch = useDispatch();
   const selectedConversation = useSelector(getSelectedConversation);
   const [hasIncoming, setHasIncomingMsgs] = useState(false);
   const [incomingChecked, setIncomingChecked] = useState(false);
@@ -43,11 +44,9 @@ export const ConversationMessageRequestButtons = () => {
     return null;
   }
 
-  const showMsgRequestUI =
-    !selectedConversation.isApproved &&
-    !selectedConversation.isApproved &&
-    selectedConversation.type === 'private';
-  const dispatch = useDispatch();
+  const showMsgRequestUI = getConversationController()
+    .get(selectedConversation.id)
+    .isRequest();
 
   const handleDeclineConversationRequest = () => {
     dispatch(
