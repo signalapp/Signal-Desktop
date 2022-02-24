@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Надіслати $count$ повідомлень, що очікують на розгляд",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Змінився код безпеки, який $name1$ використовує для зв’язку з вами. Це означає, що хтось намався перехопити ваші повідомлення, або додаток чи програма Signal, яку використовує $name2$, була перевстановлена. Можливо, ви забажаєте підтвердити новий код безпеки.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Ви вже у дзвінку",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

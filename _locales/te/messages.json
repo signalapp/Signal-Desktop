@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Send $count$ pending messages",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "$name1$ తో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name2$ Signal‌ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం. ఈ పరిచయంతో మీరు మీ భద్రతా సంఖ్యను ధృవీకరించాలనుకోవచ్చు.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "మీరు ఇప్పటికే కాల్‌లో ఉన్నారు",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

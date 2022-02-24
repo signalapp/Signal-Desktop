@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Send $count$ pending messages",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "$name1$ ഉള്ള നിങ്ങളുടെ സുരക്ഷാ നമ്പർ മാറിയിരിക്കുന്നു. നിങ്ങളുടെ ആശയവിനിമയം ആരെങ്കിലും തടസ്സപ്പെടുത്താൻ ശ്രമിക്കുന്നു അല്ലെങ്കിൽ $name2$ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്തുവെന്ന് ഇതിനർത്ഥം. ഈ കോൺടാക്റ്റ് ഉപയോഗിച്ച് നിങ്ങളുടെ സുരക്ഷാ നമ്പർ പരിശോധിച്ചുറപ്പിക്കാൻ നിങ്ങൾ ആഗ്രഹിച്ചേക്കാം.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "നിങ്ങൾ ഇതിനകം ഒരു കോളിൽ ഉണ്ട്",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

@@ -214,7 +214,7 @@
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
-        "message": "Spjöll",
+        "message": "Spjall",
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Senda $count$ skilaboð í bið",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Öryggisnúmer þitt með $name1$ hefur breyst. Þetta gæti þýtt að einhver sé að reyna að komast inn í samskiptin þín, eða einfaldlega að $name2$ hefur sett Signal upp aftur. Þú gætir viljað sannreyna nýja öryggisnúmerið hér fyrir neðan.",
@@ -1868,7 +1862,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Senda símtöl áfram í gegnum netþjóna Signal til að minnka líkur á að þínir tengiliðu geti komist að þinni ip addressu. Að virkja þennan möguleika mun minnka gæði símtals.",
+        "message": "Senda símtöl áfram í gegnum netþjóna Signal til að minnka líkur á að tengiliðirnir þínir geti komist að IP-vistfanginu þínu. Að virkja þennan möguleika mun minnka gæði símtala.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Þú ert nú þegar í samtali",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
@@ -6528,7 +6522,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences__button--chats": {
-        "message": "Spjöll",
+        "message": "Spjall",
         "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
@@ -6582,7 +6576,7 @@
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
-        "message": "Bannaður",
+        "message": "Bannaðir",
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
@@ -6842,11 +6836,11 @@
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.32--1": {
-        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "message": "Ekki láta hávært lyklaglamur eða smjatt frá næsta manni trufla þig - núna er tánmerki með hreyfingu sem lætur þig vita þegar einhver er að tala!",
         "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.32--2": {
-        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "message": "Listinn yfir studd tungumál er alltaf að lengjast. Við þökkum einlæglega öllum sjálfboðaliðunum sem sjá um þýðingarnar.",
         "description": "Release notes for v5.32"
     }
 }

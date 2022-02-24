@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Send $count$ pending messages",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Nambari yako ya usalama unayotumia kwa $name1$ imebadilika. Hii inaweza kumaanisha kuwa mtu anajaribu kuzuia mawasiliano yako au kuwa $name2$ amesakinisha Signal upya. Unashauriwa uthibitishe nambari yako ya usalama unayotumia kwa anwani hii.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Tayari uko kwenye mazungumzo ya simu",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

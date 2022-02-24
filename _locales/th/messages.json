@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Send $count$ pending messages",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "หมายเลขความปลอดภัยของคุณกับ $name1$ มีการเปลี่ยนแปลง นี่อาจหมายความว่ามีใครพยายามขัดขวางการสื่อสารของคุณ หรืออาจเป็นเพราะ $name2$ ได้ติดตั้งแอป Signal ใหม่ คุณอาจต้องการตรวจยืนยันหมายเลขความปลอดภัยของคุณกับผู้ติดต่อรายนี้อีกครั้ง",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "คุณอยู่ในสายแล้ว",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

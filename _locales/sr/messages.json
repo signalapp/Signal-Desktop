@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Послати $count$ поруке на чекању",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Шифра преписке са $name1$ је промењена. Ово значи или да неко пресреће вашу преписку, или је $name2$ једноставно извршио поновну инсталацију Signal-а. Можда би требало да пoтврдите шифру преписке са овим контактом.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Већ имате позив",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

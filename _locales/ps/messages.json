@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "$count$ ځنډول شوي پیغامونه ولیږئ",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "ستاسې خوندي شمېره له $name1$ سره بدله شوې ده. دا په دې معنی چې یا کوم کس غواړي چې ستاسې مکالمه اخلال کړي، یا هم دا چې $name2$ یوازې Signal بیرته له سره انسټال کړئ. تاسې کولای شئ چې له دغه مخاطب سره خپل د خوندیتوب شمېره تایید کړئ.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "تاسې له پخوا څخه په ټلیفوني اړیکه کې یاست",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

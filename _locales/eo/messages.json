@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Sendi $count$ pritraktotajn mesaĝojn",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Via sekuriga numero kun $name1$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name2$ simple reinstalis Signal-on. Vi certe volos kontroli la sekurigan numeron kun tiu ĉi kontakto.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Vi jam estas en alvoko",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
@@ -6842,11 +6836,11 @@
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.32--1": {
-        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "message": "Estas nun pli facile trovi tiun bruan tajpanton aŭ maĉanton en grup-alvokoj — jen nova animacia parol-indikilo!",
         "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.32--2": {
-        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "message": "La listo de disponeblaj lingvoj pligrandiĝis. Ni sincere estas dankemaj al la traduk-volontuloj, kies peno ebligis tion.",
         "description": "Release notes for v5.32"
     }
 }

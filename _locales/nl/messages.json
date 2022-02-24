@@ -218,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Deze gesprekken zijn gearchiveerd en zullen alleen in Postvak IN verschijnen als je nieuwe berichten ontvangt.",
+        "message": "Deze gesprekken zijn gearchiveerd en zullen alleen in postvak-in verschijnen als je nieuwe berichten ontvangt.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -258,7 +258,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Je hebt net de exportprodedure doorlopen, en je contacten en berichten wachten geduldig op je computer. Kies de map die je opgeslagen Signal-gegevens bevat.",
+        "message": "Je hebt zojuist de exportprocedure doorlopen, en je contacten en berichten bevinden zich nu op je computer. Kies de map waarin je Signal-gegevens zijn opgeslagen.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "$count$ berichten in afwachting nu verzenden",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Je veiligheidsnummer met $name1$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name2$ Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen om je nieuwe veiligheidsnummer met deze persoon te verifiëren.",
@@ -826,7 +820,7 @@
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Contacten",
+        "message": "Contactpersonen",
         "description": "Shown to separate the types of search results"
     },
     "groupsHeader": {
@@ -1426,11 +1420,11 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Contacten en groepen worden gesynchroniseerd",
+        "message": "Contactpersonen en groepen worden gesynchroniseerd",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Let op: Je gespreksgeschiedenis uit het verleden wordt niet overgezet naar dit apparaat",
+        "message": "Opmerking: Het is met Signal niet mogelijk om je gespreksgeschiedenis van voor het moment van koppelen te synchroniseren naar dit apparaat",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -2350,7 +2344,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
-        "message": "Nieuw gesprek",
+        "message": "Nieuw gesprek beginnen",
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
@@ -2380,7 +2374,7 @@
         }
     },
     "chooseGroupMembers__title": {
-        "message": "Kies leden",
+        "message": "Groepsleden kiezen",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -2424,11 +2418,11 @@
         }
     },
     "chooseGroupMembers__cant-add-member__title": {
-        "message": "Kan persoon niet toevoegen aan de groep",
+        "message": "Deze persoon kan niet worden toegevoegd aan de groep",
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "“$name$” kan niet aan de groep worden toegevoegd omdat hij of zij een oude versie van Signal gebruikt. Je kunt hem of haar aan de groep toevoegen nadat hij of zij Signal heeft bijgewerkt.",
+        "message": "$name$ kan niet aan de groep worden toegevoegd omdat hij of zij een oude versie van Signal gebruikt. Je kunt hem of haar aan de groep toevoegen nadat hij of zij Signal heeft bijgewerkt.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -3432,7 +3426,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Wil je lid worden van deze groep, en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Als je leesbevestigingen hebt ingeschakeld kunnen andere groepsleden die nog niet zien totdat je de uitnodiging hebt aanvaard.",
+        "message": "Wil je lid worden van deze groep, en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Als je leesbevestigingen hebt ingeschakeld kunnen de leden van deze groep die nog niet zien totdat je de uitnodiging hebt aanvaard.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
@@ -3909,8 +3903,8 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "Je neemt al aan een oproep deel",
+    "calling__in-another-call-tooltip": {
+        "message": "Je neemt op dit moment al aan een oproep deel",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {

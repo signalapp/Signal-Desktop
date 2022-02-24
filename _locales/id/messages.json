@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Kirim $count$ pesan tertunda",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Nomor keamanan Anda dengan $name1$ telah berubah. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau $name2$ hanya memasang ulang Signal. Anda bisa memverifikasi nomor keamanan Anda dengan kontak ini.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Anda telah berada dalam panggilan",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

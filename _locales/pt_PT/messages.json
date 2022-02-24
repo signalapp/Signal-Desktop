@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Enviar $count$ mensagens pendentes",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "O seu número de segurança com $name1$ foi alterado. Isto poderá querer significar que alguém está a tentar intercetar as suas comunicações ou que $name2$ simplesmente reinstalou o Signal. Se desejar confirme o seu número de segurança com este contacto.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Já se encontra numa chamada",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

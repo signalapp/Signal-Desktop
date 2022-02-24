@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "ارسال $count$ پیام در حال انتظار",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "شمارهٔ امنیتی شما با $name1$ تغییر کرده است.  این اتفاق بدین معناست که شخصی در تلاش برای رهگیری ارتباطات شماست یا اینکه $name2$مجددا سیگنال را نصب کرده است. بهتر است شمارهٔ امنیتی خود با این مخاطب را تایید کنید.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "شما در حال حاضر در یک تماس هستید",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

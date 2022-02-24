@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Send $count$ pending messages",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Ditt sikkerhetsnummer med $name1$har endret seg. Dette kan bety at noen forsøker å få tilgang til din kommunikasjon, eller at $name2$har reinstallert Signal. Du bør forsøke å verifisere ditt sikkerhetsnummer med denne kontakten.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Du er allerede i en samtale",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

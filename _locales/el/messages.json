@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Αποστολή $count$ μηνυμάτων που εκκρεμούν",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Ο αριθμός ασφαλείας σου με τον/την $name1$ έχει αλλάξει. Αυτό μπορεί να σημαίνει είτε ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε απλά ότι ο/η $name2$ επανεγκατέστησε το Signal. Ίσως θες να επαληθεύσεις τον αριθμό ασφαλείας σου με αυτή την επαφή. ",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Είσαι ήδη σε κάποια κλήση",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

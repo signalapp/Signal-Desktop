@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Trimite $count$ mesaje în așteptare",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Numărul tău de siguranță cu $name1$ s-a schimbat. Asta ar putea însemna fie că cineva încearcă să intercepteze comunicarea voastră fie că $name2$ pur și simplu a reinstalat Signal. Ar trebui să verifici numărul tău de siguranță cu acest contact.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Ești deja într-un apel",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

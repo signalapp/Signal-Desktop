@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "Yn anfon $count$ neges sy'n disgwyl",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "Mae'ch rhif diogelwch gyda $name1$ wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu – yn syml – bod $name2$ wedi ail-osod Signal. Efallai hoffech chi wirio'r rhif diogelwch gyda'r cysylltiad hwn.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Rydych eisoes mewn galwad",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

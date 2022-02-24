@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "שלח $count$ הודעות ממתינות",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "מספר הביטחון שלך עם $name1$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name2$ פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הביטחון שלך עם איש קשה זה.",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "אתה כבר בשיחה",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
@@ -6846,7 +6840,7 @@
         "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.32--2": {
-        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "message": "הרשימה של השפות הנתמכות הורחבה. אנחנו מעריכים בכנות את המתרגמים המתנדבים שמאמציהם הפכו זאת לאפשרי.",
         "description": "Release notes for v5.32"
     }
 }

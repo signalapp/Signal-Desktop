@@ -421,13 +421,7 @@
     },
     "safetyNumberChangeDialog__pending-messages--many": {
         "message": "傳送給 $count$待處理的訊息",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "123"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
         "message": "你的$name1$的安全碼已更改。 這可能意味著有人試圖攔截你的通訊，或者$name2$只是重新安裝了Signal。 你可以希望透過此聯絡人驗證你的安全碼。",
@@ -3909,7 +3903,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "你已經在通話中",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
