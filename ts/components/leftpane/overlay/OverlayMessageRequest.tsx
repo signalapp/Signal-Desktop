@@ -13,38 +13,7 @@ import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUt
 import { BlockedNumberController } from '../../../util';
 import useKey from 'react-use/lib/useKey';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
-
-/**
- * Blocks all message request conversations and synchronizes across linked devices
- * @returns void
- */
-async function handleBlockAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
-  window?.log?.info('Blocking all conversations');
-  if (!convoRequests) {
-    window?.log?.info('No conversation requests to block.');
-    return;
-  }
-
-  let syncRequired = false;
-  const convoController = getConversationController();
-  await Promise.all(
-    convoRequests.map(async convo => {
-      const { id } = convo;
-      const convoModel = convoController.get(id);
-      if (!convoModel.isBlocked()) {
-        await BlockedNumberController.block(id);
-        await convoModel.commit();
-      }
-      await convoModel.setIsApproved(false);
-
-      syncRequired = true;
-    })
-  );
-
-  if (syncRequired) {
-    await forceSyncConfigurationNowIfNeeded();
-  }
-}
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
 export const OverlayMessageRequest = () => {
   useKey('Escape', closeOverlay);
@@ -56,6 +25,52 @@ export const OverlayMessageRequest = () => {
   const messageRequests = useSelector(getConversationRequests);
 
   const buttonText = window.i18n('clearAll');
+
+  /**
+   * Blocks all message request conversations and synchronizes across linked devices
+   * @returns void
+   */
+  async function handleBlockAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
+    const { i18n } = window;
+    const title = i18n('clearAllConfirmationTitle');
+    const message = i18n('clearAllConfirmationBody');
+    const onClose = dispatch(updateConfirmModal(null));
+
+    dispatch(
+      updateConfirmModal({
+        title,
+        message,
+        onClose,
+        onClickOk: async () => {
+          window?.log?.info('Blocking all conversations');
+          if (!convoRequests) {
+            window?.log?.info('No conversation requests to block.');
+            return;
+          }
+
+          let syncRequired = false;
+          const convoController = getConversationController();
+          await Promise.all(
+            convoRequests.map(async convo => {
+              const { id } = convo;
+              const convoModel = convoController.get(id);
+              if (!convoModel.isBlocked()) {
+                await BlockedNumberController.block(id);
+                await convoModel.commit();
+              }
+              await convoModel.setIsApproved(false);
+
+              syncRequired = true;
+            })
+          );
+
+          if (syncRequired) {
+            await forceSyncConfigurationNowIfNeeded();
+          }
+        },
+      })
+    );
+  }
 
   return (
     <div className="module-left-pane-overlay">

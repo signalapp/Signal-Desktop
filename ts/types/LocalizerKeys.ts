@@ -479,4 +479,6 @@ export type LocalizerKeys =
   | 'noMediaUntilApproved'
   | 'mustBeApproved'
   | 'youHaveANewFriendRequest'
+  | 'clearAllConfirmationTitle'
+  | 'clearAllConfirmationBody'
   | 'reportIssue';

@@ -476,5 +476,7 @@
   "noMediaUntilApproved": "You cannot send attachments until the conversation is approved",
   "mustBeApproved": "This conversation must be accepted to use this feature",
   "youHaveANewFriendRequest": "You have a new friend request",
+  "clearAllConfirmationTitle": "Clear All Message Requests",
+  "clearAllConfirmationBody": "Are you sure you want to clear all message requests?",
   "openMessageRequestInboxDescription": "View your Message Request inbox"
 }
