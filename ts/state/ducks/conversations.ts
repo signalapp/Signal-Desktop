@@ -696,7 +696,12 @@ const conversationsSlice = createSlice({
         firstUnreadMessageId: undefined,
       };
     },
-
+    /**
+     * Closes any existing conversation and returns state to the placeholder screen
+     */
+    resetConversationExternal(state: ConversationsStateType) {
+      return { ...getEmptyConversationState(), conversationLookup: state.conversationLookup };
+    },
     openConversationExternal(
       state: ConversationsStateType,
       action: PayloadAction<{
@@ -971,6 +976,10 @@ export async function openConversationWithMessages(args: {
       initialMessages,
     })
   );
+}
+
+export async function clearConversationFocus() {
+  window.inboxStore?.dispatch(actions.resetConversationExternal());
 }
 
 export async function openConversationToSpecificMessage(args: {

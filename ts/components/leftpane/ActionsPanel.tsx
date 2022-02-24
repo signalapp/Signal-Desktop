@@ -81,6 +81,7 @@ const Section = (props: { type: SectionType }) => {
       // Show Path Indicator Modal
       dispatch(onionPathModal({}));
     } else {
+      // message section
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
       dispatch(setOverlayMode(undefined));

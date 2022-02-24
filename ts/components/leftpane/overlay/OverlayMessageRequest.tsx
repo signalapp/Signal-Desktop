@@ -3,16 +3,19 @@ import React from 'react';
 
 import { SpacerLG } from '../../basic/Text';
 import { useDispatch, useSelector } from 'react-redux';
-import { getConversationRequests } from '../../../state/selectors/conversations';
+import {
+  getConversationRequests,
+  getSelectedConversation,
+} from '../../../state/selectors/conversations';
 import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
-import { setOverlayMode } from '../../../state/ducks/section';
+import { SectionType, setOverlayMode, showLeftPaneSection } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
 import { BlockedNumberController } from '../../../util';
 import useKey from 'react-use/lib/useKey';
-import { ReduxConversationType } from '../../../state/ducks/conversations';
+import { clearConversationFocus, ReduxConversationType } from '../../../state/ducks/conversations';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
 export const OverlayMessageRequest = () => {
@@ -21,8 +24,9 @@ export const OverlayMessageRequest = () => {
   function closeOverlay() {
     dispatch(setOverlayMode(undefined));
   }
-  const hasRequests = useSelector(getConversationRequests).length > 0;
+  const convoRequestCount = useSelector(getConversationRequests).length;
   const messageRequests = useSelector(getConversationRequests);
+  const selectedConversation = useSelector(getSelectedConversation);
 
   const buttonText = window.i18n('clearAll');
 
@@ -30,7 +34,7 @@ export const OverlayMessageRequest = () => {
    * Blocks all message request conversations and synchronizes across linked devices
    * @returns void
    */
-  async function handleBlockAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
+  async function handleClearAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
     const { i18n } = window;
     const title = i18n('clearAllConfirmationTitle');
     const message = i18n('clearAllConfirmationBody');
@@ -48,10 +52,10 @@ export const OverlayMessageRequest = () => {
             return;
           }
 
-          let syncRequired = false;
+          let newConvosBlocked = [];
           const convoController = getConversationController();
           await Promise.all(
-            convoRequests.map(async convo => {
+            (newConvosBlocked = convoRequests.filter(async convo => {
               const { id } = convo;
               const convoModel = convoController.get(id);
               if (!convoModel.isBlocked()) {
@@ -60,12 +64,23 @@ export const OverlayMessageRequest = () => {
               }
               await convoModel.setIsApproved(false);
 
-              syncRequired = true;
-            })
+              // if we're looking at the convo to decline, close the convo
+              if (selectedConversation?.id === id) {
+                await clearConversationFocus();
+              }
+              return true;
+            }))
           );
 
-          if (syncRequired) {
+          if (newConvosBlocked) {
             await forceSyncConfigurationNowIfNeeded();
+          }
+
+          // if no more requests, return to placeholder screen
+          if (convoRequestCount === newConvosBlocked.length) {
+            dispatch(setOverlayMode(undefined));
+            dispatch(showLeftPaneSection(SectionType.Message));
+            await clearConversationFocus();
           }
         },
       })
@@ -74,7 +89,7 @@ export const OverlayMessageRequest = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      {hasRequests ? (
+      {convoRequestCount ? (
         <>
           <MessageRequestList />
           <SpacerLG />
@@ -83,7 +98,7 @@ export const OverlayMessageRequest = () => {
             buttonType={SessionButtonType.BrandOutline}
             text={buttonText}
             onClick={async () => {
-              await handleBlockAllRequestsClick(messageRequests);
+              await handleClearAllRequestsClick(messageRequests);
             }}
           />
         </>

@@ -10,6 +10,7 @@ import {
 import { MessageDirection } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
+import { clearConversationFocus } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSelectedConversation } from '../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -55,9 +56,11 @@ export const ConversationMessageRequestButtons = () => {
         cancelText: window.i18n('cancel'),
         message: window.i18n('declineRequestMessage'),
         onClickOk: async () => {
-          await declineConversation(selectedConversation.id, false);
-          await blockConvoById(selectedConversation.id);
+          const { id } = selectedConversation;
+          await declineConversation(id, false);
+          await blockConvoById(id);
           await forceSyncConfigurationNowIfNeeded();
+          await clearConversationFocus();
         },
         onClickCancel: () => {
           dispatch(updateConfirmModal(null));
