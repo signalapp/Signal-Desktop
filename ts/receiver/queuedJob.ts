@@ -6,11 +6,13 @@ import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
-import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
+import { getMessageById, getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
 
 import { updateProfileOneAtATime } from './dataMessage';
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
+import { showMessageRequestBanner } from '../state/ducks/userConfig';
+import { MessageDirection } from '../models/messageType';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
@@ -250,6 +252,29 @@ async function handleRegularMessage(
     updateReadStatus(message, conversation);
     if (conversation.isPrivate()) {
       await conversation.setDidApproveMe(true);
+
+      const incomingMessageCount = await getMessageCountByType(
+        conversation.id,
+        MessageDirection.incoming
+      );
+      const isFirstRequestMessage = incomingMessageCount < 2;
+      if (
+        conversation.isRequest() &&
+        isFirstRequestMessage &&
+        window.inboxStore?.getState().userConfig.hideMessageRequests
+      ) {
+        window.inboxStore?.dispatch(showMessageRequestBanner());
+      }
+
+      // For edge case when messaging a client that's unable to explicitly send request approvals
+      if (!conversation.didApproveMe() && conversation.isPrivate() && conversation.isApproved()) {
+        await conversation.setDidApproveMe(true);
+        // Conversation was not approved before so a sync is needed
+        await conversation.addIncomingApprovalMessage(
+          _.toNumber(message.get('sent_at')) - 1,
+          source
+        );
+      }
     }
   }
 

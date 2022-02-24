@@ -729,7 +729,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Does this conversation contain the properties to be considered a message request
    */
   public isRequest(): boolean {
-    // return !this.isMe() && !this.isApproved() && this.isPrivate() && !this.isBlocked();
     return ConversationModel.hasValidRequestValues({
       isMe: this.isMe(),
       isApproved: this.isApproved(),
@@ -743,13 +742,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @param timestamp for determining the order for this message to appear like a regular message
    */
   public async addOutgoingApprovalMessage(timestamp: number) {
-    const getStackTrace = function() {
-      const obj = {} as any;
-      Error.captureStackTrace(obj, getStackTrace);
-      return obj.stack;
-    };
-    window?.log?.info(getStackTrace());
-    alert(getStackTrace());
     await this.addSingleOutgoingMessage({
       sent_at: timestamp,
       messageRequestResponse: {
@@ -768,13 +760,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @param source For determining the conversation name used in the message.
    */
   public async addIncomingApprovalMessage(timestamp: number, source: string) {
-    const getStackTrace = function() {
-      const obj = {} as any;
-      Error.captureStackTrace(obj, getStackTrace);
-      return obj.stack;
-    };
-    // window?.log?.info(getStackTrace());
-    alert(getStackTrace());
     await this.addSingleIncomingMessage({
       sent_at: timestamp, // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
       source,
@@ -1006,14 +991,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
     >
   ) {
-    // for handling edge case for syncing/linking devices.
-    // if convo has a message by us, we have replied - which is considered as approved
-    // if (!this.isMe()) {
-    //   if (!this.isApproved() && this.isPrivate()) {
-    //     this.setIsApproved(true);
-    //   }
-    // }
-
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,

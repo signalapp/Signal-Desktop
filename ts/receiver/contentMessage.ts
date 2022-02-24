@@ -19,7 +19,6 @@ import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversation';
-import { showMessageRequestBanner } from '../state/ducks/userConfig';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -372,40 +371,12 @@ export async function innerHandleSwarmContentMessage(
       );
     }
 
-    const convo = await getConversationController().getOrCreateAndWait(
-      envelope.source,
-      ConversationTypeEnum.PRIVATE
-    );
-
-    if (
-      convo.isPrivate() &&
-      !convo.isApproved() &&
-      window.inboxStore?.getState().userConfig.hideMessageRequests
-    ) {
-      window.inboxStore?.dispatch(showMessageRequestBanner());
-    }
-
-    // For edge case when messaging a client that's unable to explicitly send request approvals
-    if (!convo.didApproveMe() && convo.isPrivate() && convo.isApproved()) {
-      await convo.setDidApproveMe(true);
-      // Conversation was not approved before so a sync is needed
-      await convo.addSingleIncomingMessage({
-        sent_at: _.toNumber(envelope.timestamp),
-        source: envelope.source,
-        messageRequestResponse: {
-          isApproved: 1,
-        },
-        unread: 1, // 1 means unread
-        expireTimer: 0,
-      });
-      convo.updateLastMessage();
-    }
-
     if (content.dataMessage) {
       if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
+
       await handleSwarmDataMessage(
         envelope,
         content.dataMessage as SignalService.DataMessage,
