@@ -401,6 +401,7 @@
     },
     "beforeBuild": "scripts/install-cross-deps.js",
     "afterPack": "ts/scripts/after-pack.js",
+    "afterSign": "ts/scripts/after-sign.js",
     "asarUnpack": [
       "ts/workers/heicConverter.bundle.js",
       "ts/sql/mainWorker.bundle.js",
