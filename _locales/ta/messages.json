@@ -3909,7 +3909,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "நீங்கள் ஏற்கனவே அழைப்பில் உள்ளீர்கள்",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

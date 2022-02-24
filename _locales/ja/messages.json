@@ -1054,7 +1054,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Signalをアップデートできませんでした。$retry$ か $url$ から手動でインストールしてください。$support$",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -3909,7 +3909,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "あなたはすでに通話中です",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

@@ -3909,8 +3909,8 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "Artıq zəngdəsiniz.",
+    "calling__in-another-call-tooltip": {
+        "message": "Artıq zəngdəsiniz",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {

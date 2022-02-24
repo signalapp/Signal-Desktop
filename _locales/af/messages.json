@@ -1352,7 +1352,7 @@
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Open Signal op u telefoon",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
@@ -3909,7 +3909,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "You are already in a call",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
@@ -5048,7 +5048,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "message": "$adminName$ het ’n uitnodiging na die groep vir $count$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5062,7 +5062,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "You rescinded your invitation to $count$ people.",
+        "message": "U het u uitnodiging vir $count$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5072,7 +5072,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "message": "’n Beheerder het ’n uitnodiging na die groep vir $count$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5086,7 +5086,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ requested to join via the group link.",
+        "message": "$joinerName$ het d.m.v. die groepskakel versoek om aan te sluit.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5100,11 +5100,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Your request to join the group has been denied by an admin.",
+        "message": "U versoek om by die groep aan te sluit is deur ’n beheerder geweier.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "You denied a request to join the group from $joinerName$.",
+        "message": "U het ’n versoek van $joinerName$ om by die groep aan te sluit geweier.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5114,7 +5114,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ canceled their request to join the group.",
+        "message": "$joinerName$ het hul versoek gekanselleer om by die groep aan te sluit.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5124,7 +5124,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ denied a request to join the group from $joinerName$.",
+        "message": "$adminName$ het ’n versoek van $joinerName$ om by die groep aan te sluit geweier.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5138,11 +5138,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "You turned on the group link with admin approval disabled.",
+        "message": "U het die groepskakel met beheerdergoedkeuring gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval disabled.",
+        "message": "$adminName$ het die groepskakel met beheerdergoedkeuring gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5152,15 +5152,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "The group link has been turned on with admin approval disabled.",
+        "message": "Die groepskakel en beheerdergoedkeuring is gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "You turned on the group link with admin approval enabled.",
+        "message": "U het die groepskakel met beheerdergoedkeuring geaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval enabled.",
+        "message": "$adminName$ het die groepskakel met beheerdergoedkeuring geaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5170,7 +5170,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "The group link has been turned on with admin approval enabled.",
+        "message": "Die groepskakel en beheerdergoedkeuring is geaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -5178,7 +5178,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ turned off the group link.",
+        "message": "$adminName$ het die groepskakel gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5188,7 +5188,7 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "The group link has been turned off.",
+        "message": "Die groepskakel is gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
@@ -5196,7 +5196,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ reset the group link.",
+        "message": "$adminName$ het die groepskakel teruggestel.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5206,7 +5206,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "The group link has been reset.",
+        "message": "Die groepbeskrywing is teruggestel.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -5214,7 +5214,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$ removed the group description.",
+        "message": "$memberName$ het die groepbeskrywing verwyder.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5232,7 +5232,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$ changed the group description.",
+        "message": "$memberName$ het die groepbeskrywing verander.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5250,7 +5250,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ het die groepinstellings verander sodat slegs beheerders boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5260,7 +5260,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Die groep is verander sodat slegs beheerders boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -5268,7 +5268,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ het die groepinstellings verander sodat alle lede boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5278,11 +5278,11 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Die groep is verander sodat alle lede boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "Gradeer hierdie groep op om nuwe funksies soos @vermeldings en beheerders te aktiveer. Lede wat nie hul naam of foto in die groep gedeel het nie, sal genooi word om aan te sluit. $learnMore$.",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5296,11 +5296,11 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "Kom meer te wete",
+        "message": "Leer meer",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
-        "message": "Gradeer",
+        "message": "Gradeer op",
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
@@ -5316,7 +5316,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "Alle goodskapgeskiedenis en media van voor die opgradering is behou.",
+        "message": "Alle boodskapgeskiedenis en media van voor die opgradering is behou.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
@@ -5324,7 +5324,7 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "U moet weer ’n uitnodiging om by die groep aaan te sluit aanvaar, en sal geen groepboodskappe ontvang voor u aanvaar nie:",
+        "message": "U moet weer ’n uitnodiging om by die groep aan te sluit aanvaar, en sal geen groepboodskappe ontvang voor u aanvaar nie:",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -5332,7 +5332,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Hierdie lid moet weer ’ uitnodiging om by die groep aaan te sluit aanvaar, en sal geen groepboodskappe ontvang voor hulle aanvaar nie:",
+        "message": "Hierdie lid moet weer ’n uitnodiging om by die groep aaan te sluit aanvaar, en sal geen groepboodskappe ontvang voor hulle aanvaar nie:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -5340,23 +5340,23 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Hierdie lide kan nie by nuwe groepe aansluit nie en sal van die volgende groep verwyder word:",
+        "message": "Hierdie lede kan nie by nuwe groepe aansluit nie en sal van die volgende groep verwyder word:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "message": "Hierdie lede kon nie by nuwe groepe aansluit nie en is van die volgende groep verwyder:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "message": "Hierdie lid kon nie by nuwe groepe aansluit nie en is van die volgende groep verwyder:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "U kon nie tot die nuwe groep toegevoeg word nie en is genooi om aan te sluit.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "message": "$contact$ kon nie tot die nuwe groep toegevoeg word nie en is genooi om aan te sluit.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5366,7 +5366,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "message": "$count$ lede kon nie tot die nuwe groep toegevoeg word nie en is genooi om aan te sluit.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5376,7 +5376,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ was removed from the group.",
+        "message": "$contact$ is van die groep verwyder.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -5386,7 +5386,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ members were removed from the group.",
+        "message": "$count$ lede is van die groep verwyder.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -5400,11 +5400,11 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "vorige",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "volgende",
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
@@ -5420,39 +5420,39 @@
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Open Signal op u telefoon",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Tap on your profile photo in the top left to open Settings",
+        "message": "Tik op u profielfoto bo links om Instellings te open",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Tik op “Word ’n onderhouer” en teken in",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "Vou uit",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Heg leër aan",
+        "message": "Heg lêer aan",
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "This person isn’t using Signal",
+        "message": "Hierdie mens gebruik nie Signal nie",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "message": "Signal Desktop kan nie boodskappe stuur aan nie-Signal-kontakte nie. Vra die persoon om Signal te installeer vir ’n veiliger boodskapdiens.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "Checking contact's registration status",
+        "message": "Gaan tans kontak se registrasiestatus na",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "Sluit gedempte gesprekke in wapentelling in",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5460,15 +5460,15 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Remove as admin",
+        "message": "Verwyder as beheerder",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "Maak beheerder",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ will be able to edit this group and its members.",
+        "message": "$contact$ sal hierdie groep en sy lede kan wysig.",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -5478,7 +5478,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "Verwyder $contact$ as groepbeheerder?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5492,23 +5492,23 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Chat color",
+        "message": "Kletskleur",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
-        "message": "Group settings",
+        "message": "Groepinstellings",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "showConversationDetails--direct": {
-        "message": "Chat settings",
+        "message": "Kletsinstellings",
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "Ontdemp hierdie klets?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
-        "message": "Group link",
+        "message": "Groepskakel",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -5516,11 +5516,11 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
+        "message": "Indien geaktiveer, sal boodskappe wat in hierdie groep gestuur en ontvang is, verdwyn nadat dit gesien is.",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "Indien geaktiveer, sal boodskappe wat in hierdie 1:1-klets gestuur en ontvang is, verdwyn nadat dit gesien is.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5532,23 +5532,23 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
+        "message": "Kies wie die groepnaam, -foto, -beskrywing en verdwynboodskap-afteller kan wysig.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Who can add members",
+        "message": "Wie kan lede toevoeg",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Choose who can add members to this group.",
+        "message": "Kies wie lede tot hierdie groep kan toevoeg.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Wie kan boodskappe stuur",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Kies wie boodskappe na die groep mag stuur.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5560,19 +5560,19 @@
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Blokkeer groep",
+        "message": "Versper groep",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Before you leave, you must choose at least one new admin for this group.",
+        "message": "Voor u verlaat, moet u ten minste een nuwe beheerder vir hierdie groep kies.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
-        "message": "Wil jy regtig verlaat?",
+        "message": "Wil u regtig verlaat?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "Jy sal nie meer boodskappe in hierdie groep kan stuur of ontvang nie.",
+        "message": "U sal nie meer boodskappe in hierdie groep kan stuur of ontvang nie.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
@@ -5580,7 +5580,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Block and Leave the \"$groupName$\" Group?",
+        "message": "Versper en verlaat die “$groupName$”-groep?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5590,15 +5590,15 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "Jy sal nie meer boodskappe of nuus van hierdie groep ontvang nie.",
+        "message": "U sal nie meer boodskappe of nuus van hierdie groep ontvang nie.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
-        "message": "Blokkeer",
+        "message": "Versper",
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ members",
+        "message": "$number$ lede",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -5616,7 +5616,7 @@
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ members",
+        "message": "$number$ lede",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -5638,19 +5638,19 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "Ontvang kennisgewings wanneer u in gedempte kletse genoem word?",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
-        "message": "Always notify",
+        "message": "Laat altyd weet",
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "Laat nie weet indien gedemp",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Group link copied.",
+        "message": "Groepskakel gekopieer.",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
@@ -5662,7 +5662,7 @@
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Reset link",
+        "message": "Stel skakel terug",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -5670,11 +5670,11 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Require an admin to approve new members joining via the group link",
+        "message": "’n Beheerder moet nuwe lede goedkeur wat d.m.v. die groepskakel aansluit",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Requests ($count$)",
+        "message": "Versoeke ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -5684,7 +5684,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Invites ($count$)",
+        "message": "Uitnodigings ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -5694,7 +5694,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Approve request from \"$name$\"?",
+        "message": "Keur versoek van \u001b“$name$” goed?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5704,7 +5704,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Deny request from \"$name$\"?",
+        "message": "Weier versoek van “$name$”?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5714,19 +5714,19 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Deur u uitgenooi",
+        "message": "Deur u genooi",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Deur u uitgenooi",
+        "message": "Deur u genooi",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Deur ander uitgenooi",
+        "message": "Deur ander genooi",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "Invited $number$",
+        "message": "$number$ genooi",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -5736,11 +5736,11 @@
         }
     },
     "PendingInvites--revoke-for-label": {
-        "message": "Revoke group invite",
+        "message": "Herroep groepuitnodiging",
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Revoke group invite for \"$name$\"?",
+        "message": "Herroep groepuitnodiging vir “$name$”?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -5754,7 +5754,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revoke 1 invite sent by \"$name$\"?",
+        "message": "Herroep 1 uitnodiging wat deur “$name$” gestuur is?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5764,7 +5764,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "Herroep $number$ uitnodigings wat deur “$name$” gestuur is?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5778,11 +5778,11 @@
         }
     },
     "PendingInvites--revoke": {
-        "message": "Revoke",
+        "message": "Herroep",
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
-        "message": "Approve Request",
+        "message": "Keur versoek goed",
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
@@ -5790,7 +5790,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "People on this list are attempting to join \"$name$\" via the group link.",
+        "message": "Mense op hierdie lys probeer by “$name$” aansluit d.m.v. die groepskakel.",
         "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -5800,23 +5800,23 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
+        "message": "Details oor mense wat na die groep genooi is sal eers vertoon wanneer hulle aansluit. Genooides sal slegs boodskappe sien wanneer hulle by die groep aansluit.",
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
-        "message": "Add a group photo",
+        "message": "Voeg ’n groepfoto toe",
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Voeg ’n foto toe",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
-        "message": "Change photo",
+        "message": "Verander foto",
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "Upload photo",
+        "message": "Laai foto op",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
@@ -5824,19 +5824,19 @@
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
-        "message": "Remove contact",
+        "message": "Verwyder kontak",
         "description": "The label for the 'remove' button on the contact pill"
     },
     "ComposeErrorDialog--close": {
-        "message": "Reg so",
+        "message": "Goed",
         "description": "The text on the button when there's an error in the composer"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--one": {
-        "message": "Invitation sent",
+        "message": "Uitnodiging gestuur",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--many": {
-        "message": "$count$ invitations sent",
+        "message": "$count$ uitnodigings gestuur",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "count": {
@@ -5846,7 +5846,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ can’t be automatically added to this group by you.",
+        "message": "$name$ kan nie outomaties deur u tot hierdie groep toegevoeg word nie.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5856,15 +5856,15 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "These users can’t be automatically added to this group by you.",
+        "message": "Hierdie gebruikers kan nie outomaties deur u tot hierdie groep toegevoeg word nie.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "message": "Hulle is genooi om aan te sluit en sal geen groepboodskappe sien tot hulle aanvaar nie.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-        "message": "Kom meer te wete",
+        "message": "Leer meer",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
@@ -5872,11 +5872,11 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--continue-to-confirm": {
-        "message": "Dateer op",
+        "message": "Werk by",
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "Add $person$ to \"$group$\"?",
+        "message": "Voeg $person$ tot “$group$” by?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5890,7 +5890,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "Add $count$ members to \"$group$\"?",
+        "message": "Voeg $count$ lede tot “$group$” by?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -5904,7 +5904,7 @@
         }
     },
     "AddGroupMembersModal--confirm-button--one": {
-        "message": "Add member",
+        "message": "Voeg lid by",
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "AddGroupMembersModal--confirm-button--many": {
@@ -5916,7 +5916,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "Kies kontak $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5926,7 +5926,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "Ontkies kontak $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5936,7 +5936,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "Kan nie kontak $name$ kies nie",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5950,27 +5950,27 @@
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
-        "message": "Play audio attachment",
+        "message": "Speel oudio-aanhegsel af",
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
-        "message": "Pause audio attachment",
+        "message": "Laat oudio-aanhegsel wag",
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
-        "message": "Download audio attachment",
+        "message": "Laai die oudio-aanhegsel af",
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
-        "message": "Downloading audio attachment...",
+        "message": "Oudio-aanhegsel word afgelaai…",
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "Playback time of audio attachment",
+        "message": "Afspeeltyd van oudio-aanhegsel",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "message": "Klik die $composeIcon$ hier bo en soek na kontakte of groepe om ’n boodskap te stuur.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -5980,7 +5980,7 @@
         }
     },
     "composeIcon": {
-        "message": "compose button",
+        "message": "saamstelknop",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {

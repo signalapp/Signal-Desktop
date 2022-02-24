@@ -3909,7 +3909,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "You are already in a call",
         "description": "Tooltip in disabled notification button when you're on another call"
     },

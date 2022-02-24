@@ -3909,7 +3909,7 @@
             }
         }
     },
-    "calling__call-notification__button__in-another-call-tooltip": {
+    "calling__in-another-call-tooltip": {
         "message": "Vous êtes déjà en communication",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
@@ -6582,7 +6582,7 @@
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
-        "message": "Bloquée",
+        "message": "Bloqués",
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
@@ -6838,7 +6838,7 @@
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.31--2": {
-        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "message": "L’espace a été réarrangé dans l’en-tête du panneau de gauche et dans la zone de recherche. Il y a tellement place pour des activités !",
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.32--1": {
