@@ -13,6 +13,8 @@ const pMap = require('p-map');
 // It is important to call this as early as possible
 const { SignalContext } = require('../ts/windows/context');
 
+window.i18n = SignalContext.i18n;
+
 const {
   deriveStickerPackKey,
   encryptAttachment,
