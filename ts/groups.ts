@@ -2721,7 +2721,7 @@ async function updateGroup(
     if (
       member.profileKey &&
       member.profileKey.length > 0 &&
-      !contact.get('profileKey')
+      contact.get('profileKey') !== member.profileKey
     ) {
       contactsWithoutProfileKey.push(contact);
       contact.setProfileKey(member.profileKey);
