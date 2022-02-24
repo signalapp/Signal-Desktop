@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global window */
@@ -28,8 +28,7 @@ const { createSetting } = require('../ts/util/preload');
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
 const MAX_STICKER_DIMENSION = STICKER_SIZE;
-const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
-const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
+const MAX_STICKER_BYTE_LENGTH = 300 * 1024;
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.getEnvironment = getEnvironment;
@@ -101,7 +100,7 @@ window.processStickerImage = async path => {
   // [0]: https://github.com/lovell/sharp/issues/2375
   const animatedPngDataIfExists = getAnimatedPngDataIfExists(imgBuffer);
   if (animatedPngDataIfExists) {
-    if (imgBuffer.byteLength > MAX_ANIMATED_STICKER_BYTE_LENGTH) {
+    if (imgBuffer.byteLength > MAX_STICKER_BYTE_LENGTH) {
       throw processStickerError(
         'Sticker file was too large',
         'StickerCreator--Toasts--tooLarge'
@@ -144,7 +143,7 @@ window.processStickerImage = async path => {
       })
       .webp()
       .toBuffer();
-    if (processedBuffer.byteLength > MAX_WEBP_STICKER_BYTE_LENGTH) {
+    if (processedBuffer.byteLength > MAX_STICKER_BYTE_LENGTH) {
       throw processStickerError(
         'Sticker file was too large',
         'StickerCreator--Toasts--tooLarge'
