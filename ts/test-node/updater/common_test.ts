@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 
 import {
-  createTempDir,
+  createUpdateCacheDirIfNeeded,
   getUpdateFileName,
   getVersion,
   isUpdateFileNameValid,
@@ -138,12 +138,12 @@ releaseDate: '2021-12-03T19:00:23.754Z'
 
   describe('#validatePath', () => {
     it('succeeds for simple children', async () => {
-      const base = await createTempDir();
+      const base = await createUpdateCacheDirIfNeeded();
       validatePath(base, `${base}/child`);
       validatePath(base, `${base}/child/grandchild`);
     });
     it('returns false for problematic names', async () => {
-      const base = await createTempDir();
+      const base = await createUpdateCacheDirIfNeeded();
       assert.throws(() => {
         validatePath(base, `${base}/../child`);
       });

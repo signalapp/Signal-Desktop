@@ -12,6 +12,7 @@ const AVATAR_PATH = 'avatars.noindex';
 const BADGES_PATH = 'badges.noindex';
 const STICKER_PATH = 'stickers.noindex';
 const TEMP_PATH = 'temp';
+const UPDATE_CACHE_PATH = 'update-cache';
 const DRAFT_PATH = 'drafts.noindex';
 
 const createPathGetter =
@@ -29,6 +30,7 @@ export const getDraftPath = createPathGetter(DRAFT_PATH);
 export const getPath = createPathGetter(PATH);
 export const getStickersPath = createPathGetter(STICKER_PATH);
 export const getTempPath = createPathGetter(TEMP_PATH);
+export const getUpdateCachePath = createPathGetter(UPDATE_CACHE_PATH);
 
 export const createDeleter = (
   root: string
