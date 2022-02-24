@@ -2093,10 +2093,7 @@ export class ConversationModel extends window.Backbone
         this.disableProfileSharing({ viaStorageServiceSync });
 
         if (isLocalAction) {
-          if (
-            isGroupV1(this.attributes) ||
-            isDirectConversation(this.attributes)
-          ) {
+          if (isGroupV1(this.attributes)) {
             await this.leaveGroup();
           } else if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
@@ -2113,10 +2110,7 @@ export class ConversationModel extends window.Backbone
         if (isLocalAction) {
           this.trigger('unload', 'deleted from message request');
 
-          if (
-            isGroupV1(this.attributes) ||
-            isDirectConversation(this.attributes)
-          ) {
+          if (isGroupV1(this.attributes)) {
             await this.leaveGroup();
           } else if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
@@ -2135,10 +2129,7 @@ export class ConversationModel extends window.Backbone
         if (isLocalAction) {
           this.trigger('unload', 'blocked and deleted from message request');
 
-          if (
-            isGroupV1(this.attributes) ||
-            isDirectConversation(this.attributes)
-          ) {
+          if (isGroupV1(this.attributes)) {
             await this.leaveGroup();
           } else if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
