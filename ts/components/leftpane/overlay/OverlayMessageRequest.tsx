@@ -101,12 +101,14 @@ export const OverlayMessageRequest = () => {
 
 const MessageRequestListPlaceholder = styled.div`
   color: var(--color-text);
+  margin-bottom: auto;
 `;
 
 const MessageRequestListContainer = styled.div`
   width: 100%;
   overflow-y: auto;
   border: var(--border-session);
+  margin-bottom: auto;
 `;
 
 /**
