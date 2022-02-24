@@ -978,7 +978,7 @@ export async function openConversationWithMessages(args: {
   );
 }
 
-export async function clearConversationFocus() {
+export function clearConversationFocus() {
   window.inboxStore?.dispatch(actions.resetConversationExternal());
 }
 

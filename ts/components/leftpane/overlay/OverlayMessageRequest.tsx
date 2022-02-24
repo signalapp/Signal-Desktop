@@ -34,7 +34,7 @@ export const OverlayMessageRequest = () => {
    * Blocks all message request conversations and synchronizes across linked devices
    * @returns void
    */
-  async function handleClearAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
+  function handleClearAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
     const { i18n } = window;
     const title = i18n('clearAllConfirmationTitle');
     const message = i18n('clearAllConfirmationBody');
@@ -66,7 +66,7 @@ export const OverlayMessageRequest = () => {
 
               // if we're looking at the convo to decline, close the convo
               if (selectedConversation?.id === id) {
-                await clearConversationFocus();
+                clearConversationFocus();
               }
               return true;
             }))
@@ -80,7 +80,7 @@ export const OverlayMessageRequest = () => {
           if (convoRequestCount === newConvosBlocked.length) {
             dispatch(setOverlayMode(undefined));
             dispatch(showLeftPaneSection(SectionType.Message));
-            await clearConversationFocus();
+            clearConversationFocus();
           }
         },
       })
@@ -97,8 +97,8 @@ export const OverlayMessageRequest = () => {
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.BrandOutline}
             text={buttonText}
-            onClick={async () => {
-              await handleClearAllRequestsClick(messageRequests);
+            onClick={() => {
+              handleClearAllRequestsClick(messageRequests);
             }}
           />
         </>

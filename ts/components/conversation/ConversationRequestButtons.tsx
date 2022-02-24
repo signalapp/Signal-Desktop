@@ -60,7 +60,7 @@ export const ConversationMessageRequestButtons = () => {
           await declineConversation(id, false);
           await blockConvoById(id);
           await forceSyncConfigurationNowIfNeeded();
-          await clearConversationFocus();
+          clearConversationFocus();
         },
         onClickCancel: () => {
           dispatch(updateConfirmModal(null));
