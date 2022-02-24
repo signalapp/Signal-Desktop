@@ -28,8 +28,6 @@ export async function afterPack({
       appOutDir,
       `${productFilename}.app`,
       'Contents',
-      'Frameworks',
-      'Electron Framework.framework',
       'Resources'
     );
   } else if (
