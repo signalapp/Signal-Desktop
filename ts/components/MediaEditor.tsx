@@ -719,6 +719,7 @@ export const MediaEditor = ({
               width: image.width,
             };
             setImageState(newImageState);
+            moveFabricObjectsForReset(fabricCanvas, imageState);
             takeSnapshot('reset', newImageState);
           }}
           type="button"
@@ -740,7 +741,7 @@ export const MediaEditor = ({
 
               const center = obj.getCenterPoint();
 
-              obj.set('angle', ((obj.angle || 0) - 90) % 360);
+              obj.set('angle', ((obj.angle || 0) + 270) % 360);
 
               obj.setPositionByOrigin(
                 new fabric.Point(center.y, imageState.width - center.x),
@@ -1127,6 +1128,60 @@ function moveFabricObjectsForCrop(
 
     const translatedCenter = new fabric.Point(x - left, y - top);
     obj.setPositionByOrigin(translatedCenter, 'center', 'center');
+    obj.setCoords();
+  });
+}
+
+function moveFabricObjectsForReset(
+  fabricCanvas: fabric.Canvas,
+  oldImageState: Readonly<ImageStateType>
+): void {
+  fabricCanvas.getObjects().forEach(obj => {
+    if (obj.excludeFromExport) {
+      return;
+    }
+
+    let newCenterX: number;
+    let newCenterY: number;
+
+    // First, reset position changes caused by image rotation:
+    const oldCenter = obj.getCenterPoint();
+    const distanceFromRightEdge = oldImageState.width - oldCenter.x;
+    const distanceFromBottomEdge = oldImageState.height - oldCenter.y;
+    switch (oldImageState.angle % 360) {
+      case 0:
+        newCenterX = oldCenter.x;
+        newCenterY = oldCenter.y;
+        break;
+      case 90:
+        newCenterX = oldCenter.y;
+        newCenterY = distanceFromRightEdge;
+        break;
+      case 180:
+        newCenterX = distanceFromRightEdge;
+        newCenterY = distanceFromBottomEdge;
+        break;
+      case 270:
+        newCenterX = distanceFromBottomEdge;
+        newCenterY = oldCenter.x;
+        break;
+      default:
+        throw new Error('Unexpected angle');
+    }
+
+    // Next, reset position changes caused by crop:
+    newCenterX += oldImageState.cropX;
+    newCenterY += oldImageState.cropY;
+
+    // It's important to set the angle *before* setting the position, because
+    //   Fabric's positioning is affected by object angle.
+    obj.set('angle', (obj.angle || 0) - oldImageState.angle);
+    obj.setPositionByOrigin(
+      new fabric.Point(newCenterX, newCenterY),
+      'center',
+      'center'
+    );
+
     obj.setCoords();
   });
 }
