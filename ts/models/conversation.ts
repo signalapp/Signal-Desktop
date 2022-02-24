@@ -739,9 +739,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   /**
+   * When you have accepted another users message request
    * @param timestamp for determining the order for this message to appear like a regular message
    */
   public async addOutgoingApprovalMessage(timestamp: number) {
+    const getStackTrace = function() {
+      const obj = {} as any;
+      Error.captureStackTrace(obj, getStackTrace);
+      return obj.stack;
+    };
+    window?.log?.info(getStackTrace());
+    alert(getStackTrace());
     await this.addSingleOutgoingMessage({
       sent_at: timestamp,
       messageRequestResponse: {
@@ -755,10 +763,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   /**
+   * When the other user has accepted your message request
    * @param timestamp For determining message order in conversation
    * @param source For determining the conversation name used in the message.
    */
   public async addIncomingApprovalMessage(timestamp: number, source: string) {
+    const getStackTrace = function() {
+      const obj = {} as any;
+      Error.captureStackTrace(obj, getStackTrace);
+      return obj.stack;
+    };
+    // window?.log?.info(getStackTrace());
+    alert(getStackTrace());
     await this.addSingleIncomingMessage({
       sent_at: timestamp, // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
       source,
