@@ -1123,7 +1123,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         `Sending ${read.length} read receipts?`,
         window.storage.get(SettingsKey.settingsReadReceipt) || false
       );
-      if (window.storage.get(SettingsKey.settingsReadReceipt)) {
+      const dontSendReceipt = this.isBlocked() || this.isRequest();
+      if (window.storage.get(SettingsKey.settingsReadReceipt) && !dontSendReceipt) {
         const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
         const receiptMessage = new ReadReceiptMessage({
           timestamp: Date.now(),
