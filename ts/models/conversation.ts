@@ -242,6 +242,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
   }
 
+  /**
+   * Method to evalute if a convo contains the right values
+   * @param values Required properties to evaluate if this is a message request
+   */
+  public static hasValidRequestValues({
+    isMe,
+    isApproved,
+    isBlocked,
+    isPrivate,
+  }: {
+    isMe?: boolean;
+    isApproved?: boolean;
+    isBlocked?: boolean;
+    isPrivate?: boolean;
+  }): boolean {
+    return Boolean(!isMe && !isApproved && isPrivate && !isBlocked);
+  }
+
   public idForLogging() {
     if (this.isPrivate()) {
       return this.id;
@@ -751,25 +769,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer: 0,
     });
     this.updateLastMessage();
-  }
-
-  /**
-   * Method to evalute if a convo contains the right values
-   * @param values Required properties to evaluate if this is a message request
-   * @returns
-   */
-  public static hasValidRequestValues({
-    isMe,
-    isApproved,
-    isBlocked,
-    isPrivate,
-  }: {
-    isMe?: boolean;
-    isApproved?: boolean;
-    isBlocked?: boolean;
-    isPrivate?: boolean;
-  }): boolean {
-    return Boolean(!isMe && !isApproved && isPrivate && !isBlocked);
   }
 
   public async sendMessageRequestResponse(isApproved: boolean) {

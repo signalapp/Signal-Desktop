@@ -169,7 +169,7 @@ const handleContactReceived = async (
     if (contactReceived.isBlocked === true) {
       if (contactConvo.isRequest()) {
         // handling case where restored device's declined message requests were getting restored
-        ConversationInteraction.deleteAllMessagesByConvoIdNoConfirmation(contactConvo.id);
+        await ConversationInteraction.deleteAllMessagesByConvoIdNoConfirmation(contactConvo.id);
       }
       await BlockedNumberController.block(contactConvo.id);
     } else if (contactReceived.isBlocked === false) {
