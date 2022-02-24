@@ -10,7 +10,7 @@ import * as packageJson from '../../package.json';
 
 /* eslint-disable no-console */
 
-export async function afterPack({
+export async function afterSign({
   appOutDir,
   packager,
   electronPlatformName,
