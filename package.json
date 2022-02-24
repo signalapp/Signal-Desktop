@@ -18,7 +18,7 @@
     "generate": "npm-run-all build-protobuf transpile sass get-expire-time copy-and-concat",
     "build-release": "yarn run build",
     "sign-release": "node ts/updater/generateSignature.js",
-    "notarize": "node ts/build/notarize.js",
+    "notarize": "echo 'No longer necessary'",
     "get-strings": "node ts/scripts/get-strings.js",
     "get-expire-time": "node ts/scripts/get-expire-time.js",
     "copy-and-concat": "node ts/scripts/copy-and-concat.js",
