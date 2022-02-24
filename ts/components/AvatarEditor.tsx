@@ -71,6 +71,7 @@ export const AvatarEditor = ({
   const [localAvatarData, setLocalAvatarData] = useState<Array<AvatarDataType>>(
     userAvatarData.slice()
   );
+  const [pendingClear, setPendingClear] = useState(false);
 
   const [editMode, setEditMode] = useState<EditMode>(EditMode.Main);
 
@@ -150,7 +151,8 @@ export const AvatarEditor = ({
     setInitialAvatar(avatarBuffer);
   }, []);
 
-  const hasChanges = initialAvatar !== avatarPreview;
+  const hasChanges =
+    initialAvatar !== avatarPreview || Boolean(pendingClear && avatarPath);
 
   let content: JSX.Element | undefined;
 
@@ -160,13 +162,14 @@ export const AvatarEditor = ({
         <div className="AvatarEditor__preview">
           <AvatarPreview
             avatarColor={avatarColor}
-            avatarPath={avatarPath}
+            avatarPath={pendingClear ? undefined : avatarPath}
             avatarValue={avatarPreview}
             conversationTitle={conversationTitle}
             i18n={i18n}
             isGroup={isGroup}
             onAvatarLoaded={handleAvatarLoaded}
             onClear={() => {
+              setPendingClear(true);
               setAvatarPreview(undefined);
               setProvisionalSelectedAvatar(undefined);
             }}
