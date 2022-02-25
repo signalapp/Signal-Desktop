@@ -249,6 +249,20 @@ describe('sendToGroup', () => {
       );
       assert.isTrue(
         _shouldFailSend(
+          new OutgoingMessageError(
+            'something',
+            null,
+            null,
+            new HTTPError('something', {
+              code: 429,
+              headers: {},
+            })
+          ),
+          'testing OutgoingMessageError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
           new SendMessageNetworkError(
             'something',
             null,

@@ -25,6 +25,7 @@ export function translateError(error: HTTPError): HTTPError | undefined {
         'Failed to connect to the server, please check your network connection.';
       break;
     case 413:
+    case 429:
       message = 'Rate limit exceeded, please try again later.';
       break;
     case 403:

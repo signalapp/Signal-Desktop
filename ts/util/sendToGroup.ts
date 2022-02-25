@@ -720,7 +720,7 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
       return true;
     }
 
-    if (error.code === 413) {
+    if (error.code === 413 || error.code === 429) {
       logError('Rate limit error, failing.');
       return true;
     }

@@ -5,7 +5,7 @@ import type { LoggerType } from '../../types/Logging';
 import { sleep } from '../../util/sleep';
 import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError';
 
-export async function sleepFor413RetryAfterTime({
+export async function sleepForRateLimitRetryAfterTime({
   err,
   log,
   timeRemaining,
@@ -21,7 +21,7 @@ export async function sleepFor413RetryAfterTime({
   const retryAfter = Math.min(findRetryAfterTimeFromError(err), timeRemaining);
 
   log.info(
-    `Got a 413 response code. Sleeping for ${retryAfter} millisecond(s)`
+    `Got a 413 or 429 response code. Sleeping for ${retryAfter} millisecond(s)`
   );
 
   await sleep(retryAfter);

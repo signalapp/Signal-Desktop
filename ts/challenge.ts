@@ -462,7 +462,7 @@ export class ChallengeHandler {
     } catch (error) {
       if (
         !(error instanceof HTTPError) ||
-        error.code !== 413 ||
+        !(error.code === 413 || error.code === 429) ||
         !error.responseHeaders
       ) {
         this.options.onChallengeFailed();

@@ -3,7 +3,7 @@
 
 import type { LoggerType } from '../../types/Logging';
 import * as Errors from '../../types/errors';
-import { sleepFor413RetryAfterTime } from './sleepFor413RetryAfterTime';
+import { sleepForRateLimitRetryAfterTime } from './sleepForRateLimitRetryAfterTime';
 import { getHttpErrorCode } from './getHttpErrorCode';
 import { strictAssert } from '../../util/assert';
 import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError';
@@ -47,7 +47,7 @@ export async function handleMultipleSendErrors({
     formattedErrors.push(Errors.toLogFormat(error));
 
     const errorCode = getHttpErrorCode(error);
-    if (errorCode === 413) {
+    if (errorCode === 413 || errorCode === 429) {
       const retryAfterTime = findRetryAfterTimeFromError(error);
       if (retryAfterTime > longestRetryAfterTime) {
         retryAfterError = error;
@@ -72,7 +72,7 @@ export async function handleMultipleSendErrors({
   }
 
   if (retryAfterError && !isFinalAttempt) {
-    await sleepFor413RetryAfterTime({
+    await sleepForRateLimitRetryAfterTime({
       err: retryAfterError,
       log,
       timeRemaining,

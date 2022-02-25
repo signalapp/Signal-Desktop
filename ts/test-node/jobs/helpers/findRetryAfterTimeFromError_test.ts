@@ -31,6 +31,20 @@ describe('findRetryAfterTimeFromError', () => {
           response: {},
         }),
       },
+      {
+        httpError: new HTTPError('Slow down', {
+          code: 429,
+          headers: {},
+          response: {},
+        }),
+      },
+      {
+        httpError: new HTTPError('Slow down', {
+          code: 429,
+          headers: { 'retry-after': 'garbage' },
+          response: {},
+        }),
+      },
     ].forEach(input => {
       assert.strictEqual(findRetryAfterTimeFromError(input), MINUTE);
     });
@@ -64,11 +78,34 @@ describe('findRetryAfterTimeFromError', () => {
     assert.strictEqual(findRetryAfterTimeFromError(input), 1234 * 1000);
   });
 
+  it("finds the retry-after time on an HTTP error's response headers", () => {
+    const input = {
+      httpError: new HTTPError('Slow down', {
+        code: 429,
+        headers: { 'retry-after': '1234' },
+        response: {},
+      }),
+    };
+    assert.strictEqual(findRetryAfterTimeFromError(input), 1234 * 1000);
+  });
+
   it('prefers the top-level response headers over an HTTP error', () => {
     const input = {
       responseHeaders: { 'retry-after': '1234' },
       httpError: new HTTPError('Slow down', {
         code: 413,
+        headers: { 'retry-after': '999' },
+        response: {},
+      }),
+    };
+    assert.strictEqual(findRetryAfterTimeFromError(input), 1234 * 1000);
+  });
+
+  it('prefers the top-level response headers over an HTTP error', () => {
+    const input = {
+      responseHeaders: { 'retry-after': '1234' },
+      httpError: new HTTPError('Slow down', {
+        code: 429,
         headers: { 'retry-after': '999' },
         response: {},
       }),
