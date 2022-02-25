@@ -12,6 +12,7 @@ import {
 import {
   Bootstrap,
   debug,
+  saveLogs,
   stats,
   RUN_COUNT,
   GROUP_SIZE,
@@ -177,6 +178,9 @@ const LAST_MESSAGE = 'start sending messages now';
     }
 
     console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
+  } catch (error) {
+    await saveLogs(bootstrap);
+    throw error;
   } finally {
     await app.close();
     await bootstrap.teardown();

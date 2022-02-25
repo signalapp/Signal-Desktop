@@ -6,7 +6,14 @@ import assert from 'assert';
 
 import { ReceiptType } from '@signalapp/mock-server';
 
-import { Bootstrap, debug, stats, RUN_COUNT, DISCARD_COUNT } from './fixtures';
+import {
+  Bootstrap,
+  debug,
+  saveLogs,
+  stats,
+  RUN_COUNT,
+  DISCARD_COUNT,
+} from './fixtures';
 
 const CONVERSATION_SIZE = 500; // messages
 
@@ -128,6 +135,9 @@ const LAST_MESSAGE = 'start sending messages now';
     }
 
     console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
+  } catch (error) {
+    await saveLogs(bootstrap);
+    throw error;
   } finally {
     await app.close();
     await bootstrap.teardown();

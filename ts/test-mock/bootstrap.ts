@@ -148,6 +148,15 @@ export class Bootstrap {
     debug('setting storage path=%j', this.storagePath);
   }
 
+  public get logsDir(): string {
+    assert(
+      this.storagePath !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+
+    return path.join(this.storagePath, 'logs');
+  }
+
   public async teardown(): Promise<void> {
     debug('tearing down');
 

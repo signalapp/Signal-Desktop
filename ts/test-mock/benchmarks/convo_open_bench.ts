@@ -4,7 +4,14 @@
 
 import type { PrimaryDevice } from '@signalapp/mock-server';
 
-import { Bootstrap, debug, stats, RUN_COUNT, DISCARD_COUNT } from './fixtures';
+import {
+  Bootstrap,
+  debug,
+  saveLogs,
+  stats,
+  RUN_COUNT,
+  DISCARD_COUNT,
+} from './fixtures';
 
 const CONVERSATION_SIZE = 1000; // messages
 const DELAY = 50; // milliseconds
@@ -94,6 +101,9 @@ const DELAY = 50; // milliseconds
     };
 
     await Promise.all([sendQueue(), measure()]);
+  } catch (error) {
+    await saveLogs(bootstrap);
+    throw error;
   } finally {
     await app.close();
     await bootstrap.teardown();
