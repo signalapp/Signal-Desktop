@@ -23,6 +23,9 @@ const nodeDefaults = {
 
 const bundleDefaults = {
   ...nodeDefaults,
+  define: {
+    'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
+  },
   bundle: true,
   external: [
     '@signalapp/signal-client',
