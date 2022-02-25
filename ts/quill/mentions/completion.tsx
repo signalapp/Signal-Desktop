@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import _ from 'lodash';
@@ -26,15 +26,6 @@ export type MentionCompletionOptions = {
   me?: ConversationType;
   theme: ThemeType;
 };
-
-declare global {
-  // We want to extend `HTMLElement`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface HTMLElement {
-    // Webkit-specific
-    scrollIntoViewIfNeeded: (bringToCenter: boolean) => void;
-  }
-}
 
 const MENTION_REGEX = /(?:^|\W)@([-+\w]*)$/;
 

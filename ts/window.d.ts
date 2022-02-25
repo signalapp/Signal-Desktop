@@ -498,6 +498,13 @@ declare global {
     stackForLog?: string;
   }
 
+  // We want to extend `Element`'s properties, so we need an interface.
+  // eslint-disable-next-line no-restricted-syntax
+  interface Element {
+    // WebKit-specific
+    scrollIntoViewIfNeeded: (bringToCenter?: boolean) => void;
+  }
+
   // Uint8Array and ArrayBuffer are type-compatible in TypeScript's covariant
   // type checker, but in reality they are not. Let's assert correct use!
   interface Uint8Array {
