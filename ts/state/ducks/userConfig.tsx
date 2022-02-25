@@ -32,6 +32,9 @@ const userConfigSlice = createSlice({
     showMessageRequestBanner: state => {
       state.hideMessageRequests = false;
     },
+    hideMessageRequestBanner: state => {
+      state.hideMessageRequests = true;
+    },
   },
 });
 
@@ -41,5 +44,6 @@ export const {
   disableRecoveryPhrasePrompt,
   toggleMessageRequests,
   showMessageRequestBanner,
+  hideMessageRequestBanner,
 } = actions;
 export const userConfigReducer = reducer;

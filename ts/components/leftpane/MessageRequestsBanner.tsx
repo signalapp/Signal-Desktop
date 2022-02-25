@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { contextMenu } from 'react-contexify';
+import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getConversationRequests } from '../../state/selectors/conversations';
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+import { MemoMessageRequestBannerContextMenu } from '../menu/MessageRequestBannerContextMenu';
 
 const StyledMessageRequestBanner = styled.div`
   height: 64px;
@@ -86,13 +89,38 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const { handleOnClick } = props;
   const conversationRequests = useSelector(getConversationRequests);
   const hideRequestBanner = useSelector(getHideMessageRequestBanner);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   if (!conversationRequests.length || hideRequestBanner) {
     return null;
   }
 
+  const triggerId = 'msg-req-banner';
+
+  const handleOnContextMenu = (e: any) => {
+    contextMenu.show({
+      id: triggerId,
+      event: e,
+    });
+
+    setIsMenuOpen(true);
+  };
+
+  const handleOnClickBanner = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button === 0 && !isMenuOpen) {
+      handleOnClick();
+    }
+  };
+
   return (
-    <StyledMessageRequestBanner onClick={handleOnClick}>
+    <StyledMessageRequestBanner
+      onContextMenu={handleOnContextMenu}
+      onClick={handleOnClickBanner}
+      onMouseUp={e => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+    >
       <CirclularIcon iconType="messageRequest" iconSize="medium" />
       <StyledMessageRequestBannerHeader>
         {window.i18n('messageRequests')}
@@ -100,6 +128,13 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
       <StyledUnreadCounter>
         <div>{conversationRequests.length || 0}</div>
       </StyledUnreadCounter>
+      <Portal>
+        <MemoMessageRequestBannerContextMenu triggerId={triggerId} />
+      </Portal>
     </StyledMessageRequestBanner>
   );
+};
+
+const Portal = ({ children }: { children: any }) => {
+  return createPortal(children, document.querySelector('.inbox.index') as Element);
 };

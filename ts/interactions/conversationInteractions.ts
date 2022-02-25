@@ -29,7 +29,11 @@ import {
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
-import { conversationReset, quoteMessage } from '../state/ducks/conversations';
+import {
+  clearConversationFocus,
+  conversationReset,
+  quoteMessage,
+} from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../session/apis/file_server_api';
@@ -145,10 +149,32 @@ export const approveConvoAndSendResponse = async (
   }
 };
 
+export const declineConversationWithConfirm = (convoId: string, syncToDevices: boolean = true) => {
+  window?.inboxStore?.dispatch(
+    updateConfirmModal({
+      okText: window.i18n('decline'),
+      cancelText: window.i18n('cancel'),
+      message: window.i18n('declineRequestMessage'),
+      onClickOk: async () => {
+        await declineConversationWithoutConfirm(convoId, syncToDevices);
+        await blockConvoById(convoId);
+        await forceSyncConfigurationNowIfNeeded();
+        clearConversationFocus();
+      },
+      onClickCancel: () => {
+        window?.inboxStore?.dispatch(updateConfirmModal(null));
+      },
+      onClickClose: () => {
+        window?.inboxStore?.dispatch(updateConfirmModal(null));
+      },
+    })
+  );
+};
+
 /**
  * Sets the approval fields to false for conversation. Sends decline message.
  */
-export const declineConversation = async (
+export const declineConversationWithoutConfirm = async (
   conversationId: string,
   syncToDevices: boolean = true
 ) => {

@@ -481,4 +481,5 @@ export type LocalizerKeys =
   | 'youHaveANewFriendRequest'
   | 'clearAllConfirmationTitle'
   | 'clearAllConfirmationBody'
+  | 'hideBanner'
   | 'reportIssue';

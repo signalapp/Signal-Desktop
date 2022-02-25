@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getMessageCountByType } from '../../data/data';
 import {
   approveConvoAndSendResponse,
-  blockConvoById,
-  declineConversation,
+  declineConversationWithConfirm,
 } from '../../interactions/conversationInteractions';
 import { MessageDirection } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
-import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
-import { clearConversationFocus } from '../../state/ducks/conversations';
-import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSelectedConversation } from '../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
 export const ConversationMessageRequestButtons = () => {
-  const dispatch = useDispatch();
   const selectedConversation = useSelector(getSelectedConversation);
   const [hasIncoming, setHasIncomingMsgs] = useState(false);
   const [incomingChecked, setIncomingChecked] = useState(false);
@@ -50,26 +45,7 @@ export const ConversationMessageRequestButtons = () => {
     .isRequest();
 
   const handleDeclineConversationRequest = () => {
-    dispatch(
-      updateConfirmModal({
-        okText: window.i18n('decline'),
-        cancelText: window.i18n('cancel'),
-        message: window.i18n('declineRequestMessage'),
-        onClickOk: async () => {
-          const { id } = selectedConversation;
-          await declineConversation(id, false);
-          await blockConvoById(id);
-          await forceSyncConfigurationNowIfNeeded();
-          clearConversationFocus();
-        },
-        onClickCancel: () => {
-          dispatch(updateConfirmModal(null));
-        },
-        onClickClose: () => {
-          dispatch(updateConfirmModal(null));
-        },
-      })
-    );
+    declineConversationWithConfirm(selectedConversation.id, true);
   };
 
   const handleAcceptConversationRequest = async () => {

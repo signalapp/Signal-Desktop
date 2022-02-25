@@ -16,9 +16,11 @@ import {
   useWeAreAdmin,
 } from '../../hooks/useParamSelector';
 import {
+  approveConvoAndSendResponse,
   blockConvoById,
   clearNickNameByConvoId,
   copyPublicKeyByConvoId,
+  declineConversationWithConfirm,
   deleteAllMessagesByConvoIdWithConfirmation,
   markAllReadByConvoId,
   setDisappearingMessagesByConvoId,
@@ -44,6 +46,7 @@ import {
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
 import { SectionType } from '../../state/ducks/section';
+import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
 import { getNumberOfPinnedConversations } from '../../state/selectors/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
@@ -557,4 +560,58 @@ export const DeleteMessagesMenuItem = () => {
       {window.i18n('deleteMessages')}
     </Item>
   );
+};
+
+export const HideBannerMenuItem = (): JSX.Element => {
+  const dispatch = useDispatch();
+  return (
+    <Item
+      onClick={() => {
+        dispatch(hideMessageRequestBanner());
+      }}
+    >
+      {window.i18n('hideBanner')}
+    </Item>
+  );
+};
+
+export const AcceptMenuItem = () => {
+  const convoId = useContext(ContextConversationId);
+  const convo = getConversationController().get(convoId);
+  const showMenuItem = convo.isRequest();
+
+  if (showMenuItem) {
+    return (
+      <Item
+        onClick={async () => {
+          await convo.setDidApproveMe(true);
+          await convo.addOutgoingApprovalMessage(Date.now());
+          await approveConvoAndSendResponse(convoId, true);
+        }}
+      >
+        {window.i18n('accept')}
+      </Item>
+    );
+  }
+  return null;
+};
+
+export const DeclineMenuItem = () => {
+  const convoId = useContext(ContextConversationId);
+  const showMenuItem = getConversationController()
+    .get(convoId)
+    .isRequest();
+
+  if (showMenuItem) {
+    return (
+      <Item
+        onClick={() => {
+          declineConversationWithConfirm(convoId, true);
+        }}
+      >
+        {window.i18n('decline')}
+      </Item>
+    );
+  }
+  return null;
 };
