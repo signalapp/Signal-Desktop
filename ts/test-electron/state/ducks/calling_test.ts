@@ -50,6 +50,7 @@ describe('calling duck', () => {
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
+      amISpeaking: false,
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
@@ -128,6 +129,7 @@ describe('calling duck', () => {
       conversationId: 'fake-group-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
+      amISpeaking: false,
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
@@ -433,6 +435,7 @@ describe('calling duck', () => {
             conversationId: 'fake-direct-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            amISpeaking: false,
             isInSpeakerView: false,
             showParticipantsList: false,
             safetyNumberChangedUuids: [],
@@ -525,6 +528,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            amISpeaking: false,
             isInSpeakerView: false,
             showParticipantsList: false,
             safetyNumberChangedUuids: [],
@@ -762,6 +766,7 @@ describe('calling duck', () => {
       it("does nothing if there's no relevant call", () => {
         const action = groupCallAudioLevelsChange({
           conversationId: 'garbage',
+          localAudioLevel: 1,
           remoteDeviceStates,
         });
 
@@ -784,6 +789,7 @@ describe('calling duck', () => {
         };
         const action = groupCallAudioLevelsChange({
           conversationId: 'fake-group-call-conversation-id',
+          localAudioLevel: 0.1,
           remoteDeviceStates,
         });
 
@@ -792,12 +798,15 @@ describe('calling duck', () => {
         assert.strictEqual(result, state);
       });
 
-      it('updates the set of speaking participants', () => {
+      it('updates the set of speaking participants, including yourself', () => {
         const action = groupCallAudioLevelsChange({
           conversationId: 'fake-group-call-conversation-id',
+          localAudioLevel: 0.8,
           remoteDeviceStates,
         });
         const result = reducer(stateWithActiveGroupCall, action);
+
+        assert.isTrue(result.activeCallState?.amISpeaking);
 
         const call =
           result.callsByConversation['fake-group-call-conversation-id'];
@@ -1100,6 +1109,7 @@ describe('calling duck', () => {
           conversationId: 'fake-group-call-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
+          amISpeaking: false,
           isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
@@ -1628,6 +1638,7 @@ describe('calling duck', () => {
             conversationId: 'fake-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            amISpeaking: false,
             isInSpeakerView: false,
             showParticipantsList: false,
             safetyNumberChangedUuids: [],
@@ -1913,6 +1924,7 @@ describe('calling duck', () => {
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
+          amISpeaking: false,
           isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],

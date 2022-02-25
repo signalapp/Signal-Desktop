@@ -285,7 +285,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 title={title}
               />
               <CallingAudioIndicator
-                hasRemoteAudio={hasRemoteAudio}
+                hasAudio={hasRemoteAudio}
                 isSpeaking={props.isSpeaking}
               />
             </div>

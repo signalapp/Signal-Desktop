@@ -4291,17 +4291,10 @@ button.module-image__border-overlay:focus {
         }
       }
 
-      &--audio-muted::before {
-        @include color-svg(
-          '../images/icons/v2/mic-off-solid-28.svg',
-          $color-white
-        );
+      .CallingAudioIndicator {
         bottom: 6px;
-        content: '';
-        height: 14px;
         position: absolute;
         right: 6px;
-        width: 14px;
         z-index: $z-index-base;
       }
     }

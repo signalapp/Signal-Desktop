@@ -82,6 +82,7 @@ import type { ProcessedEnvelope } from '../textsecure/Types.d';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 import {
+  AUDIO_LEVEL_INTERVAL_MS,
   REQUESTED_VIDEO_WIDTH,
   REQUESTED_VIDEO_HEIGHT,
   REQUESTED_VIDEO_FRAMERATE,
@@ -624,7 +625,7 @@ export class CallingClass {
       groupIdBuffer,
       this.sfuUrl,
       Buffer.alloc(0),
-      500,
+      AUDIO_LEVEL_INTERVAL_MS,
       {
         onLocalDeviceStateChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
@@ -677,9 +678,11 @@ export class CallingClass {
           if (!remoteDeviceStates) {
             return;
           }
+          const localAudioLevel = groupCall.getLocalDeviceState().audioLevel;
 
           this.uxActions?.groupCallAudioLevelsChange({
             conversationId,
+            localAudioLevel,
             remoteDeviceStates,
           });
         },
@@ -1971,7 +1974,7 @@ export class CallingClass {
       hideIp: shouldRelayCalls || isContactUnknown,
       bandwidthMode: BandwidthMode.Normal,
       // TODO: DESKTOP-3101
-      // audioLevelsIntervalMillis: 500,
+      // audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
     };
   }
 

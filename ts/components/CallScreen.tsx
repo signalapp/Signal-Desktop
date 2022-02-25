@@ -38,6 +38,7 @@ import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPerm
 import { missingCaseError } from '../util/missingCaseError';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
+import { CallingAudioIndicator } from './CallingAudioIndicator';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -125,6 +126,7 @@ export const CallScreen: React.FC<PropsType> = ({
     conversation,
     hasLocalAudio,
     hasLocalVideo,
+    amISpeaking,
     isInSpeakerView,
     presentingSource,
     remoteParticipants,
@@ -501,13 +503,12 @@ export const CallScreen: React.FC<PropsType> = ({
             onClick={hangUpActiveCall}
           />
         </div>
-        <div
-          className={classNames('module-ongoing-call__footer__local-preview', {
-            'module-ongoing-call__footer__local-preview--audio-muted':
-              !hasLocalAudio,
-          })}
-        >
+        <div className="module-ongoing-call__footer__local-preview">
           {localPreviewNode}
+          <CallingAudioIndicator
+            hasAudio={hasLocalAudio}
+            isSpeaking={amISpeaking}
+          />
         </div>
       </div>
     </div>

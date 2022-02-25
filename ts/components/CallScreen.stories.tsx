@@ -44,6 +44,7 @@ const conversation = getDefaultConversation({
 type OverridePropsBase = {
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
+  amISpeaking?: boolean;
   isInSpeakerView?: boolean;
 };
 
@@ -120,6 +121,7 @@ const createActiveCallProp = (
       'hasLocalVideo',
       overrideProps.hasLocalVideo || false
     ),
+    amISpeaking: boolean('amISpeaking', overrideProps.amISpeaking || false),
     isInSpeakerView: boolean(
       'isInSpeakerView',
       overrideProps.isInSpeakerView || false
