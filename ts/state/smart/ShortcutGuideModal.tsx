@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ import {
   getReceivedStickerPacks,
 } from '../selectors/stickers';
 
-type ExternalProps = {
+export type ExternalProps = {
   close: () => unknown;
 };
 
