@@ -1,43 +1,28 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
+import { readJsonSync, writeJsonSync } from 'fs-extra';
 
-import { readFileSync } from 'fs';
-
-import { omit, orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 
 import type { ExceptionType } from './types';
 
 export const ENCODING = 'utf8';
 
-export function loadJSON<T>(target: string): T {
-  try {
-    const contents = readFileSync(target, ENCODING);
+export const loadJSON = <T>(path: string): T => readJsonSync(path);
 
-    return JSON.parse(contents);
-  } catch (error) {
-    console.log(`Error loading JSON from ${target}: ${error.stack}`);
-    throw error;
-  }
-}
+export const writeExceptions = (
+  path: string,
+  exceptions: ReadonlyArray<ExceptionType>
+): void => writeJsonSync(path, sortExceptions(exceptions), { spaces: 2 });
 
-export function sortExceptions(
-  exceptions: Array<ExceptionType>
-): Array<ExceptionType> {
-  return orderBy(exceptions, [
+export const sortExceptions = (
+  exceptions: ReadonlyArray<ExceptionType>
+): Array<ExceptionType> =>
+  orderBy(exceptions, [
     'path',
     'rule',
     'reasonCategory',
     'updated',
     'reasonDetail',
-  ]).map(removeLegacyAttributes);
-}
-
-// This is here in case any open changesets still touch `lineNumber`. We should remove
-//   this after 2021-06-01 to be conservative.
-function removeLegacyAttributes(
-  exception: Readonly<ExceptionType>
-): ExceptionType {
-  return omit(exception, ['lineNumber']);
-}
+  ]);

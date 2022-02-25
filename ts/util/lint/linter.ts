@@ -10,7 +10,7 @@ import FastGlob from 'fast-glob';
 
 import type { ExceptionType, RuleType } from './types';
 import { REASONS } from './types';
-import { ENCODING, loadJSON, sortExceptions } from './util';
+import { ENCODING, loadJSON, sortExceptions, writeExceptions } from './util';
 
 const ALL_REASONS = REASONS.join('|');
 
@@ -321,7 +321,11 @@ function setupRules(allRules: Array<RuleType>) {
   });
 }
 
-async function main(): Promise<void> {
+async function main(argv: ReadonlyArray<string>): Promise<void> {
+  const shouldRemoveUnusedExceptions = argv.includes(
+    '--remove-unused-exceptions'
+  );
+
   const now = new Date();
 
   const rules: Array<RuleType> = loadJSON(rulesPath);
@@ -393,10 +397,26 @@ async function main(): Promise<void> {
     { concurrency: 100 }
   );
 
+  let unusedExceptionsLogMessage: string;
+
+  if (shouldRemoveUnusedExceptions && unusedExceptions.length) {
+    unusedExceptionsLogMessage = `${unusedExceptions.length} unused exceptions (automatically removed),`;
+
+    const unusedExceptionsSet = new Set(unusedExceptions);
+    const newExceptions = exceptions.filter(
+      exception => !unusedExceptionsSet.has(exception)
+    );
+    writeExceptions(exceptionsPath, newExceptions);
+
+    unusedExceptions = [];
+  } else {
+    unusedExceptionsLogMessage = `${unusedExceptions.length} unused exceptions,`;
+  }
+
   console.log(
     `${scannedCount} files scanned.`,
     `${results.length} questionable lines,`,
-    `${unusedExceptions.length} unused exceptions,`,
+    unusedExceptionsLogMessage,
     `${exceptions.length} total exceptions.`
   );
 
@@ -410,14 +430,16 @@ async function main(): Promise<void> {
 
   if (unusedExceptions.length) {
     console.log();
-    console.log('Unused exceptions!');
+    console.log(
+      'Unused exceptions! Run with --remove-unused-exceptions to automatically remove them.'
+    );
     console.log(JSON.stringify(sortExceptions(unusedExceptions), null, '  '));
   }
 
   process.exit(1);
 }
 
-main().catch(err => {
+main(process.argv).catch(err => {
   console.error(err);
   process.exit(1);
 });
