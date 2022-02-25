@@ -229,6 +229,13 @@ export async function sendNormalMessage(
           ]);
           return;
         }
+        if (conversation.isBlocked()) {
+          log.info(
+            `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+          );
+          markMessageFailed(message, [new Error('Contact is blocked')]);
+          return;
+        }
 
         log.info('sending direct message');
         innerPromise = window.textsecure.messaging.sendMessageToIdentifier({

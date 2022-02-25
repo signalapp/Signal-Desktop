@@ -90,6 +90,12 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       );
       return;
     }
+    if (conversation.isBlocked()) {
+      log.info(
+        `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+      );
+      return;
+    }
 
     const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
     const options = await getSendOptions(conversation.attributes, {

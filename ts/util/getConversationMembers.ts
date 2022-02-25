@@ -27,8 +27,11 @@ export function getConversationMembers(
       members.map(member => {
         const conversation = window.ConversationController.get(member.uuid);
 
-        // In groups we won't sent to contacts we believe are unregistered
-        if (conversation && conversation.isUnregistered()) {
+        // In groups we won't sent to blocked contacts or those we think are unregistered
+        if (
+          conversation &&
+          (conversation.isUnregistered() || conversation.isBlocked())
+        ) {
           return null;
         }
 
@@ -42,8 +45,11 @@ export function getConversationMembers(
       conversationAttrs.members.map(id => {
         const conversation = window.ConversationController.get(id);
 
-        // In groups we won't send to contacts we believe are unregistered
-        if (conversation && conversation.isUnregistered()) {
+        // In groups we won't sent to blocked contacts or those we think are unregistered
+        if (
+          conversation &&
+          (conversation.isUnregistered() || conversation.isBlocked())
+        ) {
           return null;
         }
 

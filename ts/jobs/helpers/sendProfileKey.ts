@@ -97,6 +97,12 @@ export async function sendProfileKey(
       );
       return;
     }
+    if (conversation.isBlocked()) {
+      log.info(
+        `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+      );
+      return;
+    }
 
     const proto = await window.textsecure.messaging.getContentMessage({
       flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,

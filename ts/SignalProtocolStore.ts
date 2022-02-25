@@ -1095,7 +1095,7 @@ export class SignalProtocolStore extends EventsMixin {
         throw new Error('getOpenDevices: this.sessions not yet cached!');
       }
       if (identifiers.length === 0) {
-        throw new Error('getOpenDevices: No identifiers provided!');
+        return { devices: [], emptyIdentifiers: [] };
       }
 
       try {

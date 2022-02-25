@@ -196,6 +196,13 @@ export async function sendReaction(
           markReactionFailed(message, pendingReaction);
           return;
         }
+        if (conversation.isBlocked()) {
+          log.info(
+            `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+          );
+          markReactionFailed(message, pendingReaction);
+          return;
+        }
 
         log.info('sending direct reaction message');
         promise = window.textsecure.messaging.sendMessageToIdentifier({

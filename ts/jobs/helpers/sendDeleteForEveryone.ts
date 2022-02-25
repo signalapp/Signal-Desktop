@@ -123,6 +123,12 @@ export async function sendDeleteForEveryone(
             );
             return;
           }
+          if (conversation.isBlocked()) {
+            log.info(
+              `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+            );
+            return;
+          }
 
           await wrapWithSyncMessageSend({
             conversation,

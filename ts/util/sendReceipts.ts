@@ -103,6 +103,12 @@ export async function sendReceipts({
         );
         return;
       }
+      if (sender.isBlocked()) {
+        log.info(
+          `conversation ${sender.idForLogging()} is blocked; refusing to send`
+        );
+        return;
+      }
 
       const sendOptions = await getSendOptions(sender.attributes);
 
