@@ -13,6 +13,7 @@ jobs:
   linux:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    timeout-minutes: 30
 
     steps:
     - name: Get system specs
@@ -62,6 +63,7 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
+        ARTIFACTS_DIR: artifacts/startup
 
     - name: Run send benchmarks
       run: |
@@ -74,6 +76,7 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+        ARTIFACTS_DIR: artifacts/send
 
     - name: Run group send benchmarks
       run: |
@@ -87,6 +90,7 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+        ARTIFACTS_DIR: artifacts/group-send
 
     - name: Run conversation open benchmarks
       run: |
@@ -100,6 +104,14 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+        ARTIFACTS_DIR: artifacts/convo-open
+
+    - name: Upload benchmark logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: logs
+        path: artifacts
 
     - name: Clone benchmark repo
       uses: actions/checkout@v2

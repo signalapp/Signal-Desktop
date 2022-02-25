@@ -4,7 +4,7 @@
 
 import { ReceiptType } from '@signalapp/mock-server';
 
-import { debug, Bootstrap, stats, RUN_COUNT } from './fixtures';
+import { debug, Bootstrap, saveLogs, stats, RUN_COUNT } from './fixtures';
 
 const MESSAGE_BATCH_SIZE = 1000; // messages
 
@@ -127,6 +127,9 @@ const ENABLE_RECEIPTS = Boolean(process.env.ENABLE_RECEIPTS);
     if (messagesPerSec.length !== 0) {
       console.log('stats info=%j', { messagesPerSec: stats(messagesPerSec) });
     }
+  } catch (error) {
+    await saveLogs(bootstrap);
+    throw error;
   } finally {
     await bootstrap.teardown();
   }

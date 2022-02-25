@@ -12,6 +12,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
     - run: lsb_release -a
@@ -42,6 +43,7 @@ jobs:
     needs: lint
     runs-on: macos-11.0
     if: github.ref == 'refs/heads/development' || github.ref == 'refs/heads/master'
+    timeout-minutes: 30
 
     steps:
     - run: uname -a
@@ -70,6 +72,7 @@ jobs:
       run: yarn electron:install-app-deps
     - run: yarn test-node
     - run: yarn test-electron
+      timeout-minutes: 5
     - run: yarn test-release
       env:
         NODE_ENV: production
@@ -77,6 +80,7 @@ jobs:
   linux:
     needs: lint
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
     - run: lsb_release -a
@@ -105,6 +109,7 @@ jobs:
         DISABLE_INSPECT_FUSE: on
     - run: xvfb-run --auto-servernum yarn test-node
     - run: xvfb-run --auto-servernum yarn test-electron
+      timeout-minutes: 5
       env:
         LANG: en_US
         LANGUAGE: en_US
@@ -114,7 +119,8 @@ jobs:
 
   windows:
     needs: lint
-    runs-on: windows-latest
+    runs-on: windows-2019
+    timeout-minutes: 30
 
     steps:
     - run: systeminfo
@@ -146,6 +152,7 @@ jobs:
       env:
         DISABLE_INSPECT_FUSE: on
     - run: yarn test-electron
+      timeout-minutes: 5
     - run: yarn test-release
       env:
         SIGNAL_ENV: production
@@ -154,6 +161,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    timeout-minutes: 30
 
     steps:
     - name: Get system specs
