@@ -18,7 +18,7 @@ export async function updateConversationsWithUuidLookup({
     'ensureContactIds' | 'get'
   >;
   conversations: ReadonlyArray<ConversationModel>;
-  messaging: Pick<SendMessage, 'getUuidsForE164s'>;
+  messaging: Pick<SendMessage, 'getUuidsForE164s' | 'checkAccountExistence'>;
 }>): Promise<void> {
   const e164s = conversations
     .map(conversation => conversation.get('e164'))
@@ -29,35 +29,51 @@ export async function updateConversationsWithUuidLookup({
 
   const serverLookup = await messaging.getUuidsForE164s(e164s);
 
-  conversations.forEach(conversation => {
-    const e164 = conversation.get('e164');
-    if (!e164) {
-      return;
-    }
+  await Promise.all(
+    conversations.map(async conversation => {
+      const e164 = conversation.get('e164');
+      if (!e164) {
+        return;
+      }
 
-    let finalConversation: ConversationModel;
+      let finalConversation: ConversationModel;
 
-    const uuidFromServer = getOwn(serverLookup, e164);
-    if (uuidFromServer) {
-      const finalConversationId = conversationController.ensureContactIds({
-        e164,
-        uuid: uuidFromServer,
-        highTrust: true,
-        reason: 'updateConversationsWithUuidLookup',
-      });
-      const maybeFinalConversation =
-        conversationController.get(finalConversationId);
-      assert(
-        maybeFinalConversation,
-        'updateConversationsWithUuidLookup: expected a conversation to be found or created'
-      );
-      finalConversation = maybeFinalConversation;
-    } else {
-      finalConversation = conversation;
-    }
+      const uuidFromServer = getOwn(serverLookup, e164);
+      if (uuidFromServer) {
+        const finalConversationId = conversationController.ensureContactIds({
+          e164,
+          uuid: uuidFromServer,
+          highTrust: true,
+          reason: 'updateConversationsWithUuidLookup',
+        });
+        const maybeFinalConversation =
+          conversationController.get(finalConversationId);
+        assert(
+          maybeFinalConversation,
+          'updateConversationsWithUuidLookup: expected a conversation to be found or created'
+        );
+        finalConversation = maybeFinalConversation;
+      } else {
+        finalConversation = conversation;
+      }
 
-    if (!finalConversation.get('e164') || !finalConversation.get('uuid')) {
-      finalConversation.setUnregistered();
-    }
-  });
+      // We got no uuid from CDS so either the person is now unregistered or
+      // they can't be looked up by a phone number. Check that uuid still exists,
+      // and if not - drop it.
+      let finalUuid = finalConversation.getUuid();
+      if (!uuidFromServer && finalUuid) {
+        const doesAccountExist = await messaging.checkAccountExistence(
+          finalUuid
+        );
+        if (!doesAccountExist) {
+          finalConversation.updateUuid(undefined);
+          finalUuid = undefined;
+        }
+      }
+
+      if (!finalConversation.get('e164') || !finalUuid) {
+        finalConversation.setUnregistered();
+      }
+    })
+  );
 }

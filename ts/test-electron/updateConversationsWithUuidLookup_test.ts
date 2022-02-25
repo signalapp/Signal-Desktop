@@ -98,7 +98,11 @@ describe('updateConversationsWithUuidLookup', () => {
   let sinonSandbox: sinon.SinonSandbox;
 
   let fakeGetUuidsForE164s: sinon.SinonStub;
-  let fakeMessaging: Pick<SendMessage, 'getUuidsForE164s'>;
+  let fakeCheckAccountExistence: sinon.SinonStub;
+  let fakeMessaging: Pick<
+    SendMessage,
+    'getUuidsForE164s' | 'checkAccountExistence'
+  >;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();
@@ -106,7 +110,11 @@ describe('updateConversationsWithUuidLookup', () => {
     sinonSandbox.stub(window.Signal.Data, 'updateConversation');
 
     fakeGetUuidsForE164s = sinonSandbox.stub().resolves({});
-    fakeMessaging = { getUuidsForE164s: fakeGetUuidsForE164s };
+    fakeCheckAccountExistence = sinonSandbox.stub().resolves(false);
+    fakeMessaging = {
+      getUuidsForE164s: fakeGetUuidsForE164s,
+      checkAccountExistence: fakeCheckAccountExistence,
+    };
   });
 
   afterEach(() => {
@@ -186,7 +194,7 @@ describe('updateConversationsWithUuidLookup', () => {
     );
   });
 
-  it("doesn't mark conversations unregistered if we already had a UUID for them, even if the server doesn't return one", async () => {
+  it("doesn't mark conversations unregistered if we already had a UUID for them, even if the account exists on server", async () => {
     const existingUuid = UUID.generate().toString();
     const conversation = createConversation({
       e164: '+13215559876',
@@ -198,6 +206,7 @@ describe('updateConversationsWithUuidLookup', () => {
     );
 
     fakeGetUuidsForE164s.resolves({ '+13215559876': null });
+    fakeCheckAccountExistence.resolves(true);
 
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController([conversation]),
@@ -207,5 +216,29 @@ describe('updateConversationsWithUuidLookup', () => {
 
     assert.strictEqual(conversation.get('uuid'), existingUuid);
     assert.isUndefined(conversation.get('discoveredUnregisteredAt'));
+  });
+
+  it('marks conversations unregistered if we already had a UUID for them, even if the account does not exist on server', async () => {
+    const existingUuid = UUID.generate().toString();
+    const conversation = createConversation({
+      e164: '+13215559876',
+      uuid: existingUuid,
+    });
+    assert.isUndefined(
+      conversation.get('discoveredUnregisteredAt'),
+      'Test was not set up correctly'
+    );
+
+    fakeGetUuidsForE164s.resolves({ '+13215559876': null });
+    fakeCheckAccountExistence.resolves(false);
+
+    await updateConversationsWithUuidLookup({
+      conversationController: new FakeConversationController([conversation]),
+      conversations: [conversation],
+      messaging: fakeMessaging,
+    });
+
+    assert.strictEqual(conversation.get('uuid'), existingUuid);
+    assert.isNumber(conversation.get('discoveredUnregisteredAt'));
   });
 });
