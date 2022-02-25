@@ -97,8 +97,12 @@ export const AvatarPlaceHolder = (props: Props) => {
     );
   }
 
-  const initial = getInitials(name)?.toLocaleUpperCase() || '0';
-  const fontSize = diameter * 0.5;
+  let initials = getInitials(name)?.toLocaleUpperCase() || '0';
+  if (name.indexOf(' ') === -1) {
+    initials = name.substr(0, 2);
+  }
+
+  const fontSize = diameter * (1 / (initials.length + 1));
 
   const bgColorIndex = hash % avatarPlaceholderColors.length;
 
@@ -126,7 +130,7 @@ export const AvatarPlaceHolder = (props: Props) => {
           strokeWidth={1}
           alignmentBaseline="central"
         >
-          {initial}
+          {initials}
         </text>
       </g>
     </svg>
