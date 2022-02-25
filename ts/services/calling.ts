@@ -75,6 +75,7 @@ import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { fetchMembershipProof, getMembershipList } from '../groups';
 import { wrapWithSyncMessageSend } from '../util/wrapWithSyncMessageSend';
@@ -1228,10 +1229,8 @@ export class CallingClass {
   }
 
   private stopDeviceReselectionTimer() {
-    if (this.deviceReselectionTimer) {
-      clearInterval(this.deviceReselectionTimer);
-      this.deviceReselectionTimer = undefined;
-    }
+    clearTimeoutIfNecessary(this.deviceReselectionTimer);
+    this.deviceReselectionTimer = undefined;
   }
 
   private mediaDeviceSettingsEqual(

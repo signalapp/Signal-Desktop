@@ -84,6 +84,7 @@ import {
   parseSignalHttpsLink,
   rewriteSignalHrefsIfNecessary,
 } from '../ts/util/sgnlHref';
+import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary';
 import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
 import {
   getTitleBarVisibility,
@@ -1698,9 +1699,7 @@ async function requestShutdown() {
       if (error) {
         return reject(error);
       }
-      if (timeout) {
-        clearTimeout(timeout);
-      }
+      clearTimeoutIfNecessary(timeout);
 
       resolve();
     });

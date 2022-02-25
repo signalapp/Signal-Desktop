@@ -1,10 +1,11 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
 
 import { sleep } from './sleep';
 import * as log from '../logging/log';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -119,10 +120,8 @@ export function createWaitBatcher<ItemType>(
       }, options.wait);
     }
     if (items.length >= options.maxSize) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
+      clearTimeoutIfNecessary(timeout);
+      timeout = null;
 
       _kickBatchOff();
     }
@@ -159,10 +158,8 @@ export function createWaitBatcher<ItemType>(
       `Flushing start ${options.name} for waitBatcher ` +
         `items.length=${items.length}`
     );
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
+    clearTimeoutIfNecessary(timeout);
+    timeout = null;
 
     while (anyPending()) {
       // eslint-disable-next-line no-await-in-loop

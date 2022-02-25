@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect } from 'react';
@@ -9,6 +9,7 @@ import type { LocalizerType } from '../types/Util';
 import { SocketStatus } from '../types/SocketStatus';
 import type { NetworkStateType } from '../state/ducks/network';
 import type { WidthBreakpoint } from './_util';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 
 const FIVE_SECONDS = 5 * 1000;
 
@@ -44,9 +45,7 @@ export const DialogNetworkStatus = ({
     }
 
     return () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
+      clearTimeoutIfNecessary(timeout);
     };
   }, [hasNetworkDialog, isConnecting, setIsConnecting]);
 

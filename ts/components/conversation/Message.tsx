@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
@@ -58,6 +58,7 @@ import {
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
 import { getIncrement } from '../../util/timer';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { missingCaseError } from '../../util/missingCaseError';
 import type {
@@ -451,18 +452,10 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public override componentWillUnmount(): void {
-    if (this.selectedTimeout) {
-      clearTimeout(this.selectedTimeout);
-    }
-    if (this.expirationCheckInterval) {
-      clearInterval(this.expirationCheckInterval);
-    }
-    if (this.expiredTimeout) {
-      clearTimeout(this.expiredTimeout);
-    }
-    if (this.deleteForEveryoneTimeout) {
-      clearTimeout(this.deleteForEveryoneTimeout);
-    }
+    clearTimeoutIfNecessary(this.selectedTimeout);
+    clearTimeoutIfNecessary(this.expirationCheckInterval);
+    clearTimeoutIfNecessary(this.expiredTimeout);
+    clearTimeoutIfNecessary(this.deleteForEveryoneTimeout);
     this.toggleReactionViewer(true);
     this.toggleReactionPicker(true);
   }

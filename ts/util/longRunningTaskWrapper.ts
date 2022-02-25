@@ -1,7 +1,8 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
 export async function longRunningTaskWrapper<T>({
   name,
@@ -39,10 +40,8 @@ export async function longRunningTaskWrapper<T>({
     const result = await task();
     log.info(`longRunningTaskWrapper/${idLog}: Task completed successfully`);
 
-    if (progressTimeout) {
-      clearTimeout(progressTimeout);
-      progressTimeout = undefined;
-    }
+    clearTimeoutIfNecessary(progressTimeout);
+    progressTimeout = undefined;
     if (progressView) {
       const now = Date.now();
       if (spinnerStart && now - spinnerStart < ONE_SECOND) {
@@ -62,10 +61,8 @@ export async function longRunningTaskWrapper<T>({
       error && error.stack ? error.stack : error
     );
 
-    if (progressTimeout) {
-      clearTimeout(progressTimeout);
-      progressTimeout = undefined;
-    }
+    clearTimeoutIfNecessary(progressTimeout);
+    progressTimeout = undefined;
     if (progressView) {
       progressView.remove();
       progressView = undefined;

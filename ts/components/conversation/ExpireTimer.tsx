@@ -1,10 +1,11 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import classNames from 'classnames';
 
 import { getIncrement, getTimerBucket } from '../../util/timer';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 
 export type Props = {
   withImageNoCaption?: boolean;
@@ -40,9 +41,7 @@ export class ExpireTimer extends React.Component<Props> {
   }
 
   public override componentWillUnmount(): void {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    clearTimeoutIfNecessary(this.interval);
   }
 
   public override render(): JSX.Element {

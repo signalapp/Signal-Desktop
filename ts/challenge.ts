@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // `ChallengeHandler` is responsible for:
@@ -17,6 +17,7 @@ import { assert } from './util/assert';
 import { isNotNil } from './util/isNotNil';
 import { isOlderThan } from './util/timestamp';
 import { parseRetryAfter } from './util/parseRetryAfter';
+import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
 import { getEnvironment, Environment } from './environment';
 import type { StorageInterface } from './types/Storage.d';
 import { HTTPError } from './textsecure/Errors';
@@ -250,7 +251,7 @@ export class ChallengeHandler {
     const waitTime = Math.max(0, error.retryAfter - Date.now());
     const oldTimer = this.retryTimers.get(message.id);
     if (oldTimer) {
-      clearTimeout(oldTimer);
+      clearTimeoutIfNecessary(oldTimer);
     }
     this.retryTimers.set(
       message.id,
@@ -305,9 +306,7 @@ export class ChallengeHandler {
 
     const timer = this.retryTimers.get(message.id);
     this.retryTimers.delete(message.id);
-    if (timer) {
-      clearTimeout(timer);
-    }
+    clearTimeoutIfNecessary(timer);
 
     await this.persist();
   }

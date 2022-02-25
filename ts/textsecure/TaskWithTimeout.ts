@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from '../util/durations';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { explodePromise } from '../util/explodePromise';
 import { toLogFormat } from '../types/errors';
 import * as log from '../logging/log';
@@ -66,10 +67,8 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
     };
 
     const stopTimer = () => {
-      if (timer) {
-        clearTimeout(timer);
-        timer = undefined;
-      }
+      clearTimeoutIfNecessary(timer);
+      timer = undefined;
     };
 
     const entry: TaskType = {

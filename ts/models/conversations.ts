@@ -18,6 +18,7 @@ import type {
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import type { CallHistoryDetailsType } from '../types/Calling';
@@ -1032,9 +1033,7 @@ export class ConversationModel extends window.Backbone
   }
 
   setTypingRefreshTimer(): void {
-    if (this.typingRefreshTimer) {
-      clearTimeout(this.typingRefreshTimer);
-    }
+    clearTimeoutIfNecessary(this.typingRefreshTimer);
     this.typingRefreshTimer = setTimeout(
       this.onTypingRefreshTimeout.bind(this),
       10 * 1000
@@ -1050,9 +1049,7 @@ export class ConversationModel extends window.Backbone
   }
 
   setTypingPauseTimer(): void {
-    if (this.typingPauseTimer) {
-      clearTimeout(this.typingPauseTimer);
-    }
+    clearTimeoutIfNecessary(this.typingPauseTimer);
     this.typingPauseTimer = setTimeout(
       this.onTypingPauseTimeout.bind(this),
       3 * 1000
@@ -1067,14 +1064,10 @@ export class ConversationModel extends window.Backbone
   }
 
   clearTypingTimers(): void {
-    if (this.typingPauseTimer) {
-      clearTimeout(this.typingPauseTimer);
-      this.typingPauseTimer = null;
-    }
-    if (this.typingRefreshTimer) {
-      clearTimeout(this.typingRefreshTimer);
-      this.typingRefreshTimer = null;
-    }
+    clearTimeoutIfNecessary(this.typingPauseTimer);
+    this.typingPauseTimer = null;
+    clearTimeoutIfNecessary(this.typingRefreshTimer);
+    this.typingRefreshTimer = null;
   }
 
   async fetchLatestGroupV2Data(
@@ -4914,10 +4907,8 @@ export class ConversationModel extends window.Backbone
   }
 
   startMuteTimer({ viaStorageServiceSync = false } = {}): void {
-    if (this.muteTimer !== undefined) {
-      clearTimeout(this.muteTimer);
-      this.muteTimer = undefined;
-    }
+    clearTimeoutIfNecessary(this.muteTimer);
+    this.muteTimer = undefined;
 
     const muteExpiresAt = this.get('muteExpiresAt');
     if (isNumber(muteExpiresAt) && muteExpiresAt < Number.MAX_SAFE_INTEGER) {

@@ -1,7 +1,8 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from '../util/durations';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { UUIDKind } from '../types/UUID';
 import * as log from '../logging/log';
 
@@ -38,9 +39,7 @@ export class RotateSignedPreKeyListener {
       waitTime = 0;
     }
 
-    if (this.timeout !== undefined) {
-      clearTimeout(this.timeout);
-    }
+    clearTimeoutIfNecessary(this.timeout);
     this.timeout = setTimeout(() => this.runWhenOnline(), waitTime);
   }
 

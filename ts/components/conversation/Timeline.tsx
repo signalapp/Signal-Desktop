@@ -18,6 +18,7 @@ import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { createRefMerger } from '../../util/refMerger';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
 import type { PropsActions as MessageActionsType } from './Message';
@@ -483,9 +484,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
 
     this.setState({ hasRecentlyScrolled: true });
-    if (this.hasRecentlyScrolledTimeout) {
-      clearTimeout(this.hasRecentlyScrolledTimeout);
-    }
+    clearTimeoutIfNecessary(this.hasRecentlyScrolledTimeout);
     this.hasRecentlyScrolledTimeout = setTimeout(() => {
       this.setState({ hasRecentlyScrolled: false });
     }, 3000);
@@ -549,10 +548,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const atTop = scrollTop <= AT_TOP_THRESHOLD;
       const loadCountdownStart = atTop && !haveOldest ? Date.now() : undefined;
 
-      if (this.loadCountdownTimeout) {
-        clearTimeout(this.loadCountdownTimeout);
-        this.loadCountdownTimeout = null;
-      }
+      clearTimeoutIfNecessary(this.loadCountdownTimeout);
+      this.loadCountdownTimeout = null;
       if (isNumber(loadCountdownStart)) {
         this.loadCountdownTimeout = setTimeout(
           this.loadOlderMessages,
@@ -746,10 +743,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const { haveOldest, isLoadingMessages, items, loadOlderMessages } =
       this.props;
 
-    if (this.loadCountdownTimeout) {
-      clearTimeout(this.loadCountdownTimeout);
-      this.loadCountdownTimeout = null;
-    }
+    clearTimeoutIfNecessary(this.loadCountdownTimeout);
+    this.loadCountdownTimeout = null;
 
     if (isLoadingMessages || haveOldest || !items || items.length < 1) {
       return;
@@ -962,9 +957,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     window.unregisterForActive(this.updateWithVisibleRows);
 
-    if (delayedPeekTimeout) {
-      clearTimeout(delayedPeekTimeout);
-    }
+    clearTimeoutIfNecessary(delayedPeekTimeout);
   }
 
   public override componentDidUpdate(

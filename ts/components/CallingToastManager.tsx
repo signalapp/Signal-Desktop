@@ -6,6 +6,7 @@ import type { ActiveCallType } from '../types/Calling';
 import { CallMode, GroupCallConnectionState } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { CallingToast, DEFAULT_LIFETIME } from './CallingToast';
 
 type PropsType = {
@@ -126,9 +127,7 @@ export const CallingToastManager: React.FC<PropsType> = props => {
   useEffect(() => {
     if (toast) {
       if (toast.type === 'dismissable') {
-        if (timeoutRef && timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
+        clearTimeoutIfNecessary(timeoutRef.current);
         timeoutRef.current = setTimeout(dismissToast, DEFAULT_LIFETIME);
       }
 
@@ -136,9 +135,7 @@ export const CallingToastManager: React.FC<PropsType> = props => {
     }
 
     return () => {
-      if (timeoutRef && timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      clearTimeoutIfNecessary(timeoutRef.current);
     };
   }, [dismissToast, setToastMessage, timeoutRef, toast]);
 

@@ -1,9 +1,10 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Readable } from 'stream';
 
 import * as Bytes from '../Bytes';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { explodePromise } from './explodePromise';
 
 export type OptionsType = Readonly<{
@@ -25,10 +26,8 @@ export function getStreamWithTimeout(
   let timer: NodeJS.Timeout | undefined;
 
   const clearTimer = () => {
-    if (timer !== undefined) {
-      clearTimeout(timer);
-      timer = undefined;
-    }
+    clearTimeoutIfNecessary(timer);
+    timer = undefined;
   };
 
   const reset = () => {

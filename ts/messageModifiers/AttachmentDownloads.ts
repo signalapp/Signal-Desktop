@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, omit } from 'lodash';
@@ -6,6 +6,7 @@ import { v4 as getGuid } from 'uuid';
 
 import dataInterface from '../sql/Client';
 import * as durations from '../util/durations';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { downloadAttachment } from '../util/downloadAttachment';
 import * as Bytes from '../Bytes';
 import type {
@@ -67,10 +68,8 @@ export async function stop(): Promise<void> {
     logger.info('attachment_downloads/stop: disabling');
   }
   enabled = false;
-  if (timeout) {
-    clearTimeout(timeout);
-    timeout = null;
-  }
+  clearTimeoutIfNecessary(timeout);
+  timeout = null;
 }
 
 export async function addJob(
@@ -115,10 +114,8 @@ export async function addJob(
 }
 
 async function _tick(): Promise<void> {
-  if (timeout) {
-    clearTimeout(timeout);
-    timeout = null;
-  }
+  clearTimeoutIfNecessary(timeout);
+  timeout = null;
 
   _maybeStartJob();
   timeout = setTimeout(_tick, TICK_INTERVAL);

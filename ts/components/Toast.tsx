@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
@@ -6,6 +6,7 @@ import React, { memo, useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 
 export type PropsType = {
   autoDismissDisabled?: boolean;
@@ -54,9 +55,7 @@ export const Toast = memo(
       const timeoutId = setTimeout(onClose, timeout);
 
       return () => {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
+        clearTimeoutIfNecessary(timeoutId);
       };
     }, [autoDismissDisabled, onClose, root, timeout]);
 

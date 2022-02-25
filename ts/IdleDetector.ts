@@ -1,8 +1,9 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import EventEmitter from 'events';
 import * as log from './logging/log';
+import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
 
 const POLL_INTERVAL_MS = 5 * 1000;
 const IDLE_THRESHOLD_MS = 20;
@@ -31,10 +32,8 @@ export class IdleDetector extends EventEmitter {
       delete this.handle;
     }
 
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
-      delete this.timeoutId;
-    }
+    clearTimeoutIfNecessary(this.timeoutId);
+    delete this.timeoutId;
   }
 
   private scheduleNextCallback() {

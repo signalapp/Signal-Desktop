@@ -45,6 +45,7 @@ import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { normalizeNumber } from '../util/normalizeNumber';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import type { DownloadedAttachmentType } from '../types/Attachment';
@@ -756,10 +757,8 @@ export default class MessageReceiver
   }
 
   private clearRetryTimeout(): void {
-    if (this.retryCachedTimeout) {
-      clearInterval(this.retryCachedTimeout);
-      this.retryCachedTimeout = undefined;
-    }
+    clearTimeoutIfNecessary(this.retryCachedTimeout);
+    this.retryCachedTimeout = undefined;
   }
 
   private maybeScheduleRetryTimeout(): void {

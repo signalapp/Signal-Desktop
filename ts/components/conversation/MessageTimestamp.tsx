@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { formatTime } from '../../util/timestamp';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 
 import type { LocalizerType } from '../../types/Util';
 
@@ -42,9 +43,7 @@ export class MessageTimestamp extends React.Component<Props> {
   }
 
   public override componentWillUnmount(): void {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    clearTimeoutIfNecessary(this.interval);
   }
 
   public override render(): JSX.Element | null {
