@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
@@ -17,6 +17,8 @@ const storageMap = new Map();
 
 // To replicate logic we have on the client side
 global.window = {
+  Date,
+  performance,
   SignalContext: {
     crypto: new Crypto(),
     log: {
