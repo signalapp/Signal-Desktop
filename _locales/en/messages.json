@@ -6816,7 +6816,7 @@
     "description": "Release notes for v5.32"
   },
   "WhatsNew__v5.34--1": {
-    "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be synced back once your Wi-Fi feels better again.",
+    "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
     "description": "Release notes for v5.34"
   }
 }
