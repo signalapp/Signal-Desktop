@@ -177,6 +177,10 @@ export abstract class Updater {
 
       if (!updateFilePath) {
         logger.warn('downloadAndInstall: no update was downloaded');
+        strictAssert(
+          mode !== DownloadMode.Automatic && mode !== DownloadMode.FullOnly,
+          'Automatic and full mode downloads are guaranteed to happen or error'
+        );
         return false;
       }
 
@@ -509,10 +513,6 @@ export abstract class Updater {
       }
 
       if (!gotUpdate) {
-        strictAssert(
-          mode !== DownloadMode.Automatic && mode !== DownloadMode.FullOnly,
-          'Automatic and full mode downloads are guaranteed to happen or error'
-        );
         return undefined;
       }
 
