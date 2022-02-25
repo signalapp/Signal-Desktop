@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
@@ -116,6 +117,24 @@ export function useExpireTimer(convoId?: string) {
 export function useIsPinned(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.isPinned);
+}
+
+export function useIsApproved(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isApproved);
+}
+
+export function useIsRequest(convoId: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(
+    convoProps &&
+      ConversationModel.hasValidRequestValues({
+        isMe: convoProps.isMe,
+        isApproved: convoProps.isMe,
+        isPrivate: convoProps.isPrivate,
+        isBlocked: convoProps.isBlocked,
+      })
+  );
 }
 
 export function useConversationPropsById(convoId?: string) {
