@@ -617,42 +617,64 @@ export async function sendToGroupViaSenderKey(options: {
       deviceIds,
     });
   };
-  const normalSendResult = await window.textsecure.messaging.sendGroupProto({
-    contentHint,
-    groupId,
-    options: { ...sendOptions, online },
-    proto: contentMessage,
-    recipients: normalSendRecipients,
-    sendLogCallback,
-    timestamp,
-  });
 
+  try {
+    const normalSendResult = await window.textsecure.messaging.sendGroupProto({
+      contentHint,
+      groupId,
+      options: { ...sendOptions, online },
+      proto: contentMessage,
+      recipients: normalSendRecipients,
+      sendLogCallback,
+      timestamp,
+    });
+
+    return mergeSendResult({
+      result: normalSendResult,
+      senderKeyRecipients,
+      senderKeyRecipientsWithDevices,
+    });
+  } catch (error: unknown) {
+    if (error instanceof SendMessageProtoError) {
+      const callbackResult = mergeSendResult({
+        result: error,
+        senderKeyRecipients,
+        senderKeyRecipientsWithDevices,
+      });
+      throw new SendMessageProtoError(callbackResult);
+    }
+
+    throw error;
+  }
+}
+
+// Utility Methods
+
+function mergeSendResult({
+  result,
+  senderKeyRecipients,
+  senderKeyRecipientsWithDevices,
+}: {
+  result: CallbackResultType | SendMessageProtoError;
+  senderKeyRecipients: Array<string>;
+  senderKeyRecipientsWithDevices: Record<string, Array<number>>;
+}): CallbackResultType {
   return {
-    dataMessage: contentMessage.dataMessage
-      ? Proto.DataMessage.encode(contentMessage.dataMessage).finish()
-      : undefined,
-    errors: normalSendResult.errors,
-    failoverIdentifiers: normalSendResult.failoverIdentifiers,
+    ...result,
     successfulIdentifiers: [
-      ...(normalSendResult.successfulIdentifiers || []),
+      ...(result.successfulIdentifiers || []),
       ...senderKeyRecipients,
     ],
     unidentifiedDeliveries: [
-      ...(normalSendResult.unidentifiedDeliveries || []),
+      ...(result.unidentifiedDeliveries || []),
       ...senderKeyRecipients,
     ],
-
-    contentHint,
-    timestamp,
-    contentProto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
     recipients: {
-      ...normalSendResult.recipients,
+      ...result.recipients,
       ...senderKeyRecipientsWithDevices,
     },
   };
 }
-
-// Utility Methods
 
 const MAX_SENDER_KEY_EXPIRE_DURATION = 90 * DAY;
 
