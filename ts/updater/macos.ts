@@ -57,7 +57,7 @@ export class MacOSUpdater extends Updater {
     //   because Squirrel has cached the update file and will do the right thing.
     logger.info('downloadAndInstall: showing update dialog...');
 
-    this.setUpdateListener(() => {
+    this.setUpdateListener(async () => {
       logger.info('performUpdate: calling quitAndInstall...');
       markShouldQuit();
       autoUpdater.quitAndInstall();

@@ -4,5 +4,5 @@
 import { ipcRenderer } from 'electron';
 
 export function startUpdate(): void {
-  ipcRenderer.send('start-update');
+  ipcRenderer.invoke('start-update');
 }

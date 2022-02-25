@@ -12,6 +12,7 @@ import {
   computeDiff,
   getBlockMapFileName,
   prepareDownload,
+  isValidPreparedData,
   download,
 } from '../../updater/differential';
 
@@ -141,6 +142,49 @@ describe('updater/differential', () => {
           writeOffset: 237403,
         },
       ]);
+    });
+
+    it('checks that the data is valid to facilitate caching', async () => {
+      const oldFilePath = path.join(FIXTURES, oldFile);
+      const newUrl = `${baseUrl}/${newFile}`;
+
+      const data = await prepareDownload({
+        oldFile: oldFilePath,
+        newUrl,
+        sha512: newHash,
+      });
+
+      assert.isTrue(
+        isValidPreparedData(data, {
+          oldFile: oldFilePath,
+          newUrl,
+          sha512: newHash,
+        })
+      );
+
+      assert.isFalse(
+        isValidPreparedData(data, {
+          oldFile: 'different file',
+          newUrl,
+          sha512: newHash,
+        })
+      );
+
+      assert.isFalse(
+        isValidPreparedData(data, {
+          oldFile: oldFilePath,
+          newUrl: 'different url',
+          sha512: newHash,
+        })
+      );
+
+      assert.isFalse(
+        isValidPreparedData(data, {
+          oldFile: oldFilePath,
+          newUrl,
+          sha512: 'different hash',
+        })
+      );
     });
 
     it('downloads the file', async () => {

@@ -81,6 +81,18 @@ story.add('Knobs Playground', () => {
       <DialogUpdate
         {...defaultPropsForBreakpoint}
         dialogType={DialogType.DownloadReady}
+        downloadSize={30123456}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  ));
+
+  story.add(`Full Download Ready (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogUpdate
+        {...defaultPropsForBreakpoint}
+        dialogType={DialogType.FullDownloadReady}
+        downloadSize={300123456}
         currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>

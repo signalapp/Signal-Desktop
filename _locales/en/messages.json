@@ -2467,6 +2467,10 @@
   "downloadNewVersionMessage": {
     "message": "Click to download update"
   },
+  "downloadFullNewVersionMessage": {
+    "message": "Signal couldn’t update. Click to try again.",
+    "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+  },
   "autoUpdateNewVersionInstructions": {
     "message": "Press Restart Signal to apply the updates."
   },

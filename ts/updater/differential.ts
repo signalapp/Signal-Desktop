@@ -53,6 +53,9 @@ export type PrepareDownloadResultType = Readonly<{
   newUrl: string;
   sha512: string;
   diff: ComputeDiffResultType;
+
+  // This could be used by caller to avoid extra download of the blockmap
+  newBlockMap: Buffer;
 }>;
 
 export type PrepareDownloadOptionsType = Readonly<{
@@ -182,9 +185,12 @@ export async function prepareDownload({
     await readFile(getBlockMapFileName(oldFile))
   );
 
-  const newBlockMap = await parseBlockMap(
-    await got(getBlockMapFileName(newUrl), getGotOptions()).buffer()
-  );
+  const newBlockMapData = await got(
+    getBlockMapFileName(newUrl),
+    getGotOptions()
+  ).buffer();
+
+  const newBlockMap = await parseBlockMap(newBlockMapData);
 
   const diff = computeDiff(oldBlockMap, newBlockMap);
 
@@ -200,8 +206,20 @@ export async function prepareDownload({
     diff,
     oldFile,
     newUrl,
+    newBlockMap: newBlockMapData,
     sha512,
   };
+}
+
+export function isValidPreparedData(
+  { oldFile, newUrl, sha512 }: PrepareDownloadResultType,
+  options: PrepareDownloadOptionsType
+): boolean {
+  return (
+    oldFile === options.oldFile &&
+    newUrl === options.newUrl &&
+    sha512 === options.sha512
+  );
 }
 
 export async function download(
@@ -221,66 +239,71 @@ export async function download(
   const gotOptions = getGotOptions();
 
   let downloadedSize = 0;
+  let isAborted = false;
 
-  await pMap(
-    diff,
-    async ({ action, readOffset, size, writeOffset }) => {
-      if (action === 'copy') {
-        const chunk = Buffer.alloc(size);
-        const { bytesRead } = await input.read(
-          chunk,
-          0,
-          chunk.length,
-          readOffset
-        );
+  try {
+    await pMap(
+      diff,
+      async ({ action, readOffset, size, writeOffset }) => {
+        if (action === 'copy') {
+          const chunk = Buffer.alloc(size);
+          const { bytesRead } = await input.read(
+            chunk,
+            0,
+            chunk.length,
+            readOffset
+          );
 
-        strictAssert(
-          bytesRead === size,
-          `Not enough data to read from offset=${readOffset} size=${size}`
-        );
+          strictAssert(
+            bytesRead === size,
+            `Not enough data to read from offset=${readOffset} size=${size}`
+          );
 
-        await output.write(chunk, 0, chunk.length, writeOffset);
-
-        downloadedSize += chunk.length;
-        statusCallback?.(downloadedSize);
-        return;
-      }
-
-      strictAssert(action === 'download', 'invalid action type');
-      const stream = got.stream(`${newUrl}`, {
-        ...gotOptions,
-        headers: {
-          range: `bytes=${readOffset}-${readOffset + size - 1}`,
-        },
-      });
-
-      stream.once('response', ({ statusCode }) => {
-        if (statusCode !== 206) {
-          stream.destroy(new Error(`Invalid status code: ${statusCode}`));
+          await output.write(chunk, 0, chunk.length, writeOffset);
+          return;
         }
-      });
 
-      let lastOffset = writeOffset;
-      for await (const chunk of stream) {
+        strictAssert(action === 'download', 'invalid action type');
+        const stream = got.stream(`${newUrl}`, {
+          ...gotOptions,
+          headers: {
+            range: `bytes=${readOffset}-${readOffset + size - 1}`,
+          },
+        });
+
+        stream.once('response', ({ statusCode }) => {
+          if (statusCode !== 206) {
+            stream.destroy(new Error(`Invalid status code: ${statusCode}`));
+          }
+        });
+
+        let lastOffset = writeOffset;
+        for await (const chunk of stream) {
+          strictAssert(
+            lastOffset - writeOffset + chunk.length <= size,
+            'Server returned more data than expected'
+          );
+          await output.write(chunk, 0, chunk.length, lastOffset);
+          lastOffset += chunk.length;
+
+          downloadedSize += chunk.length;
+          if (!isAborted) {
+            statusCallback?.(downloadedSize);
+          }
+        }
         strictAssert(
-          lastOffset - writeOffset + chunk.length <= size,
-          'Server returned more data than expected'
+          lastOffset - writeOffset === size,
+          `Not enough data to download from offset=${readOffset} size=${size}`
         );
-        await output.write(chunk, 0, chunk.length, lastOffset);
-        lastOffset += chunk.length;
-
-        downloadedSize += chunk.length;
-        statusCallback?.(downloadedSize);
-      }
-      strictAssert(
-        lastOffset - writeOffset === size,
-        `Not enough data to download from offset=${readOffset} size=${size}`
-      );
-    },
-    { concurrency: MAX_CONCURRENCY }
-  );
-
-  await Promise.all([input.close(), output.close()]);
+      },
+      { concurrency: MAX_CONCURRENCY }
+    );
+  } catch (error) {
+    isAborted = true;
+    throw error;
+  } finally {
+    await Promise.all([input.close(), output.close()]);
+  }
 
   const checkResult = await checkIntegrity(tempFile, sha512);
   strictAssert(checkResult.ok, checkResult.error ?? '');

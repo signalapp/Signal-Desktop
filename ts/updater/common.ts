@@ -48,6 +48,7 @@ import {
   prepareDownload as prepareDifferentialDownload,
   download as downloadDifferentialData,
   getBlockMapFileName,
+  isValidPreparedData as isValidDifferentialData,
 } from './differential';
 
 const mkdirpPromise = pify(mkdirp);
@@ -76,16 +77,35 @@ export type UpdateInformationType = {
   differentialData: DifferentialDownloadDataType | undefined;
 };
 
+enum DownloadMode {
+  DifferentialOnly = 'DifferentialOnly',
+  FullOnly = 'FullOnly',
+  Automatic = 'Automatic',
+}
+
 export abstract class Updater {
   protected fileName: string | undefined;
 
   protected version: string | undefined;
 
+  protected cachedDifferentialData: DifferentialDownloadDataType | undefined;
+
+  private throttledSendDownloadingUpdate: (downloadedSize: number) => void;
+
   constructor(
     protected readonly logger: LoggerType,
     private readonly settingsChannel: SettingsChannel,
     protected readonly getMainWindow: () => BrowserWindow | undefined
-  ) {}
+  ) {
+    this.throttledSendDownloadingUpdate = throttle((downloadedSize: number) => {
+      const mainWindow = this.getMainWindow();
+      mainWindow?.webContents.send(
+        'show-update-dialog',
+        DialogType.Downloading,
+        { downloadedSize }
+      );
+    }, 500);
+  }
 
   //
   // Public APIs
@@ -122,9 +142,11 @@ export abstract class Updater {
   // Protected methods
   //
 
-  protected setUpdateListener(performUpdateCallback: () => void): void {
-    ipcMain.removeAllListeners('start-update');
-    ipcMain.once('start-update', performUpdateCallback);
+  protected setUpdateListener(
+    performUpdateCallback: () => Promise<void>
+  ): void {
+    ipcMain.removeHandler('start-update');
+    ipcMain.handleOnce('start-update', performUpdateCallback);
   }
 
   //
@@ -133,8 +155,8 @@ export abstract class Updater {
 
   private async downloadAndInstall(
     updateInfo: UpdateInformationType,
-    updateOnProgress?: boolean
-  ): Promise<void> {
+    mode: DownloadMode
+  ): Promise<boolean> {
     const { logger } = this;
 
     const { fileName: newFileName, version: newVersion } = updateInfo;
@@ -144,16 +166,18 @@ export abstract class Updater {
 
       this.version = newVersion;
 
-      let updateFilePath: string;
+      let updateFilePath: string | undefined;
       try {
-        updateFilePath = await this.downloadUpdate(
-          updateInfo,
-          updateOnProgress
-        );
+        updateFilePath = await this.downloadUpdate(updateInfo, mode);
       } catch (error) {
         // Restore state in case of download error
         this.version = oldVersion;
         throw error;
+      }
+
+      if (!updateFilePath) {
+        logger.warn('downloadAndInstall: no update was downloaded');
+        return false;
       }
 
       const publicKey = hexToBinary(config.get('updatesPublicKey'));
@@ -183,8 +207,11 @@ export abstract class Updater {
           'downloadAndInstall: no mainWindow, cannot show update dialog'
         );
       }
+
+      return true;
     } catch (error) {
       logger.error(`downloadAndInstall: ${Errors.toLogFormat(error)}`);
+      throw error;
     }
   }
 
@@ -192,42 +219,80 @@ export abstract class Updater {
     const { logger } = this;
 
     logger.info('checkForUpdatesMaybeInstall: checking for update...');
-    const result = await this.checkForUpdates(force);
-    if (!result) {
+    const updateInfo = await this.checkForUpdates(force);
+    if (!updateInfo) {
       return;
     }
 
-    const { version: newVersion } = result;
+    const { version: newVersion } = updateInfo;
 
-    if (force || !this.version || gt(newVersion, this.version)) {
-      const autoDownloadUpdates = await this.getAutoDownloadUpdateSetting();
-      if (!autoDownloadUpdates) {
-        this.setUpdateListener(async () => {
-          logger.info(
-            'checkForUpdatesMaybeInstall: have not downloaded update, going to download'
-          );
-          await this.downloadAndInstall(result, true);
-        });
-        const mainWindow = this.getMainWindow();
-
-        if (mainWindow) {
-          mainWindow.webContents.send(
-            'show-update-dialog',
-            DialogType.DownloadReady,
-            {
-              downloadSize: result.size,
-              version: result.version,
-            }
-          );
-        } else {
-          logger.warn(
-            'checkForUpdatesMaybeInstall: no mainWindow, cannot show update dialog'
-          );
-        }
-        return;
-      }
-      await this.downloadAndInstall(result);
+    if (!force && this.version && !gt(newVersion, this.version)) {
+      return;
     }
+
+    const autoDownloadUpdates = await this.getAutoDownloadUpdateSetting();
+    if (autoDownloadUpdates) {
+      await this.downloadAndInstall(updateInfo, DownloadMode.Automatic);
+      return;
+    }
+
+    let mode = DownloadMode.FullOnly;
+    if (updateInfo.differentialData) {
+      mode = DownloadMode.DifferentialOnly;
+    }
+
+    await this.offerUpdate(updateInfo, mode, 0);
+  }
+
+  private async offerUpdate(
+    updateInfo: UpdateInformationType,
+    mode: DownloadMode,
+    attempt: number
+  ): Promise<void> {
+    const { logger } = this;
+
+    this.setUpdateListener(async () => {
+      logger.info('offerUpdate: have not downloaded update, going to download');
+
+      const didDownload = await this.downloadAndInstall(updateInfo, mode);
+      if (!didDownload && mode === DownloadMode.DifferentialOnly) {
+        this.logger.warn(
+          'offerUpdate: Failed to download differential update, offering full'
+        );
+
+        return this.offerUpdate(updateInfo, DownloadMode.FullOnly, attempt + 1);
+      }
+
+      strictAssert(didDownload, 'FullOnly must always download update');
+    });
+
+    const mainWindow = this.getMainWindow();
+    if (!mainWindow) {
+      logger.warn('offerUpdate: no mainWindow, cannot show update dialog');
+      return;
+    }
+
+    let downloadSize: number;
+    if (mode === DownloadMode.DifferentialOnly) {
+      strictAssert(
+        updateInfo.differentialData,
+        'Must have differential data in DifferentialOnly mode'
+      );
+      downloadSize = updateInfo.differentialData.downloadSize;
+    } else {
+      downloadSize = updateInfo.size;
+    }
+
+    logger.info(`offerUpdate: offering ${mode} update`);
+    mainWindow.webContents.send(
+      'show-update-dialog',
+      attempt === 0 ? DialogType.DownloadReady : DialogType.FullDownloadReady,
+      {
+        downloadSize,
+        downloadMode: mode,
+        version: updateInfo.version,
+      }
+    );
   }
 
   private async checkForUpdates(
@@ -278,22 +343,36 @@ export abstract class Updater {
         `checkForUpdates: Found local installer ${latestInstaller}`
       );
 
-      try {
-        differentialData = await prepareDifferentialDownload({
-          oldFile: latestInstaller,
-          newUrl: `${getUpdatesBase()}/${fileName}`,
-          sha512,
-        });
+      const diffOptions = {
+        oldFile: latestInstaller,
+        newUrl: `${getUpdatesBase()}/${fileName}`,
+        sha512,
+      };
 
-        this.logger.info(
-          'checkForUpdates: differential download size',
-          differentialData.downloadSize
-        );
-      } catch (error) {
-        this.logger.error(
-          'checkForUpdates: Failed to prepare differential update',
-          Errors.toLogFormat(error)
-        );
+      if (
+        this.cachedDifferentialData &&
+        isValidDifferentialData(this.cachedDifferentialData, diffOptions)
+      ) {
+        this.logger.info('checkForUpdates: using cached differential data');
+
+        differentialData = this.cachedDifferentialData;
+      } else {
+        try {
+          differentialData = await prepareDifferentialDownload(diffOptions);
+
+          this.cachedDifferentialData = differentialData;
+
+          this.logger.info(
+            'checkForUpdates: differential download size',
+            differentialData.downloadSize
+          );
+        } catch (error) {
+          this.logger.error(
+            'checkForUpdates: Failed to prepare differential update',
+            Errors.toLogFormat(error)
+          );
+          this.cachedDifferentialData = undefined;
+        }
       }
     }
 
@@ -319,10 +398,12 @@ export abstract class Updater {
 
   private async downloadUpdate(
     { fileName, sha512, differentialData }: UpdateInformationType,
-    updateOnProgress?: boolean
-  ): Promise<string> {
+    mode: DownloadMode
+  ): Promise<string | undefined> {
     const baseUrl = getUpdatesBase();
     const updateFileUrl = `${baseUrl}/${fileName}`;
+
+    const updateOnProgress = mode !== DownloadMode.Automatic;
 
     const signatureFileName = getSignatureFileName(fileName);
     const blockMapFileName = getBlockMapFileName(fileName);
@@ -356,15 +437,22 @@ export abstract class Updater {
       const signature = await got(signatureUrl, getGotOptions()).buffer();
       await writeFile(targetSignaturePath, signature);
 
-      try {
-        this.logger.info(`downloadUpdate: Downloading blockmap ${blockMapUrl}`);
-        const blockMap = await got(blockMapUrl, getGotOptions()).buffer();
-        await writeFile(targetBlockMapPath, blockMap);
-      } catch (error) {
-        this.logger.warn(
-          'downloadUpdate: Failed to download blockmap, continuing',
-          Errors.toLogFormat(error)
-        );
+      if (differentialData) {
+        this.logger.info(`downloadUpdate: Saving blockmap ${blockMapUrl}`);
+        await writeFile(targetBlockMapPath, differentialData.newBlockMap);
+      } else {
+        try {
+          this.logger.info(
+            `downloadUpdate: Downloading blockmap ${blockMapUrl}`
+          );
+          const blockMap = await got(blockMapUrl, getGotOptions()).buffer();
+          await writeFile(targetBlockMapPath, blockMap);
+        } catch (error) {
+          this.logger.warn(
+            'downloadUpdate: Failed to download blockmap, continuing',
+            Errors.toLogFormat(error)
+          );
+        }
       }
 
       let gotUpdate = false;
@@ -384,26 +472,18 @@ export abstract class Updater {
         }
       }
 
-      if (!gotUpdate && differentialData) {
+      const isDifferentialEnabled =
+        differentialData && mode !== DownloadMode.FullOnly;
+      if (!gotUpdate && isDifferentialEnabled) {
         this.logger.info(
           `downloadUpdate: Downloading differential update ${updateFileUrl}`
         );
 
         try {
-          const mainWindow = this.getMainWindow();
-
-          const throttledSend = throttle((downloadedSize: number) => {
-            mainWindow?.webContents.send(
-              'show-update-dialog',
-              DialogType.Downloading,
-              { downloadedSize }
-            );
-          }, 500);
-
           await downloadDifferentialData(
             targetUpdatePath,
             differentialData,
-            updateOnProgress ? throttledSend : undefined
+            updateOnProgress ? this.throttledSendDownloadingUpdate : undefined
           );
 
           gotUpdate = true;
@@ -415,7 +495,8 @@ export abstract class Updater {
         }
       }
 
-      if (!gotUpdate) {
+      const isFullEnabled = mode !== DownloadMode.DifferentialOnly;
+      if (!gotUpdate && isFullEnabled) {
         this.logger.info(
           `downloadUpdate: Downloading full update ${updateFileUrl}`
         );
@@ -426,7 +507,14 @@ export abstract class Updater {
         );
         gotUpdate = true;
       }
-      strictAssert(gotUpdate, 'We should get the update one way or another');
+
+      if (!gotUpdate) {
+        strictAssert(
+          mode !== DownloadMode.Automatic && mode !== DownloadMode.FullOnly,
+          'Automatic and full mode downloads are guaranteed to happen or error'
+        );
+        return undefined;
+      }
 
       // Now that we successfully downloaded an update - remove old files
       await Promise.all(oldFiles.map(path => rimrafPromise(path)));
@@ -451,21 +539,12 @@ export abstract class Updater {
     const writeStream = createWriteStream(targetUpdatePath);
 
     await new Promise<void>((resolve, reject) => {
-      const mainWindow = this.getMainWindow();
-      if (updateOnProgress && mainWindow) {
+      if (updateOnProgress) {
         let downloadedSize = 0;
-
-        const throttledSend = throttle(() => {
-          mainWindow.webContents.send(
-            'show-update-dialog',
-            DialogType.Downloading,
-            { downloadedSize }
-          );
-        }, 500);
 
         downloadStream.on('data', data => {
           downloadedSize += data.length;
-          throttledSend();
+          this.throttledSendDownloadingUpdate(downloadedSize);
         });
       }
 

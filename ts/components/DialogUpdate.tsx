@@ -137,6 +137,7 @@ export const DialogUpdate = ({
   if (
     downloadSize &&
     (dialogType === DialogType.DownloadReady ||
+      dialogType === DialogType.FullDownloadReady ||
       dialogType === DialogType.Downloading)
   ) {
     title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
@@ -169,8 +170,12 @@ export const DialogUpdate = ({
   }
 
   let clickLabel: string;
+  let type: 'warning' | undefined;
   if (dialogType === DialogType.DownloadReady) {
     clickLabel = i18n('downloadNewVersionMessage');
+  } else if (dialogType === DialogType.FullDownloadReady) {
+    clickLabel = i18n('downloadFullNewVersionMessage');
+    type = 'warning';
   } else {
     clickLabel = i18n('autoUpdateNewVersionMessage');
   }
@@ -179,6 +184,7 @@ export const DialogUpdate = ({
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}
       icon="update"
+      type={type}
       title={title}
       hoverText={versionTitle}
       hasAction

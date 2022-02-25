@@ -9,5 +9,6 @@ export enum DialogType {
   Cannot_Update = 'Cannot_Update',
   MacOS_Read_Only = 'MacOS_Read_Only',
   DownloadReady = 'DownloadReady',
+  FullDownloadReady = 'FullDownloadReady',
   Downloading = 'Downloading',
 }
