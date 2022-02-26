@@ -1246,8 +1246,8 @@ async function fetchKeysForIdentifier(
       });
       window.Signal.Data.updateConversation(emptyConversation.attributes);
     }
-  } catch (error) {
-    if (error.name === 'UnregisteredUserError') {
+  } catch (error: unknown) {
+    if (error instanceof UnregisteredUserError) {
       await markIdentifierUnregistered(identifier);
       return;
     }

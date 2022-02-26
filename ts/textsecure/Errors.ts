@@ -73,15 +73,8 @@ export class ReplayableError extends Error {
 export class OutgoingIdentityKeyError extends ReplayableError {
   identifier: string;
 
-  identityKey: Uint8Array;
-
   // Note: Data to resend message is no longer captured
-  constructor(
-    incomingIdentifier: string,
-    _m: Uint8Array,
-    _t: number,
-    identityKey: Uint8Array
-  ) {
+  constructor(incomingIdentifier: string) {
     const identifier = incomingIdentifier.split('.')[0];
 
     super({
@@ -90,7 +83,6 @@ export class OutgoingIdentityKeyError extends ReplayableError {
     });
 
     this.identifier = identifier;
-    this.identityKey = identityKey;
   }
 }
 

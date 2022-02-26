@@ -178,12 +178,7 @@ describe('sendToGroup', () => {
     it('returns true for certain types of error subclasses', async () => {
       assert.isTrue(
         _shouldFailSend(
-          new OutgoingIdentityKeyError(
-            'something',
-            new Uint8Array(),
-            200,
-            new Uint8Array()
-          ),
+          new OutgoingIdentityKeyError('something'),
           'testing OutgoingIdentityKeyError'
         )
       );

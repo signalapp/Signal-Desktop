@@ -1307,7 +1307,7 @@ export async function modifyGroupV2({
         await conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.GroupUpdate,
           conversationId: conversation.id,
-          groupChangeBase64: Bytes.toBase64(groupChangeBuffer),
+          groupChangeBase64,
           recipients: groupV2Info.members,
           revision: groupV2Info.revision,
         });

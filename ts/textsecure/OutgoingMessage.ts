@@ -707,12 +707,7 @@ export default class OutgoingMessage {
       await this.reloadDevicesAndSend(identifier, true)();
     } catch (error) {
       if (error?.message?.includes('untrusted identity for address')) {
-        const newError = new OutgoingIdentityKeyError(
-          identifier,
-          error.originalMessage,
-          error.timestamp,
-          error.identityKey && new Uint8Array(error.identityKey)
-        );
+        const newError = new OutgoingIdentityKeyError(identifier);
         this.registerError(identifier, 'Untrusted identity', newError);
       } else {
         this.registerError(
