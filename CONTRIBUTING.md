@@ -13,14 +13,15 @@ It's a good idea to gauge interest in your intended work by finding the current 
 for it or creating a new one yourself. You can use also that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
 
-Once you've spent a little bit of time planning your solution, it's a good idea to go
+Once you've spent a little bit of time planning your solution, you can go
 back to the issue and talk about your approach. We'd be happy to provide feedback. [An
 ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ounce-of-prevention-is-worth-a-pound-of-cure)
 
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
-You can check [`.nvmrc` in the `development` branch](https://github.com/signalapp/Signal-Desktop/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
+You can check [`.nvmrc` in the `development` branch](https://github.com/signalapp/Signal-Desktop/blob/development/.nvmrc)
+to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
 you can just run `nvm use` in the project directory and it will switch to the project's
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
 still useful, but it doesn't support `.nvmrc` files.
@@ -47,17 +48,16 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 1.  Install `gcc`
 1.  Install `g++`
 1.  Install `make`
-1.  Install `git-lfs`
 
 ### All platforms
 
 Now, run these commands in your preferred terminal in a good directory for development:
 
 ```
+git lfs install                # Setup Git LFS.
+npm install --global yarn      # Make sure you have have `yarn`
 git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
-git-lfs install                # Setup Git LFS.
-npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn generate                  # Generate final JS and CSS assets
 yarn build:webpack             # Build parts of the app that use webpack (Sticker Creator)
@@ -181,17 +181,9 @@ Please write tests! Our testing framework is
 [mocha](http://mochajs.org/) and our assertion library is
 [chai](http://chaijs.com/api/assert/).
 
-The easiest way to run all tests at once is `yarn test`.
-
-You can browse tests from the command line with `grunt unit-tests` or in an
-interactive session with `NODE_ENV=test yarn run start`.
-
-If you want to run the `libtextsecure` tests, you can run `yarn run test-electron`,
-which also runs the unit tests.
-
-To run Node.js tests, you can run `yarn test-server` from the command line. You can get
-code coverage numbers for this kind of run via `yarn test-server-coverage`, then display
-the report with `yarn open-coverage`.
+The easiest way to run all tests at once is `yarn test`, which will run them on the
+command line. You can run the client-side tests in an interactive session with
+`NODE_ENV=test yarn run start`.
 
 ## Pull requests
 
@@ -200,8 +192,7 @@ So you wanna make a pull request? Please observe the following guidelines.
 - First, make sure that your `yarn ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
 - Please do not submit pull requests for translation fixes. Anyone can update
-  the translations in
-  [Transifex](https://www.transifex.com/projects/p/signal-desktop).
+  the translations in [Transifex](https://www.transifex.com/projects/p/signal-desktop).
 - Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are generated
@@ -211,7 +202,7 @@ So you wanna make a pull request? Please observe the following guidelines.
   changes on the latest `development` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
 - Be sure to add and run tests!
-- Make sure the diff between our master and your branch contains only the
+- Make sure the diff between the development branch and your branch contains only the
   minimal set of changes needed to implement your feature or bugfix. This will
   make it easier for the person reviewing your code to approve the changes.
   Please do not submit a PR with commented out code or unfinished features.
@@ -294,4 +285,4 @@ To pull the latest translations, follow these steps:
 3.  Generate API token: https://www.transifex.com/user/settings/api/
 4.  Create `~/.transifexrc` configuration:
     https://docs.transifex.com/client/client-configuration#-transifexrc
-5.  Run `yarn grunt tx`.
+5.  Run `yarn get-strings`.
