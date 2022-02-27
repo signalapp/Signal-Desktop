@@ -425,7 +425,6 @@
       "debug_log.html",
       "loading.html",
       "_locales/**",
-      "protos/*",
       "js/**",
       "libtextsecure/**",
       "ts/**/*.js",
