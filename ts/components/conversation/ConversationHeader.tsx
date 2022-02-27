@@ -367,16 +367,18 @@ export const ConversationHeaderWithDetails = () => {
         {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
         {!isSelectionMode && (
-          <>
-            <CallButton />
-            <AvatarHeader
-              onAvatarClick={() => {
-                dispatch(openRightPanel());
-              }}
-              pubkey={selectedConvoKey}
-              showBackButton={isMessageDetailOpened}
-            />
-          </>
+          <RelativePositionAnchor>
+            <ConversationHeaderButtonContainer>
+              <CallButton />
+              <AvatarHeader
+                onAvatarClick={() => {
+                  dispatch(openRightPanel());
+                }}
+                pubkey={selectedConvoKey}
+                showBackButton={isMessageDetailOpened}
+              />
+            </ConversationHeaderButtonContainer>
+          </RelativePositionAnchor>
         )}
 
         <ConversationHeaderMenu triggerId={triggerId} />
@@ -386,3 +388,15 @@ export const ConversationHeaderWithDetails = () => {
     </div>
   );
 };
+
+export const RelativePositionAnchor = styled.div`
+  position: relative;
+`;
+
+export const ConversationHeaderButtonContainer = styled.div`
+  position: absolute;
+  transform: translate(-100%, -50%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
