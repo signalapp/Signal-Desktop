@@ -1894,7 +1894,7 @@ export class Message extends React.PureComponent<Props, State> {
         };
       }
 
-      return { reactionViewerRoot: null };
+      return null;
     });
   };
 
@@ -1925,7 +1925,7 @@ export class Message extends React.PureComponent<Props, State> {
         };
       }
 
-      return { reactionPickerRoot: null };
+      return null;
     });
   };
 
