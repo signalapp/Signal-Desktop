@@ -8,11 +8,9 @@ import { getSelectedConversation } from '../../state/selectors/conversations';
 
 export const ConversationRequestinfo = () => {
   const selectedConversation = useSelector(getSelectedConversation);
-  const showMsgRequestUI =
-    selectedConversation &&
-    getConversationController()
-      .get(selectedConversation.id)
-      .isRequest();
+  const convoModel =
+    selectedConversation && getConversationController().get(selectedConversation.id);
+  const showMsgRequestUI = selectedConversation && convoModel && convoModel.isRequest();
   const [hasIncomingMessages, setHasIncomingMessages] = useState(false);
   const [incomingChecked, setIncomingChecked] = useState(false);
 
