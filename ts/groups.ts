@@ -2228,6 +2228,18 @@ export function buildMigrationBubble(
   };
 }
 
+export function getBasicMigrationBubble(): MessageAttributesType {
+  return {
+    ...generateBasicMessage(),
+    type: 'group-v1-migration',
+    groupMigration: {
+      areWeInvited: false,
+      invitedMembers: [],
+      droppedMemberIds: [],
+    },
+  };
+}
+
 export async function joinGroupV2ViaLinkAndMigrate({
   approvalRequired,
   conversation,
@@ -2339,8 +2351,7 @@ export async function respondToGroupV2Migration({
   }
 
   const ourUuid = window.storage.user.getCheckedUuid().toString();
-  const wereWePreviouslyAMember =
-    !conversation.get('left') && conversation.hasMember(ourUuid);
+  const wereWePreviouslyAMember = conversation.hasMember(ourUuid);
 
   // Derive GroupV2 fields
   const groupV1IdBuffer = Bytes.fromBinary(previousGroupV1Id);
@@ -2423,8 +2434,14 @@ export async function respondToGroupV2Migration({
             `respondToGroupV2Migration/${logId}: Failed to access state endpoint; user is no longer part of group`
           );
 
-          // We don't want to add another event to the timeline
+          if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
+            window.storage.blocked.addBlockedGroup(groupId);
+          }
+
           if (wereWePreviouslyAMember) {
+            log.info(
+              `respondToGroupV2Migration/${logId}: Upgrading group with migration/removed events`
+            );
             const ourNumber = window.textsecure.storage.user.getNumber();
             await updateGroup({
               conversation,
@@ -2432,13 +2449,15 @@ export async function respondToGroupV2Migration({
               sentAt,
               updates: {
                 newAttributes: {
-                  ...conversation.attributes,
+                  // Because we're using attributes here, we upgrade this to a v2 group
+                  ...attributes,
                   left: true,
                   members: (conversation.get('members') || []).filter(
                     item => item !== ourUuid && item !== ourNumber
                   ),
                 },
                 groupChangeMessages: [
+                  getBasicMigrationBubble(),
                   {
                     ...generateBasicMessage(),
                     type: 'group-v2-change',
@@ -2457,6 +2476,21 @@ export async function respondToGroupV2Migration({
             });
             return;
           }
+
+          log.info(
+            `respondToGroupV2Migration/${logId}: Upgrading group with migration event; no removed event`
+          );
+          await updateGroup({
+            conversation,
+            receivedAt,
+            sentAt,
+            updates: {
+              newAttributes: attributes,
+              groupChangeMessages: [getBasicMigrationBubble()],
+              members: [],
+            },
+          });
+          return;
         }
         throw secondError;
       }
