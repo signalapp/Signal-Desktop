@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
@@ -89,7 +89,6 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const { handleOnClick } = props;
   const conversationRequests = useSelector(getConversationRequests);
   const hideRequestBanner = useSelector(getHideMessageRequestBanner);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   if (!conversationRequests.length || hideRequestBanner) {
     return null;
@@ -102,36 +101,36 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
       id: triggerId,
       event: e,
     });
-
-    setIsMenuOpen(true);
   };
 
-  const handleOnClickBanner = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.button === 0 && !isMenuOpen) {
+  const openRequests = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button === 0) {
       handleOnClick();
     }
   };
 
   return (
-    <StyledMessageRequestBanner
-      onContextMenu={handleOnContextMenu}
-      onClick={handleOnClickBanner}
-      onMouseUp={e => {
-        e.stopPropagation();
-        e.preventDefault();
-      }}
-    >
-      <CirclularIcon iconType="messageRequest" iconSize="medium" />
-      <StyledMessageRequestBannerHeader>
-        {window.i18n('messageRequests')}
-      </StyledMessageRequestBannerHeader>
-      <StyledUnreadCounter>
-        <div>{conversationRequests.length || 0}</div>
-      </StyledUnreadCounter>
+    <>
+      <StyledMessageRequestBanner
+        onContextMenu={handleOnContextMenu}
+        onClick={openRequests}
+        onMouseUp={e => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
+        <CirclularIcon iconType="messageRequest" iconSize="medium" />
+        <StyledMessageRequestBannerHeader>
+          {window.i18n('messageRequests')}
+        </StyledMessageRequestBannerHeader>
+        <StyledUnreadCounter>
+          <div>{conversationRequests.length || 0}</div>
+        </StyledUnreadCounter>
+      </StyledMessageRequestBanner>
       <Portal>
         <MemoMessageRequestBannerContextMenu triggerId={triggerId} />
       </Portal>
-    </StyledMessageRequestBanner>
+    </>
   );
 };
 
