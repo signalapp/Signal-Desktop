@@ -1349,10 +1349,10 @@
     "@react-spring/shared" "~9.4.0"
     "@react-spring/types" "~9.4.0"
 
-"@signalapp/mock-server@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.1.1.tgz#b290feeb107a3d644851708ff31bb4cd9733aa87"
-  integrity sha512-bk+fMFwRtwE4zbhryIhqPoumXX1L91kJQbHjfl2i4If47LDM9ik44vVGblIqO7l8Wf1nKDD/tTemZU5w69f5qA==
+"@signalapp/mock-server@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.1.2.tgz#008c46cd6f29cb5b91a3414c9c74bc770021b853"
+  integrity sha512-rkxPzbbiD6HMeeb6fe7li5H7jwzJuWQPuA7tP74KYoRLf0LeFlbRdHSrqZ4GxpA63Zu0vzC3h2bC8E2F1JM4Eg==
   dependencies:
     "@signalapp/signal-client" "0.12.1"
     debug "^4.3.2"

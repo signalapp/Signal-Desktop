@@ -270,7 +270,7 @@ export class Bootstrap {
   //
 
   private async generateConfig(port: number): Promise<string> {
-    const url = `https://mock.signal.org:${port}`;
+    const url = `https://127.0.0.1:${port}`;
     return JSON.stringify({
       ...(await loadCertificates()),
 

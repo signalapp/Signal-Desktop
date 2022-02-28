@@ -50,9 +50,6 @@ jobs:
     - name: Bundle
       run: yarn build:webpack
 
-    - name: Setup hosts
-      run: sudo echo "127.0.0.1 mock.signal.org" | sudo tee -a /etc/hosts
-
     - name: Run startup benchmarks
       run: |
         set -o pipefail
