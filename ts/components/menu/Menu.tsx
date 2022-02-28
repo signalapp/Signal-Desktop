@@ -409,7 +409,14 @@ export const CopyMenuItem = (): JSX.Element | null => {
 
 export const MarkAllReadMenuItem = (): JSX.Element | null => {
   const convoId = useContext(ContextConversationId);
-  return <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>;
+  const isRequest = useIsRequest(convoId);
+  if (!isRequest) {
+    return (
+      <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
+    );
+  } else {
+    return null;
+  }
 };
 
 export const DisappearingMessageMenuItem = (): JSX.Element | null => {
