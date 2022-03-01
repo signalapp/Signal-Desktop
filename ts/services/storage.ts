@@ -1105,9 +1105,7 @@ async function processRemoteRecords(
       `storageService.process(${storageVersion}): ` +
         `attempting to merge records=${prunedStorageItems.length}`
     );
-    if (accountItem === undefined) {
-      log.warn(`storageService.process(${storageVersion}): no account record`);
-    } else {
+    if (accountItem !== undefined) {
       log.info(
         `storageService.process(${storageVersion}): account ` +
           `record=${redactStorageID(accountItem.storageID, storageVersion)}`
