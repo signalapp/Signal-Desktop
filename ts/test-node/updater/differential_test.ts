@@ -17,6 +17,7 @@ import {
 } from '../../updater/differential';
 
 const FIXTURES = path.join(__dirname, '..', '..', '..', 'fixtures');
+const CRLF = '\r\n';
 
 describe('updater/differential', () => {
   describe('computeDiff', () => {
@@ -60,8 +61,8 @@ describe('updater/differential', () => {
     const newFile = 'diff-modified.bin';
     const newBlockFile = getBlockMapFileName(newFile);
     const newHash =
-      '1+eipIhsN0KhpXQdRnXnGzdBCP3sgYqIXf+WK/KDK08' +
-      'VvH0acjX9PGf+ilIVYYWsOqp02lxrdx4gXW7V+RZY5w==';
+      'oEXIz7JVN1phjmumPLVQuwSYa+tHLEn5/a+q9w/pbk' +
+      'bnCaXAioWrAIq1P9HeqNQ0Lpsb4mWey632DUPnUXqfiw==';
 
     const allowedFiles = new Set([
       oldFile,
@@ -82,26 +83,52 @@ describe('updater/differential', () => {
           return;
         }
 
-        const range = req.headers.range?.match(/^bytes=(\d+)-(\d+)$/);
+        const fullFile = await fs.readFile(path.join(FIXTURES, file));
 
-        let content = await fs.readFile(path.join(FIXTURES, file));
-        const totalSize = content.length;
-        if (range) {
-          content = content.slice(
-            parseInt(range[1], 10),
-            parseInt(range[2], 10) + 1
-          );
-
-          res.setHeader(
-            'content-range',
-            `bytes ${range[1]}-${range[2]}/${totalSize}`
-          );
-          res.writeHead(206);
-        } else {
+        const rangeHeader = req.headers.range?.match(/^bytes=([\d,\s-]+)$/);
+        if (!rangeHeader) {
           res.writeHead(200);
+          res.end(fullFile);
+          return;
         }
 
-        res.end(content);
+        const ranges = rangeHeader[1].split(/\s*,\s*/g).map(value => {
+          const range = value.match(/^(\d+)-(\d+)$/);
+          strictAssert(range, `Invalid header: ${rangeHeader}`);
+
+          return [parseInt(range[1], 10), parseInt(range[2], 10)];
+        });
+
+        const BOUNDARY = 'f8f254ce1ba37627';
+
+        res.setHeader(
+          'content-type',
+          `multipart/byteranges; boundary=${BOUNDARY}`
+        );
+        res.writeHead(206);
+
+        const totalSize = fullFile.length;
+
+        const multipart = Buffer.concat([
+          ...ranges
+            .map(([from, to]) => [
+              Buffer.from(
+                [
+                  `--${BOUNDARY}`,
+                  'Content-Type: binary/octet-stream',
+                  `Content-Range: bytes ${from}-${to}/${totalSize}`,
+                  '',
+                  '',
+                ].join(CRLF)
+              ),
+              fullFile.slice(from, to + 1),
+              Buffer.from(CRLF),
+            ])
+            .flat(),
+          Buffer.from(`--${BOUNDARY}--${CRLF}`),
+        ]);
+
+        res.end(multipart);
       });
 
       server.unref();
@@ -126,20 +153,44 @@ describe('updater/differential', () => {
         sha512: newHash,
       });
 
-      assert.strictEqual(data.downloadSize, 32768);
+      assert.strictEqual(data.downloadSize, 62826);
       assert.deepStrictEqual(data.diff, [
-        { action: 'copy', readOffset: 0, size: 204635, writeOffset: 0 },
+        { action: 'copy', size: 44288, readOffset: 0, writeOffset: 0 },
         {
           action: 'download',
-          size: 32768,
-          readOffset: 204635,
-          writeOffset: 204635,
+          size: 8813,
+          readOffset: 44288,
+          writeOffset: 44288,
         },
         {
           action: 'copy',
-          readOffset: 237403,
-          size: 24741,
-          writeOffset: 237403,
+          size: 37849,
+          readOffset: 53101,
+          writeOffset: 53101,
+        },
+        {
+          action: 'download',
+          size: 21245,
+          readOffset: 90950,
+          writeOffset: 90950,
+        },
+        {
+          action: 'copy',
+          size: 116397,
+          readOffset: 112195,
+          writeOffset: 112195,
+        },
+        {
+          action: 'download',
+          size: 32768,
+          readOffset: 228592,
+          writeOffset: 228592,
+        },
+        {
+          action: 'copy',
+          size: 784,
+          readOffset: 261360,
+          writeOffset: 261360,
         },
       ]);
     });

@@ -1,21 +1,27 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { FileHandle } from 'fs/promises';
 import { readFile, open, mkdtemp, mkdir, rename, unlink } from 'fs/promises';
 import { promisify } from 'util';
 import { gunzip as nativeGunzip } from 'zlib';
 import { tmpdir } from 'os';
 import path from 'path';
 import got from 'got';
+import { chunk as lodashChunk } from 'lodash';
 import pMap from 'p-map';
+import Dicer from 'dicer';
 
 import { strictAssert } from '../util/assert';
+import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce';
+import type { LoggerType } from '../types/Logging';
 import { getGotOptions } from './got';
 import { checkIntegrity } from './util';
 
 const gunzip = promisify(nativeGunzip);
 
 const SUPPORTED_VERSION = '2';
+const MAX_SINGLE_REQ_RANGES = 50; // 20 bytes per range, ~1kb total per request
 const MAX_CONCURRENCY = 5;
 
 type BlockMapFileJSONType = Readonly<{
@@ -62,6 +68,15 @@ export type PrepareDownloadOptionsType = Readonly<{
   oldFile: string;
   newUrl: string;
   sha512: string;
+}>;
+
+export type DownloadRangesOptionsType = Readonly<{
+  url: string;
+  output: FileHandle;
+  ranges: ReadonlyArray<DiffType>;
+  logger?: LoggerType;
+  abortSignal?: AbortSignal;
+  chunkStatusCallback: (chunkSize: number) => void;
 }>;
 
 export function getBlockMapFileName(fileName: string): string {
@@ -225,7 +240,8 @@ export function isValidPreparedData(
 export async function download(
   newFile: string,
   { diff, oldFile, newUrl, sha512 }: PrepareDownloadResultType,
-  statusCallback?: (downloadedSize: number) => void
+  statusCallback?: (downloadedSize: number) => void,
+  logger?: LoggerType
 ): Promise<void> {
   const input = await open(oldFile, 'r');
 
@@ -235,71 +251,53 @@ export async function download(
 
   const output = await open(tempFile, 'w');
 
-  // Share agent
-  const gotOptions = getGotOptions();
+  const copyActions = diff.filter(({ action }) => action === 'copy');
 
-  let downloadedSize = 0;
-  let isAborted = false;
+  const copyPromise: Promise<unknown> = Promise.all(
+    copyActions.map(async ({ readOffset, size, writeOffset }) => {
+      const chunk = Buffer.alloc(size);
+      const { bytesRead } = await input.read(
+        chunk,
+        0,
+        chunk.length,
+        readOffset
+      );
+
+      strictAssert(
+        bytesRead === size,
+        `Not enough data to read from offset=${readOffset} size=${size}`
+      );
+
+      await output.write(chunk, 0, chunk.length, writeOffset);
+    })
+  );
+
+  const downloadActions = diff.filter(({ action }) => action === 'download');
+
+  const abortController = new AbortController();
+  const { signal: abortSignal } = abortController;
 
   try {
-    await pMap(
-      diff,
-      async ({ action, readOffset, size, writeOffset }) => {
-        if (action === 'copy') {
-          const chunk = Buffer.alloc(size);
-          const { bytesRead } = await input.read(
-            chunk,
-            0,
-            chunk.length,
-            readOffset
-          );
+    let downloadedSize = 0;
 
-          strictAssert(
-            bytesRead === size,
-            `Not enough data to read from offset=${readOffset} size=${size}`
-          );
-
-          await output.write(chunk, 0, chunk.length, writeOffset);
-          return;
-        }
-
-        strictAssert(action === 'download', 'invalid action type');
-        const stream = got.stream(`${newUrl}`, {
-          ...gotOptions,
-          headers: {
-            range: `bytes=${readOffset}-${readOffset + size - 1}`,
-          },
-        });
-
-        stream.once('response', ({ statusCode }) => {
-          if (statusCode !== 206) {
-            stream.destroy(new Error(`Invalid status code: ${statusCode}`));
-          }
-        });
-
-        let lastOffset = writeOffset;
-        for await (const chunk of stream) {
-          strictAssert(
-            lastOffset - writeOffset + chunk.length <= size,
-            'Server returned more data than expected'
-          );
-          await output.write(chunk, 0, chunk.length, lastOffset);
-          lastOffset += chunk.length;
-
-          downloadedSize += chunk.length;
-          if (!isAborted) {
+    await Promise.all([
+      copyPromise,
+      downloadRanges({
+        url: newUrl,
+        output,
+        ranges: downloadActions,
+        logger,
+        abortSignal,
+        chunkStatusCallback(chunkSize) {
+          downloadedSize += chunkSize;
+          if (!abortSignal.aborted) {
             statusCallback?.(downloadedSize);
           }
-        }
-        strictAssert(
-          lastOffset - writeOffset === size,
-          `Not enough data to download from offset=${readOffset} size=${size}`
-        );
-      },
-      { concurrency: MAX_CONCURRENCY }
-    );
+        },
+      }),
+    ]);
   } catch (error) {
-    isAborted = true;
+    abortController.abort();
     throw error;
   } finally {
     await Promise.all([input.close(), output.close()]);
@@ -315,4 +313,149 @@ export async function download(
     // ignore errors
   }
   await rename(tempFile, newFile);
+}
+
+export async function downloadRanges(
+  options: DownloadRangesOptionsType
+): Promise<void> {
+  const { ranges } = options;
+
+  // If we have way too many ranges - split them up into multiple requests
+  if (ranges.length > MAX_SINGLE_REQ_RANGES) {
+    await pMap(
+      lodashChunk(ranges, MAX_SINGLE_REQ_RANGES),
+      subRanges =>
+        downloadRanges({
+          ...options,
+          ranges: subRanges,
+        }),
+      { concurrency: MAX_CONCURRENCY }
+    );
+
+    return;
+  }
+
+  // Request multiple ranges in a single request
+  const { url, output, logger, abortSignal, chunkStatusCallback } = options;
+
+  logger?.info('updater/downloadRanges: downloading ranges', ranges.length);
+
+  // Map from `Content-Range` header value to respective DiffType object.
+  const diffByRange = new Map<string, DiffType>();
+  for (const diff of ranges) {
+    const { action, readOffset, size } = diff;
+    strictAssert(action === 'download', 'Incorrect action type');
+
+    // NOTE: the range is inclusive, hence `size - 1`
+    diffByRange.set(`${readOffset}-${readOffset + size - 1}`, diff);
+  }
+
+  const stream = got.stream(`${url}`, {
+    ...getGotOptions(),
+    headers: {
+      range: `bytes=${Array.from(diffByRange.keys()).join(',')}`,
+    },
+  });
+
+  // Each `part` is a separate readable stream for one of the ranges
+  const onPart = async (part: Dicer.PartStream): Promise<void> => {
+    const diff = await takeDiffFromPart(part, diffByRange);
+
+    let offset = 0;
+    for await (const chunk of part) {
+      strictAssert(
+        offset + chunk.length <= diff.size,
+        'Server returned more data than expected, ' +
+          `written=${offset} ` +
+          `newChunk=${chunk.length} ` +
+          `maxSize=${diff.size}`
+      );
+      await output.write(chunk, 0, chunk.length, offset + diff.writeOffset);
+      offset += chunk.length;
+
+      chunkStatusCallback(chunk.length);
+    }
+
+    strictAssert(
+      offset === diff.size,
+      `Not enough data to download from offset=${diff.readOffset} ` +
+        `size=${diff.size}`
+    );
+  };
+
+  const [{ statusCode, headers }] = await wrapEventEmitterOnce(
+    stream,
+    'response'
+  );
+  strictAssert(statusCode === 206, `Invalid status code: ${statusCode}`);
+
+  const match = headers['content-type']?.match(
+    /^multipart\/byteranges;\s*boundary=([^\s;]+)/
+  );
+  strictAssert(match, `Invalid Content-Type: ${headers['content-type']}`);
+
+  const dicer = new Dicer({ boundary: match[1] });
+
+  const partPromises = new Array<Promise<void>>();
+  dicer.on('part', part => partPromises.push(onPart(part)));
+
+  dicer.once('finish', () => stream.destroy());
+
+  // Pipe the response stream fully into dicer
+  // NOTE: we can't use `pipeline` due to a dicer bug:
+  // https://github.com/mscdex/dicer/issues/26
+  stream.pipe(dicer);
+  await wrapEventEmitterOnce(dicer, 'finish');
+
+  // Due to the bug above we need to do a manual cleanup
+  stream.unpipe(dicer);
+  stream.destroy();
+
+  // Wait for individual parts to be fully written to FS
+  await Promise.all(partPromises);
+
+  if (abortSignal?.aborted) {
+    return;
+  }
+
+  const missingRanges = Array.from(diffByRange.values());
+  if (missingRanges.length === 0) {
+    return;
+  }
+
+  throw new Error('Missing ranges');
+  logger?.info(
+    'updater/downloadRanges: downloading missing ranges',
+    diffByRange.size
+  );
+  return downloadRanges({
+    ...options,
+    ranges: missingRanges,
+  });
+}
+
+async function takeDiffFromPart(
+  part: Dicer.PartStream,
+  diffByRange: Map<string, DiffType>
+): Promise<DiffType> {
+  const [untypedHeaders] = await wrapEventEmitterOnce(part, 'header');
+  const headers = untypedHeaders as Record<string, Array<string>>;
+
+  const contentRange = headers['content-range'];
+  strictAssert(contentRange, 'Missing Content-Range header for the part');
+
+  const match = contentRange.join(', ').match(/^bytes\s+(\d+-\d+)/);
+  strictAssert(
+    match,
+    `Invalid Content-Range header for the part: "${contentRange}"`
+  );
+
+  const range = match[1];
+
+  const diff = diffByRange.get(range);
+  strictAssert(diff, `Diff not found for range="${range}"`);
+
+  diffByRange.delete(range);
+
+  return diff;
 }

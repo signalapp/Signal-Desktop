@@ -487,7 +487,8 @@ export abstract class Updater {
           await downloadDifferentialData(
             targetUpdatePath,
             differentialData,
-            updateOnProgress ? this.throttledSendDownloadingUpdate : undefined
+            updateOnProgress ? this.throttledSendDownloadingUpdate : undefined,
+            this.logger
           );
 
           gotUpdate = true;

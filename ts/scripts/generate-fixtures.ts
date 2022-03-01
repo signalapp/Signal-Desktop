@@ -15,8 +15,10 @@ async function main() {
   const originalPath = path.join(FIXTURES, 'diff-original.bin');
   await fs.writeFile(originalPath, original);
 
-  // Add a broken byte to help create useful blockmaps
-  original[Math.floor(Math.random() * original.length)] = 0;
+  // Add a few broken bytes to help create useful blockmaps
+  for (let i = 0; i < 3; i += 1) {
+    original[Math.floor(Math.random() * original.length)] = 0;
+  }
 
   const modifiedPath = path.join(FIXTURES, 'diff-modified.bin');
   await fs.writeFile(modifiedPath, original);
