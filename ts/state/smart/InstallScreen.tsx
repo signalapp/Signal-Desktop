@@ -21,6 +21,7 @@ import { InstallError } from '../../components/installScreen/InstallScreenErrorS
 import { MAX_DEVICE_NAME_LENGTH } from '../../components/installScreen/InstallScreenChoosingDeviceNameStep';
 import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
+import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
@@ -183,7 +184,7 @@ export function SmartInstallScreen(): ReactElement {
         } catch (error) {
           log.error(
             'confirmNumber: error clearing database',
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
         }
       }
@@ -205,13 +206,17 @@ export function SmartInstallScreen(): ReactElement {
         );
 
         window.removeSetupMenuItems();
-      } catch (err: unknown) {
+      } catch (error) {
+        log.error(
+          'account.registerSecondDevice: got an error',
+          Errors.toLogFormat(error)
+        );
         if (hasCleanedUp) {
           return;
         }
         setState({
           step: InstallScreenStep.Error,
-          error: getInstallError(err),
+          error: getInstallError(error),
         });
       }
     })();

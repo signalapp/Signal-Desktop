@@ -17,9 +17,11 @@ import { strictAssert } from '../util/assert';
 import { normalizeUuid } from '../util/normalizeUuid';
 
 type ProvisionDecryptResult = {
-  identityKeyPair: KeyPairType;
+  aciKeyPair: KeyPairType;
+  pniKeyPair?: KeyPairType;
   number?: string;
-  uuid?: string;
+  aci?: string;
+  pni?: string;
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
@@ -61,18 +63,24 @@ class ProvisioningCipherInner {
 
     const plaintext = decryptAes256CbcPkcsPadding(keys[0], ciphertext, iv);
     const provisionMessage = Proto.ProvisionMessage.decode(plaintext);
-    const privKey = provisionMessage.identityKeyPrivate;
-    strictAssert(privKey, 'Missing identityKeyPrivate in ProvisionMessage');
+    const aciPrivKey = provisionMessage.aciIdentityKeyPrivate;
+    const pniPrivKey = provisionMessage.pniIdentityKeyPrivate;
+    strictAssert(aciPrivKey, 'Missing aciKeyPrivate in ProvisionMessage');
 
-    const keyPair = createKeyPair(privKey);
+    const aciKeyPair = createKeyPair(aciPrivKey);
+    const pniKeyPair = pniPrivKey?.length
+      ? createKeyPair(pniPrivKey)
+      : undefined;
 
-    const { uuid } = provisionMessage;
-    strictAssert(uuid, 'Missing uuid in provisioning message');
+    const { aci, pni } = provisionMessage;
+    strictAssert(aci, 'Missing aci in provisioning message');
 
     const ret: ProvisionDecryptResult = {
-      identityKeyPair: keyPair,
+      aciKeyPair,
+      pniKeyPair,
       number: provisionMessage.number,
-      uuid: normalizeUuid(uuid, 'ProvisionMessage.uuid'),
+      aci: normalizeUuid(aci, 'ProvisionMessage.aci'),
+      pni: pni ? normalizeUuid(pni, 'ProvisionMessage.pni') : undefined,
       provisioningCode: provisionMessage.provisioningCode,
       userAgent: provisionMessage.userAgent,
       readReceipts: provisionMessage.readReceipts,

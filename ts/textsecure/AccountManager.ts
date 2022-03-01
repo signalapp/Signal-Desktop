@@ -76,7 +76,7 @@ export type GeneratedKeysType = {
 type CreateAccountOptionsType = Readonly<{
   number: string;
   verificationCode: string;
-  identityKeyPair: KeyPairType;
+  aciKeyPair: KeyPairType;
   pniKeyPair?: KeyPairType;
   profileKey?: Uint8Array;
   deviceName?: string;
@@ -167,7 +167,7 @@ export default class AccountManager extends EventTarget {
 
   async registerSingleDevice(number: string, verificationCode: string) {
     return this.queueTask(async () => {
-      const identityKeyPair = generateKeyPair();
+      const aciKeyPair = generateKeyPair();
       const pniKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
       const accessKey = deriveAccessKey(profileKey);
@@ -177,7 +177,7 @@ export default class AccountManager extends EventTarget {
         await this.createAccount({
           number,
           verificationCode,
-          identityKeyPair,
+          aciKeyPair,
           pniKeyPair,
           profileKey,
           accessKey,
@@ -277,7 +277,7 @@ export default class AccountManager extends EventTarget {
       if (
         !provisionMessage.number ||
         !provisionMessage.provisioningCode ||
-        !provisionMessage.identityKeyPair
+        !provisionMessage.aciKeyPair
       ) {
         throw new Error(
           'AccountManager.registerSecondDevice: Provision message was missing key data'
@@ -290,20 +290,31 @@ export default class AccountManager extends EventTarget {
         await this.createAccount({
           number: provisionMessage.number,
           verificationCode: provisionMessage.provisioningCode,
-          identityKeyPair: provisionMessage.identityKeyPair,
+          aciKeyPair: provisionMessage.aciKeyPair,
+          pniKeyPair: provisionMessage.pniKeyPair,
           profileKey: provisionMessage.profileKey,
           deviceName,
           userAgent: provisionMessage.userAgent,
           readReceipts: provisionMessage.readReceipts,
         });
         await clearSessionsAndPreKeys();
-        // TODO: DESKTOP-2794
-        const keys = await this.generateKeys(
-          SIGNED_KEY_GEN_BATCH_SIZE,
-          UUIDKind.ACI
+
+        const keyKinds = [UUIDKind.ACI];
+        if (provisionMessage.pniKeyPair) {
+          keyKinds.push(UUIDKind.PNI);
+        }
+
+        await Promise.all(
+          keyKinds.map(async kind => {
+            const keys = await this.generateKeys(
+              SIGNED_KEY_GEN_BATCH_SIZE,
+              kind
+            );
+
+            await this.server.registerKeys(keys, kind);
+            await this.confirmKeys(keys, kind);
+          })
         );
-        await this.server.registerKeys(keys, UUIDKind.ACI);
-        await this.confirmKeys(keys, UUIDKind.ACI);
       } finally {
         this.server.finishRegistration(registrationBaton);
       }
@@ -493,7 +504,7 @@ export default class AccountManager extends EventTarget {
   async createAccount({
     number,
     verificationCode,
-    identityKeyPair,
+    aciKeyPair,
     pniKeyPair,
     profileKey,
     deviceName,
@@ -511,7 +522,7 @@ export default class AccountManager extends EventTarget {
 
     let encryptedDeviceName;
     if (deviceName) {
-      encryptedDeviceName = this.encryptDeviceName(deviceName, identityKeyPair);
+      encryptedDeviceName = this.encryptDeviceName(deviceName, aciKeyPair);
       await this.deviceNameIsEncrypted();
     }
 
@@ -623,7 +634,7 @@ export default class AccountManager extends EventTarget {
     await Promise.all([
       storage.protocol.saveIdentityWithAttributes(new UUID(ourUuid), {
         ...identityAttrs,
-        publicKey: identityKeyPair.pubKey,
+        publicKey: aciKeyPair.pubKey,
       }),
       pniKeyPair
         ? storage.protocol.saveIdentityWithAttributes(new UUID(ourPni), {
@@ -636,8 +647,8 @@ export default class AccountManager extends EventTarget {
     const identityKeyMap = {
       ...(storage.get('identityKeyMap') || {}),
       [ourUuid]: {
-        pubKey: Bytes.toBase64(identityKeyPair.pubKey),
-        privKey: Bytes.toBase64(identityKeyPair.privKey),
+        pubKey: Bytes.toBase64(aciKeyPair.pubKey),
+        privKey: Bytes.toBase64(aciKeyPair.privKey),
       },
       ...(pniKeyPair
         ? {
