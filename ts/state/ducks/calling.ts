@@ -15,7 +15,6 @@ import { getPlatform } from '../selectors/user';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { missingCaseError } from '../../util/missingCaseError';
 import { calling } from '../../services/calling';
-import { AUDIO_LEVEL_FOR_SPEAKING } from '../../calling/constants';
 import type { StateType as RootStateType } from '../reducer';
 import type {
   ChangeIODevicePayloadType,
@@ -464,6 +463,7 @@ type DeclineCallActionType = {
 };
 
 type GroupCallAudioLevelsChangeActionPayloadType = Readonly<{
+  audioLevelForSpeaking: number;
   conversationId: string;
   localAudioLevel: number;
   remoteDeviceStates: ReadonlyArray<{ audioLevel: number; demuxId: number }>;
@@ -1697,8 +1697,12 @@ export function reducer(
   }
 
   if (action.type === GROUP_CALL_AUDIO_LEVELS_CHANGE) {
-    const { conversationId, localAudioLevel, remoteDeviceStates } =
-      action.payload;
+    const {
+      audioLevelForSpeaking,
+      conversationId,
+      localAudioLevel,
+      remoteDeviceStates,
+    } = action.payload;
 
     const { activeCallState } = state;
     const existingCall = getGroupCall(conversationId, state);
@@ -1709,14 +1713,14 @@ export function reducer(
       return state;
     }
 
-    const amISpeaking = localAudioLevel > AUDIO_LEVEL_FOR_SPEAKING;
+    const amISpeaking = localAudioLevel > audioLevelForSpeaking;
 
     const speakingDemuxIds = new Set<number>();
     remoteDeviceStates.forEach(({ audioLevel, demuxId }) => {
       // We expect `audioLevel` to be a number but have this check just in case.
       if (
         typeof audioLevel === 'number' &&
-        audioLevel > AUDIO_LEVEL_FOR_SPEAKING
+        audioLevel > audioLevelForSpeaking
       ) {
         speakingDemuxIds.add(demuxId);
       }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export const AUDIO_LEVEL_INTERVAL_MS = 250;
-export const AUDIO_LEVEL_FOR_SPEAKING = 0.25;
+export const DEFAULT_AUDIO_LEVEL_FOR_SPEAKING = 0.15;
 
 export const REQUESTED_VIDEO_WIDTH = 640;
 export const REQUESTED_VIDEO_HEIGHT = 480;

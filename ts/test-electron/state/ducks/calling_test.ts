@@ -765,6 +765,7 @@ describe('calling duck', () => {
 
       it("does nothing if there's no relevant call", () => {
         const action = groupCallAudioLevelsChange({
+          audioLevelForSpeaking: 0.25,
           conversationId: 'garbage',
           localAudioLevel: 1,
           remoteDeviceStates,
@@ -788,6 +789,7 @@ describe('calling duck', () => {
           },
         };
         const action = groupCallAudioLevelsChange({
+          audioLevelForSpeaking: 0.25,
           conversationId: 'fake-group-call-conversation-id',
           localAudioLevel: 0.1,
           remoteDeviceStates,
@@ -800,6 +802,7 @@ describe('calling duck', () => {
 
       it('updates the set of speaking participants, including yourself', () => {
         const action = groupCallAudioLevelsChange({
+          audioLevelForSpeaking: 0.25,
           conversationId: 'fake-group-call-conversation-id',
           localAudioLevel: 0.8,
           remoteDeviceStates,

@@ -37,6 +37,7 @@ import {
 } from 'ringrtc';
 import { uniqBy, noop } from 'lodash';
 
+import * as RemoteConfig from '../RemoteConfig';
 import type {
   ActionsType as UxActionsType,
   GroupCallParticipantInfoType,
@@ -62,6 +63,7 @@ import {
   getAudioDeviceModule,
   parseAudioDeviceModule,
 } from '../calling/audioDeviceModule';
+import { getAudioLevelForSpeaking } from '../calling/getAudioLevelForSpeaking';
 import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
@@ -682,6 +684,9 @@ export class CallingClass {
           const localAudioLevel = groupCall.getLocalDeviceState().audioLevel;
 
           this.uxActions?.groupCallAudioLevelsChange({
+            audioLevelForSpeaking: getAudioLevelForSpeaking(
+              RemoteConfig.getValue
+            ),
             conversationId,
             localAudioLevel,
             remoteDeviceStates,
