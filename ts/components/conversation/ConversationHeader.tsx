@@ -367,7 +367,7 @@ export const ConversationHeaderWithDetails = () => {
         </div>
 
         {!isSelectionMode && (
-          <Flex flexDirection="row" alignItems="center">
+          <Flex container={true} flexDirection="row" alignItems="center">
             {!isKickedFromGroup && (
               <ExpirationLength expirationSettingName={expirationSettingName} />
             )}
