@@ -6,16 +6,12 @@ import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
 
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
 import { SmartSafetyNumberViewer } from '../smart/SafetyNumberViewer';
-
-type Props = {
-  contactID: string;
-  onClose?: () => void;
-};
 
 export const createSafetyNumberViewer = (
   store: Store,
-  props: Props
+  props: SafetyNumberProps
 ): React.ReactElement => (
   <Provider store={store}>
     <SmartSafetyNumberViewer {...props} />

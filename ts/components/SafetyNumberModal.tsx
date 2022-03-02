@@ -8,7 +8,7 @@ import { SafetyNumberViewer } from './SafetyNumberViewer';
 
 type PropsType = {
   toggleSafetyNumberModal: () => unknown;
-} & SafetyNumberViewerPropsType;
+} & Omit<SafetyNumberViewerPropsType, 'onClose'>;
 
 export const SafetyNumberModal = ({
   i18n,
@@ -20,10 +20,14 @@ export const SafetyNumberModal = ({
       hasXButton
       i18n={i18n}
       moduleClassName="module-SafetyNumberViewer__modal"
-      onClose={() => toggleSafetyNumberModal()}
+      onClose={toggleSafetyNumberModal}
       title={i18n('SafetyNumberModal__title')}
     >
-      <SafetyNumberViewer i18n={i18n} {...safetyNumberViewerProps} />
+      <SafetyNumberViewer
+        i18n={i18n}
+        onClose={toggleSafetyNumberModal}
+        {...safetyNumberViewerProps}
+      />
     </Modal>
   );
 };
