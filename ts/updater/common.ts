@@ -484,12 +484,12 @@ export abstract class Updater {
         );
 
         try {
-          await downloadDifferentialData(
-            targetUpdatePath,
-            differentialData,
-            updateOnProgress ? this.throttledSendDownloadingUpdate : undefined,
-            this.logger
-          );
+          await downloadDifferentialData(targetUpdatePath, differentialData, {
+            statusCallback: updateOnProgress
+              ? this.throttledSendDownloadingUpdate
+              : undefined,
+            logger: this.logger,
+          });
 
           gotUpdate = true;
         } catch (error) {

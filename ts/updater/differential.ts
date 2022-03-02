@@ -70,6 +70,14 @@ export type PrepareDownloadOptionsType = Readonly<{
   sha512: string;
 }>;
 
+export type DownloadOptionsType = Readonly<{
+  statusCallback?: (downloadedSize: number) => void;
+  logger?: LoggerType;
+
+  // Testing
+  gotOptions?: ReturnType<typeof getGotOptions>;
+}>;
+
 export type DownloadRangesOptionsType = Readonly<{
   url: string;
   output: FileHandle;
@@ -77,6 +85,9 @@ export type DownloadRangesOptionsType = Readonly<{
   logger?: LoggerType;
   abortSignal?: AbortSignal;
   chunkStatusCallback: (chunkSize: number) => void;
+
+  // Testing
+  gotOptions?: ReturnType<typeof getGotOptions>;
 }>;
 
 export function getBlockMapFileName(fileName: string): string {
@@ -240,8 +251,7 @@ export function isValidPreparedData(
 export async function download(
   newFile: string,
   { diff, oldFile, newUrl, sha512 }: PrepareDownloadResultType,
-  statusCallback?: (downloadedSize: number) => void,
-  logger?: LoggerType
+  { statusCallback, logger, gotOptions }: DownloadOptionsType = {}
 ): Promise<void> {
   const input = await open(oldFile, 'r');
 
@@ -288,6 +298,7 @@ export async function download(
         ranges: downloadActions,
         logger,
         abortSignal,
+        gotOptions,
         chunkStatusCallback(chunkSize) {
           downloadedSize += chunkSize;
           if (!abortSignal.aborted) {
@@ -336,7 +347,14 @@ export async function downloadRanges(
   }
 
   // Request multiple ranges in a single request
-  const { url, output, logger, abortSignal, chunkStatusCallback } = options;
+  const {
+    url,
+    output,
+    logger,
+    abortSignal,
+    chunkStatusCallback,
+    gotOptions = getGotOptions(),
+  } = options;
 
   logger?.info('updater/downloadRanges: downloading ranges', ranges.length);
 
@@ -350,8 +368,7 @@ export async function downloadRanges(
     diffByRange.set(`${readOffset}-${readOffset + size - 1}`, diff);
   }
 
-  const gotOptions = getGotOptions();
-  const stream = got.stream(`${url}`, {
+  const stream = got.stream(url, {
     ...gotOptions,
     headers: {
       ...gotOptions.headers,
@@ -402,6 +419,7 @@ export async function downloadRanges(
   dicer.on('part', part => partPromises.push(onPart(part)));
 
   dicer.once('finish', () => stream.destroy());
+  stream.once('error', err => dicer.destroy(err));
 
   // Pipe the response stream fully into dicer
   // NOTE: we can't use `pipeline` due to a dicer bug:
@@ -425,7 +443,6 @@ export async function downloadRanges(
     return;
   }
 
-  throw new Error('Missing ranges');
   logger?.info(
     'updater/downloadRanges: downloading missing ranges',
     diffByRange.size

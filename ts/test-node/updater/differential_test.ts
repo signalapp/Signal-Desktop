@@ -8,6 +8,8 @@ import fs from 'fs/promises';
 import { tmpdir } from 'os';
 
 import { strictAssert } from '../../util/assert';
+import * as durations from '../../util/durations';
+import { getGotOptions } from '../../updater/got';
 import {
   computeDiff,
   getBlockMapFileName,
@@ -73,8 +75,10 @@ describe('updater/differential', () => {
 
     let server: http.Server;
     let baseUrl: string;
+    let shouldTimeout: 'response' | undefined;
 
     beforeEach(callback => {
+      shouldTimeout = undefined;
       server = http.createServer(async (req, res) => {
         if (!req.headers['user-agent']?.includes('Signal-Desktop')) {
           res.writeHead(403);
@@ -107,11 +111,13 @@ describe('updater/differential', () => {
 
         const BOUNDARY = 'f8f254ce1ba37627';
 
-        res.setHeader(
-          'content-type',
-          `multipart/byteranges; boundary=${BOUNDARY}`
-        );
-        res.writeHead(206);
+        res.writeHead(206, {
+          'content-type': `multipart/byteranges; boundary=${BOUNDARY}`,
+        });
+        if (shouldTimeout === 'response') {
+          res.flushHeaders();
+          return;
+        }
 
         const totalSize = fullFile.length;
 
@@ -256,7 +262,11 @@ describe('updater/differential', () => {
 
       const outFile = path.join(outDir, 'out.bin');
       const chunks = new Array<number>();
-      await download(outFile, data, size => chunks.push(size));
+      await download(outFile, data, {
+        statusCallback(size) {
+          chunks.push(size);
+        },
+      });
 
       const expected = await fs.readFile(path.join(FIXTURES, newFile));
       const actual = await fs.readFile(outFile);
@@ -265,6 +275,34 @@ describe('updater/differential', () => {
       assert.isTrue(
         chunks.length > 0,
         'Expected multiple callback invocations'
+      );
+    });
+
+    it('handles response timeouts gracefully', async () => {
+      const data = await prepareDownload({
+        oldFile: path.join(FIXTURES, oldFile),
+        newUrl: `${baseUrl}/${newFile}`,
+        sha512: newHash,
+      });
+
+      const outDir = await fs.mkdtemp(path.join(tmpdir(), 'signal-temp-'));
+      await fs.mkdir(outDir, { recursive: true });
+
+      const outFile = path.join(outDir, 'out.bin');
+
+      shouldTimeout = 'response';
+      await assert.isRejected(
+        download(outFile, data, {
+          gotOptions: {
+            ...getGotOptions(),
+            timeout: {
+              connect: 0.5 * durations.SECOND,
+              lookup: 0.5 * durations.SECOND,
+              socket: 0.5 * durations.SECOND,
+            },
+          },
+        }),
+        /Timeout awaiting 'socket' for 500ms/
       );
     });
   });

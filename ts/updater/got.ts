@@ -7,10 +7,11 @@ import ProxyAgent from 'proxy-agent';
 
 import * as packageJson from '../../package.json';
 import { getUserAgent } from '../util/getUserAgent';
+import * as durations from '../util/durations';
 
-export const GOT_CONNECT_TIMEOUT = 2 * 60 * 1000;
-export const GOT_LOOKUP_TIMEOUT = 2 * 60 * 1000;
-export const GOT_SOCKET_TIMEOUT = 2 * 60 * 1000;
+export const GOT_CONNECT_TIMEOUT = 5 * durations.MINUTE;
+export const GOT_LOOKUP_TIMEOUT = 5 * durations.MINUTE;
+export const GOT_SOCKET_TIMEOUT = 5 * durations.MINUTE;
 
 export function getProxyUrl(): string | undefined {
   return process.env.HTTPS_PROXY || process.env.https_proxy;
