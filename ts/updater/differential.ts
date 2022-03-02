@@ -350,9 +350,11 @@ export async function downloadRanges(
     diffByRange.set(`${readOffset}-${readOffset + size - 1}`, diff);
   }
 
+  const gotOptions = getGotOptions();
   const stream = got.stream(`${url}`, {
-    ...getGotOptions(),
+    ...gotOptions,
     headers: {
+      ...gotOptions.headers,
       range: `bytes=${Array.from(diffByRange.keys()).join(',')}`,
     },
   });

@@ -76,6 +76,12 @@ describe('updater/differential', () => {
 
     beforeEach(callback => {
       server = http.createServer(async (req, res) => {
+        if (!req.headers['user-agent']?.includes('Signal-Desktop')) {
+          res.writeHead(403);
+          res.end(`Invalid user agent: "${req.headers['user-agent']}"`);
+          return;
+        }
+
         const file = req.url?.slice(1) ?? '';
         if (!allowedFiles.has(file)) {
           res.writeHead(404);
