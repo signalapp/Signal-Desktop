@@ -3,8 +3,17 @@
 
 // Fonts
 
-@mixin font-title-1 {
+@mixin font-family {
   font-family: $inter;
+  &:lang(ja) {
+    font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
+      メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
+      sans-serif;
+  }
+}
+
+@mixin font-title-1 {
+  @include font-family;
   font-weight: 600;
   font-size: 26px;
   line-height: 32px;
@@ -12,7 +21,7 @@
 }
 
 @mixin font-title-2 {
-  font-family: $inter;
+  @include font-family;
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
@@ -20,7 +29,8 @@
 }
 
 @mixin font-body-1 {
-  font-family: $inter;
+  @include font-family;
+  font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.08px;
@@ -40,7 +50,7 @@
 }
 
 @mixin font-body-2 {
-  font-family: $inter;
+  @include font-family;
   font-size: 13px;
   line-height: 18px;
   letter-spacing: -0.03px;
@@ -60,14 +70,14 @@
 }
 
 @mixin font-subtitle {
-  font-family: $inter;
+  @include font-family;
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0;
 }
 
 @mixin font-caption {
-  font-family: $inter;
+  @include font-family;
   font-size: 11px;
   line-height: 14px;
   letter-spacing: 0.06px;

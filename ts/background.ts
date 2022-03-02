@@ -459,6 +459,11 @@ export async function startApp(): Promise<void> {
 
   window.document.title = window.getTitle();
 
+  document.documentElement.setAttribute(
+    'lang',
+    window.getLocale().substring(0, 2)
+  );
+
   KeyChangeListener.init(window.textsecure.storage.protocol);
   window.textsecure.storage.protocol.on('removePreKey', (ourUuid: UUID) => {
     const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
