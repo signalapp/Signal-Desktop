@@ -626,11 +626,9 @@ export const AcceptMenuItem = () => {
 
 export const DeclineMenuItem = () => {
   const convoId = useContext(ContextConversationId);
-  const showMenuItem = getConversationController()
-    .get(convoId)
-    .isRequest();
+  const isRequest = useIsRequest(convoId);
 
-  if (showMenuItem) {
+  if (isRequest) {
     return (
       <Item
         onClick={() => {

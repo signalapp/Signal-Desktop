@@ -130,7 +130,7 @@ export function useIsRequest(convoId: string) {
     convoProps &&
       ConversationModel.hasValidRequestValues({
         isMe: convoProps.isMe,
-        isApproved: convoProps.isMe,
+        isApproved: convoProps.isApproved,
         isPrivate: convoProps.isPrivate,
         isBlocked: convoProps.isBlocked,
       })
