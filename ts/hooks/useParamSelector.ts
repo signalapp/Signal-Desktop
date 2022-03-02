@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
@@ -128,12 +129,9 @@ export function useIsRequest(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(
     convoProps &&
-      ConversationModel.hasValidIncomingRequestValues({
-        isMe: convoProps.isMe,
-        isApproved: convoProps.isApproved,
-        isPrivate: convoProps.isPrivate,
-        isBlocked: convoProps.isBlocked,
-      })
+      ConversationModel.hasValidIncomingRequestValues(
+        _.pick(convoProps, ['isMe', 'isApproved', 'isPrivate', 'isBlocked'])
+      )
   );
 }
 
