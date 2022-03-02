@@ -16,7 +16,7 @@ import { isInSystemContacts } from '../util/isInSystemContacts';
 
 export type SafetyNumberProps = {
   contactID: string;
-  onClose?: () => void;
+  onClose: () => void;
 };
 
 export type Props = {
@@ -59,7 +59,7 @@ export const SafetyNumberChangeDialog = ({
 
   if (selectedContact) {
     return (
-      <Modal i18n={i18n} onClose={onClose}>
+      <Modal hasXButton i18n={i18n} onClose={onClose}>
         {renderSafetyNumber({ contactID: selectedContact.id, onClose })}
       </Modal>
     );

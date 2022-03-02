@@ -8,10 +8,10 @@ import { Intl } from './Intl';
 import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
-  contact?: ConversationType;
+  contact: ConversationType;
   generateSafetyNumber: (contact: ConversationType) => void;
   i18n: LocalizerType;
-  onClose?: () => void;
+  onClose: () => void;
   safetyNumber: string;
   toggleVerified: (contact: ConversationType) => void;
   verificationDisabled: boolean;
@@ -41,7 +41,16 @@ export const SafetyNumberViewer = ({
   if (!contact.phoneNumber) {
     return (
       <div className="module-SafetyNumberViewer">
-        {i18n('cannotGenerateSafetyNumber')}
+        <div>{i18n('cannotGenerateSafetyNumber')}</div>
+        <div className="module-SafetyNumberViewer__buttons">
+          <Button
+            className="module-SafetyNumberViewer__button"
+            onClick={() => onClose?.()}
+            variant={ButtonVariant.Primary}
+          >
+            {i18n('ok')}
+          </Button>
+        </div>
       </div>
     );
   }
@@ -60,13 +69,6 @@ export const SafetyNumberViewer = ({
 
   return (
     <div className="module-SafetyNumberViewer">
-      {onClose && (
-        <div className="module-SafetyNumberViewer__close-button">
-          <button onClick={onClose} tabIndex={0} type="button">
-            <span />
-          </button>
-        </div>
-      )}
       <div className="module-SafetyNumberViewer__number">
         {safetyNumber || getPlaceholder()}
       </div>

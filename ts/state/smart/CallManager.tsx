@@ -22,7 +22,7 @@ import { CallMode, CallState } from '../../types/Calling';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
-import type { Props as SafetyNumberViewerProps } from './SafetyNumberViewer';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { callingTones } from '../../util/callingTones';
 import {
@@ -41,7 +41,7 @@ function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
 
-function renderSafetyNumberViewer(props: SafetyNumberViewerProps): JSX.Element {
+function renderSafetyNumberViewer(props: SafetyNumberProps): JSX.Element {
   return <SmartSafetyNumberViewer {...props} />;
 }
 

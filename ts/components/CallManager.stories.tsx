@@ -21,7 +21,7 @@ import { AvatarColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setupI18n } from '../util/setupI18n';
-import type { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
+import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
 
@@ -89,7 +89,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   openSystemPreferencesAction: action('open-system-preferences-action'),
   playRingtone: action('play-ringtone'),
   renderDeviceSelection: () => <div />,
-  renderSafetyNumberViewer: (_: SafetyNumberViewerProps) => <div />,
+  renderSafetyNumberViewer: (_: SafetyNumberProps) => <div />,
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setIsCallActive: action('set-is-call-active'),
   setLocalAudio: action('set-local-audio'),

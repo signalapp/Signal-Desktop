@@ -5,16 +5,12 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { SafetyNumberViewer } from '../../components/SafetyNumberViewer';
 import type { StateType } from '../reducer';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
 import { getContactSafetyNumber } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 
-export type Props = {
-  contactID: string;
-  onClose?: () => void;
-};
-
-const mapStateToProps = (state: StateType, props: Props) => {
+const mapStateToProps = (state: StateType, props: SafetyNumberProps) => {
   return {
     ...props,
     ...getContactSafetyNumber(state, props),

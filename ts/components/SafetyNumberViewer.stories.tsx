@@ -58,7 +58,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       ? overrideProps.verificationDisabled
       : false
   ),
-  onClose: overrideProps.onClose,
+  onClose: action('onClose'),
 });
 
 const story = storiesOf('Components/SafetyNumberViewer', module);
