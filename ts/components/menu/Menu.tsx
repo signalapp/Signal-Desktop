@@ -61,9 +61,10 @@ function showTimerOptions(
   isPublic: boolean,
   isKickedFromGroup: boolean,
   left: boolean,
-  isBlocked: boolean
+  isBlocked: boolean,
+  isRequest: boolean
 ): boolean {
-  return !isPublic && !left && !isKickedFromGroup && !isBlocked;
+  return !isPublic && !left && !isKickedFromGroup && !isBlocked && !isRequest;
 }
 
 function showNotificationConvo(
@@ -426,13 +427,15 @@ export const DisappearingMessageMenuItem = (): JSX.Element | null => {
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const timerOptions = useSelector(getTimerOptions).timerOptions;
+  const isRequest = useIsRequest(convoId);
 
   if (
     showTimerOptions(
       Boolean(isPublic),
       Boolean(isKickedFromGroup),
       Boolean(isLeft),
-      Boolean(isBlocked)
+      Boolean(isBlocked),
+      isRequest
     )
   ) {
     // const isRtlMode = isRtlBody();
