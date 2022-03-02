@@ -2696,11 +2696,11 @@ async function updateGroup(
   const startingRevision = conversation.get('revision');
   const endingRevision = newAttributes.revision;
 
-  const isInitialDataFetch =
-    !isNumber(startingRevision) && isNumber(endingRevision);
   const isInGroup = !updates.newAttributes.left;
+  const isInitialDataFetch =
+    isInGroup && !isNumber(startingRevision) && isNumber(endingRevision);
   const justJoinedGroup =
-    !conversation.hasMember(ourUuid.toString()) && isInGroup;
+    isInGroup && !conversation.hasMember(ourUuid.toString());
 
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
