@@ -10,7 +10,7 @@ export const ConversationRequestinfo = () => {
   const selectedConversation = useSelector(getSelectedConversation);
   const convoModel =
     selectedConversation && getConversationController().get(selectedConversation.id);
-  const showMsgRequestUI = selectedConversation && convoModel && convoModel.isRequest();
+  const showMsgRequestUI = selectedConversation && convoModel && convoModel.isIncomingRequest();
   const [hasIncomingMessages, setHasIncomingMessages] = useState(false);
   const [incomingChecked, setIncomingChecked] = useState(false);
 

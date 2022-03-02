@@ -246,7 +246,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Method to evalute if a convo contains the right values
    * @param values Required properties to evaluate if this is a message request
    */
-  public static hasValidRequestValues({
+  public static hasValidIncomingRequestValues({
     isMe,
     isApproved,
     isBlocked,
@@ -258,6 +258,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     isPrivate?: boolean;
   }): boolean {
     return Boolean(!isMe && !isApproved && isPrivate && !isBlocked);
+  }
+
+  public static hasValidOutgoingRequestValues({
+    isMe,
+    didApproveMe,
+    isApproved,
+    isBlocked,
+    isPrivate,
+  }: {
+    isMe?: boolean;
+    isApproved?: boolean;
+    didApproveMe?: boolean;
+    isBlocked?: boolean;
+    isPrivate?: boolean;
+  }): boolean {
+    return Boolean(!isMe && isApproved && isPrivate && !isBlocked && !didApproveMe);
   }
 
   public idForLogging() {
@@ -728,10 +744,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   /**
    * Does this conversation contain the properties to be considered a message request
    */
-  public isRequest(): boolean {
-    return ConversationModel.hasValidRequestValues({
+  public isIncomingRequest(): boolean {
+    return ConversationModel.hasValidIncomingRequestValues({
       isMe: this.isMe(),
       isApproved: this.isApproved(),
+      isBlocked: this.isBlocked(),
+      isPrivate: this.isPrivate(),
+    });
+  }
+
+  /**
+   * Is this conversation an outgoing message request
+   */
+  public isOutgoingRequest(): boolean {
+    return ConversationModel.hasValidOutgoingRequestValues({
+      isMe: this.isMe(),
+      isApproved: this.isApproved(),
+      didApproveMe: this.didApproveMe(),
       isBlocked: this.isBlocked(),
       isPrivate: this.isPrivate(),
     });
@@ -1123,7 +1152,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         `Sending ${read.length} read receipts?`,
         window.storage.get(SettingsKey.settingsReadReceipt) || false
       );
-      const dontSendReceipt = this.isBlocked() || this.isRequest();
+      const dontSendReceipt = this.isBlocked() || this.isIncomingRequest();
       if (window.storage.get(SettingsKey.settingsReadReceipt) && !dontSendReceipt) {
         const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
         const receiptMessage = new ReadReceiptMessage({

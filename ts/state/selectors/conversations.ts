@@ -445,7 +445,7 @@ const _getConversationRequests = (
 ): Array<ReduxConversationType> => {
   return _.filter(sortedConversations, conversation => {
     const { isApproved, isBlocked, isPrivate, isMe } = conversation;
-    const isRequest = ConversationModel.hasValidRequestValues({
+    const isRequest = ConversationModel.hasValidIncomingRequestValues({
       isApproved,
       isBlocked,
       isPrivate,

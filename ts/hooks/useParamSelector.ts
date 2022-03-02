@@ -128,7 +128,7 @@ export function useIsRequest(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(
     convoProps &&
-      ConversationModel.hasValidRequestValues({
+      ConversationModel.hasValidIncomingRequestValues({
         isMe: convoProps.isMe,
         isApproved: convoProps.isApproved,
         isPrivate: convoProps.isPrivate,

@@ -167,7 +167,7 @@ const handleContactReceived = async (
 
     // only set for explicit true/false values incase outdated sender doesn't have the fields
     if (contactReceived.isBlocked === true) {
-      if (contactConvo.isRequest()) {
+      if (contactConvo.isIncomingRequest()) {
         // handling case where restored device's declined message requests were getting restored
         await ConversationInteraction.deleteAllMessagesByConvoIdNoConfirmation(contactConvo.id);
       }

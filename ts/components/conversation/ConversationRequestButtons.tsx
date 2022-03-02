@@ -41,7 +41,7 @@ export const ConversationMessageRequestButtons = () => {
   }
 
   const convoModel = getConversationController().get(selectedConversation.id);
-  const showMsgRequestUI = convoModel && convoModel.isRequest();
+  const showMsgRequestUI = convoModel && convoModel.isIncomingRequest();
 
   const handleDeclineConversationRequest = () => {
     declineConversationWithConfirm(selectedConversation.id, true);

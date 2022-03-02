@@ -358,7 +358,9 @@ export async function setDisappearingMessagesByConvoId(
 ) {
   const conversation = getConversationController().get(conversationId);
 
-  if (!conversation.didApproveMe() && conversation.isPrivate()) {
+  const canSetDisappearing = !conversation.isOutgoingRequest() && !conversation.isIncomingRequest();
+
+  if (!canSetDisappearing) {
     ToastUtils.pushMustBeApproved();
     return;
   }

@@ -259,7 +259,7 @@ async function handleRegularMessage(
       );
       const isFirstRequestMessage = incomingMessageCount < 2;
       if (
-        conversation.isRequest() &&
+        conversation.isIncomingRequest() &&
         isFirstRequestMessage &&
         window.inboxStore?.getState().userConfig.hideMessageRequests
       ) {
