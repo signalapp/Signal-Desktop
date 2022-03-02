@@ -32,7 +32,7 @@ export const ConversationRequestinfo = () => {
     }
     // tslint:disable-next-line: no-floating-promises
     getIncomingMessages();
-  });
+  }, []);
 
   if (!showMsgRequestUI || !hasIncomingMessages || !incomingChecked) {
     return null;

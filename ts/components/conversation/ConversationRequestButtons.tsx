@@ -34,7 +34,7 @@ export const ConversationMessageRequestButtons = () => {
     }
     // tslint:disable-next-line: no-floating-promises
     getIncomingMessages();
-  });
+  }, []);
 
   if (!selectedConversation || !hasIncoming || !incomingChecked) {
     return null;
