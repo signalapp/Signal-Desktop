@@ -30,7 +30,6 @@
 
 @mixin font-body-1 {
   @include font-family;
-  font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.08px;
