@@ -415,12 +415,8 @@
         "message": "Mae'n bosib fod y bobl canlynol wedi ailosod neu newid eu dyfeisiau. Gwiriwch eich rhif diogelwch gyda nhw i sicrhau preifatrwydd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Anfon negeseuon sy'n disgwyl",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Yn anfon $count$ neges sy'n disgwyl",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Anfon negeseuon sy'n aros",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Mae'r rhestr o ieithoedd sy'n cael eu cefnogi wedi ehangu. Rydym yn gwerthfawrogi'n fawr y cyfieithwyr gwirfoddol sydd wedi gwneud hyn yn bosib.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Erioed wedi defnyddio Signal ar gysylltiad ansad? Dim gofid - bydd newidiadau amser negeseuon byrhoedlog a rhagor yn cael eu cydweddu nôl unwaith fydd eich WiFi yn teimlo'n well eto.",
+        "description": "Release notes for v5.34"
     }
 }

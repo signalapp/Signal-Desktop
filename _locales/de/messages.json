@@ -415,12 +415,8 @@
         "message": "Die folgenden Personen haben Signal vielleicht erneut installiert oder das Gerät gewechselt. Verifiziert eure gemeinsame Sicherheitsnummer zur Sicherstellung der Privatsphäre.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Ausstehende Nachricht senden",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "$count$ ausstehende Nachrichten senden",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Ausstehende Nachrichten versenden",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Die Liste der unterstützten Sprachen wurde erweitert. Wir bedanken uns von ganzem Herzen bei den ehrenamtlichen Übersetzern, die dies ermöglicht haben.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Hast du Signal schon einmal bei einer instabilen Verbindung verwendet? Mache dir keine Sorgen mehr - Änderungen an der Ablaufzeit für verschwindende Nachrichten und mehr werden jetzt wieder versendet, sobald dein WLAN wieder besser ist.",
+        "description": "Release notes for v5.34"
     }
 }

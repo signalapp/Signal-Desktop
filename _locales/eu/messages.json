@@ -415,12 +415,8 @@
         "message": "Ondoko pertsonek agian gailuak aldatu edo Signal berrinstalatu egin dute. Egiaztatu beraiekin duzun segurtasun zenbakia pribatutasuna ziurtatzeko.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Send pending messages",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "description": "Release notes for v5.34"
     }
 }

@@ -415,12 +415,8 @@
         "message": "Eftirfarandi einstaklingar hafa sett Signal upp aftur eða skipt um tæki. Sannreyndu öryggisnúmer þín með þeim til að tryggja öryggi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
+    "safetyNumberChangeDialog__pending-messages": {
         "message": "Senda skilaboð í bið",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Senda $count$ skilaboð í bið",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Listinn yfir studd tungumál er alltaf að lengjast. Við þökkum einlæglega öllum sjálfboðaliðunum sem sjá um þýðingarnar.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Einhverntíma reynt að nota Signal á óstöðugri tengingu? Nú þarftu ekki lengur að hafa áhyggjur - breytingar á niðurtalningu skilaboða sem hverfa og ýmsu fleiru verða núna sendar út um leið og Wi-Fi-netinu líður betur.",
+        "description": "Release notes for v5.34"
     }
 }

@@ -415,12 +415,8 @@
         "message": "As seguintes pessoas podem ter reinstalado ou mudado de dispositivo. Verifique o seu número de segurança com eles para assegurar a privacidade.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Enviar mensagem pendente",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Enviar $count$ mensagens pendentes",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Enviar mensagens pendentes",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "A lista de idiomas suportados foi expandida. Agradecemos sinceramente aos tradutores voluntários cujos esforços tornaram isso possível. ",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Alguma vez utilizou o Signal com uma ligação instável? Pode deixar de se preocupar, acabaram as alterações no temporizador da destruição de mensagens e agora, será mais enviado quando a sua ligação Wi-Fi estiver novamente boa.",
+        "description": "Release notes for v5.34"
     }
 }

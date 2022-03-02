@@ -415,12 +415,8 @@
         "message": "Seuraavat henkilöt ovat saattaneet uudelleenasentaa tai vaihtaneet laitteita. Varmenna turvanumerosi heidän kanssaan yksityisyyden takaamiseksi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Lähetä odottava viesti",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Lähetä $count$ odottavaa viestiä",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Lähetä odottavat viestit",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Tuettujen kielten luettelo on laajentunut. Kiitämme vilpittömästi vapaaehtoiskääntäjiä, joiden ponnistelut mahdollistivat tämän.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Oletko koskaan käyttänyt Signalia epävakaalla verkkoyhteydellä? Enää ei ole tarvetta huoleen - katoavien viestien ajastin muuttuu ja jatkossa synkronoidaan enemmän, kun yhteytesi voi taas paremmin.",
+        "description": "Release notes for v5.34"
     }
 }

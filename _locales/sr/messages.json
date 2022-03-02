@@ -415,12 +415,8 @@
         "message": "Следеће особе су вероватно реинсталирале или промениле уређаје. За гаранцију приватности, оверите сигурносне бројеве са њима.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Пошаљи поруке на чекању",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Послати $count$ поруке на чекању",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Send pending messages",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -1048,7 +1044,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Signal није успео да се ажурира. $retry$ или идите $url$ да би ручно инсталирали. Онда, $support$ о проблему",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -2120,11 +2116,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[Данас] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[Јуче] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2496,11 +2492,11 @@
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "Поновити ажурирање",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "контактирајте подршку",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -6678,7 +6674,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
+        "message": "Signal је поново покренут након пада. Можете да пошаљете извештај о паду да бисте помогли Signal -у да истражи проблем.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "description": "Release notes for v5.34"
     }
 }

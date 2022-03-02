@@ -415,12 +415,8 @@
         "message": "Le seguenti persone potrebbero aver reinstallato o cambiato i dispositivi. Verifica il tuo numero di sicurezza con loro per garantire la privacy.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Invia messaggio in attesa",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Invia $count$ messaggi in attesa",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Invia messaggi in attesa",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -3934,7 +3930,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Abbandona chiamata",
+        "message": "Termina",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "La lista delle lingue supportate si è ampliata. Apprezziamo sinceramente i traduttori volontari i cui sforzi lo hanno reso possibile.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Hai mai usato Signal con una connessione instabile? Puoi non preoccuparti più: le modifiche al timer di scomparsa dei messaggi e altro verranno inviati una volta che il tuo Wi-Fi si sentirà di nuovo meglio.",
+        "description": "Release notes for v5.34"
     }
 }

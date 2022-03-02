@@ -415,12 +415,8 @@
         "message": "Aşağıdakı şəxslər yenidən quraşdırmış və ya cihazlarını dəyişdirmiş ola bilər. Gizliliyinizə əmin olmaq üçün güvənlik nömrənizi təsdiqləyin.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Gözləyən mesajı göndər",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Gözləyən $count$ mesajı göndər",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Gözləyən mesajları göndər",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Dəstəklənən dillərin siyahısı genişləndirildi. Səyləri ilə bunu mümkün edən könüllü tərcüməçilərə ürəkdən təşəkkürlər!",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Heç qeyri-stabil bağlantıda Signal-ı istifadə etmisiniz? Artıq narahat olmağa ehtiyac yoxdur. Yox olan mesajlar üçün vaxtölçən dəyişiklikləri və daha çoxu Wi-Fi-nız təkrar qaydasına düşəndə göndəriləcək.",
+        "description": "Release notes for v5.34"
     }
 }

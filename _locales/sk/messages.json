@@ -415,12 +415,8 @@
         "message": "Nasledujúce osoby si možno preinštalovali alebo zmenili zariadenia. Overte si s nimi vaše bezpečnostné číslo pre zaistenie súkromia.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Odoslať čakajúcu správu",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Odoslať $count$ čakajúce správy",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Odoslať čakajúce správy",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Zoznam podporovaných jazykov sa rozšíril. Úprimne si vážime dobrovoľných prekladateľov, ktorých úsilie to umožnilo.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Použili ste niekedy Signal pri nestabilnom pripojení? Už si nemusíte robiť starosti – časovač miznutia správ sa zmení a ďalšie sa budú odosielať, keď bude vaša Wi-Fi na tom lepšie.",
+        "description": "Release notes for v5.34"
     }
 }

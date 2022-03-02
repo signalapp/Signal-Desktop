@@ -415,12 +415,8 @@
         "message": "Las siguientes personas pueden haber reinstalado Signal o cambiado su dispositivo. Verifica tus cifras de seguridad con ellas para asegurar vuestra privacidad.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Enviar mensaje pendiente",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Enviar $count$ mensajes pendientes",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Enviar mensajes pendientes",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6836,11 +6832,15 @@
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.32--1": {
-        "message": "Indentifica quién es esa persona que no deja de teclear o suspirar durante la llamada en grupo. ¡Hemos introducido un indicador de ruidos!",
+        "message": "Indentifica quién es esa persona que no deja de teclear o suspirar durante la llamada en grupo. ¡Hemos introducido un indicador animado para saber quién habla o molesta!",
         "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.32--2": {
-        "message": "Hemos expandido la lista de idiomas soportados. ¡Gracias a traductores voluntari@s que lo hacen posible!",
+        "message": "Hemos expandido la lista de idiomas soportados. ¡Gracias a nuestr@s traductores voluntari@s que lo hacen posible!",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "¿Usas Signal con una conexión inestable? ¡No te preocupes más! Los cambios en la desaparición de mensajes y más detalles se enviarán cuando la conexión mejore.",
+        "description": "Release notes for v5.34"
     }
 }

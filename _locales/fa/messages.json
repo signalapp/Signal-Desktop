@@ -415,12 +415,8 @@
         "message": "افراد زیر ممکن است دستگاه خود را تغییر داده یا نصب مجدد انجام داده باشند. برای اطمینان از حفظ حریم خصوصی شمارهٔ امنیتی خود را با آنان تأیید کنید.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "ارسال پیام در حال انتظار",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "ارسال $count$ پیام در حال انتظار",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "ارسال پیام‌های معلق",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -1048,7 +1044,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "سیگنال به‌روزرسانی نمی‌تواند بشود. $retry$ یا برای نصب دستی به $url$ مراحعه کنید. سپس، $support$ در مورد این مشکل",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -2120,11 +2116,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[امروز] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[دیروز] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2496,11 +2492,11 @@
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "دوباره به‌روزرسانی کنید",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "تماس با پشتیبانی",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5982,11 +5978,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd, MMM D",
+        "message": "dddd، D MMMM",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "MMM D, YYYY",
+        "message": "YYYY, D MMMM",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6828,7 +6824,7 @@
         "description": "Release notes for v5.29"
     },
     "WhatsNew__v5.31--1": {
-        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "message": "بی‌وقفه در میان گفتگوهای خود پیمایش کنید و مطمئن باشید که در هر کجای گفتگو که باشید می‌دانید چه زمانی است.",
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.31--2": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "description": "Release notes for v5.34"
     }
 }

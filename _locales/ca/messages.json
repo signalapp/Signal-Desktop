@@ -394,7 +394,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Els números de seguretat amb aquests membres de grup han canviat des que els vau verificar l'últim cop. Cliqueu en un membre del grup per veure'n el número de seguretat nou.",
+        "message": "Els números de seguretat amb aquests membres de grup han canviat des que els vau verificar l'últim cop. Cliqueu en un membre del grup per a veure'n el número de seguretat nou.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -412,15 +412,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Aquesta gent podria haver reinstallar o dispositius canviats. Comproveu vostre número de seguretat amb ells, per assegurar la privadesa.",
+        "message": "Les persones següents podrien haver reinstal·lat o canviat els dispositius. Comproveu el vostre número de seguretat amb ells, per a assegurar la privadesa.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Envia el missatge pendent",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Envia els $count$ missatges pendents",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Envia els missatges pendents",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -450,7 +446,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "El número de seguretat amb $name$ ha canviat i ja no està verificat. Feu clic per veure'l.",
+        "message": "El número de seguretat amb $name$ ha canviat i ja no està verificat. Feu clic per a veure'l.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -460,7 +456,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Els números de seguretat amb múltiples membres d'aquest grup ha canviat i ja no estan verificats. Feu clic per veure'ls.",
+        "message": "Els números de seguretat amb múltiples membres d'aquest grup ha canviat i ja no estan verificats. Feu clic per a veure'ls.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -476,7 +472,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "S'ha carregat el registre de depuració. Quan us poseu en contacte amb el servei d'assistència, copieu l'enllaç següent i adjunteu-lo, juntament amb una descripció del problema que heu vist i els passos per reproduir-lo.",
+        "message": "S'ha carregat el registre de depuració. Quan us poseu en contacte amb el servei d'assistència, copieu l'enllaç següent i adjunteu-lo, juntament amb una descripció del problema que heu vist i els passos per a reproduir-lo.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -588,11 +584,11 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipus d'adjunt no admès. Feu clic per desar.",
+        "message": "Tipus d'adjunt no admès. Feu clic per a desar.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Feu clic per desar",
+        "message": "Feu clic per a desar",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
@@ -688,7 +684,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Cliqueu per tornar-hi a connectar.",
+        "message": "Cliqueu per a tornar-hi a connectar.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
@@ -864,7 +860,7 @@
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
-        "message": "Seleccioneu un contacte o grup per començar la conversa.",
+        "message": "Seleccioneu un contacte o grup per a començar la conversa.",
         "description": ""
     },
     "typingAlt": {
@@ -942,7 +938,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "S'ha trobat el missatge original, però no s'ha carregat. Desplaceu-vos amunt per carregar-lo.",
+        "message": "S'ha trobat el missatge original, però no s'ha carregat. Desplaceu-vos amunt per ca arregar-lo.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
@@ -1000,7 +996,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Per enviar missatges d'àudio, permeteu que el Signal Desktop tingui accés al micròfon.",
+        "message": "Per a enviar missatges d'àudio, permeteu que el Signal Desktop tingui accés al micròfon.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -1172,7 +1168,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Per verificar la seguretat de l'encriptació d'extrem a extrem amb $name$, compareu els números anteriors amb el seu dispositiu.",
+        "message": "Per a verificar la seguretat de l'encriptació d'extrem a extrem amb $name$, compareu els números anteriors amb el seu dispositiu.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1436,7 +1432,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Actualitzeu el Signal d'aquest dispositiu per enllaçar-lo amb el telèfon.",
+        "message": "Actualitzeu el Signal d'aquest dispositiu per a enllaçar-lo amb el telèfon.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1788,7 +1784,7 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Cliqueu aquí per tornar a la trucada quan estigueu a punt per interrompre la presentació.",
+        "message": "Cliqueu aquí per a tornar a la trucada quan estigueu a punt per interrompre la presentació.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1834,7 +1830,7 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "El Signal necessita permís per accedir a la gravació de pantalla de l’ordinador.",
+        "message": "El Signal necessita permís per a accedir a la gravació de pantalla de l’ordinador.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -1846,7 +1842,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "A la dreta, marqueu la casella que hi ha al costat del Signal. Si no veieu el Signal a la llista, feu clic a + per afegir-lo.",
+        "message": "A la dreta, marqueu la casella que hi ha al costat del Signal. Si no veieu el Signal a la llista, feu clic a + per a afegir-lo.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1862,7 +1858,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Retransmet totes les trucades a través del servidor del Signal per evitar revelar l'adreça IP al contacte. Activar-ho reduirà la qualitat de la trucada.",
+        "message": "Retransmet totes les trucades a través del servidor del Signal per a evitar revelar l'adreça IP al contacte. Activar-ho reduirà la qualitat de la trucada.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -2040,11 +2036,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Aquesta versió del Signal Desktop ha vençut. Actualitzeu-lo a l'última versió per poder continuar enviant i rebent missatges.",
+        "message": "Aquesta versió del Signal Desktop ha vençut. Actualitzeu-lo a l'última versió per a poder continuar enviant i rebent missatges.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Cliqueu per anar a signal.org/download",
+        "message": "Cliqueu per a anar a signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2132,11 +2128,11 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Desbloqueu aquest contacte per enviar-li un missatge.",
+        "message": "Desbloqueu aquest contacte per a enviar-li un missatge.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Desbloqueu aquest grup per enviar-hi un missatge.",
+        "message": "Desbloqueu aquest grup per a enviar-hi un missatge.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
@@ -2472,7 +2468,7 @@
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Marqueu un número de telèfon per afegir un contacte.",
+        "message": "Marqueu un número de telèfon per a afegir un contacte.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -2504,15 +2500,15 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Cliqueu per reiniciar el Signal",
+        "message": "Cliqueu per a reiniciar el Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Cliqueu per baixar l'actualització",
+        "message": "Cliqueu per a baixar l'actualització",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Premeu Reinicia el Signal per aplicar les actualitzacions.",
+        "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -3160,7 +3156,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Cliqueu per afegir o deixar anar imatges aquí.",
+        "message": "Cliqueu per a afegir o deixar anar imatges aquí.",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -3300,7 +3296,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Useu l'etiqueta $hashtag$ per ajudar altres persones a trobar els URL de qualsevol paquet d'adhesius personalitzat que voldríeu fer accessible al públic.",
+        "message": "Useu l'etiqueta $hashtag$ per a ajudar altres persones a trobar els URL de qualsevol paquet d'adhesius personalitzat que voldríeu fer accessible al públic.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -4078,7 +4074,7 @@
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "Ja heu demanat l'aprovació per afegir-vos al grup.",
+        "message": "Ja heu demanat l'aprovació per a afegir-vos al grup.",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
@@ -4114,7 +4110,7 @@
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
-        "message": "Voleu cancel·lar la sol·licitud per afegir-vos al grup?",
+        "message": "Voleu cancel·lar la sol·licitud per a afegir-vos al grup?",
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
@@ -4150,7 +4146,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "La sol·licitud per afegir-vos-hi s'ha enviat a l'administrador del grup. Rebreu una notificació quan la resolguin.",
+        "message": "La sol·licitud per a afegir-vos-hi s'ha enviat a l'administrador del grup. Rebreu una notificació quan la resolguin.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -4540,7 +4536,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ ha aprovat la sol·licitud per afegir-vos al grup.",
+        "message": "$adminName$ ha aprovat la sol·licitud per a afegir-vos al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4550,7 +4546,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "S'ha aprovat la sol·licitud per afegir-vos al grup.",
+        "message": "S'ha aprovat la sol·licitud per a afegir-vos al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -4578,7 +4574,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "S'ha aprovat la sol·licitud de $joinerName$ per afegir-se al grup.",
+        "message": "S'ha aprovat la sol·licitud de $joinerName$ per a afegir-se al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5076,7 +5072,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "Heu enviat la sol·licitud per afegir-vos al grup.",
+        "message": "Heu enviat la sol·licitud per a afegir-vos al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -5090,11 +5086,11 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "Heu cancel·lat la sol·licitud per afegir-vos al grup.",
+        "message": "Heu cancel·lat la sol·licitud per a afegir-vos al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Un administrador ha rebutjat la sol·licitud per afegir-vos al grup.",
+        "message": "Un administrador ha rebutjat la sol·licitud per a afegir-vos al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -5108,7 +5104,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ ha cancel·lat la sol·licitud per afegir-se al grup.",
+        "message": "$joinerName$ ha cancel·lat la sol·licitud per a afegir-se al grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5244,7 +5240,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ ha canviat la configuració del grup per permetre enviar missatges només als administradors.",
+        "message": "$memberName$ ha canviat la configuració del grup per a permetre enviar missatges només als administradors.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5254,15 +5250,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "El grup s'ha canviat per permetre enviar missatges només als administradors.",
+        "message": "El grup s'ha canviat per a permetre enviar missatges només als administradors.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Heu canviat la configuració del grup per permetre enviar missatges a tots els membres.",
+        "message": "Heu canviat la configuració del grup per a permetre enviar missatges a tots els membres.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ ha canviat la configuració del grup per permetre enviar missatges només a tots els membres.",
+        "message": "$memberName$ ha canviat la configuració del grup per a permetre enviar missatges només a tots els membres.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5272,7 +5268,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "El grup s'ha canviat per permetre enviar missatges a tots els membres.",
+        "message": "El grup s'ha canviat per a permetre enviar missatges a tots els membres.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5318,15 +5314,15 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Haureu d'acceptar una invitació per tornar-vos a afegir al grup i no en rebreu missatges fins que no ho feu.",
+        "message": "Caldrà que accepteu una invitació per a tornar-vos a afegir al grup i no en rebreu missatges fins que no ho feu.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Aquests membres hauran d'acceptar una invitació per tornar a afegir-se a aquest grup i no en rebran missatges fins que no l'acceptin:",
+        "message": "Aquests membres hauran d'acceptar una invitació per a tornar a afegir-se a aquest grup i no en rebran missatges fins que no l'acceptin:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Aquest membre haurà d'acceptar una invitació per tornar a afegir-se a aquest grup i no en rebrà missatges fins que no l'accepti:",
+        "message": "Aquest membre haurà d'acceptar una invitació per a tornar a afegir-se a aquest grup i no en rebrà missatges fins que no l'accepti:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -5438,7 +5434,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "El Signal Desktop no admet missatges de contactes que no són del Signal. Demaneu a aquesta persona que l'instal·li per tenir una experiència de missatgeria més segura.",
+        "message": "El Signal Desktop no admet missatges de contactes que no són del Signal. Demaneu a aquesta persona que l'instal·li per a tenir una experiència de missatgeria més segura.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -5974,7 +5970,7 @@
         }
     },
     "composeIcon": {
-        "message": "botó per escriure",
+        "message": "botó per a escriure",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {
@@ -5994,7 +5990,7 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "No teniu cap grup en comú amb aquesta persona. Reviseu les sol·licituds amb atenció abans d’acceptar-les per evitar missatges no desitjats.",
+        "message": "No teniu cap grup en comú amb aquesta persona. Reviseu les sol·licituds amb atenció abans d’acceptar-les per a evitar missatges no desitjats.",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -6094,7 +6090,7 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Per ajudar a prevenir el correu brossa al Signal, completeu la verificació.",
+        "message": "Per a ajudar a prevenir el correu brossa al Signal, completeu la verificació.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -6278,7 +6274,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "No s'ha pogut mostrar aquest missatge. Cliqueu per enviar un registre de depuració.",
+        "message": "No s'ha pogut mostrar aquest missatge. Cliqueu per a enviar un registre de depuració.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6448,7 +6444,7 @@
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
-        "message": "Lliure per conversar-hi",
+        "message": "Lliure per a conversar-hi",
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {
@@ -6564,7 +6560,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Per canviar aquesta configuració, obriu l'aplicació del Signal al dispositiu mòbil i aneu a Configuració > Converses.",
+        "message": "Per a canviar aquesta configuració, obriu l'aplicació del Signal al dispositiu mòbil i aneu a Configuració > Converses.",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6604,7 +6600,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Per canviar aquesta configuració, obriu l'aplicació del Signal al dispositiu mòbil i aneu a Configuració > Privadesa.",
+        "message": "Per a canviar aquesta configuració, obriu l'aplicació del Signal al dispositiu mòbil i aneu a Configuració > Privadesa.",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6670,7 +6666,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Tanqueu-lo manualment i cliqueu a tornar-ho a provar per continuar.",
+        "message": "Tanqueu-lo manualment i cliqueu a tornar-ho a provar per a continuar.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
@@ -6678,7 +6674,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "El Signal s'ha reiniciat després d'una fallada. Podeu enviar un informe d'error per ajudar el Signal a investigar el problema.",
+        "message": "El Signal s'ha reiniciat després d'una fallada. Podeu enviar un informe d'error per a ajudar el Signal a investigar el problema.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6694,7 +6690,7 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Cliqueu per reemplaçar una emoticona",
+        "message": "Cliqueu per a reemplaçar una emoticona",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "La llista de llengües compatibles s'ha ampliat. Un agraïment sincer per als traductors voluntaris els esforços dels quals ho han fet possible.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Heu usat mai el Signal amb una connexió inestable? Ja no cal que us en preocupeu més: el temporitzador de missatges efímers canvia i s'enviaran quan la Wi-Fi torni a captar-se millor.",
+        "description": "Release notes for v5.34"
     }
 }

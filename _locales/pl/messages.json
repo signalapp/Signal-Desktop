@@ -316,7 +316,7 @@
         }
     },
     "view": {
-        "message": "Zobacz",
+        "message": "Pokaż",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
@@ -394,7 +394,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Twoje numery bezpieczeństwa dla tych członków grupy uległy zmianie od czasu ostatniej weryfikacji. Naciśnij na członka grupy, aby zobaczyć Twój nowy numer bezpieczeństwa dla niego.",
+        "message": "Twoje numery bezpieczeństwa dla tych członków grupy uległy zmianie od czasu ostatniej weryfikacji. Wybierz członka grupy, aby zobaczyć Twój nowy numer bezpieczeństwa dla tego kontaktu.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -415,12 +415,8 @@
         "message": "Następujące osoby mogły ponownie zainstalować aplikację lub zmienić urządzenie. Zweryfikuj wasze numery bezpieczeństwa, aby zapewnić prywatność.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Wyślij oczekującą wiadomość",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Wyślij $count$ oczekujących wiadomości",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Wyślij oczekujące wiadomości",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Lista dostępnych języków została rozszerzona. Jesteśmy wdzięczni tłumaczom ochotnikom, którzy to umożliwili.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Używasz Signal, korzystając z niestabilnego połączenia z internetem? Nie musisz się już martwić - zmiany czasu znikania wiadomości i inne, zostaną teraz wysłane, gdy tylko Twoja sieć Wi-Fi znów poczuje się lepiej.",
+        "description": "Release notes for v5.34"
     }
 }

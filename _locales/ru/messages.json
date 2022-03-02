@@ -415,12 +415,8 @@
         "message": "Следующие люди могли переустановить Signal или сменить устройства. Подтвердите ваш код безопасности с ними, чтобы обеспечить конфиденциальность.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Отправить ожидающее сообщение",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Отправить $count$ ожидающих сообщений",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Отправить ожидающие сообщения",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Список поддерживаемых языков расширился. Мы искренне ценим переводчиков-волонтёров, чьи усилия сделали это возможным.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Когда-либо использовали Signal при нестабильном соединении? Теперь вы можете не волноваться — такие действия, как изменение таймера исчезающих сообщений, теперь будут отправлены, как только ваш Wi-Fi станет лучше себя чувствовать.",
+        "description": "Release notes for v5.34"
     }
 }

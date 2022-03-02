@@ -415,12 +415,8 @@
         "message": "Die volgende mense het dalk van toestelle verander of ’n herinstallasie gedoen. Verifieer u veiligheidsnomemr met hulle om privaatheid te verseker.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Send pending messages",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -4990,7 +4986,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "’n Beheerder het u uitnodiging na die groep vir $inviteeName$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5000,7 +4996,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "$adminName$ het uitnodigings na die groep vir $count$ mense deur $memberName$ genooi, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5014,7 +5010,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "U het uitnodigings na die groep vir $count$ mense deur $memberName$ genooi, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5028,7 +5024,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "’n Beheerder het uitnodigings na die groep vir $count$ mense deur $memberName$ genooi, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Die lys van ondersteunde tale is uitgebrei. Ons is innig dankbaar teenoor die vrywilligers wat moeite gedoen het om dit moontlik te maak.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "description": "Release notes for v5.34"
     }
 }

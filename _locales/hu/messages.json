@@ -415,12 +415,8 @@
         "message": "A következő személyek lehet, hogy újratelepítették a Signalt vagy készüléket cseréltek. Ellenőrizd biztonsági számotokat az adatvédelem megőrzése érdekében!",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Függőben lévő üzenet küldése",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "$count$ db függőben lévő üzenet küldése",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Függőben levő üzenetek küldése",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "A támogatott nyelvek listája kibővült. Hálásan köszönjük az önkéntes fordítóknak, akik munkája ezt lehetővé tette!",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Használtad már a Signalt ingadozó hálózati kapcsolat alatt? Többé nincs miért aggódni, az eltűnő üzenetek időzítésének átállítása és minden más változtatás azonnal felszinkronizálásra kerül, amint a kapcsolat helyreállt.",
+        "description": "Release notes for v5.34"
     }
 }

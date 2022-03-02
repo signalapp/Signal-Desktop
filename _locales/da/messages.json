@@ -415,12 +415,8 @@
         "message": "Følgende personer kan have geninstalleret eller skiftet enheder. Bekræft dit sikkerhedsnummer med dem for at sikre privatlivsbeskyttelsen.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send afventende besked",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ afventende beskeder",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Send afventende beskeder",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Listen med understøttede sprog er blevet udvidet. Vi sætter stor pris på de frivillige oversættere, hvis indsats har gjort dette muligt.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Har du nogensinde brugt Signal på en ustabil forbindelse? Nu behøver du ikke længere bekymre dig - ændringer i udløbstiden for forsvindende beskeder og andet vil nu blive sendt ud, når dit Wi-Fi er bedre igen.",
+        "description": "Release notes for v5.34"
     }
 }

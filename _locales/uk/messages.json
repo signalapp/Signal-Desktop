@@ -415,12 +415,8 @@
         "message": "Ці користувачі, ймовірно, перевстановили застосунок чи змінили пристрої. Підтвердіть ваші коди безпеки, щоб впевнитись у приватності.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Надіслати повідомлення в очікуванні",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Надіслати $count$ повідомлень, що очікують на розгляд",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Відправити повідомлення, що очікують",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Перелік мов, які підтримуються, розширено. Ми щиро вдячні перекладачам-волонтерам, чиї зусилля зробили це можливим.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Довелось використовувати Signal на нестабільному з'єднанні? Хвилюватись більше не доведеться — зміни до таймера повідомлень, що зникають, та інша інформація відтепер надсилатиметься щойно Wi-Fi почуватиметься краще.",
+        "description": "Release notes for v5.34"
     }
 }

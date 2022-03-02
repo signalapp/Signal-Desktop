@@ -415,12 +415,8 @@
         "message": "Este posibil ca următoarele persoane să fi reinstalat sau schimbat dispozitivele. Verifică numărul de siguranță cu acestea pentru a-ți asigura confidențialitatea.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Trimite mesajul în așteptare",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Trimite $count$ mesaje în așteptare",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Trimite mesajele în așteptare",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Lista de limbi în care este tradusă aplicația s-a extins. Apreciem cu sinceritate traducătorii voluntari ale căror eforturi au făcut posibil acest lucru.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Ai folosit vreodată Signal cu o conexiune instabilă? Nu trebuie să-ți mai faci griji, modificări ale timpului de dispariție mesaje cât și alte modificări vor fi trimise o dată ce Wi-Fi-ul se simte mai bine.",
+        "description": "Release notes for v5.34"
     }
 }

@@ -415,12 +415,8 @@
         "message": "以下使用者可能已重新安裝或更換了裝置。與他們一起驗證你的安全碼，以確保隱私性。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
+    "safetyNumberChangeDialog__pending-messages": {
         "message": "傳送待處理的訊息",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "傳送給 $count$待處理的訊息",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6842,5 +6838,9 @@
     "WhatsNew__v5.32--2": {
         "message": "支援的語言清單已增加。 我們衷心感謝那些努力使這一切成為可能的翻譯志願者。",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "曾經在不穩定的網路上使用過 Signal？你無須再擔心 - 將銷毀訊息計時器更改時間，一旦你的 Wi-Fi 再次感覺順暢，就可傳送更多訊息。",
+        "description": "Release notes for v5.34"
     }
 }
