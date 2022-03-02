@@ -2610,7 +2610,7 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     contacts: Proto.SyncMessage.IContacts
   ): Promise<void> {
-    log.info('contact sync');
+    log.info('MessageReceiver: handleContacts');
     const { blob } = contacts;
     if (!blob) {
       throw new Error('MessageReceiver.handleContacts: blob field was missing');
@@ -2631,10 +2631,10 @@ export default class MessageReceiver
       contactDetails = contactBuffer.next();
     }
 
-    const finalEvent = new ContactSyncEvent();
-    results.push(this.dispatchAndWait(finalEvent));
-
     await Promise.all(results);
+
+    const finalEvent = new ContactSyncEvent();
+    await this.dispatchAndWait(finalEvent);
 
     log.info('handleContacts: finished');
   }

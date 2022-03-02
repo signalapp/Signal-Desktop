@@ -13,6 +13,7 @@ import {
   waitThenRespondToGroupV2Migration,
 } from '../groups';
 import { assert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
 import {
@@ -768,8 +769,8 @@ export async function mergeContactRecord(
       : undefined,
   };
 
-  const e164 = contactRecord.serviceE164 || undefined;
-  const uuid = contactRecord.serviceUuid || undefined;
+  const e164 = dropNull(contactRecord.serviceE164);
+  const uuid = dropNull(contactRecord.serviceUuid);
 
   // All contacts must have UUID
   if (!uuid) {
@@ -800,6 +801,25 @@ export async function mergeContactRecord(
     await conversation.setProfileKey(Bytes.toBase64(contactRecord.profileKey), {
       viaStorageServiceSync: true,
     });
+  }
+
+  const remoteName = dropNull(contactRecord.givenName);
+  const remoteFamilyName = dropNull(contactRecord.familyName);
+  const localName = conversation.get('profileName');
+  const localFamilyName = conversation.get('profileFamilyName');
+  if (
+    remoteName &&
+    (localName !== remoteName || localFamilyName !== remoteFamilyName)
+  ) {
+    // Local name doesn't match remote name, fetch profile
+    if (localName) {
+      conversation.getProfiles();
+    } else {
+      conversation.set({
+        profileName: remoteName,
+        profileFamilyName: remoteFamilyName,
+      });
+    }
   }
 
   const verified = await conversation.safeGetVerified();
@@ -1065,6 +1085,16 @@ export async function mergeAccountRecord(
 
     remotelyPinnedConversations.forEach(conversation => {
       conversation.set({ isPinned: true, isArchived: false });
+
+      if (
+        window.Signal.Util.postLinkExperience.isActive() &&
+        isGroupV2(conversation.attributes)
+      ) {
+        log.info(
+          'mergeAccountRecord: Adding the message history disclaimer on link'
+        );
+        conversation.addMessageHistoryDisclaimer();
+      }
       updateConversation(conversation.attributes);
     });
 

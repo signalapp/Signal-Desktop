@@ -1312,7 +1312,6 @@ async function sync(
     );
   }
 
-  window.Signal.Util.postLinkExperience.stop();
   log.info('storageService.sync: complete');
   return manifest;
 }
@@ -1453,6 +1452,9 @@ export const runStorageServiceSyncJob = debounce(() => {
   ourProfileKeyService.blockGetWithPromise(
     storageJobQueue(async () => {
       await sync();
+
+      // Notify listeners about sync completion
+      window.Whisper.events.trigger('storageService:syncComplete');
     }, `sync v${window.storage.get('manifestVersion')}`)
   );
 }, 500);

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import { isNumber, noop } from 'lodash';
+import { isNumber } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ import type {
   ProcessedDataMessage,
 } from './textsecure/Types.d';
 import { HTTPError } from './textsecure/Errors';
-import {
+import createTaskWithTimeout, {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
 } from './textsecure/TaskWithTimeout';
@@ -34,7 +34,6 @@ import * as durations from './util/durations';
 import { explodePromise } from './util/explodePromise';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert, strictAssert } from './util/assert';
-import { dropNull } from './util/dropNull';
 import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
@@ -80,11 +79,11 @@ import type {
   SentEventData,
   StickerPackEvent,
   TypingEvent,
+  VerifiedEvent,
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
 } from './textsecure/messageReceiverEvents';
-import { VerifiedEvent } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
 import { RotateSignedPreKeyListener } from './textsecure/RotateSignedPreKeyListener';
@@ -1709,12 +1708,6 @@ export async function startApp(): Promise<void> {
       window.reduxActions.app.openInstaller();
     }
 
-    window.Whisper.events.on('contactsync', () => {
-      if (window.reduxStore.getState().app.appView === AppViewType.Installer) {
-        window.reduxActions.app.openInbox();
-      }
-    });
-
     window.registerForActive(() => notificationService.clear());
     window.addEventListener('unload', () => notificationService.fastClear());
 
@@ -2082,6 +2075,7 @@ export async function startApp(): Promise<void> {
       }
 
       if (firstRun === true && deviceId !== 1) {
+        const { messaging } = window.textsecure;
         const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
         if (
           !hasThemeSetting &&
@@ -2093,19 +2087,71 @@ export async function startApp(): Promise<void> {
           );
           themeChanged();
         }
-        const syncRequest = window.getSyncRequest();
-        window.Whisper.events.trigger('contactsync:begin');
-        syncRequest.addEventListener('success', () => {
-          log.info('sync successful');
-          window.storage.put('synced_at', Date.now());
-          window.Whisper.events.trigger('contactsync');
-          runStorageService();
-        });
-        syncRequest.addEventListener('timeout', () => {
-          log.error('sync timed out');
-          window.Whisper.events.trigger('contactsync');
-          runStorageService();
-        });
+
+        const waitForEvent = createTaskWithTimeout(
+          (event: string): Promise<void> => {
+            const { promise, resolve } = explodePromise<void>();
+            window.Whisper.events.once(event, () => resolve());
+            return promise;
+          },
+          'firstRun:waitForEvent'
+        );
+
+        let storageServiceSyncComplete: Promise<void>;
+        if (window.ConversationController.areWePrimaryDevice()) {
+          storageServiceSyncComplete = Promise.resolve();
+        } else {
+          storageServiceSyncComplete = waitForEvent(
+            'storageService:syncComplete'
+          );
+        }
+
+        const contactSyncComplete = waitForEvent('contactSync:complete');
+
+        log.info('firstRun: requesting initial sync');
+
+        // Request configuration, block, GV1 sync messages, contacts
+        // (only avatars and inboxPosition),and Storage Service sync.
+        try {
+          await Promise.all([
+            singleProtoJobQueue.add(
+              messaging.getRequestConfigurationSyncMessage()
+            ),
+            singleProtoJobQueue.add(messaging.getRequestBlockSyncMessage()),
+            singleProtoJobQueue.add(messaging.getRequestGroupSyncMessage()),
+            singleProtoJobQueue.add(messaging.getRequestContactSyncMessage()),
+            runStorageService(),
+          ]);
+        } catch (error) {
+          log.error(
+            'connect: Failed to request initial syncs',
+            Errors.toLogFormat(error)
+          );
+        }
+
+        log.info('firstRun: waiting for storage service and contact sync');
+
+        try {
+          await Promise.all([storageServiceSyncComplete, contactSyncComplete]);
+        } catch (error) {
+          log.error(
+            'connect: Failed to run storage service and contact syncs',
+            Errors.toLogFormat(error)
+          );
+        }
+
+        log.info('firstRun: disabling post link experience');
+        window.Signal.Util.postLinkExperience.stop();
+
+        // Switch to inbox view even if contact sync is still running
+        if (
+          window.reduxStore.getState().app.appView === AppViewType.Installer
+        ) {
+          log.info('firstRun: opening inbox');
+          window.reduxActions.app.openInbox();
+        } else {
+          log.info('firstRun: not opening inbox');
+        }
 
         const installedStickerPacks = Stickers.getInstalledStickerPacks();
         if (installedStickerPacks.length) {
@@ -2122,9 +2168,10 @@ export async function startApp(): Promise<void> {
             return;
           }
 
+          log.info('firstRun: requesting stickers', operations.length);
           try {
             await singleProtoJobQueue.add(
-              window.textsecure.messaging.getStickerPackSync(operations)
+              messaging.getStickerPackSync(operations)
             );
           } catch (error) {
             log.error(
@@ -2134,16 +2181,7 @@ export async function startApp(): Promise<void> {
           }
         }
 
-        try {
-          await singleProtoJobQueue.add(
-            window.textsecure.messaging.getRequestKeySyncMessage()
-          );
-        } catch (error) {
-          log.error(
-            'Failed to queue request key sync message',
-            Errors.toLogFormat(error)
-          );
-        }
+        log.info('firstRun: done');
       }
 
       window.storage.onready(async () => {
@@ -2486,23 +2524,11 @@ export async function startApp(): Promise<void> {
   async function onContactSyncComplete() {
     log.info('onContactSyncComplete');
     await window.storage.put('synced_at', Date.now());
+    window.Whisper.events.trigger('contactSync:complete');
   }
 
   async function onContactReceived(ev: ContactEvent) {
     const details = ev.contactDetails;
-
-    if (
-      (details.number &&
-        details.number === window.textsecure.storage.user.getNumber()) ||
-      (details.uuid &&
-        details.uuid === window.textsecure.storage.user.getUuid()?.toString())
-    ) {
-      // special case for syncing details about ourselves
-      if (details.profileKey) {
-        log.info('Got sync message with our own profile key');
-        ourProfileKeyService.set(details.profileKey);
-      }
-    }
 
     const c = new window.Whisper.Conversation({
       e164: details.number,
@@ -2527,19 +2553,6 @@ export async function startApp(): Promise<void> {
       });
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conversation = window.ConversationController.get(detailsId)!;
-
-      if (details.profileKey && details.profileKey.length > 0) {
-        const profileKey = Bytes.toBase64(details.profileKey);
-        conversation.setProfileKey(profileKey);
-      }
-
-      if (typeof details.blocked !== 'undefined') {
-        if (details.blocked) {
-          conversation.block();
-        } else {
-          conversation.unblock();
-        }
-      }
 
       conversation.set({
         name: details.name,
@@ -2569,6 +2582,8 @@ export async function startApp(): Promise<void> {
 
       window.Signal.Data.updateConversation(conversation.attributes);
 
+      // expireTimer isn't stored in Storage Service so we have to rely on the
+      // contact sync.
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
@@ -2583,21 +2598,6 @@ export async function startApp(): Promise<void> {
             fromSync: true,
           }
         );
-      }
-
-      if (details.verified) {
-        const { verified } = details;
-        const verifiedEvent = new VerifiedEvent(
-          {
-            state: dropNull(verified.state),
-            destination: dropNull(verified.destination),
-            destinationUuid: dropNull(verified.destinationUuid),
-            identityKey: dropNull(verified.identityKey),
-            viaContactSync: true,
-          },
-          noop
-        );
-        await onVerified(verifiedEvent);
       }
 
       if (window.Signal.Util.postLinkExperience.isActive()) {

@@ -25,6 +25,8 @@ describe('storage service', function needsName() {
   it('should handle message request state changes', async () => {
     const { phone, desktop, server } = bootstrap;
 
+    const initialState = await phone.expectStorageState('initial state');
+
     debug('Creating stranger');
     const stranger = await server.createPrimaryDevice({
       profileName: 'Mysterious Stranger',
@@ -52,9 +54,23 @@ describe('storage service', function needsName() {
       )
       .click();
 
-    const initialState = await phone.expectStorageState('initial state');
-    assert.strictEqual(initialState.version, 1);
-    assert.isUndefined(initialState.getContact(stranger));
+    debug("Verify that we stored stranger's profile key");
+    const postMessageState = await phone.waitForStorageState({
+      after: initialState,
+    });
+    {
+      assert.strictEqual(postMessageState.version, 2);
+      assert.isFalse(postMessageState.getContact(stranger)?.whitelisted);
+      assert.strictEqual(
+        postMessageState.getContact(stranger)?.profileKey?.length,
+        32
+      );
+
+      // ContactRecord
+      const { added, removed } = postMessageState.diff(initialState);
+      assert.strictEqual(added.length, 1, 'only one record must be added');
+      assert.strictEqual(removed.length, 0, 'no records should be removed');
+    }
 
     debug('Accept conversation from a stranger');
     await conversationStack
@@ -64,15 +80,19 @@ describe('storage service', function needsName() {
     debug('Verify that storage state was updated');
     {
       const nextState = await phone.waitForStorageState({
-        after: initialState,
+        after: postMessageState,
       });
-      assert.strictEqual(nextState.version, 2);
+      assert.strictEqual(nextState.version, 3);
       assert.isTrue(nextState.getContact(stranger)?.whitelisted);
 
       // ContactRecord
-      const { added, removed } = nextState.diff(initialState);
+      const { added, removed } = nextState.diff(postMessageState);
       assert.strictEqual(added.length, 1, 'only one record must be added');
-      assert.strictEqual(removed.length, 0, 'no records should be removed');
+      assert.strictEqual(
+        removed.length,
+        1,
+        'only one record should be removed'
+      );
     }
 
     // Stranger should receive our profile key
@@ -110,6 +130,6 @@ describe('storage service', function needsName() {
 
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('consistency check');
-    assert.strictEqual(finalState.version, 2);
+    assert.strictEqual(finalState.version, 3);
   });
 });
