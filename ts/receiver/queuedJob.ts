@@ -251,8 +251,6 @@ async function handleRegularMessage(
   if (type === 'incoming') {
     updateReadStatus(message, conversation);
     if (conversation.isPrivate()) {
-      await conversation.setDidApproveMe(true);
-
       const incomingMessageCount = await getMessageCountByType(
         conversation.id,
         MessageDirection.incoming
@@ -267,14 +265,16 @@ async function handleRegularMessage(
       }
 
       // For edge case when messaging a client that's unable to explicitly send request approvals
-      if (!conversation.didApproveMe() && conversation.isPrivate() && conversation.isApproved()) {
-        await conversation.setDidApproveMe(true);
+      if (conversation.isOutgoingRequest()) {
         // Conversation was not approved before so a sync is needed
         await conversation.addIncomingApprovalMessage(
           _.toNumber(message.get('sent_at')) - 1,
           source
         );
       }
+      // should only occur after isOutgoing request as it relies on didApproveMe being false.
+      await conversation.setDidApproveMe(true);
+      // edge case end
     }
   }
 
