@@ -308,7 +308,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           'private'
         );
         strictAssert(failedConversation, 'Conversation should be created');
-        untrustedConversationIds.push(conversation.id);
+        untrustedConversationIds.push(failedConversation.id);
       } else if (error instanceof SendMessageProtoError) {
         (error.errors || []).forEach(innerError => {
           if (innerError instanceof OutgoingIdentityKeyError) {
@@ -318,7 +318,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
                 'private'
               );
             strictAssert(failedConversation, 'Conversation should be created');
-            untrustedConversationIds.push(conversation.id);
+            untrustedConversationIds.push(failedConversation.id);
           }
         });
       }
