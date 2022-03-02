@@ -853,15 +853,21 @@ export class CallingClass {
     peekInfo: PeekInfo
   ): GroupCallPeekInfoType {
     return {
-      uuids: peekInfo.joinedMembers.map(uuidBuffer => {
-        let uuid = bytesToUuid(uuidBuffer);
-        if (!uuid) {
+      uuids: peekInfo.devices.map(peekDeviceInfo => {
+        if (peekDeviceInfo.userId) {
+          const uuid = bytesToUuid(peekDeviceInfo.userId);
+          if (uuid) {
+            return uuid;
+          }
           log.error(
             'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID Uint8Array to string; using fallback UUID'
           );
-          uuid = '00000000-0000-0000-0000-000000000000';
+        } else {
+          log.error(
+            'Calling.formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
+          );
         }
-        return uuid;
+        return '00000000-0000-0000-0000-000000000000';
       }),
       creatorUuid: peekInfo.creator && bytesToUuid(peekInfo.creator),
       eraId: peekInfo.eraId,
@@ -2094,7 +2100,7 @@ export class CallingClass {
     const wasStartedByMe = Boolean(
       creatorConversation && isMe(creatorConversation.attributes)
     );
-    const isAnybodyElseInGroupCall = Boolean(peekInfo.joinedMembers.length);
+    const isAnybodyElseInGroupCall = Boolean(peekInfo.devices.length);
 
     if (
       isNewCall &&
