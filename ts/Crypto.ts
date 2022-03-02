@@ -479,7 +479,7 @@ export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {
 }
 
 export function splitUuids(buffer: Uint8Array): Array<UUIDStringType | null> {
-  const uuids = [];
+  const uuids = new Array<UUIDStringType | null>();
   for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
     const bytes = getBytes(buffer, i, UUID_BYTE_SIZE);
     const hex = Bytes.toHex(bytes);

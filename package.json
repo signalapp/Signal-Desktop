@@ -290,13 +290,14 @@
     "ts-loader": "4.1.0",
     "ts-node": "8.3.0",
     "typed-scss-modules": "4.1.1",
-    "typescript": "4.4.2",
+    "typescript": "4.6.2",
     "webpack": "5.30.0",
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "3.11.2"
   },
   "resolutions": {
     "@storybook/react/@storybook/core/node-fetch": "2.6.1",
+    "dmg-license": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fabric/canvas": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fabric/jsdom": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fast-glob/glob-parent": "5.1.2",
