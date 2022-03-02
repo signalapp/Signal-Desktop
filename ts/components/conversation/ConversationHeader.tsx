@@ -363,11 +363,13 @@ export const ConversationHeaderWithDetails = () => {
             <TripleDotsMenu triggerId={triggerId} showBackButton={isMessageDetailOpened} />
             <ConversationHeaderTitle />
           </div>
-          {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
         </div>
 
         {!isSelectionMode && (
-          <ConversationHeaderButtonContainer>
+          <ConversationHeaderRightContainer>
+            {!isKickedFromGroup && (
+              <ExpirationLength expirationSettingName={expirationSettingName} />
+            )}
             <CallButton />
             <AvatarHeader
               onAvatarClick={() => {
@@ -376,7 +378,7 @@ export const ConversationHeaderWithDetails = () => {
               pubkey={selectedConvoKey}
               showBackButton={isMessageDetailOpened}
             />
-          </ConversationHeaderButtonContainer>
+          </ConversationHeaderRightContainer>
         )}
 
         <ConversationHeaderMenu triggerId={triggerId} />
@@ -387,7 +389,7 @@ export const ConversationHeaderWithDetails = () => {
   );
 };
 
-export const ConversationHeaderButtonContainer = styled.div`
+export const ConversationHeaderRightContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
