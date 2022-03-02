@@ -353,7 +353,6 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    // if (!conversation.isApproved && !conversation.isBlocked) {
     if (!conversation.isApproved) {
       // dont increase unread counter, don't push to convo list.
       continue;

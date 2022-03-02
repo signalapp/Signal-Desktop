@@ -59,9 +59,6 @@ async function handleGroupsAndContactsFromConfigMessage(
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
   const isNewerConfig = lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp);
 
-  // const didWeHandleAConfigurationMessageAlready =
-  //   (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-  // if (didWeHandleAConfigurationMessageAlready) {
   if (isNewerConfig) {
     window?.log?.info(
       'Dropping configuration groups change as we already handled one... Only handling contacts '
@@ -154,7 +151,6 @@ const handleContactReceived = async (
     // checking for existence of field on protobuf
     if (contactReceived.isApproved === true) {
       if (!contactConvo.isApproved()) {
-        // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
         await contactConvo.addOutgoingApprovalMessage(_.toNumber(envelope.timestamp));
       }

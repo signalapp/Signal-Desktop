@@ -40,6 +40,7 @@ import {
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
+import { Flex } from '../basic/Flex';
 
 export interface TimerOption {
   name: string;
@@ -366,7 +367,7 @@ export const ConversationHeaderWithDetails = () => {
         </div>
 
         {!isSelectionMode && (
-          <ConversationHeaderRightContainer>
+          <Flex flexDirection="row" alignItems="center">
             {!isKickedFromGroup && (
               <ExpirationLength expirationSettingName={expirationSettingName} />
             )}
@@ -378,7 +379,7 @@ export const ConversationHeaderWithDetails = () => {
               pubkey={selectedConvoKey}
               showBackButton={isMessageDetailOpened}
             />
-          </ConversationHeaderRightContainer>
+          </Flex>
         )}
 
         <ConversationHeaderMenu triggerId={triggerId} />
@@ -388,9 +389,3 @@ export const ConversationHeaderWithDetails = () => {
     </div>
   );
 };
-
-export const ConversationHeaderRightContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
