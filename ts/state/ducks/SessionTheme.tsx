@@ -66,6 +66,7 @@ export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--color-accent', darkColorAccent);
   document.documentElement.style.setProperty('--color-accent-button', darkColorAccentButton);
   document.documentElement.style.setProperty('--color-text', darkColorText);
+  document.documentElement.style.setProperty('--color-text-menu-highlighted', lightColorText);
   document.documentElement.style.setProperty('--color-text-subtle', darkColorTextSubtle);
   document.documentElement.style.setProperty('--color-text-accent', darkColorTextAccent);
   document.documentElement.style.setProperty('--color-text-opposite', darkColorTextOpposite);
@@ -217,6 +218,7 @@ export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--color-accent', lightColorAccent);
   document.documentElement.style.setProperty('--color-accent-button', lightColorAccentButton);
   document.documentElement.style.setProperty('--color-text', lightColorText);
+  document.documentElement.style.setProperty('--color-text-menu-highlighted', lightColorText);
   document.documentElement.style.setProperty('--color-text-subtle', lightColorTextSubtle);
   document.documentElement.style.setProperty('--color-text-accent', lightColorTextAccent);
   document.documentElement.style.setProperty('--color-text-opposite', lightColorTextOpposite);
