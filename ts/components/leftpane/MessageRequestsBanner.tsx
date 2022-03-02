@@ -3,7 +3,7 @@ import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getConversationRequests } from '../../state/selectors/conversations';
+import { getUnreadConversationRequests } from '../../state/selectors/conversations';
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { MemoMessageRequestBannerContextMenu } from '../menu/MessageRequestBannerContextMenu';
@@ -87,10 +87,10 @@ export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: Sess
 
 export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const { handleOnClick } = props;
-  const conversationRequests = useSelector(getConversationRequests);
+  const conversationRequestsUnread = useSelector(getUnreadConversationRequests).length;
   const hideRequestBanner = useSelector(getHideMessageRequestBanner);
 
-  if (!conversationRequests.length || hideRequestBanner) {
+  if (!conversationRequestsUnread || hideRequestBanner) {
     return null;
   }
 
@@ -124,7 +124,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
           {window.i18n('messageRequests')}
         </StyledMessageRequestBannerHeader>
         <StyledUnreadCounter>
-          <div>{conversationRequests.length || 0}</div>
+          <div>{conversationRequestsUnread || 0}</div>
         </StyledUnreadCounter>
       </StyledMessageRequestBanner>
       <Portal>

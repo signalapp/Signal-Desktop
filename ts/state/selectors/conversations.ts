@@ -18,7 +18,6 @@ import { ConversationModel, ConversationTypeEnum } from '../../models/conversati
 import { LocalizerType } from '../../types/Util';
 import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import _ from 'lodash';
-import { getHideMessageRequestBanner } from './userConfig';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
@@ -456,8 +455,20 @@ const _getConversationRequests = (
 
 export const getConversationRequests = createSelector(
   getSortedConversations,
-  getHideMessageRequestBanner,
   _getConversationRequests
+);
+
+const _getUnreadConversationRequests = (
+  sortedConversationRequests: Array<ReduxConversationType>
+): Array<ReduxConversationType> => {
+  return _.filter(sortedConversationRequests, conversation => {
+    return conversation && conversation.unreadCount && conversation.unreadCount > 0;
+  });
+};
+
+export const getUnreadConversationRequests = createSelector(
+  getConversationRequests,
+  _getUnreadConversationRequests
 );
 
 const _getPrivateContactsPubkeys = (
