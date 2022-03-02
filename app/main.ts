@@ -1395,6 +1395,10 @@ function getAppLocale(): string {
   return getEnvironment() === Environment.Test ? 'en' : app.getLocale();
 }
 
+// Signal doesn't really use media keys so we set this switch here to unblock
+// them so that other apps can use them if they need to.
+app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling');
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
