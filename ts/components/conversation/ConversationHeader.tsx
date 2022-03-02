@@ -363,22 +363,20 @@ export const ConversationHeaderWithDetails = () => {
             <TripleDotsMenu triggerId={triggerId} showBackButton={isMessageDetailOpened} />
             <ConversationHeaderTitle />
           </div>
+          {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
         </div>
-        {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
         {!isSelectionMode && (
-          <RelativePositionAnchor>
-            <ConversationHeaderButtonContainer>
-              <CallButton />
-              <AvatarHeader
-                onAvatarClick={() => {
-                  dispatch(openRightPanel());
-                }}
-                pubkey={selectedConvoKey}
-                showBackButton={isMessageDetailOpened}
-              />
-            </ConversationHeaderButtonContainer>
-          </RelativePositionAnchor>
+          <ConversationHeaderButtonContainer>
+            <CallButton />
+            <AvatarHeader
+              onAvatarClick={() => {
+                dispatch(openRightPanel());
+              }}
+              pubkey={selectedConvoKey}
+              showBackButton={isMessageDetailOpened}
+            />
+          </ConversationHeaderButtonContainer>
         )}
 
         <ConversationHeaderMenu triggerId={triggerId} />
@@ -389,13 +387,7 @@ export const ConversationHeaderWithDetails = () => {
   );
 };
 
-export const RelativePositionAnchor = styled.div`
-  position: relative;
-`;
-
 export const ConversationHeaderButtonContainer = styled.div`
-  position: absolute;
-  transform: translate(-100%, -50%);
   display: flex;
   flex-direction: row;
   align-items: center;
