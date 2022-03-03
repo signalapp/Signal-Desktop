@@ -5,12 +5,12 @@
   "version": "1.8.1",
   "license": "GPL-3.0",
   "author": {
-    "name": "Loki Project",
-    "email": "team@loki.network"
+    "name": "Oxen Labs",
+    "email": "team@oxen.io"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/loki-project/session-desktop.git"
+    "url": "https://github.com/oxen-io/session-desktop.git"
   },
   "main": "main.js",
   "scripts": {
@@ -232,7 +232,7 @@
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "publisherName": "Loki Project",
+      "publisherName": "Oxen Labs",
       "verifyUpdateCodeSignature": false,
       "icon": "build/icon.ico",
       "target": [

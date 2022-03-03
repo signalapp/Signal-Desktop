@@ -215,7 +215,7 @@ const CallButton = () => {
     isMe ||
     !selectedConvoKey ||
     isBlocked ||
-    !window.lokiFeatureFlags.useCallMessage
+    !window.sessionFeatureFlags.useCallMessage
   ) {
     return null;
   }

@@ -183,7 +183,7 @@ export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
 
   if (!seedNodes || !seedNodes.length) {
     window?.log?.error(
-      'LokiSnodeAPI:::fetchFromSeedWithRetriesAndWriteToDb - getSeedNodeList has not been loaded yet'
+      'SessionSnodeAPI:::fetchFromSeedWithRetriesAndWriteToDb - getSeedNodeList has not been loaded yet'
     );
 
     return;
@@ -196,7 +196,7 @@ export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
     Onions.resetSnodeFailureCount();
   } catch (e) {
     window?.log?.error(
-      'LokiSnodeAPI:::fetchFromSeedWithRetriesAndWriteToDb - Failed to fetch snode poll from seed node with retries. Error:',
+      'SessionSnodeAPI:::fetchFromSeedWithRetriesAndWriteToDb - Failed to fetch snode poll from seed node with retries. Error:',
       e
     );
   }
