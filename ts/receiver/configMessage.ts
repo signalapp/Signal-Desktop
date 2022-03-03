@@ -141,7 +141,7 @@ const handleContactReceived = async (
     }
 
     if (
-      window.lokiFeatureFlags.useMessageRequests &&
+      window.sessionFeatureFlags.useMessageRequests &&
       window.inboxStore?.getState().userConfig.messageRequests
     ) {
       if (contactReceived.isApproved) {

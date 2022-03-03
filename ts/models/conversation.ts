@@ -1438,7 +1438,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (
       isMe &&
-      window.lokiFeatureFlags.useMessageRequests &&
+      window.sessionFeatureFlags.useMessageRequests &&
       window.inboxStore?.getState().userConfig.messageRequests
     ) {
       await this.setIsApproved(true);
@@ -1491,7 +1491,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
     const msgRequestsEnabled =
-      window.lokiFeatureFlags.useMessageRequests &&
+      window.sessionFeatureFlags.useMessageRequests &&
       window.inboxStore?.getState().userConfig.messageRequests;
 
     // if msg requests are unused, we have to send typing (this is already a private active unblocked convo)

@@ -253,7 +253,7 @@ async function handleRegularMessage(
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
 
-    if (window.lokiFeatureFlags.useMessageRequests) {
+    if (window.sessionFeatureFlags.useMessageRequests) {
       // assumes sync receipts are always from linked device outgoings
       await conversation.setIsApproved(true);
     }

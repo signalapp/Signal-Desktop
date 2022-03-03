@@ -19,9 +19,6 @@ const { SessionInboxView } = require('../../ts/components/SessionInboxView');
 // Types
 const SettingsType = require('../../ts/types/Settings');
 
-// Views
-const Initialization = require('./views/initialization');
-
 exports.setup = () => {
   Data.init();
 
@@ -35,10 +32,6 @@ exports.setup = () => {
     Settings: SettingsType,
   };
 
-  const Views = {
-    Initialization,
-  };
-
   return {
     Components,
     Crypto,
@@ -49,6 +42,5 @@ exports.setup = () => {
     Settings,
     Types,
     Util,
-    Views,
   };
 };

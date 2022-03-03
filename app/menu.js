@@ -55,10 +55,6 @@ exports.createTemplate = (options, messages) => {
           label: messages.editMenuPaste,
         },
         {
-          role: 'pasteandmatchstyle',
-          label: messages.editMenuPasteAndMatchStyle,
-        },
-        {
           role: 'delete',
           label: messages.editMenuDelete,
         },
@@ -241,13 +237,6 @@ function updateForMac(template, messages, options) {
     {
       label: messages.show,
       click: showWindow,
-    },
-    {
-      type: 'separator',
-    },
-    {
-      role: 'front',
-      label: messages.windowMenuBringAllToFront,
     },
   ];
 

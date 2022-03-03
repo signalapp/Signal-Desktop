@@ -28,7 +28,7 @@ window.isDev = () => config.environment === 'development';
 window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 
-window.lokiFeatureFlags = {
+window.sessionFeatureFlags = {
   useOnionRequests: true,
   useMessageRequests: false,
   useCallMessage: true,

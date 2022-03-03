@@ -1,4 +1,4 @@
-import { snodeRpc } from './lokiRpc';
+import { snodeRpc } from './sessionRpc';
 
 import {
   getRandomSnode,
@@ -86,7 +86,7 @@ async function requestSnodesForPubkeyWithTargetNodeRetryable(
   });
   if (!result) {
     window?.log?.warn(
-      `LokiSnodeAPI::requestSnodesForPubkeyWithTargetNodeRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
+      `SessionSnodeAPI::requestSnodesForPubkeyWithTargetNodeRetryable - sessionRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
       result
     );
     throw new Error('requestSnodesForPubkeyWithTargetNodeRetryable: Invalid result');
@@ -103,7 +103,7 @@ async function requestSnodesForPubkeyWithTargetNodeRetryable(
     if (!json.snodes) {
       // we hit this when snode gives 500s
       window?.log?.warn(
-        `LokiSnodeAPI::requestSnodesForPubkeyRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
+        `SessionSnodeAPI::requestSnodesForPubkeyRetryable - sessionRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
         result
       );
       throw new Error('Invalid json (empty)');
@@ -176,7 +176,7 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
     // if all retry fails, we will end up in the catch below when the last exception thrown
     return await requestSnodesForPubkeyRetryable(pubKey);
   } catch (e) {
-    window?.log?.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
+    window?.log?.error('SessionSnodeAPI::requestSnodesForPubkey - error', e);
 
     return [];
   }
@@ -393,10 +393,7 @@ export async function TEST_getSnodePoolFromSnode(targetNode: Snode): Promise<Arr
     const json = JSON.parse(result.body);
 
     if (!json || !json.result || !json.result.service_node_states?.length) {
-      window?.log?.error(
-        'loki_snode_api:::getSnodePoolFromSnode - invalid result from snode',
-        result.body
-      );
+      window?.log?.error('getSnodePoolFromSnode - invalid result from snode', result.body);
       return [];
     }
 
@@ -452,11 +449,7 @@ export async function storeOnNode(
     }
     return false;
   } catch (e) {
-    window?.log?.warn(
-      'loki_message:::store - send error:',
-      e,
-      `destination ${targetNode.ip}:${targetNode.port}`
-    );
+    window?.log?.warn('store - send error:', e, `destination ${targetNode.ip}:${targetNode.port}`);
     throw e;
   }
 }
@@ -484,17 +477,17 @@ export async function retrieveNextMessages(
 
   if (!result) {
     window?.log?.warn(
-      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+      `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
     throw new Error(
-      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+      `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
   }
 
   if (result.status !== 200) {
     window?.log?.warn('retrieve result is not 200');
     throw new Error(
-      `loki_message:::_retrieveNextMessages - retrieve result is not 200 with ${targetNode.ip}:${targetNode.port}`
+      `_retrieveNextMessages - retrieve result is not 200 with ${targetNode.ip}:${targetNode.port}`
     );
   }
 
@@ -513,7 +506,7 @@ export async function retrieveNextMessages(
       window.inboxStore?.dispatch(updateIsOnline(true));
     }
     throw new Error(
-      `loki_message:::_retrieveNextMessages - exception while parsing json of nextMessage ${targetNode.ip}:${targetNode.port}: ${e?.message}`
+      `_retrieveNextMessages - exception while parsing json of nextMessage ${targetNode.ip}:${targetNode.port}: ${e?.message}`
     );
   }
 }

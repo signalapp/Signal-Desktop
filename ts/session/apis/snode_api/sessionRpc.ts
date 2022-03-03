@@ -45,9 +45,9 @@ async function lokiFetch({
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
     const useOnionRequests =
-      window.lokiFeatureFlags?.useOnionRequests === undefined
+      window.sessionFeatureFlags?.useOnionRequests === undefined
         ? true
-        : window.lokiFeatureFlags?.useOnionRequests;
+        : window.sessionFeatureFlags?.useOnionRequests;
     if (useOnionRequests && targetNode) {
       const fetchResult = await lokiOnionFetch({
         targetNode,

@@ -28,7 +28,7 @@ const {
   systemPreferences,
 } = electron;
 
-// FIXME Hardcoding appId to prevent build failrues on release.
+// FIXME Hardcoding appId to prevent build failures on release.
 // const appUserModelId = packageJson.build.appId;
 const appUserModelId = 'com.loki-project.messenger-desktop';
 console.log('Set Windows Application User Model ID (AUMID)', {
@@ -986,7 +986,7 @@ ipc.on('set-call-media-permissions', (event, value) => {
   event.sender.send('set-success-call-media-permissions', null);
 });
 
-// Loki - Auto updating
+// Session - Auto updating
 ipc.on('get-auto-update-setting', event => {
   const configValue = userConfig.get('autoUpdate');
   // eslint-disable-next-line no-param-reassign
