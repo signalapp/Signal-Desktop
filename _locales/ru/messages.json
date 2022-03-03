@@ -415,12 +415,8 @@
         "message": "Следующие люди могли переустановить Signal или сменить устройства. Подтвердите ваш код безопасности с ними, чтобы обеспечить конфиденциальность.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Отправить ожидающее сообщение",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Отправить $count$ ожидающих сообщений",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Отправить ожидающие сообщения",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal Desktop теперь оптимизирован для процессора Apple M1, который используется в новых компьютерах Apple. Если вы используете одно из таких новоиспечённых устройств, приложение должно работать намного оперативнее. Если нет, тепло поприветствуйте тех пользователей, которые используют такой компьютер. Огромное спасибо $dennis$ за его усердную работу в этой области!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Находитесь в долгом звонке? Ваша система теперь должна бодрствовать всё время, вместо того чтобы засыпать, когда вы в середине важного обсуждения.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Список поддерживаемых языков расширился. Мы искренне ценим переводчиков-волонтёров, чьи усилия сделали это возможным.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Когда-либо использовали Signal при нестабильном соединении? Теперь вы можете не волноваться — такие действия, как изменение таймера исчезающих сообщений, теперь будут отправлены, как только ваш Wi-Fi станет лучше себя чувствовать.",
+        "description": "Release notes for v5.34"
     }
 }

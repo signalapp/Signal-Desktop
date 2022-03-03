@@ -415,12 +415,8 @@
         "message": "De volgende personen hebben mogelijk de app opnieuw geïnstalleerd of hebben een ander apparaat in gebruik genomen. Verifieer jullie veiligheidsnummers om zeker te zijn dat je met de juiste personen communiceert.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Berichten die nog verzonden moeten worden",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "$count$ berichten in afwachting nu verzenden",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Berichten in afwachting verzenden",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -3398,7 +3394,7 @@
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
-        "message": "Meer emojis weergeven",
+        "message": "Meer emoji's weergeven",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -6062,7 +6058,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "$oldName$ heeft recentelijk zijn of haar profielnaam naar $newName$ gewijzigd.",
+        "message": "Heette kort geleden nog $oldName$ maar heeft zijn of haar profielnaam naar $newName$ gewijzigd.",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -6572,7 +6568,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Meldingsinhoud",
+        "message": "Meldings­inhoud",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal-Desktop is nu geoptimaliseerd voor Apples M1-chip die in hun nieuwere computers wordt gebruikt. Als je een van deze nieuwe apparaten gebruikt, zou de Signal-app vanaf nu veel sneller moeten zijn. Veel dank aan $dennis$ voor zijn harde werk aan deze verbetering!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Je apparaat gaat niet langer automatisch over naar slaapstand wanneer je nog aan een oproep deelneemt.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Signal is nu in nog meer talen beschikbaar, waaronder Fries! Veel dank aan de vertalers die dit mogelijk maken.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Heb je wel eens last van een onbetrouwbare internetverbinding? Geen zorgen. De instelling voor verlopende berichten en andere dingen worden vanaf nu alsnog verzonden wanneer je internetverbinding het weer doet.",
+        "description": "Release notes for v5.34"
     }
 }

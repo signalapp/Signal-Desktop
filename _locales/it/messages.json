@@ -415,12 +415,8 @@
         "message": "Le seguenti persone potrebbero aver reinstallato o cambiato i dispositivi. Verifica il tuo numero di sicurezza con loro per garantire la privacy.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Invia messaggio in attesa",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Invia $count$ messaggi in attesa",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Invia messaggi in attesa",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -3934,7 +3930,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Abbandona chiamata",
+        "message": "Termina",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal Desktop è ora ottimizzato per il chip M1 di Apple, utilizzato nei loro nuovi computer. Se sei su uno di questi nuovi dispositivi, l'applicazione dovrebbe essere molto più veloce. Se non lo sei, dai un caldo benvenuto agli utenti che lo sono. Un enorme ringraziamento a $dennis$ per il suo duro lavoro!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "In una lunga telefonata? Il tuo sistema dovrebbe rimanere sveglio per tutto il tempo, invece di addormentarsi mentre sei nel mezzo di una discussione importante.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "La lista delle lingue supportate si è ampliata. Apprezziamo sinceramente i traduttori volontari i cui sforzi lo hanno reso possibile.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Hai mai usato Signal con una connessione instabile? Puoi non preoccuparti più: le modifiche al timer di scomparsa dei messaggi e altro verranno inviati una volta che il tuo Wi-Fi si sentirà di nuovo meglio.",
+        "description": "Release notes for v5.34"
     }
 }

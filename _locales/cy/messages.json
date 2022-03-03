@@ -415,12 +415,8 @@
         "message": "Mae'n bosib fod y bobl canlynol wedi ailosod neu newid eu dyfeisiau. Gwiriwch eich rhif diogelwch gyda nhw i sicrhau preifatrwydd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Anfon negeseuon sy'n disgwyl",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Yn anfon $count$ neges sy'n disgwyl",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Anfon negeseuon sy'n aros",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Bellach mae Signal Desktop wedi'i optimeiddio ar gyfer sglodyn M1 Apple sy'n cael ei ddefnyddio yn eu cyfrifiaduron diweddaraf. Os ydych chi ar un o'r dyfeisiau newydd sbon hynny, dylai'r ap fod yn llawer mwy cyflym. Os nad ydych chi, rhowch groeso cynnes i'r defnyddwyr sydd. Diolchiadau mawr i $dennis$ am ei waith caled!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Ar alwad hir? Dylai eich system aros yn effro trwy'r amser, yn lle cwympo i gysgu tra'ch bod chi yng nghanol sgwrs bwysig.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Mae'r rhestr o ieithoedd sy'n cael eu cefnogi wedi ehangu. Rydym yn gwerthfawrogi'n fawr y cyfieithwyr gwirfoddol sydd wedi gwneud hyn yn bosib.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Erioed wedi defnyddio Signal ar gysylltiad ansad? Dim gofid - bydd newidiadau amser negeseuon byrhoedlog a rhagor yn cael eu cydweddu nôl unwaith fydd eich WiFi yn teimlo'n well eto.",
+        "description": "Release notes for v5.34"
     }
 }

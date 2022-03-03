@@ -415,12 +415,8 @@
         "message": "以下の方はアプリを再インストールしたか端末を変更した可能性があります。プライバシーを保証するために安全番号を検証してください。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "保留中のメッセージを送信",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "保留中の$count$件のメッセージを送信",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "保留中のメッセージを送信します",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -1342,7 +1338,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "携帯電話のSignalアプリで、このQRコードを読み取ってください。",
+        "message": "スマートフォンのSignalアプリで、\nこのQRコードを読み取ってください。",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
@@ -1416,7 +1412,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "携帯電話とのリンクを完了",
+        "message": "スマートフォンとのリンクを完了",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal Desktop は、Apple M1 チップにネイティブ対応しました。Apple M1 チップを搭載した端末をお持ちの皆さん、お待たせしました。アプリの動作が高速になります！$dennis$ さんのおかげで実現しました。ありがとうございます。",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "通話中にシステムがスリーブしないようになりました。",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "対応言語が増えました。ボランティア翻訳者の皆様のご尽力に心から感謝いたします。",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Wi-Fi接続が不安定な状態でSignalを使用しても、接続が回復した際に消えるメッセージのタイマーを更新し、メッセージを送信するようになりました。",
+        "description": "Release notes for v5.34"
     }
 }

@@ -415,12 +415,8 @@
         "message": "Les personnes suivantes ont peut-être réinstallé Signal ou changé d’appareil. Pour assurer la confidentialité, confirmez votre numéro de sécurité avec elles.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Envoyer le message en attente",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Envoyer $count$ messages en attente",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Envoyer les messages en attente",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -1902,7 +1898,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Ouvrir au lancement de l’ordinateur",
+        "message": "Lancer à l’ouverture de l'ordinateur",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1984,7 +1980,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ a réagi  $emoji$ à votre message",
+        "message": "$sender$ a réagi $emoji$ à votre message",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2060,7 +2056,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importer tous les groupes et contacts Signal de votre appareil mobile",
+        "message": "Importer tous les groupes et contacts Signal de votre appareil mobile.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -3872,7 +3868,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ font partie de l’appel",
+        "message": "$people$ dans l’appel",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal Desktop pour ordinateur est désormais optimisé pour la puce M1 d’Apple qui est utilisée dans ses ordinateurs les plus récents. Si vous êtes sur l’un de ces appareils dernier cri, l’appli devrait être beaucoup plus rapide. Sinon, souhaitez chaleureusement la bienvenue aux utilisateurs qui le sont. Un grand merci à $dennis$ pour son travail acharné !",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Dans un long appel ? Votre système devrait rester allumé tout du long, plutôt que de s'endormir au milieu d'une discussion importante.",
@@ -6824,7 +6814,7 @@
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "Maintenant, avec moins de recherches frénétiques pour les bruyants ! En rejoignant un appel, l'audio sera automatiquement désactivé s'il y a déjà huit personnes ou plus.",
+        "message": "Avec désormais moins de recherches effrénées pour ceux qui tapent bruyamment. Dans le salon d’accueil de l’appel, Signal pour ordinateur désactivera automatiquement le son si huit personnes ou plus sont déjà dans l’appel.",
         "description": "Release notes for v5.29"
     },
     "WhatsNew__v5.31--1": {
@@ -6832,7 +6822,7 @@
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.31--2": {
-        "message": "L’espace a été réarrangé dans l’en-tête du panneau de gauche et dans la zone de recherche. Il y a tellement place pour des activités !",
+        "message": "L’espacement de l’en-tête du volet gauche et de la zone de recherche a été modifié. Il y a maintenant tant de place pour les activités !",
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.32--1": {
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "La liste des langues prises en charge s’est agrandie. Nous remercions sincèrement les traducteurs bénévoles dont les efforts ont rendu cela possible.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Avez-vous déjà utilisé Signal avec une connexion instable ? Ne vous inquiétez plus ; les changements apportés à l’expiration des messages éphémères et d’autres paramètres seront envoyés quand votre Wi-Fi se sentira mieux.",
+        "description": "Release notes for v5.34"
     }
 }

@@ -415,12 +415,8 @@
         "message": "Este posibil ca următoarele persoane să fi reinstalat sau schimbat dispozitivele. Verifică numărul de siguranță cu acestea pentru a-ți asigura confidențialitatea.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Trimite mesajul în așteptare",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Trimite $count$ mesaje în așteptare",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Trimite mesajele în așteptare",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal Desktop este acum optimizat pentru cipul M1 de la Apple, care este utilizat în noile computere. Dacă folosești unul dintre aceste dispozitive nou-nouțe, aplicația ar trebui să fie mult mai rapidă. Dacă nu, urează-le bun venit utilizatorilor care sunt. Mulțumiri imense lui $dennis$ pentru munca depusă aici!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Într-un apel lung? Sistemul tău ar trebui să rămână activ tot timpul, în loc să intre în repaus în mijlocul unei discuții importante.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Lista de limbi în care este tradusă aplicația s-a extins. Apreciem cu sinceritate traducătorii voluntari ale căror eforturi au făcut posibil acest lucru.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Ai folosit vreodată Signal cu o conexiune instabilă? Nu trebuie să-ți mai faci griji, modificări ale timpului de dispariție mesaje cât și alte modificări vor fi trimise o dată ce Wi-Fi-ul se simte mai bine.",
+        "description": "Release notes for v5.34"
     }
 }

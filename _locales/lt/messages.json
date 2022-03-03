@@ -415,12 +415,8 @@
         "message": "Gali būti, kad šie žmonės iš naujo įdiegė programėlę ar pakeitė įrenginį. Patvirtinkite savo saugumo numerį su kiekvienu iš jų, kad užtikrintumėte privatumą.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Siųsti laukiančią žinutę",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Siųsti laukiančias žinutes: $count$",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Siųsti laukiančias žinutes",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Dabar, Signal Desktop yra optimizuota naudoti su „Apple“ M1 lustais, kurie yra naudojami jų naujesniuose kompiuteriuose. Jei turite kurį nors iš tų naujų įrenginių, programa juose veiks žymiai sklandžiau. Jei tokiais įrenginiais nesinaudojate, pasveikinkite naudotojus, kurie jais naudojasi. Didelis ačiū $dennis$ už šį sudėtingą darbą!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Dalyvaujate ilgame skambutyje? Visą šį laiką, kol dalyvaujate svarbioje diskusijoje, jūsų sistema turėtų išlikti aktyvi ir nepereiti į miego režimą.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Išplėstas palaikomų kalbų sąrašas. Nuoširdžiai dėkojame vertėjams-savanoriams, kurių pastangų dėka visa tai tapo įmanoma.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Esate naudojęsi Signal prisijungę prie nestabilaus interneto ryšio? Galite daugiau nebesirūpinti – išnykstančių žinučių laikmačio pakeitimai ir kita dabar bus išsiunčiama, kai tik jūsų belaidis (Wi-Fi) ryšys vėl pasijus geriau.",
+        "description": "Release notes for v5.34"
     }
 }

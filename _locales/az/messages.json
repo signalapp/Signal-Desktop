@@ -415,12 +415,8 @@
         "message": "Aşağıdakı şəxslər yenidən quraşdırmış və ya cihazlarını dəyişdirmiş ola bilər. Gizliliyinizə əmin olmaq üçün güvənlik nömrənizi təsdiqləyin.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Gözləyən mesajı göndər",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Gözləyən $count$ mesajı göndər",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Gözləyən mesajları göndər",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal Masaüstü, artıq Apple-ın ən son kompüterlərində istifadə edilən M1 çipi üçün optimallaşdırılıb. Bu yeni modelləri istifadə edirsinizsə, tətbiq daha sürətli olmalıdır. İstifadə etmirsinizsə, onda istifadə edənləri mehribanca salamlayın. Əziyyətinə görə çoxlu təşəkkürlər $dennis$!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Uzun-uzun söhbət edirsiniz? Vacib iclasda olarkən sisteminizin yuxuya getmək əvəzinə tam oyaq qalmalıdır.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Dəstəklənən dillərin siyahısı genişləndirildi. Səyləri ilə bunu mümkün edən könüllü tərcüməçilərə ürəkdən təşəkkürlər!",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "Heç qeyri-stabil bağlantıda Signal-ı istifadə etmisiniz? Artıq narahat olmağa ehtiyac yoxdur. Yox olan mesajlar üçün vaxtölçən dəyişiklikləri və daha çoxu Wi-Fi-nız təkrar qaydasına düşəndə göndəriləcək.",
+        "description": "Release notes for v5.34"
     }
 }

@@ -415,12 +415,8 @@
         "message": "以下使用者可能已重新安裝或更換了裝置。與他們一起驗證你的安全碼，以確保隱私性。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
+    "safetyNumberChangeDialog__pending-messages": {
         "message": "傳送待處理的訊息",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "傳送給 $count$待處理的訊息",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal 電腦版 現在針對 Apple 的 M1 晶片進行了優化，該晶片用於它們較新的電腦。 如果你使用的是這些新裝置之一，那麼該應用程式應該會更加快速。 如果你不是，會喜愛的是那些用戶。 非常感謝 $dennis$ 在這樣的加速運作！",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "長時間通話？ 你的系統應該始終保持開啟，而不是在你進行重要討論時進入睡眠。",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "支援的語言清單已增加。 我們衷心感謝那些努力使這一切成為可能的翻譯志願者。",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "曾經在不穩定的網路上使用過 Signal？你無須再擔心 - 將銷毀訊息計時器更改時間，一旦你的 Wi-Fi 再次感覺順暢，就可傳送更多訊息。",
+        "description": "Release notes for v5.34"
     }
 }

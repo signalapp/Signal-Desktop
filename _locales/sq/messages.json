@@ -415,12 +415,8 @@
         "message": "Personat vijues mund të kenë riinstaluar ose ndryshuar pajisjet. Për të siguruar privatësi, verifikoni me ta numrin tuaj të sigurisë.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Dërgo mesazhe të mbajtur pezull",
-        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-    },
-    "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Dërgo $count$ mesazhe të mbajtur pezull",
+    "safetyNumberChangeDialog__pending-messages": {
+        "message": "Dërgo mesazhe pezull",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -6803,13 +6799,7 @@
     },
     "WhatsNew__macos-m1": {
         "message": "Signal-i për Desktop tani është i optimizuar për procesorin M1 të Apple-it që përdoret në kompjuterat e tyre më të rinj. Nëse keni një nga këto pajisje të reja, aplikacioni do të jetë shumë më i zhdërvjellët. Nëse jo, urojuni mirëseardhjen atyre që i kanë. Falënderime pa masë për $dennis$ për punën e tij të palodhur për këtë aspekt!",
-        "description": "Release note for the macOS M1 release",
-        "placeholders": {
-            "dennis": {
-                "content": "$1",
-                "example": "<a>Dennis Ameling</a>"
-            }
-        }
+        "description": "Release note for the macOS M1 release"
     },
     "WhatsNew__v5.27--1": {
         "message": "Telefonatë e gjatë? Sistemi duhet të jetë zgjuar për gjithë kohën, në vend se të dremitë teksa jeni në mes të një diskutimi të rëndësishëm.",
@@ -6842,5 +6832,9 @@
     "WhatsNew__v5.32--2": {
         "message": "Lista e gjuhëve të mbuluara është zgjeruar. Çmojmë sinqerisht përkthyesit vullnetarë, përpjekjet e të cilëve kanë bërë të mundur këtë gjë.",
         "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.34--1": {
+        "message": "E keni përdorur ndonjëherë Signal-in me një lidhje të paqëndrueshme? Mos u shqetësoni më - tanimë ndryshimet te kohëmatësi i asgjësimit së mesazheve, etj, do të dërgohen sapo sapo Wi-Fi të ndihet prapë mirë.",
+        "description": "Release notes for v5.34"
     }
 }
