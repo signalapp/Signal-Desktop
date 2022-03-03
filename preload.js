@@ -5,8 +5,10 @@ const path = require('path');
 const { webFrame, remote, clipboard, ipcRenderer } = require('electron');
 
 const { app } = remote;
+const url = require('url');
+const fs = require('fs');
 
-const config = require('url').parse(window.location.toString(), true).query;
+const config = url.parse(window.location.toString(), true).query;
 
 let title = config.name;
 if (config.environment !== 'production') {
@@ -211,6 +213,23 @@ window.ReactDOM = require('react-dom');
 window.clipboard = clipboard;
 
 window.getSeedNodeList = () => JSON.parse(config.seedNodeList);
+
+window.getOpenGroupBlockList = () => {
+  // const blocklist = url.parse(window.location.toString(), true).query;
+  if (!window.groupBlockList) {
+    try {
+      const blockList = fs
+        .readFileSync(path.resolve(__dirname, 'blocklist', 'blocklist.txt'), 'utf8')
+        .toString()
+        .split('\n');
+      // TODO: trim whitespace
+      window.groupBlockList = blockList;
+    } catch (e) {
+      return [];
+    }
+  }
+  return window.groupBlockList;
+};
 
 const { locale: localFromEnv } = config;
 window.i18n = i18n.setup(localFromEnv, localeMessages);
