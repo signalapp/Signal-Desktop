@@ -56,7 +56,7 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
             iconType="chevron"
             iconRotation={90}
             iconSize="medium"
-            margin="0 0 var(--margins-xs) 0"
+            margin="0 0 var(--margins-xs) var(--margins-xs)"
           />
         )}
         <SectionTitle>{label}</SectionTitle>
