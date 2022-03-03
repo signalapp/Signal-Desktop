@@ -134,7 +134,7 @@ export async function sendReaction(
         };
 
     const ephemeralMessageForReactionSend = new window.Whisper.Message({
-      id: UUID.generate.toString(),
+      id: UUID.generate().toString(),
       type: 'outgoing',
       conversationId: conversation.get('id'),
       sent_at: pendingReaction.timestamp,
