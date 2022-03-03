@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -19,6 +19,7 @@ const i18n = setupI18n('en', enMessages);
 
 story.add('Default', () => (
   <ChangeNumberNotification
+    now={Date.now()}
     sender={getDefaultConversation()}
     timestamp={1618894800000}
     i18n={i18n}
@@ -27,6 +28,7 @@ story.add('Default', () => (
 
 story.add('Long name', () => (
   <ChangeNumberNotification
+    now={Date.now()}
     sender={getDefaultConversation({
       firstName: '💅😇🖋'.repeat(50),
     })}

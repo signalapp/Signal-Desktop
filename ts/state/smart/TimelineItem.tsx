@@ -27,6 +27,7 @@ type ExternalProps = {
   messageId: string;
   nextMessageId: undefined | string;
   previousMessageId: undefined | string;
+  now: number;
 };
 
 function renderContact(conversationId: string): JSX.Element {
@@ -45,6 +46,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     messageId,
     nextMessageId,
     previousMessageId,
+    now,
   } = props;
 
   const messageSelector = getMessageSelector(state);
@@ -66,6 +68,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     item,
     previousItem,
     nextItem,
+    now,
     id: messageId,
     containerElementRef,
     conversationId,

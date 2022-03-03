@@ -67,7 +67,7 @@ export function formatDateTimeShort(
   const diff = now - timestamp;
 
   if (diff < HOUR || isToday(timestamp)) {
-    return formatTime(i18n, rawTimestamp);
+    return formatTime(i18n, rawTimestamp, now);
   }
 
   const m = moment(timestamp);
@@ -102,10 +102,11 @@ export function formatDateTimeLong(
 
 export function formatTime(
   i18n: LocalizerType,
-  rawTimestamp: RawTimestamp
+  rawTimestamp: RawTimestamp,
+  now: RawTimestamp
 ): string {
   const timestamp = rawTimestamp.valueOf();
-  const diff = Date.now() - timestamp;
+  const diff = now.valueOf() - timestamp;
 
   if (diff < MINUTE) {
     return i18n('justNow');

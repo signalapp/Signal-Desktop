@@ -7664,14 +7664,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/ConversationHero.tsx",
-    "line": "  const firstRenderRef = useRef(true);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/conversation/GIF.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",

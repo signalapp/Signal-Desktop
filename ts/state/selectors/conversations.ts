@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { fromPairs, isNumber } from 'lodash';
+import { isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
@@ -837,13 +837,10 @@ export function _conversationMessagesSelector(
   conversation: ConversationMessageType
 ): TimelinePropsType {
   const {
-    heightChangeMessageIds,
     isLoadingMessages,
     isNearBottom,
-    loadCountdownStart,
     messageIds,
     metrics,
-    resetCounter,
     scrollToMessageId,
     scrollToMessageCounter,
   } = conversation;
@@ -860,14 +857,6 @@ export function _conversationMessagesSelector(
 
   const items = messageIds;
 
-  const messageHeightChangeLookup =
-    heightChangeMessageIds && heightChangeMessageIds.length
-      ? fromPairs(heightChangeMessageIds.map(id => [id, true]))
-      : null;
-  const messageHeightChangeIndex = messageHeightChangeLookup
-    ? messageIds.findIndex(id => messageHeightChangeLookup[id])
-    : undefined;
-
   const oldestUnreadIndex = oldestUnread
     ? messageIds.findIndex(id => id === oldestUnread.id)
     : undefined;
@@ -880,19 +869,12 @@ export function _conversationMessagesSelector(
     haveNewest,
     haveOldest,
     isLoadingMessages,
-    loadCountdownStart,
-    items,
     isNearBottom,
-    messageHeightChangeBaton: heightChangeMessageIds,
-    messageHeightChangeIndex:
-      isNumber(messageHeightChangeIndex) && messageHeightChangeIndex >= 0
-        ? messageHeightChangeIndex
-        : undefined,
+    items,
     oldestUnreadIndex:
       isNumber(oldestUnreadIndex) && oldestUnreadIndex >= 0
         ? oldestUnreadIndex
         : undefined,
-    resetCounter,
     scrollToIndex:
       isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
     scrollToIndexCounter: scrollToMessageCounter,
@@ -927,8 +909,7 @@ export const getConversationMessagesSelector = createSelector(
         return {
           haveNewest: false,
           haveOldest: false,
-          isLoadingMessages: false,
-          resetCounter: 0,
+          isLoadingMessages: true,
           scrollToIndexCounter: 0,
           totalUnread: 0,
           items: [],

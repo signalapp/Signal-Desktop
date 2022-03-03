@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useState, useEffect } from 'react';
-import Measure from 'react-measure';
+import React from 'react';
 import { noop } from 'lodash';
 
 import { SystemMessage } from './SystemMessage';
@@ -16,14 +15,12 @@ import {
   getCallingIcon,
   getCallingNotificationText,
 } from '../../util/callingNotification';
-import { usePrevious } from '../../hooks/usePrevious';
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 import type { TimelineItemType } from './TimelineItem';
 import * as log from '../../logging/log';
 
 export type PropsActionsType = {
-  messageSizeChanged: (messageId: string, conversationId: string) => void;
   returnToActiveCall: () => void;
   startCallingLobby: (_: {
     conversationId: string;
@@ -34,27 +31,14 @@ export type PropsActionsType = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   conversationId: string;
-  messageId: string;
   nextItem: undefined | TimelineItemType;
+  now: number;
 };
 
 type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
 
 export const CallingNotification: React.FC<PropsType> = React.memo(props => {
-  const { conversationId, i18n, messageId, messageSizeChanged } = props;
-
-  const [height, setHeight] = useState<null | number>(null);
-  const previousHeight = usePrevious<null | number>(null, height);
-
-  useEffect(() => {
-    if (height === null) {
-      return;
-    }
-
-    if (previousHeight !== null && height !== previousHeight) {
-      messageSizeChanged(messageId, conversationId);
-    }
-  }, [height, previousHeight, conversationId, messageId, messageSizeChanged]);
+  const { i18n, now } = props;
 
   let timestamp: number;
   let wasMissed = false;
@@ -75,38 +59,25 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
   const icon = getCallingIcon(props);
 
   return (
-    <Measure
-      bounds
-      onResize={({ bounds }) => {
-        if (!bounds) {
-          log.error('We should be measuring the bounds');
-          return;
-        }
-        setHeight(bounds.height);
-      }}
-    >
-      {({ measureRef }) => (
-        <SystemMessage
-          button={renderCallingNotificationButton(props)}
-          contents={
-            <>
-              {getCallingNotificationText(props, i18n)} &middot;{' '}
-              <MessageTimestamp
-                direction="outgoing"
-                i18n={i18n}
-                timestamp={timestamp}
-                withImageNoCaption={false}
-                withSticker={false}
-                withTapToViewExpired={false}
-              />
-            </>
-          }
-          icon={icon}
-          isError={wasMissed}
-          ref={measureRef}
-        />
-      )}
-    </Measure>
+    <SystemMessage
+      button={renderCallingNotificationButton(props)}
+      contents={
+        <>
+          {getCallingNotificationText(props, i18n)} &middot;{' '}
+          <MessageTimestamp
+            direction="outgoing"
+            i18n={i18n}
+            now={now}
+            timestamp={timestamp}
+            withImageNoCaption={false}
+            withSticker={false}
+            withTapToViewExpired={false}
+          />
+        </>
+      }
+      icon={icon}
+      isError={wasMissed}
+    />
   );
 });
 

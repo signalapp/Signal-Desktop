@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-TimelineWarnings {
@@ -6,7 +6,7 @@
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: $z-index-base;
+  z-index: $z-index-above-above-base;
 
   display: flex;
   flex-direction: column;

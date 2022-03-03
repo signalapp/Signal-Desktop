@@ -5,7 +5,6 @@ import { isEmpty, mapValues, pick } from 'lodash';
 import type { RefObject } from 'react';
 import React from 'react';
 import { connect } from 'react-redux';
-import memoizee from 'memoizee';
 
 import { mapDispatchToProps } from '../actions';
 import type {
@@ -99,16 +98,6 @@ export type TimelinePropsType = ExternalProps &
     | 'updateSharedGroups'
   >;
 
-const createBoundOnHeightChange = memoizee(
-  (
-    onHeightChange: (messageId: string) => unknown,
-    messageId: string
-  ): (() => unknown) => {
-    return () => onHeightChange(messageId);
-  },
-  { max: 500 }
-);
-
 function renderItem({
   actionProps,
   containerElementRef,
@@ -117,7 +106,7 @@ function renderItem({
   isOldestTimelineItem,
   messageId,
   nextMessageId,
-  onHeightChange,
+  now,
   previousMessageId,
 }: {
   actionProps: TimelineActionsType;
@@ -127,7 +116,7 @@ function renderItem({
   isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
-  onHeightChange: (messageId: string) => unknown;
+  now: number;
   previousMessageId: undefined | string;
 }): JSX.Element {
   return (
@@ -140,7 +129,7 @@ function renderItem({
       messageId={messageId}
       previousMessageId={previousMessageId}
       nextMessageId={nextMessageId}
-      onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}
+      now={now}
       renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}
       renderAudioAttachment={renderAudioAttachment}
@@ -154,14 +143,12 @@ function renderLastSeenIndicator(id: string): JSX.Element {
 
 function renderHeroRow(
   id: string,
-  onHeightChange: () => unknown,
   unblurAvatar: () => void,
   updateSharedGroups: () => unknown
 ): JSX.Element {
   return (
     <SmartHeroRow
       id={id}
-      onHeightChange={onHeightChange}
       unblurAvatar={unblurAvatar}
       updateSharedGroups={updateSharedGroups}
     />
@@ -306,6 +293,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'typingContactId',
       'isGroupV1AndDisabled',
     ]),
+    isConversationSelected: state.conversations.selectedConversationId === id,
     isIncomingMessageRequest: Boolean(
       conversation.messageRequestsEnabled &&
         !conversation.acceptedMessageRequest

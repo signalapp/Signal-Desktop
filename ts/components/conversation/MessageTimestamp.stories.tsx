@@ -42,6 +42,7 @@ const times = (): Array<[string, number]> => [
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   timestamp: overrideProps.timestamp,
+  now: Date.now(),
   module: text('module', ''),
   withImageNoCaption: boolean('withImageNoCaption', false),
   withSticker: boolean('withSticker', false),

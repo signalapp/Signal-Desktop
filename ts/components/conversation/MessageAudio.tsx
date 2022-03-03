@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -27,6 +27,7 @@ export type Props = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  now: number;
   played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
@@ -157,6 +158,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     expirationLength,
     expirationTimestamp,
     id,
+    now,
     played,
     showMessageDetail,
     status,
@@ -539,6 +541,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
           isShowingImage={false}
           isSticker={false}
           isTapToViewExpired={false}
+          now={now}
           showMessageDetail={showMessageDetail}
           status={status}
           textPending={textPending}

@@ -1,7 +1,7 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Props as AvatarProps } from '../Avatar';
 import { Avatar, AvatarBlur } from '../Avatar';
 import { ContactName } from './ContactName';
@@ -12,7 +12,6 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
-import * as log from '../../logging/log';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 export type Props = {
@@ -22,7 +21,6 @@ export type Props = {
   i18n: LocalizerType;
   isMe: boolean;
   membersCount?: number;
-  onHeightChange: () => unknown;
   phoneNumber?: string;
   sharedGroupNames?: Array<string>;
   unblurAvatar: () => void;
@@ -111,13 +109,10 @@ export const ConversationHero = ({
   profileName,
   theme,
   title,
-  onHeightChange,
   unblurAvatar,
   unblurredAvatarPath,
   updateSharedGroups,
 }: Props): JSX.Element => {
-  const firstRenderRef = useRef(true);
-
   const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
     useState(false);
   const closeMessageRequestWarning = () => {
@@ -128,30 +123,6 @@ export const ConversationHero = ({
     // Kick off the expensive hydration of the current sharedGroupNames
     updateSharedGroups();
   }, [updateSharedGroups]);
-
-  const sharedGroupNamesStringified = JSON.stringify(sharedGroupNames);
-  useEffect(() => {
-    const isFirstRender = firstRenderRef.current;
-    if (isFirstRender) {
-      firstRenderRef.current = false;
-      return;
-    }
-
-    log.info('ConversationHero: calling onHeightChange');
-    onHeightChange();
-  }, [
-    about,
-    conversationType,
-    groupDescription,
-    isMe,
-    membersCount,
-    name,
-    onHeightChange,
-    phoneNumber,
-    profileName,
-    title,
-    sharedGroupNamesStringified,
-  ]);
 
   let avatarBlur: AvatarBlur;
   let avatarOnClick: undefined | (() => void);

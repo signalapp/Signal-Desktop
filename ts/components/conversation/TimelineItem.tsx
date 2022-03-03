@@ -54,7 +54,6 @@ import type { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
-import * as log from '../../logging/log';
 import type { FullJSXType } from '../Intl';
 
 type CallHistoryType = {
@@ -156,6 +155,7 @@ type PropsLocalType = {
   theme: ThemeType;
   previousItem: undefined | TimelineItemType;
   nextItem: undefined | TimelineItemType;
+  now: number;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -188,8 +188,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       item,
       i18n,
       theme,
-      messageSizeChanged,
       nextItem,
+      now,
       previousItem,
       renderContact,
       renderUniversalTimerNotification,
@@ -199,8 +199,12 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } = this.props;
 
     if (!item) {
-      log.warn(`TimelineItem: item ${id} provided was falsey`);
-
+      // This can happen under normal conditions.
+      //
+      // `<Timeline>` and `<TimelineItem>` are connected to Redux separately. If a
+      //   timeline item is removed from Redux, `<TimelineItem>` might re-render before
+      //   `<Timeline>` does, which means we'll try to render nothing. This should resolve
+      //   itself quickly, as soon as `<Timeline>` re-renders.
       return null;
     }
 
@@ -229,9 +233,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           <CallingNotification
             conversationId={conversationId}
             i18n={i18n}
-            messageId={id}
-            messageSizeChanged={messageSizeChanged}
             nextItem={nextItem}
+            now={now}
             returnToActiveCall={returnToActiveCall}
             startCallingLobby={startCallingLobby}
             {...item.data}

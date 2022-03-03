@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -59,6 +59,7 @@ const defaultMessageProps: MessagesProps = {
   getPreferredBadge: () => undefined,
   i18n,
   id: 'messageId',
+  now: Date.now(),
   renderingContext: 'storybook',
   interactionMode: 'keyboard',
   isBlocked: false,
@@ -67,7 +68,6 @@ const defaultMessageProps: MessagesProps = {
   markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
   markViewed: action('default--markViewed'),
   messageExpanded: action('default--message-expanded'),
-  onHeightChange: action('default--onHeightChange'),
   openConversation: action('default--openConversation'),
   openLink: action('default--openLink'),
   previews: [],

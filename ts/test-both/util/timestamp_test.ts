@@ -187,44 +187,42 @@ describe('timestamp', () => {
   });
 
   describe('formatTime', () => {
-    useFakeTimers();
-
     it('returns "Now" for times within the last minute, including unexpected times in the future', () => {
       [
-        Date.now(),
-        moment().subtract(1, 'second'),
-        moment().subtract(59, 'seconds'),
-        moment().add(1, 'minute'),
-        moment().add(1, 'year'),
+        FAKE_NOW,
+        moment(FAKE_NOW).subtract(1, 'second'),
+        moment(FAKE_NOW).subtract(59, 'seconds'),
+        moment(FAKE_NOW).add(1, 'minute'),
+        moment(FAKE_NOW).add(1, 'year'),
       ].forEach(timestamp => {
-        assert.strictEqual(formatTime(i18n, timestamp), 'Now');
+        assert.strictEqual(formatTime(i18n, timestamp, FAKE_NOW), 'Now');
       });
     });
 
     it('returns "X minutes ago" for times in the last hour, but older than 1 minute', () => {
       assert.strictEqual(
-        formatTime(i18n, moment().subtract(1, 'minute')),
+        formatTime(i18n, moment(FAKE_NOW).subtract(1, 'minute'), FAKE_NOW),
         '1m'
       );
       assert.strictEqual(
-        formatTime(i18n, moment().subtract(30, 'minutes')),
+        formatTime(i18n, moment(FAKE_NOW).subtract(30, 'minutes'), FAKE_NOW),
         '30m'
       );
       assert.strictEqual(
-        formatTime(i18n, moment().subtract(59, 'minutes')),
+        formatTime(i18n, moment(FAKE_NOW).subtract(59, 'minutes'), FAKE_NOW),
         '59m'
       );
     });
 
     it('returns hh:mm-like times for times older than 1 hour from now', () => {
       const oneHourAgo = new Date('2020-01-23T03:56:00.000');
-      assert.deepEqual(formatTime(i18n, oneHourAgo), '3:56 AM');
+      assert.deepEqual(formatTime(i18n, oneHourAgo, FAKE_NOW), '3:56 AM');
 
       const oneDayAgo = new Date('2020-01-22T04:56:00.000');
-      assert.deepEqual(formatTime(i18n, oneDayAgo), '4:56 AM');
+      assert.deepEqual(formatTime(i18n, oneDayAgo, FAKE_NOW), '4:56 AM');
 
       const oneYearAgo = new Date('2019-01-23T04:56:00.000');
-      assert.deepEqual(formatTime(i18n, oneYearAgo), '4:56 AM');
+      assert.deepEqual(formatTime(i18n, oneYearAgo, FAKE_NOW), '4:56 AM');
     });
   });
 

@@ -1,11 +1,10 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import type { Props as MessageBodyPropsType } from './MessageBody';
 import { MessageBody } from './MessageBody';
-import { usePrevious } from '../../hooks/usePrevious';
 
 export type Props = Pick<
   MessageBodyPropsType,
@@ -20,7 +19,6 @@ export type Props = Pick<
   id: string;
   displayLimit?: number;
   messageExpanded: (id: string, displayLimit: number) => unknown;
-  onHeightChange: () => unknown;
 };
 
 const INITIAL_LENGTH = 800;
@@ -70,19 +68,11 @@ export function MessageBodyReadMore({
   i18n,
   id,
   messageExpanded,
-  onHeightChange,
   openConversation,
   text,
   textPending,
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
-  const previousMaxLength = usePrevious(maxLength, maxLength);
-
-  useEffect(() => {
-    if (previousMaxLength !== maxLength) {
-      onHeightChange();
-    }
-  }, [maxLength, previousMaxLength, onHeightChange]);
 
   const { hasReadMore, text: slicedText } = graphemeAwareSlice(text, maxLength);
 

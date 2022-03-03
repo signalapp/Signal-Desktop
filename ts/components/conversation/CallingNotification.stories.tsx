@@ -19,8 +19,8 @@ const getCommonProps = () => ({
   conversationId: 'fake-conversation-id',
   i18n,
   messageId: 'fake-message-id',
-  messageSizeChanged: action('messageSizeChanged'),
   nextItem: undefined,
+  now: Date.now(),
   returnToActiveCall: action('returnToActiveCall'),
   startCallingLobby: action('startCallingLobby'),
 });

@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -55,7 +55,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
             'Fifth',
           ]}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -83,7 +82,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
             'Fourth',
           ]}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -106,7 +104,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party', 'Friends 🌿']}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -129,7 +126,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -152,7 +148,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers']}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -175,7 +170,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -198,7 +192,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -221,7 +214,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -243,7 +235,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -265,7 +256,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -285,7 +275,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -305,7 +294,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -326,7 +314,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -347,7 +334,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -367,7 +353,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );
@@ -386,7 +371,6 @@ storiesOf('Components/Conversation/ConversationHero', module)
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
-          onHeightChange={action('onHeightChange')}
         />
       </div>
     );

@@ -73,12 +73,12 @@
 
 .module-message {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: stretch;
   outline: none;
-  margin-left: 16px;
-  margin-right: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .module-message--expired {
@@ -104,8 +104,7 @@
 }
 
 .module-message--outgoing {
-  float: right;
-  justify-content: flex-end;
+  flex-direction: row-reverse;
 }
 
 .module-message__buttons {
@@ -316,7 +315,6 @@
   line-height: 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
   min-width: 0;
   max-width: 306px;
 
@@ -336,8 +334,9 @@
   position: relative;
   display: inline-block;
   border-radius: 16px;
+  margin-bottom: 4px;
+  margin-top: 4px;
   min-width: 0px;
-  width: 100%;
   overflow: hidden;
 
   // These should match the margins in .module-message__attachment-container.
@@ -5495,21 +5494,26 @@ button.module-image__border-overlay:focus {
 // Module: Timeline
 
 .module-timeline {
+  display: flex;
   height: 100%;
   overflow: hidden;
-
-  .ReactVirtualized__List {
-    @include scrollbar;
-  }
 }
 
 .module-timeline--disabled {
   user-select: none;
 }
 
-.module-timeline__message-container {
-  padding-top: 4px;
-  padding-bottom: 4px;
+.module-timeline__messages__container {
+  flex: 1 1;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  display: flex;
+  flex-direction: column;
+}
+
+.module-timeline__messages {
+  flex: 1 1;
+  padding-bottom: 6px;
 }
 
 .ReactVirtualized__List {

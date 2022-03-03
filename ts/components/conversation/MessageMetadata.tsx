@@ -22,6 +22,7 @@ type PropsType = {
   isShowingImage: boolean;
   isSticker?: boolean;
   isTapToViewExpired?: boolean;
+  now: number;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
@@ -40,6 +41,7 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
     isShowingImage,
     isSticker,
     isTapToViewExpired,
+    now,
     showMessageDetail,
     status,
     textPending,
@@ -97,6 +99,7 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
         <MessageTimestamp
           i18n={i18n}
           timestamp={timestamp}
+          now={now}
           direction={metadataDirection}
           withImageNoCaption={withImageNoCaption}
           withSticker={isSticker}

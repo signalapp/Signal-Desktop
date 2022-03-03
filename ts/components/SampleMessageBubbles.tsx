@@ -21,7 +21,7 @@ const SampleMessage = ({
   direction,
   i18n,
   text,
-  timestamp,
+  timestampDeltaFromNow,
   status,
   style,
 }: {
@@ -29,7 +29,7 @@ const SampleMessage = ({
   direction: 'incoming' | 'outgoing';
   i18n: LocalizerType;
   text: string;
-  timestamp: number;
+  timestampDeltaFromNow: number;
   status: 'delivered' | 'read' | 'sent';
   style?: CSSProperties;
 }): JSX.Element => (
@@ -51,7 +51,7 @@ const SampleMessage = ({
           <span
             className={`module-message__metadata__date module-message__metadata__date--${direction}`}
           >
-            {formatTime(i18n, timestamp)}
+            {formatTime(i18n, Date.now() - timestampDeltaFromNow, Date.now())}
           </span>
           {direction === 'outgoing' && (
             <div
@@ -78,7 +78,7 @@ export const SampleMessageBubbles = ({
         direction={includeAnotherBubble ? 'outgoing' : 'incoming'}
         i18n={i18n}
         text={i18n('ChatColorPicker__sampleBubble1')}
-        timestamp={Date.now() - A_FEW_DAYS_AGO}
+        timestampDeltaFromNow={A_FEW_DAYS_AGO}
         status="read"
         style={firstBubbleStyle}
       />
@@ -91,7 +91,7 @@ export const SampleMessageBubbles = ({
             direction="incoming"
             i18n={i18n}
             text={i18n('ChatColorPicker__sampleBubble2')}
-            timestamp={Date.now() - A_FEW_DAYS_AGO / 2}
+            timestampDeltaFromNow={A_FEW_DAYS_AGO / 2}
             status="read"
           />
           <br />
@@ -103,7 +103,7 @@ export const SampleMessageBubbles = ({
         direction="outgoing"
         i18n={i18n}
         text={i18n('ChatColorPicker__sampleBubble3')}
-        timestamp={Date.now()}
+        timestampDeltaFromNow={0}
         status="delivered"
         style={backgroundStyle}
       />

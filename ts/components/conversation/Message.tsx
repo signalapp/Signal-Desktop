@@ -1,7 +1,7 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -118,6 +118,7 @@ export type AudioAttachmentProps = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  now: number;
   played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
@@ -210,6 +211,7 @@ export type PropsHousekeeping = {
   containerWidthBreakpoint: WidthBreakpoint;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  now: number;
   interactionMode: InteractionModeType;
   theme: ThemeType;
   disableMenu?: boolean;
@@ -224,7 +226,6 @@ export type PropsHousekeeping = {
 export type PropsActions = {
   clearSelectedMessage: () => unknown;
   doubleCheckMissingQuoteReference: (messageId: string) => unknown;
-  onHeightChange: () => unknown;
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (identifier: string) => unknown;
 
@@ -471,7 +472,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     this.checkExpired();
-    this.checkForHeightChange(prevProps);
 
     if (
       prevProps.status === 'sending' &&
@@ -488,24 +488,6 @@ export class Message extends React.PureComponent<Props, State> {
       log.info(
         `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
-    }
-  }
-
-  public checkForHeightChange(prevProps: Props): void {
-    const { contact, onHeightChange } = this.props;
-    const willRenderSendMessageButton = Boolean(
-      contact && contact.firstNumber && contact.isNumberOnSignal
-    );
-
-    const { contact: previousContact } = prevProps;
-    const previouslyRenderedSendMessageButton = Boolean(
-      previousContact &&
-        previousContact.firstNumber &&
-        previousContact.isNumberOnSignal
-    );
-
-    if (willRenderSendMessageButton !== previouslyRenderedSendMessageButton) {
-      onHeightChange();
     }
   }
 
@@ -609,6 +591,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
       status,
       i18n,
+      now,
       text,
       textPending,
       timestamp,
@@ -640,6 +623,7 @@ export class Message extends React.PureComponent<Props, State> {
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
+        now={now}
         showMessageDetail={showMessageDetail}
         status={status}
         textPending={textPending}
@@ -705,6 +689,7 @@ export class Message extends React.PureComponent<Props, State> {
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       markViewed,
+      now,
       quote,
       readStatus,
       reducedMotion,
@@ -834,6 +819,7 @@ export class Message extends React.PureComponent<Props, State> {
         expirationLength,
         expirationTimestamp,
         id,
+        now,
         played,
         showMessageDetail,
         status,
@@ -1238,7 +1224,6 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       messageExpanded,
-      onHeightChange,
       openConversation,
       status,
       text,
@@ -1276,7 +1261,6 @@ export class Message extends React.PureComponent<Props, State> {
           id={id}
           messageExpanded={messageExpanded}
           openConversation={openConversation}
-          onHeightChange={onHeightChange}
           text={contents || ''}
           textPending={textPending}
         />
@@ -1284,12 +1268,8 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderError(isCorrectSide: boolean): JSX.Element | null {
+  private renderError(): ReactNode {
     const { status, direction } = this.props;
-
-    if (!isCorrectSide) {
-      return null;
-    }
 
     if (
       status !== 'paused' &&
@@ -1312,10 +1292,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderMenu(
-    isCorrectSide: boolean,
-    triggerId: string
-  ): JSX.Element | null {
+  private renderMenu(triggerId: string): ReactNode {
     const {
       attachments,
       canDownload,
@@ -1334,7 +1311,7 @@ export class Message extends React.PureComponent<Props, State> {
       selectedReaction,
     } = this.props;
 
-    if (!isCorrectSide || disableMenu) {
+    if (disableMenu) {
       return null;
     }
 
@@ -2462,12 +2439,10 @@ export class Message extends React.PureComponent<Props, State> {
         onFocus={this.handleFocus}
         ref={this.focusRef}
       >
-        {this.renderError(direction === 'incoming')}
-        {this.renderMenu(direction === 'outgoing', triggerId)}
+        {this.renderError()}
         {this.renderAvatar()}
         {this.renderContainer()}
-        {this.renderError(direction === 'outgoing')}
-        {this.renderMenu(direction === 'incoming', triggerId)}
+        {this.renderMenu(triggerId)}
         {this.renderContextMenu(triggerId)}
       </div>
     );

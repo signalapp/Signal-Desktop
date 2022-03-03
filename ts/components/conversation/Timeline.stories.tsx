@@ -324,11 +324,9 @@ const actions = () => ({
     'acknowledgeGroupMemberNameCollisions'
   ),
   checkForAccount: action('checkForAccount'),
-  clearChangedMessages: action('clearChangedMessages'),
   clearInvitedUuidsForNewlyCreatedGroup: action(
     'clearInvitedUuidsForNewlyCreatedGroup'
   ),
-  setLoadCountdownStart: action('setLoadCountdownStart'),
   setIsNearBottom: action('setIsNearBottom'),
   learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   loadAndScroll: action('loadAndScroll'),
@@ -358,7 +356,6 @@ const actions = () => ({
   displayTapToViewMessage: action('displayTapToViewMessage'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
-  onHeightChange: action('onHeightChange'),
   openLink: action('openLink'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showExpiredIncomingTapToViewToast: action(
@@ -373,7 +370,6 @@ const actions = () => ({
 
   downloadNewVersion: action('downloadNewVersion'),
 
-  messageSizeChanged: action('messageSizeChanged'),
   startCallingLobby: action('startCallingLobby'),
   returnToActiveCall: action('returnToActiveCall'),
 
@@ -401,11 +397,13 @@ const renderItem = ({
   containerElementRef,
   containerWidthBreakpoint,
   isOldestTimelineItem,
+  now,
 }: {
   messageId: string;
   containerElementRef: React.RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   isOldestTimelineItem: boolean;
+  now: number;
 }) => (
   <TimelineItem
     getPreferredBadge={() => undefined}
@@ -417,6 +415,7 @@ const renderItem = ({
     item={items[messageId]}
     previousItem={undefined}
     nextItem={undefined}
+    now={now}
     i18n={i18n}
     interactionMode="keyboard"
     theme={ThemeType.light}
@@ -460,7 +459,6 @@ const renderHeroRow = () => {
         profileName={getProfileName()}
         phoneNumber={getPhoneNumber()}
         conversationType="direct"
-        onHeightChange={action('onHeightChange in ConversationHero')}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
         theme={theme}
         unblurAvatar={action('unblurAvatar')}
@@ -486,6 +484,7 @@ const renderTypingBubble = () => (
 );
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  discardMessages: action('discardMessages'),
   getPreferredBadge: () => undefined,
   i18n,
   theme: React.useContext(StorybookThemeContext),
@@ -493,6 +492,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   getTimestampForMessage: Date.now,
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
   haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
+  isConversationSelected: true,
   isIncomingMessageRequest: boolean(
     'isIncomingMessageRequest',
     overrideProps.isIncomingMessageRequest === true
@@ -502,7 +502,6 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.isLoadingMessages === false
   ),
   items: overrideProps.items || Object.keys(items),
-  resetCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
   totalUnread: number('totalUnread', overrideProps.totalUnread || 0),

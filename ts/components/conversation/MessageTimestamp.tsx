@@ -1,16 +1,17 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReactElement } from 'react';
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 
 import { formatTime } from '../../util/timestamp';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 
 import type { LocalizerType } from '../../types/Util';
+import { Time } from '../Time';
 
 export type Props = {
+  now: number;
   timestamp?: number;
   module?: string;
   withImageNoCaption?: boolean;
@@ -20,63 +21,36 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-const UPDATE_FREQUENCY = 60 * 1000;
+export function MessageTimestamp({
+  direction,
+  i18n,
+  module,
+  now,
+  timestamp,
+  withImageNoCaption,
+  withSticker,
+  withTapToViewExpired,
+}: Readonly<Props>): null | ReactElement {
+  const moduleName = module || 'module-timestamp';
 
-export class MessageTimestamp extends React.Component<Props> {
-  private interval: NodeJS.Timeout | null;
-
-  constructor(props: Props) {
-    super(props);
-
-    this.interval = null;
+  if (timestamp === null || timestamp === undefined) {
+    return null;
   }
 
-  public override componentDidMount(): void {
-    const update = () => {
-      this.setState({
-        // Used to trigger renders
-        // eslint-disable-next-line react/no-unused-state
-        lastUpdated: Date.now(),
-      });
-    };
-    this.interval = setInterval(update, UPDATE_FREQUENCY);
-  }
-
-  public override componentWillUnmount(): void {
-    clearTimeoutIfNecessary(this.interval);
-  }
-
-  public override render(): JSX.Element | null {
-    const {
-      direction,
-      i18n,
-      module,
-      timestamp,
-      withImageNoCaption,
-      withSticker,
-      withTapToViewExpired,
-    } = this.props;
-    const moduleName = module || 'module-timestamp';
-
-    if (timestamp === null || timestamp === undefined) {
-      return null;
-    }
-
-    return (
-      <span
-        className={classNames(
-          moduleName,
-          direction ? `${moduleName}--${direction}` : null,
-          withTapToViewExpired && direction
-            ? `${moduleName}--${direction}-with-tap-to-view-expired`
-            : null,
-          withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
-          withSticker ? `${moduleName}--with-sticker` : null
-        )}
-        title={moment(timestamp).format('llll')}
-      >
-        {formatTime(i18n, timestamp)}
-      </span>
-    );
-  }
+  return (
+    <Time
+      className={classNames(
+        moduleName,
+        direction ? `${moduleName}--${direction}` : null,
+        withTapToViewExpired && direction
+          ? `${moduleName}--${direction}-with-tap-to-view-expired`
+          : null,
+        withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
+        withSticker ? `${moduleName}--with-sticker` : null
+      )}
+      timestamp={timestamp}
+    >
+      {formatTime(i18n, timestamp, now)}
+    </Time>
+  );
 }

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
@@ -23,7 +23,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   id: 'some-id',
   messageExpanded: action('messageExpanded'),
-  onHeightChange: action('onHeightChange'),
   text: text('text', overrideProps.text || ''),
 });
 

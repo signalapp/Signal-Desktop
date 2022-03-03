@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -83,6 +83,7 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
       audio={audio}
       computePeaks={computePeaks}
       setActiveAudioID={(id, context) => setActive({ id, context })}
+      now={Date.now()}
       onFirstPlayed={action('onFirstPlayed')}
       activeAudioID={active.id}
       activeAudioContext={active.context}
@@ -131,6 +132,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   i18n,
   id: text('id', overrideProps.id || ''),
+  now: Date.now(),
   renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
@@ -149,7 +151,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
-  onHeightChange: action('onHeightChange'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],

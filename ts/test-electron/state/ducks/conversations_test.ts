@@ -5,7 +5,6 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { times } from 'lodash';
-import { set } from 'lodash/fp';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 import {
@@ -55,9 +54,8 @@ const {
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
-  createGroup,
-  messageSizeChanged,
   conversationStoppedByMissingVerification,
+  createGroup,
   openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
@@ -334,13 +332,11 @@ describe('both/state/ducks/conversations', () => {
 
     function getDefaultConversationMessage(): ConversationMessageType {
       return {
-        heightChangeMessageIds: [],
         isLoadingMessages: false,
         messageIds: [],
         metrics: {
           totalUnread: 0,
         },
-        resetCounter: 0,
         scrollToMessageCounter: 0,
       };
     }
@@ -829,76 +825,6 @@ describe('both/state/ducks/conversations', () => {
           type: 'SWITCH_TO_ASSOCIATED_VIEW',
           payload: { conversationId: '9876' },
         });
-      });
-    });
-
-    describe('MESSAGE_SIZE_CHANGED', () => {
-      const stateWithActiveConversation = {
-        ...getEmptyState(),
-        messagesByConversation: {
-          [conversationId]: {
-            heightChangeMessageIds: [],
-            isLoadingMessages: false,
-            isNearBottom: true,
-            messageIds: [messageId],
-            metrics: { totalUnread: 0 },
-            resetCounter: 0,
-            scrollToMessageCounter: 0,
-          },
-        },
-        messagesLookup: {
-          [messageId]: getDefaultMessage(messageId),
-        },
-      };
-
-      it('does nothing if no conversation is active', () => {
-        const state = getEmptyState();
-
-        assert.strictEqual(
-          reducer(state, messageSizeChanged('messageId', 'convoId')),
-          state
-        );
-      });
-
-      it('does nothing if a different conversation is active', () => {
-        assert.deepEqual(
-          reducer(
-            stateWithActiveConversation,
-            messageSizeChanged(messageId, 'another-conversation-guid')
-          ),
-          stateWithActiveConversation
-        );
-      });
-
-      it('adds the message ID to the list of messages with changed heights', () => {
-        const result = reducer(
-          stateWithActiveConversation,
-          messageSizeChanged(messageId, conversationId)
-        );
-
-        assert.sameMembers(
-          result.messagesByConversation[conversationId]
-            ?.heightChangeMessageIds || [],
-          [messageId]
-        );
-      });
-
-      it("doesn't add duplicates to the list of changed-heights messages", () => {
-        const state = set(
-          ['messagesByConversation', conversationId, 'heightChangeMessageIds'],
-          [messageId],
-          stateWithActiveConversation
-        );
-        const result = reducer(
-          state,
-          messageSizeChanged(messageId, conversationId)
-        );
-
-        assert.sameMembers(
-          result.messagesByConversation[conversationId]
-            ?.heightChangeMessageIds || [],
-          [messageId]
-        );
       });
     });
 

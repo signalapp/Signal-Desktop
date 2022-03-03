@@ -6,11 +6,9 @@ import type { ThunkAction } from 'redux-thunk';
 import {
   difference,
   fromPairs,
-  intersection,
   omit,
   orderBy,
   pick,
-  uniq,
   values,
   without,
 } from 'lodash';
@@ -243,13 +241,10 @@ export type MessageLookupType = {
   [key: string]: MessageWithUIFieldsType;
 };
 export type ConversationMessageType = {
-  heightChangeMessageIds: Array<string>;
   isLoadingMessages: boolean;
   isNearBottom?: boolean;
-  loadCountdownStart?: number;
   messageIds: Array<string>;
   metrics: MessageMetricsType;
-  resetCounter: number;
   scrollToMessageId?: string;
   scrollToMessageCounter: number;
 };
@@ -397,6 +392,7 @@ const COMPOSE_REPLACE_AVATAR = 'conversations/compose/REPLACE_AVATAR';
 const CUSTOM_COLOR_REMOVED = 'conversations/CUSTOM_COLOR_REMOVED';
 const CONVERSATION_STOPPED_BY_MISSING_VERIFICATION =
   'conversations/CONVERSATION_STOPPED_BY_MISSING_VERIFICATION';
+const DISCARD_MESSAGES = 'conversations/DISCARD_MESSAGES';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 const UPDATE_USERNAME_SAVE_STATE = 'conversations/UPDATE_USERNAME_SAVE_STATE';
 
@@ -479,6 +475,10 @@ type CustomColorRemovedActionType = {
   payload: {
     colorId: string;
   };
+};
+type DiscardMessagesActionType = {
+  type: typeof DISCARD_MESSAGES;
+  payload: { conversationId: string; numberToKeepAtBottom: number };
 };
 type SetPreJoinConversationActionType = {
   type: 'SET_PRE_JOIN_CONVERSATION';
@@ -566,13 +566,6 @@ export type MessageExpandedActionType = {
   };
 };
 
-type MessageSizeChangedActionType = {
-  type: 'MESSAGE_SIZE_CHANGED';
-  payload: {
-    id: string;
-    conversationId: string;
-  };
-};
 export type MessagesAddedActionType = {
   type: 'MESSAGES_ADDED';
   payload: {
@@ -615,13 +608,6 @@ export type SetMessagesLoadingActionType = {
     isLoadingMessages: boolean;
   };
 };
-export type SetLoadCountdownStartActionType = {
-  type: 'SET_LOAD_COUNTDOWN_START';
-  payload: {
-    conversationId: string;
-    loadCountdownStart?: number;
-  };
-};
 export type SetIsNearBottomActionType = {
   type: 'SET_NEAR_BOTTOM';
   payload: {
@@ -642,13 +628,6 @@ export type ScrollToMessageActionType = {
   payload: {
     conversationId: string;
     messageId: string;
-  };
-};
-export type ClearChangedMessagesActionType = {
-  type: 'CLEAR_CHANGED_MESSAGES';
-  payload: {
-    conversationId: string;
-    baton: unknown;
   };
 };
 export type ClearSelectedMessageActionType = {
@@ -759,7 +738,6 @@ export type ConversationActionType =
   | CancelVerificationDataByConversationActionType
   | CantAddContactToGroupActionType
   | ClearCancelledVerificationActionType
-  | ClearChangedMessagesActionType
   | ClearVerificationDataByConversationActionType
   | ClearGroupCreationErrorActionType
   | ClearInvitedUuidsForNewlyCreatedGroupActionType
@@ -783,11 +761,11 @@ export type ConversationActionType =
   | CreateGroupPendingActionType
   | CreateGroupRejectedActionType
   | CustomColorRemovedActionType
+  | DiscardMessagesActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpandedActionType
   | MessageSelectedActionType
-  | MessageSizeChangedActionType
   | MessagesAddedActionType
   | MessagesResetActionType
   | RemoveAllConversationsActionType
@@ -805,7 +783,6 @@ export type ConversationActionType =
   | SetConversationHeaderTitleActionType
   | SetIsFetchingUsernameActionType
   | SetIsNearBottomActionType
-  | SetLoadCountdownStartActionType
   | SetMessagesLoadingActionType
   | SetPreJoinConversationActionType
   | SetRecentMediaItemsActionType
@@ -826,7 +803,6 @@ export const actions = {
   cancelConversationVerification,
   cantAddContactToGroup,
   clearCancelledConversationVerification,
-  clearChangedMessages,
   clearGroupCreationError,
   clearInvitedUuidsForNewlyCreatedGroup,
   clearSelectedMessage,
@@ -847,11 +823,11 @@ export const actions = {
   conversationUnloaded,
   createGroup,
   deleteAvatarFromDisk,
+  discardMessages,
   doubleCheckMissingQuoteReference,
   messageChanged,
   messageDeleted,
   messageExpanded,
-  messageSizeChanged,
   messagesAdded,
   messagesReset,
   myProfileChanged,
@@ -875,7 +851,6 @@ export const actions = {
   setComposeGroupName,
   setComposeSearchTerm,
   setIsNearBottom,
-  setLoadCountdownStart,
   setMessagesLoading,
   setPreJoinConversation,
   setRecentMediaItems,
@@ -968,6 +943,12 @@ function deleteAvatarFromDisk(
       },
     });
   };
+}
+
+function discardMessages(
+  payload: Readonly<DiscardMessagesActionType['payload']>
+): DiscardMessagesActionType {
+  return { type: DISCARD_MESSAGES, payload };
 }
 
 function replaceAvatar(
@@ -1581,18 +1562,6 @@ function messageExpanded(
     },
   };
 }
-function messageSizeChanged(
-  id: string,
-  conversationId: string
-): MessageSizeChangedActionType {
-  return {
-    type: 'MESSAGE_SIZE_CHANGED',
-    payload: {
-      id,
-      conversationId,
-    },
-  };
-}
 function messagesAdded({
   conversationId,
   isActive,
@@ -1694,18 +1663,6 @@ function setMessagesLoading(
     },
   };
 }
-function setLoadCountdownStart(
-  conversationId: string,
-  loadCountdownStart?: number
-): SetLoadCountdownStartActionType {
-  return {
-    type: 'SET_LOAD_COUNTDOWN_START',
-    payload: {
-      conversationId,
-      loadCountdownStart,
-    },
-  };
-}
 function setIsNearBottom(
   conversationId: string,
   isNearBottom: boolean
@@ -1741,18 +1698,6 @@ function setRecentMediaItems(
   return {
     type: 'SET_RECENT_MEDIA_ITEMS',
     payload: { id, recentMediaItems },
-  };
-}
-function clearChangedMessages(
-  conversationId: string,
-  baton: unknown
-): ClearChangedMessagesActionType {
-  return {
-    type: 'CLEAR_CHANGED_MESSAGES',
-    payload: {
-      conversationId,
-      baton,
-    },
   };
 }
 function clearInvitedUuidsForNewlyCreatedGroup(): ClearInvitedUuidsForNewlyCreatedGroupActionType {
@@ -2125,71 +2070,6 @@ export function getEmptyState(): ConversationsStateType {
   };
 }
 
-function hasMessageHeightChanged(
-  message: MessageAttributesType,
-  previous: MessageAttributesType
-): boolean {
-  const messageAttachments = message.attachments || [];
-  const previousAttachments = previous.attachments || [];
-
-  const errorStatusChanged =
-    (!message.errors && previous.errors) ||
-    (message.errors && !previous.errors) ||
-    (message.errors &&
-      previous.errors &&
-      message.errors.length !== previous.errors.length);
-  if (errorStatusChanged) {
-    return true;
-  }
-
-  const groupUpdateChanged = message.group_update !== previous.group_update;
-  if (groupUpdateChanged) {
-    return true;
-  }
-
-  const stickerPendingChanged =
-    message.sticker &&
-    message.sticker.data &&
-    previous.sticker &&
-    previous.sticker.data &&
-    !previous.sticker.data.blurHash &&
-    previous.sticker.data.pending !== message.sticker.data.pending;
-  if (stickerPendingChanged) {
-    return true;
-  }
-
-  const longMessageAttachmentLoaded =
-    previous.bodyPending && !message.bodyPending;
-  if (longMessageAttachmentLoaded) {
-    return true;
-  }
-
-  const firstAttachmentNoLongerPending =
-    previousAttachments[0] &&
-    previousAttachments[0].pending &&
-    messageAttachments[0] &&
-    !messageAttachments[0].pending;
-  if (firstAttachmentNoLongerPending) {
-    return true;
-  }
-
-  const currentReactions = message.reactions || [];
-  const lastReactions = previous.reactions || [];
-  const reactionsChanged =
-    (currentReactions.length === 0) !== (lastReactions.length === 0);
-  if (reactionsChanged) {
-    return true;
-  }
-
-  const isDeletedForEveryone = message.deletedForEveryone;
-  const wasDeletedForEveryone = previous.deletedForEveryone;
-  if (isDeletedForEveryone !== wasDeletedForEveryone) {
-    return true;
-  }
-
-  return false;
-}
-
 export function updateConversationLookups(
   added: ConversationType | undefined,
   removed: ConversationType | undefined,
@@ -2415,6 +2295,38 @@ export function reducer(
 
   if (action.type === 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL') {
     return closeComposerModal(state, 'recommendedGroupSizeModalState' as const);
+  }
+
+  if (action.type === DISCARD_MESSAGES) {
+    const { conversationId, numberToKeepAtBottom } = action.payload;
+
+    const conversationMessages = getOwn(
+      state.messagesByConversation,
+      conversationId
+    );
+    if (!conversationMessages) {
+      return state;
+    }
+
+    const { messageIds: oldMessageIds } = conversationMessages;
+    if (oldMessageIds.length <= numberToKeepAtBottom) {
+      return state;
+    }
+
+    const messageIdsToRemove = oldMessageIds.slice(0, -numberToKeepAtBottom);
+    const messageIdsToKeep = oldMessageIds.slice(-numberToKeepAtBottom);
+
+    return {
+      ...state,
+      messagesLookup: omit(state.messagesLookup, messageIdsToRemove),
+      messagesByConversation: {
+        ...state.messagesByConversation,
+        [conversationId]: {
+          ...conversationMessages,
+          messageIds: messageIdsToKeep,
+        },
+      },
+    };
   }
 
   if (action.type === 'SET_PRE_JOIN_CONVERSATION') {
@@ -2645,15 +2557,6 @@ export function reducer(
       return state;
     }
 
-    // Check for changes which could affect height - that's why we need this
-    //   heightChangeMessageIds field. It tells Timeline to recalculate all of its heights
-    const hasHeightChanged = hasMessageHeightChanged(data, existingMessage);
-
-    const { heightChangeMessageIds } = existingConversation;
-    const updatedChanges = hasHeightChanged
-      ? uniq([...heightChangeMessageIds, id])
-      : heightChangeMessageIds;
-
     return {
       ...state,
       messagesLookup: {
@@ -2661,13 +2564,6 @@ export function reducer(
         [id]: {
           ...data,
           displayLimit: existingMessage.displayLimit,
-        },
-      },
-      messagesByConversation: {
-        ...state.messagesByConversation,
-        [conversationId]: {
-          ...existingConversation,
-          heightChangeMessageIds: updatedChanges,
         },
       },
     };
@@ -2691,31 +2587,6 @@ export function reducer(
       },
     };
   }
-  if (action.type === 'MESSAGE_SIZE_CHANGED') {
-    const { id, conversationId } = action.payload;
-
-    const existingConversation = getOwn(
-      state.messagesByConversation,
-      conversationId
-    );
-    if (!existingConversation) {
-      return state;
-    }
-
-    return {
-      ...state,
-      messagesByConversation: {
-        ...state.messagesByConversation,
-        [conversationId]: {
-          ...existingConversation,
-          heightChangeMessageIds: uniq([
-            ...existingConversation.heightChangeMessageIds,
-            id,
-          ]),
-        },
-      },
-    };
-  }
   if (action.type === 'MESSAGES_RESET') {
     const {
       conversationId,
@@ -2727,9 +2598,6 @@ export function reducer(
     const { messagesByConversation, messagesLookup } = state;
 
     const existingConversation = messagesByConversation[conversationId];
-    const resetCounter = existingConversation
-      ? existingConversation.resetCounter + 1
-      : 0;
 
     const lookup = fromPairs(messages.map(message => [message.id, message]));
     const sorted = orderBy(
@@ -2780,8 +2648,6 @@ export function reducer(
             newest,
             oldest,
           },
-          resetCounter,
-          heightChangeMessageIds: [],
         },
       },
     };
@@ -2803,30 +2669,7 @@ export function reducer(
         ...messagesByConversation,
         [conversationId]: {
           ...existingConversation,
-          loadCountdownStart: undefined,
           isLoadingMessages,
-        },
-      },
-    };
-  }
-  if (action.type === 'SET_LOAD_COUNTDOWN_START') {
-    const { payload } = action;
-    const { conversationId, loadCountdownStart } = payload;
-
-    const { messagesByConversation } = state;
-    const existingConversation = messagesByConversation[conversationId];
-
-    if (!existingConversation) {
-      return state;
-    }
-
-    return {
-      ...state,
-      messagesByConversation: {
-        ...messagesByConversation,
-        [conversationId]: {
-          ...existingConversation,
-          loadCountdownStart,
         },
       },
     };
@@ -2838,7 +2681,10 @@ export function reducer(
     const { messagesByConversation } = state;
     const existingConversation = messagesByConversation[conversationId];
 
-    if (!existingConversation) {
+    if (
+      !existingConversation ||
+      existingConversation.isNearBottom === isNearBottom
+    ) {
       return state;
     }
 
@@ -2921,10 +2767,6 @@ export function reducer(
 
     // Removing it from our caches
     const messageIds = without(existingConversation.messageIds, id);
-    const heightChangeMessageIds = without(
-      existingConversation.heightChangeMessageIds,
-      id
-    );
 
     let metrics;
     if (messageIds.length === 0) {
@@ -2946,7 +2788,6 @@ export function reducer(
         [conversationId]: {
           ...existingConversation,
           messageIds,
-          heightChangeMessageIds,
           metrics,
         },
       },
@@ -3135,12 +2976,6 @@ export function reducer(
       totalUnread = (totalUnread || 0) + newUnread;
     }
 
-    const changedIds = intersection(newIds, existingConversation.messageIds);
-    const heightChangeMessageIds = uniq([
-      ...changedIds,
-      ...existingConversation.heightChangeMessageIds,
-    ]);
-
     return {
       ...state,
       messagesLookup: {
@@ -3153,7 +2988,6 @@ export function reducer(
           ...existingConversation,
           isLoadingMessages: false,
           messageIds,
-          heightChangeMessageIds,
           scrollToMessageId: isJustSent ? last.id : undefined,
           metrics: {
             ...existingConversation.metrics,
@@ -3170,30 +3004,6 @@ export function reducer(
     return {
       ...state,
       selectedMessage: undefined,
-    };
-  }
-  if (action.type === 'CLEAR_CHANGED_MESSAGES') {
-    const { payload } = action;
-    const { conversationId, baton } = payload;
-    const existingConversation = state.messagesByConversation[conversationId];
-
-    if (
-      !existingConversation ||
-      existingConversation.heightChangeMessageIds !== baton
-    ) {
-      log.warn('CLEAR_CHANGED_MESSAGES used expired baton');
-      return state;
-    }
-
-    return {
-      ...state,
-      messagesByConversation: {
-        ...state.messagesByConversation,
-        [conversationId]: {
-          ...existingConversation,
-          heightChangeMessageIds: [],
-        },
-      },
     };
   }
   if (action.type === 'CLEAR_UNREAD_METRICS') {

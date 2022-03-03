@@ -18,12 +18,13 @@ export type PropsData = {
 
 export type PropsHousekeeping = {
   i18n: LocalizerType;
+  now: number;
 };
 
 export type Props = PropsData & PropsHousekeeping;
 
 export const ChangeNumberNotification: React.FC<Props> = props => {
-  const { i18n, sender, timestamp } = props;
+  const { i18n, now, sender, timestamp } = props;
 
   return (
     <SystemMessage
@@ -37,7 +38,7 @@ export const ChangeNumberNotification: React.FC<Props> = props => {
             i18n={i18n}
           />
           &nbsp;·&nbsp;
-          <MessageTimestamp i18n={i18n} timestamp={timestamp} />
+          <MessageTimestamp i18n={i18n} now={now} timestamp={timestamp} />
         </>
       }
       icon="phone"

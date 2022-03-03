@@ -1,13 +1,11 @@
 // Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, get, isEqual, isNumber, pick } from 'lodash';
+import { first, get, isNumber, last, pick, throttle } from 'lodash';
 import classNames from 'classnames';
 import type { ReactChild, ReactNode, RefObject } from 'react';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { createSelector } from 'reselect';
-import type { Grid, ListRowProps } from 'react-virtualized';
-import { AutoSizer, CellMeasurer, List } from 'react-virtualized';
 import Measure from 'react-measure';
 
 import { ScrollDownButton } from './ScrollDownButton';
@@ -15,9 +13,8 @@ import { ScrollDownButton } from './ScrollDownButton';
 import type { AssertProps, LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { assert } from '../../util/assert';
+import { assert, strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
-import { createRefMerger } from '../../util/refMerger';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
@@ -35,25 +32,17 @@ import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader';
+import { getWidthBreakpoint } from '../../util/timelineUtil';
 import {
-  RowHeightCache,
-  fromItemIndexToRow,
-  fromRowToItemIndex,
-  getEphemeralRows,
-  getHeroRow,
-  getLastSeenIndicatorRow,
-  getRowCount,
-  getTypingBubbleRow,
-  getWidthBreakpoint,
-} from '../../util/timelineUtil';
+  getScrollBottom,
+  scrollToBottom,
+  setScrollBottom,
+} from '../../util/scrollUtil';
+import { MINUTE } from '../../util/durations';
 
-const ESTIMATED_ROW_HEIGHT = 64;
 const AT_BOTTOM_THRESHOLD = 15;
-const NEAR_BOTTOM_THRESHOLD = 15;
-const AT_TOP_THRESHOLD = 10;
-const LOAD_MORE_THRESHOLD = 30;
+const MIN_ROW_HEIGHT = 18;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
-export const LOAD_COUNTDOWN = 1;
 
 export type WarningType =
   | {
@@ -89,11 +78,7 @@ export type PropsDataType = {
   isLoadingMessages: boolean;
   isNearBottom?: boolean;
   items: ReadonlyArray<string>;
-  loadCountdownStart?: number;
-  messageHeightChangeBaton?: unknown;
-  messageHeightChangeIndex?: number;
   oldestUnreadIndex?: number;
-  resetCounter: number;
   scrollToIndex?: number;
   scrollToIndexCounter: number;
   totalUnread: number;
@@ -102,6 +87,7 @@ export type PropsDataType = {
 type PropsHousekeepingType = {
   id: string;
   areWeAdmin?: boolean;
+  isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
   typingContactId?: string;
@@ -113,6 +99,9 @@ type PropsHousekeepingType = {
   warning?: WarningType;
   contactSpoofingReview?: ContactSpoofingReviewPropType;
 
+  discardMessages: (
+    _: Readonly<{ conversationId: string; numberToKeepAtBottom: number }>
+  ) => void;
   getTimestampForMessage: (messageId: string) => undefined | number;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
@@ -126,13 +115,12 @@ type PropsHousekeepingType = {
     isOldestTimelineItem: boolean;
     messageId: string;
     nextMessageId: undefined | string;
-    onHeightChange: (messageId: string) => unknown;
+    now: number;
     previousMessageId: undefined | string;
   }) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderHeroRow: (
     id: string,
-    resizeHeroRow: () => unknown,
     unblurAvatar: () => void,
     updateSharedGroups: () => unknown
   ) => JSX.Element;
@@ -143,13 +131,8 @@ export type PropsActionsType = {
   acknowledgeGroupMemberNameCollisions: (
     groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
   ) => void;
-  clearChangedMessages: (conversationId: string, baton: unknown) => unknown;
   clearInvitedUuidsForNewlyCreatedGroup: () => void;
   closeContactSpoofingReview: () => void;
-  setLoadCountdownStart: (
-    conversationId: string,
-    loadCountdownStart?: number
-  ) => unknown;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
   reviewGroupMemberNameCollision: (groupConversationId: string) => void;
   reviewMessageRequestNameCollision: (
@@ -174,7 +157,7 @@ export type PropsActionsType = {
   clearSelectedMessage: () => unknown;
   unblurAvatar: () => void;
   updateSharedGroups: () => unknown;
-} & Omit<MessageActionsType, 'onHeightChange'> &
+} & MessageActionsType &
   SafetyNumberActionsType &
   UnsupportedMessageActionsType &
   ChatSessionRefreshedNotificationActionsType;
@@ -183,49 +166,21 @@ export type PropsType = PropsDataType &
   PropsHousekeepingType &
   PropsActionsType;
 
-type OnScrollParamsType = {
-  scrollTop: number;
-  clientHeight: number;
-  scrollHeight: number;
-
-  clientWidth: number;
-  scrollWidth?: number;
-  scrollLeft?: number;
-  scrollToColumn?: number;
-  _hasScrolledToColumnTarget?: boolean;
-  scrollToRow?: number;
-  _hasScrolledToRowTarget?: boolean;
-};
-
-type VisibleRowType = {
-  id: string;
-  offsetTop: number;
-  row: number;
-};
-
 type StateType = {
-  atBottom: boolean;
-  atTop: boolean;
-  hasRecentlyScrolled: boolean;
-  oneTimeScrollRow?: number;
-  visibleRows?: {
-    newestFullyVisible?: VisibleRowType;
-    oldestPartiallyVisibleMessageId?: string;
-    oldestFullyVisible?: VisibleRowType;
-  };
-
-  widthBreakpoint: WidthBreakpoint;
-
-  prevPropScrollToIndex?: number;
-  prevPropScrollToIndexCounter?: number;
-  propScrollToIndex?: number;
-
-  shouldShowScrollDownButton: boolean;
-  areUnreadBelowCurrentPosition: boolean;
-
   hasDismissedDirectContactSpoofingWarning: boolean;
+  hasRecentlyScrolled: boolean;
   lastMeasuredWarningHeight: number;
+  newestFullyVisibleMessageId?: string;
+  nowThatUpdatesEveryMinute: number;
+  oldestPartiallyVisibleMessageId?: string;
+  widthBreakpoint: WidthBreakpoint;
 };
+
+type SnapshotType =
+  | null
+  | { scrollToIndex: number }
+  | { scrollTop: number }
+  | { scrollBottom: number };
 
 const getActions = createSelector(
   // It is expensive to pick so many properties out of the `props` object so we
@@ -235,10 +190,8 @@ const getActions = createSelector(
   (props: PropsType): PropsActionsType => {
     const unsafe = pick(props, [
       'acknowledgeGroupMemberNameCollisions',
-      'clearChangedMessages',
       'clearInvitedUuidsForNewlyCreatedGroup',
       'closeContactSpoofingReview',
-      'setLoadCountdownStart',
       'setIsNearBottom',
       'reviewGroupMemberNameCollision',
       'reviewMessageRequestNameCollision',
@@ -296,580 +249,56 @@ const getActions = createSelector(
   }
 );
 
-export class Timeline extends React.PureComponent<PropsType, StateType> {
-  private cellSizeCache = new RowHeightCache(ESTIMATED_ROW_HEIGHT);
-
-  private mostRecentWidth = 0;
-
-  private mostRecentHeight = 0;
-
-  private offsetFromBottom: number | undefined = 0;
-
-  private resizeFlag = false;
-
+export class Timeline extends React.Component<
+  PropsType,
+  StateType,
+  SnapshotType
+> {
   private readonly containerRef = React.createRef<HTMLDivElement>();
+  private readonly messagesRef = React.createRef<HTMLDivElement>();
+  private intersectionObserver?: IntersectionObserver;
+  private messagesResizeObserver?: ResizeObserver;
 
-  private readonly listRef = React.createRef<List>();
-
-  private loadCountdownTimeout: NodeJS.Timeout | null = null;
+  // This is a best guess. It will likely be overridden when the timeline is measured.
+  private maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
 
   private hasRecentlyScrolledTimeout?: NodeJS.Timeout;
-
   private delayedPeekTimeout?: NodeJS.Timeout;
+  private nowThatUpdatesEveryMinuteInterval?: NodeJS.Timeout;
 
-  private containerRefMerger = createRefMerger();
+  override state: StateType = {
+    hasRecentlyScrolled: true,
+    hasDismissedDirectContactSpoofingWarning: false,
+    nowThatUpdatesEveryMinute: Date.now(),
 
-  constructor(props: PropsType) {
-    super(props);
-
-    const { scrollToIndex, isIncomingMessageRequest } = this.props;
-    const oneTimeScrollRow = isIncomingMessageRequest
-      ? undefined
-      : getLastSeenIndicatorRow(props);
-
-    // We only stick to the bottom if this is not an incoming message request.
-    const atBottom = !isIncomingMessageRequest;
-
-    this.state = {
-      atBottom,
-      atTop: false,
-      hasRecentlyScrolled: true,
-      oneTimeScrollRow,
-      propScrollToIndex: scrollToIndex,
-      prevPropScrollToIndex: scrollToIndex,
-      shouldShowScrollDownButton: false,
-      areUnreadBelowCurrentPosition: false,
-      hasDismissedDirectContactSpoofingWarning: false,
-      lastMeasuredWarningHeight: 0,
-      // This may be swiftly overridden.
-      widthBreakpoint: WidthBreakpoint.Wide,
-    };
-  }
-
-  public static getDerivedStateFromProps(
-    props: PropsType,
-    state: StateType
-  ): StateType {
-    if (
-      isNumber(props.scrollToIndex) &&
-      (props.scrollToIndex !== state.prevPropScrollToIndex ||
-        props.scrollToIndexCounter !== state.prevPropScrollToIndexCounter)
-    ) {
-      return {
-        ...state,
-        propScrollToIndex: props.scrollToIndex,
-        prevPropScrollToIndex: props.scrollToIndex,
-        prevPropScrollToIndexCounter: props.scrollToIndexCounter,
-      };
-    }
-
-    return state;
-  }
-
-  private getList = (): List | null => {
-    if (!this.listRef) {
-      return null;
-    }
-
-    const { current } = this.listRef;
-
-    return current;
+    // These may be swiftly overridden.
+    lastMeasuredWarningHeight: 0,
+    widthBreakpoint: WidthBreakpoint.Wide,
   };
 
-  private getGrid = (): Grid | undefined => {
-    const list = this.getList();
-    if (!list) {
-      return;
-    }
+  private onScroll = (): void => {
+    const { id, setIsNearBottom } = this.props;
 
-    return list.Grid;
-  };
+    setIsNearBottom(id, this.isAtBottom());
 
-  private getScrollContainer = (): HTMLDivElement | undefined => {
-    // We're using an internal variable (_scrollingContainer)) here,
-    // so cannot rely on the public type.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const grid: any = this.getGrid();
-    if (!grid) {
-      return;
-    }
-
-    return grid._scrollingContainer as HTMLDivElement;
-  };
-
-  private recomputeRowHeights = (row?: number): void => {
-    const list = this.getList();
-    if (!list) {
-      return;
-    }
-
-    list.recomputeRowHeights(row);
-  };
-
-  private onHeightOnlyChange = (): void => {
-    const grid = this.getGrid();
-    const scrollContainer = this.getScrollContainer();
-    if (!grid || !scrollContainer) {
-      return;
-    }
-
-    if (!isNumber(this.offsetFromBottom)) {
-      return;
-    }
-
-    const { clientHeight, scrollHeight, scrollTop } = scrollContainer;
-    const newOffsetFromBottom = Math.max(
-      0,
-      scrollHeight - clientHeight - scrollTop
+    this.setState(oldState =>
+      // `onScroll` is called frequently, so it's performance-sensitive. We try our best
+      //   to return `null` from this updater because [that won't cause a re-render][0].
+      //
+      // [0]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/react-reconciler/src/ReactUpdateQueue.js#L401-L404
+      oldState.hasRecentlyScrolled ? null : { hasRecentlyScrolled: true }
     );
-    const delta = newOffsetFromBottom - this.offsetFromBottom;
-
-    // TODO: DESKTOP-687
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (grid as any).scrollToPosition({
-      scrollTop: scrollContainer.scrollTop + delta,
-    });
-  };
-
-  private resize = (row?: number): void => {
-    this.offsetFromBottom = undefined;
-    this.resizeFlag = false;
-    if (isNumber(row) && row > 0) {
-      this.cellSizeCache.clearPlus(row);
-    } else {
-      this.cellSizeCache.clearAll();
-    }
-
-    this.recomputeRowHeights(row || 0);
-  };
-
-  private resizeHeroRow = (): void => {
-    this.resize(0);
-  };
-
-  private resizeMessage = (messageId: string): void => {
-    const { items } = this.props;
-
-    if (!items || !items.length) {
-      return;
-    }
-
-    const index = items.findIndex(item => item === messageId);
-    if (index < 0) {
-      return;
-    }
-
-    const row = fromItemIndexToRow(index, this.props);
-    this.resize(row);
-  };
-
-  private onScroll = (data: OnScrollParamsType): void => {
-    // Ignore scroll events generated as react-virtualized recursively scrolls and
-    //   re-measures to get us where we want to go.
-    if (
-      isNumber(data.scrollToRow) &&
-      data.scrollToRow >= 0 &&
-      !data._hasScrolledToRowTarget
-    ) {
-      return;
-    }
-
-    // Sometimes react-virtualized ends up with some incorrect math - we've scrolled below
-    //  what should be possible. In this case, we leave everything the same and ask
-    //  react-virtualized to try again. Without this, we'll set atBottom to true and
-    //  pop the user back down to the bottom.
-    const { clientHeight, scrollHeight, scrollTop } = data;
-    if (scrollTop + clientHeight > scrollHeight) {
-      return;
-    }
-
-    this.setState({ hasRecentlyScrolled: true });
     clearTimeoutIfNecessary(this.hasRecentlyScrolledTimeout);
     this.hasRecentlyScrolledTimeout = setTimeout(() => {
       this.setState({ hasRecentlyScrolled: false });
     }, 3000);
-
-    this.updateScrollMetrics(data);
-    this.updateWithVisibleRows();
   };
 
-  private onRowsRendered = (): void => {
-    // React Virtualized doesn't respect `scrollToIndex` in some cases, likely
-    //   because it hasn't rendered that row yet.
-    const { oneTimeScrollRow } = this.state;
-    if (isNumber(oneTimeScrollRow)) {
-      this.getList()?.scrollToRow(oneTimeScrollRow);
-    }
-  };
-
-  private updateScrollMetrics = debounce(
-    (data: OnScrollParamsType) => {
-      const { clientHeight, clientWidth, scrollHeight, scrollTop } = data;
-
-      if (clientHeight <= 0 || scrollHeight <= 0) {
-        return;
-      }
-
-      const {
-        haveNewest,
-        haveOldest,
-        id,
-        isIncomingMessageRequest,
-        setIsNearBottom,
-        setLoadCountdownStart,
-      } = this.props;
-
-      if (
-        this.mostRecentHeight &&
-        clientHeight !== this.mostRecentHeight &&
-        this.mostRecentWidth &&
-        clientWidth === this.mostRecentWidth
-      ) {
-        this.onHeightOnlyChange();
-      }
-
-      // If we've scrolled, we want to reset these
-      const oneTimeScrollRow = undefined;
-      const propScrollToIndex = undefined;
-
-      this.offsetFromBottom = Math.max(
-        0,
-        scrollHeight - clientHeight - scrollTop
-      );
-
-      // If there's an active message request, we won't stick to the bottom of the
-      //   conversation as new messages come in.
-      const atBottom = isIncomingMessageRequest
-        ? false
-        : haveNewest && this.offsetFromBottom <= AT_BOTTOM_THRESHOLD;
-
-      const isNearBottom =
-        haveNewest && this.offsetFromBottom <= NEAR_BOTTOM_THRESHOLD;
-      const atTop = scrollTop <= AT_TOP_THRESHOLD;
-      const loadCountdownStart = atTop && !haveOldest ? Date.now() : undefined;
-
-      clearTimeoutIfNecessary(this.loadCountdownTimeout);
-      this.loadCountdownTimeout = null;
-      if (isNumber(loadCountdownStart)) {
-        this.loadCountdownTimeout = setTimeout(
-          this.loadOlderMessages,
-          LOAD_COUNTDOWN
-        );
-      }
-
-      // Variable collision
-      // eslint-disable-next-line react/destructuring-assignment
-      if (loadCountdownStart !== this.props.loadCountdownStart) {
-        setLoadCountdownStart(id, loadCountdownStart);
-      }
-
-      // Variable collision
-      // eslint-disable-next-line react/destructuring-assignment
-      if (isNearBottom !== this.props.isNearBottom) {
-        setIsNearBottom(id, isNearBottom);
-      }
-
-      this.setState({
-        atBottom,
-        atTop,
-        oneTimeScrollRow,
-        propScrollToIndex,
-      });
-    },
-    50,
-    { maxWait: 50 }
-  );
-
-  private updateVisibleRows = (): void => {
-    const scrollContainer = this.getScrollContainer();
-    if (!scrollContainer) {
-      return;
-    }
-
-    if (scrollContainer.clientHeight === 0) {
-      return;
-    }
-
-    const innerScrollContainer = scrollContainer.children[0];
-    if (!innerScrollContainer) {
-      return;
-    }
-
-    let newestFullyVisible: undefined | VisibleRowType;
-    let oldestPartiallyVisibleMessageId: undefined | string;
-    let oldestFullyVisible: undefined | VisibleRowType;
-
-    const { children } = innerScrollContainer;
-    const visibleTop = scrollContainer.scrollTop;
-    const visibleBottom = visibleTop + scrollContainer.clientHeight;
-
-    for (let i = children.length - 1; i >= 0; i -= 1) {
-      const child = children[i] as HTMLDivElement;
-      const { id, offsetTop, offsetHeight } = child;
-
-      if (!id) {
-        continue;
-      }
-
-      const bottom = offsetTop + offsetHeight;
-
-      if (bottom - AT_BOTTOM_THRESHOLD <= visibleBottom) {
-        const row = parseInt(child.getAttribute('data-row') || '-1', 10);
-        newestFullyVisible = { offsetTop, row, id };
-
-        break;
-      }
-    }
-
-    const max = children.length;
-    for (let i = 0; i < max; i += 1) {
-      const child = children[i] as HTMLDivElement;
-      const { id, offsetTop, offsetHeight } = child;
-
-      if (!id) {
-        continue;
-      }
-
-      const bottom = offsetTop + offsetHeight;
-
-      if (bottom >= visibleTop && !oldestPartiallyVisibleMessageId) {
-        oldestPartiallyVisibleMessageId = id;
-      }
-
-      if (offsetTop + AT_TOP_THRESHOLD >= visibleTop) {
-        oldestFullyVisible = {
-          offsetTop,
-          row: parseInt(child.getAttribute('data-row') || '-1', 10),
-          id,
-        };
-        break;
-      }
-    }
-
-    this.setState(oldState => {
-      const visibleRows = {
-        newestFullyVisible,
-        oldestPartiallyVisibleMessageId,
-        oldestFullyVisible,
-      };
-
-      // This avoids a render loop.
-      return isEqual(oldState.visibleRows, visibleRows)
-        ? null
-        : { visibleRows };
-    });
-  };
-
-  private updateWithVisibleRows = debounce(
-    () => {
-      const {
-        unreadCount,
-        haveNewest,
-        haveOldest,
-        isLoadingMessages,
-        items,
-        loadNewerMessages,
-        markMessageRead,
-      } = this.props;
-
-      if (!items || items.length < 1) {
-        return;
-      }
-
-      this.updateVisibleRows();
-      const { visibleRows } = this.state;
-      if (!visibleRows) {
-        return;
-      }
-
-      const { newestFullyVisible, oldestFullyVisible } = visibleRows;
-      if (!newestFullyVisible) {
-        return;
-      }
-
-      markMessageRead(newestFullyVisible.id);
-
-      const newestRow = getRowCount(this.props) - 1;
-      const oldestRow = fromItemIndexToRow(0, this.props);
-
-      // Loading newer messages (that go below current messages) is pain-free and quick
-      //   we'll just kick these off immediately.
-      if (
-        !isLoadingMessages &&
-        !haveNewest &&
-        newestFullyVisible.row > newestRow - LOAD_MORE_THRESHOLD
-      ) {
-        const lastId = items[items.length - 1];
-        loadNewerMessages(lastId);
-      }
-
-      // Loading older messages is more destructive, as they requires a recalculation of
-      //   all locations of things below. So we need to be careful with these loads.
-      //   Generally we hid this behind a countdown spinner at the top of the window, but
-      //   this is a special-case for the situation where the window is so large and that
-      //   all the messages are visible.
-      const oldestVisible = Boolean(
-        oldestFullyVisible && oldestRow === oldestFullyVisible.row
-      );
-      const newestVisible = newestRow === newestFullyVisible.row;
-      if (oldestVisible && newestVisible && !haveOldest) {
-        this.loadOlderMessages();
-      }
-
-      const lastIndex = items.length - 1;
-      const lastItemRow = fromItemIndexToRow(lastIndex, this.props);
-      const areUnreadBelowCurrentPosition = Boolean(
-        isNumber(unreadCount) &&
-          unreadCount > 0 &&
-          (!haveNewest || newestFullyVisible.row < lastItemRow)
-      );
-
-      const shouldShowScrollDownButton = Boolean(
-        !haveNewest ||
-          areUnreadBelowCurrentPosition ||
-          newestFullyVisible.row < newestRow - SCROLL_DOWN_BUTTON_THRESHOLD
-      );
-
-      this.setState({
-        shouldShowScrollDownButton,
-        areUnreadBelowCurrentPosition,
-      });
-    },
-    500,
-    { maxWait: 500 }
-  );
-
-  private loadOlderMessages = (): void => {
-    const { haveOldest, isLoadingMessages, items, loadOlderMessages } =
-      this.props;
-
-    clearTimeoutIfNecessary(this.loadCountdownTimeout);
-    this.loadCountdownTimeout = null;
-
-    if (isLoadingMessages || haveOldest || !items || items.length < 1) {
-      return;
-    }
-
-    const oldestId = items[0];
-    loadOlderMessages(oldestId);
-  };
-
-  private rowRenderer = ({
-    index: rowIndex,
-    key,
-    parent,
-    style,
-  }: Readonly<ListRowProps>): JSX.Element => {
-    const {
-      id,
-      i18n,
-      haveOldest,
-      items,
-      renderItem,
-      renderHeroRow,
-      renderLastSeenIndicator,
-      renderTypingBubble,
-      unblurAvatar,
-      updateSharedGroups,
-    } = this.props;
-    const { lastMeasuredWarningHeight, widthBreakpoint } = this.state;
-
-    const commonProps = {
-      'data-row': rowIndex,
-      style: {
-        ...style,
-        width: `${this.mostRecentWidth}px`,
-      },
-      role: 'row',
-    };
-
-    let rowContents: ReactChild;
-    switch (rowIndex) {
-      case getHeroRow(this.props):
-        rowContents = (
-          <div {...commonProps}>
-            {Timeline.getWarning(this.props, this.state) ? (
-              <div style={{ height: lastMeasuredWarningHeight }} />
-            ) : null}
-            {renderHeroRow(
-              id,
-              this.resizeHeroRow,
-              unblurAvatar,
-              updateSharedGroups
-            )}
-          </div>
-        );
-        break;
-      case getLastSeenIndicatorRow(this.props):
-        rowContents = <div {...commonProps}>{renderLastSeenIndicator(id)}</div>;
-        break;
-      case getTypingBubbleRow(this.props):
-        rowContents = (
-          <div {...commonProps} className="module-timeline__message-container">
-            {renderTypingBubble(id)}
-          </div>
-        );
-        break;
-      default:
-        {
-          const itemIndex = fromRowToItemIndex(rowIndex, this.props);
-          if (typeof itemIndex !== 'number') {
-            throw new Error(
-              `Attempted to render item with undefined index - row ${rowIndex}`
-            );
-          }
-          const previousMessageId: undefined | string = items[itemIndex - 1];
-          const messageId = items[itemIndex];
-          const nextMessageId: undefined | string = items[itemIndex + 1];
-
-          const actionProps = getActions(this.props);
-
-          rowContents = (
-            <div
-              {...commonProps}
-              id={messageId}
-              className="module-timeline__message-container"
-            >
-              <ErrorBoundary
-                i18n={i18n}
-                showDebugLog={() => window.showDebugLog()}
-              >
-                {renderItem({
-                  actionProps,
-                  containerElementRef: this.containerRef,
-                  containerWidthBreakpoint: widthBreakpoint,
-                  conversationId: id,
-                  isOldestTimelineItem: haveOldest && itemIndex === 0,
-                  messageId,
-                  nextMessageId,
-                  onHeightChange: this.resizeMessage,
-                  previousMessageId,
-                })}
-              </ErrorBoundary>
-            </div>
-          );
-        }
-        break;
-    }
-
-    return (
-      <CellMeasurer
-        cache={this.cellSizeCache}
-        columnIndex={0}
-        key={key}
-        parent={parent}
-        rowIndex={rowIndex}
-        width={this.mostRecentWidth}
-      >
-        {rowContents}
-      </CellMeasurer>
-    );
-  };
-
-  private getRowHeightFromCache = ({
-    index,
-  }: Readonly<{ index: number }>): number =>
-    this.cellSizeCache.getHeight(index);
+  private scrollToItemIndex(itemIndex: number): void {
+    this.messagesRef.current
+      ?.querySelector(`[data-item-index="${itemIndex}"]`)
+      ?.scrollIntoViewIfNeeded();
+  }
 
   private scrollToBottom = (setFocus?: boolean): void => {
     const { selectMessage, id, items } = this.props;
@@ -878,15 +307,12 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const lastIndex = items.length - 1;
       const lastMessageId = items[lastIndex];
       selectMessage(lastMessageId, id);
+    } else {
+      const containerEl = this.containerRef.current;
+      if (containerEl) {
+        scrollToBottom(containerEl);
+      }
     }
-
-    const oneTimeScrollRow =
-      items && items.length > 0 ? items.length - 1 : undefined;
-
-    this.setState({
-      propScrollToIndex: undefined,
-      oneTimeScrollRow,
-    });
   };
 
   private onClickScrollDownButton = (): void => {
@@ -903,242 +329,307 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       oldestUnreadIndex,
       selectMessage,
     } = this.props;
+    const { newestFullyVisibleMessageId } = this.state;
+
     if (!items || items.length < 1) {
       return;
     }
 
-    const lastId = items[items.length - 1];
-    const lastSeenIndicatorRow = getLastSeenIndicatorRow(this.props);
-
-    const { visibleRows } = this.state;
-    if (!visibleRows) {
-      if (haveNewest) {
-        this.scrollToBottom(setFocus);
-      } else if (!isLoadingMessages) {
-        loadNewestMessages(lastId, setFocus);
-      }
-
+    if (isLoadingMessages) {
+      this.scrollToBottom(setFocus);
       return;
     }
 
-    const { newestFullyVisible } = visibleRows;
-
     if (
-      newestFullyVisible &&
-      isNumber(lastSeenIndicatorRow) &&
-      newestFullyVisible.row < lastSeenIndicatorRow
+      newestFullyVisibleMessageId &&
+      isNumber(oldestUnreadIndex) &&
+      items.findIndex(item => item === newestFullyVisibleMessageId) <
+        oldestUnreadIndex
     ) {
-      if (setFocus && isNumber(oldestUnreadIndex)) {
+      if (setFocus) {
         const messageId = items[oldestUnreadIndex];
         selectMessage(messageId, id);
+      } else {
+        this.scrollToItemIndex(oldestUnreadIndex);
       }
-      this.setState({
-        oneTimeScrollRow: lastSeenIndicatorRow,
-      });
     } else if (haveNewest) {
       this.scrollToBottom(setFocus);
-    } else if (!isLoadingMessages) {
-      loadNewestMessages(lastId, setFocus);
+    } else {
+      const lastId = last(items);
+      if (lastId) {
+        loadNewestMessages(lastId, setFocus);
+      }
     }
   };
 
+  private isAtBottom(): boolean {
+    const containerEl = this.containerRef.current;
+    return Boolean(
+      containerEl && getScrollBottom(containerEl) <= AT_BOTTOM_THRESHOLD
+    );
+  }
+
+  /**
+   * Re-initialize our `IntersectionObserver`. This replaces the old observer because (1)
+   * we don't want stale references to old props (2) we care about the order of the
+   * `IntersectionObserverEntry`s.
+   *
+   * This isn't the only way to solve this problem. For example, we could have a single
+   * observer for the lifetime of the component and update it intelligently. This approach
+   * seems to work, though!
+   */
+  private updateIntersectionObserver(): void {
+    const containerEl = this.containerRef.current;
+    const messagesEl = this.messagesRef.current;
+    if (!containerEl || !messagesEl) {
+      return;
+    }
+
+    const {
+      haveNewest,
+      haveOldest,
+      isLoadingMessages,
+      items,
+      loadNewerMessages,
+      loadOlderMessages,
+    } = this.props;
+
+    this.intersectionObserver?.disconnect();
+
+    // Keys are message IDs. Values are intersection ratios.
+    const visibleMessages = new Map<string, number>();
+
+    const intersectionObserverCallback: IntersectionObserverCallback =
+      entries => {
+        entries.forEach(entry => {
+          const { intersectionRatio, target } = entry;
+          const {
+            dataset: { messageId },
+          } = target as HTMLElement;
+          if (!messageId) {
+            return;
+          }
+          visibleMessages.set(messageId, intersectionRatio);
+        });
+
+        let oldestPartiallyVisibleMessageId: undefined | string;
+        let newestFullyVisibleMessageId: undefined | string;
+
+        for (const [messageId, intersectionRatio] of visibleMessages) {
+          if (intersectionRatio > 0 && !oldestPartiallyVisibleMessageId) {
+            oldestPartiallyVisibleMessageId = messageId;
+          }
+          if (intersectionRatio >= 1) {
+            newestFullyVisibleMessageId = messageId;
+          }
+        }
+
+        this.setState({
+          oldestPartiallyVisibleMessageId,
+          newestFullyVisibleMessageId,
+        });
+
+        if (newestFullyVisibleMessageId) {
+          this.markNewestFullyVisibleMessageRead();
+
+          if (
+            !isLoadingMessages &&
+            !haveNewest &&
+            newestFullyVisibleMessageId === last(items)
+          ) {
+            loadNewerMessages(newestFullyVisibleMessageId);
+          }
+        }
+
+        if (
+          !isLoadingMessages &&
+          !haveOldest &&
+          oldestPartiallyVisibleMessageId &&
+          oldestPartiallyVisibleMessageId === items[0]
+        ) {
+          loadOlderMessages(oldestPartiallyVisibleMessageId);
+        }
+      };
+
+    this.intersectionObserver = new IntersectionObserver(
+      intersectionObserverCallback,
+      {
+        root: containerEl,
+        threshold: [0, 1],
+      }
+    );
+
+    for (const child of messagesEl.children) {
+      if ((child as HTMLElement).dataset.messageId) {
+        this.intersectionObserver.observe(child);
+      }
+    }
+  }
+
+  private markNewestFullyVisibleMessageRead = throttle(
+    (): void => {
+      const { markMessageRead } = this.props;
+      const { newestFullyVisibleMessageId } = this.state;
+      if (newestFullyVisibleMessageId) {
+        markMessageRead(newestFullyVisibleMessageId);
+      }
+    },
+    500,
+    { leading: false }
+  );
+
   public override componentDidMount(): void {
-    this.updateWithVisibleRows();
-    window.registerForActive(this.updateWithVisibleRows);
+    const containerEl = this.containerRef.current;
+    const messagesEl = this.messagesRef.current;
+    strictAssert(
+      containerEl && messagesEl,
+      '<Timeline> mounted without some refs'
+    );
+
+    // This observer is necessary to keep the scroll position locked to the bottom when
+    //   messages change height without "telling" the timeline about it. This can happen
+    //   if messages animate their height, if reactions are changed, etc.
+    //
+    // We do this synchronously (i.e., without react-measure) to avoid jitter.
+    this.messagesResizeObserver = new ResizeObserver(() => {
+      const { haveNewest } = this.props;
+      if (haveNewest && this.isAtBottom()) {
+        scrollToBottom(containerEl);
+      }
+    });
+    this.messagesResizeObserver.observe(messagesEl);
+
+    this.updateIntersectionObserver();
+
+    window.registerForActive(this.markNewestFullyVisibleMessageRead);
 
     this.delayedPeekTimeout = setTimeout(() => {
       const { id, peekGroupCallForTheFirstTime } = this.props;
       peekGroupCallForTheFirstTime(id);
     }, 500);
+
+    this.nowThatUpdatesEveryMinuteInterval = setInterval(() => {
+      this.setState({ nowThatUpdatesEveryMinute: Date.now() });
+    }, MINUTE);
   }
 
   public override componentWillUnmount(): void {
-    const { delayedPeekTimeout } = this;
+    const {
+      delayedPeekTimeout,
+      nowThatUpdatesEveryMinuteInterval: nowThatUpdatesEveryMinuteTimeout,
+    } = this;
 
-    window.unregisterForActive(this.updateWithVisibleRows);
+    window.unregisterForActive(this.markNewestFullyVisibleMessageRead);
+
+    this.messagesResizeObserver?.disconnect();
+    this.intersectionObserver?.disconnect();
 
     clearTimeoutIfNecessary(delayedPeekTimeout);
+    clearTimeoutIfNecessary(nowThatUpdatesEveryMinuteTimeout);
+  }
+
+  public override getSnapshotBeforeUpdate(
+    prevProps: Readonly<PropsType>
+  ): SnapshotType {
+    const containerEl = this.containerRef.current;
+    if (!containerEl) {
+      return null;
+    }
+
+    const {
+      isLoadingMessages: wasLoadingMessages,
+      items: oldItems,
+      scrollToIndexCounter: oldScrollToIndexCounter,
+      typingContactId: oldTypingContactId,
+    } = prevProps;
+    const {
+      isIncomingMessageRequest,
+      isLoadingMessages,
+      items: newItems,
+      scrollToIndex,
+      scrollToIndexCounter: newScrollToIndexCounter,
+      typingContactId,
+    } = this.props;
+
+    const isDoingInitialLoad = isLoadingMessages && newItems.length === 0;
+    const wasDoingInitialLoad = wasLoadingMessages && oldItems.length === 0;
+    const justFinishedInitialLoad = wasDoingInitialLoad && !isDoingInitialLoad;
+
+    if (isDoingInitialLoad) {
+      return null;
+    }
+
+    if (
+      isNumber(scrollToIndex) &&
+      (oldScrollToIndexCounter !== newScrollToIndexCounter ||
+        justFinishedInitialLoad)
+    ) {
+      return { scrollToIndex };
+    }
+
+    if (justFinishedInitialLoad) {
+      return isIncomingMessageRequest ? { scrollTop: 0 } : { scrollBottom: 0 };
+    }
+
+    if (
+      Boolean(typingContactId) !== Boolean(oldTypingContactId) &&
+      this.isAtBottom()
+    ) {
+      return { scrollBottom: 0 };
+    }
+
+    // This method assumes that item operations happen one at a time. For example, items
+    //   are not added and removed in the same render pass.
+    if (oldItems.length === newItems.length) {
+      return null;
+    }
+
+    let scrollAnchor: 'top' | 'bottom';
+    if (this.isAtBottom()) {
+      const justLoadedAPage = wasLoadingMessages && !isLoadingMessages;
+      scrollAnchor = justLoadedAPage ? 'top' : 'bottom';
+    } else {
+      scrollAnchor = last(oldItems) !== last(newItems) ? 'top' : 'bottom';
+    }
+
+    return scrollAnchor === 'top'
+      ? { scrollTop: containerEl.scrollTop }
+      : { scrollBottom: getScrollBottom(containerEl) };
   }
 
   public override componentDidUpdate(
     prevProps: Readonly<PropsType>,
-    prevState: Readonly<StateType>
+    _prevState: Readonly<StateType>,
+    snapshot: Readonly<SnapshotType>
   ): void {
-    const {
-      clearChangedMessages,
-      haveOldest,
-      id,
-      isIncomingMessageRequest,
-      items,
-      messageHeightChangeIndex,
-      messageHeightChangeBaton,
-      oldestUnreadIndex,
-      resetCounter,
-      scrollToIndex,
-      typingContactId,
-    } = this.props;
+    const { items: oldItems } = prevProps;
+    const { discardMessages, id, items: newItems } = this.props;
 
-    // We recompute the hero row's height if:
-    //
-    // 1. We just started showing it (the user has scrolled up to see the hero row)
-    // 2. Warnings were shown (they add padding to the hero for the floating warning)
-    const hadOldest = prevProps.haveOldest;
-    const hadWarning = Boolean(Timeline.getWarning(prevProps, prevState));
-    const haveWarning = Boolean(Timeline.getWarning(this.props, this.state));
-    const shouldRecomputeRowHeights =
-      (!hadOldest && haveOldest) || hadWarning !== haveWarning;
-    if (shouldRecomputeRowHeights) {
-      this.resizeHeroRow();
-    }
-
-    // There are a number of situations which can necessitate that we forget about row
-    //   heights previously calculated. We reset the minimum number of rows to minimize
-    //   unexpected changes to the scroll position. Those changes happen because
-    //   react-virtualized doesn't know what to expect (variable row heights) when it
-    //   renders, so it does have a fixed row it's attempting to scroll to, and you ask it
-    //   to render a given point it space, it will do pretty random things.
-
-    if (
-      !prevProps.items ||
-      prevProps.items.length === 0 ||
-      resetCounter !== prevProps.resetCounter
-    ) {
-      if (prevProps.items && prevProps.items.length > 0) {
-        this.resize();
-      }
-
-      // We want to come in at the top of the conversation if it's a message request
-      const oneTimeScrollRow = isIncomingMessageRequest
-        ? undefined
-        : getLastSeenIndicatorRow(this.props);
-      const atBottom = !isIncomingMessageRequest;
-
-      // TODO: DESKTOP-688
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        oneTimeScrollRow,
-        atBottom,
-        propScrollToIndex: scrollToIndex,
-        prevPropScrollToIndex: scrollToIndex,
-      });
-
-      return;
-    }
-
-    let resizeStartRow: number | undefined;
-
-    if (isNumber(messageHeightChangeIndex)) {
-      resizeStartRow = fromItemIndexToRow(messageHeightChangeIndex, this.props);
-      clearChangedMessages(id, messageHeightChangeBaton);
-    }
-
-    if (
-      items !== prevProps.items ||
-      oldestUnreadIndex !== prevProps.oldestUnreadIndex ||
-      Boolean(typingContactId) !== Boolean(prevProps.typingContactId)
-    ) {
-      const { atTop } = this.state;
-
-      // This clause handles prepended messages when user scrolls up. New
-      // messages are added to `items`, but we want to keep the scroll position
-      // at the first previously visible message even though the row numbers
-      // have now changed.
-      if (atTop) {
-        const oldFirstIndex = 0;
-        const oldFirstId = prevProps.items[oldFirstIndex];
-
-        const newFirstIndex = items.findIndex(item => item === oldFirstId);
-        if (newFirstIndex < 0) {
-          this.resize();
-
-          return;
-        }
-
-        const newRow = fromItemIndexToRow(newFirstIndex, this.props);
-        if (newRow > 0) {
-          // We're loading more new messages at the top; we want to stay at the top
-          this.resize();
-          // TODO: DESKTOP-688
-          // eslint-disable-next-line react/no-did-update-set-state
-          this.setState({ oneTimeScrollRow: newRow });
-
-          return;
-        }
-      }
-
-      // Compare current rows against previous rows to identify the number of
-      // consecutive rows (from start of the list) the are the same in both
-      // lists.
-      const rowsIterator = getEphemeralRows(this.props);
-      const prevRowsIterator = getEphemeralRows(prevProps);
-
-      let firstChangedRow = 0;
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const row = rowsIterator.next();
-        if (row.done) {
-          break;
-        }
-
-        const prevRow = prevRowsIterator.next();
-        if (prevRow.done) {
-          break;
-        }
-
-        if (prevRow.value !== row.value) {
-          break;
-        }
-
-        firstChangedRow += 1;
-      }
-
-      // If either:
-      //
-      // - Row count has changed after props update
-      // - There are some different rows (and the loop above was interrupted)
-      //
-      // Recompute heights of all rows starting from the first changed row or
-      // the last row in the previous row list.
-      if (!rowsIterator.next().done || !prevRowsIterator.next().done) {
-        resizeStartRow = Math.min(
-          resizeStartRow ?? firstChangedRow,
-          firstChangedRow
-        );
+    const containerEl = this.containerRef.current;
+    if (containerEl && snapshot) {
+      if ('scrollToIndex' in snapshot) {
+        this.scrollToItemIndex(snapshot.scrollToIndex);
+      } else if ('scrollTop' in snapshot) {
+        containerEl.scrollTop = snapshot.scrollTop;
+      } else {
+        setScrollBottom(containerEl, snapshot.scrollBottom);
       }
     }
 
-    if (this.resizeFlag) {
-      this.resize();
+    if (oldItems.length !== newItems.length) {
+      this.updateIntersectionObserver();
 
-      return;
+      // This condition is somewhat arbitrary.
+      const shouldDiscardOlderMessages: boolean =
+        this.isAtBottom() && newItems.length >= this.maxVisibleRows * 1.5;
+      if (shouldDiscardOlderMessages) {
+        discardMessages({
+          conversationId: id,
+          numberToKeepAtBottom: this.maxVisibleRows,
+        });
+      }
     }
-
-    if (resizeStartRow !== undefined) {
-      this.resize(resizeStartRow);
-    }
-
-    this.updateWithVisibleRows();
   }
-
-  private getScrollTarget = (): number | undefined => {
-    const { oneTimeScrollRow, atBottom, propScrollToIndex } = this.state;
-
-    const rowCount = getRowCount(this.props);
-    const targetMessageRow = isNumber(propScrollToIndex)
-      ? fromItemIndexToRow(propScrollToIndex, this.props)
-      : undefined;
-    const scrollToBottom = atBottom ? rowCount - 1 : undefined;
-
-    if (isNumber(targetMessageRow)) {
-      return targetMessageRow;
-    }
-
-    if (isNumber(oneTimeScrollRow)) {
-      return oneTimeScrollRow;
-    }
-
-    return scrollToBottom;
-  };
 
   private handleBlur = (event: React.FocusEvent): void => {
     const { clearSelectedMessage } = this.props;
@@ -1221,20 +712,17 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
 
     if (commandOrCtrl && event.key === 'ArrowUp') {
-      this.setState({ oneTimeScrollRow: 0 });
-
-      const firstMessageId = items[0];
-      selectMessage(firstMessageId, id);
-
-      event.preventDefault();
-      event.stopPropagation();
-
+      const firstMessageId = first(items);
+      if (firstMessageId) {
+        selectMessage(firstMessageId, id);
+        event.preventDefault();
+        event.stopPropagation();
+      }
       return;
     }
 
     if (commandOrCtrl && event.key === 'ArrowDown') {
       this.scrollDown(true);
-
       event.preventDefault();
       event.stopPropagation();
     }
@@ -1249,49 +737,87 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       contactSpoofingReview,
       getPreferredBadge,
       getTimestampForMessage,
+      haveNewest,
       haveOldest,
       i18n,
       id,
       invitedContactsForNewlyCreatedGroup,
+      isConversationSelected,
       isGroupV1AndDisabled,
       isLoadingMessages,
       items,
+      oldestUnreadIndex,
       onBlock,
       onBlockAndReportSpam,
       onDelete,
       onUnblock,
-      showContactModal,
       removeMember,
+      renderHeroRow,
+      renderItem,
+      renderLastSeenIndicator,
+      renderTypingBubble,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
+      showContactModal,
       theme,
+      typingContactId,
+      unblurAvatar,
+      unreadCount,
+      updateSharedGroups,
     } = this.props;
     const {
-      shouldShowScrollDownButton,
-      areUnreadBelowCurrentPosition,
       hasRecentlyScrolled,
       lastMeasuredWarningHeight,
-      visibleRows,
+      newestFullyVisibleMessageId,
+      nowThatUpdatesEveryMinute,
+      oldestPartiallyVisibleMessageId,
       widthBreakpoint,
     } = this.state;
 
-    const rowCount = getRowCount(this.props);
-    const scrollToIndex = this.getScrollTarget();
-
-    if (!items || rowCount === 0) {
+    // As a performance optimization, we don't need to render anything if this
+    //   conversation isn't the active one.
+    if (!isConversationSelected) {
       return null;
     }
 
+    const areThereAnyMessages = items.length > 0;
+    const areAnyMessagesUnread = Boolean(unreadCount);
+    const areAnyMessagesBelowCurrentPosition =
+      !haveNewest ||
+      Boolean(
+        newestFullyVisibleMessageId &&
+          newestFullyVisibleMessageId !== last(items)
+      );
+    const areSomeMessagesBelowCurrentPosition =
+      !haveNewest ||
+      (newestFullyVisibleMessageId &&
+        !items
+          .slice(-SCROLL_DOWN_BUTTON_THRESHOLD)
+          .includes(newestFullyVisibleMessageId));
+
+    const areUnreadBelowCurrentPosition = Boolean(
+      areThereAnyMessages &&
+        areAnyMessagesUnread &&
+        areAnyMessagesBelowCurrentPosition
+    );
+    const shouldShowScrollDownButton = Boolean(
+      areThereAnyMessages &&
+        (areUnreadBelowCurrentPosition || areSomeMessagesBelowCurrentPosition)
+    );
+
+    const actionProps = getActions(this.props);
+
     let floatingHeader: ReactNode;
-    const oldestPartiallyVisibleMessageId =
-      visibleRows?.oldestPartiallyVisibleMessageId;
     // It's possible that a message was removed from `items` but we still have its ID in
     //   state. `getTimestampForMessage` might return undefined in that case.
     const oldestPartiallyVisibleMessageTimestamp =
       oldestPartiallyVisibleMessageId
         ? getTimestampForMessage(oldestPartiallyVisibleMessageId)
         : undefined;
-    if (oldestPartiallyVisibleMessageTimestamp) {
+    if (
+      oldestPartiallyVisibleMessageId &&
+      oldestPartiallyVisibleMessageTimestamp
+    ) {
       floatingHeader = (
         <TimelineFloatingHeader
           i18n={i18n}
@@ -1310,58 +836,48 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       );
     }
 
-    const autoSizer = (
-      <AutoSizer>
-        {({ height, width }) => {
-          if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-            this.resizeFlag = true;
+    const messageNodes: Array<ReactChild> = [];
+    for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
+      const previousMessageId: undefined | string = items[itemIndex - 1];
+      const nextMessageId: undefined | string = items[itemIndex + 1];
+      const messageId = items[itemIndex];
 
-            setTimeout(this.resize, 0);
-          } else if (
-            this.mostRecentHeight &&
-            this.mostRecentHeight !== height
-          ) {
-            setTimeout(this.onHeightOnlyChange, 0);
-          }
+      if (!messageId) {
+        assert(
+          false,
+          '<Timeline> iterated through items and got an empty message ID'
+        );
+        continue;
+      }
 
-          this.mostRecentWidth = width;
-          this.mostRecentHeight = height;
+      if (oldestUnreadIndex === itemIndex) {
+        messageNodes.push(
+          <Fragment key="unread">{renderLastSeenIndicator(id)}</Fragment>
+        );
+      }
 
-          return (
-            <List
-              // React Virtualized has an incorrect type for this prop. Until [a fix][0]
-              //   is merged, we have to do this cast.
-              // [0]: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58705
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              deferredMeasurementCache={this.cellSizeCache as any}
-              height={height}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onScroll={this.onScroll as any}
-              overscanRowCount={10}
-              onRowsRendered={this.onRowsRendered}
-              ref={this.listRef}
-              rowCount={rowCount}
-              rowHeight={this.getRowHeightFromCache}
-              rowRenderer={this.rowRenderer}
-              scrollToAlignment="start"
-              scrollToIndex={scrollToIndex}
-              tabIndex={-1}
-              width={width}
-              style={{
-                // `overlay` is [a nonstandard value][0] so it's not supported. See [this
-                //   issue][1].
-                //
-                // [0]: https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#values
-                // [1]: https://github.com/frenic/csstype/issues/62#issuecomment-937238313
-                //
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                overflowY: 'overlay' as any,
-              }}
-            />
-          );
-        }}
-      </AutoSizer>
-    );
+      messageNodes.push(
+        <div
+          key={messageId}
+          data-item-index={itemIndex}
+          data-message-id={messageId}
+        >
+          <ErrorBoundary i18n={i18n} showDebugLog={showDebugLog}>
+            {renderItem({
+              actionProps,
+              containerElementRef: this.containerRef,
+              containerWidthBreakpoint: widthBreakpoint,
+              conversationId: id,
+              isOldestTimelineItem: haveOldest && itemIndex === 0,
+              messageId,
+              nextMessageId,
+              now: nowThatUpdatesEveryMinute,
+              previousMessageId,
+            })}
+          </ErrorBoundary>
+        </div>
+      );
+    }
 
     const warning = Timeline.getWarning(this.props, this.state);
     let timelineWarning: ReactNode;
@@ -1502,9 +1018,20 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         <Measure
           bounds
           onResize={({ bounds }) => {
+            const { isNearBottom } = this.props;
+
+            strictAssert(bounds, 'We should be measuring the bounds');
+
             this.setState({
-              widthBreakpoint: getWidthBreakpoint(bounds?.width || 0),
+              widthBreakpoint: getWidthBreakpoint(bounds.width),
             });
+
+            this.maxVisibleRows = Math.ceil(bounds.height / MIN_ROW_HEIGHT);
+
+            const containerEl = this.containerRef.current;
+            if (containerEl && isNearBottom) {
+              scrollToBottom(containerEl);
+            }
           }}
         >
           {({ measureRef }) => (
@@ -1518,13 +1045,35 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               tabIndex={-1}
               onBlur={this.handleBlur}
               onKeyDown={this.handleKeyDown}
-              ref={this.containerRefMerger(measureRef)}
+              ref={measureRef}
             >
               {timelineWarning}
 
               {floatingHeader}
 
-              {autoSizer}
+              <div
+                className="module-timeline__messages__container"
+                onScroll={this.onScroll}
+                ref={this.containerRef}
+              >
+                <div
+                  className="module-timeline__messages"
+                  ref={this.messagesRef}
+                >
+                  {haveOldest && (
+                    <>
+                      {Timeline.getWarning(this.props, this.state) && (
+                        <div style={{ height: lastMeasuredWarningHeight }} />
+                      )}
+                      {renderHeroRow(id, unblurAvatar, updateSharedGroups)}
+                    </>
+                  )}
+
+                  {messageNodes}
+
+                  {typingContactId && renderTypingBubble(id)}
+                </div>
+              </div>
 
               {shouldShowScrollDownButton ? (
                 <ScrollDownButton
@@ -1577,4 +1126,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         throw missingCaseError(warning);
     }
   }
+}
+
+function showDebugLog() {
+  window.showDebugLog();
 }
