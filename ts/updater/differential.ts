@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FileHandle } from 'fs/promises';
-import { readFile, open, mkdtemp, mkdir, rename, unlink } from 'fs/promises';
+import { readFile, open } from 'fs/promises';
 import { promisify } from 'util';
 import { gunzip as nativeGunzip } from 'zlib';
-import { tmpdir } from 'os';
-import path from 'path';
 import got from 'got';
 import { chunk as lodashChunk } from 'lodash';
 import pMap from 'p-map';
@@ -254,12 +252,10 @@ export async function download(
   { statusCallback, logger, gotOptions }: DownloadOptionsType = {}
 ): Promise<void> {
   const input = await open(oldFile, 'r');
+  const output = await open(newFile, 'w');
 
-  const tempDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
-  await mkdir(tempDir, { recursive: true });
-  const tempFile = path.join(tempDir, path.basename(newFile));
-
-  const output = await open(tempFile, 'w');
+  const abortController = new AbortController();
+  const { signal: abortSignal } = abortController;
 
   const copyActions = diff.filter(({ action }) => action === 'copy');
 
@@ -278,14 +274,15 @@ export async function download(
         `Not enough data to read from offset=${readOffset} size=${size}`
       );
 
+      if (abortSignal?.aborted) {
+        return;
+      }
+
       await output.write(chunk, 0, chunk.length, writeOffset);
     })
   );
 
   const downloadActions = diff.filter(({ action }) => action === 'download');
-
-  const abortController = new AbortController();
-  const { signal: abortSignal } = abortController;
 
   try {
     let downloadedSize = 0;
@@ -314,16 +311,8 @@ export async function download(
     await Promise.all([input.close(), output.close()]);
   }
 
-  const checkResult = await checkIntegrity(tempFile, sha512);
+  const checkResult = await checkIntegrity(newFile, sha512);
   strictAssert(checkResult.ok, checkResult.error ?? '');
-
-  // Finally move the file into its final location
-  try {
-    await unlink(newFile);
-  } catch (_) {
-    // ignore errors
-  }
-  await rename(tempFile, newFile);
 }
 
 export async function downloadRanges(
@@ -389,6 +378,11 @@ export async function downloadRanges(
           `newChunk=${chunk.length} ` +
           `maxSize=${diff.size}`
       );
+
+      if (abortSignal?.aborted) {
+        return;
+      }
+
       await output.write(chunk, 0, chunk.length, offset + diff.writeOffset);
       offset += chunk.length;
 
