@@ -44,9 +44,7 @@ export async function afterPack({
     // Disables the --inspect and --inspect-brk family of CLI options
     [FuseV1Options.EnableNodeCliInspectArguments]: enableInspectArguments,
     // Enables validation of the app.asar archive on macOS
-    // See https://github.com/electron-userland/electron-builder/issues/6507
-    // See https://github.com/electron-userland/electron-builder/issues/6506
-    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: false,
+    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
     // Enforces that Electron will only load your app from "app.asar" instead of
     // it's normall search paths
     [FuseV1Options.OnlyLoadAppFromAsar]: true,
