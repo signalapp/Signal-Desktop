@@ -42,10 +42,9 @@
       'click .close': 'close',
     },
     render_attributes: {
-      title: i18n('submitDebugLog'),
+      title: i18n('debugLog'),
       cancel: i18n('cancel'),
       submit: i18n('saveLogToDesktop'),
-      close: i18n('gotIt'),
       debugLogExplanation: i18n('debugLogExplanation'),
     },
     close() {
