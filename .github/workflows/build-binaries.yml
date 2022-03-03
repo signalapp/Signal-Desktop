@@ -52,7 +52,7 @@ jobs:
         run: yarn install --frozen-lockfile --network-timeout 600000
 
       - name: Fetch open group blocklist
-        use: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           repository: oxen-io/blocklist
           path: blocklist
