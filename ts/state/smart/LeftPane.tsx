@@ -26,7 +26,6 @@ import {
   getUsernamesEnabled,
 } from '../selectors/items';
 import {
-  getCantAddContactForModal,
   getComposeAvatarData,
   getComposeGroupAvatar,
   getComposeGroupExpireTimer,
@@ -148,7 +147,6 @@ const getModeSpecificProps = (
       return {
         mode: LeftPaneMode.ChooseGroupMembers,
         candidateContacts: getFilteredCandidateContactsForNewGroup(state),
-        cantAddContactForModal: getCantAddContactForModal(state),
         isShowingRecommendedGroupSizeModal:
           getRecommendedGroupSizeModalState(state) ===
           OneTimeModalState.Showing,

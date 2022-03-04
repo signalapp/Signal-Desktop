@@ -658,7 +658,6 @@ export type WebAPIConnectType = {
 
 export type CapabilitiesType = {
   announcementGroup: boolean;
-  gv2: boolean;
   'gv1-migration': boolean;
   senderKey: boolean;
   changeNumber: boolean;

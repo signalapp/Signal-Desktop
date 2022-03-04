@@ -47,10 +47,8 @@ import {
 import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub';
 
 const {
-  cantAddContactToGroup,
   clearGroupCreationError,
   clearInvitedUuidsForNewlyCreatedGroup,
-  closeCantAddContactToGroupModal,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
@@ -461,22 +459,6 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
-    describe('CANT_ADD_CONTACT_TO_GROUP', () => {
-      it('marks the conversation ID as "cannot add"', () => {
-        const state = {
-          ...getEmptyState(),
-          composer: defaultChooseGroupMembersComposerState,
-        };
-        const action = cantAddContactToGroup('abc123');
-        const result = reducer(state, action);
-
-        assert(
-          result.composer?.step === ComposerStep.ChooseGroupMembers &&
-            result.composer.cantAddContactIdForModal === 'abc123'
-        );
-      });
-    });
-
     describe('CLEAR_GROUP_CREATION_ERROR', () => {
       it('clears the group creation error', () => {
         const state = {
@@ -509,26 +491,6 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.isUndefined(result.invitedUuidsForNewlyCreatedGroup);
-      });
-    });
-
-    describe('CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL', () => {
-      it('closes the "cannot add contact" modal"', () => {
-        const state = {
-          ...getEmptyState(),
-          composer: {
-            ...defaultChooseGroupMembersComposerState,
-            cantAddContactIdForModal: 'abc123',
-          },
-        };
-        const action = closeCantAddContactToGroupModal();
-        const result = reducer(state, action);
-
-        assert(
-          result.composer?.step === ComposerStep.ChooseGroupMembers &&
-            result.composer.cantAddContactIdForModal === undefined,
-          'Expected the contact ID to be cleared'
-        );
       });
     });
 

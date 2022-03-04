@@ -2393,20 +2393,6 @@
       }
     }
   },
-  "chooseGroupMembers__cant-add-member__title": {
-    "message": "Can’t add member",
-    "description": "Shown in the alert when you try to add someone who can't be added to a group"
-  },
-  "chooseGroupMembers__cant-add-member__body": {
-    "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
-    "description": "Shown in the alert when you try to add someone who can't be added to a group",
-    "placeholders": {
-      "max": {
-        "content": "$1",
-        "example": "Jane Doe"
-      }
-    }
-  },
   "setGroupMetadata__title": {
     "message": "Name this group",
     "description": "The title for the 'set group metadata' left pane screen"

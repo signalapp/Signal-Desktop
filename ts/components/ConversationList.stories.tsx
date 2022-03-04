@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useContext } from 'react';
@@ -194,12 +194,6 @@ story.add('Contact checkboxes: disabled', () => (
         contact: defaultConversations[0],
         isChecked: false,
         disabledReason: ContactCheckboxDisabledReason.MaximumContactsSelected,
-      },
-      {
-        type: RowType.ContactCheckbox,
-        contact: defaultConversations[1],
-        isChecked: false,
-        disabledReason: ContactCheckboxDisabledReason.NotCapable,
       },
       {
         type: RowType.ContactCheckbox,

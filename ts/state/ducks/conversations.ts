@@ -133,7 +133,6 @@ export type ConversationType = {
   isArchived?: boolean;
   isBlocked?: boolean;
   isGroupV1AndDisabled?: boolean;
-  isGroupV2Capable?: boolean;
   isPinned?: boolean;
   isUntrusted?: boolean;
   isVerified?: boolean;
@@ -298,7 +297,6 @@ type ComposerStateType =
   | ({
       step: ComposerStep.ChooseGroupMembers;
       searchTerm: string;
-      cantAddContactIdForModal: undefined | string;
     } & ComposerGroupCreationState)
   | ({
       step: ComposerStep.SetGroupMetadata;
@@ -402,12 +400,6 @@ export type CancelVerificationDataByConversationActionType = {
     canceledAt: number;
   };
 };
-type CantAddContactToGroupActionType = {
-  type: 'CANT_ADD_CONTACT_TO_GROUP';
-  payload: {
-    conversationId: string;
-  };
-};
 type ClearGroupCreationErrorActionType = { type: 'CLEAR_GROUP_CREATION_ERROR' };
 type ClearInvitedUuidsForNewlyCreatedGroupActionType = {
   type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP';
@@ -420,9 +412,6 @@ type ClearCancelledVerificationActionType = {
   payload: {
     conversationId: string;
   };
-};
-type CloseCantAddContactToGroupModalActionType = {
-  type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL';
 };
 type CloseContactSpoofingReviewActionType = {
   type: 'CLOSE_CONTACT_SPOOFING_REVIEW';
@@ -736,14 +725,12 @@ type ReplaceAvatarsActionType = {
 };
 export type ConversationActionType =
   | CancelVerificationDataByConversationActionType
-  | CantAddContactToGroupActionType
   | ClearCancelledVerificationActionType
   | ClearVerificationDataByConversationActionType
   | ClearGroupCreationErrorActionType
   | ClearInvitedUuidsForNewlyCreatedGroupActionType
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
-  | CloseCantAddContactToGroupModalActionType
   | CloseContactSpoofingReviewActionType
   | CloseMaximumGroupSizeModalActionType
   | CloseRecommendedGroupSizeModalActionType
@@ -801,14 +788,12 @@ export type ConversationActionType =
 
 export const actions = {
   cancelConversationVerification,
-  cantAddContactToGroup,
   clearCancelledConversationVerification,
   clearGroupCreationError,
   clearInvitedUuidsForNewlyCreatedGroup,
   clearSelectedMessage,
   clearUnreadMetrics,
   clearUsernameSave,
-  closeCantAddContactToGroupModal,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
@@ -1379,14 +1364,6 @@ function composeReplaceAvatar(
   };
 }
 
-function cantAddContactToGroup(
-  conversationId: string
-): CantAddContactToGroupActionType {
-  return {
-    type: 'CANT_ADD_CONTACT_TO_GROUP',
-    payload: { conversationId },
-  };
-}
 function setPreJoinConversation(
   data: PreJoinConversationType | undefined
 ): SetPreJoinConversationActionType {
@@ -1721,9 +1698,6 @@ function clearUnreadMetrics(
       conversationId,
     },
   };
-}
-function closeCantAddContactToGroupModal(): CloseCantAddContactToGroupModalActionType {
-  return { type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL' };
 }
 function closeContactSpoofingReview(): CloseContactSpoofingReviewActionType {
   return { type: 'CLOSE_CONTACT_SPOOFING_REVIEW' };
@@ -2230,21 +2204,6 @@ export function reducer(
     };
   }
 
-  if (action.type === 'CANT_ADD_CONTACT_TO_GROUP') {
-    const { composer } = state;
-    if (composer?.step !== ComposerStep.ChooseGroupMembers) {
-      assert(false, "Can't update modal in this composer step. Doing nothing");
-      return state;
-    }
-    return {
-      ...state,
-      composer: {
-        ...composer,
-        cantAddContactIdForModal: action.payload.conversationId,
-      },
-    };
-  }
-
   if (action.type === 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP') {
     return omit(state, 'invitedUuidsForNewlyCreatedGroup');
   }
@@ -2263,24 +2222,6 @@ export function reducer(
       composer: {
         ...composer,
         hasError: false,
-      },
-    };
-  }
-
-  if (action.type === 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL') {
-    const { composer } = state;
-    if (composer?.step !== ComposerStep.ChooseGroupMembers) {
-      assert(
-        false,
-        "Can't close the modal in this composer step. Doing nothing"
-      );
-      return state;
-    }
-    return {
-      ...state,
-      composer: {
-        ...composer,
-        cantAddContactIdForModal: undefined,
       },
     };
   }
@@ -3139,7 +3080,6 @@ export function reducer(
         step: ComposerStep.ChooseGroupMembers,
         searchTerm: '',
         selectedConversationIds,
-        cantAddContactIdForModal: undefined,
         recommendedGroupSizeModalState,
         maximumGroupSizeModalState,
         groupName,

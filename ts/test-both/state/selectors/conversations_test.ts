@@ -18,7 +18,6 @@ import {
   _getLeftPaneLists,
   getAllComposableConversations,
   getCandidateContactsForNewGroup,
-  getCantAddContactForModal,
   getComposableContacts,
   getComposableGroups,
   getComposeGroupAvatar,
@@ -1159,53 +1158,6 @@ describe('both/state/selectors/conversations', () => {
 
       const ids = result.map(contact => contact.id);
       assert.deepEqual(ids, ['convo-1', 'convo-5']);
-    });
-  });
-
-  describe('#getCantAddContactForModal', () => {
-    it('returns undefined if not in the "choose group members" composer step', () => {
-      assert.isUndefined(getCantAddContactForModal(getEmptyRootState()));
-
-      assert.isUndefined(
-        getCantAddContactForModal({
-          ...getEmptyRootState(),
-          conversations: {
-            ...getEmptyState(),
-            composer: defaultStartDirectConversationComposerState,
-          },
-        })
-      );
-    });
-
-    it("returns undefined if there's no contact marked", () => {
-      assert.isUndefined(
-        getCantAddContactForModal({
-          ...getEmptyRootState(),
-          conversations: {
-            ...getEmptyState(),
-            composer: defaultChooseGroupMembersComposerState,
-          },
-        })
-      );
-    });
-
-    it('returns the marked contact', () => {
-      const conversation = makeConversation('abc123');
-
-      assert.deepEqual(
-        getCantAddContactForModal({
-          ...getEmptyRootState(),
-          conversations: {
-            ...getEmptyState(),
-            conversationLookup: { abc123: conversation },
-            composer: {
-              ...defaultChooseGroupMembersComposerState,
-              cantAddContactIdForModal: 'abc123',
-            },
-          },
-        }),
-        conversation
-      );
     });
   });
 

@@ -25,7 +25,6 @@ import {
 
 export type LeftPaneChooseGroupMembersPropsType = {
   candidateContacts: ReadonlyArray<ConversationType>;
-  cantAddContactForModal: undefined | ConversationType;
   isShowingRecommendedGroupSizeModal: boolean;
   isShowingMaximumGroupSizeModal: boolean;
   searchTerm: string;
@@ -34,10 +33,6 @@ export type LeftPaneChooseGroupMembersPropsType = {
 
 export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneChooseGroupMembersPropsType> {
   private readonly candidateContacts: ReadonlyArray<ConversationType>;
-
-  private readonly cantAddContactForModal:
-    | undefined
-    | Readonly<{ title: string }>;
 
   private readonly isShowingMaximumGroupSizeModal: boolean;
 
@@ -51,7 +46,6 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
   constructor({
     candidateContacts,
-    cantAddContactForModal,
     isShowingMaximumGroupSizeModal,
     isShowingRecommendedGroupSizeModal,
     searchTerm,
@@ -60,7 +54,6 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     super();
 
     this.candidateContacts = candidateContacts;
-    this.cantAddContactForModal = cantAddContactForModal;
     this.isShowingMaximumGroupSizeModal = isShowingMaximumGroupSizeModal;
     this.isShowingRecommendedGroupSizeModal =
       isShowingRecommendedGroupSizeModal;
@@ -127,13 +120,11 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }
 
   override getPreRowsNode({
-    closeCantAddContactToGroupModal,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
     i18n,
     removeSelectedContact,
   }: Readonly<{
-    closeCantAddContactToGroupModal: () => unknown;
     closeMaximumGroupSizeModal: () => unknown;
     closeRecommendedGroupSizeModal: () => unknown;
     i18n: LocalizerType;
@@ -156,15 +147,6 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
           recommendedMaximumNumberOfContacts={this.getRecommendedMaximumNumberOfContacts()}
           mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
           onClose={closeRecommendedGroupSizeModal}
-        />
-      );
-    } else if (this.cantAddContactForModal) {
-      modalNode = (
-        <AddGroupMemberErrorDialog
-          i18n={i18n}
-          contact={this.cantAddContactForModal}
-          mode={AddGroupMemberErrorDialogMode.CantAddContact}
-          onClose={closeCantAddContactToGroupModal}
         />
       );
     }
@@ -254,15 +236,10 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     }
 
     const isChecked = this.selectedConversationIdsSet.has(contact.id);
-
-    let disabledReason: undefined | ContactCheckboxDisabledReason;
-    if (!isChecked) {
-      if (this.hasSelectedMaximumNumberOfContacts()) {
-        disabledReason = ContactCheckboxDisabledReason.MaximumContactsSelected;
-      } else if (!contact.isGroupV2Capable) {
-        disabledReason = ContactCheckboxDisabledReason.NotCapable;
-      }
-    }
+    const disabledReason =
+      !isChecked && this.hasSelectedMaximumNumberOfContacts()
+        ? ContactCheckboxDisabledReason.MaximumContactsSelected
+        : undefined;
 
     return {
       type: RowType.ContactCheckbox,

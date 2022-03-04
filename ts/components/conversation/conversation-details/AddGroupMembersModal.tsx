@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
@@ -46,7 +46,6 @@ enum Stage {
 }
 
 type StateType = {
-  cantAddContactForModal: undefined | ConversationType;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   searchTerm: string;
@@ -60,7 +59,6 @@ enum ActionType {
   ConfirmAdds,
   RemoveSelectedContact,
   ReturnToContactChooser,
-  SetCantAddContactForModal,
   ToggleSelectedContact,
   UpdateSearchTerm,
 }
@@ -71,10 +69,6 @@ type Action =
   | { type: ActionType.ConfirmAdds }
   | { type: ActionType.ReturnToContactChooser }
   | { type: ActionType.RemoveSelectedContact; conversationId: string }
-  | {
-      type: ActionType.SetCantAddContactForModal;
-      contact: undefined | ConversationType;
-    }
   | {
       type: ActionType.ToggleSelectedContact;
       conversationId: string;
@@ -117,11 +111,6 @@ function reducer(
           state.selectedConversationIds,
           action.conversationId
         ),
-      };
-    case ActionType.SetCantAddContactForModal:
-      return {
-        ...state,
-        cantAddContactForModal: action.contact,
       };
     case ActionType.ToggleSelectedContact:
       return {
@@ -167,7 +156,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
 
   const [
     {
-      cantAddContactForModal,
       maximumGroupSizeModalState,
       recommendedGroupSizeModalState,
       searchTerm,
@@ -176,7 +164,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
     },
     dispatch,
   ] = useReducer(reducer, {
-    cantAddContactForModal: undefined,
     maximumGroupSizeModalState: isGroupAlreadyFull
       ? OneTimeModalState.Showing
       : OneTimeModalState.NeverShown,
@@ -197,22 +184,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
     contactLookup,
     selectedConversationIds
   );
-
-  if (cantAddContactForModal) {
-    return (
-      <AddGroupMemberErrorDialog
-        contact={cantAddContactForModal}
-        i18n={i18n}
-        mode={AddGroupMemberErrorDialogMode.CantAddContact}
-        onClose={() => {
-          dispatch({
-            type: ActionType.SetCantAddContactForModal,
-            contact: undefined,
-          });
-        }}
-      />
-    );
-  }
 
   if (maximumGroupSizeModalState === OneTimeModalState.Showing) {
     return (
@@ -254,14 +225,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
           conversationId,
         });
       };
-      const setCantAddContactForModal = (
-        contact: undefined | Readonly<ConversationType>
-      ) => {
-        dispatch({
-          type: ActionType.SetCantAddContactForModal,
-          contact,
-        });
-      };
       const setSearchTerm = (term: string) => {
         dispatch({
           type: ActionType.UpdateSearchTerm,
@@ -280,7 +243,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
         <ChooseGroupMembersModal
           candidateContacts={candidateContacts}
           confirmAdds={confirmAdds}
-          contactLookup={contactLookup}
           conversationIdsAlreadyInGroup={conversationIdsAlreadyInGroup}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
@@ -289,7 +251,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
           removeSelectedContact={removeSelectedContact}
           searchTerm={searchTerm}
           selectedContacts={selectedContacts}
-          setCantAddContactForModal={setCantAddContactForModal}
           setSearchTerm={setSearchTerm}
           theme={theme}
           toggleSelectedContact={toggleSelectedContact}

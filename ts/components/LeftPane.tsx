@@ -95,11 +95,9 @@ export type PropsType = {
   theme: ThemeType;
 
   // Action Creators
-  cantAddContactToGroup: (conversationId: string) => void;
   clearConversationSearch: () => void;
   clearGroupCreationError: () => void;
   clearSearch: () => void;
-  closeCantAddContactToGroupModal: () => void;
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
   createGroup: () => void;
@@ -149,13 +147,11 @@ export type PropsType = {
 };
 
 export const LeftPane: React.FC<PropsType> = ({
-  cantAddContactToGroup,
   challengeStatus,
   crashReportCount,
   clearConversationSearch,
   clearGroupCreationError,
   clearSearch,
-  closeCantAddContactToGroupModal,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
   composeDeleteAvatarFromDisk,
@@ -466,7 +462,6 @@ export const LeftPane: React.FC<PropsType> = ({
     clearConversationSearch,
     clearGroupCreationError,
     clearSearch,
-    closeCantAddContactToGroupModal,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
     composeDeleteAvatarFromDisk,
@@ -606,9 +601,6 @@ export const LeftPane: React.FC<PropsType> = ({
                       case ContactCheckboxDisabledReason.AlreadyAdded:
                       case ContactCheckboxDisabledReason.MaximumContactsSelected:
                         // These are no-ops.
-                        break;
-                      case ContactCheckboxDisabledReason.NotCapable:
-                        cantAddContactToGroup(conversationId);
                         break;
                       default:
                         throw missingCaseError(disabledReason);

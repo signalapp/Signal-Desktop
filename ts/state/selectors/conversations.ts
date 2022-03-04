@@ -535,28 +535,6 @@ export const getFilteredCandidateContactsForNewGroup = createSelector(
   filterAndSortConversationsByTitle
 );
 
-export const getCantAddContactForModal = createSelector(
-  getConversationLookup,
-  getComposerState,
-  (conversationLookup, composerState): undefined | ConversationType => {
-    if (composerState?.step !== ComposerStep.ChooseGroupMembers) {
-      return undefined;
-    }
-
-    const conversationId = composerState.cantAddContactIdForModal;
-    if (!conversationId) {
-      return undefined;
-    }
-
-    const result = getOwn(conversationLookup, conversationId);
-    assert(
-      result,
-      'getCantAddContactForModal: failed to look up conversation by ID; returning undefined'
-    );
-    return result;
-  }
-);
-
 const getGroupCreationComposerState = createSelector(
   getComposerState,
   (

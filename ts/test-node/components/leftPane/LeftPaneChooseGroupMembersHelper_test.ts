@@ -14,7 +14,6 @@ import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub'
 describe('LeftPaneChooseGroupMembersHelper', () => {
   const defaults = {
     candidateContacts: [],
-    cantAddContactForModal: undefined,
     isShowingRecommendedGroupSizeModal: false,
     isShowingMaximumGroupSizeModal: false,
     searchTerm: '',
@@ -159,40 +158,6 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
       assert.deepEqual(helper.getRow(2), {
         type: RowType.ContactCheckbox,
         contact: candidateContacts[1],
-        isChecked: true,
-        disabledReason: undefined,
-      });
-    });
-
-    it("disables contacts that aren't GV2-capable, unless they are already selected somehow", () => {
-      const candidateContacts = [
-        { ...getDefaultConversation(), isGroupV2Capable: false },
-        { ...getDefaultConversation(), isGroupV2Capable: undefined },
-        { ...getDefaultConversation(), isGroupV2Capable: false },
-      ];
-
-      const helper = new LeftPaneChooseGroupMembersHelper({
-        ...defaults,
-        candidateContacts,
-        searchTerm: 'foo bar',
-        selectedContacts: [candidateContacts[2]],
-      });
-
-      assert.deepEqual(helper.getRow(1), {
-        type: RowType.ContactCheckbox,
-        contact: candidateContacts[0],
-        isChecked: false,
-        disabledReason: ContactCheckboxDisabledReason.NotCapable,
-      });
-      assert.deepEqual(helper.getRow(2), {
-        type: RowType.ContactCheckbox,
-        contact: candidateContacts[1],
-        isChecked: false,
-        disabledReason: ContactCheckboxDisabledReason.NotCapable,
-      });
-      assert.deepEqual(helper.getRow(3), {
-        type: RowType.ContactCheckbox,
-        contact: candidateContacts[2],
         isChecked: true,
         disabledReason: undefined,
       });

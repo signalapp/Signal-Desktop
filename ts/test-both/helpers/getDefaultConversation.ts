@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as generateUuid } from 'uuid';
@@ -330,7 +330,6 @@ export function getDefaultConversation(
     color: getRandomColor(),
     firstName,
     id: generateUuid(),
-    isGroupV2Capable: true,
     isMe: false,
     lastUpdated: Date.now(),
     markedUnread: Boolean(overrideProps.markedUnread),

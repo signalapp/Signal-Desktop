@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent, ReactNode } from 'react';
@@ -18,7 +18,6 @@ export enum ContactCheckboxDisabledReason {
   // We start the enum at 1 because the default starting value of 0 is falsy.
   AlreadyAdded = 1,
   MaximumContactsSelected,
-  NotCapable,
 }
 
 export type PropsDataType = {

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ComposerStep } from '../../state/ducks/conversationsEnums';
@@ -13,7 +13,6 @@ export const defaultStartDirectConversationComposerState = {
 export const defaultChooseGroupMembersComposerState = {
   step: ComposerStep.ChooseGroupMembers as const,
   searchTerm: '',
-  cantAddContactIdForModal: undefined,
   groupAvatar: undefined,
   groupName: '',
   groupExpireTimer: 0,

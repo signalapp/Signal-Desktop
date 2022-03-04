@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -21,14 +21,6 @@ const defaultProps = {
   i18n,
   onClose: action('onClose'),
 };
-
-story.add("Can't add a contact", () => (
-  <AddGroupMemberErrorDialog
-    {...defaultProps}
-    mode={AddGroupMemberErrorDialogMode.CantAddContact}
-    contact={{ title: 'Foo Bar' }}
-  />
-));
 
 story.add('Maximum group size', () => (
   <AddGroupMemberErrorDialog

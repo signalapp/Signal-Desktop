@@ -8,7 +8,6 @@ import Measure from 'react-measure';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
 import { assert } from '../../../../util/assert';
-import { getOwn } from '../../../../util/getOwn';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
@@ -27,7 +26,6 @@ import { SearchInput } from '../../../SearchInput';
 type PropsType = {
   candidateContacts: ReadonlyArray<ConversationType>;
   confirmAdds: () => void;
-  contactLookup: Record<string, ConversationType>;
   conversationIdsAlreadyInGroup: Set<string>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
@@ -36,9 +34,6 @@ type PropsType = {
   removeSelectedContact: (_: string) => void;
   searchTerm: string;
   selectedContacts: ReadonlyArray<ConversationType>;
-  setCantAddContactForModal: (
-    _: Readonly<undefined | ConversationType>
-  ) => void;
   setSearchTerm: (_: string) => void;
   theme: ThemeType;
   toggleSelectedContact: (conversationId: string) => void;
@@ -48,7 +43,6 @@ type PropsType = {
 export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   candidateContacts,
   confirmAdds,
-  contactLookup,
   conversationIdsAlreadyInGroup,
   getPreferredBadge,
   i18n,
@@ -57,7 +51,6 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   removeSelectedContact,
   searchTerm,
   selectedContacts,
-  setCantAddContactForModal,
   setSearchTerm,
   theme,
   toggleSelectedContact,
@@ -111,8 +104,6 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
       disabledReason = ContactCheckboxDisabledReason.AlreadyAdded;
     } else if (hasSelectedMaximumNumberOfContacts && !isSelected) {
       disabledReason = ContactCheckboxDisabledReason.MaximumContactsSelected;
-    } else if (!contact.isGroupV2Capable) {
-      disabledReason = ContactCheckboxDisabledReason.NotCapable;
     }
 
     return {
@@ -212,15 +203,6 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
                         case ContactCheckboxDisabledReason.MaximumContactsSelected:
                           // These are no-ops.
                           break;
-                        case ContactCheckboxDisabledReason.NotCapable: {
-                          const contact = getOwn(contactLookup, conversationId);
-                          assert(
-                            contact,
-                            'Contact was not in lookup; not showing modal'
-                          );
-                          setCantAddContactForModal(contact);
-                          break;
-                        }
                         default:
                           throw missingCaseError(disabledReason);
                       }

@@ -638,20 +638,8 @@ export async function buildAddMembersChange(
       }
 
       // Refresh our local data to be sure
-      if (
-        !contact.get('capabilities')?.gv2 ||
-        !contact.get('profileKey') ||
-        !contact.get('profileKeyCredential')
-      ) {
+      if (!contact.get('profileKey') || !contact.get('profileKeyCredential')) {
         await contact.getProfiles();
-      }
-
-      if (!contact.get('capabilities')?.gv2) {
-        assert(
-          false,
-          `buildAddMembersChange/${logId}: member is missing GV2 capability; skipping`
-        );
-        return;
       }
 
       const profileKey = contact.get('profileKey');
@@ -1511,20 +1499,8 @@ export async function createGroupV2({
       }
 
       // Refresh our local data to be sure
-      if (
-        !contact.get('capabilities')?.gv2 ||
-        !contact.get('profileKey') ||
-        !contact.get('profileKeyCredential')
-      ) {
+      if (!contact.get('profileKey') || !contact.get('profileKeyCredential')) {
         await contact.getProfiles();
-      }
-
-      if (!contact.get('capabilities')?.gv2) {
-        assert(
-          false,
-          `createGroupV2/${logId}: member is missing GV2 capability; skipping`
-        );
-        return;
       }
 
       if (contact.get('profileKey') && contact.get('profileKeyCredential')) {
@@ -1836,22 +1812,14 @@ export async function getGroupMigrationMembers(
 
         // Refresh our local data to be sure
         if (
-          !capabilities ||
-          !capabilities.gv2 ||
-          !capabilities['gv1-migration'] ||
+          !capabilities?.['gv1-migration'] ||
           !contact.get('profileKeyCredential')
         ) {
           await contact.getProfiles();
         }
 
         capabilities = contact.get('capabilities');
-        if (!capabilities || !capabilities.gv2) {
-          log.warn(
-            `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv2 capability, skipping.`
-          );
-          return null;
-        }
-        if (!capabilities || !capabilities['gv1-migration']) {
+        if (!capabilities?.['gv1-migration']) {
           log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv1-migration capability, skipping.`
           );
@@ -1916,14 +1884,7 @@ export async function getGroupMigrationMembers(
       }
 
       const capabilities = contact.get('capabilities');
-      if (!capabilities || !capabilities.gv2) {
-        log.warn(
-          `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv2 capability, skipping.`
-        );
-        droppedGV2MemberIds.push(conversationId);
-        return null;
-      }
-      if (!capabilities || !capabilities['gv1-migration']) {
+      if (!capabilities?.['gv1-migration']) {
         log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv1-migration capability, skipping.`
         );

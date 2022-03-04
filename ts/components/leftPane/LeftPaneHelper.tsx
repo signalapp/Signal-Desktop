@@ -62,7 +62,6 @@ export abstract class LeftPaneHelper<T> {
       clearConversationSearch: () => unknown;
       clearGroupCreationError: () => void;
       clearSearch: () => unknown;
-      closeCantAddContactToGroupModal: () => unknown;
       closeMaximumGroupSizeModal: () => unknown;
       closeRecommendedGroupSizeModal: () => unknown;
       composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;

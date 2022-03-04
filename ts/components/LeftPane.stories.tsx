@@ -90,11 +90,9 @@ const defaultModeSpecificProps = {
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  cantAddContactToGroup: action('cantAddContactToGroup'),
   clearConversationSearch: action('clearConversationSearch'),
   clearGroupCreationError: action('clearGroupCreationError'),
   clearSearch: action('clearSearch'),
-  closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),
   closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
   closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
   composeDeleteAvatarFromDisk: action('composeDeleteAvatarFromDisk'),
