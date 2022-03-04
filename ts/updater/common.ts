@@ -446,7 +446,6 @@ export abstract class Updater {
     const targetUpdatePath = join(cacheDir, fileName);
 
     const tempDir = await createTempDir();
-    const restoreDir = await createTempDir();
 
     const tempUpdatePath = join(tempDir, fileName);
     const tempBlockMapPath = join(tempDir, blockMapFileName);
@@ -556,7 +555,12 @@ export abstract class Updater {
         return undefined;
       }
 
+      this.logger.info(
+        'downloadUpdate: Downloaded update, moving into cache dir'
+      );
+
       // Backup old files
+      const restoreDir = await getTempDir();
       await rename(cacheDir, restoreDir);
 
       // Move the files into the final position
@@ -569,9 +573,18 @@ export abstract class Updater {
         throw error;
       }
 
+      try {
+        await deleteTempDir(restoreDir);
+      } catch (error) {
+        this.logger.warn(
+          'downloadUpdate: Failed to remove backup folder, ignoring',
+          Errors.toLogFormat(error)
+        );
+      }
+
       return { updateFilePath: targetUpdatePath, signature };
     } finally {
-      await Promise.all([deleteTempDir(tempDir), deleteTempDir(restoreDir)]);
+      await deleteTempDir(tempDir);
     }
   }
 
@@ -781,12 +794,23 @@ function getBaseTempDir() {
 }
 
 export async function createTempDir(): Promise<string> {
-  const baseTempDir = getBaseTempDir();
-  const uniqueName = getGuid();
-  const targetDir = join(baseTempDir, uniqueName);
+  const targetDir = await getTempDir();
+
   await mkdirpPromise(targetDir);
 
   return targetDir;
+}
+
+export async function getTempDir(): Promise<string> {
+  const baseTempDir = getBaseTempDir();
+  const uniqueName = getGuid();
+
+  // Create parent folder if not already present
+  if (!(await pathExists(baseTempDir))) {
+    await mkdirpPromise(baseTempDir);
+  }
+
+  return join(baseTempDir, uniqueName);
 }
 
 function getUpdateCacheDir() {

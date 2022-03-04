@@ -5,14 +5,14 @@ import { ipcRenderer } from 'electron';
 import type { DialogType } from '../types/Dialogs';
 import type {
   UpdateDialogOptionsType,
-  ShowUpdateDialogAction,
+  ShowUpdateDialogActionType,
 } from '../state/ducks/updates';
 
 type UpdatesActions = {
   showUpdateDialog: (
     x: DialogType,
     options: UpdateDialogOptionsType
-  ) => ShowUpdateDialogAction;
+  ) => ShowUpdateDialogActionType;
 };
 
 export function initializeUpdateListener(updatesActions: UpdatesActions): void {

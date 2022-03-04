@@ -32,11 +32,11 @@ export type UpdateDialogOptionsType = {
   version?: string;
 };
 
-type DismissDialogAction = {
+type DismissDialogActionType = {
   type: typeof DISMISS_DIALOG;
 };
 
-export type ShowUpdateDialogAction = {
+export type ShowUpdateDialogActionType = {
   type: typeof SHOW_UPDATE_DIALOG;
   payload: {
     dialogType: DialogType;
@@ -48,7 +48,7 @@ type SnoozeUpdateActionType = {
   type: typeof SNOOZE_UPDATE;
 };
 
-type StartUpdateAction = {
+type StartUpdateActionType = {
   type: typeof START_UPDATE;
 };
 
@@ -58,15 +58,15 @@ type UnsnoozeUpdateActionType = {
 };
 
 export type UpdatesActionType =
-  | DismissDialogAction
-  | ShowUpdateDialogAction
+  | DismissDialogActionType
+  | ShowUpdateDialogActionType
   | SnoozeUpdateActionType
-  | StartUpdateAction
+  | StartUpdateActionType
   | UnsnoozeUpdateActionType;
 
 // Action Creators
 
-function dismissDialog(): DismissDialogAction {
+function dismissDialog(): DismissDialogActionType {
   return {
     type: DISMISS_DIALOG,
   };
@@ -75,7 +75,7 @@ function dismissDialog(): DismissDialogAction {
 function showUpdateDialog(
   dialogType: DialogType,
   updateDialogOptions: UpdateDialogOptionsType = {}
-): ShowUpdateDialogAction {
+): ShowUpdateDialogActionType {
   return {
     type: SHOW_UPDATE_DIALOG,
     payload: {
@@ -106,11 +106,28 @@ function snoozeUpdate(): ThunkAction<
   };
 }
 
-function startUpdate(): StartUpdateAction {
-  updateIpc.startUpdate();
+function startUpdate(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  StartUpdateActionType | ShowUpdateDialogActionType
+> {
+  return async dispatch => {
+    dispatch({
+      type: START_UPDATE,
+    });
 
-  return {
-    type: START_UPDATE,
+    try {
+      await updateIpc.startUpdate();
+    } catch (_) {
+      dispatch({
+        type: SHOW_UPDATE_DIALOG,
+        payload: {
+          dialogType: DialogType.Cannot_Update,
+          otherState: {},
+        },
+      });
+    }
   };
 }
 
