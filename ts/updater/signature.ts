@@ -7,6 +7,7 @@ import {
   readFile as readFileCallback,
   writeFile as writeFileCallback,
 } from 'fs';
+import { pipeline } from 'stream/promises';
 import { basename, dirname, join, resolve as resolvePath } from 'path';
 
 import pify from 'pify';
@@ -30,10 +31,9 @@ export async function generateSignature(
 export async function verifySignature(
   updatePackagePath: string,
   version: string,
+  signature: Buffer,
   publicKey: Buffer
 ): Promise<boolean> {
-  const signaturePath = getSignaturePath(updatePackagePath);
-  const signature = await loadHexFromPath(signaturePath);
   const message = await generateMessage(updatePackagePath, version);
 
   return verify(publicKey, message, signature);
@@ -55,7 +55,7 @@ export async function writeSignature(
   updatePackagePath: string,
   version: string,
   privateKeyPath: string
-): Promise<void> {
+): Promise<Buffer> {
   const signaturePath = getSignaturePath(updatePackagePath);
   const signature = await generateSignature(
     updatePackagePath,
@@ -63,23 +63,15 @@ export async function writeSignature(
     privateKeyPath
   );
   await writeHexToPath(signaturePath, signature);
+
+  return signature;
 }
 
 export async function _getFileHash(updatePackagePath: string): Promise<Buffer> {
   const hash = createHash('sha256');
-  const stream = createReadStream(updatePackagePath);
+  await pipeline(createReadStream(updatePackagePath), hash);
 
-  return new Promise((resolve, reject) => {
-    stream.on('data', data => {
-      hash.update(data);
-    });
-    stream.on('close', () => {
-      resolve(hash.digest());
-    });
-    stream.on('error', error => {
-      reject(error);
-    });
-  });
+  return hash.digest();
 }
 
 export function getSignatureFileName(fileName: string): string {

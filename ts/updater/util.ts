@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createReadStream } from 'fs';
+import { pipeline } from 'stream/promises';
 import { createHash } from 'crypto';
 
 import * as Errors from '../types/errors';
@@ -23,9 +24,7 @@ export async function checkIntegrity(
 ): Promise<CheckIntegrityResultType> {
   try {
     const hash = createHash('sha512');
-    for await (const chunk of createReadStream(fileName)) {
-      hash.update(chunk);
-    }
+    await pipeline(createReadStream(fileName), hash);
 
     const actualSHA512 = hash.digest('base64');
     if (sha512 === actualSHA512) {

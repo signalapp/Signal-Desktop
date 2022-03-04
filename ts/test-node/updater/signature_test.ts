@@ -68,12 +68,21 @@ describe('updater/signatures', () => {
       const { publicKey, privateKey } = keyPair();
       await writeHexToPath(privateKeyPath, privateKey);
 
-      await writeSignature(updatePath, version, privateKeyPath);
+      const signature = await writeSignature(
+        updatePath,
+        version,
+        privateKeyPath
+      );
 
       const signaturePath = getSignaturePath(updatePath);
       assert.strictEqual(existsSync(signaturePath), true);
 
-      const verified = await verifySignature(updatePath, version, publicKey);
+      const verified = await verifySignature(
+        updatePath,
+        version,
+        signature,
+        publicKey
+      );
       assert.strictEqual(verified, true);
     } finally {
       if (tempDir) {
@@ -99,11 +108,16 @@ describe('updater/signatures', () => {
       const { publicKey, privateKey } = keyPair();
       await writeHexToPath(privateKeyPath, privateKey);
 
-      await writeSignature(updatePath, version, privateKeyPath);
+      const signature = await writeSignature(
+        updatePath,
+        version,
+        privateKeyPath
+      );
 
       const verified = await verifySignature(
         updatePath,
         brokenVersion,
+        signature,
         publicKey
       );
       assert.strictEqual(verified, false);
@@ -130,14 +144,19 @@ describe('updater/signatures', () => {
       const { publicKey, privateKey } = keyPair();
       await writeHexToPath(privateKeyPath, privateKey);
 
-      await writeSignature(updatePath, version, privateKeyPath);
-
-      const signaturePath = getSignaturePath(updatePath);
-      const signature = Buffer.from(await loadHexFromPath(signaturePath));
+      const signature = await writeSignature(
+        updatePath,
+        version,
+        privateKeyPath
+      );
       signature[4] += 3;
-      await writeHexToPath(signaturePath, signature);
 
-      const verified = await verifySignature(updatePath, version, publicKey);
+      const verified = await verifySignature(
+        updatePath,
+        version,
+        signature,
+        publicKey
+      );
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
@@ -162,7 +181,11 @@ describe('updater/signatures', () => {
       const { publicKey, privateKey } = keyPair();
       await writeHexToPath(privateKeyPath, privateKey);
 
-      await writeSignature(updatePath, version, privateKeyPath);
+      const signature = await writeSignature(
+        updatePath,
+        version,
+        privateKeyPath
+      );
 
       const brokenSourcePath = join(
         __dirname,
@@ -170,7 +193,12 @@ describe('updater/signatures', () => {
       );
       await copy(brokenSourcePath, updatePath);
 
-      const verified = await verifySignature(updatePath, version, publicKey);
+      const verified = await verifySignature(
+        updatePath,
+        version,
+        signature,
+        publicKey
+      );
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
@@ -196,9 +224,18 @@ describe('updater/signatures', () => {
       const { privateKey } = keyPair();
       await writeHexToPath(privateKeyPath, privateKey);
 
-      await writeSignature(updatePath, version, privateKeyPath);
+      const signature = await writeSignature(
+        updatePath,
+        version,
+        privateKeyPath
+      );
 
-      const verified = await verifySignature(updatePath, version, publicKey);
+      const verified = await verifySignature(
+        updatePath,
+        version,
+        signature,
+        publicKey
+      );
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
