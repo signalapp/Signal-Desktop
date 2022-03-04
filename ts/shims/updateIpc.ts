@@ -3,6 +3,6 @@
 
 import { ipcRenderer } from 'electron';
 
-export function startUpdate(): void {
-  ipcRenderer.invoke('start-update');
+export function startUpdate(): Promise<void> {
+  return ipcRenderer.invoke('start-update');
 }
