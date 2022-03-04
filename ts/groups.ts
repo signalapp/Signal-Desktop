@@ -657,14 +657,6 @@ export async function buildAddMembersChange(
       const profileKey = contact.get('profileKey');
       const profileKeyCredential = contact.get('profileKeyCredential');
 
-      if (!profileKey) {
-        assert(
-          false,
-          `buildAddMembersChange/${logId}: member is missing profile key; skipping`
-        );
-        return;
-      }
-
       const member = new Proto.Member();
       member.userId = encryptUuid(clientZkGroupCipher, uuid);
       member.role = MEMBER_ROLE_ENUM.DEFAULT;

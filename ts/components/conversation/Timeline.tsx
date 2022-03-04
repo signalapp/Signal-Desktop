@@ -217,6 +217,7 @@ const getActions = createSelector(
       'checkForAccount',
       'reactToMessage',
       'replyToMessage',
+      'retryDeleteForEveryone',
       'retrySend',
       'showForwardMessageModal',
       'deleteMessage',

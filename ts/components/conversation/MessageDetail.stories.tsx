@@ -29,6 +29,8 @@ const defaultMessage: MessageDataPropsType = {
   }),
   canReact: true,
   canReply: true,
+  canRetry: true,
+  canRetryDeleteForEveryone: true,
   canDeleteForEveryone: true,
   canDownload: true,
   conversationColor: 'crimson',
@@ -84,6 +86,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderReactionPicker: () => <div />,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
+  retryDeleteForEveryone: action('retryDeleteForEveryone'),
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(

@@ -1135,7 +1135,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const conversation = this.getConversation()!;
 
     const currentConversationRecipients =
-      conversation.getRecipientConversationIds();
+      conversation.getMemberConversationIds();
 
     // Determine retry recipients and get their most up-to-date addressing information
     const oldSendStateByConversationId =
@@ -3100,7 +3100,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         targetTimestamp: reaction.get('targetTimestamp'),
         timestamp: reaction.get('timestamp'),
         isSentByConversationId: zipObject(
-          conversation.getRecipientConversationIds(),
+          conversation.getMemberConversationIds(),
           repeat(false)
         ),
       };
@@ -3244,8 +3244,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
 
     // Update the conversation's last message in case this was the last message
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.getConversation()!.updateLastMessage();
+    this.getConversation()?.updateLastMessage();
   }
 
   clearNotifications(reaction: Partial<ReactionType> = {}): void {

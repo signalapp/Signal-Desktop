@@ -104,6 +104,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canReply: true,
   canDownload: true,
   canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
+  canRetry: overrideProps.canRetry || false,
+  canRetryDeleteForEveryone: overrideProps.canRetryDeleteForEveryone || false,
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
@@ -165,6 +167,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderAudioAttachment,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
+  retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
   showContactDetail: action('showContactDetail'),
@@ -574,13 +577,23 @@ story.add('Sticker', () => {
 });
 
 story.add('Deleted', () => {
-  const props = createProps({
+  const propsSent = createProps({
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'sent',
   });
+  const propsSending = createProps({
+    conversationType: 'group',
+    deletedForEveryone: true,
+    status: 'sending',
+  });
 
-  return renderBothDirections(props);
+  return (
+    <>
+      {renderBothDirections(propsSent)}
+      {renderBothDirections(propsSending)}
+    </>
+  );
 });
 
 story.add('Deleted with expireTimer', () => {
@@ -596,6 +609,30 @@ story.add('Deleted with expireTimer', () => {
   return renderBothDirections(props);
 });
 
+story.add('Deleted with error', () => {
+  const propsPartialError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    canDeleteForEveryone: true,
+    conversationType: 'group',
+    deletedForEveryone: true,
+    status: 'partial-sent',
+  });
+  const propsError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    canDeleteForEveryone: true,
+    conversationType: 'group',
+    deletedForEveryone: true,
+    status: 'error',
+  });
+
+  return (
+    <>
+      {renderBothDirections(propsPartialError)}
+      {renderBothDirections(propsError)}
+    </>
+  );
+});
+
 story.add('Can delete for everyone', () => {
   const props = createProps({
     status: 'read',
@@ -609,6 +646,7 @@ story.add('Can delete for everyone', () => {
 story.add('Error', () => {
   const props = createProps({
     status: 'error',
+    canRetry: true,
     text: 'I hope you get this.',
   });
 
@@ -1298,6 +1336,8 @@ story.add('All the context menus', () => {
     ],
     status: 'partial-sent',
     canDeleteForEveryone: true,
+    canRetry: true,
+    canRetryDeleteForEveryone: true,
   });
 
   return <Message {...props} direction="outgoing" />;

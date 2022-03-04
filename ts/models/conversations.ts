@@ -98,8 +98,9 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
-import { Deletes } from '../messageModifiers/Deletes';
+import { DeleteModel } from '../messageModifiers/Deletes';
 import type { ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
@@ -1760,7 +1761,7 @@ export class ConversationModel extends window.Backbone
             sortConversationTitles(left, right, this.intlCollator)
           )
           .map(member => member.format())
-          .filter((member): member is ConversationType => member !== null)
+          .filter(isNotNil)
       : undefined;
 
     const { customColor, customColorId } = this.getCustomColorData();
@@ -3517,8 +3518,27 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  getRecipientConversationIds(): Set<string> {
+  // Members is all people in the group
+  getMemberConversationIds(): Set<string> {
     return new Set(map(this.getMembers(), conversation => conversation.id));
+  }
+
+  // Recipients includes only the people we'll actually send to for this conversation
+  getRecipientConversationIds(): Set<string> {
+    const recipients = this.getRecipients();
+    const conversationIds = recipients.map(identifier => {
+      const conversation = window.ConversationController.getOrCreate(
+        identifier,
+        'private'
+      );
+      strictAssert(
+        conversation,
+        'getRecipientConversationIds should have created conversation!'
+      );
+      return conversation.id;
+    });
+
+    return new Set(conversationIds);
   }
 
   async getQuoteAttachment(
@@ -3682,20 +3702,43 @@ export class ConversationModel extends window.Backbone
     timestamp: number;
   }): Promise<void> {
     const { timestamp: targetTimestamp, id: messageId } = options;
-    const timestamp = Date.now();
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
+    }
+    const messageModel = window.MessageController.register(messageId, message);
 
+    const timestamp = Date.now();
     if (timestamp - targetTimestamp > THREE_HOURS) {
       throw new Error('Cannot send DOE for a message older than three hours');
     }
 
+    messageModel.set({
+      deletedForEveryoneSendStatus: zipObject(
+        this.getRecipientConversationIds(),
+        repeat(false)
+      ),
+    });
+
     try {
-      await conversationJobQueue.add({
+      const jobData: ConversationQueueJobData = {
         type: conversationQueueJobEnum.enum.DeleteForEveryone,
         conversationId: this.id,
         messageId,
         recipients: this.getRecipients(),
         revision: this.get('revision'),
         targetTimestamp,
+      };
+      await conversationJobQueue.add(jobData, async jobToInsert => {
+        log.info(
+          `sendDeleteForEveryoneMessage: saving message ${this.idForLogging()} and job ${
+            jobToInsert.id
+          }`
+        );
+        await window.Signal.Data.saveMessage(messageModel.attributes, {
+          jobToInsert,
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        });
       });
     } catch (error) {
       log.error(
@@ -3705,11 +3748,12 @@ export class ConversationModel extends window.Backbone
       throw error;
     }
 
-    const deleteModel = Deletes.getSingleton().add({
+    const deleteModel = new DeleteModel({
       targetSentTimestamp: targetTimestamp,
-      fromId: window.ConversationController.getOurConversationId(),
+      serverTimestamp: Date.now(),
+      fromId: window.ConversationController.getOurConversationIdOrThrow(),
     });
-    Deletes.getSingleton().onDelete(deleteModel);
+    await window.Signal.Util.deleteForEveryone(messageModel, deleteModel);
   }
 
   async sendProfileKeyUpdate(): Promise<void> {

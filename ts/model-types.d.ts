@@ -213,6 +213,10 @@ export type MessageAttributesType = {
 
   // Should only be present for outgoing messages
   sendStateByConversationId?: SendStateByConversationId;
+
+  // Should only be present for messages deleted for everyone
+  deletedForEveryoneSendStatus?: Record<string, boolean>;
+  deletedForEveryoneFailed?: boolean;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';

@@ -352,8 +352,7 @@ function getRecipients(
   const recipientIdentifiersWithoutMe: Array<string> = [];
   const untrustedConversationIds: Array<string> = [];
 
-  const currentConversationRecipients =
-    conversation.getRecipientConversationIds();
+  const currentConversationRecipients = conversation.getMemberConversationIds();
 
   for (const id of reactionUtil.getUnsentConversationIds(reaction)) {
     const recipient = window.ConversationController.get(id);
@@ -372,6 +371,10 @@ function getRecipients(
     }
 
     if (recipient.isUntrusted()) {
+      untrustedConversationIds.push(recipientIdentifier);
+      continue;
+    }
+    if (recipient.isUnregistered()) {
       untrustedConversationIds.push(recipientIdentifier);
       continue;
     }

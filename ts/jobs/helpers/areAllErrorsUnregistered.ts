@@ -11,7 +11,7 @@ import { isGroup } from '../../util/whatTypeOfConversation';
 export function areAllErrorsUnregistered(
   conversation: ConversationAttributesType,
   error: unknown
-): boolean {
+): error is SendMessageProtoError {
   return Boolean(
     isGroup(conversation) &&
       error instanceof SendMessageProtoError &&

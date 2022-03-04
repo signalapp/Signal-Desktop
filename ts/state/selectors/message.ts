@@ -82,8 +82,9 @@ import {
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
+import { DAY, HOUR } from '../../util/durations';
 
-const THREE_HOURS = 3 * 60 * 60 * 1000;
+const THREE_HOURS = 3 * HOUR;
 
 type FormattedContact = Partial<ConversationType> &
   Pick<
@@ -510,6 +511,8 @@ type ShallowPropsType = Pick<
   | 'canDownload'
   | 'canReact'
   | 'canReply'
+  | 'canRetry'
+  | 'canRetryDeleteForEveryone'
   | 'contact'
   | 'contactNameColor'
   | 'conversationColor'
@@ -592,6 +595,8 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       canDownload: canDownload(message, conversationSelector),
       canReact: canReact(message, ourConversationId, conversationSelector),
       canReply: canReply(message, ourConversationId, conversationSelector),
+      canRetry: hasErrors(message),
+      canRetryDeleteForEveryone: canRetryDeleteForEveryone(message),
       contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
       contactNameColor,
       conversationColor,
@@ -1284,7 +1289,12 @@ function createNonBreakingLastSeparator(text?: string): string {
 export function getMessagePropStatus(
   message: Pick<
     MessageWithUIFieldsType,
-    'type' | 'errors' | 'sendStateByConversationId'
+    | 'deletedForEveryone'
+    | 'deletedForEveryoneFailed'
+    | 'deletedForEveryoneSendStatus'
+    | 'errors'
+    | 'sendStateByConversationId'
+    | 'type'
   >,
   ourConversationId: string | undefined
 ): LastMessageStatus | undefined {
@@ -1296,7 +1306,30 @@ export function getMessagePropStatus(
     return 'paused';
   }
 
-  const { sendStateByConversationId = {} } = message;
+  const {
+    deletedForEveryone,
+    deletedForEveryoneFailed,
+    deletedForEveryoneSendStatus,
+    sendStateByConversationId = {},
+  } = message;
+
+  // Note: we only do anything here if deletedForEveryoneSendStatus exists, because old
+  //   messages deleted for everyone won't have send status.
+  if (deletedForEveryone && deletedForEveryoneSendStatus) {
+    if (deletedForEveryoneFailed) {
+      const anySuccessfulSends = Object.values(
+        deletedForEveryoneSendStatus
+      ).some(item => item);
+
+      return anySuccessfulSends ? 'partial-sent' : 'error';
+    }
+    const missingSends = Object.values(deletedForEveryoneSendStatus).some(
+      item => !item
+    );
+    if (missingSends) {
+      return 'sending';
+    }
+  }
 
   if (
     ourConversationId &&
@@ -1528,6 +1561,20 @@ export function canDeleteForEveryone(
     isMoreRecentThan(message.sent_at, THREE_HOURS) &&
     // Is it sent to anyone?
     someSendStatus(message.sendStateByConversationId, isSent)
+  );
+}
+
+export function canRetryDeleteForEveryone(
+  message: Pick<
+    MessageWithUIFieldsType,
+    'deletedForEveryone' | 'deletedForEveryoneFailed' | 'sent_at'
+  >
+): boolean {
+  return Boolean(
+    message.deletedForEveryone &&
+      message.deletedForEveryoneFailed &&
+      // Is it too old to delete?
+      isMoreRecentThan(message.sent_at, DAY)
   );
 }
 

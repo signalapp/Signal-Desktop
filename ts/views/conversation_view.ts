@@ -114,6 +114,7 @@ import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { RecordingState } from '../state/ducks/audioRecorder';
 import { UUIDKind } from '../types/UUID';
+import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
 
 type AttachmentOptions = {
   messageId: string;
@@ -167,6 +168,7 @@ type MessageActionsType = {
   ) => unknown;
   replyToMessage: (messageId: string) => unknown;
   retrySend: (messageId: string) => unknown;
+  retryDeleteForEveryone: (messageId: string) => unknown;
   showContactDetail: (options: {
     contact: EmbeddedContactType;
     signalAccount?: string;
@@ -874,6 +876,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       reactToMessage,
       replyToMessage,
       retrySend,
+      retryDeleteForEveryone,
       showContactDetail,
       showContactModal,
       showSafetyNumber,

@@ -81,6 +81,7 @@ export type PropsBackboneActions = Pick<
   | 'renderEmojiPicker'
   | 'renderReactionPicker'
   | 'replyToMessage'
+  | 'retryDeleteForEveryone'
   | 'retrySend'
   | 'showContactDetail'
   | 'showContactModal'
@@ -303,6 +304,7 @@ export class MessageDetail extends React.Component<Props, State> {
       renderEmojiPicker,
       renderReactionPicker,
       replyToMessage,
+      retryDeleteForEveryone,
       retrySend,
       showContactDetail,
       showContactModal,
@@ -358,6 +360,7 @@ export class MessageDetail extends React.Component<Props, State> {
             renderEmojiPicker={renderEmojiPicker}
             renderReactionPicker={renderReactionPicker}
             replyToMessage={replyToMessage}
+            retryDeleteForEveryone={retryDeleteForEveryone}
             retrySend={retrySend}
             showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {

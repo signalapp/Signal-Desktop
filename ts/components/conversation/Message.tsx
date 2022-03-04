@@ -197,6 +197,8 @@ export type PropsData = {
 
   deletedForEveryone?: boolean;
 
+  canRetry: boolean;
+  canRetryDeleteForEveryone: boolean;
   canReact: boolean;
   canReply: boolean;
   canDownload: boolean;
@@ -234,6 +236,7 @@ export type PropsActions = {
     { emoji, remove }: { emoji: string; remove: boolean }
   ) => void;
   replyToMessage: (id: string) => void;
+  retryDeleteForEveryone: (id: string) => void;
   retrySend: (id: string) => void;
   showForwardMessageModal: (id: string) => void;
   deleteMessage: (id: string) => void;
@@ -424,7 +427,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public override componentDidMount(): void {
     const { conversationId } = this.props;
-    window.ConversationController.onConvoMessageMount(conversationId);
+    window.ConversationController?.onConvoMessageMount(conversationId);
 
     this.startSelectedTimer();
     this.startDeleteForEveryoneTimerIfApplicable();
@@ -1486,29 +1489,24 @@ export class Message extends React.PureComponent<Props, State> {
       canDownload,
       canReact,
       canReply,
+      canRetry,
+      canRetryDeleteForEveryone,
       deleteMessage,
       deleteMessageForEveryone,
       deletedForEveryone,
-      direction,
       i18n,
       id,
       isSticker,
       isTapToView,
       replyToMessage,
       retrySend,
+      retryDeleteForEveryone,
       showForwardMessageModal,
       showMessageDetail,
-      status,
       text,
     } = this.props;
 
     const canForward = !isTapToView && !deletedForEveryone;
-
-    const showRetry =
-      (status === 'paused' ||
-        status === 'error' ||
-        status === 'partial-sent') &&
-      direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
     const shouldShowAdditional =
@@ -1583,7 +1581,7 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {i18n('moreInfo')}
         </MenuItem>
-        {showRetry ? (
+        {canRetry ? (
           <MenuItem
             attributes={{
               className:
@@ -1597,6 +1595,22 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {i18n('retrySend')}
+          </MenuItem>
+        ) : null}
+        {canRetryDeleteForEveryone ? (
+          <MenuItem
+            attributes={{
+              className:
+                'module-message__context--icon module-message__context__delete-message-for-everyone',
+            }}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              retryDeleteForEveryone(id);
+            }}
+          >
+            {i18n('retryDeleteForEveryone')}
           </MenuItem>
         ) : null}
         {canForward ? (

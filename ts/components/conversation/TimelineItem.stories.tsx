@@ -63,6 +63,7 @@ const getDefaultProps = () => ({
   clearSelectedMessage: action('clearSelectedMessage'),
   contactSupport: action('contactSupport'),
   replyToMessage: action('replyToMessage'),
+  retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retrySend: action('retrySend'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),

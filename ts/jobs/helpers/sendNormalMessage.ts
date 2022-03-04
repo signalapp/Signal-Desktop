@@ -333,8 +333,7 @@ function getMessageRecipients({
   const recipientIdentifiersWithoutMe: Array<string> = [];
   const untrustedConversationIds: Array<string> = [];
 
-  const currentConversationRecipients =
-    conversation.getRecipientConversationIds();
+  const currentConversationRecipients = conversation.getMemberConversationIds();
 
   Object.entries(message.get('sendStateByConversationId') || {}).forEach(
     ([recipientConversationId, sendState]) => {
@@ -360,6 +359,10 @@ function getMessageRecipients({
 
       if (recipient.isUntrusted()) {
         untrustedConversationIds.push(recipientConversationId);
+        return;
+      }
+      if (recipient.isUnregistered()) {
+        return;
       }
 
       const recipientIdentifier = recipient.getSendTarget();

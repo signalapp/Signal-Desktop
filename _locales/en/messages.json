@@ -1172,6 +1172,10 @@
     "message": "Retry Send",
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
+  "retryDeleteForEveryone": {
+    "message": "Retry Delete for Everyone",
+    "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
+  },
   "forwardMessage": {
     "message": "Forward message",
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
@@ -1983,6 +1987,10 @@
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"
   },
+  "deleteFailed": {
+    "message": "Delete failed",
+    "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Send paused",
     "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -1990,6 +1998,10 @@
   "partiallySent": {
     "message": "Partially sent, click for details",
     "description": "Shown on outgoing message if it is partially sent"
+  },
+  "partiallyDeleted": {
+    "message": "Partially deleted, click to retry",
+    "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
     "message": "Details",

@@ -61,7 +61,9 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
     if (isError || isPartiallySent || isPaused) {
       let statusInfo: React.ReactChild;
       if (isError) {
-        statusInfo = i18n('sendFailed');
+        statusInfo = deletedForEveryone
+          ? i18n('deleteFailed')
+          : i18n('sendFailed');
       } else if (isPaused) {
         statusInfo = i18n('sendPaused');
       } else {
@@ -76,7 +78,9 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
               showMessageDetail(id);
             }}
           >
-            {i18n('partiallySent')}
+            {deletedForEveryone
+              ? i18n('partiallyDeleted')
+              : i18n('partiallySent')}
           </button>
         );
       }
@@ -136,7 +140,7 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
           <Spinner svgSize="small" size="14px" direction={direction} />
         </div>
       ) : null}
-      {!deletedForEveryone &&
+      {(!deletedForEveryone || status === 'sending') &&
       !textPending &&
       direction === 'outgoing' &&
       status !== 'error' &&
