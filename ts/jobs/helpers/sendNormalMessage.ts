@@ -457,7 +457,9 @@ async function getMessageSendData({
     preview,
     quote,
     sticker,
-    storyContextTimestamp: message.get('sent_at'),
+    storyContextTimestamp: message.get('storyId')
+      ? message.get('sent_at')
+      : undefined,
   };
 }
 
