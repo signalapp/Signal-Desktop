@@ -317,6 +317,13 @@ const LAST_NAMES = [
 export const getFirstName = (): string => sample(FIRST_NAMES) || 'Test';
 export const getLastName = (): string => sample(LAST_NAMES) || 'Test';
 
+export const getAvatarPath = (): string =>
+  sample([
+    '/fixtures/kitten-1-64-64.jpg',
+    '/fixtures/kitten-2-64-64.jpg',
+    '/fixtures/kitten-3-64-64.jpg',
+  ]) || '';
+
 export function getDefaultConversation(
   overrideProps: Partial<ConversationType> = {}
 ): ConversationType {
@@ -325,6 +332,7 @@ export function getDefaultConversation(
 
   return {
     acceptedMessageRequest: true,
+    avatarPath: getAvatarPath(),
     badges: [],
     e164: '+1300555000',
     color: getRandomColor(),

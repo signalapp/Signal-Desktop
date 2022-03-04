@@ -45,6 +45,11 @@ export enum AvatarSize {
   ONE_HUNDRED_TWELVE = 112,
 }
 
+export enum AvatarStoryRing {
+  Unread = 'Unread',
+  Read = 'Read',
+}
+
 type BadgePlacementType = { bottom: number; right: number };
 
 export type Props = {
@@ -65,6 +70,7 @@ export type Props = {
   title: string;
   unblurredAvatarPath?: string;
   searchResult?: boolean;
+  storyRing?: AvatarStoryRing;
 
   onClick?: (event: MouseEvent<HTMLButtonElement>) => unknown;
   onClickBadge?: (event: MouseEvent<HTMLButtonElement>) => unknown;
@@ -118,6 +124,7 @@ export const Avatar: FunctionComponent<Props> = ({
   title,
   unblurredAvatarPath,
   searchResult,
+  storyRing,
   blur = getDefaultBlur({
     acceptedMessageRequest,
     avatarPath,
@@ -301,6 +308,9 @@ export const Avatar: FunctionComponent<Props> = ({
       className={classNames(
         'module-Avatar',
         hasImage ? 'module-Avatar--with-image' : 'module-Avatar--no-image',
+        storyRing && 'module-Avatar--with-story',
+        storyRing === AvatarStoryRing.Unread &&
+          'module-Avatar--with-story--unread',
         className
       )}
       style={{

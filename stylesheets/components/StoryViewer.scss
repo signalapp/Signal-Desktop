@@ -1,0 +1,113 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoryViewer {
+  &__overlay {
+    background: $color-gray-95;
+    filter: blur(160px);
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: $z-index-popup-overlay;
+  }
+
+  &__content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: $z-index-popup-overlay;
+  }
+
+  &__close-button {
+    @include button-reset;
+    @include modal-close-button;
+  }
+
+  &__more {
+    @include button-reset;
+    height: 24px;
+    position: absolute;
+    right: 48px;
+    top: 12px;
+    width: 24px;
+
+    @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
+  }
+
+  &__container {
+    flex-grow: 1;
+    margin-top: 36px;
+    overflow: hidden;
+    position: relative;
+    z-index: $z-index-base;
+  }
+
+  &__story {
+    border-radius: 12px;
+    max-height: 100%;
+    outline: none;
+    width: auto;
+  }
+
+  &__meta {
+    bottom: 0;
+    left: 50%;
+    padding: 16px;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 284px;
+
+    &--group-avatar {
+      margin-left: -8px;
+    }
+
+    &--title {
+      @include font-body-1-bold;
+      color: $color-white;
+      display: inline;
+      margin: 0 8px;
+    }
+
+    &--timestamp {
+      @include font-body-2;
+      color: $color-white-alpha-60;
+    }
+  }
+
+  &__actions {
+    margin: 16px 0 32px 0;
+  }
+
+  &__reply {
+    @include button-reset;
+  }
+
+  &__progress {
+    display: flex;
+
+    &--container {
+      background: $color-white-alpha-40;
+      border-radius: 2px;
+      height: 2px;
+      margin: 12px 1px 0 1px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    &--bar {
+      background: $color-white;
+      background-size: 200% 100%;
+      border-radius: 2px;
+      display: block;
+      height: 100%;
+    }
+  }
+}

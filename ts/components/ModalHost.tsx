@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect } from 'react';
@@ -10,28 +10,33 @@ import classNames from 'classnames';
 
 import type { ModalConfigType } from '../hooks/useAnimated';
 import type { Theme } from '../util/theme';
+import { getClassNamesFor } from '../util/getClassNamesFor';
 import { themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = Readonly<{
   children: React.ReactElement;
+  moduleClassName?: string;
   noMouseClose?: boolean;
   onClose: () => unknown;
   onEscape?: () => unknown;
+  onTopOfEverything?: boolean;
   overlayStyles?: SpringValues<ModalConfigType>;
   theme?: Theme;
-  onTopOfEverything?: boolean;
+  useFocusTrap?: boolean;
 }>;
 
 export const ModalHost = React.memo(
   ({
     children,
+    moduleClassName,
     noMouseClose,
     onClose,
     onEscape,
-    theme,
-    overlayStyles,
     onTopOfEverything,
+    overlayStyles,
+    theme,
+    useFocusTrap = true,
   }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
     const [isMouseDown, setIsMouseDown] = React.useState(false);
@@ -74,26 +79,35 @@ export const ModalHost = React.memo(
       theme ? themeClassName(theme) : undefined,
       onTopOfEverything ? 'module-modal-host--on-top-of-everything' : undefined,
     ]);
+    const getClassName = getClassNamesFor('module-modal-host', moduleClassName);
+
+    const modalContent = (
+      <div className={className}>
+        <animated.div
+          role="presentation"
+          className={getClassName('__overlay')}
+          onMouseDown={noMouseClose ? undefined : handleMouseDown}
+          onMouseUp={noMouseClose ? undefined : handleMouseUp}
+          style={overlayStyles}
+        />
+        <div className={getClassName('__overlay-container')}>{children}</div>
+      </div>
+    );
 
     return root
       ? createPortal(
-          <FocusTrap
-            focusTrapOptions={{
-              // This is alright because the overlay covers the entire screen
-              allowOutsideClick: false,
-            }}
-          >
-            <div className={className}>
-              <animated.div
-                role="presentation"
-                className="module-modal-host__overlay"
-                onMouseDown={noMouseClose ? undefined : handleMouseDown}
-                onMouseUp={noMouseClose ? undefined : handleMouseUp}
-                style={overlayStyles}
-              />
-              <div className="module-modal-host__container">{children}</div>
-            </div>
-          </FocusTrap>,
+          useFocusTrap ? (
+            <FocusTrap
+              focusTrapOptions={{
+                // This is alright because the overlay covers the entire screen
+                allowOutsideClick: false,
+              }}
+            >
+              {modalContent}
+            </FocusTrap>
+          ) : (
+            modalContent
+          ),
           root
         )
       : null;

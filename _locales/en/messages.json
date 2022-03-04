@@ -1087,6 +1087,9 @@
   "accept": {
     "message": "Accept"
   },
+  "forward": {
+    "message": "Forward"
+  },
   "done": {
     "message": "Done",
     "description": "Label for done"
@@ -2322,6 +2325,10 @@
   "newConversation": {
     "message": "New conversation",
     "description": "Label for header when starting a new conversation"
+  },
+  "stories": {
+    "message": "Stories",
+    "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
     "message": "Search by name or phone number",
@@ -6758,6 +6765,150 @@
   "MediaEditor__crop--crop": {
     "message": "Crop",
     "description": "Performs the crop"
+  },
+  "MyStories__title": {
+    "message": "My Stories",
+    "description": "Title for the my stories list"
+  },
+  "MyStories__story": {
+    "message": "Your story",
+    "description": "aria-label for each one of your stories"
+  },
+  "MyStories__download": {
+    "message": "Download story",
+    "description": "aria-label for the download button"
+  },
+  "MyStories__more": {
+    "message": "More options",
+    "description": "aria-label for the more button"
+  },
+  "MyStories__views--singular": {
+    "message": "$num$ view",
+    "description": "Number of views your story has",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "MyStories__views--plural": {
+    "message": "$num$ views",
+    "description": "Number of views your story has",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "16"
+      }
+    }
+  },
+  "MyStories__replies--singular": {
+    "message": "$num$ reply",
+    "description": "Number of replies your story has",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "MyStories__replies--plural": {
+    "message": "$num$ replies",
+    "description": "Number of replies your story has",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "MyStories__delete": {
+    "message": "Delete this story? It will also be deleted for everyone who received it.",
+    "description": "Confirmation dialog description text for deleting a story"
+  },
+  "Stories__title": {
+    "message": "Stories",
+    "description": "Title for the stories list"
+  },
+  "Stories__mine": {
+    "message": "My Stories",
+    "description": "Label for your stories"
+  },
+  "Stories__add": {
+    "message": "Add a story",
+    "description": "Description hint to add a story"
+  },
+  "Stories__list-empty": {
+    "message": "No recent stories to show right now",
+    "description": "Description for when there are no stories to show"
+  },
+  "Stories__placeholder--text": {
+    "message": "Click to view a story",
+    "description": "Placeholder label for the story view"
+  },
+  "Stories__from-to-group": {
+    "message": "$name$ to $group$",
+    "description": "Title for someone sending a story to a group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Elle"
+      },
+      "group": {
+        "content": "$2",
+        "example": "Family"
+      }
+    }
+  },
+  "StoryViewer__reply": {
+    "message": "Reply",
+    "description": "Button label to reply to a story"
+  },
+  "StoryViewsNRepliesModal__placeholder": {
+    "message": "Type a reply...",
+    "description": "Placeholder text for the story reply modal"
+  },
+  "StoryViewsNRepliesModal__tab--views": {
+    "message": "Views",
+    "description": "Title for views tab"
+  },
+  "StoryViewsNRepliesModal__tab--replies": {
+    "message": "Replies",
+    "description": "Title for replies tab"
+  },
+  "StoryViewsNRepliesModal__react": {
+    "message": "React to story",
+    "description": "aria-label for reaction button"
+  },
+  "StoryViewsNRepliesModal__reacted": {
+    "message": "Reacted to the story",
+    "description": "Description of someone reacting to a story"
+  },
+  "StoryListItem__label": {
+    "message": "Story",
+    "description": "aria-label for the story list button"
+  },
+  "StoryListItem__hide": {
+    "message": "Hide story",
+    "description": "Label for menu item to hide the story"
+  },
+  "StoryListItem__go-to-chat": {
+    "message": "Go to chat",
+    "description": "Label for menu item to go to conversation"
+  },
+  "StoryListItem__hide-modal--body": {
+    "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+    "description": "Body for the confirmation dialog for hiding a story"
+  },
+  "StoryListItem__hide-modal--confirm": {
+    "message": "Hide",
+    "description": "Action button for the confirmation dialog to hide a story",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Abby"
+      }
+    }
   },
   "WhatsNew__modal-title": {
     "message": "What's New",

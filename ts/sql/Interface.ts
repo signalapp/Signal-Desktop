@@ -536,6 +536,9 @@ export type DataInterface = {
   getAllStoryDistributionsWithMembers(): Promise<
     Array<StoryDistributionWithMembersType>
   >;
+  getStoryDistributionWithMembers(
+    id: string
+  ): Promise<StoryDistributionWithMembersType | undefined>;
   modifyStoryDistribution(distribution: StoryDistributionType): Promise<void>;
   modifyStoryDistributionMembers(
     id: string,

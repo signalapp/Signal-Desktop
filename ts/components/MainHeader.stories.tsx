@@ -22,6 +22,7 @@ const optionalText = (name: string, value: string | undefined) =>
   text(name, value || '') || undefined;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  areStoriesEnabled: false,
   theme: ThemeType.light,
 
   phoneNumber: optionalText('phoneNumber', overrideProps.phoneNumber),
@@ -37,6 +38,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   showArchivedConversations: action('showArchivedConversations'),
   startComposing: action('startComposing'),
   toggleProfileEditor: action('toggleProfileEditor'),
+  toggleStoriesView: action('toggleStoriesView'),
 });
 
 story.add('Basic', () => {
@@ -68,3 +70,7 @@ story.add('Update Available', () => {
 
   return <MainHeader {...props} />;
 });
+
+story.add('Stories', () => (
+  <MainHeader {...createProps({})} areStoriesEnabled />
+));

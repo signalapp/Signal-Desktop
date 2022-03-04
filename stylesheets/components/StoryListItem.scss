@@ -1,0 +1,106 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoryListItem {
+  @include button-reset;
+  align-items: center;
+  border-radius: 10px;
+  display: flex;
+  padding: 0 20px;
+  height: 96px;
+  width: 100%;
+
+  &:hover {
+    background: $color-gray-65;
+  }
+
+  &__info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-left: 12px;
+
+    &--title {
+      @include font-body-1-bold;
+    }
+
+    &--timestamp {
+      @include font-body-2;
+      color: $color-gray-25;
+    }
+
+    &--replies {
+      &--others {
+        @include color-svg(
+          '../images/icons/v2/messages-solid-20.svg',
+          $color-gray-25
+        );
+        height: 20px;
+        width: 20px;
+      }
+
+      &--self {
+        @include color-svg(
+          '../images/icons/v2/reply-solid-24.svg',
+          $color-gray-25
+        );
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  &__previews {
+    height: 72px;
+    position: relative;
+    width: 46px;
+
+    &--add {
+      &::after {
+        content: '';
+        @include color-svg('../images/icons/v2/plus-20.svg', $color-gray-15);
+        height: 18px;
+        width: 18px;
+      }
+    }
+
+    &--image {
+      @include button-reset;
+
+      align-items: center;
+      background-size: cover;
+      background-color: $color-gray-60;
+      border-radius: 8px;
+      display: flex;
+      height: 72px;
+      justify-content: center;
+      overflow: hidden;
+      position: absolute;
+      width: 46px;
+      z-index: $z-index-base;
+    }
+
+    &--multiple &--image {
+      border: 1px solid $color-gray-80;
+    }
+
+    &--more {
+      background: #99a8a0;
+      border-radius: 6px;
+      height: 62px;
+      position: absolute;
+      transform: rotate(-12deg);
+      width: 40px;
+    }
+  }
+
+  &__icon {
+    &--chat {
+      @include color-svg('../images/icons/v2/open-24.svg', $color-white);
+    }
+
+    &--hide {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+    }
+  }
+}

@@ -78,6 +78,7 @@ import { showToast } from '../../util/showToast';
 import { ToastFailedToDeleteUsername } from '../../components/ToastFailedToDeleteUsername';
 import { ToastFailedToFetchUsername } from '../../components/ToastFailedToFetchUsername';
 import { isValidUsername } from '../../types/Username';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
 import { conversationJobQueue } from '../../jobs/conversationJobQueue';
@@ -130,6 +131,7 @@ export type ConversationType = {
   customColor?: CustomColorType;
   customColorId?: string;
   discoveredUnregisteredAt?: number;
+  hideStory?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
   isGroupV1AndDisabled?: boolean;
@@ -851,9 +853,13 @@ export const actions = {
   toggleAdmin,
   toggleConversationInChooseMembers,
   toggleComposeEditingAvatar,
+  toggleHideStories,
   updateConversationModelSharedGroups,
   verifyConversationsStoppingSend,
 };
+
+export const useConversationsActions = (): typeof actions =>
+  useBoundActions(actions);
 
 function filterAvatarData(
   avatars: ReadonlyArray<AvatarDataType>,
@@ -1944,6 +1950,21 @@ function openConversationExternal(
       id,
       messageId,
     },
+  };
+}
+
+function toggleHideStories(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      conversationModel.toggleHideStories();
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 

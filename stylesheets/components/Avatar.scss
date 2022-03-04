@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-Avatar {
@@ -136,6 +136,16 @@
           border-radius: 6px;
         }
       }
+    }
+  }
+
+  &--with-story {
+    border-radius: 100%;
+    border: 2px solid $color-white-alpha-40;
+    padding: 3px;
+
+    &--unread {
+      border-color: $color-ultramarine-dawn;
     }
   }
 }

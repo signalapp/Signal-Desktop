@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 package signalservice;
@@ -78,6 +78,7 @@ message ContactRecord {
   optional bool          archived            = 11;
   optional bool          markedUnread        = 12;
   optional uint64        mutedUntilTimestamp = 13;
+  optional bool          hideStory           = 14;
 }
 
 message GroupV1Record {
@@ -97,6 +98,7 @@ message GroupV2Record {
   optional bool   markedUnread                 = 5;
   optional uint64 mutedUntilTimestamp          = 6;
   optional bool   dontNotifyForMentionsIfMuted = 7;
+  optional bool   hideStory                    = 8;
 }
 
 message AccountRecord {

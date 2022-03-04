@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -19,21 +19,20 @@ const getDefaultProps = (): PropsType<number> => ({
   menuOptions: [
     {
       label: '1',
-      value: 1,
+      onClick: action('1'),
     },
     {
       label: '2',
-      value: 2,
+      onClick: action('2'),
     },
     {
       label: '3',
-      value: 3,
+      onClick: action('3'),
     },
   ],
-  onChange: action('onChange'),
-  value: 1,
 });
 
+// TODO DESKTOP-3184
 story.add('Default', () => {
   return <ContextMenu {...getDefaultProps()} />;
 });

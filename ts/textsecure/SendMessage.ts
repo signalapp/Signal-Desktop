@@ -191,6 +191,7 @@ export type MessageOptionsType = {
   timestamp: number;
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
+  storyContextTimestamp?: number;
 };
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
@@ -208,6 +209,7 @@ export type GroupSendOptionsType = {
   timestamp: number;
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
+  storyContextTimestamp?: number;
 };
 
 class Message {
@@ -252,6 +254,8 @@ class Message {
 
   groupCallUpdate?: GroupCallUpdateType;
 
+  storyContextTimestamp?: number;
+
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -270,6 +274,7 @@ class Message {
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.mentions = options.mentions;
     this.groupCallUpdate = options.groupCallUpdate;
+    this.storyContextTimestamp = options.storyContextTimestamp;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -468,6 +473,18 @@ class Message {
       groupCallUpdate.eraId = this.groupCallUpdate.eraId;
 
       proto.groupCallUpdate = groupCallUpdate;
+    }
+
+    if (this.storyContextTimestamp) {
+      const { StoryContext } = Proto.DataMessage;
+
+      const storyContext = new StoryContext();
+      storyContext.authorUuid = String(
+        window.textsecure.storage.user.getCheckedUuid()
+      );
+      storyContext.sentTimestamp = this.storyContextTimestamp;
+
+      proto.storyContext = storyContext;
     }
 
     this.dataMessage = proto;
@@ -779,6 +796,7 @@ export default class MessageSender {
       quote,
       reaction,
       sticker,
+      storyContextTimestamp,
       timestamp,
     } = options;
 
@@ -833,6 +851,7 @@ export default class MessageSender {
       reaction,
       recipients,
       sticker,
+      storyContextTimestamp,
       timestamp,
     };
   }
@@ -1024,6 +1043,7 @@ export default class MessageSender {
     groupId,
     profileKey,
     options,
+    storyContextTimestamp,
   }: Readonly<{
     identifier: string;
     messageText: string | undefined;
@@ -1038,6 +1058,7 @@ export default class MessageSender {
     contentHint: number;
     groupId: string | undefined;
     profileKey?: Uint8Array;
+    storyContextTimestamp?: number;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
@@ -1053,6 +1074,7 @@ export default class MessageSender {
         deletedForEveryoneTimestamp,
         expireTimer,
         profileKey,
+        storyContextTimestamp,
       },
       contentHint,
       groupId,

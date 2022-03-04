@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -61,6 +61,7 @@ export type InputApi = {
 };
 
 export type Props = {
+  children?: React.ReactNode;
   readonly i18n: LocalizerType;
   readonly disabled?: boolean;
   readonly getPreferredBadge: PreferredBadgeSelectorType;
@@ -71,6 +72,7 @@ export type Props = {
   readonly draftBodyRanges?: Array<BodyRangeType>;
   readonly moduleClassName?: string;
   readonly theme: ThemeType;
+  readonly placeholder?: string;
   sortedGroupMembers?: Array<ConversationType>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
@@ -85,8 +87,8 @@ export type Props = {
     mentions: Array<BodyRangeType>,
     timestamp: number
   ): unknown;
-  getQuotedMessage(): unknown;
-  clearQuotedMessage(): unknown;
+  getQuotedMessage?(): unknown;
+  clearQuotedMessage?(): unknown;
 };
 
 const MAX_LENGTH = 64 * 1024;
@@ -94,6 +96,7 @@ const BASE_CLASS_NAME = 'module-composition-input';
 
 export function CompositionInput(props: Props): React.ReactElement {
   const {
+    children,
     i18n,
     disabled,
     large,
@@ -101,6 +104,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     moduleClassName,
     onPickEmoji,
     onSubmit,
+    placeholder,
     skinTone,
     draftText,
     draftBodyRanges,
@@ -341,8 +345,8 @@ export function CompositionInput(props: Props): React.ReactElement {
       }
     }
 
-    if (getQuotedMessage()) {
-      clearQuotedMessage();
+    if (getQuotedMessage?.()) {
+      clearQuotedMessage?.();
       return false;
     }
 
@@ -561,7 +565,7 @@ export function CompositionInput(props: Props): React.ReactElement {
             },
           }}
           formats={['emoji', 'mention']}
-          placeholder={i18n('sendMessage')}
+          placeholder={placeholder || i18n('sendMessage')}
           readOnly={disabled}
           ref={element => {
             if (element) {
@@ -635,9 +639,11 @@ export function CompositionInput(props: Props): React.ReactElement {
               onClick={focus}
               className={classNames(
                 getClassName('__input__scroller'),
-                large ? getClassName('__input__scroller--large') : null
+                large ? getClassName('__input__scroller--large') : null,
+                children ? getClassName('__input--with-children') : null
               )}
             >
+              {children}
               {reactQuill}
               {emojiCompletionElement}
               {mentionCompletionElement}

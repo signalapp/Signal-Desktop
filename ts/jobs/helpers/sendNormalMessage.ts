@@ -141,6 +141,7 @@ export async function sendNormalMessage(
       preview,
       quote,
       sticker,
+      storyContextTimestamp,
     } = await getMessageSendData({ log, message });
 
     let messageSendPromise: Promise<CallbackResultType | void>;
@@ -253,6 +254,7 @@ export async function sendNormalMessage(
           groupId: undefined,
           profileKey,
           options: sendOptions,
+          storyContextTimestamp,
         });
       }
 
@@ -400,6 +402,7 @@ async function getMessageSendData({
   preview: Array<LinkPreviewType>;
   quote: WhatIsThis;
   sticker: WhatIsThis;
+  storyContextTimestamp?: number;
 }> {
   const {
     loadAttachmentData,
@@ -454,6 +457,7 @@ async function getMessageSendData({
     preview,
     quote,
     sticker,
+    storyContextTimestamp: message.get('sent_at'),
   };
 }
 

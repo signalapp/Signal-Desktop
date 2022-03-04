@@ -213,6 +213,9 @@ story.add('Image Only', () => {
       isVoiceMessage: false,
       thumbnail: {
         contentType: IMAGE_PNG,
+        height: 100,
+        width: 100,
+        path: pngUrl,
         objectUrl: pngUrl,
       },
     },
@@ -228,6 +231,9 @@ story.add('Image Attachment', () => {
       isVoiceMessage: false,
       thumbnail: {
         contentType: IMAGE_PNG,
+        height: 100,
+        width: 100,
+        path: pngUrl,
         objectUrl: pngUrl,
       },
     },
@@ -270,6 +276,9 @@ story.add('Video Only', () => {
       isVoiceMessage: false,
       thumbnail: {
         contentType: IMAGE_PNG,
+        height: 100,
+        width: 100,
+        path: pngUrl,
         objectUrl: pngUrl,
       },
     },
@@ -288,6 +297,9 @@ story.add('Video Attachment', () => {
       isVoiceMessage: false,
       thumbnail: {
         contentType: IMAGE_PNG,
+        height: 100,
+        width: 100,
+        path: pngUrl,
         objectUrl: pngUrl,
       },
     },

@@ -13,6 +13,7 @@ import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
 
 export type PropsType = {
+  areStoriesEnabled: boolean;
   avatarPath?: string;
   badge?: BadgeType;
   color?: AvatarColorType;
@@ -30,6 +31,7 @@ export type PropsType = {
   startComposing: () => void;
   startUpdate: () => unknown;
   toggleProfileEditor: () => void;
+  toggleStoriesView: () => unknown;
 };
 
 type StateType = {
@@ -111,6 +113,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
 
   public override render(): JSX.Element {
     const {
+      areStoriesEnabled,
       avatarPath,
       badge,
       color,
@@ -125,6 +128,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       theme,
       title,
       toggleProfileEditor,
+      toggleStoriesView,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
 
@@ -204,13 +208,24 @@ export class MainHeader extends React.Component<PropsType, StateType> {
               )
             : null}
         </Manager>
-        <button
-          aria-label={i18n('newConversation')}
-          className="module-main-header__compose-icon"
-          onClick={startComposing}
-          title={i18n('newConversation')}
-          type="button"
-        />
+        <div className="module-main-header__icon-container">
+          {areStoriesEnabled && (
+            <button
+              aria-label={i18n('stories')}
+              className="module-main-header__stories-icon"
+              onClick={toggleStoriesView}
+              title={i18n('stories')}
+              type="button"
+            />
+          )}
+          <button
+            aria-label={i18n('newConversation')}
+            className="module-main-header__compose-icon"
+            onClick={startComposing}
+            title={i18n('newConversation')}
+            type="button"
+          />
+        </div>
       </div>
     );
   }

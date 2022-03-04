@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -9,7 +9,7 @@ import { boolean, select, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import type { Props } from './Avatar';
-import { Avatar, AvatarBlur } from './Avatar';
+import { Avatar, AvatarBlur, AvatarStoryRing } from './Avatar';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { AvatarColorType } from '../types/Colors';
@@ -236,3 +236,23 @@ story.add('Blurred with "click to view"', () => {
 
   return <Avatar {...props} size={112} />;
 });
+
+story.add('Story: unread', () => (
+  <Avatar
+    {...createProps({
+      avatarPath: '/fixtures/kitten-3-64-64.jpg',
+    })}
+    storyRing={AvatarStoryRing.Unread}
+    size={112}
+  />
+));
+
+story.add('Story: read', () => (
+  <Avatar
+    {...createProps({
+      avatarPath: '/fixtures/kitten-3-64-64.jpg',
+    })}
+    storyRing={AvatarStoryRing.Read}
+    size={112}
+  />
+));

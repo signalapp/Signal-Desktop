@@ -7641,6 +7641,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-02-15T17:57:06.507Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Tooltip.tsx",
     "line": "  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);",
     "reasonCategory": "usageTrusted",

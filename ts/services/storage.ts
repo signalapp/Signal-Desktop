@@ -129,10 +129,7 @@ function generateStorageID(): Uint8Array {
 }
 
 type GeneratedManifestType = {
-  conversationsToUpdate: Array<{
-    conversation: ConversationModel;
-    storageID: string | undefined;
-  }>;
+  postUploadUpdateFunctions: Array<() => unknown>;
   deleteKeys: Array<Uint8Array>;
   newItems: Set<Proto.IStorageItem>;
   storageManifest: Proto.IStorageManifest;
@@ -152,7 +149,7 @@ async function generateManifest(
 
   const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
-  const conversationsToUpdate = [];
+  const postUploadUpdateFunctions: Array<() => unknown> = [];
   const insertKeys: Array<string> = [];
   const deleteKeys: Array<Uint8Array> = [];
   const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
@@ -275,9 +272,13 @@ async function generateManifest(
         );
       }
 
-      conversationsToUpdate.push({
-        conversation,
-        storageID,
+      postUploadUpdateFunctions.push(() => {
+        conversation.set({
+          needsStorageServiceSync: false,
+          storageVersion: version,
+          storageID,
+        });
+        updateConversation(conversation.attributes);
       });
     }
 
@@ -510,7 +511,7 @@ async function generateManifest(
   storageManifest.value = encryptedManifest;
 
   return {
-    conversationsToUpdate,
+    postUploadUpdateFunctions,
     deleteKeys,
     newItems,
     storageManifest,
@@ -520,7 +521,7 @@ async function generateManifest(
 async function uploadManifest(
   version: number,
   {
-    conversationsToUpdate,
+    postUploadUpdateFunctions,
     deleteKeys,
     newItems,
     storageManifest,
@@ -556,18 +557,11 @@ async function uploadManifest(
 
     log.info(
       `storageService.upload(${version}): upload complete, updating ` +
-        `conversations=${conversationsToUpdate.length}`
+        `items=${postUploadUpdateFunctions.length}`
     );
 
     // update conversations with the new storageID
-    conversationsToUpdate.forEach(({ conversation, storageID }) => {
-      conversation.set({
-        needsStorageServiceSync: false,
-        storageVersion: version,
-        storageID,
-      });
-      updateConversation(conversation.attributes);
-    });
+    postUploadUpdateFunctions.forEach(fn => fn());
   } catch (err) {
     log.error(
       `storageService.upload(${version}): failed!`,
@@ -655,11 +649,11 @@ async function createNewManifest() {
 
   const version = window.storage.get('manifestVersion', 0);
 
-  const { conversationsToUpdate, newItems, storageManifest } =
+  const { postUploadUpdateFunctions, newItems, storageManifest } =
     await generateManifest(version, undefined, true);
 
   await uploadManifest(version, {
-    conversationsToUpdate,
+    postUploadUpdateFunctions,
     // we have created a new manifest, there should be no keys to delete
     deleteKeys: [],
     newItems,

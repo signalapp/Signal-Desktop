@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -12,6 +12,7 @@ import { EmojiPicker } from './EmojiPicker';
 import type { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
+  readonly className?: string;
   readonly closeOnPick?: boolean;
   readonly emoji?: string;
   readonly i18n: LocalizerType;
@@ -26,6 +27,7 @@ export type Props = OwnProps &
 
 export const EmojiButton = React.memo(
   ({
+    className,
     closeOnPick,
     emoji,
     i18n,
@@ -117,7 +119,7 @@ export const EmojiButton = React.memo(
               type="button"
               ref={ref}
               onClick={handleClickButton}
-              className={classNames({
+              className={classNames(className, {
                 'module-emoji-button__button': true,
                 'module-emoji-button__button--active': open,
                 'module-emoji-button__button--has-emoji': Boolean(emoji),

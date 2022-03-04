@@ -9,7 +9,7 @@ import type {
   QuotedMessageType,
 } from '../model-types.d';
 import type { UUIDStringType } from '../types/UUID';
-import { isIncoming, isOutgoing } from '../state/selectors/message';
+import { isIncoming, isOutgoing, isStory } from '../state/selectors/message';
 
 export function isQuoteAMatch(
   message: MessageAttributesType | null | undefined,
@@ -57,7 +57,7 @@ export function getContact(
 }
 
 export function getSource(message: MessageAttributesType): string | undefined {
-  if (isIncoming(message)) {
+  if (isIncoming(message) || isStory(message)) {
     return message.source;
   }
   if (!isOutgoing(message)) {
@@ -72,7 +72,7 @@ export function getSourceDevice(
 ): string | number | undefined {
   const { sourceDevice } = message;
 
-  if (isIncoming(message)) {
+  if (isIncoming(message) || isStory(message)) {
     return sourceDevice;
   }
   if (!isOutgoing(message)) {
@@ -87,7 +87,7 @@ export function getSourceDevice(
 export function getSourceUuid(
   message: MessageAttributesType
 ): UUIDStringType | undefined {
-  if (isIncoming(message)) {
+  if (isIncoming(message) || isStory(message)) {
     return message.sourceUuid;
   }
   if (!isOutgoing(message)) {

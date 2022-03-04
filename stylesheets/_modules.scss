@@ -2703,13 +2703,17 @@ button.ConversationDetails__action-button {
     }
   }
 
+  &__icon-container {
+    display: flex;
+  }
+
   &__compose-icon {
     -webkit-app-region: no-drag;
     align-items: center;
     background: none;
     border-radius: 4px;
     border: 2px solid transparent;
-    display: flex;
+    display: inline-flex;
     height: 32px;
     justify-content: center;
     padding: 2px;
@@ -2747,6 +2751,74 @@ button.ConversationDetails__action-button {
 
     &::before {
       $icon: '../images/icons/v2/compose-24.svg';
+      width: 24px;
+      height: 24px;
+      content: '';
+
+      @include light-theme {
+        @include color-svg($icon, $color-gray-75);
+        &:hover,
+        &:active,
+        &:focus {
+          @include color-svg($icon, $color-gray-90);
+        }
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-15);
+        &:hover,
+        &:active,
+        &:focus {
+          @include color-svg($icon, $color-gray-02);
+        }
+      }
+    }
+  }
+
+  &__stories-icon {
+    -webkit-app-region: no-drag;
+    align-items: center;
+    background: none;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    padding: 2px;
+    width: 32px;
+    margin-right: 8px;
+
+    @include light-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-15;
+      }
+      &:active {
+        background: $color-gray-05;
+      }
+    }
+    @include dark-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-75;
+      }
+      &:active {
+        background: $color-gray-65;
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        border-color: $color-ultramarine;
+      }
+    }
+    @include dark-keyboard-mode {
+      &:focus {
+        border-color: $color-ultramarine-light;
+      }
+    }
+
+    &::before {
+      $icon: '../images/icons/v2/stories-outline-24.svg';
       width: 24px;
       height: 24px;
       content: '';
@@ -7747,7 +7819,7 @@ button.module-image__border-overlay:focus {
   z-index: $z-index-popup-overlay;
 }
 
-.module-modal-host__container {
+.module-modal-host__overlay-container {
   display: flex;
   flex-direction: column;
   height: 100vh;

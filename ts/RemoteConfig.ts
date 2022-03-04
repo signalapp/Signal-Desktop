@@ -24,6 +24,7 @@ export type ConfigKeyType =
   | 'desktop.sendSenderKey3'
   | 'desktop.showUserBadges.beta'
   | 'desktop.showUserBadges2'
+  | 'desktop.stories'
   | 'desktop.usernames'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'

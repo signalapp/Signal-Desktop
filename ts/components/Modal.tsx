@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
@@ -25,6 +25,7 @@ type PropsType = {
   moduleClassName?: string;
   onClose?: () => void;
   title?: ReactNode;
+  useFocusTrap?: boolean;
 };
 
 type ModalPropsType = PropsType & {
@@ -44,6 +45,7 @@ export function Modal({
   onClose = noop,
   title,
   theme,
+  useFocusTrap,
 }: Readonly<ModalPropsType>): ReactElement {
   const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
     getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
@@ -55,10 +57,12 @@ export function Modal({
 
   return (
     <ModalHost
+      moduleClassName={moduleClassName}
       noMouseClose={noMouseClose}
       onClose={close}
       overlayStyles={overlayStyles}
       theme={theme}
+      useFocusTrap={useFocusTrap}
     >
       <animated.div style={modalStyles}>
         <ModalWindow

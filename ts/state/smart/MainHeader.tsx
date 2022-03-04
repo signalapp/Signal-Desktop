@@ -17,11 +17,13 @@ import {
   getUserUuid,
 } from '../selectors/user';
 import { getMe } from '../selectors/conversations';
+import { getStoriesEnabled } from '../selectors/items';
 
 const mapStateToProps = (state: StateType) => {
   const me = getMe(state);
 
   return {
+    areStoriesEnabled: getStoriesEnabled(state),
     hasPendingUpdate: Boolean(state.updates.didSnooze),
     regionCode: getRegionCode(state),
     ourConversationId: getUserConversationId(state),

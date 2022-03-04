@@ -220,6 +220,7 @@ export async function sendReaction(
           groupId: undefined,
           profileKey,
           options: sendOptions,
+          storyContextTimestamp: message.get('sent_at'),
         });
       } else {
         log.info('sending group reaction message');

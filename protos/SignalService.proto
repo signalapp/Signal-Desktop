@@ -320,7 +320,37 @@ message TypingMessage {
 message StoryMessage {
   optional bytes profileKey = 1;
   optional GroupContextV2 group = 2;
-  optional AttachmentPointer attachment = 3;
+  oneof attachment {
+    AttachmentPointer fileAttachment = 3;
+    TextAttachment textAttachment = 4;
+  }
+}
+
+message TextAttachment {
+  enum Style {
+    DEFAULT = 0;
+    REGULAR = 1;
+    BOLD = 2;
+    SERIF = 3;
+    SCRIPT = 4;
+    CONDENSED = 5;
+  }
+
+  message Gradient {
+    optional uint32 startColor = 1;
+    optional uint32 endColor = 2;
+    optional uint32 angle = 3; // degrees
+  }
+
+  optional string text = 1;
+  optional Style textStyle = 2;
+  optional uint32 textForegroundColor = 3; // integer representation of hex color
+  optional uint32 textBackgroundColor = 4;
+  optional Preview preview = 5;
+  oneof background {
+    Gradient gradient = 6;
+    uint32 color = 7;
+  }
 }
 
 message Verified {

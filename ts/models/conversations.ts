@@ -1810,6 +1810,7 @@ export class ConversationModel extends window.Backbone
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
+      hideStory: Boolean(this.get('hideStory')),
       inboxPosition,
       isArchived: this.get('isArchived')!,
       isBlocked: this.isBlocked(),
@@ -3790,10 +3791,12 @@ export class ConversationModel extends window.Backbone
     {
       dontClearDraft,
       sendHQImages,
+      storyId,
       timestamp,
     }: {
       dontClearDraft?: boolean;
       sendHQImages?: boolean;
+      storyId?: string;
       timestamp?: number;
     } = {}
   ): Promise<void> {
@@ -3872,6 +3875,7 @@ export class ConversationModel extends window.Backbone
           updatedAt: now,
         })
       ),
+      storyId,
     });
 
     if (isDirectConversation(this.attributes)) {
@@ -4961,6 +4965,11 @@ export class ConversationModel extends window.Backbone
 
       this.muteTimer = setTimeout(() => this.setMuteExpiration(0), delay);
     }
+  }
+
+  toggleHideStories(): void {
+    this.set({ hideStory: !this.get('hideStory') });
+    this.captureChange('hideStory');
   }
 
   setMuteExpiration(

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -9,9 +9,11 @@ import { SmartCallManager } from './CallManager';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
+import { SmartStories } from './Stories';
 import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
+import { shouldShowStoriesView } from '../selectors/stories';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
@@ -32,6 +34,8 @@ const mapStateToProps = (state: StateType) => {
     renderSafetyNumber: (props: SafetyNumberProps) => (
       <SmartSafetyNumberViewer {...props} />
     ),
+    isShowingStoriesView: shouldShowStoriesView(state),
+    renderStories: () => <SmartStories />,
     requestVerification: (
       type: 'sms' | 'voice',
       number: string,

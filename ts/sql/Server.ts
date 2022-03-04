@@ -281,6 +281,7 @@ const dataInterface: ServerInterface = {
   _deleteAllStoryDistributions,
   createNewStoryDistribution,
   getAllStoryDistributionsWithMembers,
+  getStoryDistributionWithMembers,
   modifyStoryDistribution,
   modifyStoryDistributionMembers,
   deleteStoryDistribution,
@@ -3964,6 +3965,33 @@ async function getAllStoryDistributionsWithMembers(): Promise<
     ...list,
     members: (byListId[list.id] || []).map(member => member.uuid),
   }));
+}
+async function getStoryDistributionWithMembers(
+  id: string
+): Promise<StoryDistributionWithMembersType | undefined> {
+  const db = getInstance();
+  const storyDistribution = prepare(
+    db,
+    'SELECT * FROM storyDistributions WHERE id = $id;'
+  ).get({
+    id,
+  });
+
+  if (!storyDistribution) {
+    return undefined;
+  }
+
+  const members = prepare(
+    db,
+    'SELECT * FROM storyDistributionMembers WHERE listId = $id;'
+  ).all({
+    id,
+  });
+
+  return {
+    ...storyDistribution,
+    members: members.map(({ uuid }) => uuid),
+  };
 }
 async function modifyStoryDistribution(
   distribution: StoryDistributionType

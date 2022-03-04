@@ -1,0 +1,111 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.MyStories {
+  &__distribution {
+    padding: 0 14px;
+
+    &__title {
+      @include font-body-1-bold;
+      margin: 24px 0 8px 0;
+    }
+  }
+
+  &__story {
+    align-items: center;
+    display: flex;
+    height: 96px;
+
+    &__details {
+      @include font-body-1-bold;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    &__preview {
+      @include button-reset;
+
+      align-items: center;
+      background-color: $color-gray-60;
+      background-size: cover;
+      border-radius: 8px;
+      height: 72px;
+      margin-right: 12px;
+      overflow: hidden;
+      width: 46px;
+    }
+
+    &__timestamp {
+      color: $color-gray-25;
+      font-weight: normal;
+    }
+
+    &__download {
+      @include button-reset;
+      align-items: center;
+      background: $color-gray-65;
+      border-radius: 100%;
+      display: flex;
+      height: 28px;
+      justify-content: center;
+      width: 28px;
+
+      &::after {
+        @include color-svg(
+          '../images/icons/v2/save-outline-24.svg',
+          $color-gray-25
+        );
+        content: '';
+        height: 18px;
+        width: 18px;
+      }
+    }
+
+    &__more {
+      align-items: center;
+      background: $color-gray-65;
+      border-radius: 100%;
+      display: flex;
+      height: 28px;
+      justify-content: center;
+      margin-left: 16px;
+      opacity: 1;
+      width: 28px;
+
+      &::after {
+        @include color-svg(
+          '../images/icons/v2/more-horiz-24.svg',
+          $color-gray-25
+        );
+        content: '';
+        height: 18px;
+        width: 18px;
+      }
+    }
+  }
+
+  &__icon {
+    &--save {
+      @include color-svg(
+        '../images/icons/v2/save-outline-24.svg',
+        $color-white
+      );
+    }
+
+    &--forward {
+      @include color-svg(
+        '../images/icons/v2/reply-outline-24.svg',
+        $color-white
+      );
+      transform: scaleX(-1);
+    }
+
+    &--delete {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-white
+      );
+    }
+  }
+}

@@ -1,24 +1,15 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent, ReactNode } from 'react';
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { assert } from '../util/assert';
-import { getClassNamesFor } from '../util/getClassNamesFor';
+import type { ReactNode } from 'react';
+import React from 'react';
 
-type Tab = {
-  id: string;
-  label: string;
-};
+import type { TabsOptionsType } from '../hooks/useTabs';
+import { useTabs } from '../hooks/useTabs';
 
 type PropsType = {
   children: (renderProps: { selectedTab: string }) => ReactNode;
-  initialSelectedTab?: string;
-  moduleClassName?: string;
-  onTabChange?: (selectedTab: string) => unknown;
-  tabs: Array<Tab>;
-};
+} & TabsOptionsType;
 
 export const Tabs = ({
   children,
@@ -27,42 +18,16 @@ export const Tabs = ({
   onTabChange,
   tabs,
 }: PropsType): JSX.Element => {
-  assert(tabs.length, 'Tabs needs more than 1 tab present');
-
-  const [selectedTab, setSelectedTab] = useState<string>(
-    initialSelectedTab || tabs[0].id
-  );
-
-  const getClassName = getClassNamesFor('Tabs', moduleClassName);
+  const { selectedTab, tabsHeaderElement } = useTabs({
+    initialSelectedTab,
+    moduleClassName,
+    onTabChange,
+    tabs,
+  });
 
   return (
     <>
-      <div className={getClassName('')}>
-        {tabs.map(({ id, label }) => (
-          <div
-            className={classNames(
-              getClassName('__tab'),
-              selectedTab === id && getClassName('__tab--selected')
-            )}
-            key={id}
-            onClick={() => {
-              setSelectedTab(id);
-              onTabChange?.(id);
-            }}
-            onKeyUp={(e: KeyboardEvent) => {
-              if (e.target === e.currentTarget && e.keyCode === 13) {
-                setSelectedTab(id);
-                e.preventDefault();
-                e.stopPropagation();
-              }
-            }}
-            role="tab"
-            tabIndex={0}
-          >
-            {label}
-          </div>
-        ))}
-      </div>
+      {tabsHeaderElement}
       {children({ selectedTab })}
     </>
   );

@@ -16,15 +16,17 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type PropsType = {
   appView: AppViewType;
+  openInbox: () => void;
+  registerSingleDevice: (number: string, code: string) => Promise<void>;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
-  openInbox: () => void;
+  isShowingStoriesView: boolean;
+  renderStories: () => JSX.Element;
   requestVerification: (
     type: 'sms' | 'voice',
     number: string,
     token: string
   ) => Promise<void>;
-  registerSingleDevice: (number: string, code: string) => Promise<void>;
   theme: ThemeType;
 } & ComponentProps<typeof Inbox>;
 
@@ -36,11 +38,13 @@ export const App = ({
   getPreferredBadge,
   i18n,
   isCustomizingPreferredReactions,
+  isShowingStoriesView,
   renderCallManager,
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
   renderSafetyNumber,
   openInbox,
+  renderStories,
   requestVerification,
   registerSingleDevice,
   theme,
@@ -118,6 +122,7 @@ export const App = ({
     >
       {renderGlobalModalContainer()}
       {renderCallManager()}
+      {isShowingStoriesView && renderStories()}
       {contents}
     </div>
   );

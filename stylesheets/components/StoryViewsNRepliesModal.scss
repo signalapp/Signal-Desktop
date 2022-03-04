@@ -1,0 +1,152 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoryViewsNRepliesModal {
+  min-width: 320px;
+
+  &--group {
+    min-height: 360px;
+  }
+
+  &__overlay-container {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .module-quote-container {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  &__compose-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__composer {
+    flex: 1;
+    margin-right: 16px;
+  }
+
+  &__emoji-button {
+    height: 24px;
+    margin-right: 8px;
+    width: 24px;
+
+    &::after {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/emoji-smiley-outline-24.svg',
+          $color-white
+        );
+      }
+    }
+  }
+
+  &__input {
+    &__input {
+      // For specificity because StoryViewsNRepliesModal is always in dark-theme
+      @include dark-theme {
+        background: $color-gray-75;
+        border: 1px solid $color-gray-75;
+        color: $color-white;
+      }
+
+      .ql-editor.ql-blank::before {
+        color: $color-gray-25;
+      }
+
+      &--with-children {
+        align-items: center;
+        display: flex;
+      }
+
+      .quill {
+        flex: 1;
+      }
+    }
+  }
+
+  &__react {
+    @include button-reset;
+    @include color-svg(
+      '../images/icons/v2/add-reaction-outline-24.svg',
+      $color-white
+    );
+    height: 22px;
+    width: 22px;
+  }
+
+  &__view {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+
+    &--name {
+      @include font-body-2;
+      margin-left: 12px;
+    }
+
+    &--timestamp {
+      @include font-body-2;
+      color: $color-gray-45;
+    }
+  }
+
+  &__reply {
+    align-items: flex-end;
+    display: flex;
+    padding-bottom: 12px;
+
+    &--title {
+      @include font-body-2;
+    }
+
+    &--timestamp {
+      @include font-subtitle;
+      color: $color-gray-25;
+      margin-left: 6px;
+    }
+  }
+
+  &__reaction {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+
+    &--container {
+      display: flex;
+    }
+
+    &--body {
+      margin-left: 20px;
+    }
+  }
+
+  &__message-bubble {
+    background: $color-gray-75;
+    border-radius: 18px;
+    margin-left: 8px;
+    padding: 7px 12px;
+  }
+}
+
+.Tabs.StoryViewsNRepliesModal__tabs {
+  border-bottom: none;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.Tabs__tab.StoryViewsNRepliesModal__tabs__tab {
+  @include font-body-1-bold;
+  padding: 4px 12px;
+  margin: 0 12px;
+}
+
+.Tabs__tab--selected.StoryViewsNRepliesModal__tabs__tab--selected {
+  background: $color-gray-65;
+  border-radius: 24px;
+  border-bottom: none;
+}

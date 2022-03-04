@@ -129,6 +129,12 @@ export function isOutgoing(
   return message.type === 'outgoing';
 }
 
+export function isStory(
+  message: Pick<MessageWithUIFieldsType, 'type'>
+): boolean {
+  return message.type === 'story';
+}
+
 export function hasErrors(
   message: Pick<MessageWithUIFieldsType, 'errors'>
 ): boolean {
@@ -1502,7 +1508,9 @@ function canReplyOrReact(
     );
   }
 
-  if (isIncoming(message)) {
+  // If we get past all the other checks above then we can always reply or
+  // react if the message type is "incoming" | "story"
+  if (isIncoming(message) || isStory(message)) {
     return true;
   }
 

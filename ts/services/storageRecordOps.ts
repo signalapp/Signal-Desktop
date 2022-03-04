@@ -154,15 +154,18 @@ export async function toContactRecord(
   contactRecord.mutedUntilTimestamp = getSafeLongFromTimestamp(
     conversation.get('muteExpiresAt')
   );
+  if (conversation.get('hideStory') !== undefined) {
+    contactRecord.hideStory = Boolean(conversation.get('hideStory'));
+  }
 
   applyUnknownFields(contactRecord, conversation);
 
   return contactRecord;
 }
 
-export async function toAccountRecord(
+export function toAccountRecord(
   conversation: ConversationModel
-): Promise<Proto.AccountRecord> {
+): Proto.AccountRecord {
   const accountRecord = new Proto.AccountRecord();
 
   if (conversation.get('profileKey')) {
@@ -319,9 +322,9 @@ export async function toAccountRecord(
   return accountRecord;
 }
 
-export async function toGroupV1Record(
+export function toGroupV1Record(
   conversation: ConversationModel
-): Promise<Proto.GroupV1Record> {
+): Proto.GroupV1Record {
   const groupV1Record = new Proto.GroupV1Record();
 
   groupV1Record.id = Bytes.fromBinary(String(conversation.get('groupId')));
@@ -338,9 +341,9 @@ export async function toGroupV1Record(
   return groupV1Record;
 }
 
-export async function toGroupV2Record(
+export function toGroupV2Record(
   conversation: ConversationModel
-): Promise<Proto.GroupV2Record> {
+): Proto.GroupV2Record {
   const groupV2Record = new Proto.GroupV2Record();
 
   const masterKey = conversation.get('masterKey');
@@ -357,6 +360,7 @@ export async function toGroupV2Record(
   groupV2Record.dontNotifyForMentionsIfMuted = Boolean(
     conversation.get('dontNotifyForMentionsIfMuted')
   );
+  groupV2Record.hideStory = Boolean(conversation.get('hideStory'));
 
   applyUnknownFields(groupV2Record, conversation);
 
@@ -592,7 +596,7 @@ export async function mergeGroupV1Record(
     addUnknownFields(groupV1Record, conversation, details);
 
     const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
-      await toGroupV1Record(conversation),
+      toGroupV1Record(conversation),
       groupV1Record,
       conversation
     );
@@ -683,6 +687,7 @@ export async function mergeGroupV2Record(
   const oldStorageVersion = conversation.get('storageVersion');
 
   conversation.set({
+    hideStory: Boolean(groupV2Record.hideStory),
     isArchived: Boolean(groupV2Record.archived),
     markedUnread: Boolean(groupV2Record.markedUnread),
     dontNotifyForMentionsIfMuted: Boolean(
@@ -706,7 +711,7 @@ export async function mergeGroupV2Record(
   addUnknownFields(groupV2Record, conversation, details);
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
-    await toGroupV2Record(conversation),
+    toGroupV2Record(conversation),
     groupV2Record,
     conversation
   );
@@ -852,6 +857,7 @@ export async function mergeContactRecord(
   const oldStorageVersion = conversation.get('storageVersion');
 
   conversation.set({
+    hideStory: Boolean(contactRecord.hideStory),
     isArchived: Boolean(contactRecord.archived),
     markedUnread: Boolean(contactRecord.markedUnread),
     storageID,
@@ -1142,7 +1148,7 @@ export async function mergeAccountRecord(
   }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
-    await toAccountRecord(conversation),
+    toAccountRecord(conversation),
     accountRecord,
     conversation
   );

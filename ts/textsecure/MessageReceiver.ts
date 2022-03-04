@@ -72,6 +72,7 @@ import type { Storage } from './Storage';
 import { WarnOnlyError } from './Errors';
 import * as Bytes from '../Bytes';
 import type {
+  ProcessedAttachment,
   ProcessedDataMessage,
   ProcessedSyncMessage,
   ProcessedSent,
@@ -107,6 +108,7 @@ import {
   GroupSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
+import * as durations from '../util/durations';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 
 const GROUPV1_ID_LENGTH = 16;
@@ -1787,20 +1789,72 @@ export default class MessageReceiver
     return this.dispatchAndWait(ev);
   }
 
+  private async handleStoryMessage(
+    envelope: UnsealedEnvelope,
+    msg: Proto.IStoryMessage
+  ): Promise<void> {
+    const logId = this.getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleStoryMessage', logId);
+
+    const attachments: Array<ProcessedAttachment> = [];
+
+    if (msg.fileAttachment) {
+      const attachment = processAttachment(msg.fileAttachment);
+      attachments.push(attachment);
+    }
+
+    if (msg.textAttachment) {
+      log.error(
+        'MessageReceiver.handleStoryMessage: Got a textAttachment, cannot handle it',
+        logId
+      );
+      return;
+    }
+
+    const expireTimer = envelope.timestamp + durations.DAY - Date.now();
+
+    if (expireTimer <= 0) {
+      log.info(
+        'MessageReceiver.handleStoryMessage: story already expired',
+        logId
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const ev = new MessageEvent(
+      {
+        source: envelope.source,
+        sourceUuid: envelope.sourceUuid,
+        sourceDevice: envelope.sourceDevice,
+        timestamp: envelope.timestamp,
+        serverGuid: envelope.serverGuid,
+        serverTimestamp: envelope.serverTimestamp,
+        unidentifiedDeliveryReceived: Boolean(
+          envelope.unidentifiedDeliveryReceived
+        ),
+        message: {
+          attachments,
+          expireTimer,
+          flags: 0,
+          isStory: true,
+          isViewOnce: false,
+          timestamp: envelope.timestamp,
+        },
+        receivedAtCounter: envelope.receivedAtCounter,
+        receivedAtDate: envelope.receivedAtDate,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    return this.dispatchAndWait(ev);
+  }
+
   private async handleDataMessage(
     envelope: UnsealedEnvelope,
     msg: Proto.IDataMessage
   ): Promise<void> {
     const logId = this.getEnvelopeId(envelope);
     log.info('MessageReceiver.handleDataMessage', logId);
-
-    if (msg.storyContext) {
-      log.info(
-        `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
-      );
-      this.removeFromCache(envelope);
-      return undefined;
-    }
 
     let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
@@ -1993,11 +2047,7 @@ export default class MessageReceiver
       return;
     }
     if (content.storyMessage) {
-      const logId = this.getEnvelopeId(envelope);
-      log.info(
-        `innerHandleContentMessage/${logId}: Dropping incoming message with storyMessage field`
-      );
-      this.removeFromCache(envelope);
+      await this.handleStoryMessage(envelope, content.storyMessage);
       return;
     }
 

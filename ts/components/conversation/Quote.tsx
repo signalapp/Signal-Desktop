@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -10,6 +10,7 @@ import * as MIME from '../../types/MIME';
 import * as GoogleChrome from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
+import type { AttachmentType, ThumbnailType } from '../../types/Attachment';
 import type { BodyRangesType, LocalizerType } from '../../types/Util';
 import type {
   ConversationColorType,
@@ -40,19 +41,10 @@ type State = {
   imageBroken: boolean;
 };
 
-export type QuotedAttachmentType = {
-  contentType: MIME.MIMEType;
-  fileName?: string;
-  /** Not included in protobuf */
-  isVoiceMessage: boolean;
-  thumbnail?: Attachment;
-};
-
-type Attachment = {
-  contentType: MIME.MIMEType;
-  /** Not included in protobuf, and is loaded asynchronously */
-  objectUrl?: string;
-};
+export type QuotedAttachmentType = Pick<
+  AttachmentType,
+  'contentType' | 'fileName' | 'isVoiceMessage' | 'thumbnail'
+>;
 
 function validateQuote(quote: Props): boolean {
   if (quote.text) {
@@ -75,12 +67,12 @@ function getAttachment(
     : undefined;
 }
 
-function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
-  if (thumbnail && thumbnail.objectUrl) {
-    return thumbnail.objectUrl;
+function getUrl(thumbnail?: ThumbnailType): string | undefined {
+  if (!thumbnail) {
+    return;
   }
 
-  return undefined;
+  return thumbnail.objectUrl || thumbnail.url;
 }
 
 function getTypeLabel({
@@ -92,7 +84,7 @@ function getTypeLabel({
   i18n: LocalizerType;
   isViewOnce?: boolean;
   contentType: MIME.MIMEType;
-  isVoiceMessage: boolean;
+  isVoiceMessage?: boolean;
 }): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     if (isViewOnce) {
@@ -249,20 +241,20 @@ export class Quote extends React.Component<Props, State> {
     }
 
     const { contentType, thumbnail } = attachment;
-    const objectUrl = getObjectUrl(thumbnail);
+    const url = getUrl(thumbnail);
 
     if (isViewOnce) {
       return this.renderIcon('view-once');
     }
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return objectUrl && !imageBroken
-        ? this.renderImage(objectUrl, 'play')
+      return url && !imageBroken
+        ? this.renderImage(url, 'play')
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl && !imageBroken
-        ? this.renderImage(objectUrl)
+      return url && !imageBroken
+        ? this.renderImage(url)
         : this.renderIcon('image');
     }
     if (MIME.isAudio(contentType)) {

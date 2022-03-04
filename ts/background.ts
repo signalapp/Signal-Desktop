@@ -38,6 +38,7 @@ import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { IdleDetector } from './IdleDetector';
+import { loadStories, getStoriesForRedux } from './services/storyLoader';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
@@ -860,6 +861,7 @@ export async function startApp(): Promise<void> {
         Stickers.load(),
         loadRecentEmojis(),
         loadInitialBadgesState(),
+        loadStories(),
         window.textsecure.storage.protocol.hydrateCaches(),
       ]);
       await window.ConversationController.checkForConflicts();
@@ -890,7 +892,10 @@ export async function startApp(): Promise<void> {
   function initializeRedux() {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = window.getConversations();
-    const initialState = getInitialState({ badges: initialBadgesState });
+    const initialState = getInitialState({
+      badges: initialBadgesState,
+      stories: getStoriesForRedux(),
+    });
 
     const store = window.Signal.State.createStore(initialState);
     window.reduxStore = store;
@@ -937,6 +942,7 @@ export async function startApp(): Promise<void> {
       ),
       search: bindActionCreators(actionCreators.search, store.dispatch),
       stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
+      stories: bindActionCreators(actionCreators.stories, store.dispatch),
       updates: bindActionCreators(actionCreators.updates, store.dispatch),
       user: bindActionCreators(actionCreators.user, store.dispatch),
     };
@@ -2063,6 +2069,7 @@ export async function startApp(): Promise<void> {
               'gv1-migration': true,
               senderKey: true,
               changeNumber: true,
+              stories: true,
             }),
             updateOurUsername(),
           ]);
@@ -3268,7 +3275,7 @@ export async function startApp(): Promise<void> {
       received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
-      type: 'incoming',
+      type: data.message.isStory ? 'story' : 'incoming',
       readStatus: ReadStatus.Unread,
       timestamp: data.timestamp,
     } as Partial<MessageAttributesType> as WhatIsThis);

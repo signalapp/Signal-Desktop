@@ -280,6 +280,7 @@ export async function processDataMessage(
     delete: processDelete(message.delete),
     bodyRanges: message.bodyRanges ?? [],
     groupCallUpdate: dropNull(message.groupCallUpdate),
+    storyContext: dropNull(message.storyContext),
   };
 
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);

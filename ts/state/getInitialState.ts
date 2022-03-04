@@ -16,19 +16,23 @@ import { getEmptyState as network } from './ducks/network';
 import { getEmptyState as preferredReactions } from './ducks/preferredReactions';
 import { getEmptyState as safetyNumber } from './ducks/safetyNumber';
 import { getEmptyState as search } from './ducks/search';
+import { getEmptyState as getStoriesEmptyState } from './ducks/stories';
 import { getEmptyState as updates } from './ducks/updates';
 import { getEmptyState as user } from './ducks/user';
 
 import type { StateType } from './reducer';
 
 import type { BadgesStateType } from './ducks/badges';
+import type { StoryDataType } from './ducks/stories';
 import { getInitialState as stickers } from '../types/Stickers';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 
 export function getInitialState({
   badges,
+  stories,
 }: {
   badges: BadgesStateType;
+  stories: Array<StoryDataType>;
 }): StateType {
   const items = window.storage.getItemsState();
 
@@ -87,6 +91,10 @@ export function getInitialState({
     safetyNumber: safetyNumber(),
     search: search(),
     stickers: stickers(),
+    stories: {
+      ...getStoriesEmptyState(),
+      stories,
+    },
     updates: updates(),
     user: {
       ...user(),

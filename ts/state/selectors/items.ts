@@ -58,6 +58,13 @@ export const getUsernamesEnabled = createSelector(
     isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
 );
 
+export const getStoriesEnabled = createSelector(
+  getRemoteConfig,
+  (remoteConfig: ConfigMapType): boolean =>
+    isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser') ||
+    isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories')
+);
+
 export const getDefaultConversationColor = createSelector(
   getItems,
   (

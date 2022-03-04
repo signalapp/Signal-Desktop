@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MutableRefObject } from 'react';
@@ -623,7 +623,7 @@ export const CompositionArea = ({
                 // This one is for redux...
                 setQuotedMessage(undefined);
                 // and this is for conversation_view.
-                clearQuotedMessage();
+                clearQuotedMessage?.();
               }}
             />
           </div>
