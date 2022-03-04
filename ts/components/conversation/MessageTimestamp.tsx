@@ -12,7 +12,7 @@ import { Time } from '../Time';
 
 export type Props = {
   now: number;
-  timestamp?: number;
+  timestamp: number;
   module?: string;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
@@ -30,12 +30,8 @@ export function MessageTimestamp({
   withImageNoCaption,
   withSticker,
   withTapToViewExpired,
-}: Readonly<Props>): null | ReactElement {
+}: Readonly<Props>): ReactElement {
   const moduleName = module || 'module-timestamp';
-
-  if (timestamp === null || timestamp === undefined) {
-    return null;
-  }
 
   return (
     <Time
