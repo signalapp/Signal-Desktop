@@ -2929,7 +2929,8 @@ export function reducer(
       }
     }
 
-    if (oldestUnread) {
+    // If this is a new incoming message, we'll increment our totalUnread count
+    if (isNewMessage && !isJustSent && oldestUnread) {
       const newUnread: number = newMessageIds.reduce((sum, messageId) => {
         const message = lookup[messageId];
 
