@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import { unescape } from 'lodash';
 
 import { Image } from './Image';
 import { LinkPreviewDate } from './LinkPreviewDate';
@@ -64,7 +65,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
           <div className="module-staged-link-preview__title">{title}</div>
           {description && (
             <div className="module-staged-link-preview__description">
-              {description}
+              {unescape(description)}
             </div>
           )}
           <div className="module-staged-link-preview__footer">
