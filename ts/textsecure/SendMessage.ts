@@ -889,7 +889,6 @@ export default class MessageSender {
         new Promise((resolve, reject) => {
           this.sendMessageProto({
             callback: (res: CallbackResultType) => {
-              res.dataMessage = message.encode();
               if (res.errors && res.errors.length > 0) {
                 reject(new SendMessageProtoError(res));
               } else {
@@ -974,7 +973,6 @@ export default class MessageSender {
           reject(new SendMessageProtoError(result));
           return;
         }
-
         resolve(result);
       };
 
@@ -1808,15 +1806,15 @@ export default class MessageSender {
     sendLogCallback?: SendLogCallbackType;
     timestamp: number;
   }>): Promise<CallbackResultType> {
-    const dataMessage = proto.dataMessage
-      ? Proto.DataMessage.encode(proto.dataMessage).finish()
-      : undefined;
-
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid()?.toString();
     const identifiers = recipients.filter(id => id !== myE164 && id !== myUuid);
 
     if (identifiers.length === 0) {
+      const dataMessage = proto.dataMessage
+        ? Proto.DataMessage.encode(proto.dataMessage).finish()
+        : undefined;
+
       return Promise.resolve({
         dataMessage,
         errors: [],
@@ -1828,7 +1826,6 @@ export default class MessageSender {
 
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
-        res.dataMessage = dataMessage;
         if (res.errors && res.errors.length > 0) {
           reject(new SendMessageProtoError(res));
         } else {

@@ -75,7 +75,7 @@ export async function wrapWithSyncMessageSend({
         `wrapWithSyncMessageSend/${logId}: dataMessage was not returned by send!`
       );
     } else {
-      log.error(`wrapWithSyncMessageSend/${logId}: Sending sync message...`);
+      log.info(`wrapWithSyncMessageSend/${logId}: Sending sync message...`);
       const ourConversation =
         window.ConversationController.getOurConversationOrThrow();
       const options = await getSendOptions(ourConversation.attributes, {
@@ -83,8 +83,8 @@ export async function wrapWithSyncMessageSend({
       });
       await handleMessageSend(
         sender.sendSyncMessage({
-          destination: ourConversation.get('e164'),
-          destinationUuid: ourConversation.get('uuid'),
+          destination: conversation.get('e164'),
+          destinationUuid: conversation.get('uuid'),
           encodedDataMessage: dataMessage,
           expirationStartTimestamp: null,
           options,
