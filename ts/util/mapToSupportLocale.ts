@@ -7,7 +7,6 @@ export type SupportLocaleType =
   | 'en-us'
   | 'es'
   | 'fr'
-  | 'gd'
   | 'it'
   | 'ja'
   | 'pl'
@@ -36,7 +35,7 @@ export type ElectronLocaleType =
   | 'fa'
   | 'fi'
   | 'fr'
-  | 'gd_GB'
+  | 'gd'
   | 'he'
   | 'hi'
   | 'hr'
@@ -91,8 +90,8 @@ export function mapToSupportLocale(
   if (ourLocale === 'fr') {
     return ourLocale;
   }
-  if (ourLocale === 'gd_GB') {
-    return 'gd';
+  if (ourLocale === 'gd') {
+    return 'en-us';
   }
   if (ourLocale === 'it') {
     return ourLocale;
