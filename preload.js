@@ -231,6 +231,8 @@ window.getOpenGroupBlockList = () => {
   return window.groupBlockList;
 };
 
+window.openGroupBlockList = window?.getOpenGroupBlockList();
+
 const { locale: localFromEnv } = config;
 window.i18n = i18n.setup(localFromEnv, localeMessages);
 

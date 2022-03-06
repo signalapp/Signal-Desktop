@@ -51,10 +51,16 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  * @returns true - group is in the blocklist, false - the group is not in the blocklist
  */
 export const isGroupInBlockList = async (serverPubKey: string): Promise<boolean> => {
-  const blockList = window?.getOpenGroupBlockList();
+  if (!window?.openGroupBlockList) {
+    // should already be there since this is called in preload
+    window.getOpenGroupBlockList();
+  }
+
+  const blockList = window?.openGroupBlockList;
   if (!blockList || !blockList.length) {
     return false;
   }
+
   const sodium = await getSodium();
   // generic hash is blake2b
   const serverPubKeyBlake2bHash = sodium.crypto_generichash(32, serverPubKey, null, 'hex');
