@@ -51,12 +51,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  * @returns true - group is in the blocklist, false - the group is not in the blocklist
  */
 export const isGroupInBlockList = async (serverPubKey: string): Promise<boolean> => {
-  if (!window?.openGroupBlockList) {
-    // should already be there since this is called in preload
-    window.getOpenGroupBlockList();
-  }
-
-  const blockList = window?.openGroupBlockList;
+  const blockList = window?.getOpenGroupBlockList();
   if (!blockList || !blockList.length) {
     return false;
   }
