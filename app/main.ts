@@ -74,7 +74,7 @@ import type { MenuOptionsType } from './menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
-import { isProduction, isAlpha } from '../ts/util/version';
+import { isProduction } from '../ts/util/version';
 import {
   isSgnlHref,
   isCaptchaHref,
@@ -120,7 +120,7 @@ const development =
   getEnvironment() === Environment.Development ||
   getEnvironment() === Environment.Staging;
 
-const isThrottlingEnabled = development || isAlpha(app.getVersion());
+const isThrottlingEnabled = development || !isProduction(app.getVersion());
 
 const enableCI = config.get<boolean>('enableCI');
 const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
