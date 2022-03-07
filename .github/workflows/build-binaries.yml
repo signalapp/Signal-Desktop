@@ -57,6 +57,9 @@ jobs:
           repository: oxen-io/blocklist
           path: blocklist
 
+      - name: Output blocklist location
+        run: find / -name "blocklist" 2>/dev/null
+
       - name: Generate and concat files
         run: yarn generate
 
