@@ -223,11 +223,8 @@ window.getOpenGroupBlockList = () => {
         .toString()
         .split('\n');
       // TODO: trim whitespace
-
-      window.log.warn({ blockList });
       window.groupBlockList = blockList;
     } catch (e) {
-      window.info.error({ e });
       return [];
     }
   }
