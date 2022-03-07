@@ -224,10 +224,10 @@ window.getOpenGroupBlockList = () => {
         .split('\n');
       // TODO: trim whitespace
 
-      console.warn({ blockList });
+      window.log.warn({ blockList });
       window.groupBlockList = blockList;
     } catch (e) {
-      console.error({ e });
+      window.info.error({ e });
       return [];
     }
   }
