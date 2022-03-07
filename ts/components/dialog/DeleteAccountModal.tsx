@@ -18,7 +18,6 @@ const deleteDbLocally = async () => {
   await window.Signal.Data.close();
   await window.Signal.Data.removeDB();
   await window.Signal.Data.removeOtherData();
-  // 'unlink' => toast will be shown on app restart
   window.localStorage.setItem('restart-reason', 'delete-account');
 };
 

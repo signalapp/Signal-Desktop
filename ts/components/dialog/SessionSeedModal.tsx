@@ -114,7 +114,7 @@ const Seed = (props: SeedProps) => {
       <SpacerLG />
       <div className="session-modal__button-group">
         <SessionButton
-          text={i18n('copy')}
+          text={i18n('editMenuCopy')}
           buttonColor={SessionButtonColor.Green}
           onClick={() => {
             copyRecoveryPhrase(recoveryPhrase);

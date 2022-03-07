@@ -101,10 +101,6 @@ export function pushCopiedToClipBoard() {
   pushToastInfo('copiedToClipboard', window.i18n('copiedToClipboard'));
 }
 
-export function pushForceUnlinked() {
-  pushToastInfo('successUnlinked', window.i18n('successUnlinked'));
-}
-
 export function pushRestartNeeded() {
   pushToastInfo('restartNeeded', window.i18n('spellCheckDirty'));
 }
