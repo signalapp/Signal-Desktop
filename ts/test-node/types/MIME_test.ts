@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -12,8 +12,26 @@ describe('MIME', () => {
     });
 
     it('returns false for non-GIFs', () => {
+      assert.isFalse(MIME.isGif(''));
+      assert.isFalse(MIME.isGif('gif'));
       assert.isFalse(MIME.isGif('image/jpeg'));
       assert.isFalse(MIME.isGif('text/plain'));
+    });
+  });
+
+  describe('isJPEG', () => {
+    it('should return true for `image/jpeg`', () => {
+      assert.isTrue(MIME.isJPEG('image/jpeg'));
+    });
+
+    it('returns false for non-JPEGs', () => {
+      assert.isFalse(MIME.isJPEG(''));
+      assert.isFalse(MIME.isJPEG('jpg'));
+      assert.isFalse(MIME.isJPEG('jpeg'));
+      assert.isFalse(MIME.isJPEG('image/jpg')); // invalid MIME type: https://stackoverflow.com/a/37266399/125305
+      assert.isFalse(MIME.isJPEG('image/gif'));
+      assert.isFalse(MIME.isJPEG('image/tiff'));
+      assert.isFalse(MIME.isJPEG('application/json'));
     });
   });
 

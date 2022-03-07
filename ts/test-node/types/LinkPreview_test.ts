@@ -1,13 +1,13 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { assert } = require('chai');
+import { assert } from 'chai';
 
-const {
+import {
   findLinks,
   isLinkSafeToPreview,
   isLinkSneaky,
-} = require('../../ts/types/LinkPreview');
+} from '../../types/LinkPreview';
 
 describe('Link previews', () => {
   describe('#isLinkSafeToPreview', () => {
