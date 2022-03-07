@@ -52,6 +52,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  */
 export const isGroupInBlockList = async (serverPubKey: string): Promise<boolean> => {
   const blockList = window?.getOpenGroupBlockList();
+  console.warn({ blockList });
   if (!blockList || !blockList.length) {
     return false;
   }
