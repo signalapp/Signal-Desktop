@@ -7,7 +7,6 @@ exports.createTemplate = (options, messages) => {
 
   const {
     includeSetup,
-    openNewBugForm,
     openReleaseNotes,
     openSupportPage,
     platform,
