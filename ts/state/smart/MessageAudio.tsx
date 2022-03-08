@@ -21,6 +21,7 @@ export type Props = {
   renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
+  collapseMetadata: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
 

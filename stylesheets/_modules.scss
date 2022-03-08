@@ -51,26 +51,6 @@
 
 // Module: Message
 
-// Note: this does the same thing as module-timeline__message-container but
-//   can be used outside the Timeline contact more easily.
-.module-message-container {
-  @include button-reset;
-
-  cursor: inherit;
-  width: 100%;
-  margin-top: 4px;
-  margin-bottom: 4px;
-
-  &::after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: ' ';
-    clear: both;
-    height: 0;
-  }
-}
-
 .module-message {
   position: relative;
   display: flex;
@@ -79,6 +59,7 @@
   outline: none;
   padding-left: 16px;
   padding-right: 16px;
+  transition: background 0.1s ease-out;
 }
 
 .module-message--expired {
@@ -141,114 +122,68 @@
   }
 }
 
-.module-message__buttons__download {
+@mixin module-message__buttons__button($light-icon, $dark-icon: $light-icon) {
+  cursor: pointer;
   height: 24px;
   width: 24px;
-  cursor: pointer;
+
   @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/save-outline-24.svg',
-      $color-gray-45
-    );
+    @include color-svg($light-icon, $color-gray-45);
     &:hover {
-      @include color-svg(
-        '../images/icons/v2/save-outline-24.svg',
-        $color-gray-90
-      );
+      @include color-svg($light-icon, $color-gray-90);
     }
   }
+
   @include dark-theme {
-    @include color-svg('../images/icons/v2/save-solid-24.svg', $color-gray-45);
+    @include color-svg($dark-icon, $color-gray-45);
     &:hover {
-      @include color-svg(
-        '../images/icons/v2/save-solid-24.svg',
-        $color-gray-02
-      );
+      @include color-svg($light-icon, $color-gray-02);
     }
   }
+
+  .module-message--selected & {
+    @include mouse-mode {
+      background-color: $color-ultramarine;
+    }
+    @include dark-mouse-mode {
+      background-color: $color-white;
+    }
+  }
+
+  .module-message:focus & {
+    @include keyboard-mode {
+      background-color: $color-ultramarine;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-white;
+    }
+  }
+}
+
+.module-message__buttons__download {
+  @include module-message__buttons__button(
+    '../images/icons/v2/save-outline-24.svg',
+    '../images/icons/v2/save-solid-24.svg'
+  );
 }
 
 .module-message__buttons__react {
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/add-emoji-outline-24.svg',
-      $color-gray-45
-    );
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/add-emoji-outline-24.svg',
-        $color-gray-90
-      );
-    }
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/add-emoji-outline-24.svg',
-      $color-gray-45
-    );
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/add-emoji-outline-24.svg',
-        $color-gray-02
-      );
-    }
-  }
+  @include module-message__buttons__button(
+    '../images/icons/v2/add-emoji-outline-24.svg'
+  );
 }
 
 .module-message__buttons__reply {
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/reply-outline-24.svg',
-      $color-gray-45
-    );
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/reply-outline-24.svg',
-        $color-gray-90
-      );
-    }
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/reply-solid-24.svg', $color-gray-45);
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/reply-solid-24.svg',
-        $color-gray-02
-      );
-    }
-  }
+  @include module-message__buttons__button(
+    '../images/icons/v2/reply-outline-24.svg',
+    '../images/icons/v2/reply-solid-24.svg'
+  );
 }
 
 .module-message__buttons__menu {
-  height: 24px;
-  width: 24px;
-  display: inline-block;
-  cursor: pointer;
-
-  @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-gray-45);
-  @include light-theme {
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/more-horiz-24.svg',
-        $color-gray-90
-      );
-    }
-  }
-  @include dark-theme {
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/more-horiz-24.svg',
-        $color-gray-02
-      );
-    }
-  }
+  @include module-message__buttons__button(
+    '../images/icons/v2/more-horiz-24.svg'
+  );
 
   &--container {
     border-radius: 4px;
@@ -256,13 +191,6 @@
     // the z-index here is so that this container is above the message and when
     // clicked on, doesn't propagate the click event to the message.
     z-index: $z-index-above-base;
-
-    @include light-theme {
-      background-color: $color-white;
-    }
-    @include dark-theme {
-      background-color: $color-gray-95;
-    }
   }
 }
 
@@ -331,9 +259,11 @@
   }
 }
 .module-message__container {
+  $collapsed-border-radius: 4px;
+
   position: relative;
   display: inline-block;
-  border-radius: 16px;
+  border-radius: 18px;
   margin-bottom: 4px;
   margin-top: 4px;
   min-width: 0px;
@@ -343,71 +273,47 @@
   padding: {
     left: 12px;
     right: 12px;
-    top: 10px;
-    bottom: 7px;
+    top: 8px;
+    bottom: 8px;
   }
 
-  @include light-theme {
-    border: 1px solid $color-white;
+  .module-message--collapsed-above & {
+    margin-top: 1px;
+  }
+  .module-message--collapsed-below & {
+    margin-bottom: 1px;
   }
 
-  @include dark-theme {
-    border: 1px solid $color-gray-95;
+  .module-message--incoming.module-message--collapsed-above & {
+    border-top-left-radius: $collapsed-border-radius;
+  }
+  .module-message--incoming.module-message--collapsed-below & {
+    border-bottom-left-radius: $collapsed-border-radius;
+  }
+  .module-message--outgoing.module-message--collapsed-above & {
+    border-top-right-radius: $collapsed-border-radius;
+  }
+  .module-message--outgoing.module-message--collapsed-below & {
+    border-bottom-right-radius: $collapsed-border-radius;
   }
 }
 
-// This is the component we put the outline around when the whole message is selected
-.module-message--selected .module-message__container {
+.module-message--selected {
   @include mouse-mode {
-    animation: message--mouse-selected 1s $ease-out-expo;
+    background: $color-selected-message-background-light;
+  }
+  @include dark-mouse-mode {
+    background: $color-selected-message-background-dark;
   }
 }
-.module-message:focus .module-message__container {
+
+.module-message:focus {
   @include keyboard-mode {
-    box-shadow: 0 0 0 3px $color-ultramarine;
+    background: $color-selected-message-background-light;
   }
-}
-
-@keyframes message--mouse-selected {
-  0% {
-    box-shadow: 0 0 0 5px transparent;
+  @include dark-keyboard-mode {
+    background: $color-selected-message-background-dark;
   }
-  10% {
-    box-shadow: 0 0 0 5px $color-ultramarine;
-  }
-  70% {
-    box-shadow: 0 0 0 5px $color-ultramarine;
-  }
-  100% {
-    box-shadow: 0 0 0 5px transparent;
-  }
-}
-
-// We disable this highlight for messages with stickers, instead highlighting the sticker
-.module-message--selected .module-message__container--with-sticker {
-  @include mouse-mode {
-    animation: none;
-  }
-}
-.module-message:focus .module-message__container--with-sticker {
-  @include keyboard-mode {
-    box-shadow: none;
-  }
-}
-
-.module-message__container--with-sticker {
-  @include light-theme {
-    border: none;
-  }
-
-  @include dark-theme {
-    border: none;
-  }
-
-  /* Leave some padding to eat the negative margin-bottom from
-   * .module-message__metadata
-   */
-  padding-bottom: 3px;
 }
 
 .module-message__container--emoji {
@@ -600,8 +506,8 @@
   margin: {
     left: -12px;
     right: -12px;
-    top: -10px;
-    bottom: -7px;
+    top: -8px;
+    bottom: -8px;
   }
 
   line-height: 0;
@@ -1055,13 +961,15 @@
 }
 
 .module-message__metadata {
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: flex-end;
   margin-top: 3px;
 
-  &--outgoing {
-    justify-content: flex-end;
+  &--inline {
+    float: right;
+    margin-top: -14px;
   }
 }
 
@@ -1242,9 +1150,10 @@
   display: flex;
   justify-content: center;
   margin-right: 8px;
+  padding-bottom: 6px;
 
   &--with-reactions {
-    padding-bottom: 12px;
+    padding-bottom: 15px;
   }
 }
 
@@ -1531,6 +1440,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   .module-quote--outgoing-#{$color} {
     border-left-color: $color-white;
   }
+}
+
+.module-quote--curve-top-left {
+  border-top-left-radius: 12px;
+}
+
+.module-quote--curve-top-right {
+  border-top-right-radius: 12px;
 }
 
 .module-quote__primary {
@@ -2037,10 +1954,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   &:focus {
     @include keyboard-mode {
-      background-color: $color-gray-02;
+      background: $color-selected-message-background-light;
     }
     @include dark-keyboard-mode {
-      background-color: $color-gray-80;
+      background: $color-selected-message-background-dark;
     }
   }
 }
@@ -2974,16 +2891,16 @@ button.ConversationDetails__action-button {
 }
 
 .module-image--curved-top-left {
-  border-top-left-radius: 16px;
+  border-top-left-radius: 18px;
 }
 .module-image--curved-top-right {
-  border-top-right-radius: 16px;
+  border-top-right-radius: 18px;
 }
 .module-image--curved-bottom-left {
-  border-bottom-left-radius: 16px;
+  border-bottom-left-radius: 18px;
 }
 .module-image--curved-bottom-right {
-  border-bottom-right-radius: 16px;
+  border-bottom-right-radius: 18px;
 }
 .module-image--small-curved-top-left {
   border-top-left-radius: 10px;
@@ -3036,38 +2953,6 @@ button.ConversationDetails__action-button {
 
   video {
     cursor: pointer;
-  }
-}
-
-// Only if it's a sticker do we put the outline inside it
-.module-message--selected
-  .module-message__container--with-sticker
-  .module-image__border-overlay {
-  @include mouse-mode {
-    top: 1px;
-    bottom: 1px;
-    left: 1px;
-    right: 1px;
-    border-radius: 10px;
-
-    animation: message--mouse-selected 1s $ease-out-expo;
-  }
-}
-
-.module-message:focus .module-message__container--with-sticker {
-  $border-radius: 10px;
-
-  .module-image__image {
-    @include keyboard-mode {
-      border-radius: $border-radius;
-    }
-  }
-
-  .module-image__border-overlay {
-    @include keyboard-mode {
-      border-radius: $border-radius;
-      box-shadow: 0 0 0 3px $color-ultramarine;
-    }
   }
 }
 
@@ -8303,7 +8188,7 @@ button.module-image__border-overlay:focus {
   }
 
   &--with-reactions {
-    margin-bottom: -9px;
+    margin-bottom: -6px;
   }
 
   &--deleted-for-everyone {

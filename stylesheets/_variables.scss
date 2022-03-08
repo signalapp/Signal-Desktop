@@ -230,6 +230,9 @@ $color-white-alpha-40: rgba($color-white, 0.4);
 // Used in tap-to-view error states
 $color-deep-red: #ff261f;
 
+$color-selected-message-background-light: rgba(44, 107, 237, 0.24);
+$color-selected-message-background-dark: $color-gray-65;
+
 // -- A few layout variables used cross-file
 
 $header-height: 52px;

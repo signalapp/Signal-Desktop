@@ -16,6 +16,7 @@ import {
   getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
+import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 
 import { SmartContactName } from './ContactName';
 import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
@@ -28,6 +29,7 @@ type ExternalProps = {
   nextMessageId: undefined | string;
   previousMessageId: undefined | string;
   now: number;
+  unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 };
 
 function renderContact(conversationId: string): JSX.Element {
@@ -47,6 +49,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     nextMessageId,
     previousMessageId,
     now,
+    unreadIndicatorPlacement,
   } = props;
 
   const messageSelector = getMessageSelector(state);
@@ -82,6 +85,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),
+    unreadIndicatorPlacement,
   };
 };
 

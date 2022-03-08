@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @mixin system-message-icon($light, $dark) {
@@ -19,8 +19,8 @@
   flex-direction: column;
   justify-content: center;
   line-height: 16px;
-  margin-bottom: 16px;
-  margin-top: 16px;
+  padding-bottom: 16px;
+  padding-top: 16px;
 
   @include light-theme {
     color: $color-gray-60;

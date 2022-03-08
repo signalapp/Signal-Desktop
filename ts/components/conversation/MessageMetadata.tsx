@@ -1,9 +1,10 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactChild } from 'react';
+import type { ReactChild, ReactElement } from 'react';
 import React from 'react';
 import classNames from 'classnames';
+import Measure from 'react-measure';
 
 import type { LocalizerType } from '../../types/Util';
 import type { DirectionType, MessageStatusType } from './Message';
@@ -19,35 +20,37 @@ type PropsType = {
   hasText: boolean;
   i18n: LocalizerType;
   id: string;
+  isInline?: boolean;
   isShowingImage: boolean;
   isSticker?: boolean;
   isTapToViewExpired?: boolean;
   now: number;
+  onWidthMeasured?: (width: number) => unknown;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
 };
 
-export const MessageMetadata: FunctionComponent<PropsType> = props => {
-  const {
-    deletedForEveryone,
-    direction,
-    expirationLength,
-    expirationTimestamp,
-    hasText,
-    i18n,
-    id,
-    isShowingImage,
-    isSticker,
-    isTapToViewExpired,
-    now,
-    showMessageDetail,
-    status,
-    textPending,
-    timestamp,
-  } = props;
-
+export const MessageMetadata = ({
+  deletedForEveryone,
+  direction,
+  expirationLength,
+  expirationTimestamp,
+  hasText,
+  i18n,
+  id,
+  isInline,
+  isShowingImage,
+  isSticker,
+  isTapToViewExpired,
+  now,
+  onWidthMeasured,
+  showMessageDetail,
+  status,
+  textPending,
+  timestamp,
+}: Readonly<PropsType>): ReactElement => {
   const withImageNoCaption = Boolean(!isSticker && !hasText && isShowingImage);
   const metadataDirection = isSticker ? undefined : direction;
 
@@ -114,16 +117,13 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
     }
   }
 
-  return (
-    <div
-      className={classNames(
-        'module-message__metadata',
-        `module-message__metadata--${direction}`,
-        withImageNoCaption
-          ? 'module-message__metadata--with-image-no-caption'
-          : null
-      )}
-    >
+  const className = classNames(
+    'module-message__metadata',
+    isInline && 'module-message__metadata--inline',
+    withImageNoCaption && 'module-message__metadata--with-image-no-caption'
+  );
+  const children = (
+    <>
       {timestampNode}
       {expirationLength && expirationTimestamp ? (
         <ExpireTimer
@@ -161,6 +161,25 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
           )}
         />
       ) : null}
-    </div>
+    </>
   );
+
+  if (onWidthMeasured) {
+    return (
+      <Measure
+        bounds
+        onResize={({ bounds }) => {
+          onWidthMeasured(bounds?.width || 0);
+        }}
+      >
+        {({ measureRef }) => (
+          <div className={className} ref={measureRef}>
+            {children}
+          </div>
+        )}
+      </Measure>
+    );
+  }
+
+  return <div className={className}>{children}</div>;
 };

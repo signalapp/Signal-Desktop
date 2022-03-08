@@ -46,6 +46,7 @@ import {
   invertIdsByTitle,
 } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { WidthBreakpoint } from '../../components/_util';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 
@@ -109,6 +110,7 @@ function renderItem({
   nextMessageId,
   now,
   previousMessageId,
+  unreadIndicatorPlacement,
 }: {
   actionProps: TimelineActionsType;
   containerElementRef: RefObject<HTMLElement>;
@@ -119,6 +121,7 @@ function renderItem({
   nextMessageId: undefined | string;
   now: number;
   previousMessageId: undefined | string;
+  unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 }): JSX.Element {
   return (
     <SmartTimelineItem
@@ -134,6 +137,7 @@ function renderItem({
       renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}
       renderAudioAttachment={renderAudioAttachment}
+      unreadIndicatorPlacement={unreadIndicatorPlacement}
     />
   );
 }

@@ -29,6 +29,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
+import { MINUTE } from '../../util/durations';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
@@ -108,7 +109,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canRetryDeleteForEveryone: overrideProps.canRetryDeleteForEveryone || false,
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
-  collapseMetadata: overrideProps.collapseMetadata,
   containerElementRef: React.createRef<HTMLElement>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor:
@@ -188,13 +188,33 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
 });
 
-const renderBothDirections = (props: Props) => (
-  <>
-    <Message {...props} />
-    <br />
-    <Message {...props} direction="outgoing" />
-  </>
-);
+const createTimelineItem = (data: undefined | Props) =>
+  data && {
+    type: 'message' as const,
+    data,
+    timestamp: data.timestamp,
+  };
+
+const renderMany = (propsArray: ReadonlyArray<Props>) =>
+  propsArray.map((message, index) => (
+    <Message
+      key={message.text}
+      {...message}
+      previousItem={createTimelineItem(propsArray[index - 1])}
+      item={createTimelineItem(message)}
+      nextItem={createTimelineItem(propsArray[index + 1])}
+    />
+  ));
+
+const renderBothDirections = (props: Props) =>
+  renderMany([
+    props,
+    {
+      ...props,
+      author: { ...props.author, id: getDefaultConversation().id },
+      direction: 'outgoing',
+    },
+  ]);
 
 story.add('Plain Message', () => {
   const props = createProps({
@@ -345,17 +365,6 @@ story.add('Pending', () => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
     textPending: true,
-  });
-
-  return renderBothDirections(props);
-});
-
-story.add('Collapsed Metadata', () => {
-  const props = createProps({
-    author: getDefaultConversation({ title: 'Fred Willard' }),
-    collapseMetadata: true,
-    conversationType: 'group',
-    text: 'Hello there from a pal!',
   });
 
   return renderBothDirections(props);
@@ -1392,3 +1401,67 @@ story.add('Custom Color', () => (
     />
   </>
 ));
+
+story.add('Collapsing text-only DMs', () => {
+  const them = getDefaultConversation();
+  const me = getDefaultConversation({ isMe: true });
+
+  return renderMany([
+    createProps({
+      author: them,
+      text: 'One',
+      timestamp: Date.now() - 5 * MINUTE,
+    }),
+    createProps({
+      author: them,
+      text: 'Two',
+      timestamp: Date.now() - 4 * MINUTE,
+    }),
+    createProps({
+      author: them,
+      text: 'Three',
+      timestamp: Date.now() - 3 * MINUTE,
+    }),
+    createProps({
+      author: me,
+      direction: 'outgoing',
+      text: 'Four',
+      timestamp: Date.now() - 2 * MINUTE,
+    }),
+    createProps({
+      text: 'Five',
+      author: me,
+      timestamp: Date.now() - MINUTE,
+      direction: 'outgoing',
+    }),
+    createProps({
+      author: me,
+      direction: 'outgoing',
+      text: 'Six',
+    }),
+  ]);
+});
+
+story.add('Collapsing text-only group messages', () => {
+  const author = getDefaultConversation();
+
+  return renderMany([
+    createProps({
+      author,
+      conversationType: 'group',
+      text: 'One',
+      timestamp: Date.now() - 2 * MINUTE,
+    }),
+    createProps({
+      author,
+      conversationType: 'group',
+      text: 'Two',
+      timestamp: Date.now() - MINUTE,
+    }),
+    createProps({
+      author,
+      conversationType: 'group',
+      text: 'Three',
+    }),
+  ]);
+});

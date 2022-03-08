@@ -23,6 +23,8 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 export type Props = {
   authorTitle: string;
   conversationColor: ConversationColorType;
+  curveTopLeft?: boolean;
+  curveTopRight?: boolean;
   customColor?: CustomColorType;
   bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
@@ -422,6 +424,8 @@ export class Quote extends React.Component<Props, State> {
   public override render(): JSX.Element | null {
     const {
       conversationColor,
+      curveTopLeft,
+      curveTopRight,
       customColor,
       isIncoming,
       onClick,
@@ -444,10 +448,10 @@ export class Quote extends React.Component<Props, State> {
             isIncoming
               ? `module-quote--incoming-${conversationColor}`
               : `module-quote--outgoing-${conversationColor}`,
-            !onClick ? 'module-quote--no-click' : null,
-            referencedMessageNotFound
-              ? 'module-quote--with-reference-warning'
-              : null
+            !onClick && 'module-quote--no-click',
+            referencedMessageNotFound && 'module-quote--with-reference-warning',
+            curveTopLeft && 'module-quote--curve-top-left',
+            curveTopRight && 'module-quote--curve-top-right'
           )}
           style={{ ...getCustomColorStyle(customColor, true) }}
         >

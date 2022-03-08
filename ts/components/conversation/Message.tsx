@@ -15,14 +15,17 @@ import type {
   ConversationTypeType,
   InteractionModeType,
 } from '../../state/ducks/conversations';
+import type { TimelineItemType } from './TimelineItem';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
+import { AvatarSpacer } from '../AvatarSpacer';
 import { Spinner } from '../Spinner';
 import {
   doesMessageBodyOverflow,
   MessageBodyReadMore,
 } from './MessageBodyReadMore';
 import { MessageMetadata } from './MessageMetadata';
+import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer';
 import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
 import { Image } from './Image';
@@ -80,15 +83,36 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { StopPropagation } from '../StopPropagation';
+import {
+  areMessagesInSameGroup,
+  UnreadIndicatorPlacement,
+} from '../../util/timelineUtil';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
+const DEFAULT_METADATA_WIDTH = 20;
+const EXPIRATION_CHECK_MINIMUM = 2000;
+const EXPIRED_DELAY = 600;
+const GROUP_AVATAR_SIZE = AvatarSize.TWENTY_EIGHT;
 const STICKER_SIZE = 200;
 const GIF_SIZE = 300;
 const SELECTED_TIMEOUT = 1000;
 const THREE_HOURS = 3 * 60 * 60 * 1000;
+const SENT_STATUSES = new Set<MessageStatusType>([
+  'delivered',
+  'read',
+  'sent',
+  'viewed',
+]);
+
+enum MetadataPlacement {
+  NotRendered,
+  RenderedByMessageAudioComponent,
+  InlineWithText,
+  Bottom,
+}
 
 export const MessageStatuses = [
   'delivered',
@@ -111,6 +135,7 @@ export type AudioAttachmentProps = {
   buttonRef: React.RefObject<HTMLButtonElement>;
   theme: ThemeType | undefined;
   attachment: AttachmentType;
+  collapseMetadata: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
 
@@ -211,18 +236,21 @@ export type PropsData = {
 export type PropsHousekeeping = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
+  disableMenu?: boolean;
+  disableScroll?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   now: number;
   interactionMode: InteractionModeType;
-  theme: ThemeType;
-  disableMenu?: boolean;
-  disableScroll?: boolean;
-  collapseMetadata?: boolean;
+  item?: TimelineItemType;
+  nextItem?: TimelineItemType;
+  previousItem?: TimelineItemType;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => JSX.Element;
+  theme: ThemeType;
+  unreadIndicatorPlacement?: undefined | UnreadIndicatorPlacement;
 };
 
 export type PropsActions = {
@@ -287,6 +315,8 @@ export type Props = PropsData &
   Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 type State = {
+  metadataWidth: number;
+
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
@@ -299,9 +329,6 @@ type State = {
 
   hasDeleteForEveryoneTimerExpired: boolean;
 };
-
-const EXPIRATION_CHECK_MINIMUM = 2000;
-const EXPIRED_DELAY = 600;
 
 export class Message extends React.PureComponent<Props, State> {
   public menuTriggerRef: Trigger | undefined;
@@ -327,6 +354,8 @@ export class Message extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      metadataWidth: DEFAULT_METADATA_WIDTH,
+
       expiring: false,
       expired: false,
       imageBroken: false,
@@ -464,7 +493,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.toggleReactionPicker(true);
   }
 
-  public override componentDidUpdate(prevProps: Props): void {
+  public override componentDidUpdate(prevProps: Readonly<Props>): void {
     const { isSelected, status, timestamp } = this.props;
 
     this.startSelectedTimer();
@@ -492,6 +521,37 @@ export class Message extends React.PureComponent<Props, State> {
         `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
     }
+  }
+
+  private getMetadataPlacement(
+    {
+      attachments,
+      expirationLength,
+      expirationTimestamp,
+      status,
+      text,
+    }: Readonly<Props> = this.props
+  ): MetadataPlacement {
+    if (
+      !expirationLength &&
+      !expirationTimestamp &&
+      (!status || SENT_STATUSES.has(status)) &&
+      this.isCollapsedBelow()
+    ) {
+      return MetadataPlacement.NotRendered;
+    }
+
+    if (!text) {
+      return isAudio(attachments)
+        ? MetadataPlacement.RenderedByMessageAudioComponent
+        : MetadataPlacement.Bottom;
+    }
+
+    if (this.canRenderStickerLikeEmoji()) {
+      return MetadataPlacement.Bottom;
+    }
+
+    return MetadataPlacement.InlineWithText;
   }
 
   public startSelectedTimer(): void {
@@ -569,6 +629,37 @@ export class Message extends React.PureComponent<Props, State> {
     return isMessageRequestAccepted && !isBlocked;
   }
 
+  private isCollapsedAbove(
+    { item, previousItem, unreadIndicatorPlacement }: Readonly<Props> = this
+      .props
+  ): boolean {
+    return areMessagesInSameGroup(
+      previousItem,
+      unreadIndicatorPlacement === UnreadIndicatorPlacement.JustAbove,
+      item
+    );
+  }
+
+  private isCollapsedBelow(
+    { item, nextItem, unreadIndicatorPlacement }: Readonly<Props> = this.props
+  ): boolean {
+    return areMessagesInSameGroup(
+      item,
+      unreadIndicatorPlacement === UnreadIndicatorPlacement.JustBelow,
+      nextItem
+    );
+  }
+
+  private shouldRenderAuthor(): boolean {
+    const { author, conversationType, direction } = this.props;
+    return Boolean(
+      direction === 'incoming' &&
+        conversationType === 'group' &&
+        author.title &&
+        !this.isCollapsedAbove()
+    );
+  }
+
   private canRenderStickerLikeEmoji(): boolean {
     const { text, quote, attachments, previews } = this.props;
 
@@ -582,10 +673,34 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderMetadata(): JSX.Element | null {
+  private updateMetadataWidth = (newMetadataWidth: number): void => {
+    this.setState(({ metadataWidth }) => ({
+      // We don't want text to jump around if the metadata shrinks, but we want to make
+      //   sure we have enough room.
+      metadataWidth: Math.max(metadataWidth, newMetadataWidth),
+    }));
+  };
+
+  private renderMetadata(): ReactNode {
+    let isInline: boolean;
+    const metadataPlacement = this.getMetadataPlacement();
+    switch (metadataPlacement) {
+      case MetadataPlacement.NotRendered:
+      case MetadataPlacement.RenderedByMessageAudioComponent:
+        return null;
+      case MetadataPlacement.InlineWithText:
+        isInline = true;
+        break;
+      case MetadataPlacement.Bottom:
+        isInline = false;
+        break;
+      default:
+        log.error(missingCaseError(metadataPlacement));
+        isInline = false;
+        break;
+    }
+
     const {
-      attachments,
-      collapseMetadata,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -602,16 +717,6 @@ export class Message extends React.PureComponent<Props, State> {
       showMessageDetail,
     } = this.props;
 
-    if (collapseMetadata) {
-      return null;
-    }
-
-    // The message audio component renders its own metadata because it positions the
-    //   metadata in line with some of its own.
-    if (isAudio(attachments) && !text) {
-      return null;
-    }
-
     const isStickerLike = isSticker || this.canRenderStickerLikeEmoji();
 
     return (
@@ -623,10 +728,12 @@ export class Message extends React.PureComponent<Props, State> {
         hasText={Boolean(text)}
         i18n={i18n}
         id={id}
+        isInline={isInline}
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         now={now}
+        onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         showMessageDetail={showMessageDetail}
         status={status}
         textPending={textPending}
@@ -635,27 +742,16 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAuthor(): JSX.Element | null {
+  private renderAuthor(): ReactNode {
     const {
       author,
-      collapseMetadata,
       contactNameColor,
-      conversationType,
-      direction,
       isSticker,
       isTapToView,
       isTapToViewExpired,
     } = this.props;
 
-    if (collapseMetadata) {
-      return null;
-    }
-
-    if (
-      direction !== 'incoming' ||
-      conversationType !== 'group' ||
-      !author.title
-    ) {
+    if (!this.shouldRenderAuthor()) {
       return null;
     }
 
@@ -681,8 +777,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderAttachment(): JSX.Element | null {
     const {
       attachments,
-      collapseMetadata,
-      conversationType,
       direction,
       expirationLength,
       expirationTimestamp,
@@ -709,6 +803,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     const { imageBroken } = this.state;
 
+    const collapseMetadata =
+      this.getMetadataPlacement() === MetadataPlacement.NotRendered;
+
     if (!attachments || !attachments[0]) {
       return null;
     }
@@ -716,9 +813,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // For attachments which aren't full-frame
     const withContentBelow = Boolean(text);
-    const withContentAbove =
-      Boolean(quote) ||
-      (conversationType === 'group' && direction === 'incoming');
+    const withContentAbove = Boolean(quote) || this.shouldRenderAuthor();
     const displayImage = canDisplayImage(attachments);
 
     if (displayImage && !imageBroken) {
@@ -773,8 +868,12 @@ export class Message extends React.PureComponent<Props, State> {
           <div className={containerClassName}>
             <ImageGrid
               attachments={attachments}
-              withContentAbove={isSticker || withContentAbove}
-              withContentBelow={isSticker || withContentBelow}
+              withContentAbove={
+                isSticker || withContentAbove || this.isCollapsedAbove()
+              }
+              withContentBelow={
+                isSticker || withContentBelow || this.isCollapsedBelow()
+              }
               isSticker={isSticker}
               stickerSize={STICKER_SIZE}
               bottomOverlay={bottomOverlay}
@@ -815,6 +914,7 @@ export class Message extends React.PureComponent<Props, State> {
         renderingContext,
         theme,
         attachment: firstAttachment,
+        collapseMetadata,
         withContentAbove,
         withContentBelow,
 
@@ -1085,17 +1185,34 @@ export class Message extends React.PureComponent<Props, State> {
           });
         };
 
+    const isIncoming = direction === 'incoming';
+
+    let curveTopLeft: boolean;
+    let curveTopRight: boolean;
+    if (this.shouldRenderAuthor()) {
+      curveTopLeft = false;
+      curveTopRight = false;
+    } else if (isIncoming) {
+      curveTopLeft = !this.isCollapsedAbove();
+      curveTopRight = true;
+    } else {
+      curveTopLeft = true;
+      curveTopRight = !this.isCollapsedAbove();
+    }
+
     return (
       <Quote
         i18n={i18n}
         onClick={clickHandler}
         text={quote.text}
         rawAttachment={quote.rawAttachment}
-        isIncoming={direction === 'incoming'}
+        isIncoming={isIncoming}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
         customColor={customColor}
+        curveTopLeft={curveTopLeft}
+        curveTopRight={curveTopRight}
         isViewOnce={isViewOnce}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
@@ -1108,7 +1225,6 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderEmbeddedContact(): JSX.Element | null {
     const {
-      collapseMetadata,
       contact,
       conversationType,
       direction,
@@ -1123,7 +1239,9 @@ export class Message extends React.PureComponent<Props, State> {
     const withCaption = Boolean(text);
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const withContentBelow = withCaption || !collapseMetadata;
+    const withContentBelow =
+      withCaption ||
+      this.getMetadataPlacement() !== MetadataPlacement.NotRendered;
 
     const otherContent =
       (contact && contact.firstNumber && contact.isNumberOnSignal) ||
@@ -1166,22 +1284,19 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public hasAvatar(): boolean {
-    const { collapseMetadata, conversationType, direction } = this.props;
+  private renderAvatar(): ReactNode {
+    const {
+      author,
+      getPreferredBadge,
+      i18n,
+      showContactModal,
+      theme,
+      conversationType,
+      direction,
+    } = this.props;
 
-    return Boolean(
-      !collapseMetadata &&
-        conversationType === 'group' &&
-        direction !== 'outgoing'
-    );
-  }
-
-  public renderAvatar(): JSX.Element | undefined {
-    const { author, getPreferredBadge, i18n, showContactModal, theme } =
-      this.props;
-
-    if (!this.hasAvatar()) {
-      return undefined;
+    if (conversationType !== 'group' || direction !== 'incoming') {
+      return null;
     }
 
     return (
@@ -1191,29 +1306,33 @@ export class Message extends React.PureComponent<Props, State> {
             this.hasReactions(),
         })}
       >
-        <Avatar
-          acceptedMessageRequest={author.acceptedMessageRequest}
-          avatarPath={author.avatarPath}
-          badge={getPreferredBadge(author.badges)}
-          color={author.color}
-          conversationType="direct"
-          i18n={i18n}
-          isMe={author.isMe}
-          name={author.name}
-          onClick={event => {
-            event.stopPropagation();
-            event.preventDefault();
+        {this.isCollapsedBelow() ? (
+          <AvatarSpacer size={GROUP_AVATAR_SIZE} />
+        ) : (
+          <Avatar
+            acceptedMessageRequest={author.acceptedMessageRequest}
+            avatarPath={author.avatarPath}
+            badge={getPreferredBadge(author.badges)}
+            color={author.color}
+            conversationType="direct"
+            i18n={i18n}
+            isMe={author.isMe}
+            name={author.name}
+            onClick={event => {
+              event.stopPropagation();
+              event.preventDefault();
 
-            showContactModal(author.id);
-          }}
-          phoneNumber={author.phoneNumber}
-          profileName={author.profileName}
-          sharedGroupNames={author.sharedGroupNames}
-          size={28}
-          theme={theme}
-          title={author.title}
-          unblurredAvatarPath={author.unblurredAvatarPath}
-        />
+              showContactModal(author.id);
+            }}
+            phoneNumber={author.phoneNumber}
+            profileName={author.profileName}
+            sharedGroupNames={author.sharedGroupNames}
+            size={GROUP_AVATAR_SIZE}
+            theme={theme}
+            title={author.title}
+            unblurredAvatarPath={author.unblurredAvatarPath}
+          />
+        )}
       </div>
     );
   }
@@ -1232,6 +1351,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
     } = this.props;
+    const { metadataWidth } = this.state;
 
     // eslint-disable-next-line no-nested-ternary
     const contents = deletedForEveryone
@@ -1267,6 +1387,9 @@ export class Message extends React.PureComponent<Props, State> {
           text={contents || ''}
           textPending={textPending}
         />
+        {this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
+          <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
+        )}
       </div>
     );
   }
@@ -1680,14 +1803,13 @@ export class Message extends React.PureComponent<Props, State> {
       }
 
       if (isSticker) {
-        // Padding is 8px, on both sides, plus two for 1px border
-        return STICKER_SIZE + 8 * 2 + 2;
+        // Padding is 8px, on both sides
+        return STICKER_SIZE + 8 * 2;
       }
 
       const dimensions = getGridDimensions(attachments);
       if (dimensions) {
-        // Add two for 1px border
-        return dimensions.width + 2;
+        return dimensions.width;
       }
     }
 
@@ -1699,8 +1821,7 @@ export class Message extends React.PureComponent<Props, State> {
     ) {
       const dimensions = getImageDimensions(firstLinkPreview.image);
       if (dimensions) {
-        // Add two for 1px border
-        return dimensions.width + 2;
+        return dimensions.width;
       }
     }
 
@@ -1797,13 +1918,14 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderTapToView(): JSX.Element {
     const {
-      collapseMetadata,
       conversationType,
       direction,
       isTapToViewExpired,
       isTapToViewError,
     } = this.props;
 
+    const collapseMetadata =
+      this.getMetadataPlacement() === MetadataPlacement.NotRendered;
     const withContentBelow = !collapseMetadata;
     const withContentAbove =
       !collapseMetadata &&
@@ -2372,7 +2494,6 @@ export class Message extends React.PureComponent<Props, State> {
       isSelected && !isStickerLike
         ? 'module-message__container--selected'
         : null,
-      isStickerLike ? 'module-message__container--with-sticker' : null,
       !isStickerLike ? `module-message__container--${direction}` : null,
       isEmojiOnly ? 'module-message__container--emoji' : null,
       isTapToView ? 'module-message__container--with-tap-to-view' : null,
@@ -2440,9 +2561,10 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message',
           `module-message--${direction}`,
+          this.isCollapsedAbove() && 'module-message--collapsed-above',
+          this.isCollapsedBelow() && 'module-message--collapsed-below',
           isSelected ? 'module-message--selected' : null,
-          expiring ? 'module-message--expired' : null,
-          this.hasAvatar() ? 'module-message--with-avatar' : null
+          expiring ? 'module-message--expired' : null
         )}
         tabIndex={0}
         // We pretend to be a button because we sometimes contain buttons and a button

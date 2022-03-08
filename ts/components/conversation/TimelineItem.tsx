@@ -3,7 +3,6 @@
 
 import type { ReactChild, RefObject } from 'react';
 import React from 'react';
-import { omit } from 'lodash';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { isSameDay } from '../../util/timestamp';
@@ -54,6 +53,7 @@ import type { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
+import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { FullJSXType } from '../Intl';
 
 type CallHistoryType = {
@@ -156,6 +156,7 @@ type PropsLocalType = {
   previousItem: undefined | TimelineItemType;
   nextItem: undefined | TimelineItemType;
   now: number;
+  unreadIndicatorPlacement?: undefined | UnreadIndicatorPlacement;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -196,6 +197,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       returnToActiveCall,
       selectMessage,
       startCallingLobby,
+      unreadIndicatorPlacement,
     } = this.props;
 
     if (!item) {
@@ -212,13 +214,14 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     if (item.type === 'message') {
       itemContents = (
         <Message
-          {...omit(this.props, ['item'])}
+          {...this.props}
           {...item.data}
           containerElementRef={containerElementRef}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           theme={theme}
           renderingContext="conversation/TimelineItem"
+          unreadIndicatorPlacement={unreadIndicatorPlacement}
         />
       );
     } else {

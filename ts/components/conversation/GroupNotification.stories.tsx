@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -383,17 +383,11 @@ book.add('GroupNotification', () =>
   stories.map(([title, propsArray]) => (
     <>
       <h3>{title}</h3>
-      {propsArray.map((props, i) => {
-        return (
-          <>
-            <div key={i} className="module-message-container">
-              <div className="module-inline-notification-wrapper">
-                <GroupNotification {...props} />
-              </div>
-            </div>
-          </>
-        );
-      })}
+      {propsArray.map((props, i) => (
+        <div key={i} className="module-inline-notification-wrapper">
+          <GroupNotification {...props} />
+        </div>
+      ))}
     </>
   ))
 );

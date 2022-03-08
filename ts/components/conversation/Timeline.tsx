@@ -32,7 +32,10 @@ import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader';
-import { getWidthBreakpoint } from '../../util/timelineUtil';
+import {
+  getWidthBreakpoint,
+  UnreadIndicatorPlacement,
+} from '../../util/timelineUtil';
 import {
   getScrollBottom,
   scrollToBottom,
@@ -117,6 +120,7 @@ type PropsHousekeepingType = {
     nextMessageId: undefined | string;
     now: number;
     previousMessageId: undefined | string;
+    unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderHeroRow: (
@@ -839,8 +843,11 @@ export class Timeline extends React.Component<
 
     const messageNodes: Array<ReactChild> = [];
     for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
-      const previousMessageId: undefined | string = items[itemIndex - 1];
-      const nextMessageId: undefined | string = items[itemIndex + 1];
+      const previousItemIndex = itemIndex - 1;
+      const nextItemIndex = itemIndex + 1;
+
+      const previousMessageId: undefined | string = items[previousItemIndex];
+      const nextMessageId: undefined | string = items[nextItemIndex];
       const messageId = items[itemIndex];
 
       if (!messageId) {
@@ -851,10 +858,14 @@ export class Timeline extends React.Component<
         continue;
       }
 
+      let unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
       if (oldestUnreadIndex === itemIndex) {
+        unreadIndicatorPlacement = UnreadIndicatorPlacement.JustAbove;
         messageNodes.push(
           <Fragment key="unread">{renderLastSeenIndicator(id)}</Fragment>
         );
+      } else if (oldestUnreadIndex === nextItemIndex) {
+        unreadIndicatorPlacement = UnreadIndicatorPlacement.JustBelow;
       }
 
       messageNodes.push(
@@ -874,6 +885,7 @@ export class Timeline extends React.Component<
               nextMessageId,
               now: nowThatUpdatesEveryMinute,
               previousMessageId,
+              unreadIndicatorPlacement,
             })}
           </ErrorBoundary>
         </div>

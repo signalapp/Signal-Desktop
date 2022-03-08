@@ -19,6 +19,7 @@ export type Props = {
   renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
+  collapseMetadata: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
 
@@ -151,6 +152,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     i18n,
     renderingContext,
     attachment,
+    collapseMetadata,
     withContentAbove,
     withContentBelow,
 
@@ -530,7 +532,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
-      {!withContentBelow && (
+      {!withContentBelow && !collapseMetadata && (
         <MessageMetadata
           direction={direction}
           expirationLength={expirationLength}
