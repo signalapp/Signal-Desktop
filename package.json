@@ -369,7 +369,8 @@
       ],
       "target": [
         "nsis"
-      ]
+      ],
+      "useZip": true
     },
     "nsis": {
       "deleteAppDataOnUninstall": true
