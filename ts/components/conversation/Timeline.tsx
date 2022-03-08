@@ -263,7 +263,6 @@ export class Timeline extends React.Component<
   private readonly messagesRef = React.createRef<HTMLDivElement>();
   private readonly lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   private intersectionObserver?: IntersectionObserver;
-  private messagesResizeObserver?: ResizeObserver;
 
   // This is a best guess. It will likely be overridden when the timeline is measured.
   private maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
@@ -490,19 +489,6 @@ export class Timeline extends React.Component<
       '<Timeline> mounted without some refs'
     );
 
-    // This observer is necessary to keep the scroll position locked to the bottom when
-    //   messages change height without "telling" the timeline about it. This can happen
-    //   if messages animate their height, if reactions are changed, etc.
-    //
-    // We do this synchronously (i.e., without react-measure) to avoid jitter.
-    this.messagesResizeObserver = new ResizeObserver(() => {
-      const { haveNewest } = this.props;
-      if (haveNewest && this.isAtBottom()) {
-        scrollToBottom(containerEl);
-      }
-    });
-    this.messagesResizeObserver.observe(messagesEl);
-
     this.updateIntersectionObserver();
 
     window.registerForActive(this.markNewestFullyVisibleMessageRead);
@@ -518,7 +504,6 @@ export class Timeline extends React.Component<
 
     window.unregisterForActive(this.markNewestFullyVisibleMessageRead);
 
-    this.messagesResizeObserver?.disconnect();
     this.intersectionObserver?.disconnect();
 
     clearTimeoutIfNecessary(delayedPeekTimeout);
@@ -1082,7 +1067,10 @@ export class Timeline extends React.Component<
                 ref={this.containerRef}
               >
                 <div
-                  className="module-timeline__messages"
+                  className={classNames(
+                    'module-timeline__messages',
+                    haveNewest && 'module-timeline__messages--have-newest'
+                  )}
                   ref={this.messagesRef}
                 >
                   {haveOldest && (

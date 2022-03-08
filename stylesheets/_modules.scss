@@ -5471,6 +5471,21 @@ button.module-image__border-overlay:focus {
 .module-timeline__messages {
   flex: 1 1;
   padding-bottom: 6px;
+
+  // This is a modified version of ["Pin Scrolling to Bottom"][0].
+  // [0]: https://css-tricks.com/books/greatest-css-tricks/pin-scrolling-to-bottom/
+  &--have-newest {
+    & > * {
+      overflow-anchor: none;
+    }
+
+    &::after {
+      content: '';
+      height: 1px;
+      display: block;
+      overflow-anchor: auto;
+    }
+  }
 }
 
 .ReactVirtualized__List {

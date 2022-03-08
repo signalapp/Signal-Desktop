@@ -92,7 +92,19 @@ type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-const DEFAULT_METADATA_WIDTH = 20;
+const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
+const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
+const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
+  delivered: 24,
+  error: 24,
+  paused: 18,
+  'partial-sent': 24,
+  read: 24,
+  sending: 18,
+  sent: 24,
+  viewed: 24,
+};
+
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 const GROUP_AVATAR_SIZE = AvatarSize.TWENTY_EIGHT;
@@ -352,7 +364,7 @@ export class Message extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      metadataWidth: DEFAULT_METADATA_WIDTH,
+      metadataWidth: this.guessMetadataWidth(),
 
       expiring: false,
       expired: false,
@@ -550,6 +562,32 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return MetadataPlacement.InlineWithText;
+  }
+
+  /**
+   * A lot of the time, we add an invisible inline spacer for messages. This spacer is the
+   * same size as the message metadata. Unfortunately, we don't know how wide it is until
+   * we render it.
+   *
+   * This will probably guess wrong, but it's valuable to get close to the real value
+   * because it can reduce layout jumpiness.
+   */
+  private guessMetadataWidth(): number {
+    const { direction, expirationLength, expirationTimestamp, status } =
+      this.props;
+
+    let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
+
+    const hasExpireTimer = Boolean(expirationLength && expirationTimestamp);
+    if (hasExpireTimer) {
+      result += GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE;
+    }
+
+    if (direction === 'outgoing' && status) {
+      result += GUESS_METADATA_WIDTH_OUTGOING_SIZE[status];
+    }
+
+    return result;
   }
 
   public startSelectedTimer(): void {
