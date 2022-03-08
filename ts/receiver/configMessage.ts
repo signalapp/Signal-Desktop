@@ -62,12 +62,11 @@ async function handleGroupsAndContactsFromConfigMessage(
     (lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp));
 
   if (!isNewerConfig) {
+    window?.log?.info(
+      'Received outdated configuration message... Dropping message.'
+    );
     return;
   }
-
-  window?.log?.info(
-    'Dropping configuration groups change as we already handled one... Only handling contacts '
-  );
 
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
