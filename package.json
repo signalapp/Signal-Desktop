@@ -273,7 +273,6 @@
     },
     "files": [
       "package.json",
-      "blocklist/blocklist.txt",
       "config/default.json",
       "config/${env.SIGNAL_ENV}.json",
       "config/local-${env.SIGNAL_ENV}.json",

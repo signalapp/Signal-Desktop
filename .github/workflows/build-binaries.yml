@@ -51,15 +51,6 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile --network-timeout 600000
 
-      - name: Fetch open group blocklist
-        uses: actions/checkout@v3
-        with:
-          repository: oxen-io/blocklist
-          path: blocklist
-
-      # - name: Output blocklist location
-      #   run: find / -name "blocklist" 2>/dev/null
-
       - name: Generate and concat files
         run: yarn generate
 

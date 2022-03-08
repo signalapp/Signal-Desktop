@@ -15,7 +15,6 @@ import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _ from 'lodash';
 import autoBind from 'auto-bind';
-import { isGroupInBlockList } from './JoinOpenGroupV2';
 
 let instance: OpenGroupManagerV2 | undefined;
 
@@ -128,7 +127,7 @@ export class OpenGroupManagerV2 {
         [...allRoomInfos.values()].map(async infos => {
           try {
             const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
-            if (!allConvos.get(roomConvoId) || (await isGroupInBlockList(infos.serverPublicKey))) {
+            if (!allConvos.get(roomConvoId)) {
               // remove the roomInfos locally for this open group room
               await removeV2OpenGroupRoom(roomConvoId);
               getOpenGroupManager().removeRoomFromPolledRooms(infos);
