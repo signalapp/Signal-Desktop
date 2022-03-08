@@ -137,7 +137,7 @@
   @include dark-theme {
     @include color-svg($dark-icon, $color-gray-45);
     &:hover {
-      @include color-svg($light-icon, $color-gray-02);
+      @include color-svg($dark-icon, $color-gray-02);
     }
   }
 
