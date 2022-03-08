@@ -57,21 +57,17 @@ async function handleGroupsAndContactsFromConfigMessage(
 ) {
   const lastConfigUpdate = await getItemById(hasSyncedInitialConfigurationItem);
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
-  const isNewerConfig = lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp);
+  const isNewerConfig =
+    !lastConfigTimestamp ||
+    (lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp));
 
-  if (isNewerConfig) {
-    window?.log?.info(
-      'Dropping configuration groups change as we already handled one... Only handling contacts '
-    );
-    if (isNewerConfig) {
-      if (configMessage.contacts?.length) {
-        await Promise.all(
-          configMessage.contacts.map(async c => handleContactReceived(c, envelope))
-        );
-      }
-      return;
-    }
+  if (!isNewerConfig) {
+    return;
   }
+
+  window?.log?.info(
+    'Dropping configuration groups change as we already handled one... Only handling contacts '
+  );
 
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
@@ -103,12 +99,22 @@ async function handleGroupsAndContactsFromConfigMessage(
     })
   );
 
-  const numberOpenGroup = configMessage.openGroups?.length || 0;
+  await handleOpenGroupsFromConfig(configMessage.openGroups);
 
-  // Trigger a join for all open groups we are not already in.
-  // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
+  if (configMessage.contacts?.length) {
+    await Promise.all(configMessage.contacts.map(async c => handleContactFromConfig(c, envelope)));
+  }
+}
+
+/**
+ * Trigger a join for all open groups we are not already in.
+ * Currently, if you left an open group but kept the conversation, you won't rejoin it here.
+ * @param openGroups string array of open group urls
+ */
+const handleOpenGroupsFromConfig = async (openGroups: Array<string>) => {
+  const numberOpenGroup = openGroups?.length || 0;
   for (let i = 0; i < numberOpenGroup; i++) {
-    const currentOpenGroupUrl = configMessage.openGroups[i];
+    const currentOpenGroupUrl = openGroups[i];
     const parsedRoom = parseOpenGroupV2(currentOpenGroupUrl);
     if (!parsedRoom) {
       continue;
@@ -121,12 +127,15 @@ async function handleGroupsAndContactsFromConfigMessage(
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
-  if (configMessage.contacts?.length && isNewerConfig) {
-    await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
-  }
-}
+};
 
-const handleContactReceived = async (
+/**
+ * Handles adding of a contact and setting approval/block status
+ * @param contactReceived Contact to sync
+ * @param envelope
+ * @returns
+ */
+const handleContactFromConfig = async (
   contactReceived: SignalService.ConfigurationMessage.IContact,
   envelope: EnvelopePlus
 ) => {
