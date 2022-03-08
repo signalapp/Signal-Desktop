@@ -372,8 +372,7 @@
       ]
     },
     "nsis": {
-      "deleteAppDataOnUninstall": true,
-      "useZip": true
+      "deleteAppDataOnUninstall": true
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
