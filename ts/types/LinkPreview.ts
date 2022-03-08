@@ -28,9 +28,14 @@ export type LinkPreviewWithDomain = {
 
 const linkify = LinkifyIt();
 
-export function isLinkSafeToPreview(href: string): boolean {
+export function shouldPreviewHref(href: string): boolean {
   const url = maybeParseUrl(href);
-  return Boolean(url && url.protocol === 'https:' && !isLinkSneaky(href));
+  return Boolean(
+    url &&
+      url.protocol === 'https:' &&
+      url.hostname !== 'debuglogs.org' &&
+      !isLinkSneaky(href)
+  );
 }
 
 export function isStickerPack(link = ''): boolean {

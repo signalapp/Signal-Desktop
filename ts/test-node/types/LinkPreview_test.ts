@@ -5,37 +5,41 @@ import { assert } from 'chai';
 
 import {
   findLinks,
-  isLinkSafeToPreview,
+  shouldPreviewHref,
   isLinkSneaky,
 } from '../../types/LinkPreview';
 
 describe('Link previews', () => {
-  describe('#isLinkSafeToPreview', () => {
+  describe('#shouldPreviewHref', () => {
     it('returns false for invalid URLs', () => {
-      assert.isFalse(isLinkSafeToPreview(''));
-      assert.isFalse(isLinkSafeToPreview('https'));
-      assert.isFalse(isLinkSafeToPreview('https://'));
-      assert.isFalse(isLinkSafeToPreview('https://bad url'));
-      assert.isFalse(isLinkSafeToPreview('example.com'));
+      assert.isFalse(shouldPreviewHref(''));
+      assert.isFalse(shouldPreviewHref('https'));
+      assert.isFalse(shouldPreviewHref('https://'));
+      assert.isFalse(shouldPreviewHref('https://bad url'));
+      assert.isFalse(shouldPreviewHref('example.com'));
     });
 
     it('returns false for non-HTTPS URLs', () => {
-      assert.isFalse(isLinkSafeToPreview('http://example.com'));
-      assert.isFalse(isLinkSafeToPreview('ftp://example.com'));
-      assert.isFalse(isLinkSafeToPreview('file://example'));
+      assert.isFalse(shouldPreviewHref('http://example.com'));
+      assert.isFalse(shouldPreviewHref('ftp://example.com'));
+      assert.isFalse(shouldPreviewHref('file://example'));
     });
 
     it('returns false if the link is "sneaky"', () => {
       // See `isLinkSneaky` tests below for more thorough checking.
-      assert.isFalse(isLinkSafeToPreview('https://user:pass@example.com'));
-      assert.isFalse(isLinkSafeToPreview('https://aquí.example'));
-      assert.isFalse(isLinkSafeToPreview('https://aqu%C3%AD.example'));
+      assert.isFalse(shouldPreviewHref('https://user:pass@example.com'));
+      assert.isFalse(shouldPreviewHref('https://aquí.example'));
+      assert.isFalse(shouldPreviewHref('https://aqu%C3%AD.example'));
+    });
+
+    it('returns false for skipped domains', () => {
+      assert.isFalse(shouldPreviewHref('https://debuglogs.org'));
     });
 
     it('returns true for "safe" urls', () => {
-      assert.isTrue(isLinkSafeToPreview('https://example.com'));
+      assert.isTrue(shouldPreviewHref('https://example.com'));
       assert.isTrue(
-        isLinkSafeToPreview('https://example.com/foo/bar?query=string#hash')
+        shouldPreviewHref('https://example.com/foo/bar?query=string#hash')
       );
     });
   });

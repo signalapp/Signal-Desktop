@@ -2999,7 +2999,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const link = links.find(
       item =>
-        LinkPreview.isLinkSafeToPreview(item) &&
+        LinkPreview.shouldPreviewHref(item) &&
         !this.excludedPreviewUrls.includes(item)
     );
     if (!link) {
@@ -3226,7 +3226,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     // This is already checked elsewhere, but we want to be extra-careful.
-    if (!LinkPreview.isLinkSafeToPreview(url)) {
+    if (!LinkPreview.shouldPreviewHref(url)) {
       return null;
     }
 
@@ -3241,7 +3241,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const { title, imageHref, description, date } = linkPreviewMetadata;
 
     let image;
-    if (imageHref && LinkPreview.isLinkSafeToPreview(imageHref)) {
+    if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
       let objectUrl: void | string;
       try {
         const fullSizeImage =

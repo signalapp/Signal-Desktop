@@ -2212,7 +2212,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           (item: typeof window.WhatIsThis) =>
             (item.image || item.title) &&
             urls.includes(item.url) &&
-            LinkPreview.isLinkSafeToPreview(item.url)
+            LinkPreview.shouldPreviewHref(item.url)
         );
         if (preview.length < incomingPreview.length) {
           log.info(
