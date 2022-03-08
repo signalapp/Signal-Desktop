@@ -4,7 +4,7 @@
 import { first, get, isNumber, last, pick, throttle } from 'lodash';
 import classNames from 'classnames';
 import type { ReactChild, ReactNode, RefObject } from 'react';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { createSelector } from 'reselect';
 import Measure from 'react-measure';
 
@@ -41,6 +41,7 @@ import {
   scrollToBottom,
   setScrollBottom,
 } from '../../util/scrollUtil';
+import { LastSeenIndicator } from './LastSeenIndicator';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const MIN_ROW_HEIGHT = 18;
@@ -120,7 +121,6 @@ type PropsHousekeepingType = {
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
-  renderLastSeenIndicator: (id: string) => JSX.Element;
   renderHeroRow: (
     id: string,
     unblurAvatar: () => void,
@@ -177,8 +177,11 @@ type StateType = {
   widthBreakpoint: WidthBreakpoint;
 };
 
+const scrollToUnreadIndicator = Symbol('scrollToUnreadIndicator');
+
 type SnapshotType =
   | null
+  | typeof scrollToUnreadIndicator
   | { scrollToIndex: number }
   | { scrollTop: number }
   | { scrollBottom: number };
@@ -258,6 +261,7 @@ export class Timeline extends React.Component<
 > {
   private readonly containerRef = React.createRef<HTMLDivElement>();
   private readonly messagesRef = React.createRef<HTMLDivElement>();
+  private readonly lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   private intersectionObserver?: IntersectionObserver;
   private messagesResizeObserver?: ResizeObserver;
 
@@ -538,6 +542,7 @@ export class Timeline extends React.Component<
       isIncomingMessageRequest,
       isLoadingMessages,
       items: newItems,
+      oldestUnreadIndex,
       scrollToIndex,
       scrollToIndexCounter: newScrollToIndexCounter,
       typingContactId,
@@ -560,7 +565,13 @@ export class Timeline extends React.Component<
     }
 
     if (justFinishedInitialLoad) {
-      return isIncomingMessageRequest ? { scrollTop: 0 } : { scrollBottom: 0 };
+      if (isIncomingMessageRequest) {
+        return { scrollTop: 0 };
+      }
+      if (isNumber(oldestUnreadIndex)) {
+        return scrollToUnreadIndicator;
+      }
+      return { scrollBottom: 0 };
     }
 
     if (
@@ -599,7 +610,18 @@ export class Timeline extends React.Component<
 
     const containerEl = this.containerRef.current;
     if (containerEl && snapshot) {
-      if ('scrollToIndex' in snapshot) {
+      if (snapshot === scrollToUnreadIndicator) {
+        const lastSeenIndicatorEl = this.lastSeenIndicatorRef.current;
+        if (lastSeenIndicatorEl) {
+          lastSeenIndicatorEl.scrollIntoView();
+        } else {
+          scrollToBottom(containerEl);
+          assert(
+            false,
+            '<Timeline> expected a last seen indicator but it was not found'
+          );
+        }
+      } else if ('scrollToIndex' in snapshot) {
         this.scrollToItemIndex(snapshot.scrollToIndex);
       } else if ('scrollTop' in snapshot) {
         containerEl.scrollTop = snapshot.scrollTop;
@@ -746,12 +768,12 @@ export class Timeline extends React.Component<
       removeMember,
       renderHeroRow,
       renderItem,
-      renderLastSeenIndicator,
       renderTypingBubble,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
       showContactModal,
       theme,
+      totalUnread,
       typingContactId,
       unblurAvatar,
       unreadCount,
@@ -848,7 +870,12 @@ export class Timeline extends React.Component<
       if (oldestUnreadIndex === itemIndex) {
         unreadIndicatorPlacement = UnreadIndicatorPlacement.JustAbove;
         messageNodes.push(
-          <Fragment key="unread">{renderLastSeenIndicator(id)}</Fragment>
+          <LastSeenIndicator
+            key="last seen indicator"
+            count={totalUnread}
+            i18n={i18n}
+            ref={this.lastSeenIndicatorRef}
+          />
         );
       } else if (oldestUnreadIndex === nextItemIndex) {
         unreadIndicatorPlacement = UnreadIndicatorPlacement.JustBelow;

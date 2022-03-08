@@ -30,7 +30,6 @@ import {
 
 import { SmartTimelineItem } from './TimelineItem';
 import { SmartTypingBubble } from './TypingBubble';
-import { SmartLastSeenIndicator } from './LastSeenIndicator';
 import { SmartHeroRow } from './HeroRow';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
@@ -137,10 +136,6 @@ function renderItem({
       unreadIndicatorPlacement={unreadIndicatorPlacement}
     />
   );
-}
-
-function renderLastSeenIndicator(id: string): JSX.Element {
-  return <SmartLastSeenIndicator id={id} />;
 }
 
 function renderHeroRow(
@@ -313,7 +308,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     theme: getTheme(state),
     renderItem,
-    renderLastSeenIndicator,
     renderHeroRow,
     renderTypingBubble,
     ...actions,

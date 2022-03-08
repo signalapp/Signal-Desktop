@@ -19,7 +19,6 @@ import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext
 import { ConversationHero } from './ConversationHero';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
-import { LastSeenIndicator } from './LastSeenIndicator';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
@@ -445,10 +444,6 @@ const renderItem = ({
   />
 );
 
-const renderLastSeenIndicator = () => (
-  <LastSeenIndicator count={2} i18n={i18n} />
-);
-
 const getAbout = () => text('about', '👍 Free to chat');
 const getTitle = () => text('name', 'Cayce Bollard');
 const getName = () => text('name', 'Cayce Bollard');
@@ -528,7 +523,6 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
   id: uuid(),
   renderItem,
-  renderLastSeenIndicator,
   renderHeroRow,
   renderTypingBubble,
   typingContactId: overrideProps.typingContactId,
