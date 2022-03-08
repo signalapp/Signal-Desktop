@@ -61,7 +61,6 @@ const defaultMessageProps: MessagesProps = {
   getPreferredBadge: () => undefined,
   i18n,
   id: 'messageId',
-  now: Date.now(),
   renderingContext: 'storybook',
   interactionMode: 'keyboard',
   isBlocked: false,

@@ -84,7 +84,6 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
       audio={audio}
       computePeaks={computePeaks}
       setActiveAudioID={(id, context) => setActive({ id, context })}
-      now={Date.now()}
       onFirstPlayed={action('onFirstPlayed')}
       activeAudioID={active.id}
       activeAudioContext={active.context}
@@ -134,7 +133,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   i18n,
   id: text('id', overrideProps.id || ''),
-  now: Date.now(),
   renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)

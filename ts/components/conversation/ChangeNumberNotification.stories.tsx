@@ -19,7 +19,6 @@ const i18n = setupI18n('en', enMessages);
 
 story.add('Default', () => (
   <ChangeNumberNotification
-    now={Date.now()}
     sender={getDefaultConversation()}
     timestamp={1618894800000}
     i18n={i18n}
@@ -28,7 +27,6 @@ story.add('Default', () => (
 
 story.add('Long name', () => (
   <ChangeNumberNotification
-    now={Date.now()}
     sender={getDefaultConversation({
       firstName: '💅😇🖋'.repeat(50),
     })}

@@ -28,7 +28,6 @@ export type Props = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
-  now: number;
   played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
@@ -160,7 +159,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     expirationLength,
     expirationTimestamp,
     id,
-    now,
     played,
     showMessageDetail,
     status,
@@ -543,7 +541,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
           isShowingImage={false}
           isSticker={false}
           isTapToViewExpired={false}
-          now={now}
           showMessageDetail={showMessageDetail}
           status={status}
           textPending={textPending}

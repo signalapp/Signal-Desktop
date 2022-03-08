@@ -24,7 +24,6 @@ type PropsType = {
   isShowingImage: boolean;
   isSticker?: boolean;
   isTapToViewExpired?: boolean;
-  now: number;
   onWidthMeasured?: (width: number) => unknown;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
@@ -44,7 +43,6 @@ export const MessageMetadata = ({
   isShowingImage,
   isSticker,
   isTapToViewExpired,
-  now,
   onWidthMeasured,
   showMessageDetail,
   status,
@@ -106,7 +104,6 @@ export const MessageMetadata = ({
         <MessageTimestamp
           i18n={i18n}
           timestamp={timestamp}
-          now={now}
           direction={metadataDirection}
           withImageNoCaption={withImageNoCaption}
           withSticker={isSticker}

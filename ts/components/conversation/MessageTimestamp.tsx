@@ -9,9 +9,9 @@ import { formatTime } from '../../util/timestamp';
 
 import type { LocalizerType } from '../../types/Util';
 import { Time } from '../Time';
+import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute';
 
 export type Props = {
-  now: number;
   timestamp: number;
   module?: string;
   withImageNoCaption?: boolean;
@@ -25,12 +25,12 @@ export function MessageTimestamp({
   direction,
   i18n,
   module,
-  now,
   timestamp,
   withImageNoCaption,
   withSticker,
   withTapToViewExpired,
 }: Readonly<Props>): ReactElement {
+  const now = useNowThatUpdatesEveryMinute();
   const moduleName = module || 'module-timestamp';
 
   return (

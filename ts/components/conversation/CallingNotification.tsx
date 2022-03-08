@@ -32,13 +32,12 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
   conversationId: string;
   nextItem: undefined | TimelineItemType;
-  now: number;
 };
 
 type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
 
 export const CallingNotification: React.FC<PropsType> = React.memo(props => {
-  const { i18n, now } = props;
+  const { i18n } = props;
 
   let timestamp: number;
   let wasMissed = false;
@@ -67,7 +66,6 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
           <MessageTimestamp
             direction="outgoing"
             i18n={i18n}
-            now={now}
             timestamp={timestamp}
             withImageNoCaption={false}
             withSticker={false}

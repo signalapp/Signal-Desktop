@@ -163,7 +163,6 @@ export const StoryListItem = ({
               <MessageTimestamp
                 i18n={i18n}
                 module="StoryListItem__info--timestamp"
-                now={Date.now()}
                 timestamp={timestamp}
               />
             </>

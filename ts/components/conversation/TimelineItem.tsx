@@ -155,7 +155,6 @@ type PropsLocalType = {
   theme: ThemeType;
   previousItem: undefined | TimelineItemType;
   nextItem: undefined | TimelineItemType;
-  now: number;
   unreadIndicatorPlacement?: undefined | UnreadIndicatorPlacement;
 };
 
@@ -190,7 +189,6 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       i18n,
       theme,
       nextItem,
-      now,
       previousItem,
       renderContact,
       renderUniversalTimerNotification,
@@ -237,7 +235,6 @@ export class TimelineItem extends React.PureComponent<PropsType> {
             conversationId={conversationId}
             i18n={i18n}
             nextItem={nextItem}
-            now={now}
             returnToActiveCall={returnToActiveCall}
             startCallingLobby={startCallingLobby}
             {...item.data}

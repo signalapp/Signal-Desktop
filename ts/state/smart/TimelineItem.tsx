@@ -28,7 +28,6 @@ type ExternalProps = {
   messageId: string;
   nextMessageId: undefined | string;
   previousMessageId: undefined | string;
-  now: number;
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 };
 
@@ -48,7 +47,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     messageId,
     nextMessageId,
     previousMessageId,
-    now,
     unreadIndicatorPlacement,
   } = props;
 
@@ -71,7 +69,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     item,
     previousItem,
     nextItem,
-    now,
     id: messageId,
     containerElementRef,
     conversationId,

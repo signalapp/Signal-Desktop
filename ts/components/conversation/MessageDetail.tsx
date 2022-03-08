@@ -23,8 +23,6 @@ import { SendStatus } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
-import { MINUTE } from '../../util/durations';
 
 export type Contact = Pick<
   ConversationType,
@@ -101,20 +99,15 @@ export type PropsReduxActions = Pick<
 export type ExternalProps = PropsData & PropsBackboneActions;
 export type Props = PropsData & PropsBackboneActions & PropsReduxActions;
 
-type State = { nowThatUpdatesEveryMinute: number };
-
 const contactSortCollator = new Intl.Collator();
 
 const _keyForError = (error: Error): string => {
   return `${error.name}-${error.message}`;
 };
 
-export class MessageDetail extends React.Component<Props, State> {
-  override state = { nowThatUpdatesEveryMinute: Date.now() };
-
+export class MessageDetail extends React.Component<Props> {
   private readonly focusRef = React.createRef<HTMLDivElement>();
   private readonly messageContainerRef = React.createRef<HTMLDivElement>();
-  private nowThatUpdatesEveryMinuteInterval?: ReturnType<typeof setInterval>;
 
   public override componentDidMount(): void {
     // When this component is created, it's initially not part of the DOM, and then it's
@@ -124,14 +117,6 @@ export class MessageDetail extends React.Component<Props, State> {
         this.focusRef.current.focus();
       }
     });
-
-    this.nowThatUpdatesEveryMinuteInterval = setInterval(() => {
-      this.setState({ nowThatUpdatesEveryMinute: Date.now() });
-    }, MINUTE);
-  }
-
-  public override componentWillUnmount(): void {
-    clearTimeoutIfNecessary(this.nowThatUpdatesEveryMinuteInterval);
   }
 
   public renderAvatar(contact: Contact): JSX.Element {
@@ -314,7 +299,6 @@ export class MessageDetail extends React.Component<Props, State> {
       showVisualAttachment,
       theme,
     } = this.props;
-    const { nowThatUpdatesEveryMinute } = this.state;
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -352,7 +336,6 @@ export class MessageDetail extends React.Component<Props, State> {
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
             markViewed={markViewed}
             messageExpanded={noop}
-            now={nowThatUpdatesEveryMinute}
             openConversation={openConversation}
             openLink={openLink}
             reactToMessage={reactToMessage}

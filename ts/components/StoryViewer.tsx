@@ -233,7 +233,6 @@ export const StoryViewer = ({
             <MessageTimestamp
               i18n={i18n}
               module="StoryViewer__meta--timestamp"
-              now={Date.now()}
               timestamp={visibleStory.timestamp}
             />
             <div className="StoryViewer__progress">

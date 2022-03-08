@@ -108,7 +108,6 @@ function renderItem({
   isOldestTimelineItem,
   messageId,
   nextMessageId,
-  now,
   previousMessageId,
   unreadIndicatorPlacement,
 }: {
@@ -119,7 +118,6 @@ function renderItem({
   isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
-  now: number;
   previousMessageId: undefined | string;
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 }): JSX.Element {
@@ -133,7 +131,6 @@ function renderItem({
       messageId={messageId}
       previousMessageId={previousMessageId}
       nextMessageId={nextMessageId}
-      now={now}
       renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}
       renderAudioAttachment={renderAudioAttachment}

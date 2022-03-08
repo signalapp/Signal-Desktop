@@ -414,13 +414,11 @@ const renderItem = ({
   containerElementRef,
   containerWidthBreakpoint,
   isOldestTimelineItem,
-  now,
 }: {
   messageId: string;
   containerElementRef: React.RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   isOldestTimelineItem: boolean;
-  now: number;
 }) => (
   <TimelineItem
     getPreferredBadge={() => undefined}
@@ -432,7 +430,6 @@ const renderItem = ({
     item={items[messageId]}
     previousItem={undefined}
     nextItem={undefined}
-    now={now}
     i18n={i18n}
     interactionMode="keyboard"
     theme={ThemeType.light}

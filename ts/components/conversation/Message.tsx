@@ -143,7 +143,6 @@ export type AudioAttachmentProps = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
-  now: number;
   played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
@@ -240,7 +239,6 @@ export type PropsHousekeeping = {
   disableScroll?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  now: number;
   interactionMode: InteractionModeType;
   item?: TimelineItemType;
   nextItem?: TimelineItemType;
@@ -709,7 +707,6 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
       status,
       i18n,
-      now,
       text,
       textPending,
       timestamp,
@@ -732,7 +729,6 @@ export class Message extends React.PureComponent<Props, State> {
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
-        now={now}
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         showMessageDetail={showMessageDetail}
         status={status}
@@ -786,7 +782,6 @@ export class Message extends React.PureComponent<Props, State> {
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       markViewed,
-      now,
       quote,
       readStatus,
       reducedMotion,
@@ -922,7 +917,6 @@ export class Message extends React.PureComponent<Props, State> {
         expirationLength,
         expirationTimestamp,
         id,
-        now,
         played,
         showMessageDetail,
         status,

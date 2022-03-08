@@ -41,7 +41,6 @@ import {
   scrollToBottom,
   setScrollBottom,
 } from '../../util/scrollUtil';
-import { MINUTE } from '../../util/durations';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const MIN_ROW_HEIGHT = 18;
@@ -118,7 +117,6 @@ type PropsHousekeepingType = {
     isOldestTimelineItem: boolean;
     messageId: string;
     nextMessageId: undefined | string;
-    now: number;
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
@@ -175,7 +173,6 @@ type StateType = {
   hasRecentlyScrolled: boolean;
   lastMeasuredWarningHeight: number;
   newestFullyVisibleMessageId?: string;
-  nowThatUpdatesEveryMinute: number;
   oldestPartiallyVisibleMessageId?: string;
   widthBreakpoint: WidthBreakpoint;
 };
@@ -269,12 +266,10 @@ export class Timeline extends React.Component<
 
   private hasRecentlyScrolledTimeout?: NodeJS.Timeout;
   private delayedPeekTimeout?: NodeJS.Timeout;
-  private nowThatUpdatesEveryMinuteInterval?: NodeJS.Timeout;
 
   override state: StateType = {
     hasRecentlyScrolled: true,
     hasDismissedDirectContactSpoofingWarning: false,
-    nowThatUpdatesEveryMinute: Date.now(),
 
     // These may be swiftly overridden.
     lastMeasuredWarningHeight: 0,
@@ -512,17 +507,10 @@ export class Timeline extends React.Component<
       const { id, peekGroupCallForTheFirstTime } = this.props;
       peekGroupCallForTheFirstTime(id);
     }, 500);
-
-    this.nowThatUpdatesEveryMinuteInterval = setInterval(() => {
-      this.setState({ nowThatUpdatesEveryMinute: Date.now() });
-    }, MINUTE);
   }
 
   public override componentWillUnmount(): void {
-    const {
-      delayedPeekTimeout,
-      nowThatUpdatesEveryMinuteInterval: nowThatUpdatesEveryMinuteTimeout,
-    } = this;
+    const { delayedPeekTimeout } = this;
 
     window.unregisterForActive(this.markNewestFullyVisibleMessageRead);
 
@@ -530,7 +518,6 @@ export class Timeline extends React.Component<
     this.intersectionObserver?.disconnect();
 
     clearTimeoutIfNecessary(delayedPeekTimeout);
-    clearTimeoutIfNecessary(nowThatUpdatesEveryMinuteTimeout);
   }
 
   public override getSnapshotBeforeUpdate(
@@ -774,7 +761,6 @@ export class Timeline extends React.Component<
       hasRecentlyScrolled,
       lastMeasuredWarningHeight,
       newestFullyVisibleMessageId,
-      nowThatUpdatesEveryMinute,
       oldestPartiallyVisibleMessageId,
       widthBreakpoint,
     } = this.state;
@@ -883,7 +869,6 @@ export class Timeline extends React.Component<
               isOldestTimelineItem: haveOldest && itemIndex === 0,
               messageId,
               nextMessageId,
-              now: nowThatUpdatesEveryMinute,
               previousMessageId,
               unreadIndicatorPlacement,
             })}

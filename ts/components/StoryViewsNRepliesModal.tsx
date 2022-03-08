@@ -249,7 +249,6 @@ export const StoryViewsNRepliesModal = ({
                 <MessageTimestamp
                   i18n={i18n}
                   module="StoryViewsNRepliesModal__reply--timestamp"
-                  now={Date.now()}
                   timestamp={reply.timestamp}
                 />
               </div>
@@ -285,7 +284,6 @@ export const StoryViewsNRepliesModal = ({
               <MessageTimestamp
                 i18n={i18n}
                 module="StoryViewsNRepliesModal__reply--timestamp"
-                now={Date.now()}
                 timestamp={reply.timestamp}
               />
             </div>
@@ -324,7 +322,6 @@ export const StoryViewsNRepliesModal = ({
           <MessageTimestamp
             i18n={i18n}
             module="StoryViewsNRepliesModal__view--timestamp"
-            now={Date.now()}
             timestamp={view.timestamp}
           />
         </div>
