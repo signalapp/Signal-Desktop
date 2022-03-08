@@ -369,11 +369,11 @@
       ],
       "target": [
         "nsis"
-      ],
-      "useZip": true
+      ]
     },
     "nsis": {
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "useZip": true
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
