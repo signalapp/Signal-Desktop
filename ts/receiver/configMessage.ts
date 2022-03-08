@@ -62,9 +62,7 @@ async function handleGroupsAndContactsFromConfigMessage(
     (lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp));
 
   if (!isNewerConfig) {
-    window?.log?.info(
-      'Received outdated configuration message... Dropping message.'
-    );
+    window?.log?.info('Received outdated configuration message... Dropping message.');
     return;
   }
 

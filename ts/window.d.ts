@@ -74,7 +74,5 @@ declare global {
     setStartInTray: (val: boolean) => Promise<void>;
     getStartInTray: () => Promise<boolean>;
     libsession: any;
-    getOpenGroupBlockList: () => Array<string>;
-    openGroupBlockList: Array<string>;
   }
 }
