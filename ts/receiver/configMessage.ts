@@ -99,7 +99,7 @@ async function handleGroupsAndContactsFromConfigMessage(
     })
   );
 
-  await handleOpenGroupsFromConfig(configMessage.openGroups);
+  handleOpenGroupsFromConfig(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
     await Promise.all(configMessage.contacts.map(async c => handleContactFromConfig(c, envelope)));
@@ -111,7 +111,7 @@ async function handleGroupsAndContactsFromConfigMessage(
  * Currently, if you left an open group but kept the conversation, you won't rejoin it here.
  * @param openGroups string array of open group urls
  */
-const handleOpenGroupsFromConfig = async (openGroups: Array<string>) => {
+const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
   const numberOpenGroup = openGroups?.length || 0;
   for (let i = 0; i < numberOpenGroup; i++) {
     const currentOpenGroupUrl = openGroups[i];
@@ -132,8 +132,6 @@ const handleOpenGroupsFromConfig = async (openGroups: Array<string>) => {
 /**
  * Handles adding of a contact and setting approval/block status
  * @param contactReceived Contact to sync
- * @param envelope
- * @returns
  */
 const handleContactFromConfig = async (
   contactReceived: SignalService.ConfigurationMessage.IContact,
