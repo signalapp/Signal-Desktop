@@ -11,7 +11,7 @@
   top: 10px;
   transition: opacity 0.25s ease-out;
   width: 100%;
-  z-index: $z-index-above-base;
+  z-index: $z-index-above-above-base;
 
   &--visible {
     opacity: 1;
