@@ -48,6 +48,7 @@ import {
   getClientZkAuthOperations,
   getClientZkGroupCipher,
   getClientZkProfileOperations,
+  verifyNotarySignature,
 } from './util/zkgroup';
 import {
   computeHash,
@@ -71,6 +72,7 @@ import * as Bytes from './Bytes';
 import type { AvatarDataType } from './types/Avatar';
 import { UUID, isValidUuid } from './types/UUID';
 import type { UUIDStringType } from './types/UUID';
+import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
 
 import {
@@ -1274,7 +1276,10 @@ export async function modifyGroupV2({
         //   change conversation state and add change notifications to the timeline.
         await window.Signal.Groups.maybeUpdateGroup({
           conversation,
-          groupChangeBase64,
+          groupChange: {
+            base64: groupChangeBase64,
+            isTrusted: true,
+          },
           newRevision,
         });
 
@@ -1711,13 +1716,18 @@ export function maybeDeriveGroupV2Id(conversation: ConversationModel): boolean {
   return true;
 }
 
-type MigratePropsType = {
+type WrappedGroupChangeType = Readonly<{
+  base64: string;
+  isTrusted: boolean;
+}>;
+
+type MigratePropsType = Readonly<{
   conversation: ConversationModel;
-  groupChangeBase64?: string;
   newRevision?: number;
   receivedAt?: number;
   sentAt?: number;
-};
+  groupChange?: WrappedGroupChangeType;
+}>;
 
 export async function isGroupEligibleToMigrate(
   conversation: ConversationModel
@@ -2286,7 +2296,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
 //   the log endpoint - the parameters beyond conversation are needed in that scenario.
 export async function respondToGroupV2Migration({
   conversation,
-  groupChangeBase64,
+  groupChange,
   newRevision,
   receivedAt,
   sentAt,
@@ -2522,7 +2532,7 @@ export async function respondToGroupV2Migration({
   //   group update codepaths.
   await maybeUpdateGroup({
     conversation,
-    groupChangeBase64,
+    groupChange,
     newRevision,
     receivedAt,
     sentAt,
@@ -2531,15 +2541,15 @@ export async function respondToGroupV2Migration({
 
 // Fetching and applying group changes
 
-type MaybeUpdatePropsType = {
+type MaybeUpdatePropsType = Readonly<{
   conversation: ConversationModel;
-  groupChangeBase64?: string;
   newRevision?: number;
   receivedAt?: number;
   sentAt?: number;
   dropInitialJoinMessage?: boolean;
   force?: boolean;
-};
+  groupChange?: WrappedGroupChangeType;
+}>;
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -2593,7 +2603,7 @@ export async function maybeUpdateGroup(
   {
     conversation,
     dropInitialJoinMessage,
-    groupChangeBase64,
+    groupChange,
     newRevision,
     receivedAt,
     sentAt,
@@ -2610,7 +2620,7 @@ export async function maybeUpdateGroup(
       group: conversation.attributes,
       serverPublicParamsBase64: window.getServerPublicParams(),
       newRevision,
-      groupChangeBase64,
+      groupChange,
       dropInitialJoinMessage,
     });
 
@@ -2762,19 +2772,21 @@ async function updateGroup(
   // No need for convo.updateLastMessage(), 'newmessage' handler does that
 }
 
+type GetGroupUpdatesType = Readonly<{
+  dropInitialJoinMessage?: boolean;
+  group: ConversationAttributesType;
+  serverPublicParamsBase64: string;
+  newRevision?: number;
+  groupChange?: WrappedGroupChangeType;
+}>;
+
 async function getGroupUpdates({
   dropInitialJoinMessage,
   group,
   serverPublicParamsBase64,
   newRevision,
-  groupChangeBase64,
-}: {
-  dropInitialJoinMessage?: boolean;
-  group: ConversationAttributesType;
-  groupChangeBase64?: string;
-  newRevision?: number;
-  serverPublicParamsBase64: string;
-}): Promise<UpdatesResultType> {
+  groupChange: wrappedGroupChange,
+}: GetGroupUpdatesType): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
 
   log.info(`getGroupUpdates/${logId}: Starting...`);
@@ -2794,18 +2806,44 @@ async function getGroupUpdates({
 
   if (
     window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING &&
-    groupChangeBase64 &&
+    wrappedGroupChange &&
     isNumber(newRevision) &&
     (isInitialCreationMessage || weAreAwaitingApproval || isOneVersionUp)
   ) {
     log.info(`getGroupUpdates/${logId}: Processing just one change`);
-    const groupChangeBuffer = Bytes.fromBase64(groupChangeBase64);
+
+    const groupChangeBuffer = Bytes.fromBase64(wrappedGroupChange.base64);
     const groupChange = Proto.GroupChange.decode(groupChangeBuffer);
     const isChangeSupported =
       !isNumber(groupChange.changeEpoch) ||
       groupChange.changeEpoch <= SUPPORTED_CHANGE_EPOCH;
 
     if (isChangeSupported) {
+      if (!wrappedGroupChange.isTrusted) {
+        strictAssert(
+          groupChange.serverSignature && groupChange.actions,
+          'Server signature must be present in untrusted group change'
+        );
+        try {
+          verifyNotarySignature(
+            serverPublicParamsBase64,
+            groupChange.actions,
+            groupChange.serverSignature
+          );
+        } catch (error) {
+          log.warn(
+            `getGroupUpdates/${logId}: verifyNotarySignature failed, ` +
+              'dropping the message',
+            Errors.toLogFormat(error)
+          );
+          return {
+            newAttributes: group,
+            groupChangeMessages: [],
+            members: [],
+          };
+        }
+      }
+
       return updateGroupViaSingleChange({
         group,
         newRevision,
