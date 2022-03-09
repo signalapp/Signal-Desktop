@@ -65,9 +65,10 @@ export const getTextAndMentionsFromOps = (
   const mentions: Array<BodyRangeType> = [];
 
   const text = ops
-    .reduce((acc, op) => {
+    .reduce((acc, op, index) => {
       if (typeof op.insert === 'string') {
-        return acc + op.insert;
+        const toAdd = index === 0 ? op.insert.trimStart() : op.insert;
+        return acc + toAdd;
       }
 
       if (isInsertEmojiOp(op)) {
@@ -87,7 +88,7 @@ export const getTextAndMentionsFromOps = (
 
       return acc;
     }, '')
-    .trim();
+    .trimEnd(); // Trimming the start of this string will mess up mention indices
 
   return [text, mentions];
 };
