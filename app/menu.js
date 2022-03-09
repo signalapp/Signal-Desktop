@@ -7,7 +7,6 @@ exports.createTemplate = (options, messages) => {
 
   const {
     includeSetup,
-    openNewBugForm,
     openReleaseNotes,
     openSupportPage,
     platform,
@@ -55,12 +54,8 @@ exports.createTemplate = (options, messages) => {
           label: messages.editMenuPaste,
         },
         {
-          role: 'pasteandmatchstyle',
-          label: messages.editMenuPasteAndMatchStyle,
-        },
-        {
           role: 'delete',
-          label: messages.editMenuDelete,
+          label: messages.delete,
         },
         {
           role: 'selectall',
@@ -131,10 +126,6 @@ exports.createTemplate = (options, messages) => {
         {
           label: messages.goToSupportPage,
           click: openSupportPage,
-        },
-        {
-          label: messages.menuReportIssue,
-          click: openNewBugForm,
         },
         {
           type: 'separator',
@@ -241,13 +232,6 @@ function updateForMac(template, messages, options) {
     {
       label: messages.show,
       click: showWindow,
-    },
-    {
-      type: 'separator',
-    },
-    {
-      role: 'front',
-      label: messages.windowMenuBringAllToFront,
     },
   ];
 

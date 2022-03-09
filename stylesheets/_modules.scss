@@ -87,26 +87,6 @@
   align-items: center;
 }
 
-.module-message__generic-attachment__icon-dangerous-container {
-  position: absolute;
-
-  top: -1px;
-  right: -4px;
-
-  height: 16px;
-  width: 16px;
-
-  border-radius: 50%;
-  background-color: $color-white;
-}
-
-.module-message__generic-attachment__icon-dangerous {
-  height: 16px;
-  width: 16px;
-
-  @include color-svg('../images/error-filled.svg', $session-color-danger);
-}
-
 .module-message__generic-attachment__icon__extension {
   font-size: 10px;
   line-height: 13px;
@@ -648,6 +628,7 @@
   display: flex;
   flex-direction: row;
   padding-inline-end: 16px;
+  padding-top: 8px;
   padding-bottom: 8px;
   padding-inline-start: 16px;
   align-items: center;

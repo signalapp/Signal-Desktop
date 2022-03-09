@@ -91,6 +91,11 @@ export interface MessageAttributes {
   dataExtractionNotification?: DataExtractionNotificationMsg;
 
   /**
+   * For displaying a message to notifying when a request has been accepted.
+   */
+  messageRequestResponse?: MessageRequestResponseMsg;
+
+  /**
    * This field is used for unsending messages and used in sending unsend message requests.
    */
   messageHash?: string;
@@ -109,11 +114,32 @@ export interface DataExtractionNotificationMsg {
   referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
 }
 
+export interface MessageRequestResponseMsg {
+  source: string;
+  isApproved: boolean;
+}
+
+export enum MessageDirection {
+  outgoing = 'outgoing',
+  incoming = 'incoming',
+  any = '%',
+}
+
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
   receivedAt?: number;
   isUnread: boolean;
+};
+
+export type PropsForMessageRequestResponse = MessageRequestResponseMsg & {
+  conversationId?: string;
+  name?: string;
+  messageId: string;
+  receivedAt?: number;
+  isUnread: boolean;
+  isApproved?: boolean;
+  source?: string;
 };
 
 export type MessageGroupUpdate = {
@@ -155,6 +181,10 @@ export interface MessageAttributesOptionals {
     type: number;
     source: string;
     referencedAttachmentTimestamp: number;
+  };
+  messageRequestResponse?: {
+    /** 1 means approved, 0 means unapproved. */
+    isApproved?: number;
   };
   unread?: number;
   group?: any;

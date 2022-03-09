@@ -60,7 +60,6 @@
   "thisWeek": "今週",
   "thisMonth": "今月",
   "voiceMessage": "音声メッセージ",
-  "dangerousFileType": "セキュリティ上の理由で許可されていない種類の添付ファイルです",
   "stagedPreviewThumbnail": "$domain$ のサムネイルリンクプレビュー（下書き）",
   "previewThumbnail": "$domain$ のサムネイルリンクプレビュー",
   "stagedImageAttachment": "添付画像（下書き）： $path$",

@@ -21,6 +21,10 @@
     .module-quote__primary__author {
       color: var(--color-sent-message-text);
       font-weight: bold;
+
+      .module-contact-name {
+        font-weight: bold;
+      }
     }
     .module-quote__primary__text {
       color: var(--color-sent-message-text);
@@ -35,6 +39,9 @@
     .module-quote__primary__author {
       color: var(--color-received-message-text);
       font-weight: bold;
+      .module-contact-name {
+        font-weight: bold;
+      }
     }
     .module-quote__primary__text {
       color: var(--color-received-message-text);

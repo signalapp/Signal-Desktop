@@ -60,7 +60,6 @@
   "thisWeek": "Tento týden",
   "thisMonth": "Tento měsíc",
   "voiceMessage": "Hlasová zpráva",
-  "dangerousFileType": "Tento typ přílohy není povolen z bezpečnostních důvodů",
   "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
   "previewThumbnail": "Thumbnail link preview for $domain$",
   "stagedImageAttachment": "Draft image attachment: $path$",

@@ -60,7 +60,6 @@
   "thisWeek": "本周",
   "thisMonth": "本月",
   "voiceMessage": "语音消息",
-  "dangerousFileType": "为了安全，不允许此附件类型",
   "stagedPreviewThumbnail": "待发送的$domain$链接预览",
   "previewThumbnail": "$domain$的链接预览缩略图",
   "stagedImageAttachment": "待发送的图片附件：$path$",

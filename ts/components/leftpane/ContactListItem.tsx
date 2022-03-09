@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useConversationUsername, useIsMe } from '../../hooks/useParamSelector';
+import { useConversationUsername, useIsMe, useIsPrivate } from '../../hooks/useParamSelector';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Emojify } from '../conversation/Emojify';
 
@@ -20,9 +20,10 @@ export const ContactListItem = (props: Props) => {
 
   const name = useConversationUsername(pubkey);
   const isMe = useIsMe(pubkey);
+  const isGroup = !useIsPrivate(pubkey);
 
   const title = name ? name : pubkey;
-  const displayName = isMe ? window.i18n('me') : title;
+  const displayName = isMe ? window.i18n('you') : title;
 
   return (
     <div
@@ -36,7 +37,7 @@ export const ContactListItem = (props: Props) => {
       <AvatarItem pubkey={pubkey} />
       <div className="module-contact-list-item__text">
         <div className="module-contact-list-item__text__name">
-          <Emojify text={displayName} />
+          <Emojify text={displayName} sizeClass="small" isGroup={isGroup} />
         </div>
       </div>
     </div>

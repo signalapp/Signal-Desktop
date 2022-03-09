@@ -14,11 +14,10 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
 import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import _ from 'lodash';
-import { getIsMessageRequestsEnabled } from './userConfig';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
@@ -174,6 +173,7 @@ export type MessagePropsType =
   | 'group-notification'
   | 'group-invitation'
   | 'data-extraction'
+  | 'message-request-response'
   | 'timer-notification'
   | 'regular-message'
   | 'unread-indicator'
@@ -209,6 +209,17 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
           message: {
             messageType: 'data-extraction',
             props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForMessageRequestResponse) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'message-request-response',
+            props: { ...msg.propsForMessageRequestResponse, messageId: msg.propsForMessage.id },
           },
         };
       }
@@ -321,8 +332,7 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 // export only because we use it in some of our tests
 // tslint:disable-next-line: cyclomatic-complexity
 export const _getLeftPaneLists = (
-  sortedConversations: Array<ReduxConversationType>,
-  isMessageRequestEnabled?: boolean
+  sortedConversations: Array<ReduxConversationType>
 ): {
   conversations: Array<ReduxConversationType>;
   contacts: Array<ReduxConversationType>;
@@ -333,15 +343,21 @@ export const _getLeftPaneLists = (
 
   let unreadCount = 0;
   for (const conversation of sortedConversations) {
-    const excludeUnapproved =
-      isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
-
-    if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
+    if (
+      conversation.activeAt !== undefined &&
+      conversation.type === ConversationTypeEnum.PRIVATE &&
+      conversation.isApproved &&
+      !conversation.isBlocked
+    ) {
       directConversations.push(conversation);
     }
 
-    if (excludeUnapproved && !conversation.isApproved && !conversation.isBlocked) {
+    if (!conversation.isApproved) {
       // dont increase unread counter, don't push to convo list.
+      continue;
+    }
+
+    if (conversation.isBlocked) {
       continue;
     }
 
@@ -417,37 +433,54 @@ export const getSortedConversations = createSelector(
   _getSortedConversations
 );
 
+/**
+ *
+ * @param sortedConversations List of conversations that are valid for both requests and regular conversation inbox
+ * @returns A list of message request conversations.
+ */
 const _getConversationRequests = (
-  sortedConversations: Array<ReduxConversationType>,
-  isMessageRequestEnabled?: boolean
+  sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
-  const pushToMessageRequests =
-    isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests;
   return _.filter(sortedConversations, conversation => {
-    return pushToMessageRequests && !conversation.isApproved && !conversation.isBlocked;
+    const { isApproved, isBlocked, isPrivate, isMe } = conversation;
+    const isRequest = ConversationModel.hasValidIncomingRequestValues({
+      isApproved,
+      isBlocked,
+      isPrivate,
+      isMe,
+    });
+    return isRequest;
   });
 };
 
 export const getConversationRequests = createSelector(
   getSortedConversations,
-  getIsMessageRequestsEnabled,
   _getConversationRequests
 );
 
-const _getPrivateContactsPubkeys = (
-  sortedConversations: Array<ReduxConversationType>,
-  isMessageRequestEnabled?: boolean
-): Array<string> => {
-  const pushToMessageRequests =
-    (isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests) ||
-    !isMessageRequestEnabled;
+const _getUnreadConversationRequests = (
+  sortedConversationRequests: Array<ReduxConversationType>
+): Array<ReduxConversationType> => {
+  return _.filter(sortedConversationRequests, conversation => {
+    return conversation && conversation.unreadCount && conversation.unreadCount > 0;
+  });
+};
 
+export const getUnreadConversationRequests = createSelector(
+  getConversationRequests,
+  _getUnreadConversationRequests
+);
+
+const _getPrivateContactsPubkeys = (
+  sortedConversations: Array<ReduxConversationType>
+): Array<string> => {
   return _.filter(sortedConversations, conversation => {
     return (
       conversation.isPrivate &&
       !conversation.isBlocked &&
       !conversation.isMe &&
-      (conversation.isApproved || !pushToMessageRequests) &&
+      conversation.didApproveMe &&
+      conversation.isApproved &&
       Boolean(conversation.activeAt)
     );
   }).map(convo => convo.id);
@@ -463,15 +496,10 @@ const _getPrivateContactsPubkeys = (
  */
 export const getPrivateContactsPubkeys = createSelector(
   getSortedConversations,
-  getIsMessageRequestsEnabled,
   _getPrivateContactsPubkeys
 );
 
-export const getLeftPaneLists = createSelector(
-  getSortedConversations,
-  getIsMessageRequestsEnabled,
-  _getLeftPaneLists
-);
+export const getLeftPaneLists = createSelector(getSortedConversations, _getLeftPaneLists);
 
 export const getMe = createSelector(
   [getConversationLookup, getOurNumber],
@@ -577,7 +605,7 @@ export const isRightPanelShowing = createSelector(
 
 export const isMessageSelectionMode = createSelector(
   getConversations,
-  (state: ConversationsStateType): boolean => state.selectedMessageIds.length > 0
+  (state: ConversationsStateType): boolean => Boolean(state.selectedMessageIds.length > 0)
 );
 
 export const getSelectedMessageIds = createSelector(
@@ -907,15 +935,14 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     return undefined;
   }
 
-  const { conversationType, convoId, direction, status, text, isDeleted } = props.propsForMessage;
+  const { direction, status, text, isDeleted, conversationType } = props.propsForMessage;
 
   const msgProps: MessageTextSelectorProps = {
-    conversationType,
-    convoId,
     direction,
     status,
     text,
     isDeleted,
+    conversationType,
   };
 
   return msgProps;

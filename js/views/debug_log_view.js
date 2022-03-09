@@ -38,20 +38,19 @@
       });
     },
     events: {
-      'click .submit': 'submit',
+      'click .submit': 'saveLogToDesktop',
       'click .close': 'close',
     },
     render_attributes: {
-      title: i18n('submitDebugLog'),
+      title: i18n('debugLog'),
       cancel: i18n('cancel'),
-      submit: i18n('saveLogToDesktop'),
-      close: i18n('gotIt'),
+      saveLogToDesktop: i18n('saveLogToDesktop'),
       debugLogExplanation: i18n('debugLogExplanation'),
     },
     close() {
       window.closeDebugLog();
     },
-    async submit(e) {
+    async saveLogToDesktop(e) {
       e.preventDefault();
       const text = this.$('textarea').val();
       if (text.length === 0) {

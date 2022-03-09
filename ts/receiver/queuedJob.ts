@@ -6,11 +6,13 @@ import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
-import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
+import { getMessageById, getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
 
 import { updateProfileOneAtATime } from './dataMessage';
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
+import { showMessageRequestBanner } from '../state/ducks/userConfig';
+import { MessageDirection } from '../models/messageType';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
@@ -248,13 +250,38 @@ async function handleRegularMessage(
 
   if (type === 'incoming') {
     updateReadStatus(message, conversation);
+    if (conversation.isPrivate()) {
+      const incomingMessageCount = await getMessageCountByType(
+        conversation.id,
+        MessageDirection.incoming
+      );
+      const isFirstRequestMessage = incomingMessageCount < 2;
+      if (
+        conversation.isIncomingRequest() &&
+        isFirstRequestMessage &&
+        window.inboxStore?.getState().userConfig.hideMessageRequests
+      ) {
+        window.inboxStore?.dispatch(showMessageRequestBanner());
+      }
+
+      // For edge case when messaging a client that's unable to explicitly send request approvals
+      if (conversation.isOutgoingRequest()) {
+        // Conversation was not approved before so a sync is needed
+        await conversation.addIncomingApprovalMessage(
+          _.toNumber(message.get('sent_at')) - 1,
+          source
+        );
+      }
+      // should only occur after isOutgoing request as it relies on didApproveMe being false.
+      await conversation.setDidApproveMe(true);
+      // edge case end
+    }
   }
 
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
 
-    if (window.lokiFeatureFlags.useMessageRequests) {
-      // assumes sync receipts are always from linked device outgoings
+    if (conversation.isPrivate()) {
       await conversation.setIsApproved(true);
     }
   }

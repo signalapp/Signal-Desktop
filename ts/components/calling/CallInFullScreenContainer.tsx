@@ -26,6 +26,15 @@ const CallInFullScreenVisible = styled.div`
   opacity: 1;
 `;
 
+const StyledLocalVideoElement = styled.video<{ isVideoMuted: boolean }>`
+  height: 20%;
+  width: 20%;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  opacity: ${props => (props.isVideoMuted ? 0 : 1)};
+`;
+
 export const CallInFullScreenContainer = () => {
   const dispatch = useDispatch();
   const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
@@ -34,6 +43,7 @@ export const CallInFullScreenContainer = () => {
   const {
     remoteStream,
     remoteStreamVideoIsMuted,
+    localStream,
     currentConnectedAudioInputs,
     currentConnectedAudioOutputs,
     currentConnectedCameras,
@@ -43,6 +53,7 @@ export const CallInFullScreenContainer = () => {
   } = useVideoCallEventsListener('CallInFullScreenContainer', true);
 
   const videoRefRemote = React.useRef<HTMLVideoElement>(null);
+  const videoRefLocal = React.useRef<HTMLVideoElement>(null);
 
   function toggleFullScreenOFF() {
     dispatch(setFullScreenCall(false));
@@ -69,12 +80,23 @@ export const CallInFullScreenContainer = () => {
     }
   }
 
+  if (videoRefLocal?.current) {
+    if (videoRefLocal.current.srcObject !== localStream) {
+      videoRefLocal.current.srcObject = localStream;
+    }
+  }
+
   return (
     <CallInFullScreenVisible onClick={toggleFullScreenOFF}>
       <StyledVideoElement
         ref={videoRefRemote}
         autoPlay={true}
         isVideoMuted={remoteStreamVideoIsMuted}
+      />
+      <StyledLocalVideoElement
+        ref={videoRefLocal}
+        autoPlay={true}
+        isVideoMuted={localStreamVideoIsMuted}
       />
       <CallWindowControls
         currentConnectedAudioInputs={currentConnectedAudioInputs}

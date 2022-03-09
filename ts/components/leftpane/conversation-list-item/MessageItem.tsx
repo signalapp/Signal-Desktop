@@ -1,12 +1,11 @@
 import classNames from 'classnames';
 import React, { useContext } from 'react';
 import { isEmpty } from 'lodash';
-import { useConversationPropsById } from '../../../hooks/useParamSelector';
+import { useConversationPropsById, useIsPrivate } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { ContextConversationId } from './ConversationListItem';
-import { MessageRequestButtons } from './MessageRequest';
 import { useSelector } from 'react-redux';
 import { isSearching } from '../../../state/selectors/search';
 
@@ -25,6 +24,8 @@ function useMessageItemProps(convoId: string) {
 export const MessageItem = (props: { isMessageRequest: boolean }) => {
   const conversationId = useContext(ContextConversationId);
   const convoProps = useMessageItemProps(conversationId);
+
+  const isGroup = !!useIsPrivate(conversationId);
 
   const isSearchingMode = useSelector(isSearching);
   if (!convoProps) {
@@ -52,10 +53,9 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
         {isTyping ? (
           <TypingAnimation />
         ) : (
-          <MessageBody isGroup={true} text={text} disableJumbomoji={true} disableLinks={true} />
+          <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />
         )}
       </div>
-      <MessageRequestButtons isMessageRequest={props.isMessageRequest} />
       {!isSearchingMode && lastMessage && lastMessage.status && !props.isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}

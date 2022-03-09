@@ -2,7 +2,6 @@
 
 const Crypto = require('./crypto');
 const Data = require('../../ts/data/data');
-const Emoji = require('../../ts/util/emoji');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
@@ -20,9 +19,6 @@ const { SessionInboxView } = require('../../ts/components/SessionInboxView');
 // Types
 const SettingsType = require('../../ts/types/Settings');
 
-// Views
-const Initialization = require('./views/initialization');
-
 exports.setup = () => {
   Data.init();
 
@@ -36,21 +32,15 @@ exports.setup = () => {
     Settings: SettingsType,
   };
 
-  const Views = {
-    Initialization,
-  };
-
   return {
     Components,
     Crypto,
     Data,
-    Emoji,
     LinkPreviews,
     Notifications,
     OS,
     Settings,
     Types,
     Util,
-    Views,
   };
 };

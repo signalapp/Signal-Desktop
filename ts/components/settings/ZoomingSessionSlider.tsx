@@ -27,7 +27,7 @@ export const ZoomingSessionSlider = (props: { onSliderChange?: (value: number) =
         />
 
         <div className="slider-info">
-          <p>{currentValueFromSettings}%`</p>
+          <p>{currentValueFromSettings}%</p>
         </div>
       </div>
     </SessionSettingsItemWrapper>

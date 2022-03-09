@@ -59,6 +59,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getUnreadCountByConversation,
+  getMessageCountByType,
   getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
@@ -844,6 +845,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion18,
   updateToLokiSchemaVersion19,
   updateToLokiSchemaVersion20,
+  updateToLokiSchemaVersion21,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1344,8 +1346,8 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
   if (currentVersion >= targetVersion) {
     return;
   }
-
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
   db.transaction(() => {
     // looking for all private conversations, with a nickname set
     const rowsToUpdate = db
@@ -1369,6 +1371,41 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
         obj.name = obj.profile.displayName;
         updateConversation(obj, db);
       }
+      writeLokiSchemaVersion(targetVersion, db);
+    })();
+  });
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion21(currentVersion, db) {
+  const targetVersion = 21;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+        UPDATE ${CONVERSATIONS_TABLE} SET
+        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
+        WHERE type = 'private';
+      `);
+
+    // all closed group admins
+    const closedGroupRows = getAllClosedGroupConversations(db) || [];
+
+    const adminIds = closedGroupRows.map(json => jsonToObject(json).groupAdmins);
+    forEach(adminIds, id => {
+      db.exec(
+        `
+        UPDATE ${CONVERSATIONS_TABLE} SET
+        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
+        WHERE type = id 
+        values ($id);
+      `
+      ).run({
+        id,
+      });
     });
 
     writeLokiSchemaVersion(targetVersion, db);
@@ -2274,6 +2311,27 @@ function getUnreadCountByConversation(conversationId) {
   return row['count(*)'];
 }
 
+function getMessageCountByType(conversationId, type = '%') {
+  const row = globalInstance
+    .prepare(
+      `SELECT count(*) from ${MESSAGES_TABLE} 
+      WHERE conversationId = $conversationId 
+      AND type = $type;`
+    )
+    .get({
+      conversationId,
+      type,
+    });
+
+  if (!row) {
+    throw new Error(
+      `getIncomingMessagesCountByConversation: Unable to get incoming messages count of ${conversationId}`
+    );
+  }
+
+  return row['count(*)'];
+}
+
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
@@ -2285,6 +2343,9 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   // or that we just scrolled to it by a quote click and needs to load around it.
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
+
+  const numberOfMessagesInConvo = getMessagesCountByConversation(globalInstance, conversationId);
+  const floorLoadAllMessagesInConvo = 70;
 
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);
@@ -2310,7 +2371,10 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
         .all({
           conversationId,
           messageId: messageId || firstUnread,
-          limit: absLimit,
+          limit:
+            numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+              ? floorLoadAllMessagesInConvo
+              : absLimit,
         });
 
       return map(rows, row => jsonToObject(row.json));
@@ -2320,7 +2384,10 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
     );
   }
 
-  const limit = 2 * absLimit;
+  const limit =
+    numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+      ? floorLoadAllMessagesInConvo
+      : 2 * absLimit;
 
   const rows = globalInstance
     .prepare(
@@ -3063,13 +3130,13 @@ function getMessagesCountByConversation(instance, conversationId) {
   return row ? row['count(*)'] : 0;
 }
 
-function getAllClosedGroupConversationsV1(instance) {
+function getAllClosedGroupConversations(instance) {
   const rows = (globalInstance || instance)
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id NOT LIKE 'publicChat:%'
-     ORDER BY id ASC;`
+      ORDER BY id ASC;`
     )
     .all();
 
@@ -3085,7 +3152,7 @@ function remove05PrefixFromStringIfNeeded(str) {
 
 function updateExistingClosedGroupV1ToClosedGroupV2(db) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
-  const allClosedGroupV1 = getAllClosedGroupConversationsV1(db) || [];
+  const allClosedGroupV1 = getAllClosedGroupConversations(db) || [];
 
   allClosedGroupV1.forEach(groupV1 => {
     const groupId = groupV1.id;

@@ -12,11 +12,11 @@ import { useEncryptedFileFetch } from '../../../../hooks/useEncryptedFileFetch';
 import { PubKey } from '../../../../session/types';
 import {
   getSelectedConversationKey,
-  isGroupConversation,
   isPublicGroupConversation,
 } from '../../../../state/selectors/conversations';
 import { ContactName } from '../../ContactName';
 import { MessageBody } from './MessageBody';
+import { useIsPrivate } from '../../../../hooks/useParamSelector';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -228,8 +228,9 @@ export const QuoteText = (
   props: Pick<QuotePropsWithoutListener, 'text' | 'attachment' | 'isIncoming'>
 ) => {
   const { text, attachment, isIncoming } = props;
-  const isGroup = useSelector(isGroupConversation);
+
   const convoId = useSelector(getSelectedConversationKey);
+  const isGroup = useIsPrivate(convoId);
 
   if (text) {
     return (
@@ -240,7 +241,7 @@ export const QuoteText = (
           isIncoming ? 'module-quote__primary__text--incoming' : null
         )}
       >
-        <MessageBody isGroup={isGroup} convoId={convoId} text={text} disableLinks={true} />
+        <MessageBody text={text} disableLinks={true} disableJumbomoji={true} isGroup={isGroup} />
       </div>
     );
   }

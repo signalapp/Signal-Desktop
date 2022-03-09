@@ -26,6 +26,7 @@ import { hasConversationOutgoingMessage } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
 import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
+import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
 
 // tslint:disable: function-name
 
@@ -120,46 +121,51 @@ let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
 let lastOutgoingOfferTimestamp = -Infinity;
 
+/**
+ * This array holds all of the ice servers Session can contact.
+ * They are all contacted at the same time, so before triggering the request, we get only a subset of those, randomly
+ */
+const iceServersFullArray = [
+  {
+    urls: 'turn:freyr.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:fenrir.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:frigg.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:angus.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:hereford.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:holstein.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:brahman.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+];
+
 const configuration: RTCConfiguration = {
   bundlePolicy: 'max-bundle',
   rtcpMuxPolicy: 'require',
-  iceServers: [
-    {
-      urls: 'turn:freyr.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:fenrir.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:frigg.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:angus.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:hereford.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:holstein.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:brahman.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-  ],
   // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
 };
 
@@ -499,6 +505,10 @@ export async function USER_callRecipient(recipient: string) {
     callNotificationType: 'started-call',
     unread: 0,
   });
+
+  // initiating a call is analgous to sending a message request
+  await approveConvoAndSendResponse(recipient, true);
+
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
   const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
@@ -701,7 +711,8 @@ function createOrGetPeerConnection(withPubkey: string) {
     return peerConnection;
   }
   remoteStream = new MediaStream();
-  peerConnection = new RTCPeerConnection(configuration);
+  const sampleOfICeServers = _.sampleSize(iceServersFullArray, 2);
+  peerConnection = new RTCPeerConnection({ ...configuration, iceServers: sampleOfICeServers });
   dataChannel = peerConnection.createDataChannel('session-datachannel', {
     ordered: true,
     negotiated: true,
@@ -828,6 +839,10 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     unread: 0,
   });
   await buildAnswerAndSendIt(fromSender);
+
+  // consider the conversation completely approved
+  await callerConvo.setDidApproveMe(true);
+  await approveConvoAndSendResponse(fromSender, true);
 }
 
 export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUID: string) {

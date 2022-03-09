@@ -60,7 +60,6 @@
   "thisWeek": "This Week",
   "thisMonth": "Цей місяць",
   "voiceMessage": "Голосове повідомлення",
-  "dangerousFileType": "Attachment type not allowed for security reasons",
   "stagedPreviewThumbnail": "Попередній перегляд ескізу посилання для $domain$",
   "previewThumbnail": "Попередній перегляд посилання для $domain$",
   "stagedImageAttachment": "Ескіз прикріпленого зображення: $path$",

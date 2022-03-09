@@ -60,7 +60,6 @@
   "thisWeek": "Denne uge",
   "thisMonth": "Denne måned",
   "voiceMessage": "Talebesked",
-  "dangerousFileType": "Vedhæftningstype er ikke tilladt af sikkerhedsmæssige årsager",
   "stagedPreviewThumbnail": "Udkast miniaturebillede til eksempelvisning for $domain$",
   "previewThumbnail": "Miniaturebillede til eksempelvisning for $domain$",
   "stagedImageAttachment": "Udkast af vedhæftet billedfil: $path$",

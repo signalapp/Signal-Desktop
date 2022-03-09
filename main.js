@@ -28,7 +28,7 @@ const {
   systemPreferences,
 } = electron;
 
-// FIXME Hardcoding appId to prevent build failrues on release.
+// FIXME Hardcoding appId to prevent build failures on release.
 // const appUserModelId = packageJson.build.appId;
 const appUserModelId = 'com.loki-project.messenger-desktop';
 console.log('Set Windows Application User Model ID (AUMID)', {
@@ -442,10 +442,6 @@ function openReleaseNotes() {
   );
 }
 
-function openNewBugForm() {
-  shell.openExternal('https://github.com/oxen-io/session-desktop/issues/new');
-}
-
 function openSupportPage() {
   shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
@@ -720,7 +716,6 @@ function setupMenu(options) {
     showWindow,
     showAbout,
     openReleaseNotes,
-    openNewBugForm,
     openSupportPage,
     platform,
   });
@@ -986,7 +981,7 @@ ipc.on('set-call-media-permissions', (event, value) => {
   event.sender.send('set-success-call-media-permissions', null);
 });
 
-// Loki - Auto updating
+// Session - Auto updating
 ipc.on('get-auto-update-setting', event => {
   const configValue = userConfig.get('autoUpdate');
   // eslint-disable-next-line no-param-reassign
@@ -1011,19 +1006,19 @@ function getThemeFromMainWindow() {
   });
 }
 
-function askForMediaAccess() {
+async function askForMediaAccess() {
   // Microphone part
   let status = systemPreferences.getMediaAccessStatus('microphone');
   if (status !== 'granted') {
-    systemPreferences.askForMediaAccess('microphone');
+    await systemPreferences.askForMediaAccess('microphone');
   }
   // Camera part
   status = systemPreferences.getMediaAccessStatus('camera');
   if (status !== 'granted') {
-    systemPreferences.askForMediaAccess('camera');
+    await systemPreferences.askForMediaAccess('camera');
   }
 }
 
-ipc.on('media-access', () => {
+ipc.on('media-access', async () => {
   askForMediaAccess();
 });

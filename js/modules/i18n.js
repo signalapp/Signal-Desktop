@@ -17,10 +17,14 @@ exports.setup = (locale, messages) => {
     }
 
     if (Array.isArray(substitutions)) {
-      return substitutions.reduce(
-        (result, substitution) => result.replace(/\$.+?\$/, substitution),
-        message
+      const replacedNameDollarSign = message.replaceAll('$', 'ￗ');
+
+      const substituted = substitutions.reduce(
+        (result, substitution) => result.replace(/ￗ.+?ￗ/, substitution),
+        replacedNameDollarSign
       );
+
+      return substituted.replaceAll('ￗ', '$');
     } else if (substitutions) {
       return message.replace(/\$.+?\$/, substitutions);
     }
