@@ -33,6 +33,7 @@
 
       &--title {
         @include font-body-1-bold;
+        color: $color-gray-05;
         display: flex;
         flex: 1;
         justify-content: center;

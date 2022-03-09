@@ -2658,11 +2658,7 @@ button.ConversationDetails__action-button {
     @include keyboard-mode {
       &:focus {
         border-color: $color-ultramarine;
-      }
-    }
-    @include dark-keyboard-mode {
-      &:focus {
-        border-color: $color-ultramarine-light;
+        outline: none;
       }
     }
 
@@ -2702,7 +2698,11 @@ button.ConversationDetails__action-button {
     justify-content: center;
     padding: 2px;
     width: 32px;
-    margin-right: 8px;
+    margin-right: 20px;
+
+    .module-left-pane--width-narrow & {
+      display: none;
+    }
 
     @include light-theme {
       &:hover,
@@ -2726,11 +2726,7 @@ button.ConversationDetails__action-button {
     @include keyboard-mode {
       &:focus {
         border-color: $color-ultramarine;
-      }
-    }
-    @include dark-keyboard-mode {
-      &:focus {
-        border-color: $color-ultramarine-light;
+        outline: none;
       }
     }
 
