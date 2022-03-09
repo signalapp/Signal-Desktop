@@ -16,6 +16,7 @@ import {
   ProfileKeyCredentialResponse,
   ServerPublicParams,
   UuidCiphertext,
+  NotarySignature,
 } from '@signalapp/signal-client/zkgroup';
 import { UUID } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
@@ -255,4 +256,18 @@ export function deriveProfileKeyCommitment(
   const profileKey = new ProfileKey(profileKeyArray);
 
   return profileKey.getCommitment(uuid).contents.toString('base64');
+}
+
+export function verifyNotarySignature(
+  serverPublicParamsBase64: string,
+  message: Uint8Array,
+  signature: Uint8Array
+): void {
+  const serverPublicParams = new ServerPublicParams(
+    Buffer.from(serverPublicParamsBase64, 'base64')
+  );
+
+  const notarySignature = new NotarySignature(Buffer.from(signature));
+
+  serverPublicParams.verifySignature(Buffer.from(message), notarySignature);
 }

@@ -2333,7 +2333,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           const { revision, groupChange } = initialMessage.groupV2;
           await window.Signal.Groups.respondToGroupV2Migration({
             conversation,
-            groupChangeBase64: groupChange,
+            groupChange: groupChange
+              ? {
+                  base64: groupChange,
+                  isTrusted: false,
+                }
+              : undefined,
             newRevision: revision,
             receivedAt: message.get('received_at'),
             sentAt: message.get('sent_at'),
@@ -2363,7 +2368,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             try {
               await window.Signal.Groups.maybeUpdateGroup({
                 conversation,
-                groupChangeBase64: groupChange,
+                groupChange: groupChange
+                  ? {
+                      base64: groupChange,
+                      isTrusted: false,
+                    }
+                  : undefined,
                 newRevision: revision,
                 receivedAt: message.get('received_at'),
                 sentAt: message.get('sent_at'),
