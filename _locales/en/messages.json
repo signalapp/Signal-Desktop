@@ -6918,22 +6918,6 @@
     "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.31--1": {
-    "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
-    "description": "Release notes for v5.31"
-  },
-  "WhatsNew__v5.31--2": {
-    "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
-    "description": "Release notes for v5.31"
-  },
-  "WhatsNew__v5.32--1": {
-    "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
-    "description": "Release notes for v5.32"
-  },
-  "WhatsNew__v5.32--2": {
-    "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
-    "description": "Release notes for v5.32"
-  },
   "WhatsNew__v5.34--1": {
     "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
     "description": "Release notes for v5.34"
@@ -6949,5 +6933,17 @@
   "WhatsNew__v5.35--3": {
     "message": "Better font support for our Japanese friends.",
     "description": "Release notes for v5.35"
+  },
+  "WhatsNew__v5.36--1": {
+    "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
+    "description": "Release notes for v5.36"
+  },
+  "WhatsNew__v5.36--2": {
+    "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
+    "description": "Release notes for v5.36"
+  },
+  "WhatsNew__v5.36--3": {
+    "message": "Thanks to our volunteer translators, we've added support for Scottish Gaelic!",
+    "description": "Release notes for v5.36"
   }
 }
