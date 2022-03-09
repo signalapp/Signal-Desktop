@@ -1140,16 +1140,16 @@ export async function mergeAccountRecord(
   });
 
   let needsProfileFetch = false;
-  if (accountRecord.profileKey && accountRecord.profileKey.length > 0) {
+  if (profileKey && profileKey.length > 0) {
     needsProfileFetch = await conversation.setProfileKey(
-      Bytes.toBase64(accountRecord.profileKey),
+      Bytes.toBase64(profileKey),
       { viaStorageServiceSync: true }
     );
-  }
 
-  if (avatarUrl) {
-    await conversation.setProfileAvatar(avatarUrl);
-    window.storage.put('avatarUrl', avatarUrl);
+    if (avatarUrl) {
+      await conversation.setProfileAvatar(avatarUrl, profileKey);
+      window.storage.put('avatarUrl', avatarUrl);
+    }
   }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(

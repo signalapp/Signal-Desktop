@@ -778,6 +778,32 @@ export type GetUuidsForE164sV2OptionsType = Readonly<{
   accessKeys: ReadonlyArray<string>;
 }>;
 
+type GetProfileCommonOptionsType = Readonly<
+  {
+    userLanguages: ReadonlyArray<string>;
+    credentialType?: 'pni' | 'profileKey';
+  } & (
+    | {
+        profileKeyVersion?: undefined;
+        profileKeyCredentialRequest?: undefined;
+      }
+    | {
+        profileKeyVersion: string;
+        profileKeyCredentialRequest?: string;
+      }
+  )
+>;
+
+export type GetProfileOptionsType = GetProfileCommonOptionsType &
+  Readonly<{
+    accessKey?: undefined;
+  }>;
+
+export type GetProfileUnauthOptionsType = GetProfileCommonOptionsType &
+  Readonly<{
+    accessKey: string;
+  }>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -829,22 +855,12 @@ export type WebAPIType = {
   getMyKeys: (uuidKind: UUIDKind) => Promise<number>;
   getProfile: (
     identifier: string,
-    options: {
-      profileKeyVersion: string;
-      profileKeyCredentialRequest?: string;
-      userLanguages: ReadonlyArray<string>;
-      credentialType?: 'pni' | 'profileKey';
-    }
+    options: GetProfileOptionsType
   ) => Promise<ProfileType>;
   getProfileForUsername: (username: string) => Promise<ProfileType>;
   getProfileUnauth: (
     identifier: string,
-    options: {
-      accessKey: string;
-      profileKeyVersion: string;
-      profileKeyCredentialRequest?: string;
-      userLanguages: ReadonlyArray<string>;
-    }
+    options: GetProfileUnauthOptionsType
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
   getProvisioningResource: (
@@ -1482,14 +1498,25 @@ export function initialize({
 
     function getProfileUrl(
       identifier: string,
-      profileKeyVersion: string,
-      profileKeyCredentialRequest?: string,
-      credentialType: 'pni' | 'profileKey' = 'profileKey'
+      {
+        profileKeyVersion,
+        profileKeyCredentialRequest,
+        credentialType = 'profileKey',
+      }: GetProfileCommonOptionsType
     ) {
-      let profileUrl = `/${identifier}/${profileKeyVersion}`;
-
-      if (profileKeyCredentialRequest) {
-        profileUrl += `/${profileKeyCredentialRequest}?credentialType=${credentialType}`;
+      let profileUrl = `/${identifier}`;
+      if (profileKeyVersion !== undefined) {
+        profileUrl += `/${profileKeyVersion}`;
+        if (profileKeyCredentialRequest !== undefined) {
+          profileUrl +=
+            `/${profileKeyCredentialRequest}` +
+            `?credentialType=${credentialType}`;
+        }
+      } else {
+        strictAssert(
+          profileKeyCredentialRequest === undefined,
+          'getProfileUrl called without version, but with request'
+        );
       }
 
       return profileUrl;
@@ -1497,29 +1524,15 @@ export function initialize({
 
     async function getProfile(
       identifier: string,
-      options: {
-        profileKeyVersion: string;
-        profileKeyCredentialRequest?: string;
-        userLanguages: ReadonlyArray<string>;
-        credentialType?: 'pni' | 'profileKey';
-      }
+      options: GetProfileOptionsType
     ) {
-      const {
-        profileKeyVersion,
-        profileKeyCredentialRequest,
-        userLanguages,
-        credentialType = 'profileKey',
-      } = options;
+      const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
+        options;
 
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: getProfileUrl(
-          identifier,
-          profileKeyVersion,
-          profileKeyCredentialRequest,
-          credentialType
-        ),
+        urlParameters: getProfileUrl(identifier, options),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },
@@ -1561,12 +1574,7 @@ export function initialize({
 
     async function getProfileUnauth(
       identifier: string,
-      options: {
-        accessKey: string;
-        profileKeyVersion: string;
-        profileKeyCredentialRequest?: string;
-        userLanguages: ReadonlyArray<string>;
-      }
+      options: GetProfileUnauthOptionsType
     ) {
       const {
         accessKey,
@@ -1578,11 +1586,7 @@ export function initialize({
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: getProfileUrl(
-          identifier,
-          profileKeyVersion,
-          profileKeyCredentialRequest
-        ),
+        urlParameters: getProfileUrl(identifier, options),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },

@@ -29,6 +29,8 @@ import type { UUID, UUIDStringType } from '../types/UUID';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
+  GetProfileOptionsType,
+  GetProfileUnauthOptionsType,
   GroupCredentialsType,
   GroupLogResponseType,
   MultiRecipient200ResponseType,
@@ -1996,21 +1998,10 @@ export default class MessageSender {
 
   async getProfile(
     uuid: UUID,
-    options: Readonly<{
-      accessKey?: string;
-      profileKeyVersion: string;
-      profileKeyCredentialRequest?: string;
-      userLanguages: ReadonlyArray<string>;
-    }>
+    options: GetProfileOptionsType | GetProfileUnauthOptionsType
   ): ReturnType<WebAPIType['getProfile']> {
-    const { accessKey } = options;
-
-    if (accessKey) {
-      const unauthOptions = {
-        ...options,
-        accessKey,
-      };
-      return this.server.getProfileUnauth(uuid.toString(), unauthOptions);
+    if (options.accessKey !== undefined) {
+      return this.server.getProfileUnauth(uuid.toString(), options);
     }
 
     return this.server.getProfile(uuid.toString(), options);

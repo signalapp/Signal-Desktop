@@ -44,7 +44,6 @@ describe('routineProfileRefresh', () => {
       muteExpiresAt: 0,
       profileAvatar: undefined,
       profileKeyCredential: UUID.generate().toString(),
-      profileKeyVersion: '',
       profileSharing: true,
       quotedMessageId: null,
       sealedSender: 1,

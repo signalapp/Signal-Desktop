@@ -8,6 +8,7 @@ import PQueue from 'p-queue';
 
 import type {
   ConversationAttributesType,
+  ConversationLastProfileType,
   ConversationModelCollectionType,
   LastMessageStatus,
   MessageAttributesType,
@@ -145,6 +146,7 @@ const SEND_REPORTING_THRESHOLD_MS = 25;
 const MESSAGE_LOAD_CHUNK_SIZE = 30;
 
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
+  'lastProfile',
   'profileLastFetchedAt',
   'needsStorageServiceSync',
   'storageID',
@@ -4575,20 +4577,16 @@ export class ConversationModel extends window.Backbone
     return this._activeProfileFetch;
   }
 
-  async setEncryptedProfileName(encryptedName: string): Promise<void> {
+  async setEncryptedProfileName(
+    encryptedName: string,
+    decryptionKey: Uint8Array
+  ): Promise<void> {
     if (!encryptedName) {
       return;
     }
-    const key = this.get('profileKey');
-    if (!key) {
-      return;
-    }
-
-    // decode
-    const keyBuffer = Bytes.fromBase64(key);
 
     // decrypt
-    const { given, family } = decryptProfileName(encryptedName, keyBuffer);
+    const { given, family } = decryptProfileName(encryptedName, decryptionKey);
 
     // encode
     const profileName = given ? Bytes.toString(given) : undefined;
@@ -4617,7 +4615,10 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async setProfileAvatar(avatarPath: undefined | null | string): Promise<void> {
+  async setProfileAvatar(
+    avatarPath: undefined | null | string,
+    decryptionKey: Uint8Array
+  ): Promise<void> {
     if (isMe(this.attributes)) {
       if (avatarPath) {
         window.storage.put('avatarUrl', avatarPath);
@@ -4632,14 +4633,9 @@ export class ConversationModel extends window.Backbone
     }
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
-    const key = this.get('profileKey');
-    if (!key) {
-      return;
-    }
-    const keyBuffer = Bytes.fromBase64(key);
 
     // decrypt
-    const decrypted = decryptProfile(avatar, keyBuffer);
+    const decrypted = decryptProfile(avatar, decryptionKey);
 
     // update the conversation avatar only if hash differs
     if (decrypted) {
@@ -4666,10 +4662,6 @@ export class ConversationModel extends window.Backbone
         `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
       );
       this.set({
-        about: undefined,
-        aboutEmoji: undefined,
-        profileAvatar: undefined,
-        profileKeyVersion: undefined,
         profileKeyCredential: null,
         accessKey: null,
         sealedSender: SEALED_SENDER.UNKNOWN,
@@ -4685,10 +4677,7 @@ export class ConversationModel extends window.Backbone
         this.captureChange('profileKey');
       }
 
-      await Promise.all([
-        this.deriveAccessKeyIfNeeded(),
-        this.deriveProfileKeyVersionIfNeeded(),
-      ]);
+      this.deriveAccessKeyIfNeeded();
 
       // We will update the conversation during storage service sync
       if (!viaStorageServiceSync) {
@@ -4700,7 +4689,7 @@ export class ConversationModel extends window.Backbone
     return false;
   }
 
-  async deriveAccessKeyIfNeeded(): Promise<void> {
+  deriveAccessKeyIfNeeded(): void {
     const profileKey = this.get('profileKey');
     if (!profileKey) {
       return;
@@ -4715,15 +4704,20 @@ export class ConversationModel extends window.Backbone
     this.set({ accessKey });
   }
 
-  async deriveProfileKeyVersionIfNeeded(): Promise<void> {
+  deriveProfileKeyVersion(): string | undefined {
     const profileKey = this.get('profileKey');
     if (!profileKey) {
       return;
     }
 
     const uuid = this.get('uuid');
-    if (!uuid || this.get('profileKeyVersion')) {
+    if (!uuid) {
       return;
+    }
+
+    const lastProfile = this.get('lastProfile');
+    if (lastProfile?.profileKey === profileKey) {
+      return lastProfile.profileKeyVersion;
     }
 
     const profileKeyVersion = Util.zkgroup.deriveProfileKeyVersion(
@@ -4732,12 +4726,68 @@ export class ConversationModel extends window.Backbone
     );
     if (!profileKeyVersion) {
       log.warn(
-        'deriveProfileKeyVersionIfNeeded: Failed to derive profile key version, clearing profile key.'
+        'deriveProfileKeyVersion: Failed to derive profile key version, ' +
+          'clearing profile key.'
       );
       this.setProfileKey(undefined);
+      return;
     }
 
-    this.set({ profileKeyVersion });
+    return profileKeyVersion;
+  }
+
+  async updateLastProfile(
+    oldValue: ConversationLastProfileType | undefined,
+    { profileKey, profileKeyVersion }: ConversationLastProfileType
+  ): Promise<void> {
+    const lastProfile = this.get('lastProfile');
+
+    // Atomic updates only
+    if (lastProfile !== oldValue) {
+      return;
+    }
+
+    if (
+      lastProfile?.profileKey === profileKey &&
+      lastProfile?.profileKeyVersion === profileKeyVersion
+    ) {
+      return;
+    }
+
+    log.warn(
+      'ConversationModel.updateLastProfile: updating for',
+      this.idForLogging()
+    );
+
+    this.set({ lastProfile: { profileKey, profileKeyVersion } });
+
+    await window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  async removeLastProfile(
+    oldValue: ConversationLastProfileType | undefined
+  ): Promise<void> {
+    // Atomic updates only
+    if (this.get('lastProfile') !== oldValue) {
+      return;
+    }
+
+    log.warn(
+      'ConversationModel.removeLastProfile: called for',
+      this.idForLogging()
+    );
+
+    this.set({
+      lastProfile: undefined,
+
+      // We don't have any knowledge of profile anymore. Drop all associated
+      // data.
+      about: undefined,
+      aboutEmoji: undefined,
+      profileAvatar: undefined,
+    });
+
+    await window.Signal.Data.updateConversation(this.attributes);
   }
 
   hasMember(identifier: string): boolean {

@@ -3,6 +3,12 @@
 
 import type { ProfileKeyCredentialRequestContext } from '@signalapp/signal-client/zkgroup';
 import { SEALED_SENDER } from '../types/SealedSender';
+import * as Errors from '../types/errors';
+import type {
+  GetProfileOptionsType,
+  GetProfileUnauthOptionsType,
+} from '../textsecure/WebAPI';
+import { HTTPError } from '../textsecure/Errors';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import * as Bytes from '../Bytes';
@@ -12,36 +18,26 @@ import {
   getClientZkProfileOperations,
   handleProfileKeyCredential,
 } from './zkgroup';
-import { getSendOptions } from './getSendOptions';
 import { isMe } from './whatTypeOfConversation';
+import type { ConversationModel } from '../models/conversations';
 import * as log from '../logging/log';
 import { getUserLanguages } from './userLanguages';
 import { parseBadgesFromServer } from '../badges/parseBadgesFromServer';
+import { strictAssert } from './assert';
 
-export async function getProfile(
-  providedUuid?: string,
-  providedE164?: string
-): Promise<void> {
-  if (!window.textsecure.messaging) {
-    throw new Error(
-      'Conversation.getProfile: window.textsecure.messaging not available'
-    );
-  }
+async function doGetProfile(c: ConversationModel): Promise<void> {
+  const idForLogging = c.idForLogging();
+  const { messaging } = window.textsecure;
+  strictAssert(
+    messaging,
+    'getProfile: window.textsecure.messaging not available'
+  );
 
   const { updatesUrl } = window.SignalContext.config;
-  if (typeof updatesUrl !== 'string') {
-    throw new Error('getProfile expected updatesUrl to be a defined string');
-  }
-
-  const id = window.ConversationController.ensureContactIds({
-    uuid: providedUuid,
-    e164: providedE164,
-  });
-  const c = window.ConversationController.get(id);
-  if (!c) {
-    log.error('getProfile: failed to find conversation; doing nothing');
-    return;
-  }
+  strictAssert(
+    typeof updatesUrl === 'string',
+    'getProfile: expected updatesUrl to be a defined string'
+  );
 
   const clientZkProfileCipher = getClientZkProfileOperations(
     window.getServerPublicParams()
@@ -54,27 +50,40 @@ export async function getProfile(
 
   let profile;
 
-  try {
-    await Promise.all([
-      c.deriveAccessKeyIfNeeded(),
-      c.deriveProfileKeyVersionIfNeeded(),
-    ]);
+  c.deriveAccessKeyIfNeeded();
 
-    const profileKey = c.get('profileKey');
-    const uuid = c.getCheckedUuid('getProfile');
-    const profileKeyVersionHex = c.get('profileKeyVersion');
-    if (!profileKeyVersionHex) {
-      throw new Error('No profile key version available');
-    }
-    const existingProfileKeyCredential = c.get('profileKeyCredential');
+  const profileKey = c.get('profileKey');
+  const profileKeyVersion = c.deriveProfileKeyVersion();
+  const uuid = c.getCheckedUuid('getProfile');
+  const existingProfileKeyCredential = c.get('profileKeyCredential');
+  const lastProfile = c.get('lastProfile');
 
-    let profileKeyCredentialRequestHex: undefined | string;
-    let profileCredentialRequestContext:
-      | undefined
-      | ProfileKeyCredentialRequestContext;
+  let profileCredentialRequestContext:
+    | undefined
+    | ProfileKeyCredentialRequestContext;
 
-    if (profileKey && profileKeyVersionHex && !existingProfileKeyCredential) {
-      log.info('Generating request...');
+  let getProfileOptions: GetProfileOptionsType | GetProfileUnauthOptionsType;
+
+  let accessKey = c.get('accessKey');
+  if (profileKey) {
+    strictAssert(
+      profileKeyVersion && accessKey,
+      'profileKeyVersion and accessKey are derived from profileKey'
+    );
+
+    if (existingProfileKeyCredential) {
+      getProfileOptions = {
+        accessKey,
+        profileKeyVersion,
+        userLanguages,
+      };
+    } else {
+      log.info(
+        'getProfile: generating profile key credential request for ' +
+          `conversation ${idForLogging}`
+      );
+
+      let profileKeyCredentialRequestHex: undefined | string;
       ({
         requestHex: profileKeyCredentialRequestHex,
         context: profileCredentialRequestContext,
@@ -83,40 +92,76 @@ export async function getProfile(
         uuid.toString(),
         profileKey
       ));
+
+      getProfileOptions = {
+        accessKey,
+        userLanguages,
+        profileKeyVersion,
+        profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+      };
     }
+  } else {
+    strictAssert(
+      !accessKey,
+      'accessKey have to be absent because there is no profileKey'
+    );
 
-    const { sendMetadata = {} } = await getSendOptions(c.attributes);
-    const getInfo = sendMetadata[uuid.toString()] || {};
+    if (lastProfile?.profileKeyVersion) {
+      getProfileOptions = {
+        userLanguages,
+        profileKeyVersion: lastProfile.profileKeyVersion,
+      };
+    } else {
+      getProfileOptions = { userLanguages };
+    }
+  }
 
-    if (getInfo.accessKey) {
+  const isVersioned = Boolean(getProfileOptions.profileKeyVersion);
+  log.info(
+    `getProfile: getting ${isVersioned ? 'versioned' : 'unversioned'} ` +
+      `profile for conversation ${idForLogging}`
+  );
+
+  try {
+    if (getProfileOptions.accessKey) {
       try {
-        profile = await window.textsecure.messaging.getProfile(uuid, {
-          accessKey: getInfo.accessKey,
-          profileKeyVersion: profileKeyVersionHex,
-          profileKeyCredentialRequest: profileKeyCredentialRequestHex,
-          userLanguages,
-        });
+        profile = await messaging.getProfile(uuid, getProfileOptions);
       } catch (error) {
-        if (error.code === 401 || error.code === 403) {
-          log.info(
-            `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-          );
-          c.set({ sealedSender: SEALED_SENDER.DISABLED });
-          profile = await window.textsecure.messaging.getProfile(uuid, {
-            profileKeyVersion: profileKeyVersionHex,
-            profileKeyCredentialRequest: profileKeyCredentialRequestHex,
-            userLanguages,
-          });
-        } else {
+        if (!(error instanceof HTTPError)) {
           throw error;
         }
+        if (error.code === 401 || error.code === 403) {
+          await c.setProfileKey(undefined);
+
+          // Retry fetch using last known profileKeyVersion or fetch
+          // unversioned profile.
+          return doGetProfile(c);
+        }
+
+        if (error.code === 404) {
+          await c.removeLastProfile(lastProfile);
+        }
+
+        throw error;
       }
     } else {
-      profile = await window.textsecure.messaging.getProfile(uuid, {
-        profileKeyVersion: profileKeyVersionHex,
-        profileKeyCredentialRequest: profileKeyCredentialRequestHex,
-        userLanguages,
-      });
+      try {
+        // We won't get the credential, but lets either fetch:
+        // - a versioned profile using last known profileKeyVersion
+        // - some basic profile information (capabilities, badges, etc).
+        profile = await messaging.getProfile(uuid, getProfileOptions);
+      } catch (error) {
+        if (error instanceof HTTPError && error.code === 404) {
+          log.info(`getProfile: failed to find a profile for ${idForLogging}`);
+
+          await c.removeLastProfile(lastProfile);
+          if (!isVersioned) {
+            log.info(`getProfile: marking ${idForLogging} as unregistered`);
+            c.setUnregistered();
+          }
+        }
+        throw error;
+      }
     }
 
     if (profile.identityKey) {
@@ -136,10 +181,14 @@ export async function getProfile(
       }
     }
 
-    const accessKey = c.get('accessKey');
+    // Update accessKey to prevent race conditions. Since we run asynchronous
+    // requests above - it is possible that someone updates or erases
+    // the profile key from under us.
+    accessKey = c.get('accessKey');
+
     if (profile.unrestrictedUnidentifiedAccess && profile.unidentifiedAccess) {
       log.info(
-        `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
+        `getProfile: setting sealedSender to UNRESTRICTED for conversation ${idForLogging}`
       );
       c.set({
         sealedSender: SEALED_SENDER.UNRESTRICTED,
@@ -152,14 +201,14 @@ export async function getProfile(
 
       if (haveCorrectKey) {
         log.info(
-          `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
+          `getProfile: setting sealedSender to ENABLED for conversation ${idForLogging}`
         );
         c.set({
           sealedSender: SEALED_SENDER.ENABLED,
         });
       } else {
-        log.info(
-          `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+        log.warn(
+          `getProfile: setting sealedSender to DISABLED for conversation ${idForLogging}`
         );
         c.set({
           sealedSender: SEALED_SENDER.DISABLED,
@@ -167,20 +216,22 @@ export async function getProfile(
       }
     } else {
       log.info(
-        `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+        `getProfile: setting sealedSender to DISABLED for conversation ${idForLogging}`
       );
       c.set({
         sealedSender: SEALED_SENDER.DISABLED,
       });
     }
 
+    const rawDecryptionKey = c.get('profileKey') || lastProfile?.profileKey;
+    const decryptionKey = rawDecryptionKey
+      ? Bytes.fromBase64(rawDecryptionKey)
+      : undefined;
     if (profile.about) {
-      const key = c.get('profileKey');
-      if (key) {
-        const keyBuffer = Bytes.fromBase64(key);
+      if (decryptionKey) {
         const decrypted = decryptProfile(
           Bytes.fromBase64(profile.about),
-          keyBuffer
+          decryptionKey
         );
         c.set('about', Bytes.toString(trimForDisplay(decrypted)));
       }
@@ -189,12 +240,10 @@ export async function getProfile(
     }
 
     if (profile.aboutEmoji) {
-      const key = c.get('profileKey');
-      if (key) {
-        const keyBuffer = Bytes.fromBase64(key);
+      if (decryptionKey) {
         const decrypted = decryptProfile(
           Bytes.fromBase64(profile.aboutEmoji),
-          keyBuffer
+          decryptionKey
         );
         c.set('aboutEmoji', Bytes.toString(trimForDisplay(decrypted)));
       }
@@ -243,7 +292,11 @@ export async function getProfile(
       }
     }
   } catch (error) {
-    switch (error?.code) {
+    if (!(error instanceof HTTPError)) {
+      throw error;
+    }
+
+    switch (error.code) {
       case 401:
       case 403:
         if (
@@ -251,46 +304,49 @@ export async function getProfile(
           c.get('sealedSender') === SEALED_SENDER.UNRESTRICTED
         ) {
           log.warn(
-            `getProfile: Got 401/403 when using accessKey for ${c.idForLogging()}, removing profileKey`
+            `getProfile: Got 401/403 when using accessKey for ${idForLogging}, removing profileKey`
           );
           c.setProfileKey(undefined);
         }
         if (c.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
           log.warn(
-            `getProfile: Got 401/403 when using accessKey for ${c.idForLogging()}, setting sealedSender = DISABLED`
+            `getProfile: Got 401/403 when using accessKey for ${idForLogging}, setting sealedSender = DISABLED`
           );
           c.set('sealedSender', SEALED_SENDER.DISABLED);
         }
         return;
-      case 404:
-        log.info(
-          `getProfile: failed to find a profile for ${c.idForLogging()}`
-        );
-        c.setUnregistered();
-        return;
       default:
         log.warn(
           'getProfile failure:',
-          c.idForLogging(),
-          error && error.stack ? error.stack : error
+          idForLogging,
+          Errors.toLogFormat(error)
         );
         return;
     }
   }
 
+  const decryptionKeyString = profileKey || lastProfile?.profileKey;
+  const decryptionKey = decryptionKeyString
+    ? Bytes.fromBase64(decryptionKeyString)
+    : undefined;
+
+  let isSuccessfullyDecrypted = true;
   if (profile.name) {
-    try {
-      await c.setEncryptedProfileName(profile.name);
-    } catch (error) {
-      log.warn(
-        'getProfile decryption failure:',
-        c.idForLogging(),
-        error && error.stack ? error.stack : error
-      );
-      await c.set({
-        profileName: undefined,
-        profileFamilyName: undefined,
-      });
+    if (decryptionKey) {
+      try {
+        await c.setEncryptedProfileName(profile.name, decryptionKey);
+      } catch (error) {
+        log.warn(
+          'getProfile decryption failure:',
+          idForLogging,
+          Errors.toLogFormat(error)
+        );
+        isSuccessfullyDecrypted = false;
+        await c.set({
+          profileName: undefined,
+          profileFamilyName: undefined,
+        });
+      }
     }
   } else {
     c.set({
@@ -300,17 +356,58 @@ export async function getProfile(
   }
 
   try {
-    await c.setProfileAvatar(profile.avatar);
+    if (decryptionKey) {
+      await c.setProfileAvatar(profile.avatar, decryptionKey);
+    }
   } catch (error) {
-    if (error.code === 403 || error.code === 404) {
-      log.info(`Clearing profile avatar for conversation ${c.idForLogging()}`);
-      c.set({
-        profileAvatar: null,
-      });
+    if (error instanceof HTTPError) {
+      if (error.code === 403 || error.code === 404) {
+        log.warn(
+          `getProfile: clearing profile avatar for conversation ${idForLogging}`
+        );
+        c.set({
+          profileAvatar: null,
+        });
+      }
+    } else {
+      log.warn(
+        `getProfile: failed to decrypt avatar for conversation ${idForLogging}`,
+        Errors.toLogFormat(error)
+      );
+      isSuccessfullyDecrypted = false;
     }
   }
 
   c.set('profileLastFetchedAt', Date.now());
 
+  // After we successfully decrypted - update lastProfile property
+  if (
+    isSuccessfullyDecrypted &&
+    profileKey &&
+    getProfileOptions.profileKeyVersion
+  ) {
+    await c.updateLastProfile(lastProfile, {
+      profileKey,
+      profileKeyVersion: getProfileOptions.profileKeyVersion,
+    });
+  }
+
   window.Signal.Data.updateConversation(c.attributes);
+}
+
+export async function getProfile(
+  providedUuid?: string,
+  providedE164?: string
+): Promise<void> {
+  const id = window.ConversationController.ensureContactIds({
+    uuid: providedUuid,
+    e164: providedE164,
+  });
+  const c = window.ConversationController.get(id);
+  if (!c) {
+    log.error('getProfile: failed to find conversation; doing nothing');
+    return;
+  }
+
+  await doGetProfile(c);
 }
