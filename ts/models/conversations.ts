@@ -3155,7 +3155,7 @@ export class ConversationModel extends window.Backbone
     }
 
     if (hasUserInitiatedMessages) {
-      await this.maybeApplyUniversalTimer(true);
+      await this.maybeRemoveUniversalTimer();
       return;
     }
 
@@ -3168,36 +3168,52 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    log.info(
+      `maybeSetPendingUniversalTimer(${this.idForLogging()}): added notification`
+    );
     const notificationId = await this.addNotification(
       'universal-timer-notification'
     );
     this.set('pendingUniversalTimer', notificationId);
   }
 
-  async maybeApplyUniversalTimer(forceRemove: boolean): Promise<void> {
-    const notificationId = this.get('pendingUniversalTimer');
-    if (!notificationId) {
+  async maybeApplyUniversalTimer(): Promise<void> {
+    // Check if we had a notification
+    if (!(await this.maybeRemoveUniversalTimer())) {
       return;
     }
 
-    const message = window.MessageController.getById(notificationId);
-    if (message) {
-      window.Signal.Data.removeMessage(message.id);
-    }
-
-    if (this.get('expireTimer') || forceRemove) {
-      this.set('pendingUniversalTimer', undefined);
+    // We already have an expiration timer
+    if (this.get('expireTimer')) {
       return;
     }
 
     const expireTimer = universalExpireTimer.get();
     if (expireTimer) {
-      // `updateExpirationTimer` calls `modifyGroupV2` and shouldn't be awaited
-      // since we run both on conversation's queue.
-      this.updateExpirationTimer(expireTimer);
+      log.info(
+        `maybeApplyUniversalTimer(${this.idForLogging()}): applying timer`
+      );
+
+      await this.updateExpirationTimer(expireTimer);
+    }
+  }
+
+  async maybeRemoveUniversalTimer(): Promise<boolean> {
+    const notificationId = this.get('pendingUniversalTimer');
+    if (!notificationId) {
+      return false;
     }
 
     this.set('pendingUniversalTimer', undefined);
+    log.info(
+      `maybeRemoveUniversalTimer(${this.idForLogging()}): removed notification`
+    );
+
+    const message = window.MessageController.getById(notificationId);
+    if (message) {
+      await window.Signal.Data.removeMessage(message.id);
+    }
+    return true;
   }
 
   async addChangeNumberNotification(
@@ -3779,7 +3795,7 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    await this.maybeApplyUniversalTimer(false);
+    await this.maybeApplyUniversalTimer();
 
     const expireTimer = this.get('expireTimer');
 
@@ -4311,7 +4327,7 @@ export class ConversationModel extends window.Backbone
 
     // This call actually removes universal timer notification and clears
     // the pending flags.
-    await this.maybeApplyUniversalTimer(true);
+    await this.maybeRemoveUniversalTimer();
 
     window.Signal.Data.updateConversation(this.attributes);
 
