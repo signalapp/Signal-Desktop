@@ -227,7 +227,6 @@ textarea {
   width: 100%;
   border-radius: 2px;
   text-align: center;
-
   &.primary {
     background-color: $session-color-primary;
   }
@@ -605,7 +604,7 @@ label {
   .react-contexify__item:not(.react-contexify__item--disabled):hover
     > .react-contexify__item__content {
     background: var(--color-accent);
-    color: var(--color-text-opposite);
+    color: var(--color-text-menu-highlighted);
   }
   .react-contexify__item__content {
     transition: $session-transition-duration;

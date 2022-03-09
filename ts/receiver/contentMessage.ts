@@ -3,7 +3,7 @@ import { handleSwarmDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import * as Lodash from 'lodash';
+import _, * as Lodash from 'lodash';
 import { PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
@@ -13,17 +13,12 @@ import { concatUInt8Array, getSodium } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
 import { ECKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
-import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
-import { getMessageBySenderAndTimestamp } from '../data/data';
 import { handleCallMessage } from './callMessage';
-import {
-  deleteMessagesFromSwarmAndCompletelyLocally,
-  deleteMessagesFromSwarmAndMarkAsDeletedLocally,
-} from '../interactions/conversations/unsendingInteractions';
 import { SettingsKey } from '../data/settings-key';
+import { ConversationTypeEnum } from '../models/conversation';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -307,7 +302,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   // first check that dataMessage is the only field set in the Content
   let msgWithoutDataMessage = Lodash.pickBy(
     content,
-    (_, key) => key !== 'dataMessage' && key !== 'toJSON'
+    (_value, key) => key !== 'dataMessage' && key !== 'toJSON'
   );
   msgWithoutDataMessage = Lodash.pickBy(msgWithoutDataMessage, Lodash.identity);
 
@@ -326,6 +321,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   return !isControlDataMessageOnly;
 }
 
+// tslint:disable-next-line: cyclomatic-complexity
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   plaintext: ArrayBuffer,
@@ -380,6 +376,7 @@ export async function innerHandleSwarmContentMessage(
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
+
       await handleSwarmDataMessage(
         envelope,
         content.dataMessage as SignalService.DataMessage,
@@ -430,6 +427,12 @@ export async function innerHandleSwarmContentMessage(
     }
     if (content.callMessage && window.sessionFeatureFlags?.useCallMessage) {
       await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
+    }
+    if (content.messageRequestResponse) {
+      await handleMessageRequestResponse(
+        envelope,
+        content.messageRequestResponse as SignalService.MessageRequestResponse
+      );
     }
   } catch (e) {
     window?.log?.warn(e);
@@ -534,7 +537,6 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
     return;
   }
   if (!unsendMessage) {
-    //#region early exit conditions
     window?.log?.error('handleUnsendMessage: Invalid parameters -- dropping message.');
     await removeFromCache(envelope);
 
@@ -546,40 +548,41 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
     return;
   }
+}
 
-  const messageToDelete = await getMessageBySenderAndTimestamp({
-    source: messageAuthor,
-    timestamp: Lodash.toNumber(timestamp),
-  });
-  const messageHash = messageToDelete?.get('messageHash');
-  //#endregion
+/**
+ * Sets approval fields for conversation depending on response's values. If request is approving, pushes notification and
+ */
+async function handleMessageRequestResponse(
+  envelope: EnvelopePlus,
+  messageRequestResponse: SignalService.MessageRequestResponse
+) {
+  const { isApproved } = messageRequestResponse;
+  if (!messageRequestResponse) {
+    window?.log?.error('handleMessageRequestResponse: Invalid parameters -- dropping message.');
+    await removeFromCache(envelope);
+    return;
+  }
 
-  //#region executing deletion
-  if (messageHash && messageToDelete) {
-    window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
-    const conversation = getConversationController().get(messageToDelete.get('conversationId'));
-    if (!conversation) {
-      await removeFromCache(envelope);
+  const convoId = envelope.source;
+  const conversationToApprove = getConversationController().get(convoId);
+  if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
+    window?.log?.info(
+      'Conversation already contains the correct value for the didApproveMe field.'
+    );
+    return;
+  }
 
-      return;
-    }
-    if (messageToDelete.getSource() === UserUtils.getOurPubKeyStrFromCache()) {
-      // a message we sent is completely removed when we get a unsend request
-      void deleteMessagesFromSwarmAndCompletelyLocally(conversation, [messageToDelete]);
-    } else {
-      void deleteMessagesFromSwarmAndMarkAsDeletedLocally(conversation, [messageToDelete]);
-    }
-  } else {
-    window.log.info(
-      'handleUnsendMessage: got a request to delete an unknown messageHash:',
-      messageHash,
-      ' and found messageToDelete:',
-      messageToDelete?.id
+  await conversationToApprove.setDidApproveMe(isApproved);
+  if (isApproved === true) {
+    // Conversation was not approved before so a sync is needed
+    await conversationToApprove.addIncomingApprovalMessage(
+      _.toNumber(envelope.timestamp),
+      envelope.source
     );
   }
-  await removeFromCache(envelope);
 
-  //#endregion
+  await removeFromCache(envelope);
 }
 
 /**

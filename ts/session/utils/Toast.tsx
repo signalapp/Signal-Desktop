@@ -208,6 +208,10 @@ export function pushTooManyMembers() {
   pushToastError('tooManyMembers', window.i18n('closedGroupMaxSize'));
 }
 
+export function pushMessageRequestPending() {
+  pushToastInfo('messageRequestPending', window.i18n('messageRequestPending'));
+}
+
 export function pushUnblockToSend() {
   pushToastInfo('unblockToSend', window.i18n('unblockToSend'));
 }
@@ -274,4 +278,12 @@ export function pushNoAudioInputFound() {
 
 export function pushNoAudioOutputFound() {
   pushToastWarning('noAudioInputFound', window.i18n('noAudioOutputFound'));
+}
+
+export function pushNoMediaUntilApproved() {
+  pushToastError('noMediaUntilApproved', window.i18n('noMediaUntilApproved'));
+}
+
+export function pushMustBeApproved() {
+  pushToastError('mustBeApproved', window.i18n('mustBeApproved'));
 }

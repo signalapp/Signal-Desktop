@@ -95,6 +95,7 @@ export class ConfigurationMessageContact {
   public profileKey?: Uint8Array;
   public isApproved?: boolean;
   public isBlocked?: boolean;
+  public didApproveMe?: boolean;
 
   public constructor({
     publicKey,
@@ -103,6 +104,7 @@ export class ConfigurationMessageContact {
     profileKey,
     isApproved,
     isBlocked,
+    didApproveMe,
   }: {
     publicKey: string;
     displayName: string;
@@ -110,6 +112,7 @@ export class ConfigurationMessageContact {
     profileKey?: Uint8Array;
     isApproved?: boolean;
     isBlocked?: boolean;
+    didApproveMe?: boolean;
   }) {
     this.publicKey = publicKey;
     this.displayName = displayName;
@@ -117,6 +120,7 @@ export class ConfigurationMessageContact {
     this.profileKey = profileKey;
     this.isApproved = isApproved;
     this.isBlocked = isBlocked;
+    this.didApproveMe = didApproveMe;
 
     // will throw if public key is invalid
     PubKey.cast(publicKey);
@@ -141,6 +145,7 @@ export class ConfigurationMessageContact {
       profileKey: this.profileKey,
       isApproved: this.isApproved,
       isBlocked: this.isBlocked,
+      didApproveMe: this.didApproveMe,
     });
   }
 }

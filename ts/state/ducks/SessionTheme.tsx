@@ -56,10 +56,17 @@ const darkBackgroundPrimary = '#474646';
 const darkButtonGreen = accentDarkTheme;
 const darkModalBackground = '#101011';
 
+const grey67 = '#434343';
+const darkMessageRequestBannerBackground = darkConversationItemHasUnread;
+const darkMessageRequestBannerIconBackground = grey67;
+const darkMessageRequestBannerUnreadBackground = grey67;
+const darkMessageRequestBannerIcon = '#adadad';
+
 export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--color-accent', darkColorAccent);
   document.documentElement.style.setProperty('--color-accent-button', darkColorAccentButton);
   document.documentElement.style.setProperty('--color-text', darkColorText);
+  document.documentElement.style.setProperty('--color-text-menu-highlighted', lightColorText);
   document.documentElement.style.setProperty('--color-text-subtle', darkColorTextSubtle);
   document.documentElement.style.setProperty('--color-text-accent', darkColorTextAccent);
   document.documentElement.style.setProperty('--color-text-opposite', darkColorTextOpposite);
@@ -138,6 +145,23 @@ export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--color-button-green', darkButtonGreen);
   document.documentElement.style.setProperty('--color-modal-background', darkModalBackground);
   document.documentElement.style.setProperty('--border-session', darkColorSessionBorder);
+
+  document.documentElement.style.setProperty(
+    '--color-request-banner-background',
+    darkMessageRequestBannerBackground
+  );
+  document.documentElement.style.setProperty(
+    '--color-request-banner-icon-background',
+    darkMessageRequestBannerIconBackground
+  );
+  document.documentElement.style.setProperty(
+    '--color-request-banner-unread-background',
+    darkMessageRequestBannerUnreadBackground
+  );
+  document.documentElement.style.setProperty(
+    '--color-request-banner-icon',
+    darkMessageRequestBannerIcon
+  );
 };
 
 // LIGHT COLORS
@@ -185,10 +209,16 @@ const lightBackgroundPrimary = '#272726';
 const lightButtonGreen = '#272726';
 const lightModalBackground = '#fcfcfc';
 
+const lightMessageRequestBannerBackground = lightColorQuoteBottomBarBg;
+const lightMessageRequestBannerIconBackground = '#585858';
+const lightMessageRequestBannerUnreadBackground = lightColorClickableHovered;
+const lightMessageRequestBannerIcon = white;
+
 export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--color-accent', lightColorAccent);
   document.documentElement.style.setProperty('--color-accent-button', lightColorAccentButton);
   document.documentElement.style.setProperty('--color-text', lightColorText);
+  document.documentElement.style.setProperty('--color-text-menu-highlighted', lightColorText);
   document.documentElement.style.setProperty('--color-text-subtle', lightColorTextSubtle);
   document.documentElement.style.setProperty('--color-text-accent', lightColorTextAccent);
   document.documentElement.style.setProperty('--color-text-opposite', lightColorTextOpposite);
@@ -276,6 +306,22 @@ export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--color-button-green', lightButtonGreen);
   document.documentElement.style.setProperty('--color-modal-background', lightModalBackground);
   document.documentElement.style.setProperty('--border-session', lightColorSessionBorder);
+  document.documentElement.style.setProperty(
+    '--color-request-banner-background',
+    lightMessageRequestBannerBackground
+  );
+  document.documentElement.style.setProperty(
+    '--color-request-banner-icon-background',
+    lightMessageRequestBannerIconBackground
+  );
+  document.documentElement.style.setProperty(
+    '--color-request-banner-unread-background',
+    lightMessageRequestBannerUnreadBackground
+  );
+  document.documentElement.style.setProperty(
+    '--color-request-banner-icon',
+    lightMessageRequestBannerIcon
+  );
 };
 
 // default to light theme

@@ -8,7 +8,7 @@ import { SessionButtonColor } from '../../../basic/SessionButton';
 import { SessionIcon } from '../../../icon';
 
 const StyledTrustSenderUI = styled.div`
-  padding-inline: var(--margins-xs);
+  padding-inline: var(--margins-sm);
   display: flex;
   align-items: center;
 `;

@@ -6,7 +6,6 @@ import { MessageBody } from '../../conversation/message/message-content/MessageB
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { ContextConversationId } from './ConversationListItem';
-import { MessageRequestButtons } from './MessageRequest';
 import { useSelector } from 'react-redux';
 import { isSearching } from '../../../state/selectors/search';
 
@@ -57,7 +56,6 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
           <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />
         )}
       </div>
-      <MessageRequestButtons isMessageRequest={props.isMessageRequest} />
       {!isSearchingMode && lastMessage && lastMessage.status && !props.isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}

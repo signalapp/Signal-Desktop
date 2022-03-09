@@ -48,6 +48,8 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
+import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
+import { ConversationRequestinfo } from './ConversationRequestInfo';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -236,10 +238,10 @@ export class SessionConversation extends React.Component<Props, State> {
           <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
             <MessageDetail />
           </div>
-
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
+            <ConversationMessageRequestButtons />
             <SplitViewContainer
               top={<InConversationCallContainer />}
               bottom={
@@ -254,6 +256,7 @@ export class SessionConversation extends React.Component<Props, State> {
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
+          <ConversationRequestinfo />
           <CompositionBox
             sendMessage={this.sendMessageFn}
             stagedAttachments={this.props.stagedAttachments}

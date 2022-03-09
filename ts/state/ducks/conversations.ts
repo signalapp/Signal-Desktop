@@ -15,6 +15,7 @@ import {
   MessageDeliveryStatus,
   MessageModelType,
   PropsForDataExtractionNotification,
+  PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import { omit } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
@@ -36,6 +37,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
   propsForGroupUpdateMessage?: PropsForGroupUpdate;
   propsForCallNotification?: PropsForCallNotification;
+  propsForMessageRequestResponse?: PropsForMessageRequestResponse;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -262,6 +264,7 @@ export interface ReduxConversationType {
 
   isPinned?: boolean;
   isApproved?: boolean;
+  didApproveMe?: boolean;
 }
 
 export interface NotificationForConvoOption {
@@ -693,7 +696,12 @@ const conversationsSlice = createSlice({
         firstUnreadMessageId: undefined,
       };
     },
-
+    /**
+     * Closes any existing conversation and returns state to the placeholder screen
+     */
+    resetConversationExternal(state: ConversationsStateType) {
+      return { ...getEmptyConversationState(), conversationLookup: state.conversationLookup };
+    },
     openConversationExternal(
       state: ConversationsStateType,
       action: PayloadAction<{
@@ -968,6 +976,10 @@ export async function openConversationWithMessages(args: {
       initialMessages,
     })
   );
+}
+
+export function clearConversationFocus() {
+  window.inboxStore?.dispatch(actions.resetConversationExternal());
 }
 
 export async function openConversationToSpecificMessage(args: {

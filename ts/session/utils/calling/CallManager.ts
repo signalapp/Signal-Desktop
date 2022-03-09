@@ -26,6 +26,7 @@ import { hasConversationOutgoingMessage } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
 import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
+import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
 
 // tslint:disable: function-name
 
@@ -504,6 +505,10 @@ export async function USER_callRecipient(recipient: string) {
     callNotificationType: 'started-call',
     unread: 0,
   });
+
+  // initiating a call is analgous to sending a message request
+  await approveConvoAndSendResponse(recipient, true);
+
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
   const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
@@ -834,6 +839,10 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     unread: 0,
   });
   await buildAnswerAndSendIt(fromSender);
+
+  // consider the conversation completely approved
+  await callerConvo.setDidApproveMe(true);
+  await approveConvoAndSendResponse(fromSender, true);
 }
 
 export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUID: string) {

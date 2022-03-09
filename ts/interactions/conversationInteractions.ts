@@ -29,7 +29,11 @@ import {
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
-import { conversationReset, quoteMessage } from '../state/ducks/conversations';
+import {
+  clearConversationFocus,
+  conversationReset,
+  quoteMessage,
+} from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../session/apis/file_server_api';
@@ -121,20 +125,72 @@ export async function unblockConvoById(conversationId: string) {
 }
 
 /**
- * marks the conversation as approved.
+ * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
-export const approveConversation = async (conversationId: string) => {
-  const conversationToApprove = getConversationController().get(conversationId);
+export const approveConvoAndSendResponse = async (
+  conversationId: string,
+  syncToDevices: boolean = true
+) => {
+  const convoToApprove = getConversationController().get(conversationId);
 
-  if (!conversationToApprove || conversationToApprove.isApproved()) {
+  if (!convoToApprove || convoToApprove.isApproved()) {
     window?.log?.info('Conversation is already approved.');
     return;
   }
 
-  await conversationToApprove.setIsApproved(true);
+  await convoToApprove.setIsApproved(true, false);
+
+  await convoToApprove.commit();
+  await convoToApprove.sendMessageRequestResponse(true);
 
   // Conversation was not approved before so a sync is needed
-  await forceSyncConfigurationNowIfNeeded();
+  if (syncToDevices) {
+    await forceSyncConfigurationNowIfNeeded();
+  }
+};
+
+export const declineConversationWithConfirm = (convoId: string, syncToDevices: boolean = true) => {
+  window?.inboxStore?.dispatch(
+    updateConfirmModal({
+      okText: window.i18n('decline'),
+      cancelText: window.i18n('cancel'),
+      message: window.i18n('declineRequestMessage'),
+      onClickOk: async () => {
+        await declineConversationWithoutConfirm(convoId, syncToDevices);
+        await blockConvoById(convoId);
+        await forceSyncConfigurationNowIfNeeded();
+        clearConversationFocus();
+      },
+      onClickCancel: () => {
+        window?.inboxStore?.dispatch(updateConfirmModal(null));
+      },
+      onClickClose: () => {
+        window?.inboxStore?.dispatch(updateConfirmModal(null));
+      },
+    })
+  );
+};
+
+/**
+ * Sets the approval fields to false for conversation. Sends decline message.
+ */
+export const declineConversationWithoutConfirm = async (
+  conversationId: string,
+  syncToDevices: boolean = true
+) => {
+  const conversationToDecline = getConversationController().get(conversationId);
+
+  if (!conversationToDecline || conversationToDecline.isApproved()) {
+    window?.log?.info('Conversation is already declined.');
+    return;
+  }
+
+  await conversationToDecline.setIsApproved(false);
+
+  // Conversation was not approved before so a sync is needed
+  if (syncToDevices) {
+    await forceSyncConfigurationNowIfNeeded();
+  }
 };
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {
@@ -269,6 +325,7 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
     lastMessage: null,
     unreadCount: 0,
     mentionedUs: false,
+    isApproved: false,
   });
 
   await conversation.commit();
@@ -300,6 +357,13 @@ export async function setDisappearingMessagesByConvoId(
   seconds: number | undefined
 ) {
   const conversation = getConversationController().get(conversationId);
+
+  const canSetDisappearing = !conversation.isOutgoingRequest() && !conversation.isIncomingRequest();
+
+  if (!canSetDisappearing) {
+    ToastUtils.pushMustBeApproved();
+    return;
+  }
 
   if (!seconds || seconds <= 0) {
     await conversation.updateExpireTimer(null);
