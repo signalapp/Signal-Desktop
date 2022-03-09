@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { MINUTE } from '../util/durations';
 
 const ev = new EventEmitter();
+ev.setMaxListeners(Infinity);
 setInterval(() => ev.emit('tick'), MINUTE);
 
 export function useNowThatUpdatesEveryMinute(): number {
