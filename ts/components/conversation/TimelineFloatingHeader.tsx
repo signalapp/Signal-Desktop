@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import type { CSSProperties, ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import React, { useEffect, useState } from 'react';
 import type { LocalizerType } from '../../types/Util';
 import { TimelineDateHeader } from './TimelineDateHeader';
@@ -11,13 +11,11 @@ import { Spinner } from '../Spinner';
 export const TimelineFloatingHeader = ({
   i18n,
   isLoading,
-  style,
   timestamp,
   visible,
 }: Readonly<{
   i18n: LocalizerType;
   isLoading: boolean;
-  style?: CSSProperties;
   timestamp: number;
   visible: boolean;
 }>): ReactElement => {
@@ -35,7 +33,6 @@ export const TimelineFloatingHeader = ({
           visible && hasRendered ? 'visible' : 'hidden'
         }`
       )}
-      style={style}
     >
       <TimelineDateHeader floating i18n={i18n} timestamp={timestamp} />
       <div

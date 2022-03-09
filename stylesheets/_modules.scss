@@ -5452,6 +5452,7 @@ button.module-image__border-overlay:focus {
 
 .module-timeline {
   display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
@@ -5466,6 +5467,7 @@ button.module-image__border-overlay:focus {
   overflow-y: overlay;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .module-timeline__messages {

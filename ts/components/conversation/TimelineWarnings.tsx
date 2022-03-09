@@ -1,19 +1,11 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { forwardRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 const CLASS_NAME = 'module-TimelineWarnings';
 
-type PropsType = {
-  children: ReactNode;
-};
-
-export const TimelineWarnings = forwardRef<HTMLDivElement, PropsType>(
-  ({ children }, ref) => (
-    <div className={CLASS_NAME} ref={ref}>
-      {children}
-    </div>
-  )
+export const TimelineWarnings: FunctionComponent = ({ children }) => (
+  <div className={CLASS_NAME}>{children}</div>
 );

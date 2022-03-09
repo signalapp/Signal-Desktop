@@ -171,7 +171,6 @@ export type PropsType = PropsDataType &
 type StateType = {
   hasDismissedDirectContactSpoofingWarning: boolean;
   hasRecentlyScrolled: boolean;
-  lastMeasuredWarningHeight: number;
   newestFullyVisibleMessageId?: string;
   oldestPartiallyVisibleMessageId?: string;
   widthBreakpoint: WidthBreakpoint;
@@ -274,8 +273,7 @@ export class Timeline extends React.Component<
     hasRecentlyScrolled: true,
     hasDismissedDirectContactSpoofingWarning: false,
 
-    // These may be swiftly overridden.
-    lastMeasuredWarningHeight: 0,
+    // This may be swiftly overridden.
     widthBreakpoint: WidthBreakpoint.Wide,
   };
 
@@ -766,7 +764,6 @@ export class Timeline extends React.Component<
     } = this.props;
     const {
       hasRecentlyScrolled,
-      lastMeasuredWarningHeight,
       newestFullyVisibleMessageId,
       oldestPartiallyVisibleMessageId,
       widthBreakpoint,
@@ -820,11 +817,6 @@ export class Timeline extends React.Component<
         <TimelineFloatingHeader
           i18n={i18n}
           isLoading={isLoadingMessages}
-          style={
-            lastMeasuredWarningHeight
-              ? { marginTop: lastMeasuredWarningHeight }
-              : undefined
-          }
           timestamp={oldestPartiallyVisibleMessageTimestamp}
           visible={
             (hasRecentlyScrolled || isLoadingMessages) &&
@@ -956,27 +948,14 @@ export class Timeline extends React.Component<
       }
 
       timelineWarning = (
-        <Measure
-          bounds
-          onResize={({ bounds }) => {
-            if (!bounds) {
-              assert(false, 'We should be measuring the bounds');
-              return;
-            }
-            this.setState({ lastMeasuredWarningHeight: bounds.height });
-          }}
-        >
-          {({ measureRef }) => (
-            <TimelineWarnings ref={measureRef}>
-              <TimelineWarning i18n={i18n} onClose={onClose}>
-                <TimelineWarning.IconContainer>
-                  <TimelineWarning.GenericIcon />
-                </TimelineWarning.IconContainer>
-                <TimelineWarning.Text>{text}</TimelineWarning.Text>
-              </TimelineWarning>
-            </TimelineWarnings>
-          )}
-        </Measure>
+        <TimelineWarnings>
+          <TimelineWarning i18n={i18n} onClose={onClose}>
+            <TimelineWarning.IconContainer>
+              <TimelineWarning.GenericIcon />
+            </TimelineWarning.IconContainer>
+            <TimelineWarning.Text>{text}</TimelineWarning.Text>
+          </TimelineWarning>
+        </TimelineWarnings>
       );
     }
 
@@ -1059,13 +1038,13 @@ export class Timeline extends React.Component<
             >
               {timelineWarning}
 
-              {floatingHeader}
-
               <div
                 className="module-timeline__messages__container"
                 onScroll={this.onScroll}
                 ref={this.containerRef}
               >
+                {floatingHeader}
+
                 <div
                   className={classNames(
                     'module-timeline__messages',
@@ -1073,14 +1052,8 @@ export class Timeline extends React.Component<
                   )}
                   ref={this.messagesRef}
                 >
-                  {haveOldest && (
-                    <>
-                      {Timeline.getWarning(this.props, this.state) && (
-                        <div style={{ height: lastMeasuredWarningHeight }} />
-                      )}
-                      {renderHeroRow(id, unblurAvatar, updateSharedGroups)}
-                    </>
-                  )}
+                  {haveOldest &&
+                    renderHeroRow(id, unblurAvatar, updateSharedGroups)}
 
                   {messageNodes}
 
