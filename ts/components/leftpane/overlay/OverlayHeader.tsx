@@ -12,7 +12,8 @@ export const OverlayHeader = ({ subtitle, title }: { title: string; subtitle: st
       <div className="exit">
         <SessionIconButton
           iconSize="small"
-          iconType="exit"
+          iconType="chevron"
+          iconRotation={90}
           onClick={() => {
             dispatch(setOverlayMode(undefined));
           }}

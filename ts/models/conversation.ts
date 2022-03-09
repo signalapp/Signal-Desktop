@@ -9,10 +9,12 @@ import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
-import { MessageAttributesOptionals } from './messageType';
+import { MessageAttributesOptionals, MessageDirection } from './messageType';
 import autoBind from 'auto-bind';
 import {
   getLastMessagesByConversation,
+  getMessageCountByType,
+  getMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
   removeMessage as dataRemoveMessage,
@@ -59,6 +61,8 @@ import {
   getAbsoluteAttachmentPath,
   loadAttachmentData,
 } from '../types/MessageAttachment';
+import { getOurPubKeyStrFromCache } from '../session/utils/User';
+import { MessageRequestResponse } from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -112,6 +116,7 @@ export interface ConversationAttributes {
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
   isApproved: boolean;
+  didApproveMe: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -151,6 +156,7 @@ export interface ConversationAttributesOptionals {
   isTrustedForAttachmentDownload?: boolean;
   isPinned: boolean;
   isApproved?: boolean;
+  didApproveMe?: boolean;
 }
 
 /**
@@ -180,6 +186,7 @@ export const fillConvoAttributesWithDefaults = (
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
     isPinned: false,
     isApproved: false,
+    didApproveMe: false,
   });
 };
 
@@ -233,6 +240,40 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     window.inboxStore?.dispatch(
       conversationChanged({ id: this.id, data: this.getConversationModelProps() })
     );
+  }
+
+  /**
+   * Method to evalute if a convo contains the right values
+   * @param values Required properties to evaluate if this is a message request
+   */
+  public static hasValidIncomingRequestValues({
+    isMe,
+    isApproved,
+    isBlocked,
+    isPrivate,
+  }: {
+    isMe?: boolean;
+    isApproved?: boolean;
+    isBlocked?: boolean;
+    isPrivate?: boolean;
+  }): boolean {
+    return Boolean(!isMe && !isApproved && isPrivate && !isBlocked);
+  }
+
+  public static hasValidOutgoingRequestValues({
+    isMe,
+    didApproveMe,
+    isApproved,
+    isBlocked,
+    isPrivate,
+  }: {
+    isMe?: boolean;
+    isApproved?: boolean;
+    didApproveMe?: boolean;
+    isBlocked?: boolean;
+    isPrivate?: boolean;
+  }): boolean {
+    return Boolean(!isMe && isApproved && isPrivate && !isBlocked && !didApproveMe);
   }
 
   public idForLogging() {
@@ -328,6 +369,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const subscriberCount = this.get('subscriberCount');
     const isPinned = this.isPinned();
     const isApproved = this.isApproved();
+    const didApproveMe = this.didApproveMe();
     const hasNickname = !!this.getNickname();
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
@@ -403,6 +445,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     if (isPinned) {
       toRet.isPinned = isPinned;
+    }
+    if (didApproveMe) {
+      toRet.didApproveMe = didApproveMe;
     }
     if (isApproved) {
       toRet.isApproved = isApproved;
@@ -615,11 +660,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         lokiProfile: UserUtils.getOurProfile(),
       };
 
-      const updateApprovalNeeded =
-        !this.isApproved() && (this.isPrivate() || this.isMediumGroup() || this.isClosedGroup());
-      if (updateApprovalNeeded) {
+      const shouldApprove = !this.isApproved() && this.isPrivate();
+      const incomingMessageCount = await getMessageCountByType(this.id, MessageDirection.incoming);
+      const hasIncomingMessages = incomingMessageCount > 0;
+      if (shouldApprove) {
         await this.setIsApproved(true);
-        void forceSyncConfigurationNowIfNeeded();
+        if (hasIncomingMessages) {
+          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
+          await this.addOutgoingApprovalMessage(Date.now());
+          if (!this.didApproveMe()) {
+            await this.setDidApproveMe(true);
+          }
+          // should only send once
+          await this.sendMessageRequestResponse(true);
+          void forceSyncConfigurationNowIfNeeded();
+        }
       }
 
       if (this.isOpenGroupV2()) {
@@ -684,6 +739,87 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await message.saveErrors(e);
       return null;
     }
+  }
+
+  /**
+   * Does this conversation contain the properties to be considered a message request
+   */
+  public isIncomingRequest(): boolean {
+    return ConversationModel.hasValidIncomingRequestValues({
+      isMe: this.isMe(),
+      isApproved: this.isApproved(),
+      isBlocked: this.isBlocked(),
+      isPrivate: this.isPrivate(),
+    });
+  }
+
+  /**
+   * Is this conversation an outgoing message request
+   */
+  public isOutgoingRequest(): boolean {
+    return ConversationModel.hasValidOutgoingRequestValues({
+      isMe: this.isMe(),
+      isApproved: this.isApproved(),
+      didApproveMe: this.didApproveMe(),
+      isBlocked: this.isBlocked(),
+      isPrivate: this.isPrivate(),
+    });
+  }
+
+  /**
+   * When you have accepted another users message request
+   * @param timestamp for determining the order for this message to appear like a regular message
+   */
+  public async addOutgoingApprovalMessage(timestamp: number) {
+    await this.addSingleOutgoingMessage({
+      sent_at: timestamp,
+      messageRequestResponse: {
+        isApproved: 1,
+      },
+      unread: 1, // 1 means unread
+      expireTimer: 0,
+    });
+
+    this.updateLastMessage();
+  }
+
+  /**
+   * When the other user has accepted your message request
+   * @param timestamp For determining message order in conversation
+   * @param source For determining the conversation name used in the message.
+   */
+  public async addIncomingApprovalMessage(timestamp: number, source: string) {
+    await this.addSingleIncomingMessage({
+      sent_at: timestamp, // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+      source,
+      messageRequestResponse: {
+        isApproved: 1,
+      },
+      unread: 1, // 1 means unread
+      expireTimer: 0,
+    });
+    this.updateLastMessage();
+  }
+
+  public async sendMessageRequestResponse(isApproved: boolean) {
+    if (!this.isPrivate()) {
+      return;
+    }
+
+    const publicKey = getOurPubKeyStrFromCache();
+    const timestamp = Date.now();
+
+    const messageRequestResponseParams = {
+      timestamp,
+      publicKey,
+      isApproved,
+    };
+
+    const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
+    const pubkeyForSending = new PubKey(this.id);
+    await getMessageQueue()
+      .sendToPubKey(pubkeyForSending, messageRequestResponse)
+      .catch(window?.log?.error);
   }
 
   public async sendMessage(msg: SendMessageType) {
@@ -897,6 +1033,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async addSingleIncomingMessage(
     messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>
   ) {
+    // if there's a message by the other user, they've replied to us which we consider an accepted convo
+    if (!this.didApproveMe() && this.isPrivate()) {
+      await this.setDidApproveMe(true);
+    }
+
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,
@@ -1011,7 +1152,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         `Sending ${read.length} read receipts?`,
         window.storage.get(SettingsKey.settingsReadReceipt) || false
       );
-      if (window.storage.get(SettingsKey.settingsReadReceipt)) {
+      const dontSendReceipt = this.isBlocked() || this.isIncomingRequest();
+      if (window.storage.get(SettingsKey.settingsReadReceipt) && !dontSendReceipt) {
         const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
         const receiptMessage = new ReadReceiptMessage({
           timestamp: Date.now(),
@@ -1108,14 +1250,29 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setIsApproved(value: boolean) {
+  public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
     if (value !== this.isApproved()) {
       window?.log?.info(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
       this.set({
         isApproved: value,
       });
 
-      await this.commit();
+      if (shouldCommit) {
+        await this.commit();
+      }
+    }
+  }
+
+  public async setDidApproveMe(value: boolean, shouldCommit: boolean = true) {
+    if (value !== this.didApproveMe()) {
+      window?.log?.info(`Setting ${this.attributes.profileName} didApproveMe to:: ${value}`);
+      this.set({
+        didApproveMe: value,
+      });
+
+      if (shouldCommit) {
+        await this.commit();
+      }
     }
   }
 
@@ -1197,6 +1354,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public isPinned() {
     return Boolean(this.get('isPinned'));
+  }
+
+  public didApproveMe() {
+    return Boolean(this.get('didApproveMe'));
   }
 
   public isApproved() {
@@ -1307,6 +1468,33 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const conversationId = this.id;
 
+    let friendRequestText;
+    if (!this.isApproved()) {
+      window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
+      const hadNoRequestsPrior =
+        getConversationController()
+          .getConversations()
+          .filter(conversation => {
+            return (
+              !conversation.isApproved() &&
+              !conversation.isBlocked() &&
+              conversation.isPrivate() &&
+              !conversation.isMe()
+            );
+          }).length === 1;
+      const isFirstMessageOfConvo =
+        (await getMessagesByConversation(this.id, { messageId: null })).length === 1;
+      if (hadNoRequestsPrior && isFirstMessageOfConvo) {
+        friendRequestText = window.i18n('youHaveANewFriendRequest');
+      } else {
+        window?.log?.info(
+          'notification cancelled for as pending requests already exist',
+          this.idForLogging()
+        );
+        return;
+      }
+    }
+
     // make sure the notifications are not muted for this convo (and not the source convo)
     const convNotif = this.get('triggerNotificationsFor');
     if (convNotif === 'disabled') {
@@ -1355,10 +1543,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId,
       iconUrl,
       isExpiringMessage,
-      message: message.getNotificationText(),
+      message: friendRequestText ? friendRequestText : message.getNotificationText(),
       messageId,
       messageSentAt,
-      title: convo.getTitle(),
+      title: friendRequestText ? '' : convo.getTitle(),
     });
   }
 
@@ -1434,16 +1622,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
     const model = new MessageModel(messageAttributes);
 
-    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
-
-    if (
-      isMe &&
-      window.sessionFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests
-    ) {
-      await this.setIsApproved(true);
-    }
-
     // no need to trigger a UI update now, we trigger a messagesAdded just below
     const messageId = await model.commit(false);
     model.set({ id: messageId });
@@ -1490,15 +1668,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     ) {
       return false;
     }
-    const msgRequestsEnabled =
-      window.sessionFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests;
-
-    // if msg requests are unused, we have to send typing (this is already a private active unblocked convo)
-    if (!msgRequestsEnabled) {
-      return true;
-    }
-    // with message requests in use, we just need to check for isApproved
     return Boolean(this.get('isApproved'));
   }
 
@@ -1565,6 +1734,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (!recipientId) {
       throw new Error('Need to provide either recipientId');
+    }
+
+    if (!this.isApproved()) {
+      return;
     }
 
     if (this.isMe()) {

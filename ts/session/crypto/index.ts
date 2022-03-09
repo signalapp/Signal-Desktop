@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 // libsodium-wrappers requires the `require` call to work
 // tslint:disable-next-line: no-require-imports
-import libsodiumwrappers from 'libsodium-wrappers';
+import libsodiumwrappers from 'libsodium-wrappers-sumo';
 import { toHex } from '../utils/String';
 import { ECKeyPair } from '../../receiver/keypairs';
 

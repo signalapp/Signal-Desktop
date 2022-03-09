@@ -5,8 +5,9 @@ const path = require('path');
 const { webFrame, remote, clipboard, ipcRenderer } = require('electron');
 
 const { app } = remote;
+const url = require('url');
 
-const config = require('url').parse(window.location.toString(), true).query;
+const config = url.parse(window.location.toString(), true).query;
 
 let title = config.name;
 if (config.environment !== 'production') {
@@ -30,7 +31,6 @@ window.getNodeVersion = () => config.node_version;
 
 window.sessionFeatureFlags = {
   useOnionRequests: true,
-  useMessageRequests: false,
   useCallMessage: true,
 };
 

@@ -111,6 +111,16 @@ export async function handleClosedGroupControlMessage(
     return;
   }
   if (type === Type.NEW) {
+    if (
+      !getConversationController()
+        .get(envelope.senderIdentity)
+        .isApproved()
+    ) {
+      window?.log?.info(
+        'Received new closed group message from an unapproved sender -- dropping message.'
+      );
+      return;
+    }
     await handleNewClosedGroup(envelope, groupUpdate);
     return;
   }
