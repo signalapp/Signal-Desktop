@@ -26,7 +26,7 @@ const LastSeenText = styled.div`
   text-transform: uppercase;
   text-align: center;
 
-  color: #00f782;
+  color: var(--color-last-seen-indicator);
 `;
 
 export const SessionLastSeenIndicator = (props: { messageId: string }) => {
