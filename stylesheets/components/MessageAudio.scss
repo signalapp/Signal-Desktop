@@ -171,25 +171,16 @@ $audio-attachment-button-margin-small: 4px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-left: $audio-attachment-button-size +
+    $audio-attachment-button-margin-big;
 
-  .module-message__audio-attachment--outgoing & {
-    flex-direction: row-reverse;
-  }
-
-  .module-message__audio-attachment--outgoing &,
-  .module-message__audio-attachment--with-content-below & {
+  @media (min-width: 0px) and (max-width: 799px) {
     margin-left: $audio-attachment-button-size +
-      $audio-attachment-button-margin-big;
-    @media (min-width: 0px) and (max-width: 799px) {
-      margin-left: $audio-attachment-button-size +
-        $audio-attachment-button-margin-small;
-    }
+      $audio-attachment-button-margin-small;
   }
 }
 
 .module-message__audio-attachment__countdown {
-  $unplayed-dot-margin: 6px;
-
   @include font-caption;
   align-items: center;
   display: flex;
@@ -201,6 +192,7 @@ $audio-attachment-button-margin-small: 4px;
     display: block;
     width: 6px;
     height: 6px;
+    margin-left: 6px;
     border-radius: 100%;
     transition: background 100ms ease-out;
   }
@@ -210,12 +202,6 @@ $audio-attachment-button-margin-small: 4px;
   }
 
   .module-message__audio-attachment--incoming & {
-    flex-direction: row-reverse;
-
-    &:after {
-      margin-right: $unplayed-dot-margin;
-    }
-
     @include light-theme {
       $color: $color-black-alpha-60;
       color: $color;
@@ -234,10 +220,6 @@ $audio-attachment-button-margin-small: 4px;
 
   .module-message__audio-attachment--outgoing & {
     color: $color-white-alpha-80;
-
-    &:after {
-      margin-left: $unplayed-dot-margin;
-    }
 
     &--unplayed:after {
       background: $color-white-alpha-80;

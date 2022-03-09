@@ -530,6 +530,14 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
+      <div
+        className={classNames(
+          `${CSS_BASE}__countdown`,
+          `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`
+        )}
+      >
+        {timeToText(countDown)}
+      </div>
       {!withContentBelow && !collapseMetadata && (
         <MessageMetadata
           direction={direction}
@@ -547,14 +555,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
           timestamp={timestamp}
         />
       )}
-      <div
-        className={classNames(
-          `${CSS_BASE}__countdown`,
-          `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`
-        )}
-      >
-        {timeToText(countDown)}
-      </div>
     </div>
   );
 
