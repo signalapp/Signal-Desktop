@@ -4890,9 +4890,6 @@ button.module-image__border-overlay:focus {
             display: inline-block;
             flex-shrink: 0;
             margin-left: 6px;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
 
             @include light-theme {
               color: $color-gray-60;
