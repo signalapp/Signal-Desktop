@@ -2,7 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-TimelineWarnings {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: $z-index-above-above-base;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
