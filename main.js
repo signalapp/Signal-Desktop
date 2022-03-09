@@ -442,7 +442,6 @@ function openReleaseNotes() {
   );
 }
 
-
 function openSupportPage() {
   shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
