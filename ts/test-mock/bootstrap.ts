@@ -59,6 +59,8 @@ export type BootstrapOptions = Readonly<{
 
   linkedDevices?: number;
   contactCount?: number;
+  contactNames?: ReadonlyArray<string>;
+  contactPreKeyCount?: number;
 }>;
 
 type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
@@ -66,6 +68,7 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
     benchmark: boolean;
     linkedDevices: number;
     contactCount: number;
+    contactNames: ReadonlyArray<string>;
   }>;
 
 //
@@ -107,12 +110,13 @@ export class Bootstrap {
     this.options = {
       linkedDevices: 5,
       contactCount: MAX_CONTACTS,
+      contactNames: CONTACT_NAMES,
       benchmark: false,
 
       ...options,
     };
 
-    assert(this.options.contactCount <= MAX_CONTACTS);
+    assert(this.options.contactCount <= this.options.contactNames.length);
   }
 
   public async init(): Promise<void> {
@@ -123,11 +127,16 @@ export class Bootstrap {
     const { port } = this.server.address();
     debug('started server on port=%d', port);
 
-    const contactNames = CONTACT_NAMES.slice(0, this.options.contactCount);
+    const contactNames = this.options.contactNames.slice(
+      0,
+      this.options.contactCount
+    );
 
     this.privContacts = await Promise.all(
       contactNames.map(async profileName => {
-        const primary = await this.server.createPrimaryDevice({ profileName });
+        const primary = await this.server.createPrimaryDevice({
+          profileName,
+        });
 
         for (let i = 0; i < this.options.linkedDevices; i += 1) {
           // eslint-disable-next-line no-await-in-loop

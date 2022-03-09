@@ -2542,7 +2542,11 @@ export class ConversationModel extends window.Backbone
     }
 
     this.set({ verified });
-    window.Signal.Data.updateConversation(this.attributes);
+
+    // We will update the conversation during storage service sync
+    if (!options.viaStorageServiceSync) {
+      window.Signal.Data.updateConversation(this.attributes);
+    }
 
     if (
       !options.viaStorageServiceSync &&
@@ -4655,7 +4659,7 @@ export class ConversationModel extends window.Backbone
   async setProfileKey(
     profileKey: string | undefined,
     { viaStorageServiceSync = false } = {}
-  ): Promise<void> {
+  ): Promise<boolean> {
     // profileKey is a string so we can compare it directly
     if (this.get('profileKey') !== profileKey) {
       log.info(
@@ -4665,12 +4669,14 @@ export class ConversationModel extends window.Backbone
         about: undefined,
         aboutEmoji: undefined,
         profileAvatar: undefined,
-        profileKey,
         profileKeyVersion: undefined,
         profileKeyCredential: null,
         accessKey: null,
         sealedSender: SEALED_SENDER.UNKNOWN,
       });
+
+      // Don't trigger immediate profile fetches when syncing to remote storage
+      this.set({ profileKey }, { silent: viaStorageServiceSync });
 
       // If our profile key was cleared above, we don't tell our linked devices about it.
       //   We want linked devices to tell us what it should be, instead of telling them to
@@ -4684,8 +4690,14 @@ export class ConversationModel extends window.Backbone
         this.deriveProfileKeyVersionIfNeeded(),
       ]);
 
-      window.Signal.Data.updateConversation(this.attributes);
+      // We will update the conversation during storage service sync
+      if (!viaStorageServiceSync) {
+        window.Signal.Data.updateConversation(this.attributes);
+      }
+
+      return true;
     }
+    return false;
   }
 
   async deriveAccessKeyIfNeeded(): Promise<void> {
@@ -4989,8 +5001,8 @@ export class ConversationModel extends window.Backbone
 
     if (!viaStorageServiceSync) {
       this.captureChange('mutedUntilTimestamp');
+      window.Signal.Data.updateConversation(this.attributes);
     }
-    window.Signal.Data.updateConversation(this.attributes);
   }
 
   isMuted(): boolean {

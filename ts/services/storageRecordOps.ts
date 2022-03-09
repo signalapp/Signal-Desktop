@@ -6,7 +6,6 @@ import Long from 'long';
 
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
-import dataInterface from '../sql/Client';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
@@ -41,8 +40,6 @@ import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
-const { updateConversation } = dataInterface;
-
 type RecordClass =
   | Proto.IAccountRecord
   | Proto.IContactRecord
@@ -53,6 +50,8 @@ export type MergeResultType = Readonly<{
   hasConflict: boolean;
   shouldDrop?: boolean;
   conversation?: ConversationModel;
+  needsProfileFetch?: boolean;
+  updatedConversations?: ReadonlyArray<ConversationModel>;
   oldStorageID?: string;
   oldStorageVersion?: number;
   details: ReadonlyArray<string>;
@@ -613,20 +612,19 @@ export async function mergeGroupV1Record(
     details.push('marking v1 group for an update to v2');
   }
 
-  updateConversation(conversation.attributes);
-
   return {
     hasConflict: hasPendingChanges,
     conversation,
     oldStorageID,
     oldStorageVersion,
     details,
+    updatedConversations: [conversation],
   };
 }
 
-async function getGroupV2Conversation(
+function getGroupV2Conversation(
   masterKeyBuffer: Uint8Array
-): Promise<ConversationModel> {
+): ConversationModel {
   const groupFields = deriveGroupFields(masterKeyBuffer);
 
   const groupId = Bytes.toBase64(groupFields.id);
@@ -637,7 +635,7 @@ async function getGroupV2Conversation(
   // First we check for an existing GroupV2 group
   const groupV2 = window.ConversationController.get(groupId);
   if (groupV2) {
-    await groupV2.maybeRepairGroupV2({
+    groupV2.maybeRepairGroupV2({
       masterKey,
       secretParams,
       publicParams,
@@ -681,7 +679,7 @@ export async function mergeGroupV2Record(
   }
 
   const masterKeyBuffer = groupV2Record.masterKey;
-  const conversation = await getGroupV2Conversation(masterKeyBuffer);
+  const conversation = getGroupV2Conversation(masterKeyBuffer);
 
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
@@ -718,8 +716,6 @@ export async function mergeGroupV2Record(
 
   details = details.concat(extraDetails);
 
-  updateConversation(conversation.attributes);
-
   const isGroupNewToUs = !isNumber(conversation.get('revision'));
   const isFirstSync = !window.storage.get('storageFetchComplete');
   const dropInitialJoinMessage = isFirstSync;
@@ -752,6 +748,7 @@ export async function mergeGroupV2Record(
   return {
     hasConflict,
     conversation,
+    updatedConversations: [conversation],
     oldStorageID,
     oldStorageVersion,
     details,
@@ -802,10 +799,12 @@ export async function mergeContactRecord(
     'private'
   );
 
+  let needsProfileFetch = false;
   if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
-    await conversation.setProfileKey(Bytes.toBase64(contactRecord.profileKey), {
-      viaStorageServiceSync: true,
-    });
+    needsProfileFetch = await conversation.setProfileKey(
+      Bytes.toBase64(contactRecord.profileKey),
+      { viaStorageServiceSync: true }
+    );
   }
 
   const remoteName = dropNull(contactRecord.givenName);
@@ -878,11 +877,11 @@ export async function mergeContactRecord(
   );
   details = details.concat(extraDetails);
 
-  updateConversation(conversation.attributes);
-
   return {
     hasConflict,
     conversation,
+    updatedConversations: [conversation],
+    needsProfileFetch,
     oldStorageID,
     oldStorageVersion,
     details,
@@ -916,6 +915,8 @@ export async function mergeAccountRecord(
     subscriberCurrencyCode,
     displayBadgesOnProfile,
   } = accountRecord;
+
+  const updatedConversations = new Array<ConversationModel>();
 
   window.storage.put('read-receipt-setting', Boolean(readReceipts));
 
@@ -1086,7 +1087,7 @@ export async function mergeAccountRecord(
 
     conversationsToUnpin.forEach(conversation => {
       conversation.set({ isPinned: false });
-      updateConversation(conversation.attributes);
+      updatedConversations.push(conversation);
     });
 
     remotelyPinnedConversations.forEach(conversation => {
@@ -1101,7 +1102,7 @@ export async function mergeAccountRecord(
         );
         conversation.addMessageHistoryDisclaimer();
       }
-      updateConversation(conversation.attributes);
+      updatedConversations.push(conversation);
     });
 
     window.storage.put('pinnedConversationIds', remotelyPinnedConversationIds);
@@ -1138,8 +1139,12 @@ export async function mergeAccountRecord(
     storageVersion,
   });
 
+  let needsProfileFetch = false;
   if (accountRecord.profileKey && accountRecord.profileKey.length > 0) {
-    await conversation.setProfileKey(Bytes.toBase64(accountRecord.profileKey));
+    needsProfileFetch = await conversation.setProfileKey(
+      Bytes.toBase64(accountRecord.profileKey),
+      { viaStorageServiceSync: true }
+    );
   }
 
   if (avatarUrl) {
@@ -1153,13 +1158,15 @@ export async function mergeAccountRecord(
     conversation
   );
 
-  updateConversation(conversation.attributes);
+  updatedConversations.push(conversation);
 
   details = details.concat(extraDetails);
 
   return {
     hasConflict,
     conversation,
+    updatedConversations,
+    needsProfileFetch,
     oldStorageID,
     oldStorageVersion,
     details,

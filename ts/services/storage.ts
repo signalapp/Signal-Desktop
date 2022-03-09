@@ -50,8 +50,11 @@ import type {
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
-const { eraseStorageServiceStateFromConversations, updateConversation } =
-  dataInterface;
+const {
+  eraseStorageServiceStateFromConversations,
+  updateConversation,
+  updateConversations,
+} = dataInterface;
 
 const uploadBucket: Array<number> = [];
 
@@ -738,6 +741,8 @@ type MergedRecordType = UnknownRecord & {
   shouldDrop: boolean;
   hasError: boolean;
   isUnsupported: boolean;
+  updatedConversations: ReadonlyArray<ConversationModel>;
+  needProfileFetch: ReadonlyArray<ConversationModel>;
 };
 
 async function mergeRecord(
@@ -751,6 +756,8 @@ async function mergeRecord(
   let mergeResult: MergeResultType = { hasConflict: false, details: [] };
   let isUnsupported = false;
   let hasError = false;
+  let updatedConversations = new Array<ConversationModel>();
+  const needProfileFetch = new Array<ConversationModel>();
 
   try {
     if (itemType === ITEM_TYPE.UNKNOWN) {
@@ -797,6 +804,15 @@ async function mergeRecord(
     const oldID = mergeResult.oldStorageID
       ? redactStorageID(mergeResult.oldStorageID, mergeResult.oldStorageVersion)
       : '?';
+    updatedConversations = [
+      ...updatedConversations,
+      ...(mergeResult.updatedConversations ?? []),
+    ];
+    if (mergeResult.needsProfileFetch) {
+      strictAssert(mergeResult.conversation, 'needsProfileFetch, but no convo');
+      needProfileFetch.push(mergeResult.conversation);
+    }
+
     log.info(
       `storageService.merge(${redactedID}): merged item type=${itemType} ` +
         `oldID=${oldID} ` +
@@ -821,6 +837,8 @@ async function mergeRecord(
     isUnsupported,
     itemType,
     storageID,
+    updatedConversations,
+    needProfileFetch,
   };
 }
 
@@ -1110,7 +1128,7 @@ async function processRemoteRecords(
       ...(await pMap(
         prunedStorageItems,
         (item: MergeableItemType) => mergeRecord(storageVersion, item),
-        { concurrency: 5 }
+        { concurrency: 32 }
       )),
 
       // Merge Account records last since it contains the pinned conversations
@@ -1123,6 +1141,29 @@ async function processRemoteRecords(
       `storageService.process(${storageVersion}): ` +
         `processed records=${mergedRecords.length}`
     );
+
+    const updatedConversations = mergedRecords
+      .map(record => record.updatedConversations)
+      .flat()
+      .map(convo => convo.attributes);
+    await updateConversations(updatedConversations);
+
+    log.info(
+      `storageService.process(${storageVersion}): ` +
+        `updated conversations=${updatedConversations.length}`
+    );
+
+    const needProfileFetch = mergedRecords
+      .map(record => record.needProfileFetch)
+      .flat();
+
+    log.info(
+      `storageService.process(${storageVersion}): ` +
+        `kicking off profile fetches=${needProfileFetch.length}`
+    );
+
+    // Intentionally not awaiting
+    pMap(needProfileFetch, convo => convo.getProfiles(), { concurrency: 3 });
 
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
