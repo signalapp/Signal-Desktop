@@ -7,9 +7,12 @@ export function getInitials(name?: string): string | undefined {
     return name[2];
   }
 
-  const initials = name.split(' ').slice(0, 2).map(n => {
-    return n[0];
-  })
+  const initials = name
+    .split(' ')
+    .slice(0, 2)
+    .map(n => {
+      return n[0];
+    });
 
   return initials.join('');
 }

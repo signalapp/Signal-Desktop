@@ -114,7 +114,7 @@ export async function handleClosedGroupControlMessage(
     if (
       !getConversationController()
         .get(envelope.senderIdentity)
-        .isApproved()
+        ?.isApproved()
     ) {
       window?.log?.info(
         'Received new closed group message from an unapproved sender -- dropping message.'

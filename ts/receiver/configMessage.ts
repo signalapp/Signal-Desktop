@@ -55,11 +55,11 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
+  const envelopeTimestamp = _.toNumber(envelope.timestamp);
   const lastConfigUpdate = await getItemById(hasSyncedInitialConfigurationItem);
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
   const isNewerConfig =
-    !lastConfigTimestamp ||
-    (lastConfigTimestamp && lastConfigTimestamp < _.toNumber(envelope.timestamp));
+    !lastConfigTimestamp || (lastConfigTimestamp && lastConfigTimestamp < envelopeTimestamp);
 
   if (!isNewerConfig) {
     window?.log?.info('Received outdated configuration message... Dropping message.');
@@ -69,32 +69,14 @@ async function handleGroupsAndContactsFromConfigMessage(
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
-    timestamp: _.toNumber(envelope.timestamp),
+    timestamp: envelopeTimestamp,
   });
 
-  const numberClosedGroup = configMessage.closedGroups?.length || 0;
-
-  window?.log?.info(
-    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
-  );
-
-  await Promise.all(
-    configMessage.closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
-        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-        encryptionKeyPair: c.encryptionKeyPair,
-        name: c.name,
-        admins: c.admins,
-        members: c.members,
-        publicKey: c.publicKey,
-      });
-      try {
-        await handleNewClosedGroup(envelope, groupUpdate);
-      } catch (e) {
-        window?.log?.warn('failed to handle  a new closed group from configuration message');
-      }
-    })
-  );
+  // we only want to apply changes to closed groups if we never got them
+  // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group
+  if (!lastConfigTimestamp) {
+    await handleClosedGroupsFromConfig(configMessage.closedGroups, envelope);
+  }
 
   handleOpenGroupsFromConfig(configMessage.openGroups);
 
@@ -105,7 +87,6 @@ async function handleGroupsAndContactsFromConfigMessage(
 
 /**
  * Trigger a join for all open groups we are not already in.
- * Currently, if you left an open group but kept the conversation, you won't rejoin it here.
  * @param openGroups string array of open group urls
  */
 const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
@@ -124,6 +105,40 @@ const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
+};
+
+/**
+ * Trigger a join for all closed groups which doesn't exist yet
+ * @param openGroups string array of open group urls
+ */
+const handleClosedGroupsFromConfig = async (
+  closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
+  envelope: EnvelopePlus
+) => {
+  const numberClosedGroup = closedGroups?.length || 0;
+
+  window?.log?.info(
+    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
+  );
+  await Promise.all(
+    closedGroups.map(async c => {
+      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
+        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
+        encryptionKeyPair: c.encryptionKeyPair,
+        name: c.name,
+        admins: c.admins,
+        members: c.members,
+        publicKey: c.publicKey,
+      });
+      try {
+        // TODO we should not drop the envelope from cache as long as we are still handling a new closed group from that same envelope
+        // check the removeFromCache inside handleNewClosedGroup()
+        await handleNewClosedGroup(envelope, groupUpdate);
+      } catch (e) {
+        window?.log?.warn('failed to handle  a new closed group from configuration message');
+      }
+    })
+  );
 };
 
 /**

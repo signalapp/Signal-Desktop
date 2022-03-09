@@ -170,11 +170,10 @@ const lightColorAccentButton = black;
 const lightColorText = black;
 const lightColorTextOpposite = white;
 const lightColorTextSubtle = `${black}99`;
-const lightColorTextAccent = '#00c769';
+const lightColorTextAccent = accentLightTheme;
 const lightColorSessionShadow = `0 0 4px 0 ${black}5E`;
 const lightColorComposeViewBg = '#efefef';
-const lightColorSentMessageBg = 'hsl(152, 100%, 40%)';
-const lightColorSentMessageText = white;
+const lightColorSentMessageBg = accentLightTheme;
 const lightColorClickableHovered = '#dfdfdf';
 const lightColorSessionBorderColor = borderLightThemeColor;
 const lightColorSessionBorder = `1px solid ${lightColorSessionBorderColor}`;
@@ -232,10 +231,7 @@ export const switchHtmlToLightTheme = () => {
     '--color-sent-message-background',
     lightColorSentMessageBg
   );
-  document.documentElement.style.setProperty(
-    '--color-sent-message-text',
-    lightColorSentMessageText
-  );
+  document.documentElement.style.setProperty('--color-sent-message-text', darkColorSentMessageText);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     lightColorClickableHovered
@@ -364,7 +360,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-session-shadow: ${lightColorSessionShadow};
     --color-compose-view-button-background: ${lightColorComposeViewBg};
     --color-sent-message-background:  ${lightColorSentMessageBg};
-    --color-sent-message-text:  ${lightColorSentMessageText};
+    --color-sent-message-text:  ${darkColorSentMessageText};
     --color-clickable-hovered: ${lightColorClickableHovered};
     --color-session-border:  ${lightColorSessionBorderColor};
     --color-recovery-phrase-banner-background: ${lightColorRecoveryPhraseBannerBg};
