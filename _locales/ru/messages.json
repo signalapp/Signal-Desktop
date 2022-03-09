@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "«$name$» не может быть добавлен(-а) в группу, так как он(-а) использует старую версию Signal. Вы сможете добавить этого человека в группу после того, как он обновит Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Придумайте имя для группы",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Нажмите, чтобы скачать обновление",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal не удалось обновиться. Нажмите, чтобы попробовать ещё раз.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Для применения обновлений нажмите «Перезапустить Signal».",
@@ -6789,34 +6787,6 @@
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Вы устали отправлять неотредактированные изображения через Signal? Теперь вы можете добавлять стикеры котов и неоновый текст к изображениям и рисовать счастливые деревья на них перед отправкой.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Теперь вы можете изменять размер левой панели.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop теперь оптимизирован для процессора Apple M1, который используется в новых компьютерах Apple. Если вы используете одно из таких новоиспечённых устройств, приложение должно работать намного оперативнее. Если нет, тепло поприветствуйте тех пользователей, которые используют такой компьютер. Огромное спасибо $dennis$ за его усердную работу в этой области!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Находитесь в долгом звонке? Ваша система теперь должна бодрствовать всё время, вместо того чтобы засыпать, когда вы в середине важного обсуждения.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Также эта версия содержит несколько небольших изменений и исправлений, чтобы Signal продолжал работать плавно, включая несколько улучшений, связанных со звонками.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Новый год, новый экран начальной настройки. Мы обновили экраны начальной настройки как раз вовремя для 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Теперь с меньшим количеством поисков того, кто громко печатает! В лобби звонка Signal Desktop теперь автоматически отключит аудио, если в звонке 8 человек или больше.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Бесконечно прокручивайте свои разговоры и будьте уверены, что, где бы вы ни были в разговоре, вы будете знать, когда.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Когда-либо использовали Signal при нестабильном соединении? Теперь вы можете не волноваться — такие действия, как изменение таймера исчезающих сообщений, теперь будут отправлены, как только ваш Wi-Fi станет лучше себя чувствовать.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Была представлена новая система обновлений: вы можете заметить меньшие по размеру обновления, начиная со следующего.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Приложения, которые используют медиа-клавиши, возрадуйтесь! Signal больше не удерживает их.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Улучшенная поддержка шрифтов для наших японских друзей.",
+        "description": "Release notes for v5.35"
     }
 }

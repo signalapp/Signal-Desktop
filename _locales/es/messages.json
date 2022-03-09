@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "No se puede añadir a «$name$» al grupo porque usa una versión antigua de Signal. Podrás volver a invitarle al grupo después de actualizar Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Pon un nombre a este grupo",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Haz clic para descargar la actualización",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "No hemos podido podido actualizar Signal. Haz click para intentarlo de nuevo.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Pulsa en «Reiniciar Signal» para aplicar cambios.",
@@ -6789,34 +6787,6 @@
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Cosas del pasado: Enviar fotos normales en Signal. Cosas del presente: Añade a tus fotos stickers de gatos, texto de color neón o dibuja árboles sonrientes antes de enviarlas por Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "¿Alguna vez has tenido la sensación de necesitar más píxeles en el panel de los mensajes? ¿Eres fan de avatares, y sólamente avatares? ¿Tienes una pegatina de \"Estás demasiado cerca, necesito espacio entre nosotr@s\" en la parte trasera de tu auto? Si has respondido sí o no a alguna de estas preguntas, te alegrará saber que la vista del panel con la lista de chats se puede reducir.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Ahora, Signal Desktop está optimizada para los procesadores M1 en los nuevos Mac de Apple. Si utilizas uno de esos Macs, Signal funciona de manera más ligera. Si no, dale la bienvenida a la gente que los usa. ¡Los agradecimientos son para $dennis$ por su duro trabajo!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "¿La llamada dura demasiado? Tu sistema permanecerá activo durante todo el tiempo que dure la llamada, en lugar de entrar en hibernación en medio de esa conversación tan importante.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "También hemos reparado un par de fallos para que Signal funcione mejor, sobre todo en las llamadas.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Año nuevo, nueva pantalla de configuración. Hemos rediseñado las pantallas de configuración a tiempo para 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "¡Ahora, con menos distracciones por teclados ruidosos o masticadores compulsiv@s! En la sala de espera, Desktop desactivará el audio automáticamente si hay ocho o más personas en la llamada.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Desplázate sin fin por tus chats sin problema de saber exactamente dónde y cuándo.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "¿Usas Signal con una conexión inestable? ¡No te preocupes más! Los cambios en la desaparición de mensajes y más detalles se enviarán cuando la conexión mejore.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Hemos introducido un nuevo sistema de actualización de Signal que permite actualizaciones más compactas.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "¡Las aplicaciones que usan teclas multimedia están de enhorabuena! Signal no se atragantará con ellas.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Signal incluye un mejor soporte para nuestras amistades en Japón",
+        "description": "Release notes for v5.35"
     }
 }

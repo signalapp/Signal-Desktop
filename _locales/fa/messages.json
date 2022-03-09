@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "«$name$» نمی‌تواند به گروه اضافه شود زیرا آن‌ها دارند از یک نسخهٔ قدیمی سیگنال استفاده می‌کنند. شما می‌توانید پس از اینکه آن‌ها سیگنال را به‌روزرسانی کردند آن‌ها را به گروه اضافه کنید.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "نامی برای گروه انتخاب کنید",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "برای بارگیری به‌روزرسانی کلیک کنید",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal couldn’t update. Click to try again.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
@@ -6789,34 +6787,6 @@
         "message": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "اگر از ارسال تصاویر ساده ویرایش نشده روی سیگنال خسته شده اید، میتوانید استیکر گربه، متن چراغانی، و نقاشی درختان شاد رو قبل از ارسال روی سیگنال اضافه بکنید",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "آیا تا به حال احساس کرده اید که در زندگی خود به پیکسل های بیشتری در صفحه سمت راست نیاز دارید؟ آیا شما طرفدار آواتارها هستید، اما فقط آواتارها و نه چیز دیگری؟ آیا برچسب \"کاکام ممد\" روی سپر ماشین خود دارید؟ اگر به هر یک از این سؤالات پاسخ مثبت یا خیر داده اید، این به روز رسانی برای شما یک صفحه جمع شونده سمت چپ  دارد.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "اپ سیگنال دسکتاپ هم اکنون برای چیپست M1 اپل بهینه سازی شده است که در کامپیوترهای جدیدشان استفاده می شود. اگر شما هم یکی از آن دستگاه ها را دارید،  اپ سیگنال باید بسیار سریع تر باشد. اگر هم نه، به کاربرانی که آن را دارند خوش آمد بگویید. با تشکر فراوان از $dennis$بابت کار هایی که اینجا کرد.",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "تماس طولانی دارید؟ سیستم شما بجای خوابیدن در زمانی که وسط یک مباحثه مهم هستید، باید در تمام مدت روشن باشد.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "همچنین شماری از بهینه سازی های کوچک و رفع عیب هایی برای حفظ اجرای راحت سیگنال وجود دارند، همانند: چندین بهینه سازی مرتبط با تماس ها.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "سال نو هست و تنظیمات صفحه رو جدید کن. ما تنظیمات صفحه اولیه رو برای سال 2022 بازطراحی کردیم",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "الان، انگار سروصدا زیاد هست. توی لابی تماس، اگر هشت نفر یا بیشتر توی تماس باشن، اپ دسکتاپ بصورت خودکار صدا را غیرفعال خواهد کرد.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "بی‌وقفه در میان گفتگوهای خود پیمایش کنید و مطمئن باشید که در هر کجای گفتگو که باشید می‌دانید چه زمانی است.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Better font support for our Japanese friends.",
+        "description": "Release notes for v5.35"
     }
 }

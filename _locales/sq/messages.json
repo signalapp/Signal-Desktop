@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "“$name$” s’mund të shtohet te grupi, ngaqë përdor një version të vjetër të Signal-it. Mund ta shtoni te grupi pasi të kenë përditësuar Signal-in.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Emërtojeni këtë grup",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Klikoni që të shkarkohet përditësimi",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal-i s’u përditësua dot. Klikoni që të riprovohet.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet.",
@@ -6789,34 +6787,6 @@
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Të lodhur: Nga dërgim figurash të thjeshta, të papërpunuara, në Signal. Të ngazëllyer: Shtim ngjitësish me mace, tekst neon dhe vizatim pemësh të lumtura në figurat tuaja, përpara dërgimit të tyre në Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Keni ndjerë ndonjëherë se ju duhen më tepër piksela në kuadratin e djathtë, gjatë jetës tuaj? Jeni tifoz avatarësh, por vetëm avatarësh dhe asgjëje tjetër? Keni një makinën tuaj një ngjitës “Save the screen real estate”? Nëse u përgjigjët po ose jo për cilëndo nga këto pyetje, atëherë ky përditësim sjell për ju një kuadrat majtas që mund të paloset.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal-i për Desktop tani është i optimizuar për procesorin M1 të Apple-it që përdoret në kompjuterat e tyre më të rinj. Nëse keni një nga këto pajisje të reja, aplikacioni do të jetë shumë më i zhdërvjellët. Nëse jo, urojuni mirëseardhjen atyre që i kanë. Falënderime pa masë për $dennis$ për punën e tij të palodhur për këtë aspekt!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Telefonatë e gjatë? Sistemi duhet të jetë zgjuar për gjithë kohën, në vend se të dremitë teksa jeni në mes të një diskutimi të rëndësishëm.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Ka gjithashtu një numër përimtimesh të vogla dhe ndreqje të metash, për ta mbajtur Signal-in të xhirojë rrjedhshëm, përfshi disa përmirësime të lidhura me thirrjet.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Vit i ri, skenë e re ujdisjeje fillestare. I kemi rihartuar skenat e ujdisjes fillestare tamam në kohë për 2022-shin.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Tani, me më pak kërkime të ethshme për ata që shkruajnë shpejt ose që janë energjikë! Te holli i thirrjeve, tani e tutje Desktopi do të çaktivizojë automatikisht audion, nëse në thirrje ka tetë ose më tepër persona.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Rrëshqitni pambarimisht nëpër bisedat tuaja dhe jini i bindur se kudo që gjendeni te biseda, do ta dini se kur.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "E keni përdorur ndonjëherë Signal-in me një lidhje të paqëndrueshme? Mos u shqetësoni më - tanimë ndryshimet te kohëmatësi i asgjësimit së mesazheve, etj, do të dërgohen sapo sapo Wi-Fi të ndihet prapë mirë.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Është sjellë për herë të parë një sistem i ri përditësimesh dhe njerëzit do të duhet të shohin përditësime më të vockla me përditësimin pasues.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Le të gëzohen aplikacionet që përdorin taste për media! Signal-i s’ka më punë me to.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Mbulim më i mirë shshkronjash për miqtë tanë japonezë.",
+        "description": "Release notes for v5.35"
     }
 }

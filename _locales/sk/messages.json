@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "\"$name$\" nemôže byť pridaný/á to tejto skupiny, pretože používa starú verziu aplikácie Signal. Do skupiny ho/ju môžete pridať, keď si aktualizuje Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Pomenujte túto skupinu",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Kliknutím stiahnete aktualizáciu",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal sa nepodarilo aktualizovať. Kliknutím to skúste znova.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Reštartujte Signal pre dokončenie aktualizácie.",
@@ -6789,34 +6787,6 @@
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Unavený: Posielanie obyčajných neupravených obrázkov cez Signal. Káblové: Pridanie nálepiek s mačkami, neónového textu a kreslenie šťastných stromov na vaše obrázky pred ich odoslaním na Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Mali ste niekedy pocit, že vo svojom živote potrebujete viac pixelov na správnom paneli? Ste fanúšikom avatarov, ale iba avatarov a ničoho iného? Máte na svojom aute nálepku na nárazníku „Šetriť úžitkovou plochou“? Ak ste na niektorú z týchto otázok odpovedali áno alebo nie, táto aktualizácia má pre vás skladací ľavý panel.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop je teraz optimalizovaný pre čip Apple M1, ktorý sa používa v novších počítačoch Apple. Ak používate jedno z týchto nových zariadení, aplikácia by mala byť oveľa šikovnejšia. Ak nie ste, srdečne privítajte používateľov, ktorí sú. Veľká vďaka $dennis$ za jeho tvrdú prácu!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Pri dlhom hovore? Váš systém by mal zostať celý čas bdelý, namiesto toho, aby ste zaspávali, keď ste uprostred dôležitej diskusie.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Existuje tiež množstvo malých vylepšení a opráv chýb, aby Signal fungoval hladko, vrátane niekoľkých vylepšení súvisiacich s volaním.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Nový rok, nová obrazovka úvodného nastavenia. Prepracovali sme obrazovky úvodného nastavenia práve na rok 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Teraz s menším počtom zúfalých zvukov klepania do klávesnice, alebo silného dýchania! Desktop teraz automaticky vypne zvuk, ak sa hovoru zúčastní osem alebo viac ľudí.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Nekonečne listujte svojimi konverzáciami a buďte si istí, že kdekoľvek sa v konverzácii nachádzate, budete vedieť kedy to bolo.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Použili ste niekedy Signal pri nestabilnom pripojení? Už si nemusíte robiť starosti – časovač miznutia správ sa zmení a ďalšie sa budú odosielať, keď bude vaša Wi-Fi na tom lepšie.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Bol predstavený nový aktualizačný systém a ľudia by mali začať vidieť menšie aktualizácie s ďalšou aktualizáciou.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Aplikácie, ktoré používajú mediálne klávesy, sa radujú! Signal už na nich nemá vplyv.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Lepšia podpora písma pre našich japonských priateľov.",
+        "description": "Release notes for v5.35"
     }
 }

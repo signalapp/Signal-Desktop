@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "لا يمكن إضافة المستخدم \"$name$\" للمجموعة لأنه يستخدم إصدارا قديما لـ Signal. يمكنك إضافته للمجموعة فور تحديثه للتطبيق.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "سمّ هذه المجموعة",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "يُرجى الضغط على زر الفأرة لتنزيل التحديث",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal couldn’t update. Click to try again.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "‫يُرجى الضغط على إعادة تشغيل Signal لتطبيق التحديثات.‬",
@@ -6789,34 +6787,6 @@
         "message": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على تشغيل Signal بسلاسة.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "مُتعب: إرسال صور عادية غير مُعدّلة على Signal. متحمس: إضافة ملصقات قطط ورسائل نصية بالنيون، ورسم أشجار سعيدة على صورك قبل إرسالها على Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "هل شعرت من قبل في حياتك أنك تحتاج إلى المزيد من وحدات البيكسل للجزء الأيمن من شاشتك؟ هل تحب الصور الرمزية، ولكن الصور الرمزية فقط ولا شيء غيرها؟ هل لديك ملصق صدام \"توفير مساحة العرض\" على سيارتك؟ إذا أجبت بنعم أو لا على أي من هذه الأسئلة، فسيوفر لك هذا التحديث جزءاً أيسر قابل للطي.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "‫لقد أصبح Signal Desktop مُحسَّنا لاشتغال تحت إمرة معالج « M1 » لشركة آبل، والذي يستخدمونه في حواسيبهم الحديثة. إن كنت من مستخدمي هذا الصنف من الأجهزة، فمن المفترض أن يكون عمل التطبيق أسرع. أما إذا لم يتوفر لديك ذلك النوع من الحواسيب، فعلى الأقل هناك من تحسَّن أداء عملهم بالتطبيق. نخص بالشكر والامتنان $dennis$ الذي قام بعمل جبار لتمكين هذا التحسين.",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "أ دامت مكالمتك طويلا ؟ سيبقى نظامك مشتغلا طول تلك المدة، بدل أن يغفو في وسط محادثة مهمة.‏",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "هناك أيضا بضع تعديلات وإصلاحات للعلل لإبقاء عمل Signal سلسا، بما في ذلك عدة تحسينات متعلقة بالمكالمات.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "‫عام جديد، شاشة تثبيت جديدة. لقد أعدنا تصميم شاشات التثبيت في الوقت المناسب لسنة 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Better font support for our Japanese friends.",
+        "description": "Release notes for v5.35"
     }
 }

@@ -52,7 +52,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Налаштування",
+        "message": "Налаштування...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "\"$name$\" не може бути доданий (-а) в групу, так як він (-а) використовує стару версію Signal. Ви зможете додати цю людину в групу після того, як він оновить Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Дати ім'я групі",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Натисніть для завантаження оновлення",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal не вдалось оновити. Клацніть, щоб спробувати ще раз.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Натисніть Перезапустити Signal, щоб застосувати зміни.",
@@ -6789,34 +6787,6 @@
         "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Втомились: надсилайте прості невідредаговані зображення на Signal. Збадьорились: додавайте стікери з кицьками, неоновий текст та малюйте щасливі дерева на ваших зображеннях, перш ніж надсилати їх на Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Ви коли-небудь відчували, що вам потрібно більше пікселів на правій панелі у вашому житті? Ви любите аватари, але тільки аватари і нічого іншого? У вас є наклейка на бампер \"Зберегти нерухомість екрана\" на вашому автомобілі? Якщо ви відповіли так чи ні на будь-яке з цих запитань, це оновлення має для вас ліву панель, що згортається.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop відтепер оптимізовано для чипів Apple M1, що використовуються у їхніх нових комп'ютерах. Якщо ви один з володільців цих новітніх пристроїв, застосунок працюватиме ще хутчіше. Якщо ні — тепло зустрічаймо тих, хто вже так. Величезна подяка $dennis$ за його важку працю над цим!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Знаходитесь у тривалому виклику? Система залишатиметься пробудженою увесь час, та не засне посередині важливого обговорення.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Також є певна кількість маленьких доопрацювань та виправлень помилок, зокрема декілька покращень, пов'язаних з викликами, що дозволить Signal працювати плавніше.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Новий Рік — нове вікно початкового налаштування. Ми вчасно оновили вигляд вікна початкового налаштування до 2022 року.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Відтепер можна не розпочинати шалений пошук того, хто гучно друкує на клавіатурі, чи голосно плямкає прямо у мікрофон! У лобі виклику застосунок автоматично блокуватиме мікрофон, якщо у виклику присутні вісім чи більше осіб.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Нескінченно гортайте свої бесіди та почувайтесь впевнено, бо завжди знатимете, де ви у бесіді та коли.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Довелось використовувати Signal на нестабільному з'єднанні? Хвилюватись більше не доведеться — зміни до таймера повідомлень, що зникають, та інша інформація відтепер надсилатиметься щойно Wi-Fi почуватиметься краще.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Впроваджено нову систему оновлень, отже з наступного оновлення ви бачитимете менші оновлення.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Застосунки, які використовують ключі медіа, радійте! Signal більше вас не тримає.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Краща підтримка шрифту для наших японських друзів.",
+        "description": "Release notes for v5.35"
     }
 }

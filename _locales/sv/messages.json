@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "\"$name$\" kan inte läggas till i gruppen eftersom de använder en gammal version av Signal. Du kan lägga till dem i gruppen efter att de har uppdaterat Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Namnge den här gruppen",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Klicka för att hämta uppdateringen",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal kunde inte uppdateras. Klicka för att försöka igen.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Vänligen starta om Signal för att uppdatera",
@@ -6789,34 +6787,6 @@
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Har du någonsin känt att du behöver fler pixlar på den högra rutan i ditt liv? Är du ett fan av avatarer, men bara avatarer och inget annat? Har du en \"Save the screen real estate\"-dekal på din bil? Om du svarade ja eller nej på någon av dessa frågor, så har den här uppdateringen en hopfällbar vänstra ruta för dig.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop är nu optimerat för Apples M1-chip som används i deras nyare datorer. Om du använder en av dessa nymodiga enheter borde appen vara mycket snabbare. Om inte, hälsa användarna som gör det varmt välkomna. Stort tack till $dennis$ för hans hårda arbete här!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "I ett långt samtal? Ditt system bör vara vaken hela tiden, istället för att somna medan du är mitt i en viktig diskussion.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Det finns också ett antal små justeringar och felrättningar för att hålla Signal igång smidigt, inklusive flera samtalsrelaterade förbättringar.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Nytt år, ny inledande inställningsskärm. Vi har gjort om de första inställningsskärmarna lagom till 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Nu, med färre frenetiska sökningar efter den högljudda maskinskrivaren eller tungtuggaren! I samtalslobbyn kommer Desktop nu automatiskt att inaktivera ljudet om det finns åtta eller fler personer i samtalet.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Bättre teckensnittsstöd för våra japanska vänner.",
+        "description": "Release notes for v5.35"
     }
 }

@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "無法將“$name$”新增到該群組，因為他們使用的是舊版Signal。你可以在Signal更新後將他們新增到群組中。",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "為群組取一個名稱",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "點擊下載更新",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal 無法更新。請點擊以重試。",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "點選重啟 Signal 來套用更新。",
@@ -6789,34 +6787,6 @@
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "累了：在 Signal 上傳送未經編輯的普通圖片。 有線：在將圖片傳送到 Signal 之前，增加貓貼紙、霓虹燈文字並在圖片上繪製快樂的樹。",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "是否曾經覺得你的生活中需要在右側窗格中新增更多像素？ 你是頭像的粉絲，但只有頭像而沒有別的嗎？ 你的汽車上是否貼有“節省螢幕使用面積”的保險槓貼紙？ 如果你對這些問題中的任何一個回答是或否，那麼此更新為你提供了一些可收放的左邊窗格。",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal 電腦版 現在針對 Apple 的 M1 晶片進行了優化，該晶片用於它們較新的電腦。 如果你使用的是這些新裝置之一，那麼該應用程式應該會更加快速。 如果你不是，會喜愛的是那些用戶。 非常感謝 $dennis$ 在這樣的加速運作！",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "長時間通話？ 你的系統應該始終保持開啟，而不是在你進行重要討論時進入睡眠。",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "還有一些小的調整和錯誤修復，以維持 Signal 穩定執行，包括一些與通話相關的改進。",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "新的一年，新的初始設定螢幕。 我們為 2022 年及時重新設計了初始設定螢幕。",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "現在，對很吵的打字聲或常咒罵的瘋狂搜索減少了！ 在通話大廳中，如果通話中有 8 人或更多人，電腦版現在將自動停用音效。",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "不斷的捲動瀏覽你的對話，並確信無論你身在何處，你都會知道何時可以進行對話。",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "曾經在不穩定的網路上使用過 Signal？你無須再擔心 - 將銷毀訊息計時器更改時間，一旦你的 Wi-Fi 再次感覺順暢，就可傳送更多訊息。",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "已經引入了一個新的更新系統，人們應該在下一次更新中開始看到較小的更新。",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "使用媒體密鑰的應用程式應該很開心！ Signal 不再控制它們。",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "為我們的日本朋友提供更好的字體支援。",
+        "description": "Release notes for v5.35"
     }
 }

@@ -2419,13 +2419,7 @@
     },
     "chooseGroupMembers__cant-add-member__body": {
         "message": "\"$name$\" não pode ser adicionado ao grupo porque está usando uma versão antiga do Signal. Você pode adicionar essa pessoa ao grupo depois que ela atualize o Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group",
-        "placeholders": {
-            "max": {
-                "content": "$1",
-                "example": "Jane Doe"
-            }
-        }
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Escolha um nome para este grupo",
@@ -2506,6 +2500,10 @@
     "downloadNewVersionMessage": {
         "message": "Clique para baixar a atualização",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal couldn’t update. Click to try again.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Clique em Reiniciar Signal para aplicar as atualizações.",
@@ -6789,34 +6787,6 @@
         "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "A partir de agora, você pode desenhar, adicionar figurinhas ou escrever texto em imagens, antes de enviá-las.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "A partir de agora, a largura da lista de conversas se ajusta de acordo com o tamanho da janela, para facilitar a leitura de uma conversa.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "A partir de agora, Signal Desktop está otimizado para o chip M1, que é usado em computadores mais novos da Apple. Se você fizer uso de um desses computadores, o aplicativo do Signal funcionará confortavelmente, como ocorre em outros sistemas. Se este não for o chip do seu computador, também trouxemos mais potência para você. Um grande obrigado ao $dennis$ por seu trabalho árduo aqui!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Você tem honrado suas amizades com ligações prolongadas? A partir de agora, pedimos ao sistema do computador para ficar acordado o tempo todo, em vez de se suspender ou dormir no meio da sua discussão importante.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente. Melhoramos especialmente as chamadas de voz e de vídeo.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Redesenhamos as telas introdutórias, bem a tempo para o ano de 2022. Ano novo, nova tela de acesso.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "A partir de agora, Signal desliga automaticamente o seu microfone quando você adentra em uma chamada que já reúne oito ou mais pessoas.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "A partir de agora, você alcançará mensagens anteriores com confiança, porque com nossa ajuda está mais fácil identificar a data das mensagens. Role sem parar nas suas conversas.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6806,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Melhoramos a interação entre seu aplicativo e nossos servidores. O tamanho das atualizações será menor a partir de agora.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Melhoramos a interação entre o Signal e as teclas do teclado que retomam músicas em pausa e aumentam o volume.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Melhoramos o contorno de caracteres japoneses para facilitar a sua leitura.",
+        "description": "Release notes for v5.35"
     }
 }
