@@ -71,7 +71,7 @@ export const UserDetailsDialog = (props: Props) => {
 
       <div className="session-modal__button-group__center">
         <SessionButton
-          text={window.i18n('copy')}
+          text={window.i18n('editMenuCopy')}
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Primary}
           onClick={() => {

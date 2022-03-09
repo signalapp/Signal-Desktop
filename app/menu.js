@@ -7,7 +7,6 @@ exports.createTemplate = (options, messages) => {
 
   const {
     includeSetup,
-    openNewBugForm,
     openReleaseNotes,
     openSupportPage,
     platform,
@@ -56,7 +55,7 @@ exports.createTemplate = (options, messages) => {
         },
         {
           role: 'delete',
-          label: messages.editMenuDelete,
+          label: messages.delete,
         },
         {
           role: 'selectall',
@@ -127,10 +126,6 @@ exports.createTemplate = (options, messages) => {
         {
           label: messages.goToSupportPage,
           click: openSupportPage,
-        },
-        {
-          label: messages.menuReportIssue,
-          click: openNewBugForm,
         },
         {
           type: 'separator',

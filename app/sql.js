@@ -2344,6 +2344,9 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
 
+  const numberOfMessagesInConvo = getMessagesCountByConversation(globalInstance, conversationId);
+  const floorLoadAllMessagesInConvo = 70;
+
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);
 
@@ -2368,7 +2371,10 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
         .all({
           conversationId,
           messageId: messageId || firstUnread,
-          limit: absLimit,
+          limit:
+            numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+              ? floorLoadAllMessagesInConvo
+              : absLimit,
         });
 
       return map(rows, row => jsonToObject(row.json));
@@ -2378,7 +2384,10 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
     );
   }
 
-  const limit = 2 * absLimit;
+  const limit =
+    numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+      ? floorLoadAllMessagesInConvo
+      : 2 * absLimit;
 
   const rows = globalInstance
     .prepare(

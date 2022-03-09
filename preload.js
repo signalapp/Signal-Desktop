@@ -215,24 +215,7 @@ window.getSeedNodeList = () => JSON.parse(config.seedNodeList);
 
 const { locale: localFromEnv } = config;
 window.i18n = i18n.setup(localFromEnv, localeMessages);
-
-// moment does not support es-419 correctly (and cause white screen on app start)
 window.moment = require('moment');
-
-// Default to the locale from env. It will be overriden if moment
-// does not recognize it with what moment knows which is the closest.
-// i.e. es-419 will return 'es'.
-// We just need to use what we got from moment on the updateLocale below
-
-const localeSetForMoment = window.moment.locale(localFromEnv);
-window.moment.updateLocale(localeSetForMoment, {
-  relativeTime: {
-    s: window.i18n('timestamp_s'),
-    m: window.i18n('timestamp_m'),
-    h: window.i18n('timestamp_h'),
-  },
-});
-
 window.libsession = require('./ts/session');
 
 window.Signal.Data = require('./ts/data/data');

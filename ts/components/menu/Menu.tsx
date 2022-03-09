@@ -443,7 +443,7 @@ export const DisappearingMessageMenuItem = (): JSX.Element | null => {
     return (
       // Remove the && false to make context menu work with RTL support
       <Submenu
-        label={window.i18n('disappearingMessages') as any}
+        label={window.i18n('disappearingMessages')}
         // rtl={isRtlMode && false}
       >
         {timerOptions.map(item => (
