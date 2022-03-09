@@ -287,7 +287,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     ...pick(conversation, [
       'areWeAdmin',
       'unreadCount',
-      'typingContactId',
       'isGroupV1AndDisabled',
     ]),
     isConversationSelected: state.conversations.selectedConversationId === id,
@@ -295,6 +294,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       conversation.messageRequestsEnabled &&
         !conversation.acceptedMessageRequest
     ),
+    isSomeoneTyping: Boolean(conversation.typingContactId),
     ...conversationMessages,
     invitedContactsForNewlyCreatedGroup:
       getInvitedContactsForNewlyCreatedGroup(state),

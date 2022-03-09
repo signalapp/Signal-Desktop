@@ -93,7 +93,7 @@ type PropsHousekeepingType = {
   isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
-  typingContactId?: string;
+  isSomeoneTyping: boolean;
   unreadCount?: number;
 
   selectedMessageId?: string;
@@ -517,18 +517,18 @@ export class Timeline extends React.Component<
 
     const {
       isLoadingMessages: wasLoadingMessages,
+      isSomeoneTyping: wasSomeoneTyping,
       items: oldItems,
       scrollToIndexCounter: oldScrollToIndexCounter,
-      typingContactId: oldTypingContactId,
     } = prevProps;
     const {
       isIncomingMessageRequest,
       isLoadingMessages,
+      isSomeoneTyping,
       items: newItems,
       oldestUnreadIndex,
       scrollToIndex,
       scrollToIndexCounter: newScrollToIndexCounter,
-      typingContactId,
     } = this.props;
 
     const isDoingInitialLoad = isLoadingMessages && newItems.length === 0;
@@ -557,10 +557,7 @@ export class Timeline extends React.Component<
       return { scrollBottom: 0 };
     }
 
-    if (
-      Boolean(typingContactId) !== Boolean(oldTypingContactId) &&
-      this.isAtBottom()
-    ) {
+    if (isSomeoneTyping !== wasSomeoneTyping && this.isAtBottom()) {
       return { scrollBottom: 0 };
     }
 
@@ -742,6 +739,7 @@ export class Timeline extends React.Component<
       isConversationSelected,
       isGroupV1AndDisabled,
       isLoadingMessages,
+      isSomeoneTyping,
       items,
       oldestUnreadIndex,
       onBlock,
@@ -757,7 +755,6 @@ export class Timeline extends React.Component<
       showContactModal,
       theme,
       totalUnread,
-      typingContactId,
       unblurAvatar,
       unreadCount,
       updateSharedGroups,
@@ -1057,7 +1054,7 @@ export class Timeline extends React.Component<
 
                   {messageNodes}
 
-                  {typingContactId && renderTypingBubble(id)}
+                  {isSomeoneTyping && renderTypingBubble(id)}
                 </div>
               </div>
 

@@ -24,7 +24,6 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import type { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
-import { UUID } from '../../types/UUID';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -525,7 +524,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   renderItem,
   renderHeroRow,
   renderTypingBubble,
-  typingContactId: overrideProps.typingContactId,
+  isSomeoneTyping: overrideProps.isSomeoneTyping || false,
 
   ...actions(),
 });
@@ -596,9 +595,7 @@ story.add('Target Index to Top', () => {
 });
 
 story.add('Typing Indicator', () => {
-  const props = useProps({
-    typingContactId: UUID.generate().toString(),
-  });
+  const props = useProps({ isSomeoneTyping: true });
 
   return <Timeline {...props} />;
 });
