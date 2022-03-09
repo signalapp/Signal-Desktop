@@ -5469,6 +5469,7 @@ button.module-image__border-overlay:focus {
 .module-timeline__messages {
   flex: 1 1;
   padding-bottom: 6px;
+  position: relative;
 
   // This is a modified version of ["Pin Scrolling to Bottom"][0].
   // [0]: https://css-tricks.com/books/greatest-css-tricks/pin-scrolling-to-bottom/
@@ -5483,6 +5484,11 @@ button.module-image__border-overlay:focus {
       display: block;
       overflow-anchor: auto;
     }
+  }
+
+  &__at-bottom-detector {
+    position: absolute;
+    bottom: 0;
   }
 }
 

@@ -44,6 +44,8 @@ import {
 import { LastSeenIndicator } from './LastSeenIndicator';
 
 const AT_BOTTOM_THRESHOLD = 15;
+const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
+
 const MIN_ROW_HEIGHT = 18;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
 
@@ -171,7 +173,7 @@ export type PropsType = PropsDataType &
 type StateType = {
   hasDismissedDirectContactSpoofingWarning: boolean;
   hasRecentlyScrolled: boolean;
-  newestFullyVisibleMessageId?: string;
+  newestBottomVisibleMessageId?: string;
   oldestPartiallyVisibleMessageId?: string;
   widthBreakpoint: WidthBreakpoint;
 };
@@ -260,6 +262,7 @@ export class Timeline extends React.Component<
 > {
   private readonly containerRef = React.createRef<HTMLDivElement>();
   private readonly messagesRef = React.createRef<HTMLDivElement>();
+  private readonly atBottomDetectorRef = React.createRef<HTMLDivElement>();
   private readonly lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   private intersectionObserver?: IntersectionObserver;
 
@@ -278,10 +281,6 @@ export class Timeline extends React.Component<
   };
 
   private onScroll = (): void => {
-    const { id, setIsNearBottom } = this.props;
-
-    setIsNearBottom(id, this.isAtBottom());
-
     this.setState(oldState =>
       // `onScroll` is called frequently, so it's performance-sensitive. We try our best
       //   to return `null` from this updater because [that won't cause a re-render][0].
@@ -330,7 +329,7 @@ export class Timeline extends React.Component<
       oldestUnreadIndex,
       selectMessage,
     } = this.props;
-    const { newestFullyVisibleMessageId } = this.state;
+    const { newestBottomVisibleMessageId } = this.state;
 
     if (!items || items.length < 1) {
       return;
@@ -342,9 +341,9 @@ export class Timeline extends React.Component<
     }
 
     if (
-      newestFullyVisibleMessageId &&
+      newestBottomVisibleMessageId &&
       isNumber(oldestUnreadIndex) &&
-      items.findIndex(item => item === newestFullyVisibleMessageId) <
+      items.findIndex(item => item === newestBottomVisibleMessageId) <
         oldestUnreadIndex
     ) {
       if (setFocus) {
@@ -370,75 +369,106 @@ export class Timeline extends React.Component<
     );
   }
 
-  /**
-   * Re-initialize our `IntersectionObserver`. This replaces the old observer because (1)
-   * we don't want stale references to old props (2) we care about the order of the
-   * `IntersectionObserverEntry`s.
-   *
-   * This isn't the only way to solve this problem. For example, we could have a single
-   * observer for the lifetime of the component and update it intelligently. This approach
-   * seems to work, though!
-   */
   private updateIntersectionObserver(): void {
     const containerEl = this.containerRef.current;
     const messagesEl = this.messagesRef.current;
-    if (!containerEl || !messagesEl) {
+    const atBottomDetectorEl = this.atBottomDetectorRef.current;
+    if (!containerEl || !messagesEl || !atBottomDetectorEl) {
       return;
     }
 
     const {
       haveNewest,
       haveOldest,
+      id,
       isLoadingMessages,
       items,
       loadNewerMessages,
       loadOlderMessages,
+      setIsNearBottom,
     } = this.props;
 
+    // We re-initialize the `IntersectionObserver`. We don't want stale references to old
+    //   props, and we care about the order of `IntersectionObserverEntry`s. (We could do
+    //   this another way, but this approach works.)
     this.intersectionObserver?.disconnect();
 
-    // Keys are message IDs. Values are intersection ratios.
-    const visibleMessages = new Map<string, number>();
+    const intersectionRatios = new Map<Element, number>();
 
     const intersectionObserverCallback: IntersectionObserverCallback =
       entries => {
+        // The first time this callback is called, we'll get entries in observation order
+        //   (which should match DOM order). We don't want to delete anything from our map
+        //   because we don't want the order to change at all.
         entries.forEach(entry => {
-          const { intersectionRatio, target } = entry;
-          const {
-            dataset: { messageId },
-          } = target as HTMLElement;
-          if (!messageId) {
-            return;
-          }
-          visibleMessages.set(messageId, intersectionRatio);
+          intersectionRatios.set(entry.target, entry.intersectionRatio);
         });
 
-        let oldestPartiallyVisibleMessageId: undefined | string;
-        let newestFullyVisibleMessageId: undefined | string;
+        let newIsNearBottom = false;
+        let oldestPartiallyVisible: undefined | Element;
+        let newestPartiallyVisible: undefined | Element;
+        let newestFullyVisible: undefined | Element;
 
-        for (const [messageId, intersectionRatio] of visibleMessages) {
-          if (intersectionRatio > 0 && !oldestPartiallyVisibleMessageId) {
-            oldestPartiallyVisibleMessageId = messageId;
+        for (const [element, intersectionRatio] of intersectionRatios) {
+          if (intersectionRatio === 0) {
+            continue;
           }
-          if (intersectionRatio >= 1) {
-            newestFullyVisibleMessageId = messageId;
+
+          // We use this "at bottom detector" for two reasons, both for performance. It's
+          //   usually faster to use an `IntersectionObserver` instead of a scroll event,
+          //   and we want to do that here.
+          //
+          // 1. We can determine whether we're near the bottom without `onScroll`
+          // 2. We need this information when deciding whether the bottom of the last
+          //    message is visible. We want to get an intersection observer event when the
+          //    bottom of the container comes into view.
+          if (element === atBottomDetectorEl) {
+            newIsNearBottom = true;
+          } else {
+            oldestPartiallyVisible = oldestPartiallyVisible || element;
+            newestPartiallyVisible = element;
+            if (intersectionRatio === 1) {
+              newestFullyVisible = element;
+            }
           }
         }
 
+        // If a message is fully visible, then you can see its bottom. If not, there's a
+        //   very tall message around. We assume you can see the bottom of a message if
+        //   (1) another message is partly visible right below it, or (2) you're near the
+        //   bottom of the scrollable container.
+        let newestBottomVisible: undefined | Element;
+        if (newestFullyVisible) {
+          newestBottomVisible = newestFullyVisible;
+        } else if (
+          newIsNearBottom ||
+          newestPartiallyVisible !== oldestPartiallyVisible
+        ) {
+          newestBottomVisible = oldestPartiallyVisible;
+        }
+
+        const oldestPartiallyVisibleMessageId = getMessageIdFromElement(
+          oldestPartiallyVisible
+        );
+        const newestBottomVisibleMessageId =
+          getMessageIdFromElement(newestBottomVisible);
+
         this.setState({
           oldestPartiallyVisibleMessageId,
-          newestFullyVisibleMessageId,
+          newestBottomVisibleMessageId,
         });
 
-        if (newestFullyVisibleMessageId) {
-          this.markNewestFullyVisibleMessageRead();
+        setIsNearBottom(id, newIsNearBottom);
+
+        if (newestBottomVisibleMessageId) {
+          this.markNewestBottomVisibleMessageRead();
 
           if (
             !isLoadingMessages &&
             !haveNewest &&
-            newestFullyVisibleMessageId === last(items)
+            newestBottomVisibleMessageId === last(items)
           ) {
-            loadNewerMessages(newestFullyVisibleMessageId);
+            loadNewerMessages(newestBottomVisibleMessageId);
           }
         }
 
@@ -465,14 +495,15 @@ export class Timeline extends React.Component<
         this.intersectionObserver.observe(child);
       }
     }
+    this.intersectionObserver.observe(atBottomDetectorEl);
   }
 
-  private markNewestFullyVisibleMessageRead = throttle(
+  private markNewestBottomVisibleMessageRead = throttle(
     (): void => {
       const { markMessageRead } = this.props;
-      const { newestFullyVisibleMessageId } = this.state;
-      if (newestFullyVisibleMessageId) {
-        markMessageRead(newestFullyVisibleMessageId);
+      const { newestBottomVisibleMessageId } = this.state;
+      if (newestBottomVisibleMessageId) {
+        markMessageRead(newestBottomVisibleMessageId);
       }
     },
     500,
@@ -489,7 +520,7 @@ export class Timeline extends React.Component<
 
     this.updateIntersectionObserver();
 
-    window.registerForActive(this.markNewestFullyVisibleMessageRead);
+    window.registerForActive(this.markNewestBottomVisibleMessageRead);
 
     this.delayedPeekTimeout = setTimeout(() => {
       const { id, peekGroupCallForTheFirstTime } = this.props;
@@ -500,7 +531,7 @@ export class Timeline extends React.Component<
   public override componentWillUnmount(): void {
     const { delayedPeekTimeout } = this;
 
-    window.unregisterForActive(this.markNewestFullyVisibleMessageRead);
+    window.unregisterForActive(this.markNewestBottomVisibleMessageRead);
 
     this.intersectionObserver?.disconnect();
 
@@ -761,7 +792,7 @@ export class Timeline extends React.Component<
     } = this.props;
     const {
       hasRecentlyScrolled,
-      newestFullyVisibleMessageId,
+      newestBottomVisibleMessageId,
       oldestPartiallyVisibleMessageId,
       widthBreakpoint,
     } = this.state;
@@ -777,15 +808,15 @@ export class Timeline extends React.Component<
     const areAnyMessagesBelowCurrentPosition =
       !haveNewest ||
       Boolean(
-        newestFullyVisibleMessageId &&
-          newestFullyVisibleMessageId !== last(items)
+        newestBottomVisibleMessageId &&
+          newestBottomVisibleMessageId !== last(items)
       );
     const areSomeMessagesBelowCurrentPosition =
       !haveNewest ||
-      (newestFullyVisibleMessageId &&
+      (newestBottomVisibleMessageId &&
         !items
           .slice(-SCROLL_DOWN_BUTTON_THRESHOLD)
-          .includes(newestFullyVisibleMessageId));
+          .includes(newestBottomVisibleMessageId));
 
     const areUnreadBelowCurrentPosition = Boolean(
       areThereAnyMessages &&
@@ -1055,6 +1086,12 @@ export class Timeline extends React.Component<
                   {messageNodes}
 
                   {isSomeoneTyping && renderTypingBubble(id)}
+
+                  <div
+                    className="module-timeline__messages__at-bottom-detector"
+                    ref={this.atBottomDetectorRef}
+                    style={AT_BOTTOM_DETECTOR_STYLE}
+                  />
                 </div>
               </div>
 
@@ -1109,6 +1146,12 @@ export class Timeline extends React.Component<
         throw missingCaseError(warning);
     }
   }
+}
+
+function getMessageIdFromElement(
+  element: undefined | Element
+): undefined | string {
+  return element instanceof HTMLElement ? element.dataset.messageId : undefined;
 }
 
 function showDebugLog() {
