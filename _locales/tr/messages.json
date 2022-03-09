@@ -416,7 +416,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
-        "message": "Send pending messages",
+        "message": "Bekleyen iletileri gönder",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -1044,7 +1044,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Signal güncellenemedi. $retry$ veya el ile kurmak için $url$. Sonra, bu sorun hakkında $support$",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -2116,11 +2116,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[Bugün] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[Dün] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2492,11 +2492,11 @@
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "Güncellemeyi yeniden dene",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "destek ile iletişime geç",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -2506,6 +2506,10 @@
     "downloadNewVersionMessage": {
         "message": "Güncellemeyi indirmek için tıklayın",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal güncellenemedi. Tekrar denemek için tıklayın.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "Güncellemeleri uygulamak için 'Signal'i Yeniden Başlat'a basınız.",
@@ -6674,7 +6678,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
+        "message": "Signal bir hata sonrası yeniden başlatıldı. Bir hata raporu göndererek Signal'in sorunu incelemesine yardımcı olabilirsin.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6789,52 +6793,36 @@
         "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Eski: Signal'da düz, editlenmemiş resimler gönderme.\nYeni: Signal'da resim göndermeden önce onlara kedili çıkartmalar, ışıklı yazılar ekleme ve mutlu ağaçlar çizme.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Hayatında hiç sağ bölmede daha fazla piksele ihtiyacın var gibi hissettin mi? Avatarları, ama sadece avatarları sever misin? Arabanda \"Ekran alanından tasarruf et\" yazılı tampon etiketi mi var? Bu sorulardan herhangi birine evet veya hayır dediysen, bu güncelleme sana açılır kapanır sol bölme sunuyor.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop artık Apple'ın yeni bilgisayarlarında kullandığı M1 çipine optimize edildi. Eğer bu son-model cihazların birinde isen uygulama çok daha pratik olmalı. Eğer ki öyle değilse de, öyle olan kullanıcılara sıcak bir hoş geldin diyebilirsin. $dennis$'e sıkı çalışmalarından ötürü büyük teşekkürler sunuyoruz!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Uzun bir görüşmede misin? Sisteminin önemli bir konuşma sırasında uyku moduna geçmekten ziyade hep açık kalması gerekli.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Ayrıca bazı ufak yamalar ve hata düzeltmeleri Signal'in birkaç arama ile ilgili geliştirmeler de dahil, düzgün çalışmasını devam ettirmek için yapıldı.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Yeni yıl, yeni ilk kurulum ekranı. İlk kurulum ekranımızı 2022 için tam zamanında yeniden dizayn ettik.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Artık, gürültülü klavye kullananlara veya ağzını şapırdatan insanlara daha az maruz kalın! Görüşme lobisinde eğer sekiz veya daha fazla kişi mevcutsa, masaüstü otomatik olarak sesi kapatacak.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
-        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "message": "Konuşmalarınız arasında durmadan gezinin ve sohbetin neresinde olursanız olun, ne zaman olduğunu bileceğinizden emin olun.",
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.31--2": {
-        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "message": "Sol bölme başlığında ve arama alanındaki boşluklar karıştırıldı ve şimdi etkinlikler için çok fazla yer var!",
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.32--1": {
-        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "message": "Grup aramalarında hatalı yüksek sesli daktiloyu veya ağır çiğnemeciyi kolayca takip edin - yeni bir hareketli konuşma göstergesi ekledik!",
         "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.32--2": {
-        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "message": "Desteklenen dillerin listesi genişletildi. Çabaları ile bunu mümkün kılan gönüllü çevirmenlere içtenlikle teşekkür ederiz.",
         "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
-        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "message": "Kararsız bir bağlantıdayken hiç Signal kullandınız mı? Artık endişelenmenize gerek yok - kaybolan ileti zamanlayıcı değişiklikleri ve artık Wi-Fi'niz tekrar daha iyi hissettiğinde daha fazlası gönderilecek.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Yeni bir güncelleme sistemi tanıtıldı ve insanlar bir sonraki güncellemeyle daha küçük güncellemeler görmeye başlamalı.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "İçerik tuşlarını kullanan uygulamalar sevilir! Signal artık onları tutmuyor.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Japon arkadaşlarımız için daha iyi yazı tipi desteği.",
+        "description": "Release notes for v5.35"
     }
 }

@@ -2507,6 +2507,10 @@
         "message": "Kattints a frissítés letöltéséhez!",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "A Signal frissítése nem sikerült. Kattints, hogy újra megpróbáljuk!",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Kattints a Signal újraindítására a frissítések alkalmazásához! ",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Unalmas: Szerkesztés nélkül képeket küldeni Signalon. Izgalmas: Feldobni a fotókat küldés előtt cicás matricákkal, neon szöveggel és boldog fákkal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Érezted úgy valaha, hogy több pixelre van szükséged a jobboldali panelben? Imádod a profilképeket, de csak a profilképeket? Autódon egy \"Még több képernyőterületet mindenkinek!\" matrica díszeleg? Ha ezek közül bármelyik kérdésre igennel vagy nemmel feleltél, akkor ennek a frissítésnek köszönhetően összecsukhatod a baloldali panelt.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "A Signal Desktop mostantól natív támogatást nyújt az Apple új gépeiben használatos M1 processzorokhoz. Ha te is rendelkezel ilyennel, akkor az alkalmazás sokkal gyorsabbnak fog érződni. Ha te még nem, akkor küldd meleg üdvözletedet azoknak, akik már igen. Hatalmas köszönet $dennis$ részére áldozatos munkájáért!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Hosszú hívásban vagy? A rendszer most már végig ébren marad ahelyett, hogy aludni menne egy fontos beszélgetés közepén.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Néhány kisebb újítás és hibajavítás (például hívással kapcsolatos fejlesztések) annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Új év, új kezdőképernyő a kezdeti lépésekhez. Épphogy elkészültünk az új beállító-képernyőkkel 2022-re.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Megőrültél, míg megtaláltad, hogy ki gépel vagy épp eszik elviselhetetlen hangerővel? A hívásba lépés előtt mostantól az új résztvevők mikrofonjait automatikusan lenémítjuk 8 vagy több fős csoporthívások esetén.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Görgess végig beszélgetéseiden úgy, hogy közben mindig tudni fogod, merre jársz az időben.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Használtad már a Signalt ingadozó hálózati kapcsolat alatt? Többé nincs miért aggódni, az eltűnő üzenetek időzítésének átállítása és minden más változtatás azonnal felszinkronizálásra kerül, amint a kapcsolat helyreállt.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Az új frissítési rendszer bevezetésével kisebb méretben érkeznek az újdonságok.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "A média billentyűkhöz kötött alkalmazások fellélegezhetnek. A Signal nem kapaszkodik beléjük mostantól.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Japán barátaink jobb betűtípus támogatást kaptak.",
+        "description": "Release notes for v5.35"
     }
 }

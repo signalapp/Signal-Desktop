@@ -2507,6 +2507,10 @@
         "message": "Klik untuk mengunduh pembaruan",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal couldn’t update. Click to try again.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Usang: Mengirim gambar polos yang tidak diedit di Signal. Kekinian: Menambahkan stiker kucing, teks neon, dan menggambar pohon bahagia pada gambar Anda sebelum mengirimkannya di Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Pernah merasa seolah Anda membutuhkan lebih banyak piksel di panel kanan dalam hidup Anda? Apakah Anda penggemar avatar, tetapi hanya avatar dan bukan lainnya? Apakah di mobil Anda terpasang stiker bemper \"Hemat ruang layar monitor\"? Jika Anda menjawab ya ataupun tidak pada salah satu pertanyaan itu, maka pembaruan ini memberikan panel kiri yang dapat dilipat untuk Anda.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop sekarang dioptimalkan untuk chip M1 dari Apple yang digunakan pada komputer terbaru mereka. Jika Anda memakai perangkat buatan baru tersebut, Signal bekerja lebih cepat. Jika tidak, berikan sambutan hangat untuk penggunanya. Terima kasih banyak untuk $dennis$ untuk kerja kerasnya dalam hal ini!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Dalam panggilan panjang? Sistem Anda harus tetap menyala sepanjang waktu, dari pada mati ketika Anda sedang dalam diskusi yang penting.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Ada juga sejumlah perubahan kecil dan perbaikan bug untuk menjaga Signal berjalan dengan lancar, termasuk beberapa peningkatan terkait panggilan.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Tahun baru, layar pengaturan awal baru. Kami telah mendesain ulang layar pengaturan awal tepat pada tahun 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Sekarang, dengan lebih sedikit pencarian tergesa-gesa untuk pengetik yang lantang atau pengunyah kelas berat! Dalam lobi panggilan, Desktop akan secara otomatis menonaktifkan audio jika ada delapan orang atau lebih di dalam panggilan. ",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Gulir percakapan Anda tanpa henti dan merasa yakin lah bahwa di mana pun Anda berada dalam percakapan, Anda akan tahu kapan.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Pernah menggunakan Signal saat koneksi tidak stabil? Anda tidak perlu khawatir lagi - penghitung waktu pesan menghilang dan lebih banyak lagi sekarang akan dikirim setelah Wi-Fi Anda bekerja lebih baik lagi.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Better font support for our Japanese friends.",
+        "description": "Release notes for v5.35"
     }
 }

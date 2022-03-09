@@ -2507,6 +2507,10 @@
         "message": "Nhấp để tải bản cập nhật",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal couldn’t update. Click to try again.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Nhấn Khởi động lại Signal để áp dụng bản cập nhật.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Phiên bản này có một số chỉnh sửa nhỏ và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Mệt mỏi: Đang gửi hình ảnh đơn giản chưa được chỉnh sửa trên Signal. Có dây: Thêm hình dán mèo, văn bản neon và vẽ cây hạnh phúc trên hình ảnh của bạn trước khi gửi chúng trên Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Đã bao giờ bạn cảm thấy như bạn cần nhiều pixel hơn trên khung bên phải trong cuộc sống của mình? Bạn có phải là người yêu thích ảnh đại diện, nhưng chỉ có ảnh đại diện và không có gì khác? Bạn có miếng dán cản \"Save the screen real Estate\" trên ô tô của mình không? Nếu bạn trả lời có hoặc không cho bất kỳ câu hỏi nào trong số đó, thì bản cập nhật này có một số ngăn bên trái có thể thu gọn cho bạn.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop hiện hỗ trợ nguyên bản chip M1 của Apple được sử dụng trong các máy tính mới của họ. Nếu bạn đang sử dụng một trong những thiết bị mới này, ứng dụng sẽ nhanh hơn nhiều. Nếu bạn không, hãy chào đón nồng nhiệt những người dùng đó. Rất cảm ơn $dennis$ vì sự chăm chỉ của anh ấy ở phần này!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Có một cuộc gọi dài? Hệ thống của bạn nên thức suốt thời gian, thay vì chìm vào giấc ngủ khi bạn đang thảo luận quan trọng.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Ngoài ra còn có một số chỉnh sửa nhỏ và sửa lỗi để giữ cho Signal hoạt động mượt mà, bao gồm một số cải tiến liên quan đến tính năng gọi điện.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Đón năm mới, giao diện cài đặt mới. Chúng tôi đã thiết kế lại giao diện cài đặt để kịp đón năm mới 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Giờ đây, để đỡ phải lọc âm cho những người gõ máy tính nhiều và sử dụng bàn phím cơ gây tiếng ồn khó chịu! Trong danh sạch gọi nhóm, máy tính sẽ từ động tắt tiếng khi có nhiều hơn tám người tham gia cuộc gọi.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Better font support for our Japanese friends.",
+        "description": "Release notes for v5.35"
     }
 }

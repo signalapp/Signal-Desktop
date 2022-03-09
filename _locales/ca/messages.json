@@ -2507,6 +2507,10 @@
         "message": "Cliqueu per a baixar l'actualització",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "El Signal no s'ha pogut actualitzar. Feu clic per tornar-ho a provar.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Cansat: enviament de imatges senzills sense editar amb el Signal. Amb cable: addició d'adhesius de gats, text de neó i dibuixos d'arbres feliços a les imatges abans d'enviar-les amb el Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Alguna vegada heu sentit que necessiteu més píxels al plafó? Sou fan dels avatars, però només dels avatars i res més? Teniu un adhesiu estrambòtic al para-xocs del cotxe? Si heu respost sí o no a qualsevol d'aquestes preguntes, aquesta actualització té un plafó esquerre plegable per a vosaltres.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "El Signal Desktop ara està optimitzat per al xip M1 d'Apple, que s'usa als seus ordinadors més nous. Si sou en un d'aquests dispositius nous, l'aplicació hauria de ser molt més ràpida. Si no hi sou, donem la benvinguda als usuaris que hi són. Moltes gràcies a $dennis$ pel seu esforç aquí!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "En una trucada llarga? El vostre sistema hauria de romandre despert tota l'estona, en lloc d'adormir-se mentre esteu enmig d'una discussió important.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "També hi ha una sèrie de petits retocs i correccions d'errors perquè el Signal funcioni sense problemes, incloses diverses millores relacionades amb les trucades.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Any nou, nova pantalla de configuració inicial. Hem redissenyat les pantalles de configuració inicial just a temps per al 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Ara, amb menys cerques frenètiques per al mecanògraf fort o el mastegador pesat! Al vestíbul de trucades, el Desktop ara desactivarà automàticament l'àudio si hi ha vuit o més persones a la trucada.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Desplaceu-vos sense fi a través de les converses i sentiu-vos segurs que allà on estigueu en la conversa sabreu quan va ser.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Heu usat mai el Signal amb una connexió inestable? Ja no cal que us en preocupeu més: el temporitzador de missatges efímers canvia i s'enviaran quan la Wi-Fi torni a captar-se millor.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "S'ha introduït un nou sistema d'actualització i la gent hauria de començar a veure actualitzacions més petites amb la propera actualització.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Les aplicacions que usen tecles multimèdia s'alegren! El Signal ja no hi té cap control.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Millor suport de tipus de lletra per als nostres amics japonesos.",
+        "description": "Release notes for v5.35"
     }
 }

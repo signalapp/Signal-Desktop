@@ -2507,6 +2507,10 @@
         "message": "Spustelėkite, norėdami atsisiųsti atnaujinimą",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Programai Signal nepavyko atsinaujinti. Spustelėkite norėdami bandyti dar kartą.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\".",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Nuo šiol, prieš išsiųsdami paveikslus, galite ant jų piešti, klijuoti lipdukus ar pridėti įvairaus stiliaus tekstą.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Nuo šiol kairįjį skydelį galima mažinti taip, kad daugiau vietos būtų skirta pokalbiams.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Dabar, Signal Desktop yra optimizuota naudoti su „Apple“ M1 lustais, kurie yra naudojami jų naujesniuose kompiuteriuose. Jei turite kurį nors iš tų naujų įrenginių, programa juose veiks žymiai sklandžiau. Jei tokiais įrenginiais nesinaudojate, pasveikinkite naudotojus, kurie jais naudojasi. Didelis ačiū $dennis$ už šį sudėtingą darbą!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Dalyvaujate ilgame skambutyje? Visą šį laiką, kol dalyvaujate svarbioje diskusijoje, jūsų sistema turėtų išlikti aktyvi ir nepereiti į miego režimą.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Be to, yra daug smulkių patobulinimų ir klaidų ištaisymų, įskaitant su skambučiais susijusius pagerinimus, kurie padės Signal sklandžiai veikti.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Naujieji metai, naujas pradinės sąrankos langas. Prasidedant 2022-siems, perprojektavome pradinės sąrankos langus.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Dabar, nebereikia ieškoti, kas garsiai rašo klaviatūra ar čepsi! Programa automatiškai išjungs garsą laukimo salėje, jei skambutyje dalyvaus aštuoni ar daugiau kaip aštuoni žmonės.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Slinkite pokalbyje be galo ir būkite užtikrinti, kad kur besustotumėte, tiksliai žinosite laikotarpį, ties kuriuo sustojote.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Esate naudojęsi Signal prisijungę prie nestabilaus interneto ryšio? Galite daugiau nebesirūpinti – išnykstančių žinučių laikmačio pakeitimai ir kita dabar bus išsiunčiama, kai tik jūsų belaidis (Wi-Fi) ryšys vėl pasijus geriau.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Pristatyta nauja atnaujinimų sistema ir visi bičiuliai nuo kito atnaujinimo turėtų pradėti matyti smulkesnius atnaujinimus.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Medijos klavišus naudojančios programos džiūgaukite! Signal daugiau jų nebeblokuoja.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Geresnis šrifto palaikymas mūsų draugams japonams.",
+        "description": "Release notes for v5.35"
     }
 }

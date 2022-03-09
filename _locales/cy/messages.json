@@ -2507,6 +2507,10 @@
         "message": "Cliciwch i lwytho diweddariad i lawr",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Methwyd diweddaru Signal. Cliciwch i rhoi gynnig arall arni.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Pwyswch Ailgychwyn Signal i diweddaru.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Wedi blino: Anfon delweddau plaen heb eu golygu ar Signal. Yn fyw: Ychwanegu sticeri cath, testun neon, a thynnu coed hapus ar eich delweddau cyn eu hanfon ar Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Ydych chi erioed wedi teimlo bod angen mwy o bicseli arnoch chi ar y cwarel de yn eich bywyd? Ydych chi'n ffan o afatarau, ond dim ond afatarau a dim byd arall? Oes gennych chi sticer bumper \"Save the screen real estate\" ar eich car? Os gwnaethoch chi ateb ie neu na i unrhyw un o'r cwestiynau hynny, yna mae gan y diweddariad hwn ryw gwarel chwith cwympadwy i chi.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Bellach mae Signal Desktop wedi'i optimeiddio ar gyfer sglodyn M1 Apple sy'n cael ei ddefnyddio yn eu cyfrifiaduron diweddaraf. Os ydych chi ar un o'r dyfeisiau newydd sbon hynny, dylai'r ap fod yn llawer mwy cyflym. Os nad ydych chi, rhowch groeso cynnes i'r defnyddwyr sydd. Diolchiadau mawr i $dennis$ am ei waith caled!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Ar alwad hir? Dylai eich system aros yn effro trwy'r amser, yn lle cwympo i gysgu tra'ch bod chi yng nghanol sgwrs bwysig.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Mae yna hefyd nifer o newidiadau bach a chywiriadau i gadw Signal i redeg yn llyfn, gan gynnwys sawl gwelliant sy'n gysylltiedig â galwadau.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Blwyddyn newydd, sgrin sefydlu gychwynnol newydd. Rydym wedi ailgynllunio'r sgriniau gosod cychwynnol mewn pryd ar gyfer 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Nawr, am lai o chwilio am y teipydd swnllyd neu'r cnöwr trymaf! Yn y cyntedd galwadau, bydd Desktop yn atal sain os oes yna 8 neu ragor mewn galwad.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Sgroliwch yn ddiddiwedd trwy'ch sgyrsiau a theimlo'n hyderus y byddwch chi'n gwybod pryd ble bynnag yr ydych chi yn y sgwrs.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Erioed wedi defnyddio Signal ar gysylltiad ansad? Dim gofid - bydd newidiadau amser negeseuon byrhoedlog a rhagor yn cael eu cydweddu nôl unwaith fydd eich WiFi yn teimlo'n well eto.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Mae system diweddaru newydd wedi ei gyflyno a dylech chi fod yn gweld diweddariadau llai gyda'r diweddariad nesaf.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Bydd apiau sy'n defnyddio bysellau cyfryngau yn hapus! Does gan Signal ddim gafael arnyn nhw bellach.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Gwell cefnogaeth ffontiau i'n ffrindiau Japaneaidd.",
+        "description": "Release notes for v5.35"
     }
 }

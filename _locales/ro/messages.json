@@ -2507,6 +2507,10 @@
         "message": "Apasă pentru a descărca actualizarea",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal nu a putut fi actualizat. Apasă pentru a încerca din nou.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Apasă pe Repornire Signal pentru a aplica actualizările.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Te-ai plictisit să trimiți imagini simple, needitate cu Signal? Acum poți adăuga autocolante, text neon, sau poți desena copaci fericiți pe imaginile tale înainte de a le trimite cu Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Ai simțit vreodată că ai nevoie de mai mulți pixeli pe panoul din dreapta? Ești un fan al avatarelor, dar numai al avatarelor și nimic altceva? Ai un autocolant pe mașină cu mesajul \"Salvează spațiul pe ecran\"? Dacă ai răspuns da sau nu la oricare dintre aceste întrebări, atunci această actualizare are un panou stâng pliabil pentru tine.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop este acum optimizat pentru cipul M1 de la Apple, care este utilizat în noile computere. Dacă folosești unul dintre aceste dispozitive nou-nouțe, aplicația ar trebui să fie mult mai rapidă. Dacă nu, urează-le bun venit utilizatorilor care sunt. Mulțumiri imense lui $dennis$ pentru munca depusă aici!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Într-un apel lung? Sistemul tău ar trebui să rămână activ tot timpul, în loc să intre în repaus în mijlocul unei discuții importante.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Am făcut, de asemenea, o serie de mici ajustări și am reparat câteva erori pentru ca Signal să funcționeze fără probleme, acestea includ și unele îmbunătățiri legate de apelare.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Un an nou, un ecran nou de configurare. Am schimbat designul ecranului inițial de configurare odată cu trecerea în 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "De acum, nu vei mai fi nevoit să-l cauți în grabă pe cel ce tastează sau mestecă zgomotos, Desktop v-a opri automat microfonul dacă sunt opt sau mai multe persoane în apel.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Derulează la nesfârșit prin conversațiile tale și fii sigur că oriunde te-ai afla în conversație vei știi și data acesteia.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ai folosit vreodată Signal cu o conexiune instabilă? Nu trebuie să-ți mai faci griji, modificări ale timpului de dispariție mesaje cât și alte modificări vor fi trimise o dată ce Wi-Fi-ul se simte mai bine.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Am introdus un nou sistem de actualizare, utilizatorii vor vedea dimensiuni mai mici pentru actualizări o dată cu următoarea actualizare.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Aplicațiile ce folosesc testele media se vor bucura! Signal nu va mai ține aceste taste blocate.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Suport mai bun pentru fonturi pentru prietenii noștri Japonezi.",
+        "description": "Release notes for v5.35"
     }
 }

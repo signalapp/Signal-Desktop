@@ -2507,6 +2507,10 @@
         "message": "Kliknij, aby pobrać aktualizację",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Nie udało się zaktualizować Signal. Kliknij, aby spróbować ponownie.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Naciśnij \"Uruchom ponownie\", aby zakończyć aktualizację.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Zmęczyło Cię wysyłanie zwyczajnych, niewyedytowanych zdjęć w Signal? Teraz w Signal możesz dodawać naklejki z kotami, neonowy tekst i rysować drzewka, zanim wyślesz zdjęcie.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Czujesz, że w Twoim życiu potrzeba więcej pikseli na prawym panelu? Jesteś fanem awatarów i niczego więcej? Masz na zderzaku nalepkę \"Oszczędzaj przestrzeń ekranową\"? Niezależnie, czy odpowiedziałeś tak, czy nie na powyższe pytania, ta aktualizacja ma dla Ciebie możliwość zmniejszenia lewego panelu.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Aplikacja Signal Desktop jest teraz zoptymalizowana do działania z procesorem Apple M1, używanym w nowszych komputerach tej firmy. Jeśli posiadasz jedno z tych nowych urządzeń, aplikacja powinna działać bardziej płynnie. Jeśli nie, ciesz się szczęściem tych użytkowników, którzy je mają. Ogromne dzięki za Twoją, ciężką pracę, $dennis$!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Prowadzisz długie rozmowy? Twój system powinien pozostać czujny przez cały czas, zamiast przechodzić w tryb uśpienia, gdy jesteś w środku ważnej dyskusji.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "Ta wersja zawiera również wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal, włącznie z kilkoma poprawkami połączeń.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Nowy rok i nowy ekran konfiguracji. Przeprojektowaliśmy ekrany początkowej konfiguracji, w sam raz na początek roku 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Teraz nie będziesz tak często szukać głośnych stukaczy w klawiaturę i jeszcze głośniejszych przeżuwaczy! Aplikacja Desktop automatycznie wyłączy audio w lobby, jeśli w rozmowie uczestniczy osiem lub więcej osób.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "Przewijaj konwersację, mając pewność, że wiesz, kiedy się ona odbywała.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Używasz Signal, korzystając z niestabilnego połączenia z internetem? Nie musisz się już martwić - zmiany czasu znikania wiadomości i inne, zostaną teraz wysłane, gdy tylko Twoja sieć Wi-Fi znów poczuje się lepiej.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Wprowadziliśmy nowy system aktualizacji. Od następnej wersji powinieneś zauważyć, że pliki aktualizacji są mniejsze.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Święto dla aplikacji korzystających z klawiszy multimedialnych! Signal już ich nie kontroluje.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Lepsza obsługa czcionek dla naszych, japońskich przyjaciół.",
+        "description": "Release notes for v5.35"
     }
 }

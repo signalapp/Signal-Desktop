@@ -2507,6 +2507,10 @@
         "message": "לחץ כדי להוריד עדכון",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Signal couldn’t update. Click to try again.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "לחץ על הפעל מחדש את Signal כדי להחיל את העדכונים.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "במקום לשלוח תמונות בלתי ערוכות ב־Signal, אתה יכול עכשיו להוסיף מדבקות, לכתוב טקסט ולצייר על תמונות לפני שליחתן ב־Signal.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "החלונית השמאלית ניתנת לקיפול כדי להפוך את החלונית הימנית רחבה יותר.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop ממוטב עכשיו עבור שבב M1 של Apple שנמצא בשימוש במחשבים החדשים יותר שלה. אם אתה על אחד מהמחשבים החדשים האלו, היישום אמור להיות זריז הרבה יותר. תודה ענקית אל $dennis$ על עבודתו הקשה כאן!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "בשיחה ארוכה? המערכת אמורה להישאר ערה כל הזמן, במקום להיכנס למצב שינה בזמן שאתה באמצע דיון חשוב.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "ישנם גם מספר שפצורים ותיקוני תקלים כדי להשאיר את Signal רץ בצורה חלקה, כולל כמה שיפורים קשורי התקשרות.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "שנה חדשה, מסך הגדרה ראשונית חדש. עיצבנו מחדש את מסכי ההגדרה הראשונית בדיוק בזמן אל 2022.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "במבואת השיחה, שולחן עבודה ישבית שמע באופן אוטומטי אם יש שמונה או יותר אנשים בשיחה.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "גלול באופן אין־סופי מבעד ההתכתבויות שלך והרגש בטוח שבכל מקום שאתה בשיחה תדע מתי.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Better font support for our Japanese friends.",
+        "description": "Release notes for v5.35"
     }
 }

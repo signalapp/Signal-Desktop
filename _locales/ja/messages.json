@@ -1878,7 +1878,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "メッセージ作成ボックスでスペルチェックを行います",
+        "message": "メッセージ作成ボックスでスペルチェックを行う",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -2506,6 +2506,10 @@
     "downloadNewVersionMessage": {
         "message": "アップデートをダウンロードする",
         "description": ""
+    },
+    "downloadFullNewVersionMessage": {
+        "message": "Signalのアップデートが失敗しました。クリックして再試行してください。",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
         "message": "アップデートを適用するにはSignalを再起動してください。",
@@ -3824,7 +3828,7 @@
         }
     },
     "outgoingCallRinging": {
-        "message": "着信中…",
+        "message": "呼び出しています…",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
@@ -6196,7 +6200,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "無地",
+        "message": "単色",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
@@ -6789,34 +6793,6 @@
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Signalで画像を送信する前に、猫のステッカーやネオンの文字、ハッピーツリーを描くなどの編集ができるようになりました。",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "チャット一覧の幅を変えられるようになりました。チャットの表示部分との境界を左右にドラッグすると、好きな幅に変えられます。幅を最小にすると、アイコンのみの表示となります。",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop は、Apple M1 チップにネイティブ対応しました。Apple M1 チップを搭載した端末をお持ちの皆さん、お待たせしました。アプリの動作が高速になります！$dennis$ さんのおかげで実現しました。ありがとうございます。",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "通話中にシステムがスリーブしないようになりました。",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "また、通話に関する修正を含めた、細かな変更とバグ修正を行いました。",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "初期設定画面をリニューアルしました。2022年もSignalをよろしくお願いします。",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "通話ロビーで8人以上が通話中の場合、自動的にマイクをミュートするようになりました。",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": "過去のチャットをスクロールして見るときに、常に画面上部に日付が出るようになりました。",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Wi-Fi接続が不安定な状態でSignalを使用しても、接続が回復した際に消えるメッセージのタイマーを更新し、メッセージを送信するようになりました。",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "新しいアップデートシステムが導入され、これからは細かいアップデートが行われるようになります。",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "メディアキーを使用するアプリケーションが、Signalに支配されることがなくなりました。",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "日本語フォントへの対応を改善しました。",
+        "description": "Release notes for v5.35"
     }
 }

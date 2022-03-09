@@ -2507,6 +2507,10 @@
         "message": "Napsauta ladataksesi päivityksen",
         "description": ""
     },
+    "downloadFullNewVersionMessage": {
+        "message": "Signalin päivitys ei onnistunut. Napsauta yrittääksesi uudelleen.",
+        "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
+    },
     "autoUpdateNewVersionInstructions": {
         "message": "Asenna päivitykset napsauttamalla Käynnistä Signal uudelleen.",
         "description": ""
@@ -6789,34 +6793,6 @@
         "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.26--1": {
-        "message": "Väsynyt: Lähetä tavallisia, muokkaamattomia kuvia Signalissa. Virkeä: Lisää kissatarroja, neon-tekstiä ja piirtele iloisia puita kuviin ennen niiden lähetystä Signalilla.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__v5.26--2": {
-        "message": "Tuntuuko sinusta koskaan siltä, että haluaisit lisää pikseleitä elämäsi oikeaan sivupalkkiin? Oletko avatarien ja vain avatarien ystävä? Onko sinulla \"säästä näytöllä käytettyä tilaa\" -puskuritarra autossasi? Vastasitpa kyllä tai ei edellisiin kysymyksiin, tämä päivitys tuo sinulle vasemman sivupalkin pienentämismahdollisuuden.",
-        "description": "Release notes for v5.26"
-    },
-    "WhatsNew__macos-m1": {
-        "message": "Signal Desktop pyörii nyt natiivitilassa uusilla Applen M1 -tietokoneilla. Jos sinulla on tällainen tietokone, ohjelman pitäisi nyt toimia nopeammin. Jos ei ole, voit olla iloinen sellaisten ihmisten puolesta. Suuret kiitokset käyttäjälle $dennis$ hänen suuresta työpanoksestaan M1-tuen mahdollistamisessa!",
-        "description": "Release note for the macOS M1 release"
-    },
-    "WhatsNew__v5.27--1": {
-        "message": "Pitkä puhelu? Järjestelmäsi tulisi pysyä levon sijaan hereillä koko ajan, kun olet tärkeässä keskustelussa.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.27--2": {
-        "message": "On muutamia pieniä viilauksia ja korjauksia, joiden avulla Signal toimii sulavasti, mukaan lukien muutamia puheluaiheisia parannuksia.",
-        "description": "Release notes for v5.27"
-    },
-    "WhatsNew__v5.28--1": {
-        "message": "Uusi vuosi, uusi ensiasetusten syöttönäkymä. Olemme uudistaneet ensiasetusten syöttönäkymän juuri ajoissa vuotta 2022 ajatellen.",
-        "description": "Release notes for v5.28"
-    },
-    "WhatsNew__v5.29--1": {
-        "message": "Uutta: vähemmän näppäimistön hakkaajan tai äänekkään purukuminsyöjän jahtaamista! Signal Desktop mykistää nyt mikrofonisi automaattisesti, mikäli puhelussa on vähintään kahdeksan osallistujaa.",
-        "description": "Release notes for v5.29"
-    },
     "WhatsNew__v5.31--1": {
         "message": " Vieritä keskustelujasi loputtomasti ja ole varma siitä, milloin mikäkin viesti on saapunut tai lähetetty.",
         "description": "Release notes for v5.31"
@@ -6836,5 +6812,17 @@
     "WhatsNew__v5.34--1": {
         "message": "Oletko koskaan käyttänyt Signalia epävakaalla verkkoyhteydellä? Enää ei ole tarvetta huoleen - katoavien viestien ajastin muuttuu ja jatkossa synkronoidaan enemmän, kun yhteytesi voi taas paremmin.",
         "description": "Release notes for v5.34"
+    },
+    "WhatsNew__v5.35--1": {
+        "message": "Uusi päivitysjärjestelmä on otettu käyttöön ja jatkossa päivitysten pitäisi sujua huomaamattomammin.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--2": {
+        "message": "Signal ei enää estä erikoisnäppäinten (medianäppäimet) toimintaa.",
+        "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.35--3": {
+        "message": "Parempi fonttituki japanilaisille ystävillemme.",
+        "description": "Release notes for v5.35"
     }
 }
