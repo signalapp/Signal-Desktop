@@ -41,7 +41,5 @@ export async function enqueueReactionForSend({
     source: ReactionSource.FromThisDevice,
   });
 
-  await message.getConversation()?.maybeApplyUniversalTimer(false);
-
   await message.handleReaction(reaction);
 }
