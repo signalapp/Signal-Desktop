@@ -9,10 +9,12 @@ import * as Bytes from '../Bytes';
 import { prefixPublicKey } from '../Curve';
 import type { AbortableProcess } from '../util/AbortableProcess';
 import * as durations from '../util/durations';
+import { getBasicAuth } from '../util/getBasicAuth';
 import { sleep } from '../util/sleep';
 import * as log from '../logging/log';
 import { CDSSocket } from './CDSSocket';
 import type {
+  CDSAuthType,
   CDSRequestOptionsType,
   CDSSocketDictionaryType,
 } from './CDSSocket';
@@ -21,7 +23,7 @@ import { connect as connectWebSocket } from './WebSocket';
 export type CDSSocketManagerOptionsType = Readonly<{
   url: string;
   publicKey: string;
-  codeHash: string;
+  codeHashes: ReadonlyArray<string>;
   certificateAuthority: string;
   proxyUrl?: string;
   version: string;
@@ -32,7 +34,7 @@ export type CDSResponseType = CDSSocketDictionaryType;
 export class CDSSocketManager {
   private readonly publicKey: PublicKey;
 
-  private readonly codeHash: Buffer;
+  private readonly codeHashes: Array<Buffer>;
 
   private readonly proxyAgent?: ReturnType<typeof ProxyAgent>;
 
@@ -42,7 +44,9 @@ export class CDSSocketManager {
     this.publicKey = PublicKey.deserialize(
       Buffer.from(prefixPublicKey(Bytes.fromHex(options.publicKey)))
     );
-    this.codeHash = Buffer.from(Bytes.fromHex(options.codeHash));
+    this.codeHashes = options.codeHashes.map(hash =>
+      Buffer.from(Bytes.fromHex(hash))
+    );
     if (options.proxyUrl) {
       this.proxyAgent = new ProxyAgent(options.proxyUrl);
     }
@@ -58,8 +62,10 @@ export class CDSSocketManager {
       await sleep(delay);
     }
 
+    const { auth } = options;
+
     log.info('CDSSocketManager: connecting socket');
-    const socket = await this.connect().getResult();
+    const socket = await this.connect(auth).getResult();
     log.info('CDSSocketManager: connected socket');
 
     try {
@@ -79,16 +85,14 @@ export class CDSSocketManager {
     }
   }
 
-  private connect(): AbortableProcess<CDSSocket> {
-    const enclaveClient = HsmEnclaveClient.new(this.publicKey, [this.codeHash]);
+  private connect(auth: CDSAuthType): AbortableProcess<CDSSocket> {
+    const enclaveClient = HsmEnclaveClient.new(this.publicKey, this.codeHashes);
 
-    const {
-      publicKey: publicKeyHex,
-      codeHash: codeHashHex,
-      version,
-    } = this.options;
+    const { publicKey: publicKeyHex, codeHashes, version } = this.options;
 
-    const url = `${this.options.url}/discovery/${publicKeyHex}/${codeHashHex}`;
+    const url = `${
+      this.options.url
+    }/discovery/${publicKeyHex}/${codeHashes.join(',')}`;
 
     return connectWebSocket<CDSSocket>({
       name: 'CDSSocket',
@@ -96,6 +100,9 @@ export class CDSSocketManager {
       version,
       proxyAgent: this.proxyAgent,
       certificateAuthority: this.options.certificateAuthority,
+      extraHeaders: {
+        authorization: getBasicAuth(auth),
+      },
 
       createResource: (socket: WebSocket): CDSSocket => {
         return new CDSSocket(socket, enclaveClient);

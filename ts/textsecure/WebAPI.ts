@@ -34,6 +34,7 @@ import { getUserAgent } from '../util/getUserAgent';
 import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
+import { getBasicAuth } from '../util/getBasicAuth';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -338,10 +339,10 @@ async function _promiseAjax(
       fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
     }
   } else if (options.user && options.password) {
-    const auth = Bytes.toBase64(
-      Bytes.fromString(`${options.user}:${options.password}`)
-    );
-    fetchOptions.headers.Authorization = `Basic ${auth}`;
+    fetchOptions.headers.Authorization = getBasicAuth({
+      username: options.user,
+      password: options.password,
+    });
   }
 
   if (options.contentType) {
@@ -596,12 +597,13 @@ type InitializeOptionsType = {
   url: string;
   storageUrl: string;
   updatesUrl: string;
-  directoryEnclaveId: string;
-  directoryTrustAnchor: string;
-  directoryUrl: string;
+  directoryVersion: number;
+  directoryUrl?: string;
+  directoryEnclaveId?: string;
+  directoryTrustAnchor?: string;
   directoryV2Url: string;
   directoryV2PublicKey: string;
-  directoryV2CodeHash: string;
+  directoryV2CodeHashes: ReadonlyArray<string>;
   cdnUrlObject: {
     readonly '0': string;
     readonly [propName: string]: string;
@@ -999,12 +1001,13 @@ export function initialize({
   url,
   storageUrl,
   updatesUrl,
+  directoryVersion,
+  directoryUrl,
   directoryEnclaveId,
   directoryTrustAnchor,
-  directoryUrl,
   directoryV2Url,
   directoryV2PublicKey,
-  directoryV2CodeHash,
+  directoryV2CodeHashes,
   cdnUrlObject,
   certificateAuthority,
   contentProxyUrl,
@@ -1020,14 +1023,26 @@ export function initialize({
   if (!is.string(updatesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl');
   }
-  if (!is.string(directoryEnclaveId)) {
-    throw new Error('WebAPI.initialize: Invalid directory enclave id');
-  }
-  if (!is.string(directoryTrustAnchor)) {
-    throw new Error('WebAPI.initialize: Invalid directory enclave id');
-  }
-  if (!is.string(directoryUrl)) {
-    throw new Error('WebAPI.initialize: Invalid directory url');
+  if (directoryVersion === 1) {
+    if (!is.string(directoryEnclaveId)) {
+      throw new Error('WebAPI.initialize: Invalid directory enclave id');
+    }
+    if (!is.string(directoryTrustAnchor)) {
+      throw new Error('WebAPI.initialize: Invalid directory trust anchor');
+    }
+    if (!is.string(directoryUrl)) {
+      throw new Error('WebAPI.initialize: Invalid directory url');
+    }
+  } else {
+    if (directoryEnclaveId) {
+      throw new Error('WebAPI.initialize: Invalid directory enclave id');
+    }
+    if (directoryTrustAnchor) {
+      throw new Error('WebAPI.initialize: Invalid directory trust anchor');
+    }
+    if (directoryUrl) {
+      throw new Error('WebAPI.initialize: Invalid directory url');
+    }
   }
   if (!is.string(directoryV2Url)) {
     throw new Error('WebAPI.initialize: Invalid directory V2 url');
@@ -1035,7 +1050,7 @@ export function initialize({
   if (!is.string(directoryV2PublicKey)) {
     throw new Error('WebAPI.initialize: Invalid directory V2 public key');
   }
-  if (!is.string(directoryV2CodeHash)) {
+  if (!is.array(directoryV2CodeHashes)) {
     throw new Error('WebAPI.initialize: Invalid directory V2 code hash');
   }
   if (!is.object(cdnUrlObject)) {
@@ -1104,7 +1119,7 @@ export function initialize({
     const cdsSocketManager = new CDSSocketManager({
       url: directoryV2Url,
       publicKey: directoryV2PublicKey,
-      codeHash: directoryV2CodeHash,
+      codeHashes: directoryV2CodeHashes,
       certificateAuthority,
       version,
       proxyUrl,
@@ -2723,6 +2738,7 @@ export function initialize({
       username: string;
       password: string;
     }> {
+      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
       return (await _ajax({
         call: 'directoryAuth',
         httpType: 'GET',
@@ -2748,6 +2764,9 @@ export function initialize({
       serverStaticPublic: Uint8Array;
       quote: Uint8Array;
     }) {
+      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
+      strictAssert(directoryEnclaveId, 'Legacy CDS needs directoryEnclaveId');
+
       const SGX_CONSTANTS = getSgxConstants();
       const quote = Buffer.from(quoteBytes);
 
@@ -2835,6 +2854,8 @@ export function initialize({
       },
       encodedQuote: string
     ) {
+      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
+
       // Parse timestamp as UTC
       const { timestamp } = signatureBody;
       const utcTimestamp = timestamp.endsWith('Z')
@@ -2862,6 +2883,12 @@ export function initialize({
       signatureBody: string,
       certificates: string
     ) {
+      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
+      strictAssert(
+        directoryTrustAnchor,
+        'Legacy CDS needs directoryTrustAnchor'
+      );
+
       const CERT_PREFIX = '-----BEGIN CERTIFICATE-----';
       const pem = compact(
         certificates.split(CERT_PREFIX).map(match => {
@@ -2922,6 +2949,8 @@ export function initialize({
       username: string;
       password: string;
     }) {
+      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
+
       const keyPair = generateKeyPair();
       const { privKey, pubKey } = keyPair;
       // Remove first "key type" byte from public key
@@ -3051,7 +3080,7 @@ export function initialize({
       };
     }
 
-    async function getUuidsForE164s(
+    async function getLegacyUuidsForE164s(
       e164s: ReadonlyArray<string>
     ): Promise<Dictionary<UUIDStringType | null>> {
       const directoryAuth = await getDirectoryAuth();
@@ -3127,6 +3156,24 @@ export function initialize({
       return zipObject(e164s, uuids);
     }
 
+    async function getUuidsForE164s(
+      e164s: ReadonlyArray<string>
+    ): Promise<Dictionary<UUIDStringType | null>> {
+      if (directoryVersion === 1) {
+        return getLegacyUuidsForE164s(e164s);
+      }
+
+      const auth = await getDirectoryAuthV2();
+
+      const dictionary = await cdsSocketManager.request({
+        version: 1,
+        auth,
+        e164s,
+      });
+
+      return mapValues(dictionary, value => value.aci ?? null);
+    }
+
     async function getUuidsForE164sV2({
       e164s,
       acis,
@@ -3135,6 +3182,7 @@ export function initialize({
       const auth = await getDirectoryAuthV2();
 
       return cdsSocketManager.request({
+        version: 2,
         auth,
         e164s,
         acis,

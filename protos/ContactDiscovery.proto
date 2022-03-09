@@ -4,16 +4,23 @@
 package signalservice;
 
 message CDSClientRequest {
-  // From Signal /v2/directory/auth
-  optional bytes username = 1;
-  optional bytes password = 2;
-
-  // Each e164 is a big-endian uint64 (8 bytes).
-  repeated bytes e164 = 3;
-
   // Each ACI/UAK pair is a 32-byte buffer, containing the 16-byte ACI followed
   // by its 16-byte UAK.
-  repeated bytes aci_uak_pair = 4;
+  optional bytes aci_uak_pairs = 1;
+
+  // Each E164 is an 8-byte big-endian number, as 8 bytes.
+  optional bytes prev_e164s = 2;
+  optional bytes new_e164s = 3;
+  optional bytes discard_e164s = 4;
+
+  // If true, the client has more pairs or e164s to send.  If false or unset,
+  // this is the client's last request, and processing should commence.
+  optional bool has_more = 5;
+
+  // If set, a token which allows rate limiting to discount the e164s in
+  // the request's prev_e164s, only counting new_e164s.  If not set, then
+  // rate limiting considers both prev_e164s' and new_e164s' size.
+  optional bytes token = 6;
 }
 
 message CDSClientResponse {
@@ -29,7 +36,7 @@ message CDSClientResponse {
   // where the additional 2 bytes are the id/type/length additions of the
   // protobuf marshaling added to each byte array.  This avoids any data
   // leakage based on the size of the encrypted output.
-  repeated bytes e164_pni_aci_triple = 1;
+  optional bytes e164_pni_aci_triples = 1;
 
   // If the user has run out of quota for lookups, they will receive
   // a response with just the following field set, followed by a websocket
@@ -37,4 +44,9 @@ message CDSClientResponse {
   // the same request after the provided number of seconds has passed,
   // we expect it should work.
   optional int32 retry_after_secs = 2;
+
+  // A token which allows subsequent calls' rate limiting to discount the
+  // e164s sent up in this request, only counting those in the next
+  // request's new_e164s.
+  optional bytes token = 3;
 }

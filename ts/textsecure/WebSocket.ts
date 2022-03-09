@@ -28,6 +28,7 @@ export type ConnectOptionsType<Resource extends IResource> = Readonly<{
   version: string;
   proxyAgent?: ReturnType<typeof ProxyAgent>;
   timeout?: number;
+  extraHeaders?: Record<string, string>;
 
   createResource(socket: WebSocket): Resource;
 }>;
@@ -38,6 +39,7 @@ export function connect<Resource extends IResource>({
   certificateAuthority,
   version,
   proxyAgent,
+  extraHeaders = {},
   timeout = TEN_SECONDS,
   createResource,
 }: ConnectOptionsType<Resource>): AbortableProcess<Resource> {
@@ -46,6 +48,7 @@ export function connect<Resource extends IResource>({
     .replace('http://', 'ws://');
 
   const headers = {
+    ...extraHeaders,
     'User-Agent': getUserAgent(version),
   };
   const client = new WebSocketClient({
