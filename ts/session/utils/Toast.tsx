@@ -196,14 +196,6 @@ export function pushOriginalNotFound() {
   pushToastError('originalMessageNotFound', window.i18n('originalMessageNotFound'));
 }
 
-export function pushOriginalNoLongerAvailable() {
-  pushToastError('originalMessageNotAvailable', window.i18n('originalMessageNotAvailable'));
-}
-
-export function pushFoundButNotLoaded() {
-  pushToastError('messageFoundButNotLoaded', window.i18n('messageFoundButNotLoaded'));
-}
-
 export function pushTooManyMembers() {
   pushToastError('tooManyMembers', window.i18n('closedGroupMaxSize'));
 }
