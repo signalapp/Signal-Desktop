@@ -2431,7 +2431,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             message.set({ expireTimer: dataMessage.expireTimer });
           }
 
-          if (!hasGroupV2Prop) {
+          if (!hasGroupV2Prop && !isStory(message.attributes)) {
             if (isExpirationTimerUpdate(message.attributes)) {
               message.set({
                 expirationTimerUpdate: {

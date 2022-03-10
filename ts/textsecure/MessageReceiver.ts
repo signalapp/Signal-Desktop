@@ -1811,7 +1811,10 @@ export default class MessageReceiver
       return;
     }
 
-    const expireTimer = envelope.timestamp + durations.DAY - Date.now();
+    const expireTimer = Math.min(
+      (envelope.serverTimestamp + durations.DAY - Date.now()) / 1000,
+      durations.DAY / 1000
+    );
 
     if (expireTimer <= 0) {
       log.info(
