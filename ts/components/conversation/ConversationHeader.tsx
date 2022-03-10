@@ -40,6 +40,7 @@ import {
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
+import { Flex } from '../basic/Flex';
 
 export interface TimerOption {
   name: string;
@@ -214,7 +215,7 @@ const CallButton = () => {
     isMe ||
     !selectedConvoKey ||
     isBlocked ||
-    !window.lokiFeatureFlags.useCallMessage
+    !window.sessionFeatureFlags.useCallMessage
   ) {
     return null;
   }
@@ -364,10 +365,12 @@ export const ConversationHeaderWithDetails = () => {
             <ConversationHeaderTitle />
           </div>
         </div>
-        {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
         {!isSelectionMode && (
-          <>
+          <Flex container={true} flexDirection="row" alignItems="center">
+            {!isKickedFromGroup && (
+              <ExpirationLength expirationSettingName={expirationSettingName} />
+            )}
             <CallButton />
             <AvatarHeader
               onAvatarClick={() => {
@@ -376,7 +379,7 @@ export const ConversationHeaderWithDetails = () => {
               pubkey={selectedConvoKey}
               showBackButton={isMessageDetailOpened}
             />
-          </>
+          </Flex>
         )}
 
         <ConversationHeaderMenu triggerId={triggerId} />

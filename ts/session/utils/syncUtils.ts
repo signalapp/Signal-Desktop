@@ -28,6 +28,7 @@ import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../apis/open_group_api/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -197,6 +198,7 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
         profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
         isApproved: c.isApproved(),
         isBlocked: c.isBlocked(),
+        didApproveMe: c.didApproveMe(),
       });
     } catch (e) {
       window?.log.warn('getValidContacts', e);
@@ -307,6 +309,7 @@ export type SyncMessageType =
   | VisibleMessage
   | ExpirationTimerUpdateMessage
   | ConfigurationMessage
+  | MessageRequestResponse
   | UnsendMessage;
 
 export const buildSyncMessage = (

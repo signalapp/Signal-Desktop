@@ -16,6 +16,7 @@ import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { updateProfileOneAtATime } from './dataMessage';
 import { EnvelopePlus } from './types';
+import { ConversationInteraction } from '../interactions';
 
 async function handleOurProfileUpdate(
   sentAt: number | Long,
@@ -54,53 +55,44 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  const didWeHandleAConfigurationMessageAlready =
-    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-  if (didWeHandleAConfigurationMessageAlready) {
-    window?.log?.info(
-      'Dropping configuration groups change as we already handled one... Only handling contacts '
-    );
-    if (configMessage.contacts?.length) {
-      await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
-    }
+  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  const lastConfigUpdate = await getItemById(hasSyncedInitialConfigurationItem);
+  const lastConfigTimestamp = lastConfigUpdate?.timestamp;
+  const isNewerConfig =
+    !lastConfigTimestamp || (lastConfigTimestamp && lastConfigTimestamp < envelopeTimestamp);
+
+  if (!isNewerConfig) {
+    window?.log?.info('Received outdated configuration message... Dropping message.');
     return;
   }
 
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
+    timestamp: envelopeTimestamp,
   });
 
-  const numberClosedGroup = configMessage.closedGroups?.length || 0;
+  // we only want to apply changes to closed groups if we never got them
+  // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group
+  if (!lastConfigTimestamp) {
+    await handleClosedGroupsFromConfig(configMessage.closedGroups, envelope);
+  }
 
-  window?.log?.info(
-    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
-  );
+  handleOpenGroupsFromConfig(configMessage.openGroups);
 
-  await Promise.all(
-    configMessage.closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
-        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-        encryptionKeyPair: c.encryptionKeyPair,
-        name: c.name,
-        admins: c.admins,
-        members: c.members,
-        publicKey: c.publicKey,
-      });
-      try {
-        await handleNewClosedGroup(envelope, groupUpdate);
-      } catch (e) {
-        window?.log?.warn('failed to handle  a new closed group from configuration message');
-      }
-    })
-  );
+  if (configMessage.contacts?.length) {
+    await Promise.all(configMessage.contacts.map(async c => handleContactFromConfig(c, envelope)));
+  }
+}
 
-  const numberOpenGroup = configMessage.openGroups?.length || 0;
-
-  // Trigger a join for all open groups we are not already in.
-  // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
+/**
+ * Trigger a join for all open groups we are not already in.
+ * @param openGroups string array of open group urls
+ */
+const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
+  const numberOpenGroup = openGroups?.length || 0;
   for (let i = 0; i < numberOpenGroup; i++) {
-    const currentOpenGroupUrl = configMessage.openGroups[i];
+    const currentOpenGroupUrl = openGroups[i];
     const parsedRoom = parseOpenGroupV2(currentOpenGroupUrl);
     if (!parsedRoom) {
       continue;
@@ -113,12 +105,47 @@ async function handleGroupsAndContactsFromConfigMessage(
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
-  if (configMessage.contacts?.length) {
-    await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
-  }
-}
+};
 
-const handleContactReceived = async (
+/**
+ * Trigger a join for all closed groups which doesn't exist yet
+ * @param openGroups string array of open group urls
+ */
+const handleClosedGroupsFromConfig = async (
+  closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
+  envelope: EnvelopePlus
+) => {
+  const numberClosedGroup = closedGroups?.length || 0;
+
+  window?.log?.info(
+    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
+  );
+  await Promise.all(
+    closedGroups.map(async c => {
+      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
+        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
+        encryptionKeyPair: c.encryptionKeyPair,
+        name: c.name,
+        admins: c.admins,
+        members: c.members,
+        publicKey: c.publicKey,
+      });
+      try {
+        // TODO we should not drop the envelope from cache as long as we are still handling a new closed group from that same envelope
+        // check the removeFromCache inside handleNewClosedGroup()
+        await handleNewClosedGroup(envelope, groupUpdate);
+      } catch (e) {
+        window?.log?.warn('failed to handle  a new closed group from configuration message');
+      }
+    })
+  );
+};
+
+/**
+ * Handles adding of a contact and setting approval/block status
+ * @param contactReceived Contact to sync
+ */
+const handleContactFromConfig = async (
   contactReceived: SignalService.ConfigurationMessage.IContact,
   envelope: EnvelopePlus
 ) => {
@@ -140,19 +167,28 @@ const handleContactReceived = async (
       contactConvo.set('active_at', _.toNumber(envelope.timestamp));
     }
 
-    if (
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests
-    ) {
-      if (contactReceived.isApproved) {
+    // checking for existence of field on protobuf
+    if (contactReceived.isApproved === true) {
+      if (!contactConvo.isApproved()) {
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+        await contactConvo.addOutgoingApprovalMessage(_.toNumber(envelope.timestamp));
       }
 
-      if (contactReceived.isBlocked) {
-        await BlockedNumberController.block(contactConvo.id);
-      } else {
-        await BlockedNumberController.unblock(contactConvo.id);
+      if (contactReceived.didApproveMe === true) {
+        // checking for existence of field on message
+        await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
       }
+    }
+
+    // only set for explicit true/false values incase outdated sender doesn't have the fields
+    if (contactReceived.isBlocked === true) {
+      if (contactConvo.isIncomingRequest()) {
+        // handling case where restored device's declined message requests were getting restored
+        await ConversationInteraction.deleteAllMessagesByConvoIdNoConfirmation(contactConvo.id);
+      }
+      await BlockedNumberController.block(contactConvo.id);
+    } else if (contactReceived.isBlocked === false) {
+      await BlockedNumberController.unblock(contactConvo.id);
     }
 
     void updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);

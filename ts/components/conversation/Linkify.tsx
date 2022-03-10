@@ -46,7 +46,7 @@ export const Linkify = (props: Props): JSX.Element => {
         title: window.i18n('linkVisitWarningTitle'),
         message: window.i18n('linkVisitWarningMessage', url),
         okText: window.i18n('open'),
-        cancelText: window.i18n('copy'),
+        cancelText: window.i18n('editMenuCopy'),
         showExitIcon: true,
         onClickOk: openLink,
         onClickClose: () => {

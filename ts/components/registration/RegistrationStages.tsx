@@ -62,6 +62,7 @@ export async function signUp(signUpDetails: {
     await createOrUpdateItem({
       id: 'hasSyncedInitialConfigurationItem',
       value: true,
+      timestamp: Date.now(),
     });
     UserUtils.setSignWithRecoveryPhrase(false);
     trigger('openInbox');

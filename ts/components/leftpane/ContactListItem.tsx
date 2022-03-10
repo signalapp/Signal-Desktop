@@ -23,7 +23,7 @@ export const ContactListItem = (props: Props) => {
   const isGroup = !useIsPrivate(pubkey);
 
   const title = name ? name : pubkey;
-  const displayName = isMe ? window.i18n('me') : title;
+  const displayName = isMe ? window.i18n('you') : title;
 
   return (
     <div

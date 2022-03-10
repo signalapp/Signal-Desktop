@@ -11,7 +11,7 @@ import {
   ConversationTypeEnum,
 } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
-import { MessageAttributes } from '../models/messageType';
+import { MessageAttributes, MessageDirection } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
@@ -38,6 +38,7 @@ let _shutdownPromise: any = null;
 export type StorageItem = {
   id: string;
   value: any;
+  timestamp?: number;
 };
 
 export type IdentityKey = {
@@ -113,6 +114,7 @@ const channelsToMake = {
   _removeMessages,
   getUnreadByConversation,
   getUnreadCountByConversation,
+  getMessageCountByType,
 
   removeAllMessagesInConversation,
 
@@ -759,6 +761,18 @@ export async function getUnreadByConversation(conversationId: string): Promise<M
 // might throw
 export async function getUnreadCountByConversation(conversationId: string): Promise<number> {
   return channels.getUnreadCountByConversation(conversationId);
+}
+
+/**
+ * Gets the count of messages for a direction
+ * @param conversationId Conversation for messages to retrieve from
+ * @param type outgoing/incoming
+ */
+export async function getMessageCountByType(
+  conversationId: string,
+  type?: MessageDirection
+): Promise<number> {
+  return channels.getMessageCountByType(conversationId, type);
 }
 
 export async function getMessagesByConversation(

@@ -439,7 +439,7 @@ export async function processOnionResponse({
 
   if (!ciphertext) {
     window?.log?.warn(
-      '[path] lokiRpc::processingOnionResponse - Target node return empty ciphertext'
+      '[path] sessionRpc::processingOnionResponse - Target node return empty ciphertext'
     );
     throw new Error('Target node return empty ciphertext');
   }
@@ -453,16 +453,16 @@ export async function processOnionResponse({
     plaintext = decoded.plaintext;
     ciphertextBuffer = decoded.ciphertextBuffer;
   } catch (e) {
-    window?.log?.error('[path] lokiRpc::processingOnionResponse - decode error', e);
+    window?.log?.error('[path] sessionRpc::processingOnionResponse - decode error', e);
     if (symmetricKey) {
       window?.log?.error(
-        '[path] lokiRpc::processingOnionResponse - symmetricKey',
+        '[path] sessionRpc::processingOnionResponse - symmetricKey',
         toHex(symmetricKey)
       );
     }
     if (ciphertextBuffer) {
       window?.log?.error(
-        '[path] lokiRpc::processingOnionResponse - ciphertextBuffer',
+        '[path] sessionRpc::processingOnionResponse - ciphertextBuffer',
         toHex(ciphertextBuffer)
       );
     }
@@ -470,7 +470,7 @@ export async function processOnionResponse({
   }
 
   if (debug) {
-    window?.log?.debug('lokiRpc::processingOnionResponse - plaintext', plaintext);
+    window?.log?.debug('sessionRpc::processingOnionResponse - plaintext', plaintext);
   }
 
   try {
@@ -491,7 +491,9 @@ export async function processOnionResponse({
 
     return jsonRes as SnodeResponse;
   } catch (e) {
-    window?.log?.error(`[path] lokiRpc::processingOnionResponse - Rethrowing error ${e.message}'`);
+    window?.log?.error(
+      `[path] sessionRpc::processingOnionResponse - Rethrowing error ${e.message}'`
+    );
     throw e;
   }
 }

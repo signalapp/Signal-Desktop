@@ -404,16 +404,24 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
 
+    const makeMessagePlaceHolderText = () => {
+      if (isKickedFromGroup) {
+        return i18n('youGotKickedFromGroup');
+      }
+      if (left) {
+        return i18n('youLeftTheGroup');
+      }
+      if (isBlocked && isPrivate) {
+        return i18n('unblockToSend');
+      }
+      if (isBlocked && !isPrivate) {
+        return i18n('unblockGroupToSend');
+      }
+      return i18n('sendMessage');
+    };
+
     const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props.selectedConversation;
-    const messagePlaceHolder = isKickedFromGroup
-      ? i18n('youGotKickedFromGroup')
-      : left
-      ? i18n('youLeftTheGroup')
-      : isBlocked && isPrivate
-      ? i18n('unblockToSend')
-      : isBlocked && !isPrivate
-      ? i18n('unblockGroupToSend')
-      : i18n('sendMessage');
+    const messagePlaceHolder = makeMessagePlaceHolderText();
     const { typingEnabled } = this.props;
     const neverMatchingRegex = /($a)/;
 
@@ -711,6 +719,13 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   private onChooseAttachment() {
+    if (
+      !this.props.selectedConversation?.didApproveMe &&
+      this.props.selectedConversation?.isPrivate
+    ) {
+      ToastUtils.pushNoMediaUntilApproved();
+      return;
+    }
     this.fileInput.current?.click();
   }
 

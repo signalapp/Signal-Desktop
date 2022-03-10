@@ -2,15 +2,15 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "license": "GPL-3.0",
   "author": {
-    "name": "Loki Project",
-    "email": "team@loki.network"
+    "name": "Oxen Labs",
+    "email": "team@oxen.io"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/loki-project/session-desktop.git"
+    "url": "https://github.com/oxen-io/session-desktop.git"
   },
   "main": "main.js",
   "scripts": {
@@ -80,7 +80,7 @@
     "ip2country": "1.0.1",
     "jquery": "3.3.1",
     "jsbn": "1.1.0",
-    "libsodium-wrappers": "^0.7.8",
+    "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "3.0.2",
     "lodash": "4.17.11",
     "long": "^4.0.0",
@@ -138,7 +138,7 @@
     "@types/filesize": "3.6.0",
     "@types/fs-extra": "5.0.5",
     "@types/jquery": "3.3.29",
-    "@types/libsodium-wrappers": "^0.7.8",
+    "@types/libsodium-wrappers-sumo": "^0.7.5",
     "@types/linkify-it": "2.0.3",
     "@types/lodash": "4.14.106",
     "@types/mocha": "5.0.0",
@@ -158,7 +158,6 @@
     "@types/sinon": "9.0.4",
     "@types/styled-components": "^5.1.4",
     "@types/uuid": "3.4.4",
-    "@types/webpack": "^5.28.0",
     "asar": "0.14.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
@@ -189,15 +188,12 @@
     "prettier": "1.19.0",
     "run-script-os": "^1.1.6",
     "sinon": "9.0.2",
-    "ts-loader": "4.1.0",
+    "ts-loader": "^9.2.7",
     "ts-mock-imports": "^1.3.0",
     "tslint": "5.19.0",
     "tslint-microsoft-contrib": "6.0.0",
     "tslint-react": "3.6.0",
-    "typescript": "4.5.4",
-    "webpack": "5.30.0",
-    "webpack-cli": "4.6.0",
-    "webpack-dev-server": "3.11.2"
+    "typescript": "4.5.4"
   },
   "engines": {
     "node": "^14.16.0"
@@ -232,7 +228,7 @@
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "publisherName": "Loki Project",
+      "publisherName": "Oxen Labs",
       "verifyUpdateCodeSignature": false,
       "icon": "build/icon.ico",
       "target": [

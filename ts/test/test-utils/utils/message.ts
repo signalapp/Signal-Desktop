@@ -96,6 +96,7 @@ export class MockConversation {
       isTrustedForAttachmentDownload: false,
       isPinned: false,
       isApproved: false,
+      didApproveMe: false,
     };
   }
 

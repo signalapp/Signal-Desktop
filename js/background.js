@@ -66,15 +66,6 @@
 
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
-  const restartReason = localStorage.getItem('restart-reason');
-
-  if (restartReason === 'unlink') {
-    setTimeout(() => {
-      localStorage.removeItem('restart-reason');
-
-      window.libsession.Utils.ToastUtils.pushForceUnlinked();
-    }, 2000);
-  }
 
   let initialLoadComplete = false;
   let newVersion = false;

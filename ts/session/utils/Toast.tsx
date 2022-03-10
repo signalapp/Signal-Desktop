@@ -101,10 +101,6 @@ export function pushCopiedToClipBoard() {
   pushToastInfo('copiedToClipboard', window.i18n('copiedToClipboard'));
 }
 
-export function pushForceUnlinked() {
-  pushToastInfo('successUnlinked', window.i18n('successUnlinked'));
-}
-
 export function pushRestartNeeded() {
   pushToastInfo('restartNeeded', window.i18n('spellCheckDirty'));
 }
@@ -196,16 +192,12 @@ export function pushOriginalNotFound() {
   pushToastError('originalMessageNotFound', window.i18n('originalMessageNotFound'));
 }
 
-export function pushOriginalNoLongerAvailable() {
-  pushToastError('originalMessageNotAvailable', window.i18n('originalMessageNotAvailable'));
-}
-
-export function pushFoundButNotLoaded() {
-  pushToastError('messageFoundButNotLoaded', window.i18n('messageFoundButNotLoaded'));
-}
-
 export function pushTooManyMembers() {
   pushToastError('tooManyMembers', window.i18n('closedGroupMaxSize'));
+}
+
+export function pushMessageRequestPending() {
+  pushToastInfo('messageRequestPending', window.i18n('messageRequestPending'));
 }
 
 export function pushUnblockToSend() {
@@ -274,4 +266,12 @@ export function pushNoAudioInputFound() {
 
 export function pushNoAudioOutputFound() {
   pushToastWarning('noAudioInputFound', window.i18n('noAudioOutputFound'));
+}
+
+export function pushNoMediaUntilApproved() {
+  pushToastError('noMediaUntilApproved', window.i18n('noMediaUntilApproved'));
+}
+
+export function pushMustBeApproved() {
+  pushToastError('mustBeApproved', window.i18n('mustBeApproved'));
 }

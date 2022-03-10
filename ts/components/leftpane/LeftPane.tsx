@@ -6,7 +6,7 @@ import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
 import { getSearchResults, isSearching } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
-import { getIsMessageRequestsEnabled } from '../../state/selectors/userConfig';
+import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { ActionsPanel } from './ActionsPanel';
 import { LeftPaneContactSection } from './LeftPaneContactSection';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
@@ -28,7 +28,7 @@ const InnerLeftPaneMessageSection = () => {
   const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
 
   const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
-  const messageRequestsEnabled = useSelector(getIsMessageRequestsEnabled);
+  const messageRequestsEnabled = useSelector(getHideMessageRequestBanner);
   const overlayMode = useSelector(getOverlayMode);
 
   return (

@@ -48,7 +48,7 @@ export async function fetchSnodePoolFromSeedNodeWithRetries(
     return fetchSnodePool;
   } catch (e) {
     window?.log?.warn(
-      'LokiSnodeAPI::fetchSnodePoolFromSeedNodeWithRetries - error',
+      'SessionSnodeAPI::fetchSnodePoolFromSeedNodeWithRetries - error',
       e.code,
       e.message
     );
