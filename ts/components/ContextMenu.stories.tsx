@@ -32,7 +32,6 @@ const getDefaultProps = (): PropsType<number> => ({
   ],
 });
 
-// TODO DESKTOP-3184
 story.add('Default', () => {
   return <ContextMenu {...getDefaultProps()} />;
 });

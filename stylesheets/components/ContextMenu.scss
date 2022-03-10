@@ -30,6 +30,18 @@
     }
 
     &::after {
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/collapse-down-20.svg',
+          $color-black
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/collapse-down-20.svg',
+          $color-white
+        );
+      }
       content: '';
       display: block;
       flex-shrink: 0;
