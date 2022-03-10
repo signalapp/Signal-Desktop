@@ -1398,7 +1398,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div
-        dir="auto"
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,

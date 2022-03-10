@@ -104,7 +104,7 @@ export function MessageBody({
   };
 
   return (
-    <span>
+    <span dir="auto">
       {disableLinks ? (
         renderEmoji({
           i18n,
