@@ -2,9 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { MINUTE, SECOND } from '../../util/durations';
-import { areMessagesInSameGroup } from '../../util/timelineUtil';
+import {
+  ScrollAnchor,
+  areMessagesInSameGroup,
+  getScrollAnchorBeforeUpdate,
+  TimelineMessageLoadingState,
+} from '../../util/timelineUtil';
 
 describe('<Timeline> utilities', () => {
   describe('areMessagesInSameGroup', () => {
@@ -111,6 +117,330 @@ describe('<Timeline> utilities', () => {
 
     it('returns true if the everything above works out', () => {
       assert.isTrue(areMessagesInSameGroup(defaultOlder, false, defaultNewer));
+    });
+  });
+
+  describe('getScrollAnchorBeforeUpdate', () => {
+    const fakeItems = (count: number) => times(count, () => uuid());
+
+    const defaultProps = {
+      haveNewest: true,
+      isIncomingMessageRequest: false,
+      isSomeoneTyping: false,
+      items: fakeItems(10),
+      scrollToIndexCounter: 0,
+    } as const;
+
+    describe('during initial load', () => {
+      it('does nothing if messages are loading for the first time', () => {
+        const prevProps = {
+          ...defaultProps,
+          haveNewest: false,
+          items: [],
+          messageLoadingStates: TimelineMessageLoadingState.DoingInitialLoad,
+        };
+        const props = { ...prevProps, isSomeoneTyping: true };
+        const isAtBottom = true;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ChangeNothing
+        );
+      });
+    });
+
+    it('scrolls to an index when applicable', () => {
+      const props1 = defaultProps;
+      const props2 = {
+        ...defaultProps,
+        scrollToIndex: 123,
+        scrollToIndexCounter: 1,
+      };
+      const props3 = {
+        ...defaultProps,
+        scrollToIndex: 123,
+        scrollToIndexCounter: 2,
+      };
+      const props4 = {
+        ...defaultProps,
+        scrollToIndex: 456,
+        scrollToIndexCounter: 2,
+      };
+      const isAtBottom = false;
+
+      assert.strictEqual(
+        getScrollAnchorBeforeUpdate(props1, props2, isAtBottom),
+        ScrollAnchor.ScrollToIndex
+      );
+      assert.strictEqual(
+        getScrollAnchorBeforeUpdate(props2, props3, isAtBottom),
+        ScrollAnchor.ScrollToIndex
+      );
+      assert.strictEqual(
+        getScrollAnchorBeforeUpdate(props3, props4, isAtBottom),
+        ScrollAnchor.ScrollToIndex
+      );
+    });
+
+    describe('when initial load completes', () => {
+      const defaultPrevProps = {
+        ...defaultProps,
+        haveNewest: false,
+        items: [],
+        messageLoadingState: TimelineMessageLoadingState.DoingInitialLoad,
+      };
+      const isAtBottom = true;
+
+      it('does nothing if there are no items', () => {
+        const props = { ...defaultProps, items: [] };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(defaultPrevProps, props, isAtBottom),
+          ScrollAnchor.ChangeNothing
+        );
+      });
+
+      it('scrolls to the item index if applicable', () => {
+        const prevProps = { ...defaultPrevProps, scrollToIndex: 3 };
+        const props = {
+          ...defaultProps,
+          items: fakeItems(10),
+          scrollToIndex: 3,
+        };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ScrollToIndex
+        );
+      });
+
+      it("does nothing if it's an incoming message request", () => {
+        const prevProps = {
+          ...defaultPrevProps,
+          isIncomingMessageRequest: true,
+        };
+        const props = {
+          ...defaultProps,
+          items: fakeItems(10),
+          isIncomingMessageRequest: true,
+        };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ChangeNothing
+        );
+      });
+
+      it('scrolls to the unread indicator if one exists', () => {
+        const props = {
+          ...defaultProps,
+          items: fakeItems(10),
+          oldestUnreadIndex: 3,
+        };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(defaultPrevProps, props, isAtBottom),
+          ScrollAnchor.ScrollToUnreadIndicator
+        );
+      });
+
+      it('scrolls to the bottom in normal cases', () => {
+        const props = {
+          ...defaultProps,
+          items: fakeItems(3),
+        };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(defaultPrevProps, props, isAtBottom),
+          ScrollAnchor.ScrollToBottom
+        );
+      });
+    });
+
+    describe('when a page of messages is loaded at the top', () => {
+      it('uses bottom-anchored scrolling', () => {
+        const oldItems = fakeItems(5);
+        const prevProps = {
+          ...defaultProps,
+          messageLoadingState: TimelineMessageLoadingState.LoadingOlderMessages,
+          items: oldItems,
+        };
+        const props = {
+          ...defaultProps,
+          items: [...fakeItems(10), ...oldItems],
+        };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, false),
+          ScrollAnchor.Bottom
+        );
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, true),
+          ScrollAnchor.Bottom
+        );
+      });
+    });
+
+    describe('when a page of messages is loaded at the bottom', () => {
+      it('uses top-anchored scrolling', () => {
+        const oldItems = fakeItems(5);
+        const prevProps = {
+          ...defaultProps,
+          messageLoadingState: TimelineMessageLoadingState.LoadingNewerMessages,
+          items: oldItems,
+        };
+        const props = {
+          ...defaultProps,
+          items: [...oldItems, ...fakeItems(10)],
+        };
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, false),
+          ScrollAnchor.Top
+        );
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, true),
+          ScrollAnchor.Top
+        );
+      });
+    });
+
+    describe('when a new message comes in', () => {
+      const oldItems = fakeItems(5);
+      const prevProps = { ...defaultProps, items: oldItems };
+      const props = { ...defaultProps, items: [...oldItems, uuid()] };
+
+      it('does nothing if not scrolled to the bottom', () => {
+        const isAtBottom = false;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ChangeNothing
+        );
+      });
+
+      it('stays at the bottom if already there', () => {
+        const isAtBottom = true;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ScrollToBottom
+        );
+      });
+    });
+
+    describe('when items are removed', () => {
+      const oldItems = fakeItems(5);
+      const prevProps = { ...defaultProps, items: oldItems };
+
+      const propsWithSomethingRemoved = [
+        { ...defaultProps, items: oldItems.slice(1) },
+        {
+          ...defaultProps,
+          items: oldItems.filter((_value, index) => index !== 2),
+        },
+        { ...defaultProps, items: oldItems.slice(0, -1) },
+      ];
+
+      it('does nothing if not scrolled to the bottom', () => {
+        const isAtBottom = false;
+
+        propsWithSomethingRemoved.forEach(props => {
+          assert.strictEqual(
+            getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+            ScrollAnchor.ChangeNothing
+          );
+        });
+      });
+
+      it('stays at the bottom if already there', () => {
+        const isAtBottom = true;
+
+        propsWithSomethingRemoved.forEach(props => {
+          assert.strictEqual(
+            getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+            ScrollAnchor.ScrollToBottom
+          );
+        });
+      });
+    });
+
+    describe('when the typing indicator appears', () => {
+      const prevProps = defaultProps;
+
+      it("does nothing if we don't have the newest messages (and therefore shouldn't show the indicator)", () => {
+        [true, false].forEach(isAtBottom => {
+          const props = {
+            ...defaultProps,
+            haveNewest: false,
+            isSomeoneTyping: true,
+          };
+
+          assert.strictEqual(
+            getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+            ScrollAnchor.ChangeNothing
+          );
+        });
+      });
+
+      it('does nothing if not scrolled to the bottom', () => {
+        const props = { ...defaultProps, isSomeoneTyping: true };
+        const isAtBottom = false;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ChangeNothing
+        );
+      });
+
+      it('uses bottom-anchored scrolling if scrolled to the bottom', () => {
+        const props = { ...defaultProps, isSomeoneTyping: true };
+        const isAtBottom = true;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ScrollToBottom
+        );
+      });
+    });
+
+    describe('when the typing indicator disappears', () => {
+      const prevProps = { ...defaultProps, isSomeoneTyping: true };
+
+      it("does nothing if we don't have the newest messages (and therefore shouldn't show the indicator)", () => {
+        [true, false].forEach(isAtBottom => {
+          const props = {
+            ...defaultProps,
+            haveNewest: false,
+            isSomeoneTyping: false,
+          };
+
+          assert.strictEqual(
+            getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+            ScrollAnchor.ChangeNothing
+          );
+        });
+      });
+
+      it('does nothing if not scrolled to the bottom', () => {
+        const props = { ...defaultProps, isSomeoneTyping: false };
+        const isAtBottom = false;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ChangeNothing
+        );
+      });
+
+      it('uses bottom-anchored scrolling if scrolled to the bottom', () => {
+        const props = { ...defaultProps, isSomeoneTyping: false };
+        const isAtBottom = true;
+
+        assert.strictEqual(
+          getScrollAnchorBeforeUpdate(prevProps, props, isAtBottom),
+          ScrollAnchor.ScrollToBottom
+        );
+      });
     });
   });
 });

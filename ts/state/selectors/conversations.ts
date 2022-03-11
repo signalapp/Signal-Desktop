@@ -57,6 +57,7 @@ import { getActiveCall, getCallSelector } from './calling';
 import type { AccountSelectorType } from './accounts';
 import { getAccountSelector } from './accounts';
 import * as log from '../../logging/log';
+import { TimelineMessageLoadingState } from '../../util/timelineUtil';
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -815,12 +816,12 @@ export function _conversationMessagesSelector(
   conversation: ConversationMessageType
 ): TimelinePropsType {
   const {
-    isLoadingMessages,
     isNearBottom,
     messageIds,
+    messageLoadingState,
     metrics,
-    scrollToMessageId,
     scrollToMessageCounter,
+    scrollToMessageId,
   } = conversation;
 
   const firstId = messageIds[0];
@@ -846,9 +847,9 @@ export function _conversationMessagesSelector(
   return {
     haveNewest,
     haveOldest,
-    isLoadingMessages,
     isNearBottom,
     items,
+    messageLoadingState,
     oldestUnreadIndex:
       isNumber(oldestUnreadIndex) && oldestUnreadIndex >= 0
         ? oldestUnreadIndex
@@ -887,7 +888,7 @@ export const getConversationMessagesSelector = createSelector(
         return {
           haveNewest: false,
           haveOldest: false,
-          isLoadingMessages: true,
+          messageLoadingState: TimelineMessageLoadingState.DoingInitialLoad,
           scrollToIndexCounter: 0,
           totalUnread: 0,
           items: [],
