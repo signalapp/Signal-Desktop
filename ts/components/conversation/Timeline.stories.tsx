@@ -505,10 +505,6 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'isIncomingMessageRequest',
     overrideProps.isIncomingMessageRequest === true
   ),
-  isLoadingMessages: boolean(
-    'isLoadingMessages',
-    overrideProps.isLoadingMessages === false
-  ),
   items: overrideProps.items || Object.keys(items),
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,

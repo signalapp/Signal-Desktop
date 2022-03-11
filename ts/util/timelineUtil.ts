@@ -1,12 +1,31 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isNumber } from 'lodash';
+import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline';
 import type { TimelineItemType } from '../components/conversation/TimelineItem';
 import { WidthBreakpoint } from '../components/_util';
 import { MINUTE } from './durations';
+import { missingCaseError } from './missingCaseError';
 import { isSameDay } from './timestamp';
 
 const COLLAPSE_WITHIN = 3 * MINUTE;
+
+export enum TimelineMessageLoadingState {
+  // We start the enum at 1 because the default starting value of 0 is falsy.
+  DoingInitialLoad = 1,
+  LoadingOlderMessages,
+  LoadingNewerMessages,
+}
+
+export enum ScrollAnchor {
+  ChangeNothing,
+  ScrollToBottom,
+  ScrollToIndex,
+  ScrollToUnreadIndicator,
+  Top,
+  Bottom,
+}
 
 export enum UnreadIndicatorPlacement {
   JustAbove,
@@ -58,6 +77,74 @@ export function areMessagesInSameGroup(
       newerMessage.timestamp - olderMessage.timestamp < COLLAPSE_WITHIN &&
       isSameDay(olderMessage.timestamp, newerMessage.timestamp)
   );
+}
+
+type ScrollAnchorBeforeUpdateProps = Readonly<
+  Pick<
+    TimelinePropsType,
+    | 'haveNewest'
+    | 'isIncomingMessageRequest'
+    | 'isSomeoneTyping'
+    | 'items'
+    | 'messageLoadingState'
+    | 'oldestUnreadIndex'
+    | 'scrollToIndex'
+    | 'scrollToIndexCounter'
+  >
+>;
+
+export function getScrollAnchorBeforeUpdate(
+  prevProps: ScrollAnchorBeforeUpdateProps,
+  props: ScrollAnchorBeforeUpdateProps,
+  isAtBottom: boolean
+): ScrollAnchor {
+  if (props.messageLoadingState || !props.items.length) {
+    return ScrollAnchor.ChangeNothing;
+  }
+
+  const loadingStateThatJustFinished: undefined | TimelineMessageLoadingState =
+    !props.messageLoadingState && prevProps.messageLoadingState
+      ? prevProps.messageLoadingState
+      : undefined;
+
+  if (
+    isNumber(props.scrollToIndex) &&
+    (loadingStateThatJustFinished ===
+      TimelineMessageLoadingState.DoingInitialLoad ||
+      prevProps.scrollToIndex !== props.scrollToIndex ||
+      prevProps.scrollToIndexCounter !== props.scrollToIndexCounter)
+  ) {
+    return ScrollAnchor.ScrollToIndex;
+  }
+
+  switch (loadingStateThatJustFinished) {
+    case TimelineMessageLoadingState.DoingInitialLoad:
+      if (props.isIncomingMessageRequest) {
+        return ScrollAnchor.ChangeNothing;
+      }
+      if (isNumber(props.oldestUnreadIndex)) {
+        return ScrollAnchor.ScrollToUnreadIndicator;
+      }
+      return ScrollAnchor.ScrollToBottom;
+    case TimelineMessageLoadingState.LoadingOlderMessages:
+      return ScrollAnchor.Bottom;
+    case TimelineMessageLoadingState.LoadingNewerMessages:
+      return ScrollAnchor.Top;
+    case undefined: {
+      const didSomethingChange =
+        prevProps.items.length !== props.items.length ||
+        (props.haveNewest &&
+          prevProps.isSomeoneTyping !== props.isSomeoneTyping);
+      if (didSomethingChange && isAtBottom) {
+        return ScrollAnchor.ScrollToBottom;
+      }
+      break;
+    }
+    default:
+      throw missingCaseError(loadingStateThatJustFinished);
+  }
+
+  return ScrollAnchor.ChangeNothing;
 }
 
 export function getWidthBreakpoint(width: number): WidthBreakpoint {

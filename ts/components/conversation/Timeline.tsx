@@ -32,9 +32,12 @@ import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader';
+import type { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import {
-  getWidthBreakpoint,
+  ScrollAnchor,
   UnreadIndicatorPlacement,
+  getScrollAnchorBeforeUpdate,
+  getWidthBreakpoint,
 } from '../../util/timelineUtil';
 import {
   getScrollBottom,
@@ -80,7 +83,7 @@ export type ContactSpoofingReviewPropType =
 export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
-  isLoadingMessages: boolean;
+  messageLoadingState?: TimelineMessageLoadingState;
   isNearBottom?: boolean;
   items: ReadonlyArray<string>;
   oldestUnreadIndex?: number;
@@ -325,9 +328,9 @@ export class Timeline extends React.Component<
     const {
       haveNewest,
       id,
-      isLoadingMessages,
       items,
       loadNewestMessages,
+      messageLoadingState,
       oldestUnreadIndex,
       selectMessage,
     } = this.props;
@@ -337,7 +340,7 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (isLoadingMessages) {
+    if (messageLoadingState) {
       this.scrollToBottom(setFocus);
       return;
     }
@@ -366,9 +369,13 @@ export class Timeline extends React.Component<
 
   private isAtBottom(): boolean {
     const containerEl = this.containerRef.current;
-    return Boolean(
-      containerEl && getScrollBottom(containerEl) <= AT_BOTTOM_THRESHOLD
-    );
+    if (!containerEl) {
+      return false;
+    }
+    const isScrolledNearBottom =
+      getScrollBottom(containerEl) <= AT_BOTTOM_THRESHOLD;
+    const hasScrollbars = containerEl.clientHeight < containerEl.scrollHeight;
+    return isScrolledNearBottom || !hasScrollbars;
   }
 
   private updateIntersectionObserver(): void {
@@ -383,10 +390,10 @@ export class Timeline extends React.Component<
       haveNewest,
       haveOldest,
       id,
-      isLoadingMessages,
       items,
       loadNewerMessages,
       loadOlderMessages,
+      messageLoadingState,
       setIsNearBottom,
     } = this.props;
 
@@ -466,7 +473,7 @@ export class Timeline extends React.Component<
           this.markNewestBottomVisibleMessageRead();
 
           if (
-            !isLoadingMessages &&
+            !messageLoadingState &&
             !haveNewest &&
             newestBottomVisibleMessageId === last(items)
           ) {
@@ -475,7 +482,7 @@ export class Timeline extends React.Component<
         }
 
         if (
-          !isLoadingMessages &&
+          !messageLoadingState &&
           !haveOldest &&
           oldestPartiallyVisibleMessageId &&
           oldestPartiallyVisibleMessageId === items[0]
@@ -548,69 +555,38 @@ export class Timeline extends React.Component<
       return null;
     }
 
-    const {
-      isLoadingMessages: wasLoadingMessages,
-      isSomeoneTyping: wasSomeoneTyping,
-      items: oldItems,
-      scrollToIndexCounter: oldScrollToIndexCounter,
-    } = prevProps;
-    const {
-      isIncomingMessageRequest,
-      isLoadingMessages,
-      isSomeoneTyping,
-      items: newItems,
-      oldestUnreadIndex,
-      scrollToIndex,
-      scrollToIndexCounter: newScrollToIndexCounter,
-    } = this.props;
+    const { props } = this;
+    const { scrollToIndex } = props;
 
-    const isDoingInitialLoad = isLoadingMessages && newItems.length === 0;
-    const wasDoingInitialLoad = wasLoadingMessages && oldItems.length === 0;
-    const justFinishedInitialLoad = wasDoingInitialLoad && !isDoingInitialLoad;
+    const scrollAnchor = getScrollAnchorBeforeUpdate(
+      prevProps,
+      props,
+      this.isAtBottom()
+    );
 
-    if (isDoingInitialLoad) {
-      return null;
-    }
-
-    if (
-      isNumber(scrollToIndex) &&
-      (oldScrollToIndexCounter !== newScrollToIndexCounter ||
-        justFinishedInitialLoad)
-    ) {
-      return { scrollToIndex };
-    }
-
-    if (justFinishedInitialLoad) {
-      if (isIncomingMessageRequest) {
-        return { scrollTop: 0 };
-      }
-      if (isNumber(oldestUnreadIndex)) {
+    switch (scrollAnchor) {
+      case ScrollAnchor.ChangeNothing:
+        return null;
+      case ScrollAnchor.ScrollToBottom:
+        return { scrollBottom: 0 };
+      case ScrollAnchor.ScrollToIndex:
+        if (scrollToIndex === undefined) {
+          assert(
+            false,
+            '<Timeline> got "scroll to index" scroll anchor, but no index'
+          );
+          return null;
+        }
+        return { scrollToIndex };
+      case ScrollAnchor.ScrollToUnreadIndicator:
         return scrollToUnreadIndicator;
-      }
-      return { scrollBottom: 0 };
+      case ScrollAnchor.Top:
+        return { scrollTop: containerEl.scrollTop };
+      case ScrollAnchor.Bottom:
+        return { scrollBottom: getScrollBottom(containerEl) };
+      default:
+        throw missingCaseError(scrollAnchor);
     }
-
-    if (isSomeoneTyping !== wasSomeoneTyping && this.isAtBottom()) {
-      return { scrollBottom: 0 };
-    }
-
-    // This method assumes that item operations happen one at a time. For example, items
-    //   are not added and removed in the same render pass.
-    if (oldItems.length === newItems.length) {
-      return null;
-    }
-
-    let scrollAnchor: 'top' | 'bottom';
-    if (this.isAtBottom()) {
-      const justLoadedAPage = wasLoadingMessages && !isLoadingMessages;
-      scrollAnchor = justLoadedAPage ? 'top' : 'bottom';
-    } else {
-      scrollAnchor = last(oldItems) !== last(newItems) ? 'top' : 'bottom';
-    }
-
-    return scrollAnchor === 'top'
-      ? { scrollTop: containerEl.scrollTop }
-      : { scrollBottom: getScrollBottom(containerEl) };
   }
 
   public override componentDidUpdate(
@@ -771,9 +747,9 @@ export class Timeline extends React.Component<
       invitedContactsForNewlyCreatedGroup,
       isConversationSelected,
       isGroupV1AndDisabled,
-      isLoadingMessages,
       isSomeoneTyping,
       items,
+      messageLoadingState,
       oldestUnreadIndex,
       onBlock,
       onBlockAndReportSpam,
@@ -844,6 +820,7 @@ export class Timeline extends React.Component<
       oldestPartiallyVisibleMessageId &&
       oldestPartiallyVisibleMessageTimestamp
     ) {
+      const isLoadingMessages = Boolean(messageLoadingState);
       floatingHeader = (
         <TimelineFloatingHeader
           i18n={i18n}
@@ -1097,7 +1074,8 @@ export class Timeline extends React.Component<
                 <div
                   className={classNames(
                     'module-timeline__messages',
-                    haveNewest && 'module-timeline__messages--have-newest'
+                    haveNewest && 'module-timeline__messages--have-newest',
+                    haveOldest && 'module-timeline__messages--have-oldest'
                   )}
                   ref={this.messagesRef}
                 >
@@ -1112,7 +1090,7 @@ export class Timeline extends React.Component<
 
                   {messageNodes}
 
-                  {isSomeoneTyping && renderTypingBubble(id)}
+                  {isSomeoneTyping && haveNewest && renderTypingBubble(id)}
 
                   <div
                     className="module-timeline__messages__at-bottom-detector"

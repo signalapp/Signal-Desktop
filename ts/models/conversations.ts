@@ -113,6 +113,7 @@ import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import { TimelineMessageLoadingState } from '../util/timelineUtil';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1409,11 +1410,14 @@ export class ConversationModel extends window.Backbone
     newestMessageId: string | undefined,
     setFocus: boolean | undefined
   ): Promise<void> {
-    const { messagesReset, setMessagesLoading } =
+    const { messagesReset, setMessageLoadingState } =
       window.reduxActions.conversations;
     const conversationId = this.id;
 
-    setMessagesLoading(conversationId, true);
+    setMessageLoadingState(
+      conversationId,
+      TimelineMessageLoadingState.DoingInitialLoad
+    );
     const finish = this.setInProgressFetch();
 
     try {
@@ -1476,18 +1480,21 @@ export class ConversationModel extends window.Backbone
         unboundedFetch,
       });
     } catch (error) {
-      setMessagesLoading(conversationId, false);
+      setMessageLoadingState(conversationId, undefined);
       throw error;
     } finally {
       finish();
     }
   }
   async loadOlderMessages(oldestMessageId: string): Promise<void> {
-    const { messagesAdded, setMessagesLoading, repairOldestMessage } =
+    const { messagesAdded, setMessageLoadingState, repairOldestMessage } =
       window.reduxActions.conversations;
     const conversationId = this.id;
 
-    setMessagesLoading(conversationId, true);
+    setMessageLoadingState(
+      conversationId,
+      TimelineMessageLoadingState.LoadingOlderMessages
+    );
     const finish = this.setInProgressFetch();
 
     try {
@@ -1514,6 +1521,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const cleaned = await this.cleanModels(models);
+
       messagesAdded({
         conversationId,
         messages: cleaned.map((messageModel: MessageModel) => ({
@@ -1524,7 +1532,7 @@ export class ConversationModel extends window.Backbone
         isNewMessage: false,
       });
     } catch (error) {
-      setMessagesLoading(conversationId, true);
+      setMessageLoadingState(conversationId, undefined);
       throw error;
     } finally {
       finish();
@@ -1532,11 +1540,14 @@ export class ConversationModel extends window.Backbone
   }
 
   async loadNewerMessages(newestMessageId: string): Promise<void> {
-    const { messagesAdded, setMessagesLoading, repairNewestMessage } =
+    const { messagesAdded, setMessageLoadingState, repairNewestMessage } =
       window.reduxActions.conversations;
     const conversationId = this.id;
 
-    setMessagesLoading(conversationId, true);
+    setMessageLoadingState(
+      conversationId,
+      TimelineMessageLoadingState.LoadingNewerMessages
+    );
     const finish = this.setInProgressFetch();
 
     try {
@@ -1572,7 +1583,7 @@ export class ConversationModel extends window.Backbone
         isNewMessage: false,
       });
     } catch (error) {
-      setMessagesLoading(conversationId, false);
+      setMessageLoadingState(conversationId, undefined);
       throw error;
     } finally {
       finish();
@@ -1583,11 +1594,14 @@ export class ConversationModel extends window.Backbone
     messageId: string,
     options?: { disableScroll?: boolean }
   ): Promise<void> {
-    const { messagesReset, setMessagesLoading } =
+    const { messagesReset, setMessageLoadingState } =
       window.reduxActions.conversations;
     const conversationId = this.id;
 
-    setMessagesLoading(conversationId, true);
+    setMessageLoadingState(
+      conversationId,
+      TimelineMessageLoadingState.DoingInitialLoad
+    );
     const finish = this.setInProgressFetch();
 
     try {
@@ -1623,7 +1637,7 @@ export class ConversationModel extends window.Backbone
         scrollToMessageId,
       });
     } catch (error) {
-      setMessagesLoading(conversationId, false);
+      setMessageLoadingState(conversationId, undefined);
       throw error;
     } finally {
       finish();
