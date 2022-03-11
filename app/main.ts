@@ -333,7 +333,6 @@ function prepareUrl(
     serverTrustRoot: config.get<string>('serverTrustRoot'),
     appStartInitialSpellcheckSetting,
     userDataPath: app.getPath('userData'),
-    downloadsPath: app.getPath('downloads'),
     homePath: app.getPath('home'),
     crashDumpsPath: app.getPath('crashDumps'),
     ...moreKeys,
