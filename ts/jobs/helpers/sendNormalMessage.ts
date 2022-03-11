@@ -19,7 +19,7 @@ import {
 } from '../../state/selectors/message';
 import type { AttachmentType } from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import type { BodyRangesType } from '../../types/Util';
+import type { BodyRangesType, StoryContextType } from '../../types/Util';
 import type { WhatIsThis } from '../../window.d';
 import type { LoggerType } from '../../types/Logging';
 import type {
@@ -141,7 +141,7 @@ export async function sendNormalMessage(
       preview,
       quote,
       sticker,
-      storyContextTimestamp,
+      storyContext,
     } = await getMessageSendData({ log, message });
 
     let messageSendPromise: Promise<CallbackResultType | void>;
@@ -254,7 +254,7 @@ export async function sendNormalMessage(
           groupId: undefined,
           profileKey,
           options: sendOptions,
-          storyContextTimestamp,
+          storyContext,
         });
       }
 
@@ -402,7 +402,7 @@ async function getMessageSendData({
   preview: Array<LinkPreviewType>;
   quote: WhatIsThis;
   sticker: WhatIsThis;
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 }> {
   const {
     loadAttachmentData,
@@ -426,18 +426,22 @@ async function getMessageSendData({
     messageTimestamp = Date.now();
   }
 
-  const [attachmentsWithData, preview, quote, sticker] = await Promise.all([
-    // We don't update the caches here because (1) we expect the caches to be populated
-    //   on initial send, so they should be there in the 99% case (2) if you're retrying
-    //   a failed message across restarts, we don't touch the cache for simplicity. If
-    //   sends are failing, let's not add the complication of a cache.
-    Promise.all((message.get('attachments') ?? []).map(loadAttachmentData)),
-    message.cachedOutgoingPreviewData ||
-      loadPreviewData(message.get('preview')),
-    message.cachedOutgoingQuoteData || loadQuoteData(message.get('quote')),
-    message.cachedOutgoingStickerData ||
-      loadStickerData(message.get('sticker')),
-  ]);
+  const storyId = message.get('storyId');
+
+  const [attachmentsWithData, preview, quote, sticker, storyMessage] =
+    await Promise.all([
+      // We don't update the caches here because (1) we expect the caches to be populated
+      //   on initial send, so they should be there in the 99% case (2) if you're retrying
+      //   a failed message across restarts, we don't touch the cache for simplicity. If
+      //   sends are failing, let's not add the complication of a cache.
+      Promise.all((message.get('attachments') ?? []).map(loadAttachmentData)),
+      message.cachedOutgoingPreviewData ||
+        loadPreviewData(message.get('preview')),
+      message.cachedOutgoingQuoteData || loadQuoteData(message.get('quote')),
+      message.cachedOutgoingStickerData ||
+        loadStickerData(message.get('sticker')),
+      storyId ? getMessageById(storyId) : undefined,
+    ]);
 
   const { body, attachments } = window.Whisper.Message.getLongMessageAttachment(
     {
@@ -457,8 +461,11 @@ async function getMessageSendData({
     preview,
     quote,
     sticker,
-    storyContextTimestamp: message.get('storyId')
-      ? message.get('sent_at')
+    storyContext: storyMessage
+      ? {
+          authorUuid: storyMessage.get('sourceUuid'),
+          timestamp: storyMessage.get('sent_at'),
+        }
       : undefined,
   };
 }

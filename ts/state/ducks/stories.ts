@@ -160,7 +160,7 @@ function reactToStory(
 
 function replyToStory(
   conversationId: string,
-  message: string,
+  messageBody: string,
   mentions: Array<BodyRangeType>,
   timestamp: number,
   story: StoryViewType
@@ -169,7 +169,7 @@ function replyToStory(
 
   if (conversation) {
     conversation.enqueueMessageForSend(
-      message,
+      messageBody,
       [],
       undefined,
       undefined,
