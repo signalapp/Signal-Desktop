@@ -59,7 +59,7 @@ import {
   SendMessageProtoError,
   HTTPError,
 } from './Errors';
-import type { BodyRangesType } from '../types/Util';
+import type { BodyRangesType, StoryContextType } from '../types/Util';
 import type {
   LinkPreviewImage,
   LinkPreviewMetadata,
@@ -193,7 +193,7 @@ export type MessageOptionsType = {
   timestamp: number;
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 };
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
@@ -211,7 +211,7 @@ export type GroupSendOptionsType = {
   timestamp: number;
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 };
 
 class Message {
@@ -256,7 +256,7 @@ class Message {
 
   groupCallUpdate?: GroupCallUpdateType;
 
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
@@ -276,7 +276,7 @@ class Message {
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.mentions = options.mentions;
     this.groupCallUpdate = options.groupCallUpdate;
-    this.storyContextTimestamp = options.storyContextTimestamp;
+    this.storyContext = options.storyContext;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -477,14 +477,14 @@ class Message {
       proto.groupCallUpdate = groupCallUpdate;
     }
 
-    if (this.storyContextTimestamp) {
+    if (this.storyContext) {
       const { StoryContext } = Proto.DataMessage;
 
       const storyContext = new StoryContext();
-      storyContext.authorUuid = String(
-        window.textsecure.storage.user.getCheckedUuid()
-      );
-      storyContext.sentTimestamp = this.storyContextTimestamp;
+      if (this.storyContext.authorUuid) {
+        storyContext.authorUuid = this.storyContext.authorUuid;
+      }
+      storyContext.sentTimestamp = this.storyContext.timestamp;
 
       proto.storyContext = storyContext;
     }
@@ -798,7 +798,7 @@ export default class MessageSender {
       quote,
       reaction,
       sticker,
-      storyContextTimestamp,
+      storyContext,
       timestamp,
     } = options;
 
@@ -853,7 +853,7 @@ export default class MessageSender {
       reaction,
       recipients,
       sticker,
-      storyContextTimestamp,
+      storyContext,
       timestamp,
     };
   }
@@ -1043,7 +1043,7 @@ export default class MessageSender {
     groupId,
     profileKey,
     options,
-    storyContextTimestamp,
+    storyContext,
   }: Readonly<{
     identifier: string;
     messageText: string | undefined;
@@ -1058,7 +1058,7 @@ export default class MessageSender {
     contentHint: number;
     groupId: string | undefined;
     profileKey?: Uint8Array;
-    storyContextTimestamp?: number;
+    storyContext?: StoryContextType;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
@@ -1074,7 +1074,7 @@ export default class MessageSender {
         deletedForEveryoneTimestamp,
         expireTimer,
         profileKey,
-        storyContextTimestamp,
+        storyContext,
       },
       contentHint,
       groupId,
