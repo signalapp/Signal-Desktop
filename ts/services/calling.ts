@@ -867,7 +867,7 @@ export class CallingClass {
             'Calling.formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
           );
         }
-        return '00000000-0000-0000-0000-000000000000';
+        return '00000000-0000-4000-8000-000000000000';
       }),
       creatorUuid: peekInfo.creator && bytesToUuid(peekInfo.creator),
       eraId: peekInfo.eraId,
@@ -911,7 +911,7 @@ export class CallingClass {
           log.error(
             'Calling.formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
           );
-          uuid = '00000000-0000-0000-0000-000000000000';
+          uuid = '00000000-0000-4000-8000-000000000000';
         }
         return {
           uuid,
