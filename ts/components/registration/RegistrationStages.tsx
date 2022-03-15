@@ -16,7 +16,7 @@ import {
 } from '../../util/accountManager';
 import { fromHex } from '../../session/utils/String';
 
-export const MAX_USERNAME_LENGTH = 20;
+export const MAX_USERNAME_LENGTH = 26;
 // tslint:disable: use-simple-attributes
 
 export async function resetRegistration() {
