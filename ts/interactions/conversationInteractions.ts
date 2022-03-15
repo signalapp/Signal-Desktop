@@ -30,9 +30,9 @@ import {
   removeAllMessagesInConversation,
 } from '../data/data';
 import {
-  clearConversationFocus,
   conversationReset,
   quoteMessage,
+  resetConversationExternal,
 } from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
@@ -159,7 +159,7 @@ export const declineConversationWithConfirm = (convoId: string, syncToDevices: b
         await declineConversationWithoutConfirm(convoId, syncToDevices);
         await blockConvoById(convoId);
         await forceSyncConfigurationNowIfNeeded();
-        clearConversationFocus();
+        window?.inboxStore?.dispatch(resetConversationExternal());
       },
       onClickCancel: () => {
         window?.inboxStore?.dispatch(updateConfirmModal(null));
