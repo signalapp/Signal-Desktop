@@ -31,7 +31,7 @@ window.getNodeVersion = () => config.node_version;
 
 window.sessionFeatureFlags = {
   useOnionRequests: true,
-  useCallMessage: true,
+  useCallMessage: false,
 };
 
 window.versionInfo = {
