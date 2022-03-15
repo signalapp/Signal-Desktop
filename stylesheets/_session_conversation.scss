@@ -36,7 +36,7 @@
   transform: translateX(100%);
   will-change: transform;
   width: 25vw;
-  z-index: 1;
+  z-index: 5;
 
   &.show {
     transform: none;

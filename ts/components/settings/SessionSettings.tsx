@@ -26,6 +26,7 @@ export enum SessionSettingCategory {
   Appearance = 'appearance',
   Privacy = 'privacy',
   Notifications = 'notifications',
+  MessageRequests = 'messageRequests',
   Blocked = 'blocked',
 }
 
