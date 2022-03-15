@@ -76,6 +76,8 @@ const { installPermissionsHandler } = require('./app/permissions');
 
 let appStartInitialSpellcheckSetting = true;
 
+let latestDesktopRelease;
+
 async function getSpellCheckSetting() {
   const json = await sql.getItemById('spell-check');
   // Default to `true` if setting doesn't exist yet
@@ -398,28 +400,26 @@ async function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.getLatestDesktopRelease = () => latestDesktopRelease;
 }
 
 ipc.on('show-window', () => {
   showWindow();
 });
 
+ipc.on('set-release-from-file-server', (_event, releaseGotFromFileServer) => {
+  latestDesktopRelease = releaseGotFromFileServer;
+});
+
 let isReadyForUpdates = false;
 async function readyForUpdates() {
+  console.log('isReadyForUpdates', isReadyForUpdates);
   if (isReadyForUpdates) {
     return;
   }
 
   isReadyForUpdates = true;
-
-  // disable for now
-  /*
-  // First, install requested sticker pack
-  const incomingUrl = getIncomingUrl(process.argv);
-  if (incomingUrl) {
-    handleSgnlLink(incomingUrl);
-  }
-  */
 
   // Second, start checking for app updates
   try {

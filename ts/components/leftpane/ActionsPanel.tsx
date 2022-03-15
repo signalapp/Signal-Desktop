@@ -34,7 +34,7 @@ import { conversationChanged, conversationRemoved } from '../../state/ducks/conv
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from '../dialog/ModalContainer';
-import { debounce } from 'lodash';
+import { debounce, isEmpty, isString } from 'lodash';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -51,6 +51,8 @@ import { IncomingCallDialog } from '../calling/IncomingCallDialog';
 import { SessionIconButton } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
+import { getLatestDesktopReleaseFileToFsV2 } from '../../session/apis/file_server_api/FileServerApiV2';
+import { ipcRenderer } from 'electron';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -162,7 +164,12 @@ const Section = (props: { type: SectionType }) => {
   }
 };
 
-const cleanUpMediasInterval = DURATION.MINUTES * 30;
+const cleanUpMediasInterval = DURATION.MINUTES * 60;
+
+// every 10 minutes we fetch from the fileserver to check for a new release
+// * if there is none, no request to github are made.
+// * if there is a version on the fileserver more recent than our current, we fetch github to get the UpdateInfos and trigger an update as usual (asking user via dialog)
+const fetchReleaseFromFileServerInterval = DURATION.MINUTES * 10;
 
 const setupTheme = () => {
   const theme = window.Events.getThemeSetting();
@@ -265,6 +272,18 @@ const CallContainer = () => {
   );
 };
 
+async function fetchReleaseFromFSAndUpdateMain() {
+  try {
+    const latest = await getLatestDesktopReleaseFileToFsV2();
+
+    if (isString(latest) && !isEmpty(latest)) {
+      ipcRenderer.send('set-release-from-file-server', latest);
+    }
+  } catch (e) {
+    window.log.warn(e);
+  }
+}
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
@@ -288,6 +307,10 @@ export const ActionsPanel = () => {
   }, []);
 
   useInterval(cleanUpOldDecryptedMedias, startCleanUpMedia ? cleanUpMediasInterval : null);
+
+  useInterval(() => {
+    void fetchReleaseFromFSAndUpdateMain();
+  }, fetchReleaseFromFileServerInterval);
 
   if (!ourPrimaryConversation) {
     window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');

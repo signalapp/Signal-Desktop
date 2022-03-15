@@ -21,7 +21,7 @@ let stopped = false;
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
-const INTERVAL = MINUTE * 30;
+const INTERVAL = MINUTE * 1;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
@@ -70,16 +70,42 @@ async function checkForUpdates(
 
   const canUpdate = await canAutoUpdate();
   if (!canUpdate) {
+    logger.info('checkForUpdates canAutoUpdate false');
     return;
   }
 
-  logger.info('auto-update: checking for update...');
+  logger.info('auto-update: checkForUpdates...');
 
   isUpdating = true;
 
   try {
-    // Get the update using electron-updater
+    const latestVersionFromFsFromRenderer = getMainWindow()
+      ? ((getMainWindow() as any).getLatestDesktopRelease() as string | undefined)
+      : undefined;
+
+    logger.info('checkForUpdates latestVersionFromFsFromRenderer', latestVersionFromFsFromRenderer);
+    if (!latestVersionFromFsFromRenderer || !latestVersionFromFsFromRenderer?.length) {
+      logger.info(
+        'testVersionFromFsFromRenderer was not updated yet by renderer. Skipping update check'
+      );
+      return;
+    }
+
+    const currentVersion = autoUpdater.currentVersion.toString();
+    const isMoreRecent = isVersionGreaterThan(latestVersionFromFsFromRenderer, currentVersion);
+    logger.info('checkForUpdates isMoreRecent', isMoreRecent);
+    if (!isMoreRecent) {
+      logger.info(
+        `Fileserver has no update so we are not looking for an update from github current:${currentVersion} fromFileServer:${latestVersionFromFsFromRenderer}`
+      );
+      return;
+    }
+
+    // Get the update using electron-updater, this fetches from github
     const result = await autoUpdater.checkForUpdates();
+
+    logger.info('checkForUpdates github fetch result:', result);
+
     if (!result.updateInfo) {
       logger.info('auto-update: no update info received');
 
@@ -88,6 +114,8 @@ async function checkForUpdates(
 
     try {
       const hasUpdate = isUpdateAvailable(result.updateInfo);
+      logger.info('checkForUpdates hasUpdate:', hasUpdate);
+
       if (!hasUpdate) {
         logger.info('auto-update: no update available');
 
@@ -96,6 +124,8 @@ async function checkForUpdates(
 
       logger.info('auto-update: showing download dialog...');
       const shouldDownload = await showDownloadUpdateDialog(getMainWindow(), messages);
+      logger.info('checkForUpdates shouldDownload:', shouldDownload);
+
       if (!shouldDownload) {
         downloadIgnored = true;
 

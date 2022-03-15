@@ -1,4 +1,3 @@
-import { get as getFromConfig } from 'config';
 import { BrowserWindow } from 'electron';
 import { start as startUpdater, stop as stopUpdater } from './updater';
 import { LoggerType, MessagesType } from './common';
@@ -10,14 +9,16 @@ let config: UserConfig;
 export async function start(
   getMainWindow: () => BrowserWindow,
   userConfig: UserConfig,
-  messages?: MessagesType,
-  logger?: LoggerType
+  messages: MessagesType,
+  logger: LoggerType
 ) {
   if (initialized) {
     throw new Error('updater/start: Updates have already been initialized!');
   }
-  initialized = true;
-  config = userConfig;
+
+  if (!userConfig) {
+    throw new Error('updater/start: userConfig is needed!');
+  }
 
   if (!messages) {
     throw new Error('updater/start: Must provide messages!');
@@ -25,6 +26,8 @@ export async function start(
   if (!logger) {
     throw new Error('updater/start: Must provide logger!');
   }
+  initialized = true;
+  config = userConfig; // reused below
 
   if (autoUpdateDisabled()) {
     /*
@@ -56,7 +59,6 @@ function autoUpdateDisabled() {
 
   return (
     process.mas || // From Electron: Mac App Store build
-    !getFromConfig('updatesEnabled') || // Hard coded config
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     !autoUpdate // User setting
   );
