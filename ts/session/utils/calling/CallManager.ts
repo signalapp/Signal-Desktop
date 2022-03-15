@@ -503,7 +503,6 @@ export async function USER_callRecipient(recipient: string) {
     sent_at: now,
     expireTimer: 0,
     callNotificationType: 'started-call',
-    unread: 0,
   });
 
   // initiating a call is analgous to sending a message request

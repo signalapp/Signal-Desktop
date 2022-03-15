@@ -352,7 +352,7 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (!conversation.isApproved) {
+    if (!conversation.isApproved && conversation.isPrivate) {
       // dont increase unread counter, don't push to convo list.
       continue;
     }

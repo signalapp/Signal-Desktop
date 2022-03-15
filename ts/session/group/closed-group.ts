@@ -174,7 +174,6 @@ export async function addUpdateMessage(
     const outgoingMessage = await convo.addSingleOutgoingMessage({
       sent_at: sentAt,
       group_update: groupUpdate,
-      unread: 1,
       expireTimer: 0,
     });
     return outgoingMessage;
