@@ -52,7 +52,7 @@ import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
-import { UUID, UUIDKind, isValidUuid } from '../types/UUID';
+import { UUID, isValidUuid, UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
 import * as Bytes from '../Bytes';
@@ -582,8 +582,13 @@ export class ConversationModel extends window.Backbone
       );
     }
 
+    const ourUuid = window.textsecure.storage.user
+      .getCheckedUuid(UUIDKind.ACI)
+      .toString();
+
     return window.Signal.Groups.buildDeletePendingAdminApprovalMemberChange({
       group: this.attributes,
+      ourUuid,
       uuid,
     });
   }
@@ -660,8 +665,17 @@ export class ConversationModel extends window.Backbone
       this.get('announcementsOnly') &&
       !toRequest.get('capabilities')?.announcementGroup
     ) {
-      log.warn(`addMember/${idLog}: ${conversationId} needs to upgrade.`);
+      log.warn(
+        `addMember/${idLog}: ${toRequest.idForLogging()} needs to upgrade.`
+      );
       return undefined;
+    }
+
+    const uuid = toRequest.get('uuid');
+    if (!uuid) {
+      throw new Error(
+        `addMember/${idLog}: ${toRequest.idForLogging()} is missing a uuid!`
+      );
     }
 
     // We need the user's profileKeyCredential, which requires a roundtrip with the
@@ -691,6 +705,7 @@ export class ConversationModel extends window.Backbone
       group: this.attributes,
       profileKeyCredentialBase64,
       serverPublicParamsBase64: window.getServerPublicParams(),
+      uuid,
     });
   }
 
@@ -769,8 +784,13 @@ export class ConversationModel extends window.Backbone
       );
     }
 
+    const ourUuid = window.textsecure.storage.user
+      .getCheckedUuid(UUIDKind.ACI)
+      .toString();
+
     return window.Signal.Groups.buildDeleteMemberChange({
       group: this.attributes,
+      ourUuid,
       uuid,
     });
   }
@@ -2260,12 +2280,7 @@ export class ConversationModel extends window.Backbone
       name: 'addMembersV2',
       createGroupChange: () =>
         window.Signal.Groups.buildAddMembersChange(
-          {
-            id: this.id,
-            publicParams: this.get('publicParams'),
-            revision: this.get('revision'),
-            secretParams: this.get('secretParams'),
-          },
+          this.attributes,
           conversationIds
         ),
     });

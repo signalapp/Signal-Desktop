@@ -43,7 +43,7 @@ type PropsType = {
     }
   | {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
-      areWeAdmin: boolean;
+      group: ConversationType;
       collisionInfoByTitle: Record<
         string,
         Array<{
@@ -78,13 +78,20 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
     const [confirmationState, setConfirmationState] = useState<
       | undefined
       | {
-          type: ConfirmationStateType;
+          type: ConfirmationStateType.ConfirmingGroupRemoval;
+          affectedConversation: ConversationType;
+          group: ConversationType;
+        }
+      | {
+          type:
+            | ConfirmationStateType.ConfirmingDelete
+            | ConfirmationStateType.ConfirmingBlock;
           affectedConversation: ConversationType;
         }
     >();
 
     if (confirmationState) {
-      const { affectedConversation, type } = confirmationState;
+      const { type, affectedConversation } = confirmationState;
       switch (type) {
         case ConfirmationStateType.ConfirmingDelete:
         case ConfirmationStateType.ConfirmingBlock:
@@ -140,10 +147,12 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
               }}
             />
           );
-        case ConfirmationStateType.ConfirmingGroupRemoval:
+        case ConfirmationStateType.ConfirmingGroupRemoval: {
+          const { group } = confirmationState;
           return (
             <RemoveGroupMemberConfirmationDialog
               conversation={affectedConversation}
+              group={group}
               i18n={i18n}
               onClose={() => {
                 setConfirmationState(undefined);
@@ -153,6 +162,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
               }}
             />
           );
+        }
         default:
           throw missingCaseError(type);
       }
@@ -227,7 +237,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
         break;
       }
       case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
-        const { areWeAdmin, collisionInfoByTitle } = props;
+        const { group, collisionInfoByTitle } = props;
 
         const unsortedConversationInfos = concat(
           // This empty array exists to appease Lodash's type definitions.
@@ -254,7 +264,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
             </h2>
             {conversationInfos.map((conversationInfo, index) => {
               let button: ReactNode;
-              if (areWeAdmin) {
+              if (group.areWeAdmin) {
                 button = (
                   <Button
                     variant={ButtonVariant.SecondaryAffirmative}
@@ -262,6 +272,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
                       setConfirmationState({
                         type: ConfirmationStateType.ConfirmingGroupRemoval,
                         affectedConversation: conversationInfo.conversation,
+                        group,
                       });
                     }}
                   >

@@ -14,6 +14,7 @@ import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
+import { isAccessControlEnabled } from '../../../groups/util';
 
 export type PropsType = {
   readonly conversation?: ConversationType;
@@ -147,6 +148,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
       {stagedMemberships && stagedMemberships.length && (
         <MembershipActionConfirmation
           approvePendingMembership={approvePendingMembership}
+          conversation={conversation}
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
           onClose={() => setStagedMemberships(null)}
@@ -161,6 +163,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
 
 function MembershipActionConfirmation({
   approvePendingMembership,
+  conversation,
   i18n,
   members,
   onClose,
@@ -169,6 +172,7 @@ function MembershipActionConfirmation({
   stagedMemberships,
 }: {
   approvePendingMembership: (conversationId: string) => void;
+  conversation: ConversationType;
   i18n: LocalizerType;
   members: Array<ConversationType>;
   onClose: () => void;
@@ -222,6 +226,7 @@ function MembershipActionConfirmation({
       onClose={onClose}
     >
       {getConfirmationMessage({
+        conversation,
         i18n,
         members,
         ourUuid,
@@ -232,11 +237,13 @@ function MembershipActionConfirmation({
 }
 
 function getConfirmationMessage({
+  conversation,
   i18n,
   members,
   ourUuid,
   stagedMemberships,
 }: Readonly<{
+  conversation: ConversationType;
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
   ourUuid: string;
@@ -251,7 +258,12 @@ function getConfirmationMessage({
 
   // Requesting a membership since they weren't added by anyone
   if (membershipType === StageType.DENY_REQUEST) {
-    return i18n('PendingRequests--deny-for', {
+    const key = isAccessControlEnabled(
+      conversation.accessControlAddFromInviteLink
+    )
+      ? 'PendingRequests--deny-for--with-link'
+      : 'PendingRequests--deny-for';
+    return i18n(key, {
       name: firstMembership.member.title,
     });
   }

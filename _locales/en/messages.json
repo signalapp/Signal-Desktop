@@ -4059,6 +4059,14 @@
     "message": "This group link is no longer valid.",
     "description": "Shown if you click a group link and we can't get information about it"
   },
+  "GroupV2--join--link-forbidden--title": {
+    "message": "Can’t Join Group",
+    "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+  },
+  "GroupV2--join--link-forbidden": {
+    "message": "You can't join this group via the group link because an admin removed you.",
+    "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+  },
   "GroupV2--join--prompt-with-approval": {
     "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
     "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5688,6 +5696,16 @@
       }
     }
   },
+  "PendingRequests--deny-for--with-link": {
+    "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+    "description": "This is the modal content when confirming denying a group request to join",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Meowsy Purrington"
+      }
+    }
+  },
   "PendingInvites--invites": {
     "message": "Invited by you",
     "description": "This is the title list of all invites"
@@ -6062,6 +6080,16 @@
   },
   "RemoveGroupMemberConfirmation__description": {
     "message": "Remove \"$name$\" from the group?",
+    "description": "When confirming the removal of a group member, show this text in the dialog",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Jane Doe"
+      }
+    }
+  },
+  "RemoveGroupMemberConfirmation__description__with-link": {
+    "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
     "description": "When confirming the removal of a group member, show this text in the dialog",
     "placeholders": {
       "name": {

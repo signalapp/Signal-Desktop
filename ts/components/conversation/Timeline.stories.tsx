@@ -492,6 +492,7 @@ const renderTypingBubble = () => (
 );
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  conversation: overrideProps.conversation || getDefaultConversation(),
   discardMessages: action('discardMessages'),
   getPreferredBadge: () => undefined,
   i18n,

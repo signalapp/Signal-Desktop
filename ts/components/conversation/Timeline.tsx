@@ -94,7 +94,7 @@ export type PropsDataType = {
 
 type PropsHousekeepingType = {
   id: string;
-  areWeAdmin?: boolean;
+  conversation: ConversationType;
   isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
@@ -734,10 +734,10 @@ export class Timeline extends React.Component<
   public override render(): JSX.Element | null {
     const {
       acknowledgeGroupMemberNameCollisions,
-      areWeAdmin,
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
+      conversation,
       getPreferredBadge,
       getTimestampForMessage,
       haveNewest,
@@ -1018,7 +1018,7 @@ export class Timeline extends React.Component<
             <ContactSpoofingReviewDialog
               {...commonProps}
               type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
-              areWeAdmin={Boolean(areWeAdmin)}
+              group={conversation}
               collisionInfoByTitle={contactSpoofingReview.collisionInfoByTitle}
             />
           );

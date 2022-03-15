@@ -23,6 +23,7 @@ const story = storiesOf(
 const getCommonProps = () => ({
   getPreferredBadge: () => undefined,
   i18n,
+  group: getDefaultConversation(),
   onBlock: action('onBlock'),
   onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onClose: action('onClose'),
@@ -51,7 +52,10 @@ story.add('Direct conversations with same title', () => (
       <ContactSpoofingReviewDialog
         {...getCommonProps()}
         type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
-        areWeAdmin={areWeAdmin}
+        group={{
+          ...getDefaultConversation(),
+          areWeAdmin,
+        }}
         collisionInfoByTitle={{
           Alice: times(2, () => ({
             oldName: 'Alicia',

@@ -22,10 +22,15 @@ const story = storiesOf('Components/Conversation/ContactModal', module);
 
 const defaultContact: ConversationType = getDefaultConversation({
   id: 'abcdef',
-  areWeAdmin: false,
   title: 'Pauline Oliveros',
   phoneNumber: '(333) 444-5515',
   about: '👍 Free to chat',
+});
+const defaultGroup: ConversationType = getDefaultConversation({
+  id: 'abcdef',
+  areWeAdmin: true,
+  title: "It's a group",
+  groupLink: 'something',
 });
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
@@ -33,6 +38,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),
   badges: overrideProps.badges || [],
   contact: overrideProps.contact || defaultContact,
+  conversation: overrideProps.conversation || defaultGroup,
   hideContactModal: action('hideContactModal'),
   i18n,
   isAdmin: boolean('isAdmin', overrideProps.isAdmin || false),
@@ -58,6 +64,17 @@ story.add('As non-admin', () => {
 story.add('As admin', () => {
   const props = createProps({
     areWeAdmin: true,
+  });
+  return <ContactModal {...props} />;
+});
+
+story.add('As admin with no group link', () => {
+  const props = createProps({
+    areWeAdmin: true,
+    conversation: {
+      ...defaultGroup,
+      groupLink: undefined,
+    },
   });
   return <ContactModal {...props} />;
 });
