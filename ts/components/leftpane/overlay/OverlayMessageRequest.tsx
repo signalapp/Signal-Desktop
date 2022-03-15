@@ -15,7 +15,10 @@ import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
 import { BlockedNumberController } from '../../../util';
 import useKey from 'react-use/lib/useKey';
-import { clearConversationFocus, ReduxConversationType } from '../../../state/ducks/conversations';
+import {
+  ReduxConversationType,
+  resetConversationExternal,
+} from '../../../state/ducks/conversations';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
 export const OverlayMessageRequest = () => {
@@ -66,7 +69,7 @@ export const OverlayMessageRequest = () => {
 
               // if we're looking at the convo to decline, close the convo
               if (selectedConversation?.id === id) {
-                clearConversationFocus();
+                dispatch(resetConversationExternal());
               }
               return true;
             }))
@@ -80,7 +83,7 @@ export const OverlayMessageRequest = () => {
           if (convoRequestCount === newConvosBlocked.length) {
             dispatch(setOverlayMode(undefined));
             dispatch(showLeftPaneSection(SectionType.Message));
-            clearConversationFocus();
+            dispatch(resetConversationExternal());
           }
         },
       })

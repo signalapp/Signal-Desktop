@@ -951,6 +951,7 @@ export const {
   quotedMessageToAnimate,
   setNextMessageToPlayId,
   updateMentionsMembers,
+  resetConversationExternal,
 } = actions;
 
 export async function openConversationWithMessages(args: {
@@ -974,10 +975,6 @@ export async function openConversationWithMessages(args: {
       initialMessages,
     })
   );
-}
-
-export function clearConversationFocus() {
-  window.inboxStore?.dispatch(actions.resetConversationExternal());
 }
 
 export async function openConversationToSpecificMessage(args: {

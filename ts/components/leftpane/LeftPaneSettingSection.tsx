@@ -3,62 +3,78 @@ import classNames from 'classnames';
 
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useDispatch, useSelector } from 'react-redux';
-import { showSettingsSection } from '../../state/ducks/section';
+import {
+  SectionType,
+  setOverlayMode,
+  showLeftPaneSection,
+  showSettingsSection,
+} from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIcon } from '../icon';
 import { SessionSettingCategory } from '../settings/SessionSettings';
+import { resetConversationExternal } from '../../state/ducks/conversations';
 
 const getCategories = () => {
   return [
     {
       id: SessionSettingCategory.Appearance,
       title: window.i18n('appearanceSettingsTitle'),
-      hidden: false,
     },
     {
       id: SessionSettingCategory.Privacy,
       title: window.i18n('privacySettingsTitle'),
-      hidden: false,
     },
     {
       id: SessionSettingCategory.Blocked,
       title: window.i18n('blockedSettingsTitle'),
-      hidden: false,
     },
     {
       id: SessionSettingCategory.Notifications,
       title: window.i18n('notificationsSettingsTitle'),
-      hidden: false,
+    },
+    {
+      id: SessionSettingCategory.MessageRequests,
+      title: window.i18n('openMessageRequestInbox'),
     },
   ];
 };
 
-const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
+const LeftPaneSettingsCategoryRow = (props: {
+  item: { id: SessionSettingCategory; title: string };
+}) => {
   const { item } = props;
-
+  const { id, title } = item;
   const dispatch = useDispatch();
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);
 
+  const isMessageRequestSetting = id === SessionSettingCategory.MessageRequests;
+
   return (
     <div
-      key={item.id}
+      key={id}
       className={classNames(
         'left-pane-setting-category-list-item',
-        item.id === focusedSettingsSection ? 'active' : ''
+        id === focusedSettingsSection ? 'active' : ''
       )}
       role="link"
       onClick={() => {
-        dispatch(showSettingsSection(item.id));
+        if (isMessageRequestSetting) {
+          dispatch(showLeftPaneSection(SectionType.Message));
+          dispatch(setOverlayMode('message-requests'));
+          dispatch(resetConversationExternal());
+        } else {
+          dispatch(showSettingsSection(id));
+        }
       }}
     >
       <div>
-        <strong>{item.title}</strong>
+        <strong>{title}</strong>
       </div>
 
       <div>
-        {item.id === focusedSettingsSection && (
+        {id === focusedSettingsSection && (
           <SessionIcon iconSize="medium" iconType="chevron" iconRotation={270} />
         )}
       </div>
@@ -72,11 +88,9 @@ const LeftPaneSettingsCategories = () => {
   return (
     <div className="module-left-pane__list" key={0}>
       <div className="left-pane-setting-category-list">
-        {categories
-          .filter(m => !m.hidden)
-          .map(item => {
-            return <LeftPaneSettingsCategoryRow key={item.id} item={item} />;
-          })}
+        {categories.map(item => {
+          return <LeftPaneSettingsCategoryRow key={item.id} item={item} />;
+        })}
       </div>
     </div>
   );

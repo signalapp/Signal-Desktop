@@ -439,7 +439,6 @@ export type LocalizerKeys =
   | 'messageRequestAcceptedOursNoName'
   | 'declineRequestMessage'
   | 'openMessageRequestInbox'
-  | 'openMessageRequestInboxDescription'
   | 'hideRequestBanner'
   | 'noMessageRequestsPending'
   | 'noMediaUntilApproved'
