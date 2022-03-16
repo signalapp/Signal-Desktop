@@ -113,7 +113,7 @@ export async function handleClosedGroupControlMessage(
   if (type === Type.NEW) {
     if (
       !getConversationController()
-        .get(envelope.senderIdentity)
+        .get(envelope.senderIdentity || envelope.source)
         ?.isApproved()
     ) {
       window?.log?.info(
