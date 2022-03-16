@@ -10,11 +10,12 @@ import {
   encryptProfile,
   encryptProfileItemWithPadding,
 } from '../Crypto';
+import type { AvatarUpdateType } from '../types/Avatar';
 import { deriveProfileKeyCommitment, deriveProfileKeyVersion } from './zkgroup';
 
 export async function encryptProfileData(
   conversation: ConversationType,
-  avatarBuffer?: Uint8Array
+  { oldAvatar, newAvatar }: AvatarUpdateType
 ): Promise<[ProfileRequestDataType, Uint8Array | undefined]> {
   const {
     aboutEmoji,
@@ -55,9 +56,11 @@ export async function encryptProfileData(
       )
     : null;
 
-  const encryptedAvatarData = avatarBuffer
-    ? encryptProfile(avatarBuffer, keyBuffer)
+  const encryptedAvatarData = newAvatar
+    ? encryptProfile(newAvatar, keyBuffer)
     : undefined;
+
+  const sameAvatar = Bytes.areEqual(oldAvatar, newAvatar);
 
   const profileData = {
     version: deriveProfileKeyVersion(profileKey, uuid),
@@ -66,7 +69,8 @@ export async function encryptProfileData(
     aboutEmoji: bytesAboutEmoji ? Bytes.toBase64(bytesAboutEmoji) : null,
     badgeIds: (badges || []).map(({ id }) => id),
     paymentAddress: window.storage.get('paymentAddress') || null,
-    avatar: Boolean(avatarBuffer),
+    avatar: Boolean(newAvatar),
+    sameAvatar,
     commitment: deriveProfileKeyCommitment(profileKey, uuid),
   };
 

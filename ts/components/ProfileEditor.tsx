@@ -9,6 +9,7 @@ import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import type {
   AvatarDataType,
+  AvatarUpdateType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
@@ -58,14 +59,14 @@ type PropsExternalType = {
   onEditStateChanged: (editState: EditState) => unknown;
   onProfileChanged: (
     profileData: ProfileDataType,
-    avatarBuffer?: Uint8Array
+    avatar: AvatarUpdateType
   ) => unknown;
 };
 
 export type PropsDataType = {
   aboutEmoji?: string;
   aboutText?: string;
-  avatarPath?: string;
+  profileAvatarPath?: string;
   color?: AvatarColorType;
   conversationId: string;
   familyName?: string;
@@ -211,7 +212,7 @@ function mapSaveStateToEditState({
 export const ProfileEditor = ({
   aboutEmoji,
   aboutText,
-  avatarPath,
+  profileAvatarPath,
   clearUsernameSave,
   color,
   conversationId,
@@ -254,9 +255,16 @@ export const ProfileEditor = ({
     UsernameEditState.Editing
   );
 
+  const [startingAvatarPath, setStartingAvatarPath] =
+    useState(profileAvatarPath);
+
+  const [oldAvatarBuffer, setOldAvatarBuffer] = useState<
+    Uint8Array | undefined
+  >(undefined);
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     undefined
   );
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState(true);
   const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
     aboutEmoji,
     aboutText,
@@ -285,6 +293,9 @@ export const ProfileEditor = ({
   // To make AvatarEditor re-render less often
   const handleAvatarChanged = useCallback(
     (avatar: Uint8Array | undefined) => {
+      // Do not display stale avatar from disk anymore.
+      setStartingAvatarPath(undefined);
+
       setAvatarBuffer(avatar);
       setEditState(EditState.None);
       onProfileChanged(
@@ -295,10 +306,11 @@ export const ProfileEditor = ({
             ? trim(stagedProfile.familyName)
             : undefined,
         },
-        avatar
+        { oldAvatar: oldAvatarBuffer, newAvatar: avatar }
       );
+      setOldAvatarBuffer(avatar);
     },
-    [onProfileChanged, stagedProfile]
+    [onProfileChanged, stagedProfile, oldAvatarBuffer]
   );
 
   const getFullNameText = () => {
@@ -405,9 +417,14 @@ export const ProfileEditor = ({
   };
 
   // To make AvatarEditor re-render less often
-  const handleAvatarLoaded = useCallback(avatar => {
-    setAvatarBuffer(avatar);
-  }, []);
+  const handleAvatarLoaded = useCallback(
+    avatar => {
+      setAvatarBuffer(avatar);
+      setOldAvatarBuffer(avatar);
+      setIsLoadingAvatar(false);
+    },
+    [setAvatarBuffer, setOldAvatarBuffer, setIsLoadingAvatar]
+  );
 
   let content: JSX.Element;
 
@@ -415,7 +432,7 @@ export const ProfileEditor = ({
     content = (
       <AvatarEditor
         avatarColor={color || AvatarColors[0]}
-        avatarPath={avatarPath}
+        avatarPath={startingAvatarPath}
         avatarValue={avatarBuffer}
         conversationId={conversationId}
         conversationTitle={getFullNameText()}
@@ -430,6 +447,7 @@ export const ProfileEditor = ({
     );
   } else if (editState === EditState.ProfileName) {
     const shouldDisableSave =
+      isLoadingAvatar ||
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
         stagedProfile.familyName === fullName.familyName) ||
@@ -502,7 +520,10 @@ export const ProfileEditor = ({
                 familyName: stagedProfile.familyName,
               });
 
-              onProfileChanged(stagedProfile, avatarBuffer);
+              onProfileChanged(stagedProfile, {
+                oldAvatar: oldAvatarBuffer,
+                newAvatar: avatarBuffer,
+              });
               handleBack();
             }}
           >
@@ -513,8 +534,9 @@ export const ProfileEditor = ({
     );
   } else if (editState === EditState.Bio) {
     const shouldDisableSave =
-      stagedProfile.aboutText === fullBio.aboutText &&
-      stagedProfile.aboutEmoji === fullBio.aboutEmoji;
+      isLoadingAvatar ||
+      (stagedProfile.aboutText === fullBio.aboutText &&
+        stagedProfile.aboutEmoji === fullBio.aboutEmoji);
 
     content = (
       <>
@@ -613,7 +635,10 @@ export const ProfileEditor = ({
                 aboutText: stagedProfile.aboutText,
               });
 
-              onProfileChanged(stagedProfile, avatarBuffer);
+              onProfileChanged(stagedProfile, {
+                oldAvatar: oldAvatarBuffer,
+                newAvatar: avatarBuffer,
+              });
               handleBack();
             }}
           >
@@ -689,7 +714,7 @@ export const ProfileEditor = ({
       <>
         <AvatarPreview
           avatarColor={color}
-          avatarPath={avatarPath}
+          avatarPath={startingAvatarPath}
           avatarValue={avatarBuffer}
           conversationTitle={getFullNameText()}
           i18n={i18n}

@@ -1812,6 +1812,7 @@ export class ConversationModel extends window.Backbone
       avatarPath: this.getAbsoluteAvatarPath(),
       avatarHash: this.getAvatarHash(),
       unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
+      profileAvatarPath: this.getAbsoluteProfileAvatarPath(),
       color,
       conversationColor: this.getConversationColor(),
       customColor,
@@ -4944,6 +4945,11 @@ export class ConversationModel extends window.Backbone
 
   getAbsoluteAvatarPath(): string | undefined {
     const avatarPath = this.getAvatarPath();
+    return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
+  }
+
+  getAbsoluteProfileAvatarPath(): string | undefined {
+    const avatarPath = this.get('profileAvatar')?.path;
     return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
   }
 

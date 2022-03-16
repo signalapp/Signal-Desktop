@@ -25,7 +25,7 @@ const stories = storiesOf('Components/ProfileEditor', module);
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   aboutEmoji: overrideProps.aboutEmoji,
   aboutText: text('about', overrideProps.aboutText || ''),
-  avatarPath: overrideProps.avatarPath,
+  profileAvatarPath: overrideProps.profileAvatarPath,
   clearUsernameSave: action('clearUsernameSave'),
   conversationId: '123',
   color: overrideProps.color || getRandomColor(),
@@ -64,7 +64,7 @@ stories.add('Full Set', () => {
       {...createProps({
         aboutEmoji: '🙏',
         aboutText: 'Live. Laugh. Love',
-        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+        profileAvatarPath: '/fixtures/kitten-3-64-64.jpg',
         onSetSkinTone: setSkinTone,
         familyName: getLastName(),
         skinTone,

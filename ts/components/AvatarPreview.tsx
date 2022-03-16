@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CSSProperties } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { noop } from 'lodash';
 
 import * as log from '../logging/log';
@@ -46,10 +46,6 @@ export const AvatarPreview = ({
   onClick,
   style = {},
 }: PropsType): JSX.Element => {
-  const startingAvatarPathRef = useRef<undefined | string>(
-    avatarValue ? undefined : avatarPath
-  );
-
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
   // Loads the initial avatarPath if one is provided, but only if we're in editable mode.
@@ -60,8 +56,7 @@ export const AvatarPreview = ({
       return;
     }
 
-    const startingAvatarPath = startingAvatarPathRef.current;
-    if (!startingAvatarPath) {
+    if (!avatarPath) {
       return noop;
     }
 
@@ -69,14 +64,12 @@ export const AvatarPreview = ({
 
     (async () => {
       try {
-        const buffer = await imagePathToBytes(startingAvatarPath);
+        const buffer = await imagePathToBytes(avatarPath);
         if (shouldCancel) {
           return;
         }
         setAvatarPreview(buffer);
-        if (onAvatarLoaded) {
-          onAvatarLoaded(buffer);
-        }
+        onAvatarLoaded?.(buffer);
       } catch (err) {
         if (shouldCancel) {
           return;
@@ -92,7 +85,7 @@ export const AvatarPreview = ({
     return () => {
       shouldCancel = true;
     };
-  }, [onAvatarLoaded, isEditable]);
+  }, [avatarPath, onAvatarLoaded, isEditable]);
 
   // Ensures that when avatarValue changes we generate new URLs
   useEffect(() => {

@@ -63,7 +63,7 @@ import {
   getMe,
   getUsernameSaveState,
 } from '../selectors/conversations';
-import type { AvatarDataType } from '../../types/Avatar';
+import type { AvatarDataType, AvatarUpdateType } from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
@@ -121,6 +121,7 @@ export type ConversationType = {
   avatars?: Array<AvatarDataType>;
   avatarPath?: string;
   avatarHash?: string;
+  profileAvatarPath?: string;
   unblurredAvatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
@@ -1094,7 +1095,7 @@ function saveUsername({
 
 function myProfileChanged(
   profileData: ProfileDataType,
-  avatarBuffer?: Uint8Array
+  avatar: AvatarUpdateType
 ): ThunkAction<
   void,
   RootStateType,
@@ -1110,7 +1111,7 @@ function myProfileChanged(
           ...conversation,
           ...profileData,
         },
-        avatarBuffer
+        avatar
       );
 
       // writeProfile above updates the backbone model which in turn updates

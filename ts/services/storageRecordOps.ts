@@ -178,7 +178,10 @@ export function toAccountRecord(
   if (conversation.get('profileFamilyName')) {
     accountRecord.familyName = conversation.get('profileFamilyName') || '';
   }
-  accountRecord.avatarUrl = window.storage.get('avatarUrl') || '';
+  const avatarUrl = window.storage.get('avatarUrl');
+  if (avatarUrl !== undefined) {
+    accountRecord.avatarUrl = avatarUrl;
+  }
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
   accountRecord.noteToSelfMarkedUnread = Boolean(
     conversation.get('markedUnread')
@@ -895,7 +898,6 @@ export async function mergeAccountRecord(
 ): Promise<MergeResultType> {
   let details = new Array<string>();
   const {
-    avatarUrl,
     linkPreviews,
     notDiscoverableByPhoneNumber,
     noteToSelfArchived,
@@ -1146,10 +1148,9 @@ export async function mergeAccountRecord(
       { viaStorageServiceSync: true }
     );
 
-    if (avatarUrl) {
-      await conversation.setProfileAvatar(avatarUrl, profileKey);
-      window.storage.put('avatarUrl', avatarUrl);
-    }
+    const avatarUrl = dropNull(accountRecord.avatarUrl);
+    await conversation.setProfileAvatar(avatarUrl, profileKey);
+    window.storage.put('avatarUrl', avatarUrl);
   }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
