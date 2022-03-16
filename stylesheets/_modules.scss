@@ -5756,6 +5756,7 @@ button.module-image__border-overlay:focus {
       grid-gap: 8px;
       grid-template-columns: repeat(4, 1fr);
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 0 16px;
 
       &::after {

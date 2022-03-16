@@ -692,13 +692,6 @@ export async function startApp(): Promise<void> {
         await window.Signal.Services.eraseAllStorageServiceState();
       }
 
-      if (
-        lastVersion === 'v1.40.0-beta.1' &&
-        window.isAfterVersion(lastVersion, 'v1.40.0-beta.1')
-      ) {
-        await window.Signal.Data.clearAllErrorStickerPackAttempts();
-      }
-
       if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
         const legacySenderCertificateStorageKey = 'senderCertificateWithUuid';
         await removeStorageKeyJobQueue.add({
@@ -713,6 +706,10 @@ export async function startApp(): Promise<void> {
 
       if (window.isBeforeVersion(lastVersion, 'v5.19.0')) {
         await window.storage.remove(GROUP_CREDENTIALS_KEY);
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v5.37.0-alpha')) {
+        await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
       // This one should always be last - it could restart the app
