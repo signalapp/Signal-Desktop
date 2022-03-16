@@ -11,10 +11,11 @@ import { getProfile } from '../util/getProfile';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { strictAssert } from '../util/assert';
 import { isWhitespace } from '../util/whitespaceStringUtil';
+import type { AvatarUpdateType } from '../types/Avatar';
 
 export async function writeProfile(
   conversation: ConversationType,
-  avatarBuffer?: Uint8Array
+  avatar: AvatarUpdateType
 ): Promise<void> {
   // Before we write anything we request the user's profile so that we can
   // have an up-to-date paymentAddress to be able to include it when we write
@@ -41,7 +42,7 @@ export async function writeProfile(
 
   const [profileData, encryptedAvatarData] = await encryptProfileData(
     conversation,
-    avatarBuffer
+    avatar
   );
   const avatarRequestHeaders = await window.textsecure.messaging.putProfile(
     profileData
@@ -50,37 +51,49 @@ export async function writeProfile(
   // Upload the avatar if provided
   // delete existing files on disk if avatar has been removed
   // update the account's avatar path and hash if it's a new avatar
-  let profileAvatar:
-    | {
-        hash: string;
-        path: string;
-      }
-    | undefined;
-  if (avatarRequestHeaders && encryptedAvatarData && avatarBuffer) {
-    await window.textsecure.messaging.uploadAvatar(
+  const { newAvatar } = avatar;
+  let maybeProfileAvatarUpdate: {
+    profileAvatar?:
+      | {
+          hash: string;
+          path: string;
+        }
+      | undefined;
+  } = {};
+  if (profileData.sameAvatar) {
+    log.info('writeProfile: not updating avatar');
+  } else if (avatarRequestHeaders && encryptedAvatarData && newAvatar) {
+    log.info('writeProfile: uploading new avatar');
+    const avatarUrl = await window.textsecure.messaging.uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
     );
 
-    const hash = await computeHash(avatarBuffer);
+    const hash = await computeHash(newAvatar);
 
     if (hash !== avatarHash) {
+      log.info('writeProfile: removing old avatar and saving the new one');
       const [path] = await Promise.all([
-        window.Signal.Migrations.writeNewAttachmentData(avatarBuffer),
+        window.Signal.Migrations.writeNewAttachmentData(newAvatar),
         avatarPath
           ? window.Signal.Migrations.deleteAttachmentData(avatarPath)
           : undefined,
       ]);
-      profileAvatar = {
-        hash,
-        path,
+      maybeProfileAvatarUpdate = {
+        profileAvatar: { hash, path },
       };
     }
-  } else if (avatarPath) {
-    await window.Signal.Migrations.deleteAttachmentData(avatarPath);
-  }
 
-  const profileAvatarData = profileAvatar ? { profileAvatar } : {};
+    await window.storage.put('avatarUrl', avatarUrl);
+  } else if (avatarPath) {
+    log.info('writeProfile: removing avatar');
+    await Promise.all([
+      window.Signal.Migrations.deleteAttachmentData(avatarPath),
+      window.storage.put('avatarUrl', undefined),
+    ]);
+
+    maybeProfileAvatarUpdate = { profileAvatar: undefined };
+  }
 
   // Update backbone, update DB, run storage service upload
   model.set({
@@ -88,7 +101,7 @@ export async function writeProfile(
     aboutEmoji,
     profileName: firstName,
     profileFamilyName: familyName,
-    ...profileAvatarData,
+    ...maybeProfileAvatarUpdate,
   });
 
   dataInterface.updateConversation(model.attributes);

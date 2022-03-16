@@ -17,7 +17,7 @@ function mapStateToProps(
 ): Omit<PropsDataType, 'onEditStateChange' | 'onProfileChanged'> &
   ProfileEditorModalPropsType {
   const {
-    avatarPath,
+    profileAvatarPath,
     avatars: userAvatarData = [],
     aboutText,
     aboutEmoji,
@@ -34,7 +34,7 @@ function mapStateToProps(
   return {
     aboutEmoji,
     aboutText,
-    avatarPath,
+    profileAvatarPath,
     color,
     conversationId,
     familyName,

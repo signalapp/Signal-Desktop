@@ -107,7 +107,7 @@ export type StorageAccessType = {
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
   storageFetchComplete: boolean;
-  avatarUrl: string;
+  avatarUrl: string | undefined;
   manifestVersion: number;
   storageCredentials: StorageServiceCredentials;
   'storage-service-error-records': Array<UnknownRecord>;

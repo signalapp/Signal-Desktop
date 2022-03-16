@@ -65,6 +65,11 @@ export type SaveAvatarToDiskActionType = (
   conversationId?: string
 ) => unknown;
 
+export type AvatarUpdateType = Readonly<{
+  oldAvatar: Uint8Array | undefined;
+  newAvatar: Uint8Array | undefined;
+}>;
+
 const groupIconColors = [
   'A180',
   'A120',

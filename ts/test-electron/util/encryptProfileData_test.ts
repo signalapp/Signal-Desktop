@@ -10,13 +10,17 @@ import {
   decryptProfileName,
   decryptProfile,
 } from '../../Crypto';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { UUID } from '../../types/UUID';
 import { encryptProfileData } from '../../util/encryptProfileData';
 
 describe('encryptProfileData', () => {
-  it('encrypts and decrypts properly', async () => {
-    const keyBuffer = getRandomBytes(32);
-    const conversation = {
+  let keyBuffer: Uint8Array;
+  let conversation: ConversationType;
+
+  beforeEach(() => {
+    keyBuffer = getRandomBytes(32);
+    conversation = {
       aboutEmoji: '🐢',
       aboutText: 'I like turtles',
       familyName: 'Kid',
@@ -33,8 +37,13 @@ describe('encryptProfileData', () => {
       title: '',
       type: 'direct' as const,
     };
+  });
 
-    const [encrypted] = await encryptProfileData(conversation);
+  it('encrypts and decrypts properly', async () => {
+    const [encrypted] = await encryptProfileData(conversation, {
+      oldAvatar: undefined,
+      newAvatar: undefined,
+    });
 
     assert.isDefined(encrypted.version);
     assert.isDefined(encrypted.name);
@@ -82,5 +91,23 @@ describe('encryptProfileData', () => {
     } else {
       assert.isDefined(encrypted.aboutEmoji);
     }
+  });
+
+  it('sets sameAvatar to true when avatars are the same', async () => {
+    const [encrypted] = await encryptProfileData(conversation, {
+      oldAvatar: new Uint8Array([1, 2, 3]),
+      newAvatar: new Uint8Array([1, 2, 3]),
+    });
+
+    assert.isTrue(encrypted.sameAvatar);
+  });
+
+  it('sets sameAvatar to false when avatars are different', async () => {
+    const [encrypted] = await encryptProfileData(conversation, {
+      oldAvatar: new Uint8Array([1, 2, 3]),
+      newAvatar: new Uint8Array([4, 5, 6, 7]),
+    });
+
+    assert.isFalse(encrypted.sameAvatar);
   });
 });

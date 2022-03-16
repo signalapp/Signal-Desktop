@@ -7228,13 +7228,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarPreview.tsx",
-    "line": "  const startingAvatarPathRef = useRef<undefined | string>(",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-03T21:17:38.615Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
