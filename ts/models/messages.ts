@@ -150,6 +150,7 @@ import { findStoryMessage } from '../util/findStoryMessage';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
+import { getMessageById } from '../messages/getMessageById';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -303,6 +304,33 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !isUnsupportedMessage(attributes) &&
       !isVerifiedChange(attributes)
     );
+  }
+
+  async hydrateStoryContext(): Promise<void> {
+    const storyId = this.get('storyId');
+    if (!storyId) {
+      return;
+    }
+
+    if (this.get('storyReplyContext')) {
+      return;
+    }
+
+    const message = await getMessageById(storyId);
+
+    if (!message) {
+      return;
+    }
+
+    const attachments = message.get('attachments');
+
+    this.set({
+      storyReplyContext: {
+        attachment: attachments ? attachments[0] : undefined,
+        authorUuid: message.get('sourceUuid'),
+        messageId: message.get('id'),
+      },
+    });
   }
 
   getPropsForMessageDetail(ourConversationId: string): PropsForMessageDetail {
@@ -2212,6 +2240,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         quote,
         storyId: storyQuote?.id,
       };
+
       const dataMessage = await upgradeMessageSchema(withQuoteReference);
 
       try {

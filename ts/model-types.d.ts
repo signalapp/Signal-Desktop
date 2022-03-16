@@ -85,6 +85,12 @@ export type QuotedMessageType = {
   messageId: string;
 };
 
+type StoryReplyContextType = {
+  attachment?: AttachmentType;
+  authorUuid?: string;
+  messageId: string;
+};
+
 export type StickerMessageType = {
   packId: string;
   stickerId: number;
@@ -147,6 +153,7 @@ export type MessageAttributesType = {
   retryOptions?: RetryOptions;
   sourceDevice?: number;
   storyId?: string;
+  storyReplyContext?: StoryReplyContextType;
   supportedVersionAtReceive?: unknown;
   synced?: boolean;
   unidentifiedDeliveryReceived?: boolean;

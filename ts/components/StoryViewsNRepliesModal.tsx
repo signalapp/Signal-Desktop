@@ -146,10 +146,11 @@ export const StoryViewsNRepliesModal = ({
           {!replies.length && (
             <Quote
               authorTitle={authorTitle}
-              conversationColor="steel"
+              conversationColor="ultramarine"
               i18n={i18n}
               isFromMe={false}
               isViewOnce={false}
+              moduleClassName="StoryViewsNRepliesModal__quote"
               rawAttachment={storyPreviewAttachment}
               referencedMessageNotFound={false}
               text={i18n('message--getNotificationText--text-with-emoji', {

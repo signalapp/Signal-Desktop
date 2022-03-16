@@ -217,6 +217,13 @@ export type PropsData = {
     referencedMessageNotFound: boolean;
     isViewOnce: boolean;
   };
+  storyReplyContext?: {
+    authorTitle: string;
+    conversationColor: ConversationColorType;
+    customColor?: CustomColorType;
+    isFromMe: boolean;
+    rawAttachment?: QuotedAttachmentType;
+  };
   previews: Array<LinkPreviewType>;
 
   isTapToView?: boolean;
@@ -1255,6 +1262,59 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  public renderStoryReplyContext(): JSX.Element | null {
+    const {
+      conversationColor,
+      customColor,
+      direction,
+      i18n,
+      storyReplyContext,
+    } = this.props;
+
+    if (!storyReplyContext) {
+      return null;
+    }
+
+    const isIncoming = direction === 'incoming';
+
+    let curveTopLeft: boolean;
+    let curveTopRight: boolean;
+    if (this.shouldRenderAuthor()) {
+      curveTopLeft = false;
+      curveTopRight = false;
+    } else if (isIncoming) {
+      curveTopLeft = !this.isCollapsedAbove();
+      curveTopRight = true;
+    } else {
+      curveTopLeft = true;
+      curveTopRight = !this.isCollapsedAbove();
+    }
+
+    return (
+      <Quote
+        authorTitle={storyReplyContext.authorTitle}
+        conversationColor={conversationColor}
+        curveTopLeft={curveTopLeft}
+        curveTopRight={curveTopRight}
+        customColor={customColor}
+        i18n={i18n}
+        isFromMe={storyReplyContext.isFromMe}
+        isIncoming={isIncoming}
+        isViewOnce={false}
+        moduleClassName="StoryReplyQuote"
+        onClick={() => {
+          // TODO DESKTOP-3255
+        }}
+        rawAttachment={storyReplyContext.rawAttachment}
+        referencedMessageNotFound={false}
+        text={i18n('message--getNotificationText--text-with-emoji', {
+          text: i18n('message--getNotificationText--photo'),
+          emoji: '📷',
+        })}
+      />
+    );
+  }
+
   public renderEmbeddedContact(): JSX.Element | null {
     const {
       contact,
@@ -2284,6 +2344,7 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <>
         {this.renderQuote()}
+        {this.renderStoryReplyContext()}
         {this.renderAttachment()}
         {this.renderPreview()}
         {this.renderEmbeddedContact()}

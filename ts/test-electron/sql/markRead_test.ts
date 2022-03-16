@@ -125,8 +125,8 @@ describe('sql/markRead', () => {
     assert.lengthOf(await _getAllMessages(), 7);
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId),
-      3,
-      'uread count'
+      4,
+      'unread count'
     );
 
     const markedRead = await getUnreadByConversationAndMarkRead({
@@ -138,7 +138,7 @@ describe('sql/markRead', () => {
     assert.lengthOf(markedRead, 2, 'two messages marked read');
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId),
-      1,
+      2,
       'unread count'
     );
 
@@ -160,7 +160,7 @@ describe('sql/markRead', () => {
       readAt,
     });
 
-    assert.lengthOf(markedRead2, 1, 'one message marked read');
+    assert.lengthOf(markedRead2, 3, 'three messages marked read');
     assert.strictEqual(markedRead2[0].id, message7.id, 'should be message7');
 
     assert.strictEqual(

@@ -432,6 +432,55 @@ export const getReactionsForMessage = createSelectorCreator(
   (_, reactions): PropsData['reactions'] => reactions
 );
 
+export const getPropsForStoryReplyContext = createSelectorCreator(
+  memoizeByRoot,
+  isEqual
+)(
+  // `memoizeByRoot` requirement
+  identity,
+
+  (
+    message: Pick<
+      MessageWithUIFieldsType,
+      'body' | 'conversationId' | 'storyReplyContext'
+    >,
+    {
+      conversationSelector,
+      ourConversationId,
+    }: {
+      conversationSelector: GetConversationByIdType;
+      ourConversationId?: string;
+    }
+  ): PropsData['storyReplyContext'] => {
+    const { storyReplyContext } = message;
+    if (!storyReplyContext) {
+      return undefined;
+    }
+
+    const contact = conversationSelector(storyReplyContext.authorUuid);
+
+    const authorTitle = contact.title;
+    const isFromMe = contact.id === ourConversationId;
+
+    const conversation = getConversation(message, conversationSelector);
+
+    const { conversationColor, customColor } =
+      getConversationColorAttributes(conversation);
+
+    return {
+      authorTitle,
+      conversationColor,
+      customColor,
+      isFromMe,
+      rawAttachment: storyReplyContext.attachment
+        ? processQuoteAttachment(storyReplyContext.attachment)
+        : undefined,
+    };
+  },
+
+  (_, storyReplyContext): PropsData['storyReplyContext'] => storyReplyContext
+);
+
 export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
   // `memoizeByRoot` requirement
   identity,
@@ -651,6 +700,7 @@ export const getPropsForMessage: (
   getPreviewsForMessage,
   getReactionsForMessage,
   getPropsForQuote,
+  getPropsForStoryReplyContext,
   getShallowPropsForMessage,
   (
     _,
@@ -660,6 +710,7 @@ export const getPropsForMessage: (
     previews: Array<LinkPreviewType>,
     reactions: PropsData['reactions'],
     quote: PropsData['quote'],
+    storyReplyContext: PropsData['storyReplyContext'],
     shallowProps: ShallowPropsType
   ): Omit<PropsForMessage, 'renderingContext'> => {
     return {
@@ -669,6 +720,7 @@ export const getPropsForMessage: (
       previews,
       quote,
       reactions,
+      storyReplyContext,
       ...shallowProps,
     };
   }

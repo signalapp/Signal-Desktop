@@ -2086,7 +2086,7 @@ async function getUnreadByConversationAndMarkRead({
         ) AND
         expireTimer > 0 AND
         conversationId = $conversationId AND
-        storyId IS $storyId AND
+        ($storyId IS NULL OR storyId IS $storyId) AND
         received_at <= $newestUnreadAt;
       `
     ).run({
@@ -2105,7 +2105,7 @@ async function getUnreadByConversationAndMarkRead({
         WHERE
           readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
-          storyId IS $storyId AND
+          ($storyId IS NULL OR storyId IS $storyId) AND
           received_at <= $newestUnreadAt
         ORDER BY received_at DESC, sent_at DESC;
         `
@@ -2125,7 +2125,7 @@ async function getUnreadByConversationAndMarkRead({
         WHERE
           readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
-          storyId IS $storyId AND
+          ($storyId IS NULL OR storyId IS $storyId) AND
           received_at <= $newestUnreadAt;
         `
     ).run({
@@ -2360,7 +2360,7 @@ function getOlderMessagesByConversationSync(
         conversationId = $conversationId AND
         ($messageId IS NULL OR id IS NOT $messageId) AND
         isStory IS 0 AND
-        storyId IS $storyId AND
+        ($storyId IS NULL OR storyId IS $storyId) AND
         (
           (received_at = $received_at AND sent_at < $sent_at) OR
           received_at < $received_at
@@ -2453,7 +2453,7 @@ function getNewerMessagesByConversationSync(
       SELECT json FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
-        storyId IS $storyId AND
+        ($storyId IS NULL OR storyId IS $storyId) AND
         (
           (received_at = $received_at AND sent_at > $sent_at) OR
           received_at > $received_at
@@ -2483,7 +2483,7 @@ function getOldestMessageForConversation(
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
-        storyId IS $storyId
+        ($storyId IS NULL OR storyId IS $storyId)
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
       `
@@ -2510,7 +2510,7 @@ function getNewestMessageForConversation(
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
-        storyId IS $storyId
+        ($storyId IS NULL OR storyId IS $storyId)
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
       `
@@ -2651,7 +2651,7 @@ function getOldestUnreadMessageForConversation(
         conversationId = $conversationId AND
         readStatus = ${ReadStatus.Unread} AND
         isStory IS 0 AND
-        storyId IS $storyId
+        ($storyId IS NULL OR storyId IS $storyId)
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
       `
@@ -2688,7 +2688,7 @@ function getTotalUnreadForConversationSync(
         conversationId = $conversationId AND
         readStatus = ${ReadStatus.Unread} AND
         isStory IS 0 AND
-        storyId IS $storyId;
+        ($storyId IS NULL OR storyId IS $storyId);
       `
     )
     .get({

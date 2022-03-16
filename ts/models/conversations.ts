@@ -1711,6 +1711,8 @@ export class ConversationModel extends window.Backbone
       log.warn(`cleanModels: Upgraded schema of ${upgraded} messages`);
     }
 
+    await Promise.all(result.map(model => model.hydrateStoryContext()));
+
     return result;
   }
 

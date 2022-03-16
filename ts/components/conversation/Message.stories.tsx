@@ -31,7 +31,10 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 import { WidthBreakpoint } from '../_util';
 import { MINUTE } from '../../util/durations';
 
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import {
+  fakeAttachment,
+  fakeThumbnail,
+} from '../../test-both/helpers/fakeAttachment';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 
@@ -1462,4 +1465,23 @@ story.add('Collapsing text-only group messages', () => {
       text: 'Three',
     }),
   ]);
+});
+
+story.add('Story reply', () => {
+  const conversation = getDefaultConversation();
+
+  return (
+    <Message
+      {...createProps({ text: 'Wow!' })}
+      storyReplyContext={{
+        authorTitle: conversation.title,
+        conversationColor: ConversationColors[0],
+        isFromMe: false,
+        rawAttachment: fakeAttachment({
+          url: '/fixtures/snow.jpg',
+          thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
+        }),
+      }}
+    />
+  );
 });
