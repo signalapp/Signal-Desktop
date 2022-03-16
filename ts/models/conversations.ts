@@ -421,7 +421,21 @@ export class ConversationModel extends window.Backbone
     }
 
     const uuid = UUID.checkedLookup(id).toString();
-    return window._.any(pendingMembersV2, item => item.uuid === uuid);
+    return pendingMembersV2.some(item => item.uuid === uuid);
+  }
+
+  isMemberBanned(id: string): boolean {
+    if (!isGroupV2(this.attributes)) {
+      return false;
+    }
+    const bannedMembersV2 = this.get('bannedMembersV2');
+
+    if (!bannedMembersV2 || !bannedMembersV2.length) {
+      return false;
+    }
+
+    const uuid = UUID.checkedLookup(id).toString();
+    return bannedMembersV2.some(item => item === uuid);
   }
 
   isMemberAwaitingApproval(id: string): boolean {
@@ -1865,6 +1879,7 @@ export class ConversationModel extends window.Backbone
       messageCount: this.get('messageCount') || 0,
       pendingMemberships: this.getPendingMemberships(),
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
+      bannedMemberships: this.getBannedMemberships(),
       profileKey: this.get('profileKey'),
       messageRequestsEnabled,
       accessControlAddFromInviteLink:
@@ -2335,6 +2350,40 @@ export class ConversationModel extends window.Backbone
         'leaveGroupV2: We were neither a member nor a pending member of the group'
       );
     }
+  }
+
+  async addBannedMember(
+    uuid: UUIDStringType
+  ): Promise<Proto.GroupChange.Actions | undefined> {
+    if (this.isMember(uuid)) {
+      log.warn('addBannedMember: Member is a part of the group!');
+
+      return;
+    }
+
+    if (this.isMemberPending(uuid)) {
+      log.warn('addBannedMember: Member is pending to be added to group!');
+
+      return;
+    }
+
+    if (this.isMemberBanned(uuid)) {
+      log.warn('addBannedMember: Member is already banned!');
+
+      return;
+    }
+
+    return window.Signal.Groups.buildAddBannedMemberChange({
+      group: this.attributes,
+      uuid,
+    });
+  }
+
+  async blockGroupLinkRequests(uuid: UUIDStringType): Promise<void> {
+    await this.modifyGroupV2({
+      name: 'addBannedMember',
+      createGroupChange: async () => this.addBannedMember(uuid),
+    });
   }
 
   async toggleAdmin(conversationId: string): Promise<void> {
@@ -3495,6 +3544,14 @@ export class ConversationModel extends window.Backbone
     }));
   }
 
+  private getBannedMemberships(): Array<UUIDStringType> {
+    if (!isGroupV2(this.attributes)) {
+      return [];
+    }
+
+    return this.get('bannedMembersV2') || [];
+  }
+
   getMembers(
     options: { includePendingMembers?: boolean } = {}
   ): Array<ConversationModel> {
@@ -4069,17 +4126,17 @@ export class ConversationModel extends window.Backbone
     const conversationId = this.id;
 
     const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
-    const lastMessages = await window.Signal.Data.getLastConversationMessages({
+    const stats = await window.Signal.Data.getConversationMessageStats({
       conversationId,
       ourUuid,
     });
 
     // This runs as a job to avoid race conditions
     this.queueJob('maybeSetPendingUniversalTimer', async () =>
-      this.maybeSetPendingUniversalTimer(lastMessages.hasUserInitiatedMessages)
+      this.maybeSetPendingUniversalTimer(stats.hasUserInitiatedMessages)
     );
 
-    const { preview, activity } = lastMessages;
+    const { preview, activity } = stats;
     let previewMessage: MessageModel | undefined;
     let activityMessage: MessageModel | undefined;
 

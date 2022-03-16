@@ -171,6 +171,7 @@ export type ConversationType = {
   pendingApprovalMemberships?: Array<{
     uuid: UUIDStringType;
   }>;
+  bannedMemberships?: Array<UUIDStringType>;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
   type: ConversationTypeType;

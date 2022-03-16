@@ -5116,6 +5116,30 @@
       }
     }
   },
+  "GroupV2--admin-approval-bounce--one": {
+    "message": "$joinerName$ requested and cancelled their request to join via the group link",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--admin-approval-bounce": {
+    "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "joinerName": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "numberOfRequests": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
 
   "GroupV2--group-link-add--disabled--you": {
     "message": "You turned on the group link with admin approval disabled.",
@@ -5796,6 +5820,30 @@
     "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
     "description": "Information shown below the invite list"
   },
+
+  "PendingRequests--block--button": {
+    "message": "Block request",
+    "description": "Shown in timeline if users cancel their request to join a group via a group link"
+  },
+  "PendingRequests--block--title": {
+    "message": "Block request?",
+    "description": "Title of dialog to block a user from requesting to join via the link again"
+  },
+  "PendingRequests--block--contents": {
+    "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+    "description": "Details of dialog to block a user from requesting to join via the link again",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Annoying Person"
+      }
+    }
+  },
+  "PendingRequests--block--confirm": {
+    "message": "Block Request",
+    "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
+  },
+
   "AvatarInput--no-photo-label--group": {
     "message": "Add a group photo",
     "description": "The label for the avatar uploader when no group photo is selected"

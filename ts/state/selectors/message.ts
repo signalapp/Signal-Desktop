@@ -858,7 +858,10 @@ function getPropsForGroupV2Change(
   const conversation = getConversation(message, conversationSelector);
 
   return {
+    areWeAdmin: Boolean(conversation.areWeAdmin),
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
+    groupMemberships: conversation.memberships,
+    groupBannedMemberships: conversation.bannedMemberships,
     ourUuid,
     change,
   };

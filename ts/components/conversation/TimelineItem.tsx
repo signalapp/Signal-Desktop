@@ -45,7 +45,10 @@ import type { PropsData as VerificationNotificationProps } from './VerificationN
 import { VerificationNotification } from './VerificationNotification';
 import type { PropsData as GroupNotificationProps } from './GroupNotification';
 import { GroupNotification } from './GroupNotification';
-import type { PropsDataType as GroupV2ChangeProps } from './GroupV2Change';
+import type {
+  PropsDataType as GroupV2ChangeProps,
+  PropsActionsType as GroupV2ChangeActionsType,
+} from './GroupV2Change';
 import { GroupV2Change } from './GroupV2Change';
 import type { PropsDataType as GroupV1MigrationProps } from './GroupV1Migration';
 import { GroupV1Migration } from './GroupV1Migration';
@@ -161,6 +164,7 @@ type PropsLocalType = {
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
   DeliveryIssueActionProps &
+  GroupV2ChangeActionsType &
   PropsChatSessionRefreshedActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
@@ -190,7 +194,6 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       theme,
       nextItem,
       previousItem,
-      renderContact,
       renderUniversalTimerNotification,
       returnToActiveCall,
       selectMessage,
@@ -294,11 +297,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         );
       } else if (item.type === 'groupV2Change') {
         notification = (
-          <GroupV2Change
-            renderContact={renderContact}
-            {...item.data}
-            i18n={i18n}
-          />
+          <GroupV2Change {...this.props} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'groupV1Migration') {
         notification = (

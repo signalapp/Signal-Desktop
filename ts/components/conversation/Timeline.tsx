@@ -21,6 +21,7 @@ import { WidthBreakpoint } from '../_util';
 import type { PropsActions as MessageActionsType } from './Message';
 import type { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
 import type { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
+import type { PropsActionsType as GroupV2ChangeActionsType } from './GroupV2Change';
 import { ErrorBoundary } from './ErrorBoundary';
 import type { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
 import { Intl } from '../Intl';
@@ -167,6 +168,7 @@ export type PropsActionsType = {
 } & MessageActionsType &
   SafetyNumberActionsType &
   UnsupportedMessageActionsType &
+  GroupV2ChangeActionsType &
   ChatSessionRefreshedNotificationActionsType;
 
 export type PropsType = PropsDataType &
@@ -199,6 +201,7 @@ const getActions = createSelector(
   (props: PropsType): PropsActionsType => {
     const unsafe = pick(props, [
       'acknowledgeGroupMemberNameCollisions',
+      'blockGroupLinkRequests',
       'clearInvitedUuidsForNewlyCreatedGroup',
       'closeContactSpoofingReview',
       'setIsNearBottom',

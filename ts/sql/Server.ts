@@ -80,7 +80,7 @@ import type {
   IdentityKeyType,
   ItemKeyType,
   ItemType,
-  LastConversationMessagesType,
+  ConversationMessageStatsType,
   MessageMetricsType,
   MessageType,
   MessageTypeUnhydrated,
@@ -237,7 +237,8 @@ const dataInterface: ServerInterface = {
   getTotalUnreadForConversation,
   getMessageMetricsForConversation,
   getConversationRangeCenteredOnMessage,
-  getLastConversationMessages,
+  getConversationMessageStats,
+  getLastConversationMessage,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
@@ -1912,7 +1913,7 @@ async function saveMessage(
 }
 
 async function saveMessages(
-  arrayOfMessages: Array<MessageType>,
+  arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourUuid: UUIDStringType }
 ): Promise<void> {
   const db = getInstance();
@@ -2591,13 +2592,13 @@ function getLastConversationPreview({
   return jsonToObject(row.json);
 }
 
-async function getLastConversationMessages({
+async function getConversationMessageStats({
   conversationId,
   ourUuid,
 }: {
   conversationId: string;
   ourUuid: UUIDStringType;
-}): Promise<LastConversationMessagesType> {
+}): Promise<ConversationMessageStatsType> {
   const db = getInstance();
 
   return db.transaction(() => {
@@ -2610,6 +2611,32 @@ async function getLastConversationMessages({
       hasUserInitiatedMessages: hasUserInitiatedMessages(conversationId),
     };
   })();
+}
+
+async function getLastConversationMessage({
+  conversationId,
+}: {
+  conversationId: string;
+}): Promise<MessageType | undefined> {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT * FROM messages WHERE
+        conversationId = $conversationId
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 1;
+      `
+    )
+    .get({
+      conversationId,
+    });
+
+  if (!row) {
+    return undefined;
+  }
+
+  return jsonToObject(row.json);
 }
 
 function getOldestUnreadMessageForConversation(

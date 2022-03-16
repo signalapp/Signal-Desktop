@@ -13,7 +13,7 @@ const {
   removeAll,
   _getAllMessages,
   saveMessages,
-  getLastConversationMessages,
+  getConversationMessageStats,
 } = dataInterface;
 
 function getUuid(): UUIDStringType {
@@ -25,7 +25,7 @@ describe('sql/conversationSummary', () => {
     await removeAll();
   });
 
-  describe('getLastConversationMessages', () => {
+  describe('getConversationMessageStats', () => {
     it('returns the latest message in current conversation', async () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
@@ -67,7 +67,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -176,7 +176,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 8);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -293,7 +293,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 9);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -341,7 +341,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 2);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -390,7 +390,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 2);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -432,7 +432,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 2);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -476,7 +476,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 2);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });
@@ -535,7 +535,7 @@ describe('sql/conversationSummary', () => {
 
       assert.lengthOf(await _getAllMessages(), 2);
 
-      const messages = await getLastConversationMessages({
+      const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
       });

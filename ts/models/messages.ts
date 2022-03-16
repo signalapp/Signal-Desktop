@@ -51,6 +51,7 @@ import { isImage, isVideo } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import { stringToMIMEType } from '../types/MIME';
 import * as MIME from '../types/MIME';
+import * as GroupChange from '../groupChange';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
 import {
@@ -486,7 +487,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         'getNotificationData: isGroupV2Change true, but no groupV2Change!'
       );
 
-      const lines = window.Signal.GroupChange.renderChange<string>(change, {
+      const changes = GroupChange.renderChange<string>(change, {
         i18n: window.i18n,
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
         renderContact: (conversationId: string) => {
@@ -503,7 +504,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ) => window.i18n(key, components),
       });
 
-      return { text: lines.join(' ') };
+      return { text: changes.map(({ text }) => text).join(' ') };
     }
 
     const attachments = this.get('attachments') || [];

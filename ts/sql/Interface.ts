@@ -218,7 +218,7 @@ export type UnprocessedUpdateType = {
   decrypted?: string;
 };
 
-export type LastConversationMessagesType = {
+export type ConversationMessageStatsType = {
   activity?: MessageType;
   preview?: MessageType;
   hasUserInitiatedMessages: boolean;
@@ -379,7 +379,7 @@ export type DataInterface = {
     }
   ) => Promise<string>;
   saveMessages: (
-    arrayOfMessages: Array<MessageType>,
+    arrayOfMessages: ReadonlyArray<MessageType>,
     options: { forceSave?: boolean; ourUuid: UUIDStringType }
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
@@ -453,10 +453,13 @@ export type DataInterface = {
     storyId?: UUIDStringType
   ) => Promise<ConversationMetricsType>;
   // getConversationRangeCenteredOnMessage is JSON on server, full message on client
-  getLastConversationMessages: (options: {
+  getConversationMessageStats: (options: {
     conversationId: string;
     ourUuid: UUIDStringType;
-  }) => Promise<LastConversationMessagesType>;
+  }) => Promise<ConversationMessageStatsType>;
+  getLastConversationMessage(options: {
+    conversationId: string;
+  }): Promise<MessageType | undefined>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
     eraId: string

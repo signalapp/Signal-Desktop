@@ -337,6 +337,7 @@ const actions = () => ({
   acknowledgeGroupMemberNameCollisions: action(
     'acknowledgeGroupMemberNameCollisions'
   ),
+  blockGroupLinkRequests: action('blockGroupLinkRequests'),
   checkForAccount: action('checkForAccount'),
   clearInvitedUuidsForNewlyCreatedGroup: action(
     'clearInvitedUuidsForNewlyCreatedGroup'

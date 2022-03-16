@@ -3,10 +3,12 @@
 
 /* eslint-disable-next-line max-classes-per-file */
 import * as React from 'react';
+import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
 import { setupI18n } from '../../util/setupI18n';
 import { UUID } from '../../types/UUID';
+import type { UUIDStringType } from '../../types/UUID';
 import enMessages from '../../../_locales/en/messages.json';
 import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
@@ -34,9 +36,29 @@ const renderContact: SmartContactRendererType<FullJSXType> = (
   </React.Fragment>
 );
 
-const renderChange = (change: GroupV2ChangeType, groupName?: string) => (
+const renderChange = (
+  change: GroupV2ChangeType,
+  {
+    groupBannedMemberships,
+    groupMemberships,
+    groupName,
+    areWeAdmin = true,
+  }: {
+    groupMemberships?: Array<{
+      uuid: UUIDStringType;
+      isAdmin: boolean;
+    }>;
+    groupBannedMemberships?: Array<UUIDStringType>;
+    groupName?: string;
+    areWeAdmin?: boolean;
+  } = {}
+) => (
   <GroupV2Change
+    areWeAdmin={areWeAdmin ?? true}
+    blockGroupLinkRequests={action('blockGroupLinkRequests')}
     change={change}
+    groupBannedMemberships={groupBannedMemberships}
+    groupMemberships={groupMemberships}
     groupName={groupName}
     i18n={i18n}
     ourUuid={OUR_ID}
@@ -1176,15 +1198,22 @@ storiesOf('Components/Conversation/GroupV2Change', module)
             },
           ],
         })}
-        {renderChange({
-          from: CONTACT_A,
-          details: [
-            {
-              type: 'admin-approval-remove-one',
-              uuid: CONTACT_A,
-            },
-          ],
-        })}
+        Should show button:
+        {renderChange(
+          {
+            from: CONTACT_A,
+            details: [
+              {
+                type: 'admin-approval-remove-one',
+                uuid: CONTACT_A,
+              },
+            ],
+          },
+          {
+            groupMemberships: [{ uuid: CONTACT_C, isAdmin: false }],
+            groupBannedMemberships: [CONTACT_B],
+          }
+        )}
         {renderChange({
           from: ADMIN_A,
           details: [
@@ -1194,14 +1223,62 @@ storiesOf('Components/Conversation/GroupV2Change', module)
             },
           ],
         })}
-        {renderChange({
-          details: [
-            {
-              type: 'admin-approval-remove-one',
-              uuid: CONTACT_A,
-            },
-          ],
-        })}
+        Should show button:
+        {renderChange(
+          {
+            details: [
+              {
+                type: 'admin-approval-remove-one',
+                uuid: CONTACT_A,
+              },
+            ],
+          },
+          {
+            groupMemberships: [{ uuid: CONTACT_C, isAdmin: false }],
+            groupBannedMemberships: [CONTACT_B],
+          }
+        )}
+        Would show button, but we&apos;re not admin:
+        {renderChange(
+          {
+            from: CONTACT_A,
+            details: [
+              {
+                type: 'admin-approval-remove-one',
+                uuid: CONTACT_A,
+              },
+            ],
+          },
+
+          { areWeAdmin: false, groupName: 'Group 1' }
+        )}
+        Would show button, but user is a group member:
+        {renderChange(
+          {
+            from: CONTACT_A,
+            details: [
+              {
+                type: 'admin-approval-remove-one',
+                uuid: CONTACT_A,
+              },
+            ],
+          },
+          { groupMemberships: [{ uuid: CONTACT_A, isAdmin: false }] }
+        )}
+        Would show button, but user is already banned:
+        {renderChange(
+          {
+            from: CONTACT_A,
+            details: [
+              {
+                type: 'admin-approval-remove-one',
+                uuid: CONTACT_A,
+              },
+            ],
+          },
+
+          { groupBannedMemberships: [CONTACT_A] }
+        )}
       </>
     );
   })
@@ -1367,7 +1444,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               },
             ],
           },
-          'We do hikes 🌲'
+          { groupName: 'We do hikes 🌲' }
         )}
         {renderChange(
           {
@@ -1380,7 +1457,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               },
             ],
           },
-          'We do hikes 🌲'
+          { groupName: 'We do hikes 🌲' }
         )}
         {renderChange(
           {
@@ -1392,7 +1469,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               },
             ],
           },
-          'We do hikes 🌲'
+          { groupName: 'We do hikes 🌲' }
         )}
       </>
     );

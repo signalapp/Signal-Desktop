@@ -56,7 +56,7 @@ import type {
   IdentityKeyType,
   ItemKeyType,
   ItemType,
-  LastConversationMessagesType,
+  ConversationMessageStatsType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyIdType,
@@ -241,7 +241,8 @@ const dataInterface: ClientInterface = {
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
   getConversationRangeCenteredOnMessage,
-  getLastConversationMessages,
+  getConversationMessageStats,
+  getLastConversationMessage,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
@@ -1097,7 +1098,7 @@ async function saveMessage(
 }
 
 async function saveMessages(
-  arrayOfMessages: Array<MessageType>,
+  arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourUuid: UUIDStringType }
 ) {
   await channels.saveMessages(
@@ -1291,15 +1292,15 @@ async function getNewerMessagesByConversation(
 
   return handleMessageJSON(messages);
 }
-async function getLastConversationMessages({
+async function getConversationMessageStats({
   conversationId,
   ourUuid,
 }: {
   conversationId: string;
   ourUuid: UUIDStringType;
-}): Promise<LastConversationMessagesType> {
+}): Promise<ConversationMessageStatsType> {
   const { preview, activity, hasUserInitiatedMessages } =
-    await channels.getLastConversationMessages({
+    await channels.getConversationMessageStats({
       conversationId,
       ourUuid,
     });
@@ -1309,6 +1310,13 @@ async function getLastConversationMessages({
     activity,
     hasUserInitiatedMessages,
   };
+}
+async function getLastConversationMessage({
+  conversationId,
+}: {
+  conversationId: string;
+}) {
+  return channels.getLastConversationMessage({ conversationId });
 }
 async function getMessageMetricsForConversation(
   conversationId: string,

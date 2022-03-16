@@ -61,6 +61,7 @@ export type TimelinePropsType = ExternalProps &
     ComponentPropsType,
     | 'acknowledgeGroupMemberNameCollisions'
     | 'contactSupport'
+    | 'blockGroupLinkRequests'
     | 'deleteMessage'
     | 'deleteMessageForEveryone'
     | 'displayTapToViewMessage'

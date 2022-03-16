@@ -186,6 +186,12 @@ type GroupV2AdminApprovalRemoveOneChangeType = {
   uuid: UUIDStringType;
   inviter?: UUIDStringType;
 };
+type GroupV2AdminApprovalBounceChangeType = {
+  type: 'admin-approval-bounce';
+  times: number;
+  isApprovalPending: boolean;
+  uuid: UUIDStringType;
+};
 export type GroupV2DescriptionChangeType = {
   type: 'description';
   removed?: boolean;
@@ -200,6 +206,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2AccessMembersChangeType
   | GroupV2AdminApprovalAddOneChangeType
   | GroupV2AdminApprovalRemoveOneChangeType
+  | GroupV2AdminApprovalBounceChangeType
   | GroupV2AnnouncementsOnlyChangeType
   | GroupV2AvatarChangeType
   | GroupV2DescriptionChangeType
@@ -249,7 +256,7 @@ type MemberType = {
 };
 type UpdatesResultType = {
   // The array of new messages to be added into the message timeline
-  groupChangeMessages: Array<MessageAttributesType>;
+  groupChangeMessages: Array<GroupChangeMessageType>;
   // The set of members in the group, and we largely just pull profile keys for each,
   //   because the group membership is updated in newAttributes
   members: Array<MemberType>;
@@ -262,6 +269,33 @@ type UploadedAvatarType = {
   hash: string;
   key: string;
 };
+
+type BasicMessageType = Pick<MessageAttributesType, 'id' | 'schemaVersion'>;
+
+type GroupV2ChangeMessageType = {
+  type: 'group-v2-change';
+} & Pick<MessageAttributesType, 'groupV2Change' | 'sourceUuid'>;
+
+type GroupV1MigrationMessageType = {
+  type: 'group-v1-migration';
+} & Pick<
+  MessageAttributesType,
+  'invitedGV2Members' | 'droppedGV2MemberIds' | 'groupMigration'
+>;
+
+type TimerNotificationMessageType = {
+  type: 'timer-notification';
+} & Pick<
+  MessageAttributesType,
+  'sourceUuid' | 'flags' | 'expirationTimerUpdate'
+>;
+
+type GroupChangeMessageType = BasicMessageType &
+  (
+    | GroupV2ChangeMessageType
+    | GroupV1MigrationMessageType
+    | TimerNotificationMessageType
+  );
 
 // Constants
 
@@ -276,6 +310,14 @@ const GROUP_NONEXISTENT_CODE = 404;
 const SUPPORTED_CHANGE_EPOCH = 4;
 export const LINK_VERSION_ERROR = 'LINK_VERSION_ERROR';
 const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
+
+function generateBasicMessage(): BasicMessageType {
+  return {
+    id: getGuid(),
+    schemaVersion: MAX_MESSAGE_SCHEMA,
+    // this is missing most properties to fulfill this type
+  };
+}
 
 // Group Links
 
@@ -1138,6 +1180,47 @@ export function buildDeleteMemberChange({
   return actions;
 }
 
+export function buildAddBannedMemberChange({
+  uuid,
+  group,
+}: {
+  uuid: UUIDStringType;
+  group: ConversationAttributesType;
+}): Proto.GroupChange.Actions {
+  const actions = new Proto.GroupChange.Actions();
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildAddBannedMemberChange: group was missing secretParams!'
+    );
+  }
+  const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+  const addMemberBannedAction =
+    new Proto.GroupChange.Actions.AddMemberBannedAction();
+
+  addMemberBannedAction.added = new Proto.MemberBanned();
+  addMemberBannedAction.added.userId = uuidCipherTextBuffer;
+
+  actions.addMembersBanned = [addMemberBannedAction];
+
+  if (group.pendingAdminApprovalV2?.some(item => item.uuid === uuid)) {
+    const deleteMemberPendingAdminApprovalAction =
+      new Proto.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
+
+    deleteMemberPendingAdminApprovalAction.deletedUserId = uuidCipherTextBuffer;
+
+    actions.deleteMemberPendingAdminApprovals = [
+      deleteMemberPendingAdminApprovalAction,
+    ];
+  }
+
+  actions.version = (group.revision || 0) + 1;
+
+  return actions;
+}
+
 export function buildModifyMemberRoleChange({
   uuid,
   group,
@@ -1692,13 +1775,14 @@ export async function createGroupV2({
     conversationId: conversation.id,
     received_at: window.Signal.Util.incrementMessageCounter(),
     received_at_ms: timestamp,
+    timestamp,
     sent_at: timestamp,
     groupV2Change: {
       from: ourUuid,
       details: [{ type: 'create' }],
     },
   };
-  await window.Signal.Data.saveMessages([createdTheGroupMessage], {
+  await dataInterface.saveMessages([createdTheGroupMessage], {
     forceSave: true,
     ourUuid,
   });
@@ -2127,7 +2211,7 @@ export async function initiateMigrationToGroupV2(
         throw error;
       }
 
-      const groupChangeMessages: Array<MessageAttributesType> = [];
+      const groupChangeMessages: Array<GroupChangeMessageType> = [];
       groupChangeMessages.push({
         ...generateBasicMessage(),
         type: 'group-v1-migration',
@@ -2210,7 +2294,7 @@ export async function waitThenRespondToGroupV2Migration(
 export function buildMigrationBubble(
   previousGroupV1MembersIds: Array<string>,
   newAttributes: ConversationAttributesType
-): MessageAttributesType {
+): GroupChangeMessageType {
   const ourUuid = window.storage.user.getCheckedUuid().toString();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
@@ -2249,7 +2333,7 @@ export function buildMigrationBubble(
   };
 }
 
-export function getBasicMigrationBubble(): MessageAttributesType {
+export function getBasicMigrationBubble(): GroupChangeMessageType {
   return {
     ...generateBasicMessage(),
     type: 'group-v1-migration',
@@ -2322,7 +2406,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
     derivedGroupV2Id: undefined,
     members: undefined,
   };
-  const groupChangeMessages: Array<MessageAttributesType> = [
+  const groupChangeMessages: Array<GroupChangeMessageType> = [
     {
       ...generateBasicMessage(),
       type: 'group-v1-migration',
@@ -2536,7 +2620,7 @@ export async function respondToGroupV2Migration({
   });
 
   // Generate notifications into the timeline
-  const groupChangeMessages: Array<MessageAttributesType> = [];
+  const groupChangeMessages: Array<GroupChangeMessageType> = [];
 
   groupChangeMessages.push(
     buildMigrationBubble(previousGroupV1MembersIds, newAttributes)
@@ -2749,6 +2833,7 @@ async function updateGroup(
 
   // Save all synthetic messages describing group changes
   let syntheticSentAt = initialSentAt - (groupChangeMessages.length + 1);
+  const timestamp = Date.now();
   const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
     // We do this to preserve the order of the timeline. We only update sentAt to ensure
     //   that we don't stomp on messages received around the same time as the message
@@ -2761,6 +2846,7 @@ async function updateGroup(
       received_at: finalReceivedAt,
       received_at_ms: syntheticSentAt,
       sent_at: syntheticSentAt,
+      timestamp,
     };
   });
 
@@ -2801,15 +2887,7 @@ async function updateGroup(
   }
 
   if (changeMessagesToSave.length > 0) {
-    await window.Signal.Data.saveMessages(changeMessagesToSave, {
-      forceSave: true,
-      ourUuid: ourUuid.toString(),
-    });
-    changeMessagesToSave.forEach(changeMessage => {
-      const model = new window.Whisper.Message(changeMessage);
-      window.MessageController.register(model.id, model);
-      conversation.trigger('newmessage', model);
-    });
+    await appendChangeMessages(conversation, changeMessagesToSave);
   }
 
   // We update group membership last to ensure that all notifications are in place before
@@ -2827,7 +2905,210 @@ async function updateGroup(
     conversation.trigger('idUpdated', conversation, 'groupId', previousId);
   }
 
-  // No need for convo.updateLastMessage(), 'newmessage' handler does that
+  // Save these most recent updates to conversation
+  await updateConversation(conversation.attributes);
+}
+
+// Exported for testing
+export function _mergeGroupChangeMessages(
+  first: MessageAttributesType | undefined,
+  second: MessageAttributesType
+): MessageAttributesType | undefined {
+  if (!first) {
+    return undefined;
+  }
+
+  if (first.type !== 'group-v2-change' || second.type !== first.type) {
+    return undefined;
+  }
+
+  const { groupV2Change: firstChange } = first;
+  const { groupV2Change: secondChange } = second;
+  if (!firstChange || !secondChange) {
+    return undefined;
+  }
+
+  if (firstChange.details.length !== 1 && secondChange.details.length !== 1) {
+    return undefined;
+  }
+
+  const [firstDetail] = firstChange.details;
+  const [secondDetail] = secondChange.details;
+  let isApprovalPending: boolean;
+  if (secondDetail.type === 'admin-approval-add-one') {
+    isApprovalPending = true;
+  } else if (secondDetail.type === 'admin-approval-remove-one') {
+    isApprovalPending = false;
+  } else {
+    return undefined;
+  }
+
+  const { uuid } = secondDetail;
+  strictAssert(uuid, 'admin approval message should have uuid');
+
+  let updatedDetail;
+  // Member was previously added and is now removed
+  if (
+    !isApprovalPending &&
+    firstDetail.type === 'admin-approval-add-one' &&
+    firstDetail.uuid === uuid
+  ) {
+    updatedDetail = {
+      type: 'admin-approval-bounce' as const,
+      uuid,
+      times: 1,
+      isApprovalPending,
+    };
+
+    // There is an existing bounce event - merge this one into it.
+  } else if (
+    firstDetail.type === 'admin-approval-bounce' &&
+    firstDetail.uuid === uuid &&
+    firstDetail.isApprovalPending === !isApprovalPending
+  ) {
+    updatedDetail = {
+      type: 'admin-approval-bounce' as const,
+      uuid,
+      times: firstDetail.times + (isApprovalPending ? 0 : 1),
+      isApprovalPending,
+    };
+  } else {
+    return undefined;
+  }
+
+  return {
+    ...first,
+    groupV2Change: {
+      ...first.groupV2Change,
+      details: [updatedDetail],
+    },
+  };
+}
+
+// Exported for testing
+export function _isGroupChangeMessageBounceable(
+  message: MessageAttributesType
+): boolean {
+  if (message.type !== 'group-v2-change') {
+    return false;
+  }
+
+  const { groupV2Change } = message;
+  if (!groupV2Change) {
+    return false;
+  }
+
+  if (groupV2Change.details.length !== 1) {
+    return false;
+  }
+
+  const [first] = groupV2Change.details;
+  if (
+    first.type === 'admin-approval-add-one' ||
+    first.type === 'admin-approval-bounce'
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+async function appendChangeMessages(
+  conversation: ConversationModel,
+  messages: ReadonlyArray<MessageAttributesType>
+): Promise<void> {
+  const logId = conversation.idForLogging();
+
+  log.info(
+    `appendChangeMessages/${logId}: processing ${messages.length} messages`
+  );
+
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+
+  let lastMessage = await dataInterface.getLastConversationMessage({
+    conversationId: conversation.id,
+  });
+
+  if (lastMessage && !_isGroupChangeMessageBounceable(lastMessage)) {
+    lastMessage = undefined;
+  }
+
+  const mergedMessages = [];
+  let previousMessage = lastMessage;
+  for (const message of messages) {
+    const merged = _mergeGroupChangeMessages(previousMessage, message);
+    if (!merged) {
+      if (previousMessage && previousMessage !== lastMessage) {
+        mergedMessages.push(previousMessage);
+      }
+      previousMessage = message;
+      continue;
+    }
+
+    previousMessage = merged;
+    log.info(
+      `appendChangeMessages/${logId}: merged ${message.id} into ${merged.id}`
+    );
+  }
+
+  if (previousMessage && previousMessage !== lastMessage) {
+    mergedMessages.push(previousMessage);
+  }
+
+  // Update existing message
+  if (lastMessage && mergedMessages[0]?.id === lastMessage?.id) {
+    const [first, ...rest] = mergedMessages;
+    strictAssert(first !== undefined, 'First message must be there');
+
+    log.info(`appendChangeMessages/${logId}: updating ${first.id}`);
+    await dataInterface.saveMessage(first, {
+      ourUuid: ourUuid.toString(),
+
+      // We don't use forceSave here because this is an update of existing
+      // message.
+    });
+
+    log.info(
+      `appendChangeMessages/${logId}: saving ${rest.length} new messages`
+    );
+    await dataInterface.saveMessages(rest, {
+      ourUuid: ourUuid.toString(),
+      forceSave: true,
+    });
+  } else {
+    log.info(
+      `appendChangeMessages/${logId}: saving ${mergedMessages.length} new messages`
+    );
+    await dataInterface.saveMessages(mergedMessages, {
+      ourUuid: ourUuid.toString(),
+      forceSave: true,
+    });
+  }
+
+  let newMessages = 0;
+  for (const changeMessage of mergedMessages) {
+    const existing = window.MessageController.getById(changeMessage.id);
+
+    // Update existing message
+    if (existing) {
+      strictAssert(
+        changeMessage.id === lastMessage?.id,
+        'Should only update group change that was already in the database'
+      );
+      existing.set(changeMessage);
+      continue;
+    }
+
+    const model = new window.Whisper.Message(changeMessage);
+    window.MessageController.register(model.id, model);
+    conversation.trigger('newmessage', model);
+    newMessages += 1;
+  }
+
+  // We updated the message, but didn't add new ones - refresh left pane
+  if (!newMessages && mergedMessages.length > 0) {
+    await conversation.updateLastMessage();
+  }
 }
 
 type GetGroupUpdatesType = Readonly<{
@@ -2915,7 +3196,10 @@ async function getGroupUpdates({
     );
   }
 
-  if (isNumber(newRevision) && window.GV2_ENABLE_CHANGE_PROCESSING) {
+  if (
+    (!isFirstFetch || isNumber(newRevision)) &&
+    window.GV2_ENABLE_CHANGE_PROCESSING
+  ) {
     try {
       const result = await updateGroupViaLogs({
         group,
@@ -3063,7 +3347,7 @@ async function updateGroupViaLogs({
   newRevision,
 }: {
   group: ConversationAttributesType;
-  newRevision: number;
+  newRevision: number | undefined;
   serverPublicParamsBase64: string;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
@@ -3081,7 +3365,9 @@ async function updateGroupViaLogs({
   };
   try {
     log.info(
-      `updateGroupViaLogs/${logId}: Getting group delta from ${group.revision} to ${newRevision} for group groupv2(${group.groupId})...`
+      `updateGroupViaLogs/${logId}: Getting group delta from ` +
+        `${group.revision ?? '?'} to ${newRevision ?? '?'} for group ` +
+        `groupv2(${group.groupId})...`
     );
     const result = await getGroupDelta(deltaOptions);
 
@@ -3099,14 +3385,6 @@ async function updateGroupViaLogs({
     }
     throw error;
   }
-}
-
-function generateBasicMessage() {
-  return {
-    id: getGuid(),
-    schemaVersion: MAX_MESSAGE_SCHEMA,
-    // this is missing most properties to fulfill this type
-  } as MessageAttributesType;
 }
 
 async function generateLeftGroupChanges(
@@ -3148,7 +3426,7 @@ async function generateLeftGroupChanges(
   const isNewlyRemoved =
     existingMembers.length > (newAttributes.membersV2 || []).length;
 
-  const youWereRemovedMessage: MessageAttributesType = {
+  const youWereRemovedMessage: GroupChangeMessageType = {
     ...generateBasicMessage(),
     type: 'group-v2-change',
     groupV2Change: {
@@ -3202,7 +3480,7 @@ async function getGroupDelta({
   authCredentialBase64,
 }: {
   group: ConversationAttributesType;
-  newRevision: number;
+  newRevision: number | undefined;
   serverPublicParamsBase64: string;
   authCredentialBase64: string;
 }): Promise<UpdatesResultType> {
@@ -3225,6 +3503,7 @@ async function getGroupDelta({
   });
 
   const currentRevision = group.revision;
+  let latestRevision = newRevision;
   const isFirstFetch = !isNumber(currentRevision);
   let revisionToFetch = isNumber(currentRevision)
     ? currentRevision + 1
@@ -3247,14 +3526,22 @@ async function getGroupDelta({
     if (response.end) {
       revisionToFetch = response.end + 1;
     }
-  } while (response.end && response.end < newRevision);
+
+    if (latestRevision === undefined) {
+      latestRevision = response.currentRevision ?? response.end;
+    }
+  } while (
+    response.end &&
+    latestRevision !== undefined &&
+    response.end < latestRevision
+  );
 
   // Would be nice to cache the unused groupChanges here, to reduce server roundtrips
 
   return integrateGroupChanges({
     changes,
     group,
-    newRevision,
+    newRevision: latestRevision,
   });
 }
 
@@ -3264,12 +3551,12 @@ async function integrateGroupChanges({
   changes,
 }: {
   group: ConversationAttributesType;
-  newRevision: number;
+  newRevision: number | undefined;
   changes: Array<Proto.IGroupChanges>;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   let attributes = group;
-  const finalMessages: Array<Array<MessageAttributesType>> = [];
+  const finalMessages: Array<Array<GroupChangeMessageType>> = [];
   const finalMembers: Array<Array<MemberType>> = [];
 
   const imax = changes.length;
@@ -3361,7 +3648,7 @@ async function integrateGroupChange({
   group: ConversationAttributesType;
   groupChange?: Proto.IGroupChange;
   groupState?: Proto.IGroup;
-  newRevision: number;
+  newRevision: number | undefined;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   if (!group.secretParams) {
@@ -3396,6 +3683,7 @@ async function integrateGroupChange({
 
     if (
       groupChangeActions.version &&
+      newRevision !== undefined &&
       groupChangeActions.version > newRevision
     ) {
       return {
@@ -3571,7 +3859,7 @@ function extractDiffs({
   dropInitialJoinMessage?: boolean;
   old: ConversationAttributesType;
   sourceUuid?: UUIDStringType;
-}): Array<MessageAttributesType> {
+}): Array<GroupChangeMessageType> {
   const logId = idForLogging(old.groupId);
   const details: Array<GroupV2ChangeDetailType> = [];
   const ourUuid = window.storage.user.getCheckedUuid().toString();
@@ -3870,8 +4158,8 @@ function extractDiffs({
 
   // final processing
 
-  let message: MessageAttributesType | undefined;
-  let timerNotification: MessageAttributesType | undefined;
+  let message: GroupChangeMessageType | undefined;
+  let timerNotification: GroupChangeMessageType | undefined;
 
   const firstUpdate = !isNumber(old.revision);
 

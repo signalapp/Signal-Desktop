@@ -70,6 +70,11 @@ export class Intl extends React.Component<Props> {
   public override render() {
     const { components, id, i18n, renderText } = this.props;
 
+    if (!id) {
+      log.error('Error: Intl id prop not provided');
+      return null;
+    }
+
     const text = i18n(id);
     const results: Array<
       string | JSX.Element | Array<string | JSX.Element> | null
