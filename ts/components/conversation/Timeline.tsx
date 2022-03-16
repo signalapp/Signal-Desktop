@@ -269,6 +269,7 @@ export class Timeline extends React.Component<
   private readonly atBottomDetectorRef = React.createRef<HTMLDivElement>();
   private readonly lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   private intersectionObserver?: IntersectionObserver;
+  private intersectionObserverCallbackFrame?: number;
 
   // This is a best guess. It will likely be overridden when the timeline is measured.
   private maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
@@ -402,6 +403,10 @@ export class Timeline extends React.Component<
     //   this another way, but this approach works.)
     this.intersectionObserver?.disconnect();
 
+    if (this.intersectionObserverCallbackFrame !== undefined) {
+      window.cancelAnimationFrame(this.intersectionObserverCallbackFrame);
+    }
+
     const intersectionRatios = new Map<Element, number>();
 
     const intersectionObserverCallback: IntersectionObserverCallback =
@@ -492,7 +497,26 @@ export class Timeline extends React.Component<
       };
 
     this.intersectionObserver = new IntersectionObserver(
-      intersectionObserverCallback,
+      (entries, observer) => {
+        assert(
+          this.intersectionObserver === observer,
+          'observer.disconnect() should prevent callbacks from firing'
+        );
+
+        // `react-measure` schedules the callbacks on the next tick and so
+        // should we because we want other parts of this component to respond
+        // to resize events before we recalculate what is visible.
+        this.intersectionObserverCallbackFrame = window.requestAnimationFrame(
+          () => {
+            // Observer was updated from under us
+            if (this.intersectionObserver !== observer) {
+              return;
+            }
+
+            intersectionObserverCallback(entries, observer);
+          }
+        );
+      },
       {
         root: containerEl,
         threshold: [0, 1],
