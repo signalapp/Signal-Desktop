@@ -954,7 +954,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
     UserUtils.getOurPubKeyStrFromCache(),
     Date.now()
   );
-
+  await convo.setIsApproved(true, false);
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
