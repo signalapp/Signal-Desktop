@@ -60,7 +60,7 @@ export async function sendGroupUpdate(
       untrustedConversationIds,
     });
     throw new Error(
-      `Delete for everyone blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Failing this attempt.`
+      `Group update blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Failing this attempt.`
     );
   }
 
