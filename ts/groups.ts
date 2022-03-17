@@ -7,6 +7,7 @@ import {
   flatten,
   fromPairs,
   isNumber,
+  last,
   values,
 } from 'lodash';
 import type { ClientZkGroupCipher } from '@signalapp/signal-client/zkgroup';
@@ -3517,7 +3518,7 @@ async function getGroupDelta({
       {
         startVersion: revisionToFetch,
         includeFirstState: isFirstFetch,
-        includeLastState: false,
+        includeLastState: true,
         maxSupportedChangeEpoch: SUPPORTED_CHANGE_EPOCH,
       },
       options
@@ -3602,6 +3603,41 @@ async function integrateGroupChanges({
           error && error.stack ? error.stack : error
         );
       }
+    }
+  }
+
+  const lastState = last(last(changes)?.groupChanges)?.groupState;
+
+  // Apply the last included state if present to make sure that we didn't miss
+  // anything in the log processing above.
+  if (lastState) {
+    try {
+      const { newAttributes, groupChangeMessages, members } =
+        await integrateGroupChange({
+          group: attributes,
+          newRevision,
+          groupState: lastState,
+        });
+
+      if (groupChangeMessages.length !== 0 || finalMembers.length !== 0) {
+        assert(false, 'Fallback group state processing should not kick in');
+
+        log.warn(
+          `integrateGroupChanges/${logId}: local state was different from ` +
+            'the remote final state. ' +
+            `Got ${groupChangeMessages.length} change messages, and ` +
+            `${finalMembers.length} updated members`
+        );
+      }
+
+      attributes = newAttributes;
+      finalMessages.push(groupChangeMessages);
+      finalMembers.push(members);
+    } catch (error) {
+      log.error(
+        `integrateGroupChanges/${logId}: Failed to apply final state`,
+        Errors.toLogFormat(error)
+      );
     }
   }
 
