@@ -2190,23 +2190,6 @@ export async function startApp(): Promise<void> {
 
       window.storage.onready(async () => {
         idleDetector.start();
-
-        // Kick off a profile refresh if necessary, but don't wait for it, as failure is
-        //   tolerable.
-        const ourConversationId =
-          window.ConversationController.getOurConversationId();
-        if (ourConversationId) {
-          routineProfileRefresh({
-            allConversations: window.ConversationController.getAll(),
-            ourConversationId,
-            storage: window.storage,
-          });
-        } else {
-          assert(
-            false,
-            'Failed to fetch our conversation ID. Skipping routine profile refresh'
-          );
-        }
       });
 
       if (!challengeHandler) {
@@ -2347,6 +2330,23 @@ export async function startApp(): Promise<void> {
     window.reduxActions.crashReports.setCrashReportCount(
       await window.crashReports.getCount()
     );
+
+    // Kick off a profile refresh if necessary, but don't wait for it, as failure is
+    //   tolerable.
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+    if (ourConversationId) {
+      routineProfileRefresh({
+        allConversations: window.ConversationController.getAll(),
+        ourConversationId,
+        storage: window.storage,
+      });
+    } else {
+      assert(
+        false,
+        'Failed to fetch our conversation ID. Skipping routine profile refresh'
+      );
+    }
   }
 
   let initialStartupCount = 0;
