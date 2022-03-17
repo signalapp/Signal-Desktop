@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-CustomizingPreferredReactionsModal {
+  &__overlay-container {
+    z-index: $z-index-above-context-menu;
+  }
+
   &__small-emoji-picker-wrapper {
     @include font-subtitle;
     align-items: center;
