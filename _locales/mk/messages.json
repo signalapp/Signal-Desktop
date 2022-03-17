@@ -3466,7 +3466,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Report Spam and Block",
+        "message": "Пријави спам и блокирај",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -6420,11 +6420,11 @@
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
-        "message": "First Name (Required)",
+        "message": "Име (задолжително)",
         "description": "Placeholder text for first name field"
     },
     "ProfileEditor--last-name": {
-        "message": "Last Name (Optional)",
+        "message": "Презиме (опционално)",
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {

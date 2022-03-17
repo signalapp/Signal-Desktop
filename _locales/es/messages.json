@@ -6960,15 +6960,15 @@
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.36--1": {
-        "message": "¿Escanear rápidamente ese grupo de chat? Hay más espacio para ver más mensajes en la pantalla de un vistazo. Ahora agrupamos los mensajes por remitente si se han recibido próximos en el tiempo.",
+        "message": "¿Escanear rápidamente ese grupo de chat? Verás más mensajes en menos espacio en tu pantalla. Ahora agrupamos los mensajes por remitente si se han recibido próximos en el tiempo.",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--2": {
-        "message": "Cuando haces un Eliminar para todos ahora verás un indicador de progreso haciéndote saber si se ha realizado con éxito o no. ¡Si falla por cualquier razón, podrás volver a intentarlo!",
+        "message": "Cuando decides «Eliminar un mensaje del chat» para tod@s sus participantes verás un indicador de progreso haciéndote saber si se ha realizado con éxito o no. Si falla por cualquier razón, ¡podrás volver a intentarlo!",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--3": {
-        "message": "¡Gracias a nuestos traductores voluntarios, hemos añadido compatibilidad con el Gaélico escocés!",
+        "message": "Gracias a nuestr@s traductor@s voluntari@s, ¡hemos añadido compatibilidad con el Gaélico escocés!",
         "description": "Release notes for v5.36"
     }
 }

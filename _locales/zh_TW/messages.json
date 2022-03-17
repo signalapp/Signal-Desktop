@@ -1202,7 +1202,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Retry Delete for Everyone",
+        "message": "為所有人重試刪除",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -2024,7 +2024,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Delete failed",
+        "message": "刪除失敗",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2036,7 +2036,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Partially deleted, click to retry",
+        "message": "部分已刪除，點擊以重試",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2360,7 +2360,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "報導",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -6792,23 +6792,23 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "我的報導",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Your story",
+        "message": "你的報導",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "下載報導",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "More options",
+        "message": "更多選項",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "$num$ view",
+        "message": "$num$ 檢視",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -6818,7 +6818,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "$num$ views",
+        "message": "$num$ 檢視",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -6828,7 +6828,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "$num$ reply",
+        "message": "$num$ 回覆",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -6838,7 +6838,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ replies",
+        "message": "$num$ 回覆",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -6848,31 +6848,31 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "刪除這個報導嗎？ 對於收到它的每個人，也將被刪除。",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "報導",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "我的報導",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "新增一個報導",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "目前沒有可顯示的近期報導",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "點擊以檢視報導",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$ 到 $group$",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -6890,39 +6890,39 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewsNRepliesModal__placeholder": {
-        "message": "Type a reply...",
+        "message": "輸入回覆...",
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "檢視",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "回覆",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "對報導做出回應",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "以對此報導做出回應",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "Story",
+        "message": "報導",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "隱藏報導",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "到聊天",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "要隱藏故事嗎？ 來自$name$的新報導的更新將不再出現在報導清單的頂部。",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -6960,15 +6960,15 @@
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.36--1": {
-        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
+        "message": "快速掃描那個群組聊天？ 螢幕上有更多空間可以同時顯示更多訊息。 如果傳送者的訊息在時間上很接近，我們現在將它們組合在一起。",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--2": {
-        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
+        "message": "當你為所有人執行刪除時，你現在會看到一個進度顯示器，讓你知道它是否已成功傳送。 如果由於某種原因失敗，你也可以重試！",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--3": {
-        "message": "Thanks to our volunteer translators, we've added support for Scottish Gaelic!",
+        "message": "感謝我們的志願者翻譯，我們增加了對蘇格蘭蓋爾語的支援！",
         "description": "Release notes for v5.36"
     }
 }

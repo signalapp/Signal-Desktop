@@ -6162,7 +6162,7 @@
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Posita kaikkien keskustelujen värit",
+        "message": "Poista kaikkien keskustelujen värit",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {

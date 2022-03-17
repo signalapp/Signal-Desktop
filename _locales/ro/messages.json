@@ -1202,7 +1202,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Retry Delete for Everyone",
+        "message": "Reîncearcă ștergerea pentru toată lumea",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -2024,7 +2024,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Delete failed",
+        "message": "Ștergerea a eșuat",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2036,7 +2036,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Partially deleted, click to retry",
+        "message": "Șters parțial, fă click pentru a reîncerca",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2360,7 +2360,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "Povești",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -6792,23 +6792,23 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "Poveștile mele",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Your story",
+        "message": "Povestea ta",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "Descarcă povestea",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "More options",
+        "message": "Mai multe opțiuni",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "$num$ view",
+        "message": "$num$ vizualizare",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -6818,7 +6818,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "$num$ views",
+        "message": "$num$ vizualizări",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -6828,7 +6828,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "$num$ reply",
+        "message": "$num$ răspuns",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -6838,7 +6838,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ replies",
+        "message": "$num$ răspunsuri",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -6848,31 +6848,31 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "Ștergi această poveste? Povestea va fi ștearsă și pentru cei care au primit-o.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "Povești",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "Poveștile mele",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "Adaugă o poveste",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "Nu există povești recente",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "Fă click pentru a vedea o poveste",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$ către $group$",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -6890,39 +6890,39 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewsNRepliesModal__placeholder": {
-        "message": "Type a reply...",
+        "message": "Scrie un răspuns...",
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "Vizualizări",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "Răspunsuri",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "Reacționează la poveste",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "Ai reacționat la poveste",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "Story",
+        "message": "Poveste",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "Ascunde povestea",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "Arată conversația",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "Ascunzi povestea? Actualizări despre povești noi de la $name$  nu vor mai apărea la începutul listei de povești.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -6952,7 +6952,7 @@
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.35--2": {
-        "message": "Aplicațiile ce folosesc testele media se vor bucura! Signal nu va mai ține aceste taste blocate.",
+        "message": "Aplicațiile ce folosesc tastele media se vor bucura! Signal nu va mai ține aceste taste blocate.",
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.35--3": {
