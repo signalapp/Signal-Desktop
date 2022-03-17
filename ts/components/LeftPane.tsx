@@ -211,7 +211,7 @@ export const LeftPane: React.FC<PropsType> = ({
   //    but React doesn't know that they're the same, so you can lose focus as you change
   //    modes.
   // 2. These components render virtualized lists, which are somewhat slow to initialize.
-  //    Switching between modes can cause noticable hiccups.
+  //    Switching between modes can cause noticeable hiccups.
   //
   // To get around those problems, we use "helpers" which all correspond to the same
   //   interface.

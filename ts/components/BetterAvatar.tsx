@@ -95,7 +95,7 @@ export const BetterAvatar = ({
       style={{
         backgroundImage: avatarURL ? `url(${avatarURL})` : undefined,
         backgroundSize: size,
-        // +8 so that the size is the acutal size we want, 8 is the invisible
+        // +8 so that the size is the actual size we want, 8 is the invisible
         // padding around the bubble to make room for the selection border
         height: size + 8,
         width: size + 8,

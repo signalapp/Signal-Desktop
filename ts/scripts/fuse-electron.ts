@@ -46,7 +46,7 @@ export async function afterPack({
     // Enables validation of the app.asar archive on macOS
     [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
     // Enforces that Electron will only load your app from "app.asar" instead of
-    // it's normall search paths
+    // its normal search paths
     [FuseV1Options.OnlyLoadAppFromAsar]: true,
   });
 }

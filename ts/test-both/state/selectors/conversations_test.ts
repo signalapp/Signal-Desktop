@@ -599,7 +599,7 @@ describe('both/state/selectors/conversations', () => {
         'convo-6': {
           ...makeConversation('convo-6'),
           profileSharing: true,
-          name: 'Should Be Droped (no title)',
+          name: 'Should Be Dropped (no title)',
           title: null,
         },
         'convo-7': {

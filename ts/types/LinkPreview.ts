@@ -161,7 +161,7 @@ export function isLinkSneaky(href: string): boolean {
     return true;
   }
 
-  // This is necesary because getDomain returns domains in punycode form.
+  // This is necessary because getDomain returns domains in punycode form.
   const unicodeDomain = nodeUrl.domainToUnicode
     ? nodeUrl.domainToUnicode(url.hostname)
     : url.hostname;

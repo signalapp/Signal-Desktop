@@ -192,7 +192,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
 
   public readonly dataMessage?: Uint8Array;
 
-  // Fields necesary for send log save
+  // Fields necessary for send log save
   public readonly contentHint?: number;
 
   public readonly contentProto?: Uint8Array;
