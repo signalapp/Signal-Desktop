@@ -98,8 +98,8 @@ export const getBlotTextPartitions = (
   index: number
 ): [string, string] => {
   const lowerCaseBlotText = (blotText || '').toLowerCase();
-  const leftLeafText = lowerCaseBlotText.substr(0, index);
-  const rightLeafText = lowerCaseBlotText.substr(index);
+  const leftLeafText = lowerCaseBlotText.substring(0, index);
+  const rightLeafText = lowerCaseBlotText.slice(index);
 
   return [leftLeafText, rightLeafText];
 };

@@ -105,9 +105,9 @@ AtMentionify.preprocessMentions = (
 
   // Sorting by the start index to ensure that we always replace last -> first.
   return sortBy(bodyRanges, 'start').reduceRight((str, range) => {
-    const textBegin = str.substr(0, range.start);
+    const textBegin = str.slice(0, range.start);
     const encodedMention = `\uFFFC@${range.start}`;
-    const textEnd = str.substr(range.start + range.length, str.length);
+    const textEnd = str.slice(range.start + range.length);
     return `${textBegin}${encodedMention}${textEnd}`;
   }, text);
 };

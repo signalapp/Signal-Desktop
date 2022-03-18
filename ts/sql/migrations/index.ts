@@ -1050,7 +1050,7 @@ function updateToSchemaVersion20(
       // Not using patch here so we can explicitly delete a property rather than
       // implicitly delete via null
       const newJson = JSON.parse(session.json);
-      const conversation = allConversationsByOldId[newJson.number.substr(1)];
+      const conversation = allConversationsByOldId[newJson.number.slice(1)];
       if (conversation) {
         newJson.conversationId = conversation.id;
         newJson.id = `${newJson.conversationId}.${newJson.deviceId}`;

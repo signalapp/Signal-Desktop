@@ -180,7 +180,7 @@ export function isLinkSneaky(href: string): boolean {
   //   For example, it turns `/aquí` into `/aqu%C3%AD`.
   const startOfPathAndHash = href.indexOf('/', url.protocol.length + 4);
   const pathAndHash =
-    startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
+    startOfPathAndHash === -1 ? '' : href.slice(startOfPathAndHash);
   return [...pathAndHash].some(
     character => !VALID_URI_CHARACTERS.has(character)
   );

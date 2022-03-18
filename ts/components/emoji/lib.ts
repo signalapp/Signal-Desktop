@@ -228,7 +228,7 @@ const fuse = new Fuse(data, {
 });
 
 export function search(query: string, count = 0): Array<EmojiData> {
-  const results = fuse.search(query.substr(0, 32));
+  const results = fuse.search(query.slice(0, 32));
 
   if (count) {
     return take(results, count);

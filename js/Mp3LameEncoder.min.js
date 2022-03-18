@@ -243,7 +243,7 @@ var Runtime = {
         if (type[type.length-1] === '*') {
           return Runtime.QUANTUM_SIZE; // A pointer
         } else if (type[0] === 'i') {
-          var bits = parseInt(type.substr(1));
+          var bits = parseInt(type.slice(1));
           assert(bits % 8 === 0);
           return bits/8;
         } else {
@@ -976,7 +976,7 @@ function demangle(func) {
   if (hasLibcxxabi) {
     try {
       var buf = _malloc(func.length);
-      writeStringToMemory(func.substr(1), buf);
+      writeStringToMemory(func.slice(1), buf);
       var status = _malloc(4);
       var ret = Module['___cxa_demangle'](buf, 0, 0, status);
       if (getValue(status, 'i32') === 0 && ret) {
@@ -1040,10 +1040,10 @@ function demangle(func) {
         i += 2;
         continue;
       }
-      var size = parseInt(func.substr(i));
+      var size = parseInt(func.slice(i));
       var pre = size.toString().length;
       if (!size || !pre) { i--; break; } // counter i++ below us
-      var curr = func.substr(i + pre, size);
+      var curr = func.slice(i + pre, i + pre + size);
       parts.push(curr);
       subs.push(curr);
       i += pre + size;
@@ -1066,10 +1066,10 @@ function demangle(func) {
     } else {
       // not namespaced
       if (func[i] === 'K' || (first && func[i] === 'L')) i++; // ignore const and first 'L'
-      var size = parseInt(func.substr(i));
+      var size = parseInt(func.slice(i));
       if (size) {
         var pre = size.toString().length;
-        name = func.substr(i + pre, size);
+        name = func.slice(i + pre, i + pre + size);
         i += pre + size;
       }
     }
@@ -1095,12 +1095,12 @@ function demangle(func) {
             i++; // skip basic type
             var end = func.indexOf('E', i);
             var size = end - i;
-            list.push(func.substr(i, size));
+            list.push(func.slice(i, i + size));
             i += size + 2; // size + 'EE'
             break;
           }
           case 'A': { // array
-            var size = parseInt(func.substr(i));
+            var size = parseInt(func.slice(i));
             i += size.toString().length;
             if (func[i] !== '_') throw '?';
             i++; // skip _
@@ -1650,7 +1650,7 @@ function copyTempDouble(ptr) {
         return parts;
       },normalize:function (path) {
         var isAbsolute = path.charAt(0) === '/',
-            trailingSlash = path.substr(-1) === '/';
+            trailingSlash = path.slice(-1) === '/';
         // Normalize the path
         path = PATH.normalizeArray(path.split('/').filter(function(p) {
           return !!p;
@@ -1672,7 +1672,7 @@ function copyTempDouble(ptr) {
         }
         if (dir) {
           // It has a dirname, strip trailing slash
-          dir = dir.substr(0, dir.length - 1);
+          dir = dir.slice(0, -1);
         }
         return root + dir;
       },basename:function (path) {
@@ -1680,7 +1680,7 @@ function copyTempDouble(ptr) {
         if (path === '/') return '/';
         var lastSlash = path.lastIndexOf('/');
         if (lastSlash === -1) return path;
-        return path.substr(lastSlash+1);
+        return path.slice(lastSlash+1);
       },extname:function (path) {
         return PATH.splitPath(path)[3];
       },join:function () {
@@ -1709,8 +1709,8 @@ function copyTempDouble(ptr) {
         }), !resolvedAbsolute).join('/');
         return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
       },relative:function (from, to) {
-        from = PATH.resolve(from).substr(1);
-        to = PATH.resolve(to).substr(1);
+        from = PATH.resolve(from).slice(1);
+        to = PATH.resolve(to).slice(1);
         function trim(arr) {
           var start = 0;
           for (; start < arr.length; start++) {
@@ -3887,7 +3887,7 @@ function copyTempDouble(ptr) {
         return mode;
       },joinPath:function (parts, forceRelative) {
         var path = PATH.join.apply(null, parts);
-        if (forceRelative && path[0] == '/') path = path.substr(1);
+        if (forceRelative && path[0] == '/') path = path.slice(1);
         return path;
       },absolutePath:function (relative, base) {
         return PATH.resolve(base, relative);
@@ -4555,7 +4555,7 @@ function copyTempDouble(ptr) {
   
         var audioPlugin = {};
         audioPlugin['canHandle'] = function audioPlugin_canHandle(name) {
-          return !Module.noAudioDecoding && name.substr(-4) in { '.ogg': 1, '.wav': 1, '.mp3': 1 };
+          return !Module.noAudioDecoding && name.slice(-4) in { '.ogg': 1, '.wav': 1, '.mp3': 1 };
         };
         audioPlugin['handle'] = function audioPlugin_handle(byteArray, name, onload, onerror) {
           var done = false;
@@ -4607,7 +4607,7 @@ function copyTempDouble(ptr) {
                 }
                 return ret;
               }
-              audio.src = 'data:audio/x-' + name.substr(-3) + ';base64,' + encode64(byteArray);
+              audio.src = 'data:audio/x-' + name.slice(-3) + ';base64,' + encode64(byteArray);
               finish(audio); // we don't wait for confirmation this worked - but it's worth trying
             };
             audio.src = url;
@@ -4841,7 +4841,7 @@ function copyTempDouble(ptr) {
           'ogg': 'audio/ogg',
           'wav': 'audio/wav',
           'mp3': 'audio/mpeg'
-        }[name.substr(name.lastIndexOf('.')+1)];
+        }[name.slice(name.lastIndexOf('.')+1)];
       },getUserMedia:function (func) {
         if(!window.getUserMedia) {
           window.getUserMedia = navigator['getUserMedia'] ||
@@ -6113,7 +6113,7 @@ function copyTempDouble(ptr) {
               // Move sign to prefix so we zero-pad after the sign
               if (argText.charAt(0) == '-') {
                 prefix = '-' + prefix;
-                argText = argText.substr(1);
+                argText = argText.slice(1);
               }
   
               // Add padding.
@@ -6244,7 +6244,7 @@ function copyTempDouble(ptr) {
                   ret.push(HEAPU8[((arg++)>>0)]);
                 }
               } else {
-                ret = ret.concat(intArrayFromString('(null)'.substr(0, argLength), true));
+                ret = ret.concat(intArrayFromString('(null)'.slice(0, argLength), true));
               }
               if (flagLeftAlign) {
                 while (argLength < width--) {
@@ -46254,7 +46254,7 @@ var i64Math = (function() { // Emscripten wrapper
     var d = nbv(a), y = nbi(), z = nbi(), r = "";
     this.divRemTo(d,y,z);
     while(y.signum() > 0) {
-      r = (a+z.intValue()).toString(b).substr(1) + r;
+      r = (a+z.intValue()).toString(b).slice(1) + r;
       y.divRemTo(d,y,z);
     }
     return z.intValue().toString(b) + r;
