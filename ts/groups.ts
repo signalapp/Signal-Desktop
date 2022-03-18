@@ -3620,7 +3620,10 @@ async function integrateGroupChanges({
         });
 
       if (groupChangeMessages.length !== 0 || finalMembers.length !== 0) {
-        assert(false, 'Fallback group state processing should not kick in');
+        assert(
+          groupChangeMessages.length === 0,
+          'Fallback group state processing should not kick in'
+        );
 
         log.warn(
           `integrateGroupChanges/${logId}: local state was different from ` +
