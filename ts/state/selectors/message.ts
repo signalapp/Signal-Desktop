@@ -1,16 +1,7 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  identity,
-  isEqual,
-  isNumber,
-  isObject,
-  map,
-  omit,
-  pick,
-  reduce,
-} from 'lodash';
+import { identity, isEqual, isNumber, isObject, map, omit, pick } from 'lodash';
 import { createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
 
@@ -457,7 +448,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       id: sentAt,
       isViewOnce,
       referencedMessageNotFound,
-      text,
+      text = '',
     } = quote;
 
     const contact = conversationSelector(authorUuid || author);
@@ -491,7 +482,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       isViewOnce,
       referencedMessageNotFound,
       sentAt: Number(sentAt),
-      text: createNonBreakingLastSeparator(text),
+      text,
     };
   },
 
@@ -627,7 +618,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       readStatus: message.readStatus ?? ReadStatus.Read,
       selectedReaction,
       status: getMessagePropStatus(message, ourConversationId),
-      text: createNonBreakingLastSeparator(message.body),
+      text: message.body,
       textPending: message.bodyPending,
       timestamp: message.sent_at,
     };
@@ -1274,22 +1265,6 @@ export function isTapToView(message: MessageWithUIFieldsType): boolean {
   }
 
   return Boolean(message.isViewOnce || message.messageTimer);
-}
-
-function createNonBreakingLastSeparator(text?: string): string {
-  if (!text) {
-    return '';
-  }
-
-  const nbsp = '\xa0';
-  const regex = /(\S)( +)(\S+\s*)$/;
-  return text.replace(regex, (_match, start, spaces, end) => {
-    const newSpaces =
-      end.length < 12
-        ? reduce(spaces, accumulator => accumulator + nbsp, '')
-        : spaces;
-    return `${start}${newSpaces}${end}`;
-  });
 }
 
 export function getMessagePropStatus(
