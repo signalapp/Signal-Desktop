@@ -7,7 +7,7 @@ import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
 const removeStorageKeyJobDataSchema = z.object({
-  key: z.enum(['senderCertificateWithUuid']),
+  key: z.enum(['senderCertificateWithUuid', 'challenge:retry-message-ids']),
 });
 
 type RemoveStorageKeyJobData = z.infer<typeof removeStorageKeyJobDataSchema>;

@@ -7,7 +7,6 @@ import type {
   GroupV1Update,
   MessageAttributesType,
   MessageReactionType,
-  ShallowChallengeError,
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
@@ -78,7 +77,6 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import {
-  getLastChallengeError,
   getMessagePropStatus,
   getPropsForCallHistory,
   getPropsForMessage,
@@ -1151,13 +1149,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.set({ errors });
 
-    if (
-      !this.doNotSave &&
-      errors.some(error => error.name === 'SendMessageChallengeError')
-    ) {
-      await window.Signal.challengeHandler.register(this);
-    }
-
     if (!skipSave && !this.doNotSave) {
       await window.Signal.Data.saveMessage(this.attributes, {
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
@@ -1681,10 +1672,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     return false;
-  }
-
-  getLastChallengeError(): ShallowChallengeError | undefined {
-    return getLastChallengeError(this.attributes);
   }
 
   hasAttachmentDownloads(): boolean {
