@@ -54,6 +54,7 @@ import { QualifiedAddress } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
 import { UUID, UUIDKind } from '../types/UUID';
 import * as Errors from '../types/errors';
+import { isEnabled } from '../RemoteConfig';
 
 import { SignalService as Proto } from '../protobuf';
 import type { UnprocessedType } from '../textsecure.d';
@@ -1859,6 +1860,16 @@ export default class MessageReceiver
     const logId = this.getEnvelopeId(envelope);
     log.info('MessageReceiver.handleDataMessage', logId);
 
+    const isStoriesEnabled =
+      isEnabled('desktop.stories') && isEnabled('desktop.internalUser');
+    if (!isStoriesEnabled && msg.storyContext) {
+      log.info(
+        `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
+      );
+      this.removeFromCache(envelope);
+      return undefined;
+    }
+
     let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     const destination = envelope.sourceUuid;
@@ -2049,8 +2060,20 @@ export default class MessageReceiver
       await this.handleTypingMessage(envelope, content.typingMessage);
       return;
     }
+
+    const isStoriesEnabled =
+      isEnabled('desktop.stories') && isEnabled('desktop.internalUser');
     if (content.storyMessage) {
-      await this.handleStoryMessage(envelope, content.storyMessage);
+      if (isStoriesEnabled) {
+        await this.handleStoryMessage(envelope, content.storyMessage);
+        return;
+      }
+
+      const logId = this.getEnvelopeId(envelope);
+      log.info(
+        `innerHandleContentMessage/${logId}: Dropping incoming message with storyMessage field`
+      );
+      this.removeFromCache(envelope);
       return;
     }
 
