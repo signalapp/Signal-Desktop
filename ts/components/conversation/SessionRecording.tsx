@@ -122,12 +122,12 @@ export class SessionRecording extends React.Component<Props, State> {
     return (
       <div role="main" className="session-recording" tabIndex={0} onKeyDown={this.onKeyDown}>
         <div className="session-recording--actions">
-          <StyledFlexWrapper marginHorizontal={Constants.UI.SPACING.marginXs}>
+          <StyledFlexWrapper marginHorizontal="5px">
             {isRecording && (
               <SessionIconButton
                 iconType="stop"
                 iconSize="medium"
-                iconColor={Constants.UI.COLORS.DANGER_ALT}
+                iconColor={'#FF4538'}
                 onClick={actionPauseFn}
               />
             )}
