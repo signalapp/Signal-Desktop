@@ -27,6 +27,7 @@ import updateToSchemaVersion48 from './48-fix-user-initiated-index';
 import updateToSchemaVersion49 from './49-fix-preview-index';
 import updateToSchemaVersion50 from './50-fix-messages-unread-index';
 import updateToSchemaVersion51 from './51-centralize-conversation-jobs';
+import updateToSchemaVersion52 from './52-optimize-stories';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1917,6 +1918,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion49,
   updateToSchemaVersion50,
   updateToSchemaVersion51,
+  updateToSchemaVersion52,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
