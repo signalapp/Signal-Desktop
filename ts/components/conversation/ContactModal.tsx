@@ -86,11 +86,11 @@ export const ContactModal = ({
   );
 
   useEffect(() => {
-    if (conversation?.id) {
+    if (contact?.id) {
       // Kick off the expensive hydration of the current sharedGroupNames
-      updateConversationModelSharedGroups(conversation.id);
+      updateConversationModelSharedGroups(contact.id);
     }
-  }, [conversation?.id, updateConversationModelSharedGroups]);
+  }, [contact?.id, updateConversationModelSharedGroups]);
 
   let modalNode: ReactNode;
   switch (subModalState) {

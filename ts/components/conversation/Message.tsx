@@ -294,7 +294,7 @@ export type PropsActions = {
     contact: EmbeddedContactType;
     signalAccount?: string;
   }) => void;
-  showContactModal: (contactId: string) => void;
+  showContactModal: (contactId: string, conversationId?: string) => void;
 
   kickOffAttachmentDownload: (options: {
     attachment: AttachmentType;
@@ -1380,12 +1380,13 @@ export class Message extends React.PureComponent<Props, State> {
   private renderAvatar(): ReactNode {
     const {
       author,
+      conversationId,
+      conversationType,
+      direction,
       getPreferredBadge,
       i18n,
       showContactModal,
       theme,
-      conversationType,
-      direction,
     } = this.props;
 
     if (conversationType !== 'group' || direction !== 'incoming') {
@@ -1415,7 +1416,7 @@ export class Message extends React.PureComponent<Props, State> {
               event.stopPropagation();
               event.preventDefault();
 
-              showContactModal(author.id);
+              showContactModal(author.id, conversationId);
             }}
             phoneNumber={author.phoneNumber}
             profileName={author.profileName}

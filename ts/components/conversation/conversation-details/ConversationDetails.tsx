@@ -103,7 +103,7 @@ type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
-  showContactModal: (contactId: string, conversationId: string) => void;
+  showContactModal: (contactId: string, conversationId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   searchInConversation: (id: string) => unknown;
 };

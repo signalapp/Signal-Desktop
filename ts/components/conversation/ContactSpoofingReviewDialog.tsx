@@ -31,7 +31,7 @@ type PropsType = {
   onBlockAndReportSpam: (conversationId: string) => unknown;
   onClose: () => void;
   onDelete: (conversationId: string) => unknown;
-  onShowContactModal: (contactId: string) => unknown;
+  onShowContactModal: (contactId: string, conversationId?: string) => unknown;
   onUnblock: (conversationId: string) => unknown;
   removeMember: (conversationId: string) => unknown;
   theme: ThemeType;
