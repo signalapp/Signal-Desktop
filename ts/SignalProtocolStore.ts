@@ -1763,84 +1763,8 @@ export class SignalProtocolStore extends EventsMixin {
     return VerifiedStatus.DEFAULT;
   }
 
-  // Resolves to true if a new identity key was saved
-  processContactSyncVerificationState(
-    uuid: UUID,
-    verifiedStatus: number,
-    publicKey: Uint8Array
-  ): Promise<boolean> {
-    if (verifiedStatus === VerifiedStatus.UNVERIFIED) {
-      return this.processUnverifiedMessage(uuid, verifiedStatus, publicKey);
-    }
-    return this.processVerifiedMessage(uuid, verifiedStatus, publicKey);
-  }
-
-  // This function encapsulates the non-Java behavior, since the mobile apps don't
-  //   currently receive contact syncs and therefore will see a verify sync with
-  //   UNVERIFIED status
-  async processUnverifiedMessage(
-    uuid: UUID,
-    verifiedStatus: number,
-    publicKey?: Uint8Array
-  ): Promise<boolean> {
-    if (uuid === null || uuid === undefined) {
-      throw new Error('processUnverifiedMessage: uuid was undefined/null');
-    }
-    if (publicKey !== undefined && !(publicKey instanceof Uint8Array)) {
-      throw new Error('processUnverifiedMessage: Invalid public key');
-    }
-
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
-
-    let isEqual = false;
-
-    if (identityRecord && publicKey) {
-      isEqual = constantTimeEqual(publicKey, identityRecord.publicKey);
-    }
-
-    if (
-      identityRecord &&
-      isEqual &&
-      identityRecord.verified !== VerifiedStatus.UNVERIFIED
-    ) {
-      await this.setVerified(uuid, verifiedStatus, publicKey);
-      return false;
-    }
-
-    if (!identityRecord || !isEqual) {
-      await this.saveIdentityWithAttributes(uuid, {
-        publicKey,
-        verified: verifiedStatus,
-        firstUse: false,
-        timestamp: Date.now(),
-        nonblockingApproval: true,
-      });
-
-      if (identityRecord && !isEqual) {
-        try {
-          this.trigger('keychange', uuid);
-        } catch (error) {
-          log.error(
-            'processUnverifiedMessage: error triggering keychange:',
-            error && error.stack ? error.stack : error
-          );
-        }
-
-        await this.archiveAllSessions(uuid);
-
-        return true;
-      }
-    }
-
-    // The situation which could get us here is:
-    //   1. had a previous key
-    //   2. new key is the same
-    //   3. desired new status is same as what we had before
-    return false;
-  }
-
-  // This matches the Java method as of
-  //   https://github.com/signalapp/Signal-Android/blob/d0bb68e1378f689e4d10ac6a46014164992ca4e4/src/org/thoughtcrime/securesms/util/IdentityUtil.java#L188
+  // See https://github.com/signalapp/Signal-iOS-Private/blob/e32c2dff0d03f67467b4df621d84b11412d50cdb/SignalServiceKit/src/Messages/OWSIdentityManager.m#L317
+  // for reference.
   async processVerifiedMessage(
     uuid: UUID,
     verifiedStatus: number,
@@ -1864,55 +1788,34 @@ export class SignalProtocolStore extends EventsMixin {
       isEqual = constantTimeEqual(publicKey, identityRecord.publicKey);
     }
 
-    if (!identityRecord && verifiedStatus === VerifiedStatus.DEFAULT) {
-      log.info('processVerifiedMessage: No existing record for default status');
-      return false;
-    }
-
-    if (
-      identityRecord &&
-      isEqual &&
-      identityRecord.verified !== VerifiedStatus.DEFAULT &&
-      verifiedStatus === VerifiedStatus.DEFAULT
-    ) {
+    // Just update verified status if the key is the same or not present
+    if (isEqual || !publicKey) {
       await this.setVerified(uuid, verifiedStatus, publicKey);
       return false;
     }
 
-    if (
-      verifiedStatus === VerifiedStatus.VERIFIED &&
-      (!identityRecord ||
-        (identityRecord && !isEqual) ||
-        (identityRecord && identityRecord.verified !== VerifiedStatus.VERIFIED))
-    ) {
-      await this.saveIdentityWithAttributes(uuid, {
-        publicKey,
-        verified: verifiedStatus,
-        firstUse: false,
-        timestamp: Date.now(),
-        nonblockingApproval: true,
-      });
+    await this.saveIdentityWithAttributes(uuid, {
+      publicKey,
+      verified: verifiedStatus,
+      firstUse: false,
+      timestamp: Date.now(),
+      nonblockingApproval: verifiedStatus === VerifiedStatus.VERIFIED,
+    });
 
-      if (identityRecord && !isEqual) {
-        try {
-          this.trigger('keychange', uuid);
-        } catch (error) {
-          log.error(
-            'processVerifiedMessage error triggering keychange:',
-            error && error.stack ? error.stack : error
-          );
-        }
-
-        await this.archiveAllSessions(uuid);
-
-        // true signifies that we overwrote a previous key with a new one
-        return true;
+    if (identityRecord) {
+      try {
+        this.trigger('keychange', uuid);
+      } catch (error) {
+        log.error(
+          'processVerifiedMessage error triggering keychange:',
+          Errors.toLogFormat(error)
+        );
       }
+
+      // true signifies that we overwrote a previous key with a new one
+      return true;
     }
 
-    // We get here if we got a new key and the status is DEFAULT. If the
-    //   message is out of date, we don't want to lose whatever more-secure
-    //   state we had before.
     return false;
   }
 

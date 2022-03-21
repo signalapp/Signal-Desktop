@@ -810,6 +810,7 @@ export async function mergeContactRecord(
     );
   }
 
+  let details = new Array<string>();
   const remoteName = dropNull(contactRecord.givenName);
   const remoteFamilyName = dropNull(contactRecord.familyName);
   const localName = conversation.get('profileName');
@@ -821,38 +822,50 @@ export async function mergeContactRecord(
     // Local name doesn't match remote name, fetch profile
     if (localName) {
       conversation.getProfiles();
+      details.push('refreshing profile');
     } else {
       conversation.set({
         profileName: remoteName,
         profileFamilyName: remoteFamilyName,
       });
+      details.push('updated profile name');
     }
   }
 
-  const verified = await conversation.safeGetVerified();
-  const storageServiceVerified = contactRecord.identityState || 0;
-  if (verified !== storageServiceVerified) {
+  // Update verified status unconditionally to make sure we will take the
+  // latest identity key from the manifest.
+  {
+    const verified = await conversation.safeGetVerified();
+    const storageServiceVerified = contactRecord.identityState || 0;
     const verifiedOptions = {
       key: contactRecord.identityKey,
       viaStorageServiceSync: true,
     };
     const STATE_ENUM = Proto.ContactRecord.IdentityState;
 
+    if (verified !== storageServiceVerified) {
+      details.push(`updating verified state to=${verified}`);
+    }
+
+    let keyChange: boolean;
     switch (storageServiceVerified) {
       case STATE_ENUM.VERIFIED:
-        await conversation.setVerified(verifiedOptions);
+        keyChange = await conversation.setVerified(verifiedOptions);
         break;
       case STATE_ENUM.UNVERIFIED:
-        await conversation.setUnverified(verifiedOptions);
+        keyChange = await conversation.setUnverified(verifiedOptions);
         break;
       default:
-        await conversation.setVerifiedDefault(verifiedOptions);
+        keyChange = await conversation.setVerifiedDefault(verifiedOptions);
+    }
+
+    if (keyChange) {
+      details.push('key changed');
     }
   }
 
   applyMessageRequestState(contactRecord, conversation);
 
-  let details = new Array<string>();
   addUnknownFields(contactRecord, conversation, details);
 
   const oldStorageID = conversation.get('storageID');

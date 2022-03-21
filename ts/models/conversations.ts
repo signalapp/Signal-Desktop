@@ -2555,7 +2555,7 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  setVerifiedDefault(options?: VerificationOptions): Promise<unknown> {
+  setVerifiedDefault(options?: VerificationOptions): Promise<boolean> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { DEFAULT } = this.verifiedEnum!;
     return this.queueJob('setVerifiedDefault', () =>
@@ -2563,7 +2563,7 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  setVerified(options?: VerificationOptions): Promise<unknown> {
+  setVerified(options?: VerificationOptions): Promise<boolean> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { VERIFIED } = this.verifiedEnum!;
     return this.queueJob('setVerified', () =>
@@ -2571,7 +2571,7 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  setUnverified(options: VerificationOptions): Promise<unknown> {
+  setUnverified(options: VerificationOptions): Promise<boolean> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { UNVERIFIED } = this.verifiedEnum!;
     return this.queueJob('setUnverified', () =>
@@ -2582,7 +2582,7 @@ export class ConversationModel extends window.Backbone
   private async _setVerified(
     verified: number,
     providedOptions?: VerificationOptions
-  ): Promise<void> {
+  ): Promise<boolean> {
     const options = providedOptions || {};
     window._.defaults(options, {
       viaStorageServiceSync: false,
@@ -2631,12 +2631,13 @@ export class ConversationModel extends window.Backbone
       window.Signal.Data.updateConversation(this.attributes);
     }
 
-    if (
-      !options.viaStorageServiceSync &&
-      !keyChange &&
-      beginningVerified !== verified
-    ) {
-      this.captureChange('verified');
+    if (!options.viaStorageServiceSync) {
+      if (keyChange) {
+        this.captureChange('keyChange');
+      }
+      if (beginningVerified !== verified) {
+        this.captureChange(`verified from=${beginningVerified} to=${verified}`);
+      }
     }
 
     const didSomethingChange = keyChange || beginningVerified !== verified;
@@ -2663,6 +2664,8 @@ export class ConversationModel extends window.Backbone
     if (!options.viaSyncMessage && uuid) {
       await this.sendVerifySyncMessage(this.get('e164'), uuid, verified);
     }
+
+    return keyChange;
   }
 
   async sendVerifySyncMessage(
