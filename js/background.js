@@ -386,7 +386,7 @@
   }
 
   let connectCount = 0;
-  async function connect(firstRun) {
+  async function connect() {
     window.log.info('connect');
 
     // Bootstrap our online/offline detection, only the first time we connect
@@ -398,10 +398,6 @@
       window.addEventListener('online', onOnline);
       onEmpty(); // this ensures that the loading screen is dismissed
       return;
-    }
-
-    if (firstRun) {
-      window.readyForUpdates();
     }
 
     if (!Whisper.Registration.everDone()) {

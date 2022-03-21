@@ -157,17 +157,11 @@ function prepareURL(pathSegments, moreKeys) {
       locale: locale.name,
       version: app.getVersion(),
       commitHash: config.get('commitHash'),
-      serverUrl: config.get('serverUrl'),
-      localUrl: config.get('localUrl'),
-      cdnUrl: config.get('cdnUrl'),
-      // one day explain why we need to do this - neuroscr
-      seedNodeList: JSON.stringify(config.get('seedNodeList')),
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
-      contentProxyUrl: config.contentProxyUrl,
       appStartInitialSpellcheckSetting,
       ...moreKeys,
     },
@@ -346,7 +340,7 @@ async function createWindow() {
 
   mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
 
-  if (config.get('openDevTools')) {
+  if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools({
       mode: 'bottom',
@@ -414,7 +408,7 @@ ipc.on('set-release-from-file-server', (_event, releaseGotFromFileServer) => {
 
 let isReadyForUpdates = false;
 async function readyForUpdates() {
-  console.log('isReadyForUpdates', isReadyForUpdates);
+  console.log('[updater] isReadyForUpdates', isReadyForUpdates);
   if (isReadyForUpdates) {
     return;
   }
@@ -423,6 +417,7 @@ async function readyForUpdates() {
 
   // Second, start checking for app updates
   try {
+    // if the user disabled auto updates, this will actually not start the updater
     await updater.start(getMainWindow, userConfig, locale.messages, logger);
   } catch (error) {
     const log = logger || console;
@@ -703,9 +698,6 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   }
 
   setupMenu();
-
-  // Check updates
-  readyForUpdates();
 }
 
 function setupMenu(options) {

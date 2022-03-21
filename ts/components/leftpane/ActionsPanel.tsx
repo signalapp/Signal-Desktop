@@ -169,7 +169,7 @@ const cleanUpMediasInterval = DURATION.MINUTES * 60;
 // every 10 minutes we fetch from the fileserver to check for a new release
 // * if there is none, no request to github are made.
 // * if there is a version on the fileserver more recent than our current, we fetch github to get the UpdateInfos and trigger an update as usual (asking user via dialog)
-const fetchReleaseFromFileServerInterval = DURATION.MINUTES * 10;
+const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
 
 const setupTheme = () => {
   const theme = window.Events.getThemeSetting();
@@ -274,10 +274,14 @@ const CallContainer = () => {
 
 async function fetchReleaseFromFSAndUpdateMain() {
   try {
+    window.log.warn('[updater] about to fetchReleaseFromFSAndUpdateMain');
+
     const latest = await getLatestDesktopReleaseFileToFsV2();
+    window.log.warn('[updater] fetched latest release from fsv2: ', latest);
 
     if (isString(latest) && !isEmpty(latest)) {
       ipcRenderer.send('set-release-from-file-server', latest);
+      window.readyForUpdates();
     }
   } catch (e) {
     window.log.warn(e);

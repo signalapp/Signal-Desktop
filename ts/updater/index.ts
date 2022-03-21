@@ -4,7 +4,7 @@ import { LoggerType, MessagesType } from './common';
 import { UserConfig } from '../../app/user_config';
 
 let initialized = false;
-let config: UserConfig;
+let localUserConfig: UserConfig;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
@@ -27,16 +27,9 @@ export async function start(
     throw new Error('updater/start: Must provide logger!');
   }
   initialized = true;
-  config = userConfig; // reused below
+  localUserConfig = userConfig; // reused below
 
   if (autoUpdateDisabled()) {
-    /*
-      If you really want to enable auto-updating in dev mode
-      You need to create a dev-app-update.yml file.
-      A sample can be found in dev-app-update.yml.sample.
-      After that you can change `updatesEnabled` to `true` in the default config.
-    */
-
     logger.info('updater/start: Updates disabled - not starting new version checks');
 
     return;
@@ -54,7 +47,7 @@ export function stop() {
 
 function autoUpdateDisabled() {
   // We need to ensure that if auto update is not present in the user config then we assume it is on by default
-  const userSetting = config.get('autoUpdate');
+  const userSetting = localUserConfig.get('autoUpdate');
   const autoUpdate = typeof userSetting !== 'boolean' || userSetting;
 
   return (

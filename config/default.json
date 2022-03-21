@@ -1,20 +1,4 @@
 {
-  "serverUrl": "random.snode",
-  "localUrl": "localhost.loki",
-  "cdnUrl": "random.snode",
-  "contentProxyUrl": "",
-  "seedNodeList": [
-    {
-      "url": "https://storage.seed1.loki.network:4433/"
-    },
-    {
-      "url": "https://storage.seed3.loki.network:4433/"
-    },
-    {
-      "url": "https://public.loki.foundation:4433/"
-    }
-  ],
-  "openDevTools": false,
   "commitHash": "",
   "import": false
 }

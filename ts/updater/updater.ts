@@ -19,10 +19,6 @@ let downloadIgnored = false;
 let interval: NodeJS.Timeout | undefined;
 let stopped = false;
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const INTERVAL = MINUTE * 1;
-
 export async function start(
   getMainWindow: () => BrowserWindow,
   messages: MessagesType,
@@ -45,7 +41,7 @@ export async function start(
     } catch (error) {
       logger.error('auto-update: error:', getPrintableError(error));
     }
-  }, INTERVAL);
+  }, 1000 * 60 * 10); // trigger and try to update every 10 minutes to let the file gets downloaded if we are updating
   stopped = false;
 
   await checkForUpdates(getMainWindow, messages, logger);
@@ -64,17 +60,19 @@ async function checkForUpdates(
   messages: MessagesType,
   logger: LoggerType
 ) {
+  logger.info('[updater] checkForUpdates');
   if (stopped || isUpdating || downloadIgnored) {
     return;
   }
 
   const canUpdate = await canAutoUpdate();
+  logger.info('[updater] canUpdate', canUpdate);
   if (!canUpdate) {
     logger.info('checkForUpdates canAutoUpdate false');
     return;
   }
 
-  logger.info('auto-update: checkForUpdates...');
+  logger.info('[updater] checkForUpdates...');
 
   isUpdating = true;
 
@@ -83,17 +81,17 @@ async function checkForUpdates(
       ? ((getMainWindow() as any).getLatestDesktopRelease() as string | undefined)
       : undefined;
 
-    logger.info('checkForUpdates latestVersionFromFsFromRenderer', latestVersionFromFsFromRenderer);
+    logger.info('[updater] latestVersionFromFsFromRenderer', latestVersionFromFsFromRenderer);
     if (!latestVersionFromFsFromRenderer || !latestVersionFromFsFromRenderer?.length) {
       logger.info(
-        'testVersionFromFsFromRenderer was not updated yet by renderer. Skipping update check'
+        '[updater] testVersionFromFsFromRenderer was not updated yet by renderer. Skipping update check'
       );
       return;
     }
 
     const currentVersion = autoUpdater.currentVersion.toString();
     const isMoreRecent = isVersionGreaterThan(latestVersionFromFsFromRenderer, currentVersion);
-    logger.info('checkForUpdates isMoreRecent', isMoreRecent);
+    logger.info('[updater] checkForUpdates isMoreRecent', isMoreRecent);
     if (!isMoreRecent) {
       logger.info(
         `Fileserver has no update so we are not looking for an update from github current:${currentVersion} fromFileServer:${latestVersionFromFsFromRenderer}`
@@ -104,27 +102,27 @@ async function checkForUpdates(
     // Get the update using electron-updater, this fetches from github
     const result = await autoUpdater.checkForUpdates();
 
-    logger.info('checkForUpdates github fetch result:', result);
+    logger.info('[updater] checkForUpdates got github response back ');
 
     if (!result.updateInfo) {
-      logger.info('auto-update: no update info received');
+      logger.info('[updater] no update info received');
 
       return;
     }
 
     try {
       const hasUpdate = isUpdateAvailable(result.updateInfo);
-      logger.info('checkForUpdates hasUpdate:', hasUpdate);
+      logger.info('[updater] hasUpdate:', hasUpdate);
 
       if (!hasUpdate) {
-        logger.info('auto-update: no update available');
+        logger.info('[updater] no update available');
 
         return;
       }
 
-      logger.info('auto-update: showing download dialog...');
+      logger.info('[updater] showing download dialog...');
       const shouldDownload = await showDownloadUpdateDialog(getMainWindow(), messages);
-      logger.info('checkForUpdates shouldDownload:', shouldDownload);
+      logger.info('[updater] shouldDownload:', shouldDownload);
 
       if (!shouldDownload) {
         downloadIgnored = true;
@@ -139,13 +137,13 @@ async function checkForUpdates(
     }
 
     // Update downloaded successfully, we should ask the user to update
-    logger.info('auto-update: showing update dialog...');
+    logger.info('[updater] showing update dialog...');
     const shouldUpdate = await showUpdateDialog(getMainWindow(), messages);
     if (!shouldUpdate) {
       return;
     }
 
-    logger.info('auto-update: calling quitAndInstall...');
+    logger.info('[updater] calling quitAndInstall...');
     markShouldQuit();
     autoUpdater.quitAndInstall();
   } finally {
