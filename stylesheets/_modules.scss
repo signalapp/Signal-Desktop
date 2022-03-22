@@ -84,6 +84,36 @@
   }
 }
 
+@keyframes module-message__highlight {
+  0% {
+    filter: none;
+  }
+  33% {
+    filter: brightness(50%);
+  }
+  66% {
+    filter: brightness(50%);
+  }
+  100% {
+    filter: none;
+  }
+}
+
+@keyframes module-message__highlight-lighter {
+  0% {
+    filter: none;
+  }
+  33% {
+    filter: brightness(76%);
+  }
+  66% {
+    filter: brightness(76%);
+  }
+  100% {
+    filter: none;
+  }
+}
+
 .module-message--outgoing {
   flex-direction: row-reverse;
 }
@@ -143,7 +173,7 @@
 
   .module-message--selected & {
     @include mouse-mode {
-      background-color: $color-ultramarine;
+      background-color: $color-gray-60;
     }
     @include dark-mouse-mode {
       background-color: $color-white;
@@ -152,7 +182,7 @@
 
   .module-message:focus & {
     @include keyboard-mode {
-      background-color: $color-ultramarine;
+      background-color: $color-gray-60;
     }
     @include dark-keyboard-mode {
       background-color: $color-white;
@@ -298,12 +328,15 @@
   }
 }
 
-.module-message--selected {
+.module-message__container--selected {
   @include mouse-mode {
-    background: $color-selected-message-background-light;
+    animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
   }
-  @include dark-mouse-mode {
-    background: $color-selected-message-background-dark;
+}
+.module-message__container--selected-lighter {
+  @include mouse-mode {
+    animation: module-message__highlight-lighter 1.2s
+      cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
 
@@ -317,7 +350,7 @@
 }
 
 .module-message__container--emoji {
-  padding-top: 0;
+  padding-top: 4px;
 
   .module-message__text--outgoing {
     text-align: right;

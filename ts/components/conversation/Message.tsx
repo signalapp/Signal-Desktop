@@ -110,7 +110,8 @@ const EXPIRED_DELAY = 600;
 const GROUP_AVATAR_SIZE = AvatarSize.TWENTY_EIGHT;
 const STICKER_SIZE = 200;
 const GIF_SIZE = 300;
-const SELECTED_TIMEOUT = 1000;
+// Note: this needs to match the animation time
+const SELECTED_TIMEOUT = 1200;
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 const SENT_STATUSES = new Set<MessageStatusType>([
   'delivered',
@@ -2508,6 +2509,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
+      text,
     } = this.props;
     const { isSelected } = this.state;
 
@@ -2519,12 +2521,18 @@ export class Message extends React.PureComponent<Props, State> {
     const isEmojiOnly = this.canRenderStickerLikeEmoji();
     const isStickerLike = isSticker || isEmojiOnly;
 
+    // If it's a mostly-normal gray incoming text box, we don't want to darken it as much
+    const lighterSelect =
+      isSelected &&
+      direction === 'incoming' &&
+      !isStickerLike &&
+      (text || (!isVideo(attachments) && !isImage(attachments)));
+
     const containerClassnames = classNames(
       'module-message__container',
       isGIF(attachments) ? 'module-message__container--gif' : null,
-      isSelected && !isStickerLike
-        ? 'module-message__container--selected'
-        : null,
+      isSelected ? 'module-message__container--selected' : null,
+      lighterSelect ? 'module-message__container--selected-lighter' : null,
       !isStickerLike ? `module-message__container--${direction}` : null,
       isEmojiOnly ? 'module-message__container--emoji' : null,
       isTapToView ? 'module-message__container--with-tap-to-view' : null,
