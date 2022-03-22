@@ -99,6 +99,21 @@
   }
 }
 
+@keyframes module-message__highlight-lighter {
+  0% {
+    filter: none;
+  }
+  33% {
+    filter: brightness(76%);
+  }
+  66% {
+    filter: brightness(76%);
+  }
+  100% {
+    filter: none;
+  }
+}
+
 .module-message--outgoing {
   flex-direction: row-reverse;
 }
@@ -315,7 +330,13 @@
 
 .module-message__container--selected {
   @include mouse-mode {
-    animation: module-message__highlight 1.2s linear;
+    animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
+  }
+}
+.module-message__container--selected-lighter {
+  @include mouse-mode {
+    animation: module-message__highlight-lighter 1.2s
+      cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
 
