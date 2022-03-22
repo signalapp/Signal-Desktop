@@ -1860,8 +1860,7 @@ export default class MessageReceiver
     const logId = this.getEnvelopeId(envelope);
     log.info('MessageReceiver.handleDataMessage', logId);
 
-    const isStoriesEnabled =
-      isEnabled('desktop.stories') && isEnabled('desktop.internalUser');
+    const isStoriesEnabled = isEnabled('desktop.internalUser');
     if (!isStoriesEnabled && msg.storyContext) {
       log.info(
         `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
@@ -2061,8 +2060,7 @@ export default class MessageReceiver
       return;
     }
 
-    const isStoriesEnabled =
-      isEnabled('desktop.stories') && isEnabled('desktop.internalUser');
+    const isStoriesEnabled = isEnabled('desktop.internalUser');
     if (content.storyMessage) {
       if (isStoriesEnabled) {
         await this.handleStoryMessage(envelope, content.storyMessage);
