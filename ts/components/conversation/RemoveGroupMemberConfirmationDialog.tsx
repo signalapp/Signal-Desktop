@@ -20,34 +20,35 @@ type PropsType = {
   onRemove: () => void;
 };
 
-export const RemoveGroupMemberConfirmationDialog: FunctionComponent<PropsType> =
-  ({ conversation, group, i18n, onClose, onRemove }) => {
-    const descriptionKey = isAccessControlEnabled(
-      group.accessControlAddFromInviteLink
-    )
-      ? 'RemoveGroupMemberConfirmation__description__with-link'
-      : 'RemoveGroupMemberConfirmation__description';
+export const RemoveGroupMemberConfirmationDialog: FunctionComponent<
+  PropsType
+> = ({ conversation, group, i18n, onClose, onRemove }) => {
+  const descriptionKey = isAccessControlEnabled(
+    group.accessControlAddFromInviteLink
+  )
+    ? 'RemoveGroupMemberConfirmation__description__with-link'
+    : 'RemoveGroupMemberConfirmation__description';
 
-    return (
-      <ConfirmationDialog
-        actions={[
-          {
-            action: onRemove,
-            text: i18n('RemoveGroupMemberConfirmation__remove-button'),
-            style: 'negative',
-          },
-        ]}
-        i18n={i18n}
-        onClose={onClose}
-        title={
-          <Intl
-            i18n={i18n}
-            id={descriptionKey}
-            components={{
-              name: <ContactName title={conversation.title} />,
-            }}
-          />
-        }
-      />
-    );
-  };
+  return (
+    <ConfirmationDialog
+      actions={[
+        {
+          action: onRemove,
+          text: i18n('RemoveGroupMemberConfirmation__remove-button'),
+          style: 'negative',
+        },
+      ]}
+      i18n={i18n}
+      onClose={onClose}
+      title={
+        <Intl
+          i18n={i18n}
+          id={descriptionKey}
+          components={{
+            name: <ContactName title={conversation.title} />,
+          }}
+        />
+      }
+    />
+  );
+};
