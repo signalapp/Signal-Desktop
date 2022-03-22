@@ -202,6 +202,10 @@ export async function startApp(): Promise<void> {
     );
     window.textsecure.server = server;
 
+    initializeAllJobQueues({
+      server,
+    });
+
     challengeHandler = new ChallengeHandler({
       storage: window.storage,
 
@@ -1617,11 +1621,6 @@ export async function startApp(): Promise<void> {
 
     strictAssert(challengeHandler, 'start: challengeHandler');
     await challengeHandler.load();
-
-    strictAssert(server, 'start: server');
-    initializeAllJobQueues({
-      server,
-    });
 
     if (!window.storage.user.getNumber()) {
       const ourConversation =
