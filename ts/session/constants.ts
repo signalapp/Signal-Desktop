@@ -50,28 +50,8 @@ export const VALIDATION = {
 };
 
 export const UI = {
-  // Pixels (scroll) from the top of the top of message container
-  // at which more messages should be loaded
-  MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 1,
-
   COLORS: {
     // COMMON
-    WHITE: '#FFFFFF',
-    WHITE_PALE: '#AFAFAF',
     GREEN: '#00F782',
-
-    // CAUTION
-    WARNING: '#FFC02E',
-
-    // SEMANTIC COLORS
-    DANGER: '#FF453A',
-    DANGER_ALT: '#FF4538',
-  },
-
-  SPACING: {
-    marginXs: '5px',
-    marginSm: '10px',
-    marginMd: '15px',
-    marginLg: '20px',
   },
 };

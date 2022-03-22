@@ -127,7 +127,7 @@ module.exports = grunt => {
   });
 
   function updateLocalConfig(update) {
-    const environment = process.env.SIGNAL_ENV || 'development';
+    const environment = process.env.SIGNAL_ENV || 'production';
     const configPath = `config/local-${environment}.json`;
     let localConfig;
     try {
