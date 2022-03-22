@@ -76,6 +76,8 @@ const { installPermissionsHandler } = require('./app/permissions');
 
 let appStartInitialSpellcheckSetting = true;
 
+let latestDesktopRelease;
+
 async function getSpellCheckSetting() {
   const json = await sql.getItemById('spell-check');
   // Default to `true` if setting doesn't exist yet
@@ -155,17 +157,11 @@ function prepareURL(pathSegments, moreKeys) {
       locale: locale.name,
       version: app.getVersion(),
       commitHash: config.get('commitHash'),
-      serverUrl: config.get('serverUrl'),
-      localUrl: config.get('localUrl'),
-      cdnUrl: config.get('cdnUrl'),
-      // one day explain why we need to do this - neuroscr
-      seedNodeList: JSON.stringify(config.get('seedNodeList')),
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
-      contentProxyUrl: config.contentProxyUrl,
       appStartInitialSpellcheckSetting,
       ...moreKeys,
     },
@@ -344,7 +340,7 @@ async function createWindow() {
 
   mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
 
-  if (config.get('openDevTools')) {
+  if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools({
       mode: 'bottom',
@@ -398,31 +394,30 @@ async function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.getLatestDesktopRelease = () => latestDesktopRelease;
 }
 
 ipc.on('show-window', () => {
   showWindow();
 });
 
+ipc.on('set-release-from-file-server', (_event, releaseGotFromFileServer) => {
+  latestDesktopRelease = releaseGotFromFileServer;
+});
+
 let isReadyForUpdates = false;
 async function readyForUpdates() {
+  console.log('[updater] isReadyForUpdates', isReadyForUpdates);
   if (isReadyForUpdates) {
     return;
   }
 
   isReadyForUpdates = true;
 
-  // disable for now
-  /*
-  // First, install requested sticker pack
-  const incomingUrl = getIncomingUrl(process.argv);
-  if (incomingUrl) {
-    handleSgnlLink(incomingUrl);
-  }
-  */
-
   // Second, start checking for app updates
   try {
+    // if the user disabled auto updates, this will actually not start the updater
     await updater.start(getMainWindow, userConfig, locale.messages, logger);
   } catch (error) {
     const log = logger || console;
@@ -703,9 +698,6 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   }
 
   setupMenu();
-
-  // Check updates
-  readyForUpdates();
 }
 
 function setupMenu(options) {

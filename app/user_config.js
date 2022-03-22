@@ -4,7 +4,6 @@ const process = require('process');
 const { app } = require('electron');
 
 const { start } = require('./base_config');
-const config = require('./config');
 
 let storageProfile;
 
@@ -16,10 +15,7 @@ const isValidInstance = typeof instance === 'string' && instance.length > 0;
 const isProduction = environment === 'production' && !isValidInstance;
 
 // Use seperate data directories for each different environment and app instances
-// We should prioritise config values first
-if (config.has(storageProfile)) {
-  storageProfile = config.get('storageProfile');
-} else if (!isProduction) {
+if (!isProduction) {
   storageProfile = environment;
   if (isValidInstance) {
     storageProfile = storageProfile.concat(`-${instance}`);

@@ -59,6 +59,7 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getConversations: () => ConversationCollection;
+    readyForUpdates: () => void;
     MediaRecorder: any;
 
     contextMenuShown: boolean;

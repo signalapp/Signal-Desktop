@@ -130,7 +130,14 @@ export async function TEST_sendMessageToSnode(
   const data64 = window.dcodeIO.ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
 
-  window?.log?.debug('Sending envelope with timestamp: ', timestamp, ' to ', ed25519Str(pubKey));
+  window?.log?.debug(
+    'Sending envelope with timestamp: ',
+    timestamp,
+    ' to ',
+    ed25519Str(pubKey),
+    ' size base64:',
+    data64.length
+  );
   // send parameters
   const params = {
     pubKey,
