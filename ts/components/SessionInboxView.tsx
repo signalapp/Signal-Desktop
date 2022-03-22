@@ -1,6 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { LeftPane } from './leftpane/LeftPane';
 
 // tslint:disable-next-line: no-submodule-imports
@@ -10,7 +9,6 @@ import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
 import { initialCallState } from '../state/ducks/call';
 import {
-  actions as conversationActions,
   getEmptyConversationState,
   openConversationWithMessages,
 } from '../state/ducks/conversations';
@@ -27,6 +25,7 @@ import { StateType } from '../state/reducer';
 import { makeLookup } from '../util';
 import { SessionMainPanel } from './SessionMainPanel';
 import { createStore } from '../state/createStore';
+import { ExpirationTimerOptions } from '../util/expiringMessages';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -80,12 +79,7 @@ export class SessionInboxView extends React.Component<any, State> {
       .getConversations()
       .map(conversation => conversation.getConversationModelProps());
 
-    const timerOptions: TimerOptionsArray = window.Whisper.ExpirationTimerOptions.map(
-      (item: any) => ({
-        name: item.getName(),
-        value: item.get('seconds'),
-      })
-    );
+    const timerOptions: TimerOptionsArray = ExpirationTimerOptions.getTimerSecondsWithName();
 
     const initialState: StateType = {
       conversations: {
@@ -112,12 +106,7 @@ export class SessionInboxView extends React.Component<any, State> {
     this.store = createStore(initialState);
     window.inboxStore = this.store;
 
-    // Enables our redux store to be updated by backbone events in the outside world
-    const { messageExpired } = bindActionCreators(conversationActions, this.store.dispatch);
     window.openConversationWithMessages = openConversationWithMessages;
-
-    // messageExpired is currently inboked fropm js. So we link it to Redux that way
-    window.Whisper.events.on('messageExpired', messageExpired);
 
     this.setState({ isInitialLoadComplete: true });
   }

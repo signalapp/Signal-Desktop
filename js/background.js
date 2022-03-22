@@ -228,7 +228,8 @@
       el: $('body'),
     });
 
-    Whisper.WallClockListener.init(Whisper.events);
+    // FIXME audric2 ExpiringMessagesListener  Whisper.Expi
+    throw new Error('plop');
     Whisper.ExpiringMessagesListener.init(Whisper.events);
 
     if (Whisper.Registration.isDone() && !window.textsecure.storage.user.isSignInByLinking()) {

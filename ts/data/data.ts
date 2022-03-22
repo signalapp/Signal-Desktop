@@ -18,6 +18,7 @@ import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { ReduxConversationType } from '../state/ducks/conversations';
+import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { channels } from './channels';
 import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
 
@@ -648,7 +649,7 @@ export async function updateLastHash(data: {
 export async function saveMessage(data: MessageAttributes): Promise<string> {
   const cleanedData = _cleanData(data);
   const id = await channels.saveMessage(cleanedData);
-  window.Whisper.ExpiringMessagesListener.update();
+  ExpirationTimerOptions.updateExpiringMessagesCheck();
   return id;
 }
 

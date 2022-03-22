@@ -60,6 +60,7 @@ import {
   loadPreviewData,
   loadQuoteData,
 } from '../types/MessageAttachment';
+import { ExpirationTimerOptions } from '../util/expiringMessages';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -214,10 +215,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('disappearingMessagesDisabled');
       }
 
-      return window.i18n(
-        'timerSetTo',
-        window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0)
-      );
+      return window.i18n('timerSetTo', [
+        ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0),
+      ]);
     }
 
     return '';
@@ -241,7 +241,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0) as string;
+    const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {

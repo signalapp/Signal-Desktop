@@ -41,6 +41,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 import { Flex } from '../basic/Flex';
+import { ExpirationTimerOptions } from '../../util/expiringMessages';
 
 export interface TimerOption {
   name: string;
