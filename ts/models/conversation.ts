@@ -776,7 +776,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       messageRequestResponse: {
         isApproved: 1,
       },
-      unread: 1, // 1 means unread
       expireTimer: 0,
     });
 
@@ -945,7 +944,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (isOutgoing) {
       message = await this.addSingleOutgoingMessage({
         ...commonAttributes,
-        unread: 0,
         sent_at: timestamp,
       });
     } else {
@@ -1017,7 +1015,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async addSingleOutgoingMessage(
     messageAttributes: Omit<
       MessageAttributesOptionals,
-      'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
+      'conversationId' | 'source' | 'type' | 'direction' | 'received_at' | 'unread'
     >
   ) {
     return this.addSingleMessage({
@@ -1026,6 +1024,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       source: UserUtils.getOurPubKeyStrFromCache(),
       type: 'outgoing',
       direction: 'outgoing',
+      unread: 0, // an outgoing message must be read right?
       received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
     });
   }
