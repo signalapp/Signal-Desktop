@@ -8,6 +8,7 @@ import { WidthBreakpoint } from '../components/_util';
 import { MINUTE } from './durations';
 import { missingCaseError } from './missingCaseError';
 import { isSameDay } from './timestamp';
+import type { LastMessageStatus } from '../model-types.d';
 
 const COLLAPSE_WITHIN = 3 * MINUTE;
 
@@ -32,15 +33,17 @@ export enum UnreadIndicatorPlacement {
   JustBelow,
 }
 
-type MessageTimelineItemDataType = Readonly<{
+export type MessageTimelineItemDataType = Readonly<{
   author: { id: string };
+  deletedForEveryone?: boolean;
   reactions?: ReadonlyArray<unknown>;
+  status?: LastMessageStatus;
   timestamp: number;
 }>;
 
 // This lets us avoid passing a full `MessageType`. That's useful for tests and for
 //   documentation.
-type MaybeMessageTimelineItemType = Readonly<
+export type MaybeMessageTimelineItemType = Readonly<
   | undefined
   | TimelineItemType
   | { type: 'message'; data: MessageTimelineItemDataType }
@@ -50,6 +53,10 @@ const getMessageTimelineItemData = (
   timelineItem: MaybeMessageTimelineItemType
 ): undefined | MessageTimelineItemDataType =>
   timelineItem?.type === 'message' ? timelineItem.data : undefined;
+
+function isDelivered(status?: LastMessageStatus) {
+  return status === 'delivered' || status === 'read' || status === 'viewed';
+}
 
 export function areMessagesInSameGroup(
   olderTimelineItem: MaybeMessageTimelineItemType,
@@ -70,12 +77,20 @@ export function areMessagesInSameGroup(
     return false;
   }
 
+  // We definitely don't want to group if we transition from non-deleted to deleted, since
+  //   deleted messages don't show status.
+  if (newerMessage.deletedForEveryone && !olderMessage.deletedForEveryone) {
+    return false;
+  }
+
   return Boolean(
     !olderMessage.reactions?.length &&
       olderMessage.author.id === newerMessage.author.id &&
       newerMessage.timestamp >= olderMessage.timestamp &&
       newerMessage.timestamp - olderMessage.timestamp < COLLAPSE_WITHIN &&
-      isSameDay(olderMessage.timestamp, newerMessage.timestamp)
+      isSameDay(olderMessage.timestamp, newerMessage.timestamp) &&
+      (olderMessage.status === newerMessage.status ||
+        (isDelivered(newerMessage.status) && isDelivered(olderMessage.status)))
   );
 }
 

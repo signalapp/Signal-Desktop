@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { MINUTE, SECOND } from '../../util/durations';
+import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil';
 import {
   ScrollAnchor,
   areMessagesInSameGroup,
@@ -14,18 +15,20 @@ import {
 
 describe('<Timeline> utilities', () => {
   describe('areMessagesInSameGroup', () => {
-    const defaultNewer = {
+    const defaultNewer: MaybeMessageTimelineItemType = {
       type: 'message' as const,
       data: {
         author: { id: uuid() },
         timestamp: new Date(1998, 10, 21, 12, 34, 56, 123).valueOf(),
+        status: 'delivered',
       },
     };
-    const defaultOlder = {
+    const defaultOlder: MaybeMessageTimelineItemType = {
       ...defaultNewer,
       data: {
         ...defaultNewer.data,
         timestamp: defaultNewer.data.timestamp - MINUTE,
+        status: 'delivered',
       },
     };
 
@@ -115,7 +118,56 @@ describe('<Timeline> utilities', () => {
       assert.isFalse(areMessagesInSameGroup(defaultOlder, true, defaultNewer));
     });
 
-    it('returns true if the everything above works out', () => {
+    it("returns false if they don't have matching sent status (and not delivered)", () => {
+      const older = {
+        ...defaultOlder,
+        data: { ...defaultOlder.data, status: 'sent' as const },
+      };
+
+      assert.isFalse(areMessagesInSameGroup(older, false, defaultNewer));
+    });
+
+    it("returns false if newer is deletedForEveryone and older isn't", () => {
+      const newer = {
+        ...defaultNewer,
+        data: { ...defaultNewer.data, deletedForEveryone: true },
+      };
+
+      assert.isFalse(areMessagesInSameGroup(defaultOlder, false, newer));
+    });
+
+    it("returns true if older is deletedForEveryone and newer isn't", () => {
+      const older = {
+        ...defaultOlder,
+        data: { ...defaultOlder.data, deletedForEveryone: true },
+      };
+
+      assert.isTrue(areMessagesInSameGroup(older, false, defaultNewer));
+    });
+
+    it('returns true if both are deletedForEveryone', () => {
+      const older = {
+        ...defaultOlder,
+        data: { ...defaultOlder.data, deletedForEveryone: true },
+      };
+      const newer = {
+        ...defaultNewer,
+        data: { ...defaultNewer.data, deletedForEveryone: true },
+      };
+
+      assert.isTrue(areMessagesInSameGroup(older, false, newer));
+    });
+
+    it('returns true if they have delivered status or above', () => {
+      const older = {
+        ...defaultOlder,
+        data: { ...defaultOlder.data, status: 'read' as const },
+      };
+
+      assert.isTrue(areMessagesInSameGroup(older, false, defaultNewer));
+    });
+
+    it('returns true if everything above works out', () => {
       assert.isTrue(areMessagesInSameGroup(defaultOlder, false, defaultNewer));
     });
   });
