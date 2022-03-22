@@ -344,8 +344,8 @@ export const ConversationHeaderWithDetails = () => {
   const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
   const expireTimerSetting = useExpireTimer(selectedConvoKey);
   const expirationSettingName = expireTimerSetting
-    ? window.Whisper.ExpirationTimerOptions.getName(expireTimerSetting || 0)
-    : null;
+    ? ExpirationTimerOptions.getName(expireTimerSetting || 0)
+    : undefined;
 
   const triggerId = 'conversation-header';
 

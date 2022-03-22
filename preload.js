@@ -189,7 +189,7 @@ const i18n = require('./js/modules/i18n');
 
 window.Signal = Signal.setup();
 
-window.getSwarmPollingInstance = require('./ts/session/apis/snode_api/').getSwarmPollingInstance;
+window.getSwarmPollingInstance = require('./ts/session/apis/snode_api').getSwarmPollingInstance;
 
 const WorkerInterface = require('./js/modules/util_worker_interface');
 
