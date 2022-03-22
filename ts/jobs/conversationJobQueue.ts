@@ -22,14 +22,17 @@ import { sendReaction } from './helpers/sendReaction';
 import type { LoggerType } from '../types/Logging';
 import { ConversationVerificationState } from '../state/ducks/conversationsEnums';
 import { sleep } from '../util/sleep';
-import { SECOND } from '../util/durations';
+import { MINUTE } from '../util/durations';
 import {
   OutgoingIdentityKeyError,
+  SendMessageChallengeError,
   SendMessageProtoError,
 } from '../textsecure/Errors';
 import { strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { explodePromise } from '../util/explodePromise';
+import type { Job } from './Job';
+import type { ParsedJob } from './types';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -135,6 +138,16 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     }
   >();
 
+  public override async add(
+    data: Readonly<ConversationQueueJobData>,
+    insert?: (job: ParsedJob<ConversationQueueJobData>) => Promise<void>
+  ): Promise<Job<ConversationQueueJobData>> {
+    const { conversationId } = data;
+    window.Signal.challengeHandler.maybeSolve(conversationId);
+
+    return super.add(data, insert);
+  }
+
   protected parseData(data: unknown): ConversationQueueJobData {
     return conversationQueueJobDataSchema.parse(data);
   }
@@ -215,6 +228,18 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         break;
       }
 
+      if (window.Signal.challengeHandler.isRegistered(conversationId)) {
+        log.info(
+          'captcha challenge is pending for this conversation; waiting at most 5m...'
+        );
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.race([
+          this.startVerificationWaiter(conversation.id),
+          sleep(5 * MINUTE),
+        ]);
+        continue;
+      }
+
       const verificationData =
         window.reduxStore.getState().conversations
           .verificationDataByConversation[conversationId];
@@ -228,12 +253,12 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         ConversationVerificationState.PendingVerification
       ) {
         log.info(
-          'verification is pending for this conversation; waiting at most 30s...'
+          'verification is pending for this conversation; waiting at most 5m...'
         );
         // eslint-disable-next-line no-await-in-loop
         await Promise.race([
           this.startVerificationWaiter(conversation.id),
-          sleep(30 * SECOND),
+          sleep(5 * MINUTE),
         ]);
         continue;
       }
@@ -302,25 +327,31 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       }
     } catch (error: unknown) {
       const untrustedConversationIds: Array<string> = [];
-      if (error instanceof OutgoingIdentityKeyError) {
-        const failedConversation = window.ConversationController.getOrCreate(
-          error.identifier,
-          'private'
-        );
-        strictAssert(failedConversation, 'Conversation should be created');
-        untrustedConversationIds.push(failedConversation.id);
-      } else if (error instanceof SendMessageProtoError) {
-        (error.errors || []).forEach(innerError => {
-          if (innerError instanceof OutgoingIdentityKeyError) {
-            const failedConversation =
-              window.ConversationController.getOrCreate(
-                innerError.identifier,
-                'private'
-              );
-            strictAssert(failedConversation, 'Conversation should be created');
-            untrustedConversationIds.push(failedConversation.id);
-          }
-        });
+
+      const processError = (toProcess: unknown) => {
+        if (toProcess instanceof OutgoingIdentityKeyError) {
+          const failedConversation = window.ConversationController.getOrCreate(
+            toProcess.identifier,
+            'private'
+          );
+          strictAssert(failedConversation, 'Conversation should be created');
+          untrustedConversationIds.push(failedConversation.id);
+        } else if (toProcess instanceof SendMessageChallengeError) {
+          window.Signal.challengeHandler.register(
+            {
+              conversationId,
+              createdAt: Date.now(),
+              retryAt: toProcess.retryAt,
+              token: toProcess.data?.token,
+            },
+            toProcess.data
+          );
+        }
+      };
+
+      processError(error);
+      if (error instanceof SendMessageProtoError) {
+        (error.errors || []).forEach(processError);
       }
 
       if (untrustedConversationIds.length) {

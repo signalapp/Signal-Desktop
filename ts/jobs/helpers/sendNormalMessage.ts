@@ -13,10 +13,7 @@ import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import { isSent } from '../../messages/MessageSendState';
-import {
-  getLastChallengeError,
-  isOutgoing,
-} from '../../state/selectors/message';
+import { isOutgoing } from '../../state/selectors/message';
 import type { AttachmentType } from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { BodyRangesType, StoryContextType } from '../../types/Util';
@@ -285,18 +282,6 @@ export async function sendNormalMessage(
     }
 
     await messageSendPromise;
-
-    if (
-      getLastChallengeError({
-        errors: messageSendErrors,
-      })
-    ) {
-      log.info(
-        `message ${messageId} hit a spam challenge. Not retrying any more`
-      );
-      await message.saveErrors(messageSendErrors);
-      return;
-    }
 
     const didFullySend =
       !messageSendErrors.length || didSendToEveryone(message);

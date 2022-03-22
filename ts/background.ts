@@ -47,7 +47,6 @@ import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
 import { getContact } from './messages/helpers';
-import { getMessageById } from './messages/getMessageById';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
@@ -139,6 +138,7 @@ import { updateOurUsername } from './util/updateOurUsername';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -194,6 +194,8 @@ export async function startApp(): Promise<void> {
   // Initialize WebAPI as early as possible
   let server: WebAPIType | undefined;
   let messageReceiver: MessageReceiver | undefined;
+  let challengeHandler: ChallengeHandler | undefined;
+
   window.storage.onready(() => {
     server = window.WebAPI.connect(
       window.textsecure.storage.user.getWebAPICredentials()
@@ -203,6 +205,46 @@ export async function startApp(): Promise<void> {
     initializeAllJobQueues({
       server,
     });
+
+    challengeHandler = new ChallengeHandler({
+      storage: window.storage,
+
+      startQueue(conversationId: string) {
+        conversationJobQueue.resolveVerificationWaiter(conversationId);
+      },
+
+      requestChallenge(request) {
+        window.sendChallengeRequest(request);
+      },
+
+      async sendChallengeResponse(data) {
+        await window.textsecure.messaging.sendChallengeResponse(data);
+      },
+
+      onChallengeFailed() {
+        // TODO: DESKTOP-1530
+        // Display humanized `retryAfter`
+        showToast(ToastCaptchaFailed);
+      },
+
+      onChallengeSolved() {
+        showToast(ToastCaptchaSolved);
+      },
+
+      setChallengeStatus(challengeStatus) {
+        window.reduxActions.network.setChallengeStatus(challengeStatus);
+      },
+    });
+
+    window.Whisper.events.on('challengeResponse', response => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      challengeHandler.onResponse(response);
+    });
+
+    window.Signal.challengeHandler = challengeHandler;
 
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
@@ -713,6 +755,13 @@ export async function startApp(): Promise<void> {
 
       if (window.isBeforeVersion(lastVersion, 'v5.19.0')) {
         await window.storage.remove(GROUP_CREDENTIALS_KEY);
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v5.36.0-beta.4')) {
+        const legacyChallengeKey = 'challenge:retry-message-ids';
+        await removeStorageKeyJobQueue.add({
+          key: legacyChallengeKey,
+        });
       }
 
       // This one should always be last - it could restart the app
@@ -1572,49 +1621,11 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  let challengeHandler: ChallengeHandler | undefined;
-
   async function start() {
-    challengeHandler = new ChallengeHandler({
-      storage: window.storage,
-
-      getMessageById,
-
-      requestChallenge(request) {
-        window.sendChallengeRequest(request);
-      },
-
-      async sendChallengeResponse(data) {
-        await window.textsecure.messaging.sendChallengeResponse(data);
-      },
-
-      onChallengeFailed() {
-        // TODO: DESKTOP-1530
-        // Display humanized `retryAfter`
-        showToast(ToastCaptchaFailed);
-      },
-
-      onChallengeSolved() {
-        showToast(ToastCaptchaSolved);
-      },
-
-      setChallengeStatus(challengeStatus) {
-        window.reduxActions.network.setChallengeStatus(challengeStatus);
-      },
-    });
-
-    window.Whisper.events.on('challengeResponse', response => {
-      if (!challengeHandler) {
-        throw new Error('Expected challenge handler to be there');
-      }
-
-      challengeHandler.onResponse(response);
-    });
-
     // Storage is ready because `start()` is called from `storage.onready()`
-    await challengeHandler.load();
 
-    window.Signal.challengeHandler = challengeHandler;
+    strictAssert(challengeHandler, 'start: challengeHandler');
+    await challengeHandler.load();
 
     if (!window.storage.user.getNumber()) {
       const ourConversation =

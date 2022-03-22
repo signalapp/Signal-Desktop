@@ -24,6 +24,8 @@ import type {
   SessionResetsType,
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
+import { UUIDStringType } from './UUID';
+import { RegisteredChallengeType } from '../challenge';
 
 export type SerializedCertificateType = {
   expires: number;
@@ -124,10 +126,8 @@ export type StorageAccessType = {
   preferredReactionEmoji: Array<string>;
   skinTone: number;
   unreadCount: number;
-  'challenge:retry-message-ids': ReadonlyArray<{
-    messageId: string;
-    createdAt: number;
-  }>;
+  'challenge:conversations': ReadonlyArray<RegisteredChallengeType>;
+
   deviceNameEncrypted: boolean;
   'indexeddb-delete-needed': boolean;
   senderCertificate: SerializedCertificateType;
@@ -144,6 +144,7 @@ export type StorageAccessType = {
   // Deprecated
   senderCertificateWithUuid: never;
   signaling_key: never;
+  'challenge:retry-message-ids': never;
 };
 
 export interface StorageInterface {
