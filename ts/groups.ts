@@ -2879,12 +2879,19 @@ async function updateGroup(
     const profileFetchQueue = new PQueue({
       concurrency: 3,
     });
-    await profileFetchQueue.addAll(
-      contactsWithoutProfileKey.map(contact => () => {
-        const active = contact.getActiveProfileFetch();
-        return active || contact.getProfiles();
-      })
-    );
+    try {
+      await profileFetchQueue.addAll(
+        contactsWithoutProfileKey.map(contact => () => {
+          const active = contact.getActiveProfileFetch();
+          return active || contact.getProfiles();
+        })
+      );
+    } catch (error) {
+      log.error(
+        `updateGroup/${logId}: failed to fetch missing profiles`,
+        Errors.toLogFormat(error)
+      );
+    }
   }
 
   if (changeMessagesToSave.length > 0) {
