@@ -1413,7 +1413,7 @@ export class ConversationModel extends window.Backbone
     const isLatestInMemory =
       newestId && messageIds && messageIds[messageIds.length - 1] === newestId;
 
-    if (isJustSent && !isLatestInMemory) {
+    if (isJustSent && existingConversation && !isLatestInMemory) {
       await this.loadNewestMessages(undefined, undefined);
     } else {
       messagesAdded({
