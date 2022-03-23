@@ -18,26 +18,27 @@ type PropsType = {
   onRemove: () => void;
 };
 
-export const RemoveGroupMemberConfirmationDialog: FunctionComponent<PropsType> =
-  ({ conversation, i18n, onClose, onRemove }) => (
-    <ConfirmationDialog
-      actions={[
-        {
-          action: onRemove,
-          text: i18n('RemoveGroupMemberConfirmation__remove-button'),
-          style: 'negative',
-        },
-      ]}
-      i18n={i18n}
-      onClose={onClose}
-      title={
-        <Intl
-          i18n={i18n}
-          id="RemoveGroupMemberConfirmation__description"
-          components={{
-            name: <ContactName title={conversation.title} />,
-          }}
-        />
-      }
-    />
-  );
+export const RemoveGroupMemberConfirmationDialog: FunctionComponent<
+  PropsType
+> = ({ conversation, i18n, onClose, onRemove }) => (
+  <ConfirmationDialog
+    actions={[
+      {
+        action: onRemove,
+        text: i18n('RemoveGroupMemberConfirmation__remove-button'),
+        style: 'negative',
+      },
+    ]}
+    i18n={i18n}
+    onClose={onClose}
+    title={
+      <Intl
+        i18n={i18n}
+        id="RemoveGroupMemberConfirmation__description"
+        components={{
+          name: <ContactName title={conversation.title} />,
+        }}
+      />
+    }
+  />
+);
