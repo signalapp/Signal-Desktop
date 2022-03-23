@@ -5,7 +5,6 @@ import Long from 'long';
 
 import { assert, strictAssert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
-import { normalizeNumber } from '../util/normalizeNumber';
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields } from '../groups';
 import * as Bytes from '../Bytes';
@@ -120,7 +119,7 @@ export function processQuote(
   }
 
   return {
-    id: normalizeNumber(dropNull(quote.id)),
+    id: quote.id?.toNumber(),
     authorUuid: dropNull(quote.authorUuid),
     text: dropNull(quote.text),
     attachments: (quote.attachments ?? []).map(attachment => {
@@ -163,10 +162,8 @@ function isLinkPreviewDateValid(value: unknown): value is number {
   );
 }
 
-function cleanLinkPreviewDate(
-  value?: Long | number | null
-): number | undefined {
-  const result = normalizeNumber(value ?? undefined);
+function cleanLinkPreviewDate(value?: Long | null): number | undefined {
+  const result = value?.toNumber();
   return isLinkPreviewDateValid(result) ? result : undefined;
 }
 
@@ -198,7 +195,7 @@ export function processSticker(
   return {
     packId: sticker.packId ? Bytes.toHex(sticker.packId) : undefined,
     packKey: sticker.packKey ? Bytes.toBase64(sticker.packKey) : undefined,
-    stickerId: normalizeNumber(dropNull(sticker.stickerId)),
+    stickerId: dropNull(sticker.stickerId),
     data: processAttachment(sticker.data),
   };
 }
@@ -214,7 +211,7 @@ export function processReaction(
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
     targetAuthorUuid: dropNull(reaction.targetAuthorUuid),
-    targetTimestamp: normalizeNumber(dropNull(reaction.targetTimestamp)),
+    targetTimestamp: reaction.targetTimestamp?.toNumber(),
   };
 }
 
@@ -226,7 +223,7 @@ export function processDelete(
   }
 
   return {
-    targetSentTimestamp: normalizeNumber(dropNull(del.targetSentTimestamp)),
+    targetSentTimestamp: del.targetSentTimestamp?.toNumber(),
   };
 }
 
@@ -245,7 +242,7 @@ export async function processDataMessage(
     throw new Error('Missing timestamp on dataMessage');
   }
 
-  const timestamp = normalizeNumber(message.timestamp);
+  const timestamp = message.timestamp?.toNumber();
 
   if (envelopeTimestamp !== timestamp) {
     throw new Error(
@@ -272,9 +269,7 @@ export async function processDataMessage(
     contact: processContact(message.contact),
     preview: processPreview(message.preview),
     sticker: processSticker(message.sticker),
-    requiredProtocolVersion: normalizeNumber(
-      dropNull(message.requiredProtocolVersion)
-    ),
+    requiredProtocolVersion: dropNull(message.requiredProtocolVersion),
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
     delete: processDelete(message.delete),

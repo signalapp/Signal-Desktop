@@ -43,7 +43,6 @@ import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
-import { normalizeNumber } from '../util/normalizeNumber';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
@@ -279,7 +278,7 @@ export default class MessageReceiver
 
       try {
         const decoded = Proto.Envelope.decode(plaintext);
-        const serverTimestamp = normalizeNumber(decoded.serverTimestamp);
+        const serverTimestamp = decoded.serverTimestamp?.toNumber();
 
         const ourUuid = this.storage.user.getCheckedUuid();
 
@@ -310,7 +309,7 @@ export default class MessageReceiver
                 )
               )
             : ourUuid,
-          timestamp: normalizeNumber(decoded.timestamp),
+          timestamp: decoded.timestamp?.toNumber(),
           legacyMessage: dropNull(decoded.legacyMessage),
           content: dropNull(decoded.content),
           serverGuid: decoded.serverGuid,
@@ -690,13 +689,12 @@ export default class MessageReceiver
         destinationUuid: new UUID(
           decoded.destinationUuid || item.destinationUuid || ourUuid.toString()
         ),
-        timestamp: normalizeNumber(decoded.timestamp),
+        timestamp: decoded.timestamp?.toNumber(),
         legacyMessage: dropNull(decoded.legacyMessage),
         content: dropNull(decoded.content),
         serverGuid: decoded.serverGuid,
-        serverTimestamp: normalizeNumber(
-          item.serverTimestamp || decoded.serverTimestamp
-        ),
+        serverTimestamp:
+          item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
       };
 
       const { decrypted } = item;
@@ -1773,7 +1771,7 @@ export default class MessageReceiver
       {
         destination: dropNull(destination),
         destinationUuid: dropNull(destinationUuid),
-        timestamp: timestamp ? normalizeNumber(timestamp) : undefined,
+        timestamp: timestamp?.toNumber(),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
         unidentifiedStatus,
@@ -1781,9 +1779,7 @@ export default class MessageReceiver
         isRecipientUpdate: Boolean(isRecipientUpdate),
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
-        expirationStartTimestamp: expirationStartTimestamp
-          ? normalizeNumber(expirationStartTimestamp)
-          : undefined,
+        expirationStartTimestamp: expirationStartTimestamp?.toNumber(),
       },
       this.removeFromCache.bind(this, envelope)
     );
@@ -2200,7 +2196,7 @@ export default class MessageReceiver
       receiptMessage.timestamp.map(async rawTimestamp => {
         const ev = new EventClass(
           {
-            timestamp: normalizeNumber(rawTimestamp),
+            timestamp: rawTimestamp?.toNumber(),
             envelopeTimestamp: envelope.timestamp,
             source: envelope.source,
             sourceUuid: envelope.sourceUuid,
@@ -2221,7 +2217,7 @@ export default class MessageReceiver
 
     if (envelope.timestamp && typingMessage.timestamp) {
       const envelopeTimestamp = envelope.timestamp;
-      const typingTimestamp = normalizeNumber(typingMessage.timestamp);
+      const typingTimestamp = typingMessage.timestamp?.toNumber();
 
       if (typingTimestamp !== envelopeTimestamp) {
         log.warn(
@@ -2258,7 +2254,7 @@ export default class MessageReceiver
         senderDevice: envelope.sourceDevice,
         typing: {
           typingMessage,
-          timestamp: timestamp ? normalizeNumber(timestamp) : Date.now(),
+          timestamp: timestamp?.toNumber() ?? Date.now(),
           started: action === Proto.TypingMessage.Action.STARTED,
           stopped: action === Proto.TypingMessage.Action.STOPPED,
 
@@ -2421,7 +2417,7 @@ export default class MessageReceiver
       log.info(
         'sent message to',
         this.getDestination(sentMessage),
-        normalizeNumber(sentMessage.timestamp),
+        sentMessage.timestamp?.toNumber(),
         'from',
         this.getEnvelopeId(envelope)
       );
@@ -2511,7 +2507,7 @@ export default class MessageReceiver
         sourceUuid: sync.senderUuid
           ? normalizeUuid(sync.senderUuid, 'handleViewOnceOpen.senderUuid')
           : undefined,
-        timestamp: sync.timestamp ? normalizeNumber(sync.timestamp) : undefined,
+        timestamp: sync.timestamp?.toNumber(),
       },
       this.removeFromCache.bind(this, envelope)
     );
@@ -2646,7 +2642,7 @@ export default class MessageReceiver
       const ev = new ReadSyncEvent(
         {
           envelopeTimestamp: envelope.timestamp,
-          timestamp: normalizeNumber(dropNull(timestamp)),
+          timestamp: timestamp?.toNumber(),
           sender: dropNull(sender),
           senderUuid: senderUuid
             ? normalizeUuid(senderUuid, 'handleRead.senderUuid')
@@ -2669,7 +2665,7 @@ export default class MessageReceiver
         const ev = new ViewSyncEvent(
           {
             envelopeTimestamp: envelope.timestamp,
-            timestamp: normalizeNumber(dropNull(timestamp)),
+            timestamp: timestamp?.toNumber(),
             senderE164: dropNull(senderE164),
             senderUuid: senderUuid
               ? normalizeUuid(senderUuid, 'handleViewed.senderUuid')

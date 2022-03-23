@@ -3,6 +3,7 @@
 
 import { debounce, isNumber } from 'lodash';
 import pMap from 'p-map';
+import Long from 'long';
 
 import dataInterface from '../sql/Client';
 import * as Bytes from '../Bytes';
@@ -27,12 +28,12 @@ import {
 import type { MergeResultType } from './storageRecordOps';
 import type { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
-import { normalizeNumber } from '../util/normalizeNumber';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
   ConversationTypes,
@@ -495,7 +496,7 @@ async function generateManifest(
   }
 
   const manifestRecord = new Proto.ManifestRecord();
-  manifestRecord.version = version;
+  manifestRecord.version = Long.fromNumber(version);
   manifestRecord.keys = Array.from(manifestRecordKeys);
 
   const storageKeyBase64 = window.storage.get('storageKey');
@@ -503,14 +504,17 @@ async function generateManifest(
     throw new Error('No storage key');
   }
   const storageKey = Bytes.fromBase64(storageKeyBase64);
-  const storageManifestKey = deriveStorageManifestKey(storageKey, version);
+  const storageManifestKey = deriveStorageManifestKey(
+    storageKey,
+    Long.fromNumber(version)
+  );
   const encryptedManifest = encryptProfile(
     Proto.ManifestRecord.encode(manifestRecord).finish(),
     storageManifestKey
   );
 
   const storageManifest = new Proto.StorageManifest();
-  storageManifest.version = version;
+  storageManifest.version = manifestRecord.version;
   storageManifest.value = encryptedManifest;
 
   return {
@@ -676,7 +680,7 @@ async function decryptManifest(
   const storageKey = Bytes.fromBase64(storageKeyBase64);
   const storageManifestKey = deriveStorageManifestKey(
     storageKey,
-    normalizeNumber(version ?? 0)
+    dropNull(version)
   );
 
   strictAssert(value, 'StorageManifest has no value field');
@@ -1317,7 +1321,7 @@ async function sync(
       manifest.version !== undefined && manifest.version !== null,
       'Manifest without version'
     );
-    const version = normalizeNumber(manifest.version);
+    const version = manifest.version?.toNumber() ?? 0;
 
     log.info(
       `storageService.sync: updating to remoteVersion=${version} from ` +

@@ -142,7 +142,7 @@ export function decryptDeviceName(
 
 export function deriveStorageManifestKey(
   storageServiceKey: Uint8Array,
-  version: number
+  version: Long = Long.fromNumber(0)
 ): Uint8Array {
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
 }

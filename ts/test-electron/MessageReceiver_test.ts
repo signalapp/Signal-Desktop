@@ -5,6 +5,7 @@
 
 import { assert } from 'chai';
 import { v4 as getGuid } from 'uuid';
+import Long from 'long';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
@@ -48,14 +49,14 @@ describe('MessageReceiver', () => {
         source: number,
         sourceUuid: uuid,
         sourceDevice: deviceId,
-        timestamp: Date.now(),
+        timestamp: Long.fromNumber(Date.now()),
         content: Crypto.getRandomBytes(200),
       }).finish();
 
       messageReceiver.handleRequest(
         new IncomingWebSocketRequest(
           {
-            id: 1,
+            id: Long.fromNumber(1),
             verb: 'PUT',
             path: '/api/v1/message',
             body,

@@ -10,6 +10,7 @@ import {
   last,
   values,
 } from 'lodash';
+import Long from 'long';
 import type { ClientZkGroupCipher } from '@signalapp/signal-client/zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
@@ -614,7 +615,7 @@ function buildGroupProto(
       member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
 
       pendingMember.member = member;
-      pendingMember.timestamp = item.timestamp;
+      pendingMember.timestamp = Long.fromNumber(item.timestamp);
       pendingMember.addedByUserId = ourUuidCipherTextBuffer;
 
       return pendingMember;
@@ -717,7 +718,7 @@ export async function buildAddMembersChange(
         const memberPendingProfileKey = new Proto.MemberPendingProfileKey();
         memberPendingProfileKey.member = member;
         memberPendingProfileKey.addedByUserId = ourUuidCipherTextBuffer;
-        memberPendingProfileKey.timestamp = now;
+        memberPendingProfileKey.timestamp = Long.fromNumber(now);
 
         const addPendingMemberAction =
           new Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction();
@@ -5112,15 +5113,9 @@ function isValidProfileKey(buffer?: Uint8Array): boolean {
   return Boolean(buffer && buffer.length === 32);
 }
 
-function normalizeTimestamp(
-  timestamp: number | Long | null | undefined
-): number {
+function normalizeTimestamp(timestamp: Long | null | undefined): number {
   if (!timestamp) {
     return 0;
-  }
-
-  if (typeof timestamp === 'number') {
-    return timestamp;
   }
 
   const asNumber = timestamp.toNumber();
