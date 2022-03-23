@@ -3,17 +3,17 @@
 /* eslint strict: ['error', 'never'] */
 /* eslint-disable no-console */
 
-const { ipcRenderer } = require('electron');
-const _ = require('lodash');
+import { ipcRenderer } from 'electron';
+import _ from 'lodash';
 
-const Privacy = require('../ts/util/privacy');
+import { redactAll } from './privacy';
 
 const ipc = ipcRenderer;
 
 // Default Bunyan levels: https://github.com/trentm/node-bunyan#levels
 // To make it easier to visually scan logs, we make all levels the same length
 const BLANK_LEVEL = '     ';
-const LEVELS = {
+const LEVELS: Record<number, string> = {
   60: 'fatal',
   50: 'error',
   40: 'warn ',
@@ -29,8 +29,8 @@ function now() {
 }
 
 // To avoid [Object object] in our log since console.log handles non-strings smoothly
-function cleanArgsForIPC(args) {
-  const str = args.map(item => {
+function cleanArgsForIPC(args: any) {
+  const str = args.map((item: any) => {
     if (typeof item !== 'string') {
       try {
         return JSON.stringify(item);
@@ -45,19 +45,19 @@ function cleanArgsForIPC(args) {
   return str.join(' ');
 }
 
-function log(...args) {
+function log(...args: any) {
   logAtLevel('info', 'INFO ', ...args);
 }
 
 if (window.console) {
-  console._log = console.log;
-  console.log = log;
-  console._trace = console.trace;
-  console._debug = console.debug;
-  console._info = console.info;
-  console._warn = console.warn;
-  console._error = console.error;
-  console._fatal = console.error;
+  (console as any)._log = (console as any).log;
+  (console as any).log = log;
+  (console as any)._trace = (console as any).trace;
+  (console as any)._debug = (console as any).debug;
+  (console as any)._info = (console as any).info;
+  (console as any)._warn = (console as any).warn;
+  (console as any)._error = (console as any).error;
+  (console as any)._fatal = (console as any).error;
 }
 
 // The mechanics of preparing a log for publish
@@ -71,7 +71,7 @@ function getHeader() {
   return header;
 }
 
-function getLevel(level) {
+function getLevel(level: number) {
   const text = LEVELS[level];
   if (!text) {
     return BLANK_LEVEL;
@@ -80,19 +80,25 @@ function getLevel(level) {
   return text.toUpperCase();
 }
 
-function formatLine(entry) {
+type EntryType = {
+  level: number;
+  time: number;
+  msg: string;
+};
+
+function formatLine(entry: EntryType) {
   return `${getLevel(entry.level)} ${entry.time} ${entry.msg}`;
 }
 
-function format(entries) {
-  return Privacy.redactAll(entries.map(formatLine).join('\n'));
+function format(entries: Array<EntryType>) {
+  return redactAll(entries.map(formatLine).join('\n'));
 }
 
-function fetch() {
+async function fetch() {
   return new Promise(resolve => {
     ipc.send('fetch-log');
 
-    ipc.on('fetched-log', (event, text) => {
+    ipc.on('fetched-log', (_event, text) => {
       const result = `${getHeader()}\n${format(text)}`;
       resolve(result);
     });
@@ -104,16 +110,16 @@ const development = window.getEnvironment() !== 'production';
 // A modern logging interface for the browser
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
-function logAtLevel(level, prefix, ...args) {
+function logAtLevel(level: string, prefix: string, ...args: any) {
   if (development) {
     const fn = `_${level}`;
-    console[fn](prefix, now(), ...args);
+    (console as any)[fn](prefix, now(), ...args);
   } else {
-    console._log(prefix, now(), ...args);
+    (console as any)._log(prefix, now(), ...args);
   }
 
   const str = cleanArgsForIPC(args);
-  const logText = Privacy.redactAll(str);
+  const logText = redactAll(str);
   ipc.send(`log-${level}`, logText);
 }
 
@@ -127,7 +133,7 @@ window.log = {
   fetch,
 };
 
-window.onerror = (message, script, line, col, error) => {
+window.onerror = (_message, _script, _line, _col, error) => {
   const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
   window.log.error(`Top-level unhandled error: ${errorInfo}`);
 };

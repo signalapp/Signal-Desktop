@@ -23,7 +23,7 @@ window.nodeSetImmediate = setImmediate;
 window.getNodeVersion = () => config.node_version;
 window.getEnvironment = () => config.environment;
 
-require('./js/logging');
+require('./ts/util/logging');
 const os = require('os');
 
 window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;

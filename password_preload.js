@@ -47,4 +47,4 @@ window.onLogin = passPhrase =>
     ipcRenderer.send('password-window-login', passPhrase);
   });
 
-require('./js/logging');
+require('./ts/util/logging');

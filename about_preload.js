@@ -20,4 +20,4 @@ window.closeAbout = () => ipcRenderer.send('close-about');
 
 window.i18n = i18n.setup(locale, localeMessages);
 
-require('./js/logging');
+require('./ts/util/logging');

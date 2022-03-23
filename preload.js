@@ -177,7 +177,7 @@ ipc.on('get-ready-for-shutdown', async () => {
 
 // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-require('./js/logging');
+require('./ts/util/logging');
 
 if (config.proxyUrl) {
   window.log.info('Using provided proxy url');

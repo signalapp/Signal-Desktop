@@ -65,6 +65,8 @@ declare global {
 
     platform: string;
     openFromNotification: (convoId: string) => void;
+    getEnvironment: () => string;
+    getNodeVersion: () => string;
 
     contextMenuShown: boolean;
     inboxStore?: Store;
