@@ -6872,7 +6872,7 @@
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ en «$group$»",
+        "message": "$name$ a «$group$»",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -6922,7 +6922,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "¿Ocultar historia? Las nuevas historias de $name$ no aparecerán al principio de la lista",
+        "message": "¿Ocultar historia? Las nuevas historias de $name$ ya no aparecerán al principio de la lista.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {

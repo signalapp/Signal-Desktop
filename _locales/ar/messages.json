@@ -2360,7 +2360,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "القِصص",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -6792,7 +6792,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "قصصي",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6852,15 +6852,15 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "القِصص",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "قصصي",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "إضافة قصة",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
@@ -6894,11 +6894,11 @@
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "المشاهدات",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "الإجابات",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -6906,7 +6906,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "المتفاعلون مع القصة",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -6914,7 +6914,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "إخفاء قصة",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {

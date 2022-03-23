@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Créer/téléverser un paquet d’autocollants",
+        "message": "Créer ou téléverser un paquet d’autocollants",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -144,11 +144,11 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Activer/désactiver le plein écran",
+        "message": "Activer ou désactiver le plein écran",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Afficher/cacher les outils pour développeurs",
+        "message": "Afficher ou cacher les outils pour développeurs",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
@@ -2056,7 +2056,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Cliquez pour aller sur signal.org/download",
+        "message": "Cliquez pour accéder à signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2360,7 +2360,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "Histoires",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -3018,11 +3018,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Ouvrir/fermer la réponse au message sélectionné",
+        "message": "Ouvrir ou fermer la réponse au message sélectionné",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Ouvrir/fermer le sélecteur de réaction-émoji pour le message sélectionné",
+        "message": "Ouvrir ou fermer le sélecteur de réaction-émoji pour le message sélectionné",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -3122,11 +3122,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Activer/désactiver la sourdine",
+        "message": "Activer ou désactiver la sourdine",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Activer/désactiver la vidéo",
+        "message": "Activer ou désactiver la vidéo",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -6792,15 +6792,15 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "Mes histoires",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Your story",
+        "message": "Votre histoire",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "Télécharger l’histoire",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
@@ -6848,27 +6848,27 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "Supprimer cette histoire ? Elle sera aussi supprimée pour quiconque l’a reçue.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "Histoires",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "Mes histoires",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "Ajouter une histoire",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "Aucune histoire récente à afficher pour l’instant",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "Cliquez pour visualiser une histoire",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
@@ -6894,27 +6894,27 @@
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "Vues",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "Réponses",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "Réagir à l’histoire",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "A réagi à l’histoire",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "Story",
+        "message": "Histoire",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "Cacher l’histoire",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
@@ -6922,7 +6922,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "Cacher l’histoire ? Les nouvelles mises à jour d’histoire de $name$ n’apparaîtront plus en haut de la liste des histoires.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {

@@ -6894,11 +6894,11 @@
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "Skatījumi",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "Atbildes",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {

@@ -6792,7 +6792,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "എന്റെ കഥകള്‍",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6856,7 +6856,7 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "എന്റെ കഥകള്‍",
         "description": "Label for your stories"
     },
     "Stories__add": {

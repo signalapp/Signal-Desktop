@@ -926,7 +926,7 @@
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "השב להודעה",
+        "message": "השב אל הודעה",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -6828,7 +6828,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "תגובה $num$",
+        "message": "תשובה $num$",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -6838,7 +6838,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ תגובות",
+        "message": "$num$ תשובות",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -6890,7 +6890,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewsNRepliesModal__placeholder": {
-        "message": "הקלד תגובה…",
+        "message": "הקלד תשובה…",
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
@@ -6898,7 +6898,7 @@
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "תגובות",
+        "message": "תשובות",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {

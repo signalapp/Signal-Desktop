@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Creare/încărcare pachet cu autocolante",
+        "message": "Creează/încarcă pachet cu autocolante",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -1080,7 +1080,7 @@
         "description": ""
     },
     "cancel": {
-        "message": "Anulare",
+        "message": "Anulează",
         "description": ""
     },
     "discard": {
@@ -2866,7 +2866,7 @@
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
-        "message": "Anulați",
+        "message": "Anulează",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
@@ -3178,7 +3178,7 @@
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
-        "message": "Anulare",
+        "message": "Anulează",
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
@@ -6922,7 +6922,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Ascunzi povestea? Actualizări despre povești noi de la $name$  nu vor mai apărea la începutul listei de povești.",
+        "message": "Ascunzi povestea? Actualizări despre povești noi de la $name$ nu vor mai fi afișate la începutul listei.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -6960,15 +6960,15 @@
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.36--1": {
-        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
+        "message": "Scanezi rapid acel grup de chat? Este mai mult spațiu pentru mai multe mesaje pe ecran simultan. Acum grupăm împreună mesajele expeditorului dacă sunt apropiate în timp.",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--2": {
-        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
+        "message": "Când efectuezi o ștergere pentru toată lumea, vei vedea un indicator de progres care te va anunța dacă a fost trimis cu succes sau nu. Dacă nu reușește dintr-un motiv oarecare, vei mai putea să reîncerci!",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--3": {
-        "message": "Thanks to our volunteer translators, we've added support for Scottish Gaelic!",
+        "message": "Mulțumită traducătorilor noștri voluntari, am adăugat suport pentru limba scoțiană!",
         "description": "Release notes for v5.36"
     }
 }

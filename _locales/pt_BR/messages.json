@@ -6792,15 +6792,15 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "Meus Stories",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Your story",
+        "message": "Seu story",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "Baixar story",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
@@ -6848,7 +6848,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "Excluir esse story? Ele também será excluído para todos que o receberam.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -6856,23 +6856,23 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "Meus Stories",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "Adicionar um story",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "Nenhum story em exibição no momento",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "Clique para ver um story",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$ em $group$",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -6902,11 +6902,11 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "Reagir ao story",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "Reagiu ao story",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -6914,7 +6914,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "Ocultar story",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
@@ -6922,7 +6922,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "Ocultar esse story? Novos stories publicados por $name$ não aparecerão mais no topo da lista de stories.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -6944,7 +6944,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.34--1": {
-        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "message": "Já usou o Signal em uma conexão instável? Você não precisa mais se preocupar - suas alterações envolvendo o cronômetro de mensagens efêmeras agora serão enviadas assim que a sua conexão ao Wi-Fi estiver melhor, novamente.",
         "description": "Release notes for v5.34"
     },
     "WhatsNew__v5.35--1": {
@@ -6960,11 +6960,11 @@
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.36--1": {
-        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
+        "message": "Pretende ler rapidamente a conversa desse grupo? A partir de agora, há mais espaço para caber mais mensagens na tela, ao mesmo tempo, por causa de as mensagens do mesmo remetente serem agrupadas, se forem enviadas em um curto espaço de tempo.",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--2": {
-        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
+        "message": "Ao excluir uma mensagem para todos, você será informado quando houver sucesso. Se a exclusão falhar por algum motivo, perguntaremos se você deseja novamente excluir a mensagem!",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--3": {

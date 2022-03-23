@@ -6914,7 +6914,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Ukryj historie",
+        "message": "Ukryj historię",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {

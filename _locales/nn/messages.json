@@ -2360,7 +2360,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "Historiar",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -6712,7 +6712,7 @@
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "Legg til tekst",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6792,7 +6792,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "Mi historie",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6852,15 +6852,15 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "Historiar",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "Mi historie",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "Lag historie",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
@@ -6894,11 +6894,11 @@
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "Visningar",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "Svar",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -6906,7 +6906,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "Reagerte på denne historia",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -6914,11 +6914,11 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "Skjul historie",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "Gå til samtale",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {

@@ -2360,7 +2360,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "स्टोरीज्",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -6792,7 +6792,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "माझ्या स्टोरीज्",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6852,15 +6852,15 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "स्टोरीज्",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "माझ्या स्टोरीज्",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "स्टोरी जोडा",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
@@ -6906,7 +6906,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "स्टोरीला प्रतिक्रिया दिली",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {

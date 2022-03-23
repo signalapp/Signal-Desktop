@@ -6906,7 +6906,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reactie op dit verhaal",
+        "message": "Reageerde op dit verhaal",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
