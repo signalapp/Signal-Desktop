@@ -61,6 +61,7 @@ import {
   loadQuoteData,
 } from '../types/MessageAttachment';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { Notifications } from '../util/notifications';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -1088,11 +1089,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.set({ expirationStartTimestamp });
     }
 
-    window.Whisper.Notifications.remove(
-      window.Whisper.Notifications.where({
-        messageId: this.id,
-      })
-    );
+    Notifications.clearByMessageId(this.id);
   }
 
   public isExpiring() {

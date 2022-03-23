@@ -63,6 +63,7 @@ import {
 } from '../types/MessageAttachment';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { MessageRequestResponse } from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
+import { Notifications } from '../util/notifications';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -1066,11 +1067,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     _.defaults(options, { sendReadReceipts: true });
 
     const conversationId = this.id;
-    window.Whisper.Notifications.remove(
-      window.Whisper.Notifications.where({
-        conversationId,
-      })
-    );
+    Notifications.clearByConversationID(conversationId);
     let allUnreadMessagesInConvo = (await this.getUnread()).models;
 
     const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
@@ -1538,7 +1535,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //   isExpiringMessage,
     //   messageSentAt,
     // });
-    window.Whisper.Notifications.add({
+    Notifications.addNotification({
       conversationId,
       iconUrl,
       isExpiringMessage,
@@ -1569,7 +1566,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const now = Date.now();
     const iconUrl = await this.getNotificationIcon();
 
-    window.Whisper.Notifications.add({
+    Notifications.addNotification({
       conversationId,
       iconUrl,
       isExpiringMessage: false,

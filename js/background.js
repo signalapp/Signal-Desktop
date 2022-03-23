@@ -319,7 +319,7 @@
       window.setCallMediaPermissions(enabled);
     };
 
-    Whisper.Notifications.on('click', async conversationKey => {
+    window.openFromNotification = async conversationKey => {
       window.showWindow();
       if (conversationKey) {
         // do not put the messageId here so the conversation is loaded on the last unread instead
@@ -330,6 +330,7 @@
         });
       }
     });
+
 
     Whisper.events.on('openInbox', () => {
       appView.openInbox({

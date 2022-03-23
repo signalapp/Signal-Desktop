@@ -2,7 +2,6 @@
 
 const Crypto = require('./crypto');
 const Data = require('../../ts/data/data');
-const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
@@ -37,7 +36,6 @@ exports.setup = () => {
     Crypto,
     Data,
     LinkPreviews,
-    Notifications,
     OS,
     Settings,
     Types,

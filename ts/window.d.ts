@@ -60,7 +60,11 @@ declare global {
     versionInfo: any;
     getConversations: () => ConversationCollection;
     readyForUpdates: () => void;
+    drawAttention: () => void;
     MediaRecorder: any;
+
+    platform: string;
+    openFromNotification: (convoId: string) => void;
 
     contextMenuShown: boolean;
     inboxStore?: Store;
