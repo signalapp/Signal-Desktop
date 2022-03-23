@@ -25,7 +25,6 @@ import {
   MessageBodyReadMore,
 } from './MessageBodyReadMore';
 import { MessageMetadata } from './MessageMetadata';
-import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer';
 import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
 import { Image } from './Image';
@@ -92,19 +91,6 @@ type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
-const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
-const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
-  delivered: 24,
-  error: 24,
-  paused: 18,
-  'partial-sent': 24,
-  read: 24,
-  sending: 18,
-  sent: 24,
-  viewed: 24,
-};
-
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 const GROUP_AVATAR_SIZE = AvatarSize.TWENTY_EIGHT;
@@ -123,7 +109,6 @@ const SENT_STATUSES = new Set<MessageStatusType>([
 enum MetadataPlacement {
   NotRendered,
   RenderedByMessageAudioComponent,
-  InlineWithText,
   Bottom,
 }
 
@@ -333,8 +318,6 @@ export type Props = PropsData &
   Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 type State = {
-  metadataWidth: number;
-
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
@@ -372,8 +355,6 @@ export class Message extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      metadataWidth: this.guessMetadataWidth(),
-
       expiring: false,
       expired: false,
       imageBroken: false,
@@ -569,33 +550,7 @@ export class Message extends React.PureComponent<Props, State> {
       return MetadataPlacement.Bottom;
     }
 
-    return MetadataPlacement.InlineWithText;
-  }
-
-  /**
-   * A lot of the time, we add an invisible inline spacer for messages. This spacer is the
-   * same size as the message metadata. Unfortunately, we don't know how wide it is until
-   * we render it.
-   *
-   * This will probably guess wrong, but it's valuable to get close to the real value
-   * because it can reduce layout jumpiness.
-   */
-  private guessMetadataWidth(): number {
-    const { direction, expirationLength, expirationTimestamp, status } =
-      this.props;
-
-    let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
-
-    const hasExpireTimer = Boolean(expirationLength && expirationTimestamp);
-    if (hasExpireTimer) {
-      result += GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE;
-    }
-
-    if (direction === 'outgoing' && status) {
-      result += GUESS_METADATA_WIDTH_OUTGOING_SIZE[status];
-    }
-
-    return result;
+    return MetadataPlacement.Bottom;
   }
 
   public startSelectedTimer(): void {
@@ -717,33 +672,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private updateMetadataWidth = (newMetadataWidth: number): void => {
-    this.setState(({ metadataWidth }) => ({
-      // We don't want text to jump around if the metadata shrinks, but we want to make
-      //   sure we have enough room.
-      metadataWidth: Math.max(metadataWidth, newMetadataWidth),
-    }));
-  };
-
   private renderMetadata(): ReactNode {
-    let isInline: boolean;
-    const metadataPlacement = this.getMetadataPlacement();
-    switch (metadataPlacement) {
-      case MetadataPlacement.NotRendered:
-      case MetadataPlacement.RenderedByMessageAudioComponent:
-        return null;
-      case MetadataPlacement.InlineWithText:
-        isInline = true;
-        break;
-      case MetadataPlacement.Bottom:
-        isInline = false;
-        break;
-      default:
-        log.error(missingCaseError(metadataPlacement));
-        isInline = false;
-        break;
-    }
-
     const {
       deletedForEveryone,
       direction,
@@ -771,11 +700,9 @@ export class Message extends React.PureComponent<Props, State> {
         hasText={Boolean(text)}
         i18n={i18n}
         id={id}
-        isInline={isInline}
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
-        onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         showMessageDetail={showMessageDetail}
         status={status}
         textPending={textPending}
@@ -1445,7 +1372,6 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
     } = this.props;
-    const { metadataWidth } = this.state;
 
     // eslint-disable-next-line no-nested-ternary
     const contents = deletedForEveryone
@@ -1467,6 +1393,7 @@ export class Message extends React.PureComponent<Props, State> {
             ? 'module-message__text--error'
             : null
         )}
+        dir="auto"
       >
         <MessageBodyReadMore
           bodyRanges={bodyRanges}
@@ -1480,9 +1407,6 @@ export class Message extends React.PureComponent<Props, State> {
           text={contents || ''}
           textPending={textPending}
         />
-        {this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
-          <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
-        )}
       </div>
     );
   }
