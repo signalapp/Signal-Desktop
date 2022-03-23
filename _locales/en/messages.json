@@ -6941,9 +6941,5 @@
   "WhatsNew__v5.36--2": {
     "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
     "description": "Release notes for v5.36"
-  },
-  "WhatsNew__v5.36--3": {
-    "message": "Thanks to our volunteer translators, we've added support for Scottish Gaelic!",
-    "description": "Release notes for v5.36"
   }
 }

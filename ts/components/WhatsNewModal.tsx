@@ -32,7 +32,6 @@ const releaseNotes: ReleaseNotesType = {
   features: [
     { key: 'WhatsNew__v5.36--1', components: undefined },
     { key: 'WhatsNew__v5.36--2', components: undefined },
-    { key: 'WhatsNew__v5.36--3', components: undefined },
   ],
 };
 
