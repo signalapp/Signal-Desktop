@@ -1,21 +1,23 @@
-function markEverDone() {
-  storage.put('chromiumRegistrationDoneEver', '');
+import { Storage } from './storage';
+
+async function markEverDone() {
+  await Storage.put('chromiumRegistrationDoneEver', '');
 }
-function markDone() {
-  this.markEverDone();
-  storage.put('chromiumRegistrationDone', '');
+async function markDone() {
+  await markEverDone();
+  await Storage.put('chromiumRegistrationDone', '');
 }
 function isDone() {
-  return storage.get('chromiumRegistrationDone') === '';
+  return Storage.get('chromiumRegistrationDone') === '';
 }
 function everDone() {
   return (
-    storage.get('chromiumRegistrationDoneEver') === '' ||
-    storage.get('chromiumRegistrationDone') === ''
+    Storage.get('chromiumRegistrationDoneEver') === '' ||
+    Storage.get('chromiumRegistrationDone') === ''
   );
 }
-function remove() {
-  storage.remove('chromiumRegistrationDone');
+async function remove() {
+  await Storage.remove('chromiumRegistrationDone');
 }
 
 export const Registration = { markEverDone, markDone, isDone, everDone, remove };

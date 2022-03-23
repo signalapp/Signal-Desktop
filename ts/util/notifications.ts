@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { getStatus } from '../notifications';
+import { UserSetting } from '../notifications/getStatus';
 import { isMacOS } from '../OS';
 import { isAudioNotificationSupported } from '../types/Settings';
 import { isWindowFocused } from './focusListener';
+import { Storage } from './storage';
 
 const SettingNames = {
   COUNT: 'count',
@@ -106,7 +108,7 @@ function update() {
   }
 
   const isAppFocused = isWindowFocused();
-  const isAudioNotificationEnabled = storage.get('audio-notification') || false;
+  const isAudioNotificationEnabled = (Storage.get('audio-notification') as boolean) || false;
   const audioNotificationSupported = isAudioNotificationSupported();
   // const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
   const numNotifications = currentNotifications.length;
@@ -221,7 +223,7 @@ function update() {
   // ‘10 new messages’) assuming that `Notification::close` does its job.
 }
 function getUserSetting() {
-  return storage.get('notification-setting') || SettingNames.MESSAGE;
+  return (Storage.get('notification-setting') as UserSetting) || SettingNames.MESSAGE;
 }
 function onRemove() {
   // window.log.info('Remove notification');

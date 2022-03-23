@@ -329,8 +329,7 @@
           initialLoadComplete,
         });
       }
-    });
-
+    };
 
     Whisper.events.on('openInbox', () => {
       appView.openInbox({

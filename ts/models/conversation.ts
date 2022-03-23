@@ -64,6 +64,7 @@ import {
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { MessageRequestResponse } from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
 import { Notifications } from '../util/notifications';
+import { Storage } from '../util/storage';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -1146,10 +1147,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isPrivate() && read.length && options.sendReadReceipts) {
       window?.log?.info(
         `Sending ${read.length} read receipts?`,
-        window.storage.get(SettingsKey.settingsReadReceipt) || false
+        Storage.get(SettingsKey.settingsReadReceipt) || false
       );
       const dontSendReceipt = this.isBlocked() || this.isIncomingRequest();
-      if (window.storage.get(SettingsKey.settingsReadReceipt) && !dontSendReceipt) {
+      if (Storage.get(SettingsKey.settingsReadReceipt) && !dontSendReceipt) {
         const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
         const receiptMessage = new ReadReceiptMessage({
           timestamp: Date.now(),
@@ -1658,7 +1659,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // for typing to happen, this must be a private unblocked active convo, and the settings to be on
     if (
       !this.isActive() ||
-      !window.storage.get(SettingsKey.settingsTypingIndicator) ||
+      !Storage.get(SettingsKey.settingsTypingIndicator) ||
       this.isBlocked() ||
       !this.isPrivate()
     ) {

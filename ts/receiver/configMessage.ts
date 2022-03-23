@@ -17,13 +17,14 @@ import { handleNewClosedGroup } from './closedGroups';
 import { updateProfileOneAtATime } from './dataMessage';
 import { EnvelopePlus } from './types';
 import { ConversationInteraction } from '../interactions';
+import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
 
 async function handleOurProfileUpdate(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage,
   ourPubkey: string
 ) {
-  const latestProfileUpdateTimestamp = UserUtils.getLastProfileUpdateTimestamp();
+  const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
   if (!latestProfileUpdateTimestamp || sentAt > latestProfileUpdateTimestamp) {
     window?.log?.info(
       `Handling our profileUdpate ourLastUpdate:${latestProfileUpdateTimestamp}, envelope sent at: ${sentAt}`
@@ -41,7 +42,7 @@ async function handleOurProfileUpdate(
       profilePicture,
     };
     await updateProfileOneAtATime(ourConversation, lokiProfile, profileKey);
-    UserUtils.setLastProfileUpdateTimestamp(_.toNumber(sentAt));
+    await setLastProfileUpdateTimestamp(_.toNumber(sentAt));
     // do not trigger a signin by linking if the display name is empty
     if (displayName) {
       trigger(configurationMessageReceived, displayName);

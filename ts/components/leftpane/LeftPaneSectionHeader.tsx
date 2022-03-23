@@ -7,9 +7,9 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { SectionType, setOverlayMode } from '../../state/ducks/section';
-import { UserUtils } from '../../session/utils';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIcon, SessionIconButton } from '../icon';
+import { isSignWithRecoveryPhrase } from '../../util/storage';
 
 const SectionTitle = styled.h1`
   padding: 0 var(--margins-sm);
@@ -94,7 +94,7 @@ const BannerInner = () => {
 
 export const LeftPaneBanner = () => {
   const section = useSelector(getFocusedSection);
-  const isSignInWithRecoveryPhrase = UserUtils.isSignWithRecoveryPhrase();
+  const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
   if (section !== SectionType.Message || isSignInWithRecoveryPhrase) {
     return null;

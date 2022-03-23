@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { ToastUtils, UserUtils } from '../../session/utils';
+import { ToastUtils } from '../../session/utils';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
@@ -10,6 +10,7 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { getCurrentRecoveryPhrase } from '../../util/storage';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;
@@ -168,7 +169,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
     if (recoveryPhrase) {
       return false;
     }
-    const newRecoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+    const newRecoveryPhrase = getCurrentRecoveryPhrase();
     setRecoveryPhrase(newRecoveryPhrase);
     setLoadingSeed(false);
 

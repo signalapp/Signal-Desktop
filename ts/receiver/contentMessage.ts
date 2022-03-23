@@ -20,6 +20,7 @@ import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversation';
 import { ReadReceipts } from '../util/readReceipts';
+import { Storage } from '../util/storage';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -491,7 +492,7 @@ async function handleTypingMessage(
   await removeFromCache(envelope);
 
   // We don't do anything with incoming typing messages if the setting is disabled
-  if (!window.storage.get(SettingsKey.settingsTypingIndicator)) {
+  if (!Storage.get(SettingsKey.settingsTypingIndicator)) {
     return;
   }
 

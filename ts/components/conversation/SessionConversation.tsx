@@ -20,7 +20,7 @@ import { SplitViewContainer } from '../SplitViewContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { getLastMessageInConversation, getPubkeysInPublicConversation } from '../../data/data';
 import { getConversationController } from '../../session/conversations';
-import { ToastUtils, UserUtils } from '../../session/utils';
+import { ToastUtils } from '../../session/utils';
 import {
   openConversationToSpecificMessage,
   quoteMessage,
@@ -50,6 +50,7 @@ import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
 import { ConversationRequestinfo } from './ConversationRequestInfo';
+import { getCurrentRecoveryPhrase } from '../../util/storage';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -176,8 +177,7 @@ export class SessionConversation extends React.Component<Props, State> {
       await this.scrollToNow();
     };
 
-    // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
-    const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+    const recoveryPhrase = getCurrentRecoveryPhrase() as string;
 
     // string replace to fix case where pasted text contains invis characters causing false negatives
     if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {

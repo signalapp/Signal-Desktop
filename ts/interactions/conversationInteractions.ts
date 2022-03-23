@@ -45,6 +45,7 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { processNewAttachment } from '../types/MessageAttachment';
 import { urlToBlob } from '../types/attachments/VisualAttachment';
 import { MIME } from '../types';
+import { setLastProfileUpdateTimestamp } from '../util/storage';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -462,7 +463,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
 
   if (newAvatarDecrypted) {
-    UserUtils.setLastProfileUpdateTimestamp(Date.now());
+    await setLastProfileUpdateTimestamp(Date.now());
     await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
   } else {
     window.log.info(

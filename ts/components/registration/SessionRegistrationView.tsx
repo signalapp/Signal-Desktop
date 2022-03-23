@@ -4,9 +4,9 @@ import { AccentText } from './AccentText';
 import { RegistrationStages } from './RegistrationStages';
 import { SessionIcon } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
-import { setSignInByLinking } from '../../session/utils/User';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { Flex } from '../basic/Flex';
+import { setSignInByLinking } from '../../util/storage';
 
 export const SessionRegistrationView = () => {
   useEffect(() => {

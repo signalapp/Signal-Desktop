@@ -1,6 +1,5 @@
 import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
-import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
@@ -9,6 +8,14 @@ import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
 import { SettingsKey } from '../data/settings-key';
+import {
+  saveRecoveryPhrase,
+  setLastProfileUpdateTimestamp,
+  setLocalPubKey,
+  setSignInByLinking,
+  Storage,
+} from './storage';
+import { Registration } from './registration';
 
 /**
  * Might throw
@@ -76,9 +83,9 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
   }
 
   const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
-  UserUtils.setSignInByLinking(true);
+  await setSignInByLinking(true);
   await createAccount(identityKeyPair);
-  UserUtils.saveRecoveryPhrase(mnemonic);
+  await saveRecoveryPhrase(mnemonic);
   const pubKeyString = toHex(identityKeyPair.pubKey);
 
   // await for the first configuration message to come in.
@@ -109,8 +116,8 @@ export async function registerSingleDevice(
   const identityKeyPair = await generateKeypair(generatedMnemonic, mnemonicLanguage);
 
   await createAccount(identityKeyPair);
-  UserUtils.saveRecoveryPhrase(generatedMnemonic);
-  await UserUtils.setLastProfileUpdateTimestamp(Date.now());
+  await saveRecoveryPhrase(generatedMnemonic);
+  await setLastProfileUpdateTimestamp(Date.now());
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
   await registrationDone(pubKeyString, profileName);
@@ -131,39 +138,39 @@ async function createAccount(identityKeyPair: any) {
   password = password.substring(0, password.length - 2);
 
   await Promise.all([
-    window.textsecure.storage.remove('identityKey'),
-    window.textsecure.storage.remove('signaling_key'),
-    window.textsecure.storage.remove('password'),
-    window.textsecure.storage.remove('registrationId'),
-    window.textsecure.storage.remove('number_id'),
-    window.textsecure.storage.remove('device_name'),
-    window.textsecure.storage.remove('userAgent'),
-    window.textsecure.storage.remove(SettingsKey.settingsReadReceipt),
-    window.textsecure.storage.remove(SettingsKey.settingsTypingIndicator),
-    window.textsecure.storage.remove('regionCode'),
-    window.textsecure.storage.remove('local_attachment_encrypted_key'),
+    Storage.remove('identityKey'),
+    Storage.remove('signaling_key'),
+    Storage.remove('password'),
+    Storage.remove('registrationId'),
+    Storage.remove('number_id'),
+    Storage.remove('device_name'),
+    Storage.remove('userAgent'),
+    Storage.remove(SettingsKey.settingsReadReceipt),
+    Storage.remove(SettingsKey.settingsTypingIndicator),
+    Storage.remove('regionCode'),
+    Storage.remove('local_attachment_encrypted_key'),
   ]);
 
   // update our own identity key, which may have changed
   // if we're relinking after a reinstall on the master device
   const pubKeyString = toHex(identityKeyPair.pubKey);
 
-  await window.textsecure.storage.put('identityKey', identityKeyPair);
-  await window.textsecure.storage.put('password', password);
+  await Storage.put('identityKey', identityKeyPair);
+  await Storage.put('password', password);
 
   // disable read-receipt by default
-  await window.textsecure.storage.put(SettingsKey.settingsReadReceipt, false);
+  await Storage.put(SettingsKey.settingsReadReceipt, false);
 
   // Enable typing indicators by default
-  await window.textsecure.storage.put(SettingsKey.settingsTypingIndicator, false);
+  await Storage.put(SettingsKey.settingsTypingIndicator, false);
 
-  await window.textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
+  await setLocalPubKey(pubKeyString);
 }
 
 async function registrationDone(ourPubkey: string, displayName: string) {
   window?.log?.info('registration done');
 
-  window.textsecure.storage.put('primaryDevicePubKey', ourPubkey);
+  await Storage.put('primaryDevicePubKey', ourPubkey);
 
   // Ensure that we always have a conversation for ourself
   const conversation = await getConversationController().getOrCreateAndWait(
@@ -174,10 +181,10 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   await conversation.setIsApproved(true);
   const user = {
     ourNumber: getOurPubKeyStrFromCache(),
-    ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),
+    ourPrimary: ourPubkey,
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
-  window.Whisper.Registration.markDone();
+  await Registration.markDone();
   window?.log?.info('dispatching registration event');
   trigger('registration_done');
 }

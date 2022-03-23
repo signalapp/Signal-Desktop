@@ -19,6 +19,7 @@ import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { ReduxConversationType } from '../state/ducks/conversations';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { Storage } from '../util/storage';
 import { channels } from './channels';
 import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
 
@@ -469,7 +470,7 @@ export async function generateAttachmentKeyIfEmpty() {
       value: encryptingKey,
     });
     // be sure to write the new key to the cache. so we can access it straight away
-    window.textsecure.storage.put('local_attachment_encrypted_key', encryptingKey);
+    await Storage.put('local_attachment_encrypted_key', encryptingKey);
   }
 }
 

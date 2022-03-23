@@ -62,6 +62,7 @@ import {
 } from '../types/MessageAttachment';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
+import { Storage } from '../util/storage';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -428,7 +429,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const readBy = this.get('read_by') || [];
-    if (window.storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
+    if (Storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
       return 'read';
     }
     const sent = this.get('sent');
