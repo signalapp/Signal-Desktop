@@ -11,7 +11,7 @@ import { storiesOf } from '@storybook/react';
 import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
 import type { Props as MessagesProps } from './Message';
-import { Message } from './Message';
+import { Message, TextDirection } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
@@ -95,6 +95,7 @@ const defaultMessageProps: MessagesProps = {
   showVisualAttachment: action('default--showVisualAttachment'),
   status: 'sent',
   text: 'This is really interesting.',
+  textDirection: TextDirection.Default,
   theme: ThemeType.light,
   timestamp: Date.now(),
 };

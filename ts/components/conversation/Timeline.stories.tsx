@@ -24,6 +24,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import type { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
+import { TextDirection } from './Message';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -60,6 +61,7 @@ const items: Record<string, TimelineItemType> = {
       previews: [],
       readStatus: ReadStatus.Read,
       text: '🔥',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -84,6 +86,7 @@ const items: Record<string, TimelineItemType> = {
       previews: [],
       readStatus: ReadStatus.Read,
       text: 'Hello there from the new world! http://somewhere.com',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -122,6 +125,7 @@ const items: Record<string, TimelineItemType> = {
       previews: [],
       readStatus: ReadStatus.Read,
       text: 'Hello there from the new world!',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -222,6 +226,7 @@ const items: Record<string, TimelineItemType> = {
       readStatus: ReadStatus.Read,
       status: 'sent',
       text: '🔥',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -247,6 +252,7 @@ const items: Record<string, TimelineItemType> = {
       readStatus: ReadStatus.Read,
       status: 'read',
       text: 'Hello there from the new world! http://somewhere.com',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -272,6 +278,7 @@ const items: Record<string, TimelineItemType> = {
       readStatus: ReadStatus.Read,
       status: 'sent',
       text: 'Hello there from the new world! 🔥',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -297,6 +304,7 @@ const items: Record<string, TimelineItemType> = {
       readStatus: ReadStatus.Read,
       status: 'sent',
       text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),
@@ -322,6 +330,7 @@ const items: Record<string, TimelineItemType> = {
       readStatus: ReadStatus.Read,
       status: 'read',
       text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+      textDirection: TextDirection.Default,
       timestamp: Date.now(),
     },
     timestamp: Date.now(),

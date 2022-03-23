@@ -12,7 +12,7 @@ import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import type { Props, AudioAttachmentProps } from './Message';
-import { Message } from './Message';
+import { TextDirection, Message } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -184,6 +184,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showVisualAttachment: action('showVisualAttachment'),
   status: overrideProps.status || 'sent',
   text: overrideProps.text || text('text', ''),
+  textDirection: overrideProps.textDirection || TextDirection.Default,
   textPending: boolean('textPending', overrideProps.textPending || false),
   theme: ThemeType.light,
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
@@ -228,6 +229,7 @@ story.add('Plain Message', () => {
 story.add('Plain RTL Message', () => {
   const props = createProps({
     text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
+    textDirection: TextDirection.RightToLeft,
   });
 
   return renderBothDirections(props);

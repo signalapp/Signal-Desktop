@@ -4,6 +4,7 @@
 import { identity, isEqual, isNumber, isObject, map, omit, pick } from 'lodash';
 import { createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
+import getDirection from 'direction';
 
 import type {
   LastMessageStatus,
@@ -13,6 +14,7 @@ import type {
 
 import type { TimelineItemType } from '../../components/conversation/TimelineItem';
 import type { PropsData } from '../../components/conversation/Message';
+import { TextDirection } from '../../components/conversation/Message';
 import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
 import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
 import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
@@ -583,6 +585,7 @@ type ShallowPropsType = Pick<
   | 'selectedReaction'
   | 'status'
   | 'text'
+  | 'textDirection'
   | 'textPending'
   | 'timestamp'
 >;
@@ -668,6 +671,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       selectedReaction,
       status: getMessagePropStatus(message, ourConversationId),
       text: message.body,
+      textDirection: getTextDirection(message.body),
       textPending: message.bodyPending,
       timestamp: message.sent_at,
     };
@@ -675,6 +679,27 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
 
   (_: unknown, props: ShallowPropsType) => props
 );
+
+function getTextDirection(body?: string): TextDirection {
+  if (!body) {
+    return TextDirection.None;
+  }
+
+  const direction = getDirection(body);
+  switch (direction) {
+    case 'ltr':
+      return TextDirection.LeftToRight;
+    case 'rtl':
+      return TextDirection.RightToLeft;
+    case 'neutral':
+      return TextDirection.Default;
+    default: {
+      const unexpected: never = direction;
+      log.warn(`getTextDirection: unexpected direction ${unexpected}`);
+      return TextDirection.None;
+    }
+  }
+}
 
 export const getPropsForMessage: (
   message: MessageWithUIFieldsType,
