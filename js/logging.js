@@ -6,7 +6,7 @@
 const { ipcRenderer } = require('electron');
 const _ = require('lodash');
 
-const Privacy = require('./modules/privacy');
+const Privacy = require('../ts/util/privacy');
 
 const ipc = ipcRenderer;
 

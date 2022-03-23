@@ -11,7 +11,7 @@ const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
 const rimraf = require('rimraf');
 
-const { redactAll } = require('../js/modules/privacy');
+const { redactAll } = require('../ts/util/privacy');
 
 const { app, ipcMain: ipc } = electron;
 const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];

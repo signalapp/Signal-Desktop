@@ -1,7 +1,7 @@
 const electron = require('electron');
 
 const { app, dialog, clipboard } = electron;
-const { redactAll } = require('../js/modules/privacy');
+const { redactAll } = require('../ts/util/privacy');
 
 // We use hard-coded strings until we're able to update these strings from the locale.
 let quitText = 'Quit';

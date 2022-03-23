@@ -1,9 +1,10 @@
 /* eslint-env node */
 
-const path = require('path');
+import path from 'path';
 
-const { compose } = require('lodash/fp');
-const { escapeRegExp, isRegExp, isString } = require('lodash');
+// tslint:disable-next-line: no-submodule-imports
+import { compose } from 'lodash/fp';
+import { escapeRegExp, isRegExp, isString } from 'lodash';
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
@@ -12,15 +13,15 @@ const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const SERVER_URL_PATTERN = /https?:\/\/[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
-//      _redactPath :: Path -> String -> String
-exports._redactPath = filePath => {
+//  redactPath :: Path -> String -> String
+const redactPath = (filePath: string) => {
   if (!filePath) {
     throw new TypeError("'filePath' must be a string");
   }
 
-  const filePathPattern = exports._pathToRegExp(filePath);
+  const filePathPattern = _pathToRegExp(filePath);
 
-  return text => {
+  return (text: string) => {
     if (!isString(text)) {
       throw new TypeError("'text' must be a string");
     }
@@ -34,7 +35,7 @@ exports._redactPath = filePath => {
 };
 
 //      _pathToRegExp :: Path -> Maybe RegExp
-exports._pathToRegExp = filePath => {
+const _pathToRegExp = (filePath: string) => {
   try {
     const pathWithNormalizedSlashes = filePath.replace(/\//g, '\\');
     const pathWithEscapedSlashes = filePath.replace(/\\/g, '\\\\');
@@ -57,7 +58,7 @@ exports._pathToRegExp = filePath => {
 
 // Public API
 //      redactSessionID :: String -> String
-exports.redactSessionID = text => {
+const redactSessionID = (text: string) => {
   if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -65,7 +66,7 @@ exports.redactSessionID = text => {
   return text.replace(SESSION_ID_PATTERN, REDACTION_PLACEHOLDER);
 };
 
-exports.redactSnodeIP = text => {
+const redactSnodeIP = (text: string) => {
   if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -73,7 +74,7 @@ exports.redactSnodeIP = text => {
   return text.replace(SNODE_PATTERN, REDACTION_PLACEHOLDER);
 };
 
-exports.redactServerUrl = text => {
+const redactServerUrl = (text: string) => {
   if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -82,28 +83,27 @@ exports.redactServerUrl = text => {
 };
 
 //      redactGroupIds :: String -> String
-exports.redactGroupIds = text => {
+const redactGroupIds = (text: string) => {
   if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 
   return text.replace(
     GROUP_ID_PATTERN,
-    (match, before, id, after) =>
+    (_match, before, id, after) =>
       `${before}${REDACTION_PLACEHOLDER}${removeNewlines(id).slice(-3)}${after}`
   );
 };
+const removeNewlines = (text: string) => text.replace(/\r?\n|\r/g, '');
 
 //      redactSensitivePaths :: String -> String
-exports.redactSensitivePaths = exports._redactPath(APP_ROOT_PATH);
+const redactSensitivePaths = redactPath(APP_ROOT_PATH);
 
 //      redactAll :: String -> String
-exports.redactAll = compose(
-  exports.redactSensitivePaths,
-  exports.redactGroupIds,
-  exports.redactSessionID,
-  exports.redactSnodeIP,
-  exports.redactServerUrl
+export const redactAll = compose(
+  redactSensitivePaths,
+  redactGroupIds,
+  redactSessionID,
+  redactSnodeIP,
+  redactServerUrl
 );
-
-const removeNewlines = text => text.replace(/\r?\n|\r/g, '');

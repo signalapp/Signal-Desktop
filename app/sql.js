@@ -3,7 +3,7 @@ const fs = require('fs');
 const rimraf = require('rimraf');
 const SQL = require('better-sqlite3');
 const { app, dialog, clipboard, Notification } = require('electron');
-const { redactAll } = require('../js/modules/privacy');
+const { redactAll } = require('../ts/util/privacy');
 
 const {
   map,
