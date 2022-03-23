@@ -7,6 +7,7 @@ import { AttachmentUtil, LinkPreviewUtil } from '../../util';
 import { fetchLinkPreviewImage } from '../../util/linkPreviewFetch';
 import { StagedLinkPreview } from './StagedLinkPreview';
 import { getImageDimensions } from '../../types/attachments/VisualAttachment';
+import { LinkPreviews } from '../../util/linkPreviews';
 
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
   onClose: (url: string) => void;
@@ -33,7 +34,7 @@ export const getPreview = async (
   abortSignal: AbortSignal
 ): Promise<null | GetLinkPreviewResult> => {
   // This is already checked elsewhere, but we want to be extra-careful.
-  if (!window.Signal.LinkPreviews.isLinkSafeToPreview(url)) {
+  if (!LinkPreviews.isLinkSafeToPreview(url)) {
     throw new Error('Link not safe for preview');
   }
 
@@ -50,7 +51,7 @@ export const getPreview = async (
   const { title, imageHref, date } = linkPreviewMetadata;
 
   let image;
-  if (imageHref && window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)) {
+  if (imageHref && LinkPreviews.isLinkSafeToPreview(imageHref)) {
     let objectUrl: void | string;
     try {
       window?.log?.info('insecureNodeFetch => plaintext for getPreview()');

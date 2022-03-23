@@ -1,19 +1,12 @@
 /* global URL */
 
-const { isNumber, compact, isEmpty, range } = require('lodash');
-const nodeUrl = require('url');
-const LinkifyIt = require('linkify-it');
+import { compact, isEmpty, isNumber, range } from 'lodash';
+import nodeUrl from 'url';
+import LinkifyIt from 'linkify-it';
 
 const linkify = LinkifyIt();
 
-module.exports = {
-  findLinks,
-  getDomain,
-  isLinkSafeToPreview,
-  isLinkSneaky,
-};
-
-function maybeParseHref(href) {
+function maybeParseHref(href: string) {
   try {
     return new URL(href);
   } catch (err) {
@@ -21,12 +14,12 @@ function maybeParseHref(href) {
   }
 }
 
-function isLinkSafeToPreview(href) {
+function isLinkSafeToPreview(href: string) {
   const url = maybeParseHref(href);
   return Boolean(url && url.protocol === 'https:' && !isLinkSneaky(href));
 }
 
-function findLinks(text, caretLocation) {
+function findLinks(text: string, caretLocation?: number) {
   const haveCaretLocation = isNumber(caretLocation);
   const textLength = text ? text.length : 0;
 
@@ -50,7 +43,7 @@ function findLinks(text, caretLocation) {
   );
 }
 
-function getDomain(href) {
+function getDomain(href: string) {
   const url = maybeParseHref(href);
   return url ? url.hostname : null;
 }
@@ -89,7 +82,7 @@ const VALID_URI_CHARACTERS = new Set([
 const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
 const MAX_HREF_LENGTH = 2 ** 12;
 
-function isLinkSneaky(href) {
+function isLinkSneaky(href: string) {
   // This helps users avoid extremely long links (which could be hiding something
   //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
   if (href.length > MAX_HREF_LENGTH) {
@@ -154,3 +147,5 @@ function isLinkSneaky(href) {
   const pathAndHash = startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
   return [...pathAndHash].some(character => !VALID_URI_CHARACTERS.has(character));
 }
+
+export const LinkPreviews = { isLinkSneaky, getDomain, findLinks, isLinkSafeToPreview };

@@ -13,6 +13,7 @@ import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
 import { showMessageRequestBanner } from '../state/ducks/userConfig';
 import { MessageDirection } from '../models/messageType';
+import { LinkPreviews } from '../util/linkPreviews';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
@@ -110,7 +111,7 @@ async function copyFromQuotedMessage(
 }
 
 function handleLinkPreviews(messageBody: string, messagePreview: any, message: MessageModel) {
-  const urls = window.Signal.LinkPreviews.findLinks(messageBody);
+  const urls = LinkPreviews.findLinks(messageBody);
   const incomingPreview = messagePreview || [];
   const preview = incomingPreview.filter(
     (item: any) => (item.image || item.title) && urls.includes(item.url)

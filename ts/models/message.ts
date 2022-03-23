@@ -63,6 +63,7 @@ import {
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
+import { LinkPreviews } from '../util/linkPreviews';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -565,7 +566,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       return {
         ...preview,
-        domain: window.Signal.LinkPreviews.getDomain(preview.url),
+        domain: LinkPreviews.getDomain(preview.url),
         image,
       };
     });

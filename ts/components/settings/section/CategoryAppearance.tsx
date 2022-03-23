@@ -8,6 +8,7 @@ import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
+import { isHideMenuBarSupported } from '../../../types/Settings';
 import { SessionButtonColor } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
@@ -70,7 +71,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
 
     return (
       <>
-        {window.Signal.Types.Settings.isHideMenuBarSupported() && (
+        {isHideMenuBarSupported() && (
           <SessionToggleWithDescription
             onClickToggle={() => {
               window.toggleMenuBar();
