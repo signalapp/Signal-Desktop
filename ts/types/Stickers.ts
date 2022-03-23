@@ -159,7 +159,7 @@ export function downloadQueuedPacks(): void {
     const { key, status } = packsToDownload[id];
 
     // The queuing is done inside this function, no need to await here
-    downloadStickerPack(id, key, { finalStatus: status });
+    downloadStickerPack(id, key, { finalStatus: status, suppressError: true });
   }
 
   packsToDownload = {};
@@ -503,6 +503,7 @@ export type DownloadStickerPackOptions = Readonly<{
   messageId?: string;
   fromSync?: boolean;
   finalStatus?: StickerPackStatusType;
+  suppressError?: boolean;
 }>;
 
 export async function downloadStickerPack(
@@ -530,6 +531,7 @@ async function doDownloadStickerPack(
     finalStatus = 'downloaded',
     messageId,
     fromSync = false,
+    suppressError = false,
   }: DownloadStickerPackOptions
 ): Promise<void> {
   const {
@@ -547,11 +549,6 @@ async function doDownloadStickerPack(
 
   const existing = getStickerPack(packId);
   if (!doesPackNeedDownload(existing)) {
-    log.warn(
-      `Download for pack ${redactPackId(
-        packId
-      )} requested, but it does not need re-download. Skipping.`
-    );
     return;
   }
 
@@ -568,9 +565,13 @@ async function doDownloadStickerPack(
 
     if (existing && existing.status !== 'error') {
       await Data.updateStickerPackStatus(packId, 'error');
-      stickerPackUpdated(packId, {
-        status: 'error',
-      });
+      stickerPackUpdated(
+        packId,
+        {
+          status: 'error',
+        },
+        { suppressError }
+      );
     }
 
     return;
@@ -661,7 +662,7 @@ async function doDownloadStickerPack(
       status: 'error' as const,
     };
     await Data.createOrUpdateStickerPack(pack);
-    stickerPackAdded(pack);
+    stickerPackAdded(pack, { suppressError });
 
     return;
   }
@@ -734,10 +735,14 @@ async function doDownloadStickerPack(
     const errorStatus = 'error';
     await Data.updateStickerPackStatus(packId, errorStatus);
     if (stickerPackUpdated) {
-      stickerPackUpdated(packId, {
-        attemptedStatus: finalStatus,
-        status: errorStatus,
-      });
+      stickerPackUpdated(
+        packId,
+        {
+          attemptedStatus: finalStatus,
+          status: errorStatus,
+        },
+        { suppressError }
+      );
     }
   }
 }
