@@ -19,6 +19,7 @@ import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversation';
+import { ReadReceipts } from '../util/readReceipts';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -439,23 +440,21 @@ export async function innerHandleSwarmContentMessage(
   }
 }
 
-function onReadReceipt(readAt: any, timestamp: any, reader: any) {
-  const { storage, Whisper } = window;
+function onReadReceipt(readAt: number, timestamp: number, source: string) {
+  const { storage } = window;
 
-  window?.log?.info('read receipt', reader, timestamp);
+  window?.log?.info('read receipt', source, timestamp);
 
   if (!storage.get(SettingsKey.settingsReadReceipt)) {
     return;
   }
 
-  const receipt = Whisper.ReadReceipts.add({
-    reader,
-    timestamp,
-    read_at: readAt,
-  });
-
   // Calling this directly so we can wait for completion
-  return Whisper.ReadReceipts.onReceipt(receipt);
+  return ReadReceipts.onReadReceipt({
+    source,
+    timestamp,
+    readAt,
+  });
 }
 
 async function handleReceiptMessage(
