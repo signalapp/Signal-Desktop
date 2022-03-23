@@ -145,7 +145,7 @@ export function handleRequest(plaintext: any, options: ReqOptions, messageHash: 
 
 // tslint:enable:cyclomatic-complexity max-func-body-length */
 /**
- * Used in background.js
+ * Used in main_start.js
  */
 export async function queueAllCached() {
   const items = await getAllFromCache();

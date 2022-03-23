@@ -10,7 +10,7 @@ import { setSignInByLinking } from '../../util/storage';
 
 export const SessionRegistrationView = () => {
   useEffect(() => {
-    setSignInByLinking(false);
+    void setSignInByLinking(false);
   }, []);
   return (
     <SessionTheme>

@@ -170,7 +170,7 @@
       ]);
     } catch (error) {
       window.log.error(
-        'background.js: ConversationController failed to load:',
+        'main_start.js: ConversationController failed to load:',
         error && error.stack ? error.stack : error
       );
     } finally {
@@ -230,7 +230,7 @@
     });
 
     // FIXME audric2 ExpiringMessagesListener  Whisper.Expi
-    throw new Error('plop');
+    // throw new Error('plop');
     Whisper.ExpiringMessagesListener.init(Whisper.events);
 
     if (Whisper.Registration.isDone() && !window.textsecure.storage.user.isSignInByLinking()) {

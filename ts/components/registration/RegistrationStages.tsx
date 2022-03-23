@@ -65,7 +65,7 @@ export async function signUp(signUpDetails: {
       value: true,
       timestamp: Date.now(),
     });
-    setSignWithRecoveryPhrase(false);
+    await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -96,7 +96,7 @@ export async function signInWithRecovery(signInDetails: {
     await resetRegistration();
 
     await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
-    setSignWithRecoveryPhrase(true);
+    await setSignWithRecoveryPhrase(true);
 
     trigger('openInbox');
   } catch (e) {
