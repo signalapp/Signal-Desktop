@@ -149,17 +149,7 @@ function handleMentions(
 }
 
 function updateReadStatus(message: MessageModel, conversation: ConversationModel) {
-  const readSync = window.Whisper.ReadSyncs.forMessage(message);
-  if (readSync) {
-    const shouldExpire = message.get('expireTimer');
-    const alreadyStarted = message.get('expirationStartTimestamp');
-    if (shouldExpire && !alreadyStarted) {
-      // Start message expiration timer
-      const start = Math.min(readSync.get('read_at'), Date.now());
-      message.set('expirationStartTimestamp', start);
-    }
-  }
-  if (readSync || message.isExpirationTimerUpdate()) {
+  if (message.isExpirationTimerUpdate()) {
     message.set({ unread: 0 });
 
     // This is primarily to allow the conversation to mark all older
