@@ -202,6 +202,7 @@ function GroupV2Detail({
             {
               action: () => blockGroupLinkRequests(detail.uuid),
               text: i18n('PendingRequests--block--confirm'),
+              style: 'affirmative',
             },
           ]}
           i18n={i18n}

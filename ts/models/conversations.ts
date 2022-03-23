@@ -435,7 +435,7 @@ export class ConversationModel extends window.Backbone
     }
 
     const uuid = UUID.checkedLookup(id).toString();
-    return bannedMembersV2.some(item => item === uuid);
+    return bannedMembersV2.some(member => member.uuid === uuid);
   }
 
   isMemberAwaitingApproval(id: string): boolean {
@@ -3555,7 +3555,7 @@ export class ConversationModel extends window.Backbone
       return [];
     }
 
-    return this.get('bannedMembersV2') || [];
+    return (this.get('bannedMembersV2') || []).map(member => member.uuid);
   }
 
   getMembers(

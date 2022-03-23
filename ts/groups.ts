@@ -33,6 +33,7 @@ import type {
   GroupV2MemberType,
   GroupV2PendingAdminApprovalType,
   GroupV2PendingMemberType,
+  GroupV2BannedMemberType,
   MessageAttributesType,
 } from './model-types.d';
 import {
@@ -727,7 +728,9 @@ export async function buildAddMembersChange(
         addPendingMembers.push(addPendingMemberAction);
       }
 
-      const doesMemberNeedUnban = conversation.bannedMembersV2?.includes(uuid);
+      const doesMemberNeedUnban = conversation.bannedMembersV2?.find(
+        bannedMember => bannedMember.uuid === uuid
+      );
       if (doesMemberNeedUnban) {
         const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
 
@@ -976,6 +979,67 @@ export function buildAccessControlMembersChange(
   return actions;
 }
 
+export function _maybeBuildAddBannedMemberActions({
+  clientZkGroupCipher,
+  group,
+  ourUuid,
+  uuid,
+}: {
+  clientZkGroupCipher: ClientZkGroupCipher;
+  group: Pick<ConversationAttributesType, 'bannedMembersV2'>;
+  ourUuid: UUIDStringType;
+  uuid: UUIDStringType;
+}): Pick<
+  Proto.GroupChange.IActions,
+  'addMembersBanned' | 'deleteMembersBanned'
+> {
+  const doesMemberNeedBan =
+    !group.bannedMembersV2?.find(member => member.uuid === uuid) &&
+    uuid !== ourUuid;
+  if (!doesMemberNeedBan) {
+    return {};
+  }
+  // Sort current banned members by decreasing timestamp
+  const sortedBannedMembers = [...(group.bannedMembersV2 ?? [])].sort(
+    (a, b) => {
+      return b.timestamp - a.timestamp;
+    }
+  );
+
+  // All members after the limit have to be deleted and are older than the
+  // rest of the list.
+  const deletedBannedMembers = sortedBannedMembers.slice(
+    Math.max(0, getGroupSizeHardLimit() - 1)
+  );
+
+  let deleteMembersBanned = null;
+  if (deletedBannedMembers.length > 0) {
+    deleteMembersBanned = deletedBannedMembers.map(bannedMember => {
+      const deleteMemberBannedAction =
+        new Proto.GroupChange.Actions.DeleteMemberBannedAction();
+
+      deleteMemberBannedAction.deletedUserId = encryptUuid(
+        clientZkGroupCipher,
+        bannedMember.uuid
+      );
+
+      return deleteMemberBannedAction;
+    });
+  }
+
+  const addMemberBannedAction =
+    new Proto.GroupChange.Actions.AddMemberBannedAction();
+
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  addMemberBannedAction.added = new Proto.MemberBanned();
+  addMemberBannedAction.added.userId = uuidCipherTextBuffer;
+
+  return {
+    addMembersBanned: [addMemberBannedAction],
+    deleteMembersBanned,
+  };
+}
+
 // TODO AND-1101
 export function buildDeletePendingAdminApprovalMemberChange({
   group,
@@ -1005,16 +1069,19 @@ export function buildDeletePendingAdminApprovalMemberChange({
     deleteMemberPendingAdminApproval,
   ];
 
-  const doesMemberNeedBan =
-    !group.bannedMembersV2?.includes(uuid) && uuid !== ourUuid;
-  if (doesMemberNeedBan) {
-    const addMemberBannedAction =
-      new Proto.GroupChange.Actions.AddMemberBannedAction();
+  const { addMembersBanned, deleteMembersBanned } =
+    _maybeBuildAddBannedMemberActions({
+      clientZkGroupCipher,
+      group,
+      ourUuid,
+      uuid,
+    });
 
-    addMemberBannedAction.added = new Proto.MemberBanned();
-    addMemberBannedAction.added.userId = uuidCipherTextBuffer;
-
-    actions.addMembersBanned = [addMemberBannedAction];
+  if (addMembersBanned) {
+    actions.addMembersBanned = addMembersBanned;
+  }
+  if (deleteMembersBanned) {
+    actions.deleteMembersBanned = deleteMembersBanned;
   }
 
   return actions;
@@ -1098,7 +1165,9 @@ export function buildAddMember({
   actions.version = (group.revision || 0) + 1;
   actions.addMembers = [addMember];
 
-  const doesMemberNeedUnban = group.bannedMembersV2?.includes(uuid);
+  const doesMemberNeedUnban = group.bannedMembersV2?.find(
+    member => member.uuid === uuid
+  );
   if (doesMemberNeedUnban) {
     const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
     const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
@@ -1166,17 +1235,19 @@ export function buildDeleteMemberChange({
   actions.version = (group.revision || 0) + 1;
   actions.deleteMembers = [deleteMember];
 
-  const doesMemberNeedBan =
-    !group.bannedMembersV2?.includes(uuid) && uuid !== ourUuid;
+  const { addMembersBanned, deleteMembersBanned } =
+    _maybeBuildAddBannedMemberActions({
+      clientZkGroupCipher,
+      group,
+      ourUuid,
+      uuid,
+    });
 
-  if (doesMemberNeedBan) {
-    const addMemberBannedAction =
-      new Proto.GroupChange.Actions.AddMemberBannedAction();
-
-    addMemberBannedAction.added = new Proto.MemberBanned();
-    addMemberBannedAction.added.userId = uuidCipherTextBuffer;
-
-    actions.addMembersBanned = [addMemberBannedAction];
+  if (addMembersBanned) {
+    actions.addMembersBanned = addMembersBanned;
+  }
+  if (deleteMembersBanned) {
+    actions.deleteMembersBanned = deleteMembersBanned;
   }
 
   return actions;
@@ -4362,8 +4433,8 @@ async function applyGroupChange({
   > = fromPairs(
     (result.pendingAdminApprovalV2 || []).map(member => [member.uuid, member])
   );
-  const bannedMembers: Record<UUIDStringType, UUIDStringType> = fromPairs(
-    (result.bannedMembersV2 || []).map(uuid => [uuid, uuid])
+  const bannedMembers = new Map<UUIDStringType, GroupV2BannedMemberType>(
+    (result.bannedMembersV2 || []).map(member => [member.uuid, member])
   );
 
   // version?: number;
@@ -4787,28 +4858,28 @@ async function applyGroupChange({
   }
 
   if (actions.addMembersBanned && actions.addMembersBanned.length > 0) {
-    actions.addMembersBanned.forEach(uuid => {
-      if (bannedMembers[uuid]) {
+    actions.addMembersBanned.forEach(member => {
+      if (bannedMembers.has(member.uuid)) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to add banned member failed; was already in banned list.`
         );
         return;
       }
 
-      bannedMembers[uuid] = uuid;
+      bannedMembers.set(member.uuid, member);
     });
   }
 
   if (actions.deleteMembersBanned && actions.deleteMembersBanned.length > 0) {
     actions.deleteMembersBanned.forEach(uuid => {
-      if (!bannedMembers[uuid]) {
+      if (!bannedMembers.has(uuid)) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to remove banned member failed; was not in banned list.`
         );
         return;
       }
 
-      delete bannedMembers[uuid];
+      bannedMembers.delete(uuid);
     });
   }
 
@@ -4820,7 +4891,7 @@ async function applyGroupChange({
   result.membersV2 = values(members);
   result.pendingMembersV2 = values(pendingMembers);
   result.pendingAdminApprovalV2 = values(pendingAdminApprovalMembers);
-  result.bannedMembersV2 = values(bannedMembers);
+  result.bannedMembersV2 = Array.from(bannedMembers.values());
 
   return {
     newAttributes: result,
@@ -5181,7 +5252,7 @@ type DecryptedGroupChangeActions = {
   modifyAnnouncementsOnly?: {
     announcementsOnly: boolean;
   };
-  addMembersBanned?: ReadonlyArray<UUIDStringType>;
+  addMembersBanned?: ReadonlyArray<GroupV2BannedMemberType>;
   deleteMembersBanned?: ReadonlyArray<UUIDStringType>;
 } & Pick<
   Proto.GroupChange.IActions,
@@ -5720,10 +5791,13 @@ function decryptGroupChange(
           );
           return null;
         }
-        return normalizeUuid(
+        const uuid = normalizeUuid(
           decryptUuid(clientZkGroupCipher, item.added.userId),
           'addMembersBanned.added.userId'
         );
+        const timestamp = normalizeTimestamp(item.added.timestamp);
+
+        return { uuid, timestamp };
       })
       .filter(isNotNil);
   }
@@ -5804,7 +5878,7 @@ type DecryptedGroupState = {
   descriptionBytes?: Proto.GroupAttributeBlob;
   avatar?: string;
   announcementsOnly?: boolean;
-  membersBanned?: Array<UUIDStringType>;
+  membersBanned?: Array<GroupV2BannedMemberType>;
 };
 
 function decryptGroupState(
@@ -5951,10 +6025,13 @@ function decryptGroupState(
           );
           return null;
         }
-        return normalizeUuid(
+        const uuid = normalizeUuid(
           decryptUuid(clientZkGroupCipher, item.userId),
           'membersBanned.added.userId'
         );
+        const timestamp = item.timestamp?.toNumber() ?? 0;
+
+        return { uuid, timestamp };
       })
       .filter(isNotNil);
   } else {

@@ -1670,4 +1670,60 @@ describe('SQL migrations test', () => {
       }
     });
   });
+
+  describe('updateToSchemaVersion53', () => {
+    it('remaps bannedMembersV2 to array of objects', () => {
+      updateToVersion(52);
+
+      const UUID_A = generateGuid();
+      const UUID_B = generateGuid();
+      const UUID_C = generateGuid();
+
+      const noMembers = { id: 'a', groupId: 'gv2a' };
+      const emptyMembers = {
+        id: 'b',
+        groupId: 'gv2b',
+        bannedMembersV2: [],
+      };
+
+      const nonEmptyMembers = {
+        id: 'c',
+        groupId: 'gv2c',
+        bannedMembersV2: [UUID_A, UUID_B],
+      };
+
+      db.exec(
+        `
+        INSERT INTO conversations
+          (id, type, uuid, json)
+          VALUES
+          ('a', 'group', '${UUID_A}', '${JSON.stringify(noMembers)}'),
+          ('b', 'group', '${UUID_B}', '${JSON.stringify(emptyMembers)}'),
+          ('c', 'group', '${UUID_C}', '${JSON.stringify(nonEmptyMembers)}');
+        `
+      );
+
+      updateToVersion(53);
+
+      const entries: Array<{ id: string; json: string }> = db
+        .prepare('SELECT id, json FROM conversations ORDER BY id')
+        .all();
+
+      assert.deepStrictEqual(
+        entries.map(({ id, json }) => ({ id, ...JSON.parse(json) })),
+        [
+          { id: 'a', groupId: 'gv2a' },
+          { id: 'b', groupId: 'gv2b', bannedMembersV2: [] },
+          {
+            id: 'c',
+            groupId: 'gv2c',
+            bannedMembersV2: [
+              { uuid: UUID_A, timestamp: 0 },
+              { uuid: UUID_B, timestamp: 0 },
+            ],
+          },
+        ]
+      );
+    });
+  });
 });
