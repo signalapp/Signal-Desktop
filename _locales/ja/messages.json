@@ -1107,6 +1107,10 @@
         "message": "承認する",
         "description": ""
     },
+    "forward": {
+        "message": "転送",
+        "description": ""
+    },
     "done": {
         "message": "完了",
         "description": "Label for done"
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "再送信する",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "全員分の削除を再実行",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "メッセージの転送",
@@ -2015,6 +2023,10 @@
         "message": "送信できませんでした",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "削除できませんでした",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "送信を保留しました",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "一部だけ送信しました。タップして詳細を表示",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "一部だけ削除済み、クリックして再実行",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "詳細",
@@ -2343,6 +2359,10 @@
         "message": "新しいチャット",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "ストーリー",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "名前や電話番号で検索",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "メンバーを追加できません",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "$name$は、古いバージョンのSignalを使っているのでグループに追加できません。Signalをアップデートしてもらってからグループに追加してください。",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "このグループの名前",
@@ -6779,6 +6791,150 @@
         "message": "切り取り",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "マイストーリー",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "あなたのストーリー",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "ストーリーをダウンロード",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "その他のオプション",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "閲覧 $num$",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "閲覧 $num$",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "返信 $num$",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "返信 $num$",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "このストーリーを削除しますか？これを受けとった人も削除されます。",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "ストーリー",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "マイストーリー",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "ストーリーを追加",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "表示できるストーリーはありません",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "クリックしてストーリーを表示",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ から $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "返信",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "返信を入力してください…",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "閲覧",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "返信",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "ストーリーにリアクション",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "ストーリーにリアクションされました",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "ストーリー",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "ストーリーを閉じる",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "チャットする",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "$name$ からの新しいストーリーがリストのトップに表示されなくなりますが、ストーリーを閉じますか？",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "閉じる",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "更新情報",
         "description": "Title for the whats new modal"
@@ -6786,22 +6942,6 @@
     "WhatsNew__bugfixes": {
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "過去のチャットをスクロールして見るときに、常に画面上部に日付が出るようになりました。",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "左ペインのヘッダと検索エリアの間隔をシャッフルし、アクティビティのためのスペースがとても広くなりました。",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "新しい音声インジケータを導入しました。グループ通話で、大声でタイピングする人やクチャクチャする人を簡単に見つけることができます。",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "対応言語が増えました。ボランティア翻訳者の皆様のご尽力に心から感謝いたします。",
-        "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
         "message": "Wi-Fi接続が不安定な状態でSignalを使用しても、接続が回復した際に消えるメッセージのタイマーを更新し、メッセージを送信するようになりました。",
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "日本語フォントへの対応を改善しました。",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "グループチャットをななめ読みしますか？各メッセージが時間的に近い場合は送信者でグループ化し、一度に画面に表示できるメッセージの数を増やしました。",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "全員分の削除時に、送信に成功したかどうかをスピナーで確認できるようになりました。何らかの理由で失敗した場合は、再実行することもできます。",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "ボランティア翻訳者のおかげで、スコットランド・ゲール語に対応しました!",
+        "description": "Release notes for v5.36"
     }
 }

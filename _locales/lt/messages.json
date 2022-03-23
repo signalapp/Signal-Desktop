@@ -1107,6 +1107,10 @@
         "message": "Priimti",
         "description": ""
     },
+    "forward": {
+        "message": "Persiųsti",
+        "description": ""
+    },
     "done": {
         "message": "Atlikta",
         "description": "Label for done"
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "Bandyti siųsti dar kartą",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Bandyti dar kartą ištrinti visiems",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Persiųsti žinutę",
@@ -2015,6 +2023,10 @@
         "message": "Išsiuntimas nepavyko",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Nepavyko ištrinti",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Siuntimas pristabdytas",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "Dalinai išsiųsta, spustelėkite išsamesnei informacijai",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Dalinai ištrinta, spustelėkite norėdami bandyti dar kartą",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Išsamesnė informacija",
@@ -2343,6 +2359,10 @@
         "message": "Naujas pokalbis",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Istorijos",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Ieškokite pagal vardą ar telefono numerį",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Nepavyksta pridėti nario",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "Naudotojas „$name$“ negali būti pridėtas į grupę, nes jis naudoja seną Signal versija. Šį naudotoją galėsite pridėti po to, kai jis atnaujins Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Suteikti šiai grupei pavadinimą",
@@ -6779,6 +6791,150 @@
         "message": "Apkirpti",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Mano istorijos",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Jūsų istorija",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Atsisiųsti istoriją",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "Daugiau parinkčių",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "Peržiūrų: $num$",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "Peržiūrų: $num$",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "Atsakymų: $num$",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "Atsakymų: $num$",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Ištrinti šią istoriją? Ji taip pat bus ištrinta visiems, kas ją gavo.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Istorijos",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Mano istorijos",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Pridėti istoriją",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Šiuo metu nėra paskiausių istorijų, kurias rodyti",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Spustelėkite norėdami žiūrėti istoriją",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "Nuo $name$ grupei $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Atsakyti",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Rašykite atsakymą...",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Peržiūros",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Atsakymai",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Reaguoti į istoriją",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Sureagavo į istoriją",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Istorija",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Slėpti istoriją",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Pereiti į pokalbį",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Slėpti istoriją? Nauji istorijos atnaujinimai nuo $name$ daugiau nebeatsiras istorijų sąrašo viršuje.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Slėpti",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "Kas naujo",
         "description": "Title for the whats new modal"
@@ -6786,22 +6942,6 @@
     "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "Slinkite pokalbyje be galo ir būkite užtikrinti, kad kur besustotumėte, tiksliai žinosite laikotarpį, ties kuriuo sustojote.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "Pertvarkėme tarpus kairiojo polangio antraštėje ir paieškos srityje, ir dabar yra žymiai daugiau vietos veikloms!",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "Grupės pokalbiuose lengvai raskite garsiai rašančius klaviatūra ar čepsinčius asmenis – pristatėme naują animuotą kalbėjimo indikatorių!",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "Išplėstas palaikomų kalbų sąrašas. Nuoširdžiai dėkojame vertėjams-savanoriams, kurių pastangų dėka visa tai tapo įmanoma.",
-        "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
         "message": "Esate naudojęsi Signal prisijungę prie nestabilaus interneto ryšio? Galite daugiau nebesirūpinti – išnykstančių žinučių laikmačio pakeitimai ir kita dabar bus išsiunčiama, kai tik jūsų belaidis (Wi-Fi) ryšys vėl pasijus geriau.",
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "Geresnis šrifto palaikymas mūsų draugams japonams.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Greitai peržiūrite pokalbį? Vienu metu ekrane yra daugiau vietos žinutėms. Dabar, grupuojame siuntėjų žinutes, jeigu jos buvo išsiųstos panašiu laiku.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "Dabar, atlikdami veiksmą „Ištrinti visiems“, matysite eigos suktuką, leidžiantį jums suprasti, ar ištrynimo veiksmas buvo sėkmingai išsiųstas, ar ne. Jei dėl kažkokių priežasčių jo išsiųsti nepavyko, galėsite bandyti dar kartą!",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "Mūsų savanorių vertėjų dėka pridėjome škotų gėlų kalbos palaikymą!",
+        "description": "Release notes for v5.36"
     }
 }

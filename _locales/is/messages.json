@@ -1107,6 +1107,10 @@
         "message": "Samþykkja",
         "description": ""
     },
+    "forward": {
+        "message": "Áfram",
+        "description": ""
+    },
     "done": {
         "message": "Lokið",
         "description": "Label for done"
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "Reyna aftur að senda",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Prófa aftur að eyða fyrir alla",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Áframsenda skilaboð",
@@ -2015,6 +2023,10 @@
         "message": "Sending mistókst",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Eyðing mistókst",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Sending í bið",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "Sent að hluta, smelltu fyrir nánari upplýsingar",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Eytt að hluta, smelltu til að reyna aftur",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Nánar",
@@ -2343,6 +2359,10 @@
         "message": "Nýtt samtal",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Sögur",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Leita eftir nafni eða símanúmeri",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Get ekki bætt við meðlimi",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "Ekki er hægt að bæta \"$name$\" í þennan hóp þar sem þeir eru að nota gamla útgáfu af Signal. Þú getur bætt þeim í hópinn eftir að þeir hafa uppfært Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Nefndu þennan hóp",
@@ -6779,6 +6791,150 @@
         "message": "Utansníða",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Sögurnar mínar",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Sagan þín",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Sækja sögu",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "Fleiri valkostir",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "$num$ innlit",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "$num$ innlit",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "$num$ svar",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "$num$ svör",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Eyða þessari sögu? Henni verður líka eytt hjá öllum sem hafa fengið hana.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Sögur",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Sögurnar mínar",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Bæta við sögu",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Í augnablikinu eru engar nýlegar sögur til að birta",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Smelltu til að skoða sögu",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ í $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Svara",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Skrifaðu svar...",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Skoðað",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Svör",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Bregðast við sögu",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Brást við sögunni",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Saga",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Fela sögu",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Fara í spjall",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Fela sögu? Nýjar uppfærslur á sögu frá $name$ munu ekki birtast framar efst í sögulistanum.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Fela",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "Hvað er nýtt",
         "description": "Title for the whats new modal"
@@ -6786,22 +6942,6 @@
     "WhatsNew__bugfixes": {
         "message": "Þessi útgáfa inniheldur nokkrar villuleiðréttingar og fínstillingar til að Signal keyri sem áreiðanlegast.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "Skrunaðu endalaust í gegnum samtölin þín en hafðu samt á tilfinninguni að þú sért nákvæmlega með á nótunum.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "Við stokkuðum upp bilin vinstra megin efst, og nú er svo mikið pláss fyrir virkni!",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "Ekki láta hávært lyklaglamur eða smjatt frá næsta manni trufla þig - núna er tánmerki með hreyfingu sem lætur þig vita þegar einhver er að tala!",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "Listinn yfir studd tungumál er alltaf að lengjast. Við þökkum einlæglega öllum sjálfboðaliðunum sem sjá um þýðingarnar.",
-        "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
         "message": "Einhverntíma reynt að nota Signal á óstöðugri tengingu? Nú þarftu ekki lengur að hafa áhyggjur - breytingar á niðurtalningu skilaboða sem hverfa og ýmsu fleiru verða núna sendar út um leið og Wi-Fi-netinu líður betur.",
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "Betri leturstuðningur fyrir japanska vini okkar.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Ertu að renna hratt yfir spjall hóps? Núna er meira pláss á skjánum fyrir fleiri skilaboð. Núna hópum við saman skilaboð frá sendanda í hópi ef þau eru nálægt hvert öðru í tíma.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "Þegar framkvæmt er 'Eyða fyrir alla' muntu núna sjá framvinduvísi sem lætur þig vita hvort skipunin hafir verið send eða ekki. Ef þetta af einhverjum ástæðum mistekst, muntu líka geta reynt aftur.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "Þökk sé sjálfboðaliðum okkar við þýðingar getum við núna bætt við Skoskri gelísku",
+        "description": "Release notes for v5.36"
     }
 }

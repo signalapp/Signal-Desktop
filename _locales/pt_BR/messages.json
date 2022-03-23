@@ -1107,6 +1107,10 @@
         "message": "Aceitar",
         "description": ""
     },
+    "forward": {
+        "message": "Encaminhar",
+        "description": ""
+    },
     "done": {
         "message": "Pronto",
         "description": "Label for done"
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "Reenviar",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Tentar excluir para todos novamente",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Encaminhar mensagem",
@@ -2015,6 +2023,10 @@
         "message": "Falha no envio",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Falha ao excluir",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Envio pendente",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "Enviada parcialmente, clique para ver detalhes",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Excluída parcialmente, clique para tentar novamente",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Detalhes",
@@ -2343,6 +2359,10 @@
         "message": "Nova conversa",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Stories",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Pesquisar por nome ou número de telefone",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Não é possível adicionar essa pessoa",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" não pode ser adicionado ao grupo porque está usando uma versão antiga do Signal. Você pode adicionar essa pessoa ao grupo depois que ela atualize o Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Escolha um nome para este grupo",
@@ -2502,7 +2514,7 @@
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal couldn’t update. Click to try again.",
+        "message": "Não foi possível atualizar o Signal. Clique para tentar novamente.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -6779,6 +6791,150 @@
         "message": "Cortar",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Meus Stories",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Seu story",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Baixar story",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "Mais opções",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "$num$ visualização",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "$num$ visualizações",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "$num$ resposta",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "$num$ respostas",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Excluir esse story? Ele também será excluído para todos que o receberam.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Stories",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Meus Stories",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Adicionar um story",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Nenhum story em exibição no momento",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Clique para ver um story",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ em $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Responder",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Digitar uma resposta…",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Visualizações",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Respostas",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Reagir ao story",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Reagiu ao story",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Story",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Ocultar story",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Ir para a conversa",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Ocultar esse story? Novos stories publicados por $name$ não aparecerão mais no topo da lista de stories.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Ocultar",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "Novidades",
         "description": "Title for the whats new modal"
@@ -6787,24 +6943,8 @@
         "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.31--1": {
-        "message": "A partir de agora, você alcançará mensagens anteriores com confiança, porque com nossa ajuda está mais fácil identificar a data das mensagens. Role sem parar nas suas conversas.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "O cabeçalho estava muito apertado na nossa barra lateral. Encaixamos as peças com maior folga. Agora há muito espaço para mais atividades!",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "A partir de agora, em ligações com mais de uma pessoa, um indicador de som animado próximo ao nome de cada pessoa revelará facilmente a origem do som!",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "Signal foi traduzido para mais idiomas. Agradecemos sinceramente aos tradutores voluntários cujos esforços tornaram isso possível.",
-        "description": "Release notes for v5.32"
-    },
     "WhatsNew__v5.34--1": {
-        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
+        "message": "Já usou o Signal em uma conexão instável? Você não precisa mais se preocupar - suas alterações envolvendo o cronômetro de mensagens efêmeras agora serão enviadas assim que a sua conexão ao Wi-Fi estiver melhor, novamente.",
         "description": "Release notes for v5.34"
     },
     "WhatsNew__v5.35--1": {
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "Melhoramos o contorno de caracteres japoneses para facilitar a sua leitura.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Pretende ler rapidamente a conversa desse grupo? A partir de agora, há mais espaço para caber mais mensagens na tela, ao mesmo tempo, por causa de as mensagens do mesmo remetente serem agrupadas, se forem enviadas em um curto espaço de tempo.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "Ao excluir uma mensagem para todos, você será informado quando houver sucesso. Se a exclusão falhar por algum motivo, perguntaremos se você deseja novamente excluir a mensagem!",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "Graças aos tradutores voluntários, Signal foi traduzido para o idioma gaélico escocês!",
+        "description": "Release notes for v5.36"
     }
 }

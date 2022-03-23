@@ -1107,6 +1107,10 @@
         "message": "Elfogadás",
         "description": ""
     },
+    "forward": {
+        "message": "Továbbítás",
+        "description": ""
+    },
     "done": {
         "message": "Befejezés",
         "description": "Label for done"
@@ -1148,7 +1152,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Küldj egy üzenetet",
+        "message": "Küldj egy üzenetet...",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "Újraküldés",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Törlés mindenkinél újra",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Üzenet továbbítása",
@@ -2015,6 +2023,10 @@
         "message": "Küldés sikertelen",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Sikertelen törlés",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Küldés felfüggesztve",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "Részlegesen elküldve, kattints a részletekért",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Csak részben törölve, kattints a teljeshez",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Részletek",
@@ -2343,6 +2359,10 @@
         "message": "Új beszélgetés",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Történetek",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Keresés név vagy telefonszám alapján",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Csoporttag hozzáadása sikertelen",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" nem adható hozzá a csoporthoz, mert a Signal egy elavult verzióját használja. A Signal frissítését követően hozzáadhatod őt.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Csoport elnevezése",
@@ -2502,7 +2514,7 @@
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "A Signal frissítése nem sikerült. Kattints, hogy újra megpróbáljuk!",
+        "message": "Sikertelen frissítés. Kattints és próbáld újra.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -6779,6 +6791,150 @@
         "message": "Kivágás",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Történeteim",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Történeteid",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Történet letöltése",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "További lehetőségek",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "$num$ megtekintés",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "$num$ megtekintés",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "$num$ válasz",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "$num$ válasz",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Kitörlöd ezt a történetet? Az összes címzettnél törlésre kerül.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Történetek",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Történeteim",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Történet hozzáadása",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Nincs aktuális friss történet",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Kattints ide a történet megtekintéséhez!",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ ide: $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Válasz",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Küldj egy választ...",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Megtekintések",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Válaszok",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Reakció a történetre",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Reakció elküldve a történetre",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Történet",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Történet elrejtése",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Ugrás a beszélgetéshez",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Elrejted a történetet? A $name$ nevű felhasználótól származó üzenetek többé nem kerülnek a történeteket tartalmazó lista elejére.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Elrejtés",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "Újdonságok",
         "description": "Title for the whats new modal"
@@ -6786,22 +6942,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "Görgess végig beszélgetéseiden úgy, hogy közben mindig tudni fogod, merre jársz az időben.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "Átrendeztük a baloldali sáv fejléce és keresője körüli területet, így rengeteg hely áll rendelkezésre a tevékenységek megjelenítéséhez.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "Találd meg könnyedén, hogy ki gépel túl zajosan vagy nyammog a mikrofonba egy-egy csoporthívás alatt - bevezettük az új, animált aktív beszéd-indikátort",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "A támogatott nyelvek listája kibővült. Hálásan köszönjük az önkéntes fordítóknak, akik munkája ezt lehetővé tette!",
-        "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
         "message": "Használtad már a Signalt ingadozó hálózati kapcsolat alatt? Többé nincs miért aggódni, az eltűnő üzenetek időzítésének átállítása és minden más változtatás azonnal felszinkronizálásra kerül, amint a kapcsolat helyreállt.",
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "Japán barátaink jobb betűtípus támogatást kaptak.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Szeretnéd gyorsan átfutni egy csoportos beszélgetés tartalmát? Mostantól több üzenet fér el egyszerre a képernyőre. Az azonos feladótól származó üzeneteket feladó szerint csoportosítjuk, ha közel azonos időben lettek elküldve.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "A Törlés mindenkinek funkció használata során egy folyamatjelző tudatja veled, hogy sikeres volt-e a művelet. Ha bármilyen okból megszakadt volna, akkor lehetőséged lesz újra megpróbálni.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "Önkéntes fordítóinknak köszönhetően mostantól támogatjuk a skót gael nyelvet is.",
+        "description": "Release notes for v5.36"
     }
 }

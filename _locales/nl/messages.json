@@ -1107,6 +1107,10 @@
         "message": "Aanvaarden",
         "description": ""
     },
+    "forward": {
+        "message": "Doorsturen",
+        "description": ""
+    },
     "done": {
         "message": "Klaar",
         "description": "Label for done"
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "Opnieuw proberen te verzenden",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Opnieuw proberen voor iedereen te wissen",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Bericht doorsturen",
@@ -2015,6 +2023,10 @@
         "message": "Verzenden mislukt",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Wissen is mislukt",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Verzending is gepauzeerd",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "Gedeeltelijk verzonden, klik hier voor details",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Gedeeltelijk gewist, klik hier om het opnieuw te proberen",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Details",
@@ -2343,6 +2359,10 @@
         "message": "Nieuw gesprek beginnen",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Verhalen",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Zoeken op naam of nummer",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Deze persoon kan niet worden toegevoegd aan de groep",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "$name$ kan niet aan de groep worden toegevoegd omdat hij of zij een oude versie van Signal gebruikt. Je kunt hem of haar aan de groep toevoegen nadat hij of zij Signal heeft bijgewerkt.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Geef dit groepsgesprek een naam ",
@@ -6779,6 +6791,150 @@
         "message": "Bijsnijden",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Mijn verhalen",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Jouw verhaal",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Verhaal downloaden",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "Meer opties",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "Door $num$ persoon gezien",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "Door $num$ personen gezien",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "$num$ reactie",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "$num$ reacties",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Dit verhaal wissen? Het zal ook worden gewist voor iedereen die het al heeft ontvangen.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Verhalen",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Mijn verhalen",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Een verhaal toevoegen",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Er zijn op dit moment geen recente verhalen om weer te geven",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Klik op een verhaal om die weer te geven",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ naar $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Reageren",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Typ een reactie …",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Aantal weergaven",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Reacties",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Reageren op dit verhaal",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Reageerde op dit verhaal",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Verhaal",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Verhaal verbergen",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Gesprek openen",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Als je dit verhaal verbergt dan zullen nieuwe verhalen van $name$ niet langer bovenaan de lijst met verhalen worden weergegeven.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Verbergen",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
@@ -6786,22 +6942,6 @@
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "Verbeterde weergave van datums als je omhoog scrolt in je gespreksgeschiedenis.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "We hebben de ruimte in het linker paneel beter ingedeeld.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "Met een nieuw spreker-pictogram kun je vanaf nu in een groepsoproep duidelijk zien wie er op dit moment spreekt, of wie er lawaai maakt.",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "Signal is nu in nog meer talen beschikbaar, waaronder Fries! Veel dank aan de vertalers die dit mogelijk maken.",
-        "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
         "message": "Heb je wel eens last van een onbetrouwbare internetverbinding? Geen zorgen. De instelling voor verlopende berichten en andere dingen worden vanaf nu alsnog verzonden wanneer je internetverbinding het weer doet.",
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "Verbeterd lettertype voor Japans.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Er passen vanaf nu meer berichten tegelijk op het scherm omdat berichten van dezelfde afzender die korte tijd na elkaar zijn verzonden nu als een groep berichten wordt weergeven.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "Wanneer je iets voor iedereen wist dan zie je vanaf nu een draaient figuurtje totdat duidelijk is of de opdracht om te wissen naar iedereen kon worden verzonden. Als het niet lukt dan krijg je de optie om het opnieuw te proberen.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "Dankzij de vrijwillige vertalers is Signal-Desktop nu ook beschikbaar in Schots-Gaelisch.",
+        "description": "Release notes for v5.36"
     }
 }

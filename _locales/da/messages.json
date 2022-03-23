@@ -1107,6 +1107,10 @@
         "message": "Godkend",
         "description": ""
     },
+    "forward": {
+        "message": "Videresend",
+        "description": ""
+    },
     "done": {
         "message": "Udført",
         "description": "Label for done"
@@ -1196,6 +1200,10 @@
     "retrySend": {
         "message": "Prøv igen at sende",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Forsøg Slet for alle igen",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Videresend besked",
@@ -2015,6 +2023,10 @@
         "message": "Send mislykkedes",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Sletning mislykkedes",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Send sat på pause",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2034,10 @@
     "partiallySent": {
         "message": "Delvist sendt, klik for detaljer",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Delvist slettet, klik for at forsøge igen",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Detaljer",
@@ -2343,6 +2359,10 @@
         "message": "Ny samtale",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Historier",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Søg via navn eller telefonnummer",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2432,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Medlemmet kan ikke tilføjes",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" kan ikke føjes til gruppen, fordi de anvender en ældre version af Signal. Du kan føje dem til gruppen, når de har opdateret Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Navngiv gruppen",
@@ -6779,6 +6791,150 @@
         "message": "Beskær",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Mine historier",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Din historie",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Hent historie",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "Flere muligheder",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "$num$ visning",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "$num$ visninger",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "$num$ svar",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "$num$ svar",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Slet historie? Den vil også blive slettet for alle, som modtog den.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Historier",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Mine historier",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Tilføj en historie",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Ingen nye historier at vise lige nu",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Klik for at se en historie",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ til $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Besvar",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Indtast et svar...",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Visninger",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Svar",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Reager på historie ",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Reagerede på historien",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Historie",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Skjul historie",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Gå til samtale",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Skjul historie? Nye historie-opdateringer fra $name$ vil ikke længere blive vist øverst på listen over historier.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Skjul",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "Nyheder",
         "description": "Title for the whats new modal"
@@ -6786,22 +6942,6 @@
     "WhatsNew__bugfixes": {
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "Du kan scrolle uendeligt gennem dine samtaler og være sikker på, at uanset hvor du er i samtalen, ved du hvornår.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "Vi har ændret på afstanden i venstre rudes sidehoved og søgeområde, så der nu er masser af plads til aktiviteter!",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "Nu er det nemt at opspore personen, der højlydt taster eller smasker i gruppeopkald - vi har indført en ny animeret taleindikator!",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "Listen med understøttede sprog er blevet udvidet. Vi sætter stor pris på de frivillige oversættere, hvis indsats har gjort dette muligt.",
-        "description": "Release notes for v5.32"
     },
     "WhatsNew__v5.34--1": {
         "message": "Har du nogensinde brugt Signal på en ustabil forbindelse? Nu behøver du ikke længere bekymre dig - ændringer i udløbstiden for forsvindende beskeder og andet vil nu blive sendt ud, når dit Wi-Fi er bedre igen.",
@@ -6818,5 +6958,17 @@
     "WhatsNew__v5.35--3": {
         "message": "Bedre understøttelse af skrifttyper for vores japanske venner.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Scanner du hurtigt en gruppesamtale? Der er mere plads til flere beskeder på skærmen på én gang. Vi grupperer nu afsenders beskeder sammen, hvis de ligger tæt på hinanden i tid.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "Når du udfører en Slet for alle, vises der nu en status, der fortæller dig, om den er blevet sendt eller ej. Hvis det af en eller anden grund mislykkes, kan du også forsøge igen!",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--3": {
+        "message": "Takket være vores frivillige oversættere har vi tilføjet understøttelse af skotsk gælisk!",
+        "description": "Release notes for v5.36"
     }
 }
