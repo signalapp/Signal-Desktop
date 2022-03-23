@@ -31,13 +31,6 @@
       window.log.info(s);
       this.$('#status').text(s);
     },
-    displayError(error) {
-      this.$('#error')
-        .hide()
-        .text(error)
-        .addClass('in')
-        .fadeIn();
-    },
   });
 
   class TextScramble {
