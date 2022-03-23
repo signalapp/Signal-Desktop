@@ -666,6 +666,14 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   private renderMetadata(): ReactNode {
+    const metadataPlacement = this.getMetadataPlacement();
+    if (
+      metadataPlacement === MetadataPlacement.NotRendered ||
+      metadataPlacement === MetadataPlacement.RenderedByMessageAudioComponent
+    ) {
+      return null;
+    }
+
     const {
       deletedForEveryone,
       direction,
