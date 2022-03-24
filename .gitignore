@@ -49,4 +49,4 @@ yarn-error.log
 libloki/test/test.js
 
 playwright.config.js
-playwright.config.js.map
+*.js.map

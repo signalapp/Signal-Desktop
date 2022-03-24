@@ -57,15 +57,17 @@ export class SessionInboxView extends React.Component<any, State> {
     window.persistStore = persistor;
 
     return (
-      <Provider store={this.store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <div className="gutter">
-            <div className="network-status-container" />
-            {this.renderLeftPane()}
-          </div>
-          <SessionMainPanel />
-        </PersistGate>
-      </Provider>
+      <div className="inbox index">
+        <Provider store={this.store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <div className="gutter">
+              <div className="network-status-container" />
+              {this.renderLeftPane()}
+            </div>
+            <SessionMainPanel />
+          </PersistGate>
+        </Provider>
+      </div>
     );
   }
 

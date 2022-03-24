@@ -9,10 +9,4 @@ $(document).on('keyup', e => {
   }
 });
 
-const $body = $(document.body);
-
-// got.js appears to need this to successfully submit debug logs to the cloud
-window.setImmediate = window.nodeSetImmediate;
-
-window.view = new Whisper.DebugLogView();
-window.view.$el.appendTo($body);
+window.ReactDOM.render(<window.Views.DebugLogView />, document.getElementById('app'));

@@ -60,7 +60,6 @@ window.setPassword = (passPhrase, oldPhrase) =>
       if (error) {
         return reject(error);
       }
-      Whisper.events.trigger('password-updated');
       return resolve();
     });
     ipc.send('set-password', passPhrase, oldPhrase);

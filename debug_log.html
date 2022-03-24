@@ -17,36 +17,9 @@
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
     <style></style>
   </head>
-  <body class="debug-log-window"></body>
-  <script type="text/x-tmpl-mustache" id="debug-log">
-    <div class='content'>
-      <div>
-        <a class='x close' alt='close debug log' href='#'></a>
-        <h1> {{ title }} </h1>
-        <p> {{ debugLogExplanation }}</p>
-      </div>
-      <textarea spellcheck='false' rows='5'></textarea>
-      <div class='buttons'>
-        <button class='grey submit'>{{ saveLogToDesktop }}</button>
-      </div>
-      <div class='result'>
-      </div>
-    </div>
-  </script>
-  <script type="text/x-tmpl-mustache" id="debug-log-link">
-    <div class='input-group clearfix'>
-      <input type='text' class='link' readonly value='{{ url }}' />
-      <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
-    </div>
-    <p>
-      <a class='report-link' target='_blank'
-          href='https://github.com/oxen-io/session-desktop/issues/new/'>
-          {{ reportIssue }}
-      </a>
-    </p>
-  </script>
-  <script type="text/javascript" src="js/components.js"></script>
-  <script type="text/javascript" src="js/views/whisper_view.js"></script>
-  <script type="text/javascript" src="js/views/debug_log_view.js"></script>
+  <body>
+    <div id="app"></div>
+  </body>
+
   <script type="text/javascript" src="js/debug_log_start.js"></script>
 </html>

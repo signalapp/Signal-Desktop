@@ -68,6 +68,18 @@ declare global {
     getEnvironment: () => string;
     getNodeVersion: () => string;
 
+    showWindow: () => void;
+    setCallMediaPermissions: (val: boolean) => void;
+    setMediaPermissions: (val: boolean) => void;
+    askForMediaAccess: () => void;
+    getMediaPermissions: () => boolean;
+    nodeSetImmediate: any;
+    globalOnlineStatus: boolean;
+
+    getTitle: () => string;
+    getVersion: () => string;
+    setAutoHideMenuBar: (val: boolean) => void;
+    setMenuBarVisibility: (val: boolean) => void;
     contextMenuShown: boolean;
     inboxStore?: Store;
     openConversationWithMessages: (args: {
