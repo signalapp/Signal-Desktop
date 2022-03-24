@@ -331,6 +331,7 @@ export type ConversationAttributesType = {
   secretParams?: string;
   publicParams?: string;
   revision?: number;
+  lastFetchedEpoch?: number;
   senderKeyInfo?: SenderKeyInfoType;
 
   // GroupV2 other fields

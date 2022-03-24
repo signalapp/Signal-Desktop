@@ -3622,6 +3622,7 @@ async function getGroupDelta({
     changes,
     group,
     newRevision: latestRevision,
+    serverPublicParamsBase64,
   });
 }
 
@@ -3629,15 +3630,17 @@ async function integrateGroupChanges({
   group,
   newRevision,
   changes,
+  serverPublicParamsBase64,
 }: {
   group: ConversationAttributesType;
   newRevision: number | undefined;
   changes: Array<Proto.IGroupChanges>;
+  serverPublicParamsBase64: string;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   let attributes = group;
   const finalMessages: Array<Array<GroupChangeMessageType>> = [];
-  const finalMembers: Array<Array<MemberType>> = [];
+  let finalMembers: Array<Array<MemberType>> = [];
 
   const imax = changes.length;
   for (let i = 0; i < imax; i += 1) {
@@ -3721,6 +3724,24 @@ async function integrateGroupChanges({
         Errors.toLogFormat(error)
       );
     }
+  } else if (attributes.lastFetchedEpoch !== SUPPORTED_CHANGE_EPOCH) {
+    log.info(
+      `integrateGroupChanges(${logId}): last fetched epoch ` +
+        `${group.lastFetchedEpoch ?? '?'} is stale. ` +
+        'Refreshing group state'
+    );
+    const {
+      newAttributes: updatedAttributes,
+      groupChangeMessages: extraChanges,
+      members: updatedMembers,
+    } = await updateGroupViaState({
+      group: attributes,
+      serverPublicParamsBase64,
+    });
+
+    attributes = updatedAttributes;
+    finalMessages.push(extraChanges);
+    finalMembers = [updatedMembers];
   }
 
   // If this is our first fetch, we will collapse this down to one set of messages
@@ -3839,6 +3860,7 @@ async function integrateGroupChange({
     !groupChange ||
     !isChangeSupported ||
     isFirstFetch ||
+    (groupState && group.lastFetchedEpoch !== SUPPORTED_CHANGE_EPOCH) ||
     (isMoreThanOneVersionUp && !weAreAwaitingApproval)
   ) {
     if (!groupState) {
@@ -4993,6 +5015,7 @@ async function applyGroupState({
 
   // version
   result.revision = version;
+  result.lastFetchedEpoch = SUPPORTED_CHANGE_EPOCH;
 
   // title
   // Note: During decryption, title becomes a GroupAttributeBlob
