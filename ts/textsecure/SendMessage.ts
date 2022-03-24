@@ -10,11 +10,11 @@ import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import Long from 'long';
 import PQueue from 'p-queue';
-import type { PlaintextContent } from '@signalapp/signal-client';
+import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
   ProtocolAddress,
   SenderKeyDistributionMessage,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assert } from '../util/assert';

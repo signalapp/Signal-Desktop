@@ -77,7 +77,7 @@ const excludedFilesRegexp = RegExp(
     '^.github/.+',
 
     // Modules we trust
-    '^node_modules/@signalapp/signal-client/.+',
+    '^node_modules/@signalapp/libsignal-client/.+',
     '^node_modules/core-js-pure/.+',
     '^node_modules/core-js/.+',
     '^node_modules/fbjs/.+',

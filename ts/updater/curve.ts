@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { PrivateKey, PublicKey } from '@signalapp/signal-client';
+import { PrivateKey, PublicKey } from '@signalapp/libsignal-client';
 
 export function keyPair(): Record<string, Buffer> {
   const privKey = PrivateKey.generate();

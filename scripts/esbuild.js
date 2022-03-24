@@ -29,8 +29,8 @@ const bundleDefaults = {
   bundle: true,
   external: [
     // Native libraries
-    '@signalapp/signal-client',
-    '@signalapp/signal-client/zkgroup',
+    '@signalapp/libsignal-client',
+    '@signalapp/libsignal-client/zkgroup',
     'better-sqlite3',
     'electron',
     'fs-xattr',

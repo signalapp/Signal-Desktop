@@ -188,7 +188,7 @@ describe('Crypto', () => {
       const result = deriveSecrets(input, salt, info);
       assert.lengthOf(result, 3);
       result.forEach(part => {
-        // This is a smoke test; HKDF is tested as part of @signalapp/signal-client.
+        // This is a smoke test; HKDF is tested as part of @signalapp/libsignal-client.
         assert.instanceOf(part, Uint8Array);
         assert.strictEqual(part.byteLength, 32);
       });

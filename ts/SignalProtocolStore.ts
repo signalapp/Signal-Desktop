@@ -13,7 +13,7 @@ import {
   SenderKeyRecord,
   SessionRecord,
   SignedPreKeyRecord,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { constantTimeEqual } from './Crypto';

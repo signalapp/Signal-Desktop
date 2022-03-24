@@ -13,7 +13,7 @@ import { createStream } from 'rotating-file-stream';
 import {
   initLogger,
   LogLevel as SignalClientLogLevel,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import {
   LogLevel,
@@ -137,7 +137,7 @@ initLogger(
     } else if (file) {
       fileString = ` ${file}`;
     }
-    const logString = `@signalapp/signal-client ${message} ${target}${fileString}`;
+    const logString = `@signalapp/libsignal-client ${message} ${target}${fileString}`;
 
     if (level === SignalClientLogLevel.Trace) {
       log.trace(logString);

@@ -12,7 +12,7 @@ import { z } from 'zod';
 import type {
   CiphertextMessage,
   PlaintextContent,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import {
   CiphertextMessageType,
   ProtocolAddress,
@@ -20,7 +20,7 @@ import {
   SenderCertificate,
   signalEncrypt,
   UnidentifiedSenderMessageContent,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import type { WebAPIType, MessageType } from './WebAPI';
 import type { SendMetadataType, SendOptionsType } from './SendMessage';

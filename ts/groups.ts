@@ -11,7 +11,7 @@ import {
   values,
 } from 'lodash';
 import Long from 'long';
-import type { ClientZkGroupCipher } from '@signalapp/signal-client/zkgroup';
+import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
 import PQueue from 'p-queue';

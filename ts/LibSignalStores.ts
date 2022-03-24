@@ -13,7 +13,7 @@ import type {
   SessionRecord,
   SignedPreKeyRecord,
   Uuid,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import {
   IdentityKeyStore,
   PreKeyStore,
@@ -22,7 +22,7 @@ import {
   SenderKeyStore,
   SessionStore,
   SignedPreKeyStore,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import { freezePreKey, freezeSignedPreKey } from './SignalProtocolStore';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';

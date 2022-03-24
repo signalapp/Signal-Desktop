@@ -1364,12 +1364,20 @@
     "@react-spring/shared" "~9.4.0"
     "@react-spring/types" "~9.4.0"
 
-"@signalapp/mock-server@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.2.0.tgz#1f17c39f113f2bc2d8ba51d2abd47607415df174"
-  integrity sha512-BbnYwSSPti6D2osZri8c8qMAP9Br4vLpc0Cbzet/BLEW5Jrex2g4ux1+sEQtTOoueIf3uieX7l/cWFgw2mJWDg==
+"@signalapp/libsignal-client@0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.15.0.tgz#e35c949e390d76497acad7ac8b033a68899ae11e"
+  integrity sha512-DtSv1S/WFGQ+QT1YLuueP99A9Yg1viWJyKyyW+MJ/jM9U+7jNVNCswY+pJnd2VGc3R85x5Kvn/VXYtFrQx8FrA==
   dependencies:
-    "@signalapp/signal-client" "0.12.1"
+    node-gyp-build "^4.2.3"
+    uuid "^8.3.0"
+
+"@signalapp/mock-server@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.2.1.tgz#20fd9f1efded52155ad3d55b7e739d4bfcf1953f"
+  integrity sha512-TR2l3+6rSQ3+jXGhrPTQ/QIk1ygKro5CrEg4X8A8j68V/uPxoa1b8a4EGBS6swHxw26Wh1l0DZUPoOGXhdM9Qg==
+  dependencies:
+    "@signalapp/libsignal-client" "0.15.0"
     debug "^4.3.2"
     long "^4.0.0"
     micro "^9.3.4"
@@ -1379,22 +1387,6 @@
     url-pattern "^1.0.3"
     uuid "^8.3.2"
     ws "^8.4.2"
-
-"@signalapp/signal-client@0.12.1":
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.12.1.tgz#d587811e76308e53376f14fc294f8d0c0af39d91"
-  integrity sha512-45BJHLVvCU1BMzLL4ZRFnJ5xGUwryozstwpw/VpEDD0Asb5WoZA+G42/Urnr0TbIWg+LYBwEpc7cKZ48SgOodQ==
-  dependencies:
-    node-gyp-build "^4.2.3"
-    uuid "^8.3.0"
-
-"@signalapp/signal-client@0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.12.4.tgz#19023456c9249db6afb01762b1841e18cc3614be"
-  integrity sha512-52XpJO2Xng4G+cV4ocV2uvzkSomVRodsyuILAx++o/A0jR4bup/thbvpJ/abi1oHOggdJJ0jn2nKgPl/2UAC2A==
-  dependencies:
-    node-gyp-build "^4.2.3"
-    uuid "^8.3.0"
 
 "@sindresorhus/is@0.8.0":
   version "0.8.0"

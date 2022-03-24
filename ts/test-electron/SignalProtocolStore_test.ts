@@ -9,7 +9,7 @@ import {
   Direction,
   SenderKeyRecord,
   SessionRecord,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToBytes } from '../util/sessionTranslation';

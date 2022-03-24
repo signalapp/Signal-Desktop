@@ -12,7 +12,7 @@ import type {
   SealedSenderDecryptionResult,
   SenderCertificate,
   UnidentifiedSenderMessageContent,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import {
   CiphertextMessageType,
   DecryptionErrorMessage,
@@ -28,7 +28,7 @@ import {
   signalDecrypt,
   signalDecryptPreKey,
   SignalMessage,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import {
   IdentityKeys,

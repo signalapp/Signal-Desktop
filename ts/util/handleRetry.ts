@@ -4,7 +4,7 @@
 import {
   DecryptionErrorMessage,
   PlaintextContent,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import { isNumber } from 'lodash';
 
 import * as Bytes from '../Bytes';

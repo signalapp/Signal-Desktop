@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ProfileKeyCredentialRequestContext } from '@signalapp/signal-client/zkgroup';
+import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
 import {
   AuthCredential,
   ClientZkAuthOperations,
@@ -17,11 +17,11 @@ import {
   ServerPublicParams,
   UuidCiphertext,
   NotarySignature,
-} from '@signalapp/signal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup';
 import { UUID } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 
-export * from '@signalapp/signal-client/zkgroup';
+export * from '@signalapp/libsignal-client/zkgroup';
 
 // Scenarios
 
