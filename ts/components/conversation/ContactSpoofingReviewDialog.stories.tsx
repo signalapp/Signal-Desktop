@@ -23,7 +23,7 @@ const story = storiesOf(
 const getCommonProps = () => ({
   getPreferredBadge: () => undefined,
   i18n,
-  group: getDefaultConversation(),
+  groupConversationId: 'convo-id',
   onBlock: action('onBlock'),
   onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onClose: action('onClose'),

@@ -29,7 +29,7 @@ import { TimelineWarning } from './TimelineWarning';
 import { TimelineWarnings } from './TimelineWarnings';
 import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
-import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader';
@@ -95,7 +95,6 @@ export type PropsDataType = {
 
 type PropsHousekeepingType = {
   id: string;
-  conversation: ConversationType;
   isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
@@ -133,6 +132,9 @@ type PropsHousekeepingType = {
     updateSharedGroups: () => unknown
   ) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
+  renderContactSpoofingReviewDialog: (
+    props: SmartContactSpoofingReviewDialogPropsType
+  ) => JSX.Element;
 };
 
 export type PropsActionsType = {
@@ -764,7 +766,6 @@ export class Timeline extends React.Component<
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
-      conversation,
       getPreferredBadge,
       getTimestampForMessage,
       haveNewest,
@@ -786,6 +787,7 @@ export class Timeline extends React.Component<
       renderHeroRow,
       renderItem,
       renderTypingBubble,
+      renderContactSpoofingReviewDialog,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
       showContactModal,
@@ -1029,26 +1031,21 @@ export class Timeline extends React.Component<
 
       switch (contactSpoofingReview.type) {
         case ContactSpoofingType.DirectConversationWithSameTitle:
-          contactSpoofingReviewDialog = (
-            <ContactSpoofingReviewDialog
-              {...commonProps}
-              type={ContactSpoofingType.DirectConversationWithSameTitle}
-              possiblyUnsafeConversation={
-                contactSpoofingReview.possiblyUnsafeConversation
-              }
-              safeConversation={contactSpoofingReview.safeConversation}
-            />
-          );
+          contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
+            ...commonProps,
+            type: ContactSpoofingType.DirectConversationWithSameTitle,
+            possiblyUnsafeConversation:
+              contactSpoofingReview.possiblyUnsafeConversation,
+            safeConversation: contactSpoofingReview.safeConversation,
+          });
           break;
         case ContactSpoofingType.MultipleGroupMembersWithSameTitle:
-          contactSpoofingReviewDialog = (
-            <ContactSpoofingReviewDialog
-              {...commonProps}
-              type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
-              group={conversation}
-              collisionInfoByTitle={contactSpoofingReview.collisionInfoByTitle}
-            />
-          );
+          contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
+            ...commonProps,
+            type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
+            groupConversationId: id,
+            collisionInfoByTitle: contactSpoofingReview.collisionInfoByTitle,
+          });
           break;
         default:
           throw missingCaseError(contactSpoofingReview);

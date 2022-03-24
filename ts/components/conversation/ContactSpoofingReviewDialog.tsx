@@ -24,7 +24,7 @@ import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 
-type PropsType = {
+export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onBlock: (conversationId: string) => unknown;

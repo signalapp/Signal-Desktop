@@ -15,8 +15,10 @@ import type { PropsType } from './Timeline';
 import { Timeline } from './Timeline';
 import type { TimelineItemType } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
+import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { ConversationHero } from './ConversationHero';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
 import { TypingBubble } from './TypingBubble';
@@ -453,6 +455,24 @@ const renderItem = ({
   />
 );
 
+const renderContactSpoofingReviewDialog = (
+  props: SmartContactSpoofingReviewDialogPropsType
+) => {
+  if (props.type === ContactSpoofingType.MultipleGroupMembersWithSameTitle) {
+    return (
+      <ContactSpoofingReviewDialog
+        {...props}
+        group={{
+          ...getDefaultConversation(),
+          areWeAdmin: true,
+        }}
+      />
+    );
+  }
+
+  return <ContactSpoofingReviewDialog {...props} />;
+};
+
 const getAbout = () => text('about', '👍 Free to chat');
 const getTitle = () => text('name', 'Cayce Bollard');
 const getName = () => text('name', 'Cayce Bollard');
@@ -502,7 +522,6 @@ const renderTypingBubble = () => (
 );
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  conversation: overrideProps.conversation || getDefaultConversation(),
   discardMessages: action('discardMessages'),
   getPreferredBadge: () => undefined,
   i18n,
@@ -531,6 +550,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   renderItem,
   renderHeroRow,
   renderTypingBubble,
+  renderContactSpoofingReviewDialog,
   isSomeoneTyping: overrideProps.isSomeoneTyping || false,
 
   ...actions(),
