@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Aquest registre es penjarà públicament perquè el vegin els col·laboradors. Podeu baixar-lo sencer abans d'enviar-lo.",
-        "description": ""
+        "message": "Quan cliqueu a Envia, el registre es penjarà en línia durant 30 dies en un URL únic i no publicat. Primer podeu desar-lo localment.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "S'ha produït un error amb la càrrega! Envieu un correu electrònic a support@signal.org i adjunteu-hi el registre com a fitxer de text.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Registre de depuració enviat",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "S'ha carregat el registre de depuració. Quan us poseu en contacte amb el servei d'assistència, copieu l'enllaç següent i adjunteu-lo, juntament amb una descripció del problema que heu vist i els passos per a reproduir-lo.",
+        "message": "S'ha penjat el registre de depuració. Quan us poseu en contacte amb el servei d'assistència, copieu l'URL següent i adjunteu-lo juntament amb una descripció del problema que heu vist i els passos per reproduir-lo.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... per veure el registre complet, cliqueu a Desa",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Copia l'enllaç",
@@ -4103,6 +4107,14 @@
         "message": "Aquest enllaç de grup ja no és vàlid.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "No es pot afegir al grup.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "No podeu afegir-vos-hi mitjançant l'enllaç de grup perquè un administrador us n'ha suprimit.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Un administrador d'aquest grup ha d'aprovar la sol·licitud abans de poder-vos-hi afegir. Si s'aprova, el vostre nom i la fotografia es compartiran amb els seus membres.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ han sol·licitat i cancel·lat la sol·licitud per afegir-s'hi mitjançant l'enllaç del grup.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ han sol·licitat i cancel·lat $numberOfRequests$ sol·licituds per afegir-s'hi mitjançant l'enllaç del grup.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Heu activat l'enllaç de grup amb l'aprovació de l'administrador desactivada.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Voleu denegar la sol·licitud de $name$? No podran tornar a sol·licitar afegir-s'hi mitjançant l'enllaç del grup.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Convidat per vós",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Els detalls de les persones convidades a aquest grup no es mostren fins que s'hi afegeixen. Els convidats només veuen els missatges després d'afegir-s'hi.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Bloca la sol·licitud",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Bloqueig de la sol·licitud?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$no s'hi podrà afegir ni sol·licitar afegir-se a aquest grup mitjançant l'enllaç del grup. Encara s'hi poden afegir manualment.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Sol·licitud de bloqueig",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Afegiu una fotografia de grup",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Voleu suprimir $name$ del grup?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Voleu suprimir $name$ del grup? No s'hi podran tornar a afegir mitjançant l'enllaç del grup.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Heu usat mai el Signal amb una connexió inestable? Ja no cal que us en preocupeu més: el temporitzador de missatges efímers canvia i s'enviaran quan la Wi-Fi torni a captar-se millor.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "S'ha introduït un nou sistema d'actualització i la gent hauria de començar a veure actualitzacions més petites amb la propera actualització.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Quan feu una supressió per a tothom, ara veureu un indicador de progrés que us informarà si s'ha enviat correctament o no. Si falla per algun motiu, també podreu tornar-ho a provar!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Gràcies als nostres traductors voluntaris, hem afegit suport per al gaèlic escocès!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Mantenim els missatges curts, posant-hi coses com ara marques de temps a la mateixa línia que el text. Ara teniu més espai a la pantalla per a un \"Ei!\" ràpid amb una amistat.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Falten paquets d'adhesius! Ara l'escriptori hauria de poder gestionar els mateixos paquets d'adhesius que el telèfon!",
+        "description": "Release notes for v5.37"
     }
 }

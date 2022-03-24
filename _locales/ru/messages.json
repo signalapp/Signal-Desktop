@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Этот журнал будет опубликован в интернете, чтобы разработчики смогли его просмотреть. Вы можете скачать полный журнал перед отправкой.",
-        "description": ""
+        "message": "Когда вы нажмёте «Отправить», ваш журнал будет размещён в интернете на 30 дней по уникальному неопубликованному URL-адресу. Вы можете сначала сохранить его локально.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Что-то пошло не так с загрузкой! Пожалуйста, отправьте письмо по адресу support@signal.org и прикрепите свой журнал как текстовый файл.",
-        "description": ""
+        "message": "С загрузкой что-то пошло не так! Пожалуйста, отправьте письмо по адресу support@signal.org и прикрепите свой журнал в виде текстового файла.",
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Журнал отладки отправлен",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Журнал отладки был загружен. Когда вы будете связываться с поддержкой, скопируйте ссылку ниже и вставьте ее в письмо с описанием проблемы и шагами для ее воспроизведения.",
+        "message": "Журнал отладки был загружен. При обращении в поддержку скопируйте URL-адрес, указанный ниже, и вставьте его в письмо вместе с описанием проблемы и действиями для её воспроизведения.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "…чтобы просмотреть журнал полностью, нажмите «Сохранить»",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Копировать ссылку",
@@ -1372,7 +1376,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Нажмите на $plusButton$ (Android) или $linkNewDevice$ (iPhone)",
+        "message": "Нажмите $plusButton$ (Android) или $linkNewDevice$ (iPhone)",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1386,7 +1390,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "Не удалось загрузить QR-код. Проверьте своё подключение к интернету и попробуйте ещё раз. $learnMore$",
+        "message": "Не удалось загрузить QR-код. Проверьте подключение к интернету и попробуйте снова. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -4103,6 +4107,14 @@
         "message": "Эта ссылка на группу уже недействительна.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Невозможно присоединиться к группе",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Вы не можете присоединиться к этой группе по ссылке, потому что администратор удалил вас из этой группы.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Администратор этой группы должен принять ваш запрос, прежде чем вы сможете присоединиться к ней. Когда вы отправите запрос, ваши имя и фото станут доступны участникам этой группы.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ запросил(-а) и отменил(-а) свой запрос на присоединение к группе по ссылке",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ запросил(-а) и отменил(-а) $numberOfRequests$ запросов на присоединение к группе по ссылке",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Вы включили ссылку на группу с отключенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Отклонить запрос от «$name$»? Этот пользователь больше не сможет запросить присоединиться к группе по ссылке.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Приглашения",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Подробности людей, приглашенных другими участниками группы, не показываются до того, как они присоединятся. Приглашенные увидят сообщения в группе только после того, как присоединятся.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Заблокировать запрос",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Заблокировать запрос?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ не сможет присоединиться или запросить присоединиться к этой группе с помощью ссылки. Этого пользователя всё равно можно будет добавить вручную.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Заблокировать запрос",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Добавить фото группы",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Удалить «$name$» из группы?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Удалить «$name$» из группы? Этот пользователь не сможет заново присоединиться к группе по ссылке.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Когда-либо использовали Signal при нестабильном соединении? Теперь вы можете не волноваться — такие действия, как изменение таймера исчезающих сообщений, теперь будут отправлены, как только ваш Wi-Fi станет лучше себя чувствовать.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Была представлена новая система обновлений: вы можете заметить меньшие по размеру обновления, начиная со следующего.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Когда вы удаляете сообщение для всех, вы теперь увидите индикатор прогресса, который даёт вам знать, удалось ли отправить «удаление». Если по какой-либо причине «удаление» отправить не удалось, вы даже сможете попробовать ещё раз!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Благодаря нашим переводчикам-волонтёрам, мы добавили поддержку шотландского (кельтского) языка!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Мы оставляем короткие сообщения короткими, помещая время и другие элементы на той же строке, что и текст. Теперь у вас на экране есть больше места для того, чтобы быстро узнать у друга, как дела.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Проблемы с недостатком наборов стикеров закончились! Теперь Signal Desktop поддерживает все наборы стикеров, которые поддерживает ваш телефон!",
+        "description": "Release notes for v5.37"
     }
 }

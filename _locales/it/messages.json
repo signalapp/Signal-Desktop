@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Puoi scaricare il log completo prima di inviarlo.",
-        "description": ""
+        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Qualcosa è andato storto con il caricamento! Invia un'email a support@signal.org e allega il tuo log come file di testo.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Log di debug inviato",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Log di debug caricato. Quando contatti il supporto, copia il link qui sotto e allegalo insieme a una descrizione del problema che hai visto e i passi per riprodurlo.",
+        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... to see the full log, click Save",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Copia link",
@@ -4103,6 +4107,14 @@
         "message": "Questo link del gruppo non è più valido.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Impossibile unirsi al gruppo",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Non puoi unirti a questo gruppo tramite il link del gruppo perché un amministratore ti ha rimosso.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Un amministratore di questo gruppo deve approvare la tua richiesta prima che tu possa unirti a questo gruppo. Se approvata, il tuo nome e la tua foto verranno condivisi con i suoi membri.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Hai attivato il link del gruppo senza l'approvazione degli amministratori.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Invitato da te",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "I dettagli sulle persone invitate a questo gruppo non vengono mostrati finché non si uniscono. Gli invitati vedranno i messaggi solo dopo essersi uniti al gruppo.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Blocca richiesta",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Bloccare richiesta?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Block Request",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Aggiungi foto del gruppo",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Rimuovere \"$name$\" dal gruppo?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Hai mai usato Signal con una connessione instabile? Puoi non preoccuparti più: le modifiche al timer di scomparsa dei messaggi e altro verranno inviati una volta che il tuo Wi-Fi si sentirà di nuovo meglio.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "È stato introdotto un nuovo sistema di aggiornamento e le persone dovrebbero iniziare a vedere aggiornamenti più piccoli con il prossimo aggiornamento.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Quando esegui Elimina per tutti, ora vedrai un indicatore di progresso che ti farà sapere se è stato inviato con successo o meno. Se fallisce per qualche motivo, potrai anche riprovare!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Grazie ai nostri traduttori volontari, abbiamo aggiunto il supporto per il gaelico scozzese!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "description": "Release notes for v5.37"
     }
 }

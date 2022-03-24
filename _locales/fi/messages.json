@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Tämä loki julkaistaan verkossa avustajien nähtäväksi. Voit ladata koko lokin ennen lähettämistä.",
-        "description": ""
+        "message": "Lokisi lähtetetään 30 päivän ajaksi verkkoon ja sille määritetään yksityinen URL-osoite. Voit tallentaa sen ensin myös paikallisesti.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Jotain meni pieleen lähettämisessä! Lähetä sähköpostia support@signal.org ja liitä siihen loki tekstitiedostona.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Debuggausloki lähetetty",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Virheenkorjausloki ladattu. Kun otat yhteyttä tukeen, kopioi alla oleva linkki ja liitä se sekä kuvaus havaitsemastasi ongelmasta ja vaiheet sen toistamiseksi.",
+        "message": "Vianselvitysloki on lähetetty. Ottaessasi yhteyttä tukeen, kopioi ja liitä alla oleva URL-osoite ongelmakuvauksen ja sen toistoon vaadittavien tehtävien mukaan.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "...nähdäksesi täyden lokin, paina Tallenna.",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Kopioi linkki",
@@ -4103,6 +4107,14 @@
         "message": "Tämä ryhmälinkki ei ole enää kelvollinen.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Ryhmään liittyminen epäonnistui",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Et voi liittyä ryhmään linkin avulla koska ylläpitäjä poisti sinut ryhmästä.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Tämän ryhmän ylläpitäjän on hyväksyttävä pyyntösi ennen kuin voit liittyä tähän ryhmään. Kun pyyntösi hyväksytään, nimesi ja kuvasi jaetaan sen jäsenille.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ pyysi ja perui jäsenyyspyyntönsä ryhmälinkin välityksellä",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ pyysi ja perui $numberOfRequests$ jäsenyyspyyntöä ryhmälinkin välityksellä",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Otit ryhmälinkin käyttöön. Liittymispyynnöt eivät ole käytössä.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Kielletäänkö pyyntö käyttäjältä \"$name$\"? He eivät voi enää pyytää jäsenyyttä ryhmälinkin välityksellä.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Sinun lähettämäsi kutsut",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Ryhmään kutsutun henkilön tiedot näytetään vasta ryhmään liittymisen jälkeen. Kutsuttu ei näe ryhmän viestejä ennen liittymistä.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Hylkää pyyntö",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Hylätäänkö pyyntö?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ ei voi liittyä tai pyytää jäsenyyttä ryhmälinkin kautta. Heidät voidaan edelleen lisätä ryhmään manuaalisesti.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Hylkää pyyntö",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Lisää ryhmän kuva",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Poista \"$name$\" ryhmästä?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Poistetaanko \"$name$\" ryhmästä? He eivät voi liittyä ryhmälinkin välityksellä uudelleen.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Oletko koskaan käyttänyt Signalia epävakaalla verkkoyhteydellä? Enää ei ole tarvetta huoleen - katoavien viestien ajastin muuttuu ja jatkossa synkronoidaan enemmän, kun yhteytesi voi taas paremmin.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Uusi päivitysjärjestelmä on otettu käyttöön ja jatkossa päivitysten pitäisi sujua huomaamattomammin.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Kun suoritat poiston kaikilta, näet nyt edistymisanimaation, joka kertoo onko poisto onnistunut vai ei. Jos poisto jostakin syystä epäonnistuu, voit myös yrittää uudelleen!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Kiitos vapaaehtoiskääntäjiemme, olemme lisänneet tuen skotlannin gaelille!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Pidämme lyhyet viestit lyhyinä sijoitamalla asiat, kuten aikaleimat samalle riville tekstin kanssa. Nyt ruudulla on enemmän tilaa kaverin pikaiselle 'tervehdykselle'.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Puuttuvat tarrapaketit kadotkoon! Puhelimella toimivien tarrapakettien pitäisi nyt toimia myös työpöydällä!",
+        "description": "Release notes for v5.37"
     }
 }

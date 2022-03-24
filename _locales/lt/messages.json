@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Šis žurnalas bus viešai paskelbtas internete talkininkams peržiūrėti. Prieš pateikdami žurnalą, galite atsisiųsti pilną jo versiją.",
-        "description": ""
+        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Kažkas nutiko su išsiuntimu! Prašome parašyti el. laišką adresu support@signal.org ir pridėti savo žurnalą kaip tekstinį failą.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Derinimo žurnalas pateiktas",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Derinimo žurnalas išsiųstas. Kai susisieksite su palaikymu, nukopijuokite žemiau esančią nuorodą ir pridėkite ją kartu su problemos, su kuria susidūrėte, aprašu ir žingsniais, kaip galima ją pakartoti.",
+        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... to see the full log, click Save",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Kopijuoti nuorodą",
@@ -4103,6 +4107,14 @@
         "message": "Ši grupės nuoroda daugiau nebegalioja.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Nepavyksta prisijungti prie grupės",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Jūs negalite prisijungti prie grupės per šią grupės nuorodą, nes administratorius jus pašalino.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Prieš tai, kai galėsite prisijungti prie šios grupės, jos administratorius privalo patvirtinti jūsų prašymą. Jei prašymas bus patvirtintas, jūsų vardas ir nuotrauka bus bendrinami su grupės nariais.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Jūs įjungėte grupės nuorodą su išjungtais administratoriaus patvirtinimais.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Pakvietėte jūs",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Išsamesnė informacija apie žmones, kurie pakviesti į šią grupę, nebus rodoma tol, kol jie neprisijungs. Kviestiniai pradės matyti siunčiamas žinutes tik prisijungę prie grupės.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Block request",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Block request?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Block Request",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Pridėti grupės nuotrauką",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Pašalinti „$name$“ iš grupės?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Esate naudojęsi Signal prisijungę prie nestabilaus interneto ryšio? Galite daugiau nebesirūpinti – išnykstančių žinučių laikmačio pakeitimai ir kita dabar bus išsiunčiama, kai tik jūsų belaidis (Wi-Fi) ryšys vėl pasijus geriau.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Pristatyta nauja atnaujinimų sistema ir visi bičiuliai nuo kito atnaujinimo turėtų pradėti matyti smulkesnius atnaujinimus.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Dabar, atlikdami veiksmą „Ištrinti visiems“, matysite eigos suktuką, leidžiantį jums suprasti, ar ištrynimo veiksmas buvo sėkmingai išsiųstas, ar ne. Jei dėl kažkokių priežasčių jo išsiųsti nepavyko, galėsite bandyti dar kartą!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Mūsų savanorių vertėjų dėka pridėjome škotų gėlų kalbos palaikymą!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "description": "Release notes for v5.37"
     }
 }

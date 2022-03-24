@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Ky regjistër do të postohet publikisht në internet, për t’u parë nga kontribues. Mund të shkarkoni regjistrin e plotë, para se ta parashtroni.",
-        "description": ""
+        "message": "Kur klikoni mbi Parashtroje, regjistri juaj do të postohet në internet për 30 ditë, te një URL unike, e pabotuar më parë. Mundeni ta Ruani lokalisht, së pari.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Diç shkoi ters me ngarkimin! Ju lutemi, dërgoni një email te support@signal.org dhe bashkëngjitni si një kartelë tekst regjistrin tuaj.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "U parashtrua regjistër diagnostikimi",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "U ngarkua regjistër diagnostikimi. Kur lidheni me asistencën, kopjoni lidhjen më poshtë dhe bashkëngjitiani një përshkrimi të problemit që patë dhe hapat si të riprodhohet.",
+        "message": "Regjistri i diagnostikimit u ngarkua, kopjoni URL-në më poshtë dhe bashkëngjiteni te një përshkrim i problemit që patë dhe hapa për ta riprodhuar atë.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "… që të shihni regjistrin e plotë, klikoni mbi Ruaje",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Kopjoji Lidhjen",
@@ -4103,6 +4107,14 @@
         "message": "Kjo lidhje grupi s’është më e vlefshme.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "S’bëheni Dot Pjesë e Grupit",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "S’mund të bëheni pjesë e këtij grupi përmes lidhjes së grupit, ngaqë ju ka hequr një përgjegjës.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Përpara se të mund të bëheni pjesë e këtij grupi, kërkesën tuaj duhet ta miratojë një përgjegjës i tij. Në u miratoftë. emri dhe fotoja juaj do t’u jepet anëtarëve të ti.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ kërkoi dhe anuloi kërkesën e vet për të marrë pjesë përmes një lidhje grupi",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ kërkoi dhe anuloi $numberOfRequests$ kërkesën për të marrë pjesë përmes një lidhje grupi",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Aktivizuat lidhjen e grupit me miratim nga përgjegjësi të çaktivizuar.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Të hidhet poshtë kërkesa prej “$name$”? S’do të jetë në gjendje të kërkojë prapë të marrë pjesë përmes një lidhje grupi.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Ftuar nga ju",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Për persona të ftuar në këtë grup nuk shfaqen hollësi, pa u bërë pjesë. Të ftuarit do të shohin mesazhe vetëm pasi të bëhen pjesë e grupit.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Bllokoje kërkesën",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Të bllokohet kërkesa?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ s’do të jetë në gjendje të marrë pjesë ose të kërkojë pjesëmarrje te ky grup përmes një lidhje grupi. Mundet prapë të shtohet dorazi te grupi.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Bllokoje Kërkesën",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Shtoni foto grupi",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Të hiqet $name$ prej grupit?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Të hiqet “$name$” prej grupit? S’do të jetë në gjendje të rihyjë përmes lidhjes së grupit.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "E keni përdorur ndonjëherë Signal-in me një lidhje të paqëndrueshme? Mos u shqetësoni më - tanimë ndryshimet te kohëmatësi i asgjësimit së mesazheve, etj, do të dërgohen sapo sapo Wi-Fi të ndihet prapë mirë.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Është sjellë për herë të parë një sistem i ri përditësimesh dhe njerëzit do të duhet të shohin përditësime më të vockla me përditësimin pasues.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Kur kryeni një Fshirje për Këdo, do të shihni një tregues ecurie që ju lejon të dini nëse u dërgua apo jo me sukses. Nëse për ndonjë arsye dështon, do të jeni në gjendje të riprovoni!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Falë përkthyesve tanë vullnetarë, shtuam mbulim për skotishte gaelike!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Po i mbajmë mesazhet të shkurtër, duke vënë gjëra të tilla si vulat kohore në të njëjtin rresht me tekstin. Tani keni më tepër hapësirë në ekran për atë “hej” të shpejtë për një shokun tuaj.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "S’ka më paketa ngjitësish që mungojnë! Desktopi duhet të jetë në gjendje tanimë të trajtojë krejt paketat e ngjitësve që trajton telefoni juaj!",
+        "description": "Release notes for v5.37"
     }
 }
