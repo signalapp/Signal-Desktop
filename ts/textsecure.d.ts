@@ -23,6 +23,7 @@ export type UnprocessedType = {
   decrypted?: string;
   envelope?: string;
   id: string;
+  receivedAtCounter: number | null;
   timestamp: number;
   serverGuid?: string;
   serverTimestamp?: number;
