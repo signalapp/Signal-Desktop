@@ -677,8 +677,9 @@ export default class MessageReceiver
 
       const envelope: ProcessedEnvelope = {
         id: item.id,
-        receivedAtCounter: item.timestamp,
-        receivedAtDate: Date.now(),
+        receivedAtCounter: item.receivedAtCounter ?? item.timestamp,
+        receivedAtDate:
+          item.receivedAtCounter === null ? Date.now() : item.timestamp,
         messageAgeSec: item.messageAgeSec || 0,
 
         // Proto.Envelope fields
@@ -975,7 +976,8 @@ export default class MessageReceiver
       id,
       version: 2,
       envelope: Bytes.toBase64(plaintext),
-      timestamp: envelope.receivedAtCounter,
+      receivedAtCounter: envelope.receivedAtCounter,
+      timestamp: envelope.timestamp,
       attempts: 1,
       messageAgeSec: envelope.messageAgeSec,
     };

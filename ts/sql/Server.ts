@@ -2969,6 +2969,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   const {
     id,
     timestamp,
+    receivedAtCounter,
     version,
     attempts,
     envelope,
@@ -2994,6 +2995,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     INSERT OR REPLACE INTO unprocessed (
       id,
       timestamp,
+      receivedAtCounter,
       version,
       attempts,
       envelope,
@@ -3006,6 +3008,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     ) values (
       $id,
       $timestamp,
+      $receivedAtCounter,
       $version,
       $attempts,
       $envelope,
@@ -3020,6 +3023,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   ).run({
     id,
     timestamp,
+    receivedAtCounter: receivedAtCounter ?? null,
     version,
     attempts,
     envelope: envelope || null,

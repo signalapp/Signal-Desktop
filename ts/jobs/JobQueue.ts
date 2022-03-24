@@ -205,7 +205,8 @@ export abstract class JobQueue<T> {
       parsedData = this.parseData(storedJob.data);
     } catch (err) {
       log.error(
-        `${this.logPrefix} failed to parse data for job ${storedJob.id}`
+        `${this.logPrefix} failed to parse data for job ${storedJob.id}`,
+        Errors.toLogFormat(err)
       );
       reject(
         new Error(

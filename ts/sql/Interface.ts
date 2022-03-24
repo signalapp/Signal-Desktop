@@ -196,6 +196,7 @@ export type StickerPackType = Readonly<{
 export type UnprocessedType = {
   id: string;
   timestamp: number;
+  receivedAtCounter: number | null;
   version: number;
   attempts: number;
   envelope?: string;
