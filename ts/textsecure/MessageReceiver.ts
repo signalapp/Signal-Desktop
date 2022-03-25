@@ -98,6 +98,7 @@ import {
   MessageRequestResponseEvent,
   FetchLatestEvent,
   KeysEvent,
+  PNIIdentityEvent,
   StickerPackEvent,
   VerifiedEvent,
   ReadSyncEvent,
@@ -192,6 +193,8 @@ export default class MessageReceiver
   private serverTrustRoot: Uint8Array;
 
   private stoppingProcessing?: boolean;
+
+  private pendingPNIIdentityEvent?: PNIIdentityEvent;
 
   constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
@@ -468,6 +471,11 @@ export default class MessageReceiver
   ): void;
 
   public override addEventListener(
+    name: 'pniIdentity',
+    handler: (ev: PNIIdentityEvent) => void
+  ): void;
+
+  public override addEventListener(
     name: 'sticker-pack',
     handler: (ev: StickerPackEvent) => void
   ): void;
@@ -598,6 +606,13 @@ export default class MessageReceiver
       this.isEmptied = true;
 
       this.maybeScheduleRetryTimeout();
+
+      // Emit PNI identity event after processing the queue
+      const { pendingPNIIdentityEvent } = this;
+      this.pendingPNIIdentityEvent = undefined;
+      if (pendingPNIIdentityEvent) {
+        await this.dispatchAndWait(pendingPNIIdentityEvent);
+      }
     };
 
     const waitForDecryptedQueue = async () => {
@@ -2474,6 +2489,9 @@ export default class MessageReceiver
     if (syncMessage.keys) {
       return this.handleKeys(envelope, syncMessage.keys);
     }
+    if (syncMessage.pniIdentity) {
+      return this.handlePNIIdentity(envelope, syncMessage.pniIdentity);
+    }
     if (syncMessage.viewed && syncMessage.viewed.length) {
       return this.handleViewed(envelope, syncMessage.viewed);
     }
@@ -2589,6 +2607,31 @@ export default class MessageReceiver
     );
 
     return this.dispatchAndWait(ev);
+  }
+
+  private async handlePNIIdentity(
+    envelope: ProcessedEnvelope,
+    { publicKey, privateKey }: Proto.SyncMessage.IPniIdentity
+  ): Promise<void> {
+    log.info('MessageReceiver: got pni identity sync message');
+
+    if (!publicKey || !privateKey) {
+      log.warn('MessageReceiver: empty pni identity sync message');
+      return undefined;
+    }
+
+    const ev = new PNIIdentityEvent(
+      { publicKey, privateKey },
+      this.removeFromCache.bind(this, envelope)
+    );
+
+    if (this.isEmptied) {
+      log.info('MessageReceiver: emitting pni identity sync message');
+      return this.dispatchAndWait(ev);
+    }
+
+    log.info('MessageReceiver: scheduling pni identity sync message');
+    this.pendingPNIIdentityEvent = ev;
   }
 
   private async handleStickerPackOperation(
