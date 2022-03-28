@@ -97,10 +97,7 @@ export const AvatarPlaceHolder = (props: Props) => {
     );
   }
 
-  let initials = getInitials(name)?.toLocaleUpperCase() || '0';
-  if (name.indexOf(' ') === -1) {
-    initials = name.substring(0, 2).toLocaleUpperCase();
-  }
+  const initials = getInitials(name);
 
   const fontSize = Math.floor(initials.length > 1 ? diameter * 0.4 : diameter * 0.5);
 
