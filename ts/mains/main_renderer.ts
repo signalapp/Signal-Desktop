@@ -1,20 +1,20 @@
 import _ from 'lodash';
-import { MessageModel } from '../ts/models/message';
-import { isMacOS } from '../ts/OS';
-import { queueAllCached } from '../ts/receiver/receiver';
-import { getConversationController } from '../ts/session/conversations';
-import { AttachmentDownloads } from '../ts/session/utils';
-import { getOurPubKeyStrFromCache } from '../ts/session/utils/User';
-import { BlockedNumberController } from '../ts/util';
-import { ExpirationTimerOptions } from '../ts/util/expiringMessages';
-import { Notifications } from '../ts/util/notifications';
-import { Registration } from '../ts/util/registration';
-import { isSignInByLinking, Storage } from '../ts/util/storage';
+import { MessageModel } from '../models/message';
+import { isMacOS } from '../OS';
+import { queueAllCached } from '../receiver/receiver';
+import { getConversationController } from '../session/conversations';
+import { AttachmentDownloads } from '../session/utils';
+import { getOurPubKeyStrFromCache } from '../session/utils/User';
+import { BlockedNumberController } from '../util';
+import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { Notifications } from '../util/notifications';
+import { Registration } from '../util/registration';
+import { isSignInByLinking, Storage } from '../util/storage';
 
-import * as Data from '../ts/data/data';
+import * as Data from '../data/data';
 import Backbone from 'backbone';
-import { SessionRegistrationView } from '../ts/components/registration/SessionRegistrationView';
-import { SessionInboxView } from '../ts/components/SessionInboxView';
+import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
+import { SessionInboxView } from '../components/SessionInboxView';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop

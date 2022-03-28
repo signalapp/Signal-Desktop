@@ -1,5 +1,4 @@
 /* eslint-disable global-require */
-/* global Whisper: false */
 /* global window: false */
 const path = require('path');
 const { webFrame, remote, clipboard, ipcRenderer } = require('electron');

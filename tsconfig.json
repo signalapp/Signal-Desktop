@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Basic Options
-    "target": "es6", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
+    "target": "es2020", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT' or 'es2020'.
     "module": "commonjs", // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
     "lib": [
       "dom", // Required to access `window`
@@ -9,16 +9,29 @@
     ],
     "jsx": "react", // Specify JSX code generation: 'preserve', 'react-native', or 'react'.
 
-    "rootDir": "./", // Specify the root directory of input files. Use to control the output directory structure with --outDir.
-
+    "rootDir": "./", // Specify the root directory of input files. Use to control the output directory structure with --outDir
+    "removeComments": true, // Do not emit comments to output.
+    // "noEmit": true,                        // Do not emit outputs.
+    // "importHelpers": true,                 // Import emit helpers from 'tslib'.
+    // "downlevelIteration": true,            // Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'.
+    // "isolatedModules": true,               // Transpile each file as a separate module (similar to 'ts.transpileModule').
+    // noImplicitAny
+    // Strict Type-Checking Options
     "strict": true, // Enable all strict type-checking options.
     "skipLibCheck": true,
     "noUnusedLocals": true, // Report errors on unused locals.
     "noUnusedParameters": true, // Report errors on unused parameters.
     "noImplicitReturns": true, // Report error when not all code paths in function return a value.
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement.
-
     "moduleResolution": "node", // Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6).
+    "resolveJsonModule": true,
+    // Module Resolution Options
+    // "baseUrl": "./",                       // Base directory to resolve non-absolute module names.
+    // "paths": {},                           // A series of entries which re-map imports to lookup locations relative to the 'baseUrl'.
+    // "rootDirs": [],                        // List of root folders whose combined content represents the structure of the project at runtime.
+    // "typeRoots": [],                       // List of folders to include type definitions from.
+    // "types": [],                           // Type declaration files to be included in compilation.
+    // "allowSyntheticDefaultImports": true,  // Allow default imports from modules with no default export. This does not affect code emit, just typechecking.
     "useUnknownInCatchVariables": false,
     "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'.
     "inlineSourceMap": true // Emit a single file with source maps instead of having a separate file.
