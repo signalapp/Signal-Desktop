@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getInitials } from '../../../../util/getInitials';
 
 describe('getInitials', () => {
-  describe('empty of null string', () => {
+  describe('empty or null string', () => {
     it('initials: return undefined if string is undefined', () => {
       expect(getInitials(undefined)).to.be.equal('0', 'should have return 0');
     });
