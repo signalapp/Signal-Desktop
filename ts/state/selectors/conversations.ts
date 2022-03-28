@@ -419,6 +419,7 @@ function isTrusted(conversation: ConversationType): boolean {
 
   return Boolean(
     isInSystemContacts(conversation) ||
+      conversation.sharedGroupNames.length > 0 ||
       conversation.profileSharing ||
       conversation.isMe
   );
