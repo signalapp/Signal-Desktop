@@ -29,26 +29,12 @@ export class MacOSUpdater extends Updater {
     } catch (error) {
       const readOnly = 'Cannot update while running on a read-only volume';
       const message: string = error.message || '';
-      const mainWindow = this.getMainWindow();
-      if (mainWindow && message.includes(readOnly)) {
-        logger.info('downloadAndInstall: showing read-only dialog...');
-        mainWindow.webContents.send(
-          'show-update-dialog',
-          DialogType.MacOS_Read_Only
-        );
-      } else if (mainWindow) {
-        logger.info(
-          'downloadAndInstall: showing general update failure dialog...'
-        );
-        mainWindow.webContents.send(
-          'show-update-dialog',
-          DialogType.Cannot_Update
-        );
-      } else {
-        logger.warn(
-          'downloadAndInstall: no mainWindow, cannot show update dialog'
-        );
-      }
+      this.markCannotUpdate(
+        error,
+        message.includes(readOnly)
+          ? DialogType.MacOS_Read_Only
+          : DialogType.Cannot_Update
+      );
 
       throw error;
     }
