@@ -2942,6 +2942,7 @@ async function updateGroup(
     }
   });
 
+  let profileFetches: Promise<Array<void>> | undefined;
   if (contactsWithoutProfileKey.length !== 0) {
     log.info(
       `updateGroup/${logId}: fetching ` +
@@ -2951,22 +2952,23 @@ async function updateGroup(
     const profileFetchQueue = new PQueue({
       concurrency: 3,
     });
+    profileFetches = profileFetchQueue.addAll(
+      contactsWithoutProfileKey.map(contact => () => {
+        const active = contact.getActiveProfileFetch();
+        return active || contact.getProfiles();
+      })
+    );
+  }
+
+  if (changeMessagesToSave.length > 0) {
     try {
-      await profileFetchQueue.addAll(
-        contactsWithoutProfileKey.map(contact => () => {
-          const active = contact.getActiveProfileFetch();
-          return active || contact.getProfiles();
-        })
-      );
+      await profileFetches;
     } catch (error) {
       log.error(
         `updateGroup/${logId}: failed to fetch missing profiles`,
         Errors.toLogFormat(error)
       );
     }
-  }
-
-  if (changeMessagesToSave.length > 0) {
     await appendChangeMessages(conversation, changeMessagesToSave);
   }
 
