@@ -4,12 +4,14 @@
 import { assert } from 'chai';
 import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
+import type { LastMessageStatus } from '../../model-types.d';
 import { MINUTE, SECOND } from '../../util/durations';
 import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil';
 import {
   ScrollAnchor,
   areMessagesInSameGroup,
   getScrollAnchorBeforeUpdate,
+  shouldCurrentMessageHideMetadata,
   TimelineMessageLoadingState,
 } from '../../util/timelineUtil';
 
@@ -118,57 +120,120 @@ describe('<Timeline> utilities', () => {
       assert.isFalse(areMessagesInSameGroup(defaultOlder, true, defaultNewer));
     });
 
-    it("returns false if they don't have matching sent status (and not delivered)", () => {
-      const older = {
-        ...defaultOlder,
-        data: { ...defaultOlder.data, status: 'sent' as const },
-      };
-
-      assert.isFalse(areMessagesInSameGroup(older, false, defaultNewer));
-    });
-
-    it("returns false if newer is deletedForEveryone and older isn't", () => {
-      const newer = {
-        ...defaultNewer,
-        data: { ...defaultNewer.data, deletedForEveryone: true },
-      };
-
-      assert.isFalse(areMessagesInSameGroup(defaultOlder, false, newer));
-    });
-
-    it("returns true if older is deletedForEveryone and newer isn't", () => {
-      const older = {
-        ...defaultOlder,
-        data: { ...defaultOlder.data, deletedForEveryone: true },
-      };
-
-      assert.isTrue(areMessagesInSameGroup(older, false, defaultNewer));
-    });
-
-    it('returns true if both are deletedForEveryone', () => {
-      const older = {
-        ...defaultOlder,
-        data: { ...defaultOlder.data, deletedForEveryone: true },
-      };
-      const newer = {
-        ...defaultNewer,
-        data: { ...defaultNewer.data, deletedForEveryone: true },
-      };
-
-      assert.isTrue(areMessagesInSameGroup(older, false, newer));
-    });
-
-    it('returns true if they have delivered status or above', () => {
-      const older = {
-        ...defaultOlder,
-        data: { ...defaultOlder.data, status: 'read' as const },
-      };
-
-      assert.isTrue(areMessagesInSameGroup(older, false, defaultNewer));
-    });
-
     it('returns true if everything above works out', () => {
       assert.isTrue(areMessagesInSameGroup(defaultOlder, false, defaultNewer));
+    });
+  });
+
+  describe('shouldCurrentMessageHideMetadata', () => {
+    const defaultNewer: MaybeMessageTimelineItemType = {
+      type: 'message' as const,
+      data: {
+        author: { id: uuid() },
+        timestamp: new Date(1998, 10, 21, 12, 34, 56, 123).valueOf(),
+        status: 'delivered',
+      },
+    };
+    const defaultCurrent: MaybeMessageTimelineItemType = {
+      type: 'message' as const,
+      data: {
+        author: { id: uuid() },
+        timestamp: defaultNewer.data.timestamp - MINUTE,
+        status: 'delivered',
+      },
+    };
+
+    it("returns false if messages aren't grouped", () => {
+      assert.isFalse(
+        shouldCurrentMessageHideMetadata(false, defaultCurrent, defaultNewer)
+      );
+    });
+
+    it('returns false if newer item is missing', () => {
+      assert.isFalse(
+        shouldCurrentMessageHideMetadata(true, defaultCurrent, undefined)
+      );
+    });
+
+    it('returns false if newer item is not a message', () => {
+      const linkNotification = {
+        type: 'linkNotification' as const,
+        data: null,
+        timestamp: Date.now(),
+      };
+
+      assert.isFalse(
+        shouldCurrentMessageHideMetadata(true, defaultCurrent, linkNotification)
+      );
+    });
+
+    it('returns false if newer is deletedForEveryone', () => {
+      const newer = {
+        ...defaultNewer,
+        data: { ...defaultNewer.data, deletedForEveryone: true },
+      };
+
+      assert.isFalse(
+        shouldCurrentMessageHideMetadata(true, defaultCurrent, newer)
+      );
+    });
+
+    it('returns false if current message is unsent, even if its status matches the newer one', () => {
+      const statuses: ReadonlyArray<LastMessageStatus> = [
+        'paused',
+        'error',
+        'partial-sent',
+        'sending',
+      ];
+      for (const status of statuses) {
+        const sameStatusNewer = {
+          ...defaultNewer,
+          data: { ...defaultNewer.data, status },
+        };
+        const current = {
+          ...defaultCurrent,
+          data: { ...defaultCurrent.data, status },
+        };
+
+        assert.isFalse(
+          shouldCurrentMessageHideMetadata(true, current, defaultNewer)
+        );
+        assert.isFalse(
+          shouldCurrentMessageHideMetadata(true, current, sameStatusNewer)
+        );
+      }
+    });
+
+    it('returns true if all messages are sent (but no higher)', () => {
+      const newer = {
+        ...defaultNewer,
+        data: { ...defaultNewer.data, status: 'sent' as const },
+      };
+      const current = {
+        ...defaultCurrent,
+        data: { ...defaultCurrent.data, status: 'sent' as const },
+      };
+
+      assert.isTrue(shouldCurrentMessageHideMetadata(true, current, newer));
+    });
+
+    it('returns true if all three have delivered status or above', () => {
+      assert.isTrue(
+        shouldCurrentMessageHideMetadata(true, defaultCurrent, defaultNewer)
+      );
+    });
+
+    it('returns true if both the current and next messages are deleted for everyone', () => {
+      const current = {
+        ...defaultCurrent,
+        data: { ...defaultCurrent.data, deletedForEveryone: true },
+      };
+      const newer = {
+        ...defaultNewer,
+        data: { ...defaultNewer.data, deletedForEveryone: true },
+      };
+
+      assert.isTrue(shouldCurrentMessageHideMetadata(true, current, newer));
     });
   });
 

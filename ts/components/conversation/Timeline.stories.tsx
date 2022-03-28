@@ -421,25 +421,21 @@ const renderItem = ({
   messageId,
   containerElementRef,
   containerWidthBreakpoint,
-  isOldestTimelineItem,
 }: {
   messageId: string;
   containerElementRef: React.RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
-  isOldestTimelineItem: boolean;
 }) => (
   <TimelineItem
     getPreferredBadge={() => undefined}
     id=""
-    isOldestTimelineItem={isOldestTimelineItem}
     isSelected={false}
     renderEmojiPicker={() => <div />}
     renderReactionPicker={() => <div />}
     item={items[messageId]}
-    previousItem={undefined}
-    nextItem={undefined}
     i18n={i18n}
     interactionMode="keyboard"
+    isNextItemCallingNotification={false}
     theme={ThemeType.light}
     containerElementRef={containerElementRef}
     containerWidthBreakpoint={containerWidthBreakpoint}
@@ -449,6 +445,10 @@ const renderItem = ({
       <div>*UniversalTimerNotification*</div>
     )}
     renderAudioAttachment={() => <div>*AudioAttachment*</div>}
+    shouldCollapseAbove={false}
+    shouldCollapseBelow={false}
+    shouldHideMetadata={false}
+    shouldRenderDateHeader={false}
     {...actions()}
   />
 );
