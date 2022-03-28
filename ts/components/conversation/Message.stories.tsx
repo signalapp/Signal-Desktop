@@ -171,6 +171,15 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
+  shouldCollapseAbove: isBoolean(overrideProps.shouldCollapseAbove)
+    ? overrideProps.shouldCollapseAbove
+    : false,
+  shouldCollapseBelow: isBoolean(overrideProps.shouldCollapseBelow)
+    ? overrideProps.shouldCollapseBelow
+    : false,
+  shouldHideMetadata: isBoolean(overrideProps.shouldHideMetadata)
+    ? overrideProps.shouldHideMetadata
+    : false,
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
@@ -202,9 +211,9 @@ const renderMany = (propsArray: ReadonlyArray<Props>) =>
     <Message
       key={message.text}
       {...message}
-      previousItem={createTimelineItem(propsArray[index - 1])}
+      shouldCollapseAbove={Boolean(propsArray[index - 1])}
       item={createTimelineItem(message)}
-      nextItem={createTimelineItem(propsArray[index + 1])}
+      shouldCollapseBelow={Boolean(propsArray[index + 1])}
     />
   ));
 

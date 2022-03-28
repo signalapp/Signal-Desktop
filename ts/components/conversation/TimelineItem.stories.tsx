@@ -53,7 +53,7 @@ const getDefaultProps = () => ({
   conversationId: 'conversation-id',
   getPreferredBadge: () => undefined,
   id: 'asdf',
-  isOldestTimelineItem: false,
+  isNextItemCallingNotification: false,
   isSelected: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
@@ -94,8 +94,11 @@ const getDefaultProps = () => ({
   showIdentity: action('showIdentity'),
   startCallingLobby: action('startCallingLobby'),
   returnToActiveCall: action('returnToActiveCall'),
-  previousItem: undefined,
-  nextItem: undefined,
+  shouldCollapseAbove: false,
+  shouldCollapseBelow: false,
+  shouldHideMetadata: false,
+  shouldRenderDateHeader: false,
+
   now: Date.now(),
 
   renderContact,

@@ -82,6 +82,9 @@ const defaultMessageProps: MessagesProps = {
   retryDeleteForEveryone: action('default--retryDeleteForEveryone'),
   scrollToQuotedMessage: action('default--scrollToQuotedMessage'),
   selectMessage: action('default--selectMessage'),
+  shouldCollapseAbove: false,
+  shouldCollapseBelow: false,
+  shouldHideMetadata: false,
   showContactDetail: action('default--showContactDetail'),
   showContactModal: action('default--showContactModal'),
   showExpiredIncomingTapToViewToast: action(

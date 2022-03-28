@@ -17,7 +17,6 @@ import {
 } from '../../util/callingNotification';
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
-import type { TimelineItemType } from './TimelineItem';
 import * as log from '../../logging/log';
 
 export type PropsActionsType = {
@@ -31,7 +30,7 @@ export type PropsActionsType = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   conversationId: string;
-  nextItem: undefined | TimelineItemType;
+  isNextItemCallingNotification: boolean;
 };
 
 type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
@@ -86,12 +85,12 @@ function renderCallingNotificationButton(
     activeCallConversationId,
     conversationId,
     i18n,
-    nextItem,
+    isNextItemCallingNotification,
     returnToActiveCall,
     startCallingLobby,
   } = props;
 
-  if (nextItem?.type === 'callHistory') {
+  if (isNextItemCallingNotification) {
     return null;
   }
 

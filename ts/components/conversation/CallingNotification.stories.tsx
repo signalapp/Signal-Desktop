@@ -18,8 +18,8 @@ const story = storiesOf('Components/Conversation/CallingNotification', module);
 const getCommonProps = () => ({
   conversationId: 'fake-conversation-id',
   i18n,
+  isNextItemCallingNotification: false,
   messageId: 'fake-message-id',
-  nextItem: undefined,
   now: Date.now(),
   returnToActiveCall: action('returnToActiveCall'),
   startCallingLobby: action('startCallingLobby'),
@@ -70,7 +70,7 @@ story.add('Two incoming direct calls back-to-back', () => {
       <CallingNotification
         {...getCommonProps()}
         {...call1}
-        nextItem={{ type: 'callHistory', data: call2, timestamp: Date.now() }}
+        isNextItemCallingNotification
       />
       <CallingNotification {...getCommonProps()} {...call2} />
     </>
@@ -99,7 +99,7 @@ story.add('Two outgoing direct calls back-to-back', () => {
       <CallingNotification
         {...getCommonProps()}
         {...call1}
-        nextItem={{ type: 'callHistory', data: call2, timestamp: Date.now() }}
+        isNextItemCallingNotification
       />
       <CallingNotification {...getCommonProps()} {...call2} />
     </>

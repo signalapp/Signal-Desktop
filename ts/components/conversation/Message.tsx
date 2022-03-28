@@ -83,10 +83,6 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { StopPropagation } from '../StopPropagation';
-import {
-  areMessagesInSameGroup,
-  UnreadIndicatorPlacement,
-} from '../../util/timelineUtil';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -269,14 +265,14 @@ export type PropsHousekeeping = {
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   item?: TimelineItemType;
-  nextItem?: TimelineItemType;
-  previousItem?: TimelineItemType;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => JSX.Element;
+  shouldCollapseAbove: boolean;
+  shouldCollapseBelow: boolean;
+  shouldHideMetadata: boolean;
   theme: ThemeType;
-  unreadIndicatorPlacement?: undefined | UnreadIndicatorPlacement;
 };
 
 export type PropsActions = {
@@ -554,6 +550,7 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       expirationLength,
       expirationTimestamp,
+      shouldHideMetadata,
       status,
       text,
       textDirection,
@@ -565,7 +562,7 @@ export class Message extends React.PureComponent<Props, State> {
       !expirationLength &&
       !expirationTimestamp &&
       (!status || SENT_STATUSES.has(status)) &&
-      this.isCollapsedBelow()
+      shouldHideMetadata
     ) {
       return MetadataPlacement.NotRendered;
     }
@@ -688,34 +685,14 @@ export class Message extends React.PureComponent<Props, State> {
     return isMessageRequestAccepted && !isBlocked;
   }
 
-  private isCollapsedAbove(
-    { item, previousItem, unreadIndicatorPlacement }: Readonly<Props> = this
-      .props
-  ): boolean {
-    return areMessagesInSameGroup(
-      previousItem,
-      unreadIndicatorPlacement === UnreadIndicatorPlacement.JustAbove,
-      item
-    );
-  }
-
-  private isCollapsedBelow(
-    { item, nextItem, unreadIndicatorPlacement }: Readonly<Props> = this.props
-  ): boolean {
-    return areMessagesInSameGroup(
-      item,
-      unreadIndicatorPlacement === UnreadIndicatorPlacement.JustBelow,
-      nextItem
-    );
-  }
-
   private shouldRenderAuthor(): boolean {
-    const { author, conversationType, direction } = this.props;
+    const { author, conversationType, direction, shouldCollapseAbove } =
+      this.props;
     return Boolean(
       direction === 'incoming' &&
         conversationType === 'group' &&
         author.title &&
-        !this.isCollapsedAbove()
+        !shouldCollapseAbove
     );
   }
 
@@ -850,6 +827,8 @@ export class Message extends React.PureComponent<Props, State> {
       renderingContext,
       showMessageDetail,
       showVisualAttachment,
+      shouldCollapseAbove,
+      shouldCollapseBelow,
       status,
       text,
       textPending,
@@ -925,10 +904,10 @@ export class Message extends React.PureComponent<Props, State> {
             <ImageGrid
               attachments={attachments}
               withContentAbove={
-                isSticker || withContentAbove || this.isCollapsedAbove()
+                isSticker || withContentAbove || shouldCollapseAbove
               }
               withContentBelow={
-                isSticker || withContentBelow || this.isCollapsedBelow()
+                isSticker || withContentBelow || shouldCollapseBelow
               }
               isSticker={isSticker}
               stickerSize={STICKER_SIZE}
@@ -1223,6 +1202,7 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       quote,
       scrollToQuotedMessage,
+      shouldCollapseAbove,
     } = this.props;
 
     if (!quote) {
@@ -1248,11 +1228,11 @@ export class Message extends React.PureComponent<Props, State> {
       curveTopLeft = false;
       curveTopRight = false;
     } else if (isIncoming) {
-      curveTopLeft = !this.isCollapsedAbove();
+      curveTopLeft = !shouldCollapseAbove;
       curveTopRight = true;
     } else {
       curveTopLeft = true;
-      curveTopRight = !this.isCollapsedAbove();
+      curveTopRight = !shouldCollapseAbove;
     }
 
     return (
@@ -1285,6 +1265,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       storyReplyContext,
+      shouldCollapseAbove,
     } = this.props;
 
     if (!storyReplyContext) {
@@ -1299,11 +1280,11 @@ export class Message extends React.PureComponent<Props, State> {
       curveTopLeft = false;
       curveTopRight = false;
     } else if (isIncoming) {
-      curveTopLeft = !this.isCollapsedAbove();
+      curveTopLeft = !shouldCollapseAbove;
       curveTopRight = true;
     } else {
       curveTopLeft = true;
-      curveTopRight = !this.isCollapsedAbove();
+      curveTopRight = !shouldCollapseAbove;
     }
 
     return (
@@ -1400,6 +1381,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       getPreferredBadge,
       i18n,
+      shouldCollapseBelow,
       showContactModal,
       theme,
     } = this.props;
@@ -1415,7 +1397,7 @@ export class Message extends React.PureComponent<Props, State> {
             this.hasReactions(),
         })}
       >
-        {this.isCollapsedBelow() ? (
+        {shouldCollapseBelow ? (
           <AvatarSpacer size={GROUP_AVATAR_SIZE} />
         ) : (
           <Avatar
@@ -2660,8 +2642,16 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public override render(): JSX.Element | null {
-    const { author, attachments, direction, id, isSticker, timestamp } =
-      this.props;
+    const {
+      author,
+      attachments,
+      direction,
+      id,
+      isSticker,
+      shouldCollapseAbove,
+      shouldCollapseBelow,
+      timestamp,
+    } = this.props;
     const { expired, expiring, imageBroken, isSelected } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
@@ -2681,8 +2671,8 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message',
           `module-message--${direction}`,
-          this.isCollapsedAbove() && 'module-message--collapsed-above',
-          this.isCollapsedBelow() && 'module-message--collapsed-below',
+          shouldCollapseAbove && 'module-message--collapsed-above',
+          shouldCollapseBelow && 'module-message--collapsed-below',
           isSelected ? 'module-message--selected' : null,
           expiring ? 'module-message--expired' : null
         )}

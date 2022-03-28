@@ -16,10 +16,15 @@ import {
   getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
-import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
+import {
+  areMessagesInSameGroup,
+  shouldCurrentMessageHideMetadata,
+  UnreadIndicatorPlacement,
+} from '../../util/timelineUtil';
 
 import { SmartContactName } from './ContactName';
 import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
+import { isSameDay } from '../../util/timestamp';
 
 type ExternalProps = {
   containerElementRef: RefObject<HTMLElement>;
@@ -65,24 +70,52 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   const conversation = getConversationSelector(state)(conversationId);
 
+  const isNextItemCallingNotification = nextItem?.type === 'callHistory';
+
+  const shouldCollapseAbove = areMessagesInSameGroup(
+    previousItem,
+    unreadIndicatorPlacement === UnreadIndicatorPlacement.JustAbove,
+    item
+  );
+  const shouldCollapseBelow = areMessagesInSameGroup(
+    item,
+    unreadIndicatorPlacement === UnreadIndicatorPlacement.JustBelow,
+    nextItem
+  );
+  const shouldHideMetadata = shouldCurrentMessageHideMetadata(
+    shouldCollapseBelow,
+    item,
+    nextItem
+  );
+  const shouldRenderDateHeader =
+    isOldestTimelineItem ||
+    Boolean(
+      item &&
+        previousItem &&
+        // This comparison avoids strange header behavior for out-of-order messages.
+        item.timestamp > previousItem.timestamp &&
+        !isSameDay(previousItem.timestamp, item.timestamp)
+    );
+
   return {
     item,
-    previousItem,
-    nextItem,
     id: messageId,
     containerElementRef,
     conversationId,
     conversationColor: conversation?.conversationColor,
     customColor: conversation?.customColor,
     getPreferredBadge: getPreferredBadgeSelector(state),
-    isOldestTimelineItem,
+    isNextItemCallingNotification,
     isSelected,
     renderContact,
     renderUniversalTimerNotification,
+    shouldCollapseAbove,
+    shouldCollapseBelow,
+    shouldHideMetadata,
+    shouldRenderDateHeader,
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),
-    unreadIndicatorPlacement,
   };
 };
 

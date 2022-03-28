@@ -5,7 +5,6 @@ import type { ReactChild, RefObject } from 'react';
 import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
-import { isSameDay } from '../../util/timestamp';
 
 import type { InteractionModeType } from '../../state/ducks/conversations';
 import { TimelineDateHeader } from './TimelineDateHeader';
@@ -56,7 +55,6 @@ import type { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
-import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { FullJSXType } from '../Intl';
 
 type CallHistoryType = {
@@ -148,17 +146,15 @@ type PropsLocalType = {
   conversationId: string;
   item?: TimelineItemType;
   id: string;
+  isNextItemCallingNotification: boolean;
   isSelected: boolean;
   selectMessage: (messageId: string, conversationId: string) => unknown;
+  shouldRenderDateHeader: boolean;
   renderContact: SmartContactRendererType<FullJSXType>;
   renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
-  isOldestTimelineItem: boolean;
   theme: ThemeType;
-  previousItem: undefined | TimelineItemType;
-  nextItem: undefined | TimelineItemType;
-  unreadIndicatorPlacement?: undefined | UnreadIndicatorPlacement;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -178,6 +174,9 @@ export type PropsType = PropsLocalType &
     | 'renderEmojiPicker'
     | 'renderAudioAttachment'
     | 'renderReactionPicker'
+    | 'shouldCollapseAbove'
+    | 'shouldCollapseBelow'
+    | 'shouldHideMetadata'
   >;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
@@ -186,19 +185,20 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       containerElementRef,
       conversationId,
       getPreferredBadge,
+      i18n,
       id,
-      isOldestTimelineItem,
+      isNextItemCallingNotification,
       isSelected,
       item,
-      i18n,
-      theme,
-      nextItem,
-      previousItem,
       renderUniversalTimerNotification,
       returnToActiveCall,
       selectMessage,
+      shouldCollapseAbove,
+      shouldCollapseBelow,
+      shouldHideMetadata,
+      shouldRenderDateHeader,
       startCallingLobby,
-      unreadIndicatorPlacement,
+      theme,
     } = this.props;
 
     if (!item) {
@@ -217,12 +217,14 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <Message
           {...this.props}
           {...item.data}
+          shouldCollapseAbove={shouldCollapseAbove}
+          shouldCollapseBelow={shouldCollapseBelow}
+          shouldHideMetadata={shouldHideMetadata}
           containerElementRef={containerElementRef}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           theme={theme}
           renderingContext="conversation/TimelineItem"
-          unreadIndicatorPlacement={unreadIndicatorPlacement}
         />
       );
     } else {
@@ -237,7 +239,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           <CallingNotification
             conversationId={conversationId}
             i18n={i18n}
-            nextItem={nextItem}
+            isNextItemCallingNotification={isNextItemCallingNotification}
             returnToActiveCall={returnToActiveCall}
             startCallingLobby={startCallingLobby}
             {...item.data}
@@ -340,14 +342,6 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       );
     }
 
-    const shouldRenderDateHeader =
-      isOldestTimelineItem ||
-      Boolean(
-        previousItem &&
-          // This comparison avoids strange header behavior for out-of-order messages.
-          item.timestamp > previousItem.timestamp &&
-          !isSameDay(previousItem.timestamp, item.timestamp)
-      );
     if (shouldRenderDateHeader) {
       return (
         <>
