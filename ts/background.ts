@@ -2600,13 +2600,10 @@ export async function startApp(): Promise<void> {
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
-        const ourId = window.ConversationController.getOurConversationId();
-        const receivedAt = Date.now();
-
         await conversation.updateExpirationTimer(
           expireTimer,
-          ourId,
-          receivedAt,
+          window.ConversationController.getOurConversationId(),
+          undefined,
           {
             fromSync: true,
           }
@@ -2699,11 +2696,10 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const receivedAt = Date.now();
     await conversation.updateExpirationTimer(
       expireTimer,
       window.ConversationController.getOurConversationId(),
-      receivedAt,
+      undefined,
       {
         fromSync: true,
       }

@@ -2480,8 +2480,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                   conversation.updateExpirationTimer(
                     dataMessage.expireTimer,
                     source,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    message.getReceivedAt()!,
+                    message,
                     {
                       fromGroupUpdate: isGroupUpdate(message.attributes),
                     }
@@ -2492,12 +2491,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 // We only turn off timers if it's not a group update
                 !isGroupUpdate(message.attributes)
               ) {
-                conversation.updateExpirationTimer(
-                  undefined,
-                  source,
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  message.getReceivedAt()!
-                );
+                conversation.updateExpirationTimer(undefined, source, message);
               }
             }
           }
