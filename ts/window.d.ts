@@ -2,12 +2,15 @@ import {} from 'styled-components/cssprop';
 
 import { LocalizerType } from '../ts/types/Util';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
-import { LibTextsecure } from '../libtextsecure';
 
 import { Store } from 'redux';
 
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
+
+export interface LibTextsecure {
+  messaging: boolean;
+}
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.

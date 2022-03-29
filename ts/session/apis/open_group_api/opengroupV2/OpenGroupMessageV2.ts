@@ -51,7 +51,6 @@ export class OpenGroupMessageV2 {
       sender,
     });
   }
-
   public async sign(): Promise<OpenGroupMessageV2> {
     const ourKeyPair = await UserUtils.getIdentityKeyPair();
     if (!ourKeyPair) {

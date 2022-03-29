@@ -20,6 +20,7 @@ import { MessageSender } from '.';
 import { getMessageById } from '../../../ts/data/data';
 import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
+import { EmptySwarmError } from '../utils/errors';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -179,7 +180,7 @@ export async function TEST_sendMessageToSnode(
     throw e;
   }
   if (!usedNodes || usedNodes.length === 0) {
-    throw new window.textsecure.EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
+    throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
   }
 
   const conversation = getConversationController().get(pubKey);
