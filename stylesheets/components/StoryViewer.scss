@@ -64,6 +64,7 @@
     position: absolute;
     transform: translateX(-50%);
     width: 284px;
+    z-index: $z-index-above-base;
 
     &--group-avatar {
       margin-left: -8px;

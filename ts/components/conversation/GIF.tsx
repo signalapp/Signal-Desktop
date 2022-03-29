@@ -10,7 +10,7 @@ import { Spinner } from '../Spinner';
 
 import type { AttachmentType } from '../../types/Attachment';
 import {
-  hasNotDownloaded,
+  hasNotResolved,
   getImageDimensions,
   defaultBlurHash,
 } from '../../types/Attachment';
@@ -166,10 +166,10 @@ export const GIF: React.FC<Props> = props => {
   };
 
   const isPending = Boolean(attachment.pending);
-  const isNotDownloaded = hasNotDownloaded(attachment) && !isPending;
+  const isNotResolved = hasNotResolved(attachment) && !isPending;
 
   let fileSize: JSX.Element | undefined;
-  if (isNotDownloaded && attachment.fileSize) {
+  if (isNotResolved && attachment.fileSize) {
     fileSize = (
       <div className="module-image--gif__filesize">
         {attachment.fileSize} · GIF
@@ -178,7 +178,7 @@ export const GIF: React.FC<Props> = props => {
   }
 
   let gif: JSX.Element | undefined;
-  if (isNotDownloaded || isPending) {
+  if (isNotResolved || isPending) {
     gif = (
       <Blurhash
         hash={attachment.blurHash || defaultBlurHash(theme)}
@@ -213,12 +213,12 @@ export const GIF: React.FC<Props> = props => {
   }
 
   let overlay: JSX.Element | undefined;
-  if ((tapToPlay && !isPlaying) || isNotDownloaded) {
+  if ((tapToPlay && !isPlaying) || isNotResolved) {
     const className = classNames([
       'module-image__border-overlay',
       'module-image__border-overlay--with-click-handler',
       'module-image--soft-corners',
-      isNotDownloaded
+      isNotResolved
         ? 'module-image--not-downloaded'
         : 'module-image--tap-to-play',
     ]);

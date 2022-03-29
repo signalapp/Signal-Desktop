@@ -44,12 +44,17 @@ function search(
   );
 }
 
+function getNewestStory(story: ConversationStoryType): StoryViewType {
+  return story.stories[story.stories.length - 1];
+}
+
 export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
   onBack: () => unknown;
   onStoryClicked: (conversationId: string) => unknown;
   openConversationInternal: (_: { conversationId: string }) => unknown;
+  queueStoryDownload: (storyId: string) => unknown;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
 };
@@ -59,6 +64,7 @@ export const StoriesPane = ({
   onBack,
   onStoryClicked,
   openConversationInternal,
+  queueStoryDownload,
   stories,
   toggleHideStories,
 }: PropsType): JSX.Element => {
@@ -103,18 +109,19 @@ export const StoriesPane = ({
       >
         {renderedStories.map(story => (
           <StoryListItem
-            key={story.stories[0].timestamp}
+            key={getNewestStory(story).timestamp}
             i18n={i18n}
             onClick={() => {
               onStoryClicked(story.conversationId);
             }}
             onHideStory={() => {
-              toggleHideStories(story.stories[0].sender.id);
+              toggleHideStories(getNewestStory(story).sender.id);
             }}
             onGoToConversation={conversationId => {
               openConversationInternal({ conversationId });
             }}
-            story={story.stories[0]}
+            queueStoryDownload={queueStoryDownload}
+            story={getNewestStory(story)}
           />
         ))}
         {!stories.length && i18n('Stories__list-empty')}

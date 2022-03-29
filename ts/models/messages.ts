@@ -149,6 +149,8 @@ import { isConversationAccepted } from '../util/isConversationAccepted';
 import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { getMessageById } from '../messages/getMessageById';
+import { shouldDownloadStory } from '../util/shouldDownloadStory';
+import { shouldShowStoriesView } from '../state/selectors/stories';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -233,7 +235,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       messageChanged(this.id, conversationId, { ...this.attributes });
     }
 
-    const { addStory } = window.reduxActions.stories;
+    const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
       const ourConversationId =
@@ -247,17 +249,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
-      // TODO DESKTOP-3179
-      // Only add stories to redux if we've downloaded them. This should work
-      // because once we download a story we'll receive another change event
-      // which kicks off this function again.
-      if (Attachment.hasNotDownloaded(storyData.attachment)) {
-        return;
-      }
-
-      // This is fine to call multiple times since the addStory action only
-      // adds new stories.
-      addStory(storyData);
+      storyChanged(storyData);
     }
   }
 
@@ -2438,6 +2430,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             return;
           }
 
+          if (isStory(message.attributes)) {
+            attributes.hasPostedStory = true;
+          }
+
           attributes.active_at = now;
           conversation.set(attributes);
 
@@ -2556,14 +2552,25 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         // outgoing message or we've accepted the conversation
         const reduxState = window.reduxStore.getState();
         const attachments = this.get('attachments') || [];
+
+        let queueStoryForDownload = false;
+        if (isStory(message.attributes)) {
+          const isShowingStories = shouldShowStoriesView(reduxState);
+
+          queueStoryForDownload =
+            isShowingStories ||
+            (await shouldDownloadStory(conversation.attributes));
+        }
+
         const shouldHoldOffDownload =
-          (isImage(attachments) || isVideo(attachments)) &&
-          isInCall(reduxState);
+          !queueStoryForDownload ||
+          ((isImage(attachments) || isVideo(attachments)) &&
+            isInCall(reduxState));
         if (
           this.hasAttachmentDownloads() &&
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           (this.getConversation()!.getAccepted() ||
-            isStory(message.attributes) ||
+            queueStoryForDownload ||
             isOutgoing(message.attributes)) &&
           !shouldHoldOffDownload
         ) {

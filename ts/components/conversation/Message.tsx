@@ -50,7 +50,7 @@ import {
   getGridDimensions,
   getImageDimensions,
   hasImage,
-  hasNotDownloaded,
+  isDownloaded,
   hasVideoScreenshot,
   isAudio,
   isImage,
@@ -917,7 +917,7 @@ export class Message extends React.PureComponent<Props, State> {
               onError={this.handleImageError}
               tabIndex={tabIndex}
               onClick={attachment => {
-                if (hasNotDownloaded(attachment)) {
+                if (!isDownloaded(attachment)) {
                   kickOffAttachmentDownload({ attachment, messageId: id });
                 } else {
                   showVisualAttachment({ attachment, messageId: id });
@@ -1093,7 +1093,7 @@ export class Message extends React.PureComponent<Props, State> {
       }
     );
     const onPreviewImageClick = () => {
-      if (first.image && hasNotDownloaded(first.image)) {
+      if (first.image && !isDownloaded(first.image)) {
         kickOffAttachmentDownload({
           attachment: first.image,
           messageId: id,
@@ -2388,7 +2388,7 @@ export class Message extends React.PureComponent<Props, State> {
         return;
       }
 
-      if (attachments && hasNotDownloaded(attachments[0])) {
+      if (attachments && !isDownloaded(attachments[0])) {
         event.preventDefault();
         event.stopPropagation();
         kickOffAttachmentDownload({
@@ -2420,7 +2420,7 @@ export class Message extends React.PureComponent<Props, State> {
       attachments.length > 0 &&
       !isAttachmentPending &&
       (isImage(attachments) || isVideo(attachments)) &&
-      hasNotDownloaded(attachments[0])
+      !isDownloaded(attachments[0])
     ) {
       event.preventDefault();
       event.stopPropagation();
@@ -2511,7 +2511,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const attachment = attachments[0];
-    if (hasNotDownloaded(attachment)) {
+    if (!isDownloaded(attachment)) {
       kickOffAttachmentDownload({
         attachment,
         messageId: id,

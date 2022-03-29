@@ -6992,6 +6992,10 @@
       }
     }
   },
+  "StoryImage__error": {
+    "message": "Error displaying image",
+    "description": "aria-label for image errors"
+  },
   "WhatsNew__modal-title": {
     "message": "What's New",
     "description": "Title for the whats new modal"

@@ -695,8 +695,16 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return hasFlag && isVideoAttachment(attachment);
 }
 
-export function hasNotDownloaded(attachment?: AttachmentType): boolean {
+export function isDownloaded(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && attachment.path);
+}
+
+export function hasNotResolved(attachment?: AttachmentType): boolean {
   return Boolean(attachment && !attachment.url);
+}
+
+export function isDownloading(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && attachment.downloadJobId && attachment.pending);
 }
 
 export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {

@@ -31,6 +31,7 @@ function getDefaultProps(): PropsType {
     onTextTooLong: action('onTextTooLong'),
     onUseEmoji: action('onUseEmoji'),
     preferredReactionEmoji: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+    queueStoryDownload: action('queueStoryDownload'),
     renderEmojiPicker: () => <div />,
     replies: Math.floor(Math.random() * 20),
     stories: [

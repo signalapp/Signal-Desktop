@@ -208,6 +208,7 @@ const dataInterface: ServerInterface = {
   searchMessagesInConversation,
 
   getMessageCount,
+  getStoryCount,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -291,6 +292,7 @@ const dataInterface: ServerInterface = {
   _deleteAllStoryReads,
   addNewStoryRead,
   getLastStoryReadsForAuthor,
+  countStoryReadsByConversation,
 
   removeAll,
   removeAllConfiguration,
@@ -1686,6 +1688,20 @@ function getMessageCountSync(
   return count;
 }
 
+async function getStoryCount(conversationId: string): Promise<number> {
+  const db = getInstance();
+  return db
+    .prepare<Query>(
+      `
+        SELECT count(*)
+        FROM messages
+        WHERE conversationId = $conversationId AND isStory = 1;
+        `
+    )
+    .pluck()
+    .get({ conversationId });
+}
+
 async function getMessageCount(conversationId?: string): Promise<number> {
   return getMessageCountSync(conversationId);
 }
@@ -2392,7 +2408,7 @@ function getOlderMessagesByConversationSync(
 
 async function getOlderStories({
   conversationId,
-  limit = 10,
+  limit = 9999,
   receivedAt = Number.MAX_VALUE,
   sentAt,
   sourceUuid,
@@ -2416,7 +2432,7 @@ async function getOlderStories({
         (received_at < $receivedAt
           OR (received_at IS $receivedAt AND sent_at < $sentAt)
         )
-      ORDER BY received_at DESC, sent_at DESC
+      ORDER BY received_at ASC, sent_at ASC
       LIMIT $limit;
       `
     )
@@ -4155,6 +4171,21 @@ async function getLastStoryReadsForAuthor({
       conversationId: conversationId || null,
       limit,
     });
+}
+
+async function countStoryReadsByConversation(
+  conversationId: string
+): Promise<number> {
+  const db = getInstance();
+  return db
+    .prepare<Query>(
+      `
+      SELECT COUNT(storyId) FROM storyReads
+      WHERE conversationId = $conversationId;
+      `
+    )
+    .pluck()
+    .get({ conversationId });
 }
 
 // All data in database

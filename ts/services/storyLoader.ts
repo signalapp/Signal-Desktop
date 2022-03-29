@@ -7,7 +7,6 @@ import type { StoryDataType } from '../state/ducks/stories';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { getAttachmentsForMessage } from '../state/selectors/message';
-import { hasNotDownloaded } from '../types/Attachment';
 import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 
@@ -30,24 +29,9 @@ export function getStoryDataFromMessageAttributes(
     return;
   }
 
-  // Quickly determine if item hasn't been
-  // downloaded before we run getAttachmentsForMessage which is cached.
-  if (!unresolvedAttachment.path) {
-    log.warn(
-      `getStoryDataFromMessageAttributes: ${message.id} not downloaded (no path)`
-    );
-    return;
-  }
-
-  const [attachment] = getAttachmentsForMessage(message);
-
-  // TODO DESKTOP-3179
-  if (hasNotDownloaded(attachment)) {
-    log.warn(
-      `getStoryDataFromMessageAttributes: ${message.id} not downloaded (no url)`
-    );
-    return;
-  }
+  const [attachment] = unresolvedAttachment.path
+    ? getAttachmentsForMessage(message)
+    : [unresolvedAttachment];
 
   const selectedReaction = (
     (message.reactions || []).find(re => re.fromId === ourConversationId) || {}

@@ -9,8 +9,9 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { Avatar, AvatarSize, AvatarStoryRing } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenuPopper } from './ContextMenu';
-import { getAvatarColor } from '../types/Colors';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
+import { StoryImage } from './StoryImage';
+import { getAvatarColor } from '../types/Colors';
 
 export type ConversationStoryType = {
   conversationId: string;
@@ -53,6 +54,7 @@ export type PropsType = Pick<
   onClick: () => unknown;
   onGoToConversation?: (conversationId: string) => unknown;
   onHideStory?: (conversationId: string) => unknown;
+  queueStoryDownload: (storyId: string) => unknown;
   story: StoryViewType;
 };
 
@@ -64,6 +66,7 @@ export const StoryListItem = ({
   onClick,
   onGoToConversation,
   onHideStory,
+  queueStoryDownload,
   story,
 }: PropsType): JSX.Element => {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
@@ -182,14 +185,15 @@ export const StoryListItem = ({
             />
           )}
           {hasMultiple && <div className="StoryListItem__previews--more" />}
-          {attachment && (
-            <div
-              className="StoryListItem__previews--image"
-              style={{
-                backgroundImage: `url("${attachment.thumbnail?.url}")`,
-              }}
-            />
-          )}
+          <StoryImage
+            attachment={attachment}
+            i18n={i18n}
+            isThumbnail
+            label=""
+            moduleClassName="StoryListItem__previews--image"
+            queueStoryDownload={queueStoryDownload}
+            storyId={story.messageId}
+          />
         </div>
       </button>
       <ContextMenuPopper

@@ -212,6 +212,7 @@ const dataInterface: ClientInterface = {
   searchMessagesInConversation,
 
   getMessageCount,
+  getStoryCount,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -295,6 +296,7 @@ const dataInterface: ClientInterface = {
   _deleteAllStoryReads,
   addNewStoryRead,
   getLastStoryReadsForAuthor,
+  countStoryReadsByConversation,
 
   removeAll,
   removeAllConfiguration,
@@ -1078,6 +1080,10 @@ async function getMessageCount(conversationId?: string) {
   return channels.getMessageCount(conversationId);
 }
 
+async function getStoryCount(conversationId: string) {
+  return channels.getStoryCount(conversationId);
+}
+
 async function saveMessage(
   data: MessageType,
   options: {
@@ -1632,6 +1638,11 @@ async function getLastStoryReadsForAuthor(options: {
   limit?: number;
 }): Promise<Array<StoryReadType>> {
   return channels.getLastStoryReadsForAuthor(options);
+}
+async function countStoryReadsByConversation(
+  conversationId: string
+): Promise<number> {
+  return channels.countStoryReadsByConversation(conversationId);
 }
 
 // Other

@@ -59,59 +59,55 @@ function createStory({
   };
 }
 
+function getAttachmentWithThumbnail(url: string): AttachmentType {
+  return fakeAttachment({
+    url,
+    thumbnail: fakeThumbnail(url),
+  });
+}
+
 const getDefaultProps = (): PropsType => ({
   hiddenStories: [],
   i18n,
   openConversationInternal: action('openConversationInternal'),
   preferredWidthFromStorage: 380,
+  queueStoryDownload: action('queueStoryDownload'),
   renderStoryViewer: () => <div />,
   stories: [
     createStory({
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail('/fixtures/tina-rolf-269345-unsplash.jpg'),
-      }),
+      attachment: getAttachmentWithThumbnail(
+        '/fixtures/tina-rolf-269345-unsplash.jpg'
+      ),
       timestamp: Date.now() - 2 * durations.MINUTE,
     }),
     createStory({
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail(
-          '/fixtures/koushik-chowdavarapu-105425-unsplash.jpg'
-        ),
-      }),
+      attachment: getAttachmentWithThumbnail(
+        '/fixtures/koushik-chowdavarapu-105425-unsplash.jpg'
+      ),
       timestamp: Date.now() - 5 * durations.MINUTE,
     }),
     createStory({
       group: { title: 'BBQ in the park' },
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail(
-          '/fixtures/nathan-anderson-316188-unsplash.jpg'
-        ),
-      }),
+      attachment: getAttachmentWithThumbnail(
+        '/fixtures/nathan-anderson-316188-unsplash.jpg'
+      ),
       timestamp: Date.now() - 65 * durations.MINUTE,
     }),
     createStory({
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
-      }),
+      attachment: getAttachmentWithThumbnail('/fixtures/snow.jpg'),
       timestamp: Date.now() - 92 * durations.MINUTE,
     }),
     createStory({
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail('/fixtures/kitten-1-64-64.jpg'),
-      }),
+      attachment: getAttachmentWithThumbnail('/fixtures/kitten-1-64-64.jpg'),
       timestamp: Date.now() - 164 * durations.MINUTE,
     }),
     createStory({
       group: { title: 'Breaking Signal for Science' },
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail('/fixtures/kitten-2-64-64.jpg'),
-      }),
+      attachment: getAttachmentWithThumbnail('/fixtures/kitten-2-64-64.jpg'),
       timestamp: Date.now() - 380 * durations.MINUTE,
     }),
     createStory({
-      attachment: fakeAttachment({
-        thumbnail: fakeThumbnail('/fixtures/kitten-3-64-64.jpg'),
-      }),
+      attachment: getAttachmentWithThumbnail('/fixtures/kitten-3-64-64.jpg'),
       timestamp: Date.now() - 421 * durations.MINUTE,
     }),
   ],

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -12,7 +12,9 @@ import type { StoryViewType } from './StoryListItem';
 import { Avatar, AvatarSize } from './Avatar';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
+import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
+import { isDownloaded, isDownloading } from '../types/Attachment';
 import { getAvatarColor } from '../types/Colors';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
@@ -37,6 +39,7 @@ export type PropsType = {
   ) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
   preferredReactionEmoji: Array<string>;
+  queueStoryDownload: (storyId: string) => unknown;
   recentEmojis?: Array<string>;
   replies?: number;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
@@ -59,6 +62,7 @@ export const StoryViewer = ({
   onTextTooLong,
   onUseEmoji,
   preferredReactionEmoji,
+  queueStoryDownload,
   recentEmojis,
   renderEmojiPicker,
   replies,
@@ -70,6 +74,7 @@ export const StoryViewer = ({
 
   const visibleStory = stories[currentStoryIndex];
 
+  const { attachment, messageId, timestamp } = visibleStory;
   const {
     acceptedMessageRequest,
     avatarPath,
@@ -93,19 +98,20 @@ export const StoryViewer = ({
 
   useEscapeHandling(onEscape);
 
+  // Either we show the next story in the current user's stories or we ask
+  // for the next user's stories.
   const showNextStory = useCallback(() => {
-    // Either we show the next story in the current user's stories or we ask
-    // for the next user's stories.
     if (currentStoryIndex < stories.length - 1) {
       setCurrentStoryIndex(currentStoryIndex + 1);
     } else {
+      setCurrentStoryIndex(0);
       onNextUserStories();
     }
   }, [currentStoryIndex, onNextUserStories, stories.length]);
 
+  // Either we show the previous story in the current user's stories or we ask
+  // for the prior user's stories.
   const showPrevStory = useCallback(() => {
-    // Either we show the previous story in the current user's stories or we ask
-    // for the prior user's stories.
     if (currentStoryIndex === 0) {
       onPrevUserStories();
     } else {
@@ -128,8 +134,18 @@ export const StoryViewer = ({
     spring.start({
       from: { width: 0 },
       to: { width: 100 },
-      onRest: showNextStory,
+      onRest: {
+        width: ({ value }) => {
+          if (value === 100) {
+            showNextStory();
+          }
+        },
+      },
     });
+
+    return () => {
+      spring.stop();
+    };
   }, [currentStoryIndex, showNextStory, spring]);
 
   useEffect(() => {
@@ -141,8 +157,21 @@ export const StoryViewer = ({
   }, [hasReplyModal, spring]);
 
   useEffect(() => {
-    markStoryRead(visibleStory.messageId);
-  }, [markStoryRead, visibleStory.messageId]);
+    markStoryRead(messageId);
+  }, [markStoryRead, messageId]);
+
+  // Queue all undownloaded stories once we're viewing someone's stories
+  const storiesToDownload = useMemo(() => {
+    return stories
+      .filter(
+        story =>
+          !isDownloaded(story.attachment) && !isDownloading(story.attachment)
+      )
+      .map(story => story.messageId);
+  }, [stories]);
+  useEffect(() => {
+    storiesToDownload.forEach(id => queueStoryDownload(id));
+  }, [queueStoryDownload, storiesToDownload]);
 
   const navigateStories = useCallback(
     (ev: KeyboardEvent) => {
@@ -183,13 +212,14 @@ export const StoryViewer = ({
           type="button"
         />
         <div className="StoryViewer__container">
-          {visibleStory.attachment && (
-            <img
-              alt={i18n('lightboxImageAlt')}
-              className="StoryViewer__story"
-              src={visibleStory.attachment.url}
-            />
-          )}
+          <StoryImage
+            attachment={attachment}
+            i18n={i18n}
+            label={i18n('lightboxImageAlt')}
+            moduleClassName="StoryViewer__story"
+            queueStoryDownload={queueStoryDownload}
+            storyId={messageId}
+          />
           <div className="StoryViewer__meta">
             <Avatar
               acceptedMessageRequest={acceptedMessageRequest}
@@ -233,13 +263,13 @@ export const StoryViewer = ({
             <MessageTimestamp
               i18n={i18n}
               module="StoryViewer__meta--timestamp"
-              timestamp={visibleStory.timestamp}
+              timestamp={timestamp}
             />
             <div className="StoryViewer__progress">
               {stories.map((story, index) => (
                 <div
                   className="StoryViewer__progress--container"
-                  key={story.timestamp}
+                  key={story.messageId}
                 >
                   {currentStoryIndex === index ? (
                     <animated.div
@@ -315,9 +345,9 @@ export const StoryViewer = ({
           onReact={emoji => {
             onReactToStory(emoji, visibleStory);
           }}
-          onReply={(message, mentions, timestamp) => {
+          onReply={(message, mentions, replyTimestamp) => {
             setHasReplyModal(false);
-            onReplyToStory(message, mentions, timestamp, visibleStory);
+            onReplyToStory(message, mentions, replyTimestamp, visibleStory);
           }}
           onSetSkinTone={onSetSkinTone}
           onTextTooLong={onTextTooLong}
@@ -327,7 +357,7 @@ export const StoryViewer = ({
           renderEmojiPicker={renderEmojiPicker}
           replies={[]}
           skinTone={skinTone}
-          storyPreviewAttachment={visibleStory.attachment}
+          storyPreviewAttachment={attachment}
           views={[]}
         />
       )}

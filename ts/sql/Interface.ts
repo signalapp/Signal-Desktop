@@ -371,6 +371,7 @@ export type DataInterface = {
   // searchMessagesInConversation is JSON on server, full message on Client
 
   getMessageCount: (conversationId?: string) => Promise<number>;
+  getStoryCount: (conversationId: string) => Promise<number>;
   saveMessage: (
     data: MessageType,
     options: {
@@ -561,6 +562,7 @@ export type DataInterface = {
     conversationId?: UUIDStringType;
     limit?: number;
   }): Promise<Array<StoryReadType>>;
+  countStoryReadsByConversation(conversationId: string): Promise<number>;
 
   removeAll: () => Promise<void>;
   removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
