@@ -18,14 +18,15 @@ function hasNormalCharacters(str: string) {
 }
 
 export function getEmojiSizeClass(str: string): SizeClassType {
+  if (!str || !str.length) {
+    return 'small';
+  }
   if (hasNormalCharacters(str)) {
     return 'small';
   }
 
   const emojiCount = getCountOfAllMatches(str);
-  if (emojiCount > 8) {
-    return 'small';
-  } else if (emojiCount > 6) {
+  if (emojiCount > 6) {
     return 'small';
   } else if (emojiCount > 4) {
     return 'medium';
