@@ -1269,8 +1269,8 @@ function updateToLokiSchemaVersion20(currentVersion: number, db: BetterSqlite3.D
         obj.name = obj.profile.displayName;
         updateConversation(obj, db);
       }
-      writeLokiSchemaVersion(targetVersion, db);
-    })();
+    });
+    writeLokiSchemaVersion(targetVersion, db);
   });
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
@@ -1407,7 +1407,7 @@ function showFailedToStart() {
   notification.show();
 }
 
-async function initialize({
+async function initializeSql({
   configDir,
   key,
   messages,
@@ -3024,7 +3024,7 @@ function getExternalFilesForConversation(conversation: any) {
   return files;
 }
 
-function removeKnownAttachments(allAttachments: any) {
+export function removeKnownAttachments(allAttachments: any) {
   const lookup = fromPairs(map(allAttachments, file => [file, true]));
   const chunkSize = 50;
 
@@ -3492,7 +3492,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
 }
 
 const exportedFunctions = {
-  initialize,
+  initializeSql,
   close,
   removeDB,
   setSQLPassword,
@@ -3599,4 +3599,4 @@ const exportedFunctions = {
 };
 
 // tslint:disable-next-line: no-default-export
-export default exportedFunctions;
+export const sqlNode = exportedFunctions;

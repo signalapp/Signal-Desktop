@@ -7,7 +7,7 @@ export const createTemplate = (
   options: {
     openReleaseNotes: () => void;
     openSupportPage: () => void;
-    platform: () => void;
+    platform: string;
     showAbout: () => void;
     showDebugLog: () => void;
     showWindow: () => void;

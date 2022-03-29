@@ -3,6 +3,7 @@
 // tslint:disable: no-console
 
 import { UserConfig } from './config/user_config';
+import { session } from 'electron/main';
 
 const PERMISSIONS: Record<string, boolean> = {
   // Allowed
@@ -40,7 +41,7 @@ export function installPermissionsHandler({ userConfig }: { userConfig: UserConf
   // Setting the permission request handler to null first forces any permissions to be
   //   requested again. Without this, revoked permissions might still be available if
   //   they've already been used successfully.
-  Electron.Session.defaultSession.setPermissionRequestHandler(null);
+  session.defaultSession.setPermissionRequestHandler(null);
 
-  Electron.Session.defaultSession.setPermissionRequestHandler(createPermissionHandler(userConfig));
+  session.defaultSession.setPermissionRequestHandler(createPermissionHandler(userConfig));
 }

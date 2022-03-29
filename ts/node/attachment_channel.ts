@@ -2,6 +2,7 @@ import { ipcMain } from 'electron';
 import rimraf from 'rimraf';
 
 import * as Attachments from '../attachments/attachments';
+import { removeKnownAttachments } from './sql';
 // tslint:disable: no-console
 
 let initialized = false;
@@ -11,14 +12,14 @@ const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 export async function cleanupOrphanedAttachments(userDataPath: string) {
   const allAttachments = await Attachments.getAllAttachments(userDataPath);
-  const orphanedAttachments = await sql.removeKnownAttachments(allAttachments); //sql.js
+  const orphanedAttachments = await removeKnownAttachments(allAttachments); //sql.js
   await Attachments.deleteAll({
     userDataPath,
     attachments: orphanedAttachments,
   });
 }
 
-export async function initialize({ userDataPath }: { userDataPath: string }) {
+export async function initAttachmentsChannel({ userDataPath }: { userDataPath: string }) {
   if (initialized) {
     throw new Error('initialze: Already initialized!');
   }

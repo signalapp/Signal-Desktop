@@ -8,7 +8,10 @@ let trayContextMenu = null;
 let tray: Tray | null = null;
 let trayAny: any;
 
-function createTrayIcon(getMainWindow: () => BrowserWindow, messages: LocaleMessagesType) {
+export function createTrayIcon(
+  getMainWindow: () => BrowserWindow | null,
+  messages: LocaleMessagesType
+) {
   // keep the duplicated part to allow for search and find
   const iconFile = process.platform === 'darwin' ? 'session_icon_16.png' : 'session_icon_32.png';
   const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', iconFile);
@@ -61,7 +64,7 @@ function createTrayIcon(getMainWindow: () => BrowserWindow, messages: LocaleMess
     trayContextMenu = Menu.buildFromTemplate([
       {
         id: 'toggleWindowVisibility',
-        label: messages[mainWindow.isVisible() ? 'appMenuHide' : 'show'],
+        label: messages[mainWindow?.isVisible() ? 'appMenuHide' : 'show'],
         click: trayAny.toggleWindowVisibility,
       },
       {
@@ -81,5 +84,3 @@ function createTrayIcon(getMainWindow: () => BrowserWindow, messages: LocaleMess
 
   return tray;
 }
-
-module.exports = createTrayIcon;

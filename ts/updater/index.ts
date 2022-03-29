@@ -7,10 +7,10 @@ let initialized = false;
 let localUserConfig: UserConfig;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | null,
   userConfig: UserConfig,
   messages: MessagesType,
-  logger: LoggerType
+  logger?: LoggerType | null
 ) {
   if (initialized) {
     throw new Error('updater/start: Updates have already been initialized!');

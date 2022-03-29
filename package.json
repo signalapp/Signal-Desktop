@@ -128,6 +128,7 @@
     "@types/config": "0.0.34",
     "@types/dompurify": "^2.0.0",
     "@types/electron-is-dev": "^1.1.1",
+    "@types/electron-localshortcut": "^3.1.0",
     "@types/emoji-mart": "^2.11.3",
     "@types/filesize": "3.6.0",
     "@types/firstline": "^2.0.2",

@@ -1,6 +1,9 @@
 import { readFileSync, unlinkSync, writeFileSync } from 'fs';
+// tslint:disable: no-console
 
 const ENCODING = 'utf8';
+
+type ValueType = number | string | boolean | null | object;
 
 export function start(
   name: string,
@@ -10,7 +13,7 @@ export function start(
   } = {}
 ) {
   const { allowMalformedOnStartup } = options;
-  let cachedValue: Record<string, number | string | boolean> = {};
+  let cachedValue: Record<string, ValueType> = {};
 
   try {
     const text = readFileSync(targetPath, ENCODING);
@@ -34,7 +37,7 @@ export function start(
     return cachedValue[keyPath];
   }
 
-  function set(keyPath: string, value: number | string | boolean) {
+  function set(keyPath: string, value: ValueType) {
     cachedValue[keyPath] = value;
     console.log(`config/set: Saving ${name} config to disk`);
     const text = JSON.stringify(cachedValue, null, '  ');

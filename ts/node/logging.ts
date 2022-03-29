@@ -24,7 +24,7 @@ export type ConsoleCustom = typeof console & {
   _error: (...args: any) => void;
 };
 
-export async function initialize() {
+export async function initializeLogger() {
   if (logger) {
     throw new Error('Already called initialize!');
   }

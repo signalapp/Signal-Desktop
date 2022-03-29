@@ -40,7 +40,7 @@ export const updateLocale = (messages: LocaleMessagesType) => {
   copyErrorAndQuitText = messages.copyErrorAndQuit;
 };
 
-export const addHandler = () => {
+export const setupGlobalErrorHandler = () => {
   process.on('uncaughtException', async error => {
     await handleError('Unhandled Error', error);
   });

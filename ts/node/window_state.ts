@@ -1,9 +1,9 @@
 let shouldQuitFlag = false;
 
-export function markShouldQuit() {
+export function windowMarkShouldQuit() {
   shouldQuitFlag = true;
 }
 
-export function shouldQuit() {
+export function windowShouldQuit() {
   return shouldQuitFlag;
 }
