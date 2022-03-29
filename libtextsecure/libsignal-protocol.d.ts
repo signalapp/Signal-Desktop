@@ -40,12 +40,8 @@ export interface CryptoInterface {
   getRandomBytes(size: number): ArrayBuffer;
 }
 
-export interface KeyHelperInterface {
-  generateIdentityKeyPair(): Promise<KeyPair>;
-}
 
 export interface LibsignalProtocol {
   Curve: CurveInterface;
   crypto: CryptoInterface;
-  KeyHelper: KeyHelperInterface;
 }

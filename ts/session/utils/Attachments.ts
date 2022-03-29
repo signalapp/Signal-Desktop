@@ -11,6 +11,7 @@ import {
 import { FSv2 } from '../apis/file_server_api';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 import _ from 'lodash';
+import { encryptAttachment } from '../../util/crypto/attachmentsEncrypter';
 
 interface UploadParams {
   attachment: Attachment;
@@ -70,11 +71,7 @@ export class AttachmentFsV2Utils {
       const iv = new Uint8Array(crypto.randomBytes(16));
 
       const dataToEncrypt = !shouldPad ? attachment.data : addAttachmentPadding(attachment.data);
-      const data = await window.textsecure.crypto.encryptAttachment(
-        dataToEncrypt,
-        pointer.key.buffer,
-        iv.buffer
-      );
+      const data = await encryptAttachment(dataToEncrypt, pointer.key.buffer, iv.buffer);
       pointer.digest = new Uint8Array(data.digest);
       attachmentData = data.ciphertext;
     }

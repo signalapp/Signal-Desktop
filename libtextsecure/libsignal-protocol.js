@@ -34736,7 +34736,7 @@ var libsignal
     'use strict';
 
     function validatePrivKey(privKey) {
-        if (privKey === undefined || !(privKey instanceof ArrayBuffer)) {       
+        if (privKey === undefined || !(privKey instanceof ArrayBuffer)) {
         console.log(privKey === undefined, (privKey instanceof ArrayBuffer), privKey.byteLength)
 
         throw new Error("Invalid private key", privKey);
@@ -34982,13 +34982,7 @@ var libsignal
       },
     };
   })();
-  var KeyHelper = {
-    generateIdentityKeyPair: function () {
-      return Internal.crypto.createKeyPair();
-    },
-  };
 
-  libsignal.KeyHelper = KeyHelper;
 
 
 })();

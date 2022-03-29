@@ -63,11 +63,7 @@ module.exports = grunt => {
           banner: ';(function() {\n',
           footer: '})();\n',
         },
-        src: [
-          'libtextsecure/errors.js',
-          'libtextsecure/libsignal-protocol.js',
-          'libtextsecure/crypto.js',
-        ],
+        src: ['libtextsecure/errors.js', 'libtextsecure/libsignal-protocol.js'],
         dest: 'js/libtextsecure.js',
       },
     },

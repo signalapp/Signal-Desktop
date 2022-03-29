@@ -47,6 +47,7 @@ import { urlToBlob } from '../types/attachments/VisualAttachment';
 import { MIME } from '../types';
 import { setLastProfileUpdateTimestamp } from '../util/storage';
 import { getSodium } from '../session/crypto';
+import { encryptProfile } from '../util/crypto/profileEncrypter';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -427,10 +428,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     return;
   }
 
-  const encryptedData = await window.textsecure.crypto.encryptProfile(
-    decryptedAvatarData,
-    profileKey
-  );
+  const encryptedData = await encryptProfile(decryptedAvatarData, profileKey);
 
   const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
   let fileUrl;

@@ -27,6 +27,7 @@ import {
 } from '../models/messageFactory';
 import { MessageModel } from '../models/message';
 import { isUsFromCache } from '../session/utils/User';
+import { decryptProfile } from '../util/crypto/profileEncrypter';
 
 export async function updateProfileOneAtATime(
   conversation: ConversationModel,
@@ -51,7 +52,7 @@ async function createOrUpdateProfile(
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey?: Uint8Array | null
 ) {
-  const { dcodeIO, textsecure } = window;
+  const { dcodeIO } = window;
 
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};
@@ -79,10 +80,7 @@ async function createOrUpdateProfile(
               profileKey,
               encoding
             ).toArrayBuffer();
-            const decryptedData = await textsecure.crypto.decryptProfile(
-              downloaded.data,
-              profileKeyArrayBuffer
-            );
+            const decryptedData = await decryptProfile(downloaded.data, profileKeyArrayBuffer);
 
             const scaledData = await autoScaleForIncomingAvatar(decryptedData);
             const upgraded = await processNewAttachment({
