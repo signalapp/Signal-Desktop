@@ -1,7 +1,10 @@
 // The list of permissions is here:
 //   https://electronjs.org/docs/api/session#sessetpermissionrequesthandlerhandler
+// tslint:disable: no-console
 
-const PERMISSIONS = {
+import { UserConfig } from './config/user_config';
+
+const PERMISSIONS: Record<string, boolean> = {
   // Allowed
   fullscreen: true, // required to show videos in full-screen
   notifications: true, // required to show OS notifications for new messages
@@ -16,8 +19,8 @@ const PERMISSIONS = {
   pointerLock: false,
 };
 
-function _createPermissionHandler(userConfig) {
-  return (webContents, permission, callback) => {
+function createPermissionHandler(userConfig: UserConfig) {
+  return (_webContents: any, permission: any, callback: any) => {
     // We default 'media' permission to false, but the user can override that
     if (permission === 'media' && userConfig.get('mediaPermissions')) {
       return callback(true);
@@ -33,15 +36,11 @@ function _createPermissionHandler(userConfig) {
   };
 }
 
-function installPermissionsHandler({ session, userConfig }) {
+export function installPermissionsHandler({ userConfig }: { userConfig: UserConfig }) {
   // Setting the permission request handler to null first forces any permissions to be
   //   requested again. Without this, revoked permissions might still be available if
   //   they've already been used successfully.
-  session.defaultSession.setPermissionRequestHandler(null);
+  Electron.Session.defaultSession.setPermissionRequestHandler(null);
 
-  session.defaultSession.setPermissionRequestHandler(_createPermissionHandler(userConfig));
+  Electron.Session.defaultSession.setPermissionRequestHandler(createPermissionHandler(userConfig));
 }
-
-module.exports = {
-  installPermissionsHandler,
-};
