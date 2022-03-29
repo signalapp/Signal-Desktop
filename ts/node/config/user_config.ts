@@ -34,6 +34,6 @@ console.log(`userData: ${app.getPath('userData')}`);
 const userDataPath = app.getPath('userData');
 const targetPath = path.join(userDataPath, 'config.json');
 
-const userConfig = start('user', targetPath);
+export const userConfig = start('user', targetPath);
 
 export type UserConfig = typeof userConfig;

@@ -1,20 +1,15 @@
-const electron = require('electron');
-const sql = require('./sql');
-const { remove: removeUserConfig } = require('./user_config');
-const { remove: removeEphemeralConfig } = require('./ephemeral_config');
-
-const { ipcMain } = electron;
-
-module.exports = {
-  initialize,
-};
+import { ipcMain } from 'electron';
+import sql from './sql';
+import { userConfig } from './config/user_config';
+import { ephemeralConfig } from './config/ephemeral_config';
 
 let initialized = false;
 
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
+// tslint:disable: no-console
 
-function initialize() {
+export function initialize() {
   if (initialized) {
     throw new Error('sqlChannels: already initialized!');
   }
@@ -38,8 +33,8 @@ function initialize() {
 
   ipcMain.on(ERASE_SQL_KEY, event => {
     try {
-      removeUserConfig();
-      removeEphemeralConfig();
+      userConfig.remove();
+      ephemeralConfig.remove();
       event.sender.send(`${ERASE_SQL_KEY}-done`);
     } catch (error) {
       const errorForDisplay = error && error.stack ? error.stack : error;

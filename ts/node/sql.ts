@@ -1,131 +1,29 @@
-const path = require('path');
-const fs = require('fs');
-const rimraf = require('rimraf');
-const SQL = require('better-sqlite3');
-const { app, dialog, clipboard, Notification } = require('electron');
-const { redactAll } = require('../ts/util/privacy');
+import path from 'path';
+import fs from 'fs';
+import rimraf from 'rimraf';
+import * as BetterSqlite3 from 'better-sqlite3';
+import { app, clipboard, dialog, Notification } from 'electron';
 
-const {
-  map,
+import {
   flattenDeep,
-  uniq,
-  isString,
-  fromPairs,
   forEach,
-  last,
+  fromPairs,
   isEmpty,
-  isObject,
   isNumber,
-} = require('lodash');
-
-/* eslint-disable camelcase */
-
-module.exports = {
-  initialize,
-  close,
-  removeDB,
-  setSQLPassword,
-
-  getPasswordHash,
-  savePasswordHash,
-  removePasswordHash,
-
-  getIdentityKeyById,
-
-  createOrUpdateItem,
-  getItemById,
-  getAllItems,
-  removeItemById,
-
-  getSwarmNodesForPubkey,
-  updateSwarmNodesForPubkey,
-  getGuardNodes,
-  updateGuardNodes,
-
-  getConversationCount,
-  saveConversation,
-  getConversationById,
-  updateConversation,
-  removeConversation,
-  getAllConversations,
-  getAllOpenGroupV1Conversations,
-  getAllOpenGroupV2Conversations,
-  getPubkeysInPublicConversation,
-  getAllGroupsInvolvingId,
-  removeAllConversations,
-
-  searchConversations,
-  searchMessages,
-  searchMessagesInConversation,
-
-  getMessageCount,
-  saveMessage,
-  cleanSeenMessages,
-  cleanLastHashes,
-  saveSeenMessageHashes,
-  saveSeenMessageHash,
-  updateLastHash,
-  saveMessages,
-  removeMessage,
-  getUnreadByConversation,
-  getUnreadCountByConversation,
-  getMessageCountByType,
-  getMessageBySenderAndSentAt,
-  getMessageBySenderAndServerTimestamp,
-  getMessageBySenderAndTimestamp,
-  getMessageIdsFromServerIds,
-  getMessageById,
-  getMessagesBySentAt,
-  getSeenMessagesByHashList,
-  getLastHashBySnode,
-  getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
-  getMessagesByConversation,
-  getLastMessagesByConversation,
-  getOldestMessageInConversation,
-  getFirstUnreadMessageIdInConversation,
-  getFirstUnreadMessageWithMention,
-  hasConversationOutgoingMessage,
-  trimMessages,
-  fillWithTestData,
-
-  getUnprocessedCount,
-  getAllUnprocessed,
-  saveUnprocessed,
-  updateUnprocessedAttempts,
-  updateUnprocessedWithData,
-  getUnprocessedById,
-  removeUnprocessed,
-  removeAllUnprocessed,
-
-  getNextAttachmentDownloadJobs,
-  saveAttachmentDownloadJob,
-  setAttachmentDownloadJobPending,
-  resetAttachmentDownloadPending,
-  removeAttachmentDownloadJob,
-  removeAllAttachmentDownloadJobs,
-
-  removeAll,
-
-  getMessagesWithVisualMediaAttachments,
-  getMessagesWithFileAttachments,
-
-  removeKnownAttachments,
-
-  getAllEncryptionKeyPairsForGroup,
-  getLatestClosedGroupEncryptionKeyPair,
-  addClosedGroupEncryptionKeyPair,
-  removeAllClosedGroupEncryptionKeyPairs,
-
-  // open group v2
-  getV2OpenGroupRoom,
-  saveV2OpenGroupRoom,
-  getAllV2OpenGroupRooms,
-  getV2OpenGroupRoomByRoomId,
-  removeV2OpenGroupRoom,
-  removeOneOpenGroupV1Message,
-};
+  isObject,
+  isString,
+  last,
+  map,
+  uniq,
+} from 'lodash';
+import { redactAll } from '../util/privacy';
+import { LocaleMessagesType } from './locale';
+import { PubKey } from '../session/types';
+import { StorageItem } from './storage_item';
+// tslint:disable: no-console
+// tslint:disable: non-literal-fs-path
+// tslint:disable: one-variable-per-declaration
+// tslint:disable: quotemark
 
 const CONVERSATIONS_TABLE = 'conversations';
 const MESSAGES_TABLE = 'messages';
@@ -140,27 +38,27 @@ const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
 const MAX_PUBKEYS_MEMBERS = 300;
 
-function objectToJSON(data) {
+function objectToJSON(data: Record<any, any>) {
   return JSON.stringify(data);
 }
-function jsonToObject(json) {
+function jsonToObject(json: string): Record<string, any> {
   return JSON.parse(json);
 }
 
-function getSQLiteVersion(db) {
+function getSQLiteVersion(db: BetterSqlite3.Database) {
   const { sqlite_version } = db.prepare('select sqlite_version() as sqlite_version').get();
   return sqlite_version;
 }
 
-function getSchemaVersion(db) {
+function getSchemaVersion(db: BetterSqlite3.Database) {
   return db.pragma('schema_version', { simple: true });
 }
 
-function getSQLCipherVersion(db) {
+function getSQLCipherVersion(db: BetterSqlite3.Database) {
   return db.pragma('cipher_version', { simple: true });
 }
 
-function getSQLCipherIntegrityCheck(db) {
+function getSQLCipherIntegrityCheck(db: BetterSqlite3.Database) {
   const rows = db.pragma('cipher_integrity_check');
   if (rows.length === 0) {
     return undefined;
@@ -168,7 +66,7 @@ function getSQLCipherIntegrityCheck(db) {
   return rows.map(row => row.cipher_integrity_check);
 }
 
-function keyDatabase(db, key) {
+function keyDatabase(db: BetterSqlite3.Database, key: string) {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   // If the password isn't hex then we need to derive a key from it
 
@@ -181,13 +79,13 @@ function keyDatabase(db, key) {
   db.pragma(pragramToRun);
 }
 
-function switchToWAL(db) {
+function switchToWAL(db: BetterSqlite3.Database) {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
   db.pragma('synchronous = FULL');
 }
 
-function getSQLIntegrityCheck(db) {
+function getSQLIntegrityCheck(db: BetterSqlite3.Database) {
   const checkResult = db.pragma('quick_check', { simple: true });
   if (checkResult !== 'ok') {
     return checkResult;
@@ -198,7 +96,7 @@ function getSQLIntegrityCheck(db) {
 
 const HEX_KEY = /[^0-9A-Fa-f]/;
 
-function migrateSchemaVersion(db) {
+function migrateSchemaVersion(db: BetterSqlite3.Database) {
   const userVersion = getUserVersion(db);
   if (userVersion > 0) {
     return;
@@ -214,7 +112,7 @@ function migrateSchemaVersion(db) {
   setUserVersion(db, newUserVersion);
 }
 
-function getUserVersion(db) {
+function getUserVersion(db: BetterSqlite3.Database) {
   try {
     return db.pragma('user_version', { simple: true });
   } catch (e) {
@@ -223,7 +121,7 @@ function getUserVersion(db) {
   }
 }
 
-function setUserVersion(db, version) {
+function setUserVersion(db: BetterSqlite3.Database, version: number) {
   if (!isNumber(version)) {
     throw new Error(`setUserVersion: version ${version} is not a number`);
   }
@@ -231,12 +129,12 @@ function setUserVersion(db, version) {
   db.pragma(`user_version = ${version}`);
 }
 
-function openAndMigrateDatabase(filePath, key) {
+function openAndMigrateDatabase(filePath: string, key: string) {
   let db;
 
   // First, we try to open the database without any cipher changes
   try {
-    db = new SQL(filePath, { verbose: null });
+    db = new BetterSqlite3.default(filePath, { verbose: undefined });
 
     keyDatabase(db, key);
     switchToWAL(db);
@@ -256,7 +154,7 @@ function openAndMigrateDatabase(filePath, key) {
 
   let db1;
   try {
-    db1 = new SQL(filePath, { verbose: null });
+    db1 = new BetterSqlite3.default(filePath, { verbose: undefined });
     keyDatabase(db1, key);
 
     // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
@@ -274,7 +172,7 @@ function openAndMigrateDatabase(filePath, key) {
   //   migrate to the latest ciphers after we've modified the defaults.
   let db2;
   try {
-    db2 = new SQL(filePath, { verbose: null });
+    db2 = new BetterSqlite3.default(filePath, { verbose: undefined });
     keyDatabase(db2, key);
 
     db2.pragma('cipher_migrate');
@@ -293,11 +191,11 @@ function openAndMigrateDatabase(filePath, key) {
   }
 }
 
-function openAndSetUpSQLCipher(filePath, { key }) {
+function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
   return openAndMigrateDatabase(filePath, key);
 }
 
-function setSQLPassword(password) {
+function setSQLPassword(password: string) {
   if (!globalInstance) {
     throw new Error('setSQLPassword: db is not initialized');
   }
@@ -308,7 +206,7 @@ function setSQLPassword(password) {
   globalInstance.pragma(`rekey = ${value}`);
 }
 
-function vacuumDatabase(db) {
+function vacuumDatabase(db: BetterSqlite3.Database) {
   if (!db) {
     throw new Error('vacuum: db is not initialized');
   }
@@ -319,7 +217,7 @@ function vacuumDatabase(db) {
   console.timeEnd('vaccumming db');
 }
 
-function updateToSchemaVersion1(currentVersion, db) {
+function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 1) {
     return;
   }
@@ -414,7 +312,7 @@ function updateToSchemaVersion1(currentVersion, db) {
   console.log('updateToSchemaVersion1: success!');
 }
 
-function updateToSchemaVersion2(currentVersion, db) {
+function updateToSchemaVersion2(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 2) {
     return;
   }
@@ -450,7 +348,7 @@ function updateToSchemaVersion2(currentVersion, db) {
   console.log('updateToSchemaVersion2: success!');
 }
 
-function updateToSchemaVersion3(currentVersion, db) {
+function updateToSchemaVersion3(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 3) {
     return;
   }
@@ -482,7 +380,7 @@ function updateToSchemaVersion3(currentVersion, db) {
   console.log('updateToSchemaVersion3: success!');
 }
 
-function updateToSchemaVersion4(currentVersion, db) {
+function updateToSchemaVersion4(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 4) {
     return;
   }
@@ -518,7 +416,7 @@ function updateToSchemaVersion4(currentVersion, db) {
   console.log('updateToSchemaVersion4: success!');
 }
 
-function updateToSchemaVersion6(currentVersion, db) {
+function updateToSchemaVersion6(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 6) {
     return;
   }
@@ -607,7 +505,7 @@ function updateToSchemaVersion6(currentVersion, db) {
   console.log('updateToSchemaVersion6: success!');
 }
 
-function updateToSchemaVersion7(currentVersion, db) {
+function updateToSchemaVersion7(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 7) {
     return;
   }
@@ -639,7 +537,7 @@ function updateToSchemaVersion7(currentVersion, db) {
   console.log('updateToSchemaVersion7: success!');
 }
 
-function updateToSchemaVersion8(currentVersion, db) {
+function updateToSchemaVersion8(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 8) {
     return;
   }
@@ -693,7 +591,7 @@ function updateToSchemaVersion8(currentVersion, db) {
   console.log('updateToSchemaVersion8: success!');
 }
 
-function updateToSchemaVersion9(currentVersion, db) {
+function updateToSchemaVersion9(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 9) {
     return;
   }
@@ -723,7 +621,7 @@ function updateToSchemaVersion9(currentVersion, db) {
   console.log('updateToSchemaVersion9: success!');
 }
 
-function updateToSchemaVersion10(currentVersion, db) {
+function updateToSchemaVersion10(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 10) {
     return;
   }
@@ -784,7 +682,7 @@ function updateToSchemaVersion10(currentVersion, db) {
   console.log('updateToSchemaVersion10: success!');
 }
 
-function updateToSchemaVersion11(currentVersion, db) {
+function updateToSchemaVersion11(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 11) {
     return;
   }
@@ -813,7 +711,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion11,
 ];
 
-function updateSchema(db) {
+function updateSchema(db: BetterSqlite3.Database) {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const userVersion = getUserVersion(db);
@@ -858,7 +756,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion21,
 ];
 
-function updateToLokiSchemaVersion1(currentVersion, db) {
+function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 1;
   if (currentVersion >= targetVersion) {
     return;
@@ -880,7 +778,7 @@ function updateToLokiSchemaVersion1(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion2(currentVersion, db) {
+function updateToLokiSchemaVersion2(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 2;
 
   if (currentVersion >= targetVersion) {
@@ -904,7 +802,7 @@ function updateToLokiSchemaVersion2(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion3(currentVersion, db) {
+function updateToLokiSchemaVersion3(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 3;
 
   if (currentVersion >= targetVersion) {
@@ -926,7 +824,7 @@ function updateToLokiSchemaVersion3(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion4(currentVersion, db) {
+function updateToLokiSchemaVersion4(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 4;
   if (currentVersion >= targetVersion) {
     return;
@@ -952,7 +850,7 @@ function updateToLokiSchemaVersion4(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion5(currentVersion, db) {
+function updateToLokiSchemaVersion5(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 5;
   if (currentVersion >= targetVersion) {
     return;
@@ -973,7 +871,7 @@ function updateToLokiSchemaVersion5(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion6(currentVersion, db) {
+function updateToLokiSchemaVersion6(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 6;
   if (currentVersion >= targetVersion) {
     return;
@@ -994,7 +892,7 @@ function updateToLokiSchemaVersion6(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion7(currentVersion, db) {
+function updateToLokiSchemaVersion7(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 7;
   if (currentVersion >= targetVersion) {
     return;
@@ -1013,7 +911,7 @@ function updateToLokiSchemaVersion7(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion8(currentVersion, db) {
+function updateToLokiSchemaVersion8(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 8;
   if (currentVersion >= targetVersion) {
     return;
@@ -1031,7 +929,7 @@ function updateToLokiSchemaVersion8(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion9(currentVersion, db) {
+function updateToLokiSchemaVersion9(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 9;
   if (currentVersion >= targetVersion) {
     return;
@@ -1066,12 +964,8 @@ function updateToLokiSchemaVersion9(currentVersion, db) {
         );
         // We have another conversation with the same future name.
         // We decided to keep only the conversation with the higher number of messages
-        const countMessagesOld = getMessagesCountByConversation(db, oldId, {
-          limit: Number.MAX_VALUE,
-        });
-        const countMessagesNew = getMessagesCountByConversation(db, newId, {
-          limit: Number.MAX_VALUE,
-        });
+        const countMessagesOld = getMessagesCountByConversation(oldId, db);
+        const countMessagesNew = getMessagesCountByConversation(newId, db);
 
         console.log(`countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`);
 
@@ -1102,7 +996,7 @@ function updateToLokiSchemaVersion9(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion10(currentVersion, db) {
+function updateToLokiSchemaVersion10(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 10;
   if (currentVersion >= targetVersion) {
     return;
@@ -1124,7 +1018,7 @@ function updateToLokiSchemaVersion10(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion11(currentVersion, db) {
+function updateToLokiSchemaVersion11(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 11;
   if (currentVersion >= targetVersion) {
     return;
@@ -1138,7 +1032,7 @@ function updateToLokiSchemaVersion11(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion12(currentVersion, db) {
+function updateToLokiSchemaVersion12(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 12;
   if (currentVersion >= targetVersion) {
     return;
@@ -1161,7 +1055,7 @@ function updateToLokiSchemaVersion12(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion13(currentVersion, db) {
+function updateToLokiSchemaVersion13(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 13;
   if (currentVersion >= targetVersion) {
     return;
@@ -1177,7 +1071,7 @@ function updateToLokiSchemaVersion13(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion14(currentVersion, db) {
+function updateToLokiSchemaVersion14(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 14;
   if (currentVersion >= targetVersion) {
     return;
@@ -1199,7 +1093,7 @@ function updateToLokiSchemaVersion14(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion15(currentVersion, db) {
+function updateToLokiSchemaVersion15(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 15;
   if (currentVersion >= targetVersion) {
     return;
@@ -1218,7 +1112,7 @@ function updateToLokiSchemaVersion15(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion16(currentVersion, db) {
+function updateToLokiSchemaVersion16(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 16;
   if (currentVersion >= targetVersion) {
     return;
@@ -1249,7 +1143,7 @@ function updateToLokiSchemaVersion16(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion17(currentVersion, db) {
+function updateToLokiSchemaVersion17(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 17;
   if (currentVersion >= targetVersion) {
     return;
@@ -1271,7 +1165,7 @@ function updateToLokiSchemaVersion17(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion18(currentVersion, db) {
+function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 18;
   if (currentVersion >= targetVersion) {
     return;
@@ -1328,7 +1222,7 @@ function updateToLokiSchemaVersion18(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion19(currentVersion, db) {
+function updateToLokiSchemaVersion19(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 19;
   if (currentVersion >= targetVersion) {
     return;
@@ -1351,7 +1245,7 @@ function updateToLokiSchemaVersion19(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion20(currentVersion, db) {
+function updateToLokiSchemaVersion20(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 20;
   if (currentVersion >= targetVersion) {
     return;
@@ -1365,18 +1259,12 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
         `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
       )
       .all();
+    // tslint:disable-next-line: no-void-expression
     (rowsToUpdate || []).forEach(r => {
       const obj = jsonToObject(r.json);
 
       // obj.profile.displayName is the display as this user set it.
-      if (
-        obj &&
-        obj.nickname &&
-        obj.nickname.length &&
-        obj.profile &&
-        obj.profile.displayName &&
-        obj.profile.displayName.length
-      ) {
+      if (obj?.nickname?.length && obj?.profile?.displayName?.length) {
         // this one has a nickname set, but name is unset, set it to the displayName in the lokiProfile if it's exisitng
         obj.name = obj.profile.displayName;
         updateConversation(obj, db);
@@ -1387,7 +1275,7 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion21(currentVersion, db) {
+function updateToLokiSchemaVersion21(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 21;
   if (currentVersion >= targetVersion) {
     return;
@@ -1424,7 +1312,7 @@ function updateToLokiSchemaVersion21(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function writeLokiSchemaVersion(newVersion, db) {
+function writeLokiSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
   db.prepare(
     `INSERT INTO loki_schema(
       version
@@ -1434,7 +1322,7 @@ function writeLokiSchemaVersion(newVersion, db) {
   ).run({ newVersion });
 }
 
-function updateLokiSchema(db) {
+function updateLokiSchema(db: BetterSqlite3.Database) {
   const result = db
     .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';`)
     .get();
@@ -1454,7 +1342,7 @@ function updateLokiSchema(db) {
   }
 }
 
-function getLokiSchemaVersion(db) {
+function getLokiSchemaVersion(db: BetterSqlite3.Database) {
   const result = db
     .prepare(
       `
@@ -1468,7 +1356,7 @@ function getLokiSchemaVersion(db) {
   return result.version;
 }
 
-function createLokiSchemaTable(db) {
+function createLokiSchemaTable(db: BetterSqlite3.Database) {
   db.transaction(() => {
     db.exec(`
     CREATE TABLE loki_schema(
@@ -1483,11 +1371,29 @@ function createLokiSchemaTable(db) {
     `);
   })();
 }
-let globalInstance;
+let globalInstance: BetterSqlite3.Database | null = null;
 
-let databaseFilePath;
+function assertGlobalInstance(): BetterSqlite3.Database {
+  if (!globalInstance) {
+    throw new Error('globalInstance is not initialized.');
+  }
+  return globalInstance;
+}
 
-function _initializePaths(configDir) {
+function assertGlobalInstanceOrInstance(
+  instance?: BetterSqlite3.Database | null
+): BetterSqlite3.Database {
+  // if none of them are initialized, throw
+  if (!globalInstance && !instance) {
+    throw new Error('neither globalInstance nor initialized is initialized.');
+  }
+  // otherwise, return which ever is true, priority to the global one
+  return globalInstance || (instance as BetterSqlite3.Database);
+}
+
+let databaseFilePath: string | undefined;
+
+function _initializePaths(configDir: string) {
   const dbDir = path.join(configDir, 'sql');
   fs.mkdirSync(dbDir, { recursive: true });
   databaseFilePath = path.join(dbDir, 'db.sqlite');
@@ -1501,7 +1407,17 @@ function showFailedToStart() {
   notification.show();
 }
 
-function initialize({ configDir, key, messages, passwordAttempt }) {
+async function initialize({
+  configDir,
+  key,
+  messages,
+  passwordAttempt,
+}: {
+  configDir: string;
+  key: string;
+  messages: LocaleMessagesType;
+  passwordAttempt: boolean;
+}) {
   if (globalInstance) {
     throw new Error('Cannot initialize more than once!');
   }
@@ -1520,7 +1436,13 @@ function initialize({ configDir, key, messages, passwordAttempt }) {
 
   let db;
   try {
+    if (!databaseFilePath) {
+      throw new Error('databaseFilePath is not set');
+    }
     db = openAndSetUpSQLCipher(databaseFilePath, { key });
+    if (!db) {
+      throw new Error('db is not set');
+    }
     updateSchema(db);
 
     // test database
@@ -1550,7 +1472,7 @@ function initialize({ configDir, key, messages, passwordAttempt }) {
       throw error;
     }
     console.log('Database startup error:', error.stack);
-    const buttonIndex = dialog.showMessageBox({
+    const button = await dialog.showMessageBox({
       buttons: [messages.copyErrorAndQuit, messages.clearAllData],
       defaultId: 0,
       detail: redactAll(error.stack),
@@ -1559,7 +1481,7 @@ function initialize({ configDir, key, messages, passwordAttempt }) {
       type: 'error',
     });
 
-    if (buttonIndex === 0) {
+    if (button.response === 0) {
       clipboard.writeText(`Database startup error:\n\n${redactAll(error.stack)}`);
     } else {
       close();
@@ -1590,17 +1512,15 @@ function removeDB(configDir = null) {
     throw new Error('removeDB: Cannot erase database when it is open!');
   }
 
-  if (globalInstance) {
-    throw new Error('removeDB: Cannot erase database when it is open!');
-  }
-
   if (!databaseFilePath && configDir) {
     _initializePaths(configDir);
   }
 
-  rimraf.sync(databaseFilePath);
-  rimraf.sync(`${databaseFilePath}-shm`);
-  rimraf.sync(`${databaseFilePath}-wal`);
+  if (databaseFilePath) {
+    rimraf.sync(databaseFilePath);
+    rimraf.sync(`${databaseFilePath}-shm`);
+    rimraf.sync(`${databaseFilePath}-wal`);
+  }
 }
 
 // Password hash
@@ -1609,24 +1529,27 @@ function getPasswordHash() {
   const item = getItemById(PASS_HASH_ID);
   return item && item.value;
 }
-function savePasswordHash(hash) {
+function savePasswordHash(hash: string) {
   if (isEmpty(hash)) {
-    return removePasswordHash();
+    removePasswordHash();
+    return;
   }
 
   const data = { id: PASS_HASH_ID, value: hash };
-  return createOrUpdateItem(data);
+  createOrUpdateItem(data);
 }
 function removePasswordHash() {
-  return removeItemById(PASS_HASH_ID);
+  removeItemById(PASS_HASH_ID);
 }
 
-function getIdentityKeyById(id, instance) {
+function getIdentityKeyById(id: string, instance: BetterSqlite3.Database) {
   return getById(IDENTITY_KEYS_TABLE, id, instance);
 }
 
 function getGuardNodes() {
-  const nodes = globalInstance.prepare(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`).all();
+  const nodes = assertGlobalInstance()
+    .prepare(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`)
+    .all();
 
   if (!nodes) {
     return null;
@@ -1635,11 +1558,11 @@ function getGuardNodes() {
   return nodes;
 }
 
-function updateGuardNodes(nodes) {
-  globalInstance.transaction(() => {
-    globalInstance.exec(`DELETE FROM ${GUARD_NODE_TABLE}`);
+function updateGuardNodes(nodes: Array<string>) {
+  assertGlobalInstance().transaction(() => {
+    assertGlobalInstance().exec(`DELETE FROM ${GUARD_NODE_TABLE}`);
     nodes.map(edkey =>
-      globalInstance
+      assertGlobalInstance()
         .prepare(
           `INSERT INTO ${GUARD_NODE_TABLE} (
         ed25519PubKey
@@ -1652,27 +1575,30 @@ function updateGuardNodes(nodes) {
   })();
 }
 
-function createOrUpdateItem(data, instance) {
-  return createOrUpdate(ITEMS_TABLE, data, instance);
+function createOrUpdateItem(data: StorageItem, instance?: BetterSqlite3.Database) {
+  createOrUpdate(ITEMS_TABLE, data, instance);
 }
-function getItemById(id) {
+function getItemById(id: string) {
   return getById(ITEMS_TABLE, id);
 }
 function getAllItems() {
-  const rows = globalInstance.prepare(`SELECT json FROM ${ITEMS_TABLE} ORDER BY id ASC;`).all();
+  const rows = assertGlobalInstance()
+    .prepare(`SELECT json FROM ${ITEMS_TABLE} ORDER BY id ASC;`)
+    .all();
   return map(rows, row => jsonToObject(row.json));
 }
-function removeItemById(id) {
-  return removeById(ITEMS_TABLE, id);
+function removeItemById(id: string) {
+  removeById(ITEMS_TABLE, id);
+  return;
 }
 
-function createOrUpdate(table, data, instance) {
+function createOrUpdate(table: string, data: StorageItem, instance?: BetterSqlite3.Database) {
   const { id } = data;
   if (!id) {
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
   }
 
-  (globalInstance || instance)
+  assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${table} (
       id,
@@ -1688,10 +1614,12 @@ function createOrUpdate(table, data, instance) {
     });
 }
 
-function getById(table, id, instance) {
-  const row = (globalInstance || instance).prepare(`SELECT * FROM ${table} WHERE id = $id;`).get({
-    id,
-  });
+function getById(table: string, id: string, instance?: BetterSqlite3.Database) {
+  const row = assertGlobalInstanceOrInstance(instance)
+    .prepare(`SELECT * FROM ${table} WHERE id = $id;`)
+    .get({
+      id,
+    });
 
   if (!row) {
     return null;
@@ -1700,9 +1628,11 @@ function getById(table, id, instance) {
   return jsonToObject(row.json);
 }
 
-function removeById(table, id) {
+function removeById(table: string, id: string) {
   if (!Array.isArray(id)) {
-    globalInstance.prepare(`DELETE FROM ${table} WHERE id = $id;`).run({ id });
+    assertGlobalInstance()
+      .prepare(`DELETE FROM ${table} WHERE id = $id;`)
+      .run({ id });
     return;
   }
 
@@ -1711,15 +1641,15 @@ function removeById(table, id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  globalInstance
+  assertGlobalInstance()
     .prepare(`DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
     .run({ id });
 }
 
 // Conversations
 
-function getSwarmNodesForPubkey(pubkey) {
-  const row = globalInstance
+function getSwarmNodesForPubkey(pubkey: string) {
+  const row = assertGlobalInstance()
     .prepare(`SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`)
     .get({
       pubkey,
@@ -1732,8 +1662,8 @@ function getSwarmNodesForPubkey(pubkey) {
   return jsonToObject(row.json);
 }
 
-function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
-  globalInstance
+function updateSwarmNodesForPubkey(pubkey: string, snodeEdKeys: Array<string>) {
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO ${NODES_FOR_PUBKEY_TABLE} (
         pubkey,
@@ -1750,7 +1680,9 @@ function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
 }
 
 function getConversationCount() {
-  const row = globalInstance.prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`).get();
+  const row = assertGlobalInstance()
+    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
+    .get();
   if (!row) {
     throw new Error(`getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`);
   }
@@ -1758,10 +1690,10 @@ function getConversationCount() {
   return row['count(*)'];
 }
 
-function saveConversation(data, instance) {
+function saveConversation(data: any, instance?: BetterSqlite3.Database) {
   const { id, active_at, type, members, name, profileName } = data;
 
-  (globalInstance || instance)
+  assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT INTO ${CONVERSATIONS_TABLE} (
     id,
@@ -1795,7 +1727,7 @@ function saveConversation(data, instance) {
     });
 }
 
-function updateConversation(data, instance) {
+function updateConversation(data: any, instance?: BetterSqlite3.Database) {
   const {
     id,
     // eslint-disable-next-line camelcase
@@ -1806,8 +1738,7 @@ function updateConversation(data, instance) {
     profileName,
   } = data;
 
-  (globalInstance || instance)
-
+  assertGlobalInstanceOrInstance(instance)
     .prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
     json = $json,
@@ -1831,11 +1762,13 @@ function updateConversation(data, instance) {
     });
 }
 
-function removeConversation(id) {
+function removeConversation(id: string | Array<string>) {
   if (!Array.isArray(id)) {
-    globalInstance.prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).run({
-      id,
-    });
+    assertGlobalInstance()
+      .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
+      .run({
+        id,
+      });
     return;
   }
 
@@ -1844,15 +1777,17 @@ function removeConversation(id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  globalInstance
+  assertGlobalInstance()
     .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
     .run(id);
 }
 
-function getConversationById(id) {
-  const row = globalInstance.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
-    id,
-  });
+function getConversationById(id: string) {
+  const row = assertGlobalInstance()
+    .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
+    .get({
+      id,
+    });
 
   if (!row) {
     return null;
@@ -1862,14 +1797,14 @@ function getConversationById(id) {
 }
 
 function getAllConversations() {
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
     .all();
   return map(rows, row => jsonToObject(row.json));
 }
 
 function getAllOpenGroupV1Conversations() {
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
@@ -1885,7 +1820,7 @@ function getAllOpenGroupV2Conversations() {
   // first _ matches all opengroupv1,
   // second _ force a second char to be there, so it can only be opengroupv2 convos
 
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
@@ -1897,8 +1832,8 @@ function getAllOpenGroupV2Conversations() {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getPubkeysInPublicConversation(conversationId) {
-  const rows = globalInstance
+function getPubkeysInPublicConversation(conversationId: string) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId
@@ -1911,8 +1846,8 @@ function getPubkeysInPublicConversation(conversationId) {
   return map(rows, row => row.source);
 }
 
-function getAllGroupsInvolvingId(id) {
-  const rows = globalInstance
+function getAllGroupsInvolvingId(id: string) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
@@ -1926,8 +1861,8 @@ function getAllGroupsInvolvingId(id) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function searchConversations(query, { limit } = {}) {
-  const rows = globalInstance
+function searchConversations(query: string) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
@@ -1940,7 +1875,7 @@ function searchConversations(query, { limit } = {}) {
     .all({
       name: `%${query}%`,
       profileName: `%${query}%`,
-      limit: limit || 50,
+      limit: 50,
     });
 
   return map(rows, row => jsonToObject(row.json));
@@ -1949,11 +1884,12 @@ function searchConversations(query, { limit } = {}) {
 // order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
 const orderByMessageCoalesceClause = `ORDER BY COALESCE(${MESSAGES_TABLE}.serverTimestamp, ${MESSAGES_TABLE}.sent_at, ${MESSAGES_TABLE}.received_at) DESC`;
 
-function searchMessages(query, limit) {
+function searchMessages(query: string, limit: number) {
   if (!limit) {
     throw new Error('searchMessages limit must be set');
   }
-  const rows = globalInstance
+
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT
       ${MESSAGES_TABLE}.json,
@@ -1976,8 +1912,8 @@ function searchMessages(query, limit) {
   }));
 }
 
-function searchMessagesInConversation(query, conversationId, limit) {
-  const rows = globalInstance
+function searchMessagesInConversation(query: string, conversationId: string, limit: number) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT
       ${MESSAGES_TABLE}.json,
@@ -2003,7 +1939,9 @@ function searchMessagesInConversation(query, conversationId, limit) {
 }
 
 function getMessageCount() {
-  const row = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get();
+  const row = assertGlobalInstance()
+    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
+    .get();
 
   if (!row) {
     throw new Error(`getMessageCount: Unable to get count of ${MESSAGES_TABLE}`);
@@ -2011,7 +1949,7 @@ function getMessageCount() {
   return row['count(*)'];
 }
 
-function saveMessage(data) {
+function saveMessage(data: any) {
   const {
     body,
     conversationId,
@@ -2067,7 +2005,7 @@ function saveMessage(data) {
     unread,
   };
 
-  globalInstance
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO ${MESSAGES_TABLE} (
     id,
@@ -2116,18 +2054,18 @@ function saveMessage(data) {
   return id;
 }
 
-function saveSeenMessageHashes(arrayOfHashes) {
-  globalInstance.transaction(() => {
-    map(arrayOfHashes, hashData => saveSeenMessageHash(hashData));
+function saveSeenMessageHashes(arrayOfHashes: Array<string>) {
+  assertGlobalInstance().transaction(() => {
+    map(arrayOfHashes, saveSeenMessageHash);
   })();
 }
 
-function updateLastHash(data) {
+function updateLastHash(data: any) {
   const { convoId, snode, hash, expiresAt } = data;
 
   const id = convoId;
 
-  globalInstance
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO lastHashes (
       id,
@@ -2149,10 +2087,10 @@ function updateLastHash(data) {
     });
 }
 
-function saveSeenMessageHash(data) {
+function saveSeenMessageHash(data: any) {
   const { expiresAt, hash } = data;
   try {
-    globalInstance
+    assertGlobalInstance()
       .prepare(
         `INSERT INTO seenMessages (
       expiresAt,
@@ -2172,26 +2110,31 @@ function saveSeenMessageHash(data) {
 }
 
 function cleanLastHashes() {
-  globalInstance.prepare('DELETE FROM lastHashes WHERE expiresAt <= $now;').run({
-    now: Date.now(),
-  });
+  assertGlobalInstance()
+    .prepare('DELETE FROM lastHashes WHERE expiresAt <= $now;')
+    .run({
+      now: Date.now(),
+    });
 }
 
 function cleanSeenMessages() {
-  globalInstance.prepare('DELETE FROM seenMessages WHERE expiresAt <= $now;').run({
-    now: Date.now(),
-  });
+  assertGlobalInstance()
+    .prepare('DELETE FROM seenMessages WHERE expiresAt <= $now;')
+    .run({
+      now: Date.now(),
+    });
 }
 
-function saveMessages(arrayOfMessages) {
-  globalInstance.transaction(() => {
-    map(arrayOfMessages, message => saveMessage(message));
+function saveMessages(arrayOfMessages: Array<any>) {
+  console.info('saveMessages of length: ', arrayOfMessages.length);
+  assertGlobalInstance().transaction(() => {
+    map(arrayOfMessages, saveMessage);
   })();
 }
 
-function removeMessage(id, instance) {
+function removeMessage(id: string, instance?: BetterSqlite3.Database) {
   if (!Array.isArray(id)) {
-    (globalInstance || instance)
+    assertGlobalInstanceOrInstance(instance)
       .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`)
       .run({ id });
     return;
@@ -2202,18 +2145,18 @@ function removeMessage(id, instance) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  (globalInstance || instance)
+  assertGlobalInstanceOrInstance(instance)
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
     .run(id);
 }
 
-function getMessageIdsFromServerIds(serverIds, conversationId) {
+function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversationId: string) {
   if (!Array.isArray(serverIds)) {
     return [];
   }
 
   // Sanitize the input as we're going to use it directly in the query
-  const validIds = serverIds.map(id => Number(id)).filter(n => !Number.isNaN(n));
+  const validIds = serverIds.map(Number).filter(n => !Number.isNaN(n));
 
   /*
     Sqlite3 doesn't have a good way to have `IN` query with another query.
@@ -2221,7 +2164,7 @@ function getMessageIdsFromServerIds(serverIds, conversationId) {
 
     So we have to use templating to insert the values.
   */
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT id FROM ${MESSAGES_TABLE} WHERE
     serverId IN (${validIds.join(',')}) AND
@@ -2233,10 +2176,12 @@ function getMessageIdsFromServerIds(serverIds, conversationId) {
   return rows.map(row => row.id);
 }
 
-function getMessageById(id) {
-  const row = globalInstance.prepare(`SELECT * FROM ${MESSAGES_TABLE} WHERE id = $id;`).get({
-    id,
-  });
+function getMessageById(id: string) {
+  const row = assertGlobalInstance()
+    .prepare(`SELECT * FROM ${MESSAGES_TABLE} WHERE id = $id;`)
+    .get({
+      id,
+    });
 
   if (!row) {
     return null;
@@ -2245,8 +2190,8 @@ function getMessageById(id) {
   return jsonToObject(row.json);
 }
 
-function getMessageBySenderAndSentAt({ source, sentAt }) {
-  const rows = globalInstance
+function getMessageBySenderAndSentAt({ source, sentAt }: { source: string; sentAt: number }) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
@@ -2260,8 +2205,14 @@ function getMessageBySenderAndSentAt({ source, sentAt }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getMessageBySenderAndTimestamp({ source, timestamp }) {
-  const rows = globalInstance
+function getMessageBySenderAndTimestamp({
+  source,
+  timestamp,
+}: {
+  source: string;
+  timestamp: number;
+}) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
@@ -2275,8 +2226,14 @@ function getMessageBySenderAndTimestamp({ source, timestamp }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getMessageBySenderAndServerTimestamp({ source, serverTimestamp }) {
-  const rows = globalInstance
+function getMessageBySenderAndServerTimestamp({
+  source,
+  serverTimestamp,
+}: {
+  source: string;
+  serverTimestamp: number;
+}) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
@@ -2290,8 +2247,8 @@ function getMessageBySenderAndServerTimestamp({ source, serverTimestamp }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getUnreadByConversation(conversationId) {
-  const rows = globalInstance
+function getUnreadByConversation(conversationId: string) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       unread = $unread AND
@@ -2306,8 +2263,8 @@ function getUnreadByConversation(conversationId) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getUnreadCountByConversation(conversationId) {
-  const row = globalInstance
+function getUnreadCountByConversation(conversationId: string) {
+  const row = assertGlobalInstance()
     .prepare(
       `SELECT count(*) from ${MESSAGES_TABLE} WHERE
     unread = $unread AND
@@ -2328,8 +2285,8 @@ function getUnreadCountByConversation(conversationId) {
   return row['count(*)'];
 }
 
-function getMessageCountByType(conversationId, type = '%') {
-  const row = globalInstance
+function getMessageCountByType(conversationId: string, type = '%') {
+  const row = assertGlobalInstance()
     .prepare(
       `SELECT count(*) from ${MESSAGES_TABLE}
       WHERE conversationId = $conversationId
@@ -2354,21 +2311,22 @@ function getMessageCountByType(conversationId, type = '%') {
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
 const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
-function getMessagesByConversation(conversationId, { messageId = null } = {}) {
+function getMessagesByConversation(conversationId: string, { messageId = null } = {}) {
   const absLimit = 30;
   // If messageId is given it means we are opening the conversation to that specific messageId,
   // or that we just scrolled to it by a quote click and needs to load around it.
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
 
-  const numberOfMessagesInConvo = getMessagesCountByConversation(globalInstance, conversationId);
+  const numberOfMessagesInConvo = getMessagesCountByConversation(conversationId, globalInstance);
   const floorLoadAllMessagesInConvo = 70;
 
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);
 
     if (messageFound && messageFound.conversationId === conversationId) {
-      const rows = globalInstance
+      // tslint:disable-next-line: no-shadowed-variable
+      const rows = assertGlobalInstance()
         .prepare(
           `WITH cte AS (
             SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
@@ -2404,9 +2362,9 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   const limit =
     numberOfMessagesInConvo < floorLoadAllMessagesInConvo
       ? floorLoadAllMessagesInConvo
-      : 2 * absLimit;
+      : absLimit * 2;
 
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -2423,12 +2381,12 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getLastMessagesByConversation(conversationId, limit) {
+function getLastMessagesByConversation(conversationId: string, limit: number) {
   if (!isNumber(limit)) {
     throw new Error('limit must be a number');
   }
 
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -2447,8 +2405,8 @@ function getLastMessagesByConversation(conversationId, limit) {
 /**
  * This is the oldest message so we cannot reuse getLastMessagesByConversation
  */
-function getOldestMessageInConversation(conversationId) {
-  const rows = globalInstance
+function getOldestMessageInConversation(conversationId: string) {
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -2464,8 +2422,8 @@ function getOldestMessageInConversation(conversationId) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function hasConversationOutgoingMessage(conversationId) {
-  const row = globalInstance
+function hasConversationOutgoingMessage(conversationId: string) {
+  const row = assertGlobalInstance()
     .prepare(
       `
     SELECT count(*)  FROM ${MESSAGES_TABLE} WHERE
@@ -2483,8 +2441,8 @@ function hasConversationOutgoingMessage(conversationId) {
   return Boolean(row['count(*)']);
 }
 
-function getFirstUnreadMessageIdInConversation(conversationId) {
-  const rows = globalInstance
+function getFirstUnreadMessageIdInConversation(conversationId: string) {
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT id FROM ${MESSAGES_TABLE} WHERE
@@ -2505,13 +2463,13 @@ function getFirstUnreadMessageIdInConversation(conversationId) {
   return rows[0].id;
 }
 
-function getFirstUnreadMessageWithMention(conversationId, ourpubkey) {
+function getFirstUnreadMessageWithMention(conversationId: string, ourpubkey: string) {
   if (!ourpubkey || !ourpubkey.length) {
     throw new Error('getFirstUnreadMessageWithMention needs our pubkey but nothing was given');
   }
   const likeMatch = `%@${ourpubkey}%`;
 
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT id, json FROM ${MESSAGES_TABLE} WHERE
@@ -2537,7 +2495,7 @@ function getFirstUnreadMessageWithMention(conversationId, ourpubkey) {
 /**
  * Deletes all but the 10,000 last received messages.
  */
-function trimMessages(limit) {
+function trimMessages(limit: number) {
   console.log(limit); // adding this for linting purposes.
   // METHOD 1 Start - Seems to take to long and freeze
   // const convoCount = globalInstance
@@ -2663,8 +2621,8 @@ function trimMessages(limit) {
   // });
 }
 
-function getMessagesBySentAt(sentAt) {
-  const rows = globalInstance
+function getMessagesBySentAt(sentAt: number) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT * FROM ${MESSAGES_TABLE}
      WHERE sent_at = $sent_at
@@ -2677,8 +2635,8 @@ function getMessagesBySentAt(sentAt) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getLastHashBySnode(convoId, snode) {
-  const row = globalInstance
+function getLastHashBySnode(convoId: string, snode: string) {
+  const row = assertGlobalInstance()
     .prepare('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;')
     .get({
       snode,
@@ -2692,8 +2650,8 @@ function getLastHashBySnode(convoId, snode) {
   return row.hash;
 }
 
-function getSeenMessagesByHashList(hashes) {
-  const rows = globalInstance
+function getSeenMessagesByHashList(hashes: Array<string>) {
+  const rows = assertGlobalInstance()
     .prepare(`SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`)
     .all(hashes);
 
@@ -2703,7 +2661,7 @@ function getSeenMessagesByHashList(hashes) {
 function getExpiredMessages() {
   const now = Date.now();
 
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       expires_at IS NOT NULL AND
@@ -2718,7 +2676,7 @@ function getExpiredMessages() {
 }
 
 function getOutgoingWithoutExpiresAt() {
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE}
@@ -2735,7 +2693,7 @@ function getOutgoingWithoutExpiresAt() {
 }
 
 function getNextExpiringMessage() {
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE}
@@ -2750,13 +2708,13 @@ function getNextExpiringMessage() {
 }
 
 /* Unproccessed a received messages not yet processed */
-function saveUnprocessed(data) {
+function saveUnprocessed(data: any) {
   const { id, timestamp, version, attempts, envelope, senderIdentity, messageHash } = data;
   if (!id) {
     throw new Error(`saveUnprocessed: id was falsey: ${id}`);
   }
 
-  globalInstance
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO unprocessed (
       id,
@@ -2789,16 +2747,18 @@ function saveUnprocessed(data) {
   return id;
 }
 
-function updateUnprocessedAttempts(id, attempts) {
-  globalInstance.prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;').run({
-    id,
-    attempts,
-  });
+function updateUnprocessedAttempts(id: string, attempts: number) {
+  assertGlobalInstance()
+    .prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;')
+    .run({
+      id,
+      attempts,
+    });
 }
-function updateUnprocessedWithData(id, data = {}) {
+function updateUnprocessedWithData(id: string, data: any = {}) {
   const { source, sourceDevice, serverTimestamp, decrypted, senderIdentity } = data;
 
-  globalInstance
+  assertGlobalInstance()
     .prepare(
       `UPDATE unprocessed SET
       source = $source,
@@ -2818,16 +2778,20 @@ function updateUnprocessedWithData(id, data = {}) {
     });
 }
 
-function getUnprocessedById(id) {
-  const row = globalInstance.prepare('SELECT * FROM unprocessed WHERE id = $id;').get({
-    id,
-  });
+function getUnprocessedById(id: string) {
+  const row = assertGlobalInstance()
+    .prepare('SELECT * FROM unprocessed WHERE id = $id;')
+    .get({
+      id,
+    });
 
   return row;
 }
 
 function getUnprocessedCount() {
-  const row = globalInstance.prepare('SELECT count(*) from unprocessed;').get();
+  const row = assertGlobalInstance()
+    .prepare('SELECT count(*) from unprocessed;')
+    .get();
 
   if (!row) {
     throw new Error('getMessageCount: Unable to get count of unprocessed');
@@ -2837,14 +2801,18 @@ function getUnprocessedCount() {
 }
 
 function getAllUnprocessed() {
-  const rows = globalInstance.prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;').all();
+  const rows = assertGlobalInstance()
+    .prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;')
+    .all();
 
   return rows;
 }
 
-function removeUnprocessed(id) {
+function removeUnprocessed(id: string) {
   if (!Array.isArray(id)) {
-    globalInstance.prepare('DELETE FROM unprocessed WHERE id = $id;').run({ id });
+    assertGlobalInstance()
+      .prepare('DELETE FROM unprocessed WHERE id = $id;')
+      .run({ id });
     return;
   }
 
@@ -2853,19 +2821,21 @@ function removeUnprocessed(id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  globalInstance
+  assertGlobalInstance()
     .prepare(`DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
     .run(id);
 }
 
 function removeAllUnprocessed() {
-  globalInstance.prepare('DELETE FROM unprocessed;').run();
+  assertGlobalInstance()
+    .prepare('DELETE FROM unprocessed;')
+    .run();
 }
 
-function getNextAttachmentDownloadJobs(limit, options = {}) {
-  const timestamp = options.timestamp || Date.now();
+function getNextAttachmentDownloadJobs(limit: number) {
+  const timestamp = Date.now();
 
-  const rows = globalInstance
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${ATTACHMENT_DOWNLOADS_TABLE}
     WHERE pending = 0 AND timestamp < $timestamp
@@ -2880,13 +2850,13 @@ function getNextAttachmentDownloadJobs(limit, options = {}) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function saveAttachmentDownloadJob(job) {
+function saveAttachmentDownloadJob(job: any) {
   const { id, pending, timestamp } = job;
   if (!id) {
     throw new Error('saveAttachmentDownloadJob: Provided job did not have a truthy id');
   }
 
-  globalInstance
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO ${ATTACHMENT_DOWNLOADS_TABLE} (
       id,
@@ -2908,8 +2878,8 @@ function saveAttachmentDownloadJob(job) {
     });
 }
 
-function setAttachmentDownloadJobPending(id, pending) {
-  globalInstance
+function setAttachmentDownloadJobPending(id: string, pending: 1 | 0) {
+  assertGlobalInstance()
     .prepare(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = $pending WHERE id = $id;`)
     .run({
       id,
@@ -2918,20 +2888,20 @@ function setAttachmentDownloadJobPending(id, pending) {
 }
 
 function resetAttachmentDownloadPending() {
-  globalInstance
+  assertGlobalInstance()
     .prepare(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = 0 WHERE pending != 0;`)
     .run();
 }
-function removeAttachmentDownloadJob(id) {
-  return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
+function removeAttachmentDownloadJob(id: string) {
+  removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
 }
 function removeAllAttachmentDownloadJobs() {
-  globalInstance.exec(`DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};`);
+  assertGlobalInstance().exec(`DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};`);
 }
 
 // All data in database
 function removeAll() {
-  globalInstance.exec(`
+  assertGlobalInstance().exec(`
     DELETE FROM ${IDENTITY_KEYS_TABLE};
 
     DELETE FROM ${ITEMS_TABLE};
@@ -2948,11 +2918,13 @@ function removeAll() {
 }
 
 function removeAllConversations() {
-  globalInstance.prepare(`DELETE FROM ${CONVERSATIONS_TABLE};`).run();
+  assertGlobalInstance()
+    .prepare(`DELETE FROM ${CONVERSATIONS_TABLE};`)
+    .run();
 }
 
-function getMessagesWithVisualMediaAttachments(conversationId, { limit }) {
-  const rows = globalInstance
+function getMessagesWithVisualMediaAttachments(conversationId: string, limit?: number) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
@@ -2968,8 +2940,8 @@ function getMessagesWithVisualMediaAttachments(conversationId, { limit }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getMessagesWithFileAttachments(conversationId, { limit }) {
-  const rows = globalInstance
+function getMessagesWithFileAttachments(conversationId: string, limit: number) {
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
@@ -2985,9 +2957,9 @@ function getMessagesWithFileAttachments(conversationId, { limit }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getExternalFilesForMessage(message) {
+function getExternalFilesForMessage(message: any) {
   const { attachments, contact, quote, preview } = message;
-  const files = [];
+  const files: Array<any> = [];
 
   forEach(attachments, attachment => {
     const { path: file, thumbnail, screenshot } = attachment;
@@ -3037,7 +3009,7 @@ function getExternalFilesForMessage(message) {
   return files;
 }
 
-function getExternalFilesForConversation(conversation) {
+function getExternalFilesForConversation(conversation: any) {
   const { avatar, profileAvatar } = conversation;
   const files = [];
 
@@ -3052,7 +3024,7 @@ function getExternalFilesForConversation(conversation) {
   return files;
 }
 
-function removeKnownAttachments(allAttachments) {
+function removeKnownAttachments(allAttachments: any) {
   const lookup = fromPairs(map(allAttachments, file => [file, true]));
   const chunkSize = 50;
 
@@ -3064,7 +3036,7 @@ function removeKnownAttachments(allAttachments) {
   let id = '';
 
   while (!complete) {
-    const rows = globalInstance
+    const rows = assertGlobalInstance()
       .prepare(
         `SELECT json FROM ${MESSAGES_TABLE}
        WHERE id > $id
@@ -3080,6 +3052,7 @@ function removeKnownAttachments(allAttachments) {
     forEach(messages, message => {
       const externalFiles = getExternalFilesForMessage(message);
       forEach(externalFiles, file => {
+        // tslint:disable-next-line: no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -3098,7 +3071,7 @@ function removeKnownAttachments(allAttachments) {
   count = 0;
   // Though conversations.id is a string, this ensures that, when coerced, this
   //   value is still a string but it's smaller than every other string.
-  id = 0;
+  (id as any) = 0;
 
   const conversationTotal = getConversationCount();
   console.log(
@@ -3106,7 +3079,7 @@ function removeKnownAttachments(allAttachments) {
   );
 
   while (!complete) {
-    const rows = globalInstance
+    const rows = assertGlobalInstance()
       .prepare(
         `SELECT json FROM ${CONVERSATIONS_TABLE}
        WHERE id > $id
@@ -3122,6 +3095,7 @@ function removeKnownAttachments(allAttachments) {
     forEach(conversations, conversation => {
       const externalFiles = getExternalFilesForConversation(conversation);
       forEach(externalFiles, file => {
+        // tslint:disable-next-line: no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -3139,16 +3113,19 @@ function removeKnownAttachments(allAttachments) {
   return Object.keys(lookup);
 }
 
-function getMessagesCountByConversation(instance, conversationId) {
-  const row = instance
+function getMessagesCountByConversation(
+  conversationId: string,
+  instance?: BetterSqlite3.Database | null
+) {
+  const row = assertGlobalInstanceOrInstance(instance)
     .prepare(`SELECT count(*) from ${MESSAGES_TABLE} WHERE conversationId = $conversationId;`)
     .get({ conversationId });
 
   return row ? row['count(*)'] : 0;
 }
 
-function getAllClosedGroupConversations(instance) {
-  const rows = (globalInstance || instance)
+function getAllClosedGroupConversations(instance?: BetterSqlite3.Database) {
+  const rows = assertGlobalInstanceOrInstance(instance)
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
@@ -3160,14 +3137,14 @@ function getAllClosedGroupConversations(instance) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function remove05PrefixFromStringIfNeeded(str) {
+function remove05PrefixFromStringIfNeeded(str: string) {
   if (str.length === 66 && str.startsWith('05')) {
     return str.substr(2);
   }
   return str;
 }
 
-function updateExistingClosedGroupV1ToClosedGroupV2(db) {
+function updateExistingClosedGroupV1ToClosedGroupV2(db: BetterSqlite3.Database) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
   const allClosedGroupV1 = getAllClosedGroupConversations(db) || [];
 
@@ -3176,6 +3153,9 @@ function updateExistingClosedGroupV1ToClosedGroupV2(db) {
     try {
       console.log('Migrating closed group v1 to v2: pubkey', groupId);
       const groupV1IdentityKey = getIdentityKeyById(groupId, db);
+      if (!groupV1IdentityKey) {
+        return;
+      }
       const encryptionPubKeyWithoutPrefix = remove05PrefixFromStringIfNeeded(groupV1IdentityKey.id);
 
       // Note:
@@ -3203,17 +3183,19 @@ function updateExistingClosedGroupV1ToClosedGroupV2(db) {
 
 /**
  * The returned array is ordered based on the timestamp, the latest is at the end.
- * @param {*} groupPublicKey string | PubKey
+ * @param groupPublicKey string | PubKey
  */
-function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
+function getAllEncryptionKeyPairsForGroup(groupPublicKey: string | PubKey) {
   const rows = getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
-  const pubkeyAsString = groupPublicKey.key ? groupPublicKey.key : groupPublicKey;
-  const rows = globalInstance
+function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey: string | PubKey) {
+  const pubkeyAsString = (groupPublicKey as PubKey).key
+    ? (groupPublicKey as PubKey).key
+    : groupPublicKey;
+  const rows = assertGlobalInstance()
     .prepare(
       `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`
     )
@@ -3224,7 +3206,7 @@ function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
   return rows;
 }
 
-function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
+function getLatestClosedGroupEncryptionKeyPair(groupPublicKey: string) {
   const rows = getAllEncryptionKeyPairsForGroup(groupPublicKey);
   if (!rows || rows.length === 0) {
     return undefined;
@@ -3232,10 +3214,14 @@ function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
   return rows[rows.length - 1];
 }
 
-function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance) {
+function addClosedGroupEncryptionKeyPair(
+  groupPublicKey: string,
+  keypair: object,
+  instance?: BetterSqlite3.Database
+) {
   const timestamp = Date.now();
 
-  (globalInstance || instance)
+  assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
       groupPublicKey,
@@ -3254,8 +3240,8 @@ function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance) {
     });
 }
 
-function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
-  globalInstance
+function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string) {
+  assertGlobalInstance()
     .prepare(
       `DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey`
     )
@@ -3268,13 +3254,15 @@ function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
  * Related to Opengroup V2
  */
 function getAllV2OpenGroupRooms() {
-  const rows = globalInstance.prepare(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`).all();
+  const rows = assertGlobalInstance()
+    .prepare(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`)
+    .all();
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getV2OpenGroupRoom(conversationId) {
-  const row = globalInstance
+function getV2OpenGroupRoom(conversationId: string) {
+  const row = assertGlobalInstance()
     .prepare(`SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`)
     .get({
       conversationId,
@@ -3287,8 +3275,8 @@ function getV2OpenGroupRoom(conversationId) {
   return jsonToObject(row.json);
 }
 
-function getV2OpenGroupRoomByRoomId(serverUrl, roomId) {
-  const row = globalInstance
+function getV2OpenGroupRoomByRoomId(serverUrl: string, roomId: string) {
+  const row = assertGlobalInstance()
     .prepare(
       `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE serverUrl = $serverUrl AND roomId = $roomId;`
     )
@@ -3304,9 +3292,9 @@ function getV2OpenGroupRoomByRoomId(serverUrl, roomId) {
   return jsonToObject(row.json);
 }
 
-function saveV2OpenGroupRoom(opengroupsv2Room) {
+function saveV2OpenGroupRoom(opengroupsv2Room: any) {
   const { serverUrl, roomId, conversationId } = opengroupsv2Room;
-  globalInstance
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO ${OPEN_GROUP_ROOMS_V2_TABLE} (
       serverUrl,
@@ -3328,8 +3316,8 @@ function saveV2OpenGroupRoom(opengroupsv2Room) {
     });
 }
 
-function removeV2OpenGroupRoom(conversationId) {
-  globalInstance
+function removeV2OpenGroupRoom(conversationId: string) {
+  assertGlobalInstance()
     .prepare(`DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`)
     .run({
       conversationId,
@@ -3337,7 +3325,7 @@ function removeV2OpenGroupRoom(conversationId) {
 }
 
 function removeOneOpenGroupV1Message() {
-  const row = globalInstance
+  const row = assertGlobalInstance()
     .prepare(
       `SELECT count(*) from ${MESSAGES_TABLE} WHERE
     conversationId LIKE 'publicChat:1@%';`
@@ -3349,7 +3337,7 @@ function removeOneOpenGroupV1Message() {
     return 0;
   }
   console.info('left opengroupv1 message to remove: ', toRemoveCount);
-  const rowMessageIds = globalInstance
+  const rowMessageIds = assertGlobalInstance()
     .prepare(
       `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
     )
@@ -3365,13 +3353,14 @@ function removeOneOpenGroupV1Message() {
   return toRemoveCount - 1;
 }
 
+// tslint:disable: binary-expression-operand-order
+// tslint:disable: insecure-random
+
 /**
  * Only using this for development. Populate conversation and message tables.
- * @param {*} numConvosToAdd
- * @param {*} numMsgsToAdd
  */
-function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
-  const convoBeforeCount = globalInstance
+function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
+  const convoBeforeCount = assertGlobalInstance()
     .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
     .get()['count(*)'];
 
@@ -3410,9 +3399,9 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     aliquet sollicitudin.
     `;
 
-  const msgBeforeCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
-    'count(*)'
-  ];
+  const msgBeforeCount = assertGlobalInstance()
+    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
+    .get()['count(*)'];
 
   console.info('==== fillWithTestData ====');
   console.info({
@@ -3439,7 +3428,9 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     try {
       saveConversation(convoObjToAdd);
       // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch (e) {
+      console.warn(e);
+    }
   }
   // eslint-disable-next-line no-plusplus
   for (let index = 0; index < numMsgsToAdd; index++) {
@@ -3488,14 +3479,124 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     }
   }
 
-  const convoAfterCount = globalInstance
+  const convoAfterCount = assertGlobalInstance()
     .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
     .get()['count(*)'];
 
-  const msgAfterCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
-    'count(*)'
-  ];
+  const msgAfterCount = assertGlobalInstance()
+    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
+    .get()['count(*)'];
 
   console.info({ convoAfterCount, msgAfterCount });
   return convosIdsAdded;
 }
+
+const exportedFunctions = {
+  initialize,
+  close,
+  removeDB,
+  setSQLPassword,
+
+  getPasswordHash,
+  savePasswordHash,
+  removePasswordHash,
+
+  getIdentityKeyById,
+
+  createOrUpdateItem,
+  getItemById,
+  getAllItems,
+  removeItemById,
+
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
+  getGuardNodes,
+  updateGuardNodes,
+
+  getConversationCount,
+  saveConversation,
+  getConversationById,
+  updateConversation,
+  removeConversation,
+  getAllConversations,
+  getAllOpenGroupV1Conversations,
+  getAllOpenGroupV2Conversations,
+  getPubkeysInPublicConversation,
+  getAllGroupsInvolvingId,
+  removeAllConversations,
+
+  searchConversations,
+  searchMessages,
+  searchMessagesInConversation,
+
+  getMessageCount,
+  saveMessage,
+  cleanSeenMessages,
+  cleanLastHashes,
+  saveSeenMessageHashes,
+  saveSeenMessageHash,
+  updateLastHash,
+  saveMessages,
+  removeMessage,
+  getUnreadByConversation,
+  getUnreadCountByConversation,
+  getMessageCountByType,
+  getMessageBySenderAndSentAt,
+  getMessageBySenderAndServerTimestamp,
+  getMessageBySenderAndTimestamp,
+  getMessageIdsFromServerIds,
+  getMessageById,
+  getMessagesBySentAt,
+  getSeenMessagesByHashList,
+  getLastHashBySnode,
+  getExpiredMessages,
+  getOutgoingWithoutExpiresAt,
+  getNextExpiringMessage,
+  getMessagesByConversation,
+  getLastMessagesByConversation,
+  getOldestMessageInConversation,
+  getFirstUnreadMessageIdInConversation,
+  getFirstUnreadMessageWithMention,
+  hasConversationOutgoingMessage,
+  trimMessages,
+  fillWithTestData,
+
+  getUnprocessedCount,
+  getAllUnprocessed,
+  saveUnprocessed,
+  updateUnprocessedAttempts,
+  updateUnprocessedWithData,
+  getUnprocessedById,
+  removeUnprocessed,
+  removeAllUnprocessed,
+
+  getNextAttachmentDownloadJobs,
+  saveAttachmentDownloadJob,
+  setAttachmentDownloadJobPending,
+  resetAttachmentDownloadPending,
+  removeAttachmentDownloadJob,
+  removeAllAttachmentDownloadJobs,
+
+  removeAll,
+
+  getMessagesWithVisualMediaAttachments,
+  getMessagesWithFileAttachments,
+
+  removeKnownAttachments,
+
+  getAllEncryptionKeyPairsForGroup,
+  getLatestClosedGroupEncryptionKeyPair,
+  addClosedGroupEncryptionKeyPair,
+  removeAllClosedGroupEncryptionKeyPairs,
+
+  // open group v2
+  getV2OpenGroupRoom,
+  saveV2OpenGroupRoom,
+  getAllV2OpenGroupRooms,
+  getV2OpenGroupRoomByRoomId,
+  removeV2OpenGroupRoom,
+  removeOneOpenGroupV1Message,
+};
+
+// tslint:disable-next-line: no-default-export
+export default exportedFunctions;

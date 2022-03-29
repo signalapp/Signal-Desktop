@@ -12,6 +12,7 @@ import {
 } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
+import { StorageItem } from '../node/storage_item';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
@@ -36,12 +37,6 @@ let _jobCounter = 0;
 let _shuttingDown = false;
 let _shutdownCallback: any = null;
 let _shutdownPromise: any = null;
-
-export type StorageItem = {
-  id: string;
-  value: any;
-  timestamp?: number;
-};
 
 export type IdentityKey = {
   id: string;
@@ -613,9 +608,11 @@ export async function searchMessagesInConversation(
   conversationId: string,
   limit: number
 ): Promise<Array<MessageAttributes>> {
-  const messages = (await channels.searchMessagesInConversation(query, conversationId, {
-    limit,
-  })) as Array<MessageAttributes>;
+  const messages = (await channels.searchMessagesInConversation(
+    query,
+    conversationId,
+    limit
+  )) as Array<MessageAttributes>;
   return messages;
 }
 
@@ -1030,20 +1027,16 @@ async function callChannel(name: string): Promise<any> {
 
 export async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
-  options?: { limit: number }
+  limit?: number
 ): Promise<Array<MessageAttributes>> {
-  return channels.getMessagesWithVisualMediaAttachments(conversationId, {
-    limit: options?.limit,
-  });
+  return channels.getMessagesWithVisualMediaAttachments(conversationId, limit);
 }
 
 export async function getMessagesWithFileAttachments(
   conversationId: string,
-  options?: { limit: number }
+  limit: number
 ): Promise<Array<MessageAttributes>> {
-  return channels.getMessagesWithFileAttachments(conversationId, {
-    limit: options?.limit,
-  });
+  return channels.getMessagesWithFileAttachments(conversationId, limit);
 }
 
 export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';
