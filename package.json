@@ -268,7 +268,7 @@
     "electron-builder": "23.0.1",
     "electron-mocha": "11.0.2",
     "electron-notarize": "0.1.1",
-    "esbuild": "0.14.27",
+    "esbuild": "0.14.28",
     "eslint": "7.7.0",
     "eslint-config-airbnb-typescript-prettier": "4.2.0",
     "eslint-config-prettier": "6.11.0",

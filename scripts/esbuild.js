@@ -12,7 +12,7 @@ const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
 
 const nodeDefaults = {
   platform: 'node',
-  target: 'node16',
+  target: 'es2020',
   sourcemap: isProd ? false : 'inline',
   // Otherwise React components get renamed
   // See: https://github.com/evanw/esbuild/issues/1147
