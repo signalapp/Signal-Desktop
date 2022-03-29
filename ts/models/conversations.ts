@@ -4396,11 +4396,13 @@ export class ConversationModel extends window.Backbone
   async updateExpirationTimer(
     providedExpireTimer: number | undefined,
     providedSource?: unknown,
-    receivedAt?: number,
+    initiatingMessage?: MessageModel,
     options: { fromSync?: unknown; fromGroupUpdate?: unknown } = {}
   ): Promise<boolean | null | MessageModel | void> {
+    const isSetByOther = providedSource || initiatingMessage;
+
     if (isGroupV2(this.attributes)) {
-      if (providedSource || receivedAt) {
+      if (isSetByOther) {
         throw new Error(
           'updateExpirationTimer: GroupV2 timers are not updated this way'
         );
@@ -4444,7 +4446,7 @@ export class ConversationModel extends window.Backbone
     });
 
     // if change wasn't made remotely, send it to the number/group
-    if (!receivedAt) {
+    if (!isSetByOther) {
       try {
         await conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.DirectExpirationTimerUpdate,
@@ -4464,7 +4466,11 @@ export class ConversationModel extends window.Backbone
 
     // When we add a disappearing messages notification to the conversation, we want it
     //   to be above the message that initiated that change, hence the subtraction.
-    const timestamp = (receivedAt || Date.now()) - 1;
+    const receivedAt =
+      initiatingMessage?.get('received_at') ||
+      window.Signal.Util.incrementMessageCounter();
+    const receivedAtMS = initiatingMessage?.get('received_at_ms') || Date.now();
+    const sentAt = (initiatingMessage?.get('sent_at') || receivedAtMS) - 1;
 
     this.set({ expireTimer });
 
@@ -4480,9 +4486,9 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Unread,
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
-      sent_at: timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: timestamp,
+      sent_at: sentAt,
+      received_at: receivedAt,
+      received_at_ms: receivedAtMS,
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
