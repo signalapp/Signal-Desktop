@@ -46,7 +46,6 @@ yarn-error.log
 # editor
 .vscode/
 
-libloki/test/test.js
 
 playwright.config.js
 *.js.map

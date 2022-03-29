@@ -10,8 +10,6 @@ js/libtextsecure.js
 js/util_worker.js
 libtextsecure/components.js
 test/test.js
-libloki/test/components.js
-libloki/test/test.js
 
 
 # Third-party files

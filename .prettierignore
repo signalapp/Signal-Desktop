@@ -11,7 +11,6 @@ js/libtextsecure.js
 libtextsecure/components.js
 stylesheets/*.css
 test/test.js
-libloki/test/test.js
 
 test/ts/**/*.js
 ts/**/*.js
