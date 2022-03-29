@@ -1874,7 +1874,7 @@ export default class MessageReceiver
     log.info('MessageReceiver.handleDataMessage', logId);
 
     const isStoriesEnabled =
-      isEnabled('desktop.stories') && isEnabled('desktop.internalUser');
+      isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
     if (!isStoriesEnabled && msg.storyContext) {
       log.info(
         `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
