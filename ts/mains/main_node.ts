@@ -1,32 +1,35 @@
 /* eslint-disable no-console */
 
-const path = require('path');
-const url = require('url');
-const os = require('os');
-const fs = require('fs');
-const crypto = require('crypto');
-
-const _ = require('lodash');
-const pify = require('pify');
-const electron = require('electron');
-const { setup: setupSpellChecker } = require('./app/spell_check');
-const packageJson = require('./package.json');
-const GlobalErrors = require('./app/global_errors');
-
-GlobalErrors.addHandler();
-const electronLocalshortcut = require('electron-localshortcut');
-
-const getRealPath = pify(fs.realpath);
-const {
+import {
   app,
   BrowserWindow,
-  ipcMain: ipc,
+  ipcMain as ipc,
   Menu,
-  protocol: electronProtocol,
+  protocol as electronProtocol,
   session,
   shell,
+  screen,
   systemPreferences,
-} = electron;
+} from 'electron';
+
+import path from 'path';
+import url from 'url';
+import os from 'os';
+import fs from 'fs';
+import crypto from 'crypto';
+
+import _ from 'lodash';
+import pify from 'pify';
+import { setup as setupSpellChecker } from './app/spell_check';
+import packageJson from './package.json';
+import GlobalErrors from './app/global_errors';
+
+GlobalErrors.addHandler();
+import electronLocalshortcut from 'electron-localshortcut';
+
+// tslint:disable: no-console
+
+const getRealPath = pify(fs.realpath);
 
 // FIXME Hardcoding appId to prevent build failures on release.
 // const appUserModelId = packageJson.build.appId;
@@ -38,7 +41,7 @@ app.setAppUserModelId(appUserModelId);
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow: BrowserWindow | null = null;
 
 function getMainWindow() {
   return mainWindow;
@@ -47,36 +50,36 @@ function getMainWindow() {
 // Tray icon and related objects
 let tray = null;
 
-const config = require('./app/config');
+import config from './app/config';
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
-const userConfig = require('./app/user_config');
-const passwordUtil = require('./ts/util/passwordUtils');
+import userConfig from './app/user_config';
+import passwordUtil from './ts/util/passwordUtils';
 
 const development = config.environment === 'development';
 const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-const attachments = require('./ts/attachments/attachments');
-const attachmentChannel = require('./app/attachment_channel');
+import attachments from './ts/attachments/attachments';
+import attachmentChannel from './app/attachment_channel';
 
-const updater = require('./ts/updater/index');
+import updater from './ts/updater/index';
 
-const createTrayIcon = require('./app/tray_icon');
-const ephemeralConfig = require('./app/ephemeral_config');
-const logging = require('./app/logging');
-const sql = require('./app/sql');
-const sqlChannels = require('./app/sql_channel');
-const windowState = require('./app/window_state');
-const { createTemplate } = require('./app/menu');
-const { installFileHandler, installWebHandler } = require('./app/protocol_filter');
-const { installPermissionsHandler } = require('./app/permissions');
+import createTrayIcon from './app/tray_icon';
+import ephemeralConfig from './app/ephemeral_config';
+import logging from './app/logging';
+import sql from './app/sql';
+import sqlChannels from './app/sql_channel';
+import windowState from './app/window_state';
+import { createTemplate } from './app/menu';
+import { installFileHandler, installWebHandler } from './app/protocol_filter';
+import { installPermissionsHandler } from './app/permissions';
 
 let appStartInitialSpellcheckSetting = true;
 
-let latestDesktopRelease;
+let latestDesktopRelease: string | undefined;
 
 async function getSpellCheckSetting() {
   const json = await sql.getItemById('spell-check');
@@ -141,7 +144,8 @@ if (windowFromUserConfig) {
   ephemeralConfig.set('window', windowConfig);
 }
 
-const loadLocale = require('./app/locale').load;
+// import {load as loadLocale} from '../..'
+const loadLocale = './app/locale'.load;
 
 // Both of these will be set after app fires the 'ready' event
 let logger;
@@ -228,8 +232,8 @@ function getStartInTray() {
   const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
   return { usingTrayIcon, startInTray };
 }
+// tslint:disable-next-line: max-func-body-length
 async function createWindow() {
-  const { screen } = electron;
   const { minWidth, minHeight, width, height } = getWindowSize();
 
   const windowOptions = Object.assign(
@@ -663,7 +667,7 @@ async function removeDB() {
   }
 }
 
-async function showMainWindow(sqlKey, passwordAttempt = false) {
+async function showMainWindow(sqlKey: string, passwordAttempt = false) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
   sql.initialize({
@@ -675,18 +679,8 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
 
-  async function cleanupOrphanedAttachments() {
-    const allAttachments = await attachments.getAllAttachments(userDataPath);
-    const orphanedAttachments = await sql.removeKnownAttachments(allAttachments);
-    await attachments.deleteAll({
-      userDataPath,
-      attachments: orphanedAttachments,
-    });
-  }
-
   await attachmentChannel.initialize({
-    configDir: userDataPath,
-    cleanupOrphanedAttachments,
+    userDataPath,
   });
 
   ready = true;
