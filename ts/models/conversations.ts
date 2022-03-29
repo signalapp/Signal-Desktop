@@ -1389,6 +1389,11 @@ export class ConversationModel extends window.Backbone
     message: MessageModel,
     { isJustSent }: { isJustSent: boolean } = { isJustSent: false }
   ): Promise<void> {
+    await this.beforeAddSingleMessage();
+    this.doAddSingleMessage(message, { isJustSent });
+  }
+
+  private async beforeAddSingleMessage(): Promise<void> {
     if (!this.newMessageQueue) {
       this.newMessageQueue = new window.PQueue({
         concurrency: 1,
@@ -1400,7 +1405,12 @@ export class ConversationModel extends window.Backbone
     await this.newMessageQueue.add(async () => {
       await this.inProgressFetch;
     });
+  }
 
+  private doAddSingleMessage(
+    message: MessageModel,
+    { isJustSent }: { isJustSent: boolean }
+  ): void {
     const { messagesAdded } = window.reduxActions.conversations;
     const { conversations } = window.reduxStore.getState();
     const { messagesByConversation } = conversations;
@@ -1414,7 +1424,7 @@ export class ConversationModel extends window.Backbone
       newestId && messageIds && messageIds[messageIds.length - 1] === newestId;
 
     if (isJustSent && existingConversation && !isLatestInMemory) {
-      await this.loadNewestMessages(undefined, undefined);
+      this.loadNewestMessages(undefined, undefined);
     } else {
       messagesAdded({
         conversationId,
@@ -4042,6 +4052,9 @@ export class ConversationModel extends window.Backbone
 
     const renderStart = Date.now();
 
+    // Perform asynchronous tasks before entering the batching mode
+    await this.beforeAddSingleMessage();
+
     this.isInReduxBatch = true;
     batchDispatch(() => {
       try {
@@ -4051,7 +4064,7 @@ export class ConversationModel extends window.Backbone
         const enableProfileSharing = Boolean(
           mandatoryProfileSharingEnabled && !this.get('profileSharing')
         );
-        this.addSingleMessage(model, { isJustSent: true });
+        this.doAddSingleMessage(model, { isJustSent: true });
 
         const draftProperties = dontClearDraft
           ? {}
