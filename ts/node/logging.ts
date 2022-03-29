@@ -18,7 +18,7 @@ let logger: Logger | undefined;
 // tslint:disable: non-literal-fs-path
 // tslint:disable: no-console
 
-type ConsoleCustom = typeof console & {
+export type ConsoleCustom = typeof console & {
   _log: (...args: any) => void;
   _warn: (...args: any) => void;
   _error: (...args: any) => void;
