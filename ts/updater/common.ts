@@ -67,6 +67,7 @@ type JSONUpdateSchema = {
   path: string;
   sha512: string;
   releaseDate: string;
+  requireManualUpdate?: boolean;
 };
 
 export type UpdateInformationType = {
@@ -358,6 +359,15 @@ export abstract class Updater {
   ): Promise<UpdateInformationType | undefined> {
     const yaml = await getUpdateYaml();
     const parsedYaml = parseYaml(yaml);
+
+    if (parsedYaml.requireManualUpdate) {
+      this.logger.warn('checkForUpdates: manual update required');
+      this.markCannotUpdate(
+        new Error('yaml file has requireManualUpdate flag')
+      );
+      return;
+    }
+
     const version = getVersion(parsedYaml);
 
     if (!version) {
