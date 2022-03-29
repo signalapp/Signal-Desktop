@@ -1,29 +1,30 @@
 // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
 /* eslint-disable more/no-then */
 
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
-const electron = require('electron');
-const bunyan = require('bunyan');
-const _ = require('lodash');
-const readFirstLine = require('firstline');
-const readLastLines = require('read-last-lines').read;
-const rimraf = require('rimraf');
+import { app, ipcMain as ipc } from 'electron';
+import Logger from 'bunyan';
+import _ from 'lodash';
+import firstline from 'firstline';
+import { readLastLinesEnc } from 'read-last-lines-ts';
+import rimraf from 'rimraf';
 
-const { redactAll } = require('../ts/util/privacy');
+import { redactAll } from '../util/privacy';
 
-const { app, ipcMain: ipc } = electron;
 const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];
-let logger;
+let logger: Logger | undefined;
+// tslint:disable: non-literal-fs-path
+// tslint:disable: no-console
 
-module.exports = {
-  initialize,
-  getLogger,
-  fetch,
+type ConsoleCustom = typeof console & {
+  _log: (...args: any) => void;
+  _warn: (...args: any) => void;
+  _error: (...args: any) => void;
 };
 
-function initialize() {
+export async function initialize() {
   if (logger) {
     throw new Error('Already called initialize!');
   }
@@ -39,7 +40,7 @@ function initialize() {
 
     const logFile = path.join(logPath, 'log.log');
 
-    logger = bunyan.createLogger({
+    logger = Logger.createLogger({
       name: 'log',
       streams: [
         {
@@ -56,8 +57,8 @@ function initialize() {
     });
 
     LEVELS.forEach(level => {
-      ipc.on(`log-${level}`, (first, ...rest) => {
-        logger[level](...rest);
+      ipc.on(`log-${level}`, (_first, ...rest) => {
+        (logger as any)[level](...rest);
       });
     });
 
@@ -69,7 +70,7 @@ function initialize() {
           event.sender.send('fetched-log', data);
         },
         error => {
-          logger.error(`Problem loading log from disk: ${error.stack}`);
+          logger?.error(`Problem loading log from disk: ${error.stack}`);
         }
       );
     });
@@ -78,7 +79,7 @@ function initialize() {
       try {
         await deleteAllLogs(logPath);
       } catch (error) {
-        logger.error(`Problem deleting all logs: ${error.stack}`);
+        logger?.error(`Problem deleting all logs: ${error.stack}`);
       }
 
       event.sender.send('delete-all-logs-complete');
@@ -86,7 +87,7 @@ function initialize() {
   });
 }
 
-async function deleteAllLogs(logPath) {
+async function deleteAllLogs(logPath: string) {
   return new Promise((resolve, reject) => {
     rimraf(
       logPath,
@@ -95,16 +96,18 @@ async function deleteAllLogs(logPath) {
       },
       error => {
         if (error) {
-          return reject(error);
+          reject(error);
+          return;
         }
 
-        return resolve();
+        resolve(undefined);
+        return;
       }
     );
   });
 }
 
-async function cleanupLogs(logPath) {
+async function cleanupLogs(logPath: string) {
   const now = new Date();
   const earliestDate = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 6)
@@ -128,7 +131,7 @@ async function cleanupLogs(logPath) {
   }
 }
 
-function isLineAfterDate(line, date) {
+function isLineAfterDate(line: string, date: Date) {
   if (!line) {
     return false;
   }
@@ -142,13 +145,13 @@ function isLineAfterDate(line, date) {
   }
 }
 
-function eliminateOutOfDateFiles(logPath, date) {
+async function eliminateOutOfDateFiles(logPath: string, date: Date) {
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 
   return Promise.all(
     _.map(paths, target =>
-      Promise.all([readFirstLine(target), readLastLines(target, 2)]).then(results => {
+      Promise.all([firstline(target), readLastLinesEnc('utf8')(target, 2)]).then(results => {
         const start = results[0];
         const end = results[1].split('\n');
 
@@ -170,22 +173,22 @@ function eliminateOutOfDateFiles(logPath, date) {
   );
 }
 
-function eliminateOldEntries(files, date) {
+async function eliminateOldEntries(files: any, date: Date) {
   const earliest = date.getTime();
 
   return Promise.all(
     _.map(files, file =>
-      fetchLog(file.path).then(lines => {
+      fetchLog(file.path).then((lines: any) => {
         const recent = _.filter(lines, line => new Date(line.time).getTime() >= earliest);
         const text = _.map(recent, line => JSON.stringify(line)).join('\n');
 
-        return fs.writeFileSync(file.path, `${text}\n`);
+        fs.writeFileSync(file.path, `${text}\n`);
       })
     )
   );
 }
 
-function getLogger() {
+export function getLogger() {
   if (!logger) {
     throw new Error("Logger hasn't been initialized yet!");
   }
@@ -193,11 +196,12 @@ function getLogger() {
   return logger;
 }
 
-function fetchLog(logFile) {
+async function fetchLog(logFile: string) {
   return new Promise((resolve, reject) => {
     fs.readFile(logFile, { encoding: 'utf8' }, (err, text) => {
       if (err) {
-        return reject(err);
+        reject(err);
+        return;
       }
 
       const lines = _.compact(text.split('\n'));
@@ -211,15 +215,18 @@ function fetchLog(logFile) {
         })
       );
 
-      return resolve(data);
+      resolve(data);
+      return;
     });
   });
 }
 
-function fetch(logPath) {
+export async function fetch(logPath: string) {
   // Check that the file exists locally
   if (!fs.existsSync(logPath)) {
-    console._log('Log folder not found while fetching its content. Quick! Creating it.');
+    (console as ConsoleCustom)._log(
+      'Log folder not found while fetching its content. Quick! Creating it.'
+    );
     fs.mkdirSync(logPath, { recursive: true });
   }
   const files = fs.readdirSync(logPath);
@@ -242,10 +249,10 @@ function fetch(logPath) {
   });
 }
 
-function logAtLevel(level, ...args) {
+function logAtLevel(level: string, ...args: any) {
   if (logger) {
     // To avoid [Object object] in our log since console.log handles non-strings smoothly
-    const str = args.map(item => {
+    const str = args.map((item: any) => {
       if (typeof item !== 'string') {
         try {
           return JSON.stringify(item);
@@ -256,18 +263,18 @@ function logAtLevel(level, ...args) {
 
       return item;
     });
-    logger[level](redactAll(str.join(' ')));
+    (logger as any)[level](redactAll(str.join(' ')));
   } else {
-    console._log(...args);
+    (console as ConsoleCustom)._log(...args);
   }
 }
 
 // This blows up using mocha --watch, so we ensure it is run just once
-if (!console._log) {
-  console._log = console.log;
+if (!(console as ConsoleCustom)._log) {
+  (console as ConsoleCustom)._log = console.log;
   console.log = _.partial(logAtLevel, 'info');
-  console._error = console.error;
+  (console as ConsoleCustom)._error = console.error;
   console.error = _.partial(logAtLevel, 'error');
-  console._warn = console.warn;
+  (console as ConsoleCustom)._warn = console.warn;
   console.warn = _.partial(logAtLevel, 'warn');
 }

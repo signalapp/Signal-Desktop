@@ -848,6 +848,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/bunyan@^1.8.8":
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/@types/bunyan/-/bunyan-1.8.8.tgz#8d6d33f090f37c07e2a80af30ae728450a101008"
+  integrity sha512-Cblq+Yydg3u+sGiz2mjHjC5MPmdjY+No4qvHrF+BUhblsmSfMvsHLbOG62tPbonsqBj6sbWv1LHcsoe5Jw+/Ow==
+  dependencies:
+    "@types/node" "*"
+
 "@types/bytebuffer@^5.0.41":
   version "5.0.41"
   resolved "https://registry.yarnpkg.com/@types/bytebuffer/-/bytebuffer-5.0.41.tgz#6850dba4d4cd2846596b4842874d5bfc01cd3db1"
@@ -958,6 +965,13 @@
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@types/filesize/-/filesize-3.6.0.tgz#5f1a25c7b4e3d5ee2bc63133d374d096b7008c8d"
   integrity sha512-rOWxCKMjt2DBuwddUnl5GOpf/jAkkqteB+XldncpVxVX+HPTmK2c5ACMOVEbp9gaH81IlhTdC3TwvRa5nopasw==
+
+"@types/firstline@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/firstline/-/firstline-2.0.2.tgz#b7b051c235a667f25f205eaedbfaeeb6c92b8488"
+  integrity sha512-/Qjs+MO7PwS7EI2k6Iwcc7jHLqf7AlIMDyEmPGB7LrIUFqQWZtbk6UsQxqlPMpOM10f0XiSc6RMsEIKbEGOrGw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/fs-extra@5.0.5":
   version "5.0.5"
@@ -1632,11 +1646,6 @@ ansi-styles@^5.0.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
-
-any-promise@^1.0.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
-  integrity sha1-q8av7tzqUugJzcA3au0845Y10X8=
 
 app-builder-bin@3.5.9:
   version "3.5.9"
@@ -3645,7 +3654,7 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
-fs-extra@0.26.7, fs-extra@^0.26.5:
+fs-extra@0.26.7:
   version "0.26.7"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-0.26.7.tgz#9ae1fdd94897798edab76d0918cf42d0c3184fa9"
   integrity sha1-muH92UiXeY7at20JGM9C0MMYT6k=
@@ -3691,16 +3700,6 @@ fs-minipass@^2.0.0:
   integrity sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==
   dependencies:
     minipass "^3.0.0"
-
-fs-promise@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/fs-promise/-/fs-promise-0.5.0.tgz#4347d6bf624655a7061a4319213c393276ad3ef3"
-  integrity sha1-Q0fWv2JGVacGGkMZITw5MnatPvM=
-  dependencies:
-    any-promise "^1.0.0"
-    fs-extra "^0.26.5"
-    mz "^2.3.1"
-    thenify-all "^1.6.0"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -5353,15 +5352,6 @@ mv@~2:
     ncp "~2.0.0"
     rimraf "~2.4.0"
 
-mz@^2.3.1:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/mz/-/mz-2.7.0.tgz#95008057a56cafadc2bc63dde7f9ff6955948e32"
-  integrity sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==
-  dependencies:
-    any-promise "^1.0.0"
-    object-assign "^4.0.1"
-    thenify-all "^1.0.0"
-
 nan@2.14.2, nan@^2.13.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
@@ -6424,12 +6414,10 @@ read-config-file@6.0.0:
     json5 "^2.1.2"
     lazy-val "^1.0.4"
 
-read-last-lines@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/read-last-lines/-/read-last-lines-1.3.0.tgz#0dd170188d46124a23eb1a87156baf46b315ac4b"
-  integrity sha1-DdFwGI1GEkoj6xqHFWuvRrMVrEs=
-  dependencies:
-    fs-promise "^0.5.0"
+read-last-lines-ts@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/read-last-lines-ts/-/read-last-lines-ts-1.2.1.tgz#99e46288c5373c06e16e90e666a46b595dad80a1"
+  integrity sha512-1VcCrAU38DILYiF4sbNY13zdrMGwrFqjGQnXJy28G1zLJItvnWtgCbqoAJlnZZSiEICMKdM4Ol7LYvVMEoKrAg==
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -7525,20 +7513,6 @@ text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
-
-thenify-all@^1.0.0, thenify-all@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/thenify-all/-/thenify-all-1.6.0.tgz#1a1918d402d8fc3f98fbf234db0bcc8cc10e9726"
-  integrity sha1-GhkY1ALY/D+Y+/I02wvMjMEOlyY=
-  dependencies:
-    thenify ">= 3.1.0 < 4"
-
-"thenify@>= 3.1.0 < 4":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/thenify/-/thenify-3.3.0.tgz#e69e38a1babe969b0108207978b9f62b88604839"
-  integrity sha1-5p44obq+lpsBCCB5eLn2K4hgSDk=
-  dependencies:
-    any-promise "^1.0.0"
 
 throttle-debounce@^3.0.1:
   version "3.0.1"
