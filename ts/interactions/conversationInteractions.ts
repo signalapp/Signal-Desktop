@@ -46,6 +46,7 @@ import { processNewAttachment } from '../types/MessageAttachment';
 import { urlToBlob } from '../types/attachments/VisualAttachment';
 import { MIME } from '../types';
 import { setLastProfileUpdateTimestamp } from '../util/storage';
+import { getSodium } from '../session/crypto';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -389,7 +390,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   let decryptedAvatarData;
   if (newAvatarDecrypted) {
     // Encrypt with a new key every time
-    profileKey = window.libsignal.crypto.getRandomBytes(32) as Uint8Array;
+    profileKey = (await getSodium()).randombytes_buf(32);
     decryptedAvatarData = newAvatarDecrypted;
   } else {
     // this is a reupload. no need to generate a new profileKey

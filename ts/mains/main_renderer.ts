@@ -179,24 +179,24 @@ Storage.onready(async () => {
   }
 });
 
-function manageExpiringData() {
-  window.Signal.Data.cleanSeenMessages();
-  window.Signal.Data.cleanLastHashes();
+async function manageExpiringData() {
+  await Data.cleanSeenMessages();
+  await Data.cleanLastHashes();
   setTimeout(manageExpiringData, 1000 * 60 * 60);
 }
 
 // tslint:disable-next-line: max-func-body-length
 async function start() {
-  manageExpiringData();
+  void manageExpiringData();
   window.dispatchEvent(new Event('storage_ready'));
 
   window.log.info('Cleanup: starting...');
 
-  const results = await Promise.all([window.Signal.Data.getOutgoingWithoutExpiresAt()]);
+  const results = await Promise.all([Data.getOutgoingWithoutExpiresAt()]);
 
   // Combine the models
   const messagesForCleanup = results.reduce(
-    (array, current) => array.concat(current.toArray()),
+    (array, current) => array.concat((current as any).toArray()),
     []
   );
 
@@ -210,7 +210,7 @@ async function start() {
       }
 
       window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-      await window.Signal.Data.removeMessage(message.id);
+      await Data.removeMessage(message.id);
     })
   );
   window.log.info('Cleanup: complete');

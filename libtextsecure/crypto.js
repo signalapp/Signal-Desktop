@@ -28,6 +28,12 @@
     return crypto.subtle.digest({ name: 'SHA-256' }, data);
   }
 
+  function getRandomBytesFromLength(n) {
+    const bytes = new Uint8Array(n);
+    crypto.getRandomValues(bytes);
+    return bytes;
+  }
+
   window.textsecure = window.textsecure || {};
   window.textsecure.crypto = {
     decryptAttachment(encryptedBin, keys, theirDigest) {
@@ -89,7 +95,7 @@
       });
     },
     encryptProfile(data, key) {
-      const iv = libsignal.crypto.getRandomBytes(PROFILE_IV_LENGTH);
+      const iv = getRandomBytesFromLength(PROFILE_IV_LENGTH);
       if (key.byteLength !== PROFILE_KEY_LENGTH) {
         throw new Error('Got invalid length profile key');
       }
@@ -166,7 +172,7 @@
     },
 
     getRandomBytes(size) {
-      return libsignal.crypto.getRandomBytes(size);
+      return getRandomBytesFromLength(size);
     },
   };
 })();

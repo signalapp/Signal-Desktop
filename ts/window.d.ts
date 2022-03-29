@@ -2,7 +2,6 @@ import {} from 'styled-components/cssprop';
 
 import { LocalizerType } from '../ts/types/Util';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
-import { SignalInterface } from '../../js/modules/signal';
 import { LibTextsecure } from '../libtextsecure';
 
 import { Store } from 'redux';
@@ -22,7 +21,6 @@ declare global {
     Lodash: any;
     SessionSnodeAPI: any;
     Session: any;
-    Signal: SignalInterface;
     StubAppDotNetApi: any;
     StringView: any;
     StubMessageAPI: any;

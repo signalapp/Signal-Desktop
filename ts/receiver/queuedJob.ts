@@ -14,9 +14,10 @@ import { UserUtils } from '../session/utils';
 import { showMessageRequestBanner } from '../state/ducks/userConfig';
 import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
+import { GoogleChrome } from '../util';
 
 function contentTypeSupported(type: string): boolean {
-  const Chrome = window.Signal.Util.GoogleChrome;
+  const Chrome = GoogleChrome;
   return Chrome.isImageTypeSupported(type) || Chrome.isVideoTypeSupported(type);
 }
 

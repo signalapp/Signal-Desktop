@@ -182,10 +182,10 @@ if (config.proxyUrl) {
 }
 window.nodeSetImmediate = setImmediate;
 
-const Signal = require('./js/modules/signal');
+const Signal = require('./ts/node/signal');
 const i18n = require('./ts/util/i18n');
 
-window.Signal = Signal.setup();
+window.Signal = Signal.setupSignal();
 
 window.getSwarmPollingInstance = require('./ts/session/apis/snode_api').getSwarmPollingInstance;
 
@@ -225,8 +225,6 @@ const { locale: localFromEnv } = config;
 window.i18n = i18n.setupi18n(localFromEnv, localeMessages);
 window.moment = require('moment');
 window.libsession = require('./ts/session');
-
-window.Signal.Data = require('./ts/data/data');
 
 window.addEventListener('contextmenu', e => {
   const editable = e.target.closest('textarea, input, [contenteditable="true"]');
