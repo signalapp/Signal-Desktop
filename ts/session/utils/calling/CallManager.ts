@@ -5,6 +5,7 @@ import { openConversationWithMessages } from '../../../state/ducks/conversations
 import {
   answerCall,
   callConnected,
+  callReconnecting,
   CallStatusEnum,
   endCall,
   incomingCall,
@@ -601,7 +602,7 @@ function handleConnectionStateChanged(pubkey: string) {
   window.log.info('handleConnectionStateChanged :', peerConnection?.connectionState);
 
   if (peerConnection?.signalingState === 'closed' || peerConnection?.connectionState === 'failed') {
-    closeVideoCall();
+    window.inboxStore?.dispatch(callReconnecting({ pubkey }));
   } else if (peerConnection?.connectionState === 'connected') {
     const firstAudioInput = audioInputsList?.[0].deviceId || undefined;
     if (firstAudioInput) {
