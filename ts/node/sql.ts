@@ -63,7 +63,7 @@ function getSQLCipherIntegrityCheck(db: BetterSqlite3.Database) {
   if (rows.length === 0) {
     return undefined;
   }
-  return rows.map(row => row.cipher_integrity_check);
+  return rows.map((row: any) => row.cipher_integrity_check);
 }
 
 function keyDatabase(db: BetterSqlite3.Database, key: string) {
@@ -3024,7 +3024,7 @@ function getExternalFilesForConversation(conversation: any) {
   return files;
 }
 
-export function removeKnownAttachments(allAttachments: any) {
+function removeKnownAttachments(allAttachments: any) {
   const lookup = fromPairs(map(allAttachments, file => [file, true]));
   const chunkSize = 50;
 
@@ -3491,7 +3491,9 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
   return convosIdsAdded;
 }
 
-const exportedFunctions = {
+export type SqlNodeType = typeof sqlNode;
+
+export const sqlNode = {
   initializeSql,
   close,
   removeDB,
@@ -3576,13 +3578,12 @@ const exportedFunctions = {
   resetAttachmentDownloadPending,
   removeAttachmentDownloadJob,
   removeAllAttachmentDownloadJobs,
+  removeKnownAttachments,
 
   removeAll,
 
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
-
-  removeKnownAttachments,
 
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
@@ -3597,6 +3598,3 @@ const exportedFunctions = {
   removeV2OpenGroupRoom,
   removeOneOpenGroupV1Message,
 };
-
-// tslint:disable-next-line: no-default-export
-export const sqlNode = exportedFunctions;

@@ -1,12 +1,6 @@
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
 
-/* eslint-env node */
-
-module.exports = {
-  deleteAll,
-};
-
-function deleteAll() {
+export async function deleteAllLogs() {
   return new Promise((resolve, reject) => {
     ipcRenderer.once('delete-all-logs-complete', resolve);
 

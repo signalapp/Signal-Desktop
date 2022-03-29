@@ -1,7 +1,8 @@
-/* eslint-env node */
-/* global log */
+// this file is a weird one as it is used by both sides of electron at the same time
 
-exports.setup = (locale, messages) => {
+import { LocaleMessagesType } from '../node/locale';
+
+export const setupi18n = (locale: string, messages: LocaleMessagesType) => {
   if (!locale) {
     throw new Error('i18n: locale parameter is required');
   }
@@ -9,10 +10,13 @@ exports.setup = (locale, messages) => {
     throw new Error('i18n: messages parameter is required');
   }
 
-  function getMessage(key, substitutions) {
+  function getMessage(key: string, substitutions: Array<string>) {
     const message = messages[key];
     if (!message) {
-      log.error(`i18n: Attempted to get translation for nonexistent key '${key}'`);
+      // tslint:disable-next-line: no-console
+      (window.log.error || console.log)(
+        `i18n: Attempted to get translation for nonexistent key '${key}'`
+      );
       return '';
     }
 

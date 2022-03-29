@@ -2,7 +2,7 @@
 
 const { ipcRenderer } = require('electron');
 const url = require('url');
-const i18n = require('./js/modules/i18n');
+const i18n = require('./ts/util/i18n');
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
@@ -15,7 +15,7 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 
 window.theme = config.theme;
-window.i18n = i18n.setup(locale, localeMessages);
+window.i18n = i18n.setupi18n(locale, localeMessages);
 
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
@@ -28,8 +28,6 @@ window.Signal = {
     SessionPasswordPrompt,
   },
 };
-
-window.Signal.Logs = require('./js/modules/logs');
 
 window.clearLocalData = async () => {
   window.log.info('reset database');

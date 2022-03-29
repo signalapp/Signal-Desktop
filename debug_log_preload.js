@@ -2,7 +2,7 @@
 
 const { ipcRenderer } = require('electron');
 const url = require('url');
-const i18n = require('./js/modules/i18n');
+const i18n = require('./ts/util/i18n');
 const { DebugLogView } = require('./ts/views/DebugLogView');
 
 const config = url.parse(window.location.toString(), true).query;
@@ -19,7 +19,7 @@ window.ReactDOM = require('react-dom');
 
 window.getVersion = () => config.version;
 window.theme = config.theme;
-window.i18n = i18n.setup(locale, localeMessages);
+window.i18n = i18n.setupi18n(locale, localeMessages);
 
 // got.js appears to need this to successfully submit debug logs to the cloud
 window.nodeSetImmediate = setImmediate;

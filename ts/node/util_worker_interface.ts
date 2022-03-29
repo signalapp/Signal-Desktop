@@ -3,7 +3,7 @@
 const WORKER_TIMEOUT = 60 * 1000; // one minute
 
 class TimedOutError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = this.constructor.name;
     if (typeof Error.captureStackTrace === 'function') {
@@ -14,8 +14,14 @@ class TimedOutError extends Error {
   }
 }
 
-class WorkerInterface {
-  constructor(path, timeout = WORKER_TIMEOUT) {
+export class WorkerInterface {
+  private readonly timeout: number;
+  private readonly _DEBUG: boolean;
+  private _jobCounter: number;
+  private readonly _jobs: Record<number, any>;
+  private readonly _utilWorker: Worker;
+
+  constructor(path: string, timeout = WORKER_TIMEOUT) {
     this._utilWorker = new Worker(path);
     this.timeout = timeout;
     this._jobs = Object.create(null);
@@ -44,7 +50,25 @@ class WorkerInterface {
     };
   }
 
-  _makeJob(fnName) {
+  public async callWorker(fnName: string, ...args: any) {
+    const jobId = this._makeJob(fnName);
+
+    return new Promise((resolve, reject) => {
+      this._utilWorker.postMessage([jobId, fnName, ...args]);
+
+      this._updateJob(jobId, {
+        resolve,
+        reject,
+        args: this._DEBUG ? args : null,
+      });
+
+      setTimeout(() => {
+        reject(new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`));
+      }, this.timeout);
+    });
+  }
+
+  private _makeJob(fnName: string): number {
     this._jobCounter += 1;
     const id = this._jobCounter;
 
@@ -59,14 +83,14 @@ class WorkerInterface {
     return id;
   }
 
-  _updateJob(id, data) {
+  private _updateJob(id: number, data: any) {
     const { resolve, reject } = data;
     const { fnName, start } = this._jobs[id];
 
     this._jobs[id] = {
       ...this._jobs[id],
       ...data,
-      resolve: value => {
+      resolve: (value: any) => {
         this._removeJob(id);
         const end = Date.now();
         if (this._DEBUG) {
@@ -74,7 +98,7 @@ class WorkerInterface {
         }
         return resolve(value);
       },
-      reject: error => {
+      reject: (error: any) => {
         this._removeJob(id);
         const end = Date.now();
         window.log.info(`Worker job ${id} (${fnName}) failed in ${end - start}ms`);
@@ -83,36 +107,16 @@ class WorkerInterface {
     };
   }
 
-  _removeJob(id) {
+  private _removeJob(id: number) {
     if (this._DEBUG) {
       this._jobs[id].complete = true;
     } else {
+      // tslint:disable-next-line: no-dynamic-delete
       delete this._jobs[id];
     }
   }
 
-  _getJob(id) {
+  private _getJob(id: number) {
     return this._jobs[id];
   }
-
-  callWorker(fnName, ...args) {
-    const jobId = this._makeJob(fnName);
-
-    return new Promise((resolve, reject) => {
-      this._utilWorker.postMessage([jobId, fnName, ...args]);
-
-      this._updateJob(jobId, {
-        resolve,
-        reject,
-        args: this._DEBUG ? args : null,
-      });
-
-      setTimeout(
-        () => reject(new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`)),
-        this.timeout
-      );
-    });
-  }
 }
-
-module.exports = WorkerInterface;

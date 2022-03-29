@@ -183,13 +183,13 @@ if (config.proxyUrl) {
 window.nodeSetImmediate = setImmediate;
 
 const Signal = require('./js/modules/signal');
-const i18n = require('./js/modules/i18n');
+const i18n = require('./ts/util/i18n');
 
 window.Signal = Signal.setup();
 
 window.getSwarmPollingInstance = require('./ts/session/apis/snode_api').getSwarmPollingInstance;
 
-const WorkerInterface = require('./js/modules/util_worker_interface');
+const WorkerInterface = require('./ts/node/util_worker_interface');
 
 // A Worker with a 3 minute timeout
 const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
@@ -222,13 +222,11 @@ window.getSeedNodeList = () => [
 ];
 
 const { locale: localFromEnv } = config;
-window.i18n = i18n.setup(localFromEnv, localeMessages);
+window.i18n = i18n.setupi18n(localFromEnv, localeMessages);
 window.moment = require('moment');
 window.libsession = require('./ts/session');
 
 window.Signal.Data = require('./ts/data/data');
-
-window.Signal.Logs = require('./js/modules/logs');
 
 window.addEventListener('contextmenu', e => {
   const editable = e.target.closest('textarea, input, [contenteditable="true"]');

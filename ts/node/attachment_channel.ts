@@ -2,8 +2,8 @@ import { ipcMain } from 'electron';
 import rimraf from 'rimraf';
 
 import * as Attachments from '../attachments/attachments';
-import { removeKnownAttachments } from './sql';
 // tslint:disable: no-console
+import { sqlNode } from './sql';
 
 let initialized = false;
 
@@ -12,7 +12,7 @@ const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 export async function cleanupOrphanedAttachments(userDataPath: string) {
   const allAttachments = await Attachments.getAllAttachments(userDataPath);
-  const orphanedAttachments = await removeKnownAttachments(allAttachments); //sql.js
+  const orphanedAttachments = sqlNode.removeKnownAttachments(allAttachments); //sql.js
   await Attachments.deleteAll({
     userDataPath,
     attachments: orphanedAttachments,

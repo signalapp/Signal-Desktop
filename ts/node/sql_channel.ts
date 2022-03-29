@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import sql from './sql';
+import { sqlNode } from './sql';
 import { userConfig } from './config/user_config';
 import { ephemeralConfig } from './config/ephemeral_config';
 
@@ -17,7 +17,7 @@ export function initialize() {
 
   ipcMain.on(SQL_CHANNEL_KEY, (event, jobId, callName, ...args) => {
     try {
-      const fn = sql[callName];
+      const fn = (sqlNode as any)[callName];
       if (!fn) {
         throw new Error(`sql channel: ${callName} is not an available function`);
       }

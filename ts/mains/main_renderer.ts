@@ -15,6 +15,7 @@ import * as Data from '../data/data';
 import Backbone from 'backbone';
 import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
 import { SessionInboxView } from '../components/SessionInboxView';
+import { deleteAllLogs } from '../node/logs';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -157,7 +158,7 @@ Storage.onready(async () => {
 
     await Data.cleanupOrphanedAttachments();
 
-    await window.Signal.Logs.deleteAll();
+    await deleteAllLogs();
   }
 
   const themeSetting = window.Events.getThemeSetting();
