@@ -1,17 +1,30 @@
-const { isString } = require('lodash');
+import { LocaleMessagesType } from './locale';
 
-exports.createTemplate = (options, messages) => {
+import { isString } from 'lodash';
+
+// tslint:disable-next-line: max-func-body-length
+export const createTemplate = (
+  options: {
+    openReleaseNotes: () => void;
+    openSupportPage: () => void;
+    platform: () => void;
+    showAbout: () => void;
+    showDebugLog: () => void;
+    showWindow: () => void;
+  },
+  messages: LocaleMessagesType
+) => {
   if (!isString(options.platform)) {
     throw new TypeError('`options.platform` must be a string');
   }
 
   const {
-    includeSetup,
     openReleaseNotes,
     openSupportPage,
     platform,
     showAbout,
     showDebugLog,
+    showWindow,
   } = options;
 
   const template = [
@@ -138,25 +151,22 @@ exports.createTemplate = (options, messages) => {
     },
   ];
 
-  if (includeSetup) {
-    const fileMenu = template[0];
-
-    // These are in reverse order, since we're prepending them one at a time
-
-    fileMenu.submenu.unshift({
-      type: 'separator',
-    });
-  }
-
   if (platform === 'darwin') {
-    return updateForMac(template, messages, options);
+    return updateForMac(template, messages, {
+      showAbout: showAbout,
+      showWindow: showWindow,
+    });
   }
 
   return template;
 };
 
-function updateForMac(template, messages, options) {
-  const { includeSetup, showAbout, showWindow } = options;
+function updateForMac(
+  template: any,
+  messages: LocaleMessagesType,
+  options: { showAbout: () => void; showWindow: () => void }
+) {
+  const { showAbout, showWindow } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
@@ -164,16 +174,6 @@ function updateForMac(template, messages, options) {
 
   // Remove File menu
   template.shift();
-
-  if (includeSetup) {
-    // Add a File menu just for these setup options. Because we're using unshift(), we add
-    //   the file menu first, though it ends up to the right of the Signal Desktop menu.
-    const fileMenu = {
-      label: messages.mainMenuFile,
-    };
-
-    template.unshift(fileMenu);
-  }
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
@@ -212,7 +212,7 @@ function updateForMac(template, messages, options) {
   });
 
   // Replace Window menu
-  const windowMenuTemplateIndex = includeSetup ? 4 : 3;
+  const windowMenuTemplateIndex = 3;
   // eslint-disable-next-line no-param-reassign
   template[windowMenuTemplateIndex].submenu = [
     {

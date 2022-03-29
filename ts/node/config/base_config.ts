@@ -1,19 +1,19 @@
-const fs = require('fs');
-
-const _ = require('lodash');
+import { readFileSync, unlinkSync, writeFileSync } from 'fs';
 
 const ENCODING = 'utf8';
 
-module.exports = {
-  start,
-};
-
-function start(name, targetPath, options = {}) {
+export function start(
+  name: string,
+  targetPath: string,
+  options: {
+    allowMalformedOnStartup?: boolean;
+  } = {}
+) {
   const { allowMalformedOnStartup } = options;
-  let cachedValue = null;
+  let cachedValue: Record<string, number | string | boolean> = {};
 
   try {
-    const text = fs.readFileSync(targetPath, ENCODING);
+    const text = readFileSync(targetPath, ENCODING);
     cachedValue = JSON.parse(text);
     console.log(`config/get: Successfully read ${name} config file`);
 
@@ -30,20 +30,20 @@ function start(name, targetPath, options = {}) {
     cachedValue = Object.create(null);
   }
 
-  function get(keyPath) {
-    return _.get(cachedValue, keyPath);
+  function get(keyPath: string) {
+    return cachedValue[keyPath];
   }
 
-  function set(keyPath, value) {
-    _.set(cachedValue, keyPath, value);
+  function set(keyPath: string, value: number | string | boolean) {
+    cachedValue[keyPath] = value;
     console.log(`config/set: Saving ${name} config to disk`);
     const text = JSON.stringify(cachedValue, null, '  ');
-    fs.writeFileSync(targetPath, text, ENCODING);
+    writeFileSync(targetPath, text, ENCODING);
   }
 
   function remove() {
     console.log(`config/remove: Deleting ${name} config from disk`);
-    fs.unlinkSync(targetPath);
+    unlinkSync(targetPath);
     cachedValue = Object.create(null);
   }
 

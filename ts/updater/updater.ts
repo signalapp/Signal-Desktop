@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import { autoUpdater, UpdateInfo } from 'electron-updater';
 import { app, BrowserWindow } from 'electron';
-import { markShouldQuit } from '../../app/window_state';
+import { markShouldQuit } from '../node/window_state';
 
 import {
   getPrintableError,

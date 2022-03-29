@@ -1,8 +1,8 @@
-const path = require('path');
-const fs = require('fs');
-const _ = require('lodash');
+import path from 'path';
+import fs from 'fs';
+import _ from 'lodash';
 
-function normalizeLocaleName(locale) {
+function normalizeLocaleName(locale: string) {
   if (/^en-/.test(locale)) {
     return 'en';
   }
@@ -10,15 +10,21 @@ function normalizeLocaleName(locale) {
   return locale;
 }
 
-function getLocaleMessages(locale) {
+function getLocaleMessages(locale: string): LocaleMessagesType {
   const onDiskLocale = locale.replace('-', '_');
 
   const targetFile = path.join(__dirname, '..', '_locales', onDiskLocale, 'messages.json');
 
+  // tslint:disable-next-line: non-literal-fs-path
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));
 }
+export type LocaleMessagesType = Record<string, string>;
+export type LocaleMessagesWithNameType = { messages: LocaleMessagesType; name: string };
 
-function load({ appLocale, logger } = {}) {
+export function load({
+  appLocale,
+  logger,
+}: { appLocale?: string; logger?: any } = {}): LocaleMessagesWithNameType {
   if (!appLocale) {
     throw new TypeError('`appLocale` is required');
   }
@@ -55,7 +61,3 @@ function load({ appLocale, logger } = {}) {
     messages,
   };
 }
-
-module.exports = {
-  load,
-};

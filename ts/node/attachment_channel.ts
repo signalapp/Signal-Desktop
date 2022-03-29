@@ -1,30 +1,35 @@
-const electron = require('electron');
-const Attachments = require('../ts/attachments/attachments');
-const rimraf = require('rimraf');
+import { ipcMain } from 'electron';
+import rimraf from 'rimraf';
 
-const { ipcMain } = electron;
-
-module.exports = {
-  initialize,
-};
+import * as Attachments from '../attachments/attachments';
+// tslint:disable: no-console
 
 let initialized = false;
 
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
-async function initialize({ configDir, cleanupOrphanedAttachments }) {
+export async function cleanupOrphanedAttachments(userDataPath: string) {
+  const allAttachments = await Attachments.getAllAttachments(userDataPath);
+  const orphanedAttachments = await sql.removeKnownAttachments(allAttachments); //sql.js
+  await Attachments.deleteAll({
+    userDataPath,
+    attachments: orphanedAttachments,
+  });
+}
+
+export async function initialize({ userDataPath }: { userDataPath: string }) {
   if (initialized) {
     throw new Error('initialze: Already initialized!');
   }
   initialized = true;
 
   console.log('Ensure attachments directory exists');
-  await Attachments.ensureDirectory(configDir);
+  await Attachments.ensureDirectory(userDataPath);
 
-  const attachmentsDir = Attachments.getPath(configDir);
+  const attachmentsDir = Attachments.getPath(userDataPath);
 
-  ipcMain.on(ERASE_ATTACHMENTS_KEY, async event => {
+  ipcMain.on(ERASE_ATTACHMENTS_KEY, event => {
     try {
       rimraf.sync(attachmentsDir);
       event.sender.send(`${ERASE_ATTACHMENTS_KEY}-done`);
@@ -37,7 +42,7 @@ async function initialize({ configDir, cleanupOrphanedAttachments }) {
 
   ipcMain.on(CLEANUP_ORPHANED_ATTACHMENTS_KEY, async event => {
     try {
-      await cleanupOrphanedAttachments();
+      await cleanupOrphanedAttachments(userDataPath);
       event.sender.send(`${CLEANUP_ORPHANED_ATTACHMENTS_KEY}-done`);
     } catch (error) {
       const errorForDisplay = error && error.stack ? error.stack : error;

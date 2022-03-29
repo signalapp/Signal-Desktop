@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 import { start as startUpdater, stop as stopUpdater } from './updater';
 import { LoggerType, MessagesType } from './common';
-import { UserConfig } from '../../app/user_config';
+import { UserConfig } from '../node/config/user_config';
 
 let initialized = false;
 let localUserConfig: UserConfig;

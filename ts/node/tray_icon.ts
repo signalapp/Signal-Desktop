@@ -1,17 +1,20 @@
-const path = require('path');
+import path from 'path';
 
-const { app, Menu, Tray } = require('electron');
+import { app, Menu, Tray } from 'electron';
+import { BrowserWindow } from 'electron/main';
+import { LocaleMessagesType } from './locale';
 
 let trayContextMenu = null;
-let tray = null;
+let tray: Tray | null = null;
+let trayAny: any;
 
-function createTrayIcon(getMainWindow, messages) {
+function createTrayIcon(getMainWindow: () => BrowserWindow, messages: LocaleMessagesType) {
   // keep the duplicated part to allow for search and find
   const iconFile = process.platform === 'darwin' ? 'session_icon_16.png' : 'session_icon_32.png';
   const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', iconFile);
   tray = new Tray(iconNoNewMessages);
-
-  tray.forceOnTop = mainWindow => {
+  trayAny = tray;
+  trayAny.forceOnTop = (mainWindow: BrowserWindow) => {
     if (mainWindow) {
       // On some versions of GNOME the window may not be on top when restored.
       // This trick should fix it.
@@ -22,7 +25,7 @@ function createTrayIcon(getMainWindow, messages) {
     }
   };
 
-  tray.toggleWindowVisibility = () => {
+  trayAny.toggleWindowVisibility = () => {
     const mainWindow = getMainWindow();
     if (mainWindow) {
       if (mainWindow.isVisible()) {
@@ -30,25 +33,25 @@ function createTrayIcon(getMainWindow, messages) {
       } else {
         mainWindow.show();
 
-        tray.forceOnTop(mainWindow);
+        trayAny.forceOnTop(mainWindow);
       }
     }
-    tray.updateContextMenu();
+    trayAny.updateContextMenu();
   };
 
-  tray.showWindow = () => {
+  trayAny.showWindow = () => {
     const mainWindow = getMainWindow();
     if (mainWindow) {
       if (!mainWindow.isVisible()) {
         mainWindow.show();
       }
 
-      tray.forceOnTop(mainWindow);
+      trayAny.forceOnTop(mainWindow);
     }
-    tray.updateContextMenu();
+    trayAny.updateContextMenu();
   };
 
-  tray.updateContextMenu = () => {
+  trayAny.updateContextMenu = () => {
     const mainWindow = getMainWindow();
 
     // NOTE: we want to have the show/hide entry available in the tray icon
@@ -59,7 +62,7 @@ function createTrayIcon(getMainWindow, messages) {
       {
         id: 'toggleWindowVisibility',
         label: messages[mainWindow.isVisible() ? 'appMenuHide' : 'show'],
-        click: tray.toggleWindowVisibility,
+        click: trayAny.toggleWindowVisibility,
       },
       {
         id: 'quit',
@@ -68,13 +71,13 @@ function createTrayIcon(getMainWindow, messages) {
       },
     ]);
 
-    tray.setContextMenu(trayContextMenu);
+    trayAny.setContextMenu(trayContextMenu);
   };
 
-  tray.on('click', tray.showWindow);
+  tray.on('click', trayAny.showWindow);
 
   tray.setToolTip(messages.sessionMessenger);
-  tray.updateContextMenu();
+  trayAny.updateContextMenu();
 
   return tray;
 }

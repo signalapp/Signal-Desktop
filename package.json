@@ -83,7 +83,7 @@
     "nan": "2.14.2",
     "node-fetch": "2.3.0",
     "node-sass": "6.0.1",
-    "os-locale": "2.1.0",
+    "os-locale": "6.0.2",
     "p-retry": "^4.2.0",
     "pify": "3.0.0",
     "protobufjs": "^6.11.2",

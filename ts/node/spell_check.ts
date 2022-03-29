@@ -1,12 +1,12 @@
-/* global exports, require */
-/* eslint-disable strict */
+// tslint:disable: no-console
 
-const { Menu } = require('electron');
-const osLocale = require('os-locale');
+import { Menu } from 'electron';
+import { BrowserWindow } from 'electron/main';
+import { osLocaleSync } from 'os-locale';
 
-exports.setup = (browserWindow, messages) => {
+export const setup = (browserWindow: BrowserWindow, messages: any) => {
   const { session } = browserWindow.webContents;
-  const userLocale = osLocale.sync().replace(/_/g, '-');
+  const userLocale = osLocaleSync().replace(/_/g, '-');
   const userLocales = [userLocale, userLocale.split('-')[0]];
 
   const available = session.availableSpellCheckerLanguages;
@@ -16,7 +16,7 @@ exports.setup = (browserWindow, messages) => {
   console.log('spellcheck: setting languages to: ', languages);
   session.setSpellCheckerLanguages(languages);
 
-  browserWindow.webContents.on('context-menu', (_event, params) => {
+  browserWindow.webContents.on('context-menu', (_event: any, params: any) => {
     const { editFlags } = params;
     const isMisspelled = Boolean(params.misspelledWord);
     const showMenu = params.isEditable || editFlags.canCopy;
@@ -28,7 +28,7 @@ exports.setup = (browserWindow, messages) => {
       if (isMisspelled) {
         if (params.dictionarySuggestions.length > 0) {
           template.push(
-            ...params.dictionarySuggestions.map(label => ({
+            ...params.dictionarySuggestions.map((label: any) => ({
               label,
               click: () => {
                 browserWindow.webContents.replaceMisspelling(label);
@@ -75,7 +75,7 @@ exports.setup = (browserWindow, messages) => {
       }
 
       const menu = Menu.buildFromTemplate(template);
-      menu.popup(browserWindow);
+      menu.popup({ window: browserWindow });
     }
   });
 };
