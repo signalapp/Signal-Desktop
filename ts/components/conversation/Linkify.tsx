@@ -6,7 +6,7 @@ import React from 'react';
 import LinkifyIt from 'linkify-it';
 
 import type { RenderTextCallbackType } from '../../types/Util';
-import { isLinkSneaky } from '../../types/LinkPreview';
+import { isLinkSneaky, shouldLinkifyMessage } from '../../types/LinkPreview';
 import { splitByEmoji } from '../../util/emoji';
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -332,6 +332,10 @@ export class Linkify extends React.Component<Props> {
     | null
     | Array<JSX.Element | string | null> {
     const { text, renderNonLink } = this.props;
+
+    if (!shouldLinkifyMessage(text)) {
+      return text;
+    }
 
     // We have to do this, because renderNonLink is not required in our Props object,
     //  but it is always provided via defaultProps.

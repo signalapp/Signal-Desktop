@@ -38,6 +38,26 @@ export function shouldPreviewHref(href: string): boolean {
   );
 }
 
+const DIRECTIONAL_OVERRIDES = /[\u202c\u202d\u202e]/;
+const UNICODE_DRAWING = /[\u2500-\u25FF]/;
+
+export function shouldLinkifyMessage(
+  message: string | null | undefined
+): boolean {
+  if (!message) {
+    return true;
+  }
+
+  if (DIRECTIONAL_OVERRIDES.test(message)) {
+    return false;
+  }
+  if (UNICODE_DRAWING.test(message)) {
+    return false;
+  }
+
+  return true;
+}
+
 export function isStickerPack(link = ''): boolean {
   return link.startsWith('https://signal.art/addstickers/');
 }
@@ -47,6 +67,10 @@ export function isGroupLink(link = ''): boolean {
 }
 
 export function findLinks(text: string, caretLocation?: number): Array<string> {
+  if (!shouldLinkifyMessage(text)) {
+    return [];
+  }
+
   const haveCaretLocation = isNumber(caretLocation);
   const textLength = text ? text.length : 0;
 
