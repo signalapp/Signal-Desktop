@@ -536,7 +536,7 @@
         }
     },
     "verified": {
-        "message": "Patvirtinta(-s)",
+        "message": "Patvirtinta(s)",
         "description": ""
     },
     "newIdentity": {

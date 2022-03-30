@@ -5854,7 +5854,7 @@
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "مسدود کردن درخواست؟",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
@@ -6870,7 +6870,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "داستان‌های من",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6934,7 +6934,7 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "داستان‌های من",
         "description": "Label for your stories"
     },
     "Stories__add": {

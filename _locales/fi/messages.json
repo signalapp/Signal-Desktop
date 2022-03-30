@@ -576,7 +576,7 @@
         "description": "The string \"today\""
     },
     "yesterday": {
-        "message": "Huomenna",
+        "message": "Eilen",
         "description": "The string \"yesterday\""
     },
     "thisWeek": {

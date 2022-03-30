@@ -278,7 +278,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Om dessa steg inte funkar för dig, vänligen skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig att migrera!",
+        "message": "Om dessa steg inte funkar för dig, skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig att migrera!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -324,7 +324,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Den här gruppen är ogiltig. Vänligen skapa en ny grupp.",
+        "message": "Den här gruppen är ogiltig. Skapa en ny grupp.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -398,7 +398,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Vänligen se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
+        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -464,7 +464,7 @@
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Något gick fel med sändningen! Vänligen skicka e-post till support@signal.org och bifoga din logg som en textfil.",
+        "message": "Något gick fel med sändningen! Skicka e-post till support@signal.org och bifoga din logg som en textfil.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
@@ -1066,7 +1066,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
+        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Försök att flytta $app$ till $folder$ med Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1452,7 +1452,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "Ett oväntat fel uppstod. Vänligen försök igen.",
+        "message": "Ett oväntat fel uppstod. Försök igen.",
         "description": ""
     },
     "installTryAgain": {
@@ -2056,7 +2056,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Den här versionen av Signal Desktop har upphört att gälla. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+        "message": "Den här versionen av Signal Desktop har upphört att gälla. Uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -3396,7 +3396,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Vänligen ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkepaket",
+        "message": "Ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkepaket",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -3404,7 +3404,7 @@
         "description": ""
     },
     "Reactions--error": {
-        "message": "Det gick inte att skicka reaktion. Vänligen försök igen.",
+        "message": "Det gick inte att skicka reaktion. Försök igen.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -4048,7 +4048,7 @@
         "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Vänligen försök igen eller kontakta support.",
+        "message": "Försök igen eller kontakta support.",
         "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -6178,7 +6178,7 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "För att förhindra skräppost på Signal, vänligen slutför verifieringen.",
+        "message": "För att förhindra skräppost på Signal, slutför verifieringen.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -6202,11 +6202,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verifieringen misslyckades. Vänligen försök igen senare.",
+        "message": "Verifieringen misslyckades. Försök igen senare.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Det gick inte att ta bort meddelandet för alla. Vänligen försök igen senare.",
+        "message": "Det gick inte att ta bort meddelandet för alla. Försök igen senare.",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
@@ -6564,7 +6564,7 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Din profil kunde inte uppdateras. Vänligen försök igen.",
+        "message": "Din profil kunde inte uppdateras. Försök igen.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -6754,7 +6754,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Vänligen stäng det manuellt och klicka på Försök igen för att fortsätta.",
+        "message": "Stäng det manuellt och klicka på Försök igen för att fortsätta.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
@@ -6782,7 +6782,7 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "Det uppstod ett fel när du sparade dina inställningar. Vänligen försök igen.",
+        "message": "Det uppstod ett fel när du sparade dina inställningar. Försök igen.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {

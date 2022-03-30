@@ -460,7 +460,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "Ao clicar em 'Enviar', o seu histórico será postado online durante 30 dias num URL exclusivo e não publicado. Você pode guardá-lo localmente primeiro.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Foi carregado o relatório de depuração. Ao contactar o suporte, copie o URL abaixo e anexe-o acompanhado com uma descrição do problema que teve e com os passos para os reproduzir.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... to see the full log, click Save",
+        "message": "... para ver o histórico completo, clique em Guardar",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -4112,7 +4112,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Não pode juntar-se a este grupo através do link porque você foi removido por um administrador.",
+        "message": "Não se pode juntar a este grupo através do link porque você foi removido por um administrador.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -5150,7 +5150,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$ pediu e cancelou o seu pedido para se juntar através do link de grupo",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5160,7 +5160,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$ solicitou e cancelou $numberOfRequests$ pedidos para se juntarem através do link de grupo",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5750,7 +5750,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "Rejeitar o pedido de \"$name$\"? Essa pessoa não poderá voltar a pedir para entrar novamente através do link do grupo.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5858,7 +5858,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$ não poderá participar ou solicitar a participação neste grupo por meio do link do grupo. Eles ainda podem ser manualmente adicionados ao grupo. ",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -5868,7 +5868,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "Bloquear pedido",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6164,7 +6164,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "Remover \"$name$\" do grupo? Essa pessoa não poderá voltar a pedir para entrar novamente através do link do grupo.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -7042,11 +7042,11 @@
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "message": "Estamos a manter as mensagens curtas, a colocar as coisas como carimbos da data/hora na mesma linha do texto. Agora você tem mais espaço na tela para aquele 'olá' rápido para verificar um amigo.",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "message": "Os pacotes de autocolantes que faltavam apareceram! A área de trabalho agora deverá ser capaz de lidar com todos os pacotes de autocolantes que o seu telemóvel também pode!",
         "description": "Release notes for v5.37"
     }
 }

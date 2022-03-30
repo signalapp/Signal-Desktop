@@ -6972,7 +6972,7 @@
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "Прегледи",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
@@ -6984,7 +6984,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "Реагираше на приказната",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {

@@ -6996,7 +6996,7 @@
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "Doties uz sarunu",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {

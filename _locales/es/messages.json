@@ -460,7 +460,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "Cuando haces clic en enviar, tu log será publicado durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Registro de depuración transferido. Cuando contactes con el soporte, copia la URL debajo y adjúntala con una descripción del problema que has tenido y los pasos para reproducirlo. ",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... to see the full log, click Save",
+        "message": "… para ver el registro de depuración completo, haz clic en guardar",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -2518,7 +2518,7 @@
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "No hemos podido podido actualizar Signal. Haz click para intentarlo de nuevo.",
+        "message": "No hemos podido podido actualizar Signal. Haz clic para intentarlo de nuevo.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -5150,7 +5150,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$ ha solicitado y cancelado su solicitud para participar en el grupo vía enlace",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5160,7 +5160,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$ ha solicitado y cancelado $numberOfRequests$ veces participar en el grupo vía enlace",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5750,7 +5750,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "¿Vetar solicitudes de $name$? No podrá enviar más solicitudes para unirse vía enlace.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5858,7 +5858,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$ no podrá unirse a este grupo o solicitarlo vía enlace, pero esta persona podrá ser añadida al grupo manualmente.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -5868,7 +5868,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "Vetar solicitud",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6164,7 +6164,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "¿Vetar a $name$ del grupo? No podrá volver a unirse al grupo vía enlace.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -7042,11 +7042,11 @@
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "message": "Mantenemos cortos los mensajes cortos, añadiendo las marcas de tiempo en la misma línea que el texto. Ahora tienes más espacio en la pantalla con ese «Hola» rápido para ver cómo está esa persona.",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "message": "¡Se acabaron los paquetes de stickers perdidos! ¡Ahora Desktop debería poder manejar todos los paquetes de stickers que tienes en tu teléfono!",
         "description": "Release notes for v5.37"
     }
 }

@@ -460,7 +460,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "「送信する」をクリックすると、このログがユニークな未公開のURLで30日間見られるようになります。\n「保存」をクリックすると、送信する前にあなたの端末にログを保存しておくこともできます。",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,7 +472,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "デバッグログを送信しました。サポートへお問い合わせの際には、以下のURLをコピーしてお送りください。また、不具合の内容とその不具合を再現する手順も添えてください。",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -7042,11 +7042,11 @@
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "message": "タイムスタンプをテキストと同じ行に配置することで、画面のスペースを節約し、たくさんのメッセージを表示できるようになりました。",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "message": "デスクトップ版Signalでステッカーパックが表示されないバグが、修正されました。スマートフォンと同じステッカーパックが使えます。",
         "description": "Release notes for v5.37"
     }
 }

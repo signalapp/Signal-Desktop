@@ -460,7 +460,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "Après avoir cliqué sur Envoyer, votre journal sera publié en ligne pendant 30 jours sur une URL unique et non publiée. Vous pouvez d’abord l’enregistrer localement.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Le journal de débogage a été téléversé. Quand vous contacterez l’assistance, copiez l’URL ci-dessous et joignez-la avec une description du problème rencontré ainsi que les étapes pour le reproduire.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... to see the full log, click Save",
+        "message": "… pour visualiser le journal entier, cliquez sur Enregistrer",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -1206,7 +1206,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Retry Delete for Everyone",
+        "message": "Réessayer Supprimer pour tout le monde",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -2028,7 +2028,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Delete failed",
+        "message": "Échec de suppression",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2040,7 +2040,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Partially deleted, click to retry",
+        "message": "Supprimé partiellement, cliquez pour réessayer ",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -5150,7 +5150,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$ a demandé et annulé sa demande à se joindre au groupe grâce au lien du groupe",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5160,7 +5160,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$ a demandé et annulé $numberOfRequests$ demandes à se joindre au groupe grâce au lien du groupe",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5750,7 +5750,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "Refuser la demande de « $name$ » ? Cette personne ne pourra plus demander à se joindre au groupe grâce au lien de groupe.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5858,7 +5858,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "« $name$ » ne pourra ni se joindre ni demander à se joindre à ce groupe grâce au lien de groupe. Cette personne pourra toujours être ajoutée au groupe manuellement.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -5868,7 +5868,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "Bloquer la demande",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6164,7 +6164,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "Supprimer « $name$ » du groupe ? Cette personne ne pourra plus se joindre au groupe grâce au lien de groupe.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6882,7 +6882,7 @@
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "More options",
+        "message": "Plus d’options",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
@@ -6950,7 +6950,7 @@
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$ à $group$",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -6968,7 +6968,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewsNRepliesModal__placeholder": {
-        "message": "Type a reply...",
+        "message": "Tapez une réponse…",
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
@@ -6996,7 +6996,7 @@
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "Accéder à la conversation",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
@@ -7034,19 +7034,19 @@
         "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.36--1": {
-        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
+        "message": "Balayez-vous rapidement cette conversation de groupe des yeux ? Un même écran affiche désormais plus de messages. Nous regroupons les messages de l’expéditeur s’ils sont proches dans le temps.",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.36--2": {
-        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
+        "message": "Si vous choisissez de Supprimer pour tout le monde, un indicateur vous indique désormais si l’envoi est réussi ou non. S’il échoue pour quelque raison, vous pourrez aussi réessayer.",
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "message": "Les renseignements tels que les estampilles temporelles sont sur la même ligne que le texte afin que les messages courts soient courts. Vous avez désormais plus d’espace sur l’écran pour ce « Salut » rapide à vos amis.",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "message": "Adieu, paquets d’autocollants manquants ! Signal pour ordinateur devrait désormais pouvoir gérer tous les paquets que votre téléphone peut gérer.",
         "description": "Release notes for v5.37"
     }
 }
