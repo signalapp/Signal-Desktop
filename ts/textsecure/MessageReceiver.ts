@@ -2075,7 +2075,7 @@ export default class MessageReceiver
     }
 
     const isStoriesEnabled =
-      isEnabled('desktop.stories') && isEnabled('desktop.internalUser');
+      isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
     if (content.storyMessage) {
       if (isStoriesEnabled) {
         await this.handleStoryMessage(envelope, content.storyMessage);
