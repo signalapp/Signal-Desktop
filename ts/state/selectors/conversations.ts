@@ -1023,6 +1023,11 @@ export const getConversationsStoppingSend = createSelector(
     const conversations = conversationIds
       .map(conversationId => conversationSelector(conversationId))
       .filter(isNotNil);
+    if (conversationIds.length !== conversations.length) {
+      log.warn(
+        `getConversationsStoppingSend: Started with ${conversationIds.length} items, ended up with ${conversations.length}.`
+      );
+    }
     return sortByTitle(conversations);
   }
 );
