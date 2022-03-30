@@ -6,11 +6,11 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import tls from 'tls';
-import { remote } from 'electron';
 import { sha256 } from '../../crypto';
 import * as Data from '../../../data/data';
 import pRetry from 'p-retry';
 import { SeedNodeAPI } from '.';
+import { ipcRenderer } from 'electron';
 
 // tslint:disable: function-name
 
@@ -57,7 +57,9 @@ export async function fetchSnodePoolFromSeedNodeWithRetries(
   }
 }
 
-const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
+let cachedAppPath: string | undefined;
+
+const getSslAgentForSeedNode = async (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
   let pubkey256 = '';
   let cert256 = '';
@@ -92,7 +94,8 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   }
   // tslint:disable: non-literal-fs-path
   // read the cert each time. We only run this request once for each seed node nevertheless.
-  const appPath = remote.app.getAppPath();
+  const appPath = cachedAppPath || (await ipcRenderer.invoke('get-data-path'));
+  cachedAppPath = appPath;
   const crt = fs.readFileSync(path.join(appPath, `/certificates/${filePrefix}.crt`), 'utf-8');
   const sslOptions = {
     // as the seed nodes are using a self signed certificate, we have to provide it here.
@@ -244,7 +247,7 @@ async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     params,
   };
 
-  const sslAgent = getSslAgentForSeedNode(
+  const sslAgent = await getSslAgentForSeedNode(
     urlObj.hostname,
     urlObj.protocol !== Constants.PROTOCOLS.HTTP
   );

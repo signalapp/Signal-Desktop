@@ -5,7 +5,10 @@ import pify from 'pify';
 import { default as glob } from 'glob';
 import fse from 'fs-extra';
 import { isArrayBuffer, isString, map } from 'lodash';
-import { decryptAttachmentBuffer, encryptAttachmentBuffer } from '../../ts/types/Attachment';
+import {
+  decryptAttachmentBuffer,
+  encryptAttachmentBuffer,
+} from '../node/local_attachments_encrypter';
 
 const PATH = 'attachments.noindex';
 

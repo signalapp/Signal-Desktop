@@ -1,7 +1,6 @@
 // tslint:disable: no-console
 
-import { Menu } from 'electron';
-import { BrowserWindow } from 'electron/main';
+import { BrowserWindow, Menu } from 'electron';
 import { osLocaleSync } from 'os-locale';
 
 export const setup = (browserWindow: BrowserWindow, messages: any) => {

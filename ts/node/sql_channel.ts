@@ -1,7 +1,7 @@
-import { ipcMain } from 'electron';
-import { sqlNode } from './sql';
-import { userConfig } from './config/user_config';
-import { ephemeralConfig } from './config/ephemeral_config';
+import { app, ipcMain } from 'electron';
+import { sqlNode } from './sql'; // checked - only node
+import { userConfig } from './config/user_config'; // checked - only node
+import { ephemeralConfig } from './config/ephemeral_config'; // checked - only node
 
 let initialized = false;
 
@@ -41,5 +41,12 @@ export function initialize() {
       console.log(`sql-erase error: ${errorForDisplay}`);
       event.sender.send(`${ERASE_SQL_KEY}-done`, error);
     }
+  });
+
+  ipcMain.on('get-user-data-path', () => {
+    return app.getPath('userData');
+  });
+  ipcMain.on('get-data-path', () => {
+    return app.getAppPath();
   });
 }

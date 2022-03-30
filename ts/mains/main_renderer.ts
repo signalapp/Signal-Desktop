@@ -3,7 +3,7 @@ import { MessageModel } from '../models/message';
 import { isMacOS } from '../OS';
 import { queueAllCached } from '../receiver/receiver';
 import { getConversationController } from '../session/conversations';
-import { AttachmentDownloads } from '../session/utils';
+import { AttachmentDownloads, ToastUtils } from '../session/utils';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { BlockedNumberController } from '../util';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
@@ -166,7 +166,7 @@ Storage.onready(async () => {
   window.Events.setThemeSetting(newThemeSetting);
 
   try {
-    AttachmentDownloads.initAttachmentPaths();
+    await AttachmentDownloads.initAttachmentPaths();
 
     await Promise.all([getConversationController().load(), BlockedNumberController.load()]);
   } catch (error) {
@@ -280,7 +280,7 @@ async function start() {
     // if not undefined, we take the opposite
     const newValue = currentValue !== undefined ? !currentValue : false;
     window.Events.setSpellCheck(newValue);
-    window.libsession.Utils.ToastUtils.pushRestartNeeded();
+    ToastUtils.pushRestartNeeded();
   };
 
   window.toggleMediaPermissions = async () => {

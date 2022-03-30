@@ -12,7 +12,7 @@ import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { getPasswordHash } from '../../data/data';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { PasswordUtil } from '../../util';
+import { matchesHash } from '../../util/passwordUtils';
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -161,7 +161,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
     // Check if the password matches the hash we have stored
     const hash = await getPasswordHash();
-    if (hash && !PasswordUtil.matchesHash(enteredPassword, hash)) {
+    if (hash && !matchesHash(enteredPassword, hash)) {
       this.setState({
         pwdLockError: window.i18n('invalidPassword'),
       });

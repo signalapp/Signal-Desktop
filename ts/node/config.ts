@@ -37,7 +37,7 @@ import c from 'config';
 
 // Log resulting env vars in use by config
 ['NODE_ENV', 'NODE_APP_INSTANCE', 'NODE_CONFIG_DIR', 'NODE_CONFIG'].forEach(s => {
-  console.log(`${s} ${config.util.getEnv(s)}`);
+  console.log(`${s} ${c.util.getEnv(s)}`);
 });
 
 export const config = c;

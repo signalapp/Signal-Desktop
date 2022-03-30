@@ -98,12 +98,6 @@ describe('MessageEncrypter', () => {
   };
 
   beforeEach(() => {
-    TestUtils.stubWindow('textsecure', {
-      storage: {
-        protocol: sandbox.stub(),
-      },
-    });
-
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     sandbox.stub(UserUtils, 'getUserED25519KeyPair').resolves(ourUserEd25516Keypair);
   });

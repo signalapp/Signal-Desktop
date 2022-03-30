@@ -3,7 +3,7 @@
 // tslint:disable: no-console
 
 import { UserConfig } from './config/user_config';
-import { session } from 'electron/main';
+import { session } from 'electron';
 
 const PERMISSIONS: Record<string, boolean> = {
   // Allowed

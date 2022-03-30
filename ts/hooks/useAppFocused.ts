@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import { app } from 'electron';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isElectronWindowFocused } from '../session/utils/WindowUtils';
@@ -26,11 +26,11 @@ export function useAppIsFocused() {
   }, []);
 
   useEffect(() => {
-    remote.app.on('browser-window-focus', onFocusCallback);
-    remote.app.on('browser-window-blur', onBlurCallback);
+    app.on('browser-window-focus', onFocusCallback);
+    app.on('browser-window-blur', onBlurCallback);
     return () => {
-      remote.app.removeListener('browser-window-blur', onBlurCallback);
-      remote.app.removeListener('browser-window-focus', onFocusCallback);
+      app.removeListener('browser-window-blur', onBlurCallback);
+      app.removeListener('browser-window-focus', onFocusCallback);
     };
   });
 

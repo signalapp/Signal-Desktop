@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import { ipcRenderer } from 'electron';
 import { isArrayBuffer, isEmpty, isUndefined, omit } from 'lodash';
 import {
   createAbsolutePathGetter,
@@ -88,8 +88,10 @@ let internalDeleteOnDisk: ((relativePath: string) => Promise<void>) | undefined;
 let internalWriteNewAttachmentData: ((arrayBuffer: ArrayBuffer) => Promise<string>) | undefined;
 
 // userDataPath must be app.getPath('userData');
-export function initializeAttachmentLogic() {
-  const userDataPath = remote.app.getPath('userData');
+export async function initializeAttachmentLogic() {
+  const userDataPath = await ipcRenderer.invoke('get-user-data-path');
+
+  // const userDataPath = remote.app.getPath('userData');
   if (attachmentsPath) {
     throw new Error('attachmentsPath already initialized');
   }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { ToastUtils } from '../../session/utils';
-import { PasswordUtil } from '../../util';
+import { matchesHash } from '../../util/passwordUtils';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
@@ -27,7 +27,7 @@ const Password = (props: PasswordProps) => {
 
   const confirmPassword = () => {
     const passwordValue = jQuery('#seed-input-password').val();
-    const isPasswordValid = PasswordUtil.matchesHash(passwordValue as string, passwordHash);
+    const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
       setError('noGivenPassword');

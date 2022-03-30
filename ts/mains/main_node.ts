@@ -19,9 +19,12 @@ import crypto from 'crypto';
 
 import _ from 'lodash';
 import pify from 'pify';
-import { setup as setupSpellChecker } from '../node/spell_check';
-import packageJson from '../../package.json';
-import { setupGlobalErrorHandler } from '../node/global_errors';
+import Logger from 'bunyan';
+
+import { setup as setupSpellChecker } from '../node/spell_check'; // checked - only node
+import { setupGlobalErrorHandler } from '../node/global_errors'; // checked - only node
+
+import packageJson from '../../package.json'; // checked - only node
 
 setupGlobalErrorHandler();
 import electronLocalshortcut from 'electron-localshortcut';
@@ -51,12 +54,12 @@ let readyForShutdown: boolean = false;
 // Tray icon and related objects
 let tray: any = null;
 
-import { config } from '../node/config';
+import { config } from '../node/config'; // checked - only node
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
-import { userConfig } from '../node/config/user_config';
-import * as passwordUtil from '../util/passwordUtils';
+import { userConfig } from '../node/config/user_config'; // checked - only node
+import * as PasswordUtil from '../util/passwordUtils'; // checked - only node
 
 const development = (config as any).environment === 'development';
 const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
@@ -65,18 +68,17 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 //   data directory has been set.
 import { initAttachmentsChannel } from '../node/attachment_channel';
 
-import * as updater from '../updater/index';
+import * as updater from '../updater/index'; // checked - only node
 
-import { createTrayIcon } from '../node/tray_icon';
-import { ephemeralConfig } from '../node/config/ephemeral_config';
-import { getLogger, initializeLogger } from '../node/logging';
-import { sqlNode } from '../node/sql';
-import * as sqlChannels from '../node/sql_channel';
-import { windowMarkShouldQuit, windowShouldQuit } from '../node/window_state';
-import { createTemplate } from '../node/menu';
-import { installFileHandler, installWebHandler } from '../node/protocol_filter';
-import { installPermissionsHandler } from '../node/permissions';
-import Logger from 'bunyan';
+import { createTrayIcon } from '../node/tray_icon'; // checked - only node
+import { ephemeralConfig } from '../node/config/ephemeral_config'; // checked - only node
+import { getLogger, initializeLogger } from '../node/logging'; // checked - only node
+import { sqlNode } from '../node/sql'; // checked - only node
+import * as sqlChannels from '../node/sql_channel'; // checked - only node
+import { windowMarkShouldQuit, windowShouldQuit } from '../node/window_state'; // checked - only node
+import { createTemplate } from '../node/menu'; // checked - only node
+import { installFileHandler, installWebHandler } from '../node/protocol_filter'; // checked - only node
+import { installPermissionsHandler } from '../node/permissions'; // checked - only node
 
 let appStartInitialSpellcheckSetting = true;
 
@@ -244,6 +246,7 @@ function getStartInTray() {
 // tslint:disable-next-line: max-func-body-length
 async function createWindow() {
   const { minWidth, minHeight, width, height } = getWindowSize();
+  windowConfig = windowConfig || {};
   const picked = {
     maximized: (windowConfig as any).maximized || false,
     autoHideMenuBar: (windowConfig as any).autoHideMenuBar || false,
@@ -364,7 +367,7 @@ async function createWindow() {
     }
   });
 
-  await mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
+  await mainWindow.loadURL(prepareURL([__dirname, '../background.html']));
 
   if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
     // Open the DevTools.
@@ -914,7 +917,7 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
     // Check if the hash we have stored matches the hash of the old passphrase.
     const hash = sqlNode.getPasswordHash();
 
-    const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
+    const hashMatches = oldPhrase && PasswordUtil.matchesHash(oldPhrase, hash);
     if (hash && !hashMatches) {
       const incorrectOldPassword = locale.messages.invalidOldPassword;
       sendResponse(
@@ -930,7 +933,7 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       userConfig.set('dbHasPassword', false);
     } else {
       sqlNode.setSQLPassword(passPhrase);
-      const newHash = passwordUtil.generateHash(passPhrase);
+      const newHash = PasswordUtil.generateHash(passPhrase);
       sqlNode.savePasswordHash(newHash);
       userConfig.set('dbHasPassword', true);
     }

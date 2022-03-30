@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { missingCaseError, PasswordUtil } from '../../util';
+import { missingCaseError } from '../../util';
 import { ToastUtils } from '../../session/utils';
 import { getPasswordHash } from '../../data/data';
 import { SpacerLG, SpacerSM } from '../basic/Text';
@@ -9,6 +9,7 @@ import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { matchesHash, validatePassword } from '../../util/passwordUtils';
 
 export type PasswordAction = 'set' | 'change' | 'remove';
 
@@ -118,7 +119,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
   public async validatePasswordHash(password: string | null) {
     // Check if the password matches the hash we have stored
     const hash = await getPasswordHash();
-    if (hash && !PasswordUtil.matchesHash(password, hash)) {
+    if (hash && !matchesHash(password, hash)) {
       return false;
     }
 
@@ -146,7 +147,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
    */
   private validatePassword(firstPassword: string) {
     // if user did not fill the first password field, we can't do anything
-    const errorFirstInput = PasswordUtil.validatePassword(firstPassword);
+    const errorFirstInput = validatePassword(firstPassword);
     if (errorFirstInput !== null) {
       this.setState({
         error: errorFirstInput,

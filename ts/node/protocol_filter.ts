@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { Protocol } from 'electron';
-import { ProtocolRequest } from 'electron/main';
+import { Protocol, ProtocolRequest } from 'electron';
 // tslint:disable: no-console
 
 function eliminateAllAfterCharacter(str: string, character: string) {

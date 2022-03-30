@@ -1,13 +1,11 @@
 import moment from 'moment';
-import { isArrayBuffer, isUndefined, padStart } from 'lodash';
+import { isUndefined, padStart } from 'lodash';
 
 import * as MIME from './MIME';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
-import { fromHexToArray } from '../session/utils/String';
 import { ATTACHMENT_DEFAULT_MAX_SIDE } from '../util/attachmentsUtil';
-import { Storage } from '../util/storage';
 
 const MAX_WIDTH = 200;
 const MAX_HEIGHT = MAX_WIDTH;
@@ -391,22 +389,4 @@ export const getFileExtension = (attachment: AttachmentType): string | undefined
     default:
       return attachment.contentType.split('/')[1];
   }
-};
-
-export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
-  if (!isArrayBuffer(bufferIn)) {
-    throw new TypeError("'bufferIn' must be an array buffer");
-  }
-  const key = Storage.get('local_attachment_encrypted_key') as string;
-  const encryptingKey = fromHexToArray(key);
-  return window.callWorker('encryptAttachmentBuffer', encryptingKey, bufferIn);
-};
-
-export const decryptAttachmentBuffer = async (bufferIn: ArrayBuffer): Promise<Uint8Array> => {
-  if (!isArrayBuffer(bufferIn)) {
-    throw new TypeError("'bufferIn' must be an array buffer");
-  }
-  const key = Storage.get('local_attachment_encrypted_key') as string;
-  const encryptingKey = fromHexToArray(key);
-  return window.callWorker('decryptAttachmentBuffer', encryptingKey, bufferIn);
 };

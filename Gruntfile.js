@@ -7,16 +7,15 @@ const toConcatForApp = [
   'node_modules/jquery/dist/jquery.js',
   'node_modules/bytebuffer/dist/bytebuffer.min.js',
   'node_modules/long/dist/long.js',
-  'components/protobuf/**/*.js',
   'node_modules/mustache/mustache.js',
   'node_modules/underscore/underscore-min.js',
   'node_modules/backbone/backbone.js',
 ];
 
-const toConcatForComponentTextsecure = [
-  'node_modules/long/dist/long.js',
-  'components/protobuf/**/*.js',
-];
+// const toConcatForComponentTextsecure = [
+//   'node_modules/long/dist/long.js',
+//   'components/protobuf/**/*.js',
+// ];
 
 module.exports = grunt => {
   const components = [];
@@ -25,11 +24,11 @@ module.exports = grunt => {
     components.push(toConcatForApp[i]);
   }
 
-  const libtextsecurecomponents = [];
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in toConcatForComponentTextsecure) {
-    libtextsecurecomponents.push(toConcatForComponentTextsecure[i]);
-  }
+  // const libtextsecurecomponents = [];
+  // // eslint-disable-next-line guard-for-in, no-restricted-syntax
+  // for (const i in toConcatForComponentTextsecure) {
+  //   libtextsecurecomponents.push(toConcatForComponentTextsecure[i]);
+  // }
 
   const utilWorkerComponents = [
     'node_modules/bytebuffer/dist/bytebuffer.js',
@@ -54,16 +53,16 @@ module.exports = grunt => {
         src: utilWorkerComponents,
         dest: 'js/util_worker.js',
       },
-      libtextsecurecomponents: {
-        src: libtextsecurecomponents,
-        dest: 'libtextsecure/components.js',
-      },
+      // libtextsecurecomponents: {
+      //   src: libtextsecurecomponents,
+      //   dest: 'libtextsecure/components.js',
+      // },
       libtextsecure: {
         options: {
           banner: ';(function() {\n',
           footer: '})();\n',
         },
-        src: ['libtextsecure/errors.js', 'libtextsecure/libsignal-protocol.js'],
+        src: ['libtextsecure/libsignal-protocol.js'],
         dest: 'js/libtextsecure.js',
       },
     },

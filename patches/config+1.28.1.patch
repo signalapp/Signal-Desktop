@@ -1,0 +1,162 @@
+index a7651ef..9f29cc7 100644
+--- a/node_modules/config/lib/config.js
++++ b/node_modules/config/lib/config.js
+@@ -870,59 +870,8 @@ util.parseFile = function(fullFilename) {
+       }
+     }
+
+-    if (extension === 'js') {
+-      // Use the built-in parser for .js files
+-      configObject = require(fullFilename);
+-    }
+-    else if (extension === 'ts') {
+-      require('ts-node').register({
+-        lazy: true,
+-        compilerOptions: {
+-          allowJs: true,
+-        }
+-      });
+-
+-      // Because of ES6 modules usage, `default` is treated as named export (like any other)
+-      // Therefore config is a value of `default` key.
+-      configObject = require(fullFilename).default;
+-    }
+-    else if (extension === 'coffee') {
+-      // .coffee files can be loaded with either coffee-script or iced-coffee-script.
+-      // Prefer iced-coffee-script, if it exists.
+-      // Lazy load the appropriate extension
+-      if (!Coffee) {
+-        Coffee = {};
+-
+-        // The following enables iced-coffee-script on .coffee files, if iced-coffee-script is available.
+-        // This is commented as per a decision on a pull request.
+-        //try {
+-        //  Coffee = require("iced-coffee-script");
+-        //}
+-        //catch (e) {
+-        //  Coffee = require("coffee-script");
+-        //}
+-
+-        Coffee = require("coffee-script");
+-
+-        // coffee-script >= 1.7.0 requires explicit registration for require() to work
+-        if (Coffee.register) {
+-          Coffee.register();
+-        }
+-      }
+-      // Use the built-in parser for .coffee files with coffee-script
+-      configObject = require(fullFilename);
+-    }
+-    else if (extension === 'iced') {
+-      Iced = require("iced-coffee-script");
+-
+-      // coffee-script >= 1.7.0 requires explicit registration for require() to work
+-      if (Iced.register) {
+-        Iced.register();
+-      }
+-    }
+-    else {
+       configObject = util.parseString(fileContent, extension);
+-    }
++
+   }
+   catch (e3) {
+     if (gitCryptTestRegex.test(fileContent)) {
+@@ -974,36 +923,7 @@ util.parseString = function (content, format) {
+   var configObject = null;
+
+   // Parse the file based on extension
+-  if (format === 'yaml' || format === 'yml') {
+-    if (!Yaml && !VisionmediaYaml) {
+-      // Lazy loading
+-      try {
+-        // Try to load the better js-yaml module
+-        Yaml = require('js-yaml');
+-      }
+-      catch (e) {
+-        try {
+-          // If it doesn't exist, load the fallback visionmedia yaml module.
+-          VisionmediaYaml = require('yaml');
+-        }
+-        catch (e) { }
+-      }
+-    }
+-
+-    if (Yaml) {
+-      configObject = Yaml.load(content);
+-    }
+-    else if (VisionmediaYaml) {
+-      // The yaml library doesn't like strings that have newlines but don't
+-      // end in a newline: https://github.com/visionmedia/js-yaml/issues/issue/13
+-      content += '\n';
+-      configObject = VisionmediaYaml.eval(util.stripYamlComments(content));
+-    }
+-    else {
+-      console.error("No YAML parser loaded.  Suggest adding js-yaml dependency to your package.json file.")
+-    }
+-  }
+-  else if (format === 'json') {
++  if (format === 'json') {
+     try {
+       configObject = JSON.parse(content);
+     }
+@@ -1021,59 +941,6 @@ util.parseString = function (content, format) {
+       configObject = JSON5.parse(content);
+     }
+   }
+-  else if (format === 'json5') {
+-
+-    if (!JSON5) {
+-      JSON5 = require('json5');
+-    }
+-
+-    configObject = JSON5.parse(content);
+-
+-  } else if (format === 'hjson') {
+-
+-    if (!HJSON) {
+-      HJSON = require('hjson');
+-    }
+-
+-    configObject = HJSON.parse(content);
+-
+-  } else if (format === 'toml') {
+-
+-    if(!TOML) {
+-      TOML = require('toml');
+-    }
+-
+-    configObject = TOML.parse(content);
+-  }
+-  else if (format === 'cson') {
+-    if (!CSON) {
+-      CSON = require('cson');
+-    }
+-    // Allow comments in CSON files
+-    if (typeof CSON.parseSync === 'function') {
+-      configObject = CSON.parseSync(util.stripComments(content));
+-    } else {
+-      configObject = CSON.parse(util.stripComments(content));
+-    }
+-  }
+-  else if (format === 'properties') {
+-    if (!PPARSER) {
+-      PPARSER = require('properties');
+-    }
+-    configObject = PPARSER.parse(content, { namespaces: true, variables: true, sections: true });
+-  } else if (format === 'xml') {
+-
+-    if (!XML) {
+-      XML = require('x2js');
+-    }
+-
+-    var x2js = new XML();
+-    configObject = x2js.xml2js(content);
+-    var rootKeys = Object.keys(configObject);
+-    if(rootKeys.length == 1) {
+-      configObject = configObject[rootKeys[0]];
+-    }
+-  }
+
+   return configObject;
+ };

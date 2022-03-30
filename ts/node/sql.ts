@@ -16,14 +16,19 @@ import {
   map,
   uniq,
 } from 'lodash';
-import { redactAll } from '../util/privacy';
-import { LocaleMessagesType } from './locale';
-import { PubKey } from '../session/types';
-import { StorageItem } from './storage_item';
+import { redactAll } from '../util/privacy'; // checked - only node
+import { LocaleMessagesType } from './locale'; // checked - only node
+import { PubKey } from '../session/types/PubKey'; // checked - only node
+import { StorageItem } from './storage_item'; // checked - only node
 // tslint:disable: no-console
 // tslint:disable: non-literal-fs-path
 // tslint:disable: one-variable-per-declaration
 // tslint:disable: quotemark
+
+const openDbOptions = {
+  verbose: undefined,
+  nativeBinding: './node_modules/better-sqlite3/build/Release/better_sqlite3.node',
+};
 
 const CONVERSATIONS_TABLE = 'conversations';
 const MESSAGES_TABLE = 'messages';
@@ -134,7 +139,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
 
   // First, we try to open the database without any cipher changes
   try {
-    db = new BetterSqlite3.default(filePath, { verbose: undefined });
+    db = new BetterSqlite3.default(filePath, openDbOptions);
 
     keyDatabase(db, key);
     switchToWAL(db);
@@ -154,7 +159,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
 
   let db1;
   try {
-    db1 = new BetterSqlite3.default(filePath, { verbose: undefined });
+    db1 = new BetterSqlite3.default(filePath, openDbOptions);
     keyDatabase(db1, key);
 
     // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
@@ -172,7 +177,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
   //   migrate to the latest ciphers after we've modified the defaults.
   let db2;
   try {
-    db2 = new BetterSqlite3.default(filePath, { verbose: undefined });
+    db2 = new BetterSqlite3.default(filePath, openDbOptions);
     keyDatabase(db2, key);
 
     db2.pragma('cipher_migrate');
