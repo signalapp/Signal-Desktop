@@ -2563,14 +2563,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         const shouldHoldOffDownload =
-          !queueStoryForDownload ||
+          (isStory(message.attributes) && !queueStoryForDownload) ||
           ((isImage(attachments) || isVideo(attachments)) &&
             isInCall(reduxState));
+
         if (
           this.hasAttachmentDownloads() &&
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           (this.getConversation()!.getAccepted() ||
-            queueStoryForDownload ||
             isOutgoing(message.attributes)) &&
           !shouldHoldOffDownload
         ) {
