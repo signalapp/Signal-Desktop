@@ -217,7 +217,7 @@ describe('<Timeline> utilities', () => {
       assert.isTrue(shouldCurrentMessageHideMetadata(true, current, newer));
     });
 
-    it('returns true if all three have delivered status or above', () => {
+    it('returns true if both have delivered status or above', () => {
       assert.isTrue(
         shouldCurrentMessageHideMetadata(true, defaultCurrent, defaultNewer)
       );

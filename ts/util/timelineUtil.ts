@@ -88,18 +88,13 @@ export function shouldCurrentMessageHideMetadata(
     case 'sending':
       return false;
     case 'sent':
-      return newerMessage.status === 'sent';
     case 'delivered':
     case 'read':
     case 'viewed':
-      return (
-        newerMessage.status === 'delivered' ||
-        newerMessage.status === 'read' ||
-        newerMessage.status === 'viewed'
-      );
+      return true;
     default:
       log.error(missingCaseError(message.status));
-      return false;
+      return true;
   }
 }
 
