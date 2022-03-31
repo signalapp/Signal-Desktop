@@ -6092,10 +6092,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@17.1.2:
-  version "17.1.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-17.1.2.tgz#b4e4a0df883d9a9854cf865efa2bb00b12d55b1d"
-  integrity sha512-hqKQaUIRWX5Y2eAD8FZINWD/e5TKdpkbBYbkcZmJS4Bd1PKQsaDVc9h5xoA8zZQkPymE9rss+swjRpAFurOPGQ==
+electron@17.3.1:
+  version "17.3.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-17.3.1.tgz#083b6bd034eb1ee7d75378316d6460348eb62605"
+  integrity sha512-C5E3uvXo1cmI+xYtbiMCW8AAGhBL0HbLA6cqD7FJmBoPtY88W/3A/km5z8oPGORyBNgSe7tSoHx4a6jWJIR+og==
   dependencies:
     "@electron/get" "^1.13.0"
     "@types/node" "^14.6.2"
