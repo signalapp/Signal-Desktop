@@ -29,10 +29,7 @@ const renderText: RenderTextCallbackType = ({ key, text }) => (
 const releaseNotes: ReleaseNotesType = {
   date: new Date(window.getBuildCreation?.() || Date.now()),
   version: window.getVersion?.(),
-  features: [
-    { key: 'WhatsNew__v5.37--1', components: undefined },
-    { key: 'WhatsNew__v5.37--2', components: undefined },
-  ],
+  features: [{ key: 'WhatsNew__bugfixes', components: undefined }],
 };
 
 export const WhatsNewModal = ({
