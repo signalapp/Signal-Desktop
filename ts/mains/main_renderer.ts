@@ -10,7 +10,7 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
 import { isSignInByLinking, Storage } from '../util/storage';
-
+import jQuery from 'jquery';
 import * as Data from '../data/data';
 import Backbone from 'backbone';
 import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
@@ -79,9 +79,9 @@ let newVersion = false;
 window.document.title = window.getTitle();
 
 // Whisper.events =
-// window.Whisper.Events = WhisperEvents ?
+// window.Whisper.events = WhisperEvents ?
 const WhisperEvents = _.clone(Backbone.Events);
-
+window.Whisper.events = WhisperEvents;
 window.log.info('Storage fetch');
 
 void Storage.fetch();
@@ -108,7 +108,7 @@ Storage.onready(async () => {
     return;
   }
   first = false;
-
+  console.warn('storage is ready');
   // Update zoom
   window.updateZoomFactor();
 
@@ -228,7 +228,7 @@ async function start() {
   });
 
   const appView = new AppView({
-    el: $('body'),
+    el: jQuery('body'),
   });
 
   ExpirationTimerOptions.initExpiringMessageListener();

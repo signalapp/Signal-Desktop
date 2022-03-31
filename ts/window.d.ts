@@ -52,7 +52,6 @@ declare global {
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
     getCallMediaPermissions: () => boolean;
-    updateZoomFactor: () => boolean;
     toggleMenuBar: () => void;
     toggleSpellCheck: any;
     setTheme: (newTheme: string) => any;
@@ -78,6 +77,8 @@ declare global {
     globalOnlineStatus: boolean;
 
     getTitle: () => string;
+    getAppInstance: () => string;
+    getCommitHash: () => string | undefined;
     getVersion: () => string;
     setAutoHideMenuBar: (val: boolean) => void;
     setMenuBarVisibility: (val: boolean) => void;
@@ -93,6 +94,12 @@ declare global {
     callWorker: (fnName: string, ...args: any) => Promise<any>;
     setStartInTray: (val: boolean) => Promise<void>;
     getStartInTray: () => Promise<boolean>;
-    libsession: any;
+    closeAbout: () => void;
+    getAutoUpdateEnabled: () => boolean;
+    setAutoUpdateEnabled: (enabled: boolean) => void;
+    setZoomFactor: (newZoom: number) => void;
+    updateZoomFactor: () => void;
+
+    Signal: any;
   }
 }

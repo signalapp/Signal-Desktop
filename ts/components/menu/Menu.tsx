@@ -518,7 +518,7 @@ export const NotificationForConvoMenuItem = (): JSX.Element | null => {
 };
 
 export function isRtlBody(): boolean {
-  return ($('body') as any).hasClass('rtl');
+  return (jQuery('body') as any).hasClass('rtl');
 }
 
 export const BlockMenuItem = (): JSX.Element | null => {

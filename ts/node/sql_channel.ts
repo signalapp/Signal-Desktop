@@ -9,11 +9,10 @@ const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 // tslint:disable: no-console
 
-export function initialize() {
+export function initializeSqlChannel() {
   if (initialized) {
     throw new Error('sqlChannels: already initialized!');
   }
-  initialized = true;
 
   ipcMain.on(SQL_CHANNEL_KEY, (event, jobId, callName, ...args) => {
     try {
@@ -43,10 +42,12 @@ export function initialize() {
     }
   });
 
+  console.warn('********* registering get-user-data-path');
   ipcMain.on('get-user-data-path', () => {
     return app.getPath('userData');
   });
   ipcMain.on('get-data-path', () => {
     return app.getAppPath();
   });
+  initialized = true;
 }

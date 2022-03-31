@@ -263,11 +263,11 @@ async function createWindow() {
     fullscreen: false as boolean | undefined,
     backgroundColor: '#000',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       enableRemoteModule: true,
       nodeIntegrationInWorker: true,
       contextIsolation: false,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.bundled.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
     },
@@ -705,7 +705,7 @@ async function showMainWindow(sqlKey: string, passwordAttempt = false) {
     passwordAttempt,
   });
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
-  sqlChannels.initialize();
+  sqlChannels.initializeSqlChannel();
 
   await initAttachmentsChannel({
     userDataPath,

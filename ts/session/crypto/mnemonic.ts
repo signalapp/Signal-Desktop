@@ -116,23 +116,6 @@ export function mn_decode(str: string, wordsetName: string = MN_DEFAULT_WORDSET)
   return out;
 }
 
-// Note: the value is the prefix_len
-const languages = {
-  chinese_simplified: 1,
-  dutch: 4,
-  electrum: 0,
-  english: 3,
-  esperanto: 4,
-  french: 4,
-  german: 4,
-  italian: 4,
-  japanese: 3,
-  lojban: 4,
-  portuguese: 4,
-  russian: 4,
-  spanish: 4,
-};
-
 const mnWords = {} as Record<
   string,
   {
@@ -141,14 +124,13 @@ const mnWords = {} as Record<
     truncWords: Array<any>;
   }
 >;
-for (const [language, prefixLen] of Object.entries(languages)) {
-  mnWords[language] = {
-    prefixLen,
-    // tslint:disable-next-line: non-literal-require
-    words: require(`../../../mnemonic_languages/${language}`),
-    truncWords: [],
-  };
-}
+mnWords.english = {
+  prefixLen: 3,
+  // tslint:disable-next-line: non-literal-require
+  // tslint:disable-next-line: no-require-imports
+  words: require('../../../mnemonic_languages/english.json'),
+  truncWords: [],
+};
 
 export function get_languages(): Array<string> {
   return Object.keys(mnWords);

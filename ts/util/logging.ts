@@ -65,8 +65,8 @@ if (window.console) {
 function getHeader() {
   let header = window.navigator.userAgent;
 
-  header += ` node/${window.getNodeVersion()}`;
-  header += ` env/${window.getEnvironment()}`;
+  header += ` node/${window?.getNodeVersion()}`;
+  header += ` env/${window?.getEnvironment()}`;
 
   return header;
 }
@@ -105,7 +105,7 @@ async function fetch() {
   });
 }
 
-const development = window.getEnvironment() !== 'production';
+const development = window && window?.getEnvironment && window?.getEnvironment() !== 'production';
 
 // A modern logging interface for the browser
 

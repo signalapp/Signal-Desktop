@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 const path = require('path');
-const { Compilation } = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -14,6 +13,15 @@ const optimization = {
   // splitChunks: true,
 };
 
+const EXTERNAL_MODULE = new Set([
+  'backbone',
+  'better-sqlite3',
+  'fsevents',
+  'got',
+  'jquery',
+  'node-fetch',
+]);
+
 module.exports = [
   {
     // bundling mode
@@ -26,9 +34,6 @@ module.exports = [
     // entry files
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.json'],
-      // alias: {
-      //   'better_sqlite3.node': path.resolve(__dirname),
-      // },
     },
     entry: './ts/mains/main_node.ts',
     target: 'electron-main',
@@ -67,6 +72,44 @@ module.exports = [
       filename: 'electron_main.js',
     },
   },
+  {
+    entry: './preload.ts',
+    mode: 'development',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'preload.bundled.js',
+    },
+    target: 'electron-main',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+      mainFields: ['browser', 'main'],
+    },
+    externals: [
+      ({ request = '' }, callback) => {
+        if (EXTERNAL_MODULE.has(request)) {
+          return callback(undefined, `commonjs2 ${request}`);
+        }
+
+        callback();
+      },
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          include: [path.resolve(__dirname), path.resolve(__dirname, 'js')],
+          exclude: /node_modules/,
+
+          use: [
+            {
+              loader: 'ts-loader',
+              options: { transpileOnly: true },
+            },
+          ],
+        },
+      ],
+    },
+  },
 
   {
     mode: 'development',
@@ -81,6 +124,8 @@ module.exports = [
         {
           test: /\.tsx?$/,
           include: [path.resolve(__dirname, 'ts'), path.resolve(__dirname, 'js')],
+          exclude: /node_modules/,
+
           use: [
             {
               loader: 'ts-loader',
@@ -96,7 +141,7 @@ module.exports = [
     optimization,
     output: {
       path: path.resolve(__dirname, 'dist', 'js'),
-      filename: 'electron-renderer.js',
+      filename: 'electron_renderer.js',
     },
     plugins: [
       new HtmlWebpackPlugin({

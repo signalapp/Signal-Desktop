@@ -1,4 +1,4 @@
-import * as Data from '../data/data';
+import { createOrUpdateItem, getAllItems, removeItemById } from '../data/channelsItem';
 
 let ready = false;
 
@@ -20,7 +20,7 @@ async function put(key: string, value: ValueType) {
   const data: InsertedValueType = { id: key, value };
 
   items[key] = data;
-  await Data.createOrUpdateItem(data);
+  await createOrUpdateItem(data);
 }
 
 function get(key: string, defaultValue?: ValueType) {
@@ -43,7 +43,7 @@ async function remove(key: string) {
 
   // tslint:disable-next-line: no-dynamic-delete
   delete items[key];
-  await Data.removeItemById(key);
+  await removeItemById(key);
 }
 
 function onready(callback: () => void) {
@@ -65,7 +65,7 @@ function callListeners() {
 
 async function fetch() {
   reset();
-  const array = await Data.getAllItems();
+  const array = await getAllItems();
 
   // tslint:disable-next-line: one-variable-per-declaration
   for (let i = 0, max = array.length; i < max; i += 1) {

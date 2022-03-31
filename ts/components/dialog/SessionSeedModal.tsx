@@ -145,7 +145,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
+    setTimeout(() => (jQuery('#seed-input-password') as any).focus(), 100);
     void checkHasPassword();
     void getRecoveryPhrase();
   }, []);

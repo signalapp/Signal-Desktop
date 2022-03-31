@@ -7,10 +7,10 @@
  */
 
 import * as fse from 'fs-extra';
-import { decryptAttachmentBuffer } from '../../types/Attachment';
 import { DURATION } from '../constants';
 import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';
 import { getAttachmentPath } from '../../types/MessageAttachment';
+import { decryptAttachmentBuffer } from '../../node/local_attachments_encrypter';
 
 const urlToDecryptedBlobMap = new Map<
   string,
