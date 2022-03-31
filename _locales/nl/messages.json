@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Dit logbestand wordt publiekelijk beschikbaar gesteld op internet zodat de ontwikkelaars en vrijwilligers het kunnen bestuderen. Je kunt het opslaan voor je het upload.",
-        "description": ""
+        "message": "Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde URL. Die URL kun je vervolgens naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Er is iets mis gegaan bij het uploaden. Suur alsjeblieft een e-mail naar support@signal.org en voeg aan die e-mail je foutopsporingslog toe als een tekstbestand.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Foutopsporingslog succesvol geupload",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Neem nu contact op met ondersteuning en kopiëer de verwijzing hieronder om die samen met een omschrijving van je probleem en de stappen om het probleem te veroorzaken in te dienen.",
+        "message": "Neem nu contact op met ondersteuning en kopiëer de URL hieronder om die samen met een omschrijving van je probleem en een omschrijving van de stappen om het probleem te veroorzaken in te dienen.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "… klik op Opslaan om het volledige log te zien.",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Verwijzing kopiëren",
@@ -1230,7 +1234,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Gespreksessie vernieuwd",
+        "message": "Gesprekssessie vernieuwd",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -4103,6 +4107,14 @@
         "message": "De groepsverwijzing is niet langer geldig.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Kan niet lid worden van de groep",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Je kunt niet door middel van een groepsverwijzing lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd. ",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Een beheerder van deze groep moet eerst je verzoek om lid te worden goedkeuren voordat je lid kunt worden van deze groep. Wanneer je verzoekt om lid te worden zullen je profielnaam, -foto en -omschrijving direct zichtbaar zijn voor de groepsleden.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ heeft via de groepsverwijzing verzocht lid te worden van de groep en heeft dat verzoek weer ingetrokken",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ heeft $numberOfRequests$ keer verzocht om lid te worden van de groep en die verzoeken weer ingetrokken",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Je hebt de groepsverwijzingen ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Wil je het lidmaatschapverzoek van “$name$” afwijzen? Als je dit doet dan kan hij of zij niet opnieuw via de groepsverwijzing verzoeken om lid te worden van de groep.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Door jou uitgenodigd",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te aanvaarden, dan zullen op dat moment zijn of haar profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet aanvaard hebben zullen ze nog geen groepsberichten ontvangen.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Verzoeken blokkeren",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Verzoeken blokkeren?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ zal niet langer via de groepsverwijzing lid kunnen worden van deze groep en ook niet kunnen verzoeken om lid te worden van de groep. Hij of zij kan dan nog wel lid worden via een uitnodiging.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Verzoeken blokkeren",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Een groepsafbeelding toevoegen",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "“$name$” van deze groep verwijderen?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Wil je “$name$” van de groep verwijderen? Als je dit doet dan zal hij of zij niet via de groepsverwijzing verzoeken om opnieuw lid te worden van de groep.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Heb je wel eens last van een onbetrouwbare internetverbinding? Geen zorgen. De instelling voor verlopende berichten en andere dingen worden vanaf nu alsnog verzonden wanneer je internetverbinding het weer doet.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Het systeem om Signal bij te werken is vernieuwd, daardoor zouden updates vanaf nu kleiner moeten zijn.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Wanneer je iets voor iedereen wist dan zie je vanaf nu een draaient figuurtje totdat duidelijk is of de opdracht om te wissen naar iedereen kon worden verzonden. Als het niet lukt dan krijg je de optie om het opnieuw te proberen.",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Dankzij de vrijwillige vertalers is Signal-Desktop nu ook beschikbaar in Schots-Gaelisch.",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Korte berichten zijn vanaf nu nog korter, omdat de tijdsindicatie op dezelfde regel staat als de tekst van je bericht.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Er was een fout waardoor sommige stickerpakketten niet konden worden weergegeven in Signal-Desktop. Vanaf nu kun je alle stickerpakketten zien net als op je telefoon.",
+        "description": "Release notes for v5.37"
     }
 }

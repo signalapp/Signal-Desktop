@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "此日誌將在網上公開發佈，供貢獻者查看。 你可以在提交前下載完整的日誌。",
-        "description": ""
+        "message": "當你點擊提交時，你的日誌將在一個唯一的、未發布的 URL 上在線發布 30 天。你可以先將其保存在本地。",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "上傳出了點問題！ 請傳送電子郵件至 support@signal.org 並將你的日誌作為文字檔案附上。",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "偵錯日誌已上傳",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "偵錯日誌已上傳。 當你聯絡支援人員時，請複製下面的連結並附上你看到的問題的描述和重現問題的步驟。",
+        "message": "已上傳偵錯日誌。 當你聯絡支援人員時，請複製下面的 URL 並將其附上你看到的問題的描述和重現問題的步驟。",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "...要查看完整日誌，請點擊儲存",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "複製連結",
@@ -4103,6 +4107,14 @@
         "message": "該群組連結不再有效。",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "無法加入群組",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "你無法透過群組連結加入此群組，因為管理員將你刪除了。",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "該群組的管理員必須批准你的請求，然後才能加入該群組。 如果獲得批准，你的姓名和照片將與其成員共享。",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ 透過群組連結請求並取消了他們的加入請求",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$透過群組連結請求和取消了$numberOfRequests$ 的加入請求",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "你在停用管理員批准的情況下打開了群組連結。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "拒絕來自“$name$”的請求？ 他們將無法再次透過群組連結要求加入。",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "受你邀請",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "加入此群組之前，不會顯示有關受邀人員的詳細資訊。 受邀者只有在加入群組後才能看到訊息。",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "封鎖請求",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "要封鎖請求嗎？",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ 將無法透過群組連結加入或請求加入此群組。 他們仍然可以手動新增到群組中。",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "封鎖請求",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "新增群組照片",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "從群組中刪除“$name$”？",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "從群組中刪除“$name$”嗎？ 他們將無法透過群組連結重新加入。",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "曾經在不穩定的網路上使用過 Signal？你無須再擔心 - 將銷毀訊息計時器更改時間，一旦你的 Wi-Fi 再次感覺順暢，就可傳送更多訊息。",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "已經引入了一個新的更新系統，人們應該在下一次更新中開始看到較小的更新。",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "當你為所有人執行刪除時，你現在會看到一個進度顯示器，讓你知道它是否已成功傳送。 如果由於某種原因失敗，你也可以重試！",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "感謝我們的志願者翻譯，我們增加了對蘇格蘭蓋爾語的支援！",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "我們透過將時間戳之類的內容與文本放在同一行來保持簡短的訊息。 現在，你在螢幕上有更多空間可以快速說“嘿”與確認朋友。",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "想念遺失的貼圖包！ 電腦版本現在能夠處理你的手機可以處理的所有貼圖包！",
+        "description": "Release notes for v5.37"
     }
 }

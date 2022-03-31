@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Dieses Diagnoseprotokoll wird im Internet veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du das vollständige Diagnoseprotokoll herunterladen.",
-        "description": ""
+        "message": "Wenn du auf »Abschicken« klickst, wird dein Diagnoseprotokoll unter einer eindeutigen, unveröffentlichten Internetadresse für 30 Tage online gestellt. Du kannst es aber auch erst lokal speichern.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Beim Hochladen gab es ein Problem. Schreib bitte eine E-Mail an support@signal.org und hänge das Diagnoseprotokoll als Textdatei an.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Diagnoseprotokoll übermittelt",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Diagnoseprotokoll hochgeladen. Wenn du dich an den Support wendest, kopiere den unten stehenden Link und füge ihn zusammen mit einer Beschreibung des aufgetretenen Problems und den Schritten zur Reproduktion des Problems bei.",
+        "message": "Diagnoseprotokoll wurde hochgeladen. Wenn du den Support kontaktierst, kopiere die untenstehende Internetadresse und füge sie deiner Problembeschreibung und den Schritten zur Reproduktion an.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "… um das gesamte Diagnoseprotokoll zu sehen, klicke auf »Speichern«",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Link kopieren",
@@ -1040,7 +1044,7 @@
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Stumm",
+        "message": "Stummschalten",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
@@ -1484,7 +1488,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Mikrofon ist stummgeschaltet aufgrund der Anzahl der Teilnehmer im Anruf",
+        "message": "Mikrofon stummgeschaltet aufgrund der Anzahl der Anrufteilnehmer",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -1508,7 +1512,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Stumm​",
+        "message": "Stumm​schalten",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -1516,11 +1520,11 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mikro aus",
+        "message": "Mikrofon ausschalten",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Mikro ein",
+        "message": "Mikrofon einschalten",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting__label": {
@@ -3122,7 +3126,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Stumm ein-/ausschalten",
+        "message": "Stummschaltung ein-/ausschalten",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -3990,7 +3994,7 @@
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
-        "message": "Stumm",
+        "message": "Stummschalten",
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
@@ -4022,7 +4026,7 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Immer stummgeschaltet",
+        "message": "Immer stumm",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
@@ -4102,6 +4106,14 @@
     "GroupV2--join--link-revoked": {
         "message": "Dieser Gruppen-Link ist nicht mehr gültig.",
         "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Gruppenbeitritt nicht möglich",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da dich ein Gruppen-Admin entfernt hat.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
         "message": "Bevor du der Gruppe beitreten kannst, muss ein Admin dieser Gruppe deine Anfrage bestätigen. Wenn du eine Beitrittsanfrage stellst, werden dein Name und dein Foto mit den Mitgliedern geteilt.",
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ hat eine Beitrittsanfrage über den Gruppenlink gestellt und zurückgezogen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ hat $numberOfRequests$ Beitrittsanfragen über den Gruppenlink gestellt und zurückgezogen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Du hast den Gruppen-Link mit ausgeschalteter Admin-Bestätigung aktiviert.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Beitrittsanfrage von »$name$« ablehnen?  Eine erneute Beitrittsanfrage über den Gruppenlink ist dann nicht mehr möglich.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Eingeladen",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Details zu Personen, die in diese Gruppe eingeladen wurden, werden erst nach deren Beitritt angezeigt. Die Eingeladenen werden nur Nachrichten sehen, die nach ihrem erfolgten Gruppenbeitritt versendet wurden.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Anfrage blockieren",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Anfrage blockieren?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ kann dieser Gruppe dann nicht mehr über den Gruppenlink beitreten oder eine Beitrittsanfrage stellen. Ein manuelles Hinzufügen zur Gruppe bleibt jedoch möglich.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Anfrage blockieren",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Gruppenfoto hinzufügen",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "$name$ aus dieser Gruppe entfernen?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "$name$ aus der Gruppe entfernen? Ein Wiederbeitreten über den Gruppenlink ist dann nicht mehr möglich.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Hast du Signal schon einmal bei einer instabilen Verbindung verwendet? Mache dir keine Sorgen mehr - Änderungen an der Ablaufzeit für verschwindende Nachrichten und mehr werden jetzt wieder versendet, sobald dein WLAN wieder besser ist.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Ein neues Aktualisierungssystem wurde eingefügt und daher werden folgende Aktualisierungen kleiner sein.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Wenn du ein »Für jeden löschen« ausführst, wirst du nun eine Fortschrittsanzeige sehen, die dich darüber informiert, ob dies erfolgreich war oder nicht. Falls es aus irgendwelchen Grund scheitert, kannst du es erneut versuchen!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Dank unserer freiwilligen Übersetzer haben wir Unterstützung für Schottisch-Gälisch hinzugefügt!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Wir belassen kurze Nachrichten kurz, indem Infos wie der Zeitstempel in der gleichen Zeile wie der Text angezeigt werden. Jetzt hast du mehr Platz auf dem Bildschirm für das kurze »Hallo«, um sich bei einem Freund zu melden.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Hinfort mit den fehlenden Sticker-Sets! Desktop sollte nun in der Lage sein, mit allen von deinem Telefon unterstützten Sticker-Sets umzugehen!",
+        "description": "Release notes for v5.37"
     }
 }

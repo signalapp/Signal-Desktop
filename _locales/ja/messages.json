@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "このログはコントリビュータに公開されますが、提出する前に内容をダウンロードできます。",
-        "description": ""
+        "message": "「送信する」をクリックすると、このログがユニークな未公開のURLで30日間見られるようになります。\n「保存」をクリックすると、送信する前にあなたの端末にログを保存しておくこともできます。",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "アップロードできませんでした！ログのテキストファイルを support@signal.org にメールでお送りください。",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "デバッグログを送信しました",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "デバッグログを送信しました。サポートへお問い合わせの際には、以下のリンクをコピーしてお送りください。また、不具合の内容とその不具合を再現する手順も添えてください。",
+        "message": "デバッグログを送信しました。サポートへお問い合わせの際には、以下のURLをコピーしてお送りください。また、不具合の内容とその不具合を再現する手順も添えてください。",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... to see the full log, click Save",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "リンクをコピー",
@@ -4103,6 +4107,14 @@
         "message": "このグループリンクはすでに無効です。",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "グループに参加できません",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "管理者があなたを削除したため、グループリンクからはこのグループに参加できません。",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "このグループに参加するには、グループ管理者の承認が必要です。承認されると、あなたの名前と画像がそのメンバーと共有されます。",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "管理者承認が不要なグループリンクを有効にしました。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "すべての招待",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "このグループに招待された人の詳細は、グループに参加するまで表示されません。招待された人は、グループに参加するとメッセージを見ることができます。",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "申請をブロック",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "申請をブロックしますか？",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Block Request",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "グループアバターを追加",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "このグループから「$name$」を削除しますか？",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Wi-Fi接続が不安定な状態でSignalを使用しても、接続が回復した際に消えるメッセージのタイマーを更新し、メッセージを送信するようになりました。",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "新しいアップデートシステムが導入され、これからは細かいアップデートが行われるようになります。",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "全員分の削除時に、送信に成功したかどうかをスピナーで確認できるようになりました。何らかの理由で失敗した場合は、再実行することもできます。",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "ボランティア翻訳者のおかげで、スコットランド・ゲール語に対応しました!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "タイムスタンプをテキストと同じ行に配置することで、画面のスペースを節約し、たくさんのメッセージを表示できるようになりました。",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "デスクトップ版Signalでステッカーパックが表示されないバグが、修正されました。スマートフォンと同じステッカーパックが使えます。",
+        "description": "Release notes for v5.37"
     }
 }

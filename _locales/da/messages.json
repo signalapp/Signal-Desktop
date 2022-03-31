@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Denne log vil blive offentliggjort online, så bidragsydere kan se den. Du kan hente hele loggen, inden du indsender den.",
-        "description": ""
+        "message": "Når du klikker på Indsend, bliver din log lagt online i 30 dage på en unik, ikke-offentliggjort URL-adresse. Du kan gemme den lokalt først.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Noget gik galt med upload! Send venligst en e-mail til support@signal.org og vedhæft din log som en tekstfil.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Fejlsøgningslog indsendt",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Fejlsøgningslog uploadet. Når du kontakter support, skal du kopiere linket nedenfor og vedhæfte det sammen med en beskrivelse af det problem, du så, og de trin du skal følge for at reproducere det.",
+        "message": "Fejlsøgningslog overført. Når du kontakter support, skal du kopiere nedenstående URL-adresse og vedhæfte den sammen med en beskrivelse af det problem, du så, og de trin, du skal følge for at genskabe det.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... klik på Gem for at se den fulde log",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Kopiér link",
@@ -4103,6 +4107,14 @@
         "message": "Gruppelinket er ikke længere gyldigt",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Deltagelse i gruppen er ikke mulig",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Du kan ikke deltage i denne gruppe via gruppelinket, fordi en administrator har fjernet dig.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "En administrator af gruppen skal godkende din anmodning før du kan deltage. Hvis det er godkendt, deles dit navn og billede med dens medlemmer.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ anmodede om og annullerede deres anmodning om at blive medlem via gruppelinket",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ anmodede og annullerede $numberOfRequests$ anmodninger om at blive medlem via gruppelinket",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Du aktiverede gruppelinket med administratorgodkendelse slået fra.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Afvis anmodninger fra \"$name$\"? Personen vil ikke kunne anmode om at blive medlem via gruppelinket igen.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Inviteret af dig",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Detaljer om inviterede personer til denne gruppe, vises først indtil de deltager. Inviterede vil kun se beskeder efter deltagelse i gruppen.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Bloker anmodning",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Bloker anmodning?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ vil ikke kunne deltage eller anmode om at deltage i denne gruppe via gruppelinket. De kan stadig tilføjes til gruppen manuelt.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Bloker anmodning",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Tilføj gruppebillede",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Fjern $name$ fra gruppen?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Fjern \"$name$\" fra gruppen? Personen vil ikke kunne tilslutte sig igen via gruppelinket.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Har du nogensinde brugt Signal på en ustabil forbindelse? Nu behøver du ikke længere bekymre dig - ændringer i udløbstiden for forsvindende beskeder og andet vil nu blive sendt ud, når dit Wi-Fi er bedre igen.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Der er blevet indført et nyt opdateringssystem, og folk burde begynde at se mindre opdateringer med den næste opdatering.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Når du udfører en Slet for alle, vises der nu en status, der fortæller dig, om den er blevet sendt eller ej. Hvis det af en eller anden grund mislykkes, kan du også forsøge igen!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Takket være vores frivillige oversættere har vi tilføjet understøttelse af skotsk gælisk!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Vi sørger for at holde korte beskeder korte ved at sætte ting som tidsstempler på samme linje som teksten. Nu har du mere plads på skærmen til et hurtigt \"hej\" for at tjekke, hvordan det går med en ven.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Slut med manglende klistermærkepakker! Desktop burde nu kunne håndtere alle de samme klistermærkepakker, som din telefon kan!",
+        "description": "Release notes for v5.37"
     }
 }

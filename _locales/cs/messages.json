@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Tento protokol bude zveřejněn online, aby si jej mohli prohlédnout přispěvatelé. Před odesláním si můžete celý protokol stáhnout.",
-        "description": ""
+        "message": "Po kliknutí na tlačítko Odeslat bude váš protokol zveřejněn online po dobu 30 dnů na jedinečné nezveřejněné adrese URL. Nejprve jej můžete uložit lokálně.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Při nahrávání se něco pokazilo! Pošlete prosím e-mail na adresu support@signal.org a přiložte protokol jako textový soubor.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Debug log odeslán",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log nahrán. Až budete kontaktovat podporu, zkopírujte níže uvedený odkaz a přiložte jej spolu s popisem problému, který jste zaznamenali, a kroky k jeho reprodukci.",
+        "message": "Nahrán protokol ladění. Až budete kontaktovat podporu, zkopírujte níže uvedenou adresu URL a přiložte ji spolu s popisem problému, který jste zaznamenali, a kroky k jeho reprodukci.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... pro zobrazení celého protokolu klikněte na Uložit",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Zkopírovat odkaz",
@@ -4103,6 +4107,14 @@
         "message": "Tento odkaz skupiny již není platný.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Nelze přidat do skupiny",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "K této skupině se nemůžete připojit prostřednictvím odkazu na skupinu, protože vás odstranil správce.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Správce této skupiny musí schválit vaši žádost, než se budete moct přidat do skupiny. Pokud bude žádost schválena, vaše jméno a fotografie bude sdílena s členy skupiny.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ požádal a opět zrušil svou žádost o připojení ke skupině pomocí odkazu",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ požádal o připojení a opět zrušil $numberOfRequests$ své žádosti o připojení ke skupině pomocí odkazu.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Aktivovali jste odkaz skupiny bez schválení správcem.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Zamítnout žádost od \"$name$\"? Nebudou moci znovu požádat o připojení prostřednictvím odkazu na skupinu.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Pozváni vámi",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Detaily o uživatelích pozvaných do skupiny se nezobrazí, dokud se nepřipojí. Pozvaní uvidí zprávy až poté, co se připojí ke skupině.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Zablokovat žádost",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Zablokovat žádost?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ se nebude moci připojit ani požádat o připojení k této skupině prostřednictvím odkazu na skupinu. Přesto jej/jí lze do skupiny přidat ručně.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Zablokovat žádost",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Přidat fotografii skupiny",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "Odstranit \"$name$\" ze skupiny?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Odstranit $name$ ze skupiny? Nebudou se moct znovu připojit pomocí odkazu.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "Používali jste někdy službu Signal při nestabilním připojení? Už si nemusíte dělat starosti - časovač mizejících zpráv se změní a další se nyní odešlou, jakmile se vaše Wi-Fi opět zlepší.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Byl zaveden nový systém aktualizací a s příští aktualizací by se měly začít objevovat menší aktualizace.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Při provádění příkazu Odstranit pro všechny se nyní zobrazí ukazatel průběhu, který vás informuje o tom, zda byl příkaz úspěšně odeslán, nebo ne. Pokud se to z nějakého důvodu nepodaří, budete moci pokus zopakovat.",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Díky našim dobrovolným překladatelům jsme přidali podporu skotské gaelštiny!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Krátké zprávy udržujeme krátké tím, že věci jako časová razítka umisťujeme na stejný řádek jako text. Nyní máte na obrazovce více místa pro rychlé \"ahoj\", abyste zkontrolovali přítele.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Chybějící balíčky samolepek jsou pryč! Počítač by nyní měl zvládnout všechny balíčky nálepek, které zvládne váš telefon!",
+        "description": "Release notes for v5.37"
     }
 }

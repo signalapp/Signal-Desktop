@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Este registro se publicará en línea para que l@s colaborador@s de Signal tengan acceso. Puedes examinarlo y editarlo antes de enviarlo.",
-        "description": ""
+        "message": "Cuando haces clic en enviar, tu log será publicado durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
         "message": "Ha ocurrido un fallo con la transferencia. Por favor, escribe un correo a support@signal.org incluyendo el registro de depuración como archivo de texto.",
-        "description": ""
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Registro de depuración enviado",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Se ha transferido el registro de depuración. Cuando contactes con el soporte de Signal, copia el enlace debajo e inclúyelo con la descripción del problema que encontraste y los pasos para reproducirlo.",
+        "message": "Registro de depuración transferido. Cuando contactes con el soporte, copia la URL debajo y adjúntala con una descripción del problema que has tenido y los pasos para reproducirlo. ",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "… para ver el registro de depuración completo, haz clic en guardar",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Copiar enlace",
@@ -2514,7 +2518,7 @@
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "No hemos podido podido actualizar Signal. Haz click para intentarlo de nuevo.",
+        "message": "No hemos podido podido actualizar Signal. Haz clic para intentarlo de nuevo.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -4103,6 +4107,14 @@
         "message": "Este enlace de grupo es inválido.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Fallo al unirse al grupo",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "No puedes volver a unirte a este grupo vía enlace porque un@ admin te ha vetado.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
     "GroupV2--join--prompt-with-approval": {
         "message": "Un@ admin del grupo debe aprobar tu solicitud antes de poder unirte al grupo. Al unirte, tu nombre y foto se compartirán con sus participantes.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
@@ -5137,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ ha solicitado y cancelado su solicitud para participar en el grupo vía enlace",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ ha solicitado y cancelado $numberOfRequests$ veces participar en el grupo vía enlace",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Has activado el enlace para unirse al grupo sin confirmación de admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5713,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "¿Vetar solicitudes de $name$? No podrá enviar más solicitudes para unirse vía enlace.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Invitad@s por ti",
         "description": "This is the title list of all invites"
@@ -5802,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "No se mostrarán los detalles de las personas invitadas a este grupo hasta que se unan. Esas personas solo podrán ver los mensajes del grupo a partir de ese punto.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Vetar solicitudes",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "¿Vetar solicitudes?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ no podrá unirse a este grupo o solicitarlo vía enlace, pero esta persona podrá ser añadida al grupo manualmente.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Vetar solicitud",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Añadir foto de grupo",
@@ -6087,6 +6155,16 @@
     },
     "RemoveGroupMemberConfirmation__description": {
         "message": "¿Expulsar a $name$ del grupo?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "¿Vetar a $name$ del grupo? No podrá volver a unirse al grupo vía enlace.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6943,10 +7021,6 @@
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.34--1": {
-        "message": "¿Usas Signal con una conexión inestable? ¡No te preocupes más! Los cambios en la desaparición de mensajes y más detalles se enviarán cuando la conexión mejore.",
-        "description": "Release notes for v5.34"
-    },
     "WhatsNew__v5.35--1": {
         "message": "Hemos introducido un nuevo sistema de actualización de Signal que permite actualizaciones más compactas.",
         "description": "Release notes for v5.35"
@@ -6967,8 +7041,12 @@
         "message": "Cuando decides «Eliminar un mensaje del chat» para tod@s sus participantes verás un indicador de progreso haciéndote saber si se ha realizado con éxito o no. Si falla por cualquier razón, ¡podrás volver a intentarlo!",
         "description": "Release notes for v5.36"
     },
-    "WhatsNew__v5.36--3": {
-        "message": "Gracias a nuestr@s traductor@s voluntari@s, ¡hemos añadido compatibilidad con el Gaélico escocés!",
-        "description": "Release notes for v5.36"
+    "WhatsNew__v5.37--1": {
+        "message": "Mantenemos cortos los mensajes cortos, añadiendo las marcas de tiempo en la misma línea que el texto. Ahora tienes más espacio en la pantalla con ese «Hola» rápido para ver cómo está esa persona.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "¡Se acabaron los paquetes de stickers perdidos! ¡Ahora Desktop debería poder manejar todos los paquetes de stickers que tienes en tu teléfono!",
+        "description": "Release notes for v5.37"
     }
 }
