@@ -56,6 +56,7 @@ import {
 import { MediaEditor } from './MediaEditor';
 import { IMAGE_PNG } from '../types/MIME';
 import { isImageTypeSupported } from '../util/GoogleChrome';
+import * as KeyboardLayout from '../services/keyboardLayout';
 
 export type CompositionAPIType =
   | {
@@ -451,7 +452,8 @@ export const CompositionArea = ({
   // Listen for cmd/ctrl-shift-x to toggle large composition mode
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const { key, shiftKey, ctrlKey, metaKey } = e;
+      const { shiftKey, ctrlKey, metaKey } = e;
+      const key = KeyboardLayout.lookup(e);
       // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
       const xKey = key === 'x' || key === 'X';
       const commandKey = get(window, 'platform') === 'darwin' && metaKey;
