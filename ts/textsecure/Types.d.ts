@@ -85,7 +85,6 @@ export type ProcessedEnvelope = Readonly<{
   sourceDevice?: number;
   destinationUuid: UUID;
   timestamp: number;
-  legacyMessage?: Uint8Array;
   content?: Uint8Array;
   serverGuid: string;
   serverTimestamp: number;

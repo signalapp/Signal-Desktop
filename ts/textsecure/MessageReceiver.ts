@@ -313,7 +313,6 @@ export default class MessageReceiver
               )
             : ourUuid,
           timestamp: decoded.timestamp?.toNumber(),
-          legacyMessage: dropNull(decoded.legacyMessage),
           content: dropNull(decoded.content),
           serverGuid: decoded.serverGuid,
           serverTimestamp,
@@ -706,7 +705,6 @@ export default class MessageReceiver
           decoded.destinationUuid || item.destinationUuid || ourUuid.toString()
         ),
         timestamp: decoded.timestamp?.toNumber(),
-        legacyMessage: dropNull(decoded.legacyMessage),
         content: dropNull(decoded.content),
         serverGuid: decoded.serverGuid,
         serverTimestamp:
@@ -1124,14 +1122,9 @@ export default class MessageReceiver
 
       return;
     }
-    if (envelope.legacyMessage) {
-      await this.innerHandleLegacyMessage(envelope, plaintext);
-
-      return;
-    }
 
     this.removeFromCache(envelope);
-    throw new Error('Received message with no content and no legacyMessage');
+    throw new Error('Received message with no content');
   }
 
   private async unsealEnvelope(
@@ -1161,10 +1154,10 @@ export default class MessageReceiver
 
     strictAssert(uuidKind === UUIDKind.ACI, 'Sealed non-ACI envelope');
 
-    const ciphertext = envelope.content || envelope.legacyMessage;
+    const ciphertext = envelope.content;
     if (!ciphertext) {
       this.removeFromCache(envelope);
-      throw new Error('Received message with no content and no legacyMessage');
+      throw new Error('Received message with no content');
     }
 
     log.info(`MessageReceiver.unsealEnvelope(${logId}): unidentified message`);
@@ -1226,12 +1219,8 @@ export default class MessageReceiver
     }
 
     let ciphertext: Uint8Array;
-    let isLegacy = false;
     if (envelope.content) {
       ciphertext = envelope.content;
-    } else if (envelope.legacyMessage) {
-      ciphertext = envelope.legacyMessage;
-      isLegacy = true;
     } else {
       this.removeFromCache(envelope);
       strictAssert(
@@ -1240,9 +1229,7 @@ export default class MessageReceiver
       );
     }
 
-    log.info(
-      `MessageReceiver.decryptEnvelope(${logId})${isLegacy ? ' (legacy)' : ''}`
-    );
+    log.info(`MessageReceiver.decryptEnvelope(${logId})`);
     const plaintext = await this.decrypt(
       stores,
       envelope,
@@ -1252,11 +1239,6 @@ export default class MessageReceiver
 
     if (!plaintext) {
       log.warn('MessageReceiver.decryptEnvelope: plaintext was falsey');
-      return { plaintext, envelope };
-    }
-
-    // Legacy envelopes do not carry senderKeyDistributionMessage
-    if (isLegacy) {
       return { plaintext, envelope };
     }
 
@@ -1964,14 +1946,6 @@ export default class MessageReceiver
       this.removeFromCache.bind(this, envelope)
     );
     return this.dispatchAndWait(ev);
-  }
-
-  private async innerHandleLegacyMessage(
-    envelope: ProcessedEnvelope,
-    plaintext: Uint8Array
-  ) {
-    const message = Proto.DataMessage.decode(plaintext);
-    return this.handleDataMessage(envelope, message);
   }
 
   private async maybeUpdateTimestamp(
