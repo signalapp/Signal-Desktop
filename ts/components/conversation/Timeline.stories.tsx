@@ -417,6 +417,7 @@ const actions = () => ({
   unblurAvatar: action('unblurAvatar'),
 
   peekGroupCallForTheFirstTime: action('peekGroupCallForTheFirstTime'),
+  peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
 });
 
 const renderItem = ({
