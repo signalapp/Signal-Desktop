@@ -478,7 +478,7 @@ export async function downloadEphemeralPack(
     });
 
     const successfulStickerCount = jobResults.filter(item => item).length;
-    if (successfulStickerCount === 0) {
+    if (successfulStickerCount === 0 && nonCoverStickers.length !== 0) {
       throw new Error('downloadEphemeralPack: All stickers failed to download');
     }
   } catch (error) {
