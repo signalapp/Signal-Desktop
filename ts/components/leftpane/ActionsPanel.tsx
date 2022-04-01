@@ -53,6 +53,7 @@ import { SessionToastContainer } from '../SessionToastContainer';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 import { getLatestDesktopReleaseFileToFsV2 } from '../../session/apis/file_server_api/FileServerApiV2';
 import { ipcRenderer } from 'electron';
+import { UserUtils } from '../../session/utils';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -185,6 +186,9 @@ const setupTheme = () => {
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
 const triggerSyncIfNeeded = async () => {
+  await getConversationController()
+    .get(UserUtils.getOurPubKeyStrFromCache())
+    .setDidApproveMe(true, true);
   const didWeHandleAConfigurationMessageAlready =
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {

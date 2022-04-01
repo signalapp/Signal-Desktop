@@ -76,6 +76,22 @@ const callSlice = createSlice({
       state.callIsInFullScreen = false;
       return state;
     },
+    callReconnecting(state: CallStateType, action: PayloadAction<{ pubkey: string }>) {
+      const callerPubkey = action.payload.pubkey;
+      if (callerPubkey !== state.ongoingWith) {
+        window.log.info('cannot reconnect a call we did not start or receive first');
+        return state;
+      }
+      const existingCallState = state.ongoingCallStatus;
+
+      if (existingCallState !== 'ongoing') {
+        window.log.info('cannot reconnect a call we are not ongoing');
+        return state;
+      }
+
+      state.ongoingCallStatus = 'connecting';
+      return state;
+    },
     startingCallWith(state: CallStateType, action: PayloadAction<{ pubkey: string }>) {
       if (state.ongoingWith) {
         window.log.warn('cannot start a call with an ongoing call already: ongoingWith');
@@ -112,6 +128,7 @@ export const {
   endCall,
   answerCall,
   callConnected,
+  callReconnecting,
   startingCallWith,
   setFullScreenCall,
 } = actions;
