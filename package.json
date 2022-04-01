@@ -8,11 +8,12 @@
     "name": "Oxen Labs",
     "email": "team@oxen.io"
   },
+
   "repository": {
     "type": "git",
     "url": "https://github.com/oxen-io/session-desktop.git"
   },
-  "main": "dist/electron_main.js",
+  "main": "ts/mains/main_node.js",
   "scripts": {
     "postinstall": "yarn patch-package && yarn electron-builder install-app-deps",
     "start-prod": "cross-env NODE_ENV=dev NODE_APP_INSTANCE=devprod$MULTI electron .",
@@ -83,7 +84,7 @@
     "nan": "2.14.2",
     "node-fetch": "2.3.0",
     "node-sass": "6.0.1",
-    "os-locale": "6.0.2",
+    "os-locale": "5.0.0",
     "p-retry": "^4.2.0",
     "pify": "3.0.0",
     "protobufjs": "^6.11.2",

@@ -1,7 +1,7 @@
 // tslint:disable: no-console
 
 import { BrowserWindow, Menu } from 'electron';
-import { osLocaleSync } from 'os-locale';
+import { sync as osLocaleSync } from 'os-locale';
 
 export const setup = (browserWindow: BrowserWindow, messages: any) => {
   const { session } = browserWindow.webContents;

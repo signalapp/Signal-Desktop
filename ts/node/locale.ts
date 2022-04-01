@@ -13,7 +13,7 @@ function normalizeLocaleName(locale: string) {
 function getLocaleMessages(locale: string): LocaleMessagesType {
   const onDiskLocale = locale.replace('-', '_');
 
-  const targetFile = path.join(__dirname, '..', '_locales', onDiskLocale, 'messages.json');
+  const targetFile = path.join(__dirname, '..', '..', '_locales', onDiskLocale, 'messages.json');
 
   // tslint:disable-next-line: non-literal-fs-path
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));

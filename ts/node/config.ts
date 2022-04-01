@@ -14,7 +14,7 @@ if (electronIsDev) {
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = environment;
-process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', 'config');
+process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'config');
 
 if (environment === 'production') {
   // harden production config against the local env

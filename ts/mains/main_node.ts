@@ -28,6 +28,7 @@ import packageJson from '../../package.json'; // checked - only node
 
 setupGlobalErrorHandler();
 import electronLocalshortcut from 'electron-localshortcut';
+console;
 
 // tslint:disable: no-console
 
@@ -263,11 +264,11 @@ async function createWindow() {
     fullscreen: false as boolean | undefined,
     backgroundColor: '#000',
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       enableRemoteModule: true,
       nodeIntegrationInWorker: true,
       contextIsolation: false,
-      preload: path.join(__dirname, 'preload.bundled.js'),
+      preload: path.join(__dirname, '..', '..', 'preload.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
     },
@@ -367,7 +368,7 @@ async function createWindow() {
     }
   });
 
-  await mainWindow.loadURL(prepareURL([__dirname, '../background.html']));
+  await mainWindow.loadURL(prepareURL([__dirname, '..', '..', 'background.html']));
 
   if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
     // Open the DevTools.
@@ -486,7 +487,7 @@ async function showPasswordWindow() {
       contextIsolation: false,
 
       // sandbox: true,
-      preload: path.join(__dirname, 'password_preload.js'),
+      preload: path.join(__dirname, '..', 'password_preload.js'),
       nativeWindowOpen: true,
     },
     // don't setup icon, the executable one will be used by default
@@ -557,7 +558,7 @@ async function showAbout() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, 'about_preload.js'),
+      preload: path.join(__dirname, '..', 'about_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -605,7 +606,7 @@ async function showDebugLogWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, 'debug_log_preload.js'),
+      preload: path.join(__dirname, '..', 'debug_log_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,

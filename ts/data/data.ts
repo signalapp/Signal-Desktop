@@ -18,8 +18,10 @@ import { ReduxConversationType } from '../state/ducks/conversations';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Storage } from '../util/storage';
 import { channels } from './channels';
-import { createOrUpdateItem, getItemById } from './channelsItem';
+import { createOrUpdateItem, getAllItems, getItemById, removeItemById } from './channelsItem';
 import * as dataInit from './dataInit';
+
+export { createOrUpdateItem, getAllItems, getItemById, removeItemById };
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
