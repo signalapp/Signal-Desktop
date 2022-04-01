@@ -10,4 +10,4 @@ import { SessionPasswordPrompt } from '../components/SessionPasswordPrompt';
 // window.view.$el.prependTo($body);
 // className: 'password overlay',
 // Component: window.Signal.Components.SessionPasswordPrompt,
-window.ReactDOM.render(<SessionPasswordPrompt />, document.getElementById('app'));
+window.ReactDOM.render(<SessionPasswordPrompt />, document.getElementById('root'));

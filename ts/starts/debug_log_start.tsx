@@ -13,4 +13,4 @@ import { DebugLogView } from '../views/DebugLogView';
 // });
 
 // Whisper ?
-window.ReactDOM.render(<DebugLogView />, document.getElementById('app'));
+window.ReactDOM.render(<DebugLogView />, document.getElementById('root'));

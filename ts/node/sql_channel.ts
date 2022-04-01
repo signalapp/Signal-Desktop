@@ -43,10 +43,10 @@ export function initializeSqlChannel() {
   });
 
   console.warn('********* registering get-user-data-path');
-  ipcMain.on('get-user-data-path', () => {
+  ipcMain.handle('get-user-data-path', () => {
     return app.getPath('userData');
   });
-  ipcMain.on('get-data-path', () => {
+  ipcMain.handle('get-data-path', () => {
     return app.getAppPath();
   });
   initialized = true;

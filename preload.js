@@ -208,9 +208,9 @@ const { WorkerInterface } = require('./ts/node/util_worker_interface');
 
 // A Worker with a 3 minute timeout
 
-console.warn('app', require('electron/main').app);
-const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
-const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
+// console.warn('app', require('electron/main').app);
+// const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
+// const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
 
 window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 // Linux seems to periodically let the event loop stop, so this is a global workaround

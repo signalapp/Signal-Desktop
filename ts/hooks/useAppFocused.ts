@@ -26,11 +26,11 @@ export function useAppIsFocused() {
   }, []);
 
   useEffect(() => {
-    app.on('browser-window-focus', onFocusCallback);
-    app.on('browser-window-blur', onBlurCallback);
+    // app.on('browser-window-focus', onFocusCallback);
+    // app.on('browser-window-blur', onBlurCallback);
     return () => {
-      app.removeListener('browser-window-blur', onBlurCallback);
-      app.removeListener('browser-window-focus', onFocusCallback);
+      // app.removeListener('browser-window-blur', onBlurCallback);
+      // app.removeListener('browser-window-focus', onFocusCallback);
     };
   });
 

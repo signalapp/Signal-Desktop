@@ -264,7 +264,7 @@ async function createWindow() {
     fullscreen: false as boolean | undefined,
     backgroundColor: '#000',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       enableRemoteModule: true,
       nodeIntegrationInWorker: true,
       contextIsolation: false,
@@ -484,7 +484,7 @@ async function showPasswordWindow() {
       nodeIntegration: false,
       enableRemoteModule: true,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
+      contextIsolation: true,
 
       // sandbox: true,
       preload: path.join(__dirname, '..', 'password_preload.js'),

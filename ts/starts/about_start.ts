@@ -2,7 +2,7 @@
 
 // Add version and commit hash
 $('.version').text(`v${window.getVersion()}`);
-$('.commitHash').text(window.getCommitHash());
+$('.commitHash').text(window.getCommitHash() || '');
 
 // Add debugging metadata - environment if not production, app instance name
 const states = [];
@@ -17,10 +17,10 @@ if (window.getAppInstance()) {
 $('.environment').text(states.join(' - '));
 
 // Install the 'dismiss with escape key' handler
-$(document).on('keyup', e => {
-  'use strict';
+// $(document).on('keyup', e => {
+//   'use strict';
 
-  if (e.keyCode === 27) {
-    window.closeAbout();
-  }
-});
+//   if (e.keyCode === 27) {
+//     window.closeAbout();
+//   }
+// });

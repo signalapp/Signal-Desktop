@@ -10,12 +10,13 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
 import { isSignInByLinking, Storage } from '../util/storage';
-import jQuery from 'jquery';
 import * as Data from '../data/data';
 import Backbone from 'backbone';
 import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
 import { SessionInboxView } from '../components/SessionInboxView';
 import { deleteAllLogs } from '../node/logs';
+import ReactDOM from 'react-dom';
+import React from 'react';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -81,6 +82,7 @@ window.document.title = window.getTitle();
 // Whisper.events =
 // window.Whisper.events = WhisperEvents ?
 const WhisperEvents = _.clone(Backbone.Events);
+window.Whisper = window.Whisper || {};
 window.Whisper.events = WhisperEvents;
 window.log.info('Storage fetch');
 
@@ -227,17 +229,33 @@ async function start() {
     await connect();
   });
 
-  const appView = new AppView({
-    el: jQuery('body'),
-  });
+  function openInbox() {
+    const rtlLocales = ['fa', 'ar', 'he'];
 
+    const loc = (window.i18n as any).getLocale();
+    if (rtlLocales.includes(loc) && !document.getElementById('body')?.classList.contains('rtl')) {
+      document.getElementById('body')?.classList.add('rtl');
+    }
+    const hideMenuBar = Storage.get('hide-menu-bar', true) as boolean;
+    window.setAutoHideMenuBar(hideMenuBar);
+    window.setMenuBarVisibility(!hideMenuBar);
+    getConversationController()
+      .loadPromise()
+      ?.then(() => {
+        ReactDOM.render(<SessionInboxView />, document.getElementById('root'));
+      });
+  }
+
+  function openStandAlone() {
+    ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
+  }
   ExpirationTimerOptions.initExpiringMessageListener();
 
   if (Registration.isDone() && !isSignInByLinking()) {
     await connect();
-    appView.openInbox();
+    openInbox();
   } else {
-    appView.openStandalone();
+    openStandAlone();
   }
 
   window.addEventListener('focus', () => {
@@ -324,12 +342,12 @@ async function start() {
       // do not put the messageId here so the conversation is loaded on the last unread instead
       await window.openConversationWithMessages({ conversationKey, messageId: null });
     } else {
-      appView.openInbox();
+      openInbox();
     }
   };
 
   WhisperEvents.on('openInbox', () => {
-    appView.openInbox();
+    openInbox();
   });
 }
 
@@ -406,6 +424,7 @@ async function connect() {
     logger: window.log,
   });
 
+  window.textsecure = window.textsecure || {};
   window.textsecure.messaging = true;
 }
 
@@ -413,70 +432,6 @@ function onEmpty() {
   window.readyForUpdates();
 
   Notifications.enable();
-}
-
-class AppView extends Backbone.View {
-  private inboxView: any | null = null;
-  private standaloneView: any;
-
-  public initialize() {
-    this.inboxView = null;
-
-    const rtlLocales = ['fa', 'ar', 'he'];
-
-    const loc = (window.i18n as any).getLocale();
-    if (rtlLocales.includes(loc)) {
-      this.$el.addClass('rtl');
-    }
-    const hideMenuBar = Storage.get('hide-menu-bar', true) as boolean;
-    window.setAutoHideMenuBar(hideMenuBar);
-    window.setMenuBarVisibility(!hideMenuBar);
-  }
-  // events: {
-  //   openInbox: 'openInbox';
-  // };
-
-  public openView(view: any) {
-    // tslint:disable-next-line: no-inner-html
-    this.el.innerHTML = '';
-    this.el.append(view.el);
-    this.delegateEvents();
-  }
-
-  public openStandalone() {
-    this.resetViews();
-    this.standaloneView = SessionRegistrationView();
-    this.openView(this.standaloneView);
-  }
-
-  public closeStandalone() {
-    if (this.standaloneView) {
-      this.standaloneView.remove();
-      this.standaloneView = null;
-    }
-  }
-
-  public resetViews() {
-    this.closeStandalone();
-  }
-
-  public openInbox() {
-    if (!this.inboxView) {
-      this.inboxView = new SessionInboxView({
-        window,
-      });
-      return getConversationController()
-        .loadPromise()
-        ?.then(() => {
-          this.openView(this.inboxView);
-        });
-    }
-    if (!$.contains(this.el, this.inboxView.el)) {
-      this.openView(this.inboxView);
-    }
-    window.focus(); // FIXME
-    return Promise.resolve();
-  }
 }
 
 class TextScramble {
