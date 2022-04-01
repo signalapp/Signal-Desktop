@@ -69,17 +69,16 @@ export const SettingsCategoryPrivacy = (props: {
           description={window.i18n('mediaPermissionsDescription')}
           active={Boolean(window.getSettingValue('media-permissions'))}
         />
-        {window.sessionFeatureFlags.useCallMessage && (
-          <SessionToggleWithDescription
-            onClickToggle={async () => {
-              await toggleCallMediaPermissions(forceUpdate);
-              forceUpdate();
-            }}
-            title={window.i18n('callMediaPermissionsTitle')}
-            description={window.i18n('callMediaPermissionsDescription')}
-            active={Boolean(window.getCallMediaPermissions())}
-          />
-        )}
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await toggleCallMediaPermissions(forceUpdate);
+            forceUpdate();
+          }}
+          title={window.i18n('callMediaPermissionsTitle')}
+          description={window.i18n('callMediaPermissionsDescription')}
+          active={Boolean(window.getCallMediaPermissions())}
+        />
+
         <SessionToggleWithDescription
           onClickToggle={() => {
             const old = Boolean(window.getSettingValue(SettingsKey.settingsReadReceipt));
