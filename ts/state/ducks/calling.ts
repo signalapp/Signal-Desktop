@@ -1220,7 +1220,7 @@ function startCall(
   return async (dispatch, getState) => {
     switch (payload.callMode) {
       case CallMode.Direct:
-        calling.startOutgoingDirectCall(
+        await calling.startOutgoingDirectCall(
           payload.conversationId,
           payload.hasLocalAudio,
           payload.hasLocalVideo
