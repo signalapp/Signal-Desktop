@@ -46,6 +46,7 @@ import {
   setScrollBottom,
 } from '../../util/scrollUtil';
 import { LastSeenIndicator } from './LastSeenIndicator';
+import { MINUTE } from '../../util/durations';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -162,6 +163,7 @@ export type PropsActionsType = {
   onDelete: (conversationId: string) => unknown;
   onUnblock: (conversationId: string) => unknown;
   peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
+  peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
   removeMember: (conversationId: string) => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   clearSelectedMessage: () => unknown;
@@ -221,6 +223,7 @@ const getActions = createSelector(
       'onDelete',
       'onUnblock',
       'peekGroupCallForTheFirstTime',
+      'peekGroupCallIfItHasMembers',
       'removeMember',
       'selectMessage',
       'clearSelectedMessage',
@@ -281,6 +284,7 @@ export class Timeline extends React.Component<
 
   private hasRecentlyScrolledTimeout?: NodeJS.Timeout;
   private delayedPeekTimeout?: NodeJS.Timeout;
+  private peekInterval?: NodeJS.Timeout;
 
   override state: StateType = {
     hasRecentlyScrolled: true,
@@ -562,18 +566,27 @@ export class Timeline extends React.Component<
 
     this.delayedPeekTimeout = setTimeout(() => {
       const { id, peekGroupCallForTheFirstTime } = this.props;
+      this.delayedPeekTimeout = undefined;
       peekGroupCallForTheFirstTime(id);
     }, 500);
+
+    this.peekInterval = setInterval(() => {
+      const { id, peekGroupCallIfItHasMembers } = this.props;
+      peekGroupCallIfItHasMembers(id);
+    }, MINUTE);
   }
 
   public override componentWillUnmount(): void {
-    const { delayedPeekTimeout } = this;
+    const { delayedPeekTimeout, peekInterval } = this;
 
     window.unregisterForActive(this.markNewestBottomVisibleMessageRead);
 
     this.intersectionObserver?.disconnect();
 
     clearTimeoutIfNecessary(delayedPeekTimeout);
+    if (peekInterval) {
+      clearInterval(peekInterval);
+    }
   }
 
   public override getSnapshotBeforeUpdate(

@@ -102,7 +102,6 @@ export class RecorderClass {
 
   async stop(): Promise<Blob | undefined> {
     if (!this.recorder) {
-      log.warn('Recorder/stop: Called with no recorder');
       return;
     }
 
