@@ -26,7 +26,7 @@ const Password = (props: PasswordProps) => {
   const onClose = () => dispatch(recoveryPhraseModal(null));
 
   const confirmPassword = () => {
-    const passwordValue = jQuery('#seed-input-password').val();
+    const passwordValue = (document.getElementById('seed-input-password') as any)?.val();
     const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
@@ -145,7 +145,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => (jQuery('#seed-input-password') as any).focus(), 100);
+    setTimeout(() => (document.getElementById('seed-input-password') as any)?.focus(), 100);
     void checkHasPassword();
     void getRecoveryPhrase();
   }, []);

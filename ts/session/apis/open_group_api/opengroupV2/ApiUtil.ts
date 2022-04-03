@@ -11,6 +11,7 @@ import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';
 import { getAllRoomInfos } from './OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
 
 export type OpenGroupRequestCommonType = {
   serverUrl: string;
@@ -44,15 +45,15 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
 };
 
 export const TextToBase64 = async (text: string) => {
-  const arrayBuffer = await window.callWorker('bytesFromString', text);
+  const arrayBuffer = await callUtilsWorker('bytesFromString', text);
 
-  const base64 = await window.callWorker('arrayBufferToStringBase64', arrayBuffer);
+  const base64 = await callUtilsWorker('arrayBufferToStringBase64', arrayBuffer);
 
   return base64;
 };
 
 export const textToArrayBuffer = async (text: string) => {
-  return window.callWorker('bytesFromString', text);
+  return callUtilsWorker('bytesFromString', text);
 };
 
 export const verifyED25519Signature = async (
@@ -60,7 +61,7 @@ export const verifyED25519Signature = async (
   base64EncodedData: string,
   base64EncondedSignature: string
 ): Promise<Boolean> => {
-  return window.callWorker('verifySignature', pubkey, base64EncodedData, base64EncondedSignature);
+  return callUtilsWorker('verifySignature', pubkey, base64EncodedData, base64EncondedSignature);
 };
 
 export const parseMessages = async (
@@ -88,7 +89,7 @@ export const parseMessages = async (
       // Validate the message signature
       const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
 
-      const signatureValid = (await window.callWorker(
+      const signatureValid = (await callUtilsWorker(
         'verifySignature',
         senderPubKey,
         opengroupv2Message.base64EncodedData,

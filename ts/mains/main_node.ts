@@ -484,7 +484,7 @@ async function showPasswordWindow() {
       nodeIntegration: false,
       enableRemoteModule: true,
       nodeIntegrationInWorker: false,
-      contextIsolation: true,
+      contextIsolation: false,
 
       // sandbox: true,
       preload: path.join(__dirname, '..', 'password_preload.js'),

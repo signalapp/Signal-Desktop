@@ -12,6 +12,7 @@ import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/openg
 import { FSv2 } from '../session/apis/file_server_api';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 import { decryptAttachment } from '../util/crypto/attachmentsEncrypter';
+import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
 
 export async function downloadAttachment(attachment: {
   url: string;
@@ -61,11 +62,8 @@ export async function downloadAttachment(attachment: {
       throw new Error('Attachment expected size is 0');
     }
 
-    const keyBuffer = (await window.callWorker('fromBase64ToArrayBuffer', key)) as ArrayBuffer;
-    const digestBuffer = (await window.callWorker(
-      'fromBase64ToArrayBuffer',
-      digest
-    )) as ArrayBuffer;
+    const keyBuffer = (await callUtilsWorker('fromBase64ToArrayBuffer', key)) as ArrayBuffer;
+    const digestBuffer = (await callUtilsWorker('fromBase64ToArrayBuffer', digest)) as ArrayBuffer;
 
     data = await decryptAttachment(data, keyBuffer, digestBuffer);
 

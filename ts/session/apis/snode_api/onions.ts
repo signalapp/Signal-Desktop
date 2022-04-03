@@ -15,6 +15,7 @@ import { Snode } from '../../../data/data';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import { Onions } from '.';
 import { hrefPnServerDev, hrefPnServerProd } from '../push_notification_api/PnServer';
+import { callUtilsWorker } from '../../../webworker/workers/util_worker_interface';
 
 export const resetSnodeFailureCount = () => {
   snodeFailureCount = {};
@@ -51,7 +52,9 @@ async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<D
   const textEncoder = new TextEncoder();
   const plaintext = textEncoder.encode(reqStr);
 
-  return window.callWorker('encryptForPubkey', pubKeyX25519hex, plaintext);
+  return callUtilsWorker('encryptForPubkey', pubKeyX25519hex, plaintext) as Promise<
+    DestinationContext
+  >;
 }
 
 export type DestinationRelayV2 = {
@@ -79,7 +82,7 @@ async function encryptForRelayV2(
   };
 
   const plaintext = encodeCiphertextPlusJson(ctx.ciphertext, reqObj);
-  return window.callWorker('encryptForPubkey', relayX25519hex, plaintext);
+  return callUtilsWorker('encryptForPubkey', relayX25519hex, plaintext);
 }
 
 /// Encode ciphertext as (len || binary) and append payloadJson as utf8
@@ -389,13 +392,13 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
   } catch (e) {
     // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
   }
-  const ciphertextBuffer = await window.callWorker('fromBase64ToArrayBuffer', parsedCiphertext);
+  const ciphertextBuffer = await callUtilsWorker('fromBase64ToArrayBuffer', parsedCiphertext);
 
-  const plaintextBuffer = await window.callWorker(
+  const plaintextBuffer = (await callUtilsWorker(
     'DecryptAESGCM',
     new Uint8Array(symmetricKey),
     new Uint8Array(ciphertextBuffer)
-  );
+  )) as string;
 
   return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
 }
@@ -743,7 +746,11 @@ const sendOnionRequest = async ({
       const bodyEncoded = textEncoder.encode(body);
 
       const plaintext = encodeCiphertextPlusJson(bodyEncoded, options);
-      destCtx = await window.callWorker('encryptForPubkey', destX25519hex, plaintext);
+      destCtx = (await callUtilsWorker(
+        'encryptForPubkey',
+        destX25519hex,
+        plaintext
+      )) as DestinationContext;
     } else {
       destCtx = await encryptForPubKey(destX25519hex, options);
     }

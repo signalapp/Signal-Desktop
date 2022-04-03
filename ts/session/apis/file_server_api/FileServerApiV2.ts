@@ -1,3 +1,4 @@
+import { callUtilsWorker } from '../../../webworker/workers/util_worker_interface';
 import { OpenGroupV2Request } from '../open_group_api/opengroupV2/ApiUtil';
 import { sendApiV2Request } from '../open_group_api/opengroupV2/OpenGroupAPIV2';
 import { parseStatusCodeFromOnionRequest } from '../open_group_api/opengroupV2/OpenGroupAPIV2Parser';
@@ -35,7 +36,7 @@ export const uploadFileToFsV2 = async (
     return null;
   }
   const queryParams = {
-    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
+    file: await callUtilsWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const request: FileServerV2Request = {
@@ -99,7 +100,7 @@ export const downloadFileFromFSv2 = async (
   if (!base64Data) {
     return null;
   }
-  return window.callWorker('fromBase64ToArrayBuffer', base64Data);
+  return callUtilsWorker('fromBase64ToArrayBuffer', base64Data);
 };
 
 /**

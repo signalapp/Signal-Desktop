@@ -22,6 +22,7 @@ import { DURATION } from '../../../constants';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
 import { MIME } from '../../../../types';
 import { handleOpenGroupV2Message } from '../../../../receiver/opengroup';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
@@ -493,7 +494,7 @@ const handleBase64AvatarUpdate = async (
 
         const upgradedAttachment = await processNewAttachment({
           isRaw: true,
-          data: await window.callWorker('fromBase64ToArrayBuffer', res.base64),
+          data: await callUtilsWorker('fromBase64ToArrayBuffer', res.base64),
           contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.          // url: `${serverUrl}/${res.roomId}`,
         });
         // update the hash on the conversationModel

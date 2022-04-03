@@ -204,15 +204,8 @@ window.nodeSetImmediate = setImmediate;
 const data = require('./ts/data/dataInit');
 const { setupi18n } = require('./ts/util/i18n');
 window.Signal = data.initData();
-const { WorkerInterface } = require('./ts/node/util_worker_interface');
 
-// A Worker with a 3 minute timeout
 
-// console.warn('app', require('electron/main').app);
-// const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
-// const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
-
-window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
   // tslint:disable-next-line: no-empty

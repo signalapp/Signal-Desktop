@@ -186,8 +186,6 @@ export function initData() {
 
   channelsToMake.forEach(makeChannel);
 
-  console.warn('after initData channels', channels);
-
   ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (_event, jobId, errorForDisplay, result) => {
     const job = _getJob(jobId);
     if (!job) {

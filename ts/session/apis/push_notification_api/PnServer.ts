@@ -1,3 +1,4 @@
+import { callUtilsWorker } from '../../../webworker/workers/util_worker_interface';
 import { sendViaOnionToNonSnode } from '../../onions/onionSend';
 
 const pnServerPubkeyHex = '642a6585919742e5a2d4dc51244964fbcd8bcab2b75612407de58b810740d049';
@@ -11,7 +12,7 @@ export async function notifyPnServer(wrappedEnvelope: ArrayBuffer, sentTo: strin
   const options: ServerRequestOptionsType = {
     method: 'post',
     objBody: {
-      data: await window.callWorker('arrayBufferToStringBase64', wrappedEnvelope),
+      data: await callUtilsWorker('arrayBufferToStringBase64', wrappedEnvelope),
       send_to: sentTo,
     },
   };

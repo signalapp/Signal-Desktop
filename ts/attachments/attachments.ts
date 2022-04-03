@@ -8,7 +8,7 @@ import { isArrayBuffer, isString, map } from 'lodash';
 import {
   decryptAttachmentBuffer,
   encryptAttachmentBuffer,
-} from '../node/local_attachments_encrypter';
+} from '../util/local_attachments_encrypter';
 
 const PATH = 'attachments.noindex';
 

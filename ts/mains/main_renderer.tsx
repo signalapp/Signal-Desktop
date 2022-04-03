@@ -110,7 +110,6 @@ Storage.onready(async () => {
     return;
   }
   first = false;
-  console.warn('storage is ready');
   // Update zoom
   window.updateZoomFactor();
 

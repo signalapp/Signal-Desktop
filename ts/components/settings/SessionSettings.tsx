@@ -110,7 +110,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     const callMediaSetting = getCallMediaPermissionsSettings();
     this.setState({ mediaSetting, callMediaSetting });
 
-    setTimeout(() => (jQuery('#password-lock-input') as any).focus(), 100);
+    setTimeout(() => (document.getElementById('password-lock-input') as any)?.focus(), 100);
   }
 
   public componentWillUnmount() {
@@ -149,7 +149,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
   }
 
   public async validatePasswordLock() {
-    const enteredPassword = String(jQuery('#password-lock-input').val());
+    const enteredPassword = String((document.getElementById('password-lock-input') as any)?.val());
 
     if (!enteredPassword) {
       this.setState({
@@ -236,7 +236,9 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
   }
 
   private async onKeyUp(event: any) {
-    const lockPasswordFocussed = (jQuery('#password-lock-input') as any).is(':focus');
+    const lockPasswordFocussed = (document.getElementById('password-lock-input') as any)?.is(
+      ':focus'
+    );
 
     if (event.key === 'Enter' && lockPasswordFocussed) {
       await this.validatePasswordLock();

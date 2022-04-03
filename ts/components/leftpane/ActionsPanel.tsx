@@ -53,7 +53,6 @@ import { SessionToastContainer } from '../SessionToastContainer';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 import { getLatestDesktopReleaseFileToFsV2 } from '../../session/apis/file_server_api/FileServerApiV2';
 import { ipcRenderer } from 'electron';
-import { yo } from '../../webworker/master';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -259,8 +258,6 @@ const doAppStartUp = () => {
   void getSwarmPollingInstance().start();
 
   void loadDefaultRooms();
-
-  void yo();
 
   debounce(triggerAvatarReUploadIfNeeded, 200);
 };

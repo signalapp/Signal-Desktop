@@ -17,6 +17,7 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { isOpenGroupV2Request } from '../../file_server_api/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
 import pRetry from 'p-retry';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
 
 // used to be overwritten by testing
 export const getMinTimeout = () => 1000;
@@ -399,7 +400,7 @@ export const downloadFileOpenGroupV2 = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(await window.callWorker('fromBase64ToArrayBuffer', base64Data));
+  return new Uint8Array(await callUtilsWorker('fromBase64ToArrayBuffer', base64Data));
 };
 
 export const downloadFileOpenGroupV2ByUrl = async (
@@ -426,7 +427,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(await window.callWorker('fromBase64ToArrayBuffer', base64Data));
+  return new Uint8Array(await callUtilsWorker('fromBase64ToArrayBuffer', base64Data));
 };
 
 /**
@@ -472,7 +473,7 @@ export const uploadFileOpenGroupV2 = async (
     return null;
   }
   const queryParams = {
-    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
+    file: await callUtilsWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const filesEndpoint = 'files';
@@ -512,7 +513,7 @@ export const uploadImageForRoomOpenGroupV2 = async (
   }
 
   const queryParams = {
-    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
+    file: await callUtilsWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const imageEndpoint = `rooms/${roomInfos.roomId}/image`;
