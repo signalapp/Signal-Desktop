@@ -88,6 +88,10 @@
     -webkit-mask-size: 62%;
     background-color: var(--fg);
 
+    @media (forced-colors: active) {
+      background-color: WindowText;
+    }
+
     &--direct {
       -webkit-mask-image: url('../images/icons/v2/profile-outline-20.svg');
       -webkit-mask-size: 60%;

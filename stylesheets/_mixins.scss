@@ -173,20 +173,8 @@
     -webkit-mask-origin: $mask-origin;
   }
   background-color: $color;
-}
-
-@mixin header-icon-white($svg) {
-  @include color-svg($svg, $color-white-alpha-80);
-  &:focus,
-  &:hover {
-    @include color-svg($svg, $color-white);
-  }
-}
-@mixin header-icon-black($svg) {
-  @include color-svg($svg, $color-black-alpha-40);
-  &:focus,
-  &:hover {
-    @include color-svg($svg, black);
+  @media (forced-colors: active) {
+    background-color: WindowText;
   }
 }
 
@@ -220,6 +208,10 @@
 
 @mixin popper-shadow() {
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3), 0px 0px 8px rgba(0, 0, 0, 0.05);
+
+  @media (forced-colors: active) {
+    border: 1px solid WindowText;
+  }
 }
 
 @mixin button-reset {
@@ -232,6 +224,10 @@
   cursor: pointer;
   outline: inherit;
   text-align: inherit;
+
+  @media (forced-colors: active) {
+    border: 1px solid WindowText;
+  }
 }
 
 @mixin staged-attachment-close-button {

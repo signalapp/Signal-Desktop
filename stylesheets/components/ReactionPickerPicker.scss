@@ -123,6 +123,13 @@
         @include dark-theme {
           background: $color-gray-15;
         }
+
+        @media (forced-colors: active) {
+          background-color: WindowText;
+          @include dark-theme {
+            background: WindowText;
+          }
+        }
       }
     }
   }
