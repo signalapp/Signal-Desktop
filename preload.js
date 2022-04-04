@@ -1,8 +1,7 @@
-const { app, clipboard, ipcRenderer, webFrame } = require('electron/main');
+const { clipboard, ipcRenderer, webFrame } = require('electron/main');
 const { Storage } = require('./ts/util/storage');
 
 const url = require('url');
-const path = require('path');
 
 const config = url.parse(window.location.toString(), true).query;
 const configAny = config;
@@ -204,7 +203,6 @@ window.nodeSetImmediate = setImmediate;
 const data = require('./ts/data/dataInit');
 const { setupi18n } = require('./ts/util/i18n');
 window.Signal = data.initData();
-
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {

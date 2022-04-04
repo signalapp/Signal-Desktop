@@ -9,7 +9,7 @@ import { PubKey } from '../session/types';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
-import { concatUInt8Array, getSodium } from '../session/crypto';
+import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
 import { ECKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
@@ -142,7 +142,7 @@ export async function decryptWithSessionProtocol(
 
   const recipientX25519PublicKey = PubKey.remove05PrefixIfNeeded(hex);
 
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
   const signatureSize = sodium.crypto_sign_BYTES;
   const ed25519PublicKeySize = sodium.crypto_sign_PUBLICKEYBYTES;
 

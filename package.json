@@ -15,7 +15,7 @@
   "main": "ts/mains/main_node.js",
   "scripts": {
     "postinstall": "yarn patch-package && yarn electron-builder install-app-deps",
-    "start-prod": "cross-env NODE_ENV=dev NODE_APP_INSTANCE=devprod$MULTI electron .",
+    "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
     "grunt": "yarn clean-transpile  && grunt",
     "generate": "yarn grunt --force",
     "build-release": "run-script-os",

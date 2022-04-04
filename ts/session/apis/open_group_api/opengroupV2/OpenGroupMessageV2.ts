@@ -1,3 +1,4 @@
+import { sign } from 'curve25519-js';
 import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
 import { UserUtils } from '../../../utils';
 import { fromBase64ToArray } from '../../../utils/String';
@@ -60,10 +61,7 @@ export class OpenGroupMessageV2 {
     }
 
     const data = fromBase64ToArray(this.base64EncodedData);
-    const signature = await window.libsignal.Curve.async.calculateSignature(
-      ourKeyPair.privKey,
-      data.buffer
-    );
+    const signature = sign(new Uint8Array(ourKeyPair.privKey), data, null);
     if (!signature || signature.length === 0) {
       throw new Error("Couldn't sign message");
     }

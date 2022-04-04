@@ -398,7 +398,7 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
     'DecryptAESGCM',
     new Uint8Array(symmetricKey),
     new Uint8Array(ciphertextBuffer)
-  )) as string;
+  )) as ArrayBuffer;
 
   return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
 }

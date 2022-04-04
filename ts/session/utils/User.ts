@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { UserUtils } from '.';
 import { getItemById } from '../../../ts/data/data';
-import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
 import { LokiProfile } from '../../types/Message';
 import { getNumber, Storage } from '../../util/storage';
+import { SessionKeyPair } from '../../receiver/keypairs';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -48,12 +48,12 @@ export function getOurPubKeyFromCache(): PubKey {
   return PubKey.cast(ourNumber);
 }
 
-let cachedIdentityKeyPair: KeyPair | undefined;
+let cachedIdentityKeyPair: SessionKeyPair | undefined;
 
 /**
  * This return the stored x25519 identity keypair for the current logged in user
  */
-export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
+export async function getIdentityKeyPair(): Promise<SessionKeyPair | undefined> {
   if (cachedIdentityKeyPair) {
     return cachedIdentityKeyPair;
   }

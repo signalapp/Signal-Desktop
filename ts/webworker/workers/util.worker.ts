@@ -1,69 +1,18 @@
 import ByteBuffer from 'bytebuffer';
 import { generateKeyPair, sharedKey, verify } from 'curve25519-js';
 import { default as sodiumWrappers } from 'libsodium-wrappers-sumo';
+import {
+  decryptAttachmentBufferNode,
+  encryptAttachmentBufferNode,
+} from '../../node/encrypt_attachment_buffer';
 
-async function getSodium() {
+async function getSodiumWorker() {
   await sodiumWrappers.ready;
+
   return sodiumWrappers;
 }
 
-export async function decryptAttachmentBuffer(encryptingKey: Uint8Array, bufferIn: ArrayBuffer) {
-  const sodium = await getSodium();
-
-  const header = new Uint8Array(
-    bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
-  );
-
-  const encryptedBuffer = new Uint8Array(
-    bufferIn.slice(sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
-  );
-  try {
-    /* Decrypt the stream: initializes the state, using the key and a header */
-    const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(header, encryptingKey);
-    // what if ^ this call fail (? try to load as a unencrypted attachment?)
-
-    const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(state, encryptedBuffer);
-    // we expect the final tag to be there. If not, we might have an issue with this file
-    // maybe not encrypted locally?
-    if (messageTag.tag === sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL) {
-      return messageTag.message;
-    }
-  } catch (e) {
-    // tslint:disable: no-console
-    console.error('Failed to load the file as an encrypted one', e);
-  }
-  return new Uint8Array();
-}
-
-export async function encryptAttachmentBuffer(encryptingKey: Uint8Array, bufferIn: ArrayBuffer) {
-  const sodium = await getSodium();
-
-  try {
-    const uintArrayIn = new Uint8Array(bufferIn);
-
-    /* Set up a new stream: initialize the state and create the header */
-    const { state, header } = sodium.crypto_secretstream_xchacha20poly1305_init_push(encryptingKey);
-    /* Now, encrypt the buffer. */
-    const bufferOut = sodium.crypto_secretstream_xchacha20poly1305_push(
-      state,
-      uintArrayIn,
-      null,
-      sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
-    );
-
-    const encryptedBufferWithHeader = new Uint8Array(bufferOut.length + header.length);
-    encryptedBufferWithHeader.set(header);
-    encryptedBufferWithHeader.set(bufferOut, header.length);
-
-    return { encryptedBufferWithHeader, header };
-  } catch (e) {
-    console.error('encryptAttachmentBuffer error: ', e);
-
-    return null;
-  }
-}
-
-/* global dcodeIO, Internal, libsignal */
+/* global dcodeIO, Internal */
 /* eslint-disable no-console */
 /* eslint-disable strict */
 
@@ -75,13 +24,13 @@ const functions = {
   DecryptAESGCM,
   deriveSymmetricKey,
   encryptForPubkey,
-  decryptAttachmentBuffer,
-  encryptAttachmentBuffer,
+  decryptAttachmentBufferNode,
+  encryptAttachmentBufferNode,
   bytesFromString,
 };
 // tslint:disable: function-name
 
-onmessage = async e => {
+onmessage = async (e: any) => {
   const [jobId, fnName, ...args] = e.data;
 
   try {
@@ -189,7 +138,7 @@ async function deriveSymmetricKey(x25519PublicKey: Uint8Array, x25519PrivateKey:
 }
 
 async function generateEphemeralKeyPair() {
-  const ran = (await getSodium()).randombytes_buf(32);
+  const ran = (await getSodiumWorker()).randombytes_buf(32);
   const keys = generateKeyPair(ran);
   return keys;
   // Signal protocol prepends with "0x05"

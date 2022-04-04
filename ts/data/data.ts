@@ -12,7 +12,7 @@ import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
-import { getSodium } from '../session/crypto';
+import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { ReduxConversationType } from '../state/ducks/conversations';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
@@ -137,7 +137,7 @@ export async function updateGuardNodes(nodes: Array<string>): Promise<void> {
 export async function generateAttachmentKeyIfEmpty() {
   const existingKey = await getItemById('local_attachment_encrypted_key');
   if (!existingKey) {
-    const sodium = await getSodium();
+    const sodium = await getSodiumRenderer();
     const encryptingKey = sodium.to_hex(sodium.randombytes_buf(32));
     await createOrUpdateItem({
       id: 'local_attachment_encrypted_key',

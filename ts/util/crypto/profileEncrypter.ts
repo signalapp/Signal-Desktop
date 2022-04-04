@@ -1,4 +1,4 @@
-import { getSodium } from '../../session/crypto';
+import { getSodiumRenderer } from '../../session/crypto';
 
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
@@ -39,7 +39,7 @@ export async function decryptProfile(data: ArrayBuffer, key: ArrayBuffer): Promi
 }
 
 async function getRandomBytesFromLength(n: number) {
-  return (await getSodium()).randombytes_buf(n);
+  return (await getSodiumRenderer()).randombytes_buf(n);
 }
 
 export async function encryptProfile(data: ArrayBuffer, key: ArrayBuffer): Promise<ArrayBuffer> {

@@ -10,7 +10,7 @@ import * as fse from 'fs-extra';
 import { DURATION } from '../constants';
 import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';
 import { getAttachmentPath } from '../../types/MessageAttachment';
-import { decryptAttachmentBuffer } from '../../util/local_attachments_encrypter';
+import { decryptAttachmentBufferRenderer } from '../../util/local_attachments_encrypter';
 
 const urlToDecryptedBlobMap = new Map<
   string,
@@ -85,7 +85,9 @@ export const getDecryptedMediaUrl = async (
           window.log.info('about to read and decrypt file :', url);
           try {
             const encryptedFileContent = await fse.readFile(url);
-            const decryptedContent = await decryptAttachmentBuffer(encryptedFileContent.buffer);
+            const decryptedContent = await decryptAttachmentBufferRenderer(
+              encryptedFileContent.buffer
+            );
             if (decryptedContent?.length) {
               const arrayBuffer = decryptedContent.buffer;
               const obj = makeObjectUrl(arrayBuffer, contentType);

@@ -26,7 +26,6 @@ components/**
 js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-libtextsecure/libsignal-protocol.js
 js/util_worker.js
 libtextsecure/test/blanket_mocha.js
 mnemonic_languages/**

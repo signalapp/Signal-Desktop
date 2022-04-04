@@ -274,10 +274,10 @@ const CallContainer = () => {
 
 async function fetchReleaseFromFSAndUpdateMain() {
   try {
-    window.log.warn('[updater] about to fetchReleaseFromFSAndUpdateMain');
+    window.log.info('[updater] about to fetchReleaseFromFSAndUpdateMain');
 
     const latest = await getLatestDesktopReleaseFileToFsV2();
-    window.log.warn('[updater] fetched latest release from fsv2: ', latest);
+    window.log.info('[updater] fetched latest release from fsv2: ', latest);
 
     if (isString(latest) && !isEmpty(latest)) {
       ipcRenderer.send('set-release-from-file-server', latest);

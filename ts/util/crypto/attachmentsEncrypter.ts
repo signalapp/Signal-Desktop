@@ -1,6 +1,50 @@
-const { encrypt, decrypt, calculateMAC, verifyMAC } = window.libsignal.crypto;
 // tslint:disable: binary-expression-operand-order
 // tslint:disable: restrict-plus-operands
+// tslint:disable: no-function-expression
+
+async function sign(key: any, data: any) {
+  return crypto.subtle
+    .importKey('raw', key, { name: 'HMAC', hash: { name: 'SHA-256' } }, false, ['sign'])
+    .then(async function(secondKey: any) {
+      return crypto.subtle.sign({ name: 'HMAC', hash: 'SHA-256' }, secondKey, data);
+    });
+}
+
+async function encrypt(key: any, data: any, iv: any) {
+  return crypto.subtle
+    .importKey('raw', key, { name: 'AES-CBC' }, false, ['encrypt'])
+    .then(async function(secondKey: any) {
+      return crypto.subtle.encrypt({ name: 'AES-CBC', iv: new Uint8Array(iv) }, secondKey, data);
+    });
+}
+async function decrypt(key: any, data: any, iv: any) {
+  return crypto.subtle
+    .importKey('raw', key, { name: 'AES-CBC' }, false, ['decrypt'])
+    .then(async function(secondKey: any) {
+      return crypto.subtle.decrypt({ name: 'AES-CBC', iv: new Uint8Array(iv) }, secondKey, data);
+    });
+}
+async function calculateMAC(key: any, data: any) {
+  return sign(key, data);
+}
+async function verifyMAC(data: any, key: any, mac: any, length: any) {
+  // tslint:disable-next-line: variable-name
+  return sign(key, data).then(function(calculated_mac) {
+    if (mac.byteLength !== length || calculated_mac.byteLength < length) {
+      throw new Error('Bad MAC length');
+    }
+    const a = new Uint8Array(calculated_mac);
+    const b = new Uint8Array(mac);
+    let result = 0;
+    for (let i = 0; i < mac.byteLength; ++i) {
+      // tslint:disable-next-line: no-bitwise
+      result = result | (a[i] ^ b[i]);
+    }
+    if (result !== 0) {
+      throw new Error('Bad MAC');
+    }
+  });
+}
 
 async function verifyDigest(data: ArrayBuffer, theirDigest: ArrayBuffer) {
   return crypto.subtle.digest({ name: 'SHA-256' }, data).then(ourDigest => {
@@ -70,7 +114,7 @@ export async function encryptAttachment(
   const aesKey = keys.slice(0, 32);
   const macKey = keys.slice(32, 64);
 
-  return encrypt(aesKey, plaintext, iv).then((ciphertext: any) => {
+  return encrypt(aesKey, plaintext, iv).then(async (ciphertext: any) => {
     const ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
     ivAndCiphertext.set(new Uint8Array(iv));
     ivAndCiphertext.set(new Uint8Array(ciphertext), 16);

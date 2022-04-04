@@ -1,9 +1,9 @@
 import { isArrayBuffer } from 'lodash';
 import { fromHexToArray } from '../session/utils/String';
-// import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
+import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
 import { getItemById } from '../data/channelsItem';
 
-export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
+export const encryptAttachmentBufferRenderer = async (bufferIn: ArrayBuffer) => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
@@ -14,10 +14,12 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
     );
   }
   const encryptingKey = fromHexToArray(key);
-  return callUtilsWorker('encryptAttachmentBuffer', encryptingKey, bufferIn);
+  return callUtilsWorker('encryptAttachmentBufferNode', encryptingKey, bufferIn);
 };
 
-export const decryptAttachmentBuffer = async (bufferIn: ArrayBuffer): Promise<Uint8Array> => {
+export const decryptAttachmentBufferRenderer = async (
+  bufferIn: ArrayBuffer
+): Promise<Uint8Array> => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
@@ -28,5 +30,5 @@ export const decryptAttachmentBuffer = async (bufferIn: ArrayBuffer): Promise<Ui
     );
   }
   const encryptingKey = fromHexToArray(key);
-  return callUtilsWorker('decryptAttachmentBuffer', encryptingKey, bufferIn);
+  return callUtilsWorker('decryptAttachmentBufferNode', encryptingKey, bufferIn);
 };

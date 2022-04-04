@@ -1,9 +1,9 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { PubKey } from '../types';
-import { concatUInt8Array, getSodium, MessageEncrypter } from '.';
+import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '.';
 import { fromHexToArray } from '../utils/String';
-export { concatUInt8Array, getSodium };
+export { concatUInt8Array, getSodiumRenderer };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import { UserUtils } from '../utils';
 import { addMessagePadding } from './BufferPadding';
@@ -73,7 +73,7 @@ export async function encryptUsingSessionProtocol(
   ) {
     throw new Error("Couldn't find user ED25519 key pair.");
   }
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
 
   // window?.log?.info('encryptUsingSessionProtocol for ', recipientHexEncodedX25519PublicKey.key);
 

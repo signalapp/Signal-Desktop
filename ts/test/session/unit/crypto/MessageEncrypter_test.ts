@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
-import { concatUInt8Array, getSodium, MessageEncrypter } from '../../../../session/crypto';
+import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '../../../../session/crypto';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { TestUtils } from '../../../test-utils';
 import { SignalService } from '../../../../protobuf';
@@ -179,7 +179,7 @@ describe('MessageEncrypter', () => {
     it('should pass the correct data for sodium crypto_sign', async () => {
       const keypair = await UserUtils.getUserED25519KeyPair();
       const recipient = TestUtils.generateFakePubKey();
-      const sodium = await getSodium();
+      const sodium = await getSodiumRenderer();
       const cryptoSignDetachedSpy = sandboxSessionProtocol.spy(sodium, 'crypto_sign_detached');
       const plainText = '123456';
       const plainTextBytes = new Uint8Array(StringUtils.encode(plainText, 'utf8'));
@@ -220,7 +220,7 @@ describe('MessageEncrypter', () => {
 
       const plainTextBytes = new Uint8Array(StringUtils.encode('123456789', 'utf8'));
 
-      const sodium = await getSodium();
+      const sodium = await getSodiumRenderer();
 
       const recipientX25519PrivateKey = userX25519KeyPair!.privKey;
       const recipientX25519PublicKeyHex = toHex(userX25519KeyPair!.pubKey);

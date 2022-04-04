@@ -1,7 +1,6 @@
 import {} from 'styled-components/cssprop';
 
 import { LocalizerType } from '../ts/types/Util';
-import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 
 import { Store } from 'redux';
 
@@ -35,7 +34,6 @@ declare global {
     setSettingValue: (id: string, value: any) => void;
 
     i18n: LocalizerType;
-    libsignal: LibsignalProtocol;
     log: any;
     sessionFeatureFlags: {
       useOnionRequests: boolean;

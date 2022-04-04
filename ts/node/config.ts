@@ -31,8 +31,7 @@ if (environment === 'production') {
 }
 
 // We load config after we've made our modifications to NODE_ENV
-import c from 'config';
-
+const c = require('config');
 (c as any).environment = environment;
 
 // Log resulting env vars in use by config

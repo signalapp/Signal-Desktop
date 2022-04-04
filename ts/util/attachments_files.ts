@@ -1,40 +1,18 @@
 import crypto from 'crypto';
 import path from 'path';
 
-import pify from 'pify';
-import { default as glob } from 'glob';
 import fse from 'fs-extra';
-import { isArrayBuffer, isString, map } from 'lodash';
+import { isArrayBuffer, isBuffer, isString } from 'lodash';
 import {
-  decryptAttachmentBuffer,
-  encryptAttachmentBuffer,
-} from '../util/local_attachments_encrypter';
+  decryptAttachmentBufferRenderer,
+  encryptAttachmentBufferRenderer,
+} from './local_attachments_encrypter';
 
-const PATH = 'attachments.noindex';
+if (window) {
+}
 
-export const getAllAttachments = async (userDataPath: string) => {
-  const dir = getPath(userDataPath);
-  const pattern = path.join(dir, '**', '*');
-
-  const files = await pify(glob)(pattern, { nodir: true });
-  return map(files, file => path.relative(dir, file));
-};
-
-//      getPath :: AbsolutePath -> AbsolutePath
-export const getPath = (userDataPath: string) => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  return path.join(userDataPath, PATH);
-};
-
-//      ensureDirectory :: AbsolutePath -> IO Unit
-export const ensureDirectory = async (userDataPath: string) => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  await fse.ensureDir(getPath(userDataPath));
-};
+// to me, this file is only used in the renderer
+// import { decryptAttachmentBuffer, encryptAttachmentBuffer } from './encrypt_attachment_buffer';
 
 //      createReader :: AttachmentsPath ->
 //                      RelativePath ->
@@ -54,8 +32,11 @@ export const createReader = (root: string) => {
       throw new Error('Invalid relative path');
     }
     const buffer = await fse.readFile(normalized);
+    if (!isBuffer(buffer)) {
+      throw new TypeError("'bufferIn' must be a buffer");
+    }
 
-    const decryptedData = await decryptAttachmentBuffer(buffer.buffer);
+    const decryptedData = await decryptAttachmentBufferRenderer(buffer.buffer);
 
     return decryptedData.buffer;
   };
@@ -86,7 +67,7 @@ export const createWriterForNew = (root: string) => {
 //      createWriter :: AttachmentsPath ->
 //                      { data: ArrayBuffer, path: RelativePath } ->
 //                      IO (Promise RelativePath)
-export const createWriterForExisting = (root: string) => {
+const createWriterForExisting = (root: string) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
@@ -110,7 +91,13 @@ export const createWriterForExisting = (root: string) => {
     }
 
     await fse.ensureFile(normalized);
-    const { encryptedBufferWithHeader } = await encryptAttachmentBuffer(arrayBuffer);
+    if (!isArrayBuffer(arrayBuffer)) {
+      throw new TypeError("'bufferIn' must be an array buffer");
+    }
+
+    const { encryptedBufferWithHeader } = (await encryptAttachmentBufferRenderer(
+      arrayBuffer
+    )) as any;
     const buffer = Buffer.from(encryptedBufferWithHeader.buffer);
 
     await fse.writeFile(normalized, buffer);
@@ -119,56 +106,14 @@ export const createWriterForExisting = (root: string) => {
   };
 };
 
-//      createDeleter :: AttachmentsPath ->
-//                       RelativePath ->
-//                       IO Unit
-export const createDeleter = (root: string) => {
-  if (!isString(root)) {
-    throw new TypeError("'root' must be a path");
-  }
-
-  return async (relativePath: string) => {
-    if (!isString(relativePath)) {
-      throw new TypeError("'relativePath' must be a string");
-    }
-
-    const absolutePath = path.join(root, relativePath);
-    const normalized = path.normalize(absolutePath);
-    if (!normalized.startsWith(root)) {
-      throw new Error('Invalid relative path');
-    }
-    await fse.remove(absolutePath);
-  };
-};
-
-export const deleteAll = async ({
-  userDataPath,
-  attachments,
-}: {
-  userDataPath: string;
-  attachments: any;
-}) => {
-  const deleteFromDisk = createDeleter(getPath(userDataPath));
-
-  // tslint:disable-next-line: one-variable-per-declaration
-  for (let index = 0, max = attachments.length; index < max; index += 1) {
-    const file = attachments[index];
-    // eslint-disable-next-line no-await-in-loop
-    await deleteFromDisk(file);
-  }
-
-  // tslint:disable-next-line: no-console
-  console.log(`deleteAll: deleted ${attachments.length} files`);
-};
-
 //      createName :: Unit -> IO String
-export const createName = () => {
+const createName = () => {
   const buffer = crypto.randomBytes(32);
   return buffer.toString('hex');
 };
 
 //      getRelativePath :: String -> Path
-export const getRelativePath = (name: string) => {
+const getRelativePath = (name: string) => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
   }

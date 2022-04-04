@@ -2,11 +2,10 @@ import { ipcRenderer } from 'electron';
 import { isArrayBuffer, isEmpty, isUndefined, omit } from 'lodash';
 import {
   createAbsolutePathGetter,
-  createDeleter,
   createReader,
   createWriterForNew,
-  getPath,
-} from '../attachments/attachments';
+} from '../util/attachments_files';
+import { createDeleter, getAttachmentsPath } from '../shared/attachments/shared_attachments';
 import {
   autoOrientJPEGAttachment,
   captureDimensionsAndScreenshot,
@@ -27,6 +26,8 @@ import {
 // upgrade: _mapAttachments(captureDimensionsAndScreenshot),
 // upgrade: _mapAttachments(replaceUnicodeV2),
 // upgrade: _mapPreviewAttachments(migrateDataToFileSystem),
+
+// I think this is only used on the renderer side, but how?!
 
 export const deleteExternalMessageFiles = async (message: {
   attachments: any;
@@ -99,7 +100,7 @@ export async function initializeAttachmentLogic() {
   if (!userDataPath || userDataPath.length <= 10) {
     throw new Error('userDataPath cannot have length <= 10');
   }
-  attachmentsPath = getPath(userDataPath);
+  attachmentsPath = getAttachmentsPath(userDataPath);
   internalReadAttachmentData = createReader(attachmentsPath);
   internalGetAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   internalDeleteOnDisk = createDeleter(attachmentsPath);
