@@ -1724,9 +1724,6 @@ export class SignalProtocolStore extends EventsMixin {
     if (!validateVerifiedStatus(verifiedStatus)) {
       throw new Error('setVerified: Invalid verified status');
     }
-    if (arguments.length > 2 && !(publicKey instanceof Uint8Array)) {
-      throw new Error('setVerified: Invalid public key');
-    }
 
     const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
 
