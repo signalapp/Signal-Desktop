@@ -60,6 +60,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   removeLinkPreview: action('removeLinkPreview'),
   skinTone: 0,
   theme: React.useContext(StorybookThemeContext),
+  regionCode: 'US',
 });
 
 story.add('Modal', () => {

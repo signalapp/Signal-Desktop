@@ -37,6 +37,7 @@ import {
   MAX_WIDTH,
   getWidthFromPreferredWidth,
 } from '../util/leftPaneWidth';
+import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
@@ -97,8 +98,6 @@ export type PropsType = {
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
   createGroup: () => void;
-  startNewConversationFromPhoneNumber: (e164: string) => void;
-  startNewConversationFromUsername: (username: string) => void;
   openConversationInternal: (_: {
     conversationId: string;
     messageId?: string;
@@ -140,7 +139,9 @@ export type PropsType = {
   ) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
-};
+
+  showConversation: (conversationId: string) => void;
+} & LookupConversationWithoutUuidActionsType;
 
 export const LeftPane: React.FC<PropsType> = ({
   challengeStatus,
@@ -181,12 +182,14 @@ export const LeftPane: React.FC<PropsType> = ({
   showInbox,
   startComposing,
   startSearch,
-  startNewConversationFromPhoneNumber,
-  startNewConversationFromUsername,
+  showUserNotFoundModal,
+  setIsFetchingUUID,
+  lookupConversationWithoutUuid,
+  toggleConversationInChooseMembers,
+  showConversation,
   startSettingGroupMetadata,
   theme,
   toggleComposeEditingAvatar,
-  toggleConversationInChooseMembers,
   updateSearchTerm,
 }) => {
   const [preferredWidth, setPreferredWidth] = useState(
@@ -599,6 +602,10 @@ export const LeftPane: React.FC<PropsType> = ({
                         throw missingCaseError(disabledReason);
                     }
                   }}
+                  showUserNotFoundModal={showUserNotFoundModal}
+                  setIsFetchingUUID={setIsFetchingUUID}
+                  lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+                  showConversation={showConversation}
                   onSelectConversation={onSelectConversation}
                   renderMessageSearchResult={renderMessageSearchResult}
                   rowCount={helper.getRowCount()}
@@ -607,12 +614,6 @@ export const LeftPane: React.FC<PropsType> = ({
                   scrollable={isScrollable}
                   shouldRecomputeRowHeights={shouldRecomputeRowHeights}
                   showChooseGroupMembers={showChooseGroupMembers}
-                  startNewConversationFromPhoneNumber={
-                    startNewConversationFromPhoneNumber
-                  }
-                  startNewConversationFromUsername={
-                    startNewConversationFromUsername
-                  }
                   theme={theme}
                 />
               </div>

@@ -4765,6 +4765,11 @@ button.module-image__border-overlay:focus {
           }
         }
       }
+
+      &__spinner__container {
+        margin-left: 16px;
+        margin-right: 16px;
+      }
     }
 
     &--header {

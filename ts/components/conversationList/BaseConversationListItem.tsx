@@ -29,6 +29,7 @@ export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
 const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
+const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
 
 type PropsType = {
   checked?: boolean;
@@ -113,7 +114,12 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     let actionNode: ReactNode;
     if (shouldShowSpinner) {
       actionNode = (
-        <Spinner size="20px" svgSize="small" direction="on-progress-dialog" />
+        <Spinner
+          size="20px"
+          svgSize="small"
+          moduleClassName={SPINNER_CLASS_NAME}
+          direction="on-progress-dialog"
+        />
       );
     } else if (isCheckbox) {
       let ariaLabel: string;

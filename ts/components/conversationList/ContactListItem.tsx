@@ -30,6 +30,7 @@ export type ContactListItemConversationType = Pick<
   | 'title'
   | 'type'
   | 'unblurredAvatarPath'
+  | 'e164'
 >;
 
 type PropsDataType = ContactListItemConversationType & {

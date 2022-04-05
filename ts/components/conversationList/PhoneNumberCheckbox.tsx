@@ -1,43 +1,46 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ButtonVariant } from '../Button';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { BaseConversationListItem } from './BaseConversationListItem';
-
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
+import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
 
-type PropsData = {
+export type PropsDataType = {
   phoneNumber: ParsedE164Type;
+  isChecked: boolean;
   isFetching: boolean;
 };
 
-type PropsHousekeeping = {
+type PropsHousekeepingType = {
   i18n: LocalizerType;
-  showConversation: (conversationId: string) => void;
+  theme: ThemeType;
+  toggleConversationInChooseMembers: (conversationId: string) => void;
 } & LookupConversationWithoutUuidActionsType;
 
-export type Props = PropsData & PropsHousekeeping;
+type PropsType = PropsDataType & PropsHousekeepingType;
 
-export const StartNewConversation: FunctionComponent<Props> = React.memo(
-  function StartNewConversation({
-    i18n,
+export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
+  function PhoneNumberCheckbox({
     phoneNumber,
+    isChecked,
     isFetching,
+    theme,
+    i18n,
     lookupConversationWithoutUuid,
     showUserNotFoundModal,
     setIsFetchingUUID,
-    showConversation,
+    toggleConversationInChooseMembers,
   }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const boundOnClick = useCallback(async () => {
+    const onClickItem = React.useCallback(async () => {
       if (!phoneNumber.isValid) {
         setIsModalVisible(true);
         return;
@@ -45,6 +48,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       if (isFetching) {
         return;
       }
+
       const conversationId = await lookupConversationWithoutUuid({
         showUserNotFoundModal,
         setIsFetchingUUID,
@@ -55,16 +59,16 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       });
 
       if (conversationId !== undefined) {
-        showConversation(conversationId);
+        toggleConversationInChooseMembers(conversationId);
       }
     }, [
-      showConversation,
+      isFetching,
+      toggleConversationInChooseMembers,
       lookupConversationWithoutUuid,
       showUserNotFoundModal,
       setIsFetchingUUID,
       setIsModalVisible,
       phoneNumber,
-      isFetching,
     ]);
 
     let modal: JSX.Element | undefined;
@@ -87,15 +91,17 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       <>
         <BaseConversationListItem
           acceptedMessageRequest={false}
+          checked={isChecked}
           color={AvatarColors[0]}
           conversationType="direct"
           headerName={phoneNumber.userInput}
           i18n={i18n}
           isMe={false}
           isSelected={false}
-          onClick={boundOnClick}
+          onClick={onClickItem}
           phoneNumber={phoneNumber.userInput}
           shouldShowSpinner={isFetching}
+          theme={theme}
           sharedGroupNames={[]}
           title={phoneNumber.userInput}
         />

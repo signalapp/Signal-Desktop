@@ -15,7 +15,7 @@ import { Intl } from '../../../Intl';
 import { Emojify } from '../../Emojify';
 import { ContactName } from '../../ContactName';
 
-type PropsType = {
+export type StatePropsType = {
   groupTitle: string;
   i18n: LocalizerType;
   makeRequest: () => void;
@@ -23,6 +23,8 @@ type PropsType = {
   requestState: RequestState;
   selectedContacts: ReadonlyArray<ConversationType>;
 };
+
+type PropsType = StatePropsType;
 
 export const ConfirmAdditionsModal: FunctionComponent<PropsType> = ({
   groupTitle,

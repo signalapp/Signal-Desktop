@@ -1637,6 +1637,18 @@
     "updated": "2020-09-11T17:24:56.124Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/fuse.js/dist/fuse.basic.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-31T19:50:28.622Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/fuse.js/dist/fuse.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-31T19:50:28.622Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
     "line": "function load() {",

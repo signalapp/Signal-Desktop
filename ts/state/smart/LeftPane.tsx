@@ -9,6 +9,7 @@ import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
 import { LeftPane, LeftPaneMode } from '../../components/LeftPane';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
+import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
@@ -32,11 +33,11 @@ import {
   getComposeGroupName,
   getComposerConversationSearchTerm,
   getComposerStep,
+  getComposerUUIDFetchState,
   getComposeSelectedContacts,
   getFilteredCandidateContactsForNewGroup,
   getFilteredComposeContacts,
   getFilteredComposeGroups,
-  getIsFetchingUsername,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
   getRecommendedGroupSizeModalState,
@@ -141,7 +142,7 @@ const getModeSpecificProps = (
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         isUsernamesEnabled: getUsernamesEnabled(state),
-        isFetchingUsername: getIsFetchingUsername(state),
+        uuidFetchState: getComposerUUIDFetchState(state),
       };
     case ComposerStep.ChooseGroupMembers:
       return {
@@ -152,8 +153,10 @@ const getModeSpecificProps = (
           OneTimeModalState.Showing,
         isShowingMaximumGroupSizeModal:
           getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+        regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
+        uuidFetchState: getComposerUUIDFetchState(state),
       };
     case ComposerStep.SetGroupMetadata:
       return {
@@ -192,6 +195,7 @@ const mapStateToProps = (state: StateType) => {
     renderUpdateDialog,
     renderCaptchaDialog,
     renderCrashReportDialog,
+    lookupConversationWithoutUuid,
     theme: getTheme(state),
   };
 };

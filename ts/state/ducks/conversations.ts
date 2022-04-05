@@ -21,15 +21,13 @@ import { getOwn } from '../../util/getOwn';
 import { assert, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
-import type {
-  ShowUsernameNotFoundModalActionType,
-  ToggleProfileEditorErrorActionType,
-} from './globalModals';
-import {
-  TOGGLE_PROFILE_EDITOR_ERROR,
-  actions as globalModalActions,
-} from './globalModals';
+import type { ToggleProfileEditorErrorActionType } from './globalModals';
+import { TOGGLE_PROFILE_EDITOR_ERROR } from './globalModals';
 import { isRecord } from '../../util/isRecord';
+import type {
+  UUIDFetchStateKeyType,
+  UUIDFetchStateType,
+} from '../../util/uuidFetchState';
 
 import type {
   AvatarColorType,
@@ -45,7 +43,6 @@ import type { BodyRangeType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
-import { UUID } from '../../types/UUID';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -57,7 +54,6 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
 import { writeUsername } from '../../services/writeUsername';
 import {
-  getConversationsByUsername,
   getConversationIdsStoppingSend,
   getConversationIdsStoppedForVerification,
   getMe,
@@ -76,8 +72,6 @@ import {
 } from './conversationsEnums';
 import { showToast } from '../../util/showToast';
 import { ToastFailedToDeleteUsername } from '../../components/ToastFailedToDeleteUsername';
-import { ToastFailedToFetchUsername } from '../../components/ToastFailedToFetchUsername';
-import { isValidUsername } from '../../types/Username';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
@@ -288,20 +282,16 @@ export type ConversationVerificationData =
       canceledAt: number;
     };
 
-export type FoundUsernameType = {
-  uuid: UUIDStringType;
-  username: string;
-};
-
 type ComposerStateType =
   | {
       step: ComposerStep.StartDirectConversation;
       searchTerm: string;
-      isFetchingUsername: boolean;
+      uuidFetchState: UUIDFetchStateType;
     }
   | ({
       step: ComposerStep.ChooseGroupMembers;
       searchTerm: string;
+      uuidFetchState: UUIDFetchStateType;
     } & ComposerGroupCreationState)
   | ({
       step: ComposerStep.SetGroupMetadata;
@@ -677,10 +667,11 @@ type SetComposeSearchTermActionType = {
   type: 'SET_COMPOSE_SEARCH_TERM';
   payload: { searchTerm: string };
 };
-type SetIsFetchingUsernameActionType = {
-  type: 'SET_IS_FETCHING_USERNAME';
+type SetIsFetchingUUIDActionType = {
+  type: 'SET_IS_FETCHING_UUID';
   payload: {
-    isFetchingUsername: boolean;
+    identifier: UUIDFetchStateKeyType;
+    isFetching: boolean;
   };
 };
 type SetRecentMediaItemsActionType = {
@@ -773,7 +764,7 @@ export type ConversationActionType =
   | SetComposeGroupNameActionType
   | SetComposeSearchTermActionType
   | SetConversationHeaderTitleActionType
-  | SetIsFetchingUsernameActionType
+  | SetIsFetchingUUIDActionType
   | SetIsNearBottomActionType
   | SetMessageLoadingStateActionType
   | SetPreJoinConversationActionType
@@ -840,6 +831,7 @@ export const actions = {
   setComposeGroupExpireTimer,
   setComposeGroupName,
   setComposeSearchTerm,
+  setIsFetchingUUID,
   setIsNearBottom,
   setMessageLoadingState,
   setPreJoinConversation,
@@ -849,9 +841,8 @@ export const actions = {
   showArchivedConversations,
   showChooseGroupMembers,
   showInbox,
+  showConversation,
   startComposing,
-  startNewConversationFromPhoneNumber,
-  startNewConversationFromUsername,
   startSettingGroupMetadata,
   toggleAdmin,
   toggleConversationInChooseMembers,
@@ -1661,6 +1652,18 @@ function setIsNearBottom(
     },
   };
 }
+function setIsFetchingUUID(
+  identifier: UUIDFetchStateKeyType,
+  isFetching: boolean
+): SetIsFetchingUUIDActionType {
+  return {
+    type: 'SET_IS_FETCHING_UUID',
+    payload: {
+      identifier,
+      isFetching,
+    },
+  };
+}
 function setSelectedConversationHeaderTitle(
   title?: string
 ): SetConversationHeaderTitleActionType {
@@ -1770,117 +1773,6 @@ function startComposing(): StartComposingActionType {
 
 function showChooseGroupMembers(): ShowChooseGroupMembersActionType {
   return { type: 'SHOW_CHOOSE_GROUP_MEMBERS' };
-}
-
-function startNewConversationFromPhoneNumber(
-  e164: string
-): ThunkAction<void, RootStateType, unknown, ShowInboxActionType> {
-  return dispatch => {
-    trigger('showConversation', e164);
-
-    dispatch(showInbox());
-  };
-}
-
-async function checkForUsername(
-  username: string
-): Promise<FoundUsernameType | undefined> {
-  if (!isValidUsername(username)) {
-    return undefined;
-  }
-
-  try {
-    const profile = await window.textsecure.messaging.getProfileForUsername(
-      username
-    );
-
-    if (!profile.uuid) {
-      log.error("checkForUsername: Returned profile didn't include a uuid");
-      return;
-    }
-
-    return {
-      uuid: UUID.cast(profile.uuid),
-      username,
-    };
-  } catch (error: unknown) {
-    if (!isRecord(error)) {
-      throw error;
-    }
-
-    if (error.code === 404) {
-      return undefined;
-    }
-
-    throw error;
-  }
-}
-
-function startNewConversationFromUsername(
-  username: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  | ShowInboxActionType
-  | SetIsFetchingUsernameActionType
-  | ShowUsernameNotFoundModalActionType
-> {
-  return async (dispatch, getState) => {
-    const state = getState();
-
-    const byUsername = getConversationsByUsername(state);
-    const knownConversation = getOwn(byUsername, username);
-    if (knownConversation && knownConversation.uuid) {
-      trigger('showConversation', knownConversation.uuid, username);
-      dispatch(showInbox());
-      return;
-    }
-
-    dispatch({
-      type: 'SET_IS_FETCHING_USERNAME',
-      payload: {
-        isFetchingUsername: true,
-      },
-    });
-
-    try {
-      const foundUsername = await checkForUsername(username);
-      dispatch({
-        type: 'SET_IS_FETCHING_USERNAME',
-        payload: {
-          isFetchingUsername: false,
-        },
-      });
-
-      if (!foundUsername) {
-        dispatch(globalModalActions.showUsernameNotFoundModal(username));
-        return;
-      }
-
-      trigger(
-        'showConversation',
-        foundUsername.uuid,
-        undefined,
-        foundUsername.username
-      );
-      dispatch(showInbox());
-    } catch (error) {
-      log.error(
-        'startNewConversationFromUsername: Something went wrong fetching username:',
-        error.stack
-      );
-
-      dispatch({
-        type: 'SET_IS_FETCHING_USERNAME',
-        payload: {
-          isFetchingUsername: false,
-        },
-      });
-
-      showToast(ToastFailedToFetchUsername);
-    }
-  };
 }
 
 function startSettingGroupMetadata(): StartSettingGroupMetadataActionType {
@@ -2027,6 +1919,14 @@ function showInbox(): ShowInboxActionType {
   return {
     type: 'SHOW_INBOX',
     payload: null,
+  };
+}
+function showConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, ShowInboxActionType> {
+  return dispatch => {
+    trigger('showConversation', conversationId);
+    dispatch(showInbox());
   };
 }
 function showArchivedConversations(): ShowArchivedConversationsActionType {
@@ -3060,7 +2960,7 @@ export function reducer(
       composer: {
         step: ComposerStep.StartDirectConversation,
         searchTerm: '',
-        isFetchingUsername: false,
+        uuidFetchState: {},
       },
     };
   }
@@ -3103,6 +3003,7 @@ export function reducer(
       composer: {
         step: ComposerStep.ChooseGroupMembers,
         searchTerm: '',
+        uuidFetchState: {},
         selectedConversationIds,
         recommendedGroupSizeModalState,
         maximumGroupSizeModalState,
@@ -3235,26 +3136,36 @@ export function reducer(
     };
   }
 
-  if (action.type === 'SET_IS_FETCHING_USERNAME') {
+  if (action.type === 'SET_IS_FETCHING_UUID') {
     const { composer } = state;
     if (!composer) {
       assert(
         false,
-        'Setting compose username with the composer closed is a no-op'
+        'Setting compose uuid fetch state with the composer closed is a no-op'
       );
       return state;
     }
-    if (composer.step !== ComposerStep.StartDirectConversation) {
-      assert(false, 'Setting compose username at this step is a no-op');
+    if (
+      composer.step !== ComposerStep.StartDirectConversation &&
+      composer.step !== ComposerStep.ChooseGroupMembers
+    ) {
+      assert(false, 'Setting compose uuid fetch state at this step is a no-op');
       return state;
     }
-    const { isFetchingUsername } = action.payload;
+    const { identifier, isFetching } = action.payload;
+
+    const { uuidFetchState } = composer;
 
     return {
       ...state,
       composer: {
         ...composer,
-        isFetchingUsername,
+        uuidFetchState: isFetching
+          ? {
+              ...composer.uuidFetchState,
+              [identifier]: isFetching,
+            }
+          : omit(uuidFetchState, identifier),
       },
     };
   }

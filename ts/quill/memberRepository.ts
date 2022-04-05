@@ -1,10 +1,10 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Fuse from 'fuse.js';
+import { get } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import { getOwn } from '../util/getOwn';
 import { filter, map } from '../util/iterables';
 
 const FUSE_OPTIONS = {
@@ -16,10 +16,10 @@ const FUSE_OPTIONS = {
   keys: ['name', 'firstName', 'profileName', 'title'],
   getFn(
     conversation: Readonly<ConversationType>,
-    path: string
+    path: string | Array<string>
   ): ReadonlyArray<string> | string {
     // It'd be nice to avoid this cast, but Fuse's types don't allow it.
-    const rawValue = getOwn(conversation as Record<string, unknown>, path);
+    const rawValue = get(conversation as Record<string, unknown>, path);
 
     if (typeof rawValue !== 'string') {
       // It might make more sense to return `undefined` here, but [Fuse's types don't
@@ -78,7 +78,7 @@ export class MemberRepository {
       this.isFuseReady = true;
     }
 
-    const results = this.fuse.search(`${pattern}`);
+    const results = this.fuse.search(pattern).map(result => result.item);
 
     if (omit) {
       return results.filter(({ id }) => id !== omit.id);

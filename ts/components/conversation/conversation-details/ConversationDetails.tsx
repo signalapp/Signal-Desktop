@@ -8,6 +8,8 @@ import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
 import { assert } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
@@ -59,7 +61,6 @@ export type StateProps = {
   areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
   canEditGroupInfo: boolean;
-  candidateContactsToAdd: Array<ConversationType>;
   conversation?: ConversationType;
   hasGroupLink: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -97,6 +98,12 @@ export type StateProps = {
   setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
   onOutgoingAudioCallInConversation: () => unknown;
   onOutgoingVideoCallInConversation: () => unknown;
+  renderChooseGroupMembersModal: (
+    props: SmartChooseGroupMembersModalPropsType
+  ) => JSX.Element;
+  renderConfirmAdditionsModal: (
+    props: SmartConfirmAdditionsModalPropsType
+  ) => JSX.Element;
 };
 
 type ActionProps = {
@@ -115,7 +122,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   areWeASubscriber,
   badges,
   canEditGroupInfo,
-  candidateContactsToAdd,
   conversation,
   deleteAvatarFromDisk,
   hasGroupLink,
@@ -133,6 +139,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   onUnblock,
   pendingApprovalMemberships,
   pendingMemberships,
+  renderChooseGroupMembersModal,
+  renderConfirmAdditionsModal,
   replaceAvatar,
   saveAvatarToDisk,
   searchInConversation,
@@ -228,7 +236,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     case ModalState.AddingGroupMembers:
       modalNode = (
         <AddGroupMembersModal
-          candidateContacts={candidateContactsToAdd}
+          renderChooseGroupMembersModal={renderChooseGroupMembersModal}
+          renderConfirmAdditionsModal={renderConfirmAdditionsModal}
           clearRequestError={() => {
             setAddGroupMembersRequestState(oldRequestState => {
               assert(
@@ -241,7 +250,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           conversationIdsAlreadyInGroup={
             new Set(memberships.map(membership => membership.member.id))
           }
-          getPreferredBadge={getPreferredBadge}
           groupTitle={conversation.title}
           i18n={i18n}
           makeRequest={async conversationIds => {
@@ -265,7 +273,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             setEditGroupAttributesRequestState(RequestState.Inactive);
           }}
           requestState={addGroupMembersRequestState}
-          theme={theme}
         />
       );
       break;

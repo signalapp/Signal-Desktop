@@ -109,7 +109,7 @@
     "focus-trap-react": "8.8.1",
     "form-data": "4.0.0",
     "fs-extra": "5.0.0",
-    "fuse.js": "3.4.4",
+    "fuse.js": "6.5.3",
     "glob": "7.1.6",
     "google-libphonenumber": "3.2.27",
     "got": "11.8.2",

@@ -38,9 +38,11 @@ describe('filterAndSortConversationsByTitle', () => {
   ];
 
   it('without a search term, sorts conversations by title (but puts no-name contacts at the bottom)', () => {
-    const titles = filterAndSortConversationsByTitle(conversations, '').map(
-      contact => contact.title
-    );
+    const titles = filterAndSortConversationsByTitle(
+      conversations,
+      '',
+      'US'
+    ).map(contact => contact.title);
     assert.deepEqual(titles, [
       'Aaron Aardvark',
       'Belinda Beetle',
@@ -53,7 +55,8 @@ describe('filterAndSortConversationsByTitle', () => {
   it('can search for contacts by title', () => {
     const titles = filterAndSortConversationsByTitle(
       conversations,
-      'belind'
+      'belind',
+      'US'
     ).map(contact => contact.title);
     assert.sameMembers(titles, ['Belinda Beetle', 'Belinda Zephyr']);
   });
@@ -61,15 +64,26 @@ describe('filterAndSortConversationsByTitle', () => {
   it('can search for contacts by phone number (and puts no-name contacts at the bottom)', () => {
     const titles = filterAndSortConversationsByTitle(
       conversations,
-      '650555'
+      '650555',
+      'US'
     ).map(contact => contact.title);
     assert.sameMembers(titles, ['Carlos Santana', '+16505551234']);
+  });
+
+  it('can search for contacts by formatted phone number (and puts no-name contacts at the bottom)', () => {
+    const titles = filterAndSortConversationsByTitle(
+      conversations,
+      '(650)555 12-34',
+      'US'
+    ).map(contact => contact.title);
+    assert.sameMembers(titles, ['+16505551234']);
   });
 
   it('can search for contacts by username', () => {
     const titles = filterAndSortConversationsByTitle(
       conversations,
-      'thisis'
+      'thisis',
+      'US'
     ).map(contact => contact.title);
     assert.sameMembers(titles, ['Carlos Santana']);
   });
@@ -100,9 +114,11 @@ describe('filterAndSortConversationsByRecent', () => {
   ];
 
   it('sorts by recency when no search term is provided', () => {
-    const titles = filterAndSortConversationsByRecent(conversations, '').map(
-      contact => contact.title
-    );
+    const titles = filterAndSortConversationsByRecent(
+      conversations,
+      '',
+      'US'
+    ).map(contact => contact.title);
     assert.sameMembers(titles, [
       '+16505551234',
       'George Washington',

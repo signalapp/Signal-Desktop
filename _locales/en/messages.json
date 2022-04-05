@@ -824,8 +824,12 @@
     "description": "Shown to separate the types of search results"
   },
   "findByUsernameHeader": {
-    "message": "Find by Username",
-    "description": "Shown to separate the types of search results"
+    "message": "Find by username",
+    "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
+  },
+  "findByPhoneNumberHeader": {
+    "message": "Find by phone number",
+    "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
   },
   "at-username": {
     "message": "@$username$",
@@ -2352,6 +2356,10 @@
     "message": "Failed to fetch username. Check your connection and try again.",
     "description": "Shown if request to Signal servers to find username fails"
   },
+  "Toast--failed-to-fetch-phone-number": {
+    "message": "Failed to fetch phone number. Check your connection and try again.",
+    "description": "Shown if request to Signal servers to find phone number fails"
+  },
   "startConversation--username-not-found": {
     "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
@@ -2359,6 +2367,26 @@
       "atUsername": {
         "content": "$1",
         "example": "@alex"
+      }
+    }
+  },
+  "startConversation--phone-number-not-found": {
+    "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+    "description": "Shown in dialog if phone number is not found.",
+    "placeholders": {
+      "phoneNumber": {
+        "content": "$1",
+        "example": "+1 203-123-4567"
+      }
+    }
+  },
+  "startConversation--phone-number-not-valid": {
+    "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+    "description": "Shown in dialog if phone number is not valid.",
+    "placeholders": {
+      "phoneNumber": {
+        "content": "$1",
+        "example": "+1 203-123-4567"
       }
     }
   },

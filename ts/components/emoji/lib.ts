@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Camelcase disabled due to emoji-datasource using snake_case
@@ -220,15 +220,12 @@ export function getImagePath(
 const fuse = new Fuse(data, {
   shouldSort: true,
   threshold: 0.2,
-  maxPatternLength: 32,
   minMatchCharLength: 1,
-  tokenize: true,
-  tokenSeparator: /[-_\s]+/,
   keys: ['short_name', 'name'],
 });
 
 export function search(query: string, count = 0): Array<EmojiData> {
-  const results = fuse.search(query.substr(0, 32));
+  const results = fuse.search(query.substr(0, 32)).map(result => result.item);
 
   if (count) {
     return take(results, count);

@@ -1,6 +1,7 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import React from 'react';
 import { connect } from 'react-redux';
 
 import type { StateType } from '../reducer';
@@ -8,7 +9,6 @@ import { mapDispatchToProps } from '../actions';
 import type { StateProps } from '../../components/conversation/conversation-details/ConversationDetails';
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
-  getCandidateContactsForNewGroup,
   getConversationByIdSelector,
   getConversationByUuidSelector,
 } from '../selectors/conversations';
@@ -24,6 +24,10 @@ import {
 import { assert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
+import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal';
+import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal';
+import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal';
+import { SmartConfirmAdditionsModal } from './ConfirmAdditionsModal';
 
 export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
@@ -56,6 +60,18 @@ export type SmartConversationDetailsProps = {
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
+const renderChooseGroupMembersModal = (
+  props: SmartChooseGroupMembersModalPropsType
+) => {
+  return <SmartChooseGroupMembersModal {...props} />;
+};
+
+const renderConfirmAdditionsModal = (
+  props: SmartConfirmAdditionsModalPropsType
+) => {
+  return <SmartConfirmAdditionsModal {...props} />;
+};
+
 const mapStateToProps = (
   state: StateType,
   props: SmartConversationDetailsProps
@@ -69,7 +85,6 @@ const mapStateToProps = (
 
   const canEditGroupInfo = Boolean(conversation.canEditGroupInfo);
   const isAdmin = Boolean(conversation.areWeAdmin);
-  const candidateContactsToAdd = getCandidateContactsForNewGroup(state);
 
   const hasGroupLink =
     Boolean(conversation.groupLink) &&
@@ -88,7 +103,6 @@ const mapStateToProps = (
     areWeASubscriber: getAreWeASubscriber(state),
     badges,
     canEditGroupInfo,
-    candidateContactsToAdd,
     conversation: {
       ...conversation,
       ...getConversationColorAttributes(conversation),
@@ -102,6 +116,8 @@ const mapStateToProps = (
     hasGroupLink,
     isGroup: conversation.type === 'group',
     theme: getTheme(state),
+    renderChooseGroupMembersModal,
+    renderConfirmAdditionsModal,
   };
 };
 

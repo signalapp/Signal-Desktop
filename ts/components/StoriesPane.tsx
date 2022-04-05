@@ -1,25 +1,27 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { isNotNil } from '../util/isNotNil';
 import type { ConversationStoryType, StoryViewType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
 
-const FUSE_OPTIONS: FuseOptions<ConversationStoryType> = {
+const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (obj, path) => {
     if (path === 'searchNames') {
-      return obj.stories.flatMap((story: StoryViewType) => [
-        story.sender.title,
-        story.sender.name,
-      ]);
+      return obj.stories
+        .flatMap((story: StoryViewType) => [
+          story.sender.title,
+          story.sender.name,
+        ])
+        .filter(isNotNil);
     }
 
-    return obj.group?.title;
+    return obj.group?.title ?? '';
   },
   keys: [
     {
@@ -32,16 +34,15 @@ const FUSE_OPTIONS: FuseOptions<ConversationStoryType> = {
     },
   ],
   threshold: 0.1,
-  tokenize: true,
 };
 
 function search(
   stories: ReadonlyArray<ConversationStoryType>,
   searchTerm: string
 ): Array<ConversationStoryType> {
-  return new Fuse<ConversationStoryType>(stories, FUSE_OPTIONS).search(
-    searchTerm
-  );
+  return new Fuse<ConversationStoryType>(stories, FUSE_OPTIONS)
+    .search(searchTerm)
+    .map(result => result.item);
 }
 
 function getNewestStory(story: ConversationStoryType): StoryViewType {

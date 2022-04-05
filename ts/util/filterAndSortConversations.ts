@@ -1,16 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 
 import type { ConversationType } from '../state/ducks/conversations';
+import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 
-const FUSE_OPTIONS: FuseOptions<ConversationType> = {
+const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
-  threshold: 0.05,
-  tokenize: true,
+  threshold: 0.1,
+  useExtendedSearch: true,
   keys: [
     {
       name: 'searchableTitle',
@@ -37,21 +37,45 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
 
 const collator = new Intl.Collator();
 
+const cachedIndices = new WeakMap<
+  ReadonlyArray<ConversationType>,
+  Fuse<ConversationType>
+>();
+
+// See https://fusejs.io/examples.html#extended-search for
+// extended search documentation.
 function searchConversations(
   conversations: ReadonlyArray<ConversationType>,
-  searchTerm: string
+  searchTerm: string,
+  regionCode: string | undefined
 ): Array<ConversationType> {
-  return new Fuse<ConversationType>(conversations, FUSE_OPTIONS).search(
-    searchTerm
-  );
+  const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
+
+  // Escape the search term
+  let extendedSearchTerm = searchTerm;
+
+  // OR phoneNumber
+  if (phoneNumber) {
+    extendedSearchTerm += ` | ${phoneNumber.e164}`;
+  }
+
+  let index = cachedIndices.get(conversations);
+  if (!index) {
+    index = new Fuse<ConversationType>(conversations, FUSE_OPTIONS);
+    cachedIndices.set(conversations, index);
+  }
+
+  const results = index.search(extendedSearchTerm);
+  return results.map(result => result.item);
 }
 
 export function filterAndSortConversationsByRecent(
   conversations: ReadonlyArray<ConversationType>,
-  searchTerm: string
+  searchTerm: string,
+  regionCode: string | undefined
 ): Array<ConversationType> {
   if (searchTerm.length) {
-    return searchConversations(conversations, searchTerm);
+    return searchConversations(conversations, searchTerm, regionCode);
   }
 
   return conversations.concat().sort((a, b) => {
@@ -65,10 +89,11 @@ export function filterAndSortConversationsByRecent(
 
 export function filterAndSortConversationsByTitle(
   conversations: ReadonlyArray<ConversationType>,
-  searchTerm: string
+  searchTerm: string,
+  regionCode: string | undefined
 ): Array<ConversationType> {
   if (searchTerm.length) {
-    return searchConversations(conversations, searchTerm);
+    return searchConversations(conversations, searchTerm, regionCode);
   }
 
   return conversations.concat().sort((a, b) => {
