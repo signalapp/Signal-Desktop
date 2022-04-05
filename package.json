@@ -411,6 +411,7 @@
     "beforeBuild": "scripts/install-cross-deps.js",
     "afterPack": "ts/scripts/after-pack.js",
     "afterSign": "ts/scripts/after-sign.js",
+    "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
     "asarUnpack": [
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
     ],

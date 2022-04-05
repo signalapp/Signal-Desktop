@@ -52,7 +52,6 @@ export async function afterSign({
   console.log(`  username: ${appleId}`);
   console.log(`  file: ${appPath}`);
 
-  // eslint-disable-next-line no-await-in-loop
   await notarize({
     appBundleId,
     appPath,
