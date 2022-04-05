@@ -138,7 +138,7 @@ function maybeParseUrl(href: string, base: string): null | URL {
 
 /**
  * Parses a Content-Type header value. Refer to [RFC 2045][0] for details (though this is
- * a simplified version for link previews.
+ * a simplified version for link previews).
  * [0]: https://tools.ietf.org/html/rfc2045
  */
 const parseContentType = (headerValue: string | null): ParsedContentType => {
@@ -416,8 +416,8 @@ const parseMetadata = (
 };
 
 /**
- * This attempts to fetch link preview metadata, returning `null` if it cannot be found
- * for any reason.
+ * This attempts to fetch link preview metadata, resolving with `null` if it cannot
+ * be found for any reason.
  *
  * NOTE: This does NOT validate the incoming URL for safety. For example, it may fetch an
  * insecure HTTP href. It also does not offer a timeout; that is up to the caller.
@@ -528,7 +528,7 @@ export async function fetchLinkPreviewMetadata(
 }
 
 /**
- * This attempts to fetch an image, returning `null` if it fails for any reason.
+ * This attempts to fetch an image, resolving with `null` if it fails for any reason.
  *
  * NOTE: This does NOT validate the incoming URL for safety. For example, it may fetch an
  * insecure HTTP href. It also does not offer a timeout; that is up to the caller.
