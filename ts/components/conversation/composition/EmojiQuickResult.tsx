@@ -28,7 +28,7 @@ export const searchEmojiForQuery = (query: string): Array<SuggestionDataItem> =>
   if (query.length === 0 || !emojiIndex) {
     return [];
   }
-  const results1 = emojiIndex.search(":"+query) || [];
+  const results1 = emojiIndex.search(`:${query}`) || [];
   const results2 = emojiIndex.search(query) || [];
   const results = [...new Set(results1.concat(results2))];
   if (!results || !results.length) {
