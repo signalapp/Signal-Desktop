@@ -231,9 +231,9 @@ const { locale: localFromEnv } = config;
 window.i18n = setupi18n(localFromEnv, localeMessages);
 
 window.addEventListener('contextmenu', e => {
-  const editable = (e?.target).closest('textarea, input, [contenteditable="true"]');
-  const link = (e?.target).closest('a');
-  const selection = Boolean(window?.getSelection()?.toString());
+  const editable = e && e.target.closest('textarea, input, [contenteditable="true"]');
+  const link = e && e.target.closest('a');
+  const selection = Boolean(window && window.getSelection() && window.getSelection().toString());
   if (!editable && !selection && !link) {
     e.preventDefault();
   }
