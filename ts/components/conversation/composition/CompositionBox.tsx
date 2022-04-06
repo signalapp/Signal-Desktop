@@ -423,7 +423,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props.selectedConversation;
     const messagePlaceHolder = makeMessagePlaceHolderText();
     const { typingEnabled } = this.props;
-    const neverMatchingRegex = /(\W)$/;
+    const neverMatchingRegex = /($a)/;
 
     return (
       <MentionsInput

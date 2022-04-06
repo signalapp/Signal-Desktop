@@ -28,16 +28,18 @@ export const searchEmojiForQuery = (query: string): Array<SuggestionDataItem> =>
   if (query.length === 0 || !emojiIndex) {
     return [];
   }
-  const results = emojiIndex.search(query);
+  const results1 = emojiIndex.search(":"+query) || [];
+  const results2 = emojiIndex.search(query) || [];
+  const results = [...new Set(results1.concat(results2))];
   if (!results || !results.length) {
     return [];
   }
   return results
     .map(o => {
-      const onlyBaseEmokji = o as BaseEmoji;
+      const onlyBaseEmoji = o as BaseEmoji;
       return {
-        id: onlyBaseEmokji.native,
-        display: onlyBaseEmokji.colons,
+        id: onlyBaseEmoji.native,
+        display: onlyBaseEmoji.colons,
       };
     })
     .slice(0, 8);
