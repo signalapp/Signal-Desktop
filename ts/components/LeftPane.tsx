@@ -30,6 +30,7 @@ import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import type { WidthBreakpoint } from './_util';
 import { getConversationListWidthBreakpoint } from './_util';
+import * as KeyboardLayout from '../services/keyboardLayout';
 import {
   MIN_WIDTH,
   SNAP_WIDTH,
@@ -292,10 +293,11 @@ export const LeftPane: React.FC<PropsType> = ({
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      const { ctrlKey, shiftKey, altKey, metaKey, key } = event;
+      const { ctrlKey, shiftKey, altKey, metaKey } = event;
       const commandOrCtrl = OS.isMacOS() ? metaKey : ctrlKey;
+      const key = KeyboardLayout.lookup(event);
 
-      if (event.key === 'Escape') {
+      if (key === 'Escape') {
         const backAction = helper.getBackAction({
           showInbox,
           startComposing,

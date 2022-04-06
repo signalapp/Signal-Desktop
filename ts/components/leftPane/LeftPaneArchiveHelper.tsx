@@ -16,6 +16,7 @@ import type { ConversationType } from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper';
+import * as KeyboardLayout from '../../services/keyboardLayout';
 
 type LeftPaneArchiveBasePropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
@@ -219,17 +220,18 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
       return;
     }
 
-    const { ctrlKey, metaKey, shiftKey, key } = event;
+    const { ctrlKey, metaKey, shiftKey } = event;
     const commandKey = window.platform === 'darwin' && metaKey;
     const controlKey = window.platform !== 'darwin' && ctrlKey;
     const commandOrCtrl = commandKey || controlKey;
     const commandAndCtrl = commandKey && ctrlKey;
+    const key = KeyboardLayout.lookup(event);
 
     if (
       commandOrCtrl &&
       !commandAndCtrl &&
       shiftKey &&
-      key.toLowerCase() === 'f' &&
+      (key === 'f' || key === 'F') &&
       this.archivedConversations.some(({ id }) => id === selectedConversationId)
     ) {
       searchInConversation(selectedConversationId);

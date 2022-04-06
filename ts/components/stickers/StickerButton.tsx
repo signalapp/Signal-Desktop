@@ -14,6 +14,7 @@ import { StickerPicker } from './StickerPicker';
 import { countStickers } from './lib';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import { themeClassName } from '../../util/theme';
+import * as KeyboardLayout from '../../services/keyboardLayout';
 
 export type OwnProps = {
   readonly className?: string;
@@ -151,10 +152,11 @@ export const StickerButton = React.memo(
     // Install keyboard shortcut to open sticker picker
     React.useEffect(() => {
       const handleKeydown = (event: KeyboardEvent) => {
-        const { ctrlKey, key, metaKey, shiftKey } = event;
+        const { ctrlKey, metaKey, shiftKey } = event;
         const commandKey = get(window, 'platform') === 'darwin' && metaKey;
         const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
         const commandOrCtrl = commandKey || controlKey;
+        const key = KeyboardLayout.lookup(event);
 
         // We don't want to open up if the conversation has any panels open
         const panels = document.querySelectorAll('.conversation .panel');

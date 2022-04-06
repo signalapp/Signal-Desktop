@@ -10,6 +10,7 @@ import { Emoji } from './Emoji';
 import type { Props as EmojiPickerProps } from './EmojiPicker';
 import { EmojiPicker } from './EmojiPicker';
 import type { LocalizerType } from '../../types/Util';
+import * as KeyboardLayout from '../../services/keyboardLayout';
 
 export type OwnProps = {
   readonly className?: string;
@@ -86,10 +87,11 @@ export const EmojiButton = React.memo(
     // Install keyboard shortcut to open emoji picker
     React.useEffect(() => {
       const handleKeydown = (event: KeyboardEvent) => {
-        const { ctrlKey, key, metaKey, shiftKey } = event;
+        const { ctrlKey, metaKey, shiftKey } = event;
         const commandKey = get(window, 'platform') === 'darwin' && metaKey;
         const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
         const commandOrCtrl = commandKey || controlKey;
+        const key = KeyboardLayout.lookup(event);
 
         // We don't want to open up if the conversation has any panels open
         const panels = document.querySelectorAll('.conversation .panel');
