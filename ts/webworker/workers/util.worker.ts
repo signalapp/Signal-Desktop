@@ -1,10 +1,14 @@
 import ByteBuffer from 'bytebuffer';
 import { generateKeyPair, sharedKey, verify } from 'curve25519-js';
 import { default as sodiumWrappers } from 'libsodium-wrappers-sumo';
+import _ from 'lodash';
 import {
   decryptAttachmentBufferNode,
   encryptAttachmentBufferNode,
 } from '../../node/encrypt_attachment_buffer';
+
+/* eslint-disable no-console */
+/* eslint-disable strict */
 
 async function getSodiumWorker() {
   await sodiumWrappers.ready;
@@ -12,15 +16,11 @@ async function getSodiumWorker() {
   return sodiumWrappers;
 }
 
-/* global dcodeIO, Internal */
-/* eslint-disable no-console */
-/* eslint-disable strict */
-
 const functions = {
   arrayBufferToStringBase64,
   fromBase64ToArrayBuffer,
   fromHexToArrayBuffer,
-  verifySignature,
+  verifyAllSignatures,
   DecryptAESGCM,
   deriveSymmetricKey,
   encryptForPubkey,
@@ -76,6 +76,36 @@ function fromHexToArrayBuffer(hexStr: string) {
 
 function bytesFromString(str: string) {
   return ByteBuffer.wrap(str, 'utf8').toArrayBuffer();
+}
+
+// hexString, base64String, base64String
+async function verifyAllSignatures(
+  uncheckedSignatureMessages: Array<{
+    base64EncodedData: string;
+    base64EncodedSignature: string;
+    sender: string;
+  }>
+) {
+  const checked = await Promise.all(
+    uncheckedSignatureMessages.map(async unchecked => {
+      try {
+        const valid = await verifySignature(
+          unchecked.sender,
+          unchecked.base64EncodedData,
+          unchecked.base64EncodedSignature
+        );
+        if (valid) {
+          return unchecked.base64EncodedData;
+        }
+        console.info('got an opengroup message with an invalid signature');
+        return null;
+      } catch (e) {
+        return null;
+      }
+    })
+  );
+
+  return _.compact(checked) || [];
 }
 
 // hexString, base64String, base64String

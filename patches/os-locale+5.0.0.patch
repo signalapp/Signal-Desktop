@@ -1,0 +1,295 @@
+diff --git a/node_modules/os-locale/execa.js b/node_modules/os-locale/execa.js
+new file mode 100644
+index 0000000..b8e0294
+--- /dev/null
++++ b/node_modules/os-locale/execa.js
+@@ -0,0 +1,29 @@
++// Mini wrapper around child_process to make it behave a little like execa
++
++const { promisify } = require('util');
++const childProcess = require('child_process');
++
++const execFile = promisify(childProcess.execFile);
++
++/**
++@param  {string} command
++@param  {string[]} args
++@returns Promise<import('child_process').ChildProcess>
++*/
++async function execa(command, args) {
++  const child = await execFile(command, args, { encoding: 'utf-8' });
++  child.stdout = child.stdout.trim();
++  return child;
++}
++
++/**
++@param  {string} command
++@param  {string[]} args
++@returns string
++*/
++function execaSync(command, args) {
++  return childProcess.execFileSync(command, args, { encoding: 'utf-8' }).trim();
++}
++
++module.exports = execa;
++module.exports.sync = execaSync;
+diff --git a/node_modules/os-locale/index.js b/node_modules/os-locale/index.js
+index 4500f22..799033e 100644
+--- a/node_modules/os-locale/index.js
++++ b/node_modules/os-locale/index.js
+@@ -1,128 +1,131 @@
+ 'use strict';
+-const execa = require('execa');
++const execa = require('./execa');
+ const lcid = require('lcid');
+ const mem = require('mem');
+ 
+-const defaultOptions = {spawn: true};
++const defaultOptions = { spawn: true };
+ const defaultLocale = 'en-US';
+ 
+ async function getStdOut(command, args) {
+-	return (await execa(command, args)).stdout;
++  return (await execa(command, args)).stdout;
+ }
+ 
+ function getStdOutSync(command, args) {
+-	return execa.sync(command, args).stdout;
++  return execa.sync(command, args).stdout;
+ }
+ 
+ function getEnvLocale(env = process.env) {
+-	return env.LC_ALL || env.LC_MESSAGES || env.LANG || env.LANGUAGE;
++  return env.LC_ALL || env.LC_MESSAGES || env.LANG || env.LANGUAGE;
+ }
+ 
+ function parseLocale(string) {
+-	const env = string.split('\n').reduce((env, definition) => {
+-		const [key, value] = definition.split('=');
+-		env[key] = value.replace(/^"|"$/g, '');
+-		return env;
+-	}, {});
++  const env = string.split('\n').reduce((env, definition) => {
++    const [key, value] = definition.split('=');
++    env[key] = value.replace(/^"|"$/g, '');
++    return env;
++  }, {});
+ 
+-	return getEnvLocale(env);
++  return getEnvLocale(env);
+ }
+ 
+ function getLocale(string) {
+-	return (string && string.replace(/[.:].*/, ''));
++  return string && string.replace(/[.:].*/, '');
+ }
+ 
+ async function getLocales() {
+-	return getStdOut('locale', ['-a']);
++  return getStdOut('locale', ['-a']);
+ }
+ 
+ function getLocalesSync() {
+-	return getStdOutSync('locale', ['-a']);
++  return getStdOutSync('locale', ['-a']);
+ }
+ 
+ function getSupportedLocale(locale, locales = '') {
+-	return locales.includes(locale) ? locale : defaultLocale;
++  return locales.includes(locale) ? locale : defaultLocale;
+ }
+ 
+ async function getAppleLocale() {
+-	const results = await Promise.all([
+-		getStdOut('defaults', ['read', '-globalDomain', 'AppleLocale']),
+-		getLocales()
+-	]);
++  const results = await Promise.all([
++    getStdOut('defaults', ['read', '-globalDomain', 'AppleLocale']),
++    getLocales(),
++  ]);
+ 
+-	return getSupportedLocale(results[0], results[1]);
++  return getSupportedLocale(results[0], results[1]);
+ }
+ 
+ function getAppleLocaleSync() {
+-	return getSupportedLocale(
+-		getStdOutSync('defaults', ['read', '-globalDomain', 'AppleLocale']),
+-		getLocalesSync()
+-	);
++  return getSupportedLocale(
++    getStdOutSync('defaults', ['read', '-globalDomain', 'AppleLocale']),
++    getLocalesSync()
++  );
+ }
+ 
+ async function getUnixLocale() {
+-	return getLocale(parseLocale(await getStdOut('locale')));
++  return getLocale(parseLocale(await getStdOut('locale')));
+ }
+ 
+ function getUnixLocaleSync() {
+-	return getLocale(parseLocale(getStdOutSync('locale')));
++  return getLocale(parseLocale(getStdOutSync('locale')));
+ }
+ 
+ async function getWinLocale() {
+-	const stdout = await getStdOut('wmic', ['os', 'get', 'locale']);
+-	const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
++  const stdout = await getStdOut('wmic', ['os', 'get', 'locale']);
++  const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
+ 
+-	return lcid.from(lcidCode);
++  return lcid.from(lcidCode);
+ }
+ 
+ function getWinLocaleSync() {
+-	const stdout = getStdOutSync('wmic', ['os', 'get', 'locale']);
+-	const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
++  const stdout = getStdOutSync('wmic', ['os', 'get', 'locale']);
++  const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
+ 
+-	return lcid.from(lcidCode);
++  return lcid.from(lcidCode);
+ }
+ 
+ function normalise(input) {
+-	return input.replace(/_/, '-');
++  return input.replace(/_/, '-');
+ }
+ 
+-const osLocale = mem(async (options = defaultOptions) => {
+-	let locale;
+-
+-	try {
+-		const envLocale = getEnvLocale();
+-
+-		if (envLocale || options.spawn === false) {
+-			locale = getLocale(envLocale);
+-		} else if (process.platform === 'win32') {
+-			locale = await getWinLocale();
+-		} else if (process.platform === 'darwin') {
+-			locale = await getAppleLocale();
+-		} else {
+-			locale = await getUnixLocale();
+-		}
+-	} catch (_) {}
+-
+-	return normalise(locale || defaultLocale);
+-}, {cachePromiseRejection: false});
++const osLocale = mem(
++  async (options = defaultOptions) => {
++    let locale;
++
++    try {
++      const envLocale = getEnvLocale();
++
++      if (envLocale || options.spawn === false) {
++        locale = getLocale(envLocale);
++      } else if (process.platform === 'win32') {
++        locale = await getWinLocale();
++      } else if (process.platform === 'darwin') {
++        locale = await getAppleLocale();
++      } else {
++        locale = await getUnixLocale();
++      }
++    } catch (_) {}
++
++    return normalise(locale || defaultLocale);
++  },
++  { cachePromiseRejection: false }
++);
+ 
+ module.exports = osLocale;
+ 
+ module.exports.sync = mem((options = defaultOptions) => {
+-	let locale;
+-	try {
+-		const envLocale = getEnvLocale();
+-
+-		if (envLocale || options.spawn === false) {
+-			locale = getLocale(envLocale);
+-		} else if (process.platform === 'win32') {
+-			locale = getWinLocaleSync();
+-		} else if (process.platform === 'darwin') {
+-			locale = getAppleLocaleSync();
+-		} else {
+-			locale = getUnixLocaleSync();
+-		}
+-	} catch (_) {}
+-
+-	return normalise(locale || defaultLocale);
++  let locale;
++  try {
++    const envLocale = getEnvLocale();
++
++    if (envLocale || options.spawn === false) {
++      locale = getLocale(envLocale);
++    } else if (process.platform === 'win32') {
++      locale = getWinLocaleSync();
++    } else if (process.platform === 'darwin') {
++      locale = getAppleLocaleSync();
++    } else {
++      locale = getUnixLocaleSync();
++    }
++  } catch (_) {}
++
++  return normalise(locale || defaultLocale);
+ });
+diff --git a/node_modules/os-locale/readme.md b/node_modules/os-locale/readme.md
+deleted file mode 100644
+index aec4e23..0000000
+--- a/node_modules/os-locale/readme.md
++++ /dev/null
+@@ -1,50 +0,0 @@
+-# os-locale [![Build Status](https://travis-ci.org/sindresorhus/os-locale.svg?branch=master)](https://travis-ci.org/sindresorhus/os-locale)
+-
+-> Get the system [locale](https://en.wikipedia.org/wiki/Locale_(computer_software))
+-
+-Useful for localizing your module or app.
+-
+-POSIX systems: The returned locale refers to the [`LC_MESSAGE`](http://www.gnu.org/software/libc/manual/html_node/Locale-Categories.html#Locale-Categories) category, suitable for selecting the language used in the user interface for message translation.
+-
+-## Install
+-
+-```
+-$ npm install os-locale
+-```
+-
+-## Usage
+-
+-```js
+-const osLocale = require('os-locale');
+-
+-(async () => {
+-	console.log(await osLocale());
+-	//=> 'en-US'
+-})();
+-```
+-## API
+-
+-### osLocale(options?)
+-
+-Returns a `Promise` for the locale.
+-
+-### osLocale.sync(options?)
+-
+-Returns the locale.
+-
+-#### options
+-
+-Type: `object`
+-
+-##### spawn
+-
+-Type: `boolean`\
+-Default: `true`
+-
+-Set to `false` to avoid spawning subprocesses and instead only resolve the locale from environment variables.
+-
+-## os-locale for enterprise
+-
+-Available as part of the Tidelift Subscription.
+-
+-The maintainers of os-locale and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-os-locale?utm_source=npm-os-locale&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)

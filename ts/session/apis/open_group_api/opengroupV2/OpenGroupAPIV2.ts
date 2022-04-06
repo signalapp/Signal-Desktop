@@ -18,6 +18,7 @@ import { isOpenGroupV2Request } from '../../file_server_api/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
 import pRetry from 'p-retry';
 import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { UserUtils } from '../../../utils';
 
 // used to be overwritten by testing
 export const getMinTimeout = () => 1000;
@@ -211,7 +212,9 @@ export const postMessageRetryable = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
-  const signedMessage = await message.sign();
+  const ourKeyPair = await UserUtils.getIdentityKeyPair();
+
+  const signedMessage = await message.sign(ourKeyPair);
   const json = signedMessage.toJson();
 
   const request: OpenGroupV2Request = {

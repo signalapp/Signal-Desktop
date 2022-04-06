@@ -39,9 +39,7 @@
     "clean-transpile": "rimraf 'ts/**/*.js' 'ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
     "ready": "yarn grunt && yarn lint-full && yarn test",
     "sedtoAppImage": "sed -i 's/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/\"target\": \"AppImage\"/g' package.json",
-    "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/g' package.json",
-    "build:webpack": "webpack --config ./webpack.config.js",
-    "start:webpack": "yarn build && electron ./dist/electron_main.js"
+    "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/g' package.json"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
@@ -182,7 +180,6 @@
     "grunt-exec": "3.0.0",
     "grunt-gitinfo": "0.1.7",
     "grunt-sass": "3.0.1",
-    "html-webpack-plugin": "^5.5.0",
     "mocha": "4.1.0",
     "mocha-testcheck": "1.0.0-rc.0",
     "node-bindings-loader": "^1.5.0",
@@ -195,15 +192,12 @@
     "prettier": "1.19.0",
     "run-script-os": "^1.1.6",
     "sinon": "9.0.2",
-    "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.2.8",
     "ts-mock-imports": "^1.3.0",
     "tslint": "5.19.0",
     "tslint-microsoft-contrib": "6.0.0",
     "tslint-react": "3.6.0",
-    "typescript": "^4.6.3",
-    "webpack": "^5.70.0",
-    "webpack-cli": "^4.9.2"
+    "typescript": "^4.6.3"
   },
   "engines": {
     "node": "16.13.0"
@@ -256,15 +250,12 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": [
-        "deb",
-        "rpm",
-        "freebsd"
-      ],
+      "target": ["deb", "rpm", "freebsd"],
       "icon": "build/icon-linux.icns"
     },
     "asarUnpack": [
-      "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
+      "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
+      "ts/mains/main_node.js"
     ],
     "deb": {
       "depends": [
@@ -293,12 +284,11 @@
       "stylesheets/*.css",
       "!js/register.js",
       "js/views/standalone_registration_view.js",
-      "dist/preload.bundled.js",
+      "preload.js",
       "about_preload.js",
       "settings_preload.js",
       "debug_log_preload.js",
       "password_preload.js",
-      "main.js",
       "certificates/**",
       "images/**",
       "fonts/*",
