@@ -72,7 +72,7 @@ export const MessageContextMenu = (props: Props) => {
   const { messageId, contextMenuId } = props;
   const isOutgoing = direction === 'outgoing';
   const showRetry = status === 'error' && isOutgoing;
-  const isSent = status === 'sent';
+  const isSent = status === 'sent' || status === 'read'; // a read message should be replyable
   const multipleAttachments = attachments && attachments.length > 1;
 
   const onContextMenuShown = useCallback(() => {

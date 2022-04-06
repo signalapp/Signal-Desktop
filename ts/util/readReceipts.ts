@@ -27,6 +27,20 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
       window.log.info('No message for read receipt', receipt.source, receipt.timestamp);
       return;
     }
+    const convoId = message.get('conversationId'); // this might be a group and we don't want to handle them
+    if (
+      !convoId ||
+      !getConversationController().get(convoId) ||
+      !getConversationController()
+        .get(convoId)
+        .isPrivate()
+    ) {
+      window.log.info(
+        'Convo is undefined or not a private chat for read receipt in convo',
+        convoId
+      );
+      return;
+    }
 
     const readBy = message.get('read_by') || [];
     const expirationStartTimestamp = message.get('expirationStartTimestamp');
