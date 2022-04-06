@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { BuildResult } from 'electron-builder';
-import { afterAllArtifactBuild as stapleNotarization } from './staple-notarization';
+import { afterAllArtifactBuild as notarizeUniversalDMG } from './notarize-universal-dmg';
 
 export async function afterAllArtifactBuild(
   result: BuildResult
 ): Promise<Array<string>> {
-  await stapleNotarization(result);
+  await notarizeUniversalDMG(result);
   return [];
 }

@@ -3,7 +3,7 @@
 
 import type { BuildResult } from 'electron-builder';
 
-import { stapleApp } from 'electron-notarize';
+import { notarize } from 'electron-notarize';
 
 import * as packageJson from '../../package.json';
 
@@ -50,14 +50,19 @@ export async function afterAllArtifactBuild({
   }
 
   const artifactsToStaple = artifactPaths.filter(artifactPath =>
-    /\.(zip|dmg)$/.test(artifactPath)
+    /^.*mac-universal.*\.dmg$/.test(artifactPath)
   );
-
-  for (const artifactPath of artifactsToStaple) {
-    console.log(`Stapling notariation for: ${artifactPath}`);
-    // eslint-disable-next-line no-await-in-loop
-    await stapleApp({
-      appPath: artifactPath,
-    });
+  if (artifactsToStaple.length !== 1) {
+    console.log(`notarize: Skipping, too many dmgs ${artifactsToStaple}`);
+    return;
   }
+
+  const [dmgPath] = artifactsToStaple;
+  console.log(`Notarizing dmg: ${dmgPath}`);
+  await notarize({
+    appBundleId,
+    appPath: dmgPath,
+    appleId,
+    appleIdPassword,
+  });
 }
