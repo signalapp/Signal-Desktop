@@ -27,7 +27,7 @@ index 01da9f4..094c175 100644
 +export declare function hashFile(file: string, blockSize?: number): Promise<unknown>;
 +export declare function hashFileContents(contents: Buffer | string, blockSize?: number): unknown;
 diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-index ffcc8bd..4215569 100644
+index ffcc8bd..bafab0e 100644
 --- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 +++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 @@ -88,7 +88,7 @@ class LinuxTargetHelper {
@@ -52,3 +52,16 @@ index 1536059..555f8f5 100644
 -
  update-mime-database /usr/share/mime || true
  update-desktop-database /usr/share/applications || true
+diff --git a/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh b/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh
+index cc77993..ac36618 100644
+--- a/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh
++++ b/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh
+@@ -40,7 +40,7 @@
+     ${nsProcess::FindProcess} "${_FILE}" ${_ERR}
+   !else
+     # find process owned by current user
+-    nsExec::Exec `cmd /c tasklist /FI "USERNAME eq %USERNAME%" /FI "IMAGENAME eq ${_FILE}" | find "${_FILE}"`
++    nsExec::Exec `cmd /c tasklist /FI "USERNAME eq %USERNAME%" /FI "IMAGENAME eq ${_FILE}" | %SYSTEMROOT%\System32\find.exe "${_FILE}"`
+     Pop ${_ERR}
+   !endif
+ !macroend
