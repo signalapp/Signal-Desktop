@@ -1059,6 +1059,20 @@
       }
     }
   },
+  "cannotUpdateRequireManualDetail": {
+    "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+    "description": "Shown if a general error happened while trying to install update package and manual update is required",
+    "placeholders": {
+      "url": {
+        "content": "$2",
+        "example": "https://signal.org/download"
+      },
+      "support": {
+        "content": "$3",
+        "example": "contact support"
+      }
+    }
+  },
   "readOnlyVolume": {
     "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
     "description": "Shown on MacOS if running on a read-only volume and we cannot update",

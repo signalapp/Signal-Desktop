@@ -108,6 +108,48 @@ export const DialogUpdate = ({
     );
   }
 
+  if (dialogType === DialogType.Cannot_Update_Require_Manual) {
+    const url = isBeta(currentVersion)
+      ? BETA_DOWNLOAD_URL
+      : PRODUCTION_DOWNLOAD_URL;
+    return (
+      <LeftPaneDialog
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        type="warning"
+        title={i18n('cannotUpdate')}
+      >
+        <span>
+          <Intl
+            components={{
+              url: (
+                <a
+                  key="signal-download"
+                  href={url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {url}
+                </a>
+              ),
+              support: (
+                <a
+                  key="signal-support"
+                  href="https://support.signal.org/hc/en-us/requests/new?desktop"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {i18n('autoUpdateContactSupport')}
+                </a>
+              ),
+            }}
+            i18n={i18n}
+            id="cannotUpdateRequireManualDetail"
+          />
+        </span>
+      </LeftPaneDialog>
+    );
+  }
+
   if (dialogType === DialogType.MacOS_Read_Only) {
     return (
       <LeftPaneDialog

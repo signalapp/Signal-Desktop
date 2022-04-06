@@ -363,7 +363,8 @@ export abstract class Updater {
     if (parsedYaml.requireManualUpdate) {
       this.logger.warn('checkForUpdates: manual update required');
       this.markCannotUpdate(
-        new Error('yaml file has requireManualUpdate flag')
+        new Error('yaml file has requireManualUpdate flag'),
+        DialogType.Cannot_Update_Require_Manual
       );
       return;
     }
