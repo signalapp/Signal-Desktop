@@ -1,36 +1,25 @@
-import { app } from 'electron';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isElectronWindowFocused } from '../session/utils/WindowUtils';
 import { setIsAppFocused } from '../state/ducks/section';
 import { getIsAppFocused } from '../state/selectors/section';
+import { ipcRenderer } from 'electron';
 
+/**
+ * This custom hook should be called on the top of the app only once.
+ * It sets up a listener for events from main_node.ts and update the global redux state with the focused state.
+ */
 export function useAppIsFocused() {
   const dispatch = useDispatch();
   const isFocused = useSelector(getIsAppFocused);
 
-  useEffect(() => {
-    dispatch(setIsAppFocused(isElectronWindowFocused()));
-  }, []);
-
-  const onFocusCallback = useCallback((_event, win) => {
-    if (win.webContents.id === 1) {
-      dispatch(setIsAppFocused(true));
-    }
-  }, []);
-
-  const onBlurCallback = useCallback((_event, win) => {
-    if (win.webContents.id === 1) {
-      dispatch(setIsAppFocused(false));
-    }
-  }, []);
+  const ipcCallback = (_event: unknown, isFocused: unknown) => {
+    dispatch(setIsAppFocused(Boolean(isFocused)));
+  };
 
   useEffect(() => {
-    // app.on('browser-window-focus', onFocusCallback);
-    // app.on('browser-window-blur', onBlurCallback);
+    ipcRenderer.on('set-window-focus', ipcCallback);
     return () => {
-      // app.removeListener('browser-window-blur', onBlurCallback);
-      // app.removeListener('browser-window-focus', onFocusCallback);
+      ipcRenderer.removeListener('set-window-focus', ipcCallback);
     };
   });
 

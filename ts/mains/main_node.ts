@@ -311,6 +311,18 @@ async function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   setupSpellChecker(mainWindow, locale.messages);
 
+  const setWindowFocus = () => {
+    if (!mainWindow) {
+      return;
+    }
+    mainWindow.webContents.send('set-window-focus', mainWindow.isFocused());
+  };
+  mainWindow.on('focus', setWindowFocus);
+  mainWindow.on('blur', setWindowFocus);
+  mainWindow.once('ready-to-show', setWindowFocus);
+  // This is a fallback in case we drop an event for some reason.
+  global.setInterval(setWindowFocus, 5000);
+
   electronLocalshortcut.register(mainWindow, 'F5', () => {
     if (!mainWindow) {
       return;
