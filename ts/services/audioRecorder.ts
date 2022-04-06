@@ -61,7 +61,7 @@ export class RecorderClass {
       encoding: 'mp3',
       workerDir: 'js/', // must end with slash
       options: {
-        timeLimit: 360, // one minute more than our UI-imposed limit
+        timeLimit: 60 + 3600, // one minute more than our UI-imposed limit
       },
     });
     this.recorder.onComplete = this.onComplete.bind(this);

@@ -960,7 +960,7 @@
     "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
   },
   "voiceNoteLimit": {
-    "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+    "message": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
     "description": "Shown in toast to warn user about limited time and that window must be in focus"
   },
   "voiceNoteMustBeOnlyAttachment": {

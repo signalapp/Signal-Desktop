@@ -122,7 +122,7 @@ export const AudioCapture = ({
       }
       setDurationText(`${minutes}:${seconds}`);
 
-      if (duration >= moment.duration(5, 'minutes')) {
+      if (duration >= moment.duration(1, 'hours')) {
         errorRecording(ErrorDialogAudioRecorderType.Timeout);
       }
     }, 1000);
