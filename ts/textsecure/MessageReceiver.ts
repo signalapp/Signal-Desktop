@@ -110,7 +110,9 @@ import {
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
+import { IMAGE_JPEG } from '../types/MIME';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
+import { generateBlurHash } from '../util/generateBlurHash';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -1800,11 +1802,16 @@ export default class MessageReceiver
     }
 
     if (msg.textAttachment) {
-      log.error(
-        'MessageReceiver.handleStoryMessage: Got a textAttachment, cannot handle it',
-        logId
-      );
-      return;
+      attachments.push({
+        contentType: IMAGE_JPEG,
+        size: 0,
+        textAttachment: msg.textAttachment,
+        blurHash: generateBlurHash(
+          (msg.textAttachment.color ||
+            msg.textAttachment.gradient?.startColor) ??
+            undefined
+        ),
+      });
     }
 
     const expireTimer = Math.min(

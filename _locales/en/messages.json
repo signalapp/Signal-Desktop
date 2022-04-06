@@ -7024,6 +7024,10 @@
     "message": "Error displaying image",
     "description": "aria-label for image errors"
   },
+  "TextAttachment__preview__link": {
+    "message": "Visit link",
+    "description": "Title for the link preview tooltip"
+  },
   "WhatsNew__modal-title": {
     "message": "What's New",
     "description": "Title for the whats new modal"

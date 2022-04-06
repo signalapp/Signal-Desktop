@@ -66,9 +66,36 @@ export type AttachmentType = {
   cdnId?: string;
   cdnKey?: string;
   data?: Uint8Array;
+  textAttachment?: TextAttachmentType;
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
+};
+
+export enum TextAttachmentStyleType {
+  DEFAULT = 0,
+  REGULAR = 1,
+  BOLD = 2,
+  SERIF = 3,
+  SCRIPT = 4,
+  CONDENSED = 5,
+}
+
+export type TextAttachmentType = {
+  text?: string | null;
+  textStyle?: number | null;
+  textForegroundColor?: number | null;
+  textBackgroundColor?: number | null;
+  preview?: {
+    url?: string | null;
+    title?: string | null;
+  } | null;
+  gradient?: {
+    startColor?: number | null;
+    endColor?: number | null;
+    angle?: number | null;
+  } | null;
+  color?: number | null;
 };
 
 export type DownloadedAttachmentType = AttachmentType & {

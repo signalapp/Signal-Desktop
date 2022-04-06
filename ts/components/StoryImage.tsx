@@ -8,6 +8,7 @@ import { Blurhash } from 'react-blurhash';
 import type { AttachmentType } from '../types/Attachment';
 import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
+import { TextAttachment } from './TextAttachment';
 import { ThemeType } from '../types/Util';
 import {
   defaultBlurHash,
@@ -57,7 +58,11 @@ export const StoryImage = ({
   const getClassName = getClassNamesFor('StoryImage', moduleClassName);
 
   let storyElement: JSX.Element;
-  if (isNotReadyToShow) {
+  if (attachment.textAttachment) {
+    storyElement = (
+      <TextAttachment i18n={i18n} textAttachment={attachment.textAttachment} />
+    );
+  } else if (isNotReadyToShow) {
     storyElement = (
       <Blurhash
         hash={attachment.blurHash || defaultBlurHash(ThemeType.dark)}

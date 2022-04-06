@@ -7702,6 +7702,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/TextAttachment.tsx",
+    "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-04-06T00:59:17.194Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Tooltip.tsx",
     "line": "  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);",
     "reasonCategory": "usageTrusted",

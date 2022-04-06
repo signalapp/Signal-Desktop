@@ -1,0 +1,153 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.TextAttachment {
+  max-height: 100%;
+
+  &__story {
+    align-items: center;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    height: 1280px;
+    justify-content: center;
+    overflow: hidden;
+    transform-origin: top center;
+    user-select: none;
+    width: 720px;
+  }
+
+  &__text {
+    border-radius: 36px;
+    padding: 28px;
+    margin-left: 72px;
+    margin-right: 72px;
+
+    &__container {
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 13;
+      display: -webkit-box;
+      overflow: hidden;
+    }
+  }
+
+  &__preview {
+    align-items: center;
+    background: $color-black-alpha-40;
+    border-radius: 28px;
+    display: flex;
+    flex-direction: row;
+    height: 122px;
+    justify-content: center;
+    margin-left: 72px;
+    margin-right: 72px;
+    padding: 34px;
+
+    &--large {
+      height: 192px;
+    }
+
+    &__image {
+      align-items: center;
+      background-color: $color-white;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: row;
+      height: 74px;
+      justify-content: center;
+      margin-right: 32px;
+      width: 74px;
+
+      .TextAttachment__preview--large & {
+        height: 144px;
+        width: 144px;
+      }
+
+      &::after {
+        @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+        content: '';
+        height: 44px;
+        width: 44px;
+      }
+    }
+
+    &__title {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      max-width: 422px;
+
+      .TextAttachment__preview--large & {
+        max-width: 352px;
+      }
+
+      &__container {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        display: -webkit-box;
+        font: bold 30px Inter;
+        overflow: hidden;
+      }
+    }
+
+    &__url {
+      color: $color-white;
+      font: bold 30px Inter;
+      max-width: 422px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .TextAttachment__preview--large & {
+        color: $color-white-alpha-60;
+        font: 24px Inter;
+        max-width: 352px;
+      }
+    }
+
+    &__tooltip {
+      align-items: center;
+      background: $color-black-alpha-90;
+      border-radius: 12px;
+      color: $color-white;
+      display: flex;
+      font-size: 30px;
+      justify-content: center;
+      line-height: 32px;
+      max-width: 656px;
+      padding: 24px 32px;
+      position: absolute;
+      text-decoration: none;
+      z-index: $z-index-above-base;
+
+      &::after {
+        border-color: black transparent transparent transparent;
+        border-style: solid;
+        border-width: 14px;
+        content: '';
+        left: 50%;
+        margin-left: -14px;
+        position: absolute;
+        top: 100%;
+      }
+
+      &__url {
+        margin-top: 4px;
+        max-width: 566px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &__arrow {
+        @include color-svg(
+          '../images/icons/v2/chevron-right-24.svg',
+          $color-white
+        );
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+}
