@@ -314,9 +314,6 @@
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
-      "asarUnpack": [
-        "**/*.node"
-      ],
       "artifactName": "${name}-mac-${arch}-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "darkModeSupport": true,
@@ -351,11 +348,6 @@
       "bundleVersion": "1"
     },
     "win": {
-      "asarUnpack": [
-        "**/*.node",
-        "node_modules/spellchecker/vendor/hunspell_dictionaries",
-        "node_modules/sharp"
-      ],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal Messenger, LLC",
       "certificateSha1": "8C9A0B5C852EC703D83EF7BFBCEB54B796073759",
@@ -382,11 +374,6 @@
       "desktop": {
         "StartupWMClass": "Signal"
       },
-      "asarUnpack": [
-        "**/*.node",
-        "node_modules/spellchecker/vendor/hunspell_dictionaries",
-        "node_modules/sharp"
-      ],
       "target": [
         "deb"
       ],
@@ -412,8 +399,13 @@
     "afterPack": "ts/scripts/after-pack.js",
     "afterSign": "ts/scripts/after-sign.js",
     "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
+    "asar": {
+      "smartUnpack": false
+    },
     "asarUnpack": [
-      "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
+      "**/*.node",
+      "node_modules/sharp/{build,vendor}/**",
+      "!node_modules/sharp/**/*.{js,json}"
     ],
     "files": [
       "package.json",
