@@ -184,7 +184,7 @@ async function getConnectedDevices(type: 'videoinput' | 'audioinput' | 'audioout
 // Listen for changes to media devices and update the list accordingly
 // tslint:disable-next-line: no-typeof-undefined
 if (typeof navigator !== 'undefined') {
-  navigator.mediaDevices.addEventListener('devicechange', async () => {
+  navigator?.mediaDevices?.addEventListener('devicechange', async () => {
     await updateConnectedDevices();
     callVideoListeners();
   });

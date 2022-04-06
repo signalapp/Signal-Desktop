@@ -6,8 +6,9 @@ const sandbox = sinon.createSandbox();
 
 // We have to do this in a weird way because Data uses module.exports
 //  which doesn't play well with sinon or ImportMock
-// tslint:disable-next-line: no-require-imports no-var-requires
+// tslint:disable: no-require-imports no-var-requires
 const Data = require('../../../../ts/data/data');
+const DataItem = require('../../../../ts/data/channelsItem');
 type DataFunction = typeof DataShape;
 
 /**
@@ -18,6 +19,10 @@ type DataFunction = typeof DataShape;
  */
 export function stubData<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
   return sandbox.stub(Data, fn);
+}
+
+export function stubDataItem<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
+  return sandbox.stub(DataItem, fn);
 }
 
 type WindowValue<K extends keyof Window> = Partial<Window[K]> | undefined;

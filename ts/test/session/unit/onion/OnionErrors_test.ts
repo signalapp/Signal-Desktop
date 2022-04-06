@@ -16,6 +16,7 @@ import {
 } from '../../../../session/apis/snode_api/onions';
 import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
+import * as DataItem from '../../../../../ts/data/channelsItem';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
@@ -66,6 +67,8 @@ describe('OnionPathsErrors', () => {
   let oldOnionPaths: Array<Array<Data.Snode>>;
 
   beforeEach(async () => {
+    TestUtils.stubWindowLog();
+
     guardPubkeys = TestUtils.generateFakePubKeys(3).map(n => n.key);
     otherNodesPubkeys = TestUtils.generateFakePubKeys(20).map(n => n.key);
 
@@ -96,10 +99,10 @@ describe('OnionPathsErrors', () => {
     // those are still doing what they do, but we spy on their executation
     updateSwarmSpy = sandbox.stub(Data, 'updateSwarmNodesForPubkey').resolves();
     sandbox
-      .stub(Data, 'getItemById')
+      .stub(DataItem, 'getItemById')
       .withArgs(Data.SNODE_POOL_ITEM_ID)
       .resolves({ id: Data.SNODE_POOL_ITEM_ID, value: '' });
-    sandbox.stub(Data, 'createOrUpdateItem').resolves();
+    sandbox.stub(DataItem, 'createOrUpdateItem').resolves();
     dropSnodeFromSnodePool = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
     dropSnodeFromSwarmIfNeededSpy = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
     dropSnodeFromPathSpy = sandbox.spy(OnionPaths, 'dropSnodeFromPath');

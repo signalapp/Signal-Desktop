@@ -9,6 +9,7 @@ import { TestUtils } from '../../../test-utils';
 import { UserUtils } from '../../../../session/utils';
 import { getConversationController } from '../../../../session/conversations';
 import * as Data from '../../../../../ts/data/data';
+import * as DataItem from '../../../../../ts/data/channelsItem';
 import { getSwarmPollingInstance, SNodeAPI, SnodePool } from '../../../../session/apis/snode_api';
 import { SwarmPolling } from '../../../../session/apis/snode_api/swarmPolling';
 import { SWARM_POLLING_TIMEOUT } from '../../../../session/constants';
@@ -44,7 +45,7 @@ describe('SwarmPolling', () => {
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
     sandbox.stub(Data, 'getAllConversations').resolves(new ConversationCollection());
-    sandbox.stub(Data, 'getItemById').resolves();
+    sandbox.stub(DataItem, 'getItemById').resolves();
     sandbox.stub(Data, 'saveConversation').resolves();
     sandbox.stub(Data, 'getSwarmNodesForPubkey').resolves();
     sandbox.stub(Data, 'getLastHashBySnode').resolves();
