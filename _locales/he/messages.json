@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "שגיאה בהצגת תמונה",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "מה חדש",
         "description": "Title for the whats new modal"

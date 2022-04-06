@@ -460,7 +460,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "A Küldés gombra nyomva a hibanaplód egy egyedi, nem publikus online tárhelyre kerül feltöltésre, ahonnan 30 nap után törlődik. Ha gondolod, mentsd el előbb a készülékedre is.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Hibanapló feltöltve. Mikor felveszed a kapcsolatot a támogatással, másold be a lenti URL-t egy leírás kíséretében, amiben a problémát és annak reprodukálható lépéseit írod le.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... to see the full log, click Save",
+        "message": "... a teljes naplóhoz kattints a Mentés gombra",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -1358,7 +1358,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Koppints a $settings$, majd a $linkedDevices$ menüpontra",
+        "message": "Kattints a $settings$, majd a $linkedDevices$ menüpontra",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1376,7 +1376,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Koppints a $plusButton$ (Android) vagy $linkNewDevice$ (iPhone) gombra",
+        "message": "Kattints a $plusButton$ (Android) vagy $linkNewDevice$ (iPhone) gombra",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -5460,11 +5460,11 @@
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Koppints a profilképedre bal-felül a Beállítások megnyitásához!",
+        "message": "Kattints a profilképedre bal-felül a Beállítások megnyitásához!",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Koppints a \"Válj Fenntartóvá!\" menüpontra, és iratkozz fel!",
+        "message": "Kattints a \"Válj Fenntartóvá!\" menüpontra, és iratkozz fel!",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5850,7 +5850,7 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Csatlakozási kérés elutasítása",
+        "message": "Kérés elutasítása",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
@@ -5858,7 +5858,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$ nem lesz képes többé a csoporthivatkozás használatával csatlakozni, vagy csatlakozási kérdést küldeni. Manuálisan továbbra is hozzáadható lesz.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -5868,7 +5868,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "Kérés elutasítása",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6164,7 +6164,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "Eltávolítod \"$name$\" felhasználót a csoportból? A jövőben nem lesz képes csatlakozni a csoporthivatkozás segítségével.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Hiba a kép megjelenítésekor",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "Újdonságok",
         "description": "Title for the whats new modal"
@@ -7042,11 +7046,11 @@
         "description": "Release notes for v5.36"
     },
     "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "message": "Mostantól a rövid üzenetek kevesebb helyet foglalnak, mivel az időbélyeget a szöveggel egy magasságba helyeztük. Így több hely marad a képernyőn frappáns egyszavas beköszönéseidnek.",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "message": "Soha többé hiányzó matricacsomagok! Az asztali Signal verzió mostantól minden telefonon telepített csomaggal is megbirkózik.",
         "description": "Release notes for v5.37"
     }
 }

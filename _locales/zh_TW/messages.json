@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "顯示影像錯誤",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "有甚麼新的",
         "description": "Title for the whats new modal"

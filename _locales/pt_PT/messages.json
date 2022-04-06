@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Erro ao exibir a imagem",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "Novidades",
         "description": "Title for the whats new modal"

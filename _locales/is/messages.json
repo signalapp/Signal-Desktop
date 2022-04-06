@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Villa við að birta mynd",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "Hvað er nýtt",
         "description": "Title for the whats new modal"

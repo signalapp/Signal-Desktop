@@ -1048,7 +1048,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal konnte sich nicht aktualisieren. $retry$ oder besuche $url$, um es manuell zu installieren. Danach $support$ über dieses Problem.",
+        "message": "Signal konnte nicht aktualisiert werden. $retry$ oder besuche $url$, um es manuell zu installieren. Kontaktiere danach $support$ hinsichtlich dieses Problems.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -2502,11 +2502,11 @@
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Aktualisierung erneut versuchen",
+        "message": "Versuche die Aktualisierung erneut",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "Support kontaktieren",
+        "message": "den Support",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -7012,6 +7012,10 @@
                 "example": "Abby"
             }
         }
+    },
+    "StoryImage__error": {
+        "message": "Fehler bei Bildanzeige",
+        "description": "aria-label for image errors"
     },
     "WhatsNew__modal-title": {
         "message": "Was ist neu",

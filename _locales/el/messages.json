@@ -2364,7 +2364,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "Ιστορίες",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -4112,7 +4112,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "Δεν μπορείς να μπεις στην ομάδα μέσω του συνδέσμου της ομάδας, επειδή ένας/μια διαχειριστής σε αφαίρεσε.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -5850,11 +5850,11 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Block request",
+        "message": "Μπλοκάρισμα αιτήματος",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "Μπλοκάρισμα αιτήματος;",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
@@ -6870,7 +6870,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "Οι ιστορίες μου",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6930,15 +6930,15 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "Ιστορίες",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "Οι ιστορίες μου",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "Προσθήκη ιστορίας",
         "description": "Description hint to add a story"
     },
     "Stories__list-empty": {
@@ -6972,11 +6972,11 @@
         "description": "Placeholder text for the story reply modal"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "Προβολές",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "Απαντήσεις",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -6984,7 +6984,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "Αντέδρασε στην ιστορία",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -6992,11 +6992,11 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "Απόκρυψη ιστορίας",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "Μετάβαση στη συνομιλία",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
@@ -7012,6 +7012,10 @@
                 "example": "Abby"
             }
         }
+    },
+    "StoryImage__error": {
+        "message": "Error displaying image",
+        "description": "aria-label for image errors"
     },
     "WhatsNew__modal-title": {
         "message": "Νέες δυνατότητες",

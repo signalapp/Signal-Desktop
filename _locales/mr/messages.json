@@ -6976,7 +6976,7 @@
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "प्रत्युत्तरे",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -7012,6 +7012,10 @@
                 "example": "Abby"
             }
         }
+    },
+    "StoryImage__error": {
+        "message": "Error displaying image",
+        "description": "aria-label for image errors"
     },
     "WhatsNew__modal-title": {
         "message": "नवीन काय आहे",
