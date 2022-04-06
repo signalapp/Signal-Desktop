@@ -128,6 +128,26 @@ story.add('Knobs Playground', () => {
     </FakeLeftPaneContainer>
   ));
 
+  story.add(`Cannot Update & Require Manual (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogUpdate
+        {...defaultPropsForBreakpoint}
+        dialogType={DialogType.Cannot_Update_Require_Manual}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  ));
+
+  story.add(`Cannot Update & Require Manual Beta (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogUpdate
+        {...defaultPropsForBreakpoint}
+        dialogType={DialogType.Cannot_Update_Require_Manual}
+        currentVersion="5.24.0-beta.1"
+      />
+    </FakeLeftPaneContainer>
+  ));
+
   story.add(`macOS RO Error (${name} container)`, () => (
     <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
       <DialogUpdate
