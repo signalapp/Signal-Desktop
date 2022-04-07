@@ -1649,9 +1649,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-"better-sqlite3@https://github.com/signalapp/better-sqlite3#ad0db5dd09c0ea4007b1c46bd4f7273827803347":
+"better-sqlite3@https://github.com/signalapp/better-sqlite3#9de3488f68d7429133dd859b7308fdcbd64f02f6":
   version "7.1.4"
-  resolved "https://github.com/signalapp/better-sqlite3#ad0db5dd09c0ea4007b1c46bd4f7273827803347"
+  resolved "https://github.com/signalapp/better-sqlite3#9de3488f68d7429133dd859b7308fdcbd64f02f6"
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
