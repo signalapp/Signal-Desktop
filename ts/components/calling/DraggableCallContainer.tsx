@@ -9,6 +9,8 @@ import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { VideoLoadingSpinner } from './InConversationCallContainer';
+import { getSection } from '../../state/selectors/section';
+import { SectionType } from '../../state/ducks/section';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -57,6 +59,7 @@ export const DraggableCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
+  const selectedSection = useSelector(getSection);
 
   // the draggable container has a width of 12vw, so we just set it's X to a bit more than this
   const [positionX, setPositionX] = useState(window.innerWidth - (window.innerWidth * 1) / 6);
@@ -99,7 +102,12 @@ export const DraggableCallContainer = () => {
     }
   };
 
-  if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey === selectedConversationKey) {
+  if (
+    !hasOngoingCall ||
+    !ongoingCallProps ||
+    (ongoingCallPubkey === selectedConversationKey &&
+      selectedSection.focusedSection !== SectionType.Settings)
+  ) {
     return null;
   }
 

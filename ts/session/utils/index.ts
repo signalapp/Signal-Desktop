@@ -10,7 +10,6 @@ import * as AttachmentDownloads from './AttachmentsDownload';
 import * as CallManager from './calling/CallManager';
 
 export * from './Attachments';
-export * from './TypedEmitter';
 export * from './JobQueue';
 
 export {
