@@ -10,10 +10,12 @@ import { ipcRenderer } from 'electron';
  */
 export function useAppIsFocused() {
   const dispatch = useDispatch();
-  const isFocused = useSelector(getIsAppFocused);
+  const isFocusedFromStore = useSelector(getIsAppFocused);
 
   const ipcCallback = (_event: unknown, isFocused: unknown) => {
-    dispatch(setIsAppFocused(Boolean(isFocused)));
+    if (isFocusedFromStore !== isFocused) {
+      dispatch(setIsAppFocused(Boolean(isFocused)));
+    }
   };
 
   useEffect(() => {
@@ -23,5 +25,5 @@ export function useAppIsFocused() {
     };
   });
 
-  return isFocused;
+  return isFocusedFromStore;
 }
