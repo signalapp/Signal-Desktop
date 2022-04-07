@@ -10,6 +10,12 @@
   height: 96px;
   width: 100%;
 
+  @include keyboard-mode {
+    &:focus {
+      background: $color-gray-65;
+    }
+  }
+
   &:hover {
     background: $color-gray-65;
   }

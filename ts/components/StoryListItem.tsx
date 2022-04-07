@@ -124,6 +124,7 @@ export const StoryListItem = ({
           }
         }}
         ref={setReferenceElement}
+        tabIndex={0}
         type="button"
       >
         <Avatar

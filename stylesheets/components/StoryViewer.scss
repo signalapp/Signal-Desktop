@@ -40,6 +40,12 @@
     width: 24px;
 
     @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
+
+    @include keyboard-mode {
+      &:focus {
+        background-color: $color-ultramarine;
+      }
+    }
   }
 
   &__container {
@@ -89,6 +95,11 @@
 
   &__reply {
     @include button-reset;
+    @include keyboard-mode {
+      &:focus {
+        color: $color-ultramarine;
+      }
+    }
   }
 
   &__progress {
