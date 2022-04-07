@@ -644,7 +644,6 @@ export type ServerInterface = DataInterface & {
 
   // Server-only
 
-  getCorruptionLog: () => string;
   initialize: (options: {
     configDir: string;
     key: string;

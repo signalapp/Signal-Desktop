@@ -1901,10 +1901,12 @@
     "@types/jquery" "*"
     "@types/underscore" "*"
 
-"@types/better-sqlite3@7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@types/better-sqlite3/-/better-sqlite3-7.4.0.tgz#2b88d8474fc3f755617c0a5a8643388252c10aa1"
-  integrity sha512-tmSORlztb2cdWZDy4V81mRDgL+q7bd+ext4pI+Wj8EtJ5EHIZ6v7yiWbJ6A5eKVtoz77EsBEm7amwAzfqR/kAw==
+"@types/better-sqlite3@7.5.0":
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/@types/better-sqlite3/-/better-sqlite3-7.5.0.tgz#c57f42c76153d070f7673fbad0084ee324905be0"
+  integrity sha512-G9ZbMjydW2yj1AgiPlUtdgF3a1qNpLJLudc9ynJCeJByS3XFWpmT9LT+VSHrKHFbxb31CvtYwetLTOvG9zdxdg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/blueimp-load-image@5.14.1":
   version "5.14.1"
@@ -4100,9 +4102,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-"better-sqlite3@https://github.com/signalapp/better-sqlite3#4f66ee7b85477016dd0b2c3d2f13dcb60abd452e":
-  version "7.1.4"
-  resolved "https://github.com/signalapp/better-sqlite3#4f66ee7b85477016dd0b2c3d2f13dcb60abd452e"
+"better-sqlite3@https://github.com/signalapp/better-sqlite3#b287153a5c6a5ac77f1e70df75d245e7a6e2286d":
+  version "7.5.0"
+  resolved "https://github.com/signalapp/better-sqlite3#b287153a5c6a5ac77f1e70df75d245e7a6e2286d"
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
