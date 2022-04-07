@@ -97,7 +97,7 @@ export const CallingSelectPresentingSourcesModal = ({
         {i18n('calling__SelectPresentingSourcesModal--entireScreen')}
       </div>
       <div className="module-CallingSelectPresentingSourcesModal__sources">
-        {sources.true.map(source => (
+        {(sources.true ?? []).map(source => (
           <Source
             key={source.id}
             onSourceClick={selectedSource => setSourceToPresent(selectedSource)}
@@ -110,7 +110,7 @@ export const CallingSelectPresentingSourcesModal = ({
         {i18n('calling__SelectPresentingSourcesModal--window')}
       </div>
       <div className="module-CallingSelectPresentingSourcesModal__sources">
-        {sources.false.map(source => (
+        {(sources.false ?? []).map(source => (
           <Source
             key={source.id}
             onSourceClick={selectedSource => setSourceToPresent(selectedSource)}
