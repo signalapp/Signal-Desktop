@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -11,6 +11,7 @@ import { SignalService as Proto } from '../../../protobuf';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
+import { useUniqueId } from '../../../hooks/useUniqueId';
 
 export type PropsType = {
   conversation?: ConversationType;
@@ -27,6 +28,10 @@ export const GroupV2Permissions = ({
   setAccessControlMembersSetting,
   setAnnouncementsOnly,
 }: PropsType): JSX.Element => {
+  const addMembersSelectId = useUniqueId();
+  const groupInfoSelectId = useUniqueId();
+  const announcementSelectId = useUniqueId();
+
   if (conversation === undefined) {
     throw new Error('GroupV2Permissions rendered without a conversation');
   }
@@ -55,10 +60,15 @@ export const GroupV2Permissions = ({
   return (
     <PanelSection>
       <PanelRow
-        label={i18n('ConversationDetails--add-members-label')}
+        label={
+          <label htmlFor={addMembersSelectId}>
+            {i18n('ConversationDetails--add-members-label')}
+          </label>
+        }
         info={i18n('ConversationDetails--add-members-info')}
         right={
           <Select
+            id={addMembersSelectId}
             onChange={updateAccessControlMembers}
             options={accessControlOptions}
             value={String(conversation.accessControlMembers)}
@@ -66,10 +76,15 @@ export const GroupV2Permissions = ({
         }
       />
       <PanelRow
-        label={i18n('ConversationDetails--group-info-label')}
+        label={
+          <label htmlFor={groupInfoSelectId}>
+            {i18n('ConversationDetails--group-info-label')}
+          </label>
+        }
         info={i18n('ConversationDetails--group-info-info')}
         right={
           <Select
+            id={groupInfoSelectId}
             onChange={updateAccessControlAttributes}
             options={accessControlOptions}
             value={String(conversation.accessControlAttributes)}
@@ -78,10 +93,15 @@ export const GroupV2Permissions = ({
       />
       {showAnnouncementsOnlyPermission && (
         <PanelRow
-          label={i18n('ConversationDetails--announcement-label')}
+          label={
+            <label htmlFor={announcementSelectId}>
+              {i18n('ConversationDetails--announcement-label')}
+            </label>
+          }
           info={i18n('ConversationDetails--announcement-info')}
           right={
             <Select
+              id={announcementSelectId}
               onChange={updateAnnouncementsOnly}
               options={accessControlOptions}
               value={announcementsOnlyValue}

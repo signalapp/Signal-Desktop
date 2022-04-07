@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -12,6 +12,7 @@ import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
 
 import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus';
+import { useUniqueId } from '../../../hooks/useUniqueId';
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
@@ -34,6 +35,9 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
   isAdmin,
   setAccessControlAddFromInviteLinkSetting,
 }) => {
+  const groupLinkSelectId = useUniqueId();
+  const approveSelectId = useUniqueId();
+
   if (conversation === undefined) {
     throw new Error('GroupLinkManagement rendered without a conversation');
   }
@@ -61,10 +65,15 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
       <PanelSection>
         <PanelRow
           info={groupLinkInfo}
-          label={i18n('ConversationDetails--group-link')}
+          label={
+            <label htmlFor={groupLinkSelectId}>
+              {i18n('ConversationDetails--group-link')}
+            </label>
+          }
           right={
             isAdmin ? (
               <Select
+                id={groupLinkSelectId}
                 onChange={createEventHandler(changeHasGroupLink)}
                 options={[
                   {
@@ -120,9 +129,14 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
             <PanelSection>
               <PanelRow
                 info={i18n('GroupLinkManagement--approve-info')}
-                label={i18n('GroupLinkManagement--approve-label')}
+                label={
+                  <label htmlFor={approveSelectId}>
+                    {i18n('GroupLinkManagement--approve-label')}
+                  </label>
+                }
                 right={
                   <Select
+                    id={approveSelectId}
                     onChange={createEventHandler(
                       setAccessControlAddFromInviteLinkSetting
                     )}

@@ -6332,6 +6332,14 @@
     "message": "Custom time",
     "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
   },
+  "DisappearingTimeDialog__label--value": {
+    "message": "Number",
+    "description": "aria-label for the number select box"
+  },
+  "DisappearingTimeDialog__label--units": {
+    "message": "Unit of time",
+    "description": "aria-label for the units of time select box"
+  },
   "DisappearingTimeDialog__title": {
     "message": "Custom Time",
     "description": "Title for the custom disappearing message timeout dialog"

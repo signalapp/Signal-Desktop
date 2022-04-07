@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -36,6 +36,7 @@ import {
   format as formatExpirationTimer,
 } from '../util/expirationTimer';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { useUniqueId } from '../hooks/useUniqueId';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -263,6 +264,9 @@ export const Preferences = ({
   whoCanSeeMe,
   zoomFactor,
 }: PropsType): JSX.Element => {
+  const themeSelectId = useUniqueId();
+  const zoomSelectId = useUniqueId();
+
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [page, setPage] = useState<Page>(Page.General);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
@@ -410,9 +414,14 @@ export const Preferences = ({
         </div>
         <SettingsRow>
           <Control
-            left={i18n('Preferences--theme')}
+            left={
+              <label htmlFor={themeSelectId}>
+                {i18n('Preferences--theme')}
+              </label>
+            }
             right={
               <Select
+                id={themeSelectId}
                 onChange={onThemeChange}
                 options={[
                   {
@@ -449,9 +458,12 @@ export const Preferences = ({
             }
           />
           <Control
-            left={i18n('Preferences--zoom')}
+            left={
+              <label htmlFor={zoomSelectId}>{i18n('Preferences--zoom')}</label>
+            }
             right={
               <Select
+                id={zoomSelectId}
                 onChange={onZoomSelectChange}
                 options={zoomFactors}
                 value={zoomFactor}
@@ -576,6 +588,7 @@ export const Preferences = ({
                   {i18n('callingDeviceSelection__label--video')}
                 </label>
                 <Select
+                  ariaLabel={i18n('callingDeviceSelection__label--video')}
                   disabled={!availableCameras.length}
                   moduleClassName="Preferences__select"
                   name="video"
@@ -611,6 +624,7 @@ export const Preferences = ({
                   {i18n('callingDeviceSelection__label--audio-input')}
                 </label>
                 <Select
+                  ariaLabel={i18n('callingDeviceSelection__label--audio-input')}
                   disabled={!availableMicrophones.length}
                   moduleClassName="Preferences__select"
                   name="audio-input"
@@ -646,6 +660,9 @@ export const Preferences = ({
                   {i18n('callingDeviceSelection__label--audio-output')}
                 </label>
                 <Select
+                  ariaLabel={i18n(
+                    'callingDeviceSelection__label--audio-output'
+                  )}
                   disabled={!availableSpeakers.length}
                   moduleClassName="Preferences__select"
                   name="audio-output"
@@ -738,6 +755,7 @@ export const Preferences = ({
             left={i18n('Preferences--notification-content')}
             right={
               <Select
+                ariaLabel={i18n('Preferences--notification-content')}
                 disabled={!hasNotifications}
                 onChange={onNotificationContentChange}
                 options={[
@@ -792,6 +810,7 @@ export const Preferences = ({
               left={i18n('Preferences--see-me')}
               right={
                 <Select
+                  ariaLabel={i18n('Preferences--see-me')}
                   disabled
                   onChange={noop}
                   options={[
@@ -816,6 +835,7 @@ export const Preferences = ({
               left={i18n('Preferences--find-me')}
               right={
                 <Select
+                  ariaLabel={i18n('Preferences--find-me')}
                   disabled
                   onChange={noop}
                   options={[
@@ -884,6 +904,7 @@ export const Preferences = ({
             }
             right={
               <Select
+                ariaLabel={i18n('settings__DisappearingMessages__timer__label')}
                 onChange={value => {
                   if (
                     value === String(universalExpireTimer) ||

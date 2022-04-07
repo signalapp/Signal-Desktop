@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
@@ -13,6 +13,7 @@ import { Select } from '../../Select';
 import { isMuted } from '../../../util/isMuted';
 import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
+import { useUniqueId } from '../../../hooks/useUniqueId';
 
 type PropsType = {
   conversationType: ConversationTypeType;
@@ -35,6 +36,8 @@ export const ConversationNotificationsSettings: FunctionComponent<
   setMuteExpiration,
   setDontNotifyForMentionsIfMuted,
 }) => {
+  const muteNotificationsSelectId = useUniqueId();
+  const mentionsSelectId = useUniqueId();
   const muteOptions = useMemo(
     () => [
       ...(isMuted(muteExpiresAt)
@@ -79,9 +82,18 @@ export const ConversationNotificationsSettings: FunctionComponent<
               icon={IconType.mute}
             />
           }
-          label={i18n('muteNotificationsTitle')}
+          label={
+            <label htmlFor={muteNotificationsSelectId}>
+              {i18n('muteNotificationsTitle')}
+            </label>
+          }
           right={
-            <Select options={muteOptions} onChange={onMuteChange} value={-1} />
+            <Select
+              id={muteNotificationsSelectId}
+              options={muteOptions}
+              onChange={onMuteChange}
+              value={-1}
+            />
           }
         />
         {conversationType === 'group' && (
@@ -94,10 +106,15 @@ export const ConversationNotificationsSettings: FunctionComponent<
                 icon={IconType.mention}
               />
             }
-            label={i18n('ConversationNotificationsSettings__mentions__label')}
+            label={
+              <label htmlFor={mentionsSelectId}>
+                {i18n('ConversationNotificationsSettings__mentions__label')}
+              </label>
+            }
             info={i18n('ConversationNotificationsSettings__mentions__info')}
             right={
               <Select
+                id={mentionsSelectId}
                 options={[
                   {
                     text: i18n(
