@@ -90,10 +90,11 @@ import {
 } from '../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../protobuf';
 import {
+  getMessagePropStatus,
   hasErrors,
   isIncoming,
+  isStory,
   isTapToView,
-  getMessagePropStatus,
 } from '../state/selectors/message';
 import {
   conversationJobQueue,
@@ -1373,7 +1374,9 @@ export class ConversationModel extends window.Backbone
     // Clear typing indicator for a given contact if we receive a message from them
     this.clearContactTypingTimer(typingToken);
 
-    this.addSingleMessage(message);
+    if (!isStory(message.attributes)) {
+      this.addSingleMessage(message);
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.debouncedUpdateLastMessage!();

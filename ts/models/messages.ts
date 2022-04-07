@@ -227,14 +227,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   notifyRedux(): void {
-    const { messageChanged } = window.reduxActions.conversations;
-
-    if (messageChanged) {
-      const conversationId = this.get('conversationId');
-      // Note: The clone is important for triggering a re-run of selectors
-      messageChanged(this.id, conversationId, { ...this.attributes });
-    }
-
     const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
@@ -250,6 +242,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       storyChanged(storyData);
+
+      // We don't want messageChanged to run
+      return;
+    }
+
+    const { messageChanged } = window.reduxActions.conversations;
+
+    if (messageChanged) {
+      const conversationId = this.get('conversationId');
+      // Note: The clone is important for triggering a re-run of selectors
+      messageChanged(this.id, conversationId, { ...this.attributes });
     }
   }
 
