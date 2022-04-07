@@ -134,7 +134,11 @@ export const MessageAttachment = (props: Props) => {
       <div
         role="main"
         onClick={(e: any) => {
+          if (multiSelectMode) {
+            dispatch(toggleSelectedMessageId(messageId));
+          }
           e.stopPropagation();
+          e.preventDefault();
         }}
         style={{ padding: '5px 10px' }}
       >
