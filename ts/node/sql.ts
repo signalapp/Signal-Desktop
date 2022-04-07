@@ -3330,35 +3330,6 @@ function removeV2OpenGroupRoom(conversationId: string) {
     });
 }
 
-function removeOneOpenGroupV1Message() {
-  const row = assertGlobalInstance()
-    .prepare(
-      `SELECT count(*) from ${MESSAGES_TABLE} WHERE
-    conversationId LIKE 'publicChat:1@%';`
-    )
-    .get();
-  const toRemoveCount = row['count(*)'];
-
-  if (toRemoveCount <= 0) {
-    return 0;
-  }
-  console.info('left opengroupv1 message to remove: ', toRemoveCount);
-  const rowMessageIds = assertGlobalInstance()
-    .prepare(
-      `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
-    )
-    .all();
-
-  const messagesIds = map(rowMessageIds, r => r.id)[0];
-
-  console.time('removeOneOpenGroupV1Message');
-
-  removeMessage(messagesIds);
-  console.timeEnd('removeOneOpenGroupV1Message');
-
-  return toRemoveCount - 1;
-}
-
 // tslint:disable: binary-expression-operand-order
 // tslint:disable: insecure-random
 
@@ -3451,7 +3422,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
     const msgObjToAdd = {
       // body: `fake body ${activeAt}`,
       body: `fakeMsgIdx-spongebob-${index} ${fakeBodyText} ${activeAt}`,
-      conversationId: `${convoId}`,
+      conversationId: `05${id}`,
       // eslint-disable-next-line camelcase
       expires_at: 0,
       hasAttachments: 0,
@@ -3467,7 +3438,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       sent_at: Date.now(),
       source: `${convoId}`,
       sourceDevice: 1,
-      type: '%',
+      type: 'outgoing',
       unread: 1,
       expireTimer: 0,
       expirationStartTimestamp: 0,
@@ -3602,5 +3573,4 @@ export const sqlNode = {
   getAllV2OpenGroupRooms,
   getV2OpenGroupRoomByRoomId,
   removeV2OpenGroupRoom,
-  removeOneOpenGroupV1Message,
 };

@@ -15,9 +15,6 @@ if (config.appInstance) {
 }
 // tslint:disable: no-require-imports no-var-requires
 
-global.dcodeIO = global.dcodeIO || {};
-global.dcodeIO.ByteBuffer = require('bytebuffer');
-
 window.platform = process.platform;
 window.getTitle = () => title;
 window.getEnvironment = () => configAny.environment;

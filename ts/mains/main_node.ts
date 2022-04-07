@@ -28,7 +28,6 @@ import packageJson from '../../package.json'; // checked - only node
 
 setupGlobalErrorHandler();
 import electronLocalshortcut from 'electron-localshortcut';
-console;
 
 // tslint:disable: no-console
 
@@ -493,13 +492,13 @@ async function showPasswordWindow() {
     minHeight,
     autoHideMenuBar: false,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       enableRemoteModule: true,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
 
       // sandbox: true,
-      preload: path.join(__dirname, '..', 'password_preload.js'),
+      preload: path.join(__dirname, '..', '..', 'password_preload.js'),
       nativeWindowOpen: true,
     },
     // don't setup icon, the executable one will be used by default
@@ -507,7 +506,7 @@ async function showPasswordWindow() {
 
   passwordWindow = new BrowserWindow(windowOptions);
 
-  await passwordWindow.loadURL(prepareURL([__dirname, 'password.html']));
+  await passwordWindow.loadURL(prepareURL([__dirname, '..', '..', 'password.html']));
 
   captureClicks(passwordWindow);
 
@@ -560,17 +559,17 @@ async function showAbout() {
 
   const options = {
     width: 500,
-    height: 400,
-    resizable: false,
+    height: 500,
+    resizable: true,
     title: locale.messages.about,
     autoHideMenuBar: true,
     backgroundColor: '#000',
     show: false,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, '..', 'about_preload.js'),
+      preload: path.join(__dirname, '..', '..', 'about_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -580,7 +579,7 @@ async function showAbout() {
 
   captureClicks(aboutWindow);
 
-  await aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
+  await aboutWindow.loadURL(prepareURL([__dirname, '..', '..', 'about.html']));
 
   aboutWindow.on('closed', () => {
     aboutWindow = null;
@@ -608,17 +607,17 @@ async function showDebugLogWindow() {
   const options = {
     width: Math.max(size[0] - 100, WINDOW_SIZE.minWidth),
     height: Math.max(size[1] - 100, WINDOW_SIZE.minHeight),
-    resizable: false,
+    resizable: true,
     title: locale.messages.debugLog,
     autoHideMenuBar: true,
     backgroundColor: '#000',
     show: false,
     modal: true,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, '..', 'debug_log_preload.js'),
+      preload: path.join(__dirname, '..', '..', 'debug_log_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -628,7 +627,7 @@ async function showDebugLogWindow() {
 
   captureClicks(debugLogWindow);
 
-  await debugLogWindow.loadURL(prepareURL([__dirname, 'debug_log.html'], { theme }));
+  await debugLogWindow.loadURL(prepareURL([__dirname, '..', '..', 'debug_log.html'], { theme }));
 
   debugLogWindow.on('closed', () => {
     debugLogWindow = null;

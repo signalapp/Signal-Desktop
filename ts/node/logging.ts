@@ -64,6 +64,7 @@ export async function initializeLogger() {
 
     ipc.on('fetch-log', event => {
       fs.mkdirSync(logPath, { recursive: true });
+      console.info('fetching logs from logPath');
 
       fetch(logPath).then(
         data => {

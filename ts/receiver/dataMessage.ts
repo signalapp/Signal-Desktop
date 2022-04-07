@@ -28,6 +28,7 @@ import {
 import { MessageModel } from '../models/message';
 import { isUsFromCache } from '../session/utils/User';
 import { decryptProfile } from '../util/crypto/profileEncrypter';
+import ByteBuffer from 'bytebuffer';
 
 export async function updateProfileOneAtATime(
   conversation: ConversationModel,
@@ -52,8 +53,6 @@ async function createOrUpdateProfile(
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey?: Uint8Array | null
 ) {
-  const { dcodeIO } = window;
-
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};
 

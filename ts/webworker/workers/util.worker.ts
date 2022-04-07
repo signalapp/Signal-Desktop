@@ -29,7 +29,7 @@ const functions = {
   bytesFromString,
 };
 // tslint:disable: function-name
-
+//tslint-disable no-console
 onmessage = async (e: any) => {
   const [jobId, fnName, ...args] = e.data;
 

@@ -11,15 +11,22 @@
             img-src 'self' blob: data:;
             media-src 'self' blob:;
             object-src 'none';
-            script-src 'self';
+            script-src 'self' 'unsafe-inline';
             style-src 'self' 'unsafe-inline';"
     />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-    <style></style>
+
+    <script>
+      var exports = {};
+    </script>
   </head>
   <body>
     <div id="root"></div>
   </body>
-
-  <script type="text/javascript" src="js/debug_log_start.js"></script>
+  <script>
+    var exports = {};
+  </script>
+  <script type="text/javascript">
+    require('./ts/mains/debug_log_start.js');
+  </script>
 </html>

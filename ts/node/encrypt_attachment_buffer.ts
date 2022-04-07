@@ -50,6 +50,7 @@ export async function encryptAttachmentBufferNode(
       sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
     );
 
+    //tslint-disable restrict-plus-operands
     const encryptedBufferWithHeader = new Uint8Array(bufferOut.length + header.length);
     encryptedBufferWithHeader.set(header);
     encryptedBufferWithHeader.set(bufferOut, header.length);

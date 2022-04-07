@@ -89,7 +89,6 @@ const channelsToMake = new Set([
   'getLatestClosedGroupEncryptionKeyPair',
   'addClosedGroupEncryptionKeyPair',
   'removeAllClosedGroupEncryptionKeyPairs',
-  'removeOneOpenGroupV1Message',
   'fillWithTestData',
   ...channelsToMakeForOpengroupV2,
 ]);

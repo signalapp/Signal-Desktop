@@ -94,14 +94,13 @@ function format(entries: Array<EntryType>) {
   return redactAll(entries.map(formatLine).join('\n'));
 }
 
-async function fetch() {
+export async function fetch() {
   return new Promise(resolve => {
-    ipc.send('fetch-log');
-
     ipc.on('fetched-log', (_event, text) => {
       const result = `${getHeader()}\n${format(text)}`;
       resolve(result);
     });
+    ipc.send('fetch-log');
   });
 }
 
@@ -130,7 +129,6 @@ window.log = {
   info: _.partial(logAtLevel, 'info', 'INFO '),
   debug: _.partial(logAtLevel, 'debug', 'DEBUG'),
   trace: _.partial(logAtLevel, 'trace', 'TRACE'),
-  fetch,
 };
 
 window.onerror = (_message, _script, _line, _col, error) => {

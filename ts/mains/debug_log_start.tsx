@@ -13,4 +13,6 @@ import { DebugLogView } from '../views/DebugLogView';
 // });
 
 // Whisper ?
-window.ReactDOM.render(<DebugLogView />, document.getElementById('root'));
+global.setTimeout(() => {
+  window.ReactDOM.render(<DebugLogView />, document.getElementById('root'));
+}, 1000);

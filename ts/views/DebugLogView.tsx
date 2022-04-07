@@ -1,7 +1,44 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { fetch } from '../util/logging';
 
-export const DebugLogView = () => {
+const StyledContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 100%;
+`;
+
+const DebugLogTextArea = (props: { content: string }) => {
+  console.warn('DebugLogTextArea ', props.content);
+  return <textarea spellCheck="false" rows={10} value={props.content} style={{ height: '100%' }} />;
+};
+
+const DebugLogButtons = (props: { content: string }) => {
+  return (
+    <div className="buttons">
+      <button
+        className="grey submit"
+        onClick={e => {
+          e.preventDefault();
+
+          if (props.content.length <= 20) {
+            // loading
+            return;
+          }
+          (window as any).saveLog(props.content);
+          (window as any).closeDebugLog();
+        }}
+      >
+        {window.i18n('saveLogToDesktop')}
+      </button>
+    </div>
+  );
+};
+
+const DebugLogViewAndSave = () => {
   const [content, setContent] = useState(window.i18n('loading'));
+
   useEffect(() => {
     const operatingSystemInfo = `Operating System: ${(window as any).getOSRelease()}`;
 
@@ -10,15 +47,25 @@ export const DebugLogView = () => {
       : '';
 
     // eslint-disable-next-line more/no-then
-    window.log.fetch().then((text: string) => {
-      const debugLogWithSystemInfo = operatingSystemInfo + commitHashInfo + text;
-
-      setContent(debugLogWithSystemInfo);
-    });
+    fetch()
+      .then((text: any) => {
+        const debugLogWithSystemInfo = operatingSystemInfo + commitHashInfo + text;
+        setContent(debugLogWithSystemInfo);
+      })
+      .catch(console.warn);
   }, []);
 
   return (
-    <div className="content">
+    <>
+      <DebugLogTextArea content={content} />
+      <DebugLogButtons content={content} />
+    </>
+  );
+};
+
+export const DebugLogView = () => {
+  return (
+    <StyledContent>
       <div>
         <button
           className="x close"
@@ -30,26 +77,7 @@ export const DebugLogView = () => {
         <h1> {window.i18n('debugLog')} </h1>
         <p> {window.i18n('debugLogExplanation')}</p>
       </div>
-      <textarea spellCheck="false" rows={5}>
-        {content}
-      </textarea>
-      <div className="buttons">
-        <button
-          className="grey submit"
-          onClick={e => {
-            e.preventDefault();
-
-            if (content.length <= 20) {
-              // loading
-              return;
-            }
-            (window as any).saveLog(content);
-            (window as any).closeDebugLog();
-          }}
-        >
-          {window.i18n('saveLogToDesktop')}
-        </button>
-      </div>
-    </div>
+      <DebugLogViewAndSave />
+    </StyledContent>
   );
 };

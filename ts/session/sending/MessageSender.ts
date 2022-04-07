@@ -21,6 +21,7 @@ import { getMessageById } from '../../../ts/data/data';
 import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
 import { EmptySwarmError } from '../utils/errors';
+import ByteBuffer from 'bytebuffer';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -128,7 +129,7 @@ export async function TEST_sendMessageToSnode(
   isSyncMessage?: boolean,
   messageId?: string
 ): Promise<void> {
-  const data64 = window.dcodeIO.ByteBuffer.wrap(data).toString('base64');
+  const data64 = ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
 
   window?.log?.debug(

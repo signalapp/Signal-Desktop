@@ -3,14 +3,9 @@
 const { ipcRenderer } = require('electron');
 const url = require('url');
 const i18n = require('./ts/util/i18n');
-const { DebugLogView } = require('./ts/views/DebugLogView');
-
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
-
-global.dcodeIO = global.dcodeIO || {};
-global.dcodeIO.ByteBuffer = require('bytebuffer');
 
 window._ = require('lodash');
 
@@ -34,8 +29,5 @@ window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;
 window.getCommitHash = () => config.commitHash;
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');
-
-window.Views = {};
-window.Views.DebugLogView = DebugLogView;
 
 window.saveLog = logText => ipcRenderer.send('save-debug-log', logText);
