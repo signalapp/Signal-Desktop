@@ -207,7 +207,6 @@ const dataInterface: ClientInterface = {
   getAllConversationIds,
   getAllGroupsInvolvingUuid,
 
-  searchConversations,
   searchMessages,
   searchMessagesInConversation,
 
@@ -1029,12 +1028,6 @@ async function getAllConversationIds() {
 
 async function getAllGroupsInvolvingUuid(uuid: UUIDStringType) {
   return channels.getAllGroupsInvolvingUuid(uuid);
-}
-
-async function searchConversations(query: string) {
-  const conversations = await channels.searchConversations(query);
-
-  return conversations;
 }
 
 function handleSearchMessageJSON(

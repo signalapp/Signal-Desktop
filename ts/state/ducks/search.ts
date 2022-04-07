@@ -6,6 +6,7 @@ import { debounce, omit, reject } from 'lodash';
 
 import type { StateType as RootStateType } from '../reducer';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
+import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
 import type {
   ClientSearchResultMessageType,
   ClientInterface,
@@ -14,8 +15,8 @@ import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
 
 import type {
+  ConversationType,
   ConversationUnloadedActionType,
-  DBConversationType,
   MessageDeletedActionType,
   MessageType,
   RemoveAllConversationsActionType,
@@ -23,11 +24,15 @@ import type {
   ShowArchivedConversationsActionType,
 } from './conversations';
 import { getQuery, getSearchConversation } from '../selectors/search';
-import { getIntl, getUserConversationId } from '../selectors/user';
+import { getAllConversations } from '../selectors/conversations';
+import {
+  getIntl,
+  getRegionCode,
+  getUserConversationId,
+} from '../selectors/user';
 import { strictAssert } from '../../util/assert';
 
 const {
-  searchConversations: dataSearchConversations,
   searchMessages: dataSearchMessages,
   searchMessagesInConversation,
 }: ClientInterface = dataInterface;
@@ -166,6 +171,8 @@ function updateSearchTerm(
 
     doSearch({
       dispatch,
+      allConversations: getAllConversations(state),
+      regionCode: getRegionCode(state),
       noteToSelf: getIntl(state)('noteToSelf').toLowerCase(),
       ourConversationId,
       query: getQuery(state),
@@ -177,6 +184,8 @@ function updateSearchTerm(
 const doSearch = debounce(
   ({
     dispatch,
+    allConversations,
+    regionCode,
     noteToSelf,
     ourConversationId,
     query,
@@ -188,7 +197,9 @@ const doSearch = debounce(
       | SearchMessagesResultsFulfilledActionType
       | SearchDiscussionsResultsFulfilledActionType
     >;
+    allConversations: ReadonlyArray<ConversationType>;
     noteToSelf: string;
+    regionCode: string | undefined;
     ourConversationId: string;
     query: string;
     searchConversationId: undefined | string;
@@ -213,6 +224,8 @@ const doSearch = debounce(
           await queryConversationsAndContacts(query, {
             ourConversationId,
             noteToSelf,
+            regionCode,
+            allConversations,
           });
 
         dispatch({
@@ -250,20 +263,22 @@ async function queryMessages(
 }
 
 async function queryConversationsAndContacts(
-  providedQuery: string,
+  query: string,
   options: {
     ourConversationId: string;
     noteToSelf: string;
+    regionCode: string | undefined;
+    allConversations: ReadonlyArray<ConversationType>;
   }
 ): Promise<{
   contactIds: Array<string>;
   conversationIds: Array<string>;
 }> {
-  const { ourConversationId, noteToSelf } = options;
-  const query = providedQuery.replace(/[+.()]*/g, '');
+  const { ourConversationId, noteToSelf, regionCode, allConversations } =
+    options;
 
-  const searchResults: Array<DBConversationType> =
-    await dataSearchConversations(query);
+  const searchResults: Array<ConversationType> =
+    filterAndSortConversationsByRecent(allConversations, query, regionCode);
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];
@@ -272,7 +287,7 @@ async function queryConversationsAndContacts(
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
 
-    if (conversation.type === 'private' && !conversation.lastMessage) {
+    if (conversation.type === 'direct' && !conversation.lastMessage) {
       contactIds.push(conversation.id);
     } else {
       conversationIds.push(conversation.id);
@@ -280,7 +295,7 @@ async function queryConversationsAndContacts(
   }
 
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
-  if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
+  if (noteToSelf.indexOf(query.toLowerCase()) !== -1) {
     // ensure that we don't have duplicates in our results
     contactIds = contactIds.filter(id => id !== ourConversationId);
     conversationIds = conversationIds.filter(id => id !== ourConversationId);

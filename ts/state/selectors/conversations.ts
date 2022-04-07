@@ -121,7 +121,7 @@ export const getConversationsByUsername = createSelector(
   }
 );
 
-const getAllConversations = createSelector(
+export const getAllConversations = createSelector(
   getConversationLookup,
   (lookup): Array<ConversationType> => Object.values(lookup)
 );

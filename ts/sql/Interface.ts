@@ -363,10 +363,6 @@ export type DataInterface = {
     id: UUIDStringType
   ) => Promise<Array<ConversationType>>;
 
-  searchConversations: (
-    query: string,
-    options?: { limit?: number }
-  ) => Promise<Array<ConversationType>>;
   // searchMessages is JSON on server, full message on Client
   // searchMessagesInConversation is JSON on server, full message on Client
 

@@ -203,7 +203,6 @@ const dataInterface: ServerInterface = {
   getAllConversationIds,
   getAllGroupsInvolvingUuid,
 
-  searchConversations,
   searchMessages,
   searchMessagesInConversation,
 
@@ -1521,33 +1520,6 @@ async function getAllGroupsInvolvingUuid(
     )
     .all({
       uuid: `%${uuid}%`,
-    });
-
-  return rows.map(row => rowToConversation(row));
-}
-
-async function searchConversations(
-  query: string,
-  { limit }: { limit?: number } = {}
-): Promise<Array<ConversationType>> {
-  const db = getInstance();
-  const rows: ConversationRows = db
-    .prepare<Query>(
-      `
-      SELECT json, profileLastFetchedAt
-      FROM conversations WHERE
-        (
-          e164 LIKE $query OR
-          name LIKE $query OR
-          profileFullName LIKE $query
-        )
-      ORDER BY active_at DESC
-      LIMIT $limit
-      `
-    )
-    .all({
-      query: `%${query}%`,
-      limit: limit || 100,
     });
 
   return rows.map(row => rowToConversation(row));
