@@ -460,7 +460,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Wenn du auf »Abschicken« klickst, wird dein Diagnoseprotokoll unter einer eindeutigen, unveröffentlichten Internetadresse für 30 Tage online gestellt. Du kannst es aber auch erst lokal speichern.",
+        "message": "Wenn du auf »Abschicken« klickst, wird dein Diagnoseprotokoll unter einer eindeutigen, unveröffentlichten Internetadresse für 30 Tage online gestellt. Du kannst es aber auch erst lokal speichern.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Diagnoseprotokoll wurde hochgeladen. Wenn du den Support kontaktierst, kopiere die untenstehende Internetadresse und füge sie deiner Problembeschreibung und den Schritten zur Reproduktion an.",
+        "message": "Diagnoseprotokoll wurde hochgeladen. Wenn du den Support kontaktierst, kopiere die untenstehende Internetadresse und füge sie deiner Problembeschreibung und den Schritten zur Reproduktion bei.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "… um das gesamte Diagnoseprotokoll zu sehen, klicke auf »Speichern«",
+        "message": "… um das gesamte Diagnoseprotokoll zu sehen, klicke auf »Speichern«",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -2518,7 +2518,7 @@
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal konnte nicht aktualisiert werden. Klicke, um es erneut zu versuchen.",
+        "message": "Signal konnte nicht aktualisiert werden. Anklicken, um es erneut zu versuchen.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2632,7 +2632,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Gehe zur Unterhaltung mit $title$",
+        "message": "Zur Unterhaltung mit $title$ gehen",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
