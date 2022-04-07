@@ -688,7 +688,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Napsauta yhdistääksesi uudelleen.",
+        "message": "Yhdistä uudelleen napsauttamalla.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
@@ -1048,7 +1048,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Päivitys ei onnistunut. $retry$ tai käy osoitteessa $url$ asentaaksesi päivityksen käsin. Sen jälkeen $support$ ongelmasta.",
+        "message": "Päivitys ei onnistunut. $retry$ tai asenna päivitys käsin osoitteesta $url$. Sitten $support$ ongelmasta.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -2036,7 +2036,7 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Osittain lähetetty, napsauta nähdäksesi lisätietoja",
+        "message": "Osittain lähetetty, lisätietoja napsauttamalla",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
@@ -2060,7 +2060,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Napsauta mennäksesi lataussivulle signal.org/download",
+        "message": "Siirry lataussivulle signal.org/download napsauttamalla",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2240,7 +2240,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Salli ilmoitusten äänimerkki",
+        "message": "Toista ilmoitusten äänimerkki",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2510,15 +2510,15 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Napsauta uudelleenkäynnistääksesi Signalin",
+        "message": "Käynnistä Signal uudelleen napsauttamalla",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Napsauta ladataksesi päivityksen",
+        "message": "Lataa päivitys napsauttamalla",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signalin päivitys ei onnistunut. Napsauta yrittääksesi uudelleen.",
+        "message": "Signalin päivitys ei onnistunut. Yritä uudelleen napsauttamalla.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -3170,7 +3170,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Napsauta lisätäksesi tai pudota kuvat tähän",
+        "message": "Lisää napsauttamalla tai pudota kuvia tähän",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -3222,11 +3222,11 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Napsauta tai raahaa tiedostoa lisätäksesi tarran",
+        "message": "Lisää tarra napsauttamalla tai vetämällä ja pudottamalla tiedosto",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Tarrojen tulee olla PNG-, APNG- tai WebP-muodossa läpinäkyvällä taustalla ja 512x512 pikseliä. Suositeltu marginaali on 16 pikseliä.",
+        "message": "Tarran tulee olla PNG-, APNG- tai WebP-muodossa, läpinäkyvällä taustalla ja kooltaan 512 x 512 pikseliä. Suositeltu marginaali on 16 pikseliä.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -3234,7 +3234,7 @@
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Lisää $count$ tai enemmän",
+        "message": "Lisää vielä vähintään $count$",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -6104,7 +6104,7 @@
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Napsauta tarkastellaksesi",
+        "message": "Tarkastele napsauttamalla",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
@@ -6316,7 +6316,7 @@
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Valitse haluamasi aika viestin poistumiselle.",
+        "message": "Valitse aika viestin katoamiselle.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -6324,23 +6324,23 @@
         "description": "Text for the dialog button confirming the custom disappearing message timeout"
     },
     "DisappearingTimeDialog__seconds": {
-        "message": "Sekuntia",
+        "message": "sekuntia",
         "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__minutes": {
-        "message": "Minuuttia",
+        "message": "minuuttia",
         "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__hours": {
-        "message": "Tuntia",
+        "message": "tuntia",
         "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__days": {
-        "message": "Päivää",
+        "message": "päivää",
         "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__weeks": {
-        "message": "Viikkoa",
+        "message": "viikkoa",
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
@@ -6362,7 +6362,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Ei voitu näyttää tätä viestiä. Napsauta lähettääksesi virhelokin.",
+        "message": "Viestiä ei voitu näyttää. Lähetä virheilmoitus napsauttamalla.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6622,7 +6622,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Viimeinen tuonti $date$ $time$",
+        "message": "Viimeisin tuonti $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6754,7 +6754,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Sulje se itse ja napsauta Yritä uudelleen jatkaaksesi.",
+        "message": "Sulje se itse ja jatka napsauttamalla Yritä uudelleen.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
@@ -6778,7 +6778,7 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Napsauta vaihtaaksesi emojin",
+        "message": "Vaihda emoji napsauttamalla",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
@@ -7012,6 +7012,10 @@
                 "example": "Abby"
             }
         }
+    },
+    "StoryImage__error": {
+        "message": "Kuvan näyttämisessä tapahtui virhe",
+        "description": "aria-label for image errors"
     },
     "WhatsNew__modal-title": {
         "message": "Uudet ominaisuudet",

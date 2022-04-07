@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Gabim në shfaqje figure",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "Ç’ka të Re",
         "description": "Title for the whats new modal"

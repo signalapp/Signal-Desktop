@@ -398,7 +398,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Mae'r rhif diogelwch rydych yn ceisio ei ddilysu wedi newid. Adolygwch eich rhif diogelwch newydd â $name1$. Cofiwch, gall y newid hwn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebiad neu – yn syml – bod $name2$ wedi ailosod Signal.",
+        "message": "Mae'r rhif diogelwch rydych yn ceisio ei ddilysu wedi newid. Adolygwch eich rhif diogelwch newydd â $name1$. Cofiwch, gall y newid hwn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebiad neu fod $name2$ wedi ailosod Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -420,7 +420,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Mae'ch rhif diogelwch gyda $name1$ wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu – yn syml – bod $name2$ wedi ail-osod Signal. Efallai hoffech chi wirio'r rhif diogelwch gyda'r cysylltiad hwn.",
+        "message": "Mae'ch rhif diogelwch gyda $name1$ wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu fod $name2$ wedi ail-osod Signal. Efallai hoffech chi wirio'r rhif diogelwch gyda'r cysylltiad hwn.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -544,7 +544,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Mae'ch rhif diogelwch gyda'r cysylltiad hwn wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu - yn syml – eu bod wedi ail-osod Signal. Efallai hoffech wirio'r rhif diogelwch newydd isod.",
+        "message": "Mae'ch rhif diogelwch gyda'r cysylltiad hwn wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu fod wedi ail-osod Signal. Efallai hoffech wirio'r rhif diogelwch newydd isod.",
         "description": ""
     },
     "incomingError": {
@@ -1168,7 +1168,7 @@
         "description": ""
     },
     "showSafetyNumber": {
-        "message": "Gweld rhif diogelwch",
+        "message": "Gweld y rhif diogelwch",
         "description": ""
     },
     "viewRecentMedia": {
@@ -2256,7 +2256,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "Newidiodd $sender$ eu henw proffil o $oldProfile$ i $newProfile$.",
+        "message": "Newidiodd $sender$ ei h/enw proffil o $oldProfile$ i $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2274,7 +2274,7 @@
         }
     },
     "changedProfileName": {
-        "message": "Newidiodd $oldProfile$ eu henw proffil i $newProfile$.",
+        "message": "Newidiodd $oldProfile$ ei h/enw proffil i $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2288,7 +2288,7 @@
         }
     },
     "SafetyNumberModal__title": {
-        "message": "Gwirio Rhif Diogelwch",
+        "message": "Gwirio'r Rhif Diogelwch",
         "description": "Title for the modal for safety number verification"
     },
     "safetyNumberChanged": {
@@ -2300,7 +2300,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "Mae Rhif Diogelwch gyda $enw$ wedi newid",
+        "message": "Mae'r Rhif Diogelwch gyda $enw$ wedi newid",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -2310,7 +2310,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Gwirio Rhif Diogelwch",
+        "message": "Gwirio'r Rhif Diogelwch",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
@@ -6136,7 +6136,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Wedi newid eu henw proffil yn ddiweddar o $oldName$ i $newName$",
+        "message": "Wedi newid ei h/enw proffil yn ddiweddar o $oldName$ i $newName$",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -7012,6 +7012,10 @@
                 "example": "Abby"
             }
         }
+    },
+    "StoryImage__error": {
+        "message": "Gwall wrth ddangos delwedd",
+        "description": "aria-label for image errors"
     },
     "WhatsNew__modal-title": {
         "message": "Be sy'n Newydd",

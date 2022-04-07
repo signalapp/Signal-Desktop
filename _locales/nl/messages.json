@@ -290,7 +290,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Begin Signal-Desktop te gebruiken",
+        "message": "Begin Signal-desktop te gebruiken",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -642,7 +642,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Er is in Signal-Desktop een fout opgetreden bij het ontsleutelen van $name$, op apparaat $deviceId$",
+        "message": "Er is in Signal-desktop een fout opgetreden bij het ontsleutelen van $name$, op apparaat $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -724,15 +724,15 @@
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "Ga naar uitgaveopmerkingen",
+        "message": "Open de uitgaveopmerkingen",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Ga naar forums",
+        "message": "Open het forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Ga naar ondersteuningspagina",
+        "message": "Open de ondersteuningspagina",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
@@ -740,7 +740,7 @@
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Signal-Desktop-instellingen",
+        "message": "Signal-desktop-instellingen",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -748,7 +748,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Over Signal-Desktop",
+        "message": "Over Signal-desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
@@ -772,7 +772,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal-Desktop",
+        "message": "Signal-desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -798,7 +798,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "Personen met wie je uitsluitend over sms- of mms-gesprekken voert zijn niet beschikbaar in Signal-Desktop.",
+        "message": "Personen met wie je uitsluitend over sms- of mms-gesprekken voert zijn niet beschikbaar in Signal-desktop.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -1000,7 +1000,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Om een audiobericht te versturen moet je Signal-Desktop toegang tot de microfoon geven.",
+        "message": "Om een audiobericht te versturen moet je Signal-desktop toegang tot de microfoon geven.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -1066,7 +1066,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal-Desktop bevind zich waarschijnlijk in een MacOS quarantaine, waardoor het niet automatisch kan bijwerken. Probeer de directory  $app$ met Finder naar  $folder$ te verplaatsen.",
+        "message": "Signal-desktop bevind zich waarschijnlijk in een MacOS quarantaine, waardoor het niet automatisch kan bijwerken. Probeer de directory  $app$ met Finder naar  $folder$ te verplaatsen.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1334,7 +1334,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Welkom bij Signal-Desktop",
+        "message": "Welkom bij Signal-desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1942,7 +1942,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Je hebt nog overbodige gegevens op je apparaat van een Signal-Desktop installatie van voor oktober 2018. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je gesprekjen worden gewist van Signal-Desktop en zal je met een schone installatie beginnen.",
+        "message": "Je hebt nog overbodige gegevens op je apparaat van een Signal-desktop installatie van voor oktober 2018. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je gesprekjen worden gewist van Signal-desktop en zal je met een schone installatie beginnen.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -2056,7 +2056,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Deze versie van Signal-Desktop is verouderd. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten.",
+        "message": "Deze versie van Signal-desktop is verouderd. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -2474,7 +2474,7 @@
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
-        "message": "Sms/mms-berichten worden door Signal-Desktop niet ondersteund.",
+        "message": "Sms/mms-berichten worden door Signal-desktop niet ondersteund.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -2486,7 +2486,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Klik hier om Signal-Desktop te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal-Desktop te kunnen gebruiken.",
+        "message": "Klik hier om Signal-desktop te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal-desktop te kunnen gebruiken.",
         "description": ""
     },
     "unlinked": {
@@ -4096,7 +4096,7 @@
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "Deze groepsverwijzing wordt niet langer ondersteund in deze versie van Signal-Desktop.",
+        "message": "Deze groepsverwijzing wordt niet langer ondersteund in deze versie van Signal-desktop.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
@@ -5480,7 +5480,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal-Desktop biedt geen ondersteuning voor het verzenden van berichten naar personen wie niet geregistreerd zijn bij Signal. Vraag deze persoon om Signal te installeren om zo beveiligde gesprekken te kunnen voeren.",
+        "message": "Signal-desktop biedt geen ondersteuning voor het verzenden van berichten naar personen wie niet geregistreerd zijn bij Signal. Vraag deze persoon om Signal te installeren om zo beveiligde gesprekken te kunnen voeren.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Fout bij weergeven van afbeelding",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
@@ -7046,7 +7050,7 @@
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Er was een fout waardoor sommige stickerpakketten niet konden worden weergegeven in Signal-Desktop. Vanaf nu kun je alle stickerpakketten zien net als op je telefoon.",
+        "message": "Er was een fout waardoor sommige stickerpakketten niet konden worden weergegeven in Signal-desktop. Vanaf nu kun je alle stickerpakketten zien net als op je telefoon.",
         "description": "Release notes for v5.37"
     }
 }

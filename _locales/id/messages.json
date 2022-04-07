@@ -2364,7 +2364,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "Cerita",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -4112,7 +4112,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "Anda tidak dapat bergabung dengan grup ini melalui tautan grup karena seorang admin mengeluarkan Anda.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -6930,7 +6930,7 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "Cerita",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
@@ -7012,6 +7012,10 @@
                 "example": "Abby"
             }
         }
+    },
+    "StoryImage__error": {
+        "message": "Error displaying image",
+        "description": "aria-label for image errors"
     },
     "WhatsNew__modal-title": {
         "message": "Yang Baru",

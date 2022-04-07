@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Təsvirin görüntülənmə xətası",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "Yeni nə var",
         "description": "Title for the whats new modal"

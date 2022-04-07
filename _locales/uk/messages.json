@@ -7013,6 +7013,10 @@
             }
         }
     },
+    "StoryImage__error": {
+        "message": "Помилка показування зображення",
+        "description": "aria-label for image errors"
+    },
     "WhatsNew__modal-title": {
         "message": "Що нового",
         "description": "Title for the whats new modal"
