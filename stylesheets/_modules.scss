@@ -3547,7 +3547,7 @@ button.module-image__border-overlay:focus {
     justify-content: center;
     position: absolute;
     width: 100%;
-    z-index: $z-index-below-popup-overlay;
+    z-index: $z-index-calling;
   }
 
   &__header {
