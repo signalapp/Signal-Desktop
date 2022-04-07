@@ -381,6 +381,16 @@ story.add('Expiring', () => {
   return renderBothDirections(props);
 });
 
+story.add('Will expire but still sending', () => {
+  const props = createProps({
+    status: 'sending',
+    expirationLength: 30 * 1000,
+    text: 'For outgoing messages, we show timer immediately. Incoming, we wait until expirationStartTimestamp is present.',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Pending', () => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
@@ -607,12 +617,12 @@ story.add('Sticker', () => {
 
 story.add('Deleted', () => {
   const propsSent = createProps({
-    conversationType: 'group',
+    conversationType: 'direct',
     deletedForEveryone: true,
     status: 'sent',
   });
   const propsSending = createProps({
-    conversationType: 'group',
+    conversationType: 'direct',
     deletedForEveryone: true,
     status: 'sending',
   });
@@ -645,6 +655,7 @@ story.add('Deleted with error', () => {
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'partial-sent',
+    direction: 'outgoing',
   });
   const propsError = createProps({
     timestamp: Date.now() - 60 * 1000,
@@ -652,12 +663,13 @@ story.add('Deleted with error', () => {
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'error',
+    direction: 'outgoing',
   });
 
   return (
     <>
-      {renderBothDirections(propsPartialError)}
-      {renderBothDirections(propsError)}
+      <Message {...propsPartialError} />
+      <Message {...propsError} />
     </>
   );
 });

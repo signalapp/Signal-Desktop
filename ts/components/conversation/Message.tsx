@@ -548,6 +548,7 @@ export class Message extends React.PureComponent<Props, State> {
   private getMetadataPlacement(
     {
       attachments,
+      deletedForEveryone,
       expirationLength,
       expirationTimestamp,
       shouldHideMetadata,
@@ -567,7 +568,7 @@ export class Message extends React.PureComponent<Props, State> {
       return MetadataPlacement.NotRendered;
     }
 
-    if (!text) {
+    if (!text && !deletedForEveryone) {
       return isAudio(attachments)
         ? MetadataPlacement.RenderedByMessageAudioComponent
         : MetadataPlacement.Bottom;
@@ -598,7 +599,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
 
-    const hasExpireTimer = Boolean(expirationLength && expirationTimestamp);
+    const hasExpireTimer = Boolean(
+      expirationLength && (expirationTimestamp || direction === 'outgoing')
+    );
     if (hasExpireTimer) {
       result += GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE;
     }
@@ -1464,6 +1467,9 @@ export class Message extends React.PureComponent<Props, State> {
           `module-message__text--${direction}`,
           status === 'error' && direction === 'incoming'
             ? 'module-message__text--error'
+            : null,
+          deletedForEveryone
+            ? 'module-message__text--delete-for-everyone'
             : null
         )}
         dir={isRTL ? 'rtl' : undefined}

@@ -17,6 +17,7 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
 import { RecordingState } from '../state/ducks/audioRecorder';
+import { ConversationColors } from '../types/Colors';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -180,6 +181,21 @@ story.add('Announcements Only group', () => (
     {...useProps({
       announcementsOnly: true,
       areWeAdmin: false,
+    })}
+  />
+));
+
+story.add('Quote', () => (
+  <CompositionArea
+    {...useProps({
+      quotedMessageProps: {
+        text: 'something',
+        conversationColor: ConversationColors[10],
+        isViewOnce: false,
+        referencedMessageNotFound: false,
+        authorTitle: 'Someone',
+        isFromMe: false,
+      },
     })}
   />
 ));

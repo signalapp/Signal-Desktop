@@ -91,6 +91,8 @@ export const MessageMetadata = ({
           className={classNames({
             'module-message__metadata__date': true,
             'module-message__metadata__date--with-sticker': isSticker,
+            'module-message__metadata__date--deleted-for-everyone':
+              deletedForEveryone,
             [`module-message__metadata__date--${direction}`]: !isSticker,
             'module-message__metadata__date--with-image-no-caption':
               withImageNoCaption,
@@ -105,6 +107,7 @@ export const MessageMetadata = ({
           i18n={i18n}
           timestamp={timestamp}
           direction={metadataDirection}
+          deletedForEveryone={deletedForEveryone}
           withImageNoCaption={withImageNoCaption}
           withSticker={isSticker}
           withTapToViewExpired={isTapToViewExpired}
@@ -117,14 +120,16 @@ export const MessageMetadata = ({
   const className = classNames(
     'module-message__metadata',
     isInline && 'module-message__metadata--inline',
-    withImageNoCaption && 'module-message__metadata--with-image-no-caption'
+    withImageNoCaption && 'module-message__metadata--with-image-no-caption',
+    deletedForEveryone && 'module-message__metadata--deleted-for-everyone'
   );
   const children = (
     <>
       {timestampNode}
-      {expirationLength && expirationTimestamp ? (
+      {expirationLength && (expirationTimestamp || direction === 'outgoing') ? (
         <ExpireTimer
           direction={metadataDirection}
+          deletedForEveryone={deletedForEveryone}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
           withImageNoCaption={withImageNoCaption}
@@ -151,6 +156,9 @@ export const MessageMetadata = ({
               : null,
             withImageNoCaption
               ? 'module-message__metadata__status-icon--with-image-no-caption'
+              : null,
+            deletedForEveryone
+              ? 'module-message__metadata__status-icon--deleted-for-everyone'
               : null,
             isTapToViewExpired
               ? 'module-message__metadata__status-icon--with-tap-to-view-expired'

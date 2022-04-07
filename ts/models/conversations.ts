@@ -3669,16 +3669,22 @@ export class ConversationModel extends window.Backbone
     sticker?: WhatIsThis
   ): Promise<WhatIsThis> {
     if (attachments && attachments.length) {
-      const validAttachments = filter(
-        attachments,
-        attachment => attachment && !attachment.pending && !attachment.error
-      );
-      const attachmentsToUse = Array.from(take(validAttachments, 1));
+      const attachmentsToUse = Array.from(take(attachments, 1));
       const isGIFQuote = isGIF(attachmentsToUse);
 
       return Promise.all(
         map(attachmentsToUse, async attachment => {
-          const { fileName, thumbnail, contentType } = attachment;
+          const { path, fileName, thumbnail, contentType } = attachment;
+
+          if (!path) {
+            return {
+              contentType: isGIFQuote ? IMAGE_GIF : contentType,
+              // Our protos library complains about this field being undefined, so we
+              //   force it to null
+              fileName: fileName || null,
+              thumbnail: null,
+            };
+          }
 
           return {
             contentType: isGIFQuote ? IMAGE_GIF : contentType,
@@ -3697,12 +3703,22 @@ export class ConversationModel extends window.Backbone
     }
 
     if (preview && preview.length) {
-      const validPreviews = filter(preview, item => item && item.image);
-      const previewsToUse = take(validPreviews, 1);
+      const previewsToUse = take(preview, 1);
 
       return Promise.all(
         map(previewsToUse, async attachment => {
           const { image } = attachment;
+
+          if (!image) {
+            return {
+              contentType: IMAGE_JPEG,
+              // Our protos library complains about these fields being undefined, so we
+              //   force them to null
+              fileName: null,
+              thumbnail: null,
+            };
+          }
+
           const { contentType } = image;
 
           return {
@@ -4428,7 +4444,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    if (this.isGroupV1AndDisabled()) {
+    if (!isSetByOther && this.isGroupV1AndDisabled()) {
       throw new Error(
         'updateExpirationTimer: GroupV1 is deprecated; cannot update expiration timer'
       );

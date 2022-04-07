@@ -443,6 +443,22 @@
   }
 }
 
+.module-message__container--deleted-for-everyone {
+  @include light-theme {
+    color: $color-gray-90;
+    border: 1px solid $color-gray-25;
+    background-color: $color-white;
+    background-image: none;
+  }
+
+  @include dark-theme {
+    color: $color-gray-05;
+    border: 1px solid $color-gray-75;
+    background-color: $color-gray-95;
+    background-image: none;
+  }
+}
+
 .module-message__tap-to-view {
   margin-top: 2px;
   display: flex;
@@ -992,6 +1008,14 @@
 .module-message__text--error {
   @include font-body-1-italic;
 }
+.module-message__text--delete-for-everyone {
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
 
 .module-message__metadata {
   align-items: center;
@@ -999,6 +1023,7 @@
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 3px;
+  font-style: normal;
 
   &--inline {
     float: right;
@@ -1019,6 +1044,15 @@
 
   // This is so all clicks go right through to the underlying image.
   pointer-events: none;
+}
+
+.module-message__metadata--deleted-for-everyone {
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-message__metadata__date {
@@ -1054,6 +1088,14 @@
     color: $color-white-alpha-80;
   }
 }
+.module-message__metadata__date--deleted-for-everyone {
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
 .module-message__metadata__date.module-message__metadata__date--incoming-with-tap-to-view-expired {
   color: $color-gray-75;
 
@@ -1076,6 +1118,8 @@
   height: 12px;
   display: inline-block;
   margin-left: 6px;
+  // High margin to leave space for the increase when we go to two checks
+  margin-right: 6px;
   margin-bottom: 2px;
 }
 
@@ -1102,6 +1146,8 @@
   }
 }
 .module-message__metadata__status-icon--delivered {
+  // We reduce the margin size to keep the overall width the same
+  margin-right: 0px;
   width: 18px;
 
   @include light-theme {
@@ -1113,6 +1159,8 @@
 }
 .module-message__metadata__status-icon--read,
 .module-message__metadata__status-icon--viewed {
+  // We reduce the margin size to keep the overall width the same
+  margin-right: 0px;
   width: 18px;
 
   @include light-theme {
@@ -1135,6 +1183,15 @@
 .module-message__metadata__status-icon--with-sticker {
   @include light-theme {
     background-color: $color-gray-60;
+  }
+}
+
+.module-message__metadata__status-icon--deleted-for-everyone {
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
   }
 }
 
@@ -1364,6 +1421,15 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     background-color: $color-gray-02;
+  }
+}
+
+.module-expire-timer--deleted-for-everyone {
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
   }
 }
 
@@ -7845,6 +7911,8 @@ button.module-image__border-overlay:focus {
 
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
+  max-width: 100%;
+
   &--incoming {
     align-self: flex-start;
   }

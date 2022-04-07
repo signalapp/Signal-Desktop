@@ -8,12 +8,13 @@ import { getIncrement, getTimerBucket } from '../../util/timer';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 
 export type Props = {
+  deletedForEveryone?: boolean;
+  direction?: 'incoming' | 'outgoing';
+  expirationLength: number;
+  expirationTimestamp?: number;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
   withTapToViewExpired?: boolean;
-  expirationLength: number;
-  expirationTimestamp: number;
-  direction?: 'incoming' | 'outgoing';
 };
 
 export class ExpireTimer extends React.Component<Props> {
@@ -46,6 +47,7 @@ export class ExpireTimer extends React.Component<Props> {
 
   public override render(): JSX.Element {
     const {
+      deletedForEveryone,
       direction,
       expirationLength,
       expirationTimestamp,
@@ -62,6 +64,9 @@ export class ExpireTimer extends React.Component<Props> {
           'module-expire-timer',
           `module-expire-timer--${bucket}`,
           direction ? `module-expire-timer--${direction}` : null,
+          deletedForEveryone
+            ? 'module-expire-timer--deleted-for-everyone'
+            : null,
           withTapToViewExpired
             ? `module-expire-timer--${direction}-with-tap-to-view-expired`
             : null,

@@ -12,16 +12,18 @@ import { Time } from '../Time';
 import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute';
 
 export type Props = {
-  timestamp: number;
+  deletedForEveryone?: boolean;
+  direction?: 'incoming' | 'outgoing';
+  i18n: LocalizerType;
   module?: string;
+  timestamp: number;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
   withTapToViewExpired?: boolean;
-  direction?: 'incoming' | 'outgoing';
-  i18n: LocalizerType;
 };
 
 export function MessageTimestamp({
+  deletedForEveryone,
   direction,
   i18n,
   module,
@@ -42,7 +44,8 @@ export function MessageTimestamp({
           ? `${moduleName}--${direction}-with-tap-to-view-expired`
           : null,
         withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
-        withSticker ? `${moduleName}--with-sticker` : null
+        withSticker ? `${moduleName}--with-sticker` : null,
+        deletedForEveryone ? `${moduleName}--deleted-for-everyone` : null
       )}
       timestamp={timestamp}
     >
