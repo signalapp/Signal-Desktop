@@ -100,7 +100,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     autoBind(this);
 
-    window.contextMenuShown = false;
+    if (window) {
+      window.contextMenuShown = false;
+    }
 
     this.getMessageModelProps();
   }
