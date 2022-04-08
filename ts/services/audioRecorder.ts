@@ -61,7 +61,7 @@ export class RecorderClass {
       encoding: 'mp3',
       workerDir: 'js/', // must end with slash
       options: {
-        timeLimit: 360, // one minute more than our UI-imposed limit
+        timeLimit: 60 + 3600, // one minute more than our UI-imposed limit
       },
     });
     this.recorder.onComplete = this.onComplete.bind(this);
@@ -102,7 +102,6 @@ export class RecorderClass {
 
   async stop(): Promise<Blob | undefined> {
     if (!this.recorder) {
-      log.warn('Recorder/stop: Called with no recorder');
       return;
     }
 

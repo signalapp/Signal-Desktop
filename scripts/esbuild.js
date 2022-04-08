@@ -12,7 +12,7 @@ const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
 
 const nodeDefaults = {
   platform: 'node',
-  target: 'node16',
+  target: 'es2020',
   sourcemap: isProd ? false : 'inline',
   // Otherwise React components get renamed
   // See: https://github.com/evanw/esbuild/issues/1147
@@ -29,8 +29,8 @@ const bundleDefaults = {
   bundle: true,
   external: [
     // Native libraries
-    '@signalapp/signal-client',
-    '@signalapp/signal-client/zkgroup',
+    '@signalapp/libsignal-client',
+    '@signalapp/libsignal-client/zkgroup',
     'better-sqlite3',
     'electron',
     'fs-xattr',
@@ -82,44 +82,4 @@ esbuild.build({
   mainFields: ['browser', 'main'],
   entryPoints: [path.join(ROOT_DIR, 'preload.js')],
   outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
-});
-
-// HEIC worker
-esbuild.build({
-  ...bundleDefaults,
-  entryPoints: [path.join(ROOT_DIR, 'ts', 'workers', 'heicConverterWorker.ts')],
-  outfile: path.join(ROOT_DIR, 'ts', 'workers', 'heicConverter.bundle.js'),
-});
-
-// SQL worker
-const libDir = path.join('..', '..', 'node_modules', 'better-sqlite3');
-const bindingFile = path.join(
-  libDir,
-  'build',
-  'Release',
-  'better_sqlite3.node'
-);
-
-esbuild.build({
-  ...nodeDefaults,
-  bundle: true,
-
-  plugins: [
-    {
-      name: 'bindings',
-      setup(build) {
-        build.onResolve({ filter: /^bindings$/ }, () => ({
-          path: path.join(ROOT_DIR, 'ts', 'sql', 'mainWorkerBindings.ts'),
-        }));
-
-        build.onResolve({ filter: /^better_sqlite3\.node$/ }, () => ({
-          path: bindingFile,
-          external: true,
-        }));
-      },
-    },
-  ],
-
-  entryPoints: [path.join(ROOT_DIR, 'ts', 'sql', 'mainWorker.ts')],
-  outfile: path.join(ROOT_DIR, 'ts', 'sql', 'mainWorker.bundle.js'),
 });

@@ -8,7 +8,7 @@ import { noop } from 'lodash';
 import { assert } from '../../util/assert';
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
-import { hasNotDownloaded } from '../../types/Attachment';
+import { isDownloaded } from '../../types/Attachment';
 import type { DirectionType, MessageStatusType } from './Message';
 
 import type { ComputePeaksResult } from '../GlobalAudioContext';
@@ -203,7 +203,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
   if (attachment.pending) {
     state = State.Pending;
-  } else if (hasNotDownloaded(attachment)) {
+  } else if (!isDownloaded(attachment)) {
     state = State.NotDownloaded;
   } else if (!hasPeaks) {
     state = State.Computing;

@@ -3,8 +3,6 @@
 
 import Long from 'long';
 
-import { normalizeNumber } from './normalizeNumber';
-
 export function getSafeLongFromTimestamp(timestamp = 0): Long {
   if (timestamp >= Number.MAX_SAFE_INTEGER) {
     return Long.MAX_VALUE;
@@ -13,12 +11,12 @@ export function getSafeLongFromTimestamp(timestamp = 0): Long {
   return Long.fromNumber(timestamp);
 }
 
-export function getTimestampFromLong(value?: Long | number | null): number {
+export function getTimestampFromLong(value?: Long | null): number {
   if (!value) {
     return 0;
   }
 
-  const num = normalizeNumber(value);
+  const num = value.toNumber();
 
   if (num >= Number.MAX_SAFE_INTEGER) {
     return Number.MAX_SAFE_INTEGER;

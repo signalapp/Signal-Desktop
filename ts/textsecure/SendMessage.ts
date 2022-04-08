@@ -10,11 +10,11 @@ import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import Long from 'long';
 import PQueue from 'p-queue';
-import type { PlaintextContent } from '@signalapp/signal-client';
+import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
   ProtocolAddress,
   SenderKeyDistributionMessage,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assert } from '../util/assert';
@@ -59,7 +59,7 @@ import {
   SendMessageProtoError,
   HTTPError,
 } from './Errors';
-import type { BodyRangesType } from '../types/Util';
+import type { BodyRangesType, StoryContextType } from '../types/Util';
 import type {
   LinkPreviewImage,
   LinkPreviewMetadata,
@@ -193,7 +193,7 @@ export type MessageOptionsType = {
   timestamp: number;
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 };
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
@@ -211,7 +211,7 @@ export type GroupSendOptionsType = {
   timestamp: number;
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 };
 
 class Message {
@@ -256,7 +256,7 @@ class Message {
 
   groupCallUpdate?: GroupCallUpdateType;
 
-  storyContextTimestamp?: number;
+  storyContext?: StoryContextType;
 
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
@@ -276,7 +276,7 @@ class Message {
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.mentions = options.mentions;
     this.groupCallUpdate = options.groupCallUpdate;
-    this.storyContextTimestamp = options.storyContextTimestamp;
+    this.storyContext = options.storyContext;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -342,7 +342,7 @@ class Message {
     }
     const proto = new Proto.DataMessage();
 
-    proto.timestamp = this.timestamp;
+    proto.timestamp = Long.fromNumber(this.timestamp);
     proto.attachments = this.attachmentPointers;
 
     if (this.body) {
@@ -384,7 +384,10 @@ class Message {
       proto.reaction.emoji = this.reaction.emoji || null;
       proto.reaction.remove = this.reaction.remove || false;
       proto.reaction.targetAuthorUuid = this.reaction.targetAuthorUuid || null;
-      proto.reaction.targetTimestamp = this.reaction.targetTimestamp || null;
+      proto.reaction.targetTimestamp =
+        this.reaction.targetTimestamp === undefined
+          ? null
+          : Long.fromNumber(this.reaction.targetTimestamp);
     }
 
     if (Array.isArray(this.preview)) {
@@ -407,7 +410,8 @@ class Message {
       proto.quote = new Quote();
       const { quote } = proto;
 
-      quote.id = this.quote.id || null;
+      quote.id =
+        this.quote.id === undefined ? null : Long.fromNumber(this.quote.id);
       quote.authorUuid = this.quote.authorUuid || null;
       quote.text = this.quote.text || null;
       quote.attachments = (this.quote.attachments || []).map(
@@ -453,7 +457,7 @@ class Message {
     }
     if (this.deletedForEveryoneTimestamp) {
       proto.delete = {
-        targetSentTimestamp: this.deletedForEveryoneTimestamp,
+        targetSentTimestamp: Long.fromNumber(this.deletedForEveryoneTimestamp),
       };
     }
     if (this.mentions) {
@@ -477,14 +481,14 @@ class Message {
       proto.groupCallUpdate = groupCallUpdate;
     }
 
-    if (this.storyContextTimestamp) {
+    if (this.storyContext) {
       const { StoryContext } = Proto.DataMessage;
 
       const storyContext = new StoryContext();
-      storyContext.authorUuid = String(
-        window.textsecure.storage.user.getCheckedUuid()
-      );
-      storyContext.sentTimestamp = this.storyContextTimestamp;
+      if (this.storyContext.authorUuid) {
+        storyContext.authorUuid = this.storyContext.authorUuid;
+      }
+      storyContext.sentTimestamp = Long.fromNumber(this.storyContext.timestamp);
 
       proto.storyContext = storyContext;
     }
@@ -772,7 +776,7 @@ export default class MessageSender {
       typingMessage.groupId = groupId;
     }
     typingMessage.action = action;
-    typingMessage.timestamp = finalTimestamp;
+    typingMessage.timestamp = Long.fromNumber(finalTimestamp);
 
     const contentMessage = new Proto.Content();
     contentMessage.typingMessage = typingMessage;
@@ -798,7 +802,7 @@ export default class MessageSender {
       quote,
       reaction,
       sticker,
-      storyContextTimestamp,
+      storyContext,
       timestamp,
     } = options;
 
@@ -853,7 +857,7 @@ export default class MessageSender {
       reaction,
       recipients,
       sticker,
-      storyContextTimestamp,
+      storyContext,
       timestamp,
     };
   }
@@ -1043,7 +1047,7 @@ export default class MessageSender {
     groupId,
     profileKey,
     options,
-    storyContextTimestamp,
+    storyContext,
   }: Readonly<{
     identifier: string;
     messageText: string | undefined;
@@ -1058,7 +1062,7 @@ export default class MessageSender {
     contentHint: number;
     groupId: string | undefined;
     profileKey?: Uint8Array;
-    storyContextTimestamp?: number;
+    storyContext?: StoryContextType;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
@@ -1074,7 +1078,7 @@ export default class MessageSender {
         deletedForEveryoneTimestamp,
         expireTimer,
         profileKey,
-        storyContextTimestamp,
+        storyContext,
       },
       contentHint,
       groupId,
@@ -1111,7 +1115,7 @@ export default class MessageSender {
 
     const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
     const sentMessage = new Proto.SyncMessage.Sent();
-    sentMessage.timestamp = timestamp;
+    sentMessage.timestamp = Long.fromNumber(timestamp);
     sentMessage.message = dataMessage;
     if (destination) {
       sentMessage.destination = destination;
@@ -1120,7 +1124,9 @@ export default class MessageSender {
       sentMessage.destinationUuid = destinationUuid;
     }
     if (expirationStartTimestamp) {
-      sentMessage.expirationStartTimestamp = expirationStartTimestamp;
+      sentMessage.expirationStartTimestamp = Long.fromNumber(
+        expirationStartTimestamp
+      );
     }
 
     if (isUpdate) {
@@ -1260,6 +1266,29 @@ export default class MessageSender {
     };
   }
 
+  getRequestPniIdentitySyncMessage(): SingleProtoJobData {
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
+
+    const request = new Proto.SyncMessage.Request();
+    request.type = Proto.SyncMessage.Request.Type.PNI_IDENTITY;
+    const syncMessage = this.createSyncMessage();
+    syncMessage.request = request;
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      identifier: myUuid.toString(),
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'pniIdentitySyncRequest',
+    };
+  }
+
   getFetchManifestSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
@@ -1345,7 +1374,10 @@ export default class MessageSender {
     const syncMessage = this.createSyncMessage();
     syncMessage.read = [];
     for (let i = 0; i < reads.length; i += 1) {
-      const proto = new Proto.SyncMessage.Read(reads[i]);
+      const proto = new Proto.SyncMessage.Read({
+        ...reads[i],
+        timestamp: Long.fromNumber(reads[i].timestamp),
+      });
 
       syncMessage.read.push(proto);
     }
@@ -1374,7 +1406,13 @@ export default class MessageSender {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
-    syncMessage.viewed = views.map(view => new Proto.SyncMessage.Viewed(view));
+    syncMessage.viewed = views.map(
+      view =>
+        new Proto.SyncMessage.Viewed({
+          ...view,
+          timestamp: Long.fromNumber(view.timestamp),
+        })
+    );
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
@@ -1417,7 +1455,7 @@ export default class MessageSender {
       viewOnceOpen.sender = senderE164;
     }
     viewOnceOpen.senderUuid = senderUuid;
-    viewOnceOpen.timestamp = timestamp;
+    viewOnceOpen.timestamp = Long.fromNumber(timestamp);
     syncMessage.viewOnceOpen = viewOnceOpen;
 
     const contentMessage = new Proto.Content();
@@ -1647,7 +1685,9 @@ export default class MessageSender {
 
     const receiptMessage = new Proto.ReceiptMessage();
     receiptMessage.type = type;
-    receiptMessage.timestamp = timestamps;
+    receiptMessage.timestamp = timestamps.map(timestamp =>
+      Long.fromNumber(timestamp)
+    );
 
     const contentMessage = new Proto.Content();
     contentMessage.receiptMessage = receiptMessage;

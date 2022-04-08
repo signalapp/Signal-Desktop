@@ -66,9 +66,36 @@ export type AttachmentType = {
   cdnId?: string;
   cdnKey?: string;
   data?: Uint8Array;
+  textAttachment?: TextAttachmentType;
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
+};
+
+export enum TextAttachmentStyleType {
+  DEFAULT = 0,
+  REGULAR = 1,
+  BOLD = 2,
+  SERIF = 3,
+  SCRIPT = 4,
+  CONDENSED = 5,
+}
+
+export type TextAttachmentType = {
+  text?: string | null;
+  textStyle?: number | null;
+  textForegroundColor?: number | null;
+  textBackgroundColor?: number | null;
+  preview?: {
+    url?: string | null;
+    title?: string | null;
+  } | null;
+  gradient?: {
+    startColor?: number | null;
+    endColor?: number | null;
+    angle?: number | null;
+  } | null;
+  color?: number | null;
 };
 
 export type DownloadedAttachmentType = AttachmentType & {
@@ -228,7 +255,7 @@ export async function autoOrientJPEG(
   // All images go through handleImageAttachment before being sent and thus have
   // already been scaled to level, oriented, stripped of exif data, and saved
   // in high quality format. If we want to send the image in HQ we can return
-  // the attachement as-is. Otherwise we'll have to further scale it down.
+  // the attachment as-is. Otherwise we'll have to further scale it down.
   if (!attachment.data || sendHQImages) {
     return attachment;
   }
@@ -695,8 +722,16 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return hasFlag && isVideoAttachment(attachment);
 }
 
-export function hasNotDownloaded(attachment?: AttachmentType): boolean {
+export function isDownloaded(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && attachment.path);
+}
+
+export function hasNotResolved(attachment?: AttachmentType): boolean {
   return Boolean(attachment && !attachment.url);
+}
+
+export function isDownloading(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && attachment.downloadJobId && attachment.pending);
 }
 
 export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {

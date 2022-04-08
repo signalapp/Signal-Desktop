@@ -1904,9 +1904,9 @@ describe('calling duck', () => {
         sinon.assert.notCalled(this.callingStartOutgoingDirectCall);
       });
 
-      it('saves direct calls and makes them active', () => {
+      it('saves direct calls and makes them active', async () => {
         const dispatch = sinon.spy();
-        startCall({
+        await startCall({
           callMode: CallMode.Direct,
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,

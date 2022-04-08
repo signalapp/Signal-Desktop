@@ -6,7 +6,7 @@ import {
   processPreKeyBundle,
   ProtocolAddress,
   PublicKey,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import {
   UnregisteredUserError,

@@ -71,7 +71,7 @@ export const DebugLogWindow = ({
       const linesToShow = Math.ceil(Math.min(window.innerHeight, 2000) / 5);
       const value = fetchedLogText.split(/\n/g, linesToShow).join('\n');
 
-      setTextAreaValue(value);
+      setTextAreaValue(`${value}\n\n\n${i18n('debugLogLogIsIncomplete')}`);
       setToastType(undefined);
     }
 
@@ -80,7 +80,7 @@ export const DebugLogWindow = ({
     return () => {
       shouldCancel = true;
     };
-  }, [fetchLogs]);
+  }, [fetchLogs, i18n]);
 
   const handleSubmit = async (ev: MouseEvent) => {
     ev.preventDefault();

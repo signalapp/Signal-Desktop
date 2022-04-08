@@ -30,6 +30,7 @@ import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import type { WidthBreakpoint } from './_util';
 import { getConversationListWidthBreakpoint } from './_util';
+import * as KeyboardLayout from '../services/keyboardLayout';
 import {
   MIN_WIDTH,
   SNAP_WIDTH,
@@ -37,6 +38,7 @@ import {
   MAX_WIDTH,
   getWidthFromPreferredWidth,
 } from '../util/leftPaneWidth';
+import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
@@ -97,8 +99,6 @@ export type PropsType = {
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
   createGroup: () => void;
-  startNewConversationFromPhoneNumber: (e164: string) => void;
-  startNewConversationFromUsername: (username: string) => void;
   openConversationInternal: (_: {
     conversationId: string;
     messageId?: string;
@@ -140,7 +140,9 @@ export type PropsType = {
   ) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
-};
+
+  showConversation: (conversationId: string) => void;
+} & LookupConversationWithoutUuidActionsType;
 
 export const LeftPane: React.FC<PropsType> = ({
   challengeStatus,
@@ -181,12 +183,14 @@ export const LeftPane: React.FC<PropsType> = ({
   showInbox,
   startComposing,
   startSearch,
-  startNewConversationFromPhoneNumber,
-  startNewConversationFromUsername,
+  showUserNotFoundModal,
+  setIsFetchingUUID,
+  lookupConversationWithoutUuid,
+  toggleConversationInChooseMembers,
+  showConversation,
   startSettingGroupMetadata,
   theme,
   toggleComposeEditingAvatar,
-  toggleConversationInChooseMembers,
   updateSearchTerm,
 }) => {
   const [preferredWidth, setPreferredWidth] = useState(
@@ -211,7 +215,7 @@ export const LeftPane: React.FC<PropsType> = ({
   //    but React doesn't know that they're the same, so you can lose focus as you change
   //    modes.
   // 2. These components render virtualized lists, which are somewhat slow to initialize.
-  //    Switching between modes can cause noticable hiccups.
+  //    Switching between modes can cause noticeable hiccups.
   //
   // To get around those problems, we use "helpers" which all correspond to the same
   //   interface.
@@ -289,10 +293,11 @@ export const LeftPane: React.FC<PropsType> = ({
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      const { ctrlKey, shiftKey, altKey, metaKey, key } = event;
+      const { ctrlKey, shiftKey, altKey, metaKey } = event;
       const commandOrCtrl = OS.isMacOS() ? metaKey : ctrlKey;
+      const key = KeyboardLayout.lookup(event);
 
-      if (event.key === 'Escape') {
+      if (key === 'Escape') {
         const backAction = helper.getBackAction({
           showInbox,
           startComposing,
@@ -599,6 +604,10 @@ export const LeftPane: React.FC<PropsType> = ({
                         throw missingCaseError(disabledReason);
                     }
                   }}
+                  showUserNotFoundModal={showUserNotFoundModal}
+                  setIsFetchingUUID={setIsFetchingUUID}
+                  lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+                  showConversation={showConversation}
                   onSelectConversation={onSelectConversation}
                   renderMessageSearchResult={renderMessageSearchResult}
                   rowCount={helper.getRowCount()}
@@ -607,12 +616,6 @@ export const LeftPane: React.FC<PropsType> = ({
                   scrollable={isScrollable}
                   shouldRecomputeRowHeights={shouldRecomputeRowHeights}
                   showChooseGroupMembers={showChooseGroupMembers}
-                  startNewConversationFromPhoneNumber={
-                    startNewConversationFromPhoneNumber
-                  }
-                  startNewConversationFromUsername={
-                    startNewConversationFromUsername
-                  }
                   theme={theme}
                 />
               </div>

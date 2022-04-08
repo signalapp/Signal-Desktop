@@ -16,6 +16,7 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   openConversationInternal: (_: { conversationId: string }) => unknown;
   renderStoryViewer: (props: SmartStoryViewerPropsType) => JSX.Element;
+  queueStoryDownload: (storyId: string) => unknown;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
@@ -31,6 +32,7 @@ export const Stories = ({
   i18n,
   openConversationInternal,
   preferredWidthFromStorage,
+  queueStoryDownload,
   renderStoryViewer,
   stories,
   toggleHideStories,
@@ -99,6 +101,7 @@ export const Stories = ({
             }
           }}
           openConversationInternal={openConversationInternal}
+          queueStoryDownload={queueStoryDownload}
           stories={stories}
           toggleHideStories={toggleHideStories}
         />

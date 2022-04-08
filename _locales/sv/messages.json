@@ -278,7 +278,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Om dessa steg inte funkar för dig, vänligen skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig att migrera!",
+        "message": "Om dessa steg inte funkar för dig, skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig att migrera!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -324,7 +324,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Den här gruppen är ogiltig. Vänligen skapa en ny grupp.",
+        "message": "Den här gruppen är ogiltig. Skapa en ny grupp.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -398,7 +398,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Vänligen se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
+        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -460,20 +460,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Den här loggen publiceras offentligt på nätet så att våra medarbetare kan se. Du kan hämta hela loggen innan du skickar in den.",
-        "description": ""
+        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Något gick fel med sändningen! Vänligen skicka e-post till support@signal.org och bifoga din logg som en textfil.",
-        "description": ""
+        "message": "Något gick fel med sändningen! Skicka e-post till support@signal.org och bifoga din logg som en textfil.",
+        "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
         "message": "Felsökningslogg har skickats",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Felsökningslogg överförd. När du kontaktar support, kopiera länken nedan och bifoga den tillsammans med en beskrivning av problemet du såg och steg för att reproducera det.",
+        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
         "description": "Explanation of next steps to take when submitting debug log"
+    },
+    "debugLogLogIsIncomplete": {
+        "message": "... to see the full log, click Save",
+        "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
         "message": "Kopiera länk",
@@ -1062,7 +1066,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
+        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Försök att flytta $app$ till $folder$ med Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1105,6 +1109,10 @@
     },
     "accept": {
         "message": "Acceptera",
+        "description": ""
+    },
+    "forward": {
+        "message": "Vidarebefordra",
         "description": ""
     },
     "done": {
@@ -1196,6 +1204,10 @@
     "retrySend": {
         "message": "Skicka igen",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "retryDeleteForEveryone": {
+        "message": "Försök att Ta Bort för Alla igen",
+        "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
         "message": "Vidarebefordra meddelande",
@@ -1440,7 +1452,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "Ett oväntat fel uppstod. Vänligen försök igen.",
+        "message": "Ett oväntat fel uppstod. Försök igen.",
         "description": ""
     },
     "installTryAgain": {
@@ -2015,6 +2027,10 @@
         "message": "Att skicka meddelandet misslyckades",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "deleteFailed": {
+        "message": "Ta Bort misslyckades",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+    },
     "sendPaused": {
         "message": "Sändningen pausad",
         "description": "Shown on outgoing message if it cannot be sent immediately"
@@ -2022,6 +2038,10 @@
     "partiallySent": {
         "message": "Delvis skickat, klicka för mer information",
         "description": "Shown on outgoing message if it is partially sent"
+    },
+    "partiallyDeleted": {
+        "message": "Delvis borttagen, klicka för att försöka igen",
+        "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
         "message": "Detaljer",
@@ -2036,7 +2056,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Den här versionen av Signal Desktop har upphört att gälla. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+        "message": "Den här versionen av Signal Desktop har upphört att gälla. Uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -2343,6 +2363,10 @@
         "message": "Ny konversation",
         "description": "Label for header when starting a new conversation"
     },
+    "stories": {
+        "message": "Berättelser",
+        "description": "Label for header to go to stories view"
+    },
     "contactSearchPlaceholder": {
         "message": "Sök efter namn eller telefonnummer",
         "description": "Placeholder to use when searching for contacts in the composer"
@@ -2412,14 +2436,6 @@
                 "example": "150"
             }
         }
-    },
-    "chooseGroupMembers__cant-add-member__title": {
-        "message": "Det går inte att lägga till medlem",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
-    },
-    "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" kan inte läggas till i gruppen eftersom de använder en gammal version av Signal. Du kan lägga till dem i gruppen efter att de har uppdaterat Signal.",
-        "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "setGroupMetadata__title": {
         "message": "Namnge den här gruppen",
@@ -3380,7 +3396,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Vänligen ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkepaket",
+        "message": "Ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkepaket",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -3388,7 +3404,7 @@
         "description": ""
     },
     "Reactions--error": {
-        "message": "Det gick inte att skicka reaktion. Vänligen försök igen.",
+        "message": "Det gick inte att skicka reaktion. Försök igen.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -4032,7 +4048,7 @@
         "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Vänligen försök igen eller kontakta support.",
+        "message": "Försök igen eller kontakta support.",
         "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -4090,6 +4106,14 @@
     "GroupV2--join--link-revoked": {
         "message": "Denna grupplänk är inte längre giltig.",
         "description": "Shown if you click a group link and we can't get information about it"
+    },
+    "GroupV2--join--link-forbidden--title": {
+        "message": "Det går inte att gå med i gruppen",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
+    },
+    "GroupV2--join--link-forbidden": {
+        "message": "Du kan inte gå med i denna grupp via grupplänken eftersom att en administratör tog bort dig.",
+        "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
         "message": "En administratör för den här gruppen måste godkänna din begäran innan du kan gå med i den här gruppen. Om det godkänns kommer ditt namn och ditt foto att delas med medlemmarna.",
@@ -5125,6 +5149,30 @@
             }
         }
     },
+    "GroupV2--admin-approval-bounce--one": {
+        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--admin-approval-bounce": {
+        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "joinerName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "numberOfRequests": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
     "GroupV2--group-link-add--disabled--you": {
         "message": "Du aktiverade grupplänken med administratörsgodkännande inaktiverat.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5701,6 +5749,16 @@
             }
         }
     },
+    "PendingRequests--deny-for--with-link": {
+        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "description": "This is the modal content when confirming denying a group request to join",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Meowsy Purrington"
+            }
+        }
+    },
     "PendingInvites--invites": {
         "message": "Inbjuden av dig",
         "description": "This is the title list of all invites"
@@ -5790,6 +5848,28 @@
     "PendingInvites--info": {
         "message": "Detaljer om personer som är inbjudna till den här gruppen visas inte förrän de går med. Inbjudna ser meddelanden först efter att de har gått med i gruppen.",
         "description": "Information shown below the invite list"
+    },
+    "PendingRequests--block--button": {
+        "message": "Blockera förfrågan",
+        "description": "Shown in timeline if users cancel their request to join a group via a group link"
+    },
+    "PendingRequests--block--title": {
+        "message": "Blockera förfrågan?",
+        "description": "Title of dialog to block a user from requesting to join via the link again"
+    },
+    "PendingRequests--block--contents": {
+        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "description": "Details of dialog to block a user from requesting to join via the link again",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Annoying Person"
+            }
+        }
+    },
+    "PendingRequests--block--confirm": {
+        "message": "Block Request",
+        "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
         "message": "Lägg till ett gruppfoto",
@@ -6083,12 +6163,22 @@
             }
         }
     },
+    "RemoveGroupMemberConfirmation__description__with-link": {
+        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
     "CaptchaDialog__title": {
         "message": "Verifiera för att fortsätta skicka meddelanden",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "För att förhindra skräppost på Signal, vänligen slutför verifieringen.",
+        "message": "För att förhindra skräppost på Signal, slutför verifieringen.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -6112,11 +6202,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verifieringen misslyckades. Vänligen försök igen senare.",
+        "message": "Verifieringen misslyckades. Försök igen senare.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Det gick inte att ta bort meddelandet för alla. Vänligen försök igen senare.",
+        "message": "Det gick inte att ta bort meddelandet för alla. Försök igen senare.",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
@@ -6474,7 +6564,7 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Din profil kunde inte uppdateras. Vänligen försök igen.",
+        "message": "Din profil kunde inte uppdateras. Försök igen.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -6664,7 +6754,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Vänligen stäng det manuellt och klicka på Försök igen för att fortsätta.",
+        "message": "Stäng det manuellt och klicka på Försök igen för att fortsätta.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
@@ -6692,7 +6782,7 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "Det uppstod ett fel när du sparade dina inställningar. Vänligen försök igen.",
+        "message": "Det uppstod ett fel när du sparade dina inställningar. Försök igen.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -6728,7 +6818,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "Kontur",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
@@ -6779,6 +6869,150 @@
         "message": "Beskära",
         "description": "Performs the crop"
     },
+    "MyStories__title": {
+        "message": "Mina Berättelser",
+        "description": "Title for the my stories list"
+    },
+    "MyStories__story": {
+        "message": "Din berättelse",
+        "description": "aria-label for each one of your stories"
+    },
+    "MyStories__download": {
+        "message": "Hämta berättelse",
+        "description": "aria-label for the download button"
+    },
+    "MyStories__more": {
+        "message": "Fler inställningar",
+        "description": "aria-label for the more button"
+    },
+    "MyStories__views--singular": {
+        "message": "$num$ visning",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__views--plural": {
+        "message": "$num$ visningar",
+        "description": "Number of views your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "16"
+            }
+        }
+    },
+    "MyStories__replies--singular": {
+        "message": "$num$ svar",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "MyStories__replies--plural": {
+        "message": "$num$ svar",
+        "description": "Number of replies your story has",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "MyStories__delete": {
+        "message": "Ta bort denna berättelse? Den kommer också att raderas för alla som har mottagit den.",
+        "description": "Confirmation dialog description text for deleting a story"
+    },
+    "Stories__title": {
+        "message": "Berättelser",
+        "description": "Title for the stories list"
+    },
+    "Stories__mine": {
+        "message": "Mina Berättelser",
+        "description": "Label for your stories"
+    },
+    "Stories__add": {
+        "message": "Lägg till en berättelse",
+        "description": "Description hint to add a story"
+    },
+    "Stories__list-empty": {
+        "message": "Inga nyliga berättelser att visa just nu",
+        "description": "Description for when there are no stories to show"
+    },
+    "Stories__placeholder--text": {
+        "message": "Klicka för att visa en berättelse",
+        "description": "Placeholder label for the story view"
+    },
+    "Stories__from-to-group": {
+        "message": "$name$ till $group$",
+        "description": "Title for someone sending a story to a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Elle"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Family"
+            }
+        }
+    },
+    "StoryViewer__reply": {
+        "message": "Svara",
+        "description": "Button label to reply to a story"
+    },
+    "StoryViewsNRepliesModal__placeholder": {
+        "message": "Skriv ett svar...",
+        "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__tab--views": {
+        "message": "Visningar",
+        "description": "Title for views tab"
+    },
+    "StoryViewsNRepliesModal__tab--replies": {
+        "message": "Svar",
+        "description": "Title for replies tab"
+    },
+    "StoryViewsNRepliesModal__react": {
+        "message": "Reagera på berättelse",
+        "description": "aria-label for reaction button"
+    },
+    "StoryViewsNRepliesModal__reacted": {
+        "message": "Reagerade på berättelsen",
+        "description": "Description of someone reacting to a story"
+    },
+    "StoryListItem__label": {
+        "message": "Berättelse",
+        "description": "aria-label for the story list button"
+    },
+    "StoryListItem__hide": {
+        "message": "Göm berättelse",
+        "description": "Label for menu item to hide the story"
+    },
+    "StoryListItem__go-to-chat": {
+        "message": "Gå till chatt",
+        "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__hide-modal--body": {
+        "message": "Göm berättelse? Nya berättelse uppdateringar från $name$ kommer inte att visas först i berättelse listan längre.",
+        "description": "Body for the confirmation dialog for hiding a story"
+    },
+    "StoryListItem__hide-modal--confirm": {
+        "message": "Dölj",
+        "description": "Action button for the confirmation dialog to hide a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Abby"
+            }
+        }
+    },
     "WhatsNew__modal-title": {
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
@@ -6786,26 +7020,6 @@
     "WhatsNew__bugfixes": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.31--1": {
-        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.31--2": {
-        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
-        "description": "Release notes for v5.31"
-    },
-    "WhatsNew__v5.32--1": {
-        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.32--2": {
-        "message": "Listan över språk som stöds har utökats. Vi uppskattar uppriktigt de frivilliga översättare vars ansträngningar gjorde detta möjligt.",
-        "description": "Release notes for v5.32"
-    },
-    "WhatsNew__v5.34--1": {
-        "message": "Ever used Signal while on an unstable connection? You can worry no more - disappearing message timer changes and more will now be sent out once your Wi-Fi feels better again.",
-        "description": "Release notes for v5.34"
     },
     "WhatsNew__v5.35--1": {
         "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
@@ -6818,5 +7032,21 @@
     "WhatsNew__v5.35--3": {
         "message": "Bättre teckensnittsstöd för våra japanska vänner.",
         "description": "Release notes for v5.35"
+    },
+    "WhatsNew__v5.36--1": {
+        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.36--2": {
+        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
+        "description": "Release notes for v5.36"
+    },
+    "WhatsNew__v5.37--1": {
+        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.37--2": {
+        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "description": "Release notes for v5.37"
     }
 }

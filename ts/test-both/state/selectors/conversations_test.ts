@@ -599,7 +599,7 @@ describe('both/state/selectors/conversations', () => {
         'convo-6': {
           ...makeConversation('convo-6'),
           profileSharing: true,
-          name: 'Should Be Droped (no title)',
+          name: 'Should Be Dropped (no title)',
           title: null,
         },
         'convo-7': {
@@ -977,8 +977,7 @@ describe('both/state/selectors/conversations', () => {
       const result = getFilteredComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      // NOTE: convo-6 matches because you can't write "Sharing" without "in"
-      assert.deepEqual(ids, ['convo-1', 'convo-5', 'convo-6']);
+      assert.deepEqual(ids, ['convo-1', 'convo-5']);
     });
 
     it('can search for note to self', () => {

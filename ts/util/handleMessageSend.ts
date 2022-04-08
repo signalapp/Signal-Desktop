@@ -18,6 +18,7 @@ const { insertSentProto, updateConversation } = dataInterface;
 
 export const sendTypesEnum = z.enum([
   'blockSyncRequest',
+  'pniIdentitySyncRequest',
   'callingMessage', // excluded from send log
   'configurationSyncRequest',
   'contactSyncRequest',

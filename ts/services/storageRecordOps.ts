@@ -178,7 +178,10 @@ export function toAccountRecord(
   if (conversation.get('profileFamilyName')) {
     accountRecord.familyName = conversation.get('profileFamilyName') || '';
   }
-  accountRecord.avatarUrl = window.storage.get('avatarUrl') || '';
+  const avatarUrl = window.storage.get('avatarUrl');
+  if (avatarUrl !== undefined) {
+    accountRecord.avatarUrl = avatarUrl;
+  }
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
   accountRecord.noteToSelfMarkedUnread = Boolean(
     conversation.get('markedUnread')
@@ -807,6 +810,7 @@ export async function mergeContactRecord(
     );
   }
 
+  let details = new Array<string>();
   const remoteName = dropNull(contactRecord.givenName);
   const remoteFamilyName = dropNull(contactRecord.familyName);
   const localName = conversation.get('profileName');
@@ -818,38 +822,50 @@ export async function mergeContactRecord(
     // Local name doesn't match remote name, fetch profile
     if (localName) {
       conversation.getProfiles();
+      details.push('refreshing profile');
     } else {
       conversation.set({
         profileName: remoteName,
         profileFamilyName: remoteFamilyName,
       });
+      details.push('updated profile name');
     }
   }
 
-  const verified = await conversation.safeGetVerified();
-  const storageServiceVerified = contactRecord.identityState || 0;
-  if (verified !== storageServiceVerified) {
+  // Update verified status unconditionally to make sure we will take the
+  // latest identity key from the manifest.
+  {
+    const verified = await conversation.safeGetVerified();
+    const storageServiceVerified = contactRecord.identityState || 0;
     const verifiedOptions = {
       key: contactRecord.identityKey,
       viaStorageServiceSync: true,
     };
     const STATE_ENUM = Proto.ContactRecord.IdentityState;
 
+    if (verified !== storageServiceVerified) {
+      details.push(`updating verified state to=${verified}`);
+    }
+
+    let keyChange: boolean;
     switch (storageServiceVerified) {
       case STATE_ENUM.VERIFIED:
-        await conversation.setVerified(verifiedOptions);
+        keyChange = await conversation.setVerified(verifiedOptions);
         break;
       case STATE_ENUM.UNVERIFIED:
-        await conversation.setUnverified(verifiedOptions);
+        keyChange = await conversation.setUnverified(verifiedOptions);
         break;
       default:
-        await conversation.setVerifiedDefault(verifiedOptions);
+        keyChange = await conversation.setVerifiedDefault(verifiedOptions);
+    }
+
+    if (keyChange) {
+      details.push('key changed');
     }
   }
 
   applyMessageRequestState(contactRecord, conversation);
 
-  let details = new Array<string>();
   addUnknownFields(contactRecord, conversation, details);
 
   const oldStorageID = conversation.get('storageID');
@@ -895,7 +911,6 @@ export async function mergeAccountRecord(
 ): Promise<MergeResultType> {
   let details = new Array<string>();
   const {
-    avatarUrl,
     linkPreviews,
     notDiscoverableByPhoneNumber,
     noteToSelfArchived,
@@ -1146,10 +1161,9 @@ export async function mergeAccountRecord(
       { viaStorageServiceSync: true }
     );
 
-    if (avatarUrl) {
-      await conversation.setProfileAvatar(avatarUrl, profileKey);
-      window.storage.put('avatarUrl', avatarUrl);
-    }
+    const avatarUrl = dropNull(accountRecord.avatarUrl);
+    await conversation.setProfileAvatar(avatarUrl, profileKey);
+    window.storage.put('avatarUrl', avatarUrl);
   }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(

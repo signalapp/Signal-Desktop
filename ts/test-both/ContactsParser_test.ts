@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { Writer } from 'protobufjs';
+import protobuf from '../protobuf/wrap';
 
 import * as Bytes from '../Bytes';
 import { SignalService as Proto } from '../protobuf';
 import { ContactBuffer, GroupBuffer } from '../textsecure/ContactsParser';
+
+const { Writer } = protobuf;
 
 describe('ContactsParser', () => {
   function generateAvatar(): Uint8Array {

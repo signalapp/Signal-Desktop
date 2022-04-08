@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { UnidentifiedSenderMessageContent } from '@signalapp/signal-client';
+import { UnidentifiedSenderMessageContent } from '@signalapp/libsignal-client';
 
 import MessageSender from './textsecure/SendMessage';
 import SyncRequest from './textsecure/SyncRequest';
@@ -23,6 +23,7 @@ export type UnprocessedType = {
   decrypted?: string;
   envelope?: string;
   id: string;
+  receivedAtCounter: number | null;
   timestamp: number;
   serverGuid?: string;
   serverTimestamp?: number;

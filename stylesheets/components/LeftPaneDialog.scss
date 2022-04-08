@@ -82,6 +82,10 @@
     background-color: $color-white;
     -webkit-mask-size: contain;
 
+    @media (forced-colors: active) {
+      background-color: WindowText;
+    }
+
     &--relink {
       -webkit-mask: url('../images/icons/v2/link-broken-16.svg') no-repeat
         center;
@@ -121,6 +125,13 @@
       display: block;
       width: 100%;
       height: 100%;
+
+      @media (forced-colors: active) {
+        background-color: WindowText;
+        @include dark-theme {
+          background-color: WindowText;
+        }
+      }
     }
 
     &:hover,
@@ -129,6 +140,21 @@
     }
     &:active {
       background-color: $color-white-alpha-20;
+    }
+
+    @media (forced-colors: active) {
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: none;
+      }
+      @include dark-theme {
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: none;
+        }
+      }
     }
   }
 
@@ -173,10 +199,18 @@
 
     .LeftPaneDialog__icon {
       background-color: $color-black;
+
+      @media (forced-colors: active) {
+        background-color: WindowText;
+      }
     }
 
     .LeftPaneDialog__close-button::before {
       background-color: $color-black;
+
+      @media (forced-colors: active) {
+        background-color: WindowText;
+      }
     }
   }
 

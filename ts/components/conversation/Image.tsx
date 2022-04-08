@@ -8,7 +8,10 @@ import { Blurhash } from 'react-blurhash';
 import { Spinner } from '../Spinner';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
-import { hasNotDownloaded, defaultBlurHash } from '../../types/Attachment';
+import {
+  isDownloaded as isDownloadedFunction,
+  defaultBlurHash,
+} from '../../types/Attachment';
 
 export type Props = {
   alt: string;
@@ -169,7 +172,7 @@ export class Image extends React.Component<Props> {
     const canClick = this.canClick();
     const imgNotDownloaded = isDownloaded
       ? false
-      : hasNotDownloaded(attachment);
+      : !isDownloadedFunction(attachment);
 
     const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 

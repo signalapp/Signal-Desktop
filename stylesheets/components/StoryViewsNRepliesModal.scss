@@ -13,11 +13,6 @@
     justify-content: flex-end;
   }
 
-  .module-quote-container {
-    margin: 0;
-    margin-bottom: 8px;
-  }
-
   &__compose-container {
     display: flex;
     align-items: center;
@@ -130,6 +125,37 @@
     border-radius: 18px;
     margin-left: 8px;
     padding: 7px 12px;
+  }
+
+  &__quote {
+    &__container {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    &--outgoing-ultramarine {
+      @include dark-theme {
+        background-color: $color-gray-60;
+        background-image: none;
+      }
+    }
+
+    &__primary {
+      min-height: 64px;
+
+      color: $color-gray-05;
+      font-size: 12px;
+      font-weight: 400;
+      &__author,
+      &__text {
+      }
+    }
+
+    &__icon-container {
+      flex: 0 0 40px;
+      height: 64px;
+      width: 40px;
+    }
   }
 }
 

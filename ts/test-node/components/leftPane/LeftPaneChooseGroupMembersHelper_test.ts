@@ -13,10 +13,12 @@ import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub'
 
 describe('LeftPaneChooseGroupMembersHelper', () => {
   const defaults = {
+    uuidFetchState: {},
     candidateContacts: [],
     isShowingRecommendedGroupSizeModal: false,
     isShowingMaximumGroupSizeModal: false,
     searchTerm: '',
+    regionCode: 'US',
     selectedContacts: [],
   };
 

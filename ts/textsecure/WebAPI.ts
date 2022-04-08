@@ -701,6 +701,7 @@ export type ProfileRequestDataType = {
   about: string | null;
   aboutEmoji: string | null;
   avatar: boolean;
+  sameAvatar: boolean;
   commitment: string;
   name: string;
   paymentAddress: string | null;

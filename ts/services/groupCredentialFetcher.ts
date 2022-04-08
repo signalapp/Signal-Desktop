@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last, sortBy } from 'lodash';
-import { AuthCredentialResponse } from '@signalapp/signal-client/zkgroup';
+import { AuthCredentialResponse } from '@signalapp/libsignal-client/zkgroup';
 
 import { getClientZkAuthOperations } from '../util/zkgroup';
 

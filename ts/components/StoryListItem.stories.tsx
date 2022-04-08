@@ -23,6 +23,7 @@ function getDefaultProps(): PropsType {
   return {
     i18n,
     onClick: action('onClick'),
+    queueStoryDownload: action('queueStoryDownload'),
     story: {
       messageId: '123',
       sender: getDefaultConversation(),

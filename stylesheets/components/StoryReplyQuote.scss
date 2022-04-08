@@ -1,0 +1,14 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoryReplyQuote {
+  &__primary {
+    min-height: 64px;
+  }
+
+  &__icon-container {
+    flex: 0 0 40px;
+    height: 64px;
+    width: 40px;
+  }
+}

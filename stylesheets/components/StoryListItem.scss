@@ -22,6 +22,7 @@
 
     &--title {
       @include font-body-1-bold;
+      color: $color-gray-05;
     }
 
     &--timestamp {

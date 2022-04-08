@@ -28,6 +28,10 @@ export type OwnProps = {
 export type Props = OwnProps;
 
 function renderBody({ pack, i18n }: Props) {
+  if (!pack) {
+    return null;
+  }
+
   if (pack && pack.status === 'error') {
     return (
       <div className="module-sticker-manager__preview-modal__container__error">
@@ -36,7 +40,7 @@ function renderBody({ pack, i18n }: Props) {
     );
   }
 
-  if (!pack || pack.stickerCount === 0 || !isNumber(pack.stickerCount)) {
+  if (pack.stickerCount === 0 || !isNumber(pack.stickerCount)) {
     return <Spinner svgSize="normal" />;
   }
 
@@ -54,15 +58,16 @@ function renderBody({ pack, i18n }: Props) {
           />
         </div>
       ))}
-      {range(pack.stickerCount - pack.stickers.length).map(i => (
-        <div
-          key={`placeholder-${i}`}
-          className={classNames(
-            'module-sticker-manager__preview-modal__container__sticker-grid__cell',
-            'module-sticker-manager__preview-modal__container__sticker-grid__cell--placeholder'
-          )}
-        />
-      ))}
+      {pack.status === 'pending' &&
+        range(pack.stickerCount - pack.stickers.length).map(i => (
+          <div
+            key={`placeholder-${i}`}
+            className={classNames(
+              'module-sticker-manager__preview-modal__container__sticker-grid__cell',
+              'module-sticker-manager__preview-modal__container__sticker-grid__cell--placeholder'
+            )}
+          />
+        ))}
     </div>
   );
 }
@@ -109,6 +114,12 @@ export const StickerPreviewModal = React.memo((props: Props) => {
     // We only want to attempt downloads on initial load
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (!pack) {
+      onClose();
+    }
+  }, [pack, onClose]);
 
   const isInstalled = Boolean(pack && pack.status === 'installed');
   const handleToggleInstall = React.useCallback(() => {

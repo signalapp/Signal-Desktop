@@ -5,7 +5,7 @@ import { Buffer } from 'buffer';
 import pProps from 'p-props';
 import { chunk } from 'lodash';
 import Long from 'long';
-import { HKDF } from '@signalapp/signal-client';
+import { HKDF } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { calculateAgreement, generateKeyPair } from './Curve';
@@ -142,7 +142,7 @@ export function decryptDeviceName(
 
 export function deriveStorageManifestKey(
   storageServiceKey: Uint8Array,
-  version: number
+  version: Long = Long.fromNumber(0)
 ): Uint8Array {
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
 }

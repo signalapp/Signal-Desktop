@@ -12,7 +12,7 @@ import type {
   SealedSenderDecryptionResult,
   SenderCertificate,
   UnidentifiedSenderMessageContent,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import {
   CiphertextMessageType,
   DecryptionErrorMessage,
@@ -28,7 +28,7 @@ import {
   signalDecrypt,
   signalDecryptPreKey,
   SignalMessage,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import {
   IdentityKeys,
@@ -43,7 +43,6 @@ import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
-import { normalizeNumber } from '../util/normalizeNumber';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
@@ -54,6 +53,7 @@ import { QualifiedAddress } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
 import { UUID, UUIDKind } from '../types/UUID';
 import * as Errors from '../types/errors';
+import { isEnabled } from '../RemoteConfig';
 
 import { SignalService as Proto } from '../protobuf';
 import type { UnprocessedType } from '../textsecure.d';
@@ -98,6 +98,7 @@ import {
   MessageRequestResponseEvent,
   FetchLatestEvent,
   KeysEvent,
+  PNIIdentityEvent,
   StickerPackEvent,
   VerifiedEvent,
   ReadSyncEvent,
@@ -109,7 +110,9 @@ import {
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
+import { IMAGE_JPEG } from '../types/MIME';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
+import { generateBlurHash } from '../util/generateBlurHash';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -192,6 +195,8 @@ export default class MessageReceiver
   private serverTrustRoot: Uint8Array;
 
   private stoppingProcessing?: boolean;
+
+  private pendingPNIIdentityEvent?: PNIIdentityEvent;
 
   constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
@@ -278,7 +283,7 @@ export default class MessageReceiver
 
       try {
         const decoded = Proto.Envelope.decode(plaintext);
-        const serverTimestamp = normalizeNumber(decoded.serverTimestamp);
+        const serverTimestamp = decoded.serverTimestamp?.toNumber();
 
         const ourUuid = this.storage.user.getCheckedUuid();
 
@@ -309,8 +314,7 @@ export default class MessageReceiver
                 )
               )
             : ourUuid,
-          timestamp: normalizeNumber(decoded.timestamp),
-          legacyMessage: dropNull(decoded.legacyMessage),
+          timestamp: decoded.timestamp?.toNumber(),
           content: dropNull(decoded.content),
           serverGuid: decoded.serverGuid,
           serverTimestamp,
@@ -468,6 +472,11 @@ export default class MessageReceiver
   ): void;
 
   public override addEventListener(
+    name: 'pniIdentity',
+    handler: (ev: PNIIdentityEvent) => void
+  ): void;
+
+  public override addEventListener(
     name: 'sticker-pack',
     handler: (ev: StickerPackEvent) => void
   ): void;
@@ -598,6 +607,13 @@ export default class MessageReceiver
       this.isEmptied = true;
 
       this.maybeScheduleRetryTimeout();
+
+      // Emit PNI identity event after processing the queue
+      const { pendingPNIIdentityEvent } = this;
+      this.pendingPNIIdentityEvent = undefined;
+      if (pendingPNIIdentityEvent) {
+        await this.dispatchAndWait(pendingPNIIdentityEvent);
+      }
     };
 
     const waitForDecryptedQueue = async () => {
@@ -677,8 +693,9 @@ export default class MessageReceiver
 
       const envelope: ProcessedEnvelope = {
         id: item.id,
-        receivedAtCounter: item.timestamp,
-        receivedAtDate: Date.now(),
+        receivedAtCounter: item.receivedAtCounter ?? item.timestamp,
+        receivedAtDate:
+          item.receivedAtCounter === null ? Date.now() : item.timestamp,
         messageAgeSec: item.messageAgeSec || 0,
 
         // Proto.Envelope fields
@@ -689,13 +706,11 @@ export default class MessageReceiver
         destinationUuid: new UUID(
           decoded.destinationUuid || item.destinationUuid || ourUuid.toString()
         ),
-        timestamp: normalizeNumber(decoded.timestamp),
-        legacyMessage: dropNull(decoded.legacyMessage),
+        timestamp: decoded.timestamp?.toNumber(),
         content: dropNull(decoded.content),
         serverGuid: decoded.serverGuid,
-        serverTimestamp: normalizeNumber(
-          item.serverTimestamp || decoded.serverTimestamp
-        ),
+        serverTimestamp:
+          item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
       };
 
       const { decrypted } = item;
@@ -976,7 +991,8 @@ export default class MessageReceiver
       id,
       version: 2,
       envelope: Bytes.toBase64(plaintext),
-      timestamp: envelope.receivedAtCounter,
+      receivedAtCounter: envelope.receivedAtCounter,
+      timestamp: envelope.timestamp,
       attempts: 1,
       messageAgeSec: envelope.messageAgeSec,
     };
@@ -1108,14 +1124,9 @@ export default class MessageReceiver
 
       return;
     }
-    if (envelope.legacyMessage) {
-      await this.innerHandleLegacyMessage(envelope, plaintext);
-
-      return;
-    }
 
     this.removeFromCache(envelope);
-    throw new Error('Received message with no content and no legacyMessage');
+    throw new Error('Received message with no content');
   }
 
   private async unsealEnvelope(
@@ -1145,10 +1156,10 @@ export default class MessageReceiver
 
     strictAssert(uuidKind === UUIDKind.ACI, 'Sealed non-ACI envelope');
 
-    const ciphertext = envelope.content || envelope.legacyMessage;
+    const ciphertext = envelope.content;
     if (!ciphertext) {
       this.removeFromCache(envelope);
-      throw new Error('Received message with no content and no legacyMessage');
+      throw new Error('Received message with no content');
     }
 
     log.info(`MessageReceiver.unsealEnvelope(${logId}): unidentified message`);
@@ -1210,12 +1221,8 @@ export default class MessageReceiver
     }
 
     let ciphertext: Uint8Array;
-    let isLegacy = false;
     if (envelope.content) {
       ciphertext = envelope.content;
-    } else if (envelope.legacyMessage) {
-      ciphertext = envelope.legacyMessage;
-      isLegacy = true;
     } else {
       this.removeFromCache(envelope);
       strictAssert(
@@ -1224,9 +1231,7 @@ export default class MessageReceiver
       );
     }
 
-    log.info(
-      `MessageReceiver.decryptEnvelope(${logId})${isLegacy ? ' (legacy)' : ''}`
-    );
+    log.info(`MessageReceiver.decryptEnvelope(${logId})`);
     const plaintext = await this.decrypt(
       stores,
       envelope,
@@ -1236,11 +1241,6 @@ export default class MessageReceiver
 
     if (!plaintext) {
       log.warn('MessageReceiver.decryptEnvelope: plaintext was falsey');
-      return { plaintext, envelope };
-    }
-
-    // Legacy envelopes do not carry senderKeyDistributionMessage
-    if (isLegacy) {
       return { plaintext, envelope };
     }
 
@@ -1772,7 +1772,7 @@ export default class MessageReceiver
       {
         destination: dropNull(destination),
         destinationUuid: dropNull(destinationUuid),
-        timestamp: timestamp ? normalizeNumber(timestamp) : undefined,
+        timestamp: timestamp?.toNumber(),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
         unidentifiedStatus,
@@ -1780,9 +1780,7 @@ export default class MessageReceiver
         isRecipientUpdate: Boolean(isRecipientUpdate),
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
-        expirationStartTimestamp: expirationStartTimestamp
-          ? normalizeNumber(expirationStartTimestamp)
-          : undefined,
+        expirationStartTimestamp: expirationStartTimestamp?.toNumber(),
       },
       this.removeFromCache.bind(this, envelope)
     );
@@ -1804,14 +1802,22 @@ export default class MessageReceiver
     }
 
     if (msg.textAttachment) {
-      log.error(
-        'MessageReceiver.handleStoryMessage: Got a textAttachment, cannot handle it',
-        logId
-      );
-      return;
+      attachments.push({
+        contentType: IMAGE_JPEG,
+        size: 0,
+        textAttachment: msg.textAttachment,
+        blurHash: generateBlurHash(
+          (msg.textAttachment.color ||
+            msg.textAttachment.gradient?.startColor) ??
+            undefined
+        ),
+      });
     }
 
-    const expireTimer = envelope.timestamp + durations.DAY - Date.now();
+    const expireTimer = Math.min(
+      (envelope.serverTimestamp + durations.DAY - Date.now()) / 1000,
+      durations.DAY / 1000
+    );
 
     if (expireTimer <= 0) {
       log.info(
@@ -1855,6 +1861,16 @@ export default class MessageReceiver
   ): Promise<void> {
     const logId = this.getEnvelopeId(envelope);
     log.info('MessageReceiver.handleDataMessage', logId);
+
+    const isStoriesEnabled =
+      isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
+    if (!isStoriesEnabled && msg.storyContext) {
+      log.info(
+        `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
+      );
+      this.removeFromCache(envelope);
+      return undefined;
+    }
 
     let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
@@ -1937,14 +1953,6 @@ export default class MessageReceiver
       this.removeFromCache.bind(this, envelope)
     );
     return this.dispatchAndWait(ev);
-  }
-
-  private async innerHandleLegacyMessage(
-    envelope: ProcessedEnvelope,
-    plaintext: Uint8Array
-  ) {
-    const message = Proto.DataMessage.decode(plaintext);
-    return this.handleDataMessage(envelope, message);
   }
 
   private async maybeUpdateTimestamp(
@@ -2046,8 +2054,20 @@ export default class MessageReceiver
       await this.handleTypingMessage(envelope, content.typingMessage);
       return;
     }
+
+    const isStoriesEnabled =
+      isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
     if (content.storyMessage) {
-      await this.handleStoryMessage(envelope, content.storyMessage);
+      if (isStoriesEnabled) {
+        await this.handleStoryMessage(envelope, content.storyMessage);
+        return;
+      }
+
+      const logId = this.getEnvelopeId(envelope);
+      log.info(
+        `innerHandleContentMessage/${logId}: Dropping incoming message with storyMessage field`
+      );
+      this.removeFromCache(envelope);
       return;
     }
 
@@ -2174,7 +2194,7 @@ export default class MessageReceiver
       receiptMessage.timestamp.map(async rawTimestamp => {
         const ev = new EventClass(
           {
-            timestamp: normalizeNumber(rawTimestamp),
+            timestamp: rawTimestamp?.toNumber(),
             envelopeTimestamp: envelope.timestamp,
             source: envelope.source,
             sourceUuid: envelope.sourceUuid,
@@ -2195,7 +2215,7 @@ export default class MessageReceiver
 
     if (envelope.timestamp && typingMessage.timestamp) {
       const envelopeTimestamp = envelope.timestamp;
-      const typingTimestamp = normalizeNumber(typingMessage.timestamp);
+      const typingTimestamp = typingMessage.timestamp?.toNumber();
 
       if (typingTimestamp !== envelopeTimestamp) {
         log.warn(
@@ -2232,7 +2252,7 @@ export default class MessageReceiver
         senderDevice: envelope.sourceDevice,
         typing: {
           typingMessage,
-          timestamp: timestamp ? normalizeNumber(timestamp) : Date.now(),
+          timestamp: timestamp?.toNumber() ?? Date.now(),
           started: action === Proto.TypingMessage.Action.STARTED,
           stopped: action === Proto.TypingMessage.Action.STOPPED,
 
@@ -2395,7 +2415,7 @@ export default class MessageReceiver
       log.info(
         'sent message to',
         this.getDestination(sentMessage),
-        normalizeNumber(sentMessage.timestamp),
+        sentMessage.timestamp?.toNumber(),
         'from',
         this.getEnvelopeId(envelope)
       );
@@ -2450,6 +2470,9 @@ export default class MessageReceiver
     if (syncMessage.keys) {
       return this.handleKeys(envelope, syncMessage.keys);
     }
+    if (syncMessage.pniIdentity) {
+      return this.handlePNIIdentity(envelope, syncMessage.pniIdentity);
+    }
     if (syncMessage.viewed && syncMessage.viewed.length) {
       return this.handleViewed(envelope, syncMessage.viewed);
     }
@@ -2485,7 +2508,7 @@ export default class MessageReceiver
         sourceUuid: sync.senderUuid
           ? normalizeUuid(sync.senderUuid, 'handleViewOnceOpen.senderUuid')
           : undefined,
-        timestamp: sync.timestamp ? normalizeNumber(sync.timestamp) : undefined,
+        timestamp: sync.timestamp?.toNumber(),
       },
       this.removeFromCache.bind(this, envelope)
     );
@@ -2567,6 +2590,31 @@ export default class MessageReceiver
     return this.dispatchAndWait(ev);
   }
 
+  private async handlePNIIdentity(
+    envelope: ProcessedEnvelope,
+    { publicKey, privateKey }: Proto.SyncMessage.IPniIdentity
+  ): Promise<void> {
+    log.info('MessageReceiver: got pni identity sync message');
+
+    if (!publicKey || !privateKey) {
+      log.warn('MessageReceiver: empty pni identity sync message');
+      return undefined;
+    }
+
+    const ev = new PNIIdentityEvent(
+      { publicKey, privateKey },
+      this.removeFromCache.bind(this, envelope)
+    );
+
+    if (this.isEmptied) {
+      log.info('MessageReceiver: emitting pni identity sync message');
+      return this.dispatchAndWait(ev);
+    }
+
+    log.info('MessageReceiver: scheduling pni identity sync message');
+    this.pendingPNIIdentityEvent = ev;
+  }
+
   private async handleStickerPackOperation(
     envelope: ProcessedEnvelope,
     operations: Array<Proto.SyncMessage.IStickerPackOperation>
@@ -2620,7 +2668,7 @@ export default class MessageReceiver
       const ev = new ReadSyncEvent(
         {
           envelopeTimestamp: envelope.timestamp,
-          timestamp: normalizeNumber(dropNull(timestamp)),
+          timestamp: timestamp?.toNumber(),
           sender: dropNull(sender),
           senderUuid: senderUuid
             ? normalizeUuid(senderUuid, 'handleRead.senderUuid')
@@ -2643,7 +2691,7 @@ export default class MessageReceiver
         const ev = new ViewSyncEvent(
           {
             envelopeTimestamp: envelope.timestamp,
-            timestamp: normalizeNumber(dropNull(timestamp)),
+            timestamp: timestamp?.toNumber(),
             senderE164: dropNull(senderE164),
             senderUuid: senderUuid
               ? normalizeUuid(senderUuid, 'handleViewed.senderUuid')

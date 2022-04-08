@@ -11,7 +11,14 @@ export function getIncrement(length: number): number {
   return Math.ceil(length / 12);
 }
 
-export function getTimerBucket(expiration: number, length: number): string {
+export function getTimerBucket(
+  expiration: number | undefined,
+  length: number
+): string {
+  if (!expiration) {
+    return '60';
+  }
+
   const delta = expiration - Date.now();
   if (delta < 0) {
     return '00';

@@ -12,7 +12,7 @@ import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import type { Props, AudioAttachmentProps } from './Message';
-import { Message } from './Message';
+import { TextDirection, Message } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -31,7 +31,10 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 import { WidthBreakpoint } from '../_util';
 import { MINUTE } from '../../util/durations';
 
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import {
+  fakeAttachment,
+  fakeThumbnail,
+} from '../../test-both/helpers/fakeAttachment';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 
@@ -168,6 +171,15 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
+  shouldCollapseAbove: isBoolean(overrideProps.shouldCollapseAbove)
+    ? overrideProps.shouldCollapseAbove
+    : false,
+  shouldCollapseBelow: isBoolean(overrideProps.shouldCollapseBelow)
+    ? overrideProps.shouldCollapseBelow
+    : false,
+  shouldHideMetadata: isBoolean(overrideProps.shouldHideMetadata)
+    ? overrideProps.shouldHideMetadata
+    : false,
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
@@ -181,6 +193,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showVisualAttachment: action('showVisualAttachment'),
   status: overrideProps.status || 'sent',
   text: overrideProps.text || text('text', ''),
+  textDirection: overrideProps.textDirection || TextDirection.Default,
   textPending: boolean('textPending', overrideProps.textPending || false),
   theme: ThemeType.light,
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
@@ -198,9 +211,9 @@ const renderMany = (propsArray: ReadonlyArray<Props>) =>
     <Message
       key={message.text}
       {...message}
-      previousItem={createTimelineItem(propsArray[index - 1])}
+      shouldCollapseAbove={Boolean(propsArray[index - 1])}
       item={createTimelineItem(message)}
-      nextItem={createTimelineItem(propsArray[index + 1])}
+      shouldCollapseBelow={Boolean(propsArray[index + 1])}
     />
   ));
 
@@ -217,6 +230,15 @@ const renderBothDirections = (props: Props) =>
 story.add('Plain Message', () => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Plain RTL Message', () => {
+  const props = createProps({
+    text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
+    textDirection: TextDirection.RightToLeft,
   });
 
   return renderBothDirections(props);
@@ -354,6 +376,16 @@ story.add('Expiring', () => {
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Will expire but still sending', () => {
+  const props = createProps({
+    status: 'sending',
+    expirationLength: 30 * 1000,
+    text: 'For outgoing messages, we show timer immediately. Incoming, we wait until expirationStartTimestamp is present.',
   });
 
   return renderBothDirections(props);
@@ -585,12 +617,12 @@ story.add('Sticker', () => {
 
 story.add('Deleted', () => {
   const propsSent = createProps({
-    conversationType: 'group',
+    conversationType: 'direct',
     deletedForEveryone: true,
     status: 'sent',
   });
   const propsSending = createProps({
-    conversationType: 'group',
+    conversationType: 'direct',
     deletedForEveryone: true,
     status: 'sending',
   });
@@ -623,6 +655,7 @@ story.add('Deleted with error', () => {
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'partial-sent',
+    direction: 'outgoing',
   });
   const propsError = createProps({
     timestamp: Date.now() - 60 * 1000,
@@ -630,12 +663,13 @@ story.add('Deleted with error', () => {
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'error',
+    direction: 'outgoing',
   });
 
   return (
     <>
-      {renderBothDirections(propsPartialError)}
-      {renderBothDirections(propsError)}
+      <Message {...propsPartialError} />
+      <Message {...propsError} />
     </>
   );
 });
@@ -1462,4 +1496,23 @@ story.add('Collapsing text-only group messages', () => {
       text: 'Three',
     }),
   ]);
+});
+
+story.add('Story reply', () => {
+  const conversation = getDefaultConversation();
+
+  return (
+    <Message
+      {...createProps({ text: 'Wow!' })}
+      storyReplyContext={{
+        authorTitle: conversation.title,
+        conversationColor: ConversationColors[0],
+        isFromMe: false,
+        rawAttachment: fakeAttachment({
+          url: '/fixtures/snow.jpg',
+          thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
+        }),
+      }}
+    />
+  );
 });

@@ -9,7 +9,7 @@ import {
   Direction,
   SenderKeyRecord,
   SessionRecord,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToBytes } from '../util/sessionTranslation';
@@ -672,7 +672,7 @@ describe('SignalProtocolStore', () => {
       });
     });
   });
-  describe('processContactSyncVerificationState', () => {
+  describe('processVerifiedMessage', () => {
     const newIdentity = getPublicKey();
     let keychangeTriggered: number;
 
@@ -693,8 +693,8 @@ describe('SignalProtocolStore', () => {
           await store.hydrateCaches();
         });
 
-        it('does nothing', async () => {
-          await store.processContactSyncVerificationState(
+        it('sets the identity key', async () => {
+          await store.processVerifiedMessage(
             theirUuid,
             store.VerifiedStatus.DEFAULT,
             newIdentity
@@ -703,15 +703,10 @@ describe('SignalProtocolStore', () => {
           const identity = await window.Signal.Data.getIdentityKeyById(
             theirUuid.toString()
           );
-
-          if (identity) {
-            // fetchRecord resolved so there is a record.
-            // Bad.
-            throw new Error(
-              'processContactSyncVerificationState should not save new records'
-            );
-          }
-
+          assert.isTrue(
+            identity?.publicKey &&
+              constantTimeEqual(identity.publicKey, newIdentity)
+          );
           assert.strictEqual(keychangeTriggered, 0);
         });
       });
@@ -729,8 +724,8 @@ describe('SignalProtocolStore', () => {
             await store.hydrateCaches();
           });
 
-          it('does not save the new identity (because this is a less secure state)', async () => {
-            await store.processContactSyncVerificationState(
+          it('updates the identity', async () => {
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.DEFAULT,
               newIdentity
@@ -743,14 +738,9 @@ describe('SignalProtocolStore', () => {
               throw new Error('Missing identity!');
             }
 
-            assert.strictEqual(
-              identity.verified,
-              store.VerifiedStatus.VERIFIED
-            );
-            assert.isTrue(
-              constantTimeEqual(identity.publicKey, testKey.pubKey)
-            );
-            assert.strictEqual(keychangeTriggered, 0);
+            assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
+            assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
+            assert.strictEqual(keychangeTriggered, 1);
           });
         });
         describe('when the existing key is the same but VERIFIED', () => {
@@ -767,7 +757,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('updates the verified status', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.DEFAULT,
               testKey.pubKey
@@ -801,7 +791,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('does not hang', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.DEFAULT,
               testKey.pubKey
@@ -819,8 +809,8 @@ describe('SignalProtocolStore', () => {
           await store.hydrateCaches();
         });
 
-        it('saves the new identity and marks it verified', async () => {
-          await store.processContactSyncVerificationState(
+        it('saves the new identity and marks it UNVERIFIED', async () => {
+          await store.processVerifiedMessage(
             theirUuid,
             store.VerifiedStatus.UNVERIFIED,
             newIdentity
@@ -856,7 +846,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('saves the new identity and marks it UNVERIFIED', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.UNVERIFIED,
               newIdentity
@@ -891,7 +881,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('updates the verified status', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.UNVERIFIED,
               testKey.pubKey
@@ -927,7 +917,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('does not hang', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.UNVERIFIED,
               testKey.pubKey
@@ -946,7 +936,7 @@ describe('SignalProtocolStore', () => {
         });
 
         it('saves the new identity and marks it verified', async () => {
-          await store.processContactSyncVerificationState(
+          await store.processVerifiedMessage(
             theirUuid,
             store.VerifiedStatus.VERIFIED,
             newIdentity
@@ -978,7 +968,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('saves the new identity and marks it VERIFIED', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.VERIFIED,
               newIdentity
@@ -1013,7 +1003,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('saves the identity and marks it verified', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.VERIFIED,
               testKey.pubKey
@@ -1049,7 +1039,7 @@ describe('SignalProtocolStore', () => {
           });
 
           it('does not hang', async () => {
-            await store.processContactSyncVerificationState(
+            await store.processVerifiedMessage(
               theirUuid,
               store.VerifiedStatus.VERIFIED,
               testKey.pubKey
@@ -1492,6 +1482,7 @@ describe('SignalProtocolStore', () => {
             id: '2-two',
             envelope: 'second',
             timestamp: Date.now() + 2,
+            receivedAtCounter: 0,
             version: 2,
             attempts: 0,
           },
@@ -1546,6 +1537,7 @@ describe('SignalProtocolStore', () => {
               id: '2-two',
               envelope: 'second',
               timestamp: 2,
+              receivedAtCounter: 0,
               version: 2,
               attempts: 0,
             },
@@ -1665,6 +1657,7 @@ describe('SignalProtocolStore', () => {
           id: '0-dropped',
           envelope: 'old envelope',
           timestamp: NOW - 2 * durations.MONTH,
+          receivedAtCounter: 0,
           version: 2,
           attempts: 0,
         }),
@@ -1672,6 +1665,7 @@ describe('SignalProtocolStore', () => {
           id: '2-two',
           envelope: 'second',
           timestamp: NOW + 2,
+          receivedAtCounter: 0,
           version: 2,
           attempts: 0,
         }),
@@ -1679,6 +1673,7 @@ describe('SignalProtocolStore', () => {
           id: '3-three',
           envelope: 'third',
           timestamp: NOW + 3,
+          receivedAtCounter: 0,
           version: 2,
           attempts: 0,
         }),
@@ -1686,6 +1681,7 @@ describe('SignalProtocolStore', () => {
           id: '1-one',
           envelope: 'first',
           timestamp: NOW + 1,
+          receivedAtCounter: 0,
           version: 2,
           attempts: 0,
         }),
@@ -1706,6 +1702,7 @@ describe('SignalProtocolStore', () => {
         id,
         envelope: 'first',
         timestamp: NOW + 1,
+        receivedAtCounter: 0,
         version: 2,
         attempts: 0,
       });
@@ -1723,6 +1720,7 @@ describe('SignalProtocolStore', () => {
         id,
         envelope: 'first',
         timestamp: NOW + 1,
+        receivedAtCounter: 0,
         version: 2,
         attempts: 0,
       });

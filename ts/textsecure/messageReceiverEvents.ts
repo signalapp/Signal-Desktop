@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-import type { PublicKey } from '@signalapp/signal-client';
+import type { PublicKey } from '@signalapp/libsignal-client';
 
 import type { SignalService as Proto } from '../protobuf';
 import type {
@@ -346,6 +346,20 @@ export class KeysEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('keys', confirm);
+  }
+}
+
+export type PNIIdentityEventData = Readonly<{
+  publicKey: Uint8Array;
+  privateKey: Uint8Array;
+}>;
+
+export class PNIIdentityEvent extends ConfirmableEvent {
+  constructor(
+    public readonly data: PNIIdentityEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('pniIdentity', confirm);
   }
 }
 

@@ -26,7 +26,7 @@ export type Props = {
   i18n: LocalizerType;
   maxShownMemberCount?: number;
   memberships: Array<GroupV2Membership>;
-  showContactModal: (contactId: string, conversationId: string) => void;
+  showContactModal: (contactId: string, conversationId?: string) => void;
   startAddingNewMembers?: () => void;
   theme: ThemeType;
 };

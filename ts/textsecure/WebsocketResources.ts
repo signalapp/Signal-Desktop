@@ -24,6 +24,7 @@
  */
 
 import type { connection as WebSocket, IMessage } from 'websocket';
+import Long from 'long';
 
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
@@ -32,7 +33,6 @@ import * as durations from '../util/durations';
 import { dropNull } from '../util/dropNull';
 import { isOlderThan } from '../util/timestamp';
 import { strictAssert } from '../util/assert';
-import { normalizeNumber } from '../util/normalizeNumber';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
@@ -43,7 +43,7 @@ const THIRTY_SECONDS = 30 * durations.SECOND;
 const MAX_MESSAGE_SIZE = 256 * 1024;
 
 export class IncomingWebSocketRequest {
-  private readonly id: Long | number;
+  private readonly id: Long;
 
   public readonly verb: string;
 
@@ -105,18 +105,18 @@ export class CloseEvent extends Event {
 }
 
 export default class WebSocketResource extends EventTarget {
-  private outgoingId = 1;
+  private outgoingId = Long.fromNumber(1, true);
 
   private closed = false;
 
   private readonly outgoingMap = new Map<
-    number,
+    string,
     (result: SendRequestResult) => void
   >();
 
   private readonly boundOnMessage: (message: IMessage) => void;
 
-  private activeRequests = new Set<IncomingWebSocketRequest | number>();
+  private activeRequests = new Set<IncomingWebSocketRequest | string>();
 
   private shuttingDown = false;
 
@@ -176,10 +176,11 @@ export default class WebSocketResource extends EventTarget {
     options: SendRequestOptions
   ): Promise<SendRequestResult> {
     const id = this.outgoingId;
-    strictAssert(!this.outgoingMap.has(id), 'Duplicate outgoing request');
+    const idString = id.toString();
+    strictAssert(!this.outgoingMap.has(idString), 'Duplicate outgoing request');
 
-    // eslint-disable-next-line no-bitwise
-    this.outgoingId = Math.max(1, (this.outgoingId + 1) & 0x7fffffff);
+    // Note that this automatically wraps
+    this.outgoingId = this.outgoingId.add(1);
 
     const bytes = Proto.WebSocketMessage.encode({
       type: Proto.WebSocketMessage.Type.REQUEST,
@@ -197,22 +198,22 @@ export default class WebSocketResource extends EventTarget {
     );
 
     strictAssert(!this.shuttingDown, 'Cannot send request, shutting down');
-    this.addActive(id);
+    this.addActive(idString);
     const promise = new Promise<SendRequestResult>((resolve, reject) => {
       let timer = options.timeout
         ? Timers.setTimeout(() => {
-            this.removeActive(id);
+            this.removeActive(idString);
             reject(new Error('Request timed out'));
           }, options.timeout)
         : undefined;
 
-      this.outgoingMap.set(id, result => {
+      this.outgoingMap.set(idString, result => {
         if (timer !== undefined) {
           Timers.clearTimeout(timer);
           timer = undefined;
         }
 
-        this.removeActive(id);
+        this.removeActive(idString);
         resolve(result);
       });
     });
@@ -321,12 +322,12 @@ export default class WebSocketResource extends EventTarget {
       const { response } = message;
       strictAssert(response.id, 'response without id');
 
-      const responseId = normalizeNumber(response.id);
-      const resolve = this.outgoingMap.get(responseId);
-      this.outgoingMap.delete(responseId);
+      const responseIdString = response.id.toString();
+      const resolve = this.outgoingMap.get(responseIdString);
+      this.outgoingMap.delete(responseIdString);
 
       if (!resolve) {
-        throw new Error(`Received response for unknown request ${responseId}`);
+        throw new Error(`Received response for unknown request ${response.id}`);
       }
 
       resolve({
@@ -352,11 +353,11 @@ export default class WebSocketResource extends EventTarget {
     }
   }
 
-  private addActive(request: IncomingWebSocketRequest | number): void {
+  private addActive(request: IncomingWebSocketRequest | string): void {
     this.activeRequests.add(request);
   }
 
-  private removeActive(request: IncomingWebSocketRequest | number): void {
+  private removeActive(request: IncomingWebSocketRequest | string): void {
     if (!this.activeRequests.has(request)) {
       log.warn('WebSocketResource: removing unknown request');
       return;

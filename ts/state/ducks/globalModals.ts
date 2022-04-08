@@ -9,7 +9,7 @@ export type GlobalModalsStateType = {
   readonly isWhatsNewVisible: boolean;
   readonly profileEditorHasError: boolean;
   readonly safetyNumberModalContactId?: string;
-  readonly usernameNotFoundModalState?: UsernameNotFoundModalStateType;
+  readonly userNotFoundModalState?: UserNotFoundModalStateType;
 };
 
 // Actions
@@ -17,10 +17,8 @@ export type GlobalModalsStateType = {
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
-const SHOW_USERNAME_NOT_FOUND_MODAL =
-  'globalModals/SHOW_USERNAME_NOT_FOUND_MODAL';
-const HIDE_USERNAME_NOT_FOUND_MODAL =
-  'globalModals/HIDE_USERNAME_NOT_FOUND_MODAL';
+const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
+const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
@@ -32,9 +30,15 @@ export type ContactModalStateType = {
   conversationId?: string;
 };
 
-export type UsernameNotFoundModalStateType = {
-  username: string;
-};
+export type UserNotFoundModalStateType =
+  | {
+      type: 'phoneNumber';
+      phoneNumber: string;
+    }
+  | {
+      type: 'username';
+      username: string;
+    };
 
 type HideContactModalActionType = {
   type: typeof HIDE_CONTACT_MODAL;
@@ -53,15 +57,13 @@ type ShowWhatsNewModalActionType = {
   type: typeof SHOW_WHATS_NEW_MODAL;
 };
 
-type HideUsernameNotFoundModalActionType = {
-  type: typeof HIDE_USERNAME_NOT_FOUND_MODAL;
+type HideUserNotFoundModalActionType = {
+  type: typeof HIDE_UUID_NOT_FOUND_MODAL;
 };
 
-export type ShowUsernameNotFoundModalActionType = {
-  type: typeof SHOW_USERNAME_NOT_FOUND_MODAL;
-  payload: {
-    username: string;
-  };
+export type ShowUserNotFoundModalActionType = {
+  type: typeof SHOW_UUID_NOT_FOUND_MODAL;
+  payload: UserNotFoundModalStateType;
 };
 
 type ToggleProfileEditorActionType = {
@@ -82,8 +84,8 @@ export type GlobalModalsActionType =
   | ShowContactModalActionType
   | HideWhatsNewModalActionType
   | ShowWhatsNewModalActionType
-  | HideUsernameNotFoundModalActionType
-  | ShowUsernameNotFoundModalActionType
+  | HideUserNotFoundModalActionType
+  | ShowUserNotFoundModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType;
@@ -95,8 +97,8 @@ export const actions = {
   showContactModal,
   hideWhatsNewModal,
   showWhatsNewModal,
-  hideUsernameNotFoundModal,
-  showUsernameNotFoundModal,
+  hideUserNotFoundModal,
+  showUserNotFoundModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
@@ -133,20 +135,18 @@ function showWhatsNewModal(): ShowWhatsNewModalActionType {
   };
 }
 
-function hideUsernameNotFoundModal(): HideUsernameNotFoundModalActionType {
+function hideUserNotFoundModal(): HideUserNotFoundModalActionType {
   return {
-    type: HIDE_USERNAME_NOT_FOUND_MODAL,
+    type: HIDE_UUID_NOT_FOUND_MODAL,
   };
 }
 
-function showUsernameNotFoundModal(
-  username: string
-): ShowUsernameNotFoundModalActionType {
+function showUserNotFoundModal(
+  payload: UserNotFoundModalStateType
+): ShowUserNotFoundModalActionType {
   return {
-    type: SHOW_USERNAME_NOT_FOUND_MODAL,
-    payload: {
-      username,
-    },
+    type: SHOW_UUID_NOT_FOUND_MODAL,
+    payload,
   };
 }
 
@@ -209,20 +209,18 @@ export function reducer(
     };
   }
 
-  if (action.type === HIDE_USERNAME_NOT_FOUND_MODAL) {
+  if (action.type === HIDE_UUID_NOT_FOUND_MODAL) {
     return {
       ...state,
-      usernameNotFoundModalState: undefined,
+      userNotFoundModalState: undefined,
     };
   }
 
-  if (action.type === SHOW_USERNAME_NOT_FOUND_MODAL) {
-    const { username } = action.payload;
-
+  if (action.type === SHOW_UUID_NOT_FOUND_MODAL) {
     return {
       ...state,
-      usernameNotFoundModalState: {
-        username,
+      userNotFoundModalState: {
+        ...action.payload,
       },
     };
   }

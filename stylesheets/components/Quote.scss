@@ -1,0 +1,395 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-quote {
+  &__container {
+    margin: {
+      left: -6px;
+      right: -6px;
+      top: 3px;
+      bottom: 5px;
+    }
+  }
+
+  @include button-reset;
+  width: 100%;
+
+  position: relative;
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+
+  border-left-width: 4px;
+  border-left-style: solid;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+    }
+  }
+}
+
+.module-quote--no-click {
+  cursor: auto;
+}
+
+.module-quote--with-reference-warning {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.module-quote--outgoing {
+  border-left-color: $color-steel;
+  background-color: $color-steel;
+  margin-top: -4px;
+
+  // To preserve contrast
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-white;
+    }
+  }
+}
+
+@each $color, $value in $conversation-colors {
+  .module-quote--incoming-#{$color} {
+    background-color: scale-color($value, $lightness: 60%);
+    border-left-color: $value;
+
+    @include dark-theme {
+      background-color: scale-color($value, $lightness: -40%);
+    }
+  }
+
+  .module-quote--outgoing-#{$color} {
+    background-color: scale-color($value, $lightness: 60%);
+    border-left-color: $color-white;
+
+    @include dark-theme {
+      background-color: scale-color($value, $lightness: -40%);
+      border-left-color: $color-white;
+    }
+  }
+}
+
+.module-quote--incoming-custom,
+.module-quote--outgoing-custom {
+  background-attachment: fixed;
+}
+
+@each $color, $value in $conversation-colors-gradient {
+  .module-quote--incoming-#{$color} {
+    border-left-color: map-get($value, 'start');
+  }
+  .module-quote--incoming-#{$color},
+  .module-quote--outgoing-#{$color} {
+    background-attachment: fixed;
+    @include light-theme {
+      background-image: linear-gradient(
+        map-get($value, 'deg'),
+        scale-color(map-get($value, 'start'), $lightness: 60%),
+        scale-color(map-get($value, 'end'), $lightness: 60%)
+      );
+    }
+    @include dark-theme {
+      background-image: linear-gradient(
+        map-get($value, 'deg'),
+        scale-color(map-get($value, 'start'), $lightness: -40%),
+        scale-color(map-get($value, 'end'), $lightness: -40%)
+      );
+    }
+  }
+  .module-quote--outgoing-#{$color} {
+    border-left-color: $color-white;
+  }
+}
+
+.module-quote--curve-top-left {
+  border-top-left-radius: 12px;
+}
+
+.module-quote--curve-top-right {
+  border-top-right-radius: 12px;
+}
+
+.module-quote__primary {
+  flex-grow: 1;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+
+  // To leave room for image thumbnail
+  min-height: 54px;
+}
+
+.module-quote__primary__author {
+  @include font-body-2-bold;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__primary__author--incoming {
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__primary__text {
+  @include font-body-1;
+
+  text-align: start;
+
+  @include light-theme {
+    color: $color-gray-90;
+    a {
+      color: $color-gray-90;
+    }
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    a {
+      color: $color-gray-05;
+    }
+  }
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.module-quote__primary__text--incoming {
+  @include dark-theme {
+    color: $color-gray-05;
+    a {
+      color: $color-gray-05;
+    }
+  }
+}
+
+.module-quote__primary__type-label {
+  @include font-body-2-italic;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__primary__type-label--incoming {
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__primary__filename-label {
+  @include font-body-2;
+}
+
+.module-quote__close-container {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  height: 16px;
+  width: 16px;
+
+  border-radius: 50%;
+
+  background-color: $color-black-alpha-40;
+
+  @include keyboard-mode {
+    &:focus-within {
+      background-color: $color-ultramarine;
+    }
+  }
+}
+
+.module-quote__close-button {
+  @include button-reset;
+
+  width: 14px;
+  height: 14px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+}
+
+.module-quote__icon-container {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex: 0 0 54px;
+  position: relative;
+  width: 54px;
+}
+
+.module-quote__icon-container__inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.module-quote__icon-container__circle-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: $color-white;
+}
+
+.module-quote__icon-container__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.module-quote__icon-container__icon--file {
+  @include color-svg('../images/file.svg', $color-ultramarine);
+}
+.module-quote__icon-container__icon--image {
+  @include color-svg('../images/image.svg', $color-ultramarine);
+}
+.module-quote__icon-container__icon--microphone {
+  @include color-svg(
+    '../images/icons/v2/mic-outline-24.svg',
+    $color-ultramarine
+  );
+}
+.module-quote__icon-container__icon--play {
+  @include color-svg(
+    '../images/icons/v2/play-solid-24.svg',
+    $color-ultramarine
+  );
+}
+.module-quote__icon-container__icon--movie {
+  @include color-svg('../images/movie.svg', $color-ultramarine);
+}
+.module-quote__icon-container__icon--view-once {
+  @include color-svg('../images/icons/v2/view-once-24.svg', $color-ultramarine);
+}
+
+.module-quote__generic-file {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.module-quote__generic-file__icon {
+  background: url('../images/file-gradient.svg');
+  background-size: 75%;
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 36px;
+  margin-left: -4px;
+  margin-right: -6px;
+  margin-bottom: 5px;
+}
+.module-quote__generic-file__text {
+  @include font-body-2;
+
+  max-width: calc(100% - 26px);
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__generic-file__text--incoming {
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__reference-warning {
+  color: $color-gray-90;
+  height: 26px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left-style: solid;
+  border-left-width: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.module-quote__reference-warning__icon {
+  height: 16px;
+  width: 16px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
+  }
+}
+
+.module-quote__reference-warning__icon--incoming {
+  @include light-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
+  }
+}
+
+.module-quote__reference-warning__text {
+  @include font-caption;
+
+  margin-left: 6px;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__reference-warning__text--incoming {
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}

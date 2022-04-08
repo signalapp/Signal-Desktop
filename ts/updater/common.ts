@@ -4,7 +4,7 @@
 /* eslint-disable no-console */
 import { createWriteStream } from 'fs';
 import { pathExists } from 'fs-extra';
-import { readdir, rename, stat, writeFile } from 'fs/promises';
+import { readdir, stat, writeFile } from 'fs/promises';
 import { promisify } from 'util';
 import { execFile } from 'child_process';
 import { join, normalize, extname } from 'path';
@@ -42,7 +42,7 @@ import type { SettingsChannel } from '../main/settingsChannel';
 
 import type { LoggerType } from '../types/Logging';
 import { getGotOptions } from './got';
-import { checkIntegrity } from './util';
+import { checkIntegrity, gracefulRename } from './util';
 import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
 import {
   prepareDownload as prepareDifferentialDownload,
@@ -67,6 +67,7 @@ type JSONUpdateSchema = {
   path: string;
   sha512: string;
   releaseDate: string;
+  requireManualUpdate?: boolean;
 };
 
 export type UpdateInformationType = {
@@ -98,6 +99,8 @@ export abstract class Updater {
   private throttledSendDownloadingUpdate: (downloadedSize: number) => void;
 
   private activeDownload: Promise<boolean> | undefined;
+
+  private markedCannotUpdate = false;
 
   constructor(
     protected readonly logger: LoggerType,
@@ -154,6 +157,29 @@ export abstract class Updater {
   ): void {
     ipcMain.removeHandler('start-update');
     ipcMain.handleOnce('start-update', performUpdateCallback);
+  }
+
+  protected markCannotUpdate(
+    error: Error,
+    dialogType = DialogType.Cannot_Update
+  ): void {
+    if (this.markedCannotUpdate) {
+      this.logger.warn(
+        'updater/markCannotUpdate: already marked',
+        Errors.toLogFormat(error)
+      );
+      return;
+    }
+    this.markedCannotUpdate = true;
+
+    this.logger.error(
+      'updater/markCannotUpdate: marking due to error: ' +
+        `${Errors.toLogFormat(error)}, ` +
+        `dialogType: ${dialogType}`
+    );
+
+    const mainWindow = this.getMainWindow();
+    mainWindow?.webContents.send('show-update-dialog', dialogType);
   }
 
   //
@@ -243,6 +269,7 @@ export abstract class Updater {
       return true;
     } catch (error) {
       logger.error(`downloadAndInstall: ${Errors.toLogFormat(error)}`);
+      this.markCannotUpdate(error);
       throw error;
     }
   }
@@ -332,6 +359,16 @@ export abstract class Updater {
   ): Promise<UpdateInformationType | undefined> {
     const yaml = await getUpdateYaml();
     const parsedYaml = parseYaml(yaml);
+
+    if (parsedYaml.requireManualUpdate) {
+      this.logger.warn('checkForUpdates: manual update required');
+      this.markCannotUpdate(
+        new Error('yaml file has requireManualUpdate flag'),
+        DialogType.Cannot_Update_Require_Manual
+      );
+      return;
+    }
+
     const version = getVersion(parsedYaml);
 
     if (!version) {
@@ -450,6 +487,9 @@ export abstract class Updater {
     const tempUpdatePath = join(tempDir, fileName);
     const tempBlockMapPath = join(tempDir, blockMapFileName);
 
+    // If true - we will attempt to install from a temporary directory.
+    let tempPathFailover = false;
+
     try {
       validatePath(cacheDir, targetUpdatePath);
 
@@ -491,7 +531,7 @@ export abstract class Updater {
 
           // Move file into downloads directory
           try {
-            await rename(targetUpdatePath, tempUpdatePath);
+            await gracefulRename(this.logger, targetUpdatePath, tempUpdatePath);
             gotUpdate = true;
           } catch (error) {
             this.logger.error(
@@ -561,16 +601,28 @@ export abstract class Updater {
 
       // Backup old files
       const restoreDir = await getTempDir();
-      await rename(cacheDir, restoreDir);
+      await gracefulRename(this.logger, cacheDir, restoreDir);
 
       // Move the files into the final position
       try {
-        await rename(tempDir, cacheDir);
+        await gracefulRename(this.logger, tempDir, cacheDir);
       } catch (error) {
-        // Attempt to restore old files
-        await rename(restoreDir, cacheDir);
+        try {
+          // Attempt to restore old files
+          await gracefulRename(this.logger, restoreDir, cacheDir);
+        } catch (restoreError) {
+          this.logger.warn(
+            'downloadUpdate: Failed to restore from backup folder, ignoring',
+            Errors.toLogFormat(restoreError)
+          );
+        }
 
-        throw error;
+        this.logger.warn(
+          'downloadUpdate: running update from a temporary folder due to error',
+          Errors.toLogFormat(error)
+        );
+        tempPathFailover = true;
+        return { updateFilePath: tempUpdatePath, signature };
       }
 
       try {
@@ -584,7 +636,9 @@ export abstract class Updater {
 
       return { updateFilePath: targetUpdatePath, signature };
     } finally {
-      await deleteTempDir(tempDir);
+      if (!tempPathFailover) {
+        await deleteTempDir(tempDir);
+      }
     }
   }
 

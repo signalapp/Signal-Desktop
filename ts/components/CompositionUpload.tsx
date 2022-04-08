@@ -52,20 +52,21 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
       AttachmentToastType | undefined
     >();
 
-    const onFileInputChange: ChangeEventHandler<HTMLInputElement> =
-      async event => {
-        const files = event.target.files || [];
+    const onFileInputChange: ChangeEventHandler<
+      HTMLInputElement
+    > = async event => {
+      const files = event.target.files || [];
 
-        await processAttachments({
-          addAttachment,
-          addPendingAttachment,
-          conversationId,
-          files: Array.from(files),
-          draftAttachments,
-          onShowToast: setToastType,
-          removeAttachment,
-        });
-      };
+      await processAttachments({
+        addAttachment,
+        addPendingAttachment,
+        conversationId,
+        files: Array.from(files),
+        draftAttachments,
+        onShowToast: setToastType,
+        removeAttachment,
+      });
+    };
 
     function closeToast() {
       setToastType(undefined);

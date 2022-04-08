@@ -95,7 +95,7 @@ describe('sql/timelineFetches', () => {
       const messages = await getOlderMessagesByConversation(conversationId, {
         limit: 5,
       });
-      assert.lengthOf(messages, 2);
+      assert.lengthOf(messages, 3);
 
       // Fetched with DESC query, but with reverse() call afterwards
       assert.strictEqual(messages[0].id, message1.id);
@@ -383,9 +383,9 @@ describe('sql/timelineFetches', () => {
         limit: 5,
       });
 
-      assert.lengthOf(messages, 2);
-      assert.strictEqual(messages[0].id, message4.id, 'checking message 4');
-      assert.strictEqual(messages[1].id, message5.id, 'checking message 5');
+      assert.lengthOf(messages, 3);
+      assert.strictEqual(messages[0].id, message3.id, 'checking message 3');
+      assert.strictEqual(messages[1].id, message4.id, 'checking message 4');
     });
 
     it('returns N oldest messages for a given story with no parameters', async () => {
@@ -655,14 +655,18 @@ describe('sql/timelineFetches', () => {
       const metricsInTimeline = await getMessageMetricsForConversation(
         conversationId
       );
-      assert.strictEqual(metricsInTimeline?.oldest?.id, oldest.id, 'oldest');
+      assert.strictEqual(
+        metricsInTimeline?.oldest?.id,
+        oldestInStory.id,
+        'oldest'
+      );
       assert.strictEqual(metricsInTimeline?.newest?.id, newest.id, 'newest');
       assert.strictEqual(
         metricsInTimeline?.oldestUnread?.id,
         oldestUnread.id,
         'oldestUnread'
       );
-      assert.strictEqual(metricsInTimeline?.totalUnread, 2, 'totalUnread');
+      assert.strictEqual(metricsInTimeline?.totalUnread, 3, 'totalUnread');
 
       const metricsInStory = await getMessageMetricsForConversation(
         conversationId,

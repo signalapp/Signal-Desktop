@@ -189,6 +189,20 @@
     "updated": "2022-02-11T21:58:24.827Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@mixer/parallel-prettier/node_modules/commander/index.js",
+    "line": "        return helper.wrap(fullText, helpWidth - itemIndentWidth, termWidth + itemSeparatorWidth);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@mixer/parallel-prettier/node_modules/commander/index.js",
+    "line": "  wrap(str, width, indent, minColumnWidth = 40) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -1235,18 +1249,32 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/del/node_modules/globby/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
+    "rule": "jQuery-append(",
+    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
+    "line": "    if (tok.value || tok.output) append(tok);",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-25T00:30:50.619Z"
+    "updated": "2022-02-14T16:45:31.703Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/del/node_modules/pify/index.js",
-    "line": "\t\tif (options.multiArgs) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-04-13T22:04:17.176Z"
+    "rule": "jQuery-append(",
+    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
+    "line": "      append({ value });",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-14T16:45:31.703Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
+    "line": "      append({ value });",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-14T16:45:31.703Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
+    "line": "      append({ value });",
+    "reasonCategory": "falseMatch|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2022-02-14T16:45:31.703Z"
   },
   {
     "rule": "eval",
@@ -1607,6 +1635,18 @@
     "line": "  append(value);",
     "reasonCategory": "falseMatch",
     "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/fuse.js/dist/fuse.basic.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-31T19:50:28.622Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/fuse.js/dist/fuse.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-31T19:50:28.622Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5315,6 +5355,13 @@
     "updated": "2022-02-11T21:58:24.827Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/pumpify/node_modules/duplexify/index.js",
+    "line": "  return new (stream.Readable)({objectMode:true, highWaterMark:16}).wrap(rs)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
     "rule": "DOM-document.write(",
     "path": "node_modules/qrcode-generator/sample.js",
     "line": "  document.write(create_qrcode(text, typeNumber, errorCorrectionLevel) );",
@@ -6636,6 +6683,34 @@
     "updated": "2021-01-20T22:42:00.662Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "    this.append(buf)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "    copy.append(this._bufs[i])",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "      this.append(buf[i])",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "      this.append(buf._bufs[i])",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-03-22T19:29:46.099Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
     "line": "    \"innerHTML\",",
@@ -7132,20 +7207,6 @@
     "reasonDetail": "Dev-only dependency."
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/wrap-ansi/node_modules/ansi-styles/index.js",
-    "line": "\t\t\tstyles[name] = wrap(identity, offset);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/wrap-ansi/node_modules/ansi-styles/index.js",
-    "line": "\t\t\tstyles[name] = wrap(suite[targetSpace], offset);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/xregexp/xregexp-all.js",
     "line": "            endAnchor = /\\$(?:\\(\\?:\\))?$/; // Trailing `$` or `$(?:)` (handles /x cruft)",
@@ -7225,13 +7286,6 @@
     "line": "        // 1. `.load()` when the `window.storage` is ready",
     "reasonCategory": "falseMatch",
     "updated": "2021-05-05T23:11:22.692Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/AvatarPreview.tsx",
-    "line": "  const startingAvatarPathRef = useRef<undefined | string>(",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
@@ -7645,6 +7699,13 @@
     "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2022-02-15T17:57:06.507Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/TextAttachment.tsx",
+    "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-04-06T00:59:17.194Z"
   },
   {
     "rule": "React-useRef",

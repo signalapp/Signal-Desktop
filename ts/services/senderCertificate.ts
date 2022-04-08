@@ -9,7 +9,6 @@ import {
 import * as Bytes from '../Bytes';
 import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
-import { normalizeNumber } from '../util/normalizeNumber';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
 import type { StorageInterface } from '../types/Storage.d';
@@ -181,7 +180,7 @@ export class SenderCertificateService {
     const decodedCert = decodedContainer.certificate
       ? SenderCertificate.Certificate.decode(decodedContainer.certificate)
       : undefined;
-    const expires = normalizeNumber(decodedCert?.expires);
+    const expires = decodedCert?.expires?.toNumber();
 
     if (!isExpirationValid(expires)) {
       log.warn(

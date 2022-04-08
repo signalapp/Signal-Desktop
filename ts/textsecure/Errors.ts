@@ -156,7 +156,7 @@ export class SendMessageChallengeError extends ReplayableError {
 
   public readonly data: SendMessageChallengeData | undefined;
 
-  public readonly retryAfter: number;
+  public readonly retryAt: number;
 
   constructor(identifier: string, httpError: HTTPError) {
     super({
@@ -171,7 +171,7 @@ export class SendMessageChallengeError extends ReplayableError {
 
     const headers = httpError.responseHeaders || {};
 
-    this.retryAfter = Date.now() + parseRetryAfter(headers['retry-after']);
+    this.retryAt = Date.now() + parseRetryAfter(headers['retry-after']);
 
     appendStack(this, httpError);
   }
@@ -192,7 +192,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
 
   public readonly dataMessage?: Uint8Array;
 
-  // Fields necesary for send log save
+  // Fields necessary for send log save
   public readonly contentHint?: number;
 
   public readonly contentProto?: Uint8Array;

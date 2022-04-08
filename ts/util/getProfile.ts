@@ -1,7 +1,7 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ProfileKeyCredentialRequestContext } from '@signalapp/signal-client/zkgroup';
+import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
 import { SEALED_SENDER } from '../types/SealedSender';
 import * as Errors from '../types/errors';
 import type {
@@ -131,7 +131,9 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
           throw error;
         }
         if (error.code === 401 || error.code === 403) {
-          await c.setProfileKey(undefined);
+          if (!isMe(c.attributes)) {
+            await c.setProfileKey(undefined);
+          }
 
           // Retry fetch using last known profileKeyVersion or fetch
           // unversioned profile.
@@ -306,7 +308,9 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
           log.warn(
             `getProfile: Got 401/403 when using accessKey for ${idForLogging}, removing profileKey`
           );
-          c.setProfileKey(undefined);
+          if (!isMe(c.attributes)) {
+            await c.setProfileKey(undefined);
+          }
         }
         if (c.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
           log.warn(
@@ -363,11 +367,8 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     if (error instanceof HTTPError) {
       if (error.code === 403 || error.code === 404) {
         log.warn(
-          `getProfile: clearing profile avatar for conversation ${idForLogging}`
+          `getProfile: profile avatar is missing for conversation ${idForLogging}`
         );
-        c.set({
-          profileAvatar: null,
-        });
       }
     } else {
       log.warn(

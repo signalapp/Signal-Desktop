@@ -84,6 +84,36 @@
   }
 }
 
+@keyframes module-message__highlight {
+  0% {
+    filter: none;
+  }
+  33% {
+    filter: brightness(50%);
+  }
+  66% {
+    filter: brightness(50%);
+  }
+  100% {
+    filter: none;
+  }
+}
+
+@keyframes module-message__highlight-lighter {
+  0% {
+    filter: none;
+  }
+  33% {
+    filter: brightness(76%);
+  }
+  66% {
+    filter: brightness(76%);
+  }
+  100% {
+    filter: none;
+  }
+}
+
 .module-message--outgoing {
   flex-direction: row-reverse;
 }
@@ -143,7 +173,7 @@
 
   .module-message--selected & {
     @include mouse-mode {
-      background-color: $color-ultramarine;
+      background-color: $color-gray-60;
     }
     @include dark-mouse-mode {
       background-color: $color-white;
@@ -152,7 +182,7 @@
 
   .module-message:focus & {
     @include keyboard-mode {
-      background-color: $color-ultramarine;
+      background-color: $color-gray-60;
     }
     @include dark-keyboard-mode {
       background-color: $color-white;
@@ -264,8 +294,8 @@
   position: relative;
   display: inline-block;
   border-radius: 18px;
-  margin-bottom: 4px;
-  margin-top: 4px;
+  margin-bottom: 6px;
+  margin-top: 6px;
   min-width: 0px;
   overflow: hidden;
 
@@ -298,12 +328,15 @@
   }
 }
 
-.module-message--selected {
+.module-message__container--selected {
   @include mouse-mode {
-    background: $color-selected-message-background-light;
+    animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
   }
-  @include dark-mouse-mode {
-    background: $color-selected-message-background-dark;
+}
+.module-message__container--selected-lighter {
+  @include mouse-mode {
+    animation: module-message__highlight-lighter 1.2s
+      cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
 
@@ -317,7 +350,7 @@
 }
 
 .module-message__container--emoji {
-  padding-top: 0;
+  padding-top: 4px;
 
   .module-message__text--outgoing {
     text-align: right;
@@ -407,6 +440,22 @@
   @include dark-theme {
     background-color: $color-black;
     border: 1px solid $color-deep-red;
+  }
+}
+
+.module-message__container--deleted-for-everyone {
+  @include light-theme {
+    color: $color-gray-90;
+    border: 1px solid $color-gray-25;
+    background-color: $color-white;
+    background-image: none;
+  }
+
+  @include dark-theme {
+    color: $color-gray-05;
+    border: 1px solid $color-gray-75;
+    background-color: $color-gray-95;
+    background-image: none;
   }
 }
 
@@ -959,6 +1008,14 @@
 .module-message__text--error {
   @include font-body-1-italic;
 }
+.module-message__text--delete-for-everyone {
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
 
 .module-message__metadata {
   align-items: center;
@@ -966,6 +1023,7 @@
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 3px;
+  font-style: normal;
 
   &--inline {
     float: right;
@@ -986,6 +1044,15 @@
 
   // This is so all clicks go right through to the underlying image.
   pointer-events: none;
+}
+
+.module-message__metadata--deleted-for-everyone {
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-message__metadata__date {
@@ -1021,6 +1088,14 @@
     color: $color-white-alpha-80;
   }
 }
+.module-message__metadata__date--deleted-for-everyone {
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
 .module-message__metadata__date.module-message__metadata__date--incoming-with-tap-to-view-expired {
   color: $color-gray-75;
 
@@ -1043,6 +1118,8 @@
   height: 12px;
   display: inline-block;
   margin-left: 6px;
+  // High margin to leave space for the increase when we go to two checks
+  margin-right: 6px;
   margin-bottom: 2px;
 }
 
@@ -1069,6 +1146,8 @@
   }
 }
 .module-message__metadata__status-icon--delivered {
+  // We reduce the margin size to keep the overall width the same
+  margin-right: 0px;
   width: 18px;
 
   @include light-theme {
@@ -1080,6 +1159,8 @@
 }
 .module-message__metadata__status-icon--read,
 .module-message__metadata__status-icon--viewed {
+  // We reduce the margin size to keep the overall width the same
+  margin-right: 0px;
   width: 18px;
 
   @include light-theme {
@@ -1102,6 +1183,15 @@
 .module-message__metadata__status-icon--with-sticker {
   @include light-theme {
     background-color: $color-gray-60;
+  }
+}
+
+.module-message__metadata__status-icon--deleted-for-everyone {
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
   }
 }
 
@@ -1334,398 +1424,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-// Module: Quoted Reply
-
-.module-quote-container {
-  margin: {
-    left: -6px;
-    right: -6px;
-    top: 3px;
-    bottom: 5px;
-  }
-}
-
-.module-quote {
-  @include button-reset;
-  width: 100%;
-
-  position: relative;
-  border-radius: 4px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  overflow: hidden;
-
-  border-left-width: 4px;
-  border-left-style: solid;
-
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
-    }
-  }
-}
-
-.module-quote--no-click {
-  cursor: auto;
-}
-
-.module-quote--with-reference-warning {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.module-quote--outgoing {
-  border-left-color: $color-steel;
-  background-color: $color-steel;
-  margin-top: -4px;
-
-  // To preserve contrast
-  @include keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px $color-white;
-    }
-  }
-}
-
-@each $color, $value in $conversation-colors {
-  .module-quote--incoming-#{$color} {
-    background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $value;
-
-    @include dark-theme {
-      background-color: scale-color($value, $lightness: -40%);
-    }
-  }
-
-  .module-quote--outgoing-#{$color} {
-    background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $color-white;
-
-    @include dark-theme {
-      background-color: scale-color($value, $lightness: -40%);
-      border-left-color: $color-white;
-    }
-  }
-}
-
-.module-quote--incoming-custom,
-.module-quote--outgoing-custom {
-  background-attachment: fixed;
-}
-
-@each $color, $value in $conversation-colors-gradient {
-  .module-quote--incoming-#{$color} {
-    border-left-color: map-get($value, 'start');
-  }
-  .module-quote--incoming-#{$color},
-  .module-quote--outgoing-#{$color} {
-    background-attachment: fixed;
-    @include light-theme {
-      background-image: linear-gradient(
-        map-get($value, 'deg'),
-        scale-color(map-get($value, 'start'), $lightness: 60%),
-        scale-color(map-get($value, 'end'), $lightness: 60%)
-      );
-    }
-    @include dark-theme {
-      background-image: linear-gradient(
-        map-get($value, 'deg'),
-        scale-color(map-get($value, 'start'), $lightness: -40%),
-        scale-color(map-get($value, 'end'), $lightness: -40%)
-      );
-    }
-  }
-  .module-quote--outgoing-#{$color} {
-    border-left-color: $color-white;
-  }
-}
-
-.module-quote--curve-top-left {
-  border-top-left-radius: 12px;
-}
-
-.module-quote--curve-top-right {
-  border-top-right-radius: 12px;
-}
-
-.module-quote__primary {
-  flex-grow: 1;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-
-  // To leave room for image thumbnail
-  min-height: 54px;
-}
-
-.module-quote__primary__author {
-  @include font-body-2-bold;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
+.module-expire-timer--deleted-for-everyone {
   @include light-theme {
-    color: $color-gray-90;
+    background-color: $color-gray-60;
   }
   @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__primary__author--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__primary__text {
-  @include font-body-1;
-
-  text-align: start;
-
-  @include light-theme {
-    color: $color-gray-90;
-    a {
-      color: $color-gray-90;
-    }
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-    a {
-      color: $color-gray-05;
-    }
-  }
-
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.module-quote__primary__text--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
-    a {
-      color: $color-gray-05;
-    }
-  }
-}
-
-.module-quote__primary__type-label {
-  @include font-body-2-italic;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__primary__type-label--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__primary__filename-label {
-  @include font-body-2;
-}
-
-.module-quote__close-container {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  height: 16px;
-  width: 16px;
-
-  border-radius: 50%;
-
-  background-color: $color-black-alpha-40;
-
-  @include keyboard-mode {
-    &:focus-within {
-      background-color: $color-ultramarine;
-    }
-  }
-}
-
-.module-quote__close-button {
-  @include button-reset;
-
-  width: 14px;
-  height: 14px;
-
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  @include color-svg('../images/icons/v2/x-24.svg', $color-white);
-}
-
-.module-quote__icon-container {
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  flex: 0 0 54px;
-  position: relative;
-  width: 54px;
-}
-
-.module-quote__icon-container__inner {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.module-quote__icon-container__circle-background {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  background-color: $color-white;
-}
-
-.module-quote__icon-container__icon {
-  width: 20px;
-  height: 20px;
-}
-
-.module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-ultramarine);
-}
-.module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-ultramarine);
-}
-.module-quote__icon-container__icon--microphone {
-  @include color-svg(
-    '../images/icons/v2/mic-outline-24.svg',
-    $color-ultramarine
-  );
-}
-.module-quote__icon-container__icon--play {
-  @include color-svg(
-    '../images/icons/v2/play-solid-24.svg',
-    $color-ultramarine
-  );
-}
-.module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', $color-ultramarine);
-}
-.module-quote__icon-container__icon--view-once {
-  @include color-svg('../images/icons/v2/view-once-24.svg', $color-ultramarine);
-}
-
-.module-quote__generic-file {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.module-quote__generic-file__icon {
-  background: url('../images/file-gradient.svg');
-  background-size: 75%;
-  background-repeat: no-repeat;
-  height: 28px;
-  width: 36px;
-  margin-left: -4px;
-  margin-right: -6px;
-  margin-bottom: 5px;
-}
-.module-quote__generic-file__text {
-  @include font-body-2;
-
-  max-width: calc(100% - 26px);
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__generic-file__text--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__reference-warning {
-  color: $color-gray-90;
-  height: 26px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-left-style: solid;
-  border-left-width: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.module-quote__reference-warning__icon {
-  height: 16px;
-  width: 16px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
-  }
-}
-
-.module-quote__reference-warning__icon--incoming {
-  @include light-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
-  }
-}
-
-.module-quote__reference-warning__text {
-  @include font-caption;
-
-  margin-left: 6px;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-quote__reference-warning__text--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
+    background-color: $color-gray-25;
   }
 }
 
@@ -2656,6 +2360,7 @@ button.ConversationDetails__action-button {
     }
 
     @include keyboard-mode {
+      border: none;
       &:focus {
         border-color: $color-ultramarine;
         outline: none;
@@ -5126,6 +4831,11 @@ button.module-image__border-overlay:focus {
           }
         }
       }
+
+      &__spinner__container {
+        margin-left: 16px;
+        margin-right: 16px;
+      }
     }
 
     &--header {
@@ -5462,9 +5172,12 @@ button.module-image__border-overlay:focus {
 }
 
 .module-timeline__messages {
+  display: flex;
+  flex-direction: column;
   flex: 1 1;
   padding-bottom: 6px;
   position: relative;
+  justify-content: flex-end;
 
   // This is a modified version of ["Pin Scrolling to Bottom"][0].
   // [0]: https://css-tricks.com/books/greatest-css-tricks/pin-scrolling-to-bottom/
@@ -5479,6 +5192,10 @@ button.module-image__border-overlay:focus {
       display: block;
       overflow-anchor: auto;
     }
+  }
+
+  &--have-oldest {
+    justify-content: flex-start;
   }
 
   &__at-bottom-detector {
@@ -6144,6 +5861,7 @@ button.module-image__border-overlay:focus {
       grid-gap: 8px;
       grid-template-columns: repeat(4, 1fr);
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 0 16px;
 
       &::after {
@@ -8193,6 +7911,8 @@ button.module-image__border-overlay:focus {
 
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
+  max-width: 100%;
+
   &--incoming {
     align-self: flex-start;
   }

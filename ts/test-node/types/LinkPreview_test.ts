@@ -5,6 +5,7 @@ import { assert } from 'chai';
 
 import {
   findLinks,
+  shouldLinkifyMessage,
   shouldPreviewHref,
   isLinkSneaky,
 } from '../../types/LinkPreview';
@@ -41,6 +42,26 @@ describe('Link previews', () => {
       assert.isTrue(
         shouldPreviewHref('https://example.com/foo/bar?query=string#hash')
       );
+    });
+  });
+
+  describe('#shouldLinkifyMessage;', () => {
+    it('returns false for strings with directional override characters', () => {
+      assert.isFalse(shouldLinkifyMessage('\u202c'));
+      assert.isFalse(shouldLinkifyMessage('\u202d'));
+      assert.isFalse(shouldLinkifyMessage('\u202e'));
+    });
+
+    it('returns false for strings with unicode drawing characters', () => {
+      assert.isFalse(shouldLinkifyMessage('\u2500'));
+      assert.isFalse(shouldLinkifyMessage('\u2588'));
+      assert.isFalse(shouldLinkifyMessage('\u25FF'));
+    });
+
+    it('returns true other strings', () => {
+      assert.isTrue(shouldLinkifyMessage(null));
+      assert.isTrue(shouldLinkifyMessage(undefined));
+      assert.isTrue(shouldLinkifyMessage('Random other string aqu%C3%AD'));
     });
   });
 

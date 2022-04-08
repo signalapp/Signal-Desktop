@@ -7,6 +7,7 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import type { PropsType as ProfileEditorPropsType } from './ProfileEditor';
 import { ProfileEditor, EditState } from './ProfileEditor';
 import type { ProfileDataType } from '../state/ducks/conversations';
+import type { AvatarUpdateType } from '../types/Avatar';
 
 export type PropsDataType = {
   hasError: boolean;
@@ -15,7 +16,7 @@ export type PropsDataType = {
 type PropsType = {
   myProfileChanged: (
     profileData: ProfileDataType,
-    avatarBuffer?: Uint8Array
+    avatar: AvatarUpdateType
   ) => unknown;
   toggleProfileEditor: () => unknown;
   toggleProfileEditorHasError: () => unknown;

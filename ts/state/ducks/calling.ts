@@ -372,6 +372,10 @@ const doGroupCallPeek = (
       return;
     }
 
+    log.info(
+      `doGroupCallPeek/groupv2(${conversation.groupId}): Found ${peekInfo.deviceCount} devices`
+    );
+
     await calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
 
     const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(peekInfo);
@@ -988,6 +992,23 @@ function peekGroupCallForTheFirstTime(
   };
 }
 
+function peekGroupCallIfItHasMembers(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
+  return (dispatch, getState) => {
+    const call = getOwn(getState().calling.callsByConversation, conversationId);
+    const shouldPeek =
+      call &&
+      call.callMode === CallMode.Group &&
+      call.joinState === GroupCallJoinState.NotJoined &&
+      call.peekInfo &&
+      call.peekInfo.deviceCount > 0;
+    if (shouldPeek) {
+      doGroupCallPeek(conversationId, dispatch, getState);
+    }
+  };
+}
+
 function peekNotConnectedGroupCall(
   payload: PeekNotConnectedGroupCallType
 ): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
@@ -1220,7 +1241,7 @@ function startCall(
   return async (dispatch, getState) => {
     switch (payload.callMode) {
       case CallMode.Direct:
-        calling.startOutgoingDirectCall(
+        await calling.startOutgoingDirectCall(
           payload.conversationId,
           payload.hasLocalAudio,
           payload.hasLocalVideo
@@ -1310,6 +1331,7 @@ export const actions = {
   openSystemPreferencesAction,
   outgoingCall,
   peekGroupCallForTheFirstTime,
+  peekGroupCallIfItHasMembers,
   peekNotConnectedGroupCall,
   receiveIncomingDirectCall,
   receiveIncomingGroupCall,

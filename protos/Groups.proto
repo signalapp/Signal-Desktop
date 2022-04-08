@@ -45,6 +45,11 @@ message MemberPendingAdminApproval {
   uint64 timestamp    = 4;
 }
 
+message MemberBanned {
+  bytes userId        = 1;
+  uint64 timestamp    = 2;  // ms since epoch
+}
+
 message AccessControl {
   enum AccessRequired {
     UNKNOWN       = 0;
@@ -72,6 +77,8 @@ message Group {
            bytes                      inviteLinkPassword          = 10;
            bytes                      descriptionBytes            = 11;
            bool                       announcementsOnly           = 12;
+  repeated MemberBanned               membersBanned               = 13;
+  // next: 14
 }
 
 message GroupChange {
@@ -119,6 +126,14 @@ message GroupChange {
     message PromoteMemberPendingAdminApprovalAction {
       bytes       userId = 1;
       Member.Role role   = 2;
+    }
+
+    message AddMemberBannedAction {
+      MemberBanned added = 1;
+    }
+
+    message DeleteMemberBannedAction {
+      bytes deletedUserId = 1;
     }
 
     message ModifyTitleAction {
@@ -183,6 +198,9 @@ message GroupChange {
              ModifyInviteLinkPasswordAction             modifyInviteLinkPassword           = 19; // change epoch = 1
              ModifyDescriptionAction                    modifyDescription                  = 20; // change epoch = 2
              ModifyAnnouncementsOnlyAction              modifyAnnouncementsOnly            = 21; // change epoch = 3
+    repeated AddMemberBannedAction                      addMembersBanned                   = 22; // change epoch = 4
+    repeated DeleteMemberBannedAction                   deleteMembersBanned                = 23; // change epoch = 4
+    // next: 24
   }
 
   bytes  actions         = 1; // The serialized actions

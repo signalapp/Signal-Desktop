@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as client from '@signalapp/signal-client';
+import * as client from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { constantTimeEqual } from './Crypto';

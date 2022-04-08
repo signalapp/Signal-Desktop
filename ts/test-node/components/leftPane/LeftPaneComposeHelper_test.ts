@@ -29,7 +29,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.strictEqual(helper.getBackAction({ showInbox }), showInbox);
@@ -45,7 +45,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         1
       );
@@ -59,7 +59,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         4
       );
@@ -73,7 +73,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         7
       );
@@ -87,7 +87,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'someone',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         8
       );
@@ -101,7 +101,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'someone',
           isUsernamesEnabled: false,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         6
       );
@@ -115,7 +115,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         2
       );
@@ -126,7 +126,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         5
       );
@@ -137,13 +137,13 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         7
       );
     });
 
-    it('returns 1 (for the "Start new conversation" button) if searching for a phone number with no contacts', () => {
+    it('returns 2 (for the "Start new conversation" button) if searching for a phone number with no contacts', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [],
@@ -151,9 +151,9 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '+16505551234',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
-        1
+        2
       );
     });
 
@@ -165,13 +165,13 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'someone',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
         2
       );
     });
 
-    it('returns the number of contacts + 4 (for the "Start new conversation" button and header) if searching for a phone number', () => {
+    it('returns the number of contacts + 2 (for the "Start new conversation" button and header) if searching for a phone number', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
@@ -179,9 +179,9 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '+16505551234',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         }).getRowCount(),
-        4
+        5
       );
     });
   });
@@ -194,7 +194,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -214,7 +214,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -249,7 +249,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -288,7 +288,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: false,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isUndefined(helper.getRow(0));
@@ -306,7 +306,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.deepEqual(helper.getRow(1), {
@@ -324,21 +324,29 @@ describe('LeftPaneComposeHelper', () => {
         composeContacts: [],
         composeGroups: [],
         regionCode: 'US',
-        searchTerm: '+16505551234',
+        searchTerm: '+1(650) 555 12 34',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.deepEqual(helper.getRow(0), {
-        type: RowType.StartNewConversation,
-        phoneNumber: '+16505551234',
+        type: RowType.Header,
+        i18nKey: 'findByPhoneNumberHeader',
       });
-      assert.isUndefined(helper.getRow(1));
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.StartNewConversation,
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(650) 555 12 34',
+          e164: '+16505551234',
+        },
+        isFetching: false,
+      });
+      assert.isUndefined(helper.getRow(2));
     });
 
     it('returns just a "find by username" header if no results', () => {
       const username = 'someone';
-      const isFetchingUsername = true;
 
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
@@ -346,7 +354,9 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: username,
         isUsernamesEnabled: true,
-        isFetchingUsername,
+        uuidFetchState: {
+          [`username:${username}`]: true,
+        },
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -356,7 +366,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(1), {
         type: RowType.UsernameSearchResult,
         username,
-        isFetchingUsername,
+        isFetchingUsername: true,
       });
       assert.isUndefined(helper.getRow(2));
     });
@@ -370,26 +380,35 @@ describe('LeftPaneComposeHelper', () => {
         composeContacts,
         composeGroups: [],
         regionCode: 'US',
-        searchTerm: '+16505551234',
+        searchTerm: '+1(650) 555 12 34',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.deepEqual(helper.getRow(0), {
-        type: RowType.StartNewConversation,
-        phoneNumber: '+16505551234',
-      });
-      assert.deepEqual(helper.getRow(1), {
         type: RowType.Header,
         i18nKey: 'contactsHeader',
       });
-      assert.deepEqual(helper.getRow(2), {
+      assert.deepEqual(helper.getRow(1), {
         type: RowType.Contact,
         contact: composeContacts[0],
       });
-      assert.deepEqual(helper.getRow(3), {
+      assert.deepEqual(helper.getRow(2), {
         type: RowType.Contact,
         contact: composeContacts[1],
+      });
+      assert.deepEqual(helper.getRow(3), {
+        type: RowType.Header,
+        i18nKey: 'findByPhoneNumberHeader',
+      });
+      assert.deepEqual(helper.getRow(4), {
+        type: RowType.StartNewConversation,
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(650) 555 12 34',
+          e164: '+16505551234',
+        },
+        isFetching: false,
       });
     });
   });
@@ -402,7 +421,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isUndefined(helper.getConversationAndMessageAtIndex(0));
@@ -417,7 +436,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isUndefined(
@@ -438,7 +457,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isFalse(
@@ -448,7 +467,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'different search',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
       assert.isFalse(
@@ -458,7 +477,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'last search',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
     });
@@ -470,7 +489,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isFalse(
@@ -480,17 +499,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
-        })
-      );
-      assert.isFalse(
-        helper.shouldRecomputeRowHeights({
-          composeContacts: [getDefaultConversation()],
-          composeGroups: [],
-          regionCode: 'US',
-          searchTerm: '+16505559876',
-          isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
     });
@@ -502,7 +511,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isTrue(
@@ -512,7 +521,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
       assert.isTrue(
@@ -522,7 +531,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '+16505551234',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
     });
@@ -534,7 +543,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isTrue(
@@ -544,7 +553,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
     });
@@ -556,7 +565,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isTrue(
@@ -566,7 +575,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
 
@@ -576,7 +585,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isTrue(
@@ -586,7 +595,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
     });
@@ -598,7 +607,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'soup',
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
       });
 
       assert.isTrue(
@@ -608,7 +617,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'soup',
           isUsernamesEnabled: true,
-          isFetchingUsername: false,
+          uuidFetchState: {},
         })
       );
     });

@@ -111,6 +111,7 @@ export function CustomizingPreferredReactionsModal({
 
   return (
     <Modal
+      moduleClassName="module-CustomizingPreferredReactionsModal"
       hasXButton
       i18n={i18n}
       onClose={() => {

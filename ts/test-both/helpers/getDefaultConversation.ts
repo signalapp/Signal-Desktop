@@ -7,6 +7,7 @@ import type { ConversationType } from '../../state/ducks/conversations';
 import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
 import { getRandomColor } from './getRandomColor';
+import { ConversationColors } from '../../types/Colors';
 
 const FIRST_NAMES = [
   'James',
@@ -335,6 +336,7 @@ export function getDefaultConversation(
     avatarPath: getAvatarPath(),
     badges: [],
     e164: '+1300555000',
+    conversationColor: ConversationColors[0],
     color: getRandomColor(),
     firstName,
     id: generateUuid(),

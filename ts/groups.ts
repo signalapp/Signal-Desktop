@@ -9,7 +9,8 @@ import {
   isNumber,
   values,
 } from 'lodash';
-import type { ClientZkGroupCipher } from '@signalapp/signal-client/zkgroup';
+import Long from 'long';
+import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
 import PQueue from 'p-queue';
@@ -31,6 +32,7 @@ import type {
   GroupV2MemberType,
   GroupV2PendingAdminApprovalType,
   GroupV2PendingMemberType,
+  GroupV2BannedMemberType,
   MessageAttributesType,
 } from './model-types.d';
 import {
@@ -74,13 +76,15 @@ import { UUID, isValidUuid } from './types/UUID';
 import type { UUIDStringType } from './types/UUID';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
+import { isNotNil } from './util/isNotNil';
+import { isAccessControlEnabled } from './groups/util';
 
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from './jobs/conversationJobQueue';
 
-import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
+type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
 export { joinViaLink } from './groups/joinViaLink';
 
@@ -184,6 +188,12 @@ type GroupV2AdminApprovalRemoveOneChangeType = {
   uuid: UUIDStringType;
   inviter?: UUIDStringType;
 };
+type GroupV2AdminApprovalBounceChangeType = {
+  type: 'admin-approval-bounce';
+  times: number;
+  isApprovalPending: boolean;
+  uuid: UUIDStringType;
+};
 export type GroupV2DescriptionChangeType = {
   type: 'description';
   removed?: boolean;
@@ -198,6 +208,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2AccessMembersChangeType
   | GroupV2AdminApprovalAddOneChangeType
   | GroupV2AdminApprovalRemoveOneChangeType
+  | GroupV2AdminApprovalBounceChangeType
   | GroupV2AnnouncementsOnlyChangeType
   | GroupV2AvatarChangeType
   | GroupV2DescriptionChangeType
@@ -247,7 +258,7 @@ type MemberType = {
 };
 type UpdatesResultType = {
   // The array of new messages to be added into the message timeline
-  groupChangeMessages: Array<MessageAttributesType>;
+  groupChangeMessages: Array<GroupChangeMessageType>;
   // The set of members in the group, and we largely just pull profile keys for each,
   //   because the group membership is updated in newAttributes
   members: Array<MemberType>;
@@ -261,6 +272,33 @@ type UploadedAvatarType = {
   key: string;
 };
 
+type BasicMessageType = Pick<MessageAttributesType, 'id' | 'schemaVersion'>;
+
+type GroupV2ChangeMessageType = {
+  type: 'group-v2-change';
+} & Pick<MessageAttributesType, 'groupV2Change' | 'sourceUuid'>;
+
+type GroupV1MigrationMessageType = {
+  type: 'group-v1-migration';
+} & Pick<
+  MessageAttributesType,
+  'invitedGV2Members' | 'droppedGV2MemberIds' | 'groupMigration'
+>;
+
+type TimerNotificationMessageType = {
+  type: 'timer-notification';
+} & Pick<
+  MessageAttributesType,
+  'sourceUuid' | 'flags' | 'expirationTimerUpdate'
+>;
+
+type GroupChangeMessageType = BasicMessageType &
+  (
+    | GroupV2ChangeMessageType
+    | GroupV1MigrationMessageType
+    | TimerNotificationMessageType
+  );
+
 // Constants
 
 export const MASTER_KEY_LENGTH = 32;
@@ -271,9 +309,17 @@ export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const GROUP_NONEXISTENT_CODE = 404;
-const SUPPORTED_CHANGE_EPOCH = 2;
+const SUPPORTED_CHANGE_EPOCH = 4;
 export const LINK_VERSION_ERROR = 'LINK_VERSION_ERROR';
 const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
+
+function generateBasicMessage(): BasicMessageType {
+  return {
+    id: getGuid(),
+    schemaVersion: MAX_MESSAGE_SCHEMA,
+    // this is missing most properties to fulfill this type
+  };
+}
 
 // Group Links
 
@@ -569,7 +615,7 @@ function buildGroupProto(
       member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
 
       pendingMember.member = member;
-      pendingMember.timestamp = item.timestamp;
+      pendingMember.timestamp = Long.fromNumber(item.timestamp);
       pendingMember.addedByUserId = ourUuidCipherTextBuffer;
 
       return pendingMember;
@@ -582,7 +628,7 @@ function buildGroupProto(
 export async function buildAddMembersChange(
   conversation: Pick<
     ConversationAttributesType,
-    'id' | 'publicParams' | 'revision' | 'secretParams'
+    'bannedMembersV2' | 'id' | 'publicParams' | 'revision' | 'secretParams'
   >,
   conversationIds: ReadonlyArray<string>
 ): Promise<undefined | Proto.GroupChange.Actions> {
@@ -621,6 +667,7 @@ export async function buildAddMembersChange(
   const addMembers: Array<Proto.GroupChange.Actions.AddMemberAction> = [];
   const addPendingMembers: Array<Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction> =
     [];
+  const actions = new Proto.GroupChange.Actions();
 
   await Promise.all(
     conversationIds.map(async conversationId => {
@@ -671,7 +718,7 @@ export async function buildAddMembersChange(
         const memberPendingProfileKey = new Proto.MemberPendingProfileKey();
         memberPendingProfileKey.member = member;
         memberPendingProfileKey.addedByUserId = ourUuidCipherTextBuffer;
-        memberPendingProfileKey.timestamp = now;
+        memberPendingProfileKey.timestamp = Long.fromNumber(now);
 
         const addPendingMemberAction =
           new Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction();
@@ -679,10 +726,24 @@ export async function buildAddMembersChange(
 
         addPendingMembers.push(addPendingMemberAction);
       }
+
+      const doesMemberNeedUnban = conversation.bannedMembersV2?.find(
+        bannedMember => bannedMember.uuid === uuid
+      );
+      if (doesMemberNeedUnban) {
+        const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+        const deleteMemberBannedAction =
+          new Proto.GroupChange.Actions.DeleteMemberBannedAction();
+
+        deleteMemberBannedAction.deletedUserId = uuidCipherTextBuffer;
+
+        actions.deleteMembersBanned = actions.deleteMembersBanned || [];
+        actions.deleteMembersBanned.push(deleteMemberBannedAction);
+      }
     })
   );
 
-  const actions = new Proto.GroupChange.Actions();
   if (!addMembers.length && !addPendingMembers.length) {
     // This shouldn't happen. When these actions are passed to `modifyGroupV2`, a warning
     //   will be logged.
@@ -917,12 +978,75 @@ export function buildAccessControlMembersChange(
   return actions;
 }
 
+export function _maybeBuildAddBannedMemberActions({
+  clientZkGroupCipher,
+  group,
+  ourUuid,
+  uuid,
+}: {
+  clientZkGroupCipher: ClientZkGroupCipher;
+  group: Pick<ConversationAttributesType, 'bannedMembersV2'>;
+  ourUuid: UUIDStringType;
+  uuid: UUIDStringType;
+}): Pick<
+  Proto.GroupChange.IActions,
+  'addMembersBanned' | 'deleteMembersBanned'
+> {
+  const doesMemberNeedBan =
+    !group.bannedMembersV2?.find(member => member.uuid === uuid) &&
+    uuid !== ourUuid;
+  if (!doesMemberNeedBan) {
+    return {};
+  }
+  // Sort current banned members by decreasing timestamp
+  const sortedBannedMembers = [...(group.bannedMembersV2 ?? [])].sort(
+    (a, b) => {
+      return b.timestamp - a.timestamp;
+    }
+  );
+
+  // All members after the limit have to be deleted and are older than the
+  // rest of the list.
+  const deletedBannedMembers = sortedBannedMembers.slice(
+    Math.max(0, getGroupSizeHardLimit() - 1)
+  );
+
+  let deleteMembersBanned = null;
+  if (deletedBannedMembers.length > 0) {
+    deleteMembersBanned = deletedBannedMembers.map(bannedMember => {
+      const deleteMemberBannedAction =
+        new Proto.GroupChange.Actions.DeleteMemberBannedAction();
+
+      deleteMemberBannedAction.deletedUserId = encryptUuid(
+        clientZkGroupCipher,
+        bannedMember.uuid
+      );
+
+      return deleteMemberBannedAction;
+    });
+  }
+
+  const addMemberBannedAction =
+    new Proto.GroupChange.Actions.AddMemberBannedAction();
+
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  addMemberBannedAction.added = new Proto.MemberBanned();
+  addMemberBannedAction.added.userId = uuidCipherTextBuffer;
+
+  return {
+    addMembersBanned: [addMemberBannedAction],
+    deleteMembersBanned,
+  };
+}
+
 // TODO AND-1101
 export function buildDeletePendingAdminApprovalMemberChange({
   group,
+  ourUuid,
   uuid,
 }: {
   group: ConversationAttributesType;
+  ourUuid: UUIDStringType;
   uuid: UUIDStringType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
@@ -943,6 +1067,21 @@ export function buildDeletePendingAdminApprovalMemberChange({
   actions.deleteMemberPendingAdminApprovals = [
     deleteMemberPendingAdminApproval,
   ];
+
+  const { addMembersBanned, deleteMembersBanned } =
+    _maybeBuildAddBannedMemberActions({
+      clientZkGroupCipher,
+      group,
+      ourUuid,
+      uuid,
+    });
+
+  if (addMembersBanned) {
+    actions.addMembersBanned = addMembersBanned;
+  }
+  if (deleteMembersBanned) {
+    actions.deleteMembersBanned = deleteMembersBanned;
+  }
 
   return actions;
 }
@@ -990,11 +1129,13 @@ export function buildAddMember({
   group,
   profileKeyCredentialBase64,
   serverPublicParamsBase64,
+  uuid,
 }: {
   group: ConversationAttributesType;
   profileKeyCredentialBase64: string;
   serverPublicParamsBase64: string;
   joinFromInviteLink?: boolean;
+  uuid: UUIDStringType;
 }): Proto.GroupChange.Actions {
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
 
@@ -1022,6 +1163,20 @@ export function buildAddMember({
 
   actions.version = (group.revision || 0) + 1;
   actions.addMembers = [addMember];
+
+  const doesMemberNeedUnban = group.bannedMembersV2?.find(
+    member => member.uuid === uuid
+  );
+  if (doesMemberNeedUnban) {
+    const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+    const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+    const deleteMemberBannedAction =
+      new Proto.GroupChange.Actions.DeleteMemberBannedAction();
+
+    deleteMemberBannedAction.deletedUserId = uuidCipherTextBuffer;
+    actions.deleteMembersBanned = [deleteMemberBannedAction];
+  }
 
   return actions;
 }
@@ -1057,11 +1212,13 @@ export function buildDeletePendingMemberChange({
 }
 
 export function buildDeleteMemberChange({
-  uuid,
   group,
+  ourUuid,
+  uuid,
 }: {
-  uuid: UUIDStringType;
   group: ConversationAttributesType;
+  ourUuid: UUIDStringType;
+  uuid: UUIDStringType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
 
@@ -1076,6 +1233,62 @@ export function buildDeleteMemberChange({
 
   actions.version = (group.revision || 0) + 1;
   actions.deleteMembers = [deleteMember];
+
+  const { addMembersBanned, deleteMembersBanned } =
+    _maybeBuildAddBannedMemberActions({
+      clientZkGroupCipher,
+      group,
+      ourUuid,
+      uuid,
+    });
+
+  if (addMembersBanned) {
+    actions.addMembersBanned = addMembersBanned;
+  }
+  if (deleteMembersBanned) {
+    actions.deleteMembersBanned = deleteMembersBanned;
+  }
+
+  return actions;
+}
+
+export function buildAddBannedMemberChange({
+  uuid,
+  group,
+}: {
+  uuid: UUIDStringType;
+  group: ConversationAttributesType;
+}): Proto.GroupChange.Actions {
+  const actions = new Proto.GroupChange.Actions();
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildAddBannedMemberChange: group was missing secretParams!'
+    );
+  }
+  const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+
+  const addMemberBannedAction =
+    new Proto.GroupChange.Actions.AddMemberBannedAction();
+
+  addMemberBannedAction.added = new Proto.MemberBanned();
+  addMemberBannedAction.added.userId = uuidCipherTextBuffer;
+
+  actions.addMembersBanned = [addMemberBannedAction];
+
+  if (group.pendingAdminApprovalV2?.some(item => item.uuid === uuid)) {
+    const deleteMemberPendingAdminApprovalAction =
+      new Proto.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
+
+    deleteMemberPendingAdminApprovalAction.deletedUserId = uuidCipherTextBuffer;
+
+    actions.deleteMemberPendingAdminApprovals = [
+      deleteMemberPendingAdminApprovalAction,
+    ];
+  }
+
+  actions.version = (group.revision || 0) + 1;
 
   return actions;
 }
@@ -1634,13 +1847,14 @@ export async function createGroupV2({
     conversationId: conversation.id,
     received_at: window.Signal.Util.incrementMessageCounter(),
     received_at_ms: timestamp,
+    timestamp,
     sent_at: timestamp,
     groupV2Change: {
       from: ourUuid,
       details: [{ type: 'create' }],
     },
   };
-  await window.Signal.Data.saveMessages([createdTheGroupMessage], {
+  await dataInterface.saveMessages([createdTheGroupMessage], {
     forceSave: true,
     ourUuid,
   });
@@ -2069,7 +2283,7 @@ export async function initiateMigrationToGroupV2(
         throw error;
       }
 
-      const groupChangeMessages: Array<MessageAttributesType> = [];
+      const groupChangeMessages: Array<GroupChangeMessageType> = [];
       groupChangeMessages.push({
         ...generateBasicMessage(),
         type: 'group-v1-migration',
@@ -2152,7 +2366,7 @@ export async function waitThenRespondToGroupV2Migration(
 export function buildMigrationBubble(
   previousGroupV1MembersIds: Array<string>,
   newAttributes: ConversationAttributesType
-): MessageAttributesType {
+): GroupChangeMessageType {
   const ourUuid = window.storage.user.getCheckedUuid().toString();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
@@ -2191,7 +2405,7 @@ export function buildMigrationBubble(
   };
 }
 
-export function getBasicMigrationBubble(): MessageAttributesType {
+export function getBasicMigrationBubble(): GroupChangeMessageType {
   return {
     ...generateBasicMessage(),
     type: 'group-v1-migration',
@@ -2264,7 +2478,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
     derivedGroupV2Id: undefined,
     members: undefined,
   };
-  const groupChangeMessages: Array<MessageAttributesType> = [
+  const groupChangeMessages: Array<GroupChangeMessageType> = [
     {
       ...generateBasicMessage(),
       type: 'group-v1-migration',
@@ -2478,7 +2692,7 @@ export async function respondToGroupV2Migration({
   });
 
   // Generate notifications into the timeline
-  const groupChangeMessages: Array<MessageAttributesType> = [];
+  const groupChangeMessages: Array<GroupChangeMessageType> = [];
 
   groupChangeMessages.push(
     buildMigrationBubble(previousGroupV1MembersIds, newAttributes)
@@ -2691,6 +2905,7 @@ async function updateGroup(
 
   // Save all synthetic messages describing group changes
   let syntheticSentAt = initialSentAt - (groupChangeMessages.length + 1);
+  const timestamp = Date.now();
   const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
     // We do this to preserve the order of the timeline. We only update sentAt to ensure
     //   that we don't stomp on messages received around the same time as the message
@@ -2703,6 +2918,7 @@ async function updateGroup(
       received_at: finalReceivedAt,
       received_at_ms: syntheticSentAt,
       sent_at: syntheticSentAt,
+      timestamp,
     };
   });
 
@@ -2725,6 +2941,7 @@ async function updateGroup(
     }
   });
 
+  let profileFetches: Promise<Array<void>> | undefined;
   if (contactsWithoutProfileKey.length !== 0) {
     log.info(
       `updateGroup/${logId}: fetching ` +
@@ -2734,7 +2951,7 @@ async function updateGroup(
     const profileFetchQueue = new PQueue({
       concurrency: 3,
     });
-    await profileFetchQueue.addAll(
+    profileFetches = profileFetchQueue.addAll(
       contactsWithoutProfileKey.map(contact => () => {
         const active = contact.getActiveProfileFetch();
         return active || contact.getProfiles();
@@ -2743,15 +2960,15 @@ async function updateGroup(
   }
 
   if (changeMessagesToSave.length > 0) {
-    await window.Signal.Data.saveMessages(changeMessagesToSave, {
-      forceSave: true,
-      ourUuid: ourUuid.toString(),
-    });
-    changeMessagesToSave.forEach(changeMessage => {
-      const model = new window.Whisper.Message(changeMessage);
-      window.MessageController.register(model.id, model);
-      conversation.trigger('newmessage', model);
-    });
+    try {
+      await profileFetches;
+    } catch (error) {
+      log.error(
+        `updateGroup/${logId}: failed to fetch missing profiles`,
+        Errors.toLogFormat(error)
+      );
+    }
+    await appendChangeMessages(conversation, changeMessagesToSave);
   }
 
   // We update group membership last to ensure that all notifications are in place before
@@ -2769,7 +2986,210 @@ async function updateGroup(
     conversation.trigger('idUpdated', conversation, 'groupId', previousId);
   }
 
-  // No need for convo.updateLastMessage(), 'newmessage' handler does that
+  // Save these most recent updates to conversation
+  await updateConversation(conversation.attributes);
+}
+
+// Exported for testing
+export function _mergeGroupChangeMessages(
+  first: MessageAttributesType | undefined,
+  second: MessageAttributesType
+): MessageAttributesType | undefined {
+  if (!first) {
+    return undefined;
+  }
+
+  if (first.type !== 'group-v2-change' || second.type !== first.type) {
+    return undefined;
+  }
+
+  const { groupV2Change: firstChange } = first;
+  const { groupV2Change: secondChange } = second;
+  if (!firstChange || !secondChange) {
+    return undefined;
+  }
+
+  if (firstChange.details.length !== 1 && secondChange.details.length !== 1) {
+    return undefined;
+  }
+
+  const [firstDetail] = firstChange.details;
+  const [secondDetail] = secondChange.details;
+  let isApprovalPending: boolean;
+  if (secondDetail.type === 'admin-approval-add-one') {
+    isApprovalPending = true;
+  } else if (secondDetail.type === 'admin-approval-remove-one') {
+    isApprovalPending = false;
+  } else {
+    return undefined;
+  }
+
+  const { uuid } = secondDetail;
+  strictAssert(uuid, 'admin approval message should have uuid');
+
+  let updatedDetail;
+  // Member was previously added and is now removed
+  if (
+    !isApprovalPending &&
+    firstDetail.type === 'admin-approval-add-one' &&
+    firstDetail.uuid === uuid
+  ) {
+    updatedDetail = {
+      type: 'admin-approval-bounce' as const,
+      uuid,
+      times: 1,
+      isApprovalPending,
+    };
+
+    // There is an existing bounce event - merge this one into it.
+  } else if (
+    firstDetail.type === 'admin-approval-bounce' &&
+    firstDetail.uuid === uuid &&
+    firstDetail.isApprovalPending === !isApprovalPending
+  ) {
+    updatedDetail = {
+      type: 'admin-approval-bounce' as const,
+      uuid,
+      times: firstDetail.times + (isApprovalPending ? 0 : 1),
+      isApprovalPending,
+    };
+  } else {
+    return undefined;
+  }
+
+  return {
+    ...first,
+    groupV2Change: {
+      ...first.groupV2Change,
+      details: [updatedDetail],
+    },
+  };
+}
+
+// Exported for testing
+export function _isGroupChangeMessageBounceable(
+  message: MessageAttributesType
+): boolean {
+  if (message.type !== 'group-v2-change') {
+    return false;
+  }
+
+  const { groupV2Change } = message;
+  if (!groupV2Change) {
+    return false;
+  }
+
+  if (groupV2Change.details.length !== 1) {
+    return false;
+  }
+
+  const [first] = groupV2Change.details;
+  if (
+    first.type === 'admin-approval-add-one' ||
+    first.type === 'admin-approval-bounce'
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+async function appendChangeMessages(
+  conversation: ConversationModel,
+  messages: ReadonlyArray<MessageAttributesType>
+): Promise<void> {
+  const logId = conversation.idForLogging();
+
+  log.info(
+    `appendChangeMessages/${logId}: processing ${messages.length} messages`
+  );
+
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+
+  let lastMessage = await dataInterface.getLastConversationMessage({
+    conversationId: conversation.id,
+  });
+
+  if (lastMessage && !_isGroupChangeMessageBounceable(lastMessage)) {
+    lastMessage = undefined;
+  }
+
+  const mergedMessages = [];
+  let previousMessage = lastMessage;
+  for (const message of messages) {
+    const merged = _mergeGroupChangeMessages(previousMessage, message);
+    if (!merged) {
+      if (previousMessage && previousMessage !== lastMessage) {
+        mergedMessages.push(previousMessage);
+      }
+      previousMessage = message;
+      continue;
+    }
+
+    previousMessage = merged;
+    log.info(
+      `appendChangeMessages/${logId}: merged ${message.id} into ${merged.id}`
+    );
+  }
+
+  if (previousMessage && previousMessage !== lastMessage) {
+    mergedMessages.push(previousMessage);
+  }
+
+  // Update existing message
+  if (lastMessage && mergedMessages[0]?.id === lastMessage?.id) {
+    const [first, ...rest] = mergedMessages;
+    strictAssert(first !== undefined, 'First message must be there');
+
+    log.info(`appendChangeMessages/${logId}: updating ${first.id}`);
+    await dataInterface.saveMessage(first, {
+      ourUuid: ourUuid.toString(),
+
+      // We don't use forceSave here because this is an update of existing
+      // message.
+    });
+
+    log.info(
+      `appendChangeMessages/${logId}: saving ${rest.length} new messages`
+    );
+    await dataInterface.saveMessages(rest, {
+      ourUuid: ourUuid.toString(),
+      forceSave: true,
+    });
+  } else {
+    log.info(
+      `appendChangeMessages/${logId}: saving ${mergedMessages.length} new messages`
+    );
+    await dataInterface.saveMessages(mergedMessages, {
+      ourUuid: ourUuid.toString(),
+      forceSave: true,
+    });
+  }
+
+  let newMessages = 0;
+  for (const changeMessage of mergedMessages) {
+    const existing = window.MessageController.getById(changeMessage.id);
+
+    // Update existing message
+    if (existing) {
+      strictAssert(
+        changeMessage.id === lastMessage?.id,
+        'Should only update group change that was already in the database'
+      );
+      existing.set(changeMessage);
+      continue;
+    }
+
+    const model = new window.Whisper.Message(changeMessage);
+    window.MessageController.register(model.id, model);
+    conversation.trigger('newmessage', model);
+    newMessages += 1;
+  }
+
+  // We updated the message, but didn't add new ones - refresh left pane
+  if (!newMessages && mergedMessages.length > 0) {
+    await conversation.updateLastMessage();
+  }
 }
 
 type GetGroupUpdatesType = Readonly<{
@@ -2857,7 +3277,10 @@ async function getGroupUpdates({
     );
   }
 
-  if (isNumber(newRevision) && window.GV2_ENABLE_CHANGE_PROCESSING) {
+  if (
+    (!isFirstFetch || isNumber(newRevision)) &&
+    window.GV2_ENABLE_CHANGE_PROCESSING
+  ) {
     try {
       const result = await updateGroupViaLogs({
         group,
@@ -3005,7 +3428,7 @@ async function updateGroupViaLogs({
   newRevision,
 }: {
   group: ConversationAttributesType;
-  newRevision: number;
+  newRevision: number | undefined;
   serverPublicParamsBase64: string;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
@@ -3023,7 +3446,9 @@ async function updateGroupViaLogs({
   };
   try {
     log.info(
-      `updateGroupViaLogs/${logId}: Getting group delta from ${group.revision} to ${newRevision} for group groupv2(${group.groupId})...`
+      `updateGroupViaLogs/${logId}: Getting group delta from ` +
+        `${group.revision ?? '?'} to ${newRevision ?? '?'} for group ` +
+        `groupv2(${group.groupId})...`
     );
     const result = await getGroupDelta(deltaOptions);
 
@@ -3041,14 +3466,6 @@ async function updateGroupViaLogs({
     }
     throw error;
   }
-}
-
-function generateBasicMessage() {
-  return {
-    id: getGuid(),
-    schemaVersion: MAX_MESSAGE_SCHEMA,
-    // this is missing most properties to fulfill this type
-  } as MessageAttributesType;
 }
 
 async function generateLeftGroupChanges(
@@ -3090,7 +3507,7 @@ async function generateLeftGroupChanges(
   const isNewlyRemoved =
     existingMembers.length > (newAttributes.membersV2 || []).length;
 
-  const youWereRemovedMessage: MessageAttributesType = {
+  const youWereRemovedMessage: GroupChangeMessageType = {
     ...generateBasicMessage(),
     type: 'group-v2-change',
     groupV2Change: {
@@ -3144,7 +3561,7 @@ async function getGroupDelta({
   authCredentialBase64,
 }: {
   group: ConversationAttributesType;
-  newRevision: number;
+  newRevision: number | undefined;
   serverPublicParamsBase64: string;
   authCredentialBase64: string;
 }): Promise<UpdatesResultType> {
@@ -3167,10 +3584,12 @@ async function getGroupDelta({
   });
 
   const currentRevision = group.revision;
-  const isFirstFetch = !isNumber(currentRevision);
-  let revisionToFetch = isNumber(currentRevision)
-    ? currentRevision + 1
-    : undefined;
+  let includeFirstState = true;
+
+  // The range is inclusive so make sure that we always request the revision
+  // that we are currently at since we might want the latest full state in
+  // `integrateGroupChanges`.
+  let revisionToFetch = isNumber(currentRevision) ? currentRevision : undefined;
 
   let response;
   const changes: Array<Proto.IGroupChanges> = [];
@@ -3179,8 +3598,8 @@ async function getGroupDelta({
     response = await sender.getGroupLog(
       {
         startVersion: revisionToFetch,
-        includeFirstState: isFirstFetch,
-        includeLastState: false,
+        includeFirstState,
+        includeLastState: true,
         maxSupportedChangeEpoch: SUPPORTED_CHANGE_EPOCH,
       },
       options
@@ -3189,7 +3608,12 @@ async function getGroupDelta({
     if (response.end) {
       revisionToFetch = response.end + 1;
     }
-  } while (response.end && response.end < newRevision);
+
+    includeFirstState = false;
+  } while (
+    response.end &&
+    (newRevision === undefined || response.end < newRevision)
+  );
 
   // Would be nice to cache the unused groupChanges here, to reduce server roundtrips
 
@@ -3206,12 +3630,12 @@ async function integrateGroupChanges({
   changes,
 }: {
   group: ConversationAttributesType;
-  newRevision: number;
+  newRevision: number | undefined;
   changes: Array<Proto.IGroupChanges>;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   let attributes = group;
-  const finalMessages: Array<Array<MessageAttributesType>> = [];
+  const finalMessages: Array<Array<GroupChangeMessageType>> = [];
   const finalMembers: Array<Array<MemberType>> = [];
 
   const imax = changes.length;
@@ -3303,7 +3727,7 @@ async function integrateGroupChange({
   group: ConversationAttributesType;
   groupChange?: Proto.IGroupChange;
   groupState?: Proto.IGroup;
-  newRevision: number;
+  newRevision: number | undefined;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   if (!group.secretParams) {
@@ -3326,6 +3750,7 @@ async function integrateGroupChange({
 
   // These need to be populated from the groupChange. But we might not get one!
   let isChangeSupported = false;
+  let isSameVersion = false;
   let isMoreThanOneVersionUp = false;
   let groupChangeActions: undefined | Proto.GroupChange.IActions;
   let decryptedChangeActions: undefined | DecryptedGroupChangeActions;
@@ -3336,10 +3761,16 @@ async function integrateGroupChange({
       groupChange.actions || new Uint8Array(0)
     );
 
+    // Version is higher that what we have in the incoming message
     if (
       groupChangeActions.version &&
+      newRevision !== undefined &&
       groupChangeActions.version > newRevision
     ) {
+      log.info(
+        `integrateGroupChange/${logId}: Skipping ` +
+          `${groupChangeActions.version}, newRevision is ${newRevision}`
+      );
       return {
         newAttributes: group,
         groupChangeMessages: [],
@@ -3364,31 +3795,79 @@ async function integrateGroupChange({
       !isNumber(groupChange.changeEpoch) ||
       groupChange.changeEpoch <= SUPPORTED_CHANGE_EPOCH;
 
-    isMoreThanOneVersionUp = Boolean(
-      groupChangeActions.version &&
-        isNumber(group.revision) &&
-        groupChangeActions.version > group.revision + 1
-    );
+    // Version is lower or the same as what we currently have
+    if (group.revision !== undefined && groupChangeActions.version) {
+      if (groupChangeActions.version < group.revision) {
+        log.info(
+          `integrateGroupChange/${logId}: Skipping stale version` +
+            `${groupChangeActions.version}, current ` +
+            `revision is ${group.revision}`
+        );
+        return {
+          newAttributes: group,
+          groupChangeMessages: [],
+          members: [],
+        };
+      }
+      if (groupChangeActions.version === group.revision) {
+        isSameVersion = true;
+      } else if (groupChangeActions.version > group.revision + 1) {
+        isMoreThanOneVersionUp = true;
+      }
+    }
   }
 
-  if (
-    !groupChange ||
-    !isChangeSupported ||
-    isFirstFetch ||
-    (isMoreThanOneVersionUp && !weAreAwaitingApproval)
-  ) {
-    if (!groupState) {
+  let attributes = group;
+  const aggregatedChangeMessages = [];
+  const aggregatedMembers = [];
+
+  const canApplyChange =
+    groupChange &&
+    isChangeSupported &&
+    !isSameVersion &&
+    !isFirstFetch &&
+    (!isMoreThanOneVersionUp || weAreAwaitingApproval);
+
+  // Apply the change first
+  if (canApplyChange) {
+    if (!sourceUuid || !groupChangeActions || !decryptedChangeActions) {
       throw new Error(
-        `integrateGroupChange/${logId}: No group state, but we can't apply changes!`
+        `integrateGroupChange/${logId}: Missing necessary information that should have come from group actions`
       );
     }
 
     log.info(
-      `integrateGroupChange/${logId}: Applying full group state, from version ${group.revision} to ${groupState.version}`,
+      `integrateGroupChange/${logId}: Applying group change actions, ` +
+        `from version ${group.revision} to ${groupChangeActions.version}`
+    );
+
+    const { newAttributes, newProfileKeys } = await applyGroupChange({
+      group,
+      actions: decryptedChangeActions,
+      sourceUuid,
+    });
+
+    const groupChangeMessages = extractDiffs({
+      old: attributes,
+      current: newAttributes,
+      sourceUuid,
+    });
+
+    attributes = newAttributes;
+    aggregatedChangeMessages.push(groupChangeMessages);
+    aggregatedMembers.push(profileKeysToMembers(newProfileKeys));
+  }
+
+  // Apply the group state afterwards to verify that we didn't miss anything
+  if (groupState) {
+    log.info(
+      `integrateGroupChange/${logId}: Applying full group state, ` +
+        `from version ${group.revision} to ${groupState.version}`,
       {
         isChangePresent: Boolean(groupChange),
         isChangeSupported,
         isFirstFetch,
+        isSameVersion,
         isMoreThanOneVersionUp,
         weAreAwaitingApproval,
       }
@@ -3401,47 +3880,47 @@ async function integrateGroupChange({
     );
 
     const { newAttributes, newProfileKeys } = await applyGroupState({
-      group,
+      group: attributes,
       groupState: decryptedGroupState,
       sourceUuid: isFirstFetch ? sourceUuid : undefined,
     });
 
-    return {
-      newAttributes,
-      groupChangeMessages: extractDiffs({
-        old: group,
-        current: newAttributes,
-        sourceUuid: isFirstFetch ? sourceUuid : undefined,
-      }),
-      members: profileKeysToMembers(newProfileKeys),
-    };
-  }
+    const groupChangeMessages = extractDiffs({
+      old: attributes,
+      current: newAttributes,
+      sourceUuid: isFirstFetch ? sourceUuid : undefined,
+    });
 
-  if (!sourceUuid || !groupChangeActions || !decryptedChangeActions) {
-    throw new Error(
-      `integrateGroupChange/${logId}: Missing necessary information that should have come from group actions`
+    const newMembers = profileKeysToMembers(newProfileKeys);
+
+    if (groupChangeMessages.length !== 0 || newMembers.length !== 0) {
+      assert(
+        groupChangeMessages.length === 0,
+        'Fallback group state processing should not kick in'
+      );
+
+      log.warn(
+        `integrateGroupChange/${logId}: local state was different from ` +
+          'the remote final state. ' +
+          `Got ${groupChangeMessages.length} change messages, and ` +
+          `${newMembers.length} updated members`
+      );
+    }
+
+    attributes = newAttributes;
+    aggregatedChangeMessages.push(groupChangeMessages);
+    aggregatedMembers.push(newMembers);
+  } else {
+    strictAssert(
+      canApplyChange,
+      `integrateGroupChange/${logId}: No group state, but we can't apply changes!`
     );
   }
 
-  log.info(
-    `integrateGroupChange/${logId}: Applying group change actions, from version ${group.revision} to ${groupChangeActions.version}`
-  );
-
-  const { newAttributes, newProfileKeys } = await applyGroupChange({
-    group,
-    actions: decryptedChangeActions,
-    sourceUuid,
-  });
-  const groupChangeMessages = extractDiffs({
-    old: group,
-    current: newAttributes,
-    sourceUuid,
-  });
-
   return {
-    newAttributes,
-    groupChangeMessages,
-    members: profileKeysToMembers(newProfileKeys),
+    newAttributes: attributes,
+    groupChangeMessages: aggregatedChangeMessages.flat(),
+    members: aggregatedMembers.flat(),
   };
 }
 
@@ -3513,7 +3992,7 @@ function extractDiffs({
   dropInitialJoinMessage?: boolean;
   old: ConversationAttributesType;
   sourceUuid?: UUIDStringType;
-}): Array<MessageAttributesType> {
+}): Array<GroupChangeMessageType> {
   const logId = idForLogging(old.groupId);
   const details: Array<GroupV2ChangeDetailType> = [];
   const ourUuid = window.storage.user.getCheckedUuid().toString();
@@ -3548,12 +4027,12 @@ function extractDiffs({
     });
   }
 
-  const linkPreviouslyEnabled =
-    old.accessControl?.addFromInviteLink === ACCESS_ENUM.ANY ||
-    old.accessControl?.addFromInviteLink === ACCESS_ENUM.ADMINISTRATOR;
-  const linkCurrentlyEnabled =
-    current.accessControl?.addFromInviteLink === ACCESS_ENUM.ANY ||
-    current.accessControl?.addFromInviteLink === ACCESS_ENUM.ADMINISTRATOR;
+  const linkPreviouslyEnabled = isAccessControlEnabled(
+    old.accessControl?.addFromInviteLink
+  );
+  const linkCurrentlyEnabled = isAccessControlEnabled(
+    current.accessControl?.addFromInviteLink
+  );
 
   if (!linkPreviouslyEnabled && linkCurrentlyEnabled) {
     details.push({
@@ -3808,10 +4287,12 @@ function extractDiffs({
     });
   }
 
+  // Note: currently no diff generated for bannedMembersV2 changes
+
   // final processing
 
-  let message: MessageAttributesType | undefined;
-  let timerNotification: MessageAttributesType | undefined;
+  let message: GroupChangeMessageType | undefined;
+  let timerNotification: GroupChangeMessageType | undefined;
 
   const firstUpdate = !isNumber(old.revision);
 
@@ -3966,6 +4447,9 @@ async function applyGroupChange({
     GroupV2PendingAdminApprovalType
   > = fromPairs(
     (result.pendingAdminApprovalV2 || []).map(member => [member.uuid, member])
+  );
+  const bannedMembers = new Map<UUIDStringType, GroupV2BannedMemberType>(
+    (result.bannedMembersV2 || []).map(member => [member.uuid, member])
   );
 
   // version?: number;
@@ -4388,6 +4872,32 @@ async function applyGroupChange({
     result.announcementsOnly = announcementsOnly;
   }
 
+  if (actions.addMembersBanned && actions.addMembersBanned.length > 0) {
+    actions.addMembersBanned.forEach(member => {
+      if (bannedMembers.has(member.uuid)) {
+        log.warn(
+          `applyGroupChange/${logId}: Attempt to add banned member failed; was already in banned list.`
+        );
+        return;
+      }
+
+      bannedMembers.set(member.uuid, member);
+    });
+  }
+
+  if (actions.deleteMembersBanned && actions.deleteMembersBanned.length > 0) {
+    actions.deleteMembersBanned.forEach(uuid => {
+      if (!bannedMembers.has(uuid)) {
+        log.warn(
+          `applyGroupChange/${logId}: Attempt to remove banned member failed; was not in banned list.`
+        );
+        return;
+      }
+
+      bannedMembers.delete(uuid);
+    });
+  }
+
   if (ourUuid) {
     result.left = !members[ourUuid];
   }
@@ -4396,6 +4906,7 @@ async function applyGroupChange({
   result.membersV2 = values(members);
   result.pendingMembersV2 = values(pendingMembers);
   result.pendingAdminApprovalV2 = values(pendingAdminApprovalMembers);
+  result.bannedMembersV2 = Array.from(bannedMembers.values());
 
   return {
     newAttributes: result,
@@ -4650,6 +5161,9 @@ async function applyGroupState({
   // announcementsOnly
   result.announcementsOnly = groupState.announcementsOnly;
 
+  // membersBanned
+  result.bannedMembersV2 = groupState.membersBanned;
+
   return {
     newAttributes: result,
     newProfileKeys,
@@ -4685,15 +5199,9 @@ function isValidProfileKey(buffer?: Uint8Array): boolean {
   return Boolean(buffer && buffer.length === 32);
 }
 
-function normalizeTimestamp(
-  timestamp: number | Long | null | undefined
-): number {
+function normalizeTimestamp(timestamp: Long | null | undefined): number {
   if (!timestamp) {
     return 0;
-  }
-
-  if (typeof timestamp === 'number') {
-    return timestamp;
   }
 
   const asNumber = timestamp.toNumber();
@@ -4759,6 +5267,8 @@ type DecryptedGroupChangeActions = {
   modifyAnnouncementsOnly?: {
     announcementsOnly: boolean;
   };
+  addMembersBanned?: ReadonlyArray<GroupV2BannedMemberType>;
+  deleteMembersBanned?: ReadonlyArray<UUIDStringType>;
 } & Pick<
   Proto.GroupChange.IActions,
   | 'modifyAttributesAccess'
@@ -5286,6 +5796,45 @@ function decryptGroupChange(
     };
   }
 
+  // addMembersBanned
+  if (actions.addMembersBanned && actions.addMembersBanned.length > 0) {
+    result.addMembersBanned = actions.addMembersBanned
+      .map(item => {
+        if (!item.added || !item.added.userId) {
+          log.warn(
+            `decryptGroupChange/${logId}: addMembersBanned had a blank entry`
+          );
+          return null;
+        }
+        const uuid = normalizeUuid(
+          decryptUuid(clientZkGroupCipher, item.added.userId),
+          'addMembersBanned.added.userId'
+        );
+        const timestamp = normalizeTimestamp(item.added.timestamp);
+
+        return { uuid, timestamp };
+      })
+      .filter(isNotNil);
+  }
+
+  // deleteMembersBanned
+  if (actions.deleteMembersBanned && actions.deleteMembersBanned.length > 0) {
+    result.deleteMembersBanned = actions.deleteMembersBanned
+      .map(item => {
+        if (!item.deletedUserId) {
+          log.warn(
+            `decryptGroupChange/${logId}: deleteMembersBanned had a blank entry`
+          );
+          return null;
+        }
+        return normalizeUuid(
+          decryptUuid(clientZkGroupCipher, item.deletedUserId),
+          'deleteMembersBanned.deletedUserId'
+        );
+      })
+      .filter(isNotNil);
+  }
+
   return result;
 }
 
@@ -5344,6 +5893,7 @@ type DecryptedGroupState = {
   descriptionBytes?: Proto.GroupAttributeBlob;
   avatar?: string;
   announcementsOnly?: boolean;
+  membersBanned?: Array<GroupV2BannedMemberType>;
 };
 
 function decryptGroupState(
@@ -5478,6 +6028,30 @@ function decryptGroupState(
   // announcementsOnly
   const { announcementsOnly } = groupState;
   result.announcementsOnly = Boolean(announcementsOnly);
+
+  // membersBanned
+  const { membersBanned } = groupState;
+  if (membersBanned && membersBanned.length > 0) {
+    result.membersBanned = membersBanned
+      .map(item => {
+        if (!item.userId) {
+          log.warn(
+            `decryptGroupState/${logId}: membersBanned had a blank entry`
+          );
+          return null;
+        }
+        const uuid = normalizeUuid(
+          decryptUuid(clientZkGroupCipher, item.userId),
+          'membersBanned.added.userId'
+        );
+        const timestamp = item.timestamp?.toNumber() ?? 0;
+
+        return { uuid, timestamp };
+      })
+      .filter(isNotNil);
+  } else {
+    result.membersBanned = [];
+  }
 
   result.avatar = dropNull(groupState.avatar);
 

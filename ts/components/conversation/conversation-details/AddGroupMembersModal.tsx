@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
-import React, { useMemo, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { without } from 'lodash';
 
-import type { LocalizerType, ThemeType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
 } from '../../AddGroupMemberErrorDialog';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -20,24 +20,24 @@ import {
   toggleSelectedContactForGroupAddition,
   OneTimeModalState,
 } from '../../../groups/toggleSelectedContactForGroupAddition';
-import { makeLookup } from '../../../util/makeLookup';
-import { deconstructLookup } from '../../../util/deconstructLookup';
 import { missingCaseError } from '../../../util/missingCaseError';
 import type { RequestState } from './util';
-import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal';
-import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 
 type PropsType = {
-  candidateContacts: ReadonlyArray<ConversationType>;
   clearRequestError: () => void;
   conversationIdsAlreadyInGroup: Set<string>;
-  getPreferredBadge: PreferredBadgeSelectorType;
   groupTitle: string;
   i18n: LocalizerType;
   makeRequest: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   onClose: () => void;
   requestState: RequestState;
-  theme: ThemeType;
+
+  renderChooseGroupMembersModal: (
+    props: SmartChooseGroupMembersModalPropsType
+  ) => JSX.Element;
+  renderConfirmAdditionsModal: (
+    props: SmartConfirmAdditionsModalPropsType
+  ) => JSX.Element;
 };
 
 enum Stage {
@@ -135,16 +135,15 @@ function reducer(
 }
 
 export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
-  candidateContacts,
   clearRequestError,
   conversationIdsAlreadyInGroup,
-  getPreferredBadge,
   groupTitle,
   i18n,
   onClose,
   makeRequest,
   requestState,
-  theme,
+  renderChooseGroupMembersModal,
+  renderConfirmAdditionsModal,
 }) => {
   const maxGroupSize = getMaximumNumberOfContacts();
   const maxRecommendedGroupSize = getRecommendedMaximumNumberOfContacts();
@@ -174,16 +173,6 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
     selectedConversationIds: [],
     stage: Stage.ChoosingContacts,
   });
-
-  const contactLookup = useMemo(
-    () => makeLookup(candidateContacts, 'id'),
-    [candidateContacts]
-  );
-
-  const selectedContacts = deconstructLookup(
-    contactLookup,
-    selectedConversationIds
-  );
 
   if (maximumGroupSizeModalState === OneTimeModalState.Showing) {
     return (
@@ -239,23 +228,17 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
         });
       };
 
-      return (
-        <ChooseGroupMembersModal
-          candidateContacts={candidateContacts}
-          confirmAdds={confirmAdds}
-          conversationIdsAlreadyInGroup={conversationIdsAlreadyInGroup}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          maxGroupSize={maxGroupSize}
-          onClose={onClose}
-          removeSelectedContact={removeSelectedContact}
-          searchTerm={searchTerm}
-          selectedContacts={selectedContacts}
-          setSearchTerm={setSearchTerm}
-          theme={theme}
-          toggleSelectedContact={toggleSelectedContact}
-        />
-      );
+      return renderChooseGroupMembersModal({
+        confirmAdds,
+        selectedConversationIds,
+        conversationIdsAlreadyInGroup,
+        maxGroupSize,
+        onClose,
+        removeSelectedContact,
+        searchTerm,
+        setSearchTerm,
+        toggleSelectedContact,
+      });
     }
     case Stage.ConfirmingAdds: {
       const onCloseConfirmationDialog = () => {
@@ -263,18 +246,15 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
         clearRequestError();
       };
 
-      return (
-        <ConfirmAdditionsModal
-          groupTitle={groupTitle}
-          i18n={i18n}
-          makeRequest={() => {
-            makeRequest(selectedConversationIds);
-          }}
-          onClose={onCloseConfirmationDialog}
-          requestState={requestState}
-          selectedContacts={selectedContacts}
-        />
-      );
+      return renderConfirmAdditionsModal({
+        groupTitle,
+        makeRequest: () => {
+          makeRequest(selectedConversationIds);
+        },
+        onClose: onCloseConfirmationDialog,
+        requestState,
+        selectedConversationIds,
+      });
     }
     default:
       throw missingCaseError(stage);

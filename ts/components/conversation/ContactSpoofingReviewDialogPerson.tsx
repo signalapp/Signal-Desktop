@@ -22,58 +22,59 @@ type PropsType = {
   theme: ThemeType;
 };
 
-export const ContactSpoofingReviewDialogPerson: FunctionComponent<PropsType> =
-  ({ children, conversation, getPreferredBadge, i18n, onClick, theme }) => {
-    assert(
-      conversation.type === 'direct',
-      '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
-    );
+export const ContactSpoofingReviewDialogPerson: FunctionComponent<
+  PropsType
+> = ({ children, conversation, getPreferredBadge, i18n, onClick, theme }) => {
+  assert(
+    conversation.type === 'direct',
+    '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
+  );
 
-    const contents = (
-      <>
-        <Avatar
-          {...conversation}
-          badge={getPreferredBadge(conversation.badges)}
-          conversationType={conversation.type}
-          size={AvatarSize.FIFTY_TWO}
-          className="module-ContactSpoofingReviewDialogPerson__avatar"
-          i18n={i18n}
-          theme={theme}
+  const contents = (
+    <>
+      <Avatar
+        {...conversation}
+        badge={getPreferredBadge(conversation.badges)}
+        conversationType={conversation.type}
+        size={AvatarSize.FIFTY_TWO}
+        className="module-ContactSpoofingReviewDialogPerson__avatar"
+        i18n={i18n}
+        theme={theme}
+      />
+      <div className="module-ContactSpoofingReviewDialogPerson__info">
+        <ContactName
+          module="module-ContactSpoofingReviewDialogPerson__info__contact-name"
+          title={conversation.title}
         />
-        <div className="module-ContactSpoofingReviewDialogPerson__info">
-          <ContactName
-            module="module-ContactSpoofingReviewDialogPerson__info__contact-name"
-            title={conversation.title}
-          />
-          {conversation.phoneNumber ? (
-            <div className="module-ContactSpoofingReviewDialogPerson__info__property">
-              {conversation.phoneNumber}
-            </div>
-          ) : null}
+        {conversation.phoneNumber ? (
           <div className="module-ContactSpoofingReviewDialogPerson__info__property">
-            <SharedGroupNames
-              i18n={i18n}
-              sharedGroupNames={conversation.sharedGroupNames || []}
-            />
+            {conversation.phoneNumber}
           </div>
-          {children}
+        ) : null}
+        <div className="module-ContactSpoofingReviewDialogPerson__info__property">
+          <SharedGroupNames
+            i18n={i18n}
+            sharedGroupNames={conversation.sharedGroupNames || []}
+          />
         </div>
-      </>
-    );
+        {children}
+      </div>
+    </>
+  );
 
-    if (onClick) {
-      return (
-        <button
-          type="button"
-          className="module-ContactSpoofingReviewDialogPerson"
-          onClick={onClick}
-        >
-          {contents}
-        </button>
-      );
-    }
-
+  if (onClick) {
     return (
-      <div className="module-ContactSpoofingReviewDialogPerson">{contents}</div>
+      <button
+        type="button"
+        className="module-ContactSpoofingReviewDialogPerson"
+        onClick={onClick}
+      >
+        {contents}
+      </button>
     );
-  };
+  }
+
+  return (
+    <div className="module-ContactSpoofingReviewDialogPerson">{contents}</div>
+  );
+};

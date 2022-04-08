@@ -20,6 +20,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { UUID } from '../types/UUID';
+import { makeFakeLookupConversationWithoutUuid } from '../test-both/helpers/fakeLookupConversationWithoutUuid';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -85,13 +86,11 @@ const Wrapper = ({
         />
       )}
       scrollable={scrollable}
+      lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
       showChooseGroupMembers={action('showChooseGroupMembers')}
-      startNewConversationFromPhoneNumber={action(
-        'startNewConversationFromPhoneNumber'
-      )}
-      startNewConversationFromUsername={action(
-        'startNewConversationFromUsername'
-      )}
+      showUserNotFoundModal={action('showUserNotFoundModal')}
+      setIsFetchingUUID={action('setIsFetchingUUID')}
+      showConversation={action('showConversation')}
       theme={theme}
     />
   );
@@ -495,16 +494,47 @@ story.add('Headers', () => (
         type: RowType.Header,
         i18nKey: 'findByUsernameHeader',
       },
+      {
+        type: RowType.Header,
+        i18nKey: 'findByPhoneNumberHeader',
+      },
     ]}
   />
 ));
 
-story.add('Start new conversation', () => (
+story.add('Find by phone number', () => (
   <Wrapper
     rows={[
       {
+        type: RowType.Header,
+        i18nKey: 'findByPhoneNumberHeader',
+      },
+      {
         type: RowType.StartNewConversation,
-        phoneNumber: '+12345559876',
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(234)555 98 76',
+          e164: '+12345559876',
+        },
+        isFetching: false,
+      },
+      {
+        type: RowType.StartNewConversation,
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(234)555 98 76',
+          e164: '+12345559876',
+        },
+        isFetching: true,
+      },
+      {
+        type: RowType.StartNewConversation,
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(234)555',
+          e164: '+1234555',
+        },
+        isFetching: false,
       },
     ]}
   />
@@ -548,7 +578,30 @@ story.add('Kitchen sink', () => (
     rows={[
       {
         type: RowType.StartNewConversation,
-        phoneNumber: '+12345559876',
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(234)555 98 76',
+          e164: '+12345559876',
+        },
+        isFetching: false,
+      },
+      {
+        type: RowType.StartNewConversation,
+        phoneNumber: {
+          isValid: true,
+          userInput: '+1(234)555 98 76',
+          e164: '+12345559876',
+        },
+        isFetching: true,
+      },
+      {
+        type: RowType.StartNewConversation,
+        phoneNumber: {
+          isValid: false,
+          userInput: '+1(234)555 98',
+          e164: '+123455598',
+        },
+        isFetching: true,
       },
       {
         type: RowType.Header,

@@ -345,6 +345,9 @@ export class MessageDetail extends React.Component<Props> {
             replyToMessage={replyToMessage}
             retryDeleteForEveryone={retryDeleteForEveryone}
             retrySend={retrySend}
+            shouldCollapseAbove={false}
+            shouldCollapseBelow={false}
+            shouldHideMetadata={false}
             showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {
               log.warn('MessageDetail: scrollToQuotedMessage called!');

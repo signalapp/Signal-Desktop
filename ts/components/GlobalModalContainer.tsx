@@ -4,9 +4,10 @@
 import React from 'react';
 import type {
   ContactModalStateType,
-  UsernameNotFoundModalStateType,
+  UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType } from '../types/Util';
+import { missingCaseError } from '../util/missingCaseError';
 
 import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -23,9 +24,9 @@ type PropsType = {
   // SafetyNumberModal
   safetyNumberModalContactId?: string;
   renderSafetyNumber: () => JSX.Element;
-  // UsernameNotFoundModal
-  hideUsernameNotFoundModal: () => unknown;
-  usernameNotFoundModalState?: UsernameNotFoundModalStateType;
+  // UserNotFoundModal
+  hideUserNotFoundModal: () => unknown;
+  userNotFoundModalState?: UserNotFoundModalStateType;
   // WhatsNewModal
   isWhatsNewVisible: boolean;
   hideWhatsNewModal: () => unknown;
@@ -42,9 +43,9 @@ export const GlobalModalContainer = ({
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
-  // UsernameNotFoundModal
-  hideUsernameNotFoundModal,
-  usernameNotFoundModalState,
+  // UserNotFoundModal
+  hideUserNotFoundModal,
+  userNotFoundModalState,
   // WhatsNewModal
   hideWhatsNewModal,
   isWhatsNewVisible,
@@ -53,19 +54,30 @@ export const GlobalModalContainer = ({
     return renderSafetyNumber();
   }
 
-  if (usernameNotFoundModalState) {
+  if (userNotFoundModalState) {
+    let content: string;
+    if (userNotFoundModalState.type === 'phoneNumber') {
+      content = i18n('startConversation--phone-number-not-found', {
+        phoneNumber: userNotFoundModalState.phoneNumber,
+      });
+    } else if (userNotFoundModalState.type === 'username') {
+      content = i18n('startConversation--username-not-found', {
+        atUsername: i18n('at-username', {
+          username: userNotFoundModalState.username,
+        }),
+      });
+    } else {
+      throw missingCaseError(userNotFoundModalState);
+    }
+
     return (
       <ConfirmationDialog
         cancelText={i18n('ok')}
         cancelButtonVariant={ButtonVariant.Secondary}
         i18n={i18n}
-        onClose={hideUsernameNotFoundModal}
+        onClose={hideUserNotFoundModal}
       >
-        {i18n('startConversation--username-not-found', {
-          atUsername: i18n('at-username', {
-            username: usernameNotFoundModalState.username,
-          }),
-        })}
+        {content}
       </ConfirmationDialog>
     );
   }

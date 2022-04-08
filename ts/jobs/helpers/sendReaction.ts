@@ -204,6 +204,12 @@ export async function sendReaction(
           return;
         }
 
+        let storyMessage: MessageModel | undefined;
+        const storyId = message.get('storyId');
+        if (storyId) {
+          storyMessage = await getMessageById(storyId);
+        }
+
         log.info('sending direct reaction message');
         promise = window.textsecure.messaging.sendMessageToIdentifier({
           identifier: recipientIdentifiersWithoutMe[0],
@@ -220,7 +226,12 @@ export async function sendReaction(
           groupId: undefined,
           profileKey,
           options: sendOptions,
-          storyContextTimestamp: message.get('sent_at'),
+          storyContext: storyMessage
+            ? {
+                authorUuid: storyMessage.get('sourceUuid'),
+                timestamp: storyMessage.get('sent_at'),
+              }
+            : undefined,
         });
       } else {
         log.info('sending group reaction message');

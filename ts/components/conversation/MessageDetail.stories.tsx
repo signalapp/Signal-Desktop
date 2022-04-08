@@ -8,6 +8,7 @@ import { number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import type { PropsData as MessageDataPropsType } from './Message';
+import { TextDirection } from './Message';
 import type { Props } from './MessageDetail';
 import { MessageDetail } from './MessageDetail';
 import { SendStatus } from '../../messages/MessageSendState';
@@ -45,6 +46,7 @@ const defaultMessage: MessageDataPropsType = {
   readStatus: ReadStatus.Read,
   status: 'sent',
   text: 'A message from Max',
+  textDirection: TextDirection.Default,
   timestamp: Date.now(),
 };
 

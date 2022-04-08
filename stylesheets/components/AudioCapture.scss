@@ -1,4 +1,4 @@
-// Copyright 2016-2020 Signal Messenger, LLC
+// Copyright 2016-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .AudioCapture {
@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   background: none;
+  padding: 0 5px;
 
   &__microphone {
     height: 32px;
@@ -54,7 +55,6 @@
     width: 32px;
     height: 32px;
     border-radius: 32px;
-    margin-left: 5px;
     opacity: 0.3;
     text-align: center;
     padding: 0;
@@ -99,7 +99,7 @@
     color: $color-gray-60;
     font-variant: tabular-nums;
     line-height: 36px;
-    padding: 0 10px;
+    margin: 0 15px;
 
     @keyframes pulse {
       0% {

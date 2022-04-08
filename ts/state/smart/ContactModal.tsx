@@ -40,7 +40,7 @@ const mapStateToProps = (state: StateType): PropsDataType => {
     areWeAdmin,
     badges: getBadgesSelector(state)(contact.badges),
     contact,
-    conversationId,
+    conversation: currentConversation,
     i18n: getIntl(state),
     isAdmin,
     isMember,

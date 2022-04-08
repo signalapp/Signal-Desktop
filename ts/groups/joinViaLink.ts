@@ -11,6 +11,7 @@ import {
   LINK_VERSION_ERROR,
   parseGroupLink,
 } from '../groups';
+import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { isGroupV1 } from '../util/whatTypeOfConversation';
@@ -24,16 +25,19 @@ import * as log from '../logging/log';
 import { showToast } from '../util/showToast';
 import { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
 import { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
+import { HTTPError } from '../textsecure/Errors';
+import { isAccessControlEnabled } from './util';
 
 export async function joinViaLink(hash: string): Promise<void> {
   let inviteLinkPassword: string;
   let masterKey: string;
   try {
     ({ inviteLinkPassword, masterKey } = parseGroupLink(hash));
-  } catch (error) {
-    const errorString = error && error.stack ? error.stack : error;
+  } catch (error: unknown) {
+    const errorString = Errors.toLogFormat(error);
     log.error(`joinViaLink: Failed to parse group link ${errorString}`);
-    if (error && error.name === LINK_VERSION_ERROR) {
+
+    if (error instanceof Error && error.name === LINK_VERSION_ERROR) {
       showErrorDialog(
         window.i18n('GroupV2--join--unknown-link-version'),
         window.i18n('GroupV2--join--unknown-link-version--title')
@@ -84,28 +88,35 @@ export async function joinViaLink(hash: string): Promise<void> {
       suppressErrorDialog: true,
       task: () => getPreJoinGroupInfo(inviteLinkPassword, masterKey),
     });
-  } catch (error) {
-    const errorString = error && error.stack ? error.stack : error;
+  } catch (error: unknown) {
+    const errorString = Errors.toLogFormat(error);
     log.error(
       `joinViaLink/${logId}: Failed to fetch group info - ${errorString}`
     );
 
-    showErrorDialog(
-      error.code && error.code === 403
-        ? window.i18n('GroupV2--join--link-revoked')
-        : window.i18n('GroupV2--join--general-join-failure'),
-      error.code && error.code === 403
-        ? window.i18n('GroupV2--join--link-revoked--title')
-        : window.i18n('GroupV2--join--general-join-failure--title')
-    );
+    if (
+      error instanceof HTTPError &&
+      error.responseHeaders['x-signal-forbidden-reason']
+    ) {
+      showErrorDialog(
+        window.i18n('GroupV2--join--link-forbidden'),
+        window.i18n('GroupV2--join--link-forbidden--title')
+      );
+    } else if (error instanceof HTTPError && error.code === 403) {
+      showErrorDialog(
+        window.i18n('GroupV2--join--link-revoked'),
+        window.i18n('GroupV2--join--link-revoked--title')
+      );
+    } else {
+      showErrorDialog(
+        window.i18n('GroupV2--join--general-join-failure'),
+        window.i18n('GroupV2--join--general-join-failure--title')
+      );
+    }
     return;
   }
 
-  const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-  if (
-    result.addFromInviteLink !== ACCESS_ENUM.ADMINISTRATOR &&
-    result.addFromInviteLink !== ACCESS_ENUM.ANY
-  ) {
+  if (!isAccessControlEnabled(result.addFromInviteLink)) {
     log.error(
       `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
@@ -124,7 +135,8 @@ export async function joinViaLink(hash: string): Promise<void> {
     | undefined = result.avatar ? { loading: true } : undefined;
   const memberCount = result.memberCount || 1;
   const approvalRequired =
-    result.addFromInviteLink === ACCESS_ENUM.ADMINISTRATOR;
+    result.addFromInviteLink ===
+    Proto.AccessControl.AccessRequired.ADMINISTRATOR;
   const title =
     decryptGroupTitle(result.title, secretParams) ||
     window.i18n('unknownGroup');

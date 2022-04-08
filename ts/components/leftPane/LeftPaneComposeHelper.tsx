@@ -3,7 +3,6 @@
 
 import type { ReactChild, ChangeEvent } from 'react';
 import React from 'react';
-import type { PhoneNumber } from 'google-libphonenumber';
 
 import { LeftPaneHelper } from './LeftPaneHelper';
 import type { Row } from '../ConversationList';
@@ -12,13 +11,15 @@ import type { ContactListItemConversationType } from '../conversationList/Contac
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { SearchInput } from '../SearchInput';
 import type { LocalizerType } from '../../types/Util';
-import {
-  instance as phoneNumberInstance,
-  PhoneNumberFormat,
-} from '../../util/libphonenumberInstance';
-import { assert } from '../../util/assert';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance';
+import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import { missingCaseError } from '../../util/missingCaseError';
 import { getUsernameFromSearch } from '../../types/Username';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState';
+import {
+  isFetchingByUsername,
+  isFetchingByE164,
+} from '../../util/uuidFetchState';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemConversationType>;
@@ -26,14 +27,13 @@ export type LeftPaneComposePropsType = {
 
   regionCode: string | undefined;
   searchTerm: string;
-  isFetchingUsername: boolean;
+  uuidFetchState: UUIDFetchStateType;
   isUsernamesEnabled: boolean;
 };
 
 enum TopButton {
   None,
   CreateNewGroup,
-  StartNewConversation,
 }
 
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
@@ -41,13 +41,15 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
   private readonly composeGroups: ReadonlyArray<ConversationListItemPropsType>;
 
-  private readonly isFetchingUsername: boolean;
+  private readonly uuidFetchState: UUIDFetchStateType;
 
   private readonly isUsernamesEnabled: boolean;
 
   private readonly searchTerm: string;
 
-  private readonly phoneNumber: undefined | PhoneNumber;
+  private readonly phoneNumber: ParsedE164Type | undefined;
+
+  private readonly isPhoneNumberVisible: boolean;
 
   constructor({
     composeContacts,
@@ -55,15 +57,23 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     regionCode,
     searchTerm,
     isUsernamesEnabled,
-    isFetchingUsername,
+    uuidFetchState,
   }: Readonly<LeftPaneComposePropsType>) {
     super();
 
     this.composeContacts = composeContacts;
     this.composeGroups = composeGroups;
     this.searchTerm = searchTerm;
-    this.phoneNumber = parsePhoneNumber(searchTerm, regionCode);
-    this.isFetchingUsername = isFetchingUsername;
+    this.phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
+    if (this.phoneNumber) {
+      const { phoneNumber } = this;
+      this.isPhoneNumberVisible = this.composeContacts.every(
+        contact => contact.e164 !== phoneNumber.e164
+      );
+    } else {
+      this.isPhoneNumberVisible = false;
+    }
+    this.uuidFetchState = uuidFetchState;
     this.isUsernamesEnabled = isUsernamesEnabled;
   }
 
@@ -141,6 +151,9 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     if (this.getUsernameFromSearch()) {
       result += 2;
     }
+    if (this.isPhoneNumberVisible) {
+      result += 2;
+    }
 
     return result;
   }
@@ -153,18 +166,6 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         switch (topButton) {
           case TopButton.None:
             break;
-          case TopButton.StartNewConversation:
-            assert(
-              this.phoneNumber,
-              'LeftPaneComposeHelper: we should have a phone number if the top button is "Start new conversation"'
-            );
-            return {
-              type: RowType.StartNewConversation,
-              phoneNumber: phoneNumberInstance.format(
-                this.phoneNumber,
-                PhoneNumberFormat.E164
-              ),
-            };
           case TopButton.CreateNewGroup:
             return { type: RowType.CreateNewGroup };
           default:
@@ -232,7 +233,34 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         return {
           type: RowType.UsernameSearchResult,
           username,
-          isFetchingUsername: this.isFetchingUsername,
+          isFetchingUsername: isFetchingByUsername(
+            this.uuidFetchState,
+            username
+          ),
+        };
+
+        virtualRowIndex -= 1;
+      }
+    }
+
+    if (this.phoneNumber && this.isPhoneNumberVisible) {
+      if (virtualRowIndex === 0) {
+        return {
+          type: RowType.Header,
+          i18nKey: 'findByPhoneNumberHeader',
+        };
+      }
+
+      virtualRowIndex -= 1;
+
+      if (virtualRowIndex === 0) {
+        return {
+          type: RowType.StartNewConversation,
+          phoneNumber: this.phoneNumber,
+          isFetching: isFetchingByE164(
+            this.uuidFetchState,
+            this.phoneNumber.e164
+          ),
         };
 
         virtualRowIndex -= 1;
@@ -272,9 +300,6 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }
 
   private getTopButton(): TopButton {
-    if (this.phoneNumber) {
-      return TopButton.StartNewConversation;
-    }
     if (this.searchTerm) {
       return TopButton.None;
     }
@@ -351,22 +376,4 @@ function focusRef(el: HTMLElement | null) {
   if (el) {
     el.focus();
   }
-}
-
-function parsePhoneNumber(
-  str: string,
-  regionCode: string | undefined
-): undefined | PhoneNumber {
-  let result: PhoneNumber;
-  try {
-    result = phoneNumberInstance.parse(str, regionCode);
-  } catch (err) {
-    return undefined;
-  }
-
-  if (!phoneNumberInstance.isValidNumber(result)) {
-    return undefined;
-  }
-
-  return result;
 }

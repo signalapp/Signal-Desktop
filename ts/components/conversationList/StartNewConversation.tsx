@@ -2,54 +2,105 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import {
-  BaseConversationListItem,
-  MESSAGE_TEXT_CLASS_NAME,
-} from './BaseConversationListItem';
+import { ButtonVariant } from '../Button';
+import { ConfirmationDialog } from '../ConfirmationDialog';
+import { BaseConversationListItem } from './BaseConversationListItem';
 
+import type { ParsedE164Type } from '../../util/libphonenumberInstance';
+import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
 import type { LocalizerType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
 
-const TEXT_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__start-new-conversation`;
-
 type PropsData = {
-  phoneNumber: string;
+  phoneNumber: ParsedE164Type;
+  isFetching: boolean;
 };
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  onClick: (phoneNumber: string) => void;
-};
+  showConversation: (conversationId: string) => void;
+} & LookupConversationWithoutUuidActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
 
 export const StartNewConversation: FunctionComponent<Props> = React.memo(
-  function StartNewConversation({ i18n, onClick, phoneNumber }) {
-    const messageText = (
-      <div className={TEXT_CLASS_NAME}>{i18n('startConversation')}</div>
-    );
+  function StartNewConversation({
+    i18n,
+    phoneNumber,
+    isFetching,
+    lookupConversationWithoutUuid,
+    showUserNotFoundModal,
+    setIsFetchingUUID,
+    showConversation,
+  }) {
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const boundOnClick = useCallback(() => {
-      onClick(phoneNumber);
-    }, [onClick, phoneNumber]);
+    const boundOnClick = useCallback(async () => {
+      if (!phoneNumber.isValid) {
+        setIsModalVisible(true);
+        return;
+      }
+      if (isFetching) {
+        return;
+      }
+      const conversationId = await lookupConversationWithoutUuid({
+        showUserNotFoundModal,
+        setIsFetchingUUID,
+
+        type: 'e164',
+        e164: phoneNumber.e164,
+        phoneNumber: phoneNumber.userInput,
+      });
+
+      if (conversationId !== undefined) {
+        showConversation(conversationId);
+      }
+    }, [
+      showConversation,
+      lookupConversationWithoutUuid,
+      showUserNotFoundModal,
+      setIsFetchingUUID,
+      setIsModalVisible,
+      phoneNumber,
+      isFetching,
+    ]);
+
+    let modal: JSX.Element | undefined;
+    if (isModalVisible) {
+      modal = (
+        <ConfirmationDialog
+          cancelText={i18n('ok')}
+          cancelButtonVariant={ButtonVariant.Secondary}
+          i18n={i18n}
+          onClose={() => setIsModalVisible(false)}
+        >
+          {i18n('startConversation--phone-number-not-valid', {
+            phoneNumber: phoneNumber.userInput,
+          })}
+        </ConfirmationDialog>
+      );
+    }
 
     return (
-      <BaseConversationListItem
-        acceptedMessageRequest={false}
-        color={AvatarColors[0]}
-        conversationType="direct"
-        headerName={phoneNumber}
-        i18n={i18n}
-        isMe={false}
-        isSelected={false}
-        messageText={messageText}
-        onClick={boundOnClick}
-        phoneNumber={phoneNumber}
-        sharedGroupNames={[]}
-        title={phoneNumber}
-      />
+      <>
+        <BaseConversationListItem
+          acceptedMessageRequest={false}
+          color={AvatarColors[0]}
+          conversationType="direct"
+          headerName={phoneNumber.userInput}
+          i18n={i18n}
+          isMe={false}
+          isSelected={false}
+          onClick={boundOnClick}
+          phoneNumber={phoneNumber.userInput}
+          shouldShowSpinner={isFetching}
+          sharedGroupNames={[]}
+          title={phoneNumber.userInput}
+        />
+        {modal}
+      </>
     );
   }
 );

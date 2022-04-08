@@ -196,6 +196,7 @@ export type StickerPackType = Readonly<{
 export type UnprocessedType = {
   id: string;
   timestamp: number;
+  receivedAtCounter: number | null;
   version: number;
   attempts: number;
   envelope?: string;
@@ -218,7 +219,7 @@ export type UnprocessedUpdateType = {
   decrypted?: string;
 };
 
-export type LastConversationMessagesType = {
+export type ConversationMessageStatsType = {
   activity?: MessageType;
   preview?: MessageType;
   hasUserInitiatedMessages: boolean;
@@ -362,14 +363,11 @@ export type DataInterface = {
     id: UUIDStringType
   ) => Promise<Array<ConversationType>>;
 
-  searchConversations: (
-    query: string,
-    options?: { limit?: number }
-  ) => Promise<Array<ConversationType>>;
   // searchMessages is JSON on server, full message on Client
   // searchMessagesInConversation is JSON on server, full message on Client
 
   getMessageCount: (conversationId?: string) => Promise<number>;
+  getStoryCount: (conversationId: string) => Promise<number>;
   saveMessage: (
     data: MessageType,
     options: {
@@ -379,7 +377,7 @@ export type DataInterface = {
     }
   ) => Promise<string>;
   saveMessages: (
-    arrayOfMessages: Array<MessageType>,
+    arrayOfMessages: ReadonlyArray<MessageType>,
     options: { forceSave?: boolean; ourUuid: UUIDStringType }
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
@@ -453,10 +451,13 @@ export type DataInterface = {
     storyId?: UUIDStringType
   ) => Promise<ConversationMetricsType>;
   // getConversationRangeCenteredOnMessage is JSON on server, full message on client
-  getLastConversationMessages: (options: {
+  getConversationMessageStats: (options: {
     conversationId: string;
     ourUuid: UUIDStringType;
-  }) => Promise<LastConversationMessagesType>;
+  }) => Promise<ConversationMessageStatsType>;
+  getLastConversationMessage(options: {
+    conversationId: string;
+  }): Promise<MessageType | undefined>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
     eraId: string
@@ -557,6 +558,7 @@ export type DataInterface = {
     conversationId?: UUIDStringType;
     limit?: number;
   }): Promise<Array<StoryReadType>>;
+  countStoryReadsByConversation(conversationId: string): Promise<number>;
 
   removeAll: () => Promise<void>;
   removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;

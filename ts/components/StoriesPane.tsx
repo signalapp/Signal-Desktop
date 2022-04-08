@@ -1,25 +1,27 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { isNotNil } from '../util/isNotNil';
 import type { ConversationStoryType, StoryViewType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
 
-const FUSE_OPTIONS: FuseOptions<ConversationStoryType> = {
+const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (obj, path) => {
     if (path === 'searchNames') {
-      return obj.stories.flatMap((story: StoryViewType) => [
-        story.sender.title,
-        story.sender.name,
-      ]);
+      return obj.stories
+        .flatMap((story: StoryViewType) => [
+          story.sender.title,
+          story.sender.name,
+        ])
+        .filter(isNotNil);
     }
 
-    return obj.group?.title;
+    return obj.group?.title ?? '';
   },
   keys: [
     {
@@ -32,16 +34,19 @@ const FUSE_OPTIONS: FuseOptions<ConversationStoryType> = {
     },
   ],
   threshold: 0.1,
-  tokenize: true,
 };
 
 function search(
   stories: ReadonlyArray<ConversationStoryType>,
   searchTerm: string
 ): Array<ConversationStoryType> {
-  return new Fuse<ConversationStoryType>(stories, FUSE_OPTIONS).search(
-    searchTerm
-  );
+  return new Fuse<ConversationStoryType>(stories, FUSE_OPTIONS)
+    .search(searchTerm)
+    .map(result => result.item);
+}
+
+function getNewestStory(story: ConversationStoryType): StoryViewType {
+  return story.stories[story.stories.length - 1];
 }
 
 export type PropsType = {
@@ -50,6 +55,7 @@ export type PropsType = {
   onBack: () => unknown;
   onStoryClicked: (conversationId: string) => unknown;
   openConversationInternal: (_: { conversationId: string }) => unknown;
+  queueStoryDownload: (storyId: string) => unknown;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
 };
@@ -59,6 +65,7 @@ export const StoriesPane = ({
   onBack,
   onStoryClicked,
   openConversationInternal,
+  queueStoryDownload,
   stories,
   toggleHideStories,
 }: PropsType): JSX.Element => {
@@ -103,18 +110,19 @@ export const StoriesPane = ({
       >
         {renderedStories.map(story => (
           <StoryListItem
-            key={story.stories[0].timestamp}
+            key={getNewestStory(story).timestamp}
             i18n={i18n}
             onClick={() => {
               onStoryClicked(story.conversationId);
             }}
             onHideStory={() => {
-              toggleHideStories(story.stories[0].sender.id);
+              toggleHideStories(getNewestStory(story).sender.id);
             }}
             onGoToConversation={conversationId => {
               openConversationInternal({ conversationId });
             }}
-            story={story.stories[0]}
+            queueStoryDownload={queueStoryDownload}
+            story={getNewestStory(story)}
           />
         ))}
         {!stories.length && i18n('Stories__list-empty')}

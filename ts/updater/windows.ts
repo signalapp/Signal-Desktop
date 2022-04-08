@@ -11,7 +11,6 @@ import pify from 'pify';
 
 import { Updater } from './common';
 import { markShouldQuit } from '../../app/window_state';
-import { DialogType } from '../types/Dialogs';
 
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);
@@ -54,18 +53,7 @@ export class WindowsUpdater extends Updater {
         await this.install(updateFilePath);
         this.installing = true;
       } catch (error) {
-        const mainWindow = this.getMainWindow();
-        if (mainWindow) {
-          logger.info(
-            'createUpdater: showing general update failure dialog...'
-          );
-          mainWindow.webContents.send(
-            'show-update-dialog',
-            DialogType.Cannot_Update
-          );
-        } else {
-          logger.warn('createUpdater: no mainWindow, just failing over...');
-        }
+        this.markCannotUpdate(error);
 
         throw error;
       }

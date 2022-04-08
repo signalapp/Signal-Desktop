@@ -28,35 +28,33 @@ type PropsType = {
   onClose: () => void;
 } & PropsDataType;
 
-export const AddGroupMemberErrorDialog: FunctionComponent<PropsType> =
-  props => {
-    const { i18n, onClose } = props;
+export const AddGroupMemberErrorDialog: FunctionComponent<
+  PropsType
+> = props => {
+  const { i18n, onClose } = props;
 
-    let title: string;
-    let body: ReactNode;
-    switch (props.mode) {
-      case AddGroupMemberErrorDialogMode.MaximumGroupSize: {
-        const { maximumNumberOfContacts } = props;
-        title = i18n('chooseGroupMembers__maximum-group-size__title');
-        body = i18n('chooseGroupMembers__maximum-group-size__body', [
-          maximumNumberOfContacts.toString(),
-        ]);
-        break;
-      }
-      case AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize: {
-        const { recommendedMaximumNumberOfContacts } = props;
-        title = i18n(
-          'chooseGroupMembers__maximum-recommended-group-size__title'
-        );
-        body = i18n(
-          'chooseGroupMembers__maximum-recommended-group-size__body',
-          [recommendedMaximumNumberOfContacts.toString()]
-        );
-        break;
-      }
-      default:
-        throw missingCaseError(props);
+  let title: string;
+  let body: ReactNode;
+  switch (props.mode) {
+    case AddGroupMemberErrorDialogMode.MaximumGroupSize: {
+      const { maximumNumberOfContacts } = props;
+      title = i18n('chooseGroupMembers__maximum-group-size__title');
+      body = i18n('chooseGroupMembers__maximum-group-size__body', [
+        maximumNumberOfContacts.toString(),
+      ]);
+      break;
     }
+    case AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize: {
+      const { recommendedMaximumNumberOfContacts } = props;
+      title = i18n('chooseGroupMembers__maximum-recommended-group-size__title');
+      body = i18n('chooseGroupMembers__maximum-recommended-group-size__body', [
+        recommendedMaximumNumberOfContacts.toString(),
+      ]);
+      break;
+    }
+    default:
+      throw missingCaseError(props);
+  }
 
-    return <Alert body={body} i18n={i18n} onClose={onClose} title={title} />;
-  };
+  return <Alert body={body} i18n={i18n} onClose={onClose} title={title} />;
+};

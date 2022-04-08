@@ -10,10 +10,12 @@ import { get, pick } from 'lodash';
 
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
+import type { ParsedE164Type } from '../util/libphonenumberInstance';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
 import { getConversationListWidthBreakpoint } from './_util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
 import { ConversationListItem } from './conversationList/ConversationListItem';
@@ -21,6 +23,7 @@ import type { ContactListItemConversationType as ContactListItemPropsType } from
 import { ContactListItem } from './conversationList/ContactListItem';
 import type { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox';
+import { PhoneNumberCheckbox as PhoneNumberCheckboxComponent } from './conversationList/PhoneNumberCheckbox';
 import { CreateNewGroupButton } from './conversationList/CreateNewGroupButton';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
 import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';
@@ -32,6 +35,7 @@ export enum RowType {
   Blank,
   Contact,
   ContactCheckbox,
+  PhoneNumberCheckbox,
   Conversation,
   CreateNewGroup,
   Header,
@@ -60,6 +64,13 @@ type ContactCheckboxRowType = {
   contact: ContactListItemPropsType;
   isChecked: boolean;
   disabledReason?: ContactCheckboxDisabledReason;
+};
+
+type PhoneNumberCheckboxRowType = {
+  type: RowType.PhoneNumberCheckbox;
+  phoneNumber: ParsedE164Type;
+  isChecked: boolean;
+  isFetching: boolean;
 };
 
 type ConversationRowType = {
@@ -91,7 +102,8 @@ type SearchResultsLoadingFakeRowType = {
 
 type StartNewConversationRowType = {
   type: RowType.StartNewConversation;
-  phoneNumber: string;
+  phoneNumber: ParsedE164Type;
+  isFetching: boolean;
 };
 
 type UsernameRowType = {
@@ -105,6 +117,7 @@ export type Row =
   | BlankRowType
   | ContactRowType
   | ContactCheckboxRowType
+  | PhoneNumberCheckboxRowType
   | ConversationRowType
   | CreateNewGroupRowType
   | MessageRowType
@@ -141,9 +154,8 @@ export type PropsType = {
   onSelectConversation: (conversationId: string, messageId?: string) => void;
   renderMessageSearchResult: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
-  startNewConversationFromPhoneNumber: (e164: string) => void;
-  startNewConversationFromUsername: (username: string) => void;
-};
+  showConversation: (conversationId: string) => void;
+} & LookupConversationWithoutUuidActionsType;
 
 const NORMAL_ROW_HEIGHT = 76;
 const HEADER_ROW_HEIGHT = 40;
@@ -163,8 +175,10 @@ export const ConversationList: React.FC<PropsType> = ({
   scrollable = true,
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
-  startNewConversationFromPhoneNumber,
-  startNewConversationFromUsername,
+  lookupConversationWithoutUuid,
+  showUserNotFoundModal,
+  setIsFetchingUUID,
+  showConversation,
   theme,
 }) => {
   const listRef = useRef<null | List>(null);
@@ -251,6 +265,23 @@ export const ConversationList: React.FC<PropsType> = ({
             />
           );
           break;
+        case RowType.PhoneNumberCheckbox:
+          result = (
+            <PhoneNumberCheckboxComponent
+              phoneNumber={row.phoneNumber}
+              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              showUserNotFoundModal={showUserNotFoundModal}
+              setIsFetchingUUID={setIsFetchingUUID}
+              toggleConversationInChooseMembers={conversationId =>
+                onClickContactCheckbox(conversationId, undefined)
+              }
+              isChecked={row.isChecked}
+              isFetching={row.isFetching}
+              i18n={i18n}
+              theme={theme}
+            />
+          );
+          break;
         case RowType.Conversation: {
           const itemProps = pick(row.conversation, [
             'acceptedMessageRequest',
@@ -332,7 +363,11 @@ export const ConversationList: React.FC<PropsType> = ({
             <StartNewConversationComponent
               i18n={i18n}
               phoneNumber={row.phoneNumber}
-              onClick={startNewConversationFromPhoneNumber}
+              isFetching={row.isFetching}
+              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              showUserNotFoundModal={showUserNotFoundModal}
+              setIsFetchingUUID={setIsFetchingUUID}
+              showConversation={showConversation}
             />
           );
           break;
@@ -342,7 +377,10 @@ export const ConversationList: React.FC<PropsType> = ({
               i18n={i18n}
               username={row.username}
               isFetchingUsername={row.isFetchingUsername}
-              onClick={startNewConversationFromUsername}
+              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              showUserNotFoundModal={showUserNotFoundModal}
+              setIsFetchingUUID={setIsFetchingUUID}
+              showConversation={showConversation}
             />
           );
           break;
@@ -365,10 +403,12 @@ export const ConversationList: React.FC<PropsType> = ({
       onClickArchiveButton,
       onClickContactCheckbox,
       onSelectConversation,
+      lookupConversationWithoutUuid,
+      showUserNotFoundModal,
+      setIsFetchingUUID,
       renderMessageSearchResult,
       showChooseGroupMembers,
-      startNewConversationFromPhoneNumber,
-      startNewConversationFromUsername,
+      showConversation,
       theme,
     ]
   );

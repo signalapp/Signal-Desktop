@@ -5,6 +5,7 @@ import * as Backbone from 'backbone';
 import * as log from '../logging/log';
 import type { ConversationModel } from '../models/conversations';
 import { showToast } from '../util/showToast';
+import { strictAssert } from '../util/assert';
 import { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 
 window.Whisper = window.Whisper || {};
@@ -115,26 +116,19 @@ Whisper.InboxView = Whisper.View.extend({
       this.conversation_stack.unload();
     });
 
-    window.Whisper.events.on(
-      'showConversation',
-      async (id, messageId, username) => {
-        const conversation =
-          await window.ConversationController.getOrCreateAndWait(
-            id,
-            'private',
-            { username }
-          );
+    window.Whisper.events.on('showConversation', (id, messageId) => {
+      const conversation = window.ConversationController.get(id);
+      strictAssert(conversation, 'Conversation must be found');
 
-        conversation.setMarkedUnread(false);
+      conversation.setMarkedUnread(false);
 
-        const { openConversationExternal } = window.reduxActions.conversations;
-        if (openConversationExternal) {
-          openConversationExternal(conversation.id, messageId);
-        }
-
-        this.conversation_stack.open(conversation, messageId);
+      const { openConversationExternal } = window.reduxActions.conversations;
+      if (openConversationExternal) {
+        openConversationExternal(conversation.id, messageId);
       }
-    );
+
+      this.conversation_stack.open(conversation, messageId);
+    });
 
     window.Whisper.events.on('loadingProgress', count => {
       const view = this.appLoadingScreen;

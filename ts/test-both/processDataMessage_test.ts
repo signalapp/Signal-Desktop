@@ -16,7 +16,7 @@ const FLAGS = Proto.DataMessage.Flags;
 const TIMESTAMP = Date.now();
 
 const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
-  cdnId: 123,
+  cdnId: Long.fromNumber(123),
   key: new Uint8Array([1, 2, 3]),
   digest: new Uint8Array([4, 5, 6]),
 };
@@ -35,7 +35,7 @@ describe('processDataMessage', () => {
   const check = (message: Proto.IDataMessage) =>
     processDataMessage(
       {
-        timestamp: TIMESTAMP,
+        timestamp: Long.fromNumber(TIMESTAMP),
         ...message,
       },
       TIMESTAMP
@@ -175,7 +175,7 @@ describe('processDataMessage', () => {
   it('should process quote', async () => {
     const out = await check({
       quote: {
-        id: 1,
+        id: Long.fromNumber(1),
         authorUuid: 'author',
         text: 'text',
         attachments: [
@@ -236,7 +236,7 @@ describe('processDataMessage', () => {
         await check({
           reaction: {
             emoji: '😎',
-            targetTimestamp: TIMESTAMP,
+            targetTimestamp: Long.fromNumber(TIMESTAMP),
           },
         })
       ).reaction,
@@ -254,7 +254,7 @@ describe('processDataMessage', () => {
           reaction: {
             emoji: '😎',
             remove: true,
-            targetTimestamp: TIMESTAMP,
+            targetTimestamp: Long.fromNumber(TIMESTAMP),
           },
         })
       ).reaction,
@@ -271,7 +271,7 @@ describe('processDataMessage', () => {
     const out = await check({
       preview: [
         {
-          date: TIMESTAMP,
+          date: Long.fromNumber(TIMESTAMP),
           image: UNPROCESSED_ATTACHMENT,
         },
       ],

@@ -18,6 +18,10 @@ import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import {
+  makeFakeLookupConversationWithoutUuid,
+  useUuidFetchState,
+} from '../test-both/helpers/fakeLookupConversationWithoutUuid';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -89,93 +93,112 @@ const defaultModeSpecificProps = {
 
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
-const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  clearConversationSearch: action('clearConversationSearch'),
-  clearGroupCreationError: action('clearGroupCreationError'),
-  clearSearch: action('clearSearch'),
-  closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
-  closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
-  composeDeleteAvatarFromDisk: action('composeDeleteAvatarFromDisk'),
-  composeReplaceAvatar: action('composeReplaceAvatar'),
-  composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
-  createGroup: action('createGroup'),
-  getPreferredBadge: () => undefined,
-  i18n,
-  modeSpecificProps: defaultModeSpecificProps,
-  preferredWidthFromStorage: 320,
-  openConversationInternal: action('openConversationInternal'),
-  regionCode: 'US',
-  challengeStatus: select(
-    'challengeStatus',
-    ['idle', 'required', 'pending'],
-    'idle'
-  ),
-  crashReportCount: select('challengeReportCount', [0, 1], 0),
-  setChallengeStatus: action('setChallengeStatus'),
-  renderExpiredBuildDialog: () => <div />,
-  renderMainHeader: () => <div />,
-  renderMessageSearchResult: (id: string) => (
-    <MessageSearchResult
-      body="Lorem ipsum wow"
-      bodyRanges={[]}
-      conversationId="marc-convo"
-      from={defaultConversations[0]}
-      getPreferredBadge={() => undefined}
-      i18n={i18n}
-      id={id}
-      openConversationInternal={action('openConversationInternal')}
-      sentAt={1587358800000}
-      snippet="Lorem <<left>>ipsum<<right>> wow"
-      theme={ThemeType.light}
-      to={defaultConversations[1]}
-    />
-  ),
-  renderNetworkStatus: () => <div />,
-  renderRelinkDialog: () => <div />,
-  renderUpdateDialog: () => <div />,
-  renderCaptchaDialog: () => (
-    <CaptchaDialog
-      i18n={i18n}
-      isPending={overrideProps.challengeStatus === 'pending'}
-      onContinue={action('onCaptchaContinue')}
-      onSkip={action('onCaptchaSkip')}
-    />
-  ),
-  renderCrashReportDialog: () => (
-    <CrashReportDialog
-      i18n={i18n}
-      isPending={false}
-      uploadCrashReports={action('uploadCrashReports')}
-      eraseCrashReports={action('eraseCrashReports')}
-    />
-  ),
-  selectedConversationId: undefined,
-  selectedMessageId: undefined,
-  savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
-  searchInConversation: action('searchInConversation'),
-  setComposeSearchTerm: action('setComposeSearchTerm'),
-  setComposeGroupAvatar: action('setComposeGroupAvatar'),
-  setComposeGroupName: action('setComposeGroupName'),
-  setComposeGroupExpireTimer: action('setComposeGroupExpireTimer'),
-  showArchivedConversations: action('showArchivedConversations'),
-  showInbox: action('showInbox'),
-  startComposing: action('startComposing'),
-  showChooseGroupMembers: action('showChooseGroupMembers'),
-  startNewConversationFromPhoneNumber: action(
-    'startNewConversationFromPhoneNumber'
-  ),
-  startNewConversationFromUsername: action('startNewConversationFromUsername'),
-  startSearch: action('startSearch'),
-  startSettingGroupMetadata: action('startSettingGroupMetadata'),
-  theme: React.useContext(StorybookThemeContext),
-  toggleComposeEditingAvatar: action('toggleComposeEditingAvatar'),
-  toggleConversationInChooseMembers: action(
-    'toggleConversationInChooseMembers'
-  ),
-  updateSearchTerm: action('updateSearchTerm'),
+const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
+  let modeSpecificProps =
+    overrideProps.modeSpecificProps ?? defaultModeSpecificProps;
 
-  ...overrideProps,
-});
+  const [uuidFetchState, setIsFetchingUUID] = useUuidFetchState(
+    'uuidFetchState' in modeSpecificProps
+      ? modeSpecificProps.uuidFetchState
+      : {}
+  );
+
+  if ('uuidFetchState' in modeSpecificProps) {
+    modeSpecificProps = {
+      ...modeSpecificProps,
+      uuidFetchState,
+    };
+  }
+
+  return {
+    clearConversationSearch: action('clearConversationSearch'),
+    clearGroupCreationError: action('clearGroupCreationError'),
+    clearSearch: action('clearSearch'),
+    closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
+    closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
+    composeDeleteAvatarFromDisk: action('composeDeleteAvatarFromDisk'),
+    composeReplaceAvatar: action('composeReplaceAvatar'),
+    composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
+    createGroup: action('createGroup'),
+    getPreferredBadge: () => undefined,
+    i18n,
+    preferredWidthFromStorage: 320,
+    openConversationInternal: action('openConversationInternal'),
+    regionCode: 'US',
+    challengeStatus: select(
+      'challengeStatus',
+      ['idle', 'required', 'pending'],
+      'idle'
+    ),
+    crashReportCount: select('challengeReportCount', [0, 1], 0),
+    setChallengeStatus: action('setChallengeStatus'),
+    lookupConversationWithoutUuid: makeFakeLookupConversationWithoutUuid(),
+    showUserNotFoundModal: action('showUserNotFoundModal'),
+    setIsFetchingUUID,
+    showConversation: action('showConversation'),
+    renderExpiredBuildDialog: () => <div />,
+    renderMainHeader: () => <div />,
+    renderMessageSearchResult: (id: string) => (
+      <MessageSearchResult
+        body="Lorem ipsum wow"
+        bodyRanges={[]}
+        conversationId="marc-convo"
+        from={defaultConversations[0]}
+        getPreferredBadge={() => undefined}
+        i18n={i18n}
+        id={id}
+        openConversationInternal={action('openConversationInternal')}
+        sentAt={1587358800000}
+        snippet="Lorem <<left>>ipsum<<right>> wow"
+        theme={ThemeType.light}
+        to={defaultConversations[1]}
+      />
+    ),
+    renderNetworkStatus: () => <div />,
+    renderRelinkDialog: () => <div />,
+    renderUpdateDialog: () => <div />,
+    renderCaptchaDialog: () => (
+      <CaptchaDialog
+        i18n={i18n}
+        isPending={overrideProps.challengeStatus === 'pending'}
+        onContinue={action('onCaptchaContinue')}
+        onSkip={action('onCaptchaSkip')}
+      />
+    ),
+    renderCrashReportDialog: () => (
+      <CrashReportDialog
+        i18n={i18n}
+        isPending={false}
+        uploadCrashReports={action('uploadCrashReports')}
+        eraseCrashReports={action('eraseCrashReports')}
+      />
+    ),
+    selectedConversationId: undefined,
+    selectedMessageId: undefined,
+    savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
+    searchInConversation: action('searchInConversation'),
+    setComposeSearchTerm: action('setComposeSearchTerm'),
+    setComposeGroupAvatar: action('setComposeGroupAvatar'),
+    setComposeGroupName: action('setComposeGroupName'),
+    setComposeGroupExpireTimer: action('setComposeGroupExpireTimer'),
+    showArchivedConversations: action('showArchivedConversations'),
+    showInbox: action('showInbox'),
+    startComposing: action('startComposing'),
+    showChooseGroupMembers: action('showChooseGroupMembers'),
+    startSearch: action('startSearch'),
+    startSettingGroupMetadata: action('startSettingGroupMetadata'),
+    theme: React.useContext(StorybookThemeContext),
+    toggleComposeEditingAvatar: action('toggleComposeEditingAvatar'),
+    toggleConversationInChooseMembers: action(
+      'toggleConversationInChooseMembers'
+    ),
+    updateSearchTerm: action('updateSearchTerm'),
+
+    ...overrideProps,
+
+    modeSpecificProps,
+  };
+};
 
 // Inbox stories
 
@@ -465,7 +488,7 @@ story.add('Compose: no results', () => (
         composeContacts: [],
         composeGroups: [],
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: '',
       },
@@ -481,7 +504,7 @@ story.add('Compose: some contacts, no search term', () => (
         composeContacts: defaultConversations,
         composeGroups: [],
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: '',
       },
@@ -497,7 +520,7 @@ story.add('Compose: some contacts, with a search term', () => (
         composeContacts: defaultConversations,
         composeGroups: [],
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: 'ar',
       },
@@ -513,7 +536,7 @@ story.add('Compose: some groups, no search term', () => (
         composeContacts: [],
         composeGroups: defaultGroups,
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: '',
       },
@@ -529,7 +552,7 @@ story.add('Compose: some groups, with search term', () => (
         composeContacts: [],
         composeGroups: defaultGroups,
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: 'ar',
       },
@@ -545,7 +568,7 @@ story.add('Compose: search is valid username', () => (
         composeContacts: [],
         composeGroups: [],
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: 'someone',
       },
@@ -561,7 +584,9 @@ story.add('Compose: search is valid username, fetching username', () => (
         composeContacts: [],
         composeGroups: [],
         isUsernamesEnabled: true,
-        isFetchingUsername: true,
+        uuidFetchState: {
+          'username:someone': true,
+        },
         regionCode: 'US',
         searchTerm: 'someone',
       },
@@ -577,13 +602,66 @@ story.add('Compose: search is valid username, but flag is not enabled', () => (
         composeContacts: [],
         composeGroups: [],
         isUsernamesEnabled: false,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: 'someone',
       },
     })}
   />
 ));
+
+story.add('Compose: search is partial phone number', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: [],
+        isUsernamesEnabled: false,
+        uuidFetchState: {},
+        regionCode: 'US',
+        searchTerm: '+1(212)555',
+      },
+    })}
+  />
+));
+
+story.add('Compose: search is valid phone number', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: [],
+        isUsernamesEnabled: true,
+        uuidFetchState: {},
+        regionCode: 'US',
+        searchTerm: '2125555454',
+      },
+    })}
+  />
+));
+
+story.add(
+  'Compose: search is valid phone number, fetching phone number',
+  () => (
+    <LeftPane
+      {...useProps({
+        modeSpecificProps: {
+          mode: LeftPaneMode.Compose,
+          composeContacts: [],
+          composeGroups: [],
+          isUsernamesEnabled: true,
+          uuidFetchState: {
+            'e164:+12125555454': true,
+          },
+          regionCode: 'US',
+          searchTerm: '(212)5555454',
+        },
+      })}
+    />
+  )
+);
 
 story.add('Compose: all kinds of results, no search term', () => (
   <LeftPane
@@ -593,7 +671,7 @@ story.add('Compose: all kinds of results, no search term', () => (
         composeContacts: defaultConversations,
         composeGroups: defaultGroups,
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: '',
       },
@@ -609,7 +687,7 @@ story.add('Compose: all kinds of results, with a search term', () => (
         composeContacts: defaultConversations,
         composeGroups: defaultGroups,
         isUsernamesEnabled: true,
-        isFetchingUsername: false,
+        uuidFetchState: {},
         regionCode: 'US',
         searchTerm: 'someone',
       },
@@ -668,6 +746,42 @@ story.add('Crash report dialog', () => (
         searchTerm: '',
       },
       crashReportCount: 42,
+    })}
+  />
+));
+
+// Choose Group Members
+
+story.add('Choose Group Members: Partial phone number', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.ChooseGroupMembers,
+        uuidFetchState: {},
+        candidateContacts: [],
+        isShowingRecommendedGroupSizeModal: false,
+        isShowingMaximumGroupSizeModal: false,
+        searchTerm: '+1(212) 555',
+        regionCode: 'US',
+        selectedContacts: [],
+      },
+    })}
+  />
+));
+
+story.add('Choose Group Members: Valid phone number', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.ChooseGroupMembers,
+        uuidFetchState: {},
+        candidateContacts: [],
+        isShowingRecommendedGroupSizeModal: false,
+        isShowingMaximumGroupSizeModal: false,
+        searchTerm: '+1(212) 555 5454',
+        regionCode: 'US',
+        selectedContacts: [],
+      },
     })}
   />
 ));

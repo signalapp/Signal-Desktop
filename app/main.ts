@@ -333,7 +333,6 @@ function prepareUrl(
     serverTrustRoot: config.get<string>('serverTrustRoot'),
     appStartInitialSpellcheckSetting,
     userDataPath: app.getPath('userData'),
-    downloadsPath: app.getPath('downloads'),
     homePath: app.getPath('home'),
     crashDumpsPath: app.getPath('crashDumps'),
     ...moreKeys,
@@ -1226,7 +1225,7 @@ async function showDebugLogWindow() {
 let permissionsPopupWindow: BrowserWindow | undefined;
 function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
   // eslint-disable-next-line no-async-promise-executor
-  return new Promise<void>(async (resolve, reject) => {
+  return new Promise<void>(async (resolveFn, reject) => {
     if (permissionsPopupWindow) {
       permissionsPopupWindow.show();
       reject(new Error('Permission window already showing'));
@@ -1277,7 +1276,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       removeDarkOverlay();
       permissionsPopupWindow = undefined;
 
-      resolve();
+      resolveFn();
     });
 
     permissionsPopupWindow.once('ready-to-show', () => {
@@ -1502,7 +1501,9 @@ app.on('ready', async () => {
 
   // If the sql initialization takes more than three seconds to complete, we
   // want to notify the user that things are happening
-  const timeout = new Promise(resolve => setTimeout(resolve, 3000, 'timeout'));
+  const timeout = new Promise(resolveFn =>
+    setTimeout(resolveFn, 3000, 'timeout')
+  );
   // eslint-disable-next-line more/no-then
   Promise.race([sqlInitPromise, timeout]).then(maybeTimeout => {
     if (maybeTimeout !== 'timeout') {
@@ -1692,11 +1693,11 @@ async function requestShutdown() {
   }
 
   getLogger().info('requestShutdown: Requesting close of mainWindow...');
-  const request = new Promise<void>((resolve, reject) => {
+  const request = new Promise<void>((resolveFn, reject) => {
     let timeout: NodeJS.Timeout | undefined;
 
     if (!mainWindow) {
-      resolve();
+      resolveFn();
       return;
     }
 
@@ -1708,7 +1709,7 @@ async function requestShutdown() {
       }
       clearTimeoutIfNecessary(timeout);
 
-      resolve();
+      resolveFn();
     });
 
     mainWindow.webContents.send('get-ready-for-shutdown');
@@ -1721,7 +1722,7 @@ async function requestShutdown() {
       getLogger().error(
         'requestShutdown: Response never received; forcing shutdown.'
       );
-      resolve();
+      resolveFn();
     }, 2 * 60 * 1000);
   });
 
@@ -1793,6 +1794,7 @@ app.on(
 
 app.setAsDefaultProtocolClient('sgnl');
 app.setAsDefaultProtocolClient('signalcaptcha');
+
 app.on('will-finish-launching', () => {
   // open-url must be set from within will-finish-launching for macOS
   // https://stackoverflow.com/a/43949291

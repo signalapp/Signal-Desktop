@@ -268,7 +268,7 @@ describe('sql/sendLog', () => {
   });
 
   describe('#deleteSentProtoByMessageId', () => {
-    it('deletes all records releated to that messageId', async () => {
+    it('deletes all records related to that messageId', async () => {
       assert.lengthOf(await getAllSentProtos(), 0);
       assert.lengthOf(await _getAllSentProtoMessageIds(), 0);
       assert.lengthOf(await _getAllSentProtoRecipients(), 0);

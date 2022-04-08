@@ -93,7 +93,7 @@ describe('WebSocket-Resource', () => {
 
     it('sends requests and receives responses', async () => {
       // mock socket and request handler
-      let requestId: number | Long | undefined;
+      let requestId: Long | undefined;
       const socket = new FakeSocket();
 
       sinon.stub(socket, 'sendBytes').callsFake((data: Uint8Array) => {

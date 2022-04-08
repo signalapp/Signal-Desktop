@@ -11,7 +11,7 @@ import {
   sealedSenderMultiRecipientEncrypt,
   SenderCertificate,
   UnidentifiedSenderMessageContent,
-} from '@signalapp/signal-client';
+} from '@signalapp/libsignal-client';
 import * as Bytes from '../Bytes';
 import { senderCertificateService } from '../services/senderCertificate';
 import type { SendLogCallbackType } from '../textsecure/OutgoingMessage';
@@ -1003,7 +1003,7 @@ async function encryptForSenderKey({
     SenderCertificateMode.WithoutE164
   );
   if (!senderCertificateObject) {
-    throw new Error('encryptForSenderKey: Unable to fetch sender certifiate!');
+    throw new Error('encryptForSenderKey: Unable to fetch sender certificate!');
   }
 
   const senderCertificate = SenderCertificate.deserialize(

@@ -56,7 +56,7 @@ import type {
   IdentityKeyType,
   ItemKeyType,
   ItemType,
-  LastConversationMessagesType,
+  ConversationMessageStatsType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyIdType,
@@ -207,11 +207,11 @@ const dataInterface: ClientInterface = {
   getAllConversationIds,
   getAllGroupsInvolvingUuid,
 
-  searchConversations,
   searchMessages,
   searchMessagesInConversation,
 
   getMessageCount,
+  getStoryCount,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -241,7 +241,8 @@ const dataInterface: ClientInterface = {
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
   getConversationRangeCenteredOnMessage,
-  getLastConversationMessages,
+  getConversationMessageStats,
+  getLastConversationMessage,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
@@ -294,6 +295,7 @@ const dataInterface: ClientInterface = {
   _deleteAllStoryReads,
   addNewStoryRead,
   getLastStoryReadsForAuthor,
+  countStoryReadsByConversation,
 
   removeAll,
   removeAllConfiguration,
@@ -1028,12 +1030,6 @@ async function getAllGroupsInvolvingUuid(uuid: UUIDStringType) {
   return channels.getAllGroupsInvolvingUuid(uuid);
 }
 
-async function searchConversations(query: string) {
-  const conversations = await channels.searchConversations(query);
-
-  return conversations;
-}
-
 function handleSearchMessageJSON(
   messages: Array<ServerSearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
@@ -1077,6 +1073,10 @@ async function getMessageCount(conversationId?: string) {
   return channels.getMessageCount(conversationId);
 }
 
+async function getStoryCount(conversationId: string) {
+  return channels.getStoryCount(conversationId);
+}
+
 async function saveMessage(
   data: MessageType,
   options: {
@@ -1097,7 +1097,7 @@ async function saveMessage(
 }
 
 async function saveMessages(
-  arrayOfMessages: Array<MessageType>,
+  arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourUuid: UUIDStringType }
 ) {
   await channels.saveMessages(
@@ -1291,15 +1291,15 @@ async function getNewerMessagesByConversation(
 
   return handleMessageJSON(messages);
 }
-async function getLastConversationMessages({
+async function getConversationMessageStats({
   conversationId,
   ourUuid,
 }: {
   conversationId: string;
   ourUuid: UUIDStringType;
-}): Promise<LastConversationMessagesType> {
+}): Promise<ConversationMessageStatsType> {
   const { preview, activity, hasUserInitiatedMessages } =
-    await channels.getLastConversationMessages({
+    await channels.getConversationMessageStats({
       conversationId,
       ourUuid,
     });
@@ -1309,6 +1309,13 @@ async function getLastConversationMessages({
     activity,
     hasUserInitiatedMessages,
   };
+}
+async function getLastConversationMessage({
+  conversationId,
+}: {
+  conversationId: string;
+}) {
+  return channels.getLastConversationMessage({ conversationId });
 }
 async function getMessageMetricsForConversation(
   conversationId: string,
@@ -1624,6 +1631,11 @@ async function getLastStoryReadsForAuthor(options: {
   limit?: number;
 }): Promise<Array<StoryReadType>> {
   return channels.getLastStoryReadsForAuthor(options);
+}
+async function countStoryReadsByConversation(
+  conversationId: string
+): Promise<number> {
+  return channels.countStoryReadsByConversation(conversationId);
 }
 
 // Other

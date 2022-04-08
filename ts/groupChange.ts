@@ -28,24 +28,44 @@ export type RenderOptionsType<T> = {
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
+export type RenderChangeResultType<T> = ReadonlyArray<
+  Readonly<{
+    detail: GroupV2ChangeDetailType;
+    text: T | string;
+
+    // Used to differentiate between the multiple texts produced by
+    // 'admin-approval-bounce'
+    isLastText: boolean;
+  }>
+>;
+
 export function renderChange<T>(
   change: GroupV2ChangeType,
   options: RenderOptionsType<T>
-): Array<T | string> {
+): RenderChangeResultType<T> {
   const { details, from } = change;
 
-  return details.map((detail: GroupV2ChangeDetailType) =>
-    renderChangeDetail<T>(detail, {
+  return details.flatMap((detail: GroupV2ChangeDetailType) => {
+    const texts = renderChangeDetail<T>(detail, {
       ...options,
       from,
-    })
-  );
+    });
+
+    if (!Array.isArray(texts)) {
+      return { detail, isLastText: true, text: texts };
+    }
+
+    return texts.map((text, index) => {
+      const isLastText = index === texts.length - 1;
+      return { detail, isLastText, text };
+    });
+  });
 }
 
 export function renderChangeDetail<T>(
   detail: GroupV2ChangeDetailType,
   options: RenderOptionsType<T>
-): T | string {
+): T | string | ReadonlyArray<T | string> {
   const { from, i18n, ourUuid, renderContact, renderString } = options;
   const fromYou = Boolean(from && ourUuid && from === ourUuid);
 
@@ -767,6 +787,38 @@ export function renderChangeDetail<T>(
       i18n,
       [renderContact(uuid)]
     );
+  }
+  if (detail.type === 'admin-approval-bounce') {
+    const { uuid, times, isApprovalPending } = detail;
+
+    let firstMessage: T | string;
+    if (times === 1) {
+      firstMessage = renderString('GroupV2--admin-approval-bounce--one', i18n, {
+        joinerName: renderContact(uuid),
+      });
+    } else {
+      firstMessage = renderString('GroupV2--admin-approval-bounce', i18n, {
+        joinerName: renderContact(uuid),
+        numberOfRequests: String(times),
+      });
+    }
+
+    if (!isApprovalPending) {
+      return firstMessage;
+    }
+
+    const secondMessage = renderChangeDetail(
+      {
+        type: 'admin-approval-add-one',
+        uuid,
+      },
+      options
+    );
+
+    return [
+      firstMessage,
+      ...(Array.isArray(secondMessage) ? secondMessage : [secondMessage]),
+    ];
   }
   if (detail.type === 'group-link-add') {
     const { privilege } = detail;

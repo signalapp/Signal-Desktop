@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import ProxyAgent from 'proxy-agent';
-import { HsmEnclaveClient, PublicKey } from '@signalapp/signal-client';
+import { HsmEnclaveClient } from '@signalapp/libsignal-client';
 import type { connection as WebSocket } from 'websocket';
 
 import * as Bytes from '../Bytes';
-import { prefixPublicKey } from '../Curve';
 import type { AbortableProcess } from '../util/AbortableProcess';
 import * as durations from '../util/durations';
 import { getBasicAuth } from '../util/getBasicAuth';
@@ -32,7 +31,7 @@ export type CDSSocketManagerOptionsType = Readonly<{
 export type CDSResponseType = CDSSocketDictionaryType;
 
 export class CDSSocketManager {
-  private readonly publicKey: PublicKey;
+  private readonly publicKey: Buffer;
 
   private readonly codeHashes: Array<Buffer>;
 
@@ -41,9 +40,7 @@ export class CDSSocketManager {
   private retryAfter?: number;
 
   constructor(private readonly options: CDSSocketManagerOptionsType) {
-    this.publicKey = PublicKey.deserialize(
-      Buffer.from(prefixPublicKey(Bytes.fromHex(options.publicKey)))
-    );
+    this.publicKey = Buffer.from(Bytes.fromHex(options.publicKey));
     this.codeHashes = options.codeHashes.map(hash =>
       Buffer.from(Bytes.fromHex(hash))
     );

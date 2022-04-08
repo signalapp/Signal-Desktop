@@ -373,7 +373,7 @@ export class ConversationController {
       if (normalizedUuid) {
         newConvo.updateUuid(normalizedUuid);
       }
-      if (highTrust && e164 && normalizedUuid) {
+      if ((highTrust && e164) || normalizedUuid) {
         updateConversation(newConvo.attributes);
       }
 

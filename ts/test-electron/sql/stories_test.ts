@@ -93,15 +93,15 @@ describe('sql/stories', () => {
       });
       assert.lengthOf(stories, 4, 'expect four total stories');
 
-      // They are in DESC order
+      // They are in ASC order
       assert.strictEqual(
         stories[0].id,
-        story5.id,
+        story1.id,
         'stories first should be story5'
       );
       assert.strictEqual(
         stories[3].id,
-        story1.id,
+        story5.id,
         'stories last should be story1'
       );
 
@@ -115,15 +115,15 @@ describe('sql/stories', () => {
         'expect two stories in conversaton'
       );
 
-      // They are in DESC order
+      // They are in ASC order
       assert.strictEqual(
         storiesInConversation[0].id,
-        story4.id,
+        story1.id,
         'storiesInConversation first should be story4'
       );
       assert.strictEqual(
         storiesInConversation[1].id,
-        story1.id,
+        story4.id,
         'storiesInConversation last should be story1'
       );
 
@@ -133,15 +133,15 @@ describe('sql/stories', () => {
       });
       assert.lengthOf(storiesByAuthor, 2, 'expect two stories by author');
 
-      // They are in DESC order
+      // They are in ASC order
       assert.strictEqual(
         storiesByAuthor[0].id,
-        story5.id,
+        story2.id,
         'storiesByAuthor first should be story5'
       );
       assert.strictEqual(
         storiesByAuthor[1].id,
-        story2.id,
+        story5.id,
         'storiesByAuthor last should be story2'
       );
     });
@@ -213,15 +213,15 @@ describe('sql/stories', () => {
       });
       assert.lengthOf(stories, 2, 'expect two stories');
 
-      // They are in DESC order
+      // They are in ASC order
       assert.strictEqual(
         stories[0].id,
-        story3.id,
+        story2.id,
         'stories first should be story3'
       );
       assert.strictEqual(
         stories[1].id,
-        story2.id,
+        story3.id,
         'stories last should be story2'
       );
     });

@@ -114,6 +114,7 @@ import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { RecordingState } from '../state/ducks/audioRecorder';
 import { UUIDKind } from '../types/UUID';
+import type { UUIDStringType } from '../types/UUID';
 import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
 
 type AttachmentOptions = {
@@ -512,6 +513,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
       ): void => {
         this.model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+      },
+      blockGroupLinkRequests: (uuid: UUIDStringType) => {
+        this.model.blockGroupLinkRequests(uuid);
       },
       contactSupport,
       learnMoreAboutDeliveryIssue,

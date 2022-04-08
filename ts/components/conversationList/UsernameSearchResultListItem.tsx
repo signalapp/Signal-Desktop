@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
-import React from 'react';
-import { noop } from 'lodash';
+import React, { useCallback } from 'react';
 
 import { BaseConversationListItem } from './BaseConversationListItem';
 
 import type { LocalizerType } from '../../types/Util';
+import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
 
 type PropsData = {
   username: string;
@@ -16,23 +17,42 @@ type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  onClick: (username: string) => void;
-};
+  showConversation: (conversationId: string) => void;
+} & LookupConversationWithoutUuidActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
 
 export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
   i18n,
   isFetchingUsername,
-  onClick,
   username,
+  showUserNotFoundModal,
+  setIsFetchingUUID,
+  showConversation,
 }) => {
   const usernameText = i18n('at-username', { username });
-  const boundOnClick = isFetchingUsername
-    ? noop
-    : () => {
-        onClick(username);
-      };
+  const boundOnClick = useCallback(async () => {
+    if (isFetchingUsername) {
+      return;
+    }
+    const conversationId = await lookupConversationWithoutUuid({
+      showUserNotFoundModal,
+      setIsFetchingUUID,
+
+      type: 'username',
+      username,
+    });
+
+    if (conversationId !== undefined) {
+      showConversation(conversationId);
+    }
+  }, [
+    username,
+    showUserNotFoundModal,
+    setIsFetchingUUID,
+    showConversation,
+    isFetchingUsername,
+  ]);
 
   return (
     <BaseConversationListItem

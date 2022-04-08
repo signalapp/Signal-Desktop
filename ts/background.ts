@@ -47,7 +47,6 @@ import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
 import { getContact } from './messages/helpers';
-import { getMessageById } from './messages/getMessageById';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
@@ -69,6 +68,7 @@ import type {
   FetchLatestEvent,
   GroupEvent,
   KeysEvent,
+  PNIIdentityEvent,
   MessageEvent,
   MessageEventData,
   MessageRequestResponseEvent,
@@ -139,6 +139,7 @@ import { updateOurUsername } from './util/updateOurUsername';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -194,6 +195,8 @@ export async function startApp(): Promise<void> {
   // Initialize WebAPI as early as possible
   let server: WebAPIType | undefined;
   let messageReceiver: MessageReceiver | undefined;
+  let challengeHandler: ChallengeHandler | undefined;
+
   window.storage.onready(() => {
     server = window.WebAPI.connect(
       window.textsecure.storage.user.getWebAPICredentials()
@@ -203,6 +206,46 @@ export async function startApp(): Promise<void> {
     initializeAllJobQueues({
       server,
     });
+
+    challengeHandler = new ChallengeHandler({
+      storage: window.storage,
+
+      startQueue(conversationId: string) {
+        conversationJobQueue.resolveVerificationWaiter(conversationId);
+      },
+
+      requestChallenge(request) {
+        window.sendChallengeRequest(request);
+      },
+
+      async sendChallengeResponse(data) {
+        await window.textsecure.messaging.sendChallengeResponse(data);
+      },
+
+      onChallengeFailed() {
+        // TODO: DESKTOP-1530
+        // Display humanized `retryAfter`
+        showToast(ToastCaptchaFailed);
+      },
+
+      onChallengeSolved() {
+        showToast(ToastCaptchaSolved);
+      },
+
+      setChallengeStatus(challengeStatus) {
+        window.reduxActions.network.setChallengeStatus(challengeStatus);
+      },
+    });
+
+    window.Whisper.events.on('challengeResponse', response => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      challengeHandler.onResponse(response);
+    });
+
+    window.Signal.challengeHandler = challengeHandler;
 
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
@@ -327,6 +370,10 @@ export async function startApp(): Promise<void> {
       queuedEventListener(onFetchLatestSync)
     );
     messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
+    messageReceiver.addEventListener(
+      'pniIdentity',
+      queuedEventListener(onPNIIdentitySync)
+    );
   });
 
   ourProfileKeyService.initialize(window.storage);
@@ -692,13 +739,6 @@ export async function startApp(): Promise<void> {
         await window.Signal.Services.eraseAllStorageServiceState();
       }
 
-      if (
-        lastVersion === 'v1.40.0-beta.1' &&
-        window.isAfterVersion(lastVersion, 'v1.40.0-beta.1')
-      ) {
-        await window.Signal.Data.clearAllErrorStickerPackAttempts();
-      }
-
       if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
         const legacySenderCertificateStorageKey = 'senderCertificateWithUuid';
         await removeStorageKeyJobQueue.add({
@@ -713,6 +753,15 @@ export async function startApp(): Promise<void> {
 
       if (window.isBeforeVersion(lastVersion, 'v5.19.0')) {
         await window.storage.remove(GROUP_CREDENTIALS_KEY);
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v5.37.0-alpha')) {
+        const legacyChallengeKey = 'challenge:retry-message-ids';
+        await removeStorageKeyJobQueue.add({
+          key: legacyChallengeKey,
+        });
+
+        await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
       // This one should always be last - it could restart the app
@@ -1572,49 +1621,11 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  let challengeHandler: ChallengeHandler | undefined;
-
   async function start() {
-    challengeHandler = new ChallengeHandler({
-      storage: window.storage,
-
-      getMessageById,
-
-      requestChallenge(request) {
-        window.sendChallengeRequest(request);
-      },
-
-      async sendChallengeResponse(data) {
-        await window.textsecure.messaging.sendChallengeResponse(data);
-      },
-
-      onChallengeFailed() {
-        // TODO: DESKTOP-1530
-        // Display humanized `retryAfter`
-        showToast(ToastCaptchaFailed);
-      },
-
-      onChallengeSolved() {
-        showToast(ToastCaptchaSolved);
-      },
-
-      setChallengeStatus(challengeStatus) {
-        window.reduxActions.network.setChallengeStatus(challengeStatus);
-      },
-    });
-
-    window.Whisper.events.on('challengeResponse', response => {
-      if (!challengeHandler) {
-        throw new Error('Expected challenge handler to be there');
-      }
-
-      challengeHandler.onResponse(response);
-    });
-
     // Storage is ready because `start()` is called from `storage.onready()`
-    await challengeHandler.load();
 
-    window.Signal.challengeHandler = challengeHandler;
+    strictAssert(challengeHandler, 'start: challengeHandler');
+    await challengeHandler.load();
 
     if (!window.storage.user.getNumber()) {
       const ourConversation =
@@ -2193,23 +2204,6 @@ export async function startApp(): Promise<void> {
 
       window.storage.onready(async () => {
         idleDetector.start();
-
-        // Kick off a profile refresh if necessary, but don't wait for it, as failure is
-        //   tolerable.
-        const ourConversationId =
-          window.ConversationController.getOurConversationId();
-        if (ourConversationId) {
-          routineProfileRefresh({
-            allConversations: window.ConversationController.getAll(),
-            ourConversationId,
-            storage: window.storage,
-          });
-        } else {
-          assert(
-            false,
-            'Failed to fetch our conversation ID. Skipping routine profile refresh'
-          );
-        }
       });
 
       if (!challengeHandler) {
@@ -2270,6 +2264,8 @@ export async function startApp(): Promise<void> {
   window.waitForEmptyEventQueue = waitForEmptyEventQueue;
 
   async function onEmpty() {
+    const { storage, messaging } = window.textsecure;
+
     await Promise.all([
       window.waitForAllBatchers(),
       window.flushAllWaitBatchers(),
@@ -2343,13 +2339,41 @@ export async function startApp(): Promise<void> {
       }
     });
     await window.Signal.Data.saveMessages(messagesToSave, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourUuid: storage.user.getCheckedUuid().toString(),
     });
 
     // Process crash reports if any
     window.reduxActions.crashReports.setCrashReportCount(
       await window.crashReports.getCount()
     );
+
+    // Kick off a profile refresh if necessary, but don't wait for it, as failure is
+    //   tolerable.
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+    if (ourConversationId) {
+      routineProfileRefresh({
+        allConversations: window.ConversationController.getAll(),
+        ourConversationId,
+        storage,
+      });
+    } else {
+      assert(
+        false,
+        'Failed to fetch our conversation ID. Skipping routine profile refresh'
+      );
+    }
+
+    // Make sure we have the PNI identity
+
+    const pni = storage.user.getCheckedUuid(UUIDKind.PNI);
+    const pniIdentity = await storage.protocol.getIdentityKeyPair(pni);
+    if (!pniIdentity) {
+      log.info('Requesting PNI identity sync');
+      await singleProtoJobQueue.add(
+        messaging.getRequestPniIdentitySyncMessage()
+      );
+    }
   }
 
   let initialStartupCount = 0;
@@ -2594,13 +2618,10 @@ export async function startApp(): Promise<void> {
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
-        const ourId = window.ConversationController.getOurConversationId();
-        const receivedAt = Date.now();
-
         await conversation.updateExpirationTimer(
           expireTimer,
-          ourId,
-          receivedAt,
+          window.ConversationController.getOurConversationId(),
+          undefined,
           {
             fromSync: true,
           }
@@ -2693,11 +2714,10 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const receivedAt = Date.now();
     await conversation.updateExpirationTimer(
       expireTimer,
       window.ConversationController.getOurConversationId(),
-      receivedAt,
+      undefined,
       {
         fromSync: true,
       }
@@ -3478,6 +3498,15 @@ export async function startApp(): Promise<void> {
 
       await window.Signal.Services.runStorageServiceSyncJob();
     }
+  }
+
+  async function onPNIIdentitySync(ev: PNIIdentityEvent) {
+    ev.confirm();
+
+    log.info('onPNIIdentitySync: updating PNI keys');
+    const manager = window.getAccountManager();
+    const { privateKey: privKey, publicKey: pubKey } = ev.data;
+    await manager.updatePNIIdentity({ privKey, pubKey });
   }
 
   async function onMessageRequestResponse(ev: MessageRequestResponseEvent) {

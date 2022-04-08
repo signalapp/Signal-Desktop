@@ -330,7 +330,6 @@ describe('both/state/ducks/conversations', () => {
 
     function getDefaultConversationMessage(): ConversationMessageType {
       return {
-        isLoadingMessages: false,
         messageIds: [],
         metrics: {
           totalUnread: 0,

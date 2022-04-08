@@ -18,6 +18,7 @@ import type {
 } from '../../types/Colors';
 import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
+import { getClassNamesFor } from '../../util/getClassNamesFor';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 export type Props = {
@@ -30,6 +31,7 @@ export type Props = {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming?: boolean;
+  moduleClassName?: string;
   onClick?: () => void;
   onClose?: () => void;
   text: string;
@@ -113,11 +115,14 @@ function getTypeLabel({
 }
 
 export class Quote extends React.Component<Props, State> {
+  private getClassName: (modifier?: string) => string;
+
   constructor(props: Props) {
     super(props);
     this.state = {
       imageBroken: false,
     };
+    this.getClassName = getClassNamesFor('module-quote', props.moduleClassName);
   }
 
   override componentDidMount(): void {
@@ -164,12 +169,14 @@ export class Quote extends React.Component<Props, State> {
 
   public renderImage(url: string, icon?: string): JSX.Element {
     const iconElement = icon ? (
-      <div className="module-quote__icon-container__inner">
-        <div className="module-quote__icon-container__circle-background">
+      <div className={this.getClassName('__icon-container__inner')}>
+        <div
+          className={this.getClassName('__icon-container__circle-background')}
+        >
           <div
             className={classNames(
-              'module-quote__icon-container__icon',
-              `module-quote__icon-container__icon--${icon}`
+              this.getClassName('__icon-container__icon'),
+              this.getClassName(`__icon-container__icon--${icon}`)
             )}
           />
         </div>
@@ -177,7 +184,11 @@ export class Quote extends React.Component<Props, State> {
     ) : null;
 
     return (
-      <ThumbnailImage src={url} onError={this.handleImageError}>
+      <ThumbnailImage
+        className={this.getClassName('__icon-container')}
+        src={url}
+        onError={this.handleImageError}
+      >
         {iconElement}
       </ThumbnailImage>
     );
@@ -185,13 +196,15 @@ export class Quote extends React.Component<Props, State> {
 
   public renderIcon(icon: string): JSX.Element {
     return (
-      <div className="module-quote__icon-container">
-        <div className="module-quote__icon-container__inner">
-          <div className="module-quote__icon-container__circle-background">
+      <div className={this.getClassName('__icon-container')}>
+        <div className={this.getClassName('__icon-container__inner')}>
+          <div
+            className={this.getClassName('__icon-container__circle-background')}
+          >
             <div
               className={classNames(
-                'module-quote__icon-container__icon',
-                `module-quote__icon-container__icon--${icon}`
+                this.getClassName('__icon-container__icon'),
+                this.getClassName(`__icon-container__icon--${icon}`)
               )}
             />
           </div>
@@ -219,12 +232,14 @@ export class Quote extends React.Component<Props, State> {
     }
 
     return (
-      <div className="module-quote__generic-file">
-        <div className="module-quote__generic-file__icon" />
+      <div className={this.getClassName('__generic-file')}>
+        <div className={this.getClassName('__generic-file__icon')} />
         <div
           className={classNames(
-            'module-quote__generic-file__text',
-            isIncoming ? 'module-quote__generic-file__text--incoming' : null
+            this.getClassName('__generic-file__text'),
+            isIncoming
+              ? this.getClassName('__generic-file__text--incoming')
+              : null
           )}
         >
           {fileName}
@@ -279,8 +294,8 @@ export class Quote extends React.Component<Props, State> {
         <div
           dir="auto"
           className={classNames(
-            'module-quote__primary__text',
-            isIncoming ? 'module-quote__primary__text--incoming' : null
+            this.getClassName('__primary__text'),
+            isIncoming ? this.getClassName('__primary__text--incoming') : null
           )}
         >
           <MessageBody
@@ -311,8 +326,10 @@ export class Quote extends React.Component<Props, State> {
       return (
         <div
           className={classNames(
-            'module-quote__primary__type-label',
-            isIncoming ? 'module-quote__primary__type-label--incoming' : null
+            this.getClassName('__primary__type-label'),
+            isIncoming
+              ? this.getClassName('__primary__type-label--incoming')
+              : null
           )}
         >
           {typeLabel}
@@ -347,12 +364,12 @@ export class Quote extends React.Component<Props, State> {
 
     // We need the container to give us the flexibility to implement the iOS design.
     return (
-      <div className="module-quote__close-container">
+      <div className={this.getClassName('__close-container')}>
         <div
           tabIndex={0}
           // We can't be a button because the overall quote is a button; can't nest them
           role="button"
-          className="module-quote__close-button"
+          className={this.getClassName('__close-button')}
           aria-label={i18n('close')}
           onKeyDown={keyDownHandler}
           onClick={clickHandler}
@@ -367,8 +384,8 @@ export class Quote extends React.Component<Props, State> {
     return (
       <div
         className={classNames(
-          'module-quote__primary__author',
-          isIncoming ? 'module-quote__primary__author--incoming' : null
+          this.getClassName('__primary__author'),
+          isIncoming ? this.getClassName('__primary__author--incoming') : null
         )}
       >
         {isFromMe ? i18n('you') : <ContactName title={authorTitle} />}
@@ -392,26 +409,26 @@ export class Quote extends React.Component<Props, State> {
     return (
       <div
         className={classNames(
-          'module-quote__reference-warning',
+          this.getClassName('__reference-warning'),
           isIncoming
-            ? `module-quote--incoming-${conversationColor}`
-            : `module-quote--outgoing-${conversationColor}`
+            ? this.getClassName(`--incoming-${conversationColor}`)
+            : this.getClassName(`--outgoing-${conversationColor}`)
         )}
         style={{ ...getCustomColorStyle(customColor, true) }}
       >
         <div
           className={classNames(
-            'module-quote__reference-warning__icon',
+            this.getClassName('__reference-warning__icon'),
             isIncoming
-              ? 'module-quote__reference-warning__icon--incoming'
+              ? this.getClassName('__reference-warning__icon--incoming')
               : null
           )}
         />
         <div
           className={classNames(
-            'module-quote__reference-warning__text',
+            this.getClassName('__reference-warning__text'),
             isIncoming
-              ? 'module-quote__reference-warning__text--incoming'
+              ? this.getClassName('__reference-warning__text--incoming')
               : null
           )}
         >
@@ -437,25 +454,28 @@ export class Quote extends React.Component<Props, State> {
     }
 
     return (
-      <div className="module-quote-container">
+      <div className={this.getClassName('__container')}>
         <button
           type="button"
           onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
           className={classNames(
-            'module-quote',
-            isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
+            this.getClassName(''),
             isIncoming
-              ? `module-quote--incoming-${conversationColor}`
-              : `module-quote--outgoing-${conversationColor}`,
-            !onClick && 'module-quote--no-click',
-            referencedMessageNotFound && 'module-quote--with-reference-warning',
-            curveTopLeft && 'module-quote--curve-top-left',
-            curveTopRight && 'module-quote--curve-top-right'
+              ? this.getClassName('--incoming')
+              : this.getClassName('--outgoing'),
+            isIncoming
+              ? this.getClassName(`--incoming-${conversationColor}`)
+              : this.getClassName(`--outgoing-${conversationColor}`),
+            !onClick && this.getClassName('--no-click'),
+            referencedMessageNotFound &&
+              this.getClassName('--with-reference-warning'),
+            curveTopLeft && this.getClassName('--curve-top-left'),
+            curveTopRight && this.getClassName('--curve-top-right')
           )}
           style={{ ...getCustomColorStyle(customColor, true) }}
         >
-          <div className="module-quote__primary">
+          <div className={this.getClassName('__primary')}>
             {this.renderAuthor()}
             {this.renderGenericFile()}
             {this.renderText()}
@@ -470,10 +490,12 @@ export class Quote extends React.Component<Props, State> {
 }
 
 function ThumbnailImage({
+  className,
   src,
   onError,
   children,
 }: Readonly<{
+  className: string;
   src: string;
   onError: () => void;
   children: ReactNode;
@@ -507,7 +529,7 @@ function ThumbnailImage({
 
   return (
     <div
-      className="module-quote__icon-container"
+      className={className}
       style={
         loadedSrc ? { backgroundImage: `url('${encodeURI(loadedSrc)}')` } : {}
       }

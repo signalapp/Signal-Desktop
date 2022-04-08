@@ -12,8 +12,11 @@ import { CapabilityError } from '../../../types/errors';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetails';
 import { ConversationDetails } from './ConversationDetails';
+import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal';
+import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helpers/fakeLookupConversationWithoutUuid';
 import { ThemeType } from '../../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
@@ -33,13 +36,14 @@ const conversation: ConversationType = getDefaultConversation({
   conversationColor: 'ultramarine' as const,
 });
 
+const allCandidateContacts = times(10, () => getDefaultConversation());
+
 const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   addMembers: async () => {
     action('addMembers');
   },
   areWeASubscriber: false,
   canEditGroupInfo: false,
-  candidateContactsToAdd: times(10, () => getDefaultConversation()),
   conversation: expireTimer
     ? {
         ...conversation,
@@ -97,6 +101,26 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   ),
   searchInConversation: action('searchInConversation'),
   theme: ThemeType.light,
+  renderChooseGroupMembersModal: props => {
+    return (
+      <ChooseGroupMembersModal
+        {...props}
+        candidateContacts={allCandidateContacts}
+        selectedContacts={[]}
+        regionCode="US"
+        getPreferredBadge={() => undefined}
+        theme={ThemeType.light}
+        i18n={i18n}
+        lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
+        showUserNotFoundModal={action('showUserNotFoundModal')}
+      />
+    );
+  },
+  renderConfirmAdditionsModal: props => {
+    return (
+      <ConfirmAdditionsModal {...props} selectedContacts={[]} i18n={i18n} />
+    );
+  },
 });
 
 story.add('Basic', () => {

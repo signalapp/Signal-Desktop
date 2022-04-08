@@ -3,6 +3,7 @@
 
 import { join } from 'path';
 import { Worker } from 'worker_threads';
+import { app } from 'electron';
 
 export type WrappedWorkerRequest = {
   readonly uuid: string;
@@ -15,25 +16,17 @@ export type WrappedWorkerResponse = {
   readonly response?: File;
 };
 
-const ASAR_PATTERN = /app\.asar$/;
-
 export function getHeicConverter(): (
   uuid: string,
   data: Uint8Array
 ) => Promise<WrappedWorkerResponse> {
-  let appDir = join(__dirname, '..', '..');
-  let isBundled = false;
-  if (ASAR_PATTERN.test(appDir)) {
-    appDir = appDir.replace(ASAR_PATTERN, 'app.asar.unpacked');
-    isBundled = true;
-  }
-  const scriptDir = join(appDir, 'ts', 'workers');
-  const worker = new Worker(
-    join(
-      scriptDir,
-      isBundled ? 'heicConverter.bundle.js' : 'heicConverterWorker.js'
-    )
+  const scriptDir = join(
+    app.getAppPath(),
+    'ts',
+    'workers',
+    'heicConverterWorker.js'
   );
+  const worker = new Worker(scriptDir);
 
   const ResponseMap = new Map<
     string,

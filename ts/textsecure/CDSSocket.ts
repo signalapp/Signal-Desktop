@@ -4,7 +4,7 @@
 import { EventEmitter } from 'events';
 import { noop } from 'lodash';
 import { Readable } from 'stream';
-import type { HsmEnclaveClient } from '@signalapp/signal-client';
+import type { HsmEnclaveClient } from '@signalapp/libsignal-client';
 import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 

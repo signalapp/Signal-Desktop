@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
+import * as log from '../../logging/log';
 import { missingCaseError } from '../../util/missingCaseError';
 import { About } from './About';
 import { Avatar } from '../Avatar';
@@ -14,13 +16,14 @@ import { BadgeDialog } from '../BadgeDialog';
 import type { BadgeType } from '../../badges/types';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { ConfirmationDialog } from '../ConfirmationDialog';
+import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
   areWeAdmin: boolean;
   badges: ReadonlyArray<BadgeType>;
   contact?: ConversationType;
-  conversationId?: string;
+  conversation?: ConversationType;
   readonly i18n: LocalizerType;
   isAdmin: boolean;
   isMember: boolean;
@@ -50,12 +53,18 @@ enum ContactModalView {
   ShowingBadges,
 }
 
+enum SubModalState {
+  None = 'None',
+  ToggleAdmin = 'ToggleAdmin',
+  MemberRemove = 'MemberRemove',
+}
+
 export const ContactModal = ({
   areWeASubscriber,
   areWeAdmin,
   badges,
   contact,
-  conversationId,
+  conversation,
   hideContactModal,
   i18n,
   isAdmin,
@@ -72,14 +81,78 @@ export const ContactModal = ({
   }
 
   const [view, setView] = useState(ContactModalView.Default);
-  const [confirmToggleAdmin, setConfirmToggleAdmin] = useState(false);
+  const [subModalState, setSubModalState] = useState<SubModalState>(
+    SubModalState.None
+  );
 
   useEffect(() => {
-    if (conversationId) {
+    if (contact?.id) {
       // Kick off the expensive hydration of the current sharedGroupNames
-      updateConversationModelSharedGroups(conversationId);
+      updateConversationModelSharedGroups(contact.id);
     }
-  }, [conversationId, updateConversationModelSharedGroups]);
+  }, [contact?.id, updateConversationModelSharedGroups]);
+
+  let modalNode: ReactNode;
+  switch (subModalState) {
+    case SubModalState.None:
+      modalNode = undefined;
+      break;
+    case SubModalState.ToggleAdmin:
+      if (!conversation?.id) {
+        log.warn('ContactModal: ToggleAdmin state - missing conversationId');
+        modalNode = undefined;
+        break;
+      }
+
+      modalNode = (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: () => toggleAdmin(conversation.id, contact.id),
+              text: isAdmin
+                ? i18n('ContactModal--rm-admin')
+                : i18n('ContactModal--make-admin'),
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => setSubModalState(SubModalState.None)}
+        >
+          {isAdmin
+            ? i18n('ContactModal--rm-admin-info', [contact.title])
+            : i18n('ContactModal--make-admin-info', [contact.title])}
+        </ConfirmationDialog>
+      );
+      break;
+    case SubModalState.MemberRemove:
+      if (!contact || !conversation?.id) {
+        log.warn(
+          'ContactModal: MemberRemove state - missing contact or conversationId'
+        );
+        modalNode = undefined;
+        break;
+      }
+
+      modalNode = (
+        <RemoveGroupMemberConfirmationDialog
+          conversation={contact}
+          group={conversation}
+          i18n={i18n}
+          onClose={() => {
+            setSubModalState(SubModalState.None);
+          }}
+          onRemove={() => {
+            removeMemberFromGroup(conversation?.id, contact.id);
+          }}
+        />
+      );
+      break;
+    default: {
+      const state: never = subModalState;
+      log.warn(`ContactModal: unexpected ${state}!`);
+      modalNode = undefined;
+      break;
+    }
+  }
 
   switch (view) {
     case ContactModalView.Default: {
@@ -155,12 +228,12 @@ export const ContactModal = ({
                   <span>{i18n('showSafetyNumber')}</span>
                 </button>
               )}
-              {!contact.isMe && areWeAdmin && isMember && conversationId && (
+              {!contact.isMe && areWeAdmin && isMember && conversation?.id && (
                 <>
                   <button
                     type="button"
                     className="ContactModal__button ContactModal__make-admin"
-                    onClick={() => setConfirmToggleAdmin(true)}
+                    onClick={() => setSubModalState(SubModalState.ToggleAdmin)}
                   >
                     <div className="ContactModal__bubble-icon">
                       <div className="ContactModal__make-admin__bubble-icon" />
@@ -174,9 +247,7 @@ export const ContactModal = ({
                   <button
                     type="button"
                     className="ContactModal__button ContactModal__remove-from-group"
-                    onClick={() =>
-                      removeMemberFromGroup(conversationId, contact.id)
-                    }
+                    onClick={() => setSubModalState(SubModalState.MemberRemove)}
                   >
                     <div className="ContactModal__bubble-icon">
                       <div className="ContactModal__remove-from-group__bubble-icon" />
@@ -186,24 +257,7 @@ export const ContactModal = ({
                 </>
               )}
             </div>
-            {confirmToggleAdmin && conversationId && (
-              <ConfirmationDialog
-                actions={[
-                  {
-                    action: () => toggleAdmin(conversationId, contact.id),
-                    text: isAdmin
-                      ? i18n('ContactModal--rm-admin')
-                      : i18n('ContactModal--make-admin'),
-                  },
-                ]}
-                i18n={i18n}
-                onClose={() => setConfirmToggleAdmin(false)}
-              >
-                {isAdmin
-                  ? i18n('ContactModal--rm-admin-info', [contact.title])
-                  : i18n('ContactModal--make-admin-info', [contact.title])}
-              </ConfirmationDialog>
-            )}
+            {modalNode}
           </div>
         </Modal>
       );

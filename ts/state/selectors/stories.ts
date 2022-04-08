@@ -24,13 +24,22 @@ export const shouldShowStoriesView = createSelector(
 export const getStories = createSelector(
   getConversationSelector,
   getStoriesState,
+  shouldShowStoriesView,
   (
     conversationSelector,
-    { stories }: Readonly<StoriesStateType>
+    { stories }: Readonly<StoriesStateType>,
+    isShowingStoriesView
   ): {
     hiddenStories: Array<ConversationStoryType>;
     stories: Array<ConversationStoryType>;
   } => {
+    if (!isShowingStoriesView) {
+      return {
+        hiddenStories: [],
+        stories: [],
+      };
+    }
+
     const storiesById = new Map<string, ConversationStoryType>();
     const hiddenStoriesById = new Map<string, ConversationStoryType>();
 
@@ -90,9 +99,10 @@ export const getStories = createSelector(
       });
     });
 
+    // Reversing so that the story list is in DESC order
     return {
-      hiddenStories: Array.from(hiddenStoriesById.values()),
-      stories: Array.from(storiesById.values()),
+      hiddenStories: Array.from(hiddenStoriesById.values()).reverse(),
+      stories: Array.from(storiesById.values()).reverse(),
     };
   }
 );

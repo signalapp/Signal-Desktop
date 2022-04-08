@@ -16,7 +16,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import type { StorageInterface } from '../types/Storage.d';
 import type { LocalizerType } from '../types/Util';
 
-type NotificationDataType = {
+type NotificationDataType = Readonly<{
   conversationId: string;
   messageId: string;
   senderTitle: string;
@@ -28,7 +28,8 @@ type NotificationDataType = {
     targetAuthorUuid: string;
     targetTimestamp: number;
   };
-};
+  wasShown?: boolean;
+}>;
 
 // The keys and values don't match here. This is because the values correspond to old
 //   setting names. In the future, we may wish to migrate these to match.
@@ -111,7 +112,7 @@ class NotificationService extends EventEmitter {
    * A higher-level wrapper around `window.Notification`. You may prefer to use `notify`,
    * which doesn't check permissions, do any filtering, etc.
    */
-  public add(notificationData: NotificationDataType): void {
+  public add(notificationData: Omit<NotificationDataType, 'wasShown'>): void {
     log.info(
       'NotificationService: adding a notification and requesting an update'
     );
@@ -272,12 +273,20 @@ class NotificationService extends EventEmitter {
       message,
       isExpiringMessage,
       reaction,
+      wasShown,
     } = notificationData;
+
+    if (wasShown) {
+      log.info(
+        'NotificationService: not showing a notification because it was already shown'
+      );
+      return;
+    }
 
     switch (userSetting) {
       case NotificationSetting.Off:
         log.info(
-          'NotificationService not showing a notification because user has disabled it'
+          'NotificationService: not showing a notification because user has disabled it'
         );
         return;
       case NotificationSetting.NameOnly:
@@ -320,6 +329,11 @@ class NotificationService extends EventEmitter {
 
     log.info('NotificationService: requesting a notification to be shown');
 
+    this.notificationData = {
+      ...notificationData,
+      wasShown: true,
+    };
+
     this.notify({
       title: notificationTitle,
       icon: notificationIconUrl,
@@ -355,7 +369,7 @@ class NotificationService extends EventEmitter {
   }
 
   public enable(): void {
-    log.info('NotificationService enabling');
+    log.info('NotificationService: enabling');
     const needUpdate = !this.isEnabled;
     this.isEnabled = true;
     if (needUpdate) {
@@ -364,7 +378,7 @@ class NotificationService extends EventEmitter {
   }
 
   public disable(): void {
-    log.info('NotificationService disabling');
+    log.info('NotificationService: disabling');
     this.isEnabled = false;
   }
 }

@@ -12,12 +12,17 @@ import type { StateType as RootStateType } from '../reducer';
 import type { StoryViewType } from '../../components/StoryListItem';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import * as log from '../../logging/log';
+import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
+import { UUID } from '../../types/UUID';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
 import { markViewed } from '../../services/MessageUpdater';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
+import { replaceIndex } from '../../util/replaceIndex';
 import { showToast } from '../../util/showToast';
+import { isDownloaded, isDownloading } from '../../types/Attachment';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
@@ -40,13 +45,14 @@ export type StoriesStateType = {
 
 // Actions
 
-const ADD_STORY = 'stories/ADD_STORY';
+const MARK_STORY_READ = 'stories/MARK_STORY_READ';
 const REACT_TO_STORY = 'stories/REACT_TO_STORY';
+const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
 
-type AddStoryActionType = {
-  type: typeof ADD_STORY;
-  payload: StoryDataType;
+type MarkStoryReadActionType = {
+  type: typeof MARK_STORY_READ;
+  payload: string;
 };
 
 type ReactToStoryActionType = {
@@ -57,38 +63,38 @@ type ReactToStoryActionType = {
   };
 };
 
+type StoryChangedActionType = {
+  type: typeof STORY_CHANGED;
+  payload: StoryDataType;
+};
+
 type ToggleViewActionType = {
   type: typeof TOGGLE_VIEW;
 };
 
 export type StoriesActionType =
-  | AddStoryActionType
+  | MarkStoryReadActionType
   | MessageDeletedActionType
   | ReactToStoryActionType
+  | StoryChangedActionType
   | ToggleViewActionType;
 
 // Action Creators
 
 export const actions = {
-  addStory,
   markStoryRead,
+  queueStoryDownload,
   reactToStory,
   replyToStory,
+  storyChanged,
   toggleStoriesView,
 };
 
 export const useStoriesActions = (): typeof actions => useBoundActions(actions);
 
-function addStory(story: StoryDataType): AddStoryActionType {
-  return {
-    type: ADD_STORY,
-    payload: story,
-  };
-}
-
 function markStoryRead(
   messageId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): ThunkAction<void, RootStateType, unknown, MarkStoryReadActionType> {
   return async (dispatch, getState) => {
     const { stories } = getState().stories;
 
@@ -109,7 +115,9 @@ function markStoryRead(
       return;
     }
 
-    markViewed(message.attributes, Date.now());
+    const storyReadDate = Date.now();
+
+    markViewed(message.attributes, storyReadDate);
 
     const viewedReceipt = {
       messageId,
@@ -124,6 +132,55 @@ function markStoryRead(
     }
 
     viewedReceiptsJobQueue.add({ viewedReceipt });
+
+    await dataInterface.addNewStoryRead({
+      authorId: message.attributes.sourceUuid,
+      conversationId: message.attributes.conversationId,
+      storyId: new UUID(messageId).toString(),
+      storyReadDate,
+    });
+
+    dispatch({
+      type: MARK_STORY_READ,
+      payload: messageId,
+    });
+  };
+}
+
+function queueStoryDownload(
+  storyId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const story = await getMessageById(storyId);
+
+    if (!story) {
+      return;
+    }
+
+    const storyAttributes: MessageAttributesType = story.attributes;
+    const { attachments } = storyAttributes;
+    const attachment = attachments && attachments[0];
+
+    if (!attachment) {
+      log.warn('queueStoryDownload: No attachment found for story', {
+        storyId,
+      });
+      return;
+    }
+
+    if (isDownloaded(attachment)) {
+      return;
+    }
+
+    if (isDownloading(attachment)) {
+      return;
+    }
+
+    // We want to ensure that we re-hydrate the story reply context with the
+    // completed attachment download.
+    story.set({ storyReplyContext: undefined });
+
+    await queueAttachmentDownloads(story.attributes);
 
     dispatch({
       type: 'NOOP',
@@ -160,7 +217,7 @@ function reactToStory(
 
 function replyToStory(
   conversationId: string,
-  message: string,
+  messageBody: string,
   mentions: Array<BodyRangeType>,
   timestamp: number,
   story: StoryViewType
@@ -169,7 +226,7 @@ function replyToStory(
 
   if (conversation) {
     conversation.enqueueMessageForSend(
-      message,
+      messageBody,
       [],
       undefined,
       undefined,
@@ -185,6 +242,13 @@ function replyToStory(
   return {
     type: 'NOOP',
     payload: null,
+  };
+}
+
+function storyChanged(story: StoryDataType): StoryChangedActionType {
+  return {
+    type: STORY_CHANGED,
+    payload: story,
   };
 }
 
@@ -226,7 +290,7 @@ export function reducer(
     };
   }
 
-  if (action.type === ADD_STORY) {
+  if (action.type === STORY_CHANGED) {
     const newStory = pick(action.payload, [
       'attachment',
       'conversationId',
@@ -238,18 +302,35 @@ export function reducer(
       'timestamp',
     ]);
 
-    // TODO DEKTOP-3179
-    // ADD_STORY fires whenever the message model changes so we check if this
-    // story already exists in state -- if it does then we don't need to re-add.
-    const hasStory = state.stories.find(
+    // Stories don't really need to change except for when we don't have the
+    // attachment downloaded and we queue a download. Then the story's message
+    // will have the new attachment information. This is an optimization so
+    // we don't needlessly re-render.
+    const prevStory = state.stories.find(
       existingStory => existingStory.messageId === newStory.messageId
     );
-    if (hasStory) {
-      return state;
+    if (prevStory) {
+      const shouldReplace =
+        (!isDownloaded(prevStory.attachment) &&
+          isDownloaded(newStory.attachment)) ||
+        isDownloading(newStory.attachment);
+
+      if (!shouldReplace) {
+        return state;
+      }
+
+      const storyIndex = state.stories.findIndex(
+        existingStory => existingStory.messageId === newStory.messageId
+      );
+
+      return {
+        ...state,
+        stories: replaceIndex(state.stories, storyIndex, newStory),
+      };
     }
 
-    const stories = [newStory, ...state.stories].sort((a, b) =>
-      a.timestamp > b.timestamp ? -1 : 1
+    const stories = [...state.stories, newStory].sort((a, b) =>
+      a.timestamp > b.timestamp ? 1 : -1
     );
 
     return {
@@ -266,6 +347,22 @@ export function reducer(
           return {
             ...story,
             selectedReaction: action.payload.selectedReaction,
+          };
+        }
+
+        return story;
+      }),
+    };
+  }
+
+  if (action.type === MARK_STORY_READ) {
+    return {
+      ...state,
+      stories: state.stories.map(story => {
+        if (story.messageId === action.payload) {
+          return {
+            ...story,
+            readStatus: ReadStatus.Viewed,
           };
         }
 
