@@ -83,7 +83,7 @@ export const StoriesPane = ({
   }, [searchTerm, stories]);
 
   return (
-    <FocusTrap>
+    <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
       <div>
         <div className="Stories__pane__header">
           <button

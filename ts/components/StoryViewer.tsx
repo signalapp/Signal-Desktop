@@ -198,7 +198,7 @@ export const StoryViewer = ({
   }, [navigateStories]);
 
   return (
-    <FocusTrap>
+    <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
       <div className="StoryViewer">
         <div className="StoryViewer__overlay" />
         <div className="StoryViewer__content">
