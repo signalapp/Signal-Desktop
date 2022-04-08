@@ -105,6 +105,10 @@ function markStoryRead(
       return;
     }
 
+    if (!isDownloaded(matchingStory.attachment)) {
+      return;
+    }
+
     if (matchingStory.readStatus !== ReadStatus.Unread) {
       return;
     }

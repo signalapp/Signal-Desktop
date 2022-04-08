@@ -21,6 +21,32 @@ export const shouldShowStoriesView = createSelector(
   ({ isShowingStoriesView }): boolean => isShowingStoriesView
 );
 
+function getNewestStory(x: ConversationStoryType): StoryViewType {
+  return x.stories[x.stories.length - 1];
+}
+
+function sortByRecencyAndUnread(
+  a: ConversationStoryType,
+  b: ConversationStoryType
+): number {
+  const storyA = getNewestStory(a);
+  const storyB = getNewestStory(b);
+
+  if (storyA.isUnread && storyB.isUnread) {
+    return storyA.timestamp > storyB.timestamp ? -1 : 1;
+  }
+
+  if (storyB.isUnread) {
+    return 1;
+  }
+
+  if (storyA.isUnread) {
+    return -1;
+  }
+
+  return storyA.timestamp > storyB.timestamp ? -1 : 1;
+}
+
 export const getStories = createSelector(
   getConversationSelector,
   getStoriesState,
@@ -99,10 +125,11 @@ export const getStories = createSelector(
       });
     });
 
-    // Reversing so that the story list is in DESC order
     return {
-      hiddenStories: Array.from(hiddenStoriesById.values()).reverse(),
-      stories: Array.from(storiesById.values()).reverse(),
+      hiddenStories: Array.from(hiddenStoriesById.values()).sort(
+        sortByRecencyAndUnread
+      ),
+      stories: Array.from(storiesById.values()).sort(sortByRecencyAndUnread),
     };
   }
 );
