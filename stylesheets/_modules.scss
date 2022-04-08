@@ -2360,7 +2360,6 @@ button.ConversationDetails__action-button {
     }
 
     @include keyboard-mode {
-      border: none;
       &:focus {
         border-color: $color-ultramarine;
         outline: none;

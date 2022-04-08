@@ -264,7 +264,9 @@ export const ProfileEditor = ({
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     undefined
   );
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState(true);
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState(
+    Boolean(profileAvatarPath)
+  );
   const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
     aboutEmoji,
     aboutText,
