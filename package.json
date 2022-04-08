@@ -87,7 +87,7 @@
     "array-move": "2.1.0",
     "axe-core": "4.1.4",
     "backbone": "1.4.0",
-    "better-sqlite3": "https://github.com/signalapp/better-sqlite3#b287153a5c6a5ac77f1e70df75d245e7a6e2286d",
+    "better-sqlite3": "https://github.com/signalapp/better-sqlite3#3c4a7eebba3d5f5d8cb88fe83be1c01b8c0dea7d",
     "bezier-easing": "2.1.0",
     "blob-util": "2.0.2",
     "blueimp-load-image": "5.14.0",
