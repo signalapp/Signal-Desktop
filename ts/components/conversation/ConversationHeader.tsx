@@ -466,11 +466,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     return (
       <ContextMenu id={triggerId}>
-        {disableTimerChanges ? null : (
-          <SubMenu hoverDelay={1} title={disappearingTitle}>
-            {expireDurations}
-          </SubMenu>
-        )}
+        {!markedUnread ? (
+          <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>
+        ) : null}
         <SubMenu hoverDelay={1} title={muteTitle}>
           {muteOptions.map(item => (
             <MenuItem
@@ -498,17 +496,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         ) : null}
         <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         <MenuItem divider />
-        {!markedUnread ? (
-          <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>
-        ) : null}
-        {isArchived ? (
-          <MenuItem onClick={onMoveToInbox}>
-            {i18n('moveConversationToInbox')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-        )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {isPinned ? (
           <MenuItem onClick={() => onSetPin(false)}>
             {i18n('unpinConversation')}
@@ -518,6 +505,19 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             {i18n('pinConversation')}
           </MenuItem>
         )}
+        {disableTimerChanges ? null : (
+          <SubMenu hoverDelay={1} title={disappearingTitle}>
+            {expireDurations}
+          </SubMenu>
+        )}
+        {isArchived ? (
+          <MenuItem onClick={onMoveToInbox}>
+            {i18n('moveConversationToInbox')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+        )}
+        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>
     );
   }
