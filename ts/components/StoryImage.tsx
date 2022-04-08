@@ -52,7 +52,7 @@ export const StoryImage = ({
     return null;
   }
 
-  const isPending = Boolean(attachment.pending);
+  const isPending = Boolean(attachment.pending) && !attachment.textAttachment;
   const isNotReadyToShow = hasNotResolved(attachment) || isPending;
 
   const getClassName = getClassNamesFor('StoryImage', moduleClassName);

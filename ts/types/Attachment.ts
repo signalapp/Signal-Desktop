@@ -723,7 +723,7 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
 }
 
 export function isDownloaded(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && attachment.path);
+  return Boolean(attachment && (attachment.path || attachment.textAttachment));
 }
 
 export function hasNotResolved(attachment?: AttachmentType): boolean {

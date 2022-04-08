@@ -2569,7 +2569,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         const shouldHoldOffDownload =
           (isStory(message.attributes) && !queueStoryForDownload) ||
-          ((isImage(attachments) || isVideo(attachments)) &&
+          (!isStory(message.attributes) &&
+            (isImage(attachments) || isVideo(attachments)) &&
             isInCall(reduxState));
 
         if (

@@ -81,7 +81,7 @@ export async function queueAttachmentDownloads(
         return attachment;
       }
       // We've already downloaded this!
-      if (attachment.path) {
+      if (attachment.path || attachment.textAttachment) {
         log.info(
           `Normal attachment already downloaded for message ${idForLogging}`
         );

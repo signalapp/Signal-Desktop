@@ -110,7 +110,6 @@ import {
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
-import { IMAGE_JPEG } from '../types/MIME';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 
@@ -1803,8 +1802,7 @@ export default class MessageReceiver
 
     if (msg.textAttachment) {
       attachments.push({
-        contentType: IMAGE_JPEG,
-        size: 0,
+        size: msg.textAttachment.text?.length,
         textAttachment: msg.textAttachment,
         blurHash: generateBlurHash(
           (msg.textAttachment.color ||
