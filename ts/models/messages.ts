@@ -1927,11 +1927,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
 
       if (
-        type === 'story' &&
-        !isConversationAccepted(conversation.attributes)
+        isStory(message.attributes) &&
+        !isConversationAccepted(conversation.attributes, {
+          ignoreEmptyConvo: true,
+        })
       ) {
         log.info(
-          'handleDataMessage: dropping story from !whitelisted',
+          'handleDataMessage: dropping story from !accepted',
           this.getSenderIdentifier()
         );
         confirm();
@@ -2572,9 +2574,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         if (
           this.hasAttachmentDownloads() &&
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          (this.getConversation()!.getAccepted() ||
-            isOutgoing(message.attributes)) &&
+          (conversation.getAccepted() || isOutgoing(message.attributes)) &&
           !shouldHoldOffDownload
         ) {
           if (window.attachmentDownloadQueue) {

@@ -11,7 +11,8 @@ import { isInSystemContacts } from './isInSystemContacts';
  * of message requests
  */
 export function isConversationAccepted(
-  conversationAttrs: ConversationAttributesType
+  conversationAttrs: ConversationAttributesType,
+  { ignoreEmptyConvo = false } = {}
 ): boolean {
   const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
     'desktop.messageRequests'
@@ -40,7 +41,9 @@ export function isConversationAccepted(
   const hasNoMessages = (conversationAttrs.messageCount || 0) === 0;
 
   const isEmptyPrivateConvo =
-    hasNoMessages && isDirectConversation(conversationAttrs);
+    hasNoMessages &&
+    isDirectConversation(conversationAttrs) &&
+    !ignoreEmptyConvo;
   const isEmptyWhitelistedGroup =
     hasNoMessages &&
     !isDirectConversation(conversationAttrs) &&
