@@ -60,6 +60,8 @@ describe('updater/differential', () => {
     const oldFile = 'diff-original.bin';
     const oldBlockFile = getBlockMapFileName(oldFile);
 
+    const emptyFile = 'diff-empty.bin';
+
     const newFile = 'diff-modified.bin';
     const newBlockFile = getBlockMapFileName(newFile);
     const newHash =
@@ -108,6 +110,20 @@ describe('updater/differential', () => {
 
           return [parseInt(range[1], 10), parseInt(range[2], 10)];
         });
+
+        if (ranges.length === 1) {
+          res.writeHead(200, {
+            'content-type': 'application/octet-stream',
+          });
+          if (shouldTimeout === 'response') {
+            res.flushHeaders();
+            return;
+          }
+
+          const [from, to] = ranges[0];
+          res.end(fullFile.slice(from, to + 1));
+          return;
+        }
 
         const BOUNDARY = 'f8f254ce1ba37627';
 
@@ -253,6 +269,34 @@ describe('updater/differential', () => {
     it('downloads the file', async () => {
       const data = await prepareDownload({
         oldFile: path.join(FIXTURES, oldFile),
+        newUrl: `${baseUrl}/${newFile}`,
+        sha512: newHash,
+      });
+
+      const outDir = await fs.mkdtemp(path.join(tmpdir(), 'signal-temp-'));
+      await fs.mkdir(outDir, { recursive: true });
+
+      const outFile = path.join(outDir, 'out.bin');
+      const chunks = new Array<number>();
+      await download(outFile, data, {
+        statusCallback(size) {
+          chunks.push(size);
+        },
+      });
+
+      const expected = await fs.readFile(path.join(FIXTURES, newFile));
+      const actual = await fs.readFile(outFile);
+
+      assert.isTrue(actual.equals(expected), 'Files do not match');
+      assert.isTrue(
+        chunks.length > 0,
+        'Expected multiple callback invocations'
+      );
+    });
+
+    it('downloads the full file with a single range', async () => {
+      const data = await prepareDownload({
+        oldFile: path.join(FIXTURES, emptyFile),
         newUrl: `${baseUrl}/${newFile}`,
         sha512: newHash,
       });
