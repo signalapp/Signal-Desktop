@@ -10,6 +10,7 @@ js/components.js
 js/util_worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
+release/**
 stylesheets/*.css
 test/test.js
 ts/**/*.js
