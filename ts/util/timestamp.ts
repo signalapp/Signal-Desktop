@@ -116,10 +116,7 @@ export function formatTime(
     return i18n('minutesAgo', [Math.floor(diff / MINUTE).toString()]);
   }
 
-  return new Date(timestamp).toLocaleTimeString([], {
-    hour: 'numeric',
-    minute: '2-digit',
-  });
+  return moment(timestamp).format('LT');
 }
 
 export function formatDate(
