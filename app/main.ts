@@ -1693,7 +1693,7 @@ async function requestShutdown() {
   }
 
   getLogger().info('requestShutdown: Requesting close of mainWindow...');
-  const request = new Promise<void>((resolveFn, reject) => {
+  const request = new Promise<void>(resolveFn => {
     let timeout: NodeJS.Timeout | undefined;
 
     if (!mainWindow) {
@@ -1705,7 +1705,10 @@ async function requestShutdown() {
       getLogger().info('requestShutdown: Response received');
 
       if (error) {
-        return reject(error);
+        getLogger().error(
+          'requestShutdown: got error, still shutting down.',
+          error
+        );
       }
       clearTimeoutIfNecessary(timeout);
 

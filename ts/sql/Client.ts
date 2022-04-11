@@ -673,6 +673,8 @@ function keysFromBytes(keys: Array<string>, data: any) {
 // Top-level calls
 
 async function shutdown() {
+  log.info('Client.shutdown');
+
   // Stop accepting new SQL jobs, flush outstanding queue
   await _shutdown();
 

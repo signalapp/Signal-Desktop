@@ -648,6 +648,7 @@ export async function startApp(): Promise<void> {
             server !== undefined,
             'WebAPI should be initialized together with MessageReceiver'
           );
+          log.info('background/shutdown: shutting down messageReceiver');
           server.unregisterRequestHandler(messageReceiver);
           messageReceiver.stopProcessing();
           await window.waitForAllBatchers();

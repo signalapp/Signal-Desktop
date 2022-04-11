@@ -5,6 +5,7 @@ import PQueue from 'p-queue';
 
 import { sleep } from './sleep';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
 declare global {
@@ -22,12 +23,26 @@ window.waitBatchers = [];
 
 window.flushAllWaitBatchers = async () => {
   log.info('waitBatcher#flushAllWaitBatchers');
-  await Promise.all(window.waitBatchers.map(item => item.flushAndWait()));
+  try {
+    await Promise.all(window.waitBatchers.map(item => item.flushAndWait()));
+  } catch (error) {
+    log.error(
+      'flushAllWaitBatchers: Error flushing all',
+      Errors.toLogFormat(error)
+    );
+  }
 };
 
 window.waitForAllWaitBatchers = async () => {
   log.info('waitBatcher#waitForAllWaitBatchers');
-  await Promise.all(window.waitBatchers.map(item => item.onIdle()));
+  try {
+    await Promise.all(window.waitBatchers.map(item => item.onIdle()));
+  } catch (error) {
+    log.error(
+      'waitForAllWaitBatchers: Error waiting for all',
+      Errors.toLogFormat(error)
+    );
+  }
 };
 
 type ItemHolderType<ItemType> = {

@@ -352,6 +352,7 @@ export default class MessageReceiver
   }
 
   public stopProcessing(): void {
+    log.info('MessageReceiver.stopProcessing');
     this.stoppingProcessing = true;
   }
 
