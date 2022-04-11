@@ -29,6 +29,7 @@ import * as Conversation from '../types/Conversation';
 import * as Stickers from '../types/Stickers';
 import { CapabilityError } from '../types/errors';
 import type {
+  ContactWithHydratedAvatar,
   GroupV1InfoType,
   GroupV2InfoType,
   StickerType,
@@ -3834,7 +3835,11 @@ export class ConversationModel extends window.Backbone
       },
     };
 
-    this.enqueueMessageForSend(undefined, [], undefined, [], sticker);
+    this.enqueueMessageForSend({
+      body: undefined,
+      attachments: [],
+      sticker,
+    });
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
@@ -3925,12 +3930,23 @@ export class ConversationModel extends window.Backbone
   }
 
   async enqueueMessageForSend(
-    body: string | undefined,
-    attachments: Array<AttachmentType>,
-    quote?: QuotedMessageType,
-    preview?: Array<LinkPreviewType>,
-    sticker?: StickerType,
-    mentions?: BodyRangesType,
+    {
+      attachments,
+      body,
+      contact,
+      mentions,
+      preview,
+      quote,
+      sticker,
+    }: {
+      attachments: Array<AttachmentType>;
+      body: string | undefined;
+      contact?: Array<ContactWithHydratedAvatar>;
+      mentions?: BodyRangesType;
+      preview?: Array<LinkPreviewType>;
+      quote?: QuotedMessageType;
+      sticker?: StickerType;
+    },
     {
       dontClearDraft,
       sendHQImages,
@@ -4000,6 +4016,7 @@ export class ConversationModel extends window.Backbone
       type: 'outgoing',
       body,
       conversationId: this.id,
+      contact,
       quote,
       preview,
       attachments: attachmentsToSend,
@@ -4031,6 +4048,7 @@ export class ConversationModel extends window.Backbone
 
     const model = new window.Whisper.Message(attributes);
     const message = window.MessageController.register(model.id, model);
+    message.cachedOutgoingContactData = contact;
     message.cachedOutgoingPreviewData = preview;
     message.cachedOutgoingQuoteData = quote;
     message.cachedOutgoingStickerData = sticker;

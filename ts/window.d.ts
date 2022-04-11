@@ -3,20 +3,17 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
-import { DeepPartial, Store } from 'redux';
+import { Store } from 'redux';
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
-import type { ParsedUrlQuery } from 'querystring';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
-  MessageAttributesType,
-  ReactionAttributesType,
 } from './model-types.d';
 import { TextSecureType } from './textsecure.d';
 import { Storage } from './textsecure/Storage';
@@ -32,11 +29,8 @@ import * as Curve from './Curve';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
 import { getEnvironment } from './environment';
-import * as zkgroup from './util/zkgroup';
-import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
-import * as EmbeddedContact from './types/EmbeddedContact';
+import { LocalizerType } from './types/Util';
 import type { Receipt } from './types/Receipt';
-import * as Errors from './types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
@@ -71,13 +65,11 @@ import * as stickersDuck from './state/ducks/stickers';
 import * as conversationsSelectors from './state/selectors/conversations';
 import * as searchSelectors from './state/selectors/search';
 import AccountManager from './textsecure/AccountManager';
-import { SendOptionsType } from './textsecure/SendMessage';
+import { ContactWithHydratedAvatar } from './textsecure/SendMessage';
 import Data from './sql/Client';
-import { UserMessage } from './types/Message';
 import { PhoneNumberFormat } from 'google-libphonenumber';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
-import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
 import { ChatColorPicker } from './components/ChatColorPicker';
@@ -93,14 +85,12 @@ import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 import { WhatsNewLink } from './components/WhatsNewLink';
-import { MIMEType } from './types/MIME';
 import { DownloadedAttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
 import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
-import { ConversationColorType, CustomColorType } from './types/Colors';
 import { MessageController } from './util/MessageController';
 import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
@@ -108,14 +98,12 @@ import { UUID } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
-import { IPCEventsType, IPCEventsValuesType } from './util/createIPCEvents';
+import { IPCEventsType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
 import type { SignalContextType } from './windows/context';
-import { GroupV2Change } from './components/conversation/GroupV2Change';
+import type { EmbeddedContactType } from './types/EmbeddedContact';
 
 export { Long } from 'long';
-
-type TaskResultType = any;
 
 export type WhatIsThis = any;
 
@@ -311,6 +299,9 @@ declare global {
           }
         >;
         loadQuoteData: (quote: unknown) => WhatIsThis;
+        loadContactData: (
+          contact?: Array<EmbeddedContactType>
+        ) => Promise<Array<ContactWithHydratedAvatar> | undefined>;
         loadPreviewData: (preview: unknown) => WhatIsThis;
         loadStickerData: (sticker: unknown) => WhatIsThis;
         readStickerData: (path: string) => Promise<Uint8Array>;

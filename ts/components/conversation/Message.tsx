@@ -1710,6 +1710,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       canDownload,
+      contact,
       canReact,
       canReply,
       canRetry,
@@ -1729,7 +1730,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
     } = this.props;
 
-    const canForward = !isTapToView && !deletedForEveryone;
+    const canForward = !isTapToView && !deletedForEveryone && !contact;
     const multipleAttachments = attachments && attachments.length > 1;
 
     const shouldShowAdditional =

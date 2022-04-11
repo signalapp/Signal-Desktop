@@ -230,12 +230,11 @@ function replyToStory(
 
   if (conversation) {
     conversation.enqueueMessageForSend(
-      messageBody,
-      [],
-      undefined,
-      undefined,
-      undefined,
-      mentions,
+      {
+        body: messageBody,
+        attachments: [],
+        mentions,
+      },
       {
         storyId: story.messageId,
         timestamp,

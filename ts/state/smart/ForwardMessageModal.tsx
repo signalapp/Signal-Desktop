@@ -24,6 +24,7 @@ export type SmartForwardMessageModalProps = {
     attachments?: Array<AttachmentType>,
     linkPreview?: LinkPreviewType
   ) => void;
+  hasContact: boolean;
   isSticker: boolean;
   messageBody?: string;
   onClose: () => void;
@@ -42,6 +43,7 @@ const mapStateToProps = (
   const {
     attachments,
     doForwardMessage,
+    hasContact,
     isSticker,
     messageBody,
     onClose,
@@ -59,6 +61,7 @@ const mapStateToProps = (
     candidateConversations,
     doForwardMessage,
     getPreferredBadge: getPreferredBadgeSelector(state),
+    hasContact,
     i18n: getIntl(state),
     isSticker,
     linkPreview,

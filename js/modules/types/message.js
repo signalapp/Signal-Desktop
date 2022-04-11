@@ -562,6 +562,42 @@ exports.loadQuoteData = loadAttachmentData => {
   };
 };
 
+exports.loadContactData = loadAttachmentData => {
+  if (!isFunction(loadAttachmentData)) {
+    throw new TypeError('loadContactData: loadAttachmentData is required');
+  }
+
+  return async contact => {
+    if (!contact) {
+      return null;
+    }
+
+    return Promise.all(
+      contact.map(async item => {
+        if (
+          !item ||
+          !item.avatar ||
+          !item.avatar.avatar ||
+          !item.avatar.avatar.path
+        ) {
+          return item;
+        }
+
+        return {
+          ...item,
+          avatar: {
+            ...item.avatar,
+            avatar: {
+              ...item.avatar.avatar,
+              ...(await loadAttachmentData(item.avatar.avatar)),
+            },
+          },
+        };
+      })
+    );
+  };
+};
+
 exports.loadPreviewData = loadAttachmentData => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadPreviewData: loadAttachmentData is required');

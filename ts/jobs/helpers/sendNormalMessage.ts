@@ -14,7 +14,10 @@ import { handleMessageSend } from '../../util/handleMessageSend';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import { isSent } from '../../messages/MessageSendState';
 import { isOutgoing } from '../../state/selectors/message';
-import type { AttachmentType } from '../../textsecure/SendMessage';
+import type {
+  AttachmentType,
+  ContactWithHydratedAvatar,
+} from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { BodyRangesType, StoryContextType } from '../../types/Util';
 import type { WhatIsThis } from '../../window.d';
@@ -131,6 +134,7 @@ export async function sendNormalMessage(
     const {
       attachments,
       body,
+      contact,
       deletedForEveryoneTimestamp,
       expireTimer,
       mentions,
@@ -148,11 +152,12 @@ export async function sendNormalMessage(
       const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments,
         body,
+        contact,
+        deletedForEveryoneTimestamp,
+        expireTimer,
         groupV2: conversation.getGroupV2Info({
           members: recipientIdentifiersWithoutMe,
         }),
-        deletedForEveryoneTimestamp,
-        expireTimer,
         preview,
         profileKey,
         quote,
@@ -188,6 +193,7 @@ export async function sendNormalMessage(
               contentHint: ContentHint.RESENDABLE,
               groupSendOptions: {
                 attachments,
+                contact,
                 deletedForEveryoneTimestamp,
                 expireTimer,
                 groupV1: conversation.getGroupV1Info(
@@ -237,21 +243,22 @@ export async function sendNormalMessage(
 
         log.info('sending direct message');
         innerPromise = window.textsecure.messaging.sendMessageToIdentifier({
+          attachments,
+          contact,
+          contentHint: ContentHint.RESENDABLE,
+          deletedForEveryoneTimestamp,
+          expireTimer,
+          groupId: undefined,
           identifier: recipientIdentifiersWithoutMe[0],
           messageText: body,
-          attachments,
-          quote,
-          preview,
-          sticker,
-          reaction: undefined,
-          deletedForEveryoneTimestamp,
-          timestamp: messageTimestamp,
-          expireTimer,
-          contentHint: ContentHint.RESENDABLE,
-          groupId: undefined,
-          profileKey,
           options: sendOptions,
+          preview,
+          profileKey,
+          quote,
+          reaction: undefined,
+          sticker,
           storyContext,
+          timestamp: messageTimestamp,
         });
       }
 
@@ -380,6 +387,7 @@ async function getMessageSendData({
 }>): Promise<{
   attachments: Array<AttachmentType>;
   body: undefined | string;
+  contact?: Array<ContactWithHydratedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
   expireTimer: undefined | number;
   mentions: undefined | BodyRangesType;
@@ -391,6 +399,7 @@ async function getMessageSendData({
 }> {
   const {
     loadAttachmentData,
+    loadContactData,
     loadPreviewData,
     loadQuoteData,
     loadStickerData,
@@ -413,13 +422,15 @@ async function getMessageSendData({
 
   const storyId = message.get('storyId');
 
-  const [attachmentsWithData, preview, quote, sticker, storyMessage] =
+  const [attachmentsWithData, contact, preview, quote, sticker, storyMessage] =
     await Promise.all([
       // We don't update the caches here because (1) we expect the caches to be populated
       //   on initial send, so they should be there in the 99% case (2) if you're retrying
       //   a failed message across restarts, we don't touch the cache for simplicity. If
       //   sends are failing, let's not add the complication of a cache.
       Promise.all((message.get('attachments') ?? []).map(loadAttachmentData)),
+      message.cachedOutgoingContactData ||
+        loadContactData(message.get('contact')),
       message.cachedOutgoingPreviewData ||
         loadPreviewData(message.get('preview')),
       message.cachedOutgoingQuoteData || loadQuoteData(message.get('quote')),
@@ -439,6 +450,7 @@ async function getMessageSendData({
   return {
     attachments,
     body,
+    contact,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
     expireTimer: message.get('expireTimer'),
     mentions: message.get('bodyRanges'),

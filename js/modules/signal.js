@@ -188,6 +188,7 @@ function initializeMigrations({
   const attachmentsPath = getPath(userDataPath);
   const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
+  const loadContactData = MessageType.loadContactData(loadAttachmentData);
   const loadPreviewData = MessageType.loadPreviewData(loadAttachmentData);
   const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
   const loadStickerData = MessageType.loadStickerData(loadAttachmentData);
@@ -248,6 +249,7 @@ function initializeMigrations({
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
     loadAttachmentData,
+    loadContactData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     loadPreviewData,
     loadQuoteData,

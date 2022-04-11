@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
-/* eslint-disable more/no-then */
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
 
@@ -69,6 +68,12 @@ import type { SendTypesType } from '../util/handleMessageSend';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import type { Avatar, EmbeddedContactType } from '../types/EmbeddedContact';
+import {
+  numberToPhoneType,
+  numberToEmailType,
+  numberToAddressType,
+} from '../types/EmbeddedContact';
 
 export type SendMetadataType = {
   [identifier: string]: {
@@ -172,9 +177,16 @@ function makeAttachmentSendReady(
   };
 }
 
+export type ContactWithHydratedAvatar = EmbeddedContactType & {
+  avatar?: Avatar & {
+    attachmentPointer?: Proto.IAttachmentPointer;
+  };
+};
+
 export type MessageOptionsType = {
   attachments?: ReadonlyArray<AttachmentType> | null;
   body?: string;
+  contact?: Array<ContactWithHydratedAvatar>;
   expireTimer?: number;
   flags?: number;
   group?: {
@@ -197,27 +209,30 @@ export type MessageOptionsType = {
 };
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
+  contact?: Array<ContactWithHydratedAvatar>;
+  deletedForEveryoneTimestamp?: number;
   expireTimer?: number;
   flags?: number;
-  groupV2?: GroupV2InfoType;
+  groupCallUpdate?: GroupCallUpdateType;
   groupV1?: GroupV1InfoType;
+  groupV2?: GroupV2InfoType;
+  mentions?: BodyRangesType;
   messageText?: string;
   preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
   quote?: QuoteType;
   reaction?: ReactionType;
   sticker?: StickerType;
-  deletedForEveryoneTimestamp?: number;
-  timestamp: number;
-  mentions?: BodyRangesType;
-  groupCallUpdate?: GroupCallUpdateType;
   storyContext?: StoryContextType;
+  timestamp: number;
 };
 
 class Message {
   attachments: ReadonlyArray<AttachmentType>;
 
   body?: string;
+
+  contact?: Array<ContactWithHydratedAvatar>;
 
   expireTimer?: number;
 
@@ -261,6 +276,7 @@ class Message {
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
+    this.contact = options.contact;
     this.expireTimer = options.expireTimer;
     this.flags = options.flags;
     this.group = options.group;
@@ -403,6 +419,74 @@ class Message {
         return item;
       });
     }
+    if (Array.isArray(this.contact)) {
+      proto.contact = this.contact.map(contact => {
+        const contactProto = new Proto.DataMessage.Contact();
+        if (contact.name) {
+          const nameProto: Proto.DataMessage.Contact.IName = {
+            givenName: contact.name.givenName,
+            familyName: contact.name.familyName,
+            prefix: contact.name.prefix,
+            suffix: contact.name.suffix,
+            middleName: contact.name.middleName,
+            displayName: contact.name.displayName,
+          };
+          contactProto.name = new Proto.DataMessage.Contact.Name(nameProto);
+        }
+        if (Array.isArray(contact.number)) {
+          contactProto.number = contact.number.map(number => {
+            const numberProto: Proto.DataMessage.Contact.IPhone = {
+              value: number.value,
+              type: numberToPhoneType(number.type),
+              label: number.label,
+            };
+
+            return new Proto.DataMessage.Contact.Phone(numberProto);
+          });
+        }
+        if (Array.isArray(contact.email)) {
+          contactProto.email = contact.email.map(email => {
+            const emailProto: Proto.DataMessage.Contact.IEmail = {
+              value: email.value,
+              type: numberToEmailType(email.type),
+              label: email.label,
+            };
+
+            return new Proto.DataMessage.Contact.Email(emailProto);
+          });
+        }
+        if (Array.isArray(contact.address)) {
+          contactProto.address = contact.address.map(address => {
+            const addressProto: Proto.DataMessage.Contact.IPostalAddress = {
+              type: numberToAddressType(address.type),
+              label: address.label,
+              street: address.street,
+              pobox: address.pobox,
+              neighborhood: address.neighborhood,
+              city: address.city,
+              region: address.region,
+              postcode: address.postcode,
+              country: address.country,
+            };
+
+            return new Proto.DataMessage.Contact.PostalAddress(addressProto);
+          });
+        }
+        if (contact.avatar && contact.avatar.attachmentPointer) {
+          const avatarProto = new Proto.DataMessage.Contact.Avatar();
+          avatarProto.avatar = contact.avatar.attachmentPointer;
+          avatarProto.isProfile = Boolean(contact.avatar.isProfile);
+          contactProto.avatar = avatarProto;
+        }
+
+        if (contact.organization) {
+          contactProto.organization = contact.organization;
+        }
+
+        return contactProto;
+      });
+    }
+
     if (this.quote) {
       const { QuotedAttachment } = Proto.DataMessage.Quote;
       const { BodyRange, Quote } = Proto.DataMessage;
@@ -559,14 +643,17 @@ export default class MessageSender {
   }
 
   async makeAttachmentPointer(
-    attachment: Readonly<AttachmentType>
+    attachment: Readonly<
+      Partial<AttachmentType> &
+        Pick<AttachmentType, 'data' | 'size' | 'contentType'>
+    >
   ): Promise<Proto.IAttachmentPointer> {
     assert(
       typeof attachment === 'object' && attachment !== null,
       'Got null attachment in `makeAttachmentPointer`'
     );
 
-    const { data, size } = attachment;
+    const { data, size, contentType } = attachment;
     if (!(data instanceof Uint8Array)) {
       throw new Error(
         `makeAttachmentPointer: data was a '${typeof data}' instead of Uint8Array`
@@ -575,6 +662,11 @@ export default class MessageSender {
     if (data.byteLength !== size) {
       throw new Error(
         `makeAttachmentPointer: Size ${size} did not match data.byteLength ${data.byteLength}`
+      );
+    }
+    if (typeof contentType !== 'string') {
+      throw new Error(
+        `makeAttachmentPointer: contentType ${contentType} was not a string`
       );
     }
 
@@ -589,7 +681,7 @@ export default class MessageSender {
     proto.cdnId = Long.fromString(id);
     proto.contentType = attachment.contentType;
     proto.key = key;
-    proto.size = attachment.size;
+    proto.size = data.byteLength;
     proto.digest = result.digest;
 
     if (attachment.fileName) {
@@ -615,22 +707,20 @@ export default class MessageSender {
   }
 
   async uploadAttachments(message: Message): Promise<void> {
-    await Promise.all(
-      message.attachments.map(attachment =>
-        this.makeAttachmentPointer(attachment)
-      )
-    )
-      .then(attachmentPointers => {
-        // eslint-disable-next-line no-param-reassign
-        message.attachmentPointers = attachmentPointers;
-      })
-      .catch(error => {
-        if (error instanceof HTTPError) {
-          throw new MessageError(message, error);
-        } else {
-          throw error;
-        }
-      });
+    try {
+      // eslint-disable-next-line no-param-reassign
+      message.attachmentPointers = await Promise.all(
+        message.attachments.map(attachment =>
+          this.makeAttachmentPointer(attachment)
+        )
+      );
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        throw new MessageError(message, error);
+      } else {
+        throw error;
+      }
+    }
   }
 
   async uploadLinkPreviews(message: Message): Promise<void> {
@@ -687,32 +777,68 @@ export default class MessageSender {
     }
   }
 
-  async uploadThumbnails(message: Message): Promise<void> {
-    const makePointer = this.makeAttachmentPointer.bind(this);
-    const { quote } = message;
-
-    if (!quote || !quote.attachments || quote.attachments.length === 0) {
+  async uploadContactAvatar(message: Message): Promise<void> {
+    const { contact } = message;
+    if (!contact || contact.length === 0) {
       return;
     }
 
-    await Promise.all(
-      quote.attachments.map((attachment: QuoteAttachmentType) => {
-        if (!attachment.thumbnail) {
-          return null;
-        }
+    try {
+      await Promise.all(
+        contact.map(async (item: ContactWithHydratedAvatar) => {
+          const itemAvatar = item?.avatar;
+          const avatar = itemAvatar?.avatar;
 
-        return makePointer(attachment.thumbnail).then(pointer => {
+          if (!itemAvatar || !avatar || !avatar.data) {
+            return;
+          }
+
+          const attachment = makeAttachmentSendReady(avatar);
+          if (!attachment) {
+            return;
+          }
+
           // eslint-disable-next-line no-param-reassign
-          attachment.attachmentPointer = pointer;
-        });
-      })
-    ).catch(error => {
+          itemAvatar.attachmentPointer = await this.makeAttachmentPointer(
+            attachment
+          );
+        })
+      );
+    } catch (error) {
       if (error instanceof HTTPError) {
         throw new MessageError(message, error);
       } else {
         throw error;
       }
-    });
+    }
+  }
+
+  async uploadThumbnails(message: Message): Promise<void> {
+    const { quote } = message;
+    if (!quote || !quote.attachments || quote.attachments.length === 0) {
+      return;
+    }
+
+    try {
+      await Promise.all(
+        quote.attachments.map(async (attachment: QuoteAttachmentType) => {
+          if (!attachment.thumbnail) {
+            return;
+          }
+
+          // eslint-disable-next-line no-param-reassign
+          attachment.attachmentPointer = await this.makeAttachmentPointer(
+            attachment.thumbnail
+          );
+        })
+      );
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        throw new MessageError(message, error);
+      } else {
+        throw error;
+      }
+    }
   }
 
   // Proto assembly
@@ -742,6 +868,7 @@ export default class MessageSender {
     const message = new Message(attributes);
     await Promise.all([
       this.uploadAttachments(message),
+      this.uploadContactAvatar(message),
       this.uploadThumbnails(message),
       this.uploadLinkPreviews(message),
       this.uploadSticker(message),
@@ -789,6 +916,7 @@ export default class MessageSender {
   ): MessageOptionsType {
     const {
       attachments,
+      contact,
       deletedForEveryoneTimestamp,
       expireTimer,
       flags,
@@ -839,6 +967,7 @@ export default class MessageSender {
     return {
       attachments,
       body: messageText,
+      contact,
       deletedForEveryoneTimestamp,
       expireTimer,
       flags,
@@ -883,33 +1012,25 @@ export default class MessageSender {
     groupId: string | undefined;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
-    const message = new Message(messageOptions);
+    const message = await this.getHydratedMessage(messageOptions);
 
-    return Promise.all([
-      this.uploadAttachments(message),
-      this.uploadThumbnails(message),
-      this.uploadLinkPreviews(message),
-      this.uploadSticker(message),
-    ]).then(
-      async (): Promise<CallbackResultType> =>
-        new Promise((resolve, reject) => {
-          this.sendMessageProto({
-            callback: (res: CallbackResultType) => {
-              if (res.errors && res.errors.length > 0) {
-                reject(new SendMessageProtoError(res));
-              } else {
-                resolve(res);
-              }
-            },
-            contentHint,
-            groupId,
-            options,
-            proto: message.toProto(),
-            recipients: message.recipients || [],
-            timestamp: message.timestamp,
-          });
-        })
-    );
+    return new Promise((resolve, reject) => {
+      this.sendMessageProto({
+        callback: (res: CallbackResultType) => {
+          if (res.errors && res.errors.length > 0) {
+            reject(new SendMessageProtoError(res));
+          } else {
+            resolve(res);
+          }
+        },
+        contentHint,
+        groupId,
+        options,
+        proto: message.toProto(),
+        recipients: message.recipients || [],
+        timestamp: message.timestamp,
+      });
+    });
   }
 
   sendMessageProto({
@@ -1033,52 +1154,55 @@ export default class MessageSender {
   // You might wonder why this takes a groupId. models/messages.resend() can send a group
   //   message to just one person.
   async sendMessageToIdentifier({
+    attachments,
+    contact,
+    contentHint,
+    deletedForEveryoneTimestamp,
+    expireTimer,
+    groupId,
     identifier,
     messageText,
-    attachments,
-    quote,
-    preview,
-    sticker,
-    reaction,
-    deletedForEveryoneTimestamp,
-    timestamp,
-    expireTimer,
-    contentHint,
-    groupId,
-    profileKey,
     options,
+    preview,
+    profileKey,
+    quote,
+    reaction,
+    sticker,
     storyContext,
+    timestamp,
   }: Readonly<{
+    attachments: ReadonlyArray<AttachmentType> | undefined;
+    contact?: Array<ContactWithHydratedAvatar>;
+    contentHint: number;
+    deletedForEveryoneTimestamp: number | undefined;
+    expireTimer: number | undefined;
+    groupId: string | undefined;
     identifier: string;
     messageText: string | undefined;
-    attachments: ReadonlyArray<AttachmentType> | undefined;
-    quote?: QuoteType;
-    preview?: ReadonlyArray<LinkPreviewType> | undefined;
-    sticker?: StickerType;
-    reaction?: ReactionType;
-    deletedForEveryoneTimestamp: number | undefined;
-    timestamp: number;
-    expireTimer: number | undefined;
-    contentHint: number;
-    groupId: string | undefined;
-    profileKey?: Uint8Array;
-    storyContext?: StoryContextType;
     options?: SendOptionsType;
+    preview?: ReadonlyArray<LinkPreviewType> | undefined;
+    profileKey?: Uint8Array;
+    quote?: QuoteType;
+    reaction?: ReactionType;
+    sticker?: StickerType;
+    storyContext?: StoryContextType;
+    timestamp: number;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
       messageOptions: {
-        recipients: [identifier],
-        body: messageText,
-        timestamp,
         attachments,
-        quote,
-        preview,
-        sticker,
-        reaction,
+        body: messageText,
+        contact,
         deletedForEveryoneTimestamp,
         expireTimer,
+        preview,
         profileKey,
+        quote,
+        reaction,
+        recipients: [identifier],
+        sticker,
         storyContext,
+        timestamp,
       },
       contentHint,
       groupId,

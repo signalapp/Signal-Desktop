@@ -48,6 +48,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   doForwardMessage: action('doForwardMessage'),
   getPreferredBadge: () => undefined,
   i18n,
+  hasContact: Boolean(overrideProps.hasContact),
   isSticker: Boolean(overrideProps.isSticker),
   linkPreview: overrideProps.linkPreview,
   messageBody: text('messageBody', overrideProps.messageBody || ''),
@@ -73,6 +74,10 @@ story.add('with text', () => {
 
 story.add('a sticker', () => {
   return <ForwardMessageModal {...useProps({ isSticker: true })} />;
+});
+
+story.add('with a contact', () => {
+  return <ForwardMessageModal {...useProps({ hasContact: true })} />;
 });
 
 story.add('link preview', () => {

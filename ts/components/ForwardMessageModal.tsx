@@ -48,6 +48,7 @@ export type DataPropsType = {
     linkPreview?: LinkPreviewType
   ) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasContact: boolean;
   i18n: LocalizerType;
   isSticker: boolean;
   linkPreview?: LinkPreviewType;
@@ -79,6 +80,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   candidateConversations,
   doForwardMessage,
   getPreferredBadge,
+  hasContact,
   i18n,
   isSticker,
   linkPreview,
@@ -110,7 +112,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   const [messageBodyText, setMessageBodyText] = useState(messageBody || '');
   const [cannotMessage, setCannotMessage] = useState(false);
 
-  const isMessageEditable = !isSticker;
+  const isMessageEditable = !isSticker && !hasContact;
 
   const hasSelectedMaximumNumberOfContacts =
     selectedContacts.length >= MAX_FORWARD;
@@ -142,6 +144,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     hasContactsSelected &&
     (Boolean(messageBodyText) ||
       isSticker ||
+      hasContact ||
       (attachmentsToForward && attachmentsToForward.length));
 
   const forwardMessage = React.useCallback(() => {

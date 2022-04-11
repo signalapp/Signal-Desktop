@@ -151,6 +151,7 @@ import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { getMessageById } from '../messages/getMessageById';
 import { shouldDownloadStory } from '../util/shouldDownloadStory';
 import { shouldShowStoriesView } from '../state/selectors/stories';
+import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -187,6 +188,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   private pendingMarkRead?: number;
 
   syncPromise?: Promise<CallbackResultType | void>;
+
+  cachedOutgoingContactData?: Array<ContactWithHydratedAvatar>;
 
   cachedOutgoingPreviewData?: Array<LinkPreviewType>;
 
