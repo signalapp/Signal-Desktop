@@ -38,7 +38,11 @@ import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { IdleDetector } from './IdleDetector';
-import { loadStories, getStoriesForRedux } from './services/storyLoader';
+import {
+  getStoriesForRedux,
+  loadStories,
+  repairUnexpiredStories,
+} from './services/storyLoader';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
@@ -705,6 +709,13 @@ export async function startApp(): Promise<void> {
           `Clearing remoteBuildExpiration. Previous value was ${remoteBuildExpiration}`
         );
         window.storage.remove('remoteBuildExpiration');
+      }
+
+      if (
+        window.isBeforeVersion(lastVersion, 'v5.40.0') &&
+        window.isAfterVersion(lastVersion, 'v5.36.0')
+      ) {
+        await repairUnexpiredStories();
       }
 
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {

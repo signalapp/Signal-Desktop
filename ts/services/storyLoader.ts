@@ -65,3 +65,34 @@ export function getStoriesForRedux(): Array<StoryDataType> {
 
   return stories;
 }
+
+export async function repairUnexpiredStories(): Promise<void> {
+  if (!storyData) {
+    await loadStories();
+  }
+
+  strictAssert(storyData, 'Could not load stories');
+
+  const storiesWithExpiry = storyData
+    .filter(story => !story.expirationStartTimestamp)
+    .map(story => ({
+      ...story,
+      expirationStartTimestamp: Math.min(
+        story.serverTimestamp || story.timestamp,
+        Date.now()
+      ),
+    }));
+
+  log.info(
+    'repairUnexpiredStories: repairing number of stories',
+    storiesWithExpiry.length
+  );
+
+  await Promise.all(
+    storiesWithExpiry.map(messageAttributes => {
+      return window.Signal.Data.saveMessage(messageAttributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
+    })
+  );
+}

@@ -1814,7 +1814,9 @@ export default class MessageReceiver
     }
 
     const expireTimer = Math.min(
-      (envelope.serverTimestamp + durations.DAY - Date.now()) / 1000,
+      Math.floor(
+        (envelope.serverTimestamp + durations.DAY - Date.now()) / 1000
+      ),
       durations.DAY / 1000
     );
 

@@ -2790,6 +2790,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
+    if (
+      isStory(message.attributes) &&
+      !message.get('expirationStartTimestamp')
+    ) {
+      message.set(
+        'expirationStartTimestamp',
+        Math.min(
+          message.get('serverTimestamp') || message.get('timestamp'),
+          Date.now()
+        )
+      );
+      changed = true;
+    }
+
     // Does this message have any pending, previously-received associated reactions?
     const reactions = Reactions.getSingleton().forMessage(message);
     await Promise.all(
