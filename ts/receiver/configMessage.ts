@@ -14,15 +14,14 @@ import { configurationMessageReceived, trigger } from '../shims/events';
 import { BlockedNumberController } from '../util';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
-import { updateProfileOneAtATime } from './dataMessage';
 import { EnvelopePlus } from './types';
 import { ConversationInteraction } from '../interactions';
 import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
+import { appendFetchAvatarAndProfileJob, updateOurProfileSync } from './userProfileImageUpdates';
 
 async function handleOurProfileUpdate(
   sentAt: number | Long,
-  configMessage: SignalService.ConfigurationMessage,
-  ourPubkey: string
+  configMessage: SignalService.ConfigurationMessage
 ) {
   const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
   if (!latestProfileUpdateTimestamp || sentAt > latestProfileUpdateTimestamp) {
@@ -31,17 +30,11 @@ async function handleOurProfileUpdate(
     );
     const { profileKey, profilePicture, displayName } = configMessage;
 
-    const ourConversation = getConversationController().get(ourPubkey);
-    if (!ourConversation) {
-      window?.log?.error('We need a convo with ourself at all times');
-      return;
-    }
-
     const lokiProfile = {
       displayName,
       profilePicture,
     };
-    await updateProfileOneAtATime(ourConversation, lokiProfile, profileKey);
+    await updateOurProfileSync(lokiProfile, profileKey);
     await setLastProfileUpdateTimestamp(_.toNumber(sentAt));
     // do not trigger a signin by linking if the display name is empty
     if (displayName) {
@@ -192,7 +185,7 @@ const handleContactFromConfig = async (
       await BlockedNumberController.unblock(contactConvo.id);
     }
 
-    void updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);
+    void appendFetchAvatarAndProfileJob(contactConvo, profile, contactReceived.profileKey);
   } catch (e) {
     window?.log?.warn('failed to handle  a new closed group from configuration message');
   }
@@ -213,7 +206,7 @@ export async function handleConfigurationMessage(
     return removeFromCache(envelope);
   }
 
-  await handleOurProfileUpdate(envelope.timestamp, configurationMessage, ourPubkey);
+  await handleOurProfileUpdate(envelope.timestamp, configurationMessage);
 
   await handleGroupsAndContactsFromConfigMessage(envelope, configurationMessage);
 

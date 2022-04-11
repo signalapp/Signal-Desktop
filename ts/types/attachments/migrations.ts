@@ -20,6 +20,7 @@ import {
   readAttachmentData,
   writeNewAttachmentData,
 } from '../MessageAttachment';
+import { perfEnd, perfStart } from '../../session/utils/Performance';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
 
@@ -30,10 +31,13 @@ const DEFAULT_JPEG_QUALITY = 0.85;
 export const autoOrientJpegImage = async (
   fileOrBlobOrURL: string | File | Blob
 ): Promise<string> => {
+  perfStart(`autoOrientJpegImage`);
   const loadedImage = await loadImage(fileOrBlobOrURL, { orientation: true, canvas: true });
-
-  const canvas = loadedImage.image as HTMLCanvasElement;
-  const dataURL = canvas.toDataURL(MIME.IMAGE_JPEG, DEFAULT_JPEG_QUALITY);
+  perfEnd(`autoOrientJpegImage`, `autoOrientJpegImage`);
+  const dataURL = (loadedImage.image as HTMLCanvasElement).toDataURL(
+    MIME.IMAGE_JPEG,
+    DEFAULT_JPEG_QUALITY
+  );
 
   return dataURL;
 };

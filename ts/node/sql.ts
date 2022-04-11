@@ -139,7 +139,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
 
   // First, we try to open the database without any cipher changes
   try {
-    db = new BetterSqlite3.default(filePath, openDbOptions);
+    db = new (BetterSqlite3 as any).default(filePath, openDbOptions);
 
     keyDatabase(db, key);
     switchToWAL(db);
@@ -159,7 +159,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
 
   let db1;
   try {
-    db1 = new BetterSqlite3.default(filePath, openDbOptions);
+    db1 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
     keyDatabase(db1, key);
 
     // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
@@ -177,7 +177,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
   //   migrate to the latest ciphers after we've modified the defaults.
   let db2;
   try {
-    db2 = new BetterSqlite3.default(filePath, openDbOptions);
+    db2 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
     keyDatabase(db2, key);
 
     db2.pragma('cipher_migrate');

@@ -8,13 +8,13 @@ import { ConversationModel, ConversationTypeEnum } from '../models/conversation'
 import { MessageModel } from '../models/message';
 import { getMessageById, getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
 
-import { updateProfileOneAtATime } from './dataMessage';
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
 import { showMessageRequestBanner } from '../state/ducks/userConfig';
 import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
+import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -295,7 +295,7 @@ async function handleRegularMessage(
   // the only profile we don't update with what is coming here is ours,
   // as our profile is shared accross our devices with a ConfigurationMessage
   if (type === 'incoming' && rawDataMessage.profile) {
-    void updateProfileOneAtATime(
+    void appendFetchAvatarAndProfileJob(
       sendingDeviceConversation,
       rawDataMessage.profile,
       rawDataMessage.profileKey

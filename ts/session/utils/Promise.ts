@@ -15,7 +15,7 @@ export class TaskTimedOutError extends Error {
 }
 
 // one action resolves all
-const snodeGlobalLocks: Record<string, Promise<any>> = {};
+const oneAtaTimeRecord: Record<string, Promise<any>> = {};
 
 export async function allowOnlyOneAtATime(
   name: string,
@@ -23,16 +23,16 @@ export async function allowOnlyOneAtATime(
   timeoutMs?: number
 ) {
   // if currently not in progress
-  if (snodeGlobalLocks[name] === undefined) {
+  if (oneAtaTimeRecord[name] === undefined) {
     // set lock
-    snodeGlobalLocks[name] = new Promise(async (resolve, reject) => {
+    oneAtaTimeRecord[name] = new Promise(async (resolve, reject) => {
       // set up timeout feature
       let timeoutTimer = null;
       if (timeoutMs) {
         timeoutTimer = setTimeout(() => {
-          window?.log?.warn(`allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
+          window?.log?.warn(`allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}ms`);
           // tslint:disable-next-line: no-dynamic-delete
-          delete snodeGlobalLocks[name]; // clear lock
+          delete oneAtaTimeRecord[name]; // clear lock
           reject();
         }, timeoutMs);
       }
@@ -55,7 +55,7 @@ export async function allowOnlyOneAtATime(
           }
         }
         // tslint:disable-next-line: no-dynamic-delete
-        delete snodeGlobalLocks[name]; // clear lock
+        delete oneAtaTimeRecord[name]; // clear lock
         reject(e);
       }
       // clear timeout timer
@@ -66,12 +66,16 @@ export async function allowOnlyOneAtATime(
         }
       }
       // tslint:disable-next-line: no-dynamic-delete
-      delete snodeGlobalLocks[name]; // clear lock
+      delete oneAtaTimeRecord[name]; // clear lock
       // release the kraken
       resolve(innerRetVal);
     });
   }
-  return snodeGlobalLocks[name];
+  return oneAtaTimeRecord[name];
+}
+
+export function hasAlreadyOneAtaTimeMatching(text: string): boolean {
+  return Boolean(oneAtaTimeRecord[text]);
 }
 
 /**

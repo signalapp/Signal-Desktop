@@ -7,6 +7,13 @@ import { PromiseUtils } from '../../../../session/utils';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 import chaiAsPromised from 'chai-as-promised';
+import {
+  allowOnlyOneAtATime,
+  hasAlreadyOneAtaTimeMatching,
+  sleepFor,
+} from '../../../../session/utils/Promise';
+import { TestUtils } from '../../../test-utils';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -34,6 +41,7 @@ describe('Promise Utils', () => {
     pollSpy = sandbox.spy(PromiseUtils, 'poll');
     waitForTaskSpy = sandbox.spy(PromiseUtils, 'waitForTask');
     waitUntilSpy = sandbox.spy(PromiseUtils, 'waitUntil');
+    TestUtils.stubWindowLog();
   });
 
   afterEach(() => {
@@ -139,6 +147,70 @@ describe('Promise Utils', () => {
 
       expect(waitUntilSpy.callCount).to.equal(1);
       return promise.should.eventually.be.rejectedWith('Periodic check timeout');
+    });
+  });
+
+  describe('allowOnlyOneAtATime', () => {
+    it('start if not running', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      await allowOnlyOneAtATime('testing', spy);
+      expect(spy.callCount).to.be.eq(1);
+    });
+
+    it('starts only once if already running', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      void allowOnlyOneAtATime('testing', spy);
+
+      await allowOnlyOneAtATime('testing', spy);
+      expect(spy.callCount).to.be.eq(1);
+    });
+
+    it('throw if took longer than expected timeout', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      try {
+        await allowOnlyOneAtATime('testing', spy, 5);
+        throw new Error('should not get here');
+      } catch (e) {
+        console.warn(e);
+        expect(e).to.be.be.eql(undefined, 'should be undefined');
+      }
+
+      expect(spy.callCount).to.be.eq(1);
+    });
+
+    it('does not throw if took less than expected timeout', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      try {
+        await allowOnlyOneAtATime('testing', spy, 15);
+        throw new Error('should get here');
+      } catch (e) {
+        console.warn(e);
+        expect(e.message).to.be.be.eql('should get here');
+      }
+
+      expect(spy.callCount).to.be.eq(1);
+    });
+  });
+
+  describe('hasAlreadyOneAtaTimeMatching', () => {
+    it('returns true if already started', () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      void allowOnlyOneAtATime('testing', spy);
+      expect(hasAlreadyOneAtaTimeMatching('testing')).to.be.eq(true, 'should be true');
+    });
+
+    it('returns false if not already started', () => {
+      expect(hasAlreadyOneAtaTimeMatching('testing2')).to.be.eq(false, 'should be false');
     });
   });
 });

@@ -167,15 +167,6 @@ async function deriveSymmetricKey(x25519PublicKey: Uint8Array, x25519PrivateKey:
   return symmetricKey;
 }
 
-async function generateEphemeralKeyPair() {
-  const ran = (await getSodiumWorker()).randombytes_buf(32);
-  const keys = generateKeyPair(ran);
-  return keys;
-  // Signal protocol prepends with "0x05"
-  // keys.pubKey = keys.pubKey.slice(1);
-  // return { pubKey: keys.public, privKey: keys.private };
-}
-
 function assertArrayBufferView(val: any) {
   if (!ArrayBuffer.isView(val)) {
     throw new Error('val type not correct');
@@ -189,7 +180,11 @@ async function encryptForPubkey(pubkeyX25519str: string, payloadBytes: Uint8Arra
       throw new Error('pubkeyX25519str type not correct');
     }
     assertArrayBufferView(payloadBytes);
-    const ephemeral = await generateEphemeralKeyPair();
+    const ran = (await getSodiumWorker()).randombytes_buf(32);
+    const ephemeral = generateKeyPair(ran);
+    // Signal protocol prepends with "0x05"
+    // keys.pubKey = keys.pubKey.slice(1);
+    // return { pubKey: keys.public, privKey: keys.private };
     const pubkeyX25519Buffer = fromHexToArray(pubkeyX25519str);
     const symmetricKey = await deriveSymmetricKey(
       pubkeyX25519Buffer,

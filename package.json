@@ -85,6 +85,7 @@
     "p-retry": "^4.2.0",
     "pify": "3.0.0",
     "protobufjs": "^6.11.2",
+    "queue-promise": "^2.2.1",
     "rc-slider": "^8.7.1",
     "react": "^17.0.2",
     "react-contexify": "5.0.0",

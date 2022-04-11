@@ -5,7 +5,6 @@ import { getEnvelopeId } from './common';
 
 import { PubKey } from '../session/types';
 import { handleMessageJob, toRegularMessage } from './queuedJob';
-import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
@@ -15,104 +14,15 @@ import {
   getMessageBySenderAndServerTimestamp,
 } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { allowOnlyOneAtATime } from '../session/utils/Promise';
-import { toHex } from '../session/utils/String';
 import { toLogFormat } from '../types/attachments/Errors';
-import { processNewAttachment } from '../types/MessageAttachment';
-import { MIME } from '../types';
-import { autoScaleForIncomingAvatar } from '../util/attachmentsUtil';
+
 import {
   createSwarmMessageSentFromNotUs,
   createSwarmMessageSentFromUs,
 } from '../models/messageFactory';
 import { MessageModel } from '../models/message';
 import { isUsFromCache } from '../session/utils/User';
-import { decryptProfile } from '../util/crypto/profileEncrypter';
-import ByteBuffer from 'bytebuffer';
-
-export async function updateProfileOneAtATime(
-  conversation: ConversationModel,
-  profile: SignalService.DataMessage.ILokiProfile,
-  profileKey?: Uint8Array | null // was any
-) {
-  if (!conversation?.id) {
-    window?.log?.warn('Cannot update profile with empty convoid');
-    return;
-  }
-  const oneAtaTimeStr = `updateProfileOneAtATime:${conversation.id}`;
-  return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-    return createOrUpdateProfile(conversation, profile, profileKey);
-  });
-}
-
-/**
- * Creates a new profile from the profile provided. Creates the profile if it doesn't exist.
- */
-async function createOrUpdateProfile(
-  conversation: ConversationModel,
-  profile: SignalService.DataMessage.ILokiProfile,
-  profileKey?: Uint8Array | null
-) {
-  // Retain old values unless changed:
-  const newProfile = conversation.get('profile') || {};
-
-  newProfile.displayName = profile.displayName;
-
-  if (profile.profilePicture && profileKey) {
-    const prevPointer = conversation.get('avatarPointer');
-    const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
-
-    if (needsUpdate) {
-      try {
-        const downloaded = await downloadAttachment({
-          url: profile.profilePicture,
-          isRaw: true,
-        });
-
-        // null => use placeholder with color and first letter
-        let path = null;
-        if (profileKey) {
-          // Convert profileKey to ArrayBuffer, if needed
-          const encoding = typeof profileKey === 'string' ? 'base64' : null;
-          try {
-            const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
-              profileKey,
-              encoding
-            ).toArrayBuffer();
-            const decryptedData = await decryptProfile(downloaded.data, profileKeyArrayBuffer);
-
-            const scaledData = await autoScaleForIncomingAvatar(decryptedData);
-            const upgraded = await processNewAttachment({
-              data: await scaledData.blob.arrayBuffer(),
-              contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
-            });
-            // Only update the convo if the download and decrypt is a success
-            conversation.set('avatarPointer', profile.profilePicture);
-            conversation.set('profileKey', toHex(profileKey));
-            ({ path } = upgraded);
-          } catch (e) {
-            window?.log?.error(`Could not decrypt profile image: ${e}`);
-          }
-        }
-        newProfile.avatar = path;
-      } catch (e) {
-        window.log.warn(
-          `Failed to download attachment at ${profile.profilePicture}. Maybe it expired? ${e.message}`
-        );
-        // do not return here, we still want to update the display name even if the avatar failed to download
-      }
-    }
-  } else if (profileKey) {
-    newProfile.avatar = null;
-  }
-
-  const conv = await getConversationController().getOrCreateAndWait(
-    conversation.id,
-    ConversationTypeEnum.PRIVATE
-  );
-  await conv.setLokiProfile(newProfile);
-  await conv.commit();
-}
+import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -303,7 +213,7 @@ export async function handleSwarmDataMessage(
     cleanDataMessage.profileKey?.length
   ) {
     // do not await this
-    void updateProfileOneAtATime(
+    void appendFetchAvatarAndProfileJob(
       senderConversationModel,
       cleanDataMessage.profile,
       cleanDataMessage.profileKey

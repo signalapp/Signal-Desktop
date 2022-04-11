@@ -11,6 +11,7 @@ import { THUMBNAIL_SIDE } from '../types/attachments/VisualAttachment';
 
 import imageType from 'image-type';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../session/constants';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 /**
  * The logic for sending attachments is as follow:
@@ -64,6 +65,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
     throw new Error('Cannot autoScaleForAvatar another file than PNG,GIF or JPEG.');
   }
 
+  window.log.info('autoscale for avatar', maxMeasurements);
   return autoScale(attachment, maxMeasurements);
 }
 
@@ -88,6 +90,8 @@ export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
       blob,
     };
   }
+  window.log.info('autoscale for incoming avatar', maxMeasurements);
+
   return autoScale(
     {
       blob,
@@ -108,6 +112,8 @@ export async function autoScaleForThumbnail<T extends { contentType: string; blo
     maxSide: THUMBNAIL_SIDE,
     maxSize: 200 * 1000, // 200 ko
   };
+
+  window.log.info('autoScaleForThumbnail', maxMeasurements);
 
   return autoScale(attachment, maxMeasurements);
 }
@@ -168,8 +174,9 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     canvas: true,
   };
 
+  perfStart(`loadimage-*${blob.size}`);
   const canvas = await loadImage(blob, loadImgOpts);
-
+  perfEnd(`loadimage-*${blob.size}`, `loadimage-*${blob.size}`);
   if (!canvas || !canvas.originalWidth || !canvas.originalHeight) {
     throw new Error('failed to scale image');
   }

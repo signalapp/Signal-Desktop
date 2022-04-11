@@ -143,9 +143,8 @@ export const buildUrl = (request: FileServerV2Request | OpenGroupV2Request): URL
 };
 
 /**
- * Upload a file to the file server v2
- * @param fileContent the data to send
- * @returns null or the fileID and complete URL to share this file
+ * Fetch the latest desktop release available on github from the fileserver.
+ * This call is onion routed and so do not expose our ip to github nor the file server.
  */
 export const getLatestDesktopReleaseFileToFsV2 = async (): Promise<string | null> => {
   const queryParams = {
