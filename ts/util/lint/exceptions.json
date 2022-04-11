@@ -8087,7 +8087,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/agentkeepalive/node_modules/debug/src/browser.js",
     "line": "function load() {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8095,7 +8095,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/agentkeepalive/node_modules/debug/src/common.js",
     "line": "\tcreateDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8103,7 +8103,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/agentkeepalive/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8111,7 +8111,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/make-fetch-happen/node_modules/debug/src/browser.js",
     "line": "function load() {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8119,7 +8119,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/make-fetch-happen/node_modules/debug/src/common.js",
     "line": "\tcreateDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8127,7 +8127,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/make-fetch-happen/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8135,7 +8135,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/minipass-fetch/lib/headers.js",
     "line": "          this.append(headerName, value)",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8143,7 +8143,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/minipass-fetch/lib/headers.js",
     "line": "          this.append(pair[0], pair[1])",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8151,7 +8151,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/minipass-fetch/lib/headers.js",
     "line": "          this.append(key, init[key])",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8159,7 +8159,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/minipass-fetch/lib/request.js",
     "line": "        headers.append('Content-Type', contentType)",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   },
@@ -8167,7 +8167,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/minipass-fetch/lib/response.js",
     "line": "        headers.append('Content-Type', contentType)",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
   }
