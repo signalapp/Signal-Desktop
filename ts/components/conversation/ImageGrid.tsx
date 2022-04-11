@@ -47,6 +47,7 @@ export const ImageGrid = (props: Props) => {
           url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
+          attachmentIndex={0}
         />
       </div>
     );
@@ -65,6 +66,7 @@ export const ImageGrid = (props: Props) => {
           url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
+          attachmentIndex={0}
         />
         <Image
           alt={getAlt(attachments[1])}
@@ -76,6 +78,7 @@ export const ImageGrid = (props: Props) => {
           url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
+          attachmentIndex={1}
         />
       </div>
     );
@@ -94,6 +97,7 @@ export const ImageGrid = (props: Props) => {
           url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
+          attachmentIndex={0}
         />
         <div className="module-image-grid__column">
           <Image
@@ -105,6 +109,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={1}
           />
           <Image
             alt={getAlt(attachments[2])}
@@ -116,6 +121,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={2}
           />
         </div>
       </div>
@@ -136,6 +142,7 @@ export const ImageGrid = (props: Props) => {
               url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
+              attachmentIndex={0}
             />
             <Image
               alt={getAlt(attachments[1])}
@@ -146,6 +153,7 @@ export const ImageGrid = (props: Props) => {
               url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
+              attachmentIndex={1}
             />
           </div>
           <div className="module-image-grid__row">
@@ -159,6 +167,7 @@ export const ImageGrid = (props: Props) => {
               url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
+              attachmentIndex={2}
             />
             <Image
               alt={getAlt(attachments[3])}
@@ -170,6 +179,7 @@ export const ImageGrid = (props: Props) => {
               url={isMessageVisible ? getThumbnailUrl(attachments[3]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
+              attachmentIndex={3}
             />
           </div>
         </div>
@@ -193,6 +203,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={0}
           />
           <Image
             alt={getAlt(attachments[1])}
@@ -203,6 +214,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={1}
           />
         </div>
         <div className="module-image-grid__row">
@@ -216,6 +228,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={2}
           />
           <Image
             alt={getAlt(attachments[3])}
@@ -227,6 +240,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[3]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={3}
           />
           <Image
             alt={getAlt(attachments[4])}
@@ -240,6 +254,7 @@ export const ImageGrid = (props: Props) => {
             url={isMessageVisible ? getThumbnailUrl(attachments[4]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
+            attachmentIndex={4}
           />
         </div>
       </div>
