@@ -56,6 +56,7 @@ const mapStateToProps = (
     showExpiredOutgoingTapToViewToast,
     showForwardMessageModal,
     showVisualAttachment,
+    startConversation,
   } = props;
 
   const contactNameColor =
@@ -102,6 +103,7 @@ const mapStateToProps = (
     showExpiredOutgoingTapToViewToast,
     showForwardMessageModal,
     showVisualAttachment,
+    startConversation,
   };
 };
 

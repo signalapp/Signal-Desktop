@@ -20,6 +20,7 @@ import {
   IMAGE_WEBP,
   VIDEO_MP4,
   stringToMIMEType,
+  IMAGE_GIF,
 } from '../../types/MIME';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
@@ -30,6 +31,7 @@ import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
 import { MINUTE } from '../../util/durations';
+import { ContactFormType } from '../../types/EmbeddedContact';
 
 import {
   fakeAttachment,
@@ -37,6 +39,7 @@ import {
 } from '../../test-both/helpers/fakeAttachment';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
+import { UUID } from '../../types/UUID';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -118,6 +121,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     select('conversationColor', ConversationColors, ConversationColors[0]),
   conversationId: text('conversationId', overrideProps.conversationId || ''),
   conversationType: overrideProps.conversationType || 'direct',
+  contact: overrideProps.contact,
   deletedForEveryone: overrideProps.deletedForEveryone,
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
@@ -191,6 +195,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showForwardMessageModal: action('showForwardMessageModal'),
   showMessageDetail: action('showMessageDetail'),
   showVisualAttachment: action('showVisualAttachment'),
+  startConversation: action('startConversation'),
   status: overrideProps.status || 'sent',
   text: overrideProps.text || text('text', ''),
   textDirection: overrideProps.textDirection || TextDirection.Default,
@@ -1515,4 +1520,140 @@ story.add('Story reply', () => {
       }}
     />
   );
+});
+
+const fullContact = {
+  avatar: {
+    avatar: fakeAttachment({
+      path: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
+      contentType: IMAGE_GIF,
+    }),
+    isProfile: true,
+  },
+  email: [
+    {
+      value: 'jerjor@fakemail.com',
+      type: ContactFormType.HOME,
+    },
+  ],
+  name: {
+    givenName: 'Jerry',
+    familyName: 'Jordan',
+    prefix: 'Dr.',
+    suffix: 'Jr.',
+    middleName: 'James',
+    displayName: 'Jerry Jordan',
+  },
+  number: [
+    {
+      value: '555-444-2323',
+      type: ContactFormType.HOME,
+    },
+  ],
+};
+
+story.add('EmbeddedContact: Full Contact', () => {
+  const props = createProps({
+    contact: fullContact,
+  });
+  return renderBothDirections(props);
+});
+
+story.add('EmbeddedContact: 2x Incoming, with Send Message', () => {
+  const props = createProps({
+    contact: {
+      ...fullContact,
+      firstNumber: fullContact.number[0].value,
+      uuid: UUID.generate().toString(),
+    },
+    direction: 'incoming',
+  });
+  return renderMany([props, props]);
+});
+
+story.add('EmbeddedContact: 2x Outgoing, with Send Message', () => {
+  const props = createProps({
+    contact: {
+      ...fullContact,
+      firstNumber: fullContact.number[0].value,
+      uuid: UUID.generate().toString(),
+    },
+    direction: 'outgoing',
+  });
+  return renderMany([props, props]);
+});
+
+story.add('EmbeddedContact: Only Email', () => {
+  const props = createProps({
+    contact: {
+      email: fullContact.email,
+    },
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('EmbeddedContact: Given Name', () => {
+  const props = createProps({
+    contact: {
+      name: {
+        givenName: 'Jerry',
+      },
+    },
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('EmbeddedContact: Organization', () => {
+  const props = createProps({
+    contact: {
+      organization: 'Company 5',
+    },
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('EmbeddedContact: Given + Family Name', () => {
+  const props = createProps({
+    contact: {
+      name: {
+        givenName: 'Jerry',
+        familyName: 'FamilyName',
+      },
+    },
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('EmbeddedContact: Family Name', () => {
+  const props = createProps({
+    contact: {
+      name: {
+        familyName: 'FamilyName',
+      },
+    },
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('EmbeddedContact: Loading Avatar', () => {
+  const props = createProps({
+    contact: {
+      name: {
+        displayName: 'Jerry Jordan',
+      },
+      avatar: {
+        avatar: fakeAttachment({
+          pending: true,
+          contentType: IMAGE_GIF,
+        }),
+        isProfile: true,
+      },
+    },
+  });
+  return renderBothDirections(props);
 });

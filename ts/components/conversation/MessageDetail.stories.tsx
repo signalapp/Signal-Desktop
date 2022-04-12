@@ -99,6 +99,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
   showForwardMessageModal: action('showForwardMessageModal'),
   showVisualAttachment: action('showVisualAttachment'),
+  startConversation: action('startConversation'),
 });
 
 story.add('Delivered Incoming', () => {

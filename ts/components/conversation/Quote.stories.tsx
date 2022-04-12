@@ -96,6 +96,7 @@ const defaultMessageProps: MessagesProps = {
   showForwardMessageModal: action('default--showForwardMessageModal'),
   showMessageDetail: action('default--showMessageDetail'),
   showVisualAttachment: action('default--showVisualAttachment'),
+  startConversation: action('default--startConversation'),
   status: 'sent',
   text: 'This is really interesting.',
   textDirection: TextDirection.Default,

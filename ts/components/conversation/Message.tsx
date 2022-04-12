@@ -83,6 +83,7 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { StopPropagation } from '../StopPropagation';
+import type { UUIDStringType } from '../../types/UUID';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -279,7 +280,7 @@ export type PropsActions = {
   clearSelectedMessage: () => unknown;
   doubleCheckMissingQuoteReference: (messageId: string) => unknown;
   messageExpanded: (id: string, displayLimit: number) => unknown;
-  checkForAccount: (identifier: string) => unknown;
+  checkForAccount: (phoneNumber: string) => unknown;
 
   reactToMessage: (
     id: string,
@@ -293,10 +294,14 @@ export type PropsActions = {
   deleteMessageForEveryone: (id: string) => void;
   showMessageDetail: (id: string) => void;
 
+  startConversation: (e164: string, uuid: UUIDStringType) => void;
   openConversation: (conversationId: string, messageId?: string) => void;
   showContactDetail: (options: {
     contact: EmbeddedContactType;
-    signalAccount?: string;
+    signalAccount?: {
+      phoneNumber: string;
+      uuid: UUIDStringType;
+    };
   }) => void;
   showContactModal: (contactId: string, conversationId?: string) => void;
 
@@ -501,7 +506,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const { contact, checkForAccount } = this.props;
-    if (contact && contact.firstNumber && !contact.isNumberOnSignal) {
+    if (contact && contact.firstNumber && !contact.uuid) {
       checkForAccount(contact.firstNumber);
     }
   }
@@ -1336,8 +1341,7 @@ export class Message extends React.PureComponent<Props, State> {
       this.getMetadataPlacement() !== MetadataPlacement.NotRendered;
 
     const otherContent =
-      (contact && contact.firstNumber && contact.isNumberOnSignal) ||
-      withCaption;
+      (contact && contact.firstNumber && contact.uuid) || withCaption;
     const tabIndex = otherContent ? 0 : -1;
 
     return (
@@ -1346,7 +1350,18 @@ export class Message extends React.PureComponent<Props, State> {
         isIncoming={direction === 'incoming'}
         i18n={i18n}
         onClick={() => {
-          showContactDetail({ contact, signalAccount: contact.firstNumber });
+          const signalAccount =
+            contact.firstNumber && contact.uuid
+              ? {
+                  phoneNumber: contact.firstNumber,
+                  uuid: contact.uuid,
+                }
+              : undefined;
+
+          showContactDetail({
+            contact,
+            signalAccount,
+          });
         }}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
@@ -1356,20 +1371,30 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderSendMessageButton(): JSX.Element | null {
-    const { contact, openConversation, i18n } = this.props;
+    const { contact, direction, shouldCollapseBelow, startConversation, i18n } =
+      this.props;
+    const noBottomLeftCurve = direction === 'incoming' && shouldCollapseBelow;
+    const noBottomRightCurve = direction === 'outgoing' && shouldCollapseBelow;
+
     if (!contact) {
       return null;
     }
-    const { firstNumber, isNumberOnSignal } = contact;
-    if (!firstNumber || !isNumberOnSignal) {
+    const { firstNumber, uuid } = contact;
+    if (!firstNumber || !uuid) {
       return null;
     }
 
     return (
       <button
         type="button"
-        onClick={() => openConversation(firstNumber)}
-        className="module-message__send-message-button"
+        onClick={() => startConversation(firstNumber, uuid)}
+        className={classNames(
+          'module-message__send-message-button',
+          noBottomLeftCurve &&
+            'module-message__send-message-button--no-bottom-left-curve',
+          noBottomRightCurve &&
+            'module-message__send-message-button--no-bottom-right-curve'
+        )}
       >
         {i18n('sendMessageToContact')}
       </button>
@@ -2484,7 +2509,7 @@ export class Message extends React.PureComponent<Props, State> {
       this.audioButtonRef.current.click();
     }
 
-    if (contact && contact.firstNumber && contact.isNumberOnSignal) {
+    if (contact && contact.firstNumber && contact.uuid) {
       openConversation(contact.firstNumber);
 
       event.preventDefault();
@@ -2492,7 +2517,14 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (contact) {
-      showContactDetail({ contact, signalAccount: contact.firstNumber });
+      const signalAccount =
+        contact.firstNumber && contact.uuid
+          ? {
+              phoneNumber: contact.firstNumber,
+              uuid: contact.uuid,
+            }
+          : undefined;
+      showContactDetail({ contact, signalAccount });
 
       event.preventDefault();
       event.stopPropagation();

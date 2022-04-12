@@ -14,6 +14,7 @@ import {
 import type { AttachmentType, migrateDataToFileSystem } from './Attachment';
 import { toLogFormat } from './errors';
 import type { LoggerType } from './Logging';
+import type { UUIDStringType } from './UUID';
 
 export type EmbeddedContactType = {
   name?: Name;
@@ -25,7 +26,7 @@ export type EmbeddedContactType = {
 
   // Populated by selector
   firstNumber?: string;
-  isNumberOnSignal?: boolean;
+  uuid?: UUIDStringType;
 };
 
 type Name = {
@@ -133,16 +134,11 @@ export function embeddedContactSelector(
   options: {
     regionCode?: string;
     firstNumber?: string;
-    isNumberOnSignal?: boolean;
+    uuid?: UUIDStringType;
     getAbsoluteAttachmentPath: (path: string) => string;
   }
 ): EmbeddedContactType {
-  const {
-    getAbsoluteAttachmentPath,
-    firstNumber,
-    isNumberOnSignal,
-    regionCode,
-  } = options;
+  const { getAbsoluteAttachmentPath, firstNumber, uuid, regionCode } = options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar) {
@@ -164,7 +160,7 @@ export function embeddedContactSelector(
   return {
     ...contact,
     firstNumber,
-    isNumberOnSignal,
+    uuid,
     avatar,
     number:
       contact.number &&

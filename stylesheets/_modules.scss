@@ -1207,15 +1207,15 @@
   @include font-body-2-bold;
 
   margin-top: 8px;
-  margin-bottom: -10px;
+  margin-bottom: -8px;
   margin-left: -12px;
   margin-right: -12px;
 
   text-align: center;
   padding: 10px;
 
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
 
   @include light-theme {
     color: $color-ultramarine;
@@ -1233,6 +1233,13 @@
       box-shadow: 0px 0px 0px 2px $color-ultramarine;
     }
   }
+}
+
+.module-message__send-message-button--no-bottom-left-curve {
+  border-bottom-left-radius: 4px;
+}
+.module-message__send-message-button--no-bottom-right-curve {
+  border-bottom-right-radius: 4px;
 }
 
 .module-message__author-avatar-container {

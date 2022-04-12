@@ -93,6 +93,7 @@ const getDefaultProps = () => ({
   downloadNewVersion: action('downloadNewVersion'),
   showIdentity: action('showIdentity'),
   startCallingLobby: action('startCallingLobby'),
+  startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,

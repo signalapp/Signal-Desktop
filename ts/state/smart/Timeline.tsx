@@ -98,6 +98,7 @@ export type TimelinePropsType = ExternalProps &
     | 'showIdentity'
     | 'showMessageDetail'
     | 'showVisualAttachment'
+    | 'startConversation'
     | 'unblurAvatar'
     | 'updateSharedGroups'
   >;

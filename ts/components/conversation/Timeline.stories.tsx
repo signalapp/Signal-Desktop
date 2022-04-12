@@ -398,6 +398,7 @@ const actions = () => ({
   downloadNewVersion: action('downloadNewVersion'),
 
   startCallingLobby: action('startCallingLobby'),
+  startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
 
   contactSupport: action('contactSupport'),

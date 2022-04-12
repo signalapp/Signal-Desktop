@@ -2,15 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+
+import * as Errors from '../../types/errors';
+import * as log from '../../logging/log';
+
 import type { StateType as RootStateType } from '../reducer';
-import { UUID } from '../../types/UUID';
+import type { UUIDStringType } from '../../types/UUID';
 
 import type { NoopActionType } from './noop';
 
 // State
 
 export type AccountsStateType = {
-  accounts: Record<string, boolean>;
+  accounts: Record<string, UUIDStringType | undefined>;
 };
 
 // Actions
@@ -18,8 +22,8 @@ export type AccountsStateType = {
 type AccountUpdateActionType = {
   type: 'accounts/UPDATE';
   payload: {
-    identifier: string;
-    hasAccount: boolean;
+    phoneNumber: string;
+    uuid?: UUIDStringType;
   };
 };
 
@@ -32,14 +36,14 @@ export const actions = {
 };
 
 function checkForAccount(
-  identifier: string
+  phoneNumber: string
 ): ThunkAction<
   void,
   RootStateType,
   unknown,
   AccountUpdateActionType | NoopActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     if (!window.textsecure.messaging) {
       dispatch({
         type: 'NOOP',
@@ -48,21 +52,50 @@ function checkForAccount(
       return;
     }
 
-    let hasAccount = false;
+    const conversation = window.ConversationController.get(phoneNumber);
+    if (conversation && conversation.get('uuid')) {
+      log.error(`checkForAccount: found ${phoneNumber} in existing contacts`);
+      const uuid = conversation.get('uuid');
 
+      dispatch({
+        type: 'accounts/UPDATE',
+        payload: {
+          phoneNumber,
+          uuid,
+        },
+      });
+      return;
+    }
+
+    const state = getState();
+    const existing = Object.prototype.hasOwnProperty.call(
+      state.accounts.accounts,
+      phoneNumber
+    );
+    if (existing) {
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
+    }
+
+    let uuid: UUIDStringType | undefined;
+
+    log.error(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
-      hasAccount = await window.textsecure.messaging.checkAccountExistence(
-        new UUID(identifier)
-      );
-    } catch (_error) {
-      // Doing nothing with this failed fetch
+      const uuidLookup = await window.textsecure.messaging.getUuidsForE164s([
+        phoneNumber,
+      ]);
+      uuid = uuidLookup[phoneNumber] || undefined;
+    } catch (error) {
+      log.error('checkForAccount:', Errors.toLogFormat(error));
     }
 
     dispatch({
       type: 'accounts/UPDATE',
       payload: {
-        identifier,
-        hasAccount,
+        phoneNumber,
+        uuid,
       },
     });
   };
@@ -86,13 +119,13 @@ export function reducer(
 
   if (action.type === 'accounts/UPDATE') {
     const { payload } = action;
-    const { identifier, hasAccount } = payload;
+    const { phoneNumber, uuid } = payload;
 
     return {
       ...state,
       accounts: {
         ...state.accounts,
-        [identifier]: hasAccount,
+        [phoneNumber]: uuid,
       },
     };
   }

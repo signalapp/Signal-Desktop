@@ -253,6 +253,7 @@ const getActions = createSelector(
       'scrollToQuotedMessage',
       'showExpiredIncomingTapToViewToast',
       'showExpiredOutgoingTapToViewToast',
+      'startConversation',
 
       'showIdentity',
 

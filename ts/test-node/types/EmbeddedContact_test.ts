@@ -14,6 +14,7 @@ import {
   parseAndWriteAvatar,
 } from '../../types/EmbeddedContact';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { UUID } from '../../types/UUID';
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
@@ -113,7 +114,7 @@ describe('Contact', () => {
   describe('embeddedContactSelector', () => {
     const regionCode = '1';
     const firstNumber = '+1202555000';
-    const isNumberOnSignal = false;
+    const uuid = undefined;
     const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
 
     it('eliminates avatar if it has had an attachment download error', () => {
@@ -141,13 +142,13 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: undefined,
         firstNumber,
-        isNumberOnSignal,
+        uuid,
         number: undefined,
       };
       const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
-        isNumberOnSignal,
+        uuid,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
@@ -185,19 +186,21 @@ describe('Contact', () => {
           }),
         },
         firstNumber,
-        isNumberOnSignal,
+        uuid,
         number: undefined,
       };
       const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
-        isNumberOnSignal,
+        uuid,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
     });
 
     it('calculates absolute path', () => {
+      const fullUuid = UUID.generate().toString();
+
       const contact = {
         name: {
           displayName: 'displayName',
@@ -228,13 +231,13 @@ describe('Contact', () => {
           }),
         },
         firstNumber,
-        isNumberOnSignal: true,
+        uuid: fullUuid,
         number: undefined,
       };
       const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
-        isNumberOnSignal: true,
+        uuid: fullUuid,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);

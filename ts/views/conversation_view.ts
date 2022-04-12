@@ -173,7 +173,10 @@ type MessageActionsType = {
   retryDeleteForEveryone: (messageId: string) => unknown;
   showContactDetail: (options: {
     contact: EmbeddedContactType;
-    signalAccount?: string;
+    signalAccount?: {
+      phoneNumber: string;
+      uuid: UUIDStringType;
+    };
   }) => unknown;
   showContactModal: (contactId: string) => unknown;
   showSafetyNumber: (contactId: string) => unknown;
@@ -187,6 +190,7 @@ type MessageActionsType = {
     messageId: string;
     showSingle?: boolean;
   }) => unknown;
+  startConversation: (e164: string, uuid: UUIDStringType) => unknown;
 };
 
 type MediaType = {
@@ -768,7 +772,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
     const showContactDetail = (options: {
       contact: EmbeddedContactType;
-      signalAccount?: string;
+      signalAccount?: {
+        phoneNumber: string;
+        uuid: UUIDStringType;
+      };
     }) => {
       this.showContactDetail(options);
     };
@@ -866,6 +873,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
 
     const showForwardMessageModal = this.showForwardMessageModal.bind(this);
+    const startConversation = this.startConversation.bind(this);
 
     return {
       deleteMessage,
@@ -891,6 +899,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showIdentity,
       showMessageDetail,
       showVisualAttachment,
+      startConversation,
     };
   }
 
@@ -2368,7 +2377,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     signalAccount,
   }: {
     contact: EmbeddedContactType;
-    signalAccount?: string;
+    signalAccount?: {
+      phoneNumber: string;
+      uuid: UUIDStringType;
+    };
   }): void {
     const view = new Whisper.ReactWrapperView({
       Component: window.Signal.Components.ContactDetail,
@@ -2378,7 +2390,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         hasSignalAccount: Boolean(signalAccount),
         onSendMessage: () => {
           if (signalAccount) {
-            this.openConversation(signalAccount);
+            this.startConversation(
+              signalAccount.phoneNumber,
+              signalAccount.uuid
+            );
           }
         },
       },
@@ -2388,6 +2403,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
 
     this.listenBack(view);
+  }
+
+  startConversation(e164: string, uuid: UUIDStringType): void {
+    const conversationId = window.ConversationController.ensureContactIds({
+      e164,
+      uuid,
+    });
+    strictAssert(
+      conversationId,
+      `startConversation failed given ${e164}/${uuid} combination`
+    );
+
+    this.openConversation(conversationId);
   }
 
   async openConversation(
