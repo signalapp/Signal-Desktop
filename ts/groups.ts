@@ -3893,7 +3893,10 @@ async function integrateGroupChange({
 
     const newMembers = profileKeysToMembers(newProfileKeys);
 
-    if (groupChangeMessages.length !== 0 || newMembers.length !== 0) {
+    if (
+      canApplyChange &&
+      (groupChangeMessages.length !== 0 || newMembers.length !== 0)
+    ) {
       assert(
         groupChangeMessages.length === 0,
         'Fallback group state processing should not kick in'
