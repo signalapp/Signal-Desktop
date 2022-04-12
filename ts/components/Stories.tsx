@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import FocusTrap from 'focus-trap-react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationStoryType, StoryViewType } from './StoryListItem';
@@ -83,28 +84,30 @@ export const Stories = ({
           stories: storiesToView.stories,
         })}
       <div className="Stories__pane" style={{ width }}>
-        <StoriesPane
-          hiddenStories={hiddenStories}
-          i18n={i18n}
-          onBack={toggleStoriesView}
-          onStoryClicked={conversationId => {
-            const storyIndex = stories.findIndex(
-              x => x.conversationId === conversationId
-            );
-            const foundStory = stories[storyIndex];
+        <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+          <StoriesPane
+            hiddenStories={hiddenStories}
+            i18n={i18n}
+            onBack={toggleStoriesView}
+            onStoryClicked={conversationId => {
+              const storyIndex = stories.findIndex(
+                x => x.conversationId === conversationId
+              );
+              const foundStory = stories[storyIndex];
 
-            if (foundStory) {
-              setStoriesToView({
-                conversationId,
-                stories: foundStory.stories,
-              });
-            }
-          }}
-          openConversationInternal={openConversationInternal}
-          queueStoryDownload={queueStoryDownload}
-          stories={stories}
-          toggleHideStories={toggleHideStories}
-        />
+              if (foundStory) {
+                setStoriesToView({
+                  conversationId,
+                  stories: foundStory.stories,
+                });
+              }
+            }}
+            openConversationInternal={openConversationInternal}
+            queueStoryDownload={queueStoryDownload}
+            stories={stories}
+            toggleHideStories={toggleHideStories}
+          />
+        </FocusTrap>
       </div>
       <div className="Stories__placeholder">
         <div className="Stories__placeholder__stories" />

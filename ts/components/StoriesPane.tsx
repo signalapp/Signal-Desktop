@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import FocusTrap from 'focus-trap-react';
 import Fuse from 'fuse.js';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
@@ -83,54 +82,52 @@ export const StoriesPane = ({
   }, [searchTerm, stories]);
 
   return (
-    <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
-      <div>
-        <div className="Stories__pane__header">
-          <button
-            aria-label={i18n('back')}
-            className="Stories__pane__header--back"
-            onClick={onBack}
-            tabIndex={0}
-            type="button"
-          />
-          <div className="Stories__pane__header--title">
-            {i18n('Stories__title')}
-          </div>
-        </div>
-        <SearchInput
-          i18n={i18n}
-          moduleClassName="Stories__search"
-          onChange={event => {
-            setSearchTerm(event.target.value);
-          }}
-          placeholder={i18n('search')}
-          value={searchTerm}
+    <>
+      <div className="Stories__pane__header">
+        <button
+          aria-label={i18n('back')}
+          className="Stories__pane__header--back"
+          onClick={onBack}
+          tabIndex={0}
+          type="button"
         />
-        <div
-          className={classNames('Stories__pane__list', {
-            'Stories__pane__list--empty': !stories.length,
-          })}
-        >
-          {renderedStories.map(story => (
-            <StoryListItem
-              key={getNewestStory(story).timestamp}
-              i18n={i18n}
-              onClick={() => {
-                onStoryClicked(story.conversationId);
-              }}
-              onHideStory={() => {
-                toggleHideStories(getNewestStory(story).sender.id);
-              }}
-              onGoToConversation={conversationId => {
-                openConversationInternal({ conversationId });
-              }}
-              queueStoryDownload={queueStoryDownload}
-              story={getNewestStory(story)}
-            />
-          ))}
-          {!stories.length && i18n('Stories__list-empty')}
+        <div className="Stories__pane__header--title">
+          {i18n('Stories__title')}
         </div>
       </div>
-    </FocusTrap>
+      <SearchInput
+        i18n={i18n}
+        moduleClassName="Stories__search"
+        onChange={event => {
+          setSearchTerm(event.target.value);
+        }}
+        placeholder={i18n('search')}
+        value={searchTerm}
+      />
+      <div
+        className={classNames('Stories__pane__list', {
+          'Stories__pane__list--empty': !stories.length,
+        })}
+      >
+        {renderedStories.map(story => (
+          <StoryListItem
+            key={getNewestStory(story).timestamp}
+            i18n={i18n}
+            onClick={() => {
+              onStoryClicked(story.conversationId);
+            }}
+            onHideStory={() => {
+              toggleHideStories(getNewestStory(story).sender.id);
+            }}
+            onGoToConversation={conversationId => {
+              openConversationInternal({ conversationId });
+            }}
+            queueStoryDownload={queueStoryDownload}
+            story={getNewestStory(story)}
+          />
+        ))}
+        {!stories.length && i18n('Stories__list-empty')}
+      </div>
+    </>
   );
 };
