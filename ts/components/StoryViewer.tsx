@@ -15,11 +15,10 @@ import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
-import { isDownloaded, isDownloading } from '../types/Attachment';
 import { getAvatarColor } from '../types/Colors';
+import { getStoryDuration } from '../util/getStoryDuration';
+import { isDownloaded, isDownloading } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
-
-const STORY_DURATION = 5000;
 
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -72,6 +71,7 @@ export const StoryViewer = ({
   views,
 }: PropsType): JSX.Element => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
+  const [storyDuration, setStoryDuration] = useState<number | undefined>();
 
   const visibleStory = stories[currentStoryIndex];
 
@@ -120,10 +120,25 @@ export const StoryViewer = ({
     }
   }, [currentStoryIndex, onPrevUserStories]);
 
+  useEffect(() => {
+    let shouldCancel = false;
+    (async function hydrateStoryDuration() {
+      if (!attachment) {
+        return;
+      }
+      const duration = await getStoryDuration(attachment);
+      if (shouldCancel) {
+        return;
+      }
+      setStoryDuration(duration);
+    })();
+
+    return () => {
+      shouldCancel = true;
+    };
+  }, [attachment]);
+
   const [styles, spring] = useSpring(() => ({
-    config: {
-      duration: STORY_DURATION,
-    },
     from: { width: 0 },
     to: { width: 100 },
     loop: true,
@@ -133,6 +148,9 @@ export const StoryViewer = ({
   // that this useEffect should run whenever the story changes.
   useEffect(() => {
     spring.start({
+      config: {
+        duration: storyDuration,
+      },
       from: { width: 0 },
       to: { width: 100 },
       onRest: {
@@ -147,7 +165,7 @@ export const StoryViewer = ({
     return () => {
       spring.stop();
     };
-  }, [currentStoryIndex, showNextStory, spring]);
+  }, [currentStoryIndex, showNextStory, spring, storyDuration]);
 
   useEffect(() => {
     if (hasReplyModal) {

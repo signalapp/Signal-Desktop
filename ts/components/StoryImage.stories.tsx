@@ -14,6 +14,7 @@ import {
   fakeAttachment,
   fakeThumbnail,
 } from '../test-both/helpers/fakeAttachment';
+import { VIDEO_MP4 } from '../types/MIME';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -85,5 +86,15 @@ story.add('Broken Image (thumbnail)', () => (
       url: '/this/path/does/not/exist.jpg',
     })}
     isThumbnail
+  />
+));
+
+story.add('Video', () => (
+  <StoryImage
+    {...getDefaultProps()}
+    attachment={fakeAttachment({
+      contentType: VIDEO_MP4,
+      url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+    })}
   />
 ));
