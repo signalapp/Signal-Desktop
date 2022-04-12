@@ -29,9 +29,9 @@ describe('addReportSpamJob', () => {
     };
   });
 
-  it('does nothing if the conversation lacks an E164', async () => {
+  it('does nothing if the conversation lacks a UUID', async () => {
     await addReportSpamJob({
-      conversation: getDefaultConversation({ e164: undefined }),
+      conversation: getDefaultConversation({ uuid: undefined }),
       getMessageServerGuidsForSpam,
       jobQueue,
     });
@@ -66,7 +66,7 @@ describe('addReportSpamJob', () => {
 
     sinon.assert.calledOnce(jobQueue.add);
     sinon.assert.calledWith(jobQueue.add, {
-      e164: conversation.e164,
+      uuid: conversation.uuid,
       serverGuids: ['abc', 'xyz'],
     });
   });

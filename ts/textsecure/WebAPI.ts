@@ -918,7 +918,7 @@ export type WebAPIType = {
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   registerKeys: (genKeys: KeysType, uuidKind: UUIDKind) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
-  reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
+  reportMessage: (senderUuid: string, serverGuid: string) => Promise<void>;
   requestVerificationSMS: (number: string, token: string) => Promise<void>;
   requestVerificationVoice: (number: string, token: string) => Promise<void>;
   checkAccountExistence: (uuid: UUID) => Promise<boolean>;
@@ -1663,13 +1663,13 @@ export function initialize({
     }
 
     async function reportMessage(
-      senderE164: string,
+      senderUuid: string,
       serverGuid: string
     ): Promise<void> {
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
-        urlParameters: `/${senderE164}/${serverGuid}`,
+        urlParameters: `/${senderUuid}/${serverGuid}`,
         responseType: 'bytes',
       });
     }

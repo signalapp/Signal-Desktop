@@ -1726,4 +1726,50 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion55', () => {
+    it('moves existing report spam jobs to new schema', () => {
+      updateToVersion(54);
+
+      const E164_1 = '+12125550155';
+      const MESSAGE_ID_1 = generateGuid();
+
+      db.exec(
+        `
+          INSERT INTO jobs
+            (id, timestamp, queueType, data)
+            VALUES
+            ('id-1', 1, 'random job', '{}'),
+            ('id-2', 2, 'report spam', '{"serverGuids": ["${MESSAGE_ID_1}"], "e164": "${E164_1}"}');
+          `
+      );
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const reportSpamJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'report spam';")
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 2, 'before total');
+      assert.strictEqual(reportSpamJobs.get(), 1, 'before report spam');
+
+      updateToVersion(55);
+
+      assert.strictEqual(totalJobs.get(), 2, 'after total');
+      assert.strictEqual(reportSpamJobs.get(), 1, 'after report spam');
+
+      const jobs = getJobsInQueueSync(db, 'report spam');
+
+      assert.deepEqual(jobs, [
+        {
+          id: 'id-2',
+          queueType: 'report spam',
+          timestamp: 2,
+          data: {
+            serverGuids: [`${MESSAGE_ID_1}`],
+            uuid: `${E164_1}`,
+          },
+        },
+      ]);
+    });
+  });
 });

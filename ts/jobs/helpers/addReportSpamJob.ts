@@ -22,10 +22,10 @@ export async function addReportSpamJob({
     'addReportSpamJob: cannot report spam for non-direct conversations'
   );
 
-  const { e164 } = conversation;
-  if (!e164) {
+  const { uuid } = conversation;
+  if (!uuid) {
     log.info(
-      'addReportSpamJob got a conversation with no E164, which the server does not support. Doing nothing'
+      'addReportSpamJob got a conversation with no UUID, which the server does not support. Doing nothing'
     );
     return;
   }
@@ -41,5 +41,5 @@ export async function addReportSpamJob({
     return;
   }
 
-  await jobQueue.add({ e164, serverGuids });
+  await jobQueue.add({ uuid, serverGuids });
 }

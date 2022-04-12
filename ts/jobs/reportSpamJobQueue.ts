@@ -27,7 +27,7 @@ const isRetriable4xxStatus = (code: number): boolean =>
   RETRYABLE_4XX_FAILURE_STATUSES.has(code);
 
 const reportSpamJobDataSchema = z.object({
-  e164: z.string().min(1),
+  uuid: z.string().min(1),
   serverGuids: z.string().array().min(1).max(1000),
 });
 
@@ -48,7 +48,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     { data }: Readonly<{ data: ReportSpamJobData }>,
     { log }: Readonly<{ log: LoggerType }>
   ): Promise<void> {
-    const { e164, serverGuids } = data;
+    const { uuid, serverGuids } = data;
 
     await new Promise<void>(resolve => {
       window.storage.onready(resolve);
@@ -66,7 +66,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
     try {
       await Promise.all(
-        map(serverGuids, serverGuid => server.reportMessage(e164, serverGuid))
+        map(serverGuids, serverGuid => server.reportMessage(uuid, serverGuid))
       );
     } catch (err: unknown) {
       if (!(err instanceof HTTPError)) {
