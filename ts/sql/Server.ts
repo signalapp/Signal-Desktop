@@ -3133,8 +3133,10 @@ function removeUnprocessedSync(id: string | Array<string>): void {
     return;
   }
 
+  // This can happen normally due to flushing of `cacheRemoveBatcher` in
+  // MessageReceiver.
   if (!id.length) {
-    throw new Error('removeUnprocessedSync: No ids to delete!');
+    return;
   }
 
   assertSync(batchMultiVarQuery(db, id, removeUnprocessedsSync));

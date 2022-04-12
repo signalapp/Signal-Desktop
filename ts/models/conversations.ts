@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
-import { compact, isNumber } from 'lodash';
+import { compact, isNumber, throttle, debounce } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
 
@@ -178,7 +178,7 @@ export class ConversationModel extends window.Backbone
 
   contactCollection?: Backbone.Collection<ConversationModel>;
 
-  debouncedUpdateLastMessage?: () => void;
+  debouncedUpdateLastMessage?: (() => void) & { flush(): void };
 
   initialPromise?: Promise<unknown>;
 
@@ -293,14 +293,14 @@ export class ConversationModel extends window.Backbone
     //   our first save to the database. Or first fetch from the database.
     this.initialPromise = Promise.resolve();
 
-    this.throttledBumpTyping = window._.throttle(this.bumpTyping, 300);
-    this.debouncedUpdateLastMessage = window._.debounce(
+    this.throttledBumpTyping = throttle(this.bumpTyping, 300);
+    this.debouncedUpdateLastMessage = debounce(
       this.updateLastMessage.bind(this),
       200
     );
     this.throttledUpdateSharedGroups =
       this.throttledUpdateSharedGroups ||
-      window._.throttle(this.updateSharedGroups.bind(this), FIVE_MINUTES);
+      throttle(this.updateSharedGroups.bind(this), FIVE_MINUTES);
 
     this.contactCollection = this.getContactCollection();
     this.contactCollection.on(
@@ -362,11 +362,11 @@ export class ConversationModel extends window.Backbone
     // conversation for the first time.
     this.isFetchingUUID = this.isSMSOnly();
 
-    this.throttledFetchSMSOnlyUUID = window._.throttle(
+    this.throttledFetchSMSOnlyUUID = throttle(
       this.fetchSMSOnlyUUID.bind(this),
       FIVE_MINUTES
     );
-    this.throttledMaybeMigrateV1Group = window._.throttle(
+    this.throttledMaybeMigrateV1Group = throttle(
       this.maybeMigrateV1Group.bind(this),
       FIVE_MINUTES
     );
@@ -5464,6 +5464,18 @@ export class ConversationModel extends window.Backbone
 
     log.info(`conversation ${this.idForLogging()} open took ${delta}ms`);
     window.CI?.handleEvent('conversation:open', { delta });
+  }
+
+  async flushDebouncedUpdates(): Promise<void> {
+    try {
+      await this.debouncedUpdateLastMessage?.flush();
+    } catch (error) {
+      const logId = this.idForLogging();
+      log.error(
+        `flushDebouncedUpdates(${logId}): got error`,
+        Errors.toLogFormat(error)
+      );
+    }
   }
 }
 

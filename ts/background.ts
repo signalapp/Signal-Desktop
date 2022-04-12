@@ -658,12 +658,25 @@ export async function startApp(): Promise<void> {
           await window.waitForAllBatchers();
         }
 
+        log.info('background/shutdown: flushing conversations');
+
+        // Flush debounced updates for conversations
+        await Promise.all(
+          window.ConversationController.getAll().map(convo =>
+            convo.flushDebouncedUpdates()
+          )
+        );
+
+        log.info('background/shutdown: waiting for all batchers');
+
         // A number of still-to-queue database queries might be waiting inside batchers.
         //   We wait for these to empty first, and then shut down the data interface.
         await Promise.all([
           window.waitForAllBatchers(),
           window.waitForAllWaitBatchers(),
         ]);
+
+        log.info('background/shutdown: closing the database');
 
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
