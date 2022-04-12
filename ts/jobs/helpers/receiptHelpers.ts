@@ -29,6 +29,7 @@ export async function runReceiptJob({
     attempt,
     log,
     timeRemaining,
+    skipWait: false,
   });
   if (!shouldContinue) {
     return;

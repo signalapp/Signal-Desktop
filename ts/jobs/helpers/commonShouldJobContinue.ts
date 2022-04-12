@@ -11,10 +11,12 @@ export async function commonShouldJobContinue({
   attempt,
   log,
   timeRemaining,
+  skipWait,
 }: Readonly<{
   attempt: number;
   log: LoggerType;
   timeRemaining: number;
+  skipWait: boolean;
 }>): Promise<boolean> {
   if (timeRemaining <= 0) {
     log.info("giving up because it's been too long");
@@ -35,6 +37,10 @@ export async function commonShouldJobContinue({
   if (!isDeviceLinked()) {
     log.info("skipping this job because we're unlinked");
     return false;
+  }
+
+  if (skipWait) {
+    return true;
   }
 
   const sleepTime = exponentialBackoffSleepTime(attempt);

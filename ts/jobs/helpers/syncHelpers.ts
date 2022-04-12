@@ -108,6 +108,7 @@ export async function runSyncJob({
     attempt,
     log,
     timeRemaining,
+    skipWait: false,
   });
   if (!shouldContinue) {
     return;

@@ -214,8 +214,11 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
 
     let timeRemaining: number;
     let shouldContinue: boolean;
+    let count = 0;
+
     // eslint-disable-next-line no-constant-condition
     while (true) {
+      count += 1;
       log.info('calculating timeRemaining and shouldContinue...');
       timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
       // eslint-disable-next-line no-await-in-loop
@@ -223,6 +226,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         attempt,
         log,
         timeRemaining,
+        skipWait: count > 1,
       });
       if (!shouldContinue) {
         break;

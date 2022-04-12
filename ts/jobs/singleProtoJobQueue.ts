@@ -54,6 +54,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       attempt,
       log,
       timeRemaining,
+      skipWait: false,
     });
     if (!shouldContinue) {
       return;
