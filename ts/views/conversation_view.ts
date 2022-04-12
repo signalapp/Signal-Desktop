@@ -1324,7 +1324,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         {
           attachments,
           doForwardMessage,
-          hasContact: Boolean(message.get('contact')),
+          hasContact: Boolean(message.get('contact')?.length),
           isSticker: Boolean(message.get('sticker')),
           messageBody: message.getRawText(),
           onClose: () => {
@@ -1468,7 +1468,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
               },
               { ...sendMessageOptions, timestamp }
             );
-          } else if (contact) {
+          } else if (contact?.length) {
             const contactWithHydratedAvatar = await loadContactData(contact);
             conversation.enqueueMessageForSend(
               {
