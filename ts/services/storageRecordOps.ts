@@ -832,9 +832,7 @@ export async function mergeContactRecord(
     }
   }
 
-  // Update verified status unconditionally to make sure we will take the
-  // latest identity key from the manifest.
-  {
+  if (contactRecord.identityKey) {
     const verified = await conversation.safeGetVerified();
     const storageServiceVerified = contactRecord.identityState || 0;
     const verifiedOptions = {
@@ -847,6 +845,8 @@ export async function mergeContactRecord(
       details.push(`updating verified state to=${verified}`);
     }
 
+    // Update verified status unconditionally to make sure we will take the
+    // latest identity key from the manifest.
     let keyChange: boolean;
     switch (storageServiceVerified) {
       case STATE_ENUM.VERIFIED:

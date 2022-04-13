@@ -1372,10 +1372,10 @@
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
 
-"@signalapp/mock-server@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.2.1.tgz#20fd9f1efded52155ad3d55b7e739d4bfcf1953f"
-  integrity sha512-TR2l3+6rSQ3+jXGhrPTQ/QIk1ygKro5CrEg4X8A8j68V/uPxoa1b8a4EGBS6swHxw26Wh1l0DZUPoOGXhdM9Qg==
+"@signalapp/mock-server@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.3.0.tgz#288a994c4f5c26c4c2680289af471e08746ac353"
+  integrity sha512-ix3GO0lytE02nWLj1fKY3UhKM3lCynhvF2LVNHEiMen9wurVyb8mVcmBDb9zRBi63tZmFLAq/IQEYrc1OK3ZJQ==
   dependencies:
     "@signalapp/libsignal-client" "0.15.0"
     debug "^4.3.2"

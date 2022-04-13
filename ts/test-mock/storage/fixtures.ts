@@ -6,6 +6,7 @@ import type { Group, PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState, Proto } from '@signalapp/mock-server';
 import { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
+import type { BootstrapOptions } from '../bootstrap';
 
 export const debug = createDebug('mock:test-storage');
 
@@ -17,7 +18,7 @@ export type InitStorageResultType = Readonly<{
   bootstrap: Bootstrap;
   app: App;
   group: Group;
-  members: Array<PrimaryDevice>;
+  members: ReadonlyArray<PrimaryDevice>;
 }>;
 
 //
@@ -30,9 +31,11 @@ export type InitStorageResultType = Readonly<{
 // In addition to above, this function will queue one incoming message in the
 // group, and one for the first contact (so that both will appear in the left
 // pane).
-export async function initStorage(): Promise<InitStorageResultType> {
+export async function initStorage(
+  options?: BootstrapOptions
+): Promise<InitStorageResultType> {
   // Creates primary device, contacts
-  const bootstrap = new Bootstrap();
+  const bootstrap = new Bootstrap(options);
 
   await bootstrap.init();
 

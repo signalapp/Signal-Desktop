@@ -1,7 +1,7 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isNumber } from 'lodash';
+import { debounce, isNumber, chunk } from 'lodash';
 import pMap from 'p-map';
 import Long from 'long';
 
@@ -26,6 +26,7 @@ import {
   toGroupV2Record,
 } from './storageRecordOps';
 import type { MergeResultType } from './storageRecordOps';
+import { MAX_READ_KEYS } from './storageConstants';
 import type { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
@@ -979,26 +980,36 @@ async function processRemoteRecords(
       `count=${remoteOnlyRecords.size}`
   );
 
-  const readOperation = new Proto.ReadOperation();
-  readOperation.readKey = Array.from(remoteOnlyRecords.keys()).map(
-    Bytes.fromBase64
-  );
-
   const credentials = window.storage.get('storageCredentials');
-  const storageItemsBuffer =
-    await window.textsecure.messaging.getStorageRecords(
-      Proto.ReadOperation.encode(readOperation).finish(),
-      {
-        credentials,
-      }
-    );
+  const batches = chunk(Array.from(remoteOnlyRecords.keys()), MAX_READ_KEYS);
+
+  const storageItems = (
+    await pMap(
+      batches,
+      async (
+        batch: ReadonlyArray<string>
+      ): Promise<Array<Proto.IStorageItem>> => {
+        const readOperation = new Proto.ReadOperation();
+        readOperation.readKey = batch.map(Bytes.fromBase64);
+
+        const storageItemsBuffer =
+          await window.textsecure.messaging.getStorageRecords(
+            Proto.ReadOperation.encode(readOperation).finish(),
+            {
+              credentials,
+            }
+          );
+
+        return Proto.StorageItems.decode(storageItemsBuffer).items ?? [];
+      },
+      { concurrency: 5 }
+    )
+  ).flat();
 
   const missingKeys = new Set<string>(remoteOnlyRecords.keys());
 
-  const storageItems = Proto.StorageItems.decode(storageItemsBuffer);
-
   const decryptedStorageItems = await pMap(
-    storageItems.items,
+    storageItems,
     async (
       storageRecordWrapper: Proto.IStorageItem
     ): Promise<MergeableItemType> => {
