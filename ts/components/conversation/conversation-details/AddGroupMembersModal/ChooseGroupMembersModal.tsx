@@ -239,7 +239,6 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
           {i18n('AddGroupMembersModal--title')}
         </h1>
         <SearchInput
-          disabled={candidateContacts.length === 0}
           i18n={i18n}
           placeholder={i18n('contactSearchPlaceholder')}
           onChange={event => {
@@ -277,7 +276,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
             ))}
           </ContactPills>
         )}
-        {candidateContacts.length ? (
+        {rowCount ? (
           <Measure bounds>
             {({ contentRect, measureRef }: MeasuredComponentProps) => {
               // We disable this ESLint rule because we're capturing a bubbled keydown
