@@ -2628,7 +2628,7 @@ export class Message extends React.PureComponent<Props, State> {
     const containerStyles = {
       width: isShowingImage ? width : undefined,
     };
-    if (!isStickerLike && direction === 'outgoing') {
+    if (!isStickerLike && !deletedForEveryone && direction === 'outgoing') {
       Object.assign(containerStyles, getCustomColorStyle(customColor));
     }
 
