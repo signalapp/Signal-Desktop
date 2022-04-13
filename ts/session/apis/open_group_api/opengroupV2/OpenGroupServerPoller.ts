@@ -13,11 +13,7 @@ import {
 } from './OpenGroupAPIV2CompactPoll';
 import _ from 'lodash';
 import { ConversationModel } from '../../../../models/conversation';
-import {
-  filterAlreadyFetchedOpengroupMessage,
-  getMessageIdsFromServerIds,
-  removeMessage,
-} from '../../../../data/data';
+import { getMessageIdsFromServerIds, removeMessage } from '../../../../data/data';
 import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import autoBind from 'auto-bind';
@@ -27,6 +23,8 @@ import { processNewAttachment } from '../../../../types/MessageAttachment';
 import { MIME } from '../../../../types';
 import { handleOpenGroupV2Message } from '../../../../receiver/opengroup';
 import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { filterDuplicatesFromDbAndIncoming } from './SogsFilterDuplicate';
+
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
 const pollForMemberCountInterval = DURATION.MINUTES * 10;
@@ -397,39 +395,6 @@ const handleDeletions = async (
   }
 };
 
-const filterDuplicatesFromDbAndIncoming = async (
-  newMessages: Array<OpenGroupMessageV2>
-): Promise<Array<OpenGroupMessageV2>> => {
-  const start = Date.now();
-  // open group messages are deduplicated by sender and serverTimestamp only.
-  // first make sure that the incoming messages have no duplicates:
-  const filtered = _.uniqWith(newMessages, (a, b) => {
-    return (
-      Boolean(a.sender) &&
-      Boolean(a.sentTimestamp) &&
-      a.sender === b.sender &&
-      a.sentTimestamp === b.sentTimestamp
-    );
-    // make sure a sender is set, as we cast it just below
-  }).filter(m => Boolean(m.sender));
-
-  // now, check database to make sure those messages are not already fetched
-  const filteredInDb = await filterAlreadyFetchedOpengroupMessage(
-    filtered.map(m => {
-      return { sender: m.sender as string, serverTimestamp: m.sentTimestamp };
-    })
-  );
-
-  window.log.debug(
-    `filterDuplicatesFromDbAndIncoming of ${newMessages.length} messages took ${Date.now() -
-      start}ms.`
-  );
-  const opengroupMessagesFiltered = filteredInDb?.map(f => {
-    return newMessages.find(m => m.sender === f.sender && m.sentTimestamp === f.serverTimestamp);
-  });
-  return _.compact(opengroupMessagesFiltered) || [];
-};
-
 const handleNewMessages = async (
   newMessages: Array<OpenGroupMessageV2>,
   conversationId: string,
@@ -452,9 +417,10 @@ const handleNewMessages = async (
     }
     const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
     const maxNewMessageId = Math.max(...incomingMessageIds);
-    // TODO filter out duplicates ?
 
     const roomDetails: OpenGroupRequestCommonType = _.pick(roomInfos, 'serverUrl', 'roomId');
+
+    // this call filters duplicates based on the sender & senttimestamp from the incoming messages array and the database
     const filteredDuplicates = await filterDuplicatesFromDbAndIncoming(newMessages);
 
     // tslint:disable-next-line: prefer-for-of

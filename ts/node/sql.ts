@@ -1423,7 +1423,7 @@ async function initializeSql({
   messages: LocaleMessagesType;
   passwordAttempt: boolean;
 }) {
-  console.warn('initializeSql sqlnode');
+  console.info('initializeSql sqlnode');
   if (globalInstance) {
     throw new Error('Cannot initialize more than once!');
   }

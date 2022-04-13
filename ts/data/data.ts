@@ -3,10 +3,15 @@
 
 import _ from 'lodash';
 import { MessageResultProps } from '../components/search/MessageSearchResults';
-import { ConversationCollection, ConversationModel } from '../models/conversation';
+import {
+  ConversationCollection,
+  ConversationModel,
+  ConversationTypeEnum,
+} from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
+import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { ReduxConversationType } from '../state/ducks/conversations';

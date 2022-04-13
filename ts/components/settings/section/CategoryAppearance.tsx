@@ -3,11 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
-import {
-  createOrUpdateItem,
-  fillWithTestData,
-  hasLinkPreviewPopupBeenDisplayed,
-} from '../../../data/data';
+import { createOrUpdateItem, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
