@@ -10,6 +10,7 @@ import * as Bytes from '../../Bytes';
 import * as logger from '../../logging/log';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { DAY } from '../../util/durations';
 
 describe('Attachment', () => {
   describe('getUploadSizeLimitKb', () => {
@@ -74,12 +75,14 @@ describe('Attachment', () => {
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
-        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const timestamp = new Date(
+          DAY + new Date(DAY).getTimezoneOffset() * 60 * 1000
+        );
         const actual = Attachment.getSuggestedFilename({
           attachment,
           timestamp,
         });
-        const expected = 'signal-1970-01-01-000000.mov';
+        const expected = 'signal-1970-01-02-000000.mov';
         assert.strictEqual(actual, expected);
       });
     });
@@ -89,13 +92,15 @@ describe('Attachment', () => {
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
-        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const timestamp = new Date(
+          DAY + new Date(DAY).getTimezoneOffset() * 60 * 1000
+        );
         const actual = Attachment.getSuggestedFilename({
           attachment,
           timestamp,
           index: 3,
         });
-        const expected = 'signal-1970-01-01-000000_003.mov';
+        const expected = 'signal-1970-01-02-000000_003.mov';
         assert.strictEqual(actual, expected);
       });
     });
