@@ -48,7 +48,7 @@ const channelsToMake = new Set([
   'removeAllMessagesInConversation',
   'getMessageCount',
   'getMessageBySenderAndSentAt',
-  'getMessageBySenderAndServerTimestamp',
+  'filterAlreadyFetchedOpengroupMessage',
   'getMessageBySenderAndTimestamp',
   'getMessageIdsFromServerIds',
   'getMessageById',

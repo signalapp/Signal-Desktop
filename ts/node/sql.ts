@@ -2232,25 +2232,28 @@ function getMessageBySenderAndTimestamp({
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getMessageBySenderAndServerTimestamp({
-  source,
-  serverTimestamp,
-}: {
-  source: string;
-  serverTimestamp: number;
-}) {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
-      source = $source AND
+function filterAlreadyFetchedOpengroupMessage(
+  msgDetails: Array<{ sender: string; serverTimestamp: number }> // MsgDuplicateSearchOpenGroup
+) {
+  return msgDetails.filter(msg => {
+    const rows = assertGlobalInstance()
+      .prepare(
+        `SELECT source, serverTimestamp  FROM ${MESSAGES_TABLE} WHERE
+      source = $sender AND
       serverTimestamp = $serverTimestamp;`
-    )
-    .all({
-      source,
-      serverTimestamp,
-    });
-
-  return map(rows, row => jsonToObject(row.json));
+      )
+      .all({
+        sender: msg.sender,
+        serverTimestamp: msg.serverTimestamp,
+      });
+    if (rows.length) {
+      console.info(
+        `filtering out already received message from ${msg.sender} at ${msg.serverTimestamp} `
+      );
+      return false;
+    }
+    return true;
+  });
 }
 
 function getUnreadByConversation(conversationId: string) {
@@ -3521,7 +3524,7 @@ export const sqlNode = {
   getUnreadCountByConversation,
   getMessageCountByType,
   getMessageBySenderAndSentAt,
-  getMessageBySenderAndServerTimestamp,
+  filterAlreadyFetchedOpengroupMessage,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,

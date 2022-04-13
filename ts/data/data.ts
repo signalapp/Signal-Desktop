@@ -10,6 +10,7 @@ import { HexKeyPair } from '../receiver/keypairs';
 import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { ReduxConversationType } from '../state/ducks/conversations';
+import { MsgDuplicateSearchOpenGroup } from '../types/sqlSharedTypes';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Storage } from '../util/storage';
 import { channels } from './channels';
@@ -373,22 +374,11 @@ export async function getMessageBySenderAndSentAt({
   return new MessageModel(messages[0]);
 }
 
-export async function getMessageBySenderAndServerTimestamp({
-  source,
-  serverTimestamp,
-}: {
-  source: string;
-  serverTimestamp: number;
-}): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndServerTimestamp({
-    source,
-    serverTimestamp,
-  });
-  if (!messages || !messages.length) {
-    return null;
-  }
-
-  return new MessageModel(messages[0]);
+export async function filterAlreadyFetchedOpengroupMessage(
+  msgDetails: MsgDuplicateSearchOpenGroup
+): Promise<MsgDuplicateSearchOpenGroup> {
+  const msgDetailsNotAlreadyThere = await channels.filterAlreadyFetchedOpengroupMessage(msgDetails);
+  return msgDetailsNotAlreadyThere || [];
 }
 
 /**

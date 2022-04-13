@@ -1,5 +1,4 @@
-import { noop } from 'lodash';
-import { ConversationTypeEnum } from '../models/conversation';
+import _, { noop } from 'lodash';
 import {
   createPublicMessageSentFromNotUs,
   createPublicMessageSentFromUs,
@@ -11,8 +10,8 @@ import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/uti
 import { getConversationController } from '../session/conversations';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { UserUtils } from '../session/utils';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromBase64ToArray } from '../session/utils/String';
-import { isOpengroupMessageDuplicate } from './dataMessage';
 import { handleMessageJob, toRegularMessage } from './queuedJob';
 
 export async function handleOpenGroupV2Message(
@@ -26,8 +25,12 @@ export async function handleOpenGroupV2Message(
     return;
   }
 
-  // Note: opengroup messages are not padded
-  const dataUint = new Uint8Array(removeMessagePadding(fromBase64ToArray(base64EncodedData)));
+  // Note: opengroup messages should not be padded
+  perfStart(`fromBase64ToArray-${base64EncodedData.length}`);
+  const arr = fromBase64ToArray(base64EncodedData);
+  perfEnd(`fromBase64ToArray-${base64EncodedData.length}`, 'fromBase64ToArray');
+
+  const dataUint = new Uint8Array(removeMessagePadding(arr));
 
   const decoded = SignalService.Content.decode(dataUint);
 
@@ -42,43 +45,38 @@ export async function handleOpenGroupV2Message(
     return;
   }
 
-  if (!getConversationController().get(conversationId)) {
-    window?.log?.error('Received a message for an unknown convo. Skipping');
+  if (
+    !getConversationController()
+      .get(conversationId)
+      ?.isOpenGroupV2()
+  ) {
+    window?.log?.error('Received a message for an unknown convo or not an v2. Skipping');
     return;
   }
 
-  const conversation = await getConversationController().getOrCreateAndWait(
-    conversationId,
-    ConversationTypeEnum.GROUP
-  );
+  const groupConvo = getConversationController().get(conversationId);
 
-  if (!conversation) {
+  if (!groupConvo) {
     window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);
     return;
   }
 
-  void conversation.queueJob(async () => {
+  void groupConvo.queueJob(async () => {
     const isMe = UserUtils.isUsFromCache(sender);
 
     const commonAttributes = { serverTimestamp: sentTimestamp, serverId, conversationId };
     const attributesForNotUs = { ...commonAttributes, sender };
-    // those lines just create an empty message with some basic stuff set.
+    // those lines just create an empty message only in memory with some basic stuff set.
     // the whole decoding of data is happening in handleMessageJob()
     const msgModel = isMe
       ? createPublicMessageSentFromUs(commonAttributes)
       : createPublicMessageSentFromNotUs(attributesForNotUs);
 
-    // WARNING this is important that the isOpengroupMessageDuplicate is made INSIDE the conversation.queueJob call
-    const isDuplicate = await isOpengroupMessageDuplicate(attributesForNotUs);
-
-    if (isDuplicate) {
-      window?.log?.info('Received duplicate opengroup message. Dropping it.');
-      return;
-    }
+    // Note, deduplication is made in filterDuplicatesFromDbAndIncoming now
 
     await handleMessageJob(
       msgModel,
-      conversation,
+      groupConvo,
       toRegularMessage(decoded?.dataMessage as SignalService.DataMessage),
       noop,
       sender,

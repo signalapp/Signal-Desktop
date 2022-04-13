@@ -1,6 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 
 import classNames from 'classnames';
+import autoBind from 'auto-bind';
 
 import {
   CompositionBox,
@@ -8,13 +10,14 @@ import {
   StagedAttachmentType,
 } from './composition/CompositionBox';
 
-import _ from 'lodash';
+import { perfEnd, perfStart } from '../../session/utils/Performance';
+
+const DEFAULT_JPEG_QUALITY = 0.85;
 
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 
 import { SessionFileDropzone } from './SessionFileDropzone';
 
-import autoBind from 'auto-bind';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
@@ -40,7 +43,6 @@ import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
-import { autoOrientJpegImage } from '../../types/attachments/migrations';
 import {
   makeImageThumbnailBuffer,
   makeVideoScreenshot,
@@ -51,6 +53,7 @@ import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
 import { ConversationRequestinfo } from './ConversationRequestInfo';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
+import loadImage from 'blueimp-load-image';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -177,7 +180,7 @@ export class SessionConversation extends React.Component<Props, State> {
       await this.scrollToNow();
     };
 
-    const recoveryPhrase = getCurrentRecoveryPhrase() as string;
+    const recoveryPhrase = getCurrentRecoveryPhrase();
 
     // string replace to fix case where pasted text contains invis characters causing false negatives
     if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
@@ -524,6 +527,18 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
     URL.revokeObjectURL(objectUrl);
     throw error;
   }
+};
+
+const autoOrientJpegImage = async (fileOrBlobOrURL: File): Promise<string> => {
+  perfStart('autoOrientJpegImage');
+  const loadedImage = await loadImage(fileOrBlobOrURL, { orientation: true, canvas: true });
+  perfEnd('autoOrientJpegImage', 'autoOrientJpegImage');
+  const dataURL = (loadedImage.image as HTMLCanvasElement).toDataURL(
+    MIME.IMAGE_JPEG,
+    DEFAULT_JPEG_QUALITY
+  );
+
+  return dataURL;
 };
 
 const renderImagePreview = async (contentType: string, file: File, fileName: string) => {

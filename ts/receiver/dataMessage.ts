@@ -9,10 +9,7 @@ import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
-import {
-  getMessageBySenderAndSentAt,
-  getMessageBySenderAndServerTimestamp,
-} from '../../ts/data/data';
+import { getMessageBySenderAndSentAt } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { toLogFormat } from '../types/attachments/Errors';
 
@@ -272,31 +269,6 @@ export async function isSwarmMessageDuplicate({
     return Boolean(result);
   } catch (error) {
     window?.log?.error('isSwarmMessageDuplicate error:', toLogFormat(error));
-    return false;
-  }
-}
-
-export async function isOpengroupMessageDuplicate({
-  sender,
-  serverTimestamp,
-}: {
-  sender: string;
-  serverTimestamp: number;
-}) {
-  // serverTimestamp is only used for opengroupv2
-  try {
-    const result = await getMessageBySenderAndServerTimestamp({
-      source: sender,
-      serverTimestamp,
-    });
-
-    // if we have a result, it means a specific user sent two messages either with the same serverTimestamp.
-    // no need to do anything else, those messages must be the same
-    // Note: this test is not based on which conversation the user sent the message
-    // but we consider that a user sending two messages with the same serverTimestamp is unlikely
-    return Boolean(result);
-  } catch (error) {
-    window?.log?.error('isOpengroupMessageDuplicate error:', toLogFormat(error));
     return false;
   }
 }
