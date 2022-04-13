@@ -9,8 +9,9 @@ import createDebug from 'debug';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
 import { Server, loadCertificates } from '@signalapp/mock-server';
-import { App } from './playwright';
+import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
+import { App } from './playwright';
 
 const debug = createDebug('mock:bootstrap');
 
@@ -97,7 +98,7 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
 // the same between different test runs.
 //
 export class Bootstrap {
-  public readonly server = new Server();
+  public readonly server: Server;
 
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
@@ -107,6 +108,11 @@ export class Bootstrap {
   private timestamp: number = Date.now() - durations.MONTH;
 
   constructor(options: BootstrapOptions = {}) {
+    this.server = new Server({
+      // Limit number of storage read keys for easier testing
+      maxStorageReadKeys: MAX_STORAGE_READ_KEYS,
+    });
+
     this.options = {
       linkedDevices: 5,
       contactCount: MAX_CONTACTS,

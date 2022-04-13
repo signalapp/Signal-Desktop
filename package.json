@@ -189,7 +189,7 @@
     "@chanzuckerberg/axe-storybook-testing": "3.0.2",
     "@electron/fuses": "1.5.0",
     "@mixer/parallel-prettier": "2.0.1",
-    "@signalapp/mock-server": "1.2.1",
+    "@signalapp/mock-server": "1.3.0",
     "@storybook/addon-actions": "5.1.11",
     "@storybook/addon-knobs": "5.1.11",
     "@storybook/addons": "5.1.11",
