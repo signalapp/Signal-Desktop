@@ -196,7 +196,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: () => void;
   public throttledNotify: (message: MessageModel) => void;
-  public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
+  public markRead: (newestUnreadDate: number, providedOptions?: any) => void;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
@@ -226,8 +226,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       leading: true,
       trailing: true,
     });
-    // tslint:disable-next-line: no-async-without-await
-    this.markRead = async (newestUnreadDate: number) => {
+    this.markRead = (newestUnreadDate: number) => {
       const lastReadTimestamp = this.lastReadTimestamp;
       if (newestUnreadDate > lastReadTimestamp) {
         this.lastReadTimestamp = newestUnreadDate;
@@ -901,8 +900,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     receivedAt?: number, // is set if it comes from outside
     options: {
       fromSync?: boolean;
-    } = {}
-  ) {
+    } = {},
+    shouldCommit = true
+  ): Promise<void> {
     let expireTimer = providedExpireTimer;
     let source = providedSource;
 
@@ -912,7 +912,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer = 0;
     }
     if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
-      return null;
+      return;
     }
 
     window?.log?.info("Update conversation 'expireTimer'", {
@@ -964,12 +964,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set('active_at', timestamp);
     }
 
-    // tell the UI this conversation was updated
-    await this.commit();
-
+    if (shouldCommit) {
+      // tell the UI this conversation was updated
+      await this.commit();
+    }
     // if change was made remotely, don't send it to the number/group
     if (receivedAt) {
-      return message;
+      return;
     }
 
     const expireUpdate = {
@@ -998,7 +999,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       await getMessageQueue().sendToGroup(expirationTimerMessage);
     }
-    return message;
+    return;
   }
 
   public triggerUIRefresh() {
@@ -1577,7 +1578,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
-  public async notifyTyping({ isTyping, sender }: any) {
+  public async notifyTypingNoCommit({ isTyping, sender }: { isTyping: boolean; sender: string }) {
     // We don't do anything with typing messages from our other devices
     if (UserUtils.isUsFromCache(sender)) {
       return;
@@ -1588,32 +1589,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
-    const wasTyping = !!this.typingTimer;
     if (this.typingTimer) {
       global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
     }
 
-    // Note: We trigger two events because:
-    //   'change' causes a re-render of this conversation's list item in the left pane
-
-    if (isTyping) {
-      this.typingTimer = global.setTimeout(
-        this.clearContactTypingTimer.bind(this, sender),
-        15 * 1000
-      );
-
-      if (!wasTyping) {
-        // User was not previously typing before. State change!
-        await this.commit();
-      }
-    } else {
-      this.typingTimer = null;
-      if (wasTyping) {
-        // User was previously typing, and is no longer. State change!
-        await this.commit();
-      }
-    }
+    // we do not trigger a state change here, instead we rely on the caller to do the commit once it is done with the queue of messages
+    this.typingTimer = isTyping
+      ? global.setTimeout(this.clearContactTypingTimer.bind(this, sender), 15 * 1000)
+      : null;
   }
 
   private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {

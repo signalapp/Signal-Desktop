@@ -1471,6 +1471,7 @@ async function initializeSql({
     vacuumDatabase(db);
     const msgCount = getMessageCount();
     const convoCount = getConversationCount();
+
     console.info('total message count: ', msgCount);
     console.info('total conversation count: ', convoCount);
   } catch (error) {
@@ -2234,7 +2235,7 @@ function getMessageBySenderAndTimestamp({
 
 function filterAlreadyFetchedOpengroupMessage(
   msgDetails: Array<{ sender: string; serverTimestamp: number }> // MsgDuplicateSearchOpenGroup
-) {
+): Array<{ sender: string; serverTimestamp: number }> {
   return msgDetails.filter(msg => {
     const rows = assertGlobalInstance()
       .prepare(
@@ -2248,7 +2249,7 @@ function filterAlreadyFetchedOpengroupMessage(
       });
     if (rows.length) {
       console.info(
-        `filtering out already received message from ${msg.sender} at ${msg.serverTimestamp} `
+        `filtering out already received sogs message from ${msg.sender} at ${msg.serverTimestamp} `
       );
       return false;
     }

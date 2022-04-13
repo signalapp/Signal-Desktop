@@ -66,7 +66,7 @@ export async function handleOpenGroupV2Message(
 
     const commonAttributes = { serverTimestamp: sentTimestamp, serverId, conversationId };
     const attributesForNotUs = { ...commonAttributes, sender };
-    // those lines just create an empty message only in memory with some basic stuff set.
+    // those lines just create an empty message only in-memory with some basic stuff set.
     // the whole decoding of data is happening in handleMessageJob()
     const msgModel = isMe
       ? createPublicMessageSentFromUs(commonAttributes)

@@ -11,7 +11,6 @@ import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { getMessageBySenderAndSentAt } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { toLogFormat } from '../types/attachments/Errors';
 
 import {
   createSwarmMessageSentFromNotUs,
@@ -20,6 +19,7 @@ import {
 import { MessageModel } from '../models/message';
 import { isUsFromCache } from '../session/utils/User';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
+import { toLogFormat } from '../types/attachments/Errors';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -154,6 +154,7 @@ async function cleanIncomingDataMessage(
 // tslint:disable-next-line: cyclomatic-complexity
 export async function handleSwarmDataMessage(
   envelope: EnvelopePlus,
+  sentAtTimestamp: number,
   rawDataMessage: SignalService.DataMessage,
   messageHash: string,
   senderConversationModel: ConversationModel
@@ -220,8 +221,6 @@ export async function handleSwarmDataMessage(
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
-
-  const sentAtTimestamp = _.toNumber(envelope.timestamp);
 
   if (!convoIdToAddTheMessageTo) {
     window?.log?.error('We cannot handle a message without a conversationId');

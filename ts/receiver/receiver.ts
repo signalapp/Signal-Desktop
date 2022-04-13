@@ -231,7 +231,9 @@ async function handleDecryptedEnvelope(
   messageHash: string
 ) {
   if (envelope.content) {
-    await innerHandleSwarmContentMessage(envelope, plaintext, messageHash);
+    const sentAtTimestamp = _.toNumber(envelope.timestamp);
+
+    await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } else {
     await removeFromCache(envelope);
   }

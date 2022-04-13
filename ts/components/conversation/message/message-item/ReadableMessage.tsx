@@ -104,12 +104,11 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         // make sure the app is focused, because we mark message as read here
         if (inView === true && isAppFocused) {
           dispatch(showScrollToBottomButton(false));
-          void getConversationController()
+          getConversationController()
             .get(selectedConversationKey)
-            ?.markRead(receivedAt || 0)
-            .then(() => {
-              dispatch(markConversationFullyRead(selectedConversationKey));
-            });
+            ?.markRead(receivedAt || 0);
+
+          dispatch(markConversationFullyRead(selectedConversationKey));
         } else if (inView === false) {
           dispatch(showScrollToBottomButton(true));
         }

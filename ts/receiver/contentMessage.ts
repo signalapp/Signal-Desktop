@@ -27,15 +27,13 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
     const plaintext = await decrypt(envelope, envelope.content);
 
     if (!plaintext) {
-      // window?.log?.warn('handleSwarmContentMessage: plaintext was falsey');
       return;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
-    perfStart(`innerHandleSwarmContentMessage-${envelope.id}`);
+    const sentAtTimestamp = _.toNumber(envelope.timestamp);
 
-    await innerHandleSwarmContentMessage(envelope, plaintext, messageHash);
-    perfEnd(`innerHandleSwarmContentMessage-${envelope.id}`, 'innerHandleSwarmContentMessage');
+    await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } catch (e) {
     window?.log?.warn(e);
   }
@@ -326,6 +324,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
 // tslint:disable-next-line: cyclomatic-complexity
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
+  sentAtTimestamp: number,
   plaintext: ArrayBuffer,
   messageHash: string
 ): Promise<void> {
@@ -381,6 +380,7 @@ export async function innerHandleSwarmContentMessage(
 
       await handleSwarmDataMessage(
         envelope,
+        sentAtTimestamp,
         content.dataMessage as SignalService.DataMessage,
         messageHash,
         senderConversationModel
@@ -514,7 +514,8 @@ async function handleTypingMessage(
   const started = action === SignalService.TypingMessage.Action.STARTED;
 
   if (conversation) {
-    await conversation.notifyTyping({
+    // this does not commit, instead the caller should commit to trigger UI updates
+    await conversation.notifyTypingNoCommit({
       isTyping: started,
       sender: source,
     });
