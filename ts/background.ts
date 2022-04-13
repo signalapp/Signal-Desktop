@@ -859,8 +859,7 @@ export async function startApp(): Promise<void> {
       );
     } catch (error) {
       log.warn(
-        'Failed to parse integer out of desktop.retryReceiptLifespan feature flag',
-        error && error.stack ? error.stack : error
+        'Failed to parse integer out of desktop.retryReceiptLifespan feature flag'
       );
     }
 

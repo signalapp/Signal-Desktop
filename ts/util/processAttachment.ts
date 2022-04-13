@@ -8,6 +8,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
+import { getMaximumAttachmentSize } from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';
@@ -44,8 +45,7 @@ export function preProcessAttachment(
     return;
   }
 
-  const MB = 1000 * 1024;
-  if (file.size > 100 * MB) {
+  if (file.size > getMaximumAttachmentSize()) {
     return AttachmentToastType.ToastFileSize;
   }
 

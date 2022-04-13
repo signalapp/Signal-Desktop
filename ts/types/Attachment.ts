@@ -15,6 +15,7 @@ import { blobToArrayBuffer } from 'blob-util';
 
 import type { LoggerType } from './Logging';
 import * as MIME from './MIME';
+import * as log from '../logging/log';
 import { toLogFormat } from './errors';
 import { SignalService } from '../protobuf';
 import {
@@ -25,6 +26,8 @@ import type { LocalizerType } from './Util';
 import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { scaleImageToLevel } from '../util/scaleImageToLevel';
+import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { getValue } from '../RemoteConfig';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -992,14 +995,21 @@ export const getFileExtension = (
   }
 };
 
-export const getUploadSizeLimitKb = (contentType: MIME.MIMEType): number => {
-  if (MIME.isGif(contentType)) {
-    return 25000;
+const MEBIBYTE = 1024 * 1024;
+const DEFAULT_MAX = 100 * MEBIBYTE;
+
+export const getMaximumAttachmentSize = (): number => {
+  try {
+    return parseIntOrThrow(
+      getValue('global.attachments.maxBytes'),
+      'preProcessAttachment/maxAttachmentSize'
+    );
+  } catch (error) {
+    log.warn(
+      'Failed to parse integer out of global.attachments.maxBytes feature flag'
+    );
+    return DEFAULT_MAX;
   }
-  if (isImageTypeSupported(contentType)) {
-    return 6000;
-  }
-  return 100000;
 };
 
 export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {

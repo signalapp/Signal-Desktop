@@ -26,6 +26,7 @@ export type ConfigKeyType =
   | 'desktop.showUserBadges2'
   | 'desktop.stories'
   | 'desktop.usernames'
+  | 'global.attachments.maxBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize';
