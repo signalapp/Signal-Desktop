@@ -5,6 +5,7 @@ import React from 'react';
 
 import type { Props as MessageBodyPropsType } from './MessageBody';
 import { MessageBody } from './MessageBody';
+import { graphemeAwareSlice } from '../../util/graphemeAwareSlice';
 
 export type Props = Pick<
   MessageBodyPropsType,
@@ -29,37 +30,6 @@ export function doesMessageBodyOverflow(str: string): boolean {
   return str.length > INITIAL_LENGTH + BUFFER;
 }
 
-function graphemeAwareSlice(
-  str: string,
-  length: number
-): {
-  hasReadMore: boolean;
-  text: string;
-} {
-  if (str.length <= length + BUFFER) {
-    return { text: str, hasReadMore: false };
-  }
-
-  let text: string | undefined;
-
-  for (const { index } of new Intl.Segmenter().segment(str)) {
-    if (!text && index >= length) {
-      text = str.slice(0, index);
-    }
-    if (text && index > length) {
-      return {
-        text,
-        hasReadMore: true,
-      };
-    }
-  }
-
-  return {
-    text: str,
-    hasReadMore: false,
-  };
-}
-
 export function MessageBodyReadMore({
   bodyRanges,
   direction,
@@ -74,7 +44,11 @@ export function MessageBodyReadMore({
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
-  const { hasReadMore, text: slicedText } = graphemeAwareSlice(text, maxLength);
+  const { hasReadMore, text: slicedText } = graphemeAwareSlice(
+    text,
+    maxLength,
+    BUFFER
+  );
 
   const onIncreaseTextLength = hasReadMore
     ? () => {

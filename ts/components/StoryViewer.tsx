@@ -17,6 +17,7 @@ import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryDuration } from '../util/getStoryDuration';
+import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import { isDownloaded, isDownloading } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
@@ -47,6 +48,10 @@ export type PropsType = {
   stories: Array<StoryViewType>;
   views?: number;
 };
+
+const CAPTION_BUFFER = 20;
+const CAPTION_INITIAL_LENGTH = 200;
+const CAPTION_MAX_LENGTH = 700;
 
 export const StoryViewer = ({
   getPreferredBadge,
@@ -98,6 +103,26 @@ export const StoryViewer = ({
   }, [hasReplyModal, onClose]);
 
   useEscapeHandling(onEscape);
+
+  // Caption related hooks
+  const [hasExpandedCaption, setHasExpandedCaption] = useState<boolean>(false);
+
+  const caption = useMemo(() => {
+    if (!attachment?.caption) {
+      return;
+    }
+
+    return graphemeAwareSlice(
+      attachment.caption,
+      hasExpandedCaption ? CAPTION_MAX_LENGTH : CAPTION_INITIAL_LENGTH,
+      CAPTION_BUFFER
+    );
+  }, [attachment?.caption, hasExpandedCaption]);
+
+  // Reset expansion if messageId changes
+  useEffect(() => {
+    setHasExpandedCaption(false);
+  }, [messageId]);
 
   // Either we show the next story in the current user's stories or we ask
   // for the next user's stories.
@@ -242,7 +267,32 @@ export const StoryViewer = ({
               queueStoryDownload={queueStoryDownload}
               storyId={messageId}
             />
+            {hasExpandedCaption && (
+              <div className="StoryViewer__caption__overlay" />
+            )}
             <div className="StoryViewer__meta">
+              {caption && (
+                <div className="StoryViewer__caption">
+                  {caption.text}
+                  {caption.hasReadMore && !hasExpandedCaption && (
+                    <button
+                      className="MessageBody__read-more"
+                      onClick={() => {
+                        setHasExpandedCaption(true);
+                      }}
+                      onKeyDown={(ev: React.KeyboardEvent) => {
+                        if (ev.key === 'Space' || ev.key === 'Enter') {
+                          setHasExpandedCaption(true);
+                        }
+                      }}
+                      type="button"
+                    >
+                      ...
+                      {i18n('MessageBody--read-more')}
+                    </button>
+                  )}
+                </div>
+              )}
               <Avatar
                 acceptedMessageRequest={acceptedMessageRequest}
                 avatarPath={avatarPath}

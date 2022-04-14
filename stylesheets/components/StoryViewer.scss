@@ -90,6 +90,22 @@
     }
   }
 
+  &__caption {
+    @include font-body-1-bold;
+    color: $color-gray-05;
+    padding: 4px 0;
+
+    &__overlay {
+      background: $color-black-alpha-60;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: $z-index-base;
+    }
+  }
+
   &__actions {
     margin: 16px 0 32px 0;
   }
