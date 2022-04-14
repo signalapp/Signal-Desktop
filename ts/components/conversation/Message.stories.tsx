@@ -390,7 +390,7 @@ story.add('Will expire but still sending', () => {
   const props = createProps({
     status: 'sending',
     expirationLength: 30 * 1000,
-    text: 'For outgoing messages, we show timer immediately. Incoming, we wait until expirationStartTimestamp is present.',
+    text: 'We always show the timer if a message has an expiration length, even if unread or still sending.',
   });
 
   return renderBothDirections(props);

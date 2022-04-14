@@ -126,7 +126,7 @@ export const MessageMetadata = ({
   const children = (
     <>
       {timestampNode}
-      {expirationLength && (expirationTimestamp || direction === 'outgoing') ? (
+      {expirationLength ? (
         <ExpireTimer
           direction={metadataDirection}
           deletedForEveryone={deletedForEveryone}

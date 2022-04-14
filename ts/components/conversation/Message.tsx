@@ -599,14 +599,11 @@ export class Message extends React.PureComponent<Props, State> {
    * because it can reduce layout jumpiness.
    */
   private guessMetadataWidth(): number {
-    const { direction, expirationLength, expirationTimestamp, status } =
-      this.props;
+    const { direction, expirationLength, status } = this.props;
 
     let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
 
-    const hasExpireTimer = Boolean(
-      expirationLength && (expirationTimestamp || direction === 'outgoing')
-    );
+    const hasExpireTimer = Boolean(expirationLength);
     if (hasExpireTimer) {
       result += GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE;
     }
