@@ -7,7 +7,6 @@ import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { Constants } from '../session';
 import { SessionSpinner } from './basic/SessionSpinner';
-import { sleepFor } from '../session/utils/Promise';
 
 interface State {
   error: string;
