@@ -65,6 +65,33 @@ index cc77993..ac36618 100644
      Pop ${_ERR}
    !endif
  !macroend
+diff --git a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
+index d96a655..f5470bf 100644
+--- a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
++++ b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
+@@ -113,13 +113,21 @@
+       # Try copying a few times before asking for a user action.
+       Goto RetryExtract7za
+     ${else}
+-      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "$(appCannotBeClosed)" /SD IDCANCEL IDRETRY RetryExtract7za
++      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "$(appCannotBeClosed)" /SD IDRETRY IDCANCEL AbortExtract7za
+     ${endIf}
+ 
+     # As an absolutely last resort after a few automatic attempts and user
+     # intervention - we will just overwrite everything with `Nsis7z::Extract`
+     # even though it is not atomic and will ignore errors.
++
++    # Clear the temporary folder first to make sure we don't use twice as
++    # much disk space.
++    RMDir /r "$PLUGINSDIR\7z-out"
++
+     Nsis7z::Extract "${FILE}"
++    Goto DoneExtract7za
++
++  AbortExtract7za:
+     Quit
+ 
+   RetryExtract7za:
 diff --git a/node_modules/app-builder-lib/templates/nsis/messages.yml b/node_modules/app-builder-lib/templates/nsis/messages.yml
 index 6527c99..695444c 100644
 --- a/node_modules/app-builder-lib/templates/nsis/messages.yml
