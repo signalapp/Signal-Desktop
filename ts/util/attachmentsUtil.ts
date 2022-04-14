@@ -255,7 +255,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   if (readAndResizedBlob.size > maxSize) {
     throw new Error('Cannot add this attachment even after trying to scale it down.');
   }
-  window.log.debug(`autoscale took ${Date.now() - start}ms `);
+  window.log.debug(`[perf] autoscale took ${Date.now() - start}ms `);
 
   return {
     contentType: attachment.contentType,

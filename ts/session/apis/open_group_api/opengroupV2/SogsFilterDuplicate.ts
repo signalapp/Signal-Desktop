@@ -26,8 +26,9 @@ export const filterDuplicatesFromDbAndIncoming = async (
   );
 
   window.log.debug(
-    `filterDuplicatesFromDbAndIncoming of ${newMessages.length} messages took ${Date.now() -
-      start}ms.`
+    `[perf] filterDuplicatesFromDbAndIncoming took ${Date.now() - start}ms for ${
+      newMessages.length
+    } messages`
   );
   const opengroupMessagesFiltered = filteredInDb?.map(f => {
     return newMessages.find(m => m.sender === f.sender && m.sentTimestamp === f.serverTimestamp);

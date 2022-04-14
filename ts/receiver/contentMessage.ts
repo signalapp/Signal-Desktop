@@ -109,7 +109,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
      *
      */
 
-    window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e);
+    window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e.message);
     const groupPubKey = PubKey.cast(envelope.source);
 
     // IMPORTANT do not remove the message from the cache just yet.

@@ -20,23 +20,8 @@ const queue = new Queue({
   interval: 500,
 });
 
-queue.on('dequeue', () => {
-  // window.log.info('[profile-update] queue is dequeuing');
-});
-queue.on('resolve', () => {
-  // window.log.info('[profile-update] task resolved');
-});
 queue.on('reject', error => {
   window.log.warn('[profile-update] task profile image update failed with', error);
-});
-queue.on('start', () => {
-  window.log.info('[profile-update] queue is starting');
-});
-queue.on('stop', () => {
-  window.log.info('[profile-update] queue is stopping');
-});
-queue.on('end', () => {
-  window.log.info('[profile-update] queue is ending');
 });
 
 export async function appendFetchAvatarAndProfileJob(
@@ -51,16 +36,13 @@ export async function appendFetchAvatarAndProfileJob(
   const oneAtaTimeStr = `appendFetchAvatarAndProfileJob:${conversation.id}`;
 
   if (hasAlreadyOneAtaTimeMatching(oneAtaTimeStr)) {
-    window.log.info(
-      '[profile-update] not adding another task of "appendFetchAvatarAndProfileJob" as there is already one scheduled for the conversation: ',
-      conversation.id
-    );
+    // window.log.debug(
+    //   '[profile-update] not adding another task of "appendFetchAvatarAndProfileJob" as there is already one scheduled for the conversation: ',
+    //   conversation.id
+    // );
     return;
   }
-  window.log.info(
-    '[profile-update] "appendFetchAvatarAndProfileJob" as there is already one scheduled for the conversation: ',
-    conversation.id
-  );
+  window.log.info(`[profile-update] queuing fetching avatar for ${conversation.id}`);
   const task = allowOnlyOneAtATime(oneAtaTimeStr, async () => {
     return createOrUpdateProfile(conversation, profile, profileKey);
   });
@@ -98,6 +80,10 @@ async function createOrUpdateProfile(
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};
 
+  let changes = false;
+  if (newProfile.displayName !== profile.displayName) {
+    changes = true;
+  }
   newProfile.displayName = profile.displayName;
 
   if (profile.profilePicture && profileKey) {
@@ -106,6 +92,7 @@ async function createOrUpdateProfile(
 
     if (needsUpdate) {
       try {
+        window.log.debug(`[profile-update] starting downloading task for  ${conversation.id}`);
         const downloaded = await downloadAttachment({
           url: profile.profilePicture,
           isRaw: true,
@@ -137,6 +124,7 @@ async function createOrUpdateProfile(
           }
         }
         newProfile.avatar = path;
+        changes = true;
       } catch (e) {
         window.log.warn(
           `[profile-update] Failed to download attachment at ${profile.profilePicture}. Maybe it expired? ${e.message}`
@@ -145,6 +133,9 @@ async function createOrUpdateProfile(
       }
     }
   } else if (profileKey) {
+    if (newProfile.avatar !== null) {
+      changes = true;
+    }
     newProfile.avatar = null;
   }
 
@@ -153,5 +144,7 @@ async function createOrUpdateProfile(
     ConversationTypeEnum.PRIVATE
   );
   await conv.setLokiProfile(newProfile);
-  await conv.commit();
+  if (changes) {
+    await conv.commit();
+  }
 }

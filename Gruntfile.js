@@ -80,7 +80,6 @@ module.exports = grunt => {
   grunt.registerTask('default', [
     'exec:build-protobuf',
     'exec:transpile',
-    'concat',
     'sass',
     'date',
     'getCommitHash',

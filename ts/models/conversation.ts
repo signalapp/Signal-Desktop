@@ -1748,7 +1748,7 @@ const trotthledAllConversationsDispatch = _.throttle(() => {
   window.inboxStore?.dispatch(conversationsChanged([...updatesToDispatch.values()]));
 
   updatesToDispatch.clear();
-}, 500);
+}, 2000);
 
 const updatesToDispatch: Map<string, ReduxConversationType> = new Map();
 

@@ -48,9 +48,10 @@ export const parseMessages = async (
   rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {
   if (!rawMessages || rawMessages.length === 0) {
-    window?.log?.info('no new messages');
     return [];
   }
+
+  const startParse = Date.now();
 
   const opengroupMessagesSignatureUnchecked = _.compact(
     rawMessages.map(rawMessage => {
@@ -73,6 +74,7 @@ export const parseMessages = async (
       }
     })
   );
+  window.log.debug(`[perf] parseMessage took ${Date.now() - startParse}ms`);
 
   const sentToWorker = opengroupMessagesSignatureUnchecked.map(m => {
     return {
@@ -81,14 +83,14 @@ export const parseMessages = async (
       base64EncodedData: m.opengroupv2Message.base64EncodedData,
     };
   });
+  const startVerify = Date.now();
 
-  const now = Date.now();
   // this filters out any invalid signature and returns the array of valid encoded data
   const signatureValidEncodedData = (await callUtilsWorker(
     'verifyAllSignatures',
     sentToWorker
   )) as Array<string>;
-  window.log.info(`[perf] verifyAllSignatures took ${Date.now() - now}ms.`);
+  window.log.info(`[perf] verifyAllSignatures took ${Date.now() - startVerify}ms.`);
 
   const parsedMessages = opengroupMessagesSignatureUnchecked
     .filter(m => signatureValidEncodedData.includes(m.opengroupv2Message.base64EncodedData))
