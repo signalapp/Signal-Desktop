@@ -2932,6 +2932,7 @@ async function updateGroup(
     );
 
     if (
+      !isMe(contact.attributes) &&
       member.profileKey &&
       member.profileKey.length > 0 &&
       contact.get('profileKey') !== member.profileKey

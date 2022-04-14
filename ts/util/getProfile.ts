@@ -131,9 +131,11 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
           throw error;
         }
         if (error.code === 401 || error.code === 403) {
-          if (!isMe(c.attributes)) {
-            await c.setProfileKey(undefined);
+          if (isMe(c.attributes)) {
+            throw error;
           }
+
+          await c.setProfileKey(undefined);
 
           // Retry fetch using last known profileKeyVersion or fetch
           // unversioned profile.
