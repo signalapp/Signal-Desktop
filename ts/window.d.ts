@@ -46,7 +46,7 @@ declare global {
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
     storage: any;
-    textsecure: LibTextsecure;
+    isOnline: boolean;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
     getCallMediaPermissions: () => boolean;

@@ -2226,7 +2226,6 @@ function getMessagesCountBySender({ source }: { source: string }) {
     .get({
       source,
     });
-  console.info('count messages of ', source, '  :', count);
   if (!count) {
     return 0;
   }

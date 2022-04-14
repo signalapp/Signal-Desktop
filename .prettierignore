@@ -5,12 +5,8 @@
 config/local-*.json
 config/local.json
 dist/**
-js/components.js
 js/util_worker.js
-js/libtextsecure.js
-libtextsecure/components.js
 stylesheets/*.css
-test/test.js
 
 test/ts/**/*.js
 ts/**/*.js
@@ -22,20 +18,12 @@ ts/test/automation/notes
 
 # Third-party files
 node_modules/**
-components/**
-js/curve/**
-js/Mp3LameEncoder.min.js
-js/WebAudioRecorderMp3.js
 js/util_worker.js
-libtextsecure/test/blanket_mocha.js
 mnemonic_languages/**
 playwright.config.js
 
 # Managed by package manager (`yarn`/`npm`):
 /package.json
-
-# Symlink into third-party `components`:
-stylesheets/_intlTelInput.scss
 
 # Coverage
 release/**

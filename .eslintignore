@@ -4,19 +4,7 @@ dist/**
 mnemonic_languages/**
 
 # Generated files
-js/curve/*
-js/components.js
-js/libtextsecure.js
 js/util_worker.js
-libtextsecure/components.js
-test/test.js
-
-
-# Third-party files
-js/Mp3LameEncoder.min.js
-js/WebAudioRecorderMp3.js
-libtextsecure/test/blanket_mocha.js
-test/blanket_mocha.js
 
 # TypeScript generated files
 ts/**/*.js

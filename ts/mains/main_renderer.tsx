@@ -423,8 +423,7 @@ async function connect() {
     logger: window.log,
   });
 
-  window.textsecure = window.textsecure || {};
-  window.textsecure.messaging = true;
+  window.isOnline = true;
 }
 
 function onEmpty() {

@@ -1,7 +1,6 @@
 node_modules
 .sass-cache
 .eslintcache
-build/curve25519_compiled.js
 stylesheets/*.css.map
 /dist
 .DS_Store
@@ -14,12 +13,8 @@ release/
 sql/
 
 # generated files
-js/components.js
 js/util_worker.js
-js/libtextsecure.js
-libtextsecure/components.js
 stylesheets/*.css
-test/test.js
 
 # React / TypeScript
 ts/**/*.js

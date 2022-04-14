@@ -847,7 +847,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     // We're offline!
-    if (!window.textsecure.messaging) {
+    if (!window.isOnline) {
       const error = new Error('Network is not available');
       error.name = 'SendMessageNetworkError';
       (error as any).number = this.id;

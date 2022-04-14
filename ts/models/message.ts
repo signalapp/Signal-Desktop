@@ -812,7 +812,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
-    if (!window.textsecure.messaging) {
+    if (!window.isOnline) {
       window?.log?.error('retrySend: Cannot retry since we are offline!');
       return null;
     }

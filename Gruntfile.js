@@ -3,32 +3,11 @@ const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
 
-const toConcatForApp = [
-  'node_modules/jquery/dist/jquery.js',
-  'node_modules/bytebuffer/dist/bytebuffer.min.js',
-  'node_modules/long/dist/long.js',
-  'node_modules/mustache/mustache.js',
-  'node_modules/underscore/underscore-min.js',
-  'node_modules/backbone/backbone.js',
-];
-
 module.exports = grunt => {
-  const components = [];
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in toConcatForApp) {
-    components.push(toConcatForApp[i]);
-  }
-
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
-      components: {
-        src: components,
-        dest: 'js/components.js',
-      },
-    },
     sass: {
       options: {
         implementation: sass,
@@ -42,10 +21,6 @@ module.exports = grunt => {
       },
     },
     watch: {
-      libtextsecure: {
-        files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
-        tasks: ['concat:libtextsecure'],
-      },
       protobuf: {
         files: ['./protos/SignalService.proto'],
         tasks: ['exec:build-protobuf'],
