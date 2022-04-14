@@ -6,11 +6,14 @@ import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { Constants } from '../session';
+import { SessionSpinner } from './basic/SessionSpinner';
+import { sleepFor } from '../session/utils/Promise';
 
 interface State {
   error: string;
   errorCount: number;
   clearDataView: boolean;
+  loading: boolean;
 }
 
 export const MAX_LOGIN_TRIES = 3;
@@ -25,6 +28,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       error: '',
       errorCount: 0,
       clearDataView: false,
+      loading: false,
     };
 
     autoBind(this);
@@ -84,6 +88,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         )}
       </div>
     );
+    const spinner = this.state.loading ? <SessionSpinner loading={true} /> : null;
 
     return (
       <div className={wrapperClass}>
@@ -94,7 +99,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
             <h1>{infoTitle}</h1>
           </div>
 
-          {featureElement}
+          {spinner || featureElement}
           {errorSection}
           {buttonGroup}
         </div>
@@ -125,9 +130,15 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
       this.setState({ error });
     }
+    this.setState({
+      loading: false,
+    });
   }
 
   private async initLogin() {
+    this.setState({
+      loading: true,
+    });
     const passPhrase = String((this.inputRef as HTMLInputElement).value);
     await this.onLogin(passPhrase);
   }
