@@ -42,7 +42,6 @@ export function initializeSqlChannel() {
     }
   });
 
-  console.warn('********* registering get-user-data-path');
   ipcMain.handle('get-user-data-path', () => {
     return app.getPath('userData');
   });

@@ -374,6 +374,10 @@ export async function handleMessageJob(
     conversation.updateLastMessage();
     await conversation.commit();
 
+    if (conversation.id !== sendingDeviceConversation.id) {
+      await sendingDeviceConversation.commit();
+    }
+
     void queueAttachmentDownloads(messageModel, conversation);
     // Check if we need to update any profile names
     // the only profile we don't update with what is coming here is ours,

@@ -1469,9 +1469,11 @@ async function initializeSql({
 
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
+
+    cleanUpOldOpengroups();
+
     const msgCount = getMessageCount();
     const convoCount = getConversationCount();
-
     console.info('total message count: ', msgCount);
     console.info('total conversation count: ', convoCount);
   } catch (error) {
@@ -2210,6 +2212,26 @@ function getMessageBySenderAndSentAt({ source, sentAt }: { source: string; sentA
     });
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+function getMessagesCountBySender({ source }: { source: string }) {
+  if (!source) {
+    throw new Error('source must be set');
+  }
+  const count = assertGlobalInstance()
+    .prepare(
+      `SELECT count(*) FROM ${MESSAGES_TABLE} WHERE
+      source = $source;`
+    )
+    .get({
+      source,
+    });
+  console.info('count messages of ', source, '  :', count);
+  if (!count) {
+    return 0;
+  }
+
+  return count['count(*)'] || 0;
 }
 
 function getMessageBySenderAndTimestamp({
@@ -3126,7 +3148,7 @@ function removeKnownAttachments(allAttachments: any) {
 function getMessagesCountByConversation(
   conversationId: string,
   instance?: BetterSqlite3.Database | null
-) {
+): number {
   const row = assertGlobalInstanceOrInstance(instance)
     .prepare(`SELECT count(*) from ${MESSAGES_TABLE} WHERE conversationId = $conversationId;`)
     .get({ conversationId });
@@ -3334,6 +3356,81 @@ function removeV2OpenGroupRoom(conversationId: string) {
     });
 }
 
+function cleanUpOldOpengroups() {
+  const v2Convos = getAllOpenGroupV2Conversations();
+
+  // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
+  // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
+  // This is the only way we can cleanup conversations objects from users which just sent messages a while ago and with whom we never interacted.
+  // This is only for opengroups, and is because ALL the conversations are cached in the redux store. Having a very large number of conversations (unused) is deteriorating a lot the performance of the app.
+  // Another fix would be to not cache all the conversations in the redux store, but it ain't going to happen anytime soon as it would a pretty big change of the way we do things and would break a lot of the app.
+  const maxMessagePerOpengroupConvo = 1000;
+
+  // first remove very old messages for each opengroups
+
+  v2Convos.forEach(convo => {
+    const convoId = convo.id;
+    const messagesInConvo = getMessagesCountByConversation(convoId);
+
+    if (messagesInConvo >= maxMessagePerOpengroupConvo) {
+      const minute = 1000 * 60;
+      const twoMonths = minute * 60 * 24 * 60;
+      console.info(
+        `too many message: ${messagesInConvo} in convo: ${convoId}. Limit is ${maxMessagePerOpengroupConvo}`
+      );
+      assertGlobalInstance()
+        .prepare(
+          `
+      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
+        )
+        .run({ conversationId: convoId, serverTimestamp: Date.now() - twoMonths }); // delete messages older than twoMonths
+
+      const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+      console.info(
+        `after leaning old history, we have ${messagesInConvoAfter} messages left in convo: ${convoId}`
+      );
+
+      const unreadCount = getUnreadCountByConversation(convoId);
+      const convoProps = getConversationById(convoId);
+      if (convoProps) {
+        convoProps.unreadCount = unreadCount;
+        updateConversation(convoProps);
+      }
+    }
+  });
+
+  // now, we might have a bunch of private conversation, without any interaction and no messages
+  // those are the conversation of the old members in the opengroups we just cleaned.
+  const allInactiveConvos = assertGlobalInstance()
+    .prepare(
+      `
+    SELECT id FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (active_at IS NULL OR active_at = 0)`
+    )
+    .all();
+
+  const ourNumber = getItemById('number_id');
+  if (!ourNumber || !ourNumber.value) {
+    return;
+  }
+  const ourPubkey = ourNumber.value.split('.')[0];
+
+  const allInactiveAndWithoutMessagesConvo = allInactiveConvos
+    .map(c => c.id as string)
+    .filter(convoId => {
+      return convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0
+        ? true
+        : false;
+    });
+  if (allInactiveAndWithoutMessagesConvo.length) {
+    allInactiveAndWithoutMessagesConvo.forEach(convoId => {
+      console.info(`${convoId} is not active and has 0 message in the history. Removing it`);
+      assertGlobalInstance()
+        .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
+        .run({ id: convoId });
+    });
+  }
+}
+
 // tslint:disable: binary-expression-operand-order
 // tslint:disable: insecure-random
 
@@ -3524,6 +3621,7 @@ export const sqlNode = {
   getUnreadByConversation,
   getUnreadCountByConversation,
   getMessageCountByType,
+
   getMessageBySenderAndSentAt,
   filterAlreadyFetchedOpengroupMessage,
   getMessageBySenderAndTimestamp,
