@@ -1932,24 +1932,14 @@ ipc.on(
 
 // Permissions Popup-related IPC calls
 
-ipc.handle('show-permissions-popup', async () => {
-  try {
-    await showPermissionsPopupWindow(false, false);
-  } catch (error) {
-    getLogger().error(
-      'show-permissions-popup error:',
-      error && error.stack ? error.stack : error
-    );
-  }
-});
 ipc.handle(
-  'show-calling-permissions-popup',
-  async (_event: Electron.Event, forCamera: boolean) => {
+  'show-permissions-popup',
+  async (_event: Electron.Event, forCalling: boolean, forCamera: boolean) => {
     try {
-      await showPermissionsPopupWindow(true, forCamera);
+      await showPermissionsPopupWindow(forCalling, forCamera);
     } catch (error) {
       getLogger().error(
-        'show-calling-permissions-popup error:',
+        'show-permissions-popup error:',
         error && error.stack ? error.stack : error
       );
     }

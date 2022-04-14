@@ -44,7 +44,7 @@ export class RecorderClass {
   }
 
   async start(): Promise<boolean> {
-    const hasMicrophonePermission = await requestMicrophonePermissions();
+    const hasMicrophonePermission = await requestMicrophonePermissions(false);
     if (!hasMicrophonePermission) {
       log.info(
         'Recorder/start: Microphone permission was denied, new audio recording not allowed.'

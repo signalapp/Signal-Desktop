@@ -250,9 +250,8 @@ try {
   // Settings-related events
 
   window.showSettings = () => ipc.send('show-settings');
-  window.showPermissionsPopup = () => ipc.invoke('show-permissions-popup');
-  window.showCallingPermissionsPopup = forCamera =>
-    ipc.invoke('show-calling-permissions-popup', forCamera);
+  window.showPermissionsPopup = (forCalling, forCamera) =>
+    ipc.invoke('show-permissions-popup', forCalling, forCamera);
 
   ipc.on('show-keyboard-shortcuts', () => {
     window.Events.showKeyboardShortcuts();

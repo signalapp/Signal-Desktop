@@ -148,7 +148,10 @@ declare global {
     startApp: () => void;
 
     removeSetupMenuItems: () => unknown;
-    showPermissionsPopup: () => Promise<void>;
+    showPermissionsPopup: (
+      forCalling: boolean,
+      forCamera: boolean
+    ) => Promise<void>;
 
     FontFace: typeof FontFace;
     _: typeof Underscore;
@@ -204,7 +207,6 @@ declare global {
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;
-    showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isActive: () => boolean;
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
