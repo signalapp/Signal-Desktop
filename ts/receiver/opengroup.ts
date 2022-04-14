@@ -72,7 +72,7 @@ export async function handleOpenGroupV2Message(
       ? createPublicMessageSentFromUs(commonAttributes)
       : createPublicMessageSentFromNotUs(attributesForNotUs);
 
-    // Note, deduplication is made in filterDuplicatesFromDbAndIncoming now
+    // Note: deduplication is made in filterDuplicatesFromDbAndIncoming now
 
     await handleMessageJob(
       msgModel,

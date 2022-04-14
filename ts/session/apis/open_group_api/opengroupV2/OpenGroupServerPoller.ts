@@ -11,7 +11,7 @@ import {
   ParsedMemberCount,
   ParsedRoomCompactPollResults,
 } from './OpenGroupAPIV2CompactPoll';
-import _ from 'lodash';
+import _, { now } from 'lodash';
 import { ConversationModel } from '../../../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../../../data/data';
 import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../../../data/opengroups';
@@ -423,6 +423,7 @@ const handleNewMessages = async (
     // this call filters duplicates based on the sender & senttimestamp from the incoming messages array and the database
     const filteredDuplicates = await filterDuplicatesFromDbAndIncoming(newMessages);
 
+    const startHandleOpengroupMessage = now();
     // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < filteredDuplicates.length; index++) {
       const newMessage = filteredDuplicates[index];
@@ -432,6 +433,11 @@ const handleNewMessages = async (
         window?.log?.warn('handleOpenGroupV2Message', e);
       }
     }
+
+    window.log.debug(
+      `[perf] handle ${filteredDuplicates.length} opengroupMessages took ${now() -
+        startHandleOpengroupMessage}ms.`
+    );
 
     // we need to update the timestamp even if we don't have a new MaxMessageServerId
     if (roomInfos) {
