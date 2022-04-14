@@ -6790,6 +6790,24 @@
     "message": "Please close it manually and click Retry to continue.",
     "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
   },
+  "NSIS__appRunning": {
+    "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+    "placeholders": {
+      "appName": {
+        "content": "$1",
+        "example": "Signal"
+      }
+    }
+  },
+  "NSIS__decompressionFailed": {
+    "message": "Failed to decompress files. Please try running the installer again.",
+    "description": "Displayed when Windows installer cannot decompress application files"
+  },
+  "NSIS__uninstallFailed": {
+    "message": "Failed to uninstall old application files. Please try running the installer again.",
+    "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
   "CrashReportDialog__title": {
     "message": "Application crashed",
     "description": "A title of the dialog displayed when starting an application after a recent crash"
