@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
+
+import PQueue from 'p-queue';
 import type { ThunkAction } from 'redux-thunk';
 import {
   difference,
@@ -1272,6 +1274,10 @@ function verifyConversationsStoppingSend(): ThunkAction<
     const conversationIdsStoppingSend = getConversationIdsStoppingSend(state);
     const conversationIdsBlocked =
       getConversationIdsStoppedForVerification(state);
+    log.info(
+      `verifyConversationsStoppingSend: Starting with ${conversationIdsBlocked.length} blocked ` +
+        `conversations and ${conversationIdsStoppingSend.length} conversations to verify.`
+    );
 
     // Mark conversations as approved/verified as appropriate
     const promises: Array<Promise<unknown>> = [];
@@ -1280,6 +1286,10 @@ function verifyConversationsStoppingSend(): ThunkAction<
       if (!conversation) {
         return;
       }
+
+      log.info(
+        `verifyConversationsStoppingSend: Verifying conversation ${conversation.idForLogging()}`
+      );
       if (conversation.isUnverified()) {
         promises.push(conversation.setVerifiedDefault());
       }
@@ -1495,6 +1505,27 @@ function conversationStoppedByMissingVerification(payload: {
   conversationId: string;
   untrustedConversationIds: ReadonlyArray<string>;
 }): ConversationStoppedByMissingVerificationActionType {
+  // Fetching profiles to ensure that we have their latest identity key in storage
+  const profileFetchQueue = new PQueue({
+    concurrency: 3,
+  });
+  payload.untrustedConversationIds.forEach(untrustedConversationId => {
+    const conversation = window.ConversationController.get(
+      untrustedConversationId
+    );
+    if (!conversation) {
+      log.error(
+        `conversationStoppedByMissingVerification: conversationId ${untrustedConversationId} not found!`
+      );
+      return;
+    }
+
+    profileFetchQueue.add(() => {
+      const active = conversation.getActiveProfileFetch();
+      return active || conversation.getProfiles();
+    });
+  });
+
   return {
     type: CONVERSATION_STOPPED_BY_MISSING_VERIFICATION,
     payload,
