@@ -9,6 +9,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
+import type { ReplyStateType } from '../types/Stories';
 import type { StoryViewType } from './StoryListItem';
 import { Avatar, AvatarSize } from './Avatar';
 import { Intl } from './Intl';
@@ -22,9 +23,21 @@ import { isDownloaded, isDownloading } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
+  conversationId: string;
   getPreferredBadge: PreferredBadgeSelectorType;
-  group?: ConversationType;
+  group?: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'name'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
   i18n: LocalizerType;
+  loadStoryReplies: (conversationId: string, messageId: string) => unknown;
   markStoryRead: (mId: string) => unknown;
   onClose: () => unknown;
   onNextUserStories: () => unknown;
@@ -42,11 +55,10 @@ export type PropsType = {
   preferredReactionEmoji: Array<string>;
   queueStoryDownload: (storyId: string) => unknown;
   recentEmojis?: Array<string>;
-  replies?: number;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
+  replyState?: ReplyStateType;
   skinTone?: number;
   stories: Array<StoryViewType>;
-  views?: number;
 };
 
 const CAPTION_BUFFER = 20;
@@ -54,9 +66,11 @@ const CAPTION_INITIAL_LENGTH = 200;
 const CAPTION_MAX_LENGTH = 700;
 
 export const StoryViewer = ({
+  conversationId,
   getPreferredBadge,
   group,
   i18n,
+  loadStoryReplies,
   markStoryRead,
   onClose,
   onNextUserStories,
@@ -70,17 +84,16 @@ export const StoryViewer = ({
   queueStoryDownload,
   recentEmojis,
   renderEmojiPicker,
-  replies,
+  replyState,
   skinTone,
   stories,
-  views,
 }: PropsType): JSX.Element => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
 
   const visibleStory = stories[currentStoryIndex];
 
-  const { attachment, messageId, timestamp } = visibleStory;
+  const { attachment, canReply, messageId, timestamp } = visibleStory;
   const {
     acceptedMessageRequest,
     avatarPath,
@@ -240,6 +253,20 @@ export const StoryViewer = ({
     };
   }, [navigateStories]);
 
+  const isGroupStory = Boolean(group?.id);
+  useEffect(() => {
+    if (!isGroupStory) {
+      return;
+    }
+    loadStoryReplies(conversationId, messageId);
+  }, [conversationId, isGroupStory, loadStoryReplies, messageId]);
+
+  const replies =
+    replyState && replyState.messageId === messageId ? replyState.replies : [];
+
+  const viewCount = 0;
+  const replyCount = replies.length;
+
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
       <div className="StoryViewer">
@@ -366,49 +393,51 @@ export const StoryViewer = ({
           <div className="StoryViewer__actions">
             {isMe ? (
               <>
-                {views &&
-                  (views === 1 ? (
+                {viewCount &&
+                  (viewCount === 1 ? (
                     <Intl
                       i18n={i18n}
                       id="MyStories__views--singular"
-                      components={[<strong>{views}</strong>]}
+                      components={[<strong>{viewCount}</strong>]}
                     />
                   ) : (
                     <Intl
                       i18n={i18n}
                       id="MyStories__views--plural"
-                      components={[<strong>{views}</strong>]}
+                      components={[<strong>{viewCount}</strong>]}
                     />
                   ))}
-                {views && replies && ' '}
-                {replies &&
-                  (replies === 1 ? (
+                {viewCount && replyCount && ' '}
+                {replyCount &&
+                  (replyCount === 1 ? (
                     <Intl
                       i18n={i18n}
                       id="MyStories__replies--singular"
-                      components={[<strong>{replies}</strong>]}
+                      components={[<strong>{replyCount}</strong>]}
                     />
                   ) : (
                     <Intl
                       i18n={i18n}
                       id="MyStories__replies--plural"
-                      components={[<strong>{replies}</strong>]}
+                      components={[<strong>{replyCount}</strong>]}
                     />
                   ))}
               </>
             ) : (
-              <button
-                className="StoryViewer__reply"
-                onClick={() => setHasReplyModal(true)}
-                tabIndex={0}
-                type="button"
-              >
-                {i18n('StoryViewer__reply')}
-              </button>
+              canReply && (
+                <button
+                  className="StoryViewer__reply"
+                  onClick={() => setHasReplyModal(true)}
+                  tabIndex={0}
+                  type="button"
+                >
+                  {i18n('StoryViewer__reply')}
+                </button>
+              )
             )}
           </div>
         </div>
-        {hasReplyModal && (
+        {hasReplyModal && canReply && (
           <StoryViewsNRepliesModal
             authorTitle={title}
             getPreferredBadge={getPreferredBadge}
@@ -428,7 +457,7 @@ export const StoryViewer = ({
             preferredReactionEmoji={preferredReactionEmoji}
             recentEmojis={recentEmojis}
             renderEmojiPicker={renderEmojiPicker}
-            replies={[]}
+            replies={replies}
             skinTone={skinTone}
             storyPreviewAttachment={attachment}
             views={[]}

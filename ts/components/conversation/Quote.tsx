@@ -47,7 +47,7 @@ type State = {
 
 export type QuotedAttachmentType = Pick<
   AttachmentType,
-  'contentType' | 'fileName' | 'isVoiceMessage' | 'thumbnail'
+  'contentType' | 'fileName' | 'isVoiceMessage' | 'thumbnail' | 'textAttachment'
 >;
 
 function validateQuote(quote: Props): boolean {
@@ -221,10 +221,11 @@ export class Quote extends React.Component<Props, State> {
       return null;
     }
 
-    const { fileName, contentType } = attachment;
+    const { fileName, contentType, textAttachment } = attachment;
     const isGenericFile =
       !GoogleChrome.isVideoTypeSupported(contentType) &&
       !GoogleChrome.isImageTypeSupported(contentType) &&
+      !textAttachment &&
       !MIME.isAudio(contentType);
 
     if (!isGenericFile) {
@@ -257,11 +258,16 @@ export class Quote extends React.Component<Props, State> {
       return null;
     }
 
-    const { contentType, thumbnail } = attachment;
+    const { contentType, textAttachment, thumbnail } = attachment;
     const url = getUrl(thumbnail);
 
     if (isViewOnce) {
       return this.renderIcon('view-once');
+    }
+
+    // TODO DESKTOP-3433
+    if (textAttachment) {
+      return this.renderIcon('image');
     }
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {

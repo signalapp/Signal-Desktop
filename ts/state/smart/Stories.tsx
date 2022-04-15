@@ -20,7 +20,6 @@ function renderStoryViewer({
   onClose,
   onNextUserStories,
   onPrevUserStories,
-  stories,
 }: SmartStoryViewerPropsType): JSX.Element {
   return (
     <SmartStoryViewer
@@ -28,7 +27,6 @@ function renderStoryViewer({
       onClose={onClose}
       onNextUserStories={onNextUserStories}
       onPrevUserStories={onPrevUserStories}
-      stories={stories}
     />
   );
 }

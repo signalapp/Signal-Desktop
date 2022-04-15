@@ -4,15 +4,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import type { GetStoriesByConversationIdType } from '../selectors/stories';
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
-import type { StoryViewType } from '../../components/StoryListItem';
 import { StoryViewer } from '../../components/StoryViewer';
 import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
 import {
   getEmojiSkinTone,
   getPreferredReactionEmoji,
 } from '../selectors/items';
+import { getStoriesSelector, getStoryReplies } from '../selectors/stories';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { renderEmojiPicker } from './renderEmojiPicker';
@@ -27,7 +28,6 @@ export type PropsType = {
   onClose: () => unknown;
   onNextUserStories: () => unknown;
   onPrevUserStories: () => unknown;
-  stories: Array<StoryViewType>;
 };
 
 export function SmartStoryViewer({
@@ -35,7 +35,6 @@ export function SmartStoryViewer({
   onClose,
   onNextUserStories,
   onPrevUserStories,
-  stories,
 }: PropsType): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { onSetSkinTone } = useItemsActions();
@@ -47,12 +46,22 @@ export function SmartStoryViewer({
     getPreferredReactionEmoji
   );
 
+  const getStoriesByConversationId = useSelector<
+    StateType,
+    GetStoriesByConversationIdType
+  >(getStoriesSelector);
+
+  const { group, stories } = getStoriesByConversationId(conversationId);
+
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
+  const replyState = useSelector(getStoryReplies);
 
   return (
     <StoryViewer
+      conversationId={conversationId}
       getPreferredBadge={getPreferredBadge}
+      group={group}
       i18n={i18n}
       onClose={onClose}
       onNextUserStories={onNextUserStories}
@@ -76,6 +85,7 @@ export function SmartStoryViewer({
       preferredReactionEmoji={preferredReactionEmoji}
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
+      replyState={replyState}
       stories={stories}
       skinTone={skinTone}
       {...storiesActions}

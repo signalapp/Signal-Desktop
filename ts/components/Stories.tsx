@@ -4,7 +4,7 @@
 import FocusTrap from 'focus-trap-react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { ConversationStoryType, StoryViewType } from './StoryListItem';
+import type { ConversationStoryType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
 import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/StoryViewer';
 import { StoriesPane } from './StoriesPane';
@@ -23,11 +23,6 @@ export type PropsType = {
   toggleStoriesView: () => unknown;
 };
 
-type ViewingStoryType = {
-  conversationId: string;
-  stories: Array<StoryViewType>;
-};
-
 export const Stories = ({
   hiddenStories,
   i18n,
@@ -39,8 +34,8 @@ export const Stories = ({
   toggleHideStories,
   toggleStoriesView,
 }: PropsType): JSX.Element => {
-  const [storiesToView, setStoriesToView] = useState<
-    undefined | ViewingStoryType
+  const [conversationIdToView, setConversationIdToView] = useState<
+    undefined | string
   >();
 
   const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
@@ -49,42 +44,35 @@ export const Stories = ({
 
   return (
     <div className={classNames('Stories', themeClassName(Theme.Dark))}>
-      {storiesToView &&
+      {conversationIdToView &&
         renderStoryViewer({
-          conversationId: storiesToView.conversationId,
-          onClose: () => setStoriesToView(undefined),
+          conversationId: conversationIdToView,
+          onClose: () => setConversationIdToView(undefined),
           onNextUserStories: () => {
             const storyIndex = stories.findIndex(
-              x => x.conversationId === storiesToView.conversationId
+              x => x.conversationId === conversationIdToView
             );
             if (storyIndex >= stories.length - 1) {
-              setStoriesToView(undefined);
+              setConversationIdToView(undefined);
               return;
             }
             const nextStory = stories[storyIndex + 1];
-            setStoriesToView({
-              conversationId: nextStory.conversationId,
-              stories: nextStory.stories,
-            });
+            setConversationIdToView(nextStory.conversationId);
           },
           onPrevUserStories: () => {
             const storyIndex = stories.findIndex(
-              x => x.conversationId === storiesToView.conversationId
+              x => x.conversationId === conversationIdToView
             );
             if (storyIndex === 0) {
-              setStoriesToView(undefined);
+              setConversationIdToView(undefined);
               return;
             }
             const prevStory = stories[storyIndex - 1];
-            setStoriesToView({
-              conversationId: prevStory.conversationId,
-              stories: prevStory.stories,
-            });
+            setConversationIdToView(prevStory.conversationId);
           },
-          stories: storiesToView.stories,
         })}
-      <div className="Stories__pane" style={{ width }}>
-        <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+      <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+        <div className="Stories__pane" style={{ width }}>
           <StoriesPane
             hiddenStories={hiddenStories}
             i18n={i18n}
@@ -96,10 +84,7 @@ export const Stories = ({
               const foundStory = stories[storyIndex];
 
               if (foundStory) {
-                setStoriesToView({
-                  conversationId,
-                  stories: foundStory.stories,
-                });
+                setConversationIdToView(conversationId);
               }
             }}
             openConversationInternal={openConversationInternal}
@@ -107,8 +92,8 @@ export const Stories = ({
             stories={stories}
             toggleHideStories={toggleHideStories}
           />
-        </FocusTrap>
-      </div>
+        </div>
+      </FocusTrap>
       <div className="Stories__placeholder">
         <div className="Stories__placeholder__stories" />
         {i18n('Stories__placeholder--text')}

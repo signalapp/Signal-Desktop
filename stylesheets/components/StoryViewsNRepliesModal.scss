@@ -125,6 +125,11 @@
     border-radius: 18px;
     margin-left: 8px;
     padding: 7px 12px;
+
+    &--doe {
+      background: none;
+      border: 1px solid $color-gray-75;
+    }
   }
 
   &__quote {

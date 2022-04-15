@@ -63,7 +63,7 @@ story.add('My Story (many)', () => (
 story.add("Someone's story", () => (
   <StoryListItem
     {...getDefaultProps()}
-    group={{ title: 'Sports Group' }}
+    group={getDefaultConversation({ title: 'Sports Group' })}
     story={{
       attachment: fakeAttachment({
         thumbnail: fakeThumbnail('/fixtures/tina-rolf-269345-unsplash.jpg'),

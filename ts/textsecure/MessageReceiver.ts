@@ -60,7 +60,11 @@ import type { UnprocessedType } from '../textsecure.d';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 
 import createTaskWithTimeout from './TaskWithTimeout';
-import { processAttachment, processDataMessage } from './processDataMessage';
+import {
+  processAttachment,
+  processDataMessage,
+  processGroupV2Context,
+} from './processDataMessage';
 import { processSyncMessage } from './processSyncMessage';
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
@@ -1813,6 +1817,17 @@ export default class MessageReceiver
       });
     }
 
+    const groupV2 = msg.group ? processGroupV2Context(msg.group) : undefined;
+    if (groupV2 && this.isGroupBlocked(groupV2.id)) {
+      log.warn(
+        `MessageReceiver.handleStoryMessage: envelope ${this.getEnvelopeId(
+          envelope
+        )} ignored; destined for blocked group`
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
     const expireTimer = Math.min(
       Math.floor(
         (envelope.serverTimestamp + durations.DAY - Date.now()) / 1000
@@ -1844,6 +1859,7 @@ export default class MessageReceiver
           attachments,
           expireTimer,
           flags: 0,
+          groupV2,
           isStory: true,
           isViewOnce: false,
           timestamp: envelope.timestamp,

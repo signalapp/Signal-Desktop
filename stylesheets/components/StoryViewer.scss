@@ -107,11 +107,16 @@
   }
 
   &__actions {
-    margin: 16px 0 32px 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+    min-height: 52px;
   }
 
   &__reply {
     @include button-reset;
+    color: $color-gray-05;
     @include keyboard-mode {
       &:focus {
         color: $color-ultramarine;

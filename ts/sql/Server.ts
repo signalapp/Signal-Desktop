@@ -2314,7 +2314,7 @@ async function getOlderMessagesByConversation(
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId?: string;
   }
 ): Promise<Array<MessageTypeUnhydrated>> {
   return getOlderMessagesByConversationSync(conversationId, options);
@@ -2332,7 +2332,7 @@ function getOlderMessagesByConversationSync(
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId?: string;
   } = {}
 ): Array<MessageTypeUnhydrated> {
   const db = getInstance();

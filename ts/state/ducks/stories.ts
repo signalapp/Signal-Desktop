@@ -6,7 +6,10 @@ import { pick } from 'lodash';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
 import type { MessageAttributesType } from '../../model-types.d';
-import type { MessageDeletedActionType } from './conversations';
+import type {
+  MessageChangedActionType,
+  MessageDeletedActionType,
+} from './conversations';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
 import type { StoryViewType } from '../../components/StoryListItem';
@@ -33,22 +36,43 @@ export type StoryDataType = {
   selectedReaction?: string;
 } & Pick<
   MessageAttributesType,
-  'conversationId' | 'readStatus' | 'source' | 'sourceUuid' | 'timestamp'
+  | 'conversationId'
+  | 'deletedForEveryone'
+  | 'readStatus'
+  | 'sendStateByConversationId'
+  | 'source'
+  | 'sourceUuid'
+  | 'timestamp'
+  | 'type'
 >;
 
 // State
 
 export type StoriesStateType = {
   readonly isShowingStoriesView: boolean;
+  readonly replyState?: {
+    messageId: string;
+    replies: Array<MessageAttributesType>;
+  };
   readonly stories: Array<StoryDataType>;
 };
 
 // Actions
 
+const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
 const REACT_TO_STORY = 'stories/REACT_TO_STORY';
+const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
+
+type LoadStoryRepliesActionType = {
+  type: typeof LOAD_STORY_REPLIES;
+  payload: {
+    messageId: string;
+    replies: Array<MessageAttributesType>;
+  };
+};
 
 type MarkStoryReadActionType = {
   type: typeof MARK_STORY_READ;
@@ -63,6 +87,11 @@ type ReactToStoryActionType = {
   };
 };
 
+type ReplyToStoryActionType = {
+  type: typeof REPLY_TO_STORY;
+  payload: MessageAttributesType;
+};
+
 type StoryChangedActionType = {
   type: typeof STORY_CHANGED;
   payload: StoryDataType;
@@ -73,15 +102,19 @@ type ToggleViewActionType = {
 };
 
 export type StoriesActionType =
+  | LoadStoryRepliesActionType
   | MarkStoryReadActionType
+  | MessageChangedActionType
   | MessageDeletedActionType
   | ReactToStoryActionType
+  | ReplyToStoryActionType
   | StoryChangedActionType
   | ToggleViewActionType;
 
 // Action Creators
 
 export const actions = {
+  loadStoryReplies,
   markStoryRead,
   queueStoryDownload,
   reactToStory,
@@ -91,6 +124,26 @@ export const actions = {
 };
 
 export const useStoriesActions = (): typeof actions => useBoundActions(actions);
+
+function loadStoryReplies(
+  conversationId: string,
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, LoadStoryRepliesActionType> {
+  return async dispatch => {
+    const replies = await dataInterface.getOlderMessagesByConversation(
+      conversationId,
+      { limit: 9000, storyId: messageId }
+    );
+
+    dispatch({
+      type: LOAD_STORY_REPLIES,
+      payload: {
+        messageId,
+        replies,
+      },
+    });
+  };
+}
 
 function markStoryRead(
   messageId: string
@@ -225,11 +278,16 @@ function replyToStory(
   mentions: Array<BodyRangeType>,
   timestamp: number,
   story: StoryViewType
-): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
+): ThunkAction<void, RootStateType, unknown, ReplyToStoryActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
 
-  if (conversation) {
-    conversation.enqueueMessageForSend(
+    if (!conversation) {
+      log.error('replyToStory: conversation does not exist', conversationId);
+      return;
+    }
+
+    const messageAttributes = await conversation.enqueueMessageForSend(
       {
         body: messageBody,
         attachments: [],
@@ -240,11 +298,13 @@ function replyToStory(
         timestamp,
       }
     );
-  }
 
-  return {
-    type: 'NOOP',
-    payload: null,
+    if (messageAttributes) {
+      dispatch({
+        type: REPLY_TO_STORY,
+        payload: messageAttributes,
+      });
+    }
   };
 }
 
@@ -285,11 +345,17 @@ export function reducer(
   }
 
   if (action.type === 'MESSAGE_DELETED') {
+    const nextStories = state.stories.filter(
+      story => story.messageId !== action.payload.id
+    );
+
+    if (nextStories.length === state.stories.length) {
+      return state;
+    }
+
     return {
       ...state,
-      stories: state.stories.filter(
-        story => story.messageId !== action.payload.id
-      ),
+      stories: nextStories,
     };
   }
 
@@ -297,12 +363,15 @@ export function reducer(
     const newStory = pick(action.payload, [
       'attachment',
       'conversationId',
+      'deletedForEveryone',
       'messageId',
       'readStatus',
       'selectedReaction',
+      'sendStateByConversationId',
       'source',
       'sourceUuid',
       'timestamp',
+      'type',
     ]);
 
     // Stories don't really need to change except for when we don't have the
@@ -325,6 +394,10 @@ export function reducer(
       const storyIndex = state.stories.findIndex(
         existingStory => existingStory.messageId === newStory.messageId
       );
+
+      if (storyIndex < 0) {
+        return state;
+      }
 
       return {
         ...state,
@@ -371,6 +444,64 @@ export function reducer(
 
         return story;
       }),
+    };
+  }
+
+  if (action.type === LOAD_STORY_REPLIES) {
+    return {
+      ...state,
+      replyState: action.payload,
+    };
+  }
+
+  // For live updating of the story replies
+  if (
+    action.type === 'MESSAGE_CHANGED' &&
+    state.replyState &&
+    state.replyState.messageId === action.payload.data.storyId
+  ) {
+    const { replyState } = state;
+    const messageIndex = replyState.replies.findIndex(
+      reply => reply.id === action.payload.id
+    );
+
+    // New message
+    if (messageIndex < 0) {
+      return {
+        ...state,
+        replyState: {
+          messageId: replyState.messageId,
+          replies: [...replyState.replies, action.payload.data],
+        },
+      };
+    }
+
+    // Changed message, also handles DOE
+    return {
+      ...state,
+      replyState: {
+        messageId: replyState.messageId,
+        replies: replaceIndex(
+          replyState.replies,
+          messageIndex,
+          action.payload.data
+        ),
+      },
+    };
+  }
+
+  if (action.type === REPLY_TO_STORY) {
+    const { replyState } = state;
+    if (!replyState) {
+      return state;
+    }
+
+    return {
+      ...state,
+      replyState: {
+        messageId: replyState.messageId,
+        replies: [...replyState.replies, action.payload],
+      },
     };
   }
 

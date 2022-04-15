@@ -86,11 +86,15 @@ export const ModalHost = React.memo(
         <animated.div
           role="presentation"
           className={getClassName('__overlay')}
-          onMouseDown={noMouseClose ? undefined : handleMouseDown}
-          onMouseUp={noMouseClose ? undefined : handleMouseUp}
           style={overlayStyles}
         />
-        <div className={getClassName('__overlay-container')}>{children}</div>
+        <div
+          className={getClassName('__overlay-container')}
+          onMouseDown={noMouseClose ? undefined : handleMouseDown}
+          onMouseUp={noMouseClose ? undefined : handleMouseUp}
+        >
+          {children}
+        </div>
       </div>
     );
 

@@ -43,10 +43,13 @@ export function getStoryDataFromMessageAttributes(
     selectedReaction,
     ...pick(message, [
       'conversationId',
+      'deletedForEveryone',
       'readStatus',
+      'sendStateByConversationId',
       'source',
       'sourceUuid',
       'timestamp',
+      'type',
     ]),
   };
 }

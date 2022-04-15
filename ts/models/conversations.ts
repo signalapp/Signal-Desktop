@@ -3958,7 +3958,7 @@ export class ConversationModel extends window.Backbone
       storyId?: string;
       timestamp?: number;
     } = {}
-  ): Promise<void> {
+  ): Promise<MessageAttributesType | undefined> {
     if (this.isGroupV1AndDisabled()) {
       return;
     }
@@ -4143,6 +4143,8 @@ export class ConversationModel extends window.Backbone
     }
 
     window.Signal.Data.updateConversation(this.attributes);
+
+    return attributes;
   }
 
   // Is this someone who is a contact, or are we sharing our profile with them?

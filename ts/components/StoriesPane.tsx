@@ -111,8 +111,9 @@ export const StoriesPane = ({
       >
         {renderedStories.map(story => (
           <StoryListItem
-            key={getNewestStory(story).timestamp}
+            group={story.group}
             i18n={i18n}
+            key={getNewestStory(story).timestamp}
             onClick={() => {
               onStoryClicked(story.conversationId);
             }}

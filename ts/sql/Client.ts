@@ -1238,7 +1238,7 @@ async function getOlderMessagesByConversation(
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId?: string;
   }
 ) {
   const messages = await channels.getOlderMessagesByConversation(

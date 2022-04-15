@@ -617,7 +617,7 @@ export type ServerInterface = DataInterface & {
       messageId?: string;
       receivedAt?: number;
       sentAt?: number;
-      storyId?: UUIDStringType;
+      storyId?: string;
     }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
@@ -687,7 +687,7 @@ export type ClientInterface = DataInterface & {
       messageId?: string;
       receivedAt?: number;
       sentAt?: number;
-      storyId?: UUIDStringType;
+      storyId?: string;
     }
   ) => Promise<Array<MessageAttributesType>>;
   getNewerMessagesByConversation: (

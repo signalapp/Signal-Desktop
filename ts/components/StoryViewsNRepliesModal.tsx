@@ -12,6 +12,7 @@ import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { InputApi } from './CompositionInput';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
+import type { ReplyType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { CompositionInput } from './CompositionInput';
 import { ContactName } from './conversation/ContactName';
@@ -23,25 +24,9 @@ import { Modal } from './Modal';
 import { Quote } from './conversation/Quote';
 import { ReactionPicker } from './conversation/ReactionPicker';
 import { Tabs } from './Tabs';
+import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
 import { getAvatarColor } from '../types/Colors';
-
-type ReplyType = Pick<
-  ConversationType,
-  | 'acceptedMessageRequest'
-  | 'avatarPath'
-  | 'color'
-  | 'isMe'
-  | 'name'
-  | 'profileName'
-  | 'sharedGroupNames'
-  | 'title'
-> & {
-  body?: string;
-  contactNameColor?: ContactNameColorType;
-  reactionEmoji?: string;
-  timestamp: number;
-};
 
 type ViewType = Pick<
   ConversationType,
@@ -223,7 +208,7 @@ export const StoryViewsNRepliesModal = ({
     <div className="StoryViewsNRepliesModal__replies">
       {replies.map(reply =>
         reply.reactionEmoji ? (
-          <div className="StoryViewsNRepliesModal__reaction">
+          <div className="StoryViewsNRepliesModal__reaction" key={reply.id}>
             <div className="StoryViewsNRepliesModal__reaction--container">
               <Avatar
                 acceptedMessageRequest={reply.acceptedMessageRequest}
@@ -257,7 +242,7 @@ export const StoryViewsNRepliesModal = ({
             <Emojify text={reply.reactionEmoji} />
           </div>
         ) : (
-          <div className="StoryViewsNRepliesModal__reply">
+          <div className="StoryViewsNRepliesModal__reply" key={reply.id}>
             <Avatar
               acceptedMessageRequest={reply.acceptedMessageRequest}
               avatarPath={reply.avatarPath}
@@ -272,7 +257,13 @@ export const StoryViewsNRepliesModal = ({
               size={AvatarSize.TWENTY_EIGHT}
               title={reply.title}
             />
-            <div className="StoryViewsNRepliesModal__message-bubble">
+            <div
+              className={classNames('StoryViewsNRepliesModal__message-bubble', {
+                'StoryViewsNRepliesModal__message-bubble--doe': Boolean(
+                  reply.deletedForEveryone
+                ),
+              })}
+            >
               <div className="StoryViewsNRepliesModal__reply--title">
                 <ContactName
                   contactNameColor={reply.contactNameColor}
@@ -280,7 +271,14 @@ export const StoryViewsNRepliesModal = ({
                 />
               </div>
 
-              <MessageBody i18n={i18n} text={String(reply.body)} />
+              <MessageBody
+                i18n={i18n}
+                text={
+                  reply.deletedForEveryone
+                    ? i18n('message--deletedForEveryone')
+                    : String(reply.body)
+                }
+              />
 
               <MessageTimestamp
                 i18n={i18n}
@@ -373,6 +371,7 @@ export const StoryViewsNRepliesModal = ({
       })}
       onClose={onClose}
       useFocusTrap={!hasOnlyViewsElement}
+      theme={Theme.Dark}
     >
       {tabsElement || (
         <>

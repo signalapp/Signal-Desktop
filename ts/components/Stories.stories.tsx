@@ -7,6 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { AttachmentType } from '../types/Attachment';
+import type { ConversationType } from '../state/ducks/conversations';
 import type { PropsType } from './Stories';
 import { Stories } from './Stories';
 import enMessages from '../../_locales/en/messages.json';
@@ -28,7 +29,17 @@ function createStory({
   timestamp,
 }: {
   attachment?: AttachmentType;
-  group?: { title: string };
+  group?: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'name'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
   timestamp: number;
 }) {
   const replies = Math.random() > 0.5;
@@ -87,7 +98,7 @@ const getDefaultProps = (): PropsType => ({
       timestamp: Date.now() - 5 * durations.MINUTE,
     }),
     createStory({
-      group: { title: 'BBQ in the park' },
+      group: getDefaultConversation({ title: 'BBQ in the park' }),
       attachment: getAttachmentWithThumbnail(
         '/fixtures/nathan-anderson-316188-unsplash.jpg'
       ),
@@ -102,7 +113,7 @@ const getDefaultProps = (): PropsType => ({
       timestamp: Date.now() - 164 * durations.MINUTE,
     }),
     createStory({
-      group: { title: 'Breaking Signal for Science' },
+      group: getDefaultConversation({ title: 'Breaking Signal for Science' }),
       attachment: getAttachmentWithThumbnail('/fixtures/kitten-2-64-64.jpg'),
       timestamp: Date.now() - 380 * durations.MINUTE,
     }),

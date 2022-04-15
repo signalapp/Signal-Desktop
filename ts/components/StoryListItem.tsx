@@ -15,7 +15,17 @@ import { getAvatarColor } from '../types/Colors';
 
 export type ConversationStoryType = {
   conversationId: string;
-  group?: Pick<ConversationType, 'title'>;
+  group?: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'name'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
   hasMultiple?: boolean;
   isHidden?: boolean;
   searchNames?: string; // This is just here to satisfy Fuse's types
@@ -24,6 +34,7 @@ export type ConversationStoryType = {
 
 export type StoryViewType = {
   attachment?: AttachmentType;
+  canReply?: boolean;
   hasReplies?: boolean;
   hasRepliesFromSelf?: boolean;
   isHidden?: boolean;
