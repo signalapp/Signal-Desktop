@@ -213,9 +213,15 @@ export const StoryListItem = ({
         menuOptions={[
           {
             icon: 'StoryListItem__icon--hide',
-            label: i18n('StoryListItem__hide'),
+            label: isHidden
+              ? i18n('StoryListItem__unhide')
+              : i18n('StoryListItem__hide'),
             onClick: () => {
-              setHasConfirmHideStory(true);
+              if (isHidden) {
+                onHideStory?.(sender.id);
+              } else {
+                setHasConfirmHideStory(true);
+              }
             },
           },
           {

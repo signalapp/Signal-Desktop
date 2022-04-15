@@ -52,7 +52,7 @@ export const Stories = ({
             const storyIndex = stories.findIndex(
               x => x.conversationId === conversationIdToView
             );
-            if (storyIndex >= stories.length - 1) {
+            if (storyIndex >= stories.length - 1 || storyIndex === -1) {
               setConversationIdToView(undefined);
               return;
             }
@@ -63,7 +63,7 @@ export const Stories = ({
             const storyIndex = stories.findIndex(
               x => x.conversationId === conversationIdToView
             );
-            if (storyIndex === 0) {
+            if (storyIndex <= 0) {
               setConversationIdToView(undefined);
               return;
             }
@@ -77,16 +77,7 @@ export const Stories = ({
             hiddenStories={hiddenStories}
             i18n={i18n}
             onBack={toggleStoriesView}
-            onStoryClicked={conversationId => {
-              const storyIndex = stories.findIndex(
-                x => x.conversationId === conversationId
-              );
-              const foundStory = stories[storyIndex];
-
-              if (foundStory) {
-                setConversationIdToView(conversationId);
-              }
-            }}
+            onStoryClicked={setConversationIdToView}
             openConversationInternal={openConversationInternal}
             queueStoryDownload={queueStoryDownload}
             stories={stories}

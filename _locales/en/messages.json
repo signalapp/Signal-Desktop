@@ -6992,6 +6992,10 @@
     "message": "Add a story",
     "description": "Description hint to add a story"
   },
+  "Stories__hidden-stories": {
+    "message": "Hidden stories",
+    "description": "Button label to go to hidden stories pane"
+  },
   "Stories__list-empty": {
     "message": "No recent stories to show right now",
     "description": "Description for when there are no stories to show"
@@ -7041,6 +7045,10 @@
   "StoryListItem__label": {
     "message": "Story",
     "description": "aria-label for the story list button"
+  },
+  "StoryListItem__unhide": {
+    "message": "Show stories",
+    "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
     "message": "Hide story",
