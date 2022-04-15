@@ -30,8 +30,19 @@ const releaseNotes: ReleaseNotesType = {
   date: new Date(window.getBuildCreation?.() || Date.now()),
   version: window.getVersion?.(),
   features: [
-    { key: 'WhatsNew__v5.39--1', components: undefined },
-    { key: 'WhatsNew__v5.39--2', components: undefined },
+    {
+      key: 'WhatsNew__v5.40--1',
+      components: undefined,
+    },
+    {
+      key: 'WhatsNew__v5.40--2',
+      components: {
+        dsanders11: <a href="https://github.com/dsanders11">@dsanders11</a>,
+        yusufsahinhamza: (
+          <a href="https://github.com/yusufsahinhamza">@yusufsahinhamza</a>
+        ),
+      },
+    },
   ],
 };
 

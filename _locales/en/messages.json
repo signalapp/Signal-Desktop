@@ -7056,13 +7056,7 @@
   },
   "StoryListItem__hide-modal--confirm": {
     "message": "Hide",
-    "description": "Action button for the confirmation dialog to hide a story",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Abby"
-      }
-    }
+    "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error": {
     "message": "Error displaying image",
@@ -7080,14 +7074,6 @@
     "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.36--1": {
-    "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
-    "description": "Release notes for v5.36"
-  },
-  "WhatsNew__v5.36--2": {
-    "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
-    "description": "Release notes for v5.36"
-  },
   "WhatsNew__v5.37--1": {
     "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
     "description": "Release notes for v5.37"
@@ -7103,5 +7089,23 @@
   "WhatsNew__v5.39--2": {
     "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
     "description": "Release notes for v5.39"
+  },
+  "WhatsNew__v5.40--1": {
+    "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
+    "description": "Release notes for v5.40"
+  },
+  "WhatsNew__v5.40--2": {
+    "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
+    "description": "Release notes for v5.40",
+    "placeholders": {
+      "dsanders11": {
+        "content": "$1",
+        "example": "dsanders11"
+      },
+      "yusufsahinhamza": {
+        "content": "$2",
+        "example": "yusufsahinhamza"
+      }
+    }
   }
 }
