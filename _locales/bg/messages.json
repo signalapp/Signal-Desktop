@@ -832,8 +832,12 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by Username",
-        "description": "Shown to separate the types of search results"
+        "message": "Find by username",
+        "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
+    },
+    "findByPhoneNumberHeader": {
+        "message": "Find by phone number",
+        "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
         "message": "@$username$",
@@ -966,7 +970,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Гласовите съобщения имат лимит от 5 минути. Записването ще бъде спряно, ако отворите друго приложение.",
+        "message": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1055,6 +1059,20 @@
                 "content": "$2",
                 "example": "retry update"
             },
+            "url": {
+                "content": "$2",
+                "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
+            }
+        }
+    },
+    "cannotUpdateRequireManualDetail": {
+        "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+        "description": "Shown if a general error happened while trying to install update package and manual update is required",
+        "placeholders": {
             "url": {
                 "content": "$2",
                 "example": "https://signal.org/download"
@@ -2383,6 +2401,10 @@
         "message": "Failed to fetch username. Check your connection and try again.",
         "description": "Shown if request to Signal servers to find username fails"
     },
+    "Toast--failed-to-fetch-phone-number": {
+        "message": "Failed to fetch phone number. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find phone number fails"
+    },
     "startConversation--username-not-found": {
         "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
@@ -2390,6 +2412,26 @@
             "atUsername": {
                 "content": "$1",
                 "example": "@alex"
+            }
+        }
+    },
+    "startConversation--phone-number-not-found": {
+        "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+        "description": "Shown in dialog if phone number is not found.",
+        "placeholders": {
+            "phoneNumber": {
+                "content": "$1",
+                "example": "+1 203-123-4567"
+            }
+        }
+    },
+    "startConversation--phone-number-not-valid": {
+        "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+        "description": "Shown in dialog if phone number is not valid.",
+        "placeholders": {
+            "phoneNumber": {
+                "content": "$1",
+                "example": "+1 203-123-4567"
             }
         }
     },
@@ -7005,13 +7047,15 @@
     },
     "StoryListItem__hide-modal--confirm": {
         "message": "Скрий",
-        "description": "Action button for the confirmation dialog to hide a story",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Abby"
-            }
-        }
+        "description": "Action button for the confirmation dialog to hide a story"
+    },
+    "StoryImage__error": {
+        "message": "Error displaying image",
+        "description": "aria-label for image errors"
+    },
+    "TextAttachment__preview__link": {
+        "message": "Visit link",
+        "description": "Title for the link preview tooltip"
     },
     "WhatsNew__modal-title": {
         "message": "What's New",
@@ -7020,18 +7064,6 @@
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.35--1": {
-        "message": "A new update system has been introduced and folks should start seeing smaller updates with the next update.",
-        "description": "Release notes for v5.35"
-    },
-    "WhatsNew__v5.35--2": {
-        "message": "Applications that use media keys rejoice! Signal no longer has a hold on them.",
-        "description": "Release notes for v5.35"
-    },
-    "WhatsNew__v5.35--3": {
-        "message": "Better font support for our Japanese friends.",
-        "description": "Release notes for v5.35"
     },
     "WhatsNew__v5.36--1": {
         "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
@@ -7048,5 +7080,13 @@
     "WhatsNew__v5.37--2": {
         "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
         "description": "Release notes for v5.37"
+    },
+    "WhatsNew__v5.39--1": {
+        "message": "You can now add people to groups using just their phone number.",
+        "description": "Release notes for v5.39"
+    },
+    "WhatsNew__v5.39--2": {
+        "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
+        "description": "Release notes for v5.39"
     }
 }

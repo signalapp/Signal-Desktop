@@ -6927,13 +6927,7 @@
     },
     "StoryListItem__hide-modal--confirm": {
         "message": "Skjul",
-        "description": "Action button for the confirmation dialog to hide a story",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Abby"
-            }
-        }
+        "description": "Action button for the confirmation dialog to hide a story"
     },
     "WhatsNew__modal-title": {
         "message": "What's New",
