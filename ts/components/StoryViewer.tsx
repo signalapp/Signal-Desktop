@@ -18,7 +18,7 @@ import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryDuration } from '../util/getStoryDuration';
-import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
+import { graphemeAndLinkAwareSlice } from '../util/graphemeAndLinkAwareSlice';
 import { isDownloaded, isDownloading } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
@@ -125,7 +125,7 @@ export const StoryViewer = ({
       return;
     }
 
-    return graphemeAwareSlice(
+    return graphemeAndLinkAwareSlice(
       attachment.caption,
       hasExpandedCaption ? CAPTION_MAX_LENGTH : CAPTION_INITIAL_LENGTH,
       CAPTION_BUFFER
