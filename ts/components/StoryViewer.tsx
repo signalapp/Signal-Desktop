@@ -44,9 +44,9 @@ import { ToastType } from '../state/ducks/toast';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
-import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import type { saveAttachment } from '../util/saveAttachment';
 import { isVideoAttachment } from '../types/Attachment';
+import { graphemeAndLinkAwareSlice } from '../util/graphemeAndLinkAwareSlice';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
@@ -228,7 +228,7 @@ export function StoryViewer({
       return;
     }
 
-    return graphemeAwareSlice(
+    return graphemeAndLinkAwareSlice(
       attachment.caption,
       hasExpandedCaption ? CAPTION_MAX_LENGTH : CAPTION_INITIAL_LENGTH,
       CAPTION_BUFFER
