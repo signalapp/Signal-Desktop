@@ -2629,6 +2629,7 @@ export default class MessageReceiver
     }
 
     log.info('MessageReceiver: scheduling pni identity sync message');
+    this.pendingPNIIdentityEvent?.confirm();
     this.pendingPNIIdentityEvent = ev;
   }
 
