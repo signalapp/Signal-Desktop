@@ -12,11 +12,11 @@ import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachme
 import { getAttachmentPath } from '../../types/MessageAttachment';
 import { decryptAttachmentBufferRenderer } from '../../util/local_attachments_encrypter';
 
-const urlToDecryptedBlobMap = new Map<
+export const urlToDecryptedBlobMap = new Map<
   string,
   { decrypted: string; lastAccessTimestamp: number; forceRetain: boolean }
 >();
-const urlToDecryptingPromise = new Map<string, Promise<string>>();
+export const urlToDecryptingPromise = new Map<string, Promise<string>>();
 
 export const cleanUpOldDecryptedMedias = () => {
   const currentTimestamp = Date.now();
@@ -47,6 +47,14 @@ export const cleanUpOldDecryptedMedias = () => {
   );
 };
 
+export const getLocalAttachmentPath = () => {
+  return getAttachmentPath();
+};
+
+export const readFileContent = async (url: string) => {
+  return fse.readFile(url);
+};
+
 export const getDecryptedMediaUrl = async (
   url: string,
   contentType: string,
@@ -57,7 +65,7 @@ export const getDecryptedMediaUrl = async (
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (getAttachmentPath() && url.startsWith(getAttachmentPath())) {
+  } else if (exports.getLocalAttachmentPath && url.startsWith(exports.getLocalAttachmentPath())) {
     // this is a file encoded by session on our current attachments path.
     // we consider the file is encrypted.
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
@@ -84,7 +92,7 @@ export const getDecryptedMediaUrl = async (
         new Promise(async resolve => {
           window.log.info('about to read and decrypt file :', url);
           try {
-            const encryptedFileContent = await fse.readFile(url);
+            const encryptedFileContent = await readFileContent(url);
             const decryptedContent = await decryptAttachmentBufferRenderer(
               encryptedFileContent.buffer
             );
@@ -137,7 +145,7 @@ export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (getAttachmentPath() && url.startsWith(getAttachmentPath())) {
+  } else if (exports.getLocalAttachmentPath() && url.startsWith(exports.getLocalAttachmentPath())) {
     if (urlToDecryptedBlobMap.has(url)) {
       const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
       return existingObjUrl;
@@ -149,4 +157,12 @@ export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
 export const getDecryptedBlob = async (url: string, contentType: string): Promise<Blob> => {
   const decryptedUrl = await getDecryptedMediaUrl(url, contentType, false);
   return urlToBlob(decryptedUrl);
+};
+
+/**
+ * This function should only be used for testing purpose
+ */
+export const resetDecryptedUrlForTesting = () => {
+  urlToDecryptedBlobMap.clear();
+  urlToDecryptingPromise.clear();
 };
