@@ -1,7 +1,6 @@
 // tslint:disable: no-implicit-dependencies
 
 import chai from 'chai';
-import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
@@ -17,14 +16,13 @@ import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/o
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import Sinon from 'sinon';
 
 const { expect } = chai;
 
 describe('Message Utils', () => {
-  const sandbox = sinon.createSandbox();
-
   afterEach(() => {
-    sandbox.restore();
+    Sinon.restore();
   });
 
   // tslint:disable-next-line: max-func-body-length
@@ -236,13 +234,13 @@ describe('Message Utils', () => {
 
     beforeEach(() => {
       // convos = [];
-      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
-      sandbox.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
+      Sinon.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
     });
 
     beforeEach(() => {
       // convos = [];
-      sandbox.restore();
+      Sinon.restore();
     });
 
     // it('filter out non active open groups', async () => {

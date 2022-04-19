@@ -30,7 +30,6 @@ const { expect } = chai;
 // tslint:disable-next-line: max-func-body-length
 describe('SwarmPolling', () => {
   // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
   const ourPubkey = TestUtils.generateFakePubKey();
   const ourNumber = ourPubkey.key;
 
@@ -42,16 +41,16 @@ describe('SwarmPolling', () => {
   let clock: Sinon.SinonFakeTimers;
   beforeEach(async () => {
     // Utils Stubs
-    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
+    Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
-    sandbox.stub(Data, 'getAllConversations').resolves(new ConversationCollection());
-    sandbox.stub(DataItem, 'getItemById').resolves();
-    sandbox.stub(Data, 'saveConversation').resolves();
-    sandbox.stub(Data, 'getSwarmNodesForPubkey').resolves();
-    sandbox.stub(Data, 'getLastHashBySnode').resolves();
+    Sinon.stub(Data, 'getAllConversations').resolves(new ConversationCollection());
+    Sinon.stub(DataItem, 'getItemById').resolves();
+    Sinon.stub(Data, 'saveConversation').resolves();
+    Sinon.stub(Data, 'getSwarmNodesForPubkey').resolves();
+    Sinon.stub(Data, 'getLastHashBySnode').resolves();
 
-    sandbox.stub(SnodePool, 'getSwarmFor').resolves(generateFakeSnodes(5));
-    sandbox.stub(SNodeAPI, 'retrieveNextMessages').resolves([]);
+    Sinon.stub(SnodePool, 'getSwarmFor').resolves(generateFakeSnodes(5));
+    Sinon.stub(SNodeAPI, 'retrieveNextMessages').resolves([]);
     TestUtils.stubWindow('inboxStore', undefined);
     TestUtils.stubWindow('getGlobalOnlineStatus', () => true);
     TestUtils.stubWindowLog();
@@ -62,14 +61,13 @@ describe('SwarmPolling', () => {
 
     swarmPolling = getSwarmPollingInstance();
     swarmPolling.TEST_reset();
-    TEST_pollOnceForKeySpy = sandbox.spy(swarmPolling, 'TEST_pollOnceForKey');
+    TEST_pollOnceForKeySpy = Sinon.spy(swarmPolling, 'TEST_pollOnceForKey');
 
     clock = sinon.useFakeTimers(Date.now());
   });
 
   afterEach(() => {
-    TestUtils.restoreStubs();
-    sandbox.restore();
+    Sinon.restore();
     getConversationController().reset();
     clock.restore();
   });

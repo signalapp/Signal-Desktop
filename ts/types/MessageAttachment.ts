@@ -16,17 +16,6 @@ import {
 
 // tslint:disable: prefer-object-spread
 
-// FIXME audric
-// upgrade: exports._mapAttachments(autoOrientJPEGAttachment),
-// upgrade: exports._mapAttachments(replaceUnicodeOrderOverrides),
-// upgrade: _mapAttachments(migrateDataToFileSystem),
-// upgrade: ._mapQuotedAttachments(migrateDataToFileSystem),
-// upgrade: initializeAttachmentMetadata,
-// upgrade: initializeAttachmentMetadata,
-// upgrade: _mapAttachments(captureDimensionsAndScreenshot),
-// upgrade: _mapAttachments(replaceUnicodeV2),
-// upgrade: _mapPreviewAttachments(migrateDataToFileSystem),
-
 // I think this is only used on the renderer side, but how?!
 
 export const deleteExternalMessageFiles = async (message: {

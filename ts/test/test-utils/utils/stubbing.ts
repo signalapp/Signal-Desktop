@@ -1,8 +1,9 @@
-import * as sinon from 'sinon';
+import Sinon from 'sinon';
 import * as DataShape from '../../../../ts/data/data';
 
+import * as utilWorker from '../../../webworker/workers/util_worker_interface';
+
 const globalAny: any = global;
-const sandbox = sinon.createSandbox();
 
 // We have to do this in a weird way because Data uses module.exports
 //  which doesn't play well with sinon or ImportMock
@@ -18,20 +19,29 @@ type DataFunction = typeof DataShape;
  * Please call `restoreStubs()` or `stub.restore()` to restore original functionality.
  */
 export function stubData<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
-  return sandbox.stub(Data, fn);
+  return Sinon.stub(Data, fn);
 }
 
 export function stubDataItem<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
-  return sandbox.stub(DataItem, fn);
+  return Sinon.stub(DataItem, fn);
+}
+
+export function stubUtilWorker(fnName: string, returnedValue: any): sinon.SinonStub {
+  return Sinon.stub(utilWorker, 'callUtilsWorker')
+    .withArgs(fnName)
+    .resolves(returnedValue);
+}
+export function stubCreateObjectUrl() {
+  (global as any).URL = {};
+  (global as any).URL.createObjectURL = function() {
+    return `${Date.now()}:${Math.floor(Math.random() * 1000)}`;
+  };
 }
 
 type WindowValue<K extends keyof Window> = Partial<Window[K]> | undefined;
 
 /**
- * Stub a window object.
- *
- * Note: This uses a custom sandbox.
- * Please call `restoreStubs()` or `stub.restore()` to restore original functionality.
+ * Stub a window object
  */
 export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>) {
   // tslint:disable-next-line: no-typeof-undefined
@@ -53,11 +63,6 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
     get,
     set,
   };
-}
-
-export function restoreStubs() {
-  globalAny.window = undefined;
-  sandbox.restore();
 }
 
 export const stubWindowLog = () => {

@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
@@ -45,7 +45,6 @@ const getFakeResponseOnDestination = (statusCode?: number, body?: string) => {
 // tslint:disable-next-line: max-func-body-length
 describe('OnionPathsErrors', () => {
   // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
   let updateSwarmSpy: sinon.SinonStub;
   let dropSnodeFromSwarmIfNeededSpy: sinon.SinonSpy;
   let dropSnodeFromSnodePool: sinon.SinonSpy;
@@ -84,30 +83,29 @@ describe('OnionPathsErrors', () => {
     associatedWith = TestUtils.generateFakePubKey().key;
     fakeSwarmForAssociatedWith = otherNodesPubkeys.slice(0, 6);
     // Stubs
-    sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(guardNodesArray);
-    sandbox.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(guardNodesArray);
+    Sinon.stub(OnionPaths, 'selectGuardNodes').resolves(guardNodesArray);
+    Sinon.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(guardNodesArray);
     TestUtils.stubData('getGuardNodes').resolves([
       guardPubkeys[0],
       guardPubkeys[1],
       guardPubkeys[2],
     ]);
     TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
-    sandbox.stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries').resolves(fakeSnodePool);
-    sandbox.stub(Data, 'getSwarmNodesForPubkey').resolves(fakeSwarmForAssociatedWith);
-    updateGuardNodesStub = sandbox.stub(Data, 'updateGuardNodes').resolves();
+    Sinon.stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries').resolves(fakeSnodePool);
+    Sinon.stub(Data, 'getSwarmNodesForPubkey').resolves(fakeSwarmForAssociatedWith);
+    updateGuardNodesStub = Sinon.stub(Data, 'updateGuardNodes').resolves();
 
     // those are still doing what they do, but we spy on their executation
-    updateSwarmSpy = sandbox.stub(Data, 'updateSwarmNodesForPubkey').resolves();
-    sandbox
-      .stub(DataItem, 'getItemById')
+    updateSwarmSpy = Sinon.stub(Data, 'updateSwarmNodesForPubkey').resolves();
+    Sinon.stub(DataItem, 'getItemById')
       .withArgs(Data.SNODE_POOL_ITEM_ID)
       .resolves({ id: Data.SNODE_POOL_ITEM_ID, value: '' });
-    sandbox.stub(DataItem, 'createOrUpdateItem').resolves();
-    dropSnodeFromSnodePool = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
-    dropSnodeFromSwarmIfNeededSpy = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
-    dropSnodeFromPathSpy = sandbox.spy(OnionPaths, 'dropSnodeFromPath');
-    incrementBadPathCountOrDropSpy = sandbox.spy(OnionPaths, 'incrementBadPathCountOrDrop');
-    incrementBadSnodeCountOrDropSpy = sandbox.spy(SNodeAPI.Onions, 'incrementBadSnodeCountOrDrop');
+    Sinon.stub(DataItem, 'createOrUpdateItem').resolves();
+    dropSnodeFromSnodePool = Sinon.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
+    dropSnodeFromSwarmIfNeededSpy = Sinon.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
+    dropSnodeFromPathSpy = Sinon.spy(OnionPaths, 'dropSnodeFromPath');
+    incrementBadPathCountOrDropSpy = Sinon.spy(OnionPaths, 'incrementBadPathCountOrDrop');
+    incrementBadSnodeCountOrDropSpy = Sinon.spy(SNodeAPI.Onions, 'incrementBadSnodeCountOrDrop');
 
     OnionPaths.clearTestOnionPath();
 
@@ -116,16 +114,16 @@ describe('OnionPathsErrors', () => {
     await OnionPaths.getOnionPath({});
 
     oldOnionPaths = OnionPaths.TEST_getTestOnionPath();
-    sandbox
-      .stub(SNodeAPI.Onions, 'decodeOnionResult')
-      .callsFake((_symkey: ArrayBuffer, plaintext: string) =>
-        Promise.resolve({ plaintext, ciphertextBuffer: new Uint8Array() })
-      );
+    Sinon.stub(
+      SNodeAPI.Onions,
+      'decodeOnionResult'
+    ).callsFake((_symkey: ArrayBuffer, plaintext: string) =>
+      Promise.resolve({ plaintext, ciphertextBuffer: new Uint8Array() })
+    );
   });
 
   afterEach(() => {
-    TestUtils.restoreStubs();
-    sandbox.restore();
+    Sinon.restore();
   });
 
   describe('processOnionResponse', () => {

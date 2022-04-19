@@ -7,7 +7,7 @@ import { ConfigurationMessage } from '../../../../session/messages/outgoing/cont
 import { UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 
-import Sinon, * as sinon from 'sinon';
+import Sinon from 'sinon';
 import * as cache from '../../../../receiver/cache';
 import * as data from '../../../../../ts/data/data';
 import { EnvelopePlus } from '../../../../receiver/types';
@@ -20,7 +20,6 @@ chai.should();
 const { expect } = chai;
 
 describe('ConfigurationMessage_receiving', () => {
-  const sandbox = sinon.createSandbox();
   let createOrUpdateStub: Sinon.SinonStub<any>;
   let getItemByIdStub: Sinon.SinonStub<any>;
   let sender: string;
@@ -29,7 +28,7 @@ describe('ConfigurationMessage_receiving', () => {
   let config: ConfigurationMessage;
 
   beforeEach(() => {
-    sandbox.stub(cache, 'removeFromCache').resolves();
+    Sinon.stub(cache, 'removeFromCache').resolves();
     sender = TestUtils.generateFakePubKey().key;
     config = new ConfigurationMessage({
       activeOpenGroups: [],
@@ -42,17 +41,16 @@ describe('ConfigurationMessage_receiving', () => {
   });
 
   afterEach(() => {
-    TestUtils.restoreStubs();
-    sandbox.restore();
+    Sinon.restore();
   });
 
   it('should not be processed if we do not have a pubkey', async () => {
-    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(undefined);
+    Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(undefined);
     envelope = TestUtils.generateEnvelopePlus(sender);
 
     const proto = config.contentProto();
-    createOrUpdateStub = sandbox.stub(data, 'createOrUpdateItem').resolves();
-    getItemByIdStub = sandbox.stub(data, 'getItemById').resolves();
+    createOrUpdateStub = Sinon.stub(data, 'createOrUpdateItem').resolves();
+    getItemByIdStub = Sinon.stub(data, 'getItemById').resolves();
     await handleConfigurationMessage(
       envelope,
       proto.configurationMessage as SignalService.ConfigurationMessage
@@ -65,7 +63,7 @@ describe('ConfigurationMessage_receiving', () => {
     const ourNumber = TestUtils.generateFakePubKey().key;
 
     beforeEach(() => {
-      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
     });
 
     it('should not be processed if the message is not coming from our number', async () => {
@@ -73,8 +71,8 @@ describe('ConfigurationMessage_receiving', () => {
       // sender !== ourNumber
       envelope = TestUtils.generateEnvelopePlus(sender);
 
-      createOrUpdateStub = sandbox.stub(data, 'createOrUpdateItem').resolves();
-      getItemByIdStub = sandbox.stub(data, 'getItemById').resolves();
+      createOrUpdateStub = Sinon.stub(data, 'createOrUpdateItem').resolves();
+      getItemByIdStub = Sinon.stub(data, 'getItemById').resolves();
       await handleConfigurationMessage(
         envelope,
         proto.configurationMessage as SignalService.ConfigurationMessage
