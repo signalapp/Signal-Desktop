@@ -11,6 +11,7 @@ const StyledContent = styled.div`
 
 const DebugLogTextArea = (props: { content: string }) => {
   console.warn('DebugLogTextArea ', props.content);
+  // tslint:disable-next-line: react-a11y-input-elements
   return <textarea spellCheck="false" rows={10} value={props.content} style={{ height: '100%' }} />;
 };
 
@@ -49,7 +50,7 @@ const DebugLogViewAndSave = () => {
     // eslint-disable-next-line more/no-then
     fetch()
       .then((text: any) => {
-        const debugLogWithSystemInfo = operatingSystemInfo + commitHashInfo + text;
+        const debugLogWithSystemInfo = `${operatingSystemInfo} ${commitHashInfo} ${text}`;
         setContent(debugLogWithSystemInfo);
       })
       .catch(console.warn);

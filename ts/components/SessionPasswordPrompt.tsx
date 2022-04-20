@@ -86,17 +86,19 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     );
 
     return (
-      <div className={wrapperClass}>
-        <div className={containerClass}>
-          <div className={infoAreaClass}>
-            {infoIcon}
+      <div className="password">
+        <div className={wrapperClass}>
+          <div className={containerClass}>
+            <div className={infoAreaClass}>
+              {infoIcon}
 
-            <h1>{infoTitle}</h1>
+              <h1>{infoTitle}</h1>
+            </div>
+
+            {featureElement}
+            {errorSection}
+            {buttonGroup}
           </div>
-
-          {featureElement}
-          {errorSection}
-          {buttonGroup}
         </div>
       </div>
     );

@@ -14,24 +14,11 @@ module.exports = grunt => {
         sourceMap: true,
         importer: importOnce,
       },
-      dev: {
+
+      dist: {
         files: {
           'stylesheets/manifest.css': 'stylesheets/manifest.scss',
         },
-      },
-    },
-    watch: {
-      protobuf: {
-        files: ['./protos/SignalService.proto'],
-        tasks: ['exec:build-protobuf'],
-      },
-      sass: {
-        files: ['./stylesheets/*.scss'],
-        tasks: ['sass'],
-      },
-      transpile: {
-        files: ['./ts/**/*.ts', './ts/**/*.tsx', './ts/**/**/*.tsx', './test/ts/**.ts'],
-        tasks: ['exec:transpile'],
       },
     },
     exec: {
@@ -75,12 +62,11 @@ module.exports = grunt => {
     updateLocalConfig({ commitHash: hash });
   });
 
-  grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('date', ['gitinfo']);
   grunt.registerTask('default', [
     'exec:build-protobuf',
-    'exec:transpile',
     'sass',
+    'exec:transpile',
     'date',
     'getCommitHash',
   ]);

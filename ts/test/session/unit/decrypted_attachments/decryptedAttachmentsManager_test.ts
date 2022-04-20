@@ -3,6 +3,7 @@ import { beforeEach } from 'mocha';
 import Sinon from 'sinon';
 import * as DecryptedAttachmentsManager from '../../../../session/crypto/DecryptedAttachmentsManager';
 import { TestUtils } from '../../../test-utils';
+// tslint:disable: chai-vague-errors no-unused-expression
 
 describe('DecryptedAttachmentsManager', () => {
   // tslint:disable-next-line: no-empty
@@ -49,7 +50,7 @@ describe('DecryptedAttachmentsManager', () => {
 
       beforeEach(() => {
         readFileContent = Sinon.stub(DecryptedAttachmentsManager, 'readFileContent').resolves(
-          Buffer.from(new String('this is a test'))
+          Buffer.from('this is a test')
         );
         getItemById = TestUtils.stubDataItem('getItemById')
           .withArgs('local_attachment_encrypted_key')
@@ -133,7 +134,7 @@ describe('DecryptedAttachmentsManager', () => {
         expect(resolved2.startsWith(now2.slice(0, 9))).to.be.true;
       });
     });
-  });
+  }); // tslint:disable: no-empty
 
   it.skip('cleanUpOldDecryptedMedias', () => {});
   it.skip('getDecryptedBlob', () => {});

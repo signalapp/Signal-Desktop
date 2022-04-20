@@ -53,6 +53,7 @@ export async function encryptAttachmentBufferNode(
     );
 
     //tslint-disable restrict-plus-operands
+    // tslint:disable-next-line: restrict-plus-operands
     const encryptedBufferWithHeader = new Uint8Array(bufferOut.length + header.length);
     encryptedBufferWithHeader.set(header);
     encryptedBufferWithHeader.set(bufferOut, header.length);

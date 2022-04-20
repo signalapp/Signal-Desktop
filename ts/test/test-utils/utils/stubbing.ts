@@ -33,7 +33,8 @@ export function stubUtilWorker(fnName: string, returnedValue: any): sinon.SinonS
 }
 export function stubCreateObjectUrl() {
   (global as any).URL = {};
-  (global as any).URL.createObjectURL = function() {
+  (global as any).URL.createObjectURL = () => {
+    // tslint:disable-next-line: insecure-random
     return `${Date.now()}:${Math.floor(Math.random() * 1000)}`;
   };
 }

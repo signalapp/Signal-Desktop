@@ -32,8 +32,9 @@ if (environment === 'production') {
 
 // We load config after we've made our modifications to NODE_ENV
 //tslint-disable no-require-imports no-var-requires
+// tslint:disable-next-line: no-require-imports no-var-requires
 const c = require('config');
-(c as any).environment = environment;
+c.environment = environment;
 
 // Log resulting env vars in use by config
 ['NODE_ENV', 'NODE_APP_INSTANCE', 'NODE_CONFIG_DIR', 'NODE_CONFIG'].forEach(s => {

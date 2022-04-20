@@ -105,6 +105,7 @@ async function verifyAllSignatures(
         if (valid) {
           return unchecked.base64EncodedData;
         }
+        // tslint:disable: no-console
         console.info('got an opengroup message with an invalid signature');
         return null;
       } catch (e) {

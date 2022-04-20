@@ -16,6 +16,7 @@ global.setTimeout(() => {
     states.push(window.getAppInstance());
   }
   if (version) {
+    // tslint:disable: no-inner-html
     version.innerHTML = `v${window.getVersion()}`;
   }
 

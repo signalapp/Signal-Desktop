@@ -6,6 +6,7 @@ import {
   hasVisualMediaAttachmentInMessage,
 } from '../../types/message/initializeAttachmentMetadata';
 import { generateFakeIncomingPrivateMessage, stubWindowLog } from '../test-utils/utils';
+// tslint:disable: chai-vague-errors no-unused-expression
 
 // tslint:disable-next-line: max-func-body-length
 describe('initializeAttachmentMetadata', () => {
@@ -16,7 +17,7 @@ describe('initializeAttachmentMetadata', () => {
     it('no attachments should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
 
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('empty list attachments should return false', () => {
@@ -203,81 +204,81 @@ describe('initializeAttachmentMetadata', () => {
   });
 
   describe('getAttachmentMetadata', () => {
-    it('no attachments should return false x3', async () => {
+    it('no attachments should return false x3', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(0);
       expect(mt.hasFileAttachments).to.be.eq(0);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
     });
 
-    it('empty attachments [] should return false x3', async () => {
+    it('empty attachments [] should return false x3', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', []);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(0);
       expect(mt.hasFileAttachments).to.be.eq(0);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
     });
 
-    it('has one image attachment only', async () => {
+    it('has one image attachment only', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: 'image/jpeg' }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(0);
       expect(mt.hasVisualMediaAttachments).to.be.eq(1);
     });
 
-    it('has two image attachment only', async () => {
+    it('has two image attachment only', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: 'image/jpeg' }, { contentType: 'image/jpeg' }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(0);
       expect(mt.hasVisualMediaAttachments).to.be.eq(1);
     });
 
-    it('has one audio attachment only', async () => {
+    it('has one audio attachment only', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: 'audio/mp3' }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(0);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
     });
 
-    it('has one file attachment only', async () => {
+    it('has one file attachment only', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: 'whatever' }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(1);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
     });
 
-    it('has two file attachment only', async () => {
+    it('has two file attachment only', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: 'whatever' }, { contentType: 'whatever' }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(1);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
     });
 
-    it('has two attachments with undefined contenttype', async () => {
+    it('has two attachments with undefined contenttype', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: undefined }, { contentType: undefined }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(0);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
     });
 
-    it('has two attachments with null contenttype', async () => {
+    it('has two attachments with null contenttype', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set('attachments', [{ contentType: null }, { contentType: null }]);
-      const mt = await getAttachmentMetadata(msgModel);
+      const mt = getAttachmentMetadata(msgModel);
       expect(mt.hasAttachments).to.be.eq(1);
       expect(mt.hasFileAttachments).to.be.eq(1);
       expect(mt.hasVisualMediaAttachments).to.be.eq(0);
