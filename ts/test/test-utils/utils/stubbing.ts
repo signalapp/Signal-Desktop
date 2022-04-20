@@ -66,13 +66,15 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
+const enableLogRedirect = false;
+
 export const stubWindowLog = () => {
   stubWindow('log', {
     // tslint:disable: no-void-expression
     // tslint:disable: no-console
-    info: (args: any) => console.info(args),
-    warn: (args: any) => console.warn(args),
-    error: (args: any) => console.error(args),
-    debug: (args: any) => console.debug(args),
+    info: (args: any) => (enableLogRedirect ? console.info(args) : {}),
+    warn: (args: any) => (enableLogRedirect ? console.warn(args) : {}),
+    error: (args: any) => (enableLogRedirect ? console.error(args) : {}),
+    debug: (args: any) => (enableLogRedirect ? console.debug(args) : {}),
   });
 };
