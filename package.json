@@ -56,7 +56,7 @@
     "abort-controller": "3.0.0",
     "auto-bind": "^4.0.0",
     "backbone": "1.3.3",
-    "better-sqlite3": "https://github.com/signalapp/better-sqlite3#4f66ee7b85477016dd0b2c3d2f13dcb60abd452e",
+    "better-sqlite3": "https://github.com/signalapp/better-sqlite3#b287153a5c6a5ac77f1e70df75d245e7a6e2286d",
     "blob-util": "2.0.2",
     "blueimp-canvas-to-blob": "^3.29.0",
     "blueimp-load-image": "5.14.0",

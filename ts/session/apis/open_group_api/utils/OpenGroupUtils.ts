@@ -82,7 +82,7 @@ export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) 
   if (!roomId.match(`^${roomIdV2Regex}$`)) {
     throw new Error('getOpenGroupV2ConversationId: Invalid roomId');
   }
-  if (!serverUrl.match(`${openGroupV2ServerUrlRegex}`)) {
+  if (!serverUrl.match(openGroupV2ServerUrlRegex)) {
     throw new Error('getOpenGroupV2ConversationId: Invalid serverUrl');
   }
   return `${openGroupPrefix}${roomId}@${serverUrl}`;
