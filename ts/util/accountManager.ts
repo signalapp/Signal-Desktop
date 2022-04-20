@@ -179,6 +179,9 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   );
   await conversation.setLokiProfile({ displayName });
   await conversation.setIsApproved(true);
+  await conversation.setDidApproveMe(true);
+
+  await conversation.commit();
   const user = {
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: ourPubkey,

@@ -211,13 +211,7 @@ const CallButton = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  if (
-    !isPrivate ||
-    isMe ||
-    !selectedConvoKey ||
-    isBlocked ||
-    !window.sessionFeatureFlags.useCallMessage
-  ) {
+  if (!isPrivate || isMe || !selectedConvoKey || isBlocked) {
     return null;
   }
 

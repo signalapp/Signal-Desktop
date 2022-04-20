@@ -5,6 +5,7 @@ import { openConversationWithMessages } from '../../../state/ducks/conversations
 import {
   answerCall,
   callConnected,
+  callReconnecting,
   CallStatusEnum,
   endCall,
   incomingCall,
@@ -32,7 +33,7 @@ import { approveConvoAndSendResponse } from '../../../interactions/conversationI
 
 export type InputItem = { deviceId: string; label: string };
 
-export const callTimeoutMs = 30000;
+export const callTimeoutMs = 60000;
 
 /**
  * This uuid is set only once we accepted a call or started one.
@@ -40,6 +41,8 @@ export const callTimeoutMs = 30000;
 let currentCallUUID: string | undefined;
 
 let currentCallStartTimestamp: number | undefined;
+
+let weAreCallerOnCurrentCall: boolean | undefined;
 
 const rejectedCallUUIDS: Set<string> = new Set();
 
@@ -498,6 +501,7 @@ export async function USER_callRecipient(recipient: string) {
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const calledConvo = getConversationController().get(recipient);
   calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
+  weAreCallerOnCurrentCall = true;
 
   await calledConvo?.addSingleOutgoingMessage({
     sent_at: now,
@@ -598,7 +602,7 @@ function handleConnectionStateChanged(pubkey: string) {
   window.log.info('handleConnectionStateChanged :', peerConnection?.connectionState);
 
   if (peerConnection?.signalingState === 'closed' || peerConnection?.connectionState === 'failed') {
-    closeVideoCall();
+    window.inboxStore?.dispatch(callReconnecting({ pubkey }));
   } else if (peerConnection?.connectionState === 'connected') {
     const firstAudioInput = audioInputsList?.[0].deviceId || undefined;
     if (firstAudioInput) {
@@ -619,6 +623,7 @@ function handleConnectionStateChanged(pubkey: string) {
 function closeVideoCall() {
   window.log.info('closingVideoCall ');
   currentCallStartTimestamp = undefined;
+  weAreCallerOnCurrentCall = undefined;
   if (peerConnection) {
     peerConnection.ontrack = null;
     peerConnection.onicecandidate = null;
@@ -747,11 +752,18 @@ function createOrGetPeerConnection(withPubkey: string) {
 
     if (peerConnection && peerConnection?.iceConnectionState === 'disconnected') {
       //this will trigger a negotation event with iceRestart set to true in the createOffer options set
-      global.setTimeout(() => {
+      global.setTimeout(async () => {
         window.log.info('onconnectionstatechange disconnected: restartIce()');
 
-        if (peerConnection?.iceConnectionState === 'disconnected') {
+        if (
+          peerConnection?.iceConnectionState === 'disconnected' &&
+          withPubkey?.length &&
+          weAreCallerOnCurrentCall === true
+        ) {
+          // we are the caller and the connection got dropped out, we need to send a new offer with iceRestart set to true.
+          // the recipient will get that new offer and send us a response back if he still online
           (peerConnection as any).restartIce();
+          await createOfferAndSendIt(withPubkey);
         }
       }, 2000);
     }

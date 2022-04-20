@@ -427,7 +427,7 @@ export async function innerHandleSwarmContentMessage(
     if (content.unsendMessage) {
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
-    if (content.callMessage && window.sessionFeatureFlags?.useCallMessage) {
+    if (content.callMessage) {
       await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
     }
     if (content.messageRequestResponse) {
