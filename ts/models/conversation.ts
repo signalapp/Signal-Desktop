@@ -1741,7 +1741,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 }
 
-const trotthledAllConversationsDispatch = _.throttle(() => {
+const trotthledAllConversationsDispatch = _.debounce(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }

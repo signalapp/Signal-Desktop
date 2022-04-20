@@ -44,3 +44,5 @@ yarn-error.log
 
 playwright.config.js
 *.js.map
+ts/node/**/*.d.ts
+ts/node/**/*.d.ts.map

@@ -1313,13 +1313,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 }
 
-const trotthledAllMessagesDispatch = _.throttle(() => {
+const trotthledAllMessagesDispatch = _.debounce(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }
   window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
   updatesToDispatch.clear();
-}, 1000);
+}, 2000);
 
 const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new Map();
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

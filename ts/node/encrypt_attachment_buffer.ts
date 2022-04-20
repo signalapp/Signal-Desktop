@@ -2,9 +2,10 @@ import { getSodiumNode } from './sodiumNode';
 
 export async function decryptAttachmentBufferNode(
   encryptingKey: Uint8Array,
-  bufferIn: ArrayBuffer
+  bufferIn: ArrayBuffer,
+  getSodiumOverride?: () => Promise<any>
 ) {
-  const sodium = await getSodiumNode();
+  const sodium = getSodiumOverride ? await getSodiumOverride() : await getSodiumNode();
 
   const header = new Uint8Array(
     bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
@@ -33,9 +34,10 @@ export async function decryptAttachmentBufferNode(
 
 export async function encryptAttachmentBufferNode(
   encryptingKey: Uint8Array,
-  bufferIn: ArrayBuffer
+  bufferIn: ArrayBuffer,
+  getSodiumOverride?: () => Promise<any>
 ) {
-  const sodium = await getSodiumNode();
+  const sodium = getSodiumOverride ? await getSodiumOverride() : await getSodiumNode();
 
   try {
     const uintArrayIn = new Uint8Array(bufferIn);

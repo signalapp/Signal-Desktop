@@ -3,8 +3,8 @@ import { generateKeyPair, sharedKey, verify } from 'curve25519-js';
 import { default as sodiumWrappers } from 'libsodium-wrappers-sumo';
 import _ from 'lodash';
 import {
-  decryptAttachmentBufferNode,
-  encryptAttachmentBufferNode,
+  decryptAttachmentBufferNode as realDecryptAttachmentBufferNode,
+  encryptAttachmentBufferNode as realEncryptAttachmentBufferNode,
 } from '../../node/encrypt_attachment_buffer';
 
 /* eslint-disable no-console */
@@ -60,6 +60,14 @@ function prepareErrorForPostMessage(error: any) {
 
 function arrayBufferToStringBase64(arrayBuffer: ArrayBuffer) {
   return ByteBuffer.wrap(arrayBuffer).toString('base64');
+}
+
+async function encryptAttachmentBufferNode(encryptingKey: Uint8Array, bufferIn: ArrayBuffer) {
+  return realEncryptAttachmentBufferNode(encryptingKey, bufferIn, getSodiumWorker);
+}
+
+async function decryptAttachmentBufferNode(encryptingKey: Uint8Array, bufferIn: ArrayBuffer) {
+  return realDecryptAttachmentBufferNode(encryptingKey, bufferIn, getSodiumWorker);
 }
 
 function fromBase64ToArrayBuffer(base64Str: string) {
