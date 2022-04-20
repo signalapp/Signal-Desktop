@@ -3363,7 +3363,7 @@ function cleanUpOldOpengroups() {
   // This is the only way we can cleanup conversations objects from users which just sent messages a while ago and with whom we never interacted.
   // This is only for opengroups, and is because ALL the conversations are cached in the redux store. Having a very large number of conversations (unused) is deteriorating a lot the performance of the app.
   // Another fix would be to not cache all the conversations in the redux store, but it ain't going to happen anytime soon as it would a pretty big change of the way we do things and would break a lot of the app.
-  const maxMessagePerOpengroupConvo = 1000;
+  const maxMessagePerOpengroupConvo = 2000;
 
   // first remove very old messages for each opengroups
 
@@ -3373,7 +3373,7 @@ function cleanUpOldOpengroups() {
 
     if (messagesInConvo >= maxMessagePerOpengroupConvo) {
       const minute = 1000 * 60;
-      const twoMonths = minute * 60 * 24 * 60;
+      const sixMonths = minute * 60 * 24 * 30 * 6;
       console.info(
         `too many message: ${messagesInConvo} in convo: ${convoId}. Limit is ${maxMessagePerOpengroupConvo}`
       );
@@ -3382,7 +3382,7 @@ function cleanUpOldOpengroups() {
           `
       DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
         )
-        .run({ conversationId: convoId, serverTimestamp: Date.now() - twoMonths }); // delete messages older than twoMonths
+        .run({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths }); // delete messages older than sixMonths
 
       const messagesInConvoAfter = getMessagesCountByConversation(convoId);
       console.info(

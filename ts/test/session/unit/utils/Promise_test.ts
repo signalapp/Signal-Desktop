@@ -191,7 +191,6 @@ describe('Promise Utils', () => {
         await allowOnlyOneAtATime('testing', spy, 15);
         throw new Error('should get here');
       } catch (e) {
-        console.warn(e);
         expect(e.message).to.be.be.eql('should get here');
       }
 
