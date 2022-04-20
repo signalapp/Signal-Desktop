@@ -35,7 +35,7 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
-import { isValidUuid } from '../types/UUID';
+import { isValidUuid, UUID, UUIDKind } from '../types/UUID';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
@@ -784,6 +784,10 @@ export async function mergeContactRecord(
 
   if (!isValidUuid(uuid)) {
     return { hasConflict: false, shouldDrop: true, details: ['invalid uuid'] };
+  }
+
+  if (window.storage.user.getOurUuidKind(new UUID(uuid)) !== UUIDKind.Unknown) {
+    return { hasConflict: false, shouldDrop: true, details: ['our own uuid'] };
   }
 
   const id = window.ConversationController.ensureContactIds({
