@@ -13,6 +13,8 @@ import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConst
 import * as durations from '../util/durations';
 import { App } from './playwright';
 
+export { App };
+
 const debug = createDebug('mock:bootstrap');
 
 const ELECTRON = path.join(

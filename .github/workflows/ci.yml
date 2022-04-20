@@ -157,7 +157,7 @@ jobs:
       env:
         SIGNAL_ENV: production
 
-  storage-service:
+  mock-tests:
     needs: lint
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
@@ -198,11 +198,11 @@ jobs:
     - name: Bundle
       run: yarn build:webpack
 
-    - name: Run storage service tests
+    - name: Run mock server tests
       run: |
         set -o pipefail
         xvfb-run --auto-servernum yarn test-mock
       timeout-minutes: 10
       env:
         NODE_ENV: production
-        DEBUG: mock:test-storage
+        DEBUG: mock:test:*

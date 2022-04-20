@@ -8,7 +8,7 @@ import { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import type { BootstrapOptions } from '../bootstrap';
 
-export const debug = createDebug('mock:test-storage');
+export const debug = createDebug('mock:test:storage');
 
 export { App, Bootstrap };
 
