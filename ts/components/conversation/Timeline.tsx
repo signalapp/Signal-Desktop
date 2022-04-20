@@ -541,17 +541,13 @@ export class Timeline extends React.Component<
     this.intersectionObserver.observe(atBottomDetectorEl);
   }
 
-  private markNewestBottomVisibleMessageRead = throttle(
-    (): void => {
-      const { markMessageRead } = this.props;
-      const { newestBottomVisibleMessageId } = this.state;
-      if (newestBottomVisibleMessageId) {
-        markMessageRead(newestBottomVisibleMessageId);
-      }
-    },
-    500,
-    { leading: false }
-  );
+  private markNewestBottomVisibleMessageRead = throttle((): void => {
+    const { markMessageRead } = this.props;
+    const { newestBottomVisibleMessageId } = this.state;
+    if (newestBottomVisibleMessageId) {
+      markMessageRead(newestBottomVisibleMessageId);
+    }
+  }, 500);
 
   public override componentDidMount(): void {
     const containerEl = this.containerRef.current;
@@ -674,6 +670,8 @@ export class Timeline extends React.Component<
           numberToKeepAtBottom: this.maxVisibleRows,
         });
       }
+    } else {
+      this.markNewestBottomVisibleMessageRead();
     }
   }
 
