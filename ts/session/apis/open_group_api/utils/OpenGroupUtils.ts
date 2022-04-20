@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
@@ -49,6 +50,13 @@ export const openGroupV2ConversationIdRegex = new RegExp(
  *
  */
 export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
+  if (
+    _.isEmpty(roomInfos.serverUrl) ||
+    _.isEmpty(roomInfos.roomId) ||
+    _.isEmpty(roomInfos.serverPublicKey)
+  ) {
+    throw new Error('getCompleteUrlFromRoom needs serverPublicKey, roomid and serverUrl to be set');
+  }
   // serverUrl has the port and protocol already
   return `${roomInfos.serverUrl}/${roomInfos.roomId}?${publicKeyParam}${roomInfos.serverPublicKey}`;
 }
@@ -71,10 +79,10 @@ export function prefixify(server: string, hasSSL: boolean = true): string {
  * @returns `${openGroupPrefix}${roomId}@${serverUrl}`
  */
 export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) {
-  if (!roomId.match(roomIdV2Regex)) {
+  if (!roomId.match(`^${roomIdV2Regex}$`)) {
     throw new Error('getOpenGroupV2ConversationId: Invalid roomId');
   }
-  if (!serverUrl.match(openGroupV2ServerUrlRegex)) {
+  if (!serverUrl.match(`${openGroupV2ServerUrlRegex}`)) {
     throw new Error('getOpenGroupV2ConversationId: Invalid serverUrl');
   }
   return `${openGroupPrefix}${roomId}@${serverUrl}`;
