@@ -15,7 +15,7 @@ Please search for any [existing issues](https://github.com/oxen-io/session-deskt
 Build instructions can be found in [BUILDING.md](BUILDING.md).
 
 
-## Verifing signatures
+## Verifying signatures
 
 
 Get Kee's key and import it:
