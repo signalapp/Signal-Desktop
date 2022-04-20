@@ -2542,9 +2542,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         const conversationTimestamp = conversation.get('timestamp');
+        const isGroupStoryReply =
+          isGroup(conversation.attributes) && message.get('storyId');
         if (
-          !conversationTimestamp ||
-          message.get('sent_at') > conversationTimestamp
+          !isGroupStoryReply &&
+          (!conversationTimestamp ||
+            message.get('sent_at') > conversationTimestamp)
         ) {
           conversation.set({
             lastMessage: message.getNotificationText(),
@@ -2626,7 +2629,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isFirstRun = false;
     await this.modifyTargetMessage(conversation, isFirstRun);
 
-    if (isMessageUnread(this.attributes)) {
+    const isGroupStoryReply =
+      isGroup(conversation.attributes) && this.get('storyId');
+
+    if (isMessageUnread(this.attributes) && !isGroupStoryReply) {
       await conversation.notify(this);
     }
 
@@ -2722,6 +2728,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const viewSyncs = ViewSyncs.getSingleton().forMessage(message);
 
+      const isGroupStoryReply =
+        isGroup(conversation.attributes) && message.get('storyId');
+
       if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
         const markReadAt = Math.min(
           Date.now(),
@@ -2758,7 +2767,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.pendingMarkRead ?? Date.now(),
           markReadAt
         );
-      } else if (isFirstRun) {
+      } else if (isFirstRun && !isGroupStoryReply) {
         conversation.set({
           unreadCount: (conversation.get('unreadCount') || 0) + 1,
           isArchived: false,

@@ -388,6 +388,7 @@ export type DataInterface = {
   ) => Promise<number>;
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
+    isGroup?: boolean;
     newestUnreadAt: number;
     readAt?: number;
     storyId?: UUIDStringType;
@@ -448,11 +449,13 @@ export type DataInterface = {
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (
     conversationId: string,
-    storyId?: UUIDStringType
+    storyId?: UUIDStringType,
+    isGroup?: boolean
   ) => Promise<ConversationMetricsType>;
   // getConversationRangeCenteredOnMessage is JSON on server, full message on client
   getConversationMessageStats: (options: {
     conversationId: string;
+    isGroup?: boolean;
     ourUuid: UUIDStringType;
   }) => Promise<ConversationMessageStatsType>;
   getLastConversationMessage(options: {
@@ -613,6 +616,7 @@ export type ServerInterface = DataInterface & {
   getOlderMessagesByConversation: (
     conversationId: string,
     options?: {
+      isGroup?: boolean;
       limit?: number;
       messageId?: string;
       receivedAt?: number;
@@ -623,6 +627,7 @@ export type ServerInterface = DataInterface & {
   getNewerMessagesByConversation: (
     conversationId: string,
     options?: {
+      isGroup?: boolean;
       limit?: number;
       receivedAt?: number;
       sentAt?: number;
@@ -683,6 +688,7 @@ export type ClientInterface = DataInterface & {
   getOlderMessagesByConversation: (
     conversationId: string,
     options: {
+      isGroup?: boolean;
       limit?: number;
       messageId?: string;
       receivedAt?: number;
@@ -693,6 +699,7 @@ export type ClientInterface = DataInterface & {
   getNewerMessagesByConversation: (
     conversationId: string,
     options: {
+      isGroup?: boolean;
       limit?: number;
       receivedAt?: number;
       sentAt?: number;

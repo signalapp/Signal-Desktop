@@ -85,6 +85,7 @@ import * as universalExpireTimer from '../util/universalExpireTimer';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
   isDirectConversation,
+  isGroup,
   isGroupV1,
   isGroupV2,
   isMe,
@@ -1375,9 +1376,15 @@ export class ConversationModel extends window.Backbone
     // Clear typing indicator for a given contact if we receive a message from them
     this.clearContactTypingTimer(typingToken);
 
-    if (!isStory(message.attributes)) {
-      this.addSingleMessage(message);
+    // If it's a group story reply or a story message, we don't want to update
+    // the last message or add new messages to redux.
+    const isGroupStoryReply =
+      isGroup(this.attributes) && message.get('storyId');
+    if (isGroupStoryReply || isStory(message.attributes)) {
+      return;
     }
+
+    this.addSingleMessage(message);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.debouncedUpdateLastMessage!();
@@ -1486,7 +1493,11 @@ export class ConversationModel extends window.Backbone
         }
       }
 
-      const metrics = await getMessageMetricsForConversation(conversationId);
+      const metrics = await getMessageMetricsForConversation(
+        conversationId,
+        undefined,
+        isGroup(this.attributes)
+      );
 
       // If this is a message request that has not yet been accepted, we always show the
       //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
@@ -1505,6 +1516,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const messages = await getOlderMessagesByConversation(conversationId, {
+        isGroup: isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
       });
 
@@ -1556,6 +1568,7 @@ export class ConversationModel extends window.Backbone
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
       const models = await getOlderMessagesByConversation(conversationId, {
+        isGroup: isGroup(this.attributes),
         receivedAt,
         sentAt,
         messageId: oldestMessageId,
@@ -1609,6 +1622,7 @@ export class ConversationModel extends window.Backbone
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
       const models = await getNewerMessagesByConversation(conversationId, {
+        isGroup: isGroup(this.attributes),
         receivedAt,
         sentAt,
         limit: MESSAGE_LOAD_CHUNK_SIZE,
@@ -2047,6 +2061,7 @@ export class ConversationModel extends window.Backbone
       messages = await window.Signal.Data.getOlderMessagesByConversation(
         this.get('id'),
         {
+          isGroup: isGroup(this.attributes),
           limit: 100,
           receivedAt: first ? first.received_at : undefined,
           sentAt: first ? first.sent_at : undefined,
@@ -4186,6 +4201,7 @@ export class ConversationModel extends window.Backbone
     const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
     const stats = await window.Signal.Data.getConversationMessageStats({
       conversationId,
+      isGroup: isGroup(this.attributes),
       ourUuid,
     });
 

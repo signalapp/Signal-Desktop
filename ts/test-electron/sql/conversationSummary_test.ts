@@ -77,6 +77,60 @@ describe('sql/conversationSummary', () => {
       assert.isTrue(messages.hasUserInitiatedMessages);
     });
 
+    it('returns the latest message in current conversation excluding group story replies', async () => {
+      assert.lengthOf(await _getAllMessages(), 0);
+
+      const now = Date.now();
+      const conversationId = getUuid();
+      const ourUuid = getUuid();
+      const message1: MessageAttributesType = {
+        id: getUuid(),
+        body: 'message 1',
+        type: 'outgoing',
+        conversationId,
+        sent_at: now + 1,
+        received_at: now + 1,
+        timestamp: now + 1,
+      };
+      const message2: MessageAttributesType = {
+        id: getUuid(),
+        body: 'message 2',
+        type: 'outgoing',
+        conversationId,
+        sent_at: now + 2,
+        received_at: now + 2,
+        timestamp: now + 2,
+        storyId: getUuid(),
+      };
+      const message3: MessageAttributesType = {
+        id: getUuid(),
+        body: 'message 3',
+        type: 'incoming',
+        conversationId,
+        sent_at: now + 3,
+        received_at: now + 3,
+        timestamp: now + 3,
+        storyId: getUuid(),
+      };
+
+      await saveMessages([message1, message2, message3], {
+        forceSave: true,
+        ourUuid,
+      });
+
+      assert.lengthOf(await _getAllMessages(), 3);
+
+      const messages = await getConversationMessageStats({
+        conversationId,
+        isGroup: true,
+        ourUuid,
+      });
+
+      assert.strictEqual(messages.activity?.body, message1.body, 'activity');
+      assert.strictEqual(messages.preview?.body, message1.body, 'preview');
+      assert.isTrue(messages.hasUserInitiatedMessages);
+    });
+
     it('preview excludes several message types, allows type = NULL', async () => {
       assert.lengthOf(await _getAllMessages(), 0);
 

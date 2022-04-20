@@ -79,6 +79,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import type { NoopActionType } from './noop';
 import { conversationJobQueue } from '../../jobs/conversationJobQueue';
 import type { TimelineMessageLoadingState } from '../../util/timelineUtil';
+import { isGroup } from '../../util/whatTypeOfConversation';
 
 // State
 
@@ -2450,6 +2451,12 @@ export function reducer(
     // ...and we've already loaded that message once
     const existingMessage = getOwn(state.messagesLookup, id);
     if (!existingMessage) {
+      return state;
+    }
+
+    const conversationAttrs = state.conversationLookup[conversationId];
+    const isGroupStoryReply = isGroup(conversationAttrs) && data.storyId;
+    if (isGroupStoryReply) {
       return state;
     }
 

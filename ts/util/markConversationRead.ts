@@ -6,6 +6,7 @@ import { hasErrors } from '../state/selectors/message';
 import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
+import { isGroup } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 
 export async function markConversationRead(
@@ -22,6 +23,7 @@ export async function markConversationRead(
       conversationId,
       newestUnreadAt,
       readAt: options.readAt,
+      isGroup: isGroup(conversationAttrs),
     }),
     window.Signal.Data.getUnreadReactionsAndMarkRead({
       conversationId,

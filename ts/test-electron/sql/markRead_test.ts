@@ -719,4 +719,80 @@ describe('sql/markRead', () => {
       'should be reaction5'
     );
   });
+
+  it('does not include group story replies', async () => {
+    assert.lengthOf(await _getAllMessages(), 0);
+
+    const start = Date.now();
+    const readAt = start + 20;
+    const conversationId = getUuid();
+    const storyId = getUuid();
+    const ourUuid = getUuid();
+
+    const message1: MessageAttributesType = {
+      id: getUuid(),
+      body: 'message 1',
+      type: 'story',
+      conversationId,
+      sent_at: start + 1,
+      received_at: start + 1,
+      timestamp: start + 1,
+      readStatus: ReadStatus.Read,
+    };
+    const message2: MessageAttributesType = {
+      id: getUuid(),
+      body: 'message 2',
+      type: 'incoming',
+      conversationId,
+      sent_at: start + 2,
+      received_at: start + 2,
+      timestamp: start + 2,
+      readStatus: ReadStatus.Unread,
+      storyId,
+    };
+    const message3: MessageAttributesType = {
+      id: getUuid(),
+      body: 'message 3',
+      type: 'incoming',
+      conversationId,
+      sent_at: start + 3,
+      received_at: start + 3,
+      timestamp: start + 3,
+      readStatus: ReadStatus.Unread,
+    };
+    const message4: MessageAttributesType = {
+      id: getUuid(),
+      body: 'message 4',
+      type: 'incoming',
+      conversationId,
+      sent_at: start + 4,
+      received_at: start + 4,
+      timestamp: start + 4,
+      readStatus: ReadStatus.Unread,
+      storyId,
+    };
+
+    await saveMessages([message1, message2, message3, message4], {
+      forceSave: true,
+      ourUuid,
+    });
+
+    assert.lengthOf(await _getAllMessages(), 4);
+
+    const markedRead = await getUnreadByConversationAndMarkRead({
+      conversationId,
+      isGroup: true,
+      newestUnreadAt: message4.received_at,
+      readAt,
+    });
+
+    assert.lengthOf(markedRead, 1, '1 message marked read');
+
+    // Sorted in descending order
+    assert.strictEqual(
+      markedRead[0].id,
+      message3.id,
+      'first should be message3'
+    );
+  });
 });
