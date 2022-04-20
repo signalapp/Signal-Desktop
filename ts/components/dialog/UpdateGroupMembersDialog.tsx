@@ -38,7 +38,7 @@ const ClassicMemberList = (props: {
   }
   let currentMembers = convoProps.members || [];
   const { groupAdmins } = convoProps;
-  currentMembers = currentMembers.sort(m => (groupAdmins?.includes(m) ? -1 : 0));
+  currentMembers = [...currentMembers].sort(m => (groupAdmins?.includes(m) ? -1 : 0));
 
   return (
     <>
