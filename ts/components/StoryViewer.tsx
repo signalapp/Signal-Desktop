@@ -176,21 +176,11 @@ export const StoryViewer = ({
     };
   }, [attachment]);
 
-  const [styles, spring] = useSpring(() => ({
-    from: { width: 0 },
-    to: { width: 100 },
-    loop: true,
-  }));
-
-  // Adding "currentStoryIndex" to the dependency list here to explcitly signal
-  // that this useEffect should run whenever the story changes.
-  useEffect(() => {
-    spring.start({
-      config: {
-        duration: storyDuration,
-      },
+  const [styles, spring] = useSpring(
+    () => ({
       from: { width: 0 },
       to: { width: 100 },
+      loop: true,
       onRest: {
         width: ({ value }) => {
           if (value === 100) {
@@ -198,12 +188,25 @@ export const StoryViewer = ({
           }
         },
       },
+    }),
+    [showNextStory]
+  );
+
+  // We need to be careful about this effect refreshing, it should only run
+  // every time a story changes or its duration changes.
+  useEffect(() => {
+    spring.start({
+      config: {
+        duration: storyDuration,
+      },
+      from: { width: 0 },
+      to: { width: 100 },
     });
 
     return () => {
       spring.stop();
     };
-  }, [currentStoryIndex, showNextStory, spring, storyDuration]);
+  }, [currentStoryIndex, spring, storyDuration]);
 
   useEffect(() => {
     if (hasReplyModal) {
