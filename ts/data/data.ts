@@ -551,11 +551,6 @@ export async function removeAllMessagesInConversation(conversationId: string): P
   } while (messages.length > 0);
 }
 
-export async function trimMessages(): Promise<void> {
-  await channels.trimMessages(1000);
-  return;
-}
-
 export async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {
   const messages = await channels.getMessagesBySentAt(sentAt);
   return new MessageCollection(messages);

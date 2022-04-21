@@ -49,7 +49,7 @@
     "ready": "yarn grunt && yarn lint-full && yarn test",
     "sedtoAppImage": "sed -i 's/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/\"target\": \"AppImage\"/g' package.json",
     "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/g' package.json",
-    "parcel-util-worker": "rimraf ts/webworker/workers/util.worker.js; parcel build --target util-worker --no-autoinstall --no-cache"
+    "parcel-util-worker": "rimraf ts/webworker/workers/util.worker.js && parcel build --target util-worker --no-autoinstall --no-cache"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
@@ -121,10 +121,6 @@
     "semver": "5.4.1",
     "styled-components": "5.1.1",
     "uuid": "3.3.2"
-  },
-  "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.16.3",
@@ -225,6 +221,7 @@
   "build": {
     "appId": "com.loki-project.messenger-desktop",
     "afterSign": "build/notarize.js",
+    "afterPack": "build/afterPackHook.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
     "extraResources": {
       "from": "./build/launcher-script.sh",
@@ -344,11 +341,12 @@
       "!node_modules/@journeyapps/sqlcipher/build/*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
       "!build/*.js",
+      "build/afterPackHook.js",
+      "build/launcher-script.sh",
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
       "!dev-app-update.yml"
-    ],
-    "afterPack": "./build/afterPackHook.js"
+    ]
   }
 }

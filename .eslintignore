@@ -3,9 +3,6 @@ components/**
 dist/**
 mnemonic_languages/**
 
-# Generated files
-js/util_worker.js
-
 # TypeScript generated files
 ts/**/*.js
 **/ts/**/*.js

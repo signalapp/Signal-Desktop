@@ -32,15 +32,10 @@ module.exports = async function(context) {
   const targetExecutable = path.join(context.appOutDir, `${executableName}-bin`);
   const launcherScript = path.join(context.appOutDir, 'resources', 'launcher-script.sh');
   const chromeSandbox = path.join(context.appOutDir, 'chrome-sandbox');
-
-  return Promise.all([
-    // rename session-desktop to session-desktop-bin
-    renameAsync(sourceExecutable, targetExecutable),
-
-    // rename launcher script to session-desktop
-    renameAsync(launcherScript, sourceExecutable),
-
-    // remove the chrome-sandbox file since we explicitly disable it
-    unlinkAsync(chromeSandbox),
-  ]);
+  // rename session-desktop to session-desktop-bin
+  await renameAsync(sourceExecutable, targetExecutable);
+  // rename launcher script to session-desktop
+  await renameAsync(launcherScript, sourceExecutable);
+  // remove the chrome-sandbox file since we explicitly disable it
+  return unlinkAsync(chromeSandbox);
 };

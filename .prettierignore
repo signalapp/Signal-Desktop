@@ -5,7 +5,6 @@
 config/local-*.json
 config/local.json
 dist/**
-js/util_worker.js
 stylesheets/*.css
 
 test/ts/**/*.js
@@ -18,7 +17,6 @@ ts/test/automation/notes
 
 # Third-party files
 node_modules/**
-js/util_worker.js
 mnemonic_languages/**
 playwright.config.js
 

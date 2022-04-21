@@ -64,7 +64,6 @@ const channelsToMake = new Set([
   'hasConversationOutgoingMessage',
   'getSeenMessagesByHashList',
   'getLastHashBySnode',
-  'trimMessages',
   'getUnprocessedCount',
   'getAllUnprocessed',
   'getUnprocessedById',

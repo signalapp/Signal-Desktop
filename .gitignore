@@ -13,7 +13,6 @@ release/
 sql/
 
 # generated files
-js/util_worker.js
 stylesheets/*.css
 
 # React / TypeScript

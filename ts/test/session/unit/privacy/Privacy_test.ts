@@ -87,13 +87,19 @@ describe('Privacy', () => {
     it('removes whatever is in front of the app root path before logging', () => {
       const appRootPath = path.join(__dirname, '..', '..', '..', '..', '..');
       const appFolderName = path.basename(appRootPath);
-      expect(redactAll(appRootPath)).to.be.equal(`[REDACTED]/${appFolderName}`);
+      expect(redactAll(appRootPath)).to.be.be.oneOf([
+        `[REDACTED]/${appFolderName}`,
+        `[REDACTED]\\${appFolderName}`,
+      ]);
     });
 
     it('removes whatever is in front of the app root path before logging', () => {
       const appRootPath = path.join(__dirname, '..', '..', '..', '..', '..');
       const appFolderName = path.basename(appRootPath);
-      expect(redactAll(appRootPath)).to.be.equal(`[REDACTED]/${appFolderName}`);
+      expect(redactAll(appRootPath)).to.be.be.oneOf([
+        `[REDACTED]/${appFolderName}`,
+        `[REDACTED]\\${appFolderName}`,
+      ]);
     });
   });
 });
