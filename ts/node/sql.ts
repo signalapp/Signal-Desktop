@@ -1323,9 +1323,7 @@ function updateToLokiSchemaVersion22(currentVersion: number, db: BetterSqlite3.D
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
   db.transaction(() => {
-    db.exec(`
-        DROP INDEX messages_duplicate_check;
-      `);
+    db.exec(`DROP INDEX messages_duplicate_check;`);
 
     db.exec(`
     ALTER TABLE ${MESSAGES_TABLE} DROP sourceDevice;
@@ -1340,6 +1338,15 @@ function updateToLokiSchemaVersion22(currentVersion: number, db: BetterSqlite3.D
     );
     `);
 
+    dropFtsAndTriggers(db);
+    // we also want to remove the read_by it could have 20 times the same value set in the array
+    // we do this once, and updated the code to not allow multiple entries in read_by as we do not care about multiple entries
+    // (read_by is only used in private chats)
+    db.exec(`
+        UPDATE ${MESSAGES_TABLE} SET
+        json = json_remove(json, '$.schemaVersion', '$.recipients', '$.decrypted_at', '$.sourceDevice', '$.read_by')
+      `);
+    rebuildFtsTable(db);
     writeLokiSchemaVersion(targetVersion, db);
   })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
@@ -3445,7 +3452,6 @@ function cleanUpUnusedNodeForKeyEntries() {
 
   const swarmUnused = difference(allEntriesInSnodeForPubkey, allIdsToKeep);
 
-  console.log('swarmStored but unused ', swarmUnused.length);
   if (swarmUnused.length) {
     const start = Date.now();
 
@@ -3566,6 +3572,8 @@ function cleanUpOldOpengroups() {
       } completely inactive convos done in ${Date.now() - start}ms`
     );
   }
+
+  cleanUpMessagesJson();
 
   rebuildFtsTable(assertGlobalInstance());
 }

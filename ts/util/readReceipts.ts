@@ -42,11 +42,16 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
       return;
     }
 
-    const readBy = message.get('read_by') || [];
+    // readBy is only used for private conversations
+    // we do not care of who read it. If the length is > 0 , it is read and false otherwise
+    let readBy = message.get('read_by') || [];
     const expirationStartTimestamp = message.get('expirationStartTimestamp');
 
-    if (!readBy.includes(receipt.source)) {
+    if (!readBy.length) {
       readBy.push(receipt.source);
+    }
+    if (readBy.length > 1) {
+      readBy = readBy.slice(0, 1);
     }
     message.set({
       read_by: readBy,
