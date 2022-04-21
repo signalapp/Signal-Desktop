@@ -51,7 +51,7 @@ import { getV2OpenGroupRoom } from '../data/opengroups';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { SettingsKey } from '../data/settings-key';
 import {
   deleteExternalMessageFiles,
@@ -611,7 +611,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (quote.text) {
         // do not show text of not found messages.
         // if the message was deleted better not show it's text content in the message
-        quoteProps.text = this.createNonBreakingLastSeparator(quote.text);
+        quoteProps.text = this.createNonBreakingLastSeparator(sliceQuoteText(quote.text));
       }
 
       const quoteAttachment = firstAttachment
@@ -1311,6 +1311,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     return this.get('body');
   }
+}
+
+// this is to avoid saving 2k chars for just the quote object inside a message
+export function sliceQuoteText(quotedText: string | undefined | null) {
+  if (!quotedText || isEmpty(quotedText)) {
+    return '';
+  }
+  return quotedText.slice(0, 60);
 }
 
 const trotthledAllMessagesDispatch = _.debounce(

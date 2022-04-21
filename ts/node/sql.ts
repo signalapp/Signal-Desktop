@@ -758,6 +758,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion19,
   updateToLokiSchemaVersion20,
   updateToLokiSchemaVersion21,
+  updateToLokiSchemaVersion22,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1241,11 +1242,6 @@ function updateToLokiSchemaVersion19(currentVersion: number, db: BetterSqlite3.D
       DROP INDEX messages_schemaVersion;
       ALTER TABLE ${MESSAGES_TABLE} DROP COLUMN schemaVersion;
     `);
-    // this is way to slow for now...
-    // db.exec(`
-    //   UPDATE ${MESSAGES_TABLE} SET
-    //   json = json_remove(json, '$.schemaVersion')
-    // `);
     writeLokiSchemaVersion(targetVersion, db);
   })();
 
@@ -1313,6 +1309,36 @@ function updateToLokiSchemaVersion21(currentVersion: number, db: BetterSqlite3.D
         id,
       });
     });
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion22(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 22;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+        DROP INDEX messages_duplicate_check;
+      `);
+
+    db.exec(`
+    ALTER TABLE ${MESSAGES_TABLE} DROP sourceDevice;
+    `);
+    db.exec(`
+    ALTER TABLE unprocessed DROP sourceDevice;
+    `);
+    db.exec(`
+    CREATE INDEX messages_duplicate_check ON ${MESSAGES_TABLE} (
+      source,
+      sent_at
+    );
+    `);
 
     writeLokiSchemaVersion(targetVersion, db);
   })();
@@ -1982,7 +2008,6 @@ function saveMessage(data: any) {
     // eslint-disable-next-line camelcase
     sent_at,
     source,
-    sourceDevice,
     type,
     unread,
     expireTimer,
@@ -2015,7 +2040,6 @@ function saveMessage(data: any) {
     sent,
     sent_at,
     source,
-    sourceDevice,
     type: type || '',
     unread,
   };
@@ -2039,7 +2063,6 @@ function saveMessage(data: any) {
     sent,
     sent_at,
     source,
-    sourceDevice,
     type,
     unread
   ) values (
@@ -2059,7 +2082,6 @@ function saveMessage(data: any) {
     $sent,
     $sent_at,
     $source,
-    $sourceDevice,
     $type,
     $unread
   );`
@@ -2793,13 +2815,12 @@ function updateUnprocessedAttempts(id: string, attempts: number) {
     });
 }
 function updateUnprocessedWithData(id: string, data: any = {}) {
-  const { source, sourceDevice, serverTimestamp, decrypted, senderIdentity } = data;
+  const { source, serverTimestamp, decrypted, senderIdentity } = data;
 
   assertGlobalInstance()
     .prepare(
       `UPDATE unprocessed SET
       source = $source,
-      sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted,
       senderIdentity = $senderIdentity
@@ -2808,7 +2829,6 @@ function updateUnprocessedWithData(id: string, data: any = {}) {
     .run({
       id,
       source,
-      sourceDevice,
       serverTimestamp,
       decrypted,
       senderIdentity,
@@ -3442,6 +3462,19 @@ function cleanUpUnusedNodeForKeyEntries() {
   }
 }
 
+function cleanUpMessagesJson() {
+  console.info('cleanUpMessagesJson ');
+  const start = Date.now();
+  assertGlobalInstance().transaction(() => {
+    assertGlobalInstance().exec(`
+      UPDATE ${MESSAGES_TABLE} SET
+      json = json_remove(json, '$.schemaVersion', '$.recipients', '$.decrypted_at', '$.sourceDevice')
+    `);
+  })();
+
+  console.info(`cleanUpMessagesJson took ${Date.now() - start}ms`);
+}
+
 function cleanUpOldOpengroups() {
   const v2Convos = getAllOpenGroupV2Conversations();
 
@@ -3642,7 +3675,6 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       // eslint-disable-next-line camelcase
       sent_at: Date.now(),
       source: `${convoId}`,
-      sourceDevice: 1,
       type: 'outgoing',
       unread: 1,
       expireTimer: 0,

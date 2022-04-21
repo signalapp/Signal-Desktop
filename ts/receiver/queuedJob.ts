@@ -5,7 +5,7 @@ import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { MessageModel } from '../models/message';
+import { MessageModel, sliceQuoteText } from '../models/message';
 import { getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
 
 import { SignalService } from '../protobuf';
@@ -66,7 +66,7 @@ async function copyFromQuotedMessage(
   window?.log?.info(`Found quoted message id: ${id}`);
   quoteLocal.referencedMessageNotFound = false;
 
-  quoteLocal.text = found.get('body') || '';
+  quoteLocal.text = sliceQuoteText(found.get('body') || '');
 
   // no attachments, just save the quote with the body
   if (

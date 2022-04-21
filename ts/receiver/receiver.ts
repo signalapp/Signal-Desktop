@@ -174,7 +174,6 @@ async function queueCached(item: any) {
     envelope.source = envelope.source || item.source;
 
     // Why do we need to do this???
-    envelope.sourceDevice = 1;
     envelope.senderIdentity = envelope.senderIdentity || item.senderIdentity;
     envelope.serverTimestamp = envelope.serverTimestamp || item.serverTimestamp;
 
