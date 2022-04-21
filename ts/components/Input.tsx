@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import * as grapheme from '../util/grapheme';
 import type { LocalizerType } from '../types/Util';
 import { getClassNamesFor } from '../util/getClassNamesFor';
-import { refMerger } from '../util/refMerger';
+import { useRefMerger } from '../hooks/useRefMerger';
 import { byteLength } from '../Bytes';
 
 export type PropsType = {
@@ -84,6 +84,7 @@ export const Input = forwardRef<
     const valueOnKeydownRef = useRef<string>(value);
     const selectionStartOnKeydownRef = useRef<number>(value.length);
     const [isLarge, setIsLarge] = useState(false);
+    const refMerger = useRefMerger();
 
     const maybeSetLarge = useCallback(() => {
       if (!expandable) {
