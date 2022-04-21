@@ -379,25 +379,6 @@ export class StickerPackEvent extends ConfirmableEvent {
   }
 }
 
-export type VerifiedEventData = Readonly<{
-  state: Proto.IVerified['state'];
-  destination?: string;
-  destinationUuid?: string;
-  identityKey?: Uint8Array;
-
-  // Used in `ts/background.ts`
-  viaContactSync?: boolean;
-}>;
-
-export class VerifiedEvent extends ConfirmableEvent {
-  constructor(
-    public readonly verified: VerifiedEventData,
-    confirm: ConfirmCallback
-  ) {
-    super('verified', confirm);
-  }
-}
-
 export type ReadSyncEventData = Readonly<{
   timestamp?: number;
   envelopeTimestamp: number;

@@ -84,7 +84,6 @@ import type {
   SentEventData,
   StickerPackEvent,
   TypingEvent,
-  VerifiedEvent,
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
@@ -326,10 +325,6 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'view',
       queuedEventListener(onViewReceipt)
-    );
-    messageReceiver.addEventListener(
-      'verified',
-      queuedEventListener(onVerified)
     );
     messageReceiver.addEventListener(
       'error',
@@ -3714,77 +3709,6 @@ export async function startApp(): Promise<void> {
     // Note: Here we wait, because we want viewed states to be in the database
     //   before we move on.
     return ViewSyncs.getSingleton().onSync(receipt);
-  }
-
-  async function onVerified(ev: VerifiedEvent) {
-    const e164 = ev.verified.destination;
-    const uuid = ev.verified.destinationUuid;
-    const key = ev.verified.identityKey;
-    let state;
-
-    if (ev.confirm) {
-      ev.confirm();
-    }
-
-    const c = new window.Whisper.Conversation({
-      e164,
-      uuid,
-      type: 'private',
-    } as Partial<ConversationAttributesType> as WhatIsThis);
-    const error = c.validate();
-    if (error) {
-      log.error(
-        'Invalid verified sync received:',
-        e164,
-        uuid,
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    switch (ev.verified.state) {
-      case Proto.Verified.State.DEFAULT:
-        state = 'DEFAULT';
-        break;
-      case Proto.Verified.State.VERIFIED:
-        state = 'VERIFIED';
-        break;
-      case Proto.Verified.State.UNVERIFIED:
-        state = 'UNVERIFIED';
-        break;
-      default:
-        log.error(`Got unexpected verified state: ${ev.verified.state}`);
-    }
-
-    log.info(
-      'got verified sync for',
-      e164,
-      uuid,
-      state,
-      ev.verified.viaContactSync ? 'via contact sync' : ''
-    );
-
-    const verifiedId = window.ConversationController.ensureContactIds({
-      e164,
-      uuid,
-      highTrust: true,
-      reason: 'onVerified',
-    });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const contact = window.ConversationController.get(verifiedId)!;
-    const options = {
-      viaSyncMessage: true,
-      viaContactSync: ev.verified.viaContactSync,
-      key,
-    };
-
-    if (state === 'VERIFIED') {
-      await contact.setVerified(options);
-    } else if (state === 'DEFAULT') {
-      await contact.setVerifiedDefault(options);
-    } else {
-      await contact.setUnverified(options);
-    }
   }
 
   function onDeliveryReceipt(ev: DeliveryEvent) {

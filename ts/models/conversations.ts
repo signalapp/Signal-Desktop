@@ -2600,8 +2600,6 @@ export class ConversationModel extends window.Backbone
     const options = providedOptions || {};
     window._.defaults(options, {
       viaStorageServiceSync: false,
-      viaSyncMessage: false,
-      viaContactSync: false,
       key: null,
     });
 
@@ -2618,7 +2616,7 @@ export class ConversationModel extends window.Backbone
     const uuid = this.getUuid();
     const beginningVerified = this.get('verified');
     let keyChange = false;
-    if (options.viaSyncMessage || options.viaStorageServiceSync) {
+    if (options.viaStorageServiceSync) {
       strictAssert(
         uuid,
         `Sync message didn't update uuid for conversation: ${this.id}`
@@ -2655,27 +2653,26 @@ export class ConversationModel extends window.Backbone
     }
 
     const didSomethingChange = keyChange || beginningVerified !== verified;
-    const isExplicitUserAction =
-      !options.viaContactSync && !options.viaStorageServiceSync;
-    const shouldShowFromContactSync =
-      options.viaContactSync && verified !== UNVERIFIED;
+    const isExplicitUserAction = !options.viaStorageServiceSync;
+    const shouldShowFromStorageSync =
+      options.viaStorageServiceSync && verified !== UNVERIFIED;
     if (
       // The message came from an explicit verification in a client (not a contact sync
       //   or storage service sync)
       (didSomethingChange && isExplicitUserAction) ||
       // The verification value received by the contact sync is different from what we
       //   have on record (and it's not a transition to UNVERIFIED)
-      (didSomethingChange && shouldShowFromContactSync) ||
+      (didSomethingChange && shouldShowFromStorageSync) ||
       // Our local verification status is VERIFIED and it hasn't changed, but the key did
       //   change (Key1/VERIFIED -> Key2/VERIFIED), but we don't want to show DEFAULT ->
       //   DEFAULT or UNVERIFIED -> UNVERIFIED
       (keyChange && verified === VERIFIED)
     ) {
       await this.addVerifiedChange(this.id, verified === VERIFIED, {
-        local: !options.viaSyncMessage,
+        local: isExplicitUserAction,
       });
     }
-    if (!options.viaSyncMessage && uuid) {
+    if (isExplicitUserAction && uuid) {
       await this.sendVerifySyncMessage(this.get('e164'), uuid, verified);
     }
 
