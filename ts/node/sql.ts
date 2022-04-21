@@ -6,6 +6,7 @@ import { app, clipboard, dialog, Notification } from 'electron';
 
 import {
   chunk,
+  difference,
   flattenDeep,
   forEach,
   fromPairs,
@@ -214,12 +215,10 @@ function vacuumDatabase(db: BetterSqlite3.Database) {
   if (!db) {
     throw new Error('vacuum: db is not initialized');
   }
-  console.time('vaccumming db');
   const start = Date.now();
   console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
   console.info(`Vacuuming DB Finished in ${Date.now() - start}ms.`);
-  console.timeEnd('vaccumming db');
 }
 
 function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1401,6 +1400,7 @@ function assertGlobalInstanceOrInstance(
 
 let databaseFilePath: string | undefined;
 
+// tslint:disable-next-line: function-name
 function _initializePaths(configDir: string) {
   const dbDir = path.join(configDir, 'sql');
   fs.mkdirSync(dbDir, { recursive: true });
@@ -1473,6 +1473,7 @@ async function initializeSql({
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
     cleanUpOldOpengroups();
+    cleanUpUnusedNodeForKeyEntries();
     printDbStats();
 
     console.info('total message count after cleaning: ', getMessageCount());
@@ -3360,18 +3361,19 @@ function removeV2OpenGroupRoom(conversationId: string) {
     });
 }
 
-function printDbStats() {
-  // const tables = assertGlobalInstance()
-  //   .prepare(`SELECT distinct * from sqlite_master order by 1`)
-  //   .all();
-
-  function getCount(tbl: string) {
+function getEntriesCountInTable(tbl: string) {
+  try {
     const row = assertGlobalInstance()
       .prepare(`SELECT count(*) from ${tbl};`)
       .get();
     return row['count(*)'];
+  } catch (e) {
+    console.warn(e);
+    return 0;
   }
+}
 
+function printDbStats() {
   [
     'attachment_downloads',
     'conversations',
@@ -3396,8 +3398,48 @@ function printDbStats() {
     'sqlite_stat4',
     'unprocessed',
   ].forEach(i => {
-    console.warn(`${i} count`, getCount(i));
+    console.log(`${i} count`, getEntriesCountInTable(i));
   });
+}
+
+/**
+ * Remove all the unused entries in the snodes for pubkey table.
+ * This table is used to know which snodes we should contact to send a message to a recipient
+ */
+function cleanUpUnusedNodeForKeyEntries() {
+  // we have to allow private and closed group entries
+  const allIdsToKeep =
+    assertGlobalInstance()
+      .prepare(
+        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'publicChat:1@%'
+    `
+      )
+      .all()
+      .map(m => m.id) || [];
+
+  const allEntriesInSnodeForPubkey =
+    assertGlobalInstance()
+      .prepare(`SELECT pubkey FROM ${NODES_FOR_PUBKEY_TABLE};`)
+      .all()
+      .map(m => m.pubkey) || [];
+
+  const swarmUnused = difference(allEntriesInSnodeForPubkey, allIdsToKeep);
+
+  console.log('swarmStored but unused ', swarmUnused.length);
+  if (swarmUnused.length) {
+    const start = Date.now();
+
+    const chunks = chunk(swarmUnused, 500);
+    chunks.forEach(ch => {
+      assertGlobalInstance()
+        .prepare(
+          `DELETE FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey IN (${ch.map(() => '?').join(',')});`
+        )
+        .run(ch);
+    });
+
+    console.log(`Removing of ${swarmUnused.length} unused swarms took ${Date.now() - start}ms`);
+  }
 }
 
 function cleanUpOldOpengroups() {
@@ -3491,6 +3533,7 @@ function cleanUpOldOpengroups() {
       } completely inactive convos done in ${Date.now() - start}ms`
     );
   }
+
   rebuildFtsTable(assertGlobalInstance());
 }
 

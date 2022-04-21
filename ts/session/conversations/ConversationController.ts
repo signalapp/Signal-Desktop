@@ -119,7 +119,7 @@ export class ConversationController {
           })
         );
       }
-      if (!conversation.isPublic()) {
+      if (!conversation.isPublic() && conversation.isActive()) {
         // NOTE: we request snodes updating the cache, but ignore the result
 
         void getSwarmFor(id);

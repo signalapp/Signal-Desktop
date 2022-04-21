@@ -130,6 +130,9 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       });
 
       this.setState({ error });
+      global.setTimeout(() => {
+        document.getElementById('password-prompt-input')?.focus();
+      }, 50);
     }
     this.setState({
       loading: false,

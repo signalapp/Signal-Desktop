@@ -1741,14 +1741,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 }
 
-const trotthledAllConversationsDispatch = _.debounce(() => {
-  if (updatesToDispatch.size === 0) {
-    return;
-  }
-  window.inboxStore?.dispatch(conversationsChanged([...updatesToDispatch.values()]));
+const trotthledAllConversationsDispatch = _.debounce(
+  () => {
+    if (updatesToDispatch.size === 0) {
+      return;
+    }
+    window.inboxStore?.dispatch(conversationsChanged([...updatesToDispatch.values()]));
 
-  updatesToDispatch.clear();
-}, 2000);
+    updatesToDispatch.clear();
+  },
+  2000,
+  { maxWait: 5000, trailing: true }
+);
 
 const updatesToDispatch: Map<string, ReduxConversationType> = new Map();
 
