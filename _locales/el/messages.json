@@ -221,6 +221,10 @@
         "message": "Αυτές οι συνομιλίες είναι αρχειοθετημένες και θα εμφανιστούν στα εισερχόμενα μόνο αν ληφθούν νέα μηνύματα.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
+    "noArchivedConversations": {
+        "message": "Καμία αρχειοθετημένη συνομιλία.",
+        "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
+    },
     "archiveConversation": {
         "message": "Αρχείο",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
@@ -832,11 +836,11 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by username",
+        "message": "Αναζήτηση ως όνομα χρήστη",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
-        "message": "Find by phone number",
+        "message": "Αναζήτηση ως αριθμό τηλεφώνου",
         "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
@@ -970,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
+        "message": "Τα φωνητικά μηνύματα έχουν περιορισμό μίας ώρας. Η καταγραφή θα σταματήσει αν μεταβείτε σε άλλη εφαρμογή.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1070,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Το Signal δεν μπόρεσε να ενημερωθεί. Επισκεφτείτε το $url$ για να το εγκαταστήσετε χειροκίνητα. Έπειτα,$support$ γι' αυτό το πρόβλημα.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -2402,7 +2406,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Failed to fetch phone number. Check your connection and try again.",
+        "message": "Αποτυχία λήψης του τηλεφωνικού αριθμού. Ελέγξτε τη σύνδεσή σας και προσπαθήστε ξανά.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
@@ -2416,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+        "message": "Ο χρήστης δεν βρέθηκε. Το \"$phoneNumber$\" δεν είναι χρήστης του Signal.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2426,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+        "message": "Ο χρήστης δεν βρέθηκε. Το \"$phoneNumber$\" δεν είναι έγκυρος τηλεφωνικός αριθμός.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -6353,6 +6357,14 @@
         "message": "Προσαρμοσμένος χρόνος",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
+    "DisappearingTimeDialog__label--value": {
+        "message": "Αριθμός",
+        "description": "aria-label for the number select box"
+    },
+    "DisappearingTimeDialog__label--units": {
+        "message": "Χρονική μονάδα",
+        "description": "aria-label for the units of time select box"
+    },
     "DisappearingTimeDialog__title": {
         "message": "Προσαρμοσμένος χρόνος",
         "description": "Title for the custom disappearing message timeout dialog"
@@ -6799,6 +6811,24 @@
         "message": "Παρακαλώ κλείστο χειροκίνητα και πάτα Δοκιμή Ξανά για να συνεχίσεις.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "NSIS__appRunning": {
+        "message": "Το $appName$ εκτελείται ήδη. \nΚάντε κλικ στο ΟΚ για κλείσιμο.\nΑν δεν κλείνει, δοκιμάστε να το κλείσετε εσείς.",
+        "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+        "placeholders": {
+            "appName": {
+                "content": "$1",
+                "example": "Signal"
+            }
+        }
+    },
+    "NSIS__decompressionFailed": {
+        "message": "Αποτυχία αποσυμπίεσης των αρχείων. Παρακαλούμε ξαναπροσπαθήστε την εγκατάσταση.",
+        "description": "Displayed when Windows installer cannot decompress application files"
+    },
+    "NSIS__uninstallFailed": {
+        "message": "Δεν ήταν δυνατή η απεγκατάσταση των παλιών αρχείων εφαρμογής. Ξαναπροσπαθήστε την απεγκατάσταση αργότερα.",
+        "description": "Displayed when Windows installer cannot uninstall the old application"
+    },
     "CrashReportDialog__title": {
         "message": "Η εφαρμογή κράσαρε",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
@@ -7065,28 +7095,38 @@
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.36--1": {
-        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
-        "description": "Release notes for v5.36"
-    },
-    "WhatsNew__v5.36--2": {
-        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
-        "description": "Release notes for v5.36"
-    },
     "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
+        "message": "Κρατάμε τα μικρά μηνύματα μικρά, βάζοντας πράγματα όπως χρονικές σημάνσεις στην ίδια γραμμή με το κείμενο. Πλέον έχετε περισσότερο χώρο στην οθόνη για να στείλετε ένα απλό «γεια» στον φίλο σας και να δείτε τι κάνει.",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
+        "message": "Αντίο στα ελλιπή πακέτα αυτοκολλήτων! Η έκδοση υπολογιστή θα μπορεί πλέον να διαχειρίζεται όλα τα πακέτα αυτοκολλήτων που λειτουργούν και στο κινητό!",
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.39--1": {
-        "message": "You can now add people to groups using just their phone number.",
+        "message": "Μπορείτε πλέον να προσθέτετε άτομα σε ομάδες χρησιμοποιώντας τους τηλεφωνικούς τους αριθμούς.",
         "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.39--2": {
-        "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
+        "message": "Οι αγαπημένες σας επαφές είναι μόλις λίγα κουμπιά μακριά. Η αναζήτηση επαφών υποστηρίζει πλέον και τα μη λατινικά αλφάβητα, όπως το Κυριλλικό.",
         "description": "Release notes for v5.39"
+    },
+    "WhatsNew__v5.40--1": {
+        "message": "Διορθώσεις σφαλμάτων, συμπεριλαμβανομένης της διόρθωσης ενός προβλήματος που έκανε δύσκολο το κλικ στα μενού.",
+        "description": "Release notes for v5.40"
+    },
+    "WhatsNew__v5.40--2": {
+        "message": "Ευχαριστούμε τους συμμετέχοντες πάνω στον ανοιχτό κώδικα, $dsanders11$ και $yusufsahinhamza$, για τη συνεισφορά τους στις βελτιώσεις αυτές.",
+        "description": "Release notes for v5.40",
+        "placeholders": {
+            "dsanders11": {
+                "content": "$1",
+                "example": "dsanders11"
+            },
+            "yusufsahinhamza": {
+                "content": "$2",
+                "example": "yusufsahinhamza"
+            }
+        }
     }
 }

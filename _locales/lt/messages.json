@@ -221,6 +221,10 @@
         "message": "Šie pokalbiai yra archyvuoti ir atsiras skyrelyje Gauta tik tuomet, jei bus gautos naujos žinutės.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
+    "noArchivedConversations": {
+        "message": "Nėra jokių archyvuotų pokalbių.",
+        "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
+    },
     "archiveConversation": {
         "message": "Archyvuoti",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
@@ -6353,6 +6357,14 @@
         "message": "Tinkintas laikas",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
+    "DisappearingTimeDialog__label--value": {
+        "message": "Numeris",
+        "description": "aria-label for the number select box"
+    },
+    "DisappearingTimeDialog__label--units": {
+        "message": "Laiko vienetas",
+        "description": "aria-label for the units of time select box"
+    },
     "DisappearingTimeDialog__title": {
         "message": "Tinkintas laikas",
         "description": "Title for the custom disappearing message timeout dialog"
@@ -6799,6 +6811,24 @@
         "message": "Pabandykite ją užverti rankiniu būdu ir norėdami tęsti spustelėkite „Bandyti dar kartą“.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "NSIS__appRunning": {
+        "message": "$appName$ vis dar veikia.\nSpustelėkite „Gerai“, kad ją užvertumėte.\nJeigu ji neužsiveria, pabandykite ją užverti rankiniu būdu.",
+        "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+        "placeholders": {
+            "appName": {
+                "content": "$1",
+                "example": "Signal"
+            }
+        }
+    },
+    "NSIS__decompressionFailed": {
+        "message": "Nepavyko išglaudinti failų. Bandykite paleisti diegimo programą dar kartą.",
+        "description": "Displayed when Windows installer cannot decompress application files"
+    },
+    "NSIS__uninstallFailed": {
+        "message": "Nepavyko pašalinti senos programos failų. Bandykite paleisti diegimo programą dar kartą.",
+        "description": "Displayed when Windows installer cannot uninstall the old application"
+    },
     "CrashReportDialog__title": {
         "message": "Programa užstrigo",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
@@ -7065,14 +7095,6 @@
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.36--1": {
-        "message": "Greitai peržiūrite pokalbį? Vienu metu ekrane yra daugiau vietos žinutėms. Dabar, grupuojame siuntėjų žinutes, jeigu jos buvo išsiųstos panašiu laiku.",
-        "description": "Release notes for v5.36"
-    },
-    "WhatsNew__v5.36--2": {
-        "message": "Dabar, atlikdami veiksmą „Ištrinti visiems“, matysite eigos suktuką, leidžiantį jums suprasti, ar ištrynimo veiksmas buvo sėkmingai išsiųstas, ar ne. Jei dėl kažkokių priežasčių jo išsiųsti nepavyko, galėsite bandyti dar kartą!",
-        "description": "Release notes for v5.36"
-    },
     "WhatsNew__v5.37--1": {
         "message": "Trumpas žinutes išlaikome trumpomis, atvaizduodami laiko žymes toje pačioje eilutėje, kaip ir tekstą. Dabar, ekrane yra daugiau vietos, kad parašytumėte draugui greitą žinutę su žodžiu „Labas“.",
         "description": "Release notes for v5.37"
@@ -7088,5 +7110,23 @@
     "WhatsNew__v5.39--2": {
         "message": "Jūsų mėgstami adresatai yra tik kelių klavišų paspaudimų atstumu. Adresatų paieška nuo šiol palaiko ne lotyniškas abėcėles, pavyzdžiui, kirilicą.",
         "description": "Release notes for v5.39"
+    },
+    "WhatsNew__v5.40--1": {
+        "message": "Klaidų pataisymas, skirtas išspręsti problemą, dėl kurios, kartais, būdavo sunku spustelėti ant meniu.",
+        "description": "Release notes for v5.40"
+    },
+    "WhatsNew__v5.40--2": {
+        "message": "Dėkojame mūsų atvirojo kodo talkininkams $dsanders11$ ir $yusufsahinhamza$ už šių patobulinimų pateikimą.",
+        "description": "Release notes for v5.40",
+        "placeholders": {
+            "dsanders11": {
+                "content": "$1",
+                "example": "dsanders11"
+            },
+            "yusufsahinhamza": {
+                "content": "$2",
+                "example": "yusufsahinhamza"
+            }
+        }
     }
 }
