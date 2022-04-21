@@ -8,7 +8,7 @@ import { escapeRegExp, isRegExp, isString } from 'lodash';
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
-const SNODE_PATTERN = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
+const SNODE_PATTERN = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const SERVER_URL_PATTERN = /https?:\/\/[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
@@ -63,7 +63,7 @@ const redactSessionID = (text: string) => {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(SESSION_ID_PATTERN, REDACTION_PLACEHOLDER);
+  return text.replaceAll(SESSION_ID_PATTERN, REDACTION_PLACEHOLDER);
 };
 
 const redactSnodeIP = (text: string) => {
@@ -71,7 +71,7 @@ const redactSnodeIP = (text: string) => {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(SNODE_PATTERN, REDACTION_PLACEHOLDER);
+  return text.replaceAll(SNODE_PATTERN, REDACTION_PLACEHOLDER);
 };
 
 const redactServerUrl = (text: string) => {
@@ -79,7 +79,7 @@ const redactServerUrl = (text: string) => {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(SERVER_URL_PATTERN, REDACTION_PLACEHOLDER);
+  return text.replaceAll(SERVER_URL_PATTERN, REDACTION_PLACEHOLDER);
 };
 
 //      redactGroupIds :: String -> String
@@ -88,7 +88,7 @@ const redactGroupIds = (text: string) => {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(
+  return text.replaceAll(
     GROUP_ID_PATTERN,
     (_match, before, id, after) =>
       `${before}${REDACTION_PLACEHOLDER}${removeNewlines(id).slice(-3)}${after}`
