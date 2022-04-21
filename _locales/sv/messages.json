@@ -221,6 +221,10 @@
         "message": "Dessa konversationerna är arkiverade och visas endast i inkorgen om nya meddelanden tas emot.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
+    "noArchivedConversations": {
+        "message": "No archived conversations.",
+        "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
+    },
     "archiveConversation": {
         "message": "Arkivera",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
@@ -398,7 +402,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att denna förändring kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
+        "message": "Säkerhetsnumret du försöker verifiera har ändrats. Se över ditt nya säkerhetsnummer med $name1$. Kom ihåg att den här förändringen kan innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -420,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
+        "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med den här kontakten.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -556,7 +560,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Du har inga mediefiler i denna konversation",
+        "message": "Du har inga mediefiler i den här konversationen",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
@@ -568,7 +572,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Du har inga dokument i denna konversation",
+        "message": "Du har inga dokument i den här konversationen",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -1224,7 +1228,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Försök att Ta Bort för Alla igen",
+        "message": "Försök att ta bort igen för alla",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -2046,7 +2050,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Ta Bort misslyckades",
+        "message": "Det gick inte att ta bort",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -4154,7 +4158,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Du kan inte gå med i denna grupp via grupplänken eftersom att en administratör tog bort dig.",
+        "message": "Du kan inte gå med i den här gruppen via grupplänken eftersom en administratör tog bort dig.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -5668,7 +5672,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "Du kommer inte längre att få meddelanden eller uppdateringar från denna grupp.",
+        "message": "Du kommer inte längre att få meddelanden eller uppdateringar från den här gruppen.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
@@ -5956,7 +5960,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ kan inte läggas till automatiskt i denna grupp av dig.",
+        "message": "$name$ kan inte läggas till automatiskt i den här gruppen av dig.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5966,7 +5970,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "Dessa användare kan inte läggas till automatiskt i denna grupp av dig.",
+        "message": "Dessa användare kan inte läggas till automatiskt i den här gruppen av dig.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
@@ -6110,7 +6114,7 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "Du har inga grupper gemensamt med denna person. Granska förfrågningar noga innan du accepterar för att undvika oönskade meddelanden.",
+        "message": "Du har inga grupper gemensamt med den här personen. Granska förfrågningar noga innan du accepterar för att undvika oönskade meddelanden.",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -6256,7 +6260,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Denna anpassade färg används i $num$ chattar. Vill du ta bort den för alla chattar?",
+        "message": "Den här anpassade färgen används i $num$ chattar. Vill du ta bort den för alla chattar?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -6353,6 +6357,14 @@
         "message": "Anpassad tid",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
+    "DisappearingTimeDialog__label--value": {
+        "message": "Number",
+        "description": "aria-label for the number select box"
+    },
+    "DisappearingTimeDialog__label--units": {
+        "message": "Unit of time",
+        "description": "aria-label for the units of time select box"
+    },
     "DisappearingTimeDialog__title": {
         "message": "Anpassad tid",
         "description": "Title for the custom disappearing message timeout dialog"
@@ -6412,7 +6424,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Gruppbeskrivningar kommer att vara synliga för medlemmar i denna grupp och inbjudna personer.",
+        "message": "Gruppbeskrivningar kommer att vara synliga för medlemmar i den här gruppen och inbjudna personer.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -6799,6 +6811,24 @@
         "message": "Stäng det manuellt och klicka på Försök igen för att fortsätta.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "NSIS__appRunning": {
+        "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+        "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+        "placeholders": {
+            "appName": {
+                "content": "$1",
+                "example": "Signal"
+            }
+        }
+    },
+    "NSIS__decompressionFailed": {
+        "message": "Failed to decompress files. Please try running the installer again.",
+        "description": "Displayed when Windows installer cannot decompress application files"
+    },
+    "NSIS__uninstallFailed": {
+        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "description": "Displayed when Windows installer cannot uninstall the old application"
+    },
     "CrashReportDialog__title": {
         "message": "Applikationen kraschade",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
@@ -6912,7 +6942,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "Mina Berättelser",
+        "message": "Mina berättelser",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -6968,7 +6998,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Ta bort denna berättelse? Den kommer också att raderas för alla som har mottagit den.",
+        "message": "Ta bort den här berättelsen? Den kommer också att tas bort för alla som har mottagit den.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -6976,7 +7006,7 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "Mina Berättelser",
+        "message": "Mina berättelser",
         "description": "Label for your stories"
     },
     "Stories__add": {
@@ -7034,7 +7064,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__hide": {
-        "message": "Göm berättelse",
+        "message": "Dölj berättelse",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
@@ -7042,7 +7072,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Göm berättelse? Nya berättelse uppdateringar från $name$ kommer inte att visas först i berättelse listan längre.",
+        "message": "Dölj berättelse? Nya berättelseuppdateringar från $name$ kommer inte att visas överst på berättelselistan längre.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7065,14 +7095,6 @@
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.36--1": {
-        "message": "Quickly scanning that group chat? There's more room for more messages on the screen at once. We now group sender's messages together if they're close together in time.",
-        "description": "Release notes for v5.36"
-    },
-    "WhatsNew__v5.36--2": {
-        "message": "When you perform a Delete for Everyone you'll now see a progress spinner letting you know whether it's been successfully sent or not. If it fails for some reason, you'll be able to retry too!",
-        "description": "Release notes for v5.36"
-    },
     "WhatsNew__v5.37--1": {
         "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
         "description": "Release notes for v5.37"
@@ -7088,5 +7110,23 @@
     "WhatsNew__v5.39--2": {
         "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
         "description": "Release notes for v5.39"
+    },
+    "WhatsNew__v5.40--1": {
+        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
+        "description": "Release notes for v5.40"
+    },
+    "WhatsNew__v5.40--2": {
+        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
+        "description": "Release notes for v5.40",
+        "placeholders": {
+            "dsanders11": {
+                "content": "$1",
+                "example": "dsanders11"
+            },
+            "yusufsahinhamza": {
+                "content": "$2",
+                "example": "yusufsahinhamza"
+            }
+        }
     }
 }

@@ -221,6 +221,10 @@
         "message": "Aquestes converses estan arxivades i només apareixeran a la bústia d'entrada si es reben missatges nous.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
+    "noArchivedConversations": {
+        "message": "No hi ha converses arxivades.",
+        "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
+    },
     "archiveConversation": {
         "message": "Arxiva",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
@@ -832,11 +836,11 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by username",
+        "message": "Cerca per nom d'usuari",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
-        "message": "Find by phone number",
+        "message": "Cerca per número de telèfon",
         "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
@@ -970,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
+        "message": "Els missatges de veu estan limitats a una hora. La gravació s'aturarà si canvieu a una altra aplicació.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1070,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "El Signal no s'ha pogut actualitzar. Visiteu $url$ per instal·lar-lo manualment. Aleshores, $support$ sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -2402,7 +2406,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Failed to fetch phone number. Check your connection and try again.",
+        "message": "No s'ha pogut obtenir el número de telèfon. Comproveu la connexió i torneu-ho a provar.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
@@ -2416,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+        "message": "Usuari no trobat. \"$phoneNumber$\" no és un usuari del Signal.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2426,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+        "message": "Usuari no trobat. $phoneNumber$ no és un número de telèfon vàlid.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -6353,6 +6357,14 @@
         "message": "Temps personalitzat",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
+    "DisappearingTimeDialog__label--value": {
+        "message": "Número",
+        "description": "aria-label for the number select box"
+    },
+    "DisappearingTimeDialog__label--units": {
+        "message": "Unitat de temps",
+        "description": "aria-label for the units of time select box"
+    },
     "DisappearingTimeDialog__title": {
         "message": "Hora personalitzada",
         "description": "Title for the custom disappearing message timeout dialog"
@@ -6799,6 +6811,24 @@
         "message": "Tanqueu-lo manualment i cliqueu a tornar-ho a provar per a continuar.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "NSIS__appRunning": {
+        "message": "$appName$s'executa.\nFeu clic a D'acord per tancar-la.\nSi no es tanca, proveu de tancar-la manualment.",
+        "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+        "placeholders": {
+            "appName": {
+                "content": "$1",
+                "example": "Signal"
+            }
+        }
+    },
+    "NSIS__decompressionFailed": {
+        "message": "No s'han pogut descomprimir els fitxers. Si us plau, proveu d'executar l'instal·lador un altre cop.",
+        "description": "Displayed when Windows installer cannot decompress application files"
+    },
+    "NSIS__uninstallFailed": {
+        "message": "No s'han pogut desinstal·lar els fitxers d'aplicacions antics. Si us plau, proveu d'executar l'instal·lador un altre cop.",
+        "description": "Displayed when Windows installer cannot uninstall the old application"
+    },
     "CrashReportDialog__title": {
         "message": "Ha fallat l'aplicació.",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
@@ -7065,14 +7095,6 @@
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.36--1": {
-        "message": "Voleu mirar ràpidament aquesta conversa de grup? Hi ha més espai per a més missatges a la pantalla alhora. Ara agrupem els missatges del remitent si estan a prop en el temps.",
-        "description": "Release notes for v5.36"
-    },
-    "WhatsNew__v5.36--2": {
-        "message": "Quan feu una supressió per a tothom, ara veureu un indicador de progrés que us informarà si s'ha enviat correctament o no. Si falla per algun motiu, també podreu tornar-ho a provar!",
-        "description": "Release notes for v5.36"
-    },
     "WhatsNew__v5.37--1": {
         "message": "Mantenim els missatges curts, posant-hi coses com ara marques de temps a la mateixa línia que el text. Ara teniu més espai a la pantalla per a un \"Ei!\" ràpid amb una amistat.",
         "description": "Release notes for v5.37"
@@ -7082,11 +7104,29 @@
         "description": "Release notes for v5.37"
     },
     "WhatsNew__v5.39--1": {
-        "message": "You can now add people to groups using just their phone number.",
+        "message": "Ara podeu afegir persones als grups només amb el número de telèfon.",
         "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.39--2": {
-        "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
+        "message": "Els contactes preferits són ara només a unes poques tecles de distància. La cerca de contactes ara admet alfabets no llatins com ara el ciríl·lic.",
         "description": "Release notes for v5.39"
+    },
+    "WhatsNew__v5.40--1": {
+        "message": "Correccions d'errors, inclosa una solució a un problema que de vegades dificultava fer clic als menús.",
+        "description": "Release notes for v5.40"
+    },
+    "WhatsNew__v5.40--2": {
+        "message": "Gràcies als nostres col·laboradors de codi obert $dsanders11$ i $yusufsahinhamza$ per contribuir a aquestes millores.",
+        "description": "Release notes for v5.40",
+        "placeholders": {
+            "dsanders11": {
+                "content": "$1",
+                "example": "dsanders11"
+            },
+            "yusufsahinhamza": {
+                "content": "$2",
+                "example": "yusufsahinhamza"
+            }
+        }
     }
 }
