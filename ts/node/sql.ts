@@ -3494,9 +3494,7 @@ function cleanUpOldOpengroups() {
   rebuildFtsTable(assertGlobalInstance());
 }
 
-// tslint:disable: binary-expression-operand-order
-// tslint:disable: insecure-random
-
+// tslint:disable: binary-expression-operand-order insecure-random
 /**
  * Only using this for development. Populate conversation and message tables.
  */

@@ -1,4 +1,4 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+// tslint:disable: no-implicit-dependencies no-unused-expression no-http-string  max-func-body-length
 
 import chai, { expect } from 'chai';
 import { describe } from 'mocha';
@@ -8,8 +8,6 @@ import path from 'path';
 import chaiAsPromised from 'chai-as-promised';
 import { redactAll } from '../../../../util/privacy';
 chai.use(chaiAsPromised as any);
-
-// tslint:disable-next-line: max-func-body-length
 describe('Privacy', () => {
   describe('Redact sessionID', () => {
     it('redact sessionID', () => {

@@ -108,10 +108,10 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     );
   }
 
-  public async onKeyUp(event: any) {
+  public onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
-        await this.initLogin();
+        this.initLogin();
         break;
       default:
     }
@@ -136,12 +136,13 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     });
   }
 
-  private async initLogin() {
+  private initLogin() {
     this.setState({
       loading: true,
     });
     const passPhrase = String((this.inputRef as HTMLInputElement).value);
-    await this.onLogin(passPhrase);
+
+    global.setTimeout(() => this.onLogin(passPhrase), 100);
   }
 
   private initClearDataView() {
