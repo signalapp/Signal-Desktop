@@ -374,37 +374,32 @@ export function reducer(
       'type',
     ]);
 
-    // Stories don't really need to change except for when we don't have the
-    // attachment downloaded and we queue a download. Then the story's message
-    // will have the new attachment information. This is an optimization so
-    // we don't needlessly re-render.
-    const prevStory = state.stories.find(
+    const prevStoryIndex = state.stories.findIndex(
       existingStory => existingStory.messageId === newStory.messageId
     );
-    if (prevStory) {
+    if (prevStoryIndex >= 0) {
+      const prevStory = state.stories[prevStoryIndex];
+
+      // Stories rarely need to change, here are the following exceptions:
+      const isDownloadingAttachment = isDownloading(newStory.attachment);
+      const hasAttachmentDownloaded =
+        !isDownloaded(prevStory.attachment) &&
+        isDownloaded(newStory.attachment);
+      const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
+
       const shouldReplace =
-        (!isDownloaded(prevStory.attachment) &&
-          isDownloaded(newStory.attachment)) ||
-        isDownloading(newStory.attachment);
-
+        isDownloadingAttachment || hasAttachmentDownloaded || readStatusChanged;
       if (!shouldReplace) {
-        return state;
-      }
-
-      const storyIndex = state.stories.findIndex(
-        existingStory => existingStory.messageId === newStory.messageId
-      );
-
-      if (storyIndex < 0) {
         return state;
       }
 
       return {
         ...state,
-        stories: replaceIndex(state.stories, storyIndex, newStory),
+        stories: replaceIndex(state.stories, prevStoryIndex, newStory),
       };
     }
 
+    // Adding a new story
     const stories = [...state.stories, newStory].sort((a, b) =>
       a.timestamp > b.timestamp ? 1 : -1
     );

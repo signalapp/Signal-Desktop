@@ -9,7 +9,7 @@ import { Collection, Model } from 'backbone';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types.d';
-import { isOutgoing } from '../state/selectors/message';
+import { isOutgoing, isStory } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
@@ -66,7 +66,8 @@ async function getTargetMessage(
     return null;
   }
   const message = messages.find(
-    item => isOutgoing(item) && sourceId === item.conversationId
+    item =>
+      (isOutgoing(item) || isStory(item)) && sourceId === item.conversationId
   );
   if (message) {
     return window.MessageController.register(message.id, message);
@@ -78,7 +79,8 @@ async function getTargetMessage(
   ids.push(sourceId);
 
   const target = messages.find(
-    item => isOutgoing(item) && ids.includes(item.conversationId)
+    item =>
+      (isOutgoing(item) || isStory(item)) && ids.includes(item.conversationId)
   );
   if (!target) {
     return null;
