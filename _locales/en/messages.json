@@ -7082,22 +7082,6 @@
     "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.37--1": {
-    "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
-    "description": "Release notes for v5.37"
-  },
-  "WhatsNew__v5.37--2": {
-    "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
-    "description": "Release notes for v5.37"
-  },
-  "WhatsNew__v5.39--1": {
-    "message": "You can now add people to groups using just their phone number.",
-    "description": "Release notes for v5.39"
-  },
-  "WhatsNew__v5.39--2": {
-    "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
-    "description": "Release notes for v5.39"
-  },
   "WhatsNew__v5.40--1": {
     "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
     "description": "Release notes for v5.40"

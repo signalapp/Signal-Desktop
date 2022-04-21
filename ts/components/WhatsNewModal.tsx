@@ -31,17 +31,8 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'WhatsNew__v5.40--1',
+      key: 'WhatsNew__bugfixes',
       components: undefined,
-    },
-    {
-      key: 'WhatsNew__v5.40--2',
-      components: {
-        dsanders11: <a href="https://github.com/dsanders11">@dsanders11</a>,
-        yusufsahinhamza: (
-          <a href="https://github.com/yusufsahinhamza">@yusufsahinhamza</a>
-        ),
-      },
     },
   ],
 };
