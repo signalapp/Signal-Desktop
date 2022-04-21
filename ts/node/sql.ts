@@ -5,6 +5,7 @@ import * as BetterSqlite3 from 'better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
 
 import {
+  chunk,
   flattenDeep,
   forEach,
   fromPairs,
@@ -20,13 +21,11 @@ import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
-// tslint:disable: no-console
-// tslint:disable: non-literal-fs-path
-// tslint:disable: one-variable-per-declaration
-// tslint:disable: quotemark
+// tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
 
 const openDbOptions = {
-  verbose: undefined,
+  // tslint:disable-next-line: no-constant-condition
+  verbose: false ? console.log : undefined,
   nativeBinding: './node_modules/better-sqlite3/build/Release/better_sqlite3.node',
 };
 
@@ -216,9 +215,10 @@ function vacuumDatabase(db: BetterSqlite3.Database) {
     throw new Error('vacuum: db is not initialized');
   }
   console.time('vaccumming db');
+  const start = Date.now();
   console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
-  console.info('Vacuuming DB Finished');
+  console.info(`Vacuuming DB Finished in ${Date.now() - start}ms.`);
   console.timeEnd('vaccumming db');
 }
 
@@ -1170,28 +1170,17 @@ function updateToLokiSchemaVersion17(currentVersion: number, db: BetterSqlite3.D
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 18;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+function dropFtsAndTriggers(db: BetterSqlite3.Database) {
+  db.exec(`
+  DROP TRIGGER IF EXISTS messages_on_insert;
+  DROP TRIGGER IF EXISTS messages_on_delete;
+  DROP TRIGGER IF EXISTS messages_on_update;
+  DROP TABLE IF EXISTS ${MESSAGES_FTS_TABLE};
+`);
+}
 
-  // Dropping all pre-existing schema relating to message searching.
-  // Recreating the full text search and related triggers
-  db.transaction(() => {
-    db.exec(`
-      DROP TRIGGER IF EXISTS messages_on_insert;
-      DROP TRIGGER IF EXISTS messages_on_delete;
-      DROP TRIGGER IF EXISTS messages_on_update;
-      DROP TABLE IF EXISTS ${MESSAGES_FTS_TABLE};
-    `);
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-
-  db.transaction(() => {
-    db.exec(`
+function rebuildFtsTable(db: BetterSqlite3.Database) {
+  db.exec(`
     -- Then we create our full-text search table and populate it
     CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
       USING fts5(id UNINDEXED, body);
@@ -1221,7 +1210,21 @@ function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.D
       );
     END;
     `);
+}
 
+function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 18;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  // Dropping all pre-existing schema relating to message searching.
+  // Recreating the full text search and related triggers
+
+  db.transaction(() => {
+    dropFtsAndTriggers(db);
+    rebuildFtsTable(db);
     writeLokiSchemaVersion(targetVersion, db);
   })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
@@ -1467,16 +1470,18 @@ async function initializeSql({
     // At this point we can allow general access to the database
     globalInstance = db;
 
+    console.info('total message count before cleaning: ', getMessageCount());
+    console.info('total conversation count before cleaning: ', getConversationCount());
+    cleanUpOldOpengroups();
+    printDbStats();
+
+    console.info('total message count after cleaning: ', getMessageCount());
+    console.info('total conversation count after cleaning: ', getConversationCount());
+
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
-
-    cleanUpOldOpengroups();
-
-    const msgCount = getMessageCount();
-    const convoCount = getConversationCount();
-    console.info('total message count: ', msgCount);
-    console.info('total conversation count: ', convoCount);
   } catch (error) {
+    console.error('error', error);
     if (passwordAttempt) {
       throw error;
     }
@@ -3355,6 +3360,46 @@ function removeV2OpenGroupRoom(conversationId: string) {
     });
 }
 
+function printDbStats() {
+  // const tables = assertGlobalInstance()
+  //   .prepare(`SELECT distinct * from sqlite_master order by 1`)
+  //   .all();
+
+  function getCount(tbl: string) {
+    const row = assertGlobalInstance()
+      .prepare(`SELECT count(*) from ${tbl};`)
+      .get();
+    return row['count(*)'];
+  }
+
+  [
+    'attachment_downloads',
+    'conversations',
+    'encryptionKeyPairsForClosedGroupV2',
+    'guardNodes',
+    'identityKeys',
+    'items',
+    'lastHashes',
+    'loki_schema',
+    'messages',
+    'messages_fts',
+    'messages_fts_config',
+    'messages_fts_content',
+    'messages_fts_data',
+    'messages_fts_docsize',
+    'messages_fts_idx',
+    'nodesForPubkey',
+    'openGroupRoomsV2',
+    'seenMessages',
+    'sqlite_sequence',
+    'sqlite_stat1',
+    'sqlite_stat4',
+    'unprocessed',
+  ].forEach(i => {
+    console.warn(`${i} count`, getCount(i));
+  });
+}
+
 function cleanUpOldOpengroups() {
   const v2Convos = getAllOpenGroupV2Conversations();
 
@@ -3367,26 +3412,33 @@ function cleanUpOldOpengroups() {
 
   // first remove very old messages for each opengroups
 
+  dropFtsAndTriggers(assertGlobalInstance());
   v2Convos.forEach(convo => {
     const convoId = convo.id;
-    const messagesInConvo = getMessagesCountByConversation(convoId);
+    const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
-    if (messagesInConvo >= maxMessagePerOpengroupConvo) {
+    if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
       const minute = 1000 * 60;
       const sixMonths = minute * 60 * 24 * 30 * 6;
-      console.info(
-        `too many message: ${messagesInConvo} in convo: ${convoId}. Limit is ${maxMessagePerOpengroupConvo}`
-      );
+      const messagesTimestampToRemove = Date.now() - sixMonths;
+      const countToRemove = assertGlobalInstance()
+        .prepare(
+          `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
+        )
+        .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
+      const start = Date.now();
+
       assertGlobalInstance()
         .prepare(
           `
       DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
         )
-        .run({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths }); // delete messages older than sixMonths
-
+        .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
       const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+
       console.info(
-        `after leaning old history, we have ${messagesInConvoAfter} messages left in convo: ${convoId}`
+        `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
+          start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
       );
 
       const unreadCount = getUnreadCountByConversation(convoId);
@@ -3421,13 +3473,25 @@ function cleanUpOldOpengroups() {
         : false;
     });
   if (allInactiveAndWithoutMessagesConvo.length) {
-    allInactiveAndWithoutMessagesConvo.forEach(convoId => {
-      console.info(`${convoId} is not active and has 0 message in the history. Removing it`);
+    console.info(
+      `Removing ${allInactiveAndWithoutMessagesConvo.length} completely inactive convos`
+    );
+    const start = Date.now();
+
+    const chunks = chunk(allInactiveAndWithoutMessagesConvo, 500);
+    chunks.forEach(ch => {
       assertGlobalInstance()
-        .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
-        .run({ id: convoId });
+        .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`)
+        .run(ch);
     });
+
+    console.info(
+      `Removing of ${
+        allInactiveAndWithoutMessagesConvo.length
+      } completely inactive convos done in ${Date.now() - start}ms`
+    );
   }
+  rebuildFtsTable(assertGlobalInstance());
 }
 
 // tslint:disable: binary-expression-operand-order

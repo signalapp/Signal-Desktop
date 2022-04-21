@@ -479,9 +479,14 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private async updateMemberListBouncy() {
+    const start = Date.now();
     const allPubKeys = await getPubkeysInPublicConversation(this.props.selectedConversationKey);
 
-    window?.log?.info(`getPubkeysInPublicConversation returned '${allPubKeys?.length}' members`);
+    window?.log?.debug(
+      `[perf] getPubkeysInPublicConversation returned '${
+        allPubKeys?.length
+      }' members in ${Date.now() - start}ms`
+    );
 
     const allMembers = allPubKeys.map((pubKey: string) => {
       const conv = getConversationController().get(pubKey);
