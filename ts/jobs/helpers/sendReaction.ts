@@ -22,7 +22,7 @@ import { getSendOptions } from '../../util/getSendOptions';
 import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
-import { canReact } from '../../state/selectors/message';
+import { canReact, isStory } from '../../state/selectors/message';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
 import { UUID } from '../../types/UUID';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
@@ -204,12 +204,6 @@ export async function sendReaction(
           return;
         }
 
-        let storyMessage: MessageModel | undefined;
-        const storyId = message.get('storyId');
-        if (storyId) {
-          storyMessage = await getMessageById(storyId);
-        }
-
         log.info('sending direct reaction message');
         promise = window.textsecure.messaging.sendMessageToIdentifier({
           identifier: recipientIdentifiersWithoutMe[0],
@@ -226,10 +220,10 @@ export async function sendReaction(
           groupId: undefined,
           profileKey,
           options: sendOptions,
-          storyContext: storyMessage
+          storyContext: isStory(message.attributes)
             ? {
-                authorUuid: storyMessage.get('sourceUuid'),
-                timestamp: storyMessage.get('sent_at'),
+                authorUuid: message.get('sourceUuid'),
+                timestamp: message.get('sent_at'),
               }
             : undefined,
         });
@@ -261,6 +255,12 @@ export async function sendReaction(
                 timestamp: pendingReaction.timestamp,
                 expireTimer,
                 profileKey,
+                storyContext: isStory(message.attributes)
+                  ? {
+                      authorUuid: message.get('sourceUuid'),
+                      timestamp: message.get('sent_at'),
+                    }
+                  : undefined,
               },
               messageId,
               sendOptions,
