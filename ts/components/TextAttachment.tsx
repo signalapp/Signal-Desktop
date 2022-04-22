@@ -13,6 +13,10 @@ import { TextAttachmentStyleType } from '../types/Attachment';
 import { count } from '../util/grapheme';
 import { getDomain } from '../types/LinkPreview';
 import { getFontNameByTextScript } from '../util/getFontNameByTextScript';
+import {
+  getHexFromNumber,
+  getBackgroundColor,
+} from '../util/getStoryBackground';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
@@ -51,20 +55,6 @@ function getTextSize(text: string): TextSize {
   }
 
   return TextSize.Small;
-}
-
-function getHexFromNumber(color: number): string {
-  return `#${color.toString(16).slice(2)}`;
-}
-
-function getBackground({ color, gradient }: TextAttachmentType): string {
-  if (gradient) {
-    return `linear-gradient(${gradient.angle}deg, ${getHexFromNumber(
-      gradient.startColor || COLOR_WHITE_INT
-    )}, ${getHexFromNumber(gradient.endColor || COLOR_WHITE_INT)})`;
-  }
-
-  return getHexFromNumber(color || COLOR_WHITE_INT);
 }
 
 function getFont(
@@ -123,7 +113,7 @@ export const TextAttachment = ({
           <div
             className="TextAttachment__story"
             style={{
-              background: getBackground(textAttachment),
+              background: getBackgroundColor(textAttachment),
               transform: `scale(${(contentRect.bounds?.height || 1) / 1280})`,
             }}
           >

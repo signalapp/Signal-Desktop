@@ -122,3 +122,38 @@ story.add('So many stories', () => {
     />
   );
 });
+
+story.add('Caption', () => (
+  <StoryViewer
+    {...getDefaultProps()}
+    stories={[
+      {
+        attachment: fakeAttachment({
+          caption: 'This place looks lovely',
+          url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
+        }),
+        messageId: '123',
+        sender: getDefaultConversation(),
+        timestamp: Date.now(),
+      },
+    ]}
+  />
+));
+
+story.add('Long Caption', () => (
+  <StoryViewer
+    {...getDefaultProps()}
+    stories={[
+      {
+        attachment: fakeAttachment({
+          caption:
+            'Snowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like',
+          url: '/fixtures/snow.jpg',
+        }),
+        messageId: '123',
+        sender: getDefaultConversation(),
+        timestamp: Date.now(),
+      },
+    ]}
+  />
+));

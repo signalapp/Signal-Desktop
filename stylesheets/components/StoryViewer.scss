@@ -3,8 +3,7 @@
 
 .StoryViewer {
   &__overlay {
-    background: $color-gray-95;
-    filter: blur(160px);
+    background-size: contain;
     height: 100vh;
     left: 0;
     position: absolute;
@@ -15,6 +14,8 @@
 
   &__content {
     align-items: center;
+    backdrop-filter: blur(90px);
+    background: $color-black-alpha-20;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -29,16 +30,19 @@
   &__close-button {
     @include button-reset;
     @include modal-close-button;
+    right: 28px;
     top: var(--title-bar-drag-area-height);
+    z-index: $z-index-above-base;
   }
 
   &__more {
     @include button-reset;
     height: 24px;
     position: absolute;
-    right: 48px;
+    right: 80px;
     top: var(--title-bar-drag-area-height);
     width: 24px;
+    z-index: $z-index-above-base;
 
     @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
 
@@ -51,14 +55,12 @@
 
   &__container {
     flex-grow: 1;
-    margin-top: 36px;
     overflow: hidden;
     position: relative;
     z-index: $z-index-base;
   }
 
   &__story {
-    border-radius: 12px;
     max-height: 100%;
     outline: none;
     width: auto;
@@ -67,7 +69,7 @@
   &__meta {
     bottom: 0;
     left: 50%;
-    padding: 16px;
+    padding: 0 16px;
     position: absolute;
     transform: translateX(-50%);
     width: 284px;
@@ -94,8 +96,10 @@
     @include font-body-1-bold;
     color: $color-gray-05;
     padding: 4px 0;
+    margin-bottom: 24px;
 
     &__overlay {
+      @include button-reset;
       background: $color-black-alpha-60;
       height: 100%;
       left: 0;
@@ -107,11 +111,9 @@
   }
 
   &__actions {
-    align-items: center;
     display: flex;
     justify-content: center;
-    margin-bottom: 32px;
-    min-height: 52px;
+    min-height: 60px;
   }
 
   &__reply {

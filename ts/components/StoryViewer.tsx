@@ -17,6 +17,7 @@ import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { getAvatarColor } from '../types/Colors';
+import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import { isDownloaded, isDownloading } from '../types/Attachment';
@@ -209,12 +210,12 @@ export const StoryViewer = ({
   }, [currentStoryIndex, spring, storyDuration]);
 
   useEffect(() => {
-    if (hasReplyModal) {
+    if (hasReplyModal || hasExpandedCaption) {
       spring.pause();
     } else {
       spring.resume();
     }
-  }, [hasReplyModal, spring]);
+  }, [hasExpandedCaption, hasReplyModal, spring]);
 
   useEffect(() => {
     markStoryRead(messageId);
@@ -273,21 +274,11 @@ export const StoryViewer = ({
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
       <div className="StoryViewer">
-        <div className="StoryViewer__overlay" />
+        <div
+          className="StoryViewer__overlay"
+          style={{ background: getStoryBackground(attachment) }}
+        />
         <div className="StoryViewer__content">
-          <button
-            aria-label={i18n('MyStories__more')}
-            className="StoryViewer__more"
-            tabIndex={0}
-            type="button"
-          />
-          <button
-            aria-label={i18n('close')}
-            className="StoryViewer__close-button"
-            onClick={onClose}
-            tabIndex={0}
-            type="button"
-          />
           <div className="StoryViewer__container">
             <StoryImage
               attachment={attachment}
@@ -298,7 +289,12 @@ export const StoryViewer = ({
               storyId={messageId}
             />
             {hasExpandedCaption && (
-              <div className="StoryViewer__caption__overlay" />
+              <button
+                aria-label={i18n('close-popup')}
+                className="StoryViewer__caption__overlay"
+                onClick={() => setHasExpandedCaption(false)}
+                type="button"
+              />
             )}
             <div className="StoryViewer__meta">
               {caption && (
@@ -391,54 +387,67 @@ export const StoryViewer = ({
                   </div>
                 ))}
               </div>
+              <div className="StoryViewer__actions">
+                {isMe ? (
+                  <>
+                    {viewCount &&
+                      (viewCount === 1 ? (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__views--singular"
+                          components={[<strong>{viewCount}</strong>]}
+                        />
+                      ) : (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__views--plural"
+                          components={[<strong>{viewCount}</strong>]}
+                        />
+                      ))}
+                    {viewCount && replyCount && ' '}
+                    {replyCount &&
+                      (replyCount === 1 ? (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__replies--singular"
+                          components={[<strong>{replyCount}</strong>]}
+                        />
+                      ) : (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__replies--plural"
+                          components={[<strong>{replyCount}</strong>]}
+                        />
+                      ))}
+                  </>
+                ) : (
+                  canReply && (
+                    <button
+                      className="StoryViewer__reply"
+                      onClick={() => setHasReplyModal(true)}
+                      tabIndex={0}
+                      type="button"
+                    >
+                      {i18n('StoryViewer__reply')}
+                    </button>
+                  )
+                )}
+              </div>
             </div>
           </div>
-          <div className="StoryViewer__actions">
-            {isMe ? (
-              <>
-                {viewCount &&
-                  (viewCount === 1 ? (
-                    <Intl
-                      i18n={i18n}
-                      id="MyStories__views--singular"
-                      components={[<strong>{viewCount}</strong>]}
-                    />
-                  ) : (
-                    <Intl
-                      i18n={i18n}
-                      id="MyStories__views--plural"
-                      components={[<strong>{viewCount}</strong>]}
-                    />
-                  ))}
-                {viewCount && replyCount && ' '}
-                {replyCount &&
-                  (replyCount === 1 ? (
-                    <Intl
-                      i18n={i18n}
-                      id="MyStories__replies--singular"
-                      components={[<strong>{replyCount}</strong>]}
-                    />
-                  ) : (
-                    <Intl
-                      i18n={i18n}
-                      id="MyStories__replies--plural"
-                      components={[<strong>{replyCount}</strong>]}
-                    />
-                  ))}
-              </>
-            ) : (
-              canReply && (
-                <button
-                  className="StoryViewer__reply"
-                  onClick={() => setHasReplyModal(true)}
-                  tabIndex={0}
-                  type="button"
-                >
-                  {i18n('StoryViewer__reply')}
-                </button>
-              )
-            )}
-          </div>
+          <button
+            aria-label={i18n('MyStories__more')}
+            className="StoryViewer__more"
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            aria-label={i18n('close')}
+            className="StoryViewer__close-button"
+            onClick={onClose}
+            tabIndex={0}
+            type="button"
+          />
         </div>
         {hasReplyModal && canReply && (
           <StoryViewsNRepliesModal
