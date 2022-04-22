@@ -7013,6 +7013,10 @@
         "message": "Ychwanegu stori",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Straeon cuddiedig",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Dim straeon diweddar i'w dangos ar hyn o bryd",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Stori",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Cuddio stori",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Rydyn ni'n cadw negeseuon byr yn fyr, trwy roi pethau fel stampiau amser ar yr un llinell â'r testun. Nawr mae gennych chi fwy o le ar y sgrin i'r 'helo' cyflym hwnnw gyfarch ffrind.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Diwedd ar becynnau sticer coll! Dylai Desktop nawr allu trin yr holl becynnau sticeri y gall eich ffôn!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "You can now add people to groups using just their phone number.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

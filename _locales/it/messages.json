@@ -7013,6 +7013,10 @@
         "message": "Aggiungi una storia",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Storie nascoste",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Nessuna storia recente da mostrare al momento",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Storia",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Nascondi storia",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Stiamo mantenendo i messaggi brevi, mettendo cose come i timestamp sulla stessa linea del testo. Ora hai più spazio sullo schermo per quel rapido 'ehi' per sentirti con un amico.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Addio ai pacchetti di adesivi mancanti! Desktop dovrebbe ora essere in grado di gestire tutti i pacchetti di adesivi che il tuo telefono è in grado di gestire!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Ora puoi aggiungere persone ai gruppi usando solo il loro numero di telefono.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "I tuoi contatti preferiti sono ora a pochi tasti di distanza. La ricerca di contatti ora supporta alfabeti non latini come il cirillico.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Correzioni di bug, inclusa la correzione di un problema che a volte rendeva difficile cliccare sui menu. ",

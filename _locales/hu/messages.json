@@ -7013,6 +7013,10 @@
         "message": "Történet hozzáadása",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Hidden stories",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Nincs aktuális friss történet",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Történet",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Történet elrejtése",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Mostantól a rövid üzenetek kevesebb helyet foglalnak, mivel az időbélyeget a szöveggel egy magasságba helyeztük. Így több hely marad a képernyőn frappáns egyszavas beköszönéseidnek.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Soha többé hiányzó matricacsomagok! Az asztali Signal verzió mostantól minden telefonon telepített csomaggal is megbirkózik.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Mostantól hozzáadhatsz csoporttagokat pusztán telefonszámuk alapján is.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Kedvenc kontaktjaid csak pár gombnyomás távolságra vannak. A kontaktkereső már támogatja a nem-latin kiosztásokat is, mint például a cirill.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

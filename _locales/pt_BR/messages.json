@@ -7013,6 +7013,10 @@
         "message": "Adicionar um story",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Stories ocultados",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Nenhum story em exibição no momento",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Story",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Ocultar story",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Estamos mantendo as mensagens curtas curtas, colocando coisas como registros de tempo na mesma linha que o texto. Agora você tem mais espaço na tela para enviar um rápido \"alô\" para descobrir como estão seus amigos.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Os pacotes de figurinhas que tanto faltava estão aqui! Agora o Desktop deve suportar os mesmos pacotes de figurinhas que seu telefone!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Agora você pode adicionar pessoas em grupos, por meio do número de telefone delas.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "A partir de agora, é mais fácil encontrar os seus contatos favoritos. A busca de contatos tem suporte para alfabetos não-latinos como o cirílico.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

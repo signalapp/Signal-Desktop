@@ -7013,6 +7013,10 @@
         "message": "Een verhaal toevoegen",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Verborgen verhalen",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Er zijn op dit moment geen recente verhalen om weer te geven",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Verhaal",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Verhalen niet langer verbergen",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Verhaal verbergen",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Korte berichten zijn vanaf nu nog korter, omdat de tijdsindicatie op dezelfde regel staat als de tekst van je bericht.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Er was een fout waardoor sommige stickerpakketten niet konden worden weergegeven in Signal-desktop. Vanaf nu kun je alle stickerpakketten zien net als op je telefoon.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Je kunt vanaf nu ook personen toevoegen aan groepen door alleen hun telefoonnummer in te voeren.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Ook personen die niet het Latijnse alfabet gebruiken kunnen vanaf nu contactpersonen zoeken.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Foutoplossingen, waaronder een oplossing voor een fout waarbij het soms moeilijk was op op menuknoppen te klikken.",

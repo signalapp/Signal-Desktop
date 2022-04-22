@@ -7013,6 +7013,10 @@
         "message": "Ajouter une histoire",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Histoires cachées",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Aucune histoire récente à afficher pour l’instant",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Histoire",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Cacher l’histoire",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Les renseignements tels que les estampilles temporelles sont sur la même ligne que le texte afin que les messages courts soient courts. Vous avez désormais plus d’espace sur l’écran pour ce « Salut » rapide à vos amis.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Adieu, paquets d’autocollants manquants ! Signal pour ordinateur devrait désormais pouvoir gérer tous les paquets que votre téléphone peut gérer.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Vous pouvez désormais ajouter des personnes aux groupes grâce à leur numéro de téléphone.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Vos contacts favoris sont désormais facilement accessibles et la recherche de contacts prend en charge les alphabets non latins tels que le cyrillique.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
