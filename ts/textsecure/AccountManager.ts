@@ -310,8 +310,20 @@ export default class AccountManager extends EventTarget {
               kind
             );
 
-            await this.server.registerKeys(keys, kind);
-            await this.confirmKeys(keys, kind);
+            try {
+              await this.server.registerKeys(keys, kind);
+              await this.confirmKeys(keys, kind);
+            } catch (error) {
+              if (kind === UUIDKind.PNI) {
+                log.error(
+                  'Failed to upload PNI prekeys. Moving on',
+                  Errors.toLogFormat(error)
+                );
+                return;
+              }
+
+              throw error;
+            }
           })
         );
       } finally {
