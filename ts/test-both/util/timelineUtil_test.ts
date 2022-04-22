@@ -352,7 +352,7 @@ describe('<Timeline> utilities', () => {
         const props = {
           ...defaultProps,
           items: fakeItems(10),
-          oldestUnreadIndex: 3,
+          oldestUnseenIndex: 3,
         };
 
         assert.strictEqual(

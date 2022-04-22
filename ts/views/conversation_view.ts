@@ -493,7 +493,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         throw new Error(`markMessageRead: failed to load message ${messageId}`);
       }
 
-      await this.model.markRead(message.get('received_at'));
+      await this.model.markRead(message.get('received_at'), {
+        newestSentAt: message.get('sent_at'),
+        sendReadReceipts: true,
+      });
     };
 
     const createMessageRequestResponseHandler =

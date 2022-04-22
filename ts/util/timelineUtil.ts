@@ -134,7 +134,7 @@ type ScrollAnchorBeforeUpdateProps = Readonly<
     | 'isSomeoneTyping'
     | 'items'
     | 'messageLoadingState'
-    | 'oldestUnreadIndex'
+    | 'oldestUnseenIndex'
     | 'scrollToIndex'
     | 'scrollToIndexCounter'
   >
@@ -169,7 +169,7 @@ export function getScrollAnchorBeforeUpdate(
       if (props.isIncomingMessageRequest) {
         return ScrollAnchor.ChangeNothing;
       }
-      if (isNumber(props.oldestUnreadIndex)) {
+      if (isNumber(props.oldestUnseenIndex)) {
         return ScrollAnchor.ScrollToUnreadIndicator;
       }
       return ScrollAnchor.ScrollToBottom;

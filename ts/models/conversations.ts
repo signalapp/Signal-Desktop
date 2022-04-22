@@ -117,6 +117,8 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { TimelineMessageLoadingState } from '../util/timelineUtil';
+import { SeenStatus } from '../MessageSeenStatus';
+import { getConversationIdForLogging } from '../util/idForLogging';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -237,17 +239,7 @@ export class ConversationModel extends window.Backbone
   }
 
   idForLogging(): string {
-    if (isDirectConversation(this.attributes)) {
-      const uuid = this.get('uuid');
-      const e164 = this.get('e164');
-      return `${uuid || e164} (${this.id})`;
-    }
-    if (isGroupV2(this.attributes)) {
-      return `groupv2(${this.get('groupId')})`;
-    }
-
-    const groupId = this.get('groupId');
-    return `group(${groupId})`;
+    return getConversationIdForLogging(this.attributes);
   }
 
   // This is one of the few times that we want to collapse our uuid/e164 pair down into
@@ -1508,8 +1500,8 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
-      if (scrollToLatestUnread && metrics.oldestUnread) {
-        this.loadAndScroll(metrics.oldestUnread.id, {
+      if (scrollToLatestUnread && metrics.oldestUnseen) {
+        this.loadAndScroll(metrics.oldestUnseen.id, {
           disableScroll: !setFocus,
         });
         return;
@@ -2926,6 +2918,7 @@ export class ConversationModel extends window.Backbone
       received_at: receivedAtCounter,
       received_at_ms: receivedAt,
       readStatus: ReadStatus.Unread,
+      seenStatus: SeenStatus.Unseen,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
@@ -2968,6 +2961,7 @@ export class ConversationModel extends window.Backbone
       received_at: receivedAtCounter,
       received_at_ms: receivedAt,
       readStatus: ReadStatus.Unread,
+      seenStatus: SeenStatus.Unseen,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
@@ -3004,7 +2998,8 @@ export class ConversationModel extends window.Backbone
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
       key_changed: keyChangedId.toString(),
-      readStatus: ReadStatus.Unread,
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.Unseen,
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
@@ -3057,14 +3052,15 @@ export class ConversationModel extends window.Backbone
     const timestamp = Date.now();
     const message = {
       conversationId: this.id,
-      type: 'verified-change',
-      sent_at: lastMessage,
-      received_at: window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: timestamp,
-      verifiedChanged: verifiedChangeId,
-      verified,
       local: options.local,
       readStatus: ReadStatus.Unread,
+      received_at_ms: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      seenStatus: SeenStatus.Unseen,
+      sent_at: lastMessage,
+      type: 'verified-change',
+      verified,
+      verifiedChanged: verifiedChangeId,
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
 
@@ -3128,6 +3124,7 @@ export class ConversationModel extends window.Backbone
         receivedAtCounter || window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
       readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
+      seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
       callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
@@ -3192,6 +3189,7 @@ export class ConversationModel extends window.Backbone
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
       readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.NotApplicable,
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722
@@ -3228,14 +3226,15 @@ export class ConversationModel extends window.Backbone
   ): Promise<string> {
     const now = Date.now();
     const message: Partial<MessageAttributesType> = {
-      ...extra,
-
       conversationId: this.id,
       type,
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
       readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.NotApplicable,
+
+      ...extra,
     };
 
     const id = await window.Signal.Data.saveMessage(
@@ -3363,6 +3362,8 @@ export class ConversationModel extends window.Backbone
     await Promise.all(
       convos.map(convo => {
         return convo.addNotification('change-number-notification', {
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Unseen,
           sourceUuid: sourceUuid.toString(),
         });
       })
@@ -4037,6 +4038,8 @@ export class ConversationModel extends window.Backbone
       received_at_ms: now,
       expireTimer,
       recipients,
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.NotApplicable,
       sticker,
       bodyRanges: mentions,
       sendHQImages,
@@ -4546,21 +4549,20 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
 
     const model = new window.Whisper.Message({
-      // Even though this isn't reflected to the user, we want to place the last seen
-      //   indicator above it. We set it to 'unread' to trigger that placement.
-      readStatus: ReadStatus.Unread,
       conversationId: this.id,
-      // No type; 'incoming' messages are specially treated by conversation.markRead()
-      sent_at: sentAt,
-      received_at: receivedAt,
-      received_at_ms: receivedAtMS,
-      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
         source,
         fromSync: options.fromSync,
         fromGroupUpdate: options.fromGroupUpdate,
       },
+      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      readStatus: ReadStatus.Unread,
+      received_at_ms: receivedAtMS,
+      received_at: receivedAt,
+      seenStatus: SeenStatus.Unseen,
+      sent_at: sentAt,
+      type: 'timer-notification',
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType);
 
@@ -4589,9 +4591,8 @@ export class ConversationModel extends window.Backbone
 
     const model = new window.Whisper.Message({
       type: 'message-history-unsynced',
-      // Even though this isn't reflected to the user, we want to place the last seen
-      //   indicator above it. We set it to 'unread' to trigger that placement.
-      readStatus: ReadStatus.Unread,
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.NotApplicable,
       conversationId: this.id,
       sent_at: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),
@@ -4633,12 +4634,14 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
 
     const model = new window.Whisper.Message({
-      group_update: { left: 'You' },
       conversationId: this.id,
-      type: 'outgoing',
-      sent_at: now,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      group_update: { left: 'You' },
+      readStatus: ReadStatus.Read,
       received_at_ms: now,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      seenStatus: SeenStatus.NotApplicable,
+      sent_at: now,
+      type: 'group',
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType);
 
@@ -4665,7 +4668,11 @@ export class ConversationModel extends window.Backbone
 
   async markRead(
     newestUnreadAt: number,
-    options: { readAt?: number; sendReadReceipts: boolean } = {
+    options: {
+      readAt?: number;
+      sendReadReceipts: boolean;
+      newestSentAt?: number;
+    } = {
       sendReadReceipts: true,
     }
   ): Promise<void> {

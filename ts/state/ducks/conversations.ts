@@ -234,8 +234,8 @@ type MessagePointerType = {
 type MessageMetricsType = {
   newest?: MessagePointerType;
   oldest?: MessagePointerType;
-  oldestUnread?: MessagePointerType;
-  totalUnread: number;
+  oldestUnseen?: MessagePointerType;
+  totalUnseen: number;
 };
 
 export type MessageLookupType = {
@@ -2673,7 +2673,7 @@ export function reducer(
     let metrics;
     if (messageIds.length === 0) {
       metrics = {
-        totalUnread: 0,
+        totalUnseen: 0,
       };
     } else {
       metrics = {
@@ -2791,7 +2791,7 @@ export function reducer(
       return state;
     }
 
-    let { newest, oldest, oldestUnread, totalUnread } =
+    let { newest, oldest, oldestUnseen, totalUnseen } =
       existingConversation.metrics;
 
     if (messages.length < 1) {
@@ -2853,7 +2853,7 @@ export function reducer(
     const newMessageIds = difference(newIds, existingConversation.messageIds);
     const { isNearBottom } = existingConversation;
 
-    if ((!isNearBottom || !isActive) && !oldestUnread) {
+    if ((!isNearBottom || !isActive) && !oldestUnseen) {
       const oldestId = newMessageIds.find(messageId => {
         const message = lookup[messageId];
 
@@ -2861,7 +2861,7 @@ export function reducer(
       });
 
       if (oldestId) {
-        oldestUnread = pick(lookup[oldestId], [
+        oldestUnseen = pick(lookup[oldestId], [
           'id',
           'received_at',
           'sent_at',
@@ -2869,14 +2869,14 @@ export function reducer(
       }
     }
 
-    // If this is a new incoming message, we'll increment our totalUnread count
-    if (isNewMessage && !isJustSent && oldestUnread) {
+    // If this is a new incoming message, we'll increment our totalUnseen count
+    if (isNewMessage && !isJustSent && oldestUnseen) {
       const newUnread: number = newMessageIds.reduce((sum, messageId) => {
         const message = lookup[messageId];
 
         return sum + (message && isMessageUnread(message) ? 1 : 0);
       }, 0);
-      totalUnread = (totalUnread || 0) + newUnread;
+      totalUnseen = (totalUnseen || 0) + newUnread;
     }
 
     return {
@@ -2896,8 +2896,8 @@ export function reducer(
             ...existingConversation.metrics,
             newest,
             oldest,
-            totalUnread,
-            oldestUnread,
+            totalUnseen,
+            oldestUnseen,
           },
         },
       },
@@ -2926,8 +2926,8 @@ export function reducer(
           ...existingConversation,
           metrics: {
             ...existingConversation.metrics,
-            oldestUnread: undefined,
-            totalUnread: 0,
+            oldestUnseen: undefined,
+            totalUnseen: 0,
           },
         },
       },

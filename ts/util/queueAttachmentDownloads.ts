@@ -13,7 +13,7 @@ import type {
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as log from '../logging/log';
 import { isLongMessage } from '../types/MIME';
-import { getMessageIdForLogging } from './getMessageIdForLogging';
+import { getMessageIdForLogging } from './idForLogging';
 import {
   copyStickerToAttachments,
   savePackMetadata,

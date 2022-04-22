@@ -110,6 +110,7 @@ import type {
   UnprocessedType,
   UnprocessedUpdateType,
 } from './Interface';
+import { SeenStatus } from '../MessageSeenStatus';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -1737,6 +1738,20 @@ function saveMessageSync(
     expireTimer,
     expirationStartTimestamp,
   } = data;
+  let { seenStatus } = data;
+
+  if (readStatus === ReadStatus.Unread && seenStatus !== SeenStatus.Unseen) {
+    log.warn(
+      `saveMessage: Message ${id}/${type} is unread but had seenStatus=${seenStatus}. Forcing to UnseenStatus.Unseen.`
+    );
+
+    // eslint-disable-next-line no-param-reassign
+    data = {
+      ...data,
+      seenStatus: SeenStatus.Unseen,
+    };
+    seenStatus = SeenStatus.Unseen;
+  }
 
   const payload = {
     id,
@@ -1762,6 +1777,7 @@ function saveMessageSync(
     storyId: storyId || null,
     type: type || null,
     readStatus: readStatus ?? null,
+    seenStatus: seenStatus ?? SeenStatus.NotApplicable,
   };
 
   if (id && !forceSave) {
@@ -1791,7 +1807,8 @@ function saveMessageSync(
         sourceDevice = $sourceDevice,
         storyId = $storyId,
         type = $type,
-        readStatus = $readStatus
+        readStatus = $readStatus,
+        seenStatus = $seenStatus
       WHERE id = $id;
       `
     ).run(payload);
@@ -1834,7 +1851,8 @@ function saveMessageSync(
       sourceDevice,
       storyId,
       type,
-      readStatus
+      readStatus,
+      seenStatus
     ) values (
       $id,
       $json,
@@ -1858,7 +1876,8 @@ function saveMessageSync(
       $sourceDevice,
       $storyId,
       $type,
-      $readStatus
+      $readStatus,
+      $seenStatus
     );
     `
   ).run({
@@ -2110,16 +2129,21 @@ async function getUnreadByConversationAndMarkRead({
         UPDATE messages
         SET
           readStatus = ${ReadStatus.Read},
+          seenStatus = ${SeenStatus.Seen},
           json = json_patch(json, $jsonPatch)
         WHERE
-          readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
+          seenStatus = ${SeenStatus.Unseen} AND
+          isStory = 0 AND
           (${_storyIdPredicate(storyId, isGroup)}) AND
           received_at <= $newestUnreadAt;
         `
     ).run({
       conversationId,
-      jsonPatch: JSON.stringify({ readStatus: ReadStatus.Read }),
+      jsonPatch: JSON.stringify({
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+      }),
       newestUnreadAt,
       storyId: storyId || null,
     });
@@ -2644,7 +2668,7 @@ async function getLastConversationMessage({
   return jsonToObject(row.json);
 }
 
-function getOldestUnreadMessageForConversation(
+function getOldestUnseenMessageForConversation(
   conversationId: string,
   storyId?: UUIDStringType,
   isGroup?: boolean
@@ -2655,7 +2679,7 @@ function getOldestUnreadMessageForConversation(
       `
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
-        readStatus = ${ReadStatus.Unread} AND
+        seenStatus = ${SeenStatus.Unseen} AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, isGroup)})
       ORDER BY received_at ASC, sent_at ASC
@@ -2709,6 +2733,35 @@ function getTotalUnreadForConversationSync(
 
   return row['count(id)'];
 }
+function getTotalUnseenForConversationSync(
+  conversationId: string,
+  storyId?: UUIDStringType,
+  isGroup?: boolean
+): number {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT count(id)
+      FROM messages
+      WHERE
+        conversationId = $conversationId AND
+        seenStatus = ${SeenStatus.Unseen} AND
+        isStory IS 0 AND
+        (${_storyIdPredicate(storyId, isGroup)})
+      `
+    )
+    .get({
+      conversationId,
+      storyId: storyId || null,
+    });
+
+  if (!row) {
+    throw new Error('getTotalUnseenForConversationSync: Unable to get count');
+  }
+
+  return row['count(id)'];
+}
 
 async function getMessageMetricsForConversation(
   conversationId: string,
@@ -2732,12 +2785,12 @@ function getMessageMetricsForConversationSync(
     storyId,
     isGroup
   );
-  const oldestUnread = getOldestUnreadMessageForConversation(
+  const oldestUnseen = getOldestUnseenMessageForConversation(
     conversationId,
     storyId,
     isGroup
   );
-  const totalUnread = getTotalUnreadForConversationSync(
+  const totalUnseen = getTotalUnseenForConversationSync(
     conversationId,
     storyId,
     isGroup
@@ -2746,10 +2799,10 @@ function getMessageMetricsForConversationSync(
   return {
     oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : undefined,
     newest: newest ? pick(newest, ['received_at', 'sent_at', 'id']) : undefined,
-    oldestUnread: oldestUnread
-      ? pick(oldestUnread, ['received_at', 'sent_at', 'id'])
+    oldestUnseen: oldestUnseen
+      ? pick(oldestUnseen, ['received_at', 'sent_at', 'id'])
       : undefined,
-    totalUnread,
+    totalUnseen,
   };
 }
 

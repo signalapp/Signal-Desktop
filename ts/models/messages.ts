@@ -141,7 +141,7 @@ import {
 } from '../messages/helpers';
 import type { ReplacementValuesType } from '../types/I18N';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
-import { getMessageIdForLogging } from '../util/getMessageIdForLogging';
+import { getMessageIdForLogging } from '../util/idForLogging';
 import { hasAttachmentDownloads } from '../util/hasAttachmentDownloads';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { findStoryMessage } from '../util/findStoryMessage';
@@ -152,6 +152,7 @@ import { getMessageById } from '../messages/getMessageById';
 import { shouldDownloadStory } from '../util/shouldDownloadStory';
 import { shouldShowStoriesView } from '../state/selectors/stories';
 import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
+import { SeenStatus } from '../MessageSeenStatus';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -2760,7 +2761,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           newReadStatus = ReadStatus.Read;
         }
 
-        message.set('readStatus', newReadStatus);
+        message.set({
+          readStatus: newReadStatus,
+          seenStatus: SeenStatus.Seen,
+        });
         changed = true;
 
         this.pendingMarkRead = Math.min(

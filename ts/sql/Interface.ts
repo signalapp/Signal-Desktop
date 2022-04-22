@@ -50,8 +50,8 @@ export type MessageMetricsType = {
 export type ConversationMetricsType = {
   oldest?: MessageMetricsType;
   newest?: MessageMetricsType;
-  oldestUnread?: MessageMetricsType;
-  totalUnread: number;
+  oldestUnseen?: MessageMetricsType;
+  totalUnseen: number;
 };
 export type ConversationType = ConversationAttributesType;
 export type EmojiType = {

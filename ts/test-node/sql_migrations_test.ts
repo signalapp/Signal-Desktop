@@ -13,6 +13,8 @@ import {
   insertJobSync,
   _storyIdPredicate,
 } from '../sql/Server';
+import { ReadStatus } from '../messages/MessageReadStatus';
+import { SeenStatus } from '../MessageSeenStatus';
 
 const OUR_UUID = generateGuid();
 
@@ -1770,6 +1772,258 @@ describe('SQL migrations test', () => {
           },
         },
       ]);
+    });
+  });
+
+  describe('updateToSchemaVersion56', () => {
+    it('updates unseenStatus for previously-unread messages', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const MESSAGE_ID_5 = generateGuid();
+      const MESSAGE_ID_6 = generateGuid();
+      const MESSAGE_ID_7 = generateGuid();
+      const MESSAGE_ID_8 = generateGuid();
+      const MESSAGE_ID_9 = generateGuid();
+      const MESSAGE_ID_10 = generateGuid();
+      const MESSAGE_ID_11 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(55);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, readStatus)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'call-history', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'change-number-notification', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'chat-session-refreshed', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}', 'delivery-issue', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_5}', '${CONVERSATION_ID}', 'group', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_6}', '${CONVERSATION_ID}', 'incoming', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_7}', '${CONVERSATION_ID}', 'keychange', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_8}', '${CONVERSATION_ID}', 'timer-notification', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_9}', '${CONVERSATION_ID}', 'verified-change', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_10}', '${CONVERSATION_ID}', NULL, ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_11}', '${CONVERSATION_ID}', 'other', ${ReadStatus.Unread});
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        11,
+        'starting total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        11,
+        'starting unread count'
+      );
+
+      updateToVersion(56);
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        11,
+        'ending total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        10,
+        'ending unread count'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`
+          )
+          .pluck()
+          .get(),
+        10,
+        'ending unseen count'
+      );
+
+      assert.strictEqual(
+        db
+          .prepare(
+            "SELECT readStatus FROM messages WHERE type = 'other' LIMIT 1;"
+          )
+          .pluck()
+          .get(),
+        ReadStatus.Read,
+        "checking read status for lone 'other' message"
+      );
+    });
+
+    it('creates usable index for getOldestUnseenMessageForConversation', () => {
+      updateToVersion(56);
+
+      const first = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT * FROM messages WHERE
+            conversationId = 'id-conversation-4' AND
+            seenStatus = ${SeenStatus.Unseen} AND
+            isStory IS 0 AND
+            NULL IS NULL
+          ORDER BY received_at ASC, sent_at ASC
+          LIMIT 1;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(first, 'USING INDEX messages_unseen_no_story', 'first');
+      assert.notInclude(first, 'TEMP B-TREE', 'first');
+      assert.notInclude(first, 'SCAN', 'first');
+
+      const second = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT * FROM messages WHERE
+            conversationId = 'id-conversation-4' AND
+            seenStatus = ${SeenStatus.Unseen} AND
+            isStory IS 0 AND
+            storyId IS 'id-story-4'
+          ORDER BY received_at ASC, sent_at ASC
+          LIMIT 1;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(
+        second,
+        'USING INDEX messages_unseen_with_story',
+        'second'
+      );
+      assert.notInclude(second, 'TEMP B-TREE', 'second');
+      assert.notInclude(second, 'SCAN', 'second');
+    });
+
+    it('creates usable index for getUnreadByConversationAndMarkRead', () => {
+      updateToVersion(56);
+
+      const first = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          UPDATE messages
+          SET
+            readStatus = ${ReadStatus.Read},
+            seenStatus = ${SeenStatus.Seen},
+            json = json_patch(json, '{ something: "one" }')
+          WHERE
+            conversationId = 'id-conversation-4' AND
+            seenStatus = ${SeenStatus.Unseen} AND
+            isStory = 0 AND
+            NULL IS NULL AND
+            received_at <= 2343233;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(first, 'USING INDEX messages_unseen_no_story', 'first');
+      assert.notInclude(first, 'TEMP B-TREE', 'first');
+      assert.notInclude(first, 'SCAN', 'first');
+
+      const second = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          UPDATE messages
+          SET
+            readStatus = ${ReadStatus.Read},
+            seenStatus = ${SeenStatus.Seen},
+            json = json_patch(json, '{ something: "one" }')
+          WHERE
+            conversationId = 'id-conversation-4' AND
+            seenStatus = ${SeenStatus.Unseen} AND
+            isStory = 0 AND
+            storyId IS 'id-story-4' AND
+            received_at <= 2343233;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(
+        second,
+        'USING INDEX messages_unseen_with_story',
+        'second'
+      );
+      assert.notInclude(second, 'TEMP B-TREE', 'second');
+      assert.notInclude(second, 'SCAN', 'second');
+    });
+
+    it('creates usable index for getTotalUnseenForConversationSync', () => {
+      updateToVersion(56);
+
+      const first = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT count(id)
+          FROM messages
+          WHERE
+            conversationId = 'id-conversation-4' AND
+            seenStatus = ${SeenStatus.Unseen} AND
+            isStory IS 0 AND
+            NULL IS NULL;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      // Weird, but we don't included received_at so it doesn't really matter
+      assert.include(first, 'USING INDEX messages_unseen_with_story', 'first');
+      assert.notInclude(first, 'TEMP B-TREE', 'first');
+      assert.notInclude(first, 'SCAN', 'first');
+
+      const second = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT count(id)
+          FROM messages
+          WHERE
+            conversationId = 'id-conversation-4' AND
+            seenStatus = ${SeenStatus.Unseen} AND
+            isStory IS 0 AND
+            storyId IS 'id-story-4';
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(
+        second,
+        'USING INDEX messages_unseen_with_story',
+        'second'
+      );
+      assert.notInclude(second, 'TEMP B-TREE', 'second');
+      assert.notInclude(second, 'SCAN', 'second');
     });
   });
 });

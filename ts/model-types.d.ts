@@ -35,6 +35,7 @@ import { ReactionSource } from './reactions/ReactionSource';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
+import { SeenStatus } from './MessageSeenStatus';
 
 export type WhatIsThis = any;
 
@@ -219,8 +220,10 @@ export type MessageAttributesType = {
 
   sendHQImages?: boolean;
 
-  // Should only be present for incoming messages
+  // Should only be present for incoming messages and errors
   readStatus?: ReadStatus;
+  // Used for all kinds of notifications, as well as incoming messages
+  seenStatus?: SeenStatus;
 
   // Should only be present for outgoing messages
   sendStateByConversationId?: SendStateByConversationId;

@@ -540,9 +540,9 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   items: overrideProps.items || Object.keys(items),
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
-  totalUnread: number('totalUnread', overrideProps.totalUnread || 0),
-  oldestUnreadIndex:
-    number('oldestUnreadIndex', overrideProps.oldestUnreadIndex || 0) ||
+  totalUnseen: number('totalUnseen', overrideProps.totalUnseen || 0),
+  oldestUnseenIndex:
+    number('oldestUnseenIndex', overrideProps.oldestUnseenIndex || 0) ||
     undefined,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
@@ -608,8 +608,8 @@ story.add('Empty (just hero)', () => {
 
 story.add('Last Seen', () => {
   const props = useProps({
-    oldestUnreadIndex: 13,
-    totalUnread: 2,
+    oldestUnseenIndex: 13,
+    totalUnseen: 2,
   });
 
   return <Timeline {...props} />;
