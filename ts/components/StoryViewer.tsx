@@ -60,6 +60,7 @@ export type PropsType = {
   replyState?: ReplyStateType;
   skinTone?: number;
   stories: Array<StoryViewType>;
+  views?: Array<string>;
 };
 
 const CAPTION_BUFFER = 20;
@@ -88,6 +89,7 @@ export const StoryViewer = ({
   replyState,
   skinTone,
   stories,
+  views,
 }: PropsType): JSX.Element => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
@@ -268,7 +270,7 @@ export const StoryViewer = ({
   const replies =
     replyState && replyState.messageId === messageId ? replyState.replies : [];
 
-  const viewCount = 0;
+  const viewCount = (views || []).length;
   const replyCount = replies.length;
 
   return (
@@ -388,49 +390,46 @@ export const StoryViewer = ({
                 ))}
               </div>
               <div className="StoryViewer__actions">
-                {isMe ? (
-                  <>
-                    {viewCount &&
-                      (viewCount === 1 ? (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__views--singular"
-                          components={[<strong>{viewCount}</strong>]}
-                        />
-                      ) : (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__views--plural"
-                          components={[<strong>{viewCount}</strong>]}
-                        />
-                      ))}
-                    {viewCount && replyCount && ' '}
-                    {replyCount &&
-                      (replyCount === 1 ? (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__replies--singular"
-                          components={[<strong>{replyCount}</strong>]}
-                        />
-                      ) : (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__replies--plural"
-                          components={[<strong>{replyCount}</strong>]}
-                        />
-                      ))}
-                  </>
-                ) : (
-                  canReply && (
-                    <button
-                      className="StoryViewer__reply"
-                      onClick={() => setHasReplyModal(true)}
-                      tabIndex={0}
-                      type="button"
-                    >
-                      {i18n('StoryViewer__reply')}
-                    </button>
-                  )
+                {canReply && (
+                  <button
+                    className="StoryViewer__reply"
+                    onClick={() => setHasReplyModal(true)}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <>
+                      {viewCount > 0 &&
+                        (viewCount === 1 ? (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__views--singular"
+                            components={[<strong>{viewCount}</strong>]}
+                          />
+                        ) : (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__views--plural"
+                            components={[<strong>{viewCount}</strong>]}
+                          />
+                        ))}
+                      {viewCount > 0 && replyCount > 0 && ' '}
+                      {replyCount > 0 &&
+                        (replyCount === 1 ? (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__replies--singular"
+                            components={[<strong>{replyCount}</strong>]}
+                          />
+                        ) : (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__replies--plural"
+                            components={[<strong>{replyCount}</strong>]}
+                          />
+                        ))}
+                      {!viewCount && !replyCount && i18n('StoryViewer__reply')}
+                    </>
+                  </button>
                 )}
               </div>
             </div>
@@ -454,13 +453,16 @@ export const StoryViewer = ({
             authorTitle={title}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
+            isGroupStory={isGroupStory}
             isMyStory={isMe}
             onClose={() => setHasReplyModal(false)}
             onReact={emoji => {
               onReactToStory(emoji, visibleStory);
             }}
             onReply={(message, mentions, replyTimestamp) => {
-              setHasReplyModal(false);
+              if (!isGroupStory) {
+                setHasReplyModal(false);
+              }
               onReplyToStory(message, mentions, replyTimestamp, visibleStory);
             }}
             onSetSkinTone={onSetSkinTone}

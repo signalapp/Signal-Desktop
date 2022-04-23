@@ -7026,6 +7026,10 @@
     "message": "Type a reply...",
     "description": "Placeholder text for the story reply modal"
   },
+  "StoryViewsNRepliesModal__no-replies": {
+    "message": "No replies yet",
+    "description": "Placeholder text for when there are no replies"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Views",
     "description": "Title for views tab"

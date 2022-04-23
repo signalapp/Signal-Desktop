@@ -7702,7 +7702,7 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/StoryViewsNRepliesModal.tsx",
-    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2022-02-15T17:57:06.507Z"
   },

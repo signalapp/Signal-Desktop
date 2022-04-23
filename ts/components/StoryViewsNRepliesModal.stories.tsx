@@ -112,12 +112,17 @@ story.add('Views only', () => (
   />
 ));
 
+story.add('In a group (no replies)', () => (
+  <StoryViewsNRepliesModal {...getDefaultProps()} isGroupStory />
+));
+
 story.add('In a group', () => {
   const { views, replies } = getViewsAndReplies();
 
   return (
     <StoryViewsNRepliesModal
       {...getDefaultProps()}
+      isGroupStory
       replies={replies}
       views={views}
     />
