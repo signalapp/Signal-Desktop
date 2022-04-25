@@ -47,7 +47,8 @@ const StyledCircleIcon = styled.div`
 const StyledUnreadCounter = styled.div`
   font-weight: bold;
   border-radius: var(--margins-sm);
-  background-color: var(--color-request-banner-unread-background);
+  background-color: var(--color-accent);
+  color: black;
   margin-left: 10px;
   min-width: 20px;
   height: 20px;
