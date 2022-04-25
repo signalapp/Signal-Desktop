@@ -1,3 +1,4 @@
+.vagrant
 node_modules
 .sass-cache
 coverage/*

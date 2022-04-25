@@ -28,6 +28,8 @@ still useful, but it doesn't support `.nvmrc` files.
 
 Then you need [`git`](https://git-scm.com/) and [`git-lfs`](https://github.com/git-lfs/git-lfs/wiki/Installation), if you don't have those yet.
 
+Alternatively, you can simply install [Vagrant](https://www.vagrantup.com/intro), and use the included `Vagrantfile` to install all the project's dependencies into an Ubuntu virtual machine. Consult the `Vagrantfile` for more details.
+
 ### macOS
 
 Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/).
