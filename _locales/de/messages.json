@@ -7013,6 +7013,10 @@
         "message": "Eine Story hinzufügen",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Ausgeblendete Stories",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Im Moment sind keine aktuellen Stories zu sehen",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Story",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Stories anzeigen",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Story ausblenden",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Wir belassen kurze Nachrichten kurz, indem Infos wie der Zeitstempel in der gleichen Zeile wie der Text angezeigt werden. Jetzt hast du mehr Platz auf dem Bildschirm für das kurze »Hallo«, um sich bei einem Freund zu melden.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Hinfort mit den fehlenden Sticker-Sets! Desktop sollte nun in der Lage sein, mit allen von deinem Telefon unterstützten Sticker-Sets umzugehen!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Du kannst nun über deren Rufnummer Personen zu Gruppen hinzufügen.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Deine Lieblingskontakte sind jetzt nur noch einige Tastenanschläge entfernt. Die Kontaktsuche unterstützt nun nicht-lateinische Alphabete wie Kyrillisch.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Fehlerkorrekturen einschließlich der Behebung eines Problems, das es manchmal schwierig machte, auf Menüs zu klicken.",

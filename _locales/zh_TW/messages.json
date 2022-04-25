@@ -7013,6 +7013,10 @@
         "message": "新增一個報導",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "已隱藏的限時動態",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "目前沒有可顯示的近期報導",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "報導",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "顯示限時動態",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "隱藏報導",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "我們透過將時間戳之類的內容與文本放在同一行來保持簡短的訊息。 現在，你在螢幕上有更多空間可以快速說“嘿”與確認朋友。",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "想念遺失的貼圖包！ 電腦版本現在能夠處理你的手機可以處理的所有貼圖包！",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "你現在可以使用電話號碼將成員新增到群組。",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "你最喜歡的聯絡人現在只需幾個按鍵即可。 搜索聯絡人現在支援非拉丁字母，例如塞里爾字母。",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "錯誤修復，包括修復有時難以點擊選單的問題。",

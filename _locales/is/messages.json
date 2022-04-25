@@ -7013,6 +7013,10 @@
         "message": "Bæta við sögu",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Faldar sögur",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Í augnablikinu eru engar nýlegar sögur til að birta",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Saga",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Fela sögu",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Þessi útgáfa inniheldur nokkrar villuleiðréttingar og fínstillingar til að Signal keyri sem áreiðanlegast.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Við höldum stuttum skilaboðum verulega stuttum, með því að setja dót eins og tímamerki í sömu línu og sjálfann textann. Þá hefurðu meira pláss til að sinna öðru.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Nú ætti aldrei að vanta neina límmerkjapakka. Vinnutölvuútgáfan getur núna meðhöndlað alla þá sömu límmerkjapakka og síminn þinn getur.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Þú getur núna bætt fólki í hópa með símanúmerinu þeirra.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Eftirlætistengiliðirnir þínir eru núna innan seilingar. Leit að tengiliðum styður núna stafróf sem ekki eru með latnesku letri, eins og t.d. kyrilísku.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

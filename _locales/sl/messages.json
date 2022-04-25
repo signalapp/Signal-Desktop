@@ -7013,6 +7013,10 @@
         "message": "Dodaj zgodbo",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Skrite zgodbe",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Trenutno ni nobenih zgodb za prikaz",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Zgodba",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Skrij zgodbo",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ta različica vsebuje majhne spremembe in popravke, ki omogočajo, da Signal teče brez težav.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Kratka sporočila ostajajo kratka tudi zato, ker stvari kot so časovne oznake dodajamo v isto vrstico kot besedilo. Sedaj vam je na voljo več prostora na zaslonu za tisti hitri 'hej', da preverite prijatelja.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Nič več izgubljenih paketov z nalepkami! Namizna različica odslej deluje z vsemi paketi z nalepkami, s katerimi zna delati telefon!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Ljudi lahko sedaj dodajate v skupino z uporabo njihove telefonske številke.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Priljubljeni stiki so le še nekaj tipk oddaljeni. Iskanje stikov odslej podpira tudi ne-latinske abecede, kot je cirilica.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

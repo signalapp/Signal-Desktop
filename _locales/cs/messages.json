@@ -7013,6 +7013,10 @@
         "message": "Přidat příběh",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Skryté příběhy",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Žádné poslední příběhy k zobrazení",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Příběh",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Schovat příběh",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Krátké zprávy udržujeme krátké tím, že věci jako časová razítka umisťujeme na stejný řádek jako text. Nyní máte na obrazovce více místa pro rychlé \"ahoj\", abyste zkontrolovali přítele.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Chybějící balíčky samolepek jsou pryč! Počítač by nyní měl zvládnout všechny balíčky nálepek, které zvládne váš telefon!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Nyní můžete přidávat lidi do skupin pomocí jejich telefonního čísla.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Vaše oblíbené kontakty jsou nyní vzdálené jen několik stisknutí kláves. Vyhledávání kontaktů nyní podporuje jiné než latinské abecedy, například cyrilici.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Opravy chyb včetně opravy problému, který někdy ztěžoval klikání na položky menu.",

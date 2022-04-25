@@ -7013,6 +7013,10 @@
         "message": "Shtoni një histori",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Histori të fshehura",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Tani për tani s’ka histori të freskëta për t’u shfaqur",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Histori",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Fshihe historinë",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Po i mbajmë mesazhet të shkurtër, duke vënë gjëra të tilla si vulat kohore në të njëjtin rresht me tekstin. Tani keni më tepër hapësirë në ekran për atë “hej” të shpejtë për një shokun tuaj.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "S’ka më paketa ngjitësish që mungojnë! Desktopi duhet të jetë në gjendje tanimë të trajtojë krejt paketat e ngjitësve që trajton telefoni juaj!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Tani mund të shtoni persona te grupe duke përdorur thjesht numrin e tyre të telefonit.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Kontaktet tuaja të parapëlqyera tani janë vetëm disa taste larg. Kërkimi i kontakteve tani mbulon alfabete jolatine, bie fjala, cirilik.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

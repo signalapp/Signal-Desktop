@@ -7013,6 +7013,10 @@
         "message": "Lisää tarina",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Hidden stories",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Viimeiaikaisia tarinoita ei juuri nyt ole",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Tarina",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Piilota tarina",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Pidämme lyhyet viestit lyhyinä sijoitamalla asiat, kuten aikaleimat samalle riville tekstin kanssa. Nyt ruudulla on enemmän tilaa kaverin pikaiselle 'tervehdykselle'.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Puuttuvat tarrapaketit kadotkoon! Puhelimella toimivien tarrapakettien pitäisi nyt toimia myös työpöydällä!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Voit nyt lisätä ihmisiä ryhmiin pelkän puhelinnumeron perusteella.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Lempiyhteystietosi ovat nyt vain muutaman näppäinpainalluksen päässä. Yhteystietohaku tukee nyt muitakin kuin latinalaisia merkistöjä, kuten esimerkiksi kyrillisiä merkistöjä.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Virheenkorjauksia, mukaan lukien sen virheen korjaaminen joka teki joskus valikoiden klikkaamisesta hankalaa.",

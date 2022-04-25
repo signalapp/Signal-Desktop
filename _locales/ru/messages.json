@@ -7013,6 +7013,10 @@
         "message": "Добавьте историю",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Скрытые истории",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Нет недавних историй",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "История",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Показывать истории",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Скрыть историю",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Мы оставляем короткие сообщения короткими, помещая время и другие элементы на той же строке, что и текст. Теперь у вас на экране есть больше места для того, чтобы быстро узнать у друга, как дела.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Проблемы с недостатком наборов стикеров закончились! Теперь Signal Desktop поддерживает все наборы стикеров, которые поддерживает ваш телефон!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Теперь вы можете добавлять людей в группы, просто используя их номера телефонов.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Ваши любимые контакты теперь всего в нескольких нажатиях по клавишам от вас. Поиск по контактам теперь поддерживает не латинские алфавиты, например кириллический.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Исправления ошибок, включающие исправление проблемы, из-за которой было иногда сложно нажимать на меню.",
