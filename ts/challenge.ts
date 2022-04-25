@@ -14,7 +14,7 @@
 
 import { assert } from './util/assert';
 import { isOlderThan } from './util/timestamp';
-import { parseRetryAfter } from './util/parseRetryAfter';
+import { parseRetryAfterWithDefault } from './util/parseRetryAfter';
 import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
 import { getEnvironment, Environment } from './environment';
 import type { StorageInterface } from './types/Storage.d';
@@ -70,7 +70,7 @@ export const STORAGE_KEY = 'challenge:conversations';
 export type RegisteredChallengeType = Readonly<{
   conversationId: string;
   createdAt: number;
-  retryAt: number;
+  retryAt?: number;
   token?: string;
 }>;
 
@@ -80,7 +80,12 @@ const CAPTCHA_STAGING_URL =
   'https://signalcaptchas.org/staging/challenge/generate.html';
 
 function shouldStartQueue(registered: RegisteredChallengeType): boolean {
-  if (!registered.retryAt || registered.retryAt <= Date.now()) {
+  // No retryAt provided; waiting for user to complete captcha
+  if (!registered.retryAt) {
+    return false;
+  }
+
+  if (registered.retryAt <= Date.now()) {
     return true;
   }
 
@@ -214,21 +219,26 @@ export class ChallengeHandler {
       return;
     }
 
-    const waitTime = Math.max(0, challenge.retryAt - Date.now());
-    const oldTimer = this.startTimers.get(conversationId);
-    if (oldTimer) {
-      clearTimeoutIfNecessary(oldTimer);
+    if (challenge.retryAt) {
+      const waitTime = Math.max(0, challenge.retryAt - Date.now());
+      const oldTimer = this.startTimers.get(conversationId);
+      if (oldTimer) {
+        clearTimeoutIfNecessary(oldTimer);
+      }
+      this.startTimers.set(
+        conversationId,
+        setTimeout(() => {
+          this.startTimers.delete(conversationId);
+
+          this.startQueue(conversationId);
+        }, waitTime)
+      );
+      log.info(
+        `challenge: tracking ${conversationId} with waitTime=${waitTime}`
+      );
+    } else {
+      log.info(`challenge: tracking ${conversationId} with no waitTime`);
     }
-    this.startTimers.set(
-      conversationId,
-      setTimeout(() => {
-        this.startTimers.delete(conversationId);
-
-        this.startQueue(conversationId);
-      }, waitTime)
-    );
-
-    log.info(`challenge: tracking ${conversationId} with waitTime=${waitTime}`);
 
     if (data && !data.options?.includes('recaptcha')) {
       log.error(
@@ -379,7 +389,9 @@ export class ChallengeHandler {
         throw error;
       }
 
-      const retryAfter = parseRetryAfter(error.responseHeaders['retry-after']);
+      const retryAfter = parseRetryAfterWithDefault(
+        error.responseHeaders['retry-after']
+      );
 
       log.info(`challenge: retry after ${retryAfter}ms`);
       this.options.onChallengeFailed(retryAfter);
