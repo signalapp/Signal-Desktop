@@ -2668,6 +2668,10 @@ export class Message extends React.PureComponent<Props, State> {
           className={containerClassnames}
           style={containerStyles}
           onContextMenu={this.showContextMenu}
+          role="row"
+          onKeyDown={this.handleKeyDown}
+          onClick={this.handleClick}
+          tabIndex={-1}
         >
           {this.renderAuthor()}
           {this.renderContents()}
@@ -2717,7 +2721,6 @@ export class Message extends React.PureComponent<Props, State> {
         //   cannot be within another button
         role="button"
         onKeyDown={this.handleKeyDown}
-        onClick={this.handleClick}
         onFocus={this.handleFocus}
         ref={this.focusRef}
       >
