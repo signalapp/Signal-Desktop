@@ -1151,15 +1151,14 @@ describe('link preview fetching', () => {
         );
 
         assert.deepEqual(
-          await fetchLinkPreviewImage(
-            fakeFetch,
-            'https://example.com/img',
-            new AbortController().signal
-          ),
-          {
-            data: fixture,
-            contentType: stringToMIMEType(contentType),
-          }
+          (
+            await fetchLinkPreviewImage(
+              fakeFetch,
+              'https://example.com/img',
+              new AbortController().signal
+            )
+          )?.contentType,
+          stringToMIMEType(contentType)
         );
       });
     });
@@ -1238,15 +1237,14 @@ describe('link preview fetching', () => {
       );
 
       assert.deepEqual(
-        await fetchLinkPreviewImage(
-          fakeFetch,
-          'https://example.com/img',
-          new AbortController().signal
-        ),
-        {
-          data: fixture,
-          contentType: IMAGE_JPEG,
-        }
+        (
+          await fetchLinkPreviewImage(
+            fakeFetch,
+            'https://example.com/img',
+            new AbortController().signal
+          )
+        )?.contentType,
+        IMAGE_JPEG
       );
 
       sinon.assert.calledTwice(fakeFetch);
