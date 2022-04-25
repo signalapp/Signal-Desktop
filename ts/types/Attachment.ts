@@ -730,7 +730,7 @@ export function isDownloaded(attachment?: AttachmentType): boolean {
 }
 
 export function hasNotResolved(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && !attachment.url);
+  return Boolean(attachment && !attachment.url && !attachment.textAttachment);
 }
 
 export function isDownloading(attachment?: AttachmentType): boolean {

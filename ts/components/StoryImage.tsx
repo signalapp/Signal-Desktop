@@ -40,7 +40,9 @@ export const StoryImage = ({
   storyId,
 }: PropsType): JSX.Element | null => {
   const shouldDownloadAttachment =
-    !isDownloaded(attachment) && !isDownloading(attachment);
+    !isDownloaded(attachment) &&
+    !isDownloading(attachment) &&
+    !hasNotResolved(attachment);
 
   useEffect(() => {
     if (shouldDownloadAttachment) {
@@ -61,7 +63,11 @@ export const StoryImage = ({
   let storyElement: JSX.Element;
   if (attachment.textAttachment) {
     storyElement = (
-      <TextAttachment i18n={i18n} textAttachment={attachment.textAttachment} />
+      <TextAttachment
+        i18n={i18n}
+        isThumbnail={isThumbnail}
+        textAttachment={attachment.textAttachment}
+      />
     );
   } else if (isNotReadyToShow) {
     storyElement = (
@@ -98,10 +104,10 @@ export const StoryImage = ({
     );
   }
 
-  let spinner: JSX.Element | undefined;
+  let overlay: JSX.Element | undefined;
   if (isPending) {
-    spinner = (
-      <div className="StoryImage__spinner-container">
+    overlay = (
+      <div className="StoryImage__overlay-container">
         <div className="StoryImage__spinner-bubble" title={i18n('loading')}>
           <Spinner moduleClassName="StoryImage__spinner" svgSize="small" />
         </div>
@@ -117,7 +123,7 @@ export const StoryImage = ({
       )}
     >
       {storyElement}
-      {spinner}
+      {overlay}
     </div>
   );
 };

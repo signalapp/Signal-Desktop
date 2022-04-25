@@ -198,6 +198,11 @@ export const StoryViewer = ({
   // We need to be careful about this effect refreshing, it should only run
   // every time a story changes or its duration changes.
   useEffect(() => {
+    if (!storyDuration) {
+      spring.stop();
+      return;
+    }
+
     spring.start({
       config: {
         duration: storyDuration,

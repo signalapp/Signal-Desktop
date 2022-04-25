@@ -2,7 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentType } from '../types/Attachment';
-import { isGIF, isVideo } from '../types/Attachment';
+import {
+  hasNotResolved,
+  isDownloaded,
+  isGIF,
+  isVideo,
+} from '../types/Attachment';
 import { count } from './grapheme';
 import { SECOND } from './durations';
 
@@ -12,7 +17,11 @@ const MIN_TEXT_DURATION = 3 * SECOND;
 
 export async function getStoryDuration(
   attachment: AttachmentType
-): Promise<number> {
+): Promise<number | undefined> {
+  if (!isDownloaded(attachment) || hasNotResolved(attachment)) {
+    return;
+  }
+
   if (isGIF([attachment]) || isVideo([attachment])) {
     const videoEl = document.createElement('video');
     if (!attachment.url) {

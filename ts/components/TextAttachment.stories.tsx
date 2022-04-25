@@ -164,7 +164,20 @@ story.add('Link preview', () => (
       preview: {
         url: 'https://www.signal.org/workworkwork',
         title: 'Signal >> Careers',
-        // TODO add image
+      },
+    }}
+  />
+));
+
+story.add('Link preview (thumbnail)', () => (
+  <TextAttachment
+    {...getDefaultProps()}
+    isThumbnail
+    textAttachment={{
+      color: 4294951251,
+      preview: {
+        url: 'https://www.signal.org/workworkwork',
+        title: 'Signal >> Careers',
       },
     }}
   />

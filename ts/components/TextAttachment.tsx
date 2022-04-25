@@ -40,6 +40,7 @@ enum TextSize {
 
 export type PropsType = {
   i18n: LocalizerType;
+  isThumbnail?: boolean;
   textAttachment: TextAttachmentType;
 };
 
@@ -85,6 +86,7 @@ function getFont(
 
 export const TextAttachment = ({
   i18n,
+  isThumbnail,
   textAttachment,
 }: PropsType): JSX.Element | null => {
   const linkPreview = useRef<HTMLDivElement | null>(null);
@@ -149,25 +151,27 @@ export const TextAttachment = ({
             )}
             {textAttachment.preview && (
               <>
-                {linkPreviewOffsetTop && textAttachment.preview.url && (
-                  <a
-                    className="TextAttachment__preview__tooltip"
-                    href={textAttachment.preview.url}
-                    rel="noreferrer"
-                    style={{
-                      top: linkPreviewOffsetTop - 150,
-                    }}
-                    target="_blank"
-                  >
-                    <div>
-                      <div>{i18n('TextAttachment__preview__link')}</div>
-                      <div className="TextAttachment__preview__tooltip__url">
-                        {textAttachment.preview.url}
+                {linkPreviewOffsetTop &&
+                  !isThumbnail &&
+                  textAttachment.preview.url && (
+                    <a
+                      className="TextAttachment__preview__tooltip"
+                      href={textAttachment.preview.url}
+                      rel="noreferrer"
+                      style={{
+                        top: linkPreviewOffsetTop - 150,
+                      }}
+                      target="_blank"
+                    >
+                      <div>
+                        <div>{i18n('TextAttachment__preview__link')}</div>
+                        <div className="TextAttachment__preview__tooltip__url">
+                          {textAttachment.preview.url}
+                        </div>
                       </div>
-                    </div>
-                    <div className="TextAttachment__preview__tooltip__arrow" />
-                  </a>
-                )}
+                      <div className="TextAttachment__preview__tooltip__arrow" />
+                    </a>
+                  )}
                 <div
                   className={classNames('TextAttachment__preview', {
                     'TextAttachment__preview--large': Boolean(
