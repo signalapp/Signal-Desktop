@@ -91,7 +91,6 @@ import {
   isGroupV2Change,
   isIncoming,
   isKeyChange,
-  isMessageHistoryUnsynced,
   isOutgoing,
   isStory,
   isProfileChange,
@@ -295,7 +294,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !isGroupV2Change(attributes) &&
       !isGroupV1Migration(attributes) &&
       !isKeyChange(attributes) &&
-      !isMessageHistoryUnsynced(attributes) &&
       !isProfileChange(attributes) &&
       !isUniversalTimerNotification(attributes) &&
       !isUnsupportedMessage(attributes) &&
@@ -1056,7 +1054,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // Locally-generated notifications
     const isKeyChangeValue = isKeyChange(attributes);
-    const isMessageHistoryUnsyncedValue = isMessageHistoryUnsynced(attributes);
     const isProfileChangeValue = isProfileChange(attributes);
     const isUniversalTimerNotificationValue =
       isUniversalTimerNotification(attributes);
@@ -1085,7 +1082,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       hasErrorsValue ||
       // Locally-generated notifications
       isKeyChangeValue ||
-      isMessageHistoryUnsyncedValue ||
       isProfileChangeValue ||
       isUniversalTimerNotificationValue;
 

@@ -204,6 +204,9 @@ export const ConversationHero = ({
           phoneNumber,
           sharedGroupNames,
         })}
+        <div className="module-conversation-hero__linkNotification">
+          {i18n('messageHistoryUnsynced')}
+        </div>
       </div>
       {isShowingMessageRequestWarning && (
         <ConfirmationDialog

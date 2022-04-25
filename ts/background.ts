@@ -2178,9 +2178,6 @@ export async function startApp(): Promise<void> {
           );
         }
 
-        log.info('firstRun: disabling post link experience');
-        window.Signal.Util.postLinkExperience.stop();
-
         // Switch to inbox view even if contact sync is still running
         if (
           window.reduxStore.getState().app.appView === AppViewType.Installer
@@ -2647,13 +2644,6 @@ export async function startApp(): Promise<void> {
           }
         );
       }
-
-      if (window.Signal.Util.postLinkExperience.isActive()) {
-        log.info(
-          'onContactReceived: Adding the message history disclaimer on link'
-        );
-        await conversation.addMessageHistoryDisclaimer();
-      }
     } catch (error) {
       log.error('onContactReceived error:', Errors.toLogFormat(error));
     }
@@ -2722,12 +2712,6 @@ export async function startApp(): Promise<void> {
 
     window.Signal.Data.updateConversation(conversation.attributes);
 
-    if (window.Signal.Util.postLinkExperience.isActive()) {
-      log.info(
-        'onGroupReceived: Adding the message history disclaimer on link'
-      );
-      await conversation.addMessageHistoryDisclaimer();
-    }
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {

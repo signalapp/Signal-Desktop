@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps, ReactElement } from 'react';
@@ -192,8 +192,6 @@ export function SmartInstallScreen(): ReactElement {
       if (hasCleanedUp) {
         throw new Error('Cannot confirm number; the component was unmounted');
       }
-
-      window.Signal.Util.postLinkExperience.start();
 
       return result;
     };

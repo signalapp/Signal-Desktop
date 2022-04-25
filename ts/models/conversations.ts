@@ -219,8 +219,6 @@ export class ConversationModel extends window.Backbone
 
   private isFetchingUUID?: boolean;
 
-  private hasAddedHistoryDisclaimer?: boolean;
-
   private lastIsTyping?: boolean;
 
   private muteTimer?: NodeJS.Timer;
@@ -4576,38 +4574,6 @@ export class ConversationModel extends window.Backbone
     this.addSingleMessage(message);
 
     return message;
-  }
-
-  async addMessageHistoryDisclaimer(): Promise<void> {
-    const timestamp = Date.now();
-
-    if (this.hasAddedHistoryDisclaimer) {
-      log.warn(
-        `addMessageHistoryDisclaimer/${this.idForLogging()}: Refusing to add another this session`
-      );
-      return;
-    }
-    this.hasAddedHistoryDisclaimer = true;
-
-    const model = new window.Whisper.Message({
-      type: 'message-history-unsynced',
-      readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.NotApplicable,
-      conversationId: this.id,
-      sent_at: timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: timestamp,
-      // TODO: DESKTOP-722
-    } as unknown as MessageAttributesType);
-
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-    });
-
-    model.set({ id });
-
-    const message = window.MessageController.register(id, model);
-    this.addSingleMessage(message);
   }
 
   isSearchable(): boolean {

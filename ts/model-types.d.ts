@@ -171,7 +171,6 @@ export type MessageAttributesType = {
     | 'group-v2-change'
     | 'incoming'
     | 'keychange'
-    | 'message-history-unsynced'
     | 'outgoing'
     | 'profile-change'
     | 'story'

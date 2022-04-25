@@ -418,10 +418,6 @@ storiesOf('Components/Conversation/TimelineItem', module)
         },
       },
       {
-        type: 'linkNotification',
-        data: null,
-      },
-      {
         type: 'profileChange',
         data: {
           change: {

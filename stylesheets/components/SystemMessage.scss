@@ -219,13 +219,6 @@
       );
     }
 
-    &--icon-unsynced::before {
-      @include system-message-icon(
-        '../images/icons/v2/info-outline-24.svg',
-        '../images/icons/v2/info-solid-24.svg'
-      );
-    }
-
     &--icon-verified::before {
       @include system-message-icon(
         '../images/icons/v2/check-24.svg',

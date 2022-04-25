@@ -337,11 +337,6 @@ const items: Record<string, TimelineItemType> = {
     },
     timestamp: Date.now(),
   },
-  'id-15': {
-    type: 'linkNotification',
-    data: null,
-    timestamp: Date.now(),
-  },
 };
 
 const actions = () => ({
