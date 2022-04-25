@@ -20,7 +20,7 @@ ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ou
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
-You can check [`.nvmrc` in the `development` branch](https://github.com/signalapp/Signal-Desktop/blob/development/.nvmrc)
+You can check [`.nvmrc` in the `main` branch](https://github.com/signalapp/Signal-Desktop/blob/main/.nvmrc)
 to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
 you can just run `nvm use` in the project directory and it will switch to the project's
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
@@ -199,7 +199,7 @@ So you wanna make a pull request? Please observe the following guidelines.
   automatically based on that file and then periodically uploaded to Transifex for
   translation.
 - [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
-  changes on the latest `development` branch, resolving any conflicts.
+  changes on the latest `main` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
 - Be sure to add and run tests!
 - Make sure the diff between the development branch and your branch contains only the
