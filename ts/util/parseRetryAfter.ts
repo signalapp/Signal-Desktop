@@ -7,15 +7,24 @@ import { isNormalNumber } from './isNormalNumber';
 const DEFAULT_RETRY_AFTER = MINUTE;
 const MINIMAL_RETRY_AFTER = SECOND;
 
-export function parseRetryAfter(value: unknown): number {
-  if (typeof value !== 'string') {
+export function parseRetryAfterWithDefault(value: unknown): number {
+  const retryAfter = parseRetryAfter(value);
+  if (retryAfter === undefined) {
     return DEFAULT_RETRY_AFTER;
+  }
+
+  return Math.max(retryAfter, MINIMAL_RETRY_AFTER);
+}
+
+export function parseRetryAfter(value: unknown): number | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
   }
 
   const retryAfter = parseInt(value, 10);
   if (!isNormalNumber(retryAfter) || retryAfter.toString() !== value) {
-    return DEFAULT_RETRY_AFTER;
+    return undefined;
   }
 
-  return Math.max(retryAfter * SECOND, MINIMAL_RETRY_AFTER);
+  return retryAfter * SECOND;
 }
