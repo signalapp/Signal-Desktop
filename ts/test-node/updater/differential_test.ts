@@ -112,7 +112,7 @@ describe('updater/differential', () => {
         });
 
         if (ranges.length === 1) {
-          res.writeHead(200, {
+          res.writeHead(206, {
             'content-type': 'application/octet-stream',
           });
           if (shouldTimeout === 'response') {
