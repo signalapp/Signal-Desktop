@@ -21,7 +21,13 @@ const createPathGetter =
     if (!isString(userDataPath)) {
       throw new TypeError("'userDataPath' must be a string");
     }
-    return join(userDataPath, subpath);
+
+    const maybeSymlink = join(userDataPath, subpath);
+    if (fse.pathExistsSync(maybeSymlink)) {
+      return fse.realpathSync(maybeSymlink);
+    }
+
+    return maybeSymlink;
   };
 
 export const getAvatarsPath = createPathGetter(AVATAR_PATH);

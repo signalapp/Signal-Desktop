@@ -9,6 +9,15 @@ import type {
 
 import { isAbsolute, normalize } from 'path';
 import { existsSync, realpathSync } from 'fs';
+import {
+  getAvatarsPath,
+  getBadgesPath,
+  getDraftPath,
+  getPath,
+  getStickersPath,
+  getTempPath,
+  getUpdateCachePath,
+} from '../ts/util/attachments';
 
 type CallbackType = (response: string | ProtocolResponse) => void;
 
@@ -51,6 +60,17 @@ function _createFileHandler({
   installPath: string;
   isWindows: boolean;
 }) {
+  const allowedRoots = [
+    userDataPath,
+    installPath,
+    getAvatarsPath(userDataPath),
+    getBadgesPath(userDataPath),
+    getDraftPath(userDataPath),
+    getPath(userDataPath),
+    getStickersPath(userDataPath),
+    getTempPath(userDataPath),
+    getUpdateCachePath(userDataPath),
+  ];
   return (request: ProtocolRequest, callback: CallbackType): void => {
     let targetPath;
 
@@ -95,24 +115,17 @@ function _createFileHandler({
       return;
     }
 
-    if (
-      !properCasing.startsWith(
-        isWindows ? userDataPath.toLowerCase() : userDataPath
-      ) &&
-      !properCasing.startsWith(
-        isWindows ? installPath.toLowerCase() : installPath
-      )
-    ) {
-      console.log(
-        `Warning: denying request to path '${realPath}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
-      );
-      callback({ error: -10 });
-      return;
+    for (const root of allowedRoots) {
+      if (properCasing.startsWith(isWindows ? root.toLowerCase() : root)) {
+        callback({ path: realPath });
+        return;
+      }
     }
 
-    callback({
-      path: realPath,
-    });
+    console.log(
+      `Warning: denying request to path '${realPath}' (allowedRoots: '${allowedRoots}')`
+    );
+    callback({ error: -10 });
   };
 }
 
