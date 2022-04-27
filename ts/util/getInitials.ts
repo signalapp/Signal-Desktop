@@ -14,7 +14,7 @@ export function getInitials(name?: string): string {
     if (name.length > 1) {
       const alphanum = name.match(/[\p{L}\p{N}]+/u);
       if (alphanum) {
-	return upperAndShorten(alphanum[0].slice(0, 2));
+        return upperAndShorten(alphanum[0].slice(0, 2));
       }
     }
     return upperAndShorten(name[0]);
@@ -26,7 +26,7 @@ export function getInitials(name?: string): string {
       .split(/[-\s]/)
       .slice(0, 2)
       .map(n =>
-	// Allow a letter or a digit from any alphabet.
+        // Allow a letter or a digit from any alphabet.
         n.match(/^[\p{L}\p{N}]/u)
       )
       .join('')
