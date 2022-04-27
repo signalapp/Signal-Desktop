@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { unescape } from 'lodash';
 
-import { Image } from './Image';
+import { CurveType, Image } from './Image';
 import { LinkPreviewDate } from './LinkPreviewDate';
 
 import type { AttachmentType } from '../../types/Attachment';
@@ -51,7 +51,10 @@ export const StagedLinkPreview: React.FC<Props> = ({
         <div className="module-staged-link-preview__icon-container">
           <Image
             alt={i18n('stagedPreviewThumbnail', [domain])}
-            softCorners
+            curveBottomLeft={CurveType.Tiny}
+            curveBottomRight={CurveType.Tiny}
+            curveTopRight={CurveType.Tiny}
+            curveTopLeft={CurveType.Tiny}
             height={72}
             width={72}
             url={image.url}

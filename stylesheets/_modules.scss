@@ -779,7 +779,7 @@
   width: calc(100% + 24px);
   outline: none;
 
-  margin-top: -10px;
+  margin-top: -8px;
   margin-bottom: 5px;
   overflow: hidden;
 
@@ -2492,28 +2492,8 @@ button.ConversationDetails__action-button {
   left: 6px;
 }
 
-.module-image--soft-corners {
-  border-radius: 4px;
-}
-
 .module-image--cropped {
   overflow: hidden;
-}
-
-.module-image--curved-top-left {
-  border-top-left-radius: 18px;
-}
-.module-image--curved-top-right {
-  border-top-right-radius: 18px;
-}
-.module-image--curved-bottom-left {
-  border-bottom-left-radius: 18px;
-}
-.module-image--curved-bottom-right {
-  border-bottom-right-radius: 18px;
-}
-.module-image--small-curved-top-left {
-  border-top-left-radius: 10px;
 }
 
 .module-image__border-overlay {

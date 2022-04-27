@@ -14,18 +14,23 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-import { Image } from './Image';
+import { Image, CurveType } from './Image';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 
+export type DirectionType = 'incoming' | 'outgoing';
+
 export type Props = {
   attachments: Array<AttachmentType>;
-  withContentAbove?: boolean;
-  withContentBelow?: boolean;
   bottomOverlay?: boolean;
+  direction: DirectionType;
   isSticker?: boolean;
+  shouldCollapseAbove?: boolean;
+  shouldCollapseBelow?: boolean;
   stickerSize?: number;
   tabIndex?: number;
+  withContentAbove?: boolean;
+  withContentBelow?: boolean;
 
   i18n: LocalizerType;
   theme?: ThemeType;
@@ -36,27 +41,85 @@ export type Props = {
 
 const GAP = 1;
 
+function getCurves({
+  direction,
+  shouldCollapseAbove,
+  shouldCollapseBelow,
+  withContentAbove,
+  withContentBelow,
+}: {
+  direction: DirectionType;
+  shouldCollapseAbove?: boolean;
+  shouldCollapseBelow?: boolean;
+  withContentAbove?: boolean;
+  withContentBelow?: boolean;
+}): {
+  curveTopLeft: CurveType;
+  curveTopRight: CurveType;
+  curveBottomLeft: CurveType;
+  curveBottomRight: CurveType;
+} {
+  let curveTopLeft = CurveType.None;
+  let curveTopRight = CurveType.None;
+  let curveBottomLeft = CurveType.None;
+  let curveBottomRight = CurveType.None;
+
+  if (shouldCollapseAbove && direction === 'incoming') {
+    curveTopLeft = CurveType.Tiny;
+    curveTopRight = CurveType.Normal;
+  } else if (shouldCollapseAbove && direction === 'outgoing') {
+    curveTopLeft = CurveType.Normal;
+    curveTopRight = CurveType.Tiny;
+  } else if (!withContentAbove) {
+    curveTopLeft = CurveType.Normal;
+    curveTopRight = CurveType.Normal;
+  }
+
+  if (shouldCollapseBelow && direction === 'incoming') {
+    curveBottomLeft = CurveType.Tiny;
+    curveBottomRight = CurveType.None;
+  } else if (shouldCollapseBelow && direction === 'outgoing') {
+    curveBottomLeft = CurveType.None;
+    curveBottomRight = CurveType.Tiny;
+  } else if (!withContentBelow) {
+    curveBottomLeft = CurveType.Normal;
+    curveBottomRight = CurveType.Normal;
+  }
+
+  return {
+    curveTopLeft,
+    curveTopRight,
+    curveBottomLeft,
+    curveBottomRight,
+  };
+}
+
 export const ImageGrid = ({
   attachments,
   bottomOverlay,
+  direction,
   i18n,
   isSticker,
   stickerSize,
   onError,
   onClick,
+  shouldCollapseAbove,
+  shouldCollapseBelow,
   tabIndex,
   theme,
   withContentAbove,
   withContentBelow,
 }: Props): JSX.Element | null => {
-  const curveTopLeft = !withContentAbove;
-  const curveTopRight = curveTopLeft;
+  const { curveTopLeft, curveTopRight, curveBottomLeft, curveBottomRight } =
+    getCurves({
+      direction,
+      shouldCollapseAbove,
+      shouldCollapseBelow,
+      withContentAbove,
+      withContentBelow,
+    });
 
-  const curveBottom = !withContentBelow;
-  const curveBottomLeft = curveBottom;
-  const curveBottomRight = curveBottom;
-
-  const withBottomOverlay = Boolean(bottomOverlay && curveBottom);
+  const withBottomOverlay = Boolean(bottomOverlay && !withContentBelow);
 
   if (!attachments || !attachments.length) {
     return null;
