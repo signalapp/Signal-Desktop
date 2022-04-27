@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { Image } from './Image';
+import { CurveType, Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 import type { LocalizerType } from '../../types/Util';
@@ -109,7 +109,10 @@ export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
                 i18n={i18n}
                 attachment={attachment}
                 isDownloaded={isDownloaded}
-                softCorners
+                curveBottomLeft={CurveType.Tiny}
+                curveBottomRight={CurveType.Tiny}
+                curveTopLeft={CurveType.Tiny}
+                curveTopRight={CurveType.Tiny}
                 playIconOverlay={isVideo}
                 height={IMAGE_HEIGHT}
                 width={IMAGE_WIDTH}

@@ -9,7 +9,7 @@ import { storiesOf } from '@storybook/react';
 
 import { pngUrl } from '../../storybook/Fixtures';
 import type { Props } from './Image';
-import { Image } from './Image';
+import { CurveType, Image } from './Image';
 import { IMAGE_PNG } from '../../types/MIME';
 import type { ThemeType } from '../../types/Util';
 import { setupI18n } from '../../util/setupI18n';
@@ -34,16 +34,22 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   blurHash: text('blurHash', overrideProps.blurHash || ''),
   bottomOverlay: boolean('bottomOverlay', overrideProps.bottomOverlay || false),
   closeButton: boolean('closeButton', overrideProps.closeButton || false),
-  curveBottomLeft: boolean(
+  curveBottomLeft: number(
     'curveBottomLeft',
-    overrideProps.curveBottomLeft || false
+    overrideProps.curveBottomLeft || CurveType.None
   ),
-  curveBottomRight: boolean(
+  curveBottomRight: number(
     'curveBottomRight',
-    overrideProps.curveBottomRight || false
+    overrideProps.curveBottomRight || CurveType.None
   ),
-  curveTopLeft: boolean('curveTopLeft', overrideProps.curveTopLeft || false),
-  curveTopRight: boolean('curveTopRight', overrideProps.curveTopRight || false),
+  curveTopLeft: number(
+    'curveTopLeft',
+    overrideProps.curveTopLeft || CurveType.None
+  ),
+  curveTopRight: number(
+    'curveTopRight',
+    overrideProps.curveTopRight || CurveType.None
+  ),
   darkOverlay: boolean('darkOverlay', overrideProps.darkOverlay || false),
   height: number('height', overrideProps.height || 100),
   i18n,
@@ -57,11 +63,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'playIconOverlay',
     overrideProps.playIconOverlay || false
   ),
-  smallCurveTopLeft: boolean(
-    'smallCurveTopLeft',
-    overrideProps.smallCurveTopLeft || false
-  ),
-  softCorners: boolean('softCorners', overrideProps.softCorners || false),
   tabIndex: number('tabIndex', overrideProps.tabIndex || 0),
   theme: text('theme', overrideProps.theme || 'light') as ThemeType,
   url: text('url', 'url' in overrideProps ? overrideProps.url || null : pngUrl),
@@ -145,10 +146,10 @@ story.add('Pending w/blurhash', () => {
 
 story.add('Curved Corners', () => {
   const props = createProps({
-    curveBottomLeft: true,
-    curveBottomRight: true,
-    curveTopLeft: true,
-    curveTopRight: true,
+    curveBottomLeft: CurveType.Normal,
+    curveBottomRight: CurveType.Normal,
+    curveTopLeft: CurveType.Normal,
+    curveTopRight: CurveType.Normal,
   });
 
   return <Image {...props} />;
@@ -156,7 +157,7 @@ story.add('Curved Corners', () => {
 
 story.add('Small Curve Top Left', () => {
   const props = createProps({
-    smallCurveTopLeft: true,
+    curveTopLeft: CurveType.Small,
   });
 
   return <Image {...props} />;
@@ -164,7 +165,10 @@ story.add('Small Curve Top Left', () => {
 
 story.add('Soft Corners', () => {
   const props = createProps({
-    softCorners: true,
+    curveBottomLeft: CurveType.Tiny,
+    curveBottomRight: CurveType.Tiny,
+    curveTopLeft: CurveType.Tiny,
+    curveTopRight: CurveType.Tiny,
   });
 
   return <Image {...props} />;

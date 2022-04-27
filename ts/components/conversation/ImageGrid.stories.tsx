@@ -37,6 +37,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     }),
   ],
   bottomOverlay: boolean('bottomOverlay', overrideProps.bottomOverlay || false),
+  direction: overrideProps.direction || 'incoming',
   i18n,
   isSticker: boolean('isSticker', overrideProps.isSticker || false),
   onClick: action('onClick'),
