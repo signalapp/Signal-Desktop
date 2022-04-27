@@ -180,6 +180,13 @@ export abstract class Updater {
 
     const mainWindow = this.getMainWindow();
     mainWindow?.webContents.send('show-update-dialog', dialogType);
+
+    this.setUpdateListener(async () => {
+      this.logger.info('updater/markCannotUpdate: retrying after user action');
+
+      this.markedCannotUpdate = false;
+      await this.checkForUpdatesMaybeInstall();
+    });
   }
 
   //
