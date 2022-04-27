@@ -9,7 +9,7 @@ import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
-  threshold: 0.1,
+  threshold: 0.2,
   useExtendedSearch: true,
   keys: [
     {
