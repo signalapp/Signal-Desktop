@@ -22,12 +22,19 @@ import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
+import { getAppRootPath } from './getRootPath';
 // tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
-
 const openDbOptions = {
   // tslint:disable-next-line: no-constant-condition
   verbose: false ? console.log : undefined,
-  nativeBinding: './node_modules/better-sqlite3/build/Release/better_sqlite3.node',
+  nativeBinding: path.join(
+    getAppRootPath(),
+    'node_modules',
+    'better-sqlite3',
+    'build',
+    'Release',
+    'better_sqlite3.node'
+  ),
 };
 
 const CONVERSATIONS_TABLE = 'conversations';

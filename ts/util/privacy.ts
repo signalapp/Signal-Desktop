@@ -1,12 +1,11 @@
 /* eslint-env node */
 
-import path from 'path';
-
 // tslint:disable-next-line: no-submodule-imports
 import { compose } from 'lodash/fp';
 import { escapeRegExp, isRegExp, isString } from 'lodash';
+import { getAppRootPath } from '../node/getRootPath';
 
-const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
+const APP_ROOT_PATH = getAppRootPath();
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
 const SNODE_PATTERN = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;

@@ -148,6 +148,7 @@ if (windowFromUserConfig) {
 // import {load as loadLocale} from '../..'
 import { load as loadLocale, LocaleMessagesWithNameType } from '../node/locale';
 import { setLastestRelease } from '../node/latest_desktop_release';
+import { getAppRootPath } from '../node/getRootPath';
 
 // Both of these will be set after app fires the 'ready' event
 let logger: Logger | null = null;
@@ -267,7 +268,7 @@ async function createWindow() {
       enableRemoteModule: true,
       nodeIntegrationInWorker: true,
       contextIsolation: false,
-      preload: path.join(__dirname, '..', '..', 'preload.js'),
+      preload: path.join(getAppRootPath(), 'preload.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
     },
@@ -379,7 +380,7 @@ async function createWindow() {
     }
   });
 
-  await mainWindow.loadURL(prepareURL([__dirname, '..', '..', 'background.html']));
+  await mainWindow.loadURL(prepareURL([getAppRootPath(), 'background.html']));
 
   if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
     // Open the DevTools.
@@ -498,7 +499,7 @@ async function showPasswordWindow() {
       contextIsolation: false,
 
       // sandbox: true,
-      preload: path.join(__dirname, '..', '..', 'password_preload.js'),
+      preload: path.join(getAppRootPath(), 'password_preload.js'),
       nativeWindowOpen: true,
     },
     // don't setup icon, the executable one will be used by default
@@ -506,7 +507,7 @@ async function showPasswordWindow() {
 
   passwordWindow = new BrowserWindow(windowOptions);
 
-  await passwordWindow.loadURL(prepareURL([__dirname, '..', '..', 'password.html']));
+  await passwordWindow.loadURL(prepareURL([getAppRootPath(), 'password.html']));
 
   captureClicks(passwordWindow);
 
@@ -569,7 +570,7 @@ async function showAbout() {
       nodeIntegration: true,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, '..', '..', 'about_preload.js'),
+      preload: path.join(getAppRootPath(), 'about_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -579,7 +580,7 @@ async function showAbout() {
 
   captureClicks(aboutWindow);
 
-  await aboutWindow.loadURL(prepareURL([__dirname, '..', '..', 'about.html']));
+  await aboutWindow.loadURL(prepareURL([getAppRootPath(), 'about.html']));
 
   aboutWindow.on('closed', () => {
     aboutWindow = null;
@@ -617,7 +618,7 @@ async function showDebugLogWindow() {
       nodeIntegration: true,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, '..', '..', 'debug_log_preload.js'),
+      preload: path.join(getAppRootPath(), 'debug_log_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -627,7 +628,7 @@ async function showDebugLogWindow() {
 
   captureClicks(debugLogWindow);
 
-  await debugLogWindow.loadURL(prepareURL([__dirname, '..', '..', 'debug_log.html'], { theme }));
+  await debugLogWindow.loadURL(prepareURL([getAppRootPath(), 'debug_log.html'], { theme }));
 
   debugLogWindow.on('closed', () => {
     debugLogWindow = null;

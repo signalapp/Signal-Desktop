@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
+import { getAppRootPath } from './getRootPath';
 
 function normalizeLocaleName(locale: string) {
   if (/^en-/.test(locale)) {
@@ -13,7 +14,7 @@ function normalizeLocaleName(locale: string) {
 function getLocaleMessages(locale: string): LocaleMessagesType {
   const onDiskLocale = locale.replace('-', '_');
 
-  const targetFile = path.join(__dirname, '..', '..', '_locales', onDiskLocale, 'messages.json');
+  const targetFile = path.join(getAppRootPath(), '_locales', onDiskLocale, 'messages.json');
 
   // tslint:disable-next-line: non-literal-fs-path
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));

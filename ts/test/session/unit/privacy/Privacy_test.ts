@@ -86,19 +86,9 @@ describe('Privacy', () => {
   describe('Redact app path', () => {
     it('removes whatever is in front of the app root path before logging', () => {
       const appRootPath = path.join(__dirname, '..', '..', '..', '..', '..');
-      const appFolderName = path.basename(appRootPath);
-      expect(redactAll(appRootPath)).to.be.be.oneOf([
-        `[REDACTED]/${appFolderName}`,
-        `[REDACTED]\\${appFolderName}`,
-      ]);
-    });
-
-    it('removes whatever is in front of the app root path before logging', () => {
-      const appRootPath = path.join(__dirname, '..', '..', '..', '..', '..');
-      const appFolderName = path.basename(appRootPath);
-      expect(redactAll(appRootPath)).to.be.be.oneOf([
-        `[REDACTED]/${appFolderName}`,
-        `[REDACTED]\\${appFolderName}`,
+      expect(redactAll(path.join(appRootPath, 'whatever'))).to.be.be.oneOf([
+        '[REDACTED]/whatever',
+        '[REDACTED]\\whatever',
       ]);
     });
   });
