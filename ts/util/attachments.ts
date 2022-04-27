@@ -15,6 +15,8 @@ const TEMP_PATH = 'temp';
 const UPDATE_CACHE_PATH = 'update-cache';
 const DRAFT_PATH = 'drafts.noindex';
 
+const CACHED_PATHS = new Map<string, string>();
+
 const createPathGetter =
   (subpath: string) =>
   (userDataPath: string): string => {
@@ -22,12 +24,21 @@ const createPathGetter =
       throw new TypeError("'userDataPath' must be a string");
     }
 
-    const maybeSymlink = join(userDataPath, subpath);
-    if (fse.pathExistsSync(maybeSymlink)) {
-      return fse.realpathSync(maybeSymlink);
+    const naivePath = join(userDataPath, subpath);
+
+    const cached = CACHED_PATHS.get(naivePath);
+    if (cached) {
+      return cached;
     }
 
-    return maybeSymlink;
+    let result = naivePath;
+    if (fse.pathExistsSync(naivePath)) {
+      result = fse.realpathSync(naivePath);
+    }
+
+    CACHED_PATHS.set(naivePath, result);
+
+    return result;
   };
 
 export const getAvatarsPath = createPathGetter(AVATAR_PATH);
