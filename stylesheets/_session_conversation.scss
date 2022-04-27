@@ -91,7 +91,7 @@
   .selection-mode {
     .messages-container > *:not(.message-selected) {
       animation: toShadow $session-transition-duration;
-      opacity: 0.40;
+      opacity: 0.4;
     }
   }
 }
