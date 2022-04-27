@@ -1,0 +1,13 @@
+diff --git a/node_modules/component-classes/index.js b/node_modules/component-classes/index.js
+index eb9d292..752ebf2 100644
+--- a/node_modules/component-classes/index.js
++++ b/node_modules/component-classes/index.js
+@@ -3,7 +3,7 @@
+  */
+
+ try {
+-  var index = require('indexof');
++  // var index = require('indexof');
+ } catch (err) {
+   var index = require('component-indexof');
+ }

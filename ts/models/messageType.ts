@@ -18,7 +18,7 @@ export interface MessageAttributes {
   preview?: any;
   body?: string;
   expirationStartTimestamp: number;
-  read_by: Array<string>;
+  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
@@ -159,7 +159,7 @@ export interface MessageAttributesOptionals {
   preview?: any;
   body?: string;
   expirationStartTimestamp?: number;
-  read_by?: Array<string>;
+  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;

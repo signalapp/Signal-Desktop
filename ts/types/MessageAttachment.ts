@@ -1,12 +1,11 @@
-import { remote } from 'electron';
+import { ipcRenderer } from 'electron';
 import { isArrayBuffer, isEmpty, isUndefined, omit } from 'lodash';
 import {
   createAbsolutePathGetter,
-  createDeleter,
   createReader,
   createWriterForNew,
-  getPath,
-} from '../attachments/attachments';
+} from '../util/attachments_files';
+import { createDeleter, getAttachmentsPath } from '../shared/attachments/shared_attachments';
 import {
   autoOrientJPEGAttachment,
   captureDimensionsAndScreenshot,
@@ -17,16 +16,7 @@ import {
 
 // tslint:disable: prefer-object-spread
 
-// FIXME audric
-// upgrade: exports._mapAttachments(autoOrientJPEGAttachment),
-// upgrade: exports._mapAttachments(replaceUnicodeOrderOverrides),
-// upgrade: _mapAttachments(migrateDataToFileSystem),
-// upgrade: ._mapQuotedAttachments(migrateDataToFileSystem),
-// upgrade: initializeAttachmentMetadata,
-// upgrade: initializeAttachmentMetadata,
-// upgrade: _mapAttachments(captureDimensionsAndScreenshot),
-// upgrade: _mapAttachments(replaceUnicodeV2),
-// upgrade: _mapPreviewAttachments(migrateDataToFileSystem),
+// I think this is only used on the renderer side, but how?!
 
 export const deleteExternalMessageFiles = async (message: {
   attachments: any;
@@ -88,8 +78,9 @@ let internalDeleteOnDisk: ((relativePath: string) => Promise<void>) | undefined;
 let internalWriteNewAttachmentData: ((arrayBuffer: ArrayBuffer) => Promise<string>) | undefined;
 
 // userDataPath must be app.getPath('userData');
-export function initializeAttachmentLogic() {
-  const userDataPath = remote.app.getPath('userData');
+export async function initializeAttachmentLogic() {
+  const userDataPath = await ipcRenderer.invoke('get-user-data-path');
+
   if (attachmentsPath) {
     throw new Error('attachmentsPath already initialized');
   }
@@ -97,7 +88,7 @@ export function initializeAttachmentLogic() {
   if (!userDataPath || userDataPath.length <= 10) {
     throw new Error('userDataPath cannot have length <= 10');
   }
-  attachmentsPath = getPath(userDataPath);
+  attachmentsPath = getAttachmentsPath(userDataPath);
   internalReadAttachmentData = createReader(attachmentsPath);
   internalGetAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   internalDeleteOnDisk = createDeleter(attachmentsPath);

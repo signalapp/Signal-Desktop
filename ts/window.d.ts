@@ -1,14 +1,15 @@
 import {} from 'styled-components/cssprop';
 
 import { LocalizerType } from '../ts/types/Util';
-import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
-import { SignalInterface } from '../../js/modules/signal';
-import { LibTextsecure } from '../libtextsecure';
 
 import { Store } from 'redux';
 
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
+
+export interface LibTextsecure {
+  messaging: boolean;
+}
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -22,7 +23,6 @@ declare global {
     Lodash: any;
     SessionSnodeAPI: any;
     Session: any;
-    Signal: SignalInterface;
     StubAppDotNetApi: any;
     StringView: any;
     StubMessageAPI: any;
@@ -34,7 +34,6 @@ declare global {
     setSettingValue: (id: string, value: any) => void;
 
     i18n: LocalizerType;
-    libsignal: LibsignalProtocol;
     log: any;
     sessionFeatureFlags: {
       useOnionRequests: boolean;
@@ -46,11 +45,10 @@ declare global {
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
     storage: any;
-    textsecure: LibTextsecure;
+    isOnline: boolean;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
     getCallMediaPermissions: () => boolean;
-    updateZoomFactor: () => boolean;
     toggleMenuBar: () => void;
     toggleSpellCheck: any;
     setTheme: (newTheme: string) => any;
@@ -59,8 +57,28 @@ declare global {
     versionInfo: any;
     getConversations: () => ConversationCollection;
     readyForUpdates: () => void;
+    drawAttention: () => void;
     MediaRecorder: any;
 
+    platform: string;
+    openFromNotification: (convoId: string) => void;
+    getEnvironment: () => string;
+    getNodeVersion: () => string;
+
+    showWindow: () => void;
+    setCallMediaPermissions: (val: boolean) => void;
+    setMediaPermissions: (val: boolean) => void;
+    askForMediaAccess: () => void;
+    getMediaPermissions: () => boolean;
+    nodeSetImmediate: any;
+    globalOnlineStatus: boolean;
+
+    getTitle: () => string;
+    getAppInstance: () => string;
+    getCommitHash: () => string | undefined;
+    getVersion: () => string;
+    setAutoHideMenuBar: (val: boolean) => void;
+    setMenuBarVisibility: (val: boolean) => void;
     contextMenuShown: boolean;
     inboxStore?: Store;
     openConversationWithMessages: (args: {
@@ -70,9 +88,14 @@ declare global {
     LokiPushNotificationServer: any;
     getGlobalOnlineStatus: () => boolean;
     confirmationDialog: any;
-    callWorker: (fnName: string, ...args: any) => Promise<any>;
     setStartInTray: (val: boolean) => Promise<void>;
     getStartInTray: () => Promise<boolean>;
-    libsession: any;
+    closeAbout: () => void;
+    getAutoUpdateEnabled: () => boolean;
+    setAutoUpdateEnabled: (enabled: boolean) => void;
+    setZoomFactor: (newZoom: number) => void;
+    updateZoomFactor: () => void;
+
+    Signal: any;
   }
 }

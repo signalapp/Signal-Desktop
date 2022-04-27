@@ -1,13 +1,10 @@
-/* eslint-disable global-require */
-/* global Whisper: false */
-/* global window: false */
-const path = require('path');
-const { webFrame, remote, clipboard, ipcRenderer } = require('electron');
+const { clipboard, ipcRenderer, webFrame } = require('electron/main');
+const { Storage } = require('./ts/util/storage');
 
-const { app } = remote;
 const url = require('url');
 
 const config = url.parse(window.location.toString(), true).query;
+const configAny = config;
 
 let title = config.name;
 if (config.environment !== 'production') {
@@ -16,18 +13,16 @@ if (config.environment !== 'production') {
 if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
-
-global.dcodeIO = global.dcodeIO || {};
-global.dcodeIO.ByteBuffer = require('bytebuffer');
+// tslint:disable: no-require-imports no-var-requires
 
 window.platform = process.platform;
 window.getTitle = () => title;
-window.getEnvironment = () => config.environment;
-window.getAppInstance = () => config.appInstance;
-window.getVersion = () => config.version;
+window.getEnvironment = () => configAny.environment;
+window.getAppInstance = () => configAny.appInstance;
+window.getVersion = () => configAny.version;
 window.isDev = () => config.environment === 'development';
-window.getCommitHash = () => config.commitHash;
-window.getNodeVersion = () => config.node_version;
+window.getCommitHash = () => configAny.commitHash;
+window.getNodeVersion = () => configAny.node_version;
 
 window.sessionFeatureFlags = {
   useOnionRequests: true,
@@ -53,39 +48,42 @@ window.setZoomFactor = number => {
 };
 
 // Set the password for the database
-window.setPassword = (passPhrase, oldPhrase) =>
+window.setPassword = async (passPhrase, oldPhrase) =>
   new Promise((resolve, reject) => {
-    ipc.once('set-password-response', (event, error) => {
+    ipc.once('set-password-response', (_event, error) => {
       if (error) {
-        return reject(error);
+        reject(error);
+        return;
       }
-      Whisper.events.trigger('password-updated');
-      return resolve();
+      resolve(undefined);
+      return;
     });
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
-window.setStartInTray = startInTray =>
+window.setStartInTray = async startInTray =>
   new Promise((resolve, reject) => {
     ipc.once('start-in-tray-on-start-response', (_event, error) => {
       if (error) {
-        return reject(error);
+        reject(error);
+        return;
       }
-      return resolve();
+      resolve();
+      return;
     });
     ipc.send('start-in-tray-on-start', startInTray);
   });
 
-window.getStartInTray = () =>
-  new Promise(resolve => {
-    ipc.once('get-start-in-tray-response', (event, value) => resolve(value));
+window.getStartInTray = async () => {
+  return new Promise(resolve => {
+    ipc.once('get-start-in-tray-response', (_event, value) => {
+      resolve(value);
+    });
     ipc.send('get-start-in-tray');
   });
+};
 
-window.libsession = require('./ts/session');
 window._ = require('lodash');
-
-window.getConversationController = window.libsession.Conversations.getConversationController;
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -101,17 +99,24 @@ window.showWindow = () => {
   ipc.send('show-window');
 };
 
-window.setAutoHideMenuBar = autoHide => ipc.send('set-auto-hide-menu-bar', autoHide);
-
-window.setMenuBarVisibility = visibility => ipc.send('set-menu-bar-visibility', visibility);
+window.setAutoHideMenuBar = autoHide => {
+  ipc.send('set-auto-hide-menu-bar', autoHide);
+};
+window.setMenuBarVisibility = visibility => {
+  ipc.send('set-menu-bar-visibility', visibility);
+};
 
 window.restart = () => {
   window.log.info('restart');
   ipc.send('restart');
 };
 
-window.closeAbout = () => ipc.send('close-about');
-window.readyForUpdates = () => ipc.send('ready-for-updates');
+window.closeAbout = () => {
+  ipc.send('close-about');
+};
+window.readyForUpdates = () => {
+  ipc.send('ready-for-updates');
+};
 
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
@@ -132,31 +137,39 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
     return window.getAutoUpdateEnabled();
   }
 
-  const settingVal = window.storage.get(settingID);
+  const settingVal = Storage.get(settingID);
   return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 };
 
-window.setSettingValue = (settingID, value) => {
+window.setSettingValue = async (settingID, value) => {
   // For auto updating we need to pass the value to the main process
   if (settingID === 'auto-update') {
     window.setAutoUpdateEnabled(value);
     return;
   }
 
-  window.storage.put(settingID, value);
+  await Storage.put(settingID, value);
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
-window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
+window.setMediaPermissions = value => {
+  ipc.send('set-media-permissions', !!value);
+};
 
 window.getCallMediaPermissions = () => ipc.sendSync('get-call-media-permissions');
-window.setCallMediaPermissions = value => ipc.send('set-call-media-permissions', !!value);
+window.setCallMediaPermissions = value => {
+  ipc.send('set-call-media-permissions', !!value);
+};
 
-window.askForMediaAccess = () => ipc.send('media-access');
+window.askForMediaAccess = () => {
+  ipc.send('media-access');
+};
 
 // Auto update setting
 window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
-window.setAutoUpdateEnabled = value => ipc.send('set-auto-update-setting', !!value);
+window.setAutoUpdateEnabled = value => {
+  ipc.send('set-auto-update-setting', !!value);
+};
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
@@ -176,34 +189,22 @@ ipc.on('get-ready-for-shutdown', async () => {
 
 // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-require('./js/logging');
+require('./ts/util/logging');
 
 if (config.proxyUrl) {
   window.log.info('Using provided proxy url');
 }
 window.nodeSetImmediate = setImmediate;
 
-const Signal = require('./js/modules/signal');
-const i18n = require('./js/modules/i18n');
+const data = require('./ts/data/dataInit');
+const { setupi18n } = require('./ts/util/i18n');
+window.Signal = data.initData();
 
-window.Signal = Signal.setup();
-
-window.getSwarmPollingInstance = require('./ts/session/apis/snode_api/').getSwarmPollingInstance;
-
-const WorkerInterface = require('./js/modules/util_worker_interface');
-
-// A Worker with a 3 minute timeout
-const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
-const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
-
-window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
+  // tslint:disable-next-line: no-empty
   window.nodeSetImmediate(() => {});
 }, 1000);
-
-window.loadImage = require('blueimp-load-image');
-window.filesize = require('filesize');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
@@ -223,27 +224,15 @@ window.getSeedNodeList = () => [
 ];
 
 const { locale: localFromEnv } = config;
-window.i18n = i18n.setup(localFromEnv, localeMessages);
-window.moment = require('moment');
-window.libsession = require('./ts/session');
-
-window.Signal.Data = require('./ts/data/data');
-
-window.Signal.Logs = require('./js/modules/logs');
+window.i18n = setupi18n(localFromEnv, localeMessages);
 
 window.addEventListener('contextmenu', e => {
-  const editable = e.target.closest('textarea, input, [contenteditable="true"]');
-  const link = e.target.closest('a');
-  const selection = Boolean(window.getSelection().toString());
+  const editable = e && e.target.closest('textarea, input, [contenteditable="true"]');
+  const link = e && e.target.closest('a');
+  const selection = Boolean(window && window.getSelection() && window.getSelection().toString());
   if (!editable && !selection && !link) {
     e.preventDefault();
   }
 });
 
-window.NewReceiver = require('./ts/receiver/receiver');
-
 // Blocking
-
-const { BlockedNumberController } = require('./ts/util/blockedNumberController');
-
-window.BlockedNumberController = BlockedNumberController;

@@ -33,6 +33,7 @@ import { GenericReadableMessageSelectorProps } from '../../components/conversati
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
+import { Storage } from '../../util/storage';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -129,7 +130,7 @@ export const isPublicGroupConversation = createSelector(
 export const getOurPrimaryConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): ReduxConversationType =>
-    state.conversationLookup[window.storage.get('primaryDevicePubKey')]
+    state.conversationLookup[Storage.get('primaryDevicePubKey') as string]
 );
 
 const getMessagesOfSelectedConversation = createSelector(

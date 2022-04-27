@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { PasswordUtil } from '../../../../util';
+import * as PasswordUtil from '../../../../util/passwordUtils';
 
 describe('Password Util', () => {
   describe('hash generation', () => {

@@ -17,7 +17,6 @@ export type IncomingMessage = Readonly<
     expireTimer?: number;
     flags?: number;
     source?: string;
-    sourceDevice?: number;
   } & SharedMessageProperties &
     ExpirationTimerUpdate
 >;

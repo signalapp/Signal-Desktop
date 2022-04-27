@@ -6,7 +6,7 @@ import {
   minSnodePoolCount,
   requiredSnodesForAgreement,
 } from './snodePool';
-import { getSodium } from '../../crypto';
+import { getSodiumRenderer } from '../../crypto';
 import _, { range } from 'lodash';
 import pRetry from 'p-retry';
 import {
@@ -186,7 +186,7 @@ export async function getSessionIDForOnsName(onsNameCase: string) {
   const validationCount = 3;
 
   const onsNameLowerCase = onsNameCase.toLowerCase();
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
   const nameAsData = stringToUint8Array(onsNameLowerCase);
   const nameHash = sodium.crypto_generichash(sodium.crypto_generichash_BYTES, nameAsData);
   const base64EncodedNameHash = fromUInt8ArrayToBase64(nameHash);
@@ -529,7 +529,7 @@ export const TEST_getNetworkTime = async (snode: Snode): Promise<string | number
 
 // tslint:disable-next-line: max-func-body-length
 export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
   const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();
 
   const userED25519KeyPair = await UserUtils.getUserED25519KeyPair();
@@ -699,7 +699,7 @@ export const TEST_getMinTimeout = () => 500;
 export const networkDeleteMessages = async (
   hashes: Array<string>
 ): Promise<Array<string> | null> => {
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
   const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();
 
   const userED25519KeyPair = await UserUtils.getUserED25519KeyPair();

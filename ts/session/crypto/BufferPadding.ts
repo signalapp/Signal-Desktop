@@ -59,7 +59,7 @@ export function getUnpaddedAttachment(
   data: ArrayBuffer,
   unpaddedExpectedSize: number
 ): ArrayBuffer | null {
-  window?.log?.info('Removing attachment padding...');
+  // window?.log?.debug('Removing attachment padding...');
 
   // to have a padding we must have a strictly longer length expected
   if (data.byteLength <= unpaddedExpectedSize) {

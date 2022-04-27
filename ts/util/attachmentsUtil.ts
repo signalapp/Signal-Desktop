@@ -5,12 +5,13 @@ import { sendDataExtractionNotification } from '../session/messages/outgoing/con
 import { AttachmentType, save } from '../types/Attachment';
 import { StagedAttachmentType } from '../components/conversation/composition/CompositionBox';
 import { getAbsoluteAttachmentPath, processNewAttachment } from '../types/MessageAttachment';
-import { arrayBufferToBlob, dataURLToBlob } from 'blob-util';
+import { arrayBufferToBlob } from 'blob-util';
 import { IMAGE_GIF, IMAGE_JPEG, IMAGE_PNG, IMAGE_TIFF, IMAGE_UNKNOWN } from '../types/MIME';
 import { THUMBNAIL_SIDE } from '../types/attachments/VisualAttachment';
 
 import imageType from 'image-type';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../session/constants';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 /**
  * The logic for sending attachments is as follow:
@@ -64,6 +65,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
     throw new Error('Cannot autoScaleForAvatar another file than PNG,GIF or JPEG.');
   }
 
+  window.log.info('autoscale for avatar', maxMeasurements);
   return autoScale(attachment, maxMeasurements);
 }
 
@@ -88,6 +90,8 @@ export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
       blob,
     };
   }
+  window.log.info('autoscale for incoming avatar', maxMeasurements);
+
   return autoScale(
     {
       blob,
@@ -109,7 +113,25 @@ export async function autoScaleForThumbnail<T extends { contentType: string; blo
     maxSize: 200 * 1000, // 200 ko
   };
 
+  window.log.info('autoScaleForThumbnail', maxMeasurements);
+
   return autoScale(attachment, maxMeasurements);
+}
+
+async function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type: string,
+  quality: number
+): Promise<Blob | null> {
+  return new Promise(resolve => {
+    canvas.toBlob(
+      blob => {
+        resolve(blob);
+      },
+      type,
+      quality
+    );
+  });
 }
 
 /**
@@ -165,11 +187,15 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     maxWidth: makeSquare ? maxMeasurements?.maxSide : maxWidth,
     maxHeight: makeSquare ? maxMeasurements?.maxSide : maxHeight,
     ...crop,
+    orientation: 1,
+    aspectRatio: makeSquare ? 1 : undefined,
     canvas: true,
+    imageSmoothingQuality: 'medium',
   };
 
+  perfStart(`loadimage-*${blob.size}`);
   const canvas = await loadImage(blob, loadImgOpts);
-
+  perfEnd(`loadimage-*${blob.size}`, `loadimage-*${blob.size}`);
   if (!canvas || !canvas.originalWidth || !canvas.originalHeight) {
     throw new Error('failed to scale image');
   }
@@ -191,16 +217,34 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
       blob,
     };
   }
+  window.log.debug('canvas.originalWidth', {
+    canvasOriginalWidth: canvas.originalWidth,
+    canvasOriginalHeight: canvas.originalHeight,
+    maxWidth,
+    maxHeight,
+    blobsize: blob.size,
+    maxSize,
+    makeSquare,
+  });
 
   let quality = 0.95;
   let i = 4;
+  const start = Date.now();
   do {
     i -= 1;
-    window.log.info('autoscale of ', attachment, i);
-    readAndResizedBlob = dataURLToBlob(
-      (canvas.image as HTMLCanvasElement).toDataURL('image/jpeg', quality)
+    window.log.info(`autoscale iteration: [${i}] for:`, attachment);
+
+    perfStart(`autoscale-canvasToBlob-${attachment.blob.size}`);
+    const tempBlob = await canvasToBlob(canvas.image as HTMLCanvasElement, 'image/jpeg', quality);
+    perfEnd(
+      `autoscale-canvasToBlob-${attachment.blob.size}`,
+      `autoscale-canvasToBlob-${attachment.blob.size}`
     );
 
+    if (!tempBlob) {
+      throw new Error('Failed to get blob during canvasToBlob.');
+    }
+    readAndResizedBlob = tempBlob;
     quality = (quality * maxSize) / readAndResizedBlob.size;
 
     if (quality > 1) {
@@ -211,6 +255,8 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   if (readAndResizedBlob.size > maxSize) {
     throw new Error('Cannot add this attachment even after trying to scale it down.');
   }
+  window.log.debug(`[perf] autoscale took ${Date.now() - start}ms `);
+
   return {
     contentType: attachment.contentType,
     blob: readAndResizedBlob,

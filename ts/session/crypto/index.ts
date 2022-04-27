@@ -10,7 +10,7 @@ import libsodiumwrappers from 'libsodium-wrappers-sumo';
 import { toHex } from '../utils/String';
 import { ECKeyPair } from '../../receiver/keypairs';
 
-export async function getSodium(): Promise<typeof libsodiumwrappers> {
+export async function getSodiumRenderer(): Promise<typeof libsodiumwrappers> {
   await libsodiumwrappers.ready;
   return libsodiumwrappers;
 }
@@ -41,7 +41,7 @@ export const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {
  * and one keypair without prefix used for encoding of the messages (function generateCurve25519KeyPairWithoutPrefix).
  */
 export async function generateClosedGroupPublicKey() {
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
 
   const ed25519KeyPair = sodium.crypto_sign_keypair();
   const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(ed25519KeyPair.publicKey);
@@ -58,7 +58,7 @@ export async function generateClosedGroupPublicKey() {
  * Returns a generated curve25519 keypair without the prefix on the public key.
  */
 export async function generateCurve25519KeyPairWithoutPrefix(): Promise<ECKeyPair | null> {
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
 
   try {
     const ed25519KeyPair = sodium.crypto_sign_keypair();

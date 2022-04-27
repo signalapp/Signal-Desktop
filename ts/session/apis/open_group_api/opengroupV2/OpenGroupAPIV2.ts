@@ -17,6 +17,8 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { isOpenGroupV2Request } from '../../file_server_api/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
 import pRetry from 'p-retry';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { UserUtils } from '../../../utils';
 
 // used to be overwritten by testing
 export const getMinTimeout = () => 1000;
@@ -210,7 +212,9 @@ export const postMessageRetryable = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
-  const signedMessage = await message.sign();
+  const ourKeyPair = await UserUtils.getIdentityKeyPair();
+
+  const signedMessage = await message.sign(ourKeyPair);
   const json = signedMessage.toJson();
 
   const request: OpenGroupV2Request = {
@@ -399,7 +403,7 @@ export const downloadFileOpenGroupV2 = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(await window.callWorker('fromBase64ToArrayBuffer', base64Data));
+  return new Uint8Array(await callUtilsWorker('fromBase64ToArrayBuffer', base64Data));
 };
 
 export const downloadFileOpenGroupV2ByUrl = async (
@@ -426,7 +430,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(await window.callWorker('fromBase64ToArrayBuffer', base64Data));
+  return new Uint8Array(await callUtilsWorker('fromBase64ToArrayBuffer', base64Data));
 };
 
 /**
@@ -472,7 +476,7 @@ export const uploadFileOpenGroupV2 = async (
     return null;
   }
   const queryParams = {
-    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
+    file: await callUtilsWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const filesEndpoint = 'files';
@@ -512,7 +516,7 @@ export const uploadImageForRoomOpenGroupV2 = async (
   }
 
   const queryParams = {
-    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
+    file: await callUtilsWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const imageEndpoint = `rooms/${roomInfos.roomId}/image`;

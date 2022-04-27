@@ -5,16 +5,14 @@ import { assert } from 'chai';
 import * as Settings from '../../../ts/types/Settings';
 
 describe('Settings', () => {
-  const sandbox = Sinon.createSandbox();
-
   describe('isAudioNotificationSupported', () => {
     context('on macOS', () => {
       beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
+        Sinon.stub(process, 'platform').value('darwin');
       });
 
       afterEach(() => {
-        sandbox.restore();
+        Sinon.restore();
       });
 
       it('should return true', () => {
@@ -25,12 +23,12 @@ describe('Settings', () => {
     context('on Windows', () => {
       context('version 7', () => {
         beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
+          Sinon.stub(process, 'platform').value('win32');
+          Sinon.stub(os, 'release').returns('7.0.0');
         });
 
         afterEach(() => {
-          sandbox.restore();
+          Sinon.restore();
         });
 
         it('should return false', () => {
@@ -40,12 +38,12 @@ describe('Settings', () => {
 
       context('version 8+', () => {
         beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
+          Sinon.stub(process, 'platform').value('win32');
+          Sinon.stub(os, 'release').returns('8.0.0');
         });
 
         afterEach(() => {
-          sandbox.restore();
+          Sinon.restore();
         });
 
         it('should return true', () => {
@@ -56,11 +54,11 @@ describe('Settings', () => {
 
     context('on Linux', () => {
       beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
+        Sinon.stub(process, 'platform').value('linux');
       });
 
       afterEach(() => {
-        sandbox.restore();
+        Sinon.restore();
       });
 
       it('should return false', () => {
@@ -72,11 +70,11 @@ describe('Settings', () => {
   describe('isNotificationGroupingSupported', () => {
     context('on macOS', () => {
       beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
+        Sinon.stub(process, 'platform').value('darwin');
       });
 
       afterEach(() => {
-        sandbox.restore();
+        Sinon.restore();
       });
 
       it('should return true', () => {
@@ -87,12 +85,12 @@ describe('Settings', () => {
     context('on Windows', () => {
       context('version 7', () => {
         beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
+          Sinon.stub(process, 'platform').value('win32');
+          Sinon.stub(os, 'release').returns('7.0.0');
         });
 
         afterEach(() => {
-          sandbox.restore();
+          Sinon.restore();
         });
 
         it('should return false', () => {
@@ -102,12 +100,12 @@ describe('Settings', () => {
 
       context('version 8+', () => {
         beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
+          Sinon.stub(process, 'platform').value('win32');
+          Sinon.stub(os, 'release').returns('8.0.0');
         });
 
         afterEach(() => {
-          sandbox.restore();
+          Sinon.restore();
         });
 
         it('should return true', () => {
@@ -118,11 +116,11 @@ describe('Settings', () => {
 
     context('on Linux', () => {
       beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
+        Sinon.stub(process, 'platform').value('linux');
       });
 
       afterEach(() => {
-        sandbox.restore();
+        Sinon.restore();
       });
 
       it('should return true', () => {
@@ -133,11 +131,11 @@ describe('Settings', () => {
   describe('isHideMenuBarSupported', () => {
     context('on macOS', () => {
       beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
+        Sinon.stub(process, 'platform').value('darwin');
       });
 
       afterEach(() => {
-        sandbox.restore();
+        Sinon.restore();
       });
 
       it('should return false', () => {
@@ -148,12 +146,12 @@ describe('Settings', () => {
     context('on Windows', () => {
       context('version 7', () => {
         beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
+          Sinon.stub(process, 'platform').value('win32');
+          Sinon.stub(os, 'release').returns('7.0.0');
         });
 
         afterEach(() => {
-          sandbox.restore();
+          Sinon.restore();
         });
 
         it('should return true', () => {
@@ -163,12 +161,12 @@ describe('Settings', () => {
 
       context('version 8+', () => {
         beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
+          Sinon.stub(process, 'platform').value('win32');
+          Sinon.stub(os, 'release').returns('8.0.0');
         });
 
         afterEach(() => {
-          sandbox.restore();
+          Sinon.restore();
         });
 
         it('should return true', () => {
@@ -179,11 +177,11 @@ describe('Settings', () => {
 
     context('on Linux', () => {
       beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
+        Sinon.stub(process, 'platform').value('linux');
       });
 
       afterEach(() => {
-        sandbox.restore();
+        Sinon.restore();
       });
 
       it('should return true', () => {

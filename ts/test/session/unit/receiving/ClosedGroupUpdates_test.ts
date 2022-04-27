@@ -9,8 +9,6 @@ chai.use(chaiAsPromised as any);
 // tslint:disable-next-line: max-func-body-length
 describe('ClosedGroupUpdates', () => {
   //FIXME AUDRIC TODO
-  // Initialize new stubbed cache
-  // const sandbox = sinon.createSandbox();
   // const ourDevice = TestUtils.generateFakePubKey();
   // const ourNumber = ourDevice.key;
   // const groupId = TestUtils.generateFakePubKey().key;
@@ -22,7 +20,6 @@ describe('ClosedGroupUpdates', () => {
   //   sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);
   // });
   // afterEach(() => {
-  //   TestUtils.restoreStubs();
   //   sandbox.restore();
   // });
   // describe('handleClosedGroupControlMessage', () => {

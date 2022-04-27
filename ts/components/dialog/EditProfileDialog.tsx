@@ -21,6 +21,7 @@ import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { sanitizeSessionUsername } from '../../session/utils/String';
+import { setLastProfileUpdateTimestamp } from '../../util/storage';
 
 interface State {
   profileName: string;
@@ -319,7 +320,7 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
   });
   // might be good to not trigger a sync if the name did not change
   await conversation.commit();
-  UserUtils.setLastProfileUpdateTimestamp(Date.now());
+  await setLastProfileUpdateTimestamp(Date.now());
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 }
 

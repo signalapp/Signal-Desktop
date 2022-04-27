@@ -20,13 +20,23 @@ jobs:
       SIGNAL_ENV: production
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Checkout git repo
-        uses: actions/checkout@v2
+      - run: git config --global core.autocrlf false
 
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      # we stay on v2 even if there is a v3 because the v3 logic is less flexible for our usecase
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 14.16.0
+          node-version: '16.13.0'
+
+      - name: Cache Desktop node_modules
+        id: cache-desktop-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
 
       - name: Chocolatey Install Action
         if: runner.os == 'Windows'
@@ -34,8 +44,9 @@ jobs:
         with:
           args: install python2 visualcpp-build-tools -y
 
+      # Not having this will break the windows build because the PATH won't be set by msbuild.
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1
         if: runner.os == 'Windows'
 
       - name: Setup node for windows
@@ -45,18 +56,20 @@ jobs:
           npm config set python python2.7
           npm config set msvs_version 2017
 
-      - name: Install yarn
-        run: npm install yarn --no-save
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile --network-timeout 600000
+      - name: Install Desktop node_modules
+        if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile --network-timeout 600000 --force
 
       - name: Generate and concat files
-        run: yarn generate
+        run: yarn generate && yarn transpile
 
       - name: Lint Files
-        if: runner.os != 'Windows'
+        # no need to lint files on all platforms. Just do it once on the quicker one
+        if: runner.os == 'Linux'
         run: yarn lint-full
+
+      - name: Unit Test
+        run: yarn test
 
       - name: Build windows production binaries
         if: runner.os == 'Windows'

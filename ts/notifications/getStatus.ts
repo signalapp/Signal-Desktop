@@ -14,7 +14,7 @@ interface Status {
   type: Type;
 }
 
-type UserSetting = 'off' | 'count' | 'name' | 'message';
+export type UserSetting = 'off' | 'count' | 'name' | 'message';
 
 type Type = 'ok' | 'disabled' | 'appIsFocused' | 'noNotifications' | 'userSetting';
 

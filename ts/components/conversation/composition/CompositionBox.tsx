@@ -54,6 +54,7 @@ import {
   styleForCompositionBoxSuggestions,
 } from './UserMentions';
 import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
+import { LinkPreviews } from '../../../util/linkPreviews';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -553,7 +554,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
     // we try to match the first link found in the current message
-    const links = window.Signal.LinkPreviews.findLinks(this.state.draft, undefined);
+    const links = LinkPreviews.findLinks(this.state.draft, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
       if (this.state.stagedLinkPreview) {
         this.setState({
@@ -621,7 +622,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
               isLoaded: true,
               title: ret?.title || null,
               url: ret?.url || null,
-              domain: (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
+              domain: (ret?.url && LinkPreviews.getDomain(ret.url)) || '',
               image: ret?.image,
             },
           });

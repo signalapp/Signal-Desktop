@@ -4,8 +4,18 @@ import moment from 'moment';
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
 import { SignalService } from '../../protobuf';
-// @ts-ignore
-import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
+
+const stringToArrayBuffer = (str: string) => {
+  if (typeof str !== 'string') {
+    throw new TypeError("'string' must be a string");
+  }
+
+  const array = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i += 1) {
+    array[i] = str.charCodeAt(i);
+  }
+  return array.buffer;
+};
 
 // tslint:disable-next-line: max-func-body-length
 describe('Attachment', () => {

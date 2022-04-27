@@ -3,11 +3,11 @@ import React from 'react';
 import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallbackType } from '../../types/Util';
-import { isLinkSneaky } from '../../../js/modules/link_previews';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { shell } from 'electron';
 import { MessageInteraction } from '../../interactions';
 import { useDispatch } from 'react-redux';
+import { LinkPreviews } from '../../util/linkPreviews';
 
 const linkify = LinkifyIt();
 
@@ -73,7 +73,7 @@ export const Linkify = (props: Props): JSX.Element => {
     }
 
     const { url, text: originalText } = match;
-    const isLink = SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url);
+    const isLink = SUPPORTED_PROTOCOLS.test(url) && !LinkPreviews.isLinkSneaky(url);
     if (isLink) {
       results.push(
         <a key={count++} href={url} onClick={handleClick}>

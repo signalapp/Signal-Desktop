@@ -20,48 +20,25 @@
             img-src 'self' blob: data:;
             media-src 'self' blob:;
             object-src 'none';
-            script-src 'self' 'unsafe-eval';
+            script-src 'self' 'unsafe-inline';
             style-src 'self' 'unsafe-inline';"
     />
     <title>Session</title>
     <link href="images/sesion/session_icon_128.png" rel="shortcut icon" />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-
-    <!--
-    When making changes to these templates, be sure to update test/index.html as well
-  -->
-
-    <script type="text/javascript" src="js/components.js"></script>
-    <script type="text/javascript" src="js/storage.js"></script>
-    <script type="text/javascript" src="js/libtextsecure.js"></script>
-
-    <script type="text/javascript" src="js/focus_listener.js"></script>
-    <script type="text/javascript" src="js/notifications.js"></script>
-    <script type="text/javascript" src="js/read_receipts.js"></script>
-    <script type="text/javascript" src="js/read_syncs.js"></script>
-    <script type="text/javascript" src="js/expiring_messages.js"></script>
-
-    <script type="text/javascript" src="js/registration.js"></script>
-
-    <script type="text/javascript" src="js/views/react_wrapper_view.js"></script>
-    <script type="text/javascript" src="js/views/whisper_view.js"></script>
-
-    <script type="text/javascript" src="js/views/session_inbox_view.js"></script>
-    <script type="text/javascript" src="js/views/session_registration_view.js"></script>
-    <script type="text/javascript" src="js/views/app_view.js"></script>
-
-    <!-- CRYPTO -->
-    <script type="text/javascript" src="js/wall_clock_listener.js"></script>
   </head>
 
-  <body>
-    <div class="app-loading-screen">
-      <div class="content session-full-logo">
-        <img src="images/session/brand.svg" class="session-brand-logo" />
-        <img src="images/session/session-text.svg" class="session-text-logo" />
+  <body id="body">
+    <div id="root">
+      <div class="app-loading-screen">
+        <div class="content session-full-logo">
+          <img src="images/session/brand.svg" class="session-brand-logo" />
+          <img src="images/session/session-text.svg" class="session-text-logo" />
+        </div>
       </div>
     </div>
-
-    <script type="text/javascript" src="js/background.js"></script>
+    <script type="text/javascript">
+      require('./ts/mains/main_renderer.js');
+    </script>
   </body>
 </html>

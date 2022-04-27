@@ -9,7 +9,6 @@ import {
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
   removeConversation,
-  removeOneOpenGroupV1Message,
 } from '../../data/data';
 import { getMessageQueue } from '../../session/sending';
 import { useDispatch, useSelector } from 'react-redux';
@@ -196,16 +195,6 @@ const triggerSyncIfNeeded = async () => {
   }
 };
 
-const scheduleDeleteOpenGroupV1Messages = async () => {
-  const leftToRemove = await removeOneOpenGroupV1Message();
-  if (leftToRemove > 0) {
-    window?.log?.info(`We still have ${leftToRemove} opengroupv1 messages to remove...`);
-    setTimeout(scheduleDeleteOpenGroupV1Messages, 10000);
-  } else {
-    window?.log?.info('No more opengroupv1 messages to remove...');
-  }
-};
-
 const removeAllV1OpenGroups = async () => {
   const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
   // do not remove messages of opengroupv1 for now. We have to find a way of doing it without making the whole app extremely slow
@@ -226,8 +215,6 @@ const removeAllV1OpenGroups = async () => {
       window.log.warn(`failed to delete opengroupv1 ${v1Convo.id}`, e);
     }
   }
-
-  setTimeout(scheduleDeleteOpenGroupV1Messages, 10000);
 };
 
 const triggerAvatarReUploadIfNeeded = async () => {
@@ -278,10 +265,10 @@ const CallContainer = () => {
 
 async function fetchReleaseFromFSAndUpdateMain() {
   try {
-    window.log.warn('[updater] about to fetchReleaseFromFSAndUpdateMain');
+    window.log.info('[updater] about to fetchReleaseFromFSAndUpdateMain');
 
     const latest = await getLatestDesktopReleaseFileToFsV2();
-    window.log.warn('[updater] fetched latest release from fsv2: ', latest);
+    window.log.info('[updater] fetched latest release from fsv2: ', latest);
 
     if (isString(latest) && !isEmpty(latest)) {
       ipcRenderer.send('set-release-from-file-server', latest);

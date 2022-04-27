@@ -1,6 +1,6 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import Sinon from 'sinon';
 import * as _ from 'lodash';
 import { MessageUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../../test/test-utils';
@@ -13,7 +13,6 @@ interface StorageItem {
 }
 
 describe('PendingMessageCache', () => {
-  const sandbox = sinon.createSandbox();
   // Initialize new stubbed cache
   let data: StorageItem;
   let pendingMessageCacheStub: PendingMessageCache;
@@ -26,13 +25,13 @@ describe('PendingMessageCache', () => {
       value: '[]',
     };
 
-    TestUtils.stubData('getItemById')
+    TestUtils.stubDataItem('getItemById')
       .withArgs('pendingMessages')
       .callsFake(async () => {
         return data;
       });
 
-    TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
+    TestUtils.stubDataItem('createOrUpdateItem').callsFake((item: StorageItem) => {
       if (item.id === storageID) {
         data = item;
       }
@@ -42,8 +41,7 @@ describe('PendingMessageCache', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
-    TestUtils.restoreStubs();
+    Sinon.restore();
   });
 
   it('can initialize cache', async () => {

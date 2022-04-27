@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import { UserUtils } from '.';
 import { getItemById } from '../../../ts/data/data';
-import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
 import { LokiProfile } from '../../types/Message';
+import { getNumber, Storage } from '../../util/storage';
+import { SessionKeyPair } from '../../receiver/keypairs';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -29,7 +30,7 @@ export function isUsFromCache(pubKey: string | PubKey | undefined): boolean {
  * Returns the public key of this current device as a STRING, or throws an error
  */
 export function getOurPubKeyStrFromCache(): string {
-  const ourNumber = window.textsecure.storage.user.getNumber();
+  const ourNumber = getNumber();
   if (!ourNumber) {
     throw new Error('ourNumber is not set');
   }
@@ -47,12 +48,12 @@ export function getOurPubKeyFromCache(): PubKey {
   return PubKey.cast(ourNumber);
 }
 
-let cachedIdentityKeyPair: KeyPair | undefined;
+let cachedIdentityKeyPair: SessionKeyPair | undefined;
 
 /**
  * This return the stored x25519 identity keypair for the current logged in user
  */
-export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
+export async function getIdentityKeyPair(): Promise<SessionKeyPair | undefined> {
   if (cachedIdentityKeyPair) {
     return cachedIdentityKeyPair;
   }
@@ -78,27 +79,11 @@ export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {
   return undefined;
 }
 
-export function isSignInByLinking(): boolean {
-  return window.textsecure.storage.user.isSignInByLinking();
-}
-
-export function setSignInByLinking(isLinking: boolean) {
-  window.textsecure.storage.user.setSignInByLinking(isLinking);
-}
-
-export function isSignWithRecoveryPhrase(): boolean {
-  return window.textsecure.storage.user.isSignWithRecoveryPhrase();
-}
-
-export function setSignWithRecoveryPhrase(isLinking: boolean) {
-  window.textsecure.storage.user.setSignWithRecoveryPhrase(isLinking);
-}
-
 export function getOurProfile(): LokiProfile | undefined {
   try {
     // Secondary devices have their profile stored
     // in their primary device's conversation
-    const ourNumber = window.storage.get('primaryDevicePubKey');
+    const ourNumber = Storage.get('primaryDevicePubKey') as string;
     const ourConversation = getConversationController().get(ourNumber);
     const ourProfileKeyHex = ourConversation.get('profileKey');
     const profileKeyAsBytes = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : null;
@@ -114,20 +99,4 @@ export function getOurProfile(): LokiProfile | undefined {
     window?.log?.error(`Failed to get our profile: ${e}`);
     return undefined;
   }
-}
-
-export function getLastProfileUpdateTimestamp(): number | undefined {
-  return window.textsecure.storage.user.getLastProfileUpdateTimestamp();
-}
-
-export function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
-  return window.textsecure.storage.user.setLastProfileUpdateTimestamp(lastUpdateTimestamp);
-}
-
-export function getCurrentRecoveryPhrase() {
-  return window.textsecure.storage.get('mnemonic');
-}
-
-export function saveRecoveryPhrase(mnemonic: string) {
-  return window.textsecure.storage.put('mnemonic', mnemonic);
 }

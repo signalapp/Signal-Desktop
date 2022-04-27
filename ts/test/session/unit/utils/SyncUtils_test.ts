@@ -1,17 +1,13 @@
 // tslint:disable: no-implicit-dependencies
 import chai from 'chai';
-import * as sinon from 'sinon';
-import { restoreStubs } from '../../../test-utils/utils';
 
 import chaiAsPromised from 'chai-as-promised';
+import Sinon from 'sinon';
 chai.use(chaiAsPromised as any);
 
 describe('SyncUtils', () => {
-  const sandbox = sinon.createSandbox();
-
   afterEach(() => {
-    sandbox.restore();
-    restoreStubs();
+    Sinon.restore();
   });
 
   describe('syncConfigurationIfNeeded', () => {

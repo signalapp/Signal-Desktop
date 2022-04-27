@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
 
@@ -33,9 +33,6 @@ const fakeSnodePool: Array<Data.Snode> = [
 
 // tslint:disable-next-line: max-func-body-length
 describe('OnionPaths', () => {
-  // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
-
   describe('getSnodePoolFromDBOrFetchFromSeed', () => {
     let getSnodePoolFromDb: sinon.SinonStub;
     let fetchFromSeedWithRetriesAndWriteToDb: sinon.SinonStub;
@@ -54,12 +51,11 @@ describe('OnionPaths', () => {
     });
 
     afterEach(() => {
-      TestUtils.restoreStubs();
-      sandbox.restore();
+      Sinon.restore();
     });
     it('if the cached snode pool has at least 12 snodes, just return it without fetching from seed', async () => {
-      getSnodePoolFromDb = sandbox.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox.stub(
+      getSnodePoolFromDb = Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
         SnodePool,
         'TEST_fetchFromSeedWithRetriesAndWriteToDb'
       );
@@ -74,15 +70,17 @@ describe('OnionPaths', () => {
     it('if the cached snode pool 12 or less snodes, trigger a fetch from the seed nodes', async () => {
       const length12 = fakeSnodePool.slice(0, 12);
       expect(length12.length).to.eq(12);
-      getSnodePoolFromDb = sandbox.stub(Data, 'getSnodePoolFromDb').resolves(length12);
+      getSnodePoolFromDb = Sinon.stub(Data, 'getSnodePoolFromDb').resolves(length12);
 
-      sandbox.stub(Data, 'updateSnodePoolOnDb').resolves();
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox
-        .stub(SnodePool, 'TEST_fetchFromSeedWithRetriesAndWriteToDb')
-        .callThrough();
-      fetchSnodePoolFromSeedNodeWithRetries = sandbox
-        .stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries')
-        .resolves(fakeSnodePool);
+      Sinon.stub(Data, 'updateSnodePoolOnDb').resolves();
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
+        SnodePool,
+        'TEST_fetchFromSeedWithRetriesAndWriteToDb'
+      ).callThrough();
+      fetchSnodePoolFromSeedNodeWithRetries = Sinon.stub(
+        SeedNodeAPI,
+        'fetchSnodePoolFromSeedNodeWithRetries'
+      ).resolves(fakeSnodePool);
 
       // run the command
       const fetched = await SnodePool.getSnodePoolFromDBOrFetchFromSeed();

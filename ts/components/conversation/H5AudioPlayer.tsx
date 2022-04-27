@@ -7,6 +7,7 @@ import { setNextMessageToPlayId } from '../../state/ducks/conversations';
 import {
   getNextMessageToPlayId,
   getSortedMessagesOfSelectedConversation,
+  isMessageSelectionMode,
 } from '../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../state/selectors/userConfig';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -25,6 +26,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
   const autoPlaySetting = useSelector(getAudioAutoplay);
   const messageProps = useSelector(getSortedMessagesOfSelectedConversation);
   const nextMessageToPlayId = useSelector(getNextMessageToPlayId);
+  const multiSelectMode = useSelector(isMessageSelectionMode);
 
   useEffect(() => {
     // updates playback speed to value selected in context menu
@@ -82,6 +84,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
     <H5AudioPlayer
       src={urlToLoad}
       preload="metadata"
+      style={{ pointerEvents: multiSelectMode ? 'none' : 'inherit' }}
       layout="horizontal-reverse"
       showSkipControls={false}
       showJumpControls={false}

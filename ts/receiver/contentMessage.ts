@@ -9,7 +9,7 @@ import { PubKey } from '../session/types';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
-import { concatUInt8Array, getSodium } from '../session/crypto';
+import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
 import { ECKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
@@ -19,21 +19,21 @@ import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversation';
+import { ReadReceipts } from '../util/readReceipts';
+import { Storage } from '../util/storage';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
     const plaintext = await decrypt(envelope, envelope.content);
 
     if (!plaintext) {
-      // window?.log?.warn('handleSwarmContentMessage: plaintext was falsey');
       return;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
-    perfStart(`innerHandleSwarmContentMessage-${envelope.id}`);
+    const sentAtTimestamp = _.toNumber(envelope.timestamp);
 
-    await innerHandleSwarmContentMessage(envelope, plaintext, messageHash);
-    perfEnd(`innerHandleSwarmContentMessage-${envelope.id}`, 'innerHandleSwarmContentMessage');
+    await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } catch (e) {
     window?.log?.warn(e);
   }
@@ -109,7 +109,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
      *
      */
 
-    window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e);
+    window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e.message);
     const groupPubKey = PubKey.cast(envelope.source);
 
     // IMPORTANT do not remove the message from the cache just yet.
@@ -140,7 +140,7 @@ export async function decryptWithSessionProtocol(
 
   const recipientX25519PublicKey = PubKey.remove05PrefixIfNeeded(hex);
 
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
   const signatureSize = sodium.crypto_sign_BYTES;
   const ed25519PublicKeySize = sodium.crypto_sign_PUBLICKEYBYTES;
 
@@ -324,6 +324,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
 // tslint:disable-next-line: cyclomatic-complexity
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
+  sentAtTimestamp: number,
   plaintext: ArrayBuffer,
   messageHash: string
 ): Promise<void> {
@@ -379,6 +380,7 @@ export async function innerHandleSwarmContentMessage(
 
       await handleSwarmDataMessage(
         envelope,
+        sentAtTimestamp,
         content.dataMessage as SignalService.DataMessage,
         messageHash,
         senderConversationModel
@@ -439,23 +441,21 @@ export async function innerHandleSwarmContentMessage(
   }
 }
 
-function onReadReceipt(readAt: any, timestamp: any, reader: any) {
-  const { storage, Whisper } = window;
+function onReadReceipt(readAt: number, timestamp: number, source: string) {
+  const { storage } = window;
 
-  window?.log?.info('read receipt', reader, timestamp);
+  window?.log?.info('read receipt', source, timestamp);
 
   if (!storage.get(SettingsKey.settingsReadReceipt)) {
     return;
   }
 
-  const receipt = Whisper.ReadReceipts.add({
-    reader,
-    timestamp,
-    read_at: readAt,
-  });
-
   // Calling this directly so we can wait for completion
-  return Whisper.ReadReceipts.onReceipt(receipt);
+  return ReadReceipts.onReadReceipt({
+    source,
+    timestamp,
+    readAt,
+  });
 }
 
 async function handleReceiptMessage(
@@ -492,7 +492,7 @@ async function handleTypingMessage(
   await removeFromCache(envelope);
 
   // We don't do anything with incoming typing messages if the setting is disabled
-  if (!window.storage.get(SettingsKey.settingsTypingIndicator)) {
+  if (!Storage.get(SettingsKey.settingsTypingIndicator)) {
     return;
   }
 
@@ -514,7 +514,8 @@ async function handleTypingMessage(
   const started = action === SignalService.TypingMessage.Action.STARTED;
 
   if (conversation) {
-    await conversation.notifyTyping({
+    // this does not commit, instead the caller should commit to trigger UI updates
+    await conversation.notifyTypingNoCommit({
       isTyping: started,
       sender: source,
     });

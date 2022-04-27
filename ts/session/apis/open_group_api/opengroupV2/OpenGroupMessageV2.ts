@@ -1,4 +1,6 @@
-import { UserUtils } from '../../../utils';
+import { sign } from 'curve25519-js';
+import { SessionKeyPair } from '../../../../receiver/keypairs';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
 import { fromBase64ToArray } from '../../../utils/String';
 
 export class OpenGroupMessageV2 {
@@ -51,23 +53,18 @@ export class OpenGroupMessageV2 {
       sender,
     });
   }
-
-  public async sign(): Promise<OpenGroupMessageV2> {
-    const ourKeyPair = await UserUtils.getIdentityKeyPair();
+  public async sign(ourKeyPair: SessionKeyPair | undefined): Promise<OpenGroupMessageV2> {
     if (!ourKeyPair) {
       window?.log?.warn("Couldn't find user X25519 key pair.");
       throw new Error("Couldn't sign message");
     }
 
     const data = fromBase64ToArray(this.base64EncodedData);
-    const signature = await window.libsignal.Curve.async.calculateSignature(
-      ourKeyPair.privKey,
-      data.buffer
-    );
+    const signature = sign(new Uint8Array(ourKeyPair.privKey), data, null);
     if (!signature || signature.length === 0) {
       throw new Error("Couldn't sign message");
     }
-    const base64Sig = await window.callWorker('arrayBufferToStringBase64', signature);
+    const base64Sig = await callUtilsWorker('arrayBufferToStringBase64', signature);
     return new OpenGroupMessageV2({
       base64EncodedData: this.base64EncodedData,
       sentTimestamp: this.sentTimestamp,

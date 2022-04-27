@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as crypto from 'crypto';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 import { MessageSender } from '../../../../session/sending';
 import { TestUtils } from '../../../test-utils';
 import { MessageEncrypter } from '../../../../session/crypto';
@@ -14,11 +14,8 @@ import { SNodeAPI } from '../../../../session/apis/snode_api';
 import _ from 'lodash';
 
 describe('MessageSender', () => {
-  const sandbox = sinon.createSandbox();
-
   afterEach(() => {
-    sandbox.restore();
-    TestUtils.restoreStubs();
+    sinon.restore();
   });
 
   beforeEach(() => {
@@ -32,16 +29,16 @@ describe('MessageSender', () => {
     let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, EncryptionType]>;
 
     beforeEach(() => {
-      sessionMessageAPISendStub = sandbox.stub(MessageSender, 'TEST_sendMessageToSnode').resolves();
+      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'TEST_sendMessageToSnode').resolves();
 
-      sandbox.stub(Data, 'getMessageById').resolves();
+      Sinon.stub(Data, 'getMessageById').resolves();
 
-      encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
+      encryptStub = Sinon.stub(MessageEncrypter, 'encrypt').resolves({
         envelopeType: SignalService.Envelope.Type.SESSION_MESSAGE,
         cipherText: crypto.randomBytes(10),
       });
 
-      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     });
 
     describe('retry', () => {
@@ -117,7 +114,7 @@ describe('MessageSender', () => {
         const visibleMessage = TestUtils.generateVisibleMessage();
         const rawMessage = await MessageUtils.toRawMessage(device, visibleMessage);
         const offset = 200000;
-        sandbox.stub(SNodeAPI, 'getLatestTimestampOffset').returns(offset);
+        Sinon.stub(SNodeAPI, 'getLatestTimestampOffset').returns(offset);
         await MessageSender.send(rawMessage, 3, 10);
 
         const data = sessionMessageAPISendStub.getCall(0).args[1];
@@ -188,20 +185,19 @@ describe('MessageSender', () => {
   });
 
   describe('sendToOpenGroupV2', () => {
-    const sandbox2 = sinon.createSandbox();
     let postMessageRetryableStub: sinon.SinonStub;
     beforeEach(() => {
-      sandbox
-        .stub(UserUtils, 'getOurPubKeyStrFromCache')
-        .resolves(TestUtils.generateFakePubKey().key);
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(
+        TestUtils.generateFakePubKey().key
+      );
 
-      postMessageRetryableStub = sandbox
-        .stub(ApiV2, 'postMessageRetryable')
-        .resolves(TestUtils.generateOpenGroupMessageV2());
+      postMessageRetryableStub = Sinon.stub(ApiV2, 'postMessageRetryable').resolves(
+        TestUtils.generateOpenGroupMessageV2()
+      );
     });
 
     afterEach(() => {
-      sandbox2.restore();
+      Sinon.restore();
     });
 
     it('should call postMessageRetryableStub', async () => {
@@ -217,7 +213,7 @@ describe('MessageSender', () => {
       const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
       postMessageRetryableStub.throws('whate');
-      sandbox2.stub(ApiV2, 'getMinTimeout').returns(2);
+      Sinon.stub(ApiV2, 'getMinTimeout').returns(2);
 
       postMessageRetryableStub.onThirdCall().resolves();
       await MessageSender.sendToOpenGroupV2(message, roomInfos);
@@ -227,7 +223,7 @@ describe('MessageSender', () => {
     it('should not retry more than 3 postMessageRetryableStub ', async () => {
       const message = TestUtils.generateOpenGroupVisibleMessage();
       const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
-      sandbox2.stub(ApiV2, 'getMinTimeout').returns(2);
+      Sinon.stub(ApiV2, 'getMinTimeout').returns(2);
       postMessageRetryableStub.throws('fake error');
       postMessageRetryableStub.onCall(4).resolves();
       try {

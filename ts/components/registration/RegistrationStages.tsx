@@ -5,7 +5,7 @@ import { createOrUpdateItem, removeAll } from '../../data/data';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
 import { mn_decode } from '../../session/crypto/mnemonic';
-import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../session/utils';
+import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { TaskTimedOutError } from '../../session/utils/Promise';
 import { trigger } from '../../shims/events';
 import {
@@ -15,14 +15,15 @@ import {
   signInByLinkingDevice,
 } from '../../util/accountManager';
 import { fromHex } from '../../session/utils/String';
+import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
 
 export const MAX_USERNAME_LENGTH = 26;
 // tslint:disable: use-simple-attributes
 
 export async function resetRegistration() {
   await removeAll();
-  await window.storage.reset();
-  await window.storage.fetch();
+  Storage.reset();
+  await Storage.fetch();
   getConversationController().reset();
   await getConversationController().load();
 }
@@ -64,7 +65,7 @@ export async function signUp(signUpDetails: {
       value: true,
       timestamp: Date.now(),
     });
-    UserUtils.setSignWithRecoveryPhrase(false);
+    await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -95,7 +96,7 @@ export async function signInWithRecovery(signInDetails: {
     await resetRegistration();
 
     await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
-    UserUtils.setSignWithRecoveryPhrase(true);
+    await setSignWithRecoveryPhrase(true);
 
     trigger('openInbox');
   } catch (e) {
@@ -120,10 +121,10 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
     await getSwarmPollingInstance().start();
 
     await PromiseUtils.waitForTask(done => {
-      window.Whisper.events.on('configurationMessageReceived', (displayName: string) => {
+      window.Whisper.events.on('configurationMessageReceived', async (displayName: string) => {
         window.Whisper.events.off('configurationMessageReceived');
-        UserUtils.setSignInByLinking(false);
-        UserUtils.setSignWithRecoveryPhrase(true);
+        await setSignInByLinking(false);
+        await setSignWithRecoveryPhrase(true);
         done(displayName);
 
         displayNameFromNetwork = displayName;

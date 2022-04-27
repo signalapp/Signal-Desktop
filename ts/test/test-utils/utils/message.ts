@@ -8,6 +8,7 @@ import { OpenGroupMessageV2 } from '../../../session/apis/open_group_api/opengro
 import { TestUtils } from '..';
 import { OpenGroupRequestCommonType } from '../../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { MessageModel } from '../../../models/message';
 
 export function generateVisibleMessage({
   identifier,
@@ -52,6 +53,15 @@ export function generateClosedGroupMessage(groupId?: string): ClosedGroupVisible
     identifier: uuid(),
     groupId: groupId ?? generateFakePubKey().key,
     chatMessage: generateVisibleMessage(),
+  });
+}
+
+export function generateFakeIncomingPrivateMessage(): MessageModel {
+  const convoId = TestUtils.generateFakePubKeyStr();
+  return new MessageModel({
+    conversationId: convoId,
+    source: convoId,
+    type: 'incoming',
   });
 }
 

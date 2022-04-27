@@ -1,24 +1,23 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import { expect } from 'chai';
-import * as sinon from 'sinon';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { TestUtils } from '../test-utils';
 import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
+import Sinon from 'sinon';
 
 // tslint:disable-next-line: max-func-body-length
 describe('BlockedNumberController', () => {
-  const sandbox = sinon.createSandbox();
   let memoryDB: { [key: string]: any };
   beforeEach(() => {
     memoryDB = {};
 
-    TestUtils.stubData('createOrUpdateItem').callsFake(data => {
+    TestUtils.stubDataItem('createOrUpdateItem').callsFake(data => {
       memoryDB[data.id] = data.value;
     });
 
-    TestUtils.stubData('getItemById').callsFake(id => {
+    TestUtils.stubDataItem('getItemById').callsFake(id => {
       if (!memoryDB[id]) {
         return undefined;
       }
@@ -33,8 +32,7 @@ describe('BlockedNumberController', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
-    TestUtils.restoreStubs();
+    Sinon.restore();
   });
 
   describe('load', () => {
@@ -168,7 +166,7 @@ describe('BlockedNumberController', () => {
     let ourDevice: PubKey;
     beforeEach(() => {
       ourDevice = TestUtils.generateFakePubKey();
-      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourDevice.key);
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourDevice.key);
     });
     it('should return false for our device', async () => {
       const isBlocked = await BlockedNumberController.isBlockedAsync(ourDevice);

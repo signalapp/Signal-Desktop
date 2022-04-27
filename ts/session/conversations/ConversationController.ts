@@ -119,7 +119,7 @@ export class ConversationController {
           })
         );
       }
-      if (!conversation.isPublic()) {
+      if (!conversation.isPublic() && conversation.isActive()) {
         // NOTE: we request snodes updating the cache, but ignore the result
 
         void getSwarmFor(id);
@@ -260,6 +260,7 @@ export class ConversationController {
 
     const load = async () => {
       try {
+        const start = Date.now();
         const collection = await getAllConversations();
 
         this.conversations.add(collection.models);
@@ -276,7 +277,9 @@ export class ConversationController {
         });
 
         await Promise.all(promises);
-        window?.log?.info('ConversationController: done with initial fetch');
+        window?.log?.info(
+          `ConversationController: done with initial fetch in ${Date.now() - start}ms.`
+        );
       } catch (error) {
         window?.log?.error(
           'ConversationController: initial fetch failed',

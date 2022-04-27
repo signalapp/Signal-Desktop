@@ -1,4 +1,5 @@
 import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../../../data/opengroups';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { toHex } from '../../../utils/String';
 import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../../utils/User';
@@ -120,22 +121,22 @@ export async function requestNewAuthToken({
     window?.log?.warn('Parsing failed');
     return null;
   }
-  const ciphertext = (await window.callWorker(
+  const ciphertext = (await callUtilsWorker(
     'fromBase64ToArrayBuffer',
     base64EncodedCiphertext
   )) as ArrayBuffer;
-  const ephemeralPublicKey = (await window.callWorker(
+  const ephemeralPublicKey = (await callUtilsWorker(
     'fromBase64ToArrayBuffer',
     base64EncodedEphemeralPublicKey
   )) as ArrayBuffer;
   try {
-    const symmetricKey = (await window.callWorker(
+    const symmetricKey = (await callUtilsWorker(
       'deriveSymmetricKey',
       new Uint8Array(ephemeralPublicKey),
       new Uint8Array(userKeyPair.privKey)
     )) as ArrayBuffer;
 
-    const plaintextBuffer = await window.callWorker(
+    const plaintextBuffer = await callUtilsWorker(
       'DecryptAESGCM',
       new Uint8Array(symmetricKey),
       new Uint8Array(ciphertext)

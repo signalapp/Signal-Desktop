@@ -39,12 +39,14 @@ async function getMediaGalleryProps(
 }> {
   // We fetch more documents than media as they don’t require to be loaded
   // into memory right away. Revisit this once we have infinite scrolling:
-  const rawMedia = await getMessagesWithVisualMediaAttachments(conversationId, {
-    limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
-  });
-  const rawDocuments = await getMessagesWithFileAttachments(conversationId, {
-    limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
-  });
+  const rawMedia = await getMessagesWithVisualMediaAttachments(
+    conversationId,
+    Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT
+  );
+  const rawDocuments = await getMessagesWithFileAttachments(
+    conversationId,
+    Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT
+  );
 
   const media = _.flatten(
     rawMedia.map(attributes => {

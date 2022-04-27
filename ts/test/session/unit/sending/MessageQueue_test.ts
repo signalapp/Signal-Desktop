@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
 import { randomBytes } from 'crypto';
 import * as Data from '../../../../../ts/data/data';
@@ -26,7 +26,6 @@ const { expect } = chai;
 // tslint:disable-next-line: max-func-body-length
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
   const ourDevice = TestUtils.generateFakePubKey();
   const ourNumber = ourDevice.key;
 
@@ -47,19 +46,22 @@ describe('MessageQueue', () => {
 
   beforeEach(() => {
     // Utils Stubs
-    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
+    Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
     // Message Sender Stubs
-    sendStub = sandbox.stub(MessageSender, 'send');
-    messageSentHandlerFailedStub = sandbox
-      .stub(MessageSentHandler as any, 'handleMessageSentFailure')
-      .resolves();
-    messageSentHandlerSuccessStub = sandbox
-      .stub(MessageSentHandler as any, 'handleMessageSentSuccess')
-      .resolves();
-    messageSentPublicHandlerSuccessStub = sandbox
-      .stub(MessageSentHandler as any, 'handlePublicMessageSentSuccess')
-      .resolves();
+    sendStub = Sinon.stub(MessageSender, 'send');
+    messageSentHandlerFailedStub = Sinon.stub(
+      MessageSentHandler as any,
+      'handleMessageSentFailure'
+    ).resolves();
+    messageSentHandlerSuccessStub = Sinon.stub(
+      MessageSentHandler as any,
+      'handleMessageSentSuccess'
+    ).resolves();
+    messageSentPublicHandlerSuccessStub = Sinon.stub(
+      MessageSentHandler as any,
+      'handlePublicMessageSentSuccess'
+    ).resolves();
 
     // Init Queue
     pendingMessageCache = new PendingMessageCacheStub();
@@ -68,8 +70,7 @@ describe('MessageQueue', () => {
   });
 
   afterEach(() => {
-    TestUtils.restoreStubs();
-    sandbox.restore();
+    Sinon.restore();
   });
 
   describe('processPending', () => {
@@ -117,12 +118,12 @@ describe('MessageQueue', () => {
 
     describe('events', () => {
       it('should send a success event if message was sent', done => {
-        sandbox.stub(Data, 'getMessageById').resolves();
+        Sinon.stub(Data, 'getMessageById').resolves();
         const message = TestUtils.generateVisibleMessage();
 
         sendStub.resolves({ effectiveTimestamp: Date.now(), wrappedEnvelope: randomBytes(10) });
         const device = TestUtils.generateFakePubKey();
-        sandbox.stub(MessageSender, 'getMinRetryTimeout').returns(10);
+        Sinon.stub(MessageSender, 'getMinRetryTimeout').returns(10);
         const waitForMessageSentEvent = async () =>
           new Promise<void>(resolve => {
             resolve();
@@ -173,7 +174,7 @@ describe('MessageQueue', () => {
   describe('sendToPubKey', () => {
     it('should send the message to the device', async () => {
       const device = TestUtils.generateFakePubKey();
-      const stub = sandbox.stub(messageQueueStub as any, 'process').resolves();
+      const stub = Sinon.stub(messageQueueStub as any, 'process').resolves();
 
       const message = TestUtils.generateVisibleMessage();
       await messageQueueStub.sendToPubKey(device, message);
@@ -195,9 +196,9 @@ describe('MessageQueue', () => {
     describe('closed groups', () => {
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(p => new PubKey(p.key));
-        sandbox.stub(GroupUtils, 'getGroupMembers').returns(members);
+        Sinon.stub(GroupUtils, 'getGroupMembers').returns(members);
 
-        const send = sandbox.stub(messageQueueStub, 'sendToPubKey').resolves();
+        const send = Sinon.stub(messageQueueStub, 'sendToPubKey').resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
         await messageQueueStub.sendToGroup(message);
@@ -213,9 +214,9 @@ describe('MessageQueue', () => {
       describe('open groupsv2', () => {
         let sendToOpenGroupV2Stub: sinon.SinonStub;
         beforeEach(() => {
-          sendToOpenGroupV2Stub = sandbox
-            .stub(MessageSender, 'sendToOpenGroupV2')
-            .resolves(TestUtils.generateOpenGroupMessageV2());
+          sendToOpenGroupV2Stub = Sinon.stub(MessageSender, 'sendToOpenGroupV2').resolves(
+            TestUtils.generateOpenGroupMessageV2()
+          );
         });
 
         it('can send to open group', async () => {

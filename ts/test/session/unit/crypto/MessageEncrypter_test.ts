@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import * as crypto from 'crypto';
-import * as sinon from 'sinon';
-import { concatUInt8Array, getSodium, MessageEncrypter } from '../../../../session/crypto';
+import Sinon, * as sinon from 'sinon';
+import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '../../../../session/crypto';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { TestUtils } from '../../../test-utils';
 import { SignalService } from '../../../../protobuf';
@@ -17,7 +17,6 @@ chai.use(chaiBytes);
 
 // tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
-  const sandbox = sinon.createSandbox();
   const ourNumber = '0123456789abcdef';
   const ourUserEd25516Keypair = {
     pubKey: '37e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
@@ -98,19 +97,12 @@ describe('MessageEncrypter', () => {
   };
 
   beforeEach(() => {
-    TestUtils.stubWindow('textsecure', {
-      storage: {
-        protocol: sandbox.stub(),
-      },
-    });
-
-    sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
-    sandbox.stub(UserUtils, 'getUserED25519KeyPair').resolves(ourUserEd25516Keypair);
+    Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
+    Sinon.stub(UserUtils, 'getUserED25519KeyPair').resolves(ourUserEd25516Keypair);
   });
 
   afterEach(() => {
-    sandbox.restore();
-    TestUtils.restoreStubs();
+    Sinon.restore();
   });
 
   describe('EncryptionType', () => {
@@ -159,16 +151,12 @@ describe('MessageEncrypter', () => {
 
   // tslint:disable-next-line: max-func-body-length
   describe('Session Protocol', () => {
-    let sandboxSessionProtocol: sinon.SinonSandbox;
-
     beforeEach(() => {
-      sandboxSessionProtocol = sinon.createSandbox();
-
-      sandboxSessionProtocol.stub(UserUtils, 'getIdentityKeyPair').resolves(ourIdentityKeypair);
+      Sinon.stub(UserUtils, 'getIdentityKeyPair').resolves(ourIdentityKeypair);
     });
 
     afterEach(() => {
-      sandboxSessionProtocol.restore();
+      Sinon.restore();
     });
 
     it('should pass the padded message body to encrypt', async () => {
@@ -185,8 +173,8 @@ describe('MessageEncrypter', () => {
     it('should pass the correct data for sodium crypto_sign', async () => {
       const keypair = await UserUtils.getUserED25519KeyPair();
       const recipient = TestUtils.generateFakePubKey();
-      const sodium = await getSodium();
-      const cryptoSignDetachedSpy = sandboxSessionProtocol.spy(sodium, 'crypto_sign_detached');
+      const sodium = await getSodiumRenderer();
+      const cryptoSignDetachedSpy = Sinon.spy(sodium, 'crypto_sign_detached');
       const plainText = '123456';
       const plainTextBytes = new Uint8Array(StringUtils.encode(plainText, 'utf8'));
       const userED25519PubKeyBytes = new Uint8Array(
@@ -226,7 +214,7 @@ describe('MessageEncrypter', () => {
 
       const plainTextBytes = new Uint8Array(StringUtils.encode('123456789', 'utf8'));
 
-      const sodium = await getSodium();
+      const sodium = await getSodiumRenderer();
 
       const recipientX25519PrivateKey = userX25519KeyPair!.privKey;
       const recipientX25519PublicKeyHex = toHex(userX25519KeyPair!.pubKey);
