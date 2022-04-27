@@ -108,7 +108,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/react-color/.+/(?:core-js|fbjs|lodash)/.+',
 
     // Modules used only in test/development scenarios
-    '^node_modules/esbuild/.+',
     '^node_modules/@babel/.+',
     '^node_modules/@chanzuckerberg/axe-storybook-testing/.+',
     '^node_modules/@signalapp/mock-server/.+',
@@ -162,6 +161,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/es-abstract/.+',
     '^node_modules/es5-shim/.+', // Currently only used in storybook
     '^node_modules/es6-shim/.+', // Currently only used in storybook
+    '^node_modules/esbuild/.+',
     '^node_modules/escodegen/.+',
     '^node_modules/eslint.+',
     '^node_modules/@typescript-eslint.+',
@@ -187,6 +187,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/istanbul.+',
     '^node_modules/jimp/.+',
     '^node_modules/jquery/.+',
+    '^node_modules/jake/.+',
     '^node_modules/jss-global/.+',
     '^node_modules/jss/.+',
     '^node_modules/liftup/.+',

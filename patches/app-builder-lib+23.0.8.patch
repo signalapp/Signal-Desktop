@@ -1,0 +1,39 @@
+diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
+index ffcc8bd..bafab0e 100644
+--- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
++++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
+@@ -88,7 +88,7 @@ class LinuxTargetHelper {
+             // https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#exec-variables
+             const execCodes = ["%f", "%u", "%F", "%U"];
+             if (executableArgs == null || executableArgs.findIndex(arg => execCodes.includes(arg)) === -1) {
+-                exec += " %U";
++                exec += " --no-sandbox %U";
+             }
+         }
+         const desktopMeta = {
+diff --git a/node_modules/app-builder-lib/templates/linux/after-install.tpl b/node_modules/app-builder-lib/templates/linux/after-install.tpl
+index 1536059..555f8f5 100644
+--- a/node_modules/app-builder-lib/templates/linux/after-install.tpl
++++ b/node_modules/app-builder-lib/templates/linux/after-install.tpl
+@@ -3,8 +3,5 @@
+ # Link to the binary
+ ln -sf '/opt/${sanitizedProductName}/${executable}' '/usr/bin/${executable}'
+ 
+-# SUID chrome-sandbox for Electron 5+
+-chmod 4755 '/opt/${sanitizedProductName}/chrome-sandbox' || true
+-
+ update-mime-database /usr/share/mime || true
+ update-desktop-database /usr/share/applications || true
+diff --git a/node_modules/app-builder-lib/templates/nsis/messages.yml b/node_modules/app-builder-lib/templates/nsis/messages.yml
+index 6527c99..695444c 100644
+--- a/node_modules/app-builder-lib/templates/nsis/messages.yml
++++ b/node_modules/app-builder-lib/templates/nsis/messages.yml
+@@ -45,7 +45,7 @@ x64WinRequired:
+   es: Windows de 64 bits es requerido
+   da: 64-bit Windows er påkrævet
+ appRunning:
+-  en: "${PRODUCT_NAME} is running.\nClick OK to close it."
++  en: "${PRODUCT_NAME} is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually."
+   de: "${PRODUCT_NAME} ist geöffnet. \nKlicken Sie zum Schliessen auf «OK»."
+   it: "${PRODUCT_NAME} è in esecuzione. \nPremi OK per chiudere."
+   fr: "${PRODUCT_NAME} est en cours d’utilisation. \nCliquez sur «OK» pour fermer ce programme."

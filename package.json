@@ -221,7 +221,7 @@
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "9.0.0",
     "@types/mustache": "4.1.2",
-    "@types/node": "16.11.26",
+    "@types/node": "16.11.29",
     "@types/node-fetch": "2.5.7",
     "@types/node-forge": "0.9.5",
     "@types/normalize-path": "3.0.0",
@@ -264,8 +264,8 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "debug": "4.3.3",
-    "electron": "17.3.1",
-    "electron-builder": "23.0.1",
+    "electron": "18.1.0",
+    "electron-builder": "23.0.8",
     "electron-mocha": "11.0.2",
     "electron-notarize": "0.1.1",
     "esbuild": "0.14.28",
@@ -309,7 +309,7 @@
     "sharp/color/color-string": "1.7.4"
   },
   "engines": {
-    "node": "16.13.0"
+    "node": "16.13.2"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

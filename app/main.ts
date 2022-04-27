@@ -489,7 +489,6 @@ async function createWindow() {
         __dirname,
         usePreloadBundle ? '../preload.bundle.js' : '../preload.js'
       ),
-      nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: isThrottlingEnabled,
       enablePreferredSizeMode: true,
