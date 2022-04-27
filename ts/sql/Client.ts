@@ -1170,9 +1170,12 @@ async function getMessageBySender({
 
 async function getTotalUnreadForConversation(
   conversationId: string,
-  storyId?: UUIDStringType
+  options: {
+    storyId: UUIDStringType | undefined;
+    isGroup: boolean;
+  }
 ) {
-  return channels.getTotalUnreadForConversation(conversationId, storyId);
+  return channels.getTotalUnreadForConversation(conversationId, options);
 }
 
 async function getUnreadByConversationAndMarkRead(options: {
