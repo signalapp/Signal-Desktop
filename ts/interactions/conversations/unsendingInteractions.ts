@@ -336,13 +336,14 @@ export async function deleteMessagesByIdForEveryone(
     await Promise.all(messageIds.map(m => getMessageById(m, false)))
   );
 
-  const moreThanOne = selectedMessages.length > 1;
+  const messageCount = selectedMessages.length;
+  const moreThanOne = messageCount > 1;
 
   window.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('deleteForEveryone'),
       message: moreThanOne
-        ? window.i18n('deleteMessagesQuestion')
+        ? window.i18n('deleteMessagesQuestion', [messageCount.toString()])
         : window.i18n('deleteMessageQuestion'),
       okText: window.i18n('deleteForEveryone'),
       okTheme: SessionButtonColor.Danger,

@@ -94,7 +94,7 @@
   "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
   "deleteJustForMe": "Delete just for me",
   "deleteForEveryone": "Delete for everyone",
-  "deleteMessagesQuestion": "Delete those messages?",
+  "deleteMessagesQuestion": "Delete $count$ messages?",
   "deleteMessageQuestion": "Delete this message?",
   "deleteMessages": "Delete Messages",
   "deleted": "Deleted",
