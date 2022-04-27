@@ -59,6 +59,35 @@ describe('getInitials', () => {
     });
   });
 
+  describe('name has a - in its content', () => {
+    it('initials: return the first char of each first 2 words if a - is present ', () => {
+      expect(getInitials('John-Doe')).to.be.equal('JD', 'should have return JD');
+    });
+
+    it('initials: return the first char capitalized of each first 2 words if a - is present ', () => {
+      expect(getInitials('John-doe')).to.be.equal('JD', 'should have return JD capitalized');
+    });
+
+    it('initials: return the first char capitalized of each first 2 words if a - is present, even with more than 2 words ', () => {
+      expect(getInitials('John-Doe-Alice')).to.be.equal('JD', 'should have return JD capitalized');
+    });
+
+    it('initials: return the first char capitalized of each first 2 words if a - is present, even with more than 2 words ', () => {
+      expect(getInitials('John-doe-Alice')).to.be.equal('JD', 'should have return JD capitalized');
+    });
+
+    describe('name is not ascii', () => {
+      // ß maps to  SS in uppercase
+      it('initials: shorten to 2 char at most if the uppercase form length is > 2 ', () => {
+        expect(getInitials('John-ß')).to.be.equal('JS', 'should have return JS capitalized');
+      });
+
+      it('initials: shorten to 2 char at most if the uppercase form length is > 2 ', () => {
+        expect(getInitials('ß-ß')).to.be.equal('SS', 'should have return SS capitalized');
+      });
+    });
+  });
+
   describe('name has NO spaces in its content', () => {
     it('initials: return the first 2 chars of the first word if the name has no space ', () => {
       expect(getInitials('JOHNY')).to.be.equal('JO', 'should have return JO');

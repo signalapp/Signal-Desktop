@@ -8,11 +8,14 @@ export function getInitials(name?: string): string {
     return upperAndShorten(name[2]);
   }
 
-  if (name.indexOf(' ') === -1) {
-    // there is no space, just return the first 2 chars of the name
+  if (name.split(/[-\s]/).length === 1) {
+    // there is one word, so just return the first 2 alphanumeric chars of the name
 
     if (name.length > 1) {
-      return upperAndShorten(name.slice(0, 2));
+      const alphanum = name.match(/[\p{L}\p{N}]+/u);
+      if (alphanum) {
+        return upperAndShorten(alphanum[0].slice(0, 2));
+      }
     }
     return upperAndShorten(name[0]);
   }
@@ -20,11 +23,12 @@ export function getInitials(name?: string): string {
   // name has a space, just extract the first char of each words
   return upperAndShorten(
     name
-      .split(' ')
+      .split(/[-\s]/)
       .slice(0, 2)
-      .map(n => {
-        return n[0];
-      })
+      .map(n =>
+        // Allow a letter or a digit from any alphabet.
+        n.match(/^[\p{L}\p{N}]/u)
+      )
       .join('')
   );
 }
