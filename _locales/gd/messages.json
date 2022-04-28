@@ -7013,6 +7013,10 @@
         "message": "Cuir sgeul ris",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Hidden stories",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Chan eil sgeul o chionn goirid ri shealltainn ann",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Sgeul",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Falaich an sgeul",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Chaidh rudan beaga a ghleusadh agus bugaichean a chàradh leis an tionndadh seo airson Signal a chumail a ruith gu rèidh.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Cumaidh sinn teachdaireachdan goirid goirid le stuth mar stampaichean-tìde air an aon loidhne ’s a tha an teacsa. Tha barrachd rùm air an sgrìn agad a-nis airson an “Sin thu!” luath a chuireadh tu gu caraid.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Chan eil pacaidean steigearan a dhìth tuilleadh! Bu chòir dhut pacaid steigearan sam bith a chì am fòn agad fhaicinn air an tionndadh Desktop cuideachd a-nis!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "’S urrainn dhut daoine a chur ri buidhnean leis an àireamh fòn a-mhàin a-nis.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Bidh an luchd-aithne as annsa leat ri làimh dhut le brùthadh iuchrach no dhà a-nis. Cuiridh an lorg san luchd-aithne taic ri aibidilean neo-Laideann mar Cirilis a-nis.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

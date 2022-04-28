@@ -7013,6 +7013,10 @@
         "message": "Aldoni rakonton",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Kaŝitaj rakontoj",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Neniu freŝa rakonto montrebla nun",
         "description": "Description for when there are no stories to show"
@@ -7063,6 +7067,10 @@
         "message": "Rakonto",
         "description": "aria-label for the story list button"
     },
+    "StoryListItem__unhide": {
+        "message": "Montri la rakontojn",
+        "description": "Label for menu item to un-hide the story"
+    },
     "StoryListItem__hide": {
         "message": "Kaŝi la rakonton",
         "description": "Label for menu item to hide the story"
@@ -7094,22 +7102,6 @@
     "WhatsNew__bugfixes": {
         "message": "Tiu versio enhavas kelkajn optimumaĵojn kaj riparetojn, por ke Signal plu funkciu bone.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Por havi mallongan mesaĝomontron, ni metas la tempon en la sama linio ol la tekston. Nun, vi ĝuas pli da spaco por tiu rapida „saluton“ al amiko.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Ĉu mankantaj glumarkaroj? Desktop nun montras ĉiujn glumarkarojn, kiel ĉe via poŝtelefono!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Vi povas nun aldoni homojn al grupoj pere de ilia telefonnumero.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Viaj plej ŝatataj kontaktoj estas nun pli facile alireblaj. Serĉo de kontaktoj en nelatinaj alfabetoj kiel la cirila nun eblas.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Riparoj korektas problemon kun menuoj malfacile alklakeblaj.",
