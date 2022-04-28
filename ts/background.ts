@@ -2905,6 +2905,7 @@ export async function startApp(): Promise<void> {
     }
 
     if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
+      confirm();
       return Promise.resolve();
     }
 
