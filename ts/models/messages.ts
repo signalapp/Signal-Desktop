@@ -2437,9 +2437,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           if (isStory(message.attributes)) {
             attributes.hasPostedStory = true;
+          } else {
+            attributes.active_at = now;
           }
 
-          attributes.active_at = now;
           conversation.set(attributes);
 
           if (
@@ -2542,6 +2543,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const isGroupStoryReply =
           isGroup(conversation.attributes) && message.get('storyId');
         if (
+          !isStory(message.attributes) &&
           !isGroupStoryReply &&
           (!conversationTimestamp ||
             message.get('sent_at') > conversationTimestamp)

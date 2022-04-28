@@ -37,6 +37,7 @@ function getDefaultProps(): PropsType {
     preferredReactionEmoji: ['❤️', '👍', '👎', '😂', '😮', '😢'],
     queueStoryDownload: action('queueStoryDownload'),
     renderEmojiPicker: () => <div />,
+    selectedStoryIndex: 0,
     stories: [
       {
         attachment: fakeAttachment({
@@ -106,11 +107,12 @@ story.add('Multi story', () => {
   );
 });
 
-story.add('So many stories', () => {
+story.add('So many stories (start on story 4)', () => {
   const sender = getDefaultConversation();
   return (
     <StoryViewer
       {...getDefaultProps()}
+      selectedStoryIndex={5}
       stories={Array(20).fill({
         attachment: fakeAttachment({
           url: '/fixtures/snow.jpg',

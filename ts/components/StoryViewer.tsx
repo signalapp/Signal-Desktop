@@ -58,6 +58,7 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
+  selectedStoryIndex: number;
   skinTone?: number;
   stories: Array<StoryViewType>;
   views?: Array<string>;
@@ -87,11 +88,13 @@ export const StoryViewer = ({
   recentEmojis,
   renderEmojiPicker,
   replyState,
+  selectedStoryIndex,
   skinTone,
   stories,
   views,
 }: PropsType): JSX.Element => {
-  const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
+  const [currentStoryIndex, setCurrentStoryIndex] =
+    useState(selectedStoryIndex);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
 
   const visibleStory = stories[currentStoryIndex];
@@ -139,6 +142,13 @@ export const StoryViewer = ({
   useEffect(() => {
     setHasExpandedCaption(false);
   }, [messageId]);
+
+  // In case we want to change the story we're viewing from 0 -> N
+  useEffect(() => {
+    if (selectedStoryIndex) {
+      setCurrentStoryIndex(selectedStoryIndex);
+    }
+  }, [selectedStoryIndex]);
 
   // Either we show the next story in the current user's stories or we ask
   // for the next user's stories.

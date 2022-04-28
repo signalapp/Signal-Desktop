@@ -52,6 +52,8 @@ export function SmartStoryViewer({
   >(getStoriesSelector);
 
   const { group, stories } = getStoriesByConversationId(conversationId);
+  const unreadStoryIndex = stories.findIndex(story => story.isUnread);
+  const selectedStoryIndex = unreadStoryIndex > 0 ? unreadStoryIndex : 0;
 
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
@@ -86,6 +88,7 @@ export function SmartStoryViewer({
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
+      selectedStoryIndex={selectedStoryIndex}
       stories={stories}
       skinTone={skinTone}
       {...storiesActions}

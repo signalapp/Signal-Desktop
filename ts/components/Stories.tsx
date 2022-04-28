@@ -43,9 +43,23 @@ export const Stories = ({
   });
 
   const onNextUserStories = useCallback(() => {
+    // First find the next unread story if there are any
+    const nextUnreadIndex = stories.findIndex(conversationStory =>
+      conversationStory.stories.some(story => story.isUnread)
+    );
+
+    if (nextUnreadIndex >= 0) {
+      const nextStory = stories[nextUnreadIndex];
+      setConversationIdToView(nextStory.conversationId);
+      return;
+    }
+
+    // If not then play the next available story
     const storyIndex = stories.findIndex(
       x => x.conversationId === conversationIdToView
     );
+
+    // If we've reached the end, close the viewer
     if (storyIndex >= stories.length - 1 || storyIndex === -1) {
       setConversationIdToView(undefined);
       return;
@@ -59,7 +73,8 @@ export const Stories = ({
       x => x.conversationId === conversationIdToView
     );
     if (storyIndex <= 0) {
-      setConversationIdToView(undefined);
+      // Restart playback on the story if it's the oldest
+      setConversationIdToView(conversationIdToView);
       return;
     }
     const prevStory = stories[storyIndex - 1];
