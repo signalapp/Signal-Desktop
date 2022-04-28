@@ -474,7 +474,7 @@ export type DataInterface = {
   ) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
-  getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
+  getAllUnprocessedAndIncrementAttempts: () => Promise<Array<UnprocessedType>>;
   updateUnprocessedWithData: (
     id: string,
     data: UnprocessedUpdateType

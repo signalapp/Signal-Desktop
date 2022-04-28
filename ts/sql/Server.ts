@@ -244,7 +244,7 @@ const dataInterface: ServerInterface = {
   migrateConversationMessages,
 
   getUnprocessedCount,
-  getAllUnprocessed,
+  getAllUnprocessedAndIncrementAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
@@ -3181,32 +3181,58 @@ async function getUnprocessedCount(): Promise<number> {
   return getCountFromTable(getInstance(), 'unprocessed');
 }
 
-async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
+async function getAllUnprocessedAndIncrementAttempts(): Promise<
+  Array<UnprocessedType>
+> {
   const db = getInstance();
 
-  const { changes: deletedCount } = db
-    .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
-    .run({
-      monthAgo: Date.now() - durations.MONTH,
-    });
+  return db.transaction(() => {
+    const { changes: deletedStaleCount } = db
+      .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
+      .run({
+        monthAgo: Date.now() - durations.MONTH,
+      });
 
-  if (deletedCount !== 0) {
-    logger.warn(
-      `getAllUnprocessed: deleting ${deletedCount} old unprocessed envelopes`
-    );
-  }
+    if (deletedStaleCount !== 0) {
+      logger.warn(
+        'getAllUnprocessedAndIncrementAttempts: ' +
+          `deleting ${deletedStaleCount} old unprocessed envelopes`
+      );
+    }
 
-  const rows = db
-    .prepare<EmptyQuery>(
+    db.prepare<EmptyQuery>(
       `
-      SELECT *
-      FROM unprocessed
-      ORDER BY timestamp ASC;
+        UPDATE unprocessed
+        SET attempts = attempts + 1
       `
-    )
-    .all();
+    ).run();
 
-  return rows;
+    const { changes: deletedInvalidCount } = db
+      .prepare<Query>(
+        `
+          DELETE FROM unprocessed
+          WHERE attempts >= $MAX_UNPROCESSED_ATTEMPTS
+        `
+      )
+      .run({ MAX_UNPROCESSED_ATTEMPTS });
+
+    if (deletedInvalidCount !== 0) {
+      logger.warn(
+        'getAllUnprocessedAndIncrementAttempts: ' +
+          `deleting ${deletedInvalidCount} invalid unprocessed envelopes`
+      );
+    }
+
+    return db
+      .prepare<EmptyQuery>(
+        `
+          SELECT *
+          FROM unprocessed
+          ORDER BY timestamp ASC;
+        `
+      )
+      .all();
+  })();
 }
 
 function removeUnprocessedsSync(ids: Array<string>): void {

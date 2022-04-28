@@ -1859,9 +1859,9 @@ export class SignalProtocolStore extends EventsMixin {
     });
   }
 
-  getAllUnprocessed(): Promise<Array<UnprocessedType>> {
+  getAllUnprocessedAndIncrementAttempts(): Promise<Array<UnprocessedType>> {
     return this.withZone(GLOBAL_ZONE, 'getAllUnprocessed', async () => {
-      return window.Signal.Data.getAllUnprocessed();
+      return window.Signal.Data.getAllUnprocessedAndIncrementAttempts();
     });
   }
 
