@@ -152,6 +152,7 @@ import { shouldDownloadStory } from '../util/shouldDownloadStory';
 import { shouldShowStoriesView } from '../state/selectors/stories';
 import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
 import { SeenStatus } from '../MessageSeenStatus';
+import { isNewReactionReplacingPrevious } from '../reactions/util';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -233,12 +234,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
-      const ourConversationId =
-        window.ConversationController.getOurConversationIdOrThrow();
-      const storyData = getStoryDataFromMessageAttributes(
-        this.attributes,
-        ourConversationId
-      );
+      const storyData = getStoryDataFromMessageAttributes(this.attributes);
 
       if (!storyData) {
         return;
@@ -2892,14 +2888,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const reactions = reactionUtil.addOutgoingReaction(
         this.get('reactions') || [],
-        newReaction
+        newReaction,
+        isStory(this.attributes)
       );
       this.set({ reactions });
     } else {
       const oldReactions = this.get('reactions') || [];
       let reactions: Array<MessageReactionType>;
-      const oldReaction = oldReactions.find(
-        re => re.fromId === reaction.get('fromId')
+      const oldReaction = oldReactions.find(re =>
+        isNewReactionReplacingPrevious(re, reaction.attributes, this.attributes)
       );
       if (oldReaction) {
         this.clearNotifications(oldReaction);
@@ -2914,12 +2911,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         if (reaction.get('source') === ReactionSource.FromSync) {
           reactions = oldReactions.filter(
             re =>
-              re.fromId !== reaction.get('fromId') ||
-              re.timestamp > reaction.get('timestamp')
+              !isNewReactionReplacingPrevious(
+                re,
+                reaction.attributes,
+                this.attributes
+              ) || re.timestamp > reaction.get('timestamp')
           );
         } else {
           reactions = oldReactions.filter(
-            re => re.fromId !== reaction.get('fromId')
+            re =>
+              !isNewReactionReplacingPrevious(
+                re,
+                reaction.attributes,
+                this.attributes
+              )
           );
         }
         this.set({ reactions });
@@ -2948,7 +2953,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         reactions = oldReactions.filter(
-          re => re.fromId !== reaction.get('fromId')
+          re =>
+            !isNewReactionReplacingPrevious(
+              re,
+              reaction.attributes,
+              this.attributes
+            )
         );
         reactions.push(reactionToAdd);
         this.set({ reactions });

@@ -313,7 +313,8 @@ export async function sendReaction(
     const newReactions = reactionUtil.markOutgoingReactionSent(
       getReactions(message),
       pendingReaction,
-      successfulConversationIds
+      successfulConversationIds,
+      message.attributes
     );
     setReactions(message, newReactions);
 

@@ -69,8 +69,8 @@ export function SmartStoryViewer({
       onNextUserStories={onNextUserStories}
       onPrevUserStories={onPrevUserStories}
       onReactToStory={async (emoji, story) => {
-        const { messageId, selectedReaction: previousReaction } = story;
-        storiesActions.reactToStory(emoji, messageId, previousReaction);
+        const { messageId } = story;
+        storiesActions.reactToStory(emoji, messageId);
       }}
       onReplyToStory={(message, mentions, timestamp, story) => {
         storiesActions.replyToStory(

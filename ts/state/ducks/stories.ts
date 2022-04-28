@@ -37,11 +37,11 @@ import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 export type StoryDataType = {
   attachment?: AttachmentType;
   messageId: string;
-  selectedReaction?: string;
 } & Pick<
   MessageAttributesType,
   | 'conversationId'
   | 'deletedForEveryone'
+  | 'reactions'
   | 'readStatus'
   | 'sendStateByConversationId'
   | 'source'
@@ -65,7 +65,6 @@ export type StoriesStateType = {
 
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
-const REACT_TO_STORY = 'stories/REACT_TO_STORY';
 const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
@@ -82,14 +81,6 @@ type LoadStoryRepliesActionType = {
 type MarkStoryReadActionType = {
   type: typeof MARK_STORY_READ;
   payload: string;
-};
-
-type ReactToStoryActionType = {
-  type: typeof REACT_TO_STORY;
-  payload: {
-    messageId: string;
-    selectedReaction: string;
-  };
 };
 
 type ReplyToStoryActionType = {
@@ -119,7 +110,6 @@ export type StoriesActionType =
   | MarkStoryReadActionType
   | MessageChangedActionType
   | MessageDeletedActionType
-  | ReactToStoryActionType
   | ReplyToStoryActionType
   | ResolveAttachmentUrlActionType
   | StoryChangedActionType
@@ -286,27 +276,24 @@ function queueStoryDownload(
 
 function reactToStory(
   nextReaction: string,
-  messageId: string,
-  previousReaction?: string
-): ThunkAction<void, RootStateType, unknown, ReactToStoryActionType> {
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     try {
       await enqueueReactionForSend({
         messageId,
         emoji: nextReaction,
-        remove: nextReaction === previousReaction,
-      });
-      dispatch({
-        type: REACT_TO_STORY,
-        payload: {
-          messageId,
-          selectedReaction: nextReaction,
-        },
+        remove: false,
       });
     } catch (error) {
       log.error('Error enqueuing reaction', error, messageId, nextReaction);
       showToast(ToastReactionFailed);
     }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 
@@ -403,8 +390,8 @@ export function reducer(
       'conversationId',
       'deletedForEveryone',
       'messageId',
+      'reactions',
       'readStatus',
-      'selectedReaction',
       'sendStateByConversationId',
       'source',
       'sourceUuid',
@@ -424,9 +411,14 @@ export function reducer(
         !isDownloaded(prevStory.attachment) &&
         isDownloaded(newStory.attachment);
       const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
+      const reactionsChanged =
+        prevStory.reactions?.length !== newStory.reactions?.length;
 
       const shouldReplace =
-        isDownloadingAttachment || hasAttachmentDownloaded || readStatusChanged;
+        isDownloadingAttachment ||
+        hasAttachmentDownloaded ||
+        readStatusChanged ||
+        reactionsChanged;
       if (!shouldReplace) {
         return state;
       }
@@ -445,22 +437,6 @@ export function reducer(
     return {
       ...state,
       stories,
-    };
-  }
-
-  if (action.type === REACT_TO_STORY) {
-    return {
-      ...state,
-      stories: state.stories.map(story => {
-        if (story.messageId === action.payload.messageId) {
-          return {
-            ...story,
-            selectedReaction: action.payload.selectedReaction,
-          };
-        }
-
-        return story;
-      }),
     };
   }
 

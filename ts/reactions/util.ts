@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { findLastIndex, has, identity, omit, negate } from 'lodash';
-import type { MessageReactionType } from '../model-types.d';
+import type {
+  MessageAttributesType,
+  MessageReactionType,
+} from '../model-types.d';
 import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual';
+import { isStory } from '../state/selectors/message';
 
 const isReactionEqual = (
   a: undefined | Readonly<MessageReactionType>,
@@ -31,8 +35,13 @@ const isOutgoingReactionCompletelyUnsent = ({
 
 export function addOutgoingReaction(
   oldReactions: ReadonlyArray<MessageReactionType>,
-  newReaction: Readonly<MessageReactionType>
+  newReaction: Readonly<MessageReactionType>,
+  isStoryMessage = false
 ): Array<MessageReactionType> {
+  if (isStoryMessage) {
+    return [...oldReactions, newReaction];
+  }
+
   const pendingOutgoingReactions = new Set(
     oldReactions.filter(isOutgoingReactionPending)
   );
@@ -101,6 +110,17 @@ export function* getUnsentConversationIds({
   }
 }
 
+// This function is used when filtering reactions so that we can limit normal
+// messages to a single reactions but allow multiple reactions from the same
+// sender for stories.
+export function isNewReactionReplacingPrevious(
+  reaction: MessageReactionType,
+  newReaction: MessageReactionType,
+  messageAttributes: MessageAttributesType
+): boolean {
+  return !isStory(messageAttributes) && reaction.fromId === newReaction.fromId;
+}
+
 export const markOutgoingReactionFailed = (
   reactions: Array<MessageReactionType>,
   reaction: Readonly<MessageReactionType>
@@ -116,7 +136,8 @@ export const markOutgoingReactionFailed = (
 export const markOutgoingReactionSent = (
   reactions: ReadonlyArray<MessageReactionType>,
   reaction: Readonly<MessageReactionType>,
-  conversationIdsSentTo: Iterable<string>
+  conversationIdsSentTo: Iterable<string>,
+  messageAttributes: MessageAttributesType
 ): Array<MessageReactionType> => {
   const result: Array<MessageReactionType> = [];
 
@@ -135,7 +156,8 @@ export const markOutgoingReactionSent = (
     if (!isReactionEqual(re, reaction)) {
       const shouldKeep = !isFullySent
         ? true
-        : re.fromId !== reaction.fromId || re.timestamp > reaction.timestamp;
+        : !isNewReactionReplacingPrevious(re, reaction, messageAttributes) ||
+          re.timestamp > reaction.timestamp;
       if (shouldKeep) {
         result.push(re);
       }
