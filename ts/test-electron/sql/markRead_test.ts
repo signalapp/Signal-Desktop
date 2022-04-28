@@ -124,7 +124,10 @@ describe('sql/markRead', () => {
 
     assert.lengthOf(await _getAllMessages(), 7);
     assert.strictEqual(
-      await getTotalUnreadForConversation(conversationId),
+      await getTotalUnreadForConversation(conversationId, {
+        storyId: undefined,
+        isGroup: false,
+      }),
       4,
       'unread count'
     );
@@ -137,7 +140,10 @@ describe('sql/markRead', () => {
 
     assert.lengthOf(markedRead, 2, 'two messages marked read');
     assert.strictEqual(
-      await getTotalUnreadForConversation(conversationId),
+      await getTotalUnreadForConversation(conversationId, {
+        storyId: undefined,
+        isGroup: false,
+      }),
       2,
       'unread count'
     );
@@ -164,7 +170,10 @@ describe('sql/markRead', () => {
     assert.strictEqual(markedRead2[0].id, message7.id, 'should be message7');
 
     assert.strictEqual(
-      await getTotalUnreadForConversation(conversationId),
+      await getTotalUnreadForConversation(conversationId, {
+        storyId: undefined,
+        isGroup: false,
+      }),
       0,
       'unread count'
     );
@@ -365,7 +374,10 @@ describe('sql/markRead', () => {
     });
 
     assert.strictEqual(
-      await getTotalUnreadForConversation(conversationId),
+      await getTotalUnreadForConversation(conversationId, {
+        storyId: undefined,
+        isGroup: false,
+      }),
       2,
       'unread count'
     );
@@ -384,7 +396,10 @@ describe('sql/markRead', () => {
       'first should be message4'
     );
     assert.strictEqual(
-      await getTotalUnreadForConversation(conversationId),
+      await getTotalUnreadForConversation(conversationId, {
+        storyId: undefined,
+        isGroup: false,
+      }),
       1,
       'unread count'
     );

@@ -4672,7 +4672,8 @@ export class ConversationModel extends window.Backbone
     await markConversationRead(this.attributes, newestUnreadAt, options);
 
     const unreadCount = await window.Signal.Data.getTotalUnreadForConversation(
-      this.id
+      this.id,
+      { storyId: undefined, isGroup: isGroup(this.attributes) }
     );
 
     const prevUnreadCount = this.get('unreadCount');

@@ -384,7 +384,10 @@ export type DataInterface = {
   removeMessages: (ids: Array<string>) => Promise<void>;
   getTotalUnreadForConversation: (
     conversationId: string,
-    storyId?: UUIDStringType
+    options: {
+      storyId: UUIDStringType | undefined;
+      isGroup: boolean;
+    }
   ) => Promise<number>;
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;

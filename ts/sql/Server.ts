@@ -2676,14 +2676,22 @@ function getOldestUnreadMessageForConversation(
 
 async function getTotalUnreadForConversation(
   conversationId: string,
-  storyId?: UUIDStringType
+  options: {
+    storyId: UUIDStringType | undefined;
+    isGroup: boolean;
+  }
 ): Promise<number> {
-  return getTotalUnreadForConversationSync(conversationId, storyId);
+  return getTotalUnreadForConversationSync(conversationId, options);
 }
 function getTotalUnreadForConversationSync(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  {
+    storyId,
+    isGroup,
+  }: {
+    storyId: UUIDStringType | undefined;
+    isGroup: boolean;
+  }
 ): number {
   const db = getInstance();
   const row = db
@@ -2737,11 +2745,10 @@ function getMessageMetricsForConversationSync(
     storyId,
     isGroup
   );
-  const totalUnread = getTotalUnreadForConversationSync(
-    conversationId,
+  const totalUnread = getTotalUnreadForConversationSync(conversationId, {
     storyId,
-    isGroup
-  );
+    isGroup: Boolean(isGroup),
+  });
 
   return {
     oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : undefined,
