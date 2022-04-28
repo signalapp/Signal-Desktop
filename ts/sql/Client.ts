@@ -247,7 +247,7 @@ const dataInterface: ClientInterface = {
   migrateConversationMessages,
 
   getUnprocessedCount,
-  getAllUnprocessed,
+  getAllUnprocessedAndIncrementAttempts,
   getUnprocessedById,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
@@ -1443,8 +1443,8 @@ async function getUnprocessedCount() {
   return channels.getUnprocessedCount();
 }
 
-async function getAllUnprocessed() {
-  return channels.getAllUnprocessed();
+async function getAllUnprocessedAndIncrementAttempts() {
+  return channels.getAllUnprocessedAndIncrementAttempts();
 }
 
 async function getUnprocessedById(id: string) {
