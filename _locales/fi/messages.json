@@ -7014,7 +7014,7 @@
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "Piilotetut tarinat",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
@@ -7068,7 +7068,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "Näytä tarinat",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {

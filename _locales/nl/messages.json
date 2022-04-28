@@ -464,7 +464,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde URL. Die URL kun je vervolgens naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
+        "message": "Dit log bevat geen persoonlijke details zoals telefoonnummers. Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde verwijzing. Die verwijzing kun je zelf naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -504,7 +504,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Verzenden",
+        "message": "Uploaden",
         "description": ""
     },
     "acceptNewKey": {
@@ -1276,7 +1276,7 @@
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "Een bericht van $sender$ kon niet worden afgeleverd",
+        "message": "Een bericht van $sender$ kan niet worden afgeleverd",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {

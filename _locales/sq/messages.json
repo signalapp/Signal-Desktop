@@ -222,7 +222,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
-        "message": "No archived conversations.",
+        "message": "S’ka biseda të arkivuara.",
         "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
     },
     "archiveConversation": {
@@ -6358,11 +6358,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__label--value": {
-        "message": "Number",
+        "message": "Numër",
         "description": "aria-label for the number select box"
     },
     "DisappearingTimeDialog__label--units": {
-        "message": "Unit of time",
+        "message": "Njësi kohe",
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
@@ -6812,7 +6812,7 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+        "message": "$appName$ po xhiron.\nKlikoni mbi OK që të mbyllet.\nNëse s’mbyllet, provoni dorazi.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6822,11 +6822,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Failed to decompress files. Please try running the installer again.",
+        "message": "S’u arrit të çngjeshen kartela. Ju lutemi, provoni të xhironi sërish instaluesin.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "S’u arrit të çinstalohen kartela të vjetra aplikacioni. Ju lutemi, xhironi sërish instaluesin.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7068,7 +7068,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "Shfaq histori",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
@@ -7104,11 +7104,11 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
+        "message": "Ndreqje të metash, përfshi një ndreqje për një problem që ndonjëherë e bënte të vështirë të klikohej te menutë ",
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
+        "message": "Falënderime për kontribuesit tanë në burimin e hapët$dsanders11$ dhe $yusufsahinhamza$, për sjelljen e këtyre përmirësimeve.",
         "description": "Release notes for v5.40",
         "placeholders": {
             "dsanders11": {

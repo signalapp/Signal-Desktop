@@ -7068,7 +7068,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "Zobrazit příběhy",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
