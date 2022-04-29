@@ -2138,6 +2138,21 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
       }));
 
+    if (!media.length) {
+      log.error(
+        'showLightbox: unable to load attachment',
+        attachments.map(x => ({
+          contentType: x.contentType,
+          error: x.error,
+          flags: x.flags,
+          path: x.path,
+          size: x.size,
+        }))
+      );
+      showToast(ToastUnableToLoadAttachment);
+      return;
+    }
+
     const selectedMedia =
       media.find(item => attachment.path === item.path) || media[0];
 
