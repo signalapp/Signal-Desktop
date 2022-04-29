@@ -13,13 +13,14 @@ import {
   getEmojiSkinTone,
   getPreferredReactionEmoji,
 } from '../selectors/items';
-import { getStoriesSelector, getStoryReplies } from '../selectors/stories';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { getStoriesSelector, getStoryReplies } from '../selectors/stories';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { showToast } from '../../util/showToast';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
+import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useStoriesActions } from '../ducks/stories';
 
@@ -39,6 +40,8 @@ export function SmartStoryViewer({
   const storiesActions = useStoriesActions();
   const { onSetSkinTone } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
+  const { openConversationInternal, toggleHideStories } =
+    useConversationsActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -66,6 +69,11 @@ export function SmartStoryViewer({
       group={group}
       i18n={i18n}
       onClose={onClose}
+      onHideStory={toggleHideStories}
+      onGoToConversation={senderId => {
+        openConversationInternal({ conversationId: senderId });
+        storiesActions.toggleStoriesView();
+      }}
       onNextUserStories={onNextUserStories}
       onPrevUserStories={onPrevUserStories}
       onReactToStory={async (emoji, story) => {

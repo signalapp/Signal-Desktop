@@ -62,8 +62,8 @@ export type PropsType = Pick<
 > & {
   i18n: LocalizerType;
   onClick: () => unknown;
-  onGoToConversation?: (conversationId: string) => unknown;
-  onHideStory?: (conversationId: string) => unknown;
+  onGoToConversation: (conversationId: string) => unknown;
+  onHideStory: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   story: StoryViewType;
 };
@@ -217,7 +217,7 @@ export const StoryListItem = ({
               : i18n('StoryListItem__hide'),
             onClick: () => {
               if (isHidden) {
-                onHideStory?.(sender.id);
+                onHideStory(sender.id);
               } else {
                 setHasConfirmHideStory(true);
               }
@@ -227,7 +227,7 @@ export const StoryListItem = ({
             icon: 'StoryListItem__icon--chat',
             label: i18n('StoryListItem__go-to-chat'),
             onClick: () => {
-              onGoToConversation?.(sender.id);
+              onGoToConversation(sender.id);
             },
           },
         ]}
@@ -242,7 +242,7 @@ export const StoryListItem = ({
         <ConfirmationDialog
           actions={[
             {
-              action: () => onHideStory?.(sender.id),
+              action: () => onHideStory(sender.id),
               style: 'affirmative',
               text: i18n('StoryListItem__hide-modal--confirm'),
             },

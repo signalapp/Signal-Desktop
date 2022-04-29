@@ -95,12 +95,12 @@ export const Stories = ({
           <StoriesPane
             hiddenStories={hiddenStories}
             i18n={i18n}
-            onBack={toggleStoriesView}
             onStoryClicked={setConversationIdToView}
             openConversationInternal={openConversationInternal}
             queueStoryDownload={queueStoryDownload}
             stories={stories}
             toggleHideStories={toggleHideStories}
+            toggleStoriesView={toggleStoriesView}
           />
         </div>
       </FocusTrap>

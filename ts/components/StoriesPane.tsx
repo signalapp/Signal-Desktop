@@ -52,23 +52,23 @@ function getNewestStory(story: ConversationStoryType): StoryViewType {
 export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
-  onBack: () => unknown;
   onStoryClicked: (conversationId: string) => unknown;
   openConversationInternal: (_: { conversationId: string }) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
+  toggleStoriesView: () => unknown;
 };
 
 export const StoriesPane = ({
   hiddenStories,
   i18n,
-  onBack,
   onStoryClicked,
   openConversationInternal,
   queueStoryDownload,
   stories,
   toggleHideStories,
+  toggleStoriesView,
 }: PropsType): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isShowingHiddenStories, setIsShowingHiddenStories] = useState(false);
@@ -89,7 +89,7 @@ export const StoriesPane = ({
         <button
           aria-label={i18n('back')}
           className="Stories__pane__header--back"
-          onClick={onBack}
+          onClick={toggleStoriesView}
           tabIndex={0}
           type="button"
         />
@@ -119,11 +119,10 @@ export const StoriesPane = ({
             onClick={() => {
               onStoryClicked(story.conversationId);
             }}
-            onHideStory={() => {
-              toggleHideStories(getNewestStory(story).sender.id);
-            }}
+            onHideStory={toggleHideStories}
             onGoToConversation={conversationId => {
               openConversationInternal({ conversationId });
+              toggleStoriesView();
             }}
             queueStoryDownload={queueStoryDownload}
             story={getNewestStory(story)}
@@ -149,11 +148,10 @@ export const StoriesPane = ({
                   onClick={() => {
                     onStoryClicked(story.conversationId);
                   }}
-                  onHideStory={() => {
-                    toggleHideStories(getNewestStory(story).sender.id);
-                  }}
+                  onHideStory={toggleHideStories}
                   onGoToConversation={conversationId => {
                     openConversationInternal({ conversationId });
+                    toggleStoriesView();
                   }}
                   queueStoryDownload={queueStoryDownload}
                   story={getNewestStory(story)}

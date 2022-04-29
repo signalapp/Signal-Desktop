@@ -27,6 +27,8 @@ function getDefaultProps(): PropsType {
     loadStoryReplies: action('loadStoryReplies'),
     markStoryRead: action('markStoryRead'),
     onClose: action('onClose'),
+    onGoToConversation: action('onGoToConversation'),
+    onHideStory: action('onHideStory'),
     onNextUserStories: action('onNextUserStories'),
     onPrevUserStories: action('onPrevUserStories'),
     onReactToStory: action('onReactToStory'),

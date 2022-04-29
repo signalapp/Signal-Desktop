@@ -12,6 +12,8 @@ import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
 import type { ReplyStateType } from '../types/Stories';
 import type { StoryViewType } from './StoryListItem';
 import { Avatar, AvatarSize } from './Avatar';
+import { ConfirmationDialog } from './ConfirmationDialog';
+import { ContextMenuPopper } from './ContextMenu';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
@@ -41,6 +43,8 @@ export type PropsType = {
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
   markStoryRead: (mId: string) => unknown;
   onClose: () => unknown;
+  onGoToConversation: (conversationId: string) => unknown;
+  onHideStory: (conversationId: string) => unknown;
   onNextUserStories: () => unknown;
   onPrevUserStories: () => unknown;
   onSetSkinTone: (tone: number) => unknown;
@@ -76,6 +80,8 @@ export const StoryViewer = ({
   loadStoryReplies,
   markStoryRead,
   onClose,
+  onGoToConversation,
+  onHideStory,
   onNextUserStories,
   onPrevUserStories,
   onReactToStory,
@@ -96,15 +102,21 @@ export const StoryViewer = ({
   const [currentStoryIndex, setCurrentStoryIndex] =
     useState(selectedStoryIndex);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
+  const [isShowingContextMenu, setIsShowingContextMenu] = useState(false);
+  const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement | null>(null);
 
   const visibleStory = stories[currentStoryIndex];
 
-  const { attachment, canReply, messageId, timestamp } = visibleStory;
+  const { attachment, canReply, isHidden, messageId, timestamp } = visibleStory;
   const {
     acceptedMessageRequest,
     avatarPath,
     color,
     isMe,
+    id,
+    firstName,
     name,
     profileName,
     sharedGroupNames,
@@ -226,13 +238,19 @@ export const StoryViewer = ({
     };
   }, [currentStoryIndex, spring, storyDuration]);
 
+  const shouldPauseViewing =
+    hasConfirmHideStory ||
+    hasExpandedCaption ||
+    hasReplyModal ||
+    isShowingContextMenu;
+
   useEffect(() => {
-    if (hasReplyModal || hasExpandedCaption) {
+    if (shouldPauseViewing) {
       spring.pause();
     } else {
       spring.resume();
     }
-  }, [hasExpandedCaption, hasReplyModal, spring]);
+  }, [shouldPauseViewing, spring]);
 
   useEffect(() => {
     markStoryRead(messageId);
@@ -248,7 +266,7 @@ export const StoryViewer = ({
       .map(story => story.messageId);
   }, [stories]);
   useEffect(() => {
-    storiesToDownload.forEach(id => queueStoryDownload(id));
+    storiesToDownload.forEach(storyId => queueStoryDownload(storyId));
   }, [queueStoryDownload, storiesToDownload]);
 
   const navigateStories = useCallback(
@@ -452,6 +470,8 @@ export const StoryViewer = ({
           <button
             aria-label={i18n('MyStories__more')}
             className="StoryViewer__more"
+            onClick={() => setIsShowingContextMenu(true)}
+            ref={setReferenceElement}
             tabIndex={0}
             type="button"
           />
@@ -463,6 +483,37 @@ export const StoryViewer = ({
             type="button"
           />
         </div>
+        <ContextMenuPopper
+          isMenuShowing={isShowingContextMenu}
+          menuOptions={[
+            {
+              icon: 'StoryListItem__icon--hide',
+              label: isHidden
+                ? i18n('StoryListItem__unhide')
+                : i18n('StoryListItem__hide'),
+              onClick: () => {
+                if (isHidden) {
+                  onHideStory(id);
+                } else {
+                  setHasConfirmHideStory(true);
+                }
+              },
+            },
+            {
+              icon: 'StoryListItem__icon--chat',
+              label: i18n('StoryListItem__go-to-chat'),
+              onClick: () => {
+                onGoToConversation(id);
+              },
+            },
+          ]}
+          onClose={() => setIsShowingContextMenu(false)}
+          popperOptions={{
+            placement: 'bottom',
+            strategy: 'absolute',
+          }}
+          referenceElement={referenceElement}
+        />
         {hasReplyModal && canReply && (
           <StoryViewsNRepliesModal
             authorTitle={title}
@@ -491,6 +542,23 @@ export const StoryViewer = ({
             storyPreviewAttachment={attachment}
             views={[]}
           />
+        )}
+        {hasConfirmHideStory && (
+          <ConfirmationDialog
+            actions={[
+              {
+                action: () => onHideStory(id),
+                style: 'affirmative',
+                text: i18n('StoryListItem__hide-modal--confirm'),
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => {
+              setHasConfirmHideStory(false);
+            }}
+          >
+            {i18n('StoryListItem__hide-modal--body', [String(firstName)])}
+          </ConfirmationDialog>
         )}
       </div>
     </FocusTrap>
