@@ -21,6 +21,7 @@ import type { UUIDStringType } from '../types/UUID';
 import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
+import type { ReadStatus } from '../messages/MessageReadStatus';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -397,7 +398,16 @@ export type DataInterface = {
     storyId?: UUIDStringType;
   }) => Promise<
     Array<
-      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+      { originalReadStatus: ReadStatus | undefined } & Pick<
+        MessageType,
+        | 'id'
+        | 'readStatus'
+        | 'seenStatus'
+        | 'sent_at'
+        | 'source'
+        | 'sourceUuid'
+        | 'type'
+      >
     >
   >;
   getUnreadReactionsAndMarkRead: (options: {

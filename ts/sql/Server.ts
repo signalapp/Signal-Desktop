@@ -2075,7 +2075,18 @@ async function getUnreadByConversationAndMarkRead({
   storyId?: UUIDStringType;
   readAt?: number;
 }): Promise<
-  Array<Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>>
+  Array<
+    { originalReadStatus: ReadStatus | undefined } & Pick<
+      MessageType,
+      | 'id'
+      | 'source'
+      | 'sourceUuid'
+      | 'sent_at'
+      | 'type'
+      | 'readStatus'
+      | 'seenStatus'
+    >
+  >
 > {
   const db = getInstance();
   return db.transaction(() => {
@@ -2109,10 +2120,10 @@ async function getUnreadByConversationAndMarkRead({
       .prepare<Query>(
         `
         SELECT id, json FROM messages
-        INDEXED BY messages_unread
         WHERE
-          readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
+          seenStatus = ${SeenStatus.Unseen} AND
+          isStory = 0 AND
           (${_storyIdPredicate(storyId, isGroup)}) AND
           received_at <= $newestUnreadAt
         ORDER BY received_at DESC, sent_at DESC;
@@ -2151,7 +2162,9 @@ async function getUnreadByConversationAndMarkRead({
     return rows.map(row => {
       const json = jsonToObject<MessageType>(row.json);
       return {
+        originalReadStatus: json.readStatus,
         readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         ...pick(json, [
           'expirationStartTimestamp',
           'id',
