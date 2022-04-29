@@ -29,7 +29,7 @@ describe('Errors', () => {
       assert.isUndefined(error.stack);
 
       const formattedError = Errors.toLogFormat(error);
-      assert.strictEqual(formattedError, 'Error: boom');
+      assert.strictEqual(formattedError, 'boom');
     });
 
     [0, false, null, undefined].forEach(value => {
