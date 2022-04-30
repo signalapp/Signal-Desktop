@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useRef } from 'react';
-import type { ConversationType } from '../state/ducks/conversations';
+import type {
+  ConversationType,
+  OpenConversationInternalType,
+} from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { Avatar, AvatarSize } from './Avatar';
 import { SearchInput } from './SearchInput';
@@ -17,6 +20,11 @@ type PropsType = {
   searchTerm: string;
   startSearchCounter: number;
   updateSearchTerm: (searchTerm: string) => void;
+  openConversationInternal: OpenConversationInternalType;
+  onEnterKeyDown?: (
+    clearSearch: () => void,
+    openConversationInternal: OpenConversationInternalType
+  ) => void;
 };
 
 export const LeftPaneSearchInput = ({
@@ -28,6 +36,8 @@ export const LeftPaneSearchInput = ({
   searchTerm,
   startSearchCounter,
   updateSearchTerm,
+  openConversationInternal,
+  onEnterKeyDown,
 }: PropsType): JSX.Element => {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
@@ -89,6 +99,13 @@ export const LeftPaneSearchInput = ({
       onBlur={() => {
         if (!searchConversation && !searchTerm) {
           clearSearch();
+        }
+      }}
+      onKeyDown={event => {
+        if (onEnterKeyDown && event.key === 'Enter') {
+          onEnterKeyDown(clearSearch, openConversationInternal);
+          event.preventDefault();
+          event.stopPropagation();
         }
       }}
       onChange={event => {

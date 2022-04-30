@@ -12,7 +12,10 @@ import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
+import type {
+  ConversationType,
+  OpenConversationInternalType,
+} from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper';
@@ -81,11 +84,13 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     clearSearch,
     i18n,
     updateSearchTerm,
+    openConversationInternal,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
     i18n: LocalizerType;
     updateSearchTerm: (searchTerm: string) => unknown;
+    openConversationInternal: OpenConversationInternalType;
   }>): ReactChild | null {
     if (!this.searchConversation) {
       return null;
@@ -100,6 +105,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
         searchTerm={this.searchTerm}
         startSearchCounter={this.startSearchCounter}
         updateSearchTerm={updateSearchTerm}
+        openConversationInternal={openConversationInternal}
       />
     );
   }

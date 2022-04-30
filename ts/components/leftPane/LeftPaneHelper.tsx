@@ -10,6 +10,7 @@ import type {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../../types/Avatar';
+import type { OpenConversationInternalType } from '../../state/ducks/conversations';
 
 export enum FindDirection {
   Up,
@@ -42,6 +43,7 @@ export abstract class LeftPaneHelper<T> {
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;
       updateSearchTerm: (searchTerm: string) => unknown;
+      openConversationInternal: OpenConversationInternalType;
     }>
   ): null | ReactChild {
     return null;
