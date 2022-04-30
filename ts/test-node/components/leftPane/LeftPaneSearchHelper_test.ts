@@ -12,6 +12,7 @@ import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearc
 describe('LeftPaneSearchHelper', () => {
   const fakeMessage = () => ({
     id: uuid(),
+    type: 'outgoing',
     conversationId: uuid(),
   });
 
@@ -544,6 +545,129 @@ describe('LeftPaneSearchHelper', () => {
           searchDisabled: false,
           startSearchCounter: 0,
         })
+      );
+    });
+  });
+
+  describe('getConversationAndMessageAtIndex', () => {
+    it('returns correct conversation at given index', () => {
+      const expected = getDefaultConversation();
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: false,
+          results: [expected, getDefaultConversation()],
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: {
+          isLoading: false,
+          results: [fakeMessage(), fakeMessage(), fakeMessage()],
+        },
+        searchTerm: 'foo',
+        primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
+      });
+      assert.strictEqual(
+        helper.getConversationAndMessageAtIndex(0)?.conversationId,
+        expected.id
+      );
+    });
+
+    it('returns correct contact at given index', () => {
+      const expected = getDefaultConversation();
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation(), getDefaultConversation()],
+        },
+        contactResults: {
+          isLoading: false,
+          results: [expected],
+        },
+        messageResults: {
+          isLoading: false,
+          results: [fakeMessage(), fakeMessage(), fakeMessage()],
+        },
+        searchTerm: 'foo',
+        primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
+      });
+      assert.strictEqual(
+        helper.getConversationAndMessageAtIndex(2)?.conversationId,
+        expected.id
+      );
+    });
+
+    it('returns correct message at given index', () => {
+      const expected = fakeMessage();
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation(), getDefaultConversation()],
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: {
+          isLoading: false,
+          results: [fakeMessage(), fakeMessage(), expected],
+        },
+        searchTerm: 'foo',
+        primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
+      });
+      assert.strictEqual(
+        helper.getConversationAndMessageAtIndex(4)?.messageId,
+        expected.id
+      );
+    });
+
+    it('returns correct message at given index skipping not loaded results', () => {
+      const expected = fakeMessage();
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: { isLoading: true },
+        contactResults: { isLoading: true },
+        messageResults: {
+          isLoading: false,
+          results: [fakeMessage(), expected, fakeMessage()],
+        },
+        searchTerm: 'foo',
+        primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
+      });
+      assert.strictEqual(
+        helper.getConversationAndMessageAtIndex(1)?.messageId,
+        expected.id
+      );
+    });
+
+    it('returns undefined if search candidate with given index does not exist', () => {
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation(), getDefaultConversation()],
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: {
+          isLoading: false,
+          results: [fakeMessage(), fakeMessage(), fakeMessage()],
+        },
+        searchTerm: 'foo',
+        primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
+      });
+      assert.isUndefined(
+        helper.getConversationAndMessageAtIndex(100)?.messageId
+      );
+      assert.isUndefined(
+        helper.getConversationAndMessageAtIndex(-100)?.messageId
       );
     });
   });

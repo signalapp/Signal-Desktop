@@ -11,7 +11,10 @@ import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { handleKeydownForSearch } from './handleKeydownForSearch';
-import type { ConversationType } from '../../state/ducks/conversations';
+import type {
+  ConversationType,
+  OpenConversationInternalType,
+} from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
 import { Intl } from '../Intl';
@@ -35,6 +38,7 @@ export type LeftPaneSearchPropsType = {
   messageResults: MaybeLoadedSearchResultsType<{
     id: string;
     conversationId: string;
+    type: string;
   }>;
   searchConversationName?: string;
   primarySendsSms: boolean;
@@ -58,6 +62,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   private readonly messageResults: MaybeLoadedSearchResultsType<{
     id: string;
     conversationId: string;
+    type: string;
   }>;
 
   private readonly searchConversationName?: string;
@@ -94,6 +99,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     this.searchDisabled = searchDisabled;
     this.searchTerm = searchTerm;
     this.startSearchCounter = startSearchCounter;
+    this.onEnterKeyDown = this.onEnterKeyDown.bind(this);
   }
 
   override getSearchInput({
@@ -101,11 +107,13 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     clearSearch,
     i18n,
     updateSearchTerm,
+    openConversationInternal,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
     i18n: LocalizerType;
     updateSearchTerm: (searchTerm: string) => unknown;
+    openConversationInternal: OpenConversationInternalType;
   }>): ReactChild {
     return (
       <LeftPaneSearchInput
@@ -117,6 +125,8 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         searchTerm={this.searchTerm}
         startSearchCounter={this.startSearchCounter}
         updateSearchTerm={updateSearchTerm}
+        openConversationInternal={openConversationInternal}
+        onEnterKeyDown={this.onEnterKeyDown}
       />
     );
   }
@@ -298,10 +308,28 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     );
   }
 
-  // This is currently unimplemented. See DESKTOP-1170.
   getConversationAndMessageAtIndex(
-    _conversationIndex: number
+    conversationIndex: number
   ): undefined | { conversationId: string; messageId?: string } {
+    if (conversationIndex < 0) {
+      return undefined;
+    }
+    let pointer = conversationIndex;
+    for (const list of this.allResults()) {
+      if (list.isLoading) {
+        continue;
+      }
+      if (pointer < list.results.length) {
+        const result = list.results[pointer];
+        return result.type === 'incoming' || result.type === 'outgoing' // message
+          ? {
+              conversationId: result.conversationId,
+              messageId: result.id,
+            }
+          : { conversationId: result.id };
+      }
+      pointer -= list.results.length;
+    }
     return undefined;
   }
 
@@ -331,6 +359,18 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
   private isLoading(): boolean {
     return this.allResults().some(results => results.isLoading);
+  }
+
+  private onEnterKeyDown(
+    clearSearch: () => unknown,
+    openConversationInternal: OpenConversationInternalType
+  ): void {
+    const conversation = this.getConversationAndMessageAtIndex(0);
+    if (!conversation) {
+      return;
+    }
+    openConversationInternal(conversation);
+    clearSearch();
   }
 }
 
