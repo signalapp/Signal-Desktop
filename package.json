@@ -83,7 +83,6 @@
     "bytebuffer": "^5.0.1",
     "classnames": "2.2.5",
     "config": "1.28.1",
-    "country-code-lookup": "^0.0.19",
     "curve25519-js": "https://github.com/oxen-io/curve25519-js",
     "date-fns": "^3.3.1",
     "dompurify": "^2.0.7",
@@ -92,15 +91,16 @@
     "emoji-mart": "^5.5.2",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
+    "fs": "^0.0.1-security",
     "fs-extra": "9.0.0",
     "glob": "7.1.2",
     "image-type": "^4.1.0",
-    "ip2country": "1.0.1",
     "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.1/libsession_util_nodejs-v0.3.1.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "^4.0.1",
     "lodash": "^4.17.21",
     "long": "^4.0.0",
+    "maxmind": "^4.3.6",
     "mic-recorder-to-mp3": "^2.2.2",
     "moment": "^2.29.4",
     "node-fetch": "^2.6.7",
@@ -351,6 +351,9 @@
       "!node_modules/libsession_util_nodejs/src/*",
       "ts/webworker/workers/node/libsession/*.node",
       "!dev-app-update.yml"
+    ],
+    "extraFiles": [
+      "mmdb/GeoLite2-City.mmdb"
     ]
   }
 }

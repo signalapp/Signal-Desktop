@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import useHover from 'react-use/lib/useHover';
 import styled from 'styled-components';
 
-import countryLookup from 'country-code-lookup';
-import ip2country from 'ip2country';
+import { CityResponse, Reader } from 'maxmind';
+import { readFileSync } from 'fs';
+import path from 'path';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
@@ -95,6 +96,15 @@ const OnionPathModalInner = () => {
     },
   ];
 
+  // Ensure we can always find the GeoLite2 database, regardless of whether
+  // this is a dev or a prod build.
+  const binPath = (process.env.NODE_APP_INSTANCE || '').startsWith('devprod')
+    ? path.resolve(`${__dirname}/../../..`)
+    : path.resolve(`${process.resourcesPath}/..`);
+  const buffer = readFileSync(`${binPath}/mmdb/GeoLite2-City.mmdb`);
+  const reader = new Reader<CityResponse>(buffer);
+  const lang = 'en';
+
   return (
     <>
       <StyledOnionDescription>
@@ -118,10 +128,23 @@ const OnionPathModalInner = () => {
             </Flex>
           </StyledLightsContainer>
           <Flex container={true} flexDirection="column" alignItems="flex-start">
-            {nodes.map((snode: Snode | any) => {
+            {nodes.map((snode: Snode | any, index: number) => {
+	      const geoLookup = reader.get(snode.ip || '0.0.0.0');
+	      const cityName = geoLookup?.city?.names[lang];
+	      const countryName = geoLookup?.country?.names[lang];
+	      //const isoCode = geoLookup?.country?.iso_code;
+
+	      // If the city is unknown, or the city and country are identical
+	      // (e.g. Luxembourg or Singapore), use just the country.
+	      const cityCountry = cityName
+		? cityName === countryName
+		  ? countryName
+		  : `${cityName}, ${countryName}`
+		: countryName
+
               let labelText = snode.label
                 ? snode.label
-                : countryLookup.byIso(ip2country(snode.ip))?.country;
+                : cityCountry
               if (!labelText) {
                 labelText = window.i18n('unknownCountry');
               }
