@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
@@ -23,6 +23,7 @@ import { isVideoTypeSupported } from '../util/GoogleChrome';
 export type PropsType = {
   readonly attachment?: AttachmentType;
   readonly i18n: LocalizerType;
+  readonly isPaused?: boolean;
   readonly isThumbnail?: boolean;
   readonly label: string;
   readonly moduleClassName?: string;
@@ -33,6 +34,7 @@ export type PropsType = {
 export const StoryImage = ({
   attachment,
   i18n,
+  isPaused,
   isThumbnail,
   label,
   moduleClassName,
@@ -44,11 +46,25 @@ export const StoryImage = ({
     !isDownloading(attachment) &&
     !hasNotResolved(attachment);
 
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
   useEffect(() => {
     if (shouldDownloadAttachment) {
       queueStoryDownload(storyId);
     }
   }, [queueStoryDownload, shouldDownloadAttachment, storyId]);
+
+  useEffect(() => {
+    if (!videoRef.current) {
+      return;
+    }
+
+    if (isPaused) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+  }, [isPaused]);
 
   if (!attachment) {
     return null;
@@ -85,7 +101,9 @@ export const StoryImage = ({
         autoPlay
         className={getClassName('__image')}
         controls={false}
+        key={attachment.url}
         loop={shouldLoop}
+        ref={videoRef}
       >
         <source src={attachment.url} />
       </video>

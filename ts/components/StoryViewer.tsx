@@ -318,6 +318,7 @@ export const StoryViewer = ({
             <StoryImage
               attachment={attachment}
               i18n={i18n}
+              isPaused={shouldPauseViewing}
               label={i18n('lightboxImageAlt')}
               moduleClassName="StoryViewer__story"
               queueStoryDownload={queueStoryDownload}

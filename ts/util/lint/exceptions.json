@@ -7701,6 +7701,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryImage.tsx",
+    "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-04-29T23:54:21.656Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/StoryViewsNRepliesModal.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
