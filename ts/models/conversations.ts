@@ -3383,6 +3383,7 @@ export class ConversationModel extends window.Backbone
     return this.queueJob('onReadMessage', () =>
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.markRead(message.get('received_at')!, {
+        newestSentAt: message.get('sent_at'),
         sendReadReceipts: false,
         readAt,
       })

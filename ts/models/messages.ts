@@ -209,7 +209,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const readStatus = migrateLegacyReadStatus(this.attributes);
     if (readStatus !== undefined) {
-      this.set('readStatus', readStatus, { silent: true });
+      this.set(
+        {
+          readStatus,
+          seenStatus:
+            readStatus === ReadStatus.Unread
+              ? SeenStatus.Unseen
+              : SeenStatus.Seen,
+        },
+        { silent: true }
+      );
     }
 
     const sendStateByConversationId = migrateLegacySendAttributes(

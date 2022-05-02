@@ -166,7 +166,7 @@ describe('sql/markRead', () => {
       readAt,
     });
 
-    assert.lengthOf(markedRead2, 3, 'three messages marked read');
+    assert.lengthOf(markedRead2, 2, 'two messages marked read');
     assert.strictEqual(markedRead2[0].id, message7.id, 'should be message7');
 
     assert.strictEqual(
