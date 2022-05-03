@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import FocusTrap from 'focus-trap-react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -62,7 +68,6 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
-  selectedStoryIndex: number;
   skinTone?: number;
   stories: Array<StoryViewType>;
   views?: Array<string>;
@@ -94,13 +99,11 @@ export const StoryViewer = ({
   recentEmojis,
   renderEmojiPicker,
   replyState,
-  selectedStoryIndex,
   skinTone,
   stories,
   views,
 }: PropsType): JSX.Element => {
-  const [currentStoryIndex, setCurrentStoryIndex] =
-    useState(selectedStoryIndex);
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
   const [isShowingContextMenu, setIsShowingContextMenu] = useState(false);
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
@@ -155,12 +158,22 @@ export const StoryViewer = ({
     setHasExpandedCaption(false);
   }, [messageId]);
 
-  // In case we want to change the story we're viewing from 0 -> N
+  // These exist to change currentStoryIndex to the oldest unread story a user
+  // has, or set to 0 whenever conversationId changes.
+  // We use a ref so that we only depend on conversationId changing, since
+  // the stories Array will change once we mark as story as viewed.
+  const storiesRef = useRef(stories);
+
   useEffect(() => {
-    if (selectedStoryIndex) {
-      setCurrentStoryIndex(selectedStoryIndex);
-    }
-  }, [selectedStoryIndex]);
+    const unreadStoryIndex = storiesRef.current.findIndex(
+      story => story.isUnread
+    );
+    setCurrentStoryIndex(unreadStoryIndex < 0 ? 0 : unreadStoryIndex);
+  }, [conversationId]);
+
+  useEffect(() => {
+    storiesRef.current = stories;
+  }, [stories]);
 
   // Either we show the next story in the current user's stories or we ask
   // for the next user's stories.

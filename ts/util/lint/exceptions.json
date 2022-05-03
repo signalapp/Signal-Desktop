@@ -7708,6 +7708,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewer.tsx",
+    "line": "  const storiesRef = useRef(stories);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-04-30T00:44:47.213Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/StoryViewsNRepliesModal.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
