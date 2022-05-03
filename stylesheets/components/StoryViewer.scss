@@ -72,7 +72,8 @@
     padding: 0 16px;
     position: absolute;
     transform: translateX(-50%);
-    width: 284px;
+    min-width: 284px;
+    width: 56.25vh;
     z-index: $z-index-above-base;
 
     &--group-avatar {
@@ -93,7 +94,7 @@
   }
 
   &__caption {
-    @include font-body-1-bold;
+    @include font-body-1;
     color: $color-gray-05;
     padding: 4px 0;
     margin-bottom: 24px;
@@ -144,6 +145,71 @@
       border-radius: 2px;
       display: block;
       height: 100%;
+    }
+  }
+
+  &__arrow {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    position: absolute;
+    width: 25%;
+
+    button {
+      @include button-reset;
+      height: 24px;
+      opacity: 0;
+      width: 24px;
+      transition: opacity 200ms ease-in-out;
+    }
+
+    &--left {
+      justify-content: flex-start;
+      left: 0;
+
+      button {
+        margin-left: 24px;
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-white
+        );
+      }
+    }
+
+    &--right {
+      justify-content: flex-end;
+      right: 0;
+
+      button {
+        margin-right: 24px;
+        @include color-svg(
+          '../images/icons/v2/chevron-right-24.svg',
+          $color-white
+        );
+      }
+    }
+
+    &--visible button {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &__protection {
+    position: absolute;
+    width: 100%;
+    z-index: $z-index-above-base;
+
+    &--top {
+      background: linear-gradient($color-black-alpha-16, $color-transparent);
+      top: 0;
+      height: 80px;
+    }
+
+    &--bottom {
+      background: linear-gradient($color-transparent, $color-black-alpha-40);
+      bottom: 0;
+      height: 180px;
     }
   }
 }

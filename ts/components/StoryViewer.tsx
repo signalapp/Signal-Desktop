@@ -9,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import classNames from 'classnames';
 import { useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -76,6 +77,13 @@ export type PropsType = {
 const CAPTION_BUFFER = 20;
 const CAPTION_INITIAL_LENGTH = 200;
 const CAPTION_MAX_LENGTH = 700;
+const MOUSE_IDLE_TIME = 3000;
+
+enum Arrow {
+  None,
+  Left,
+  Right,
+}
 
 export const StoryViewer = ({
   conversationId,
@@ -313,6 +321,38 @@ export const StoryViewer = ({
     loadStoryReplies(conversationId, messageId);
   }, [conversationId, isGroupStory, loadStoryReplies, messageId]);
 
+  const [arrowToShow, setArrowToShow] = useState<Arrow>(Arrow.None);
+
+  useEffect(() => {
+    if (arrowToShow === Arrow.None) {
+      return;
+    }
+
+    let lastMouseMove: number | undefined;
+
+    function updateLastMouseMove() {
+      lastMouseMove = Date.now();
+    }
+
+    function checkMouseIdle() {
+      requestAnimationFrame(() => {
+        if (lastMouseMove && Date.now() - lastMouseMove > MOUSE_IDLE_TIME) {
+          setArrowToShow(Arrow.None);
+        } else {
+          checkMouseIdle();
+        }
+      });
+    }
+    checkMouseIdle();
+
+    document.addEventListener('mousemove', updateLastMouseMove);
+
+    return () => {
+      lastMouseMove = undefined;
+      document.removeEventListener('mousemove', updateLastMouseMove);
+    };
+  }, [arrowToShow]);
+
   const replies =
     replyState && replyState.messageId === messageId ? replyState.replies : [];
 
@@ -327,6 +367,22 @@ export const StoryViewer = ({
           style={{ background: getStoryBackground(attachment) }}
         />
         <div className="StoryViewer__content">
+          <div
+            className={classNames(
+              'StoryViewer__arrow StoryViewer__arrow--left',
+              {
+                'StoryViewer__arrow--visible': arrowToShow === Arrow.Left,
+              }
+            )}
+            onMouseMove={() => setArrowToShow(Arrow.Left)}
+          >
+            <button
+              aria-label={i18n('back')}
+              onClick={showPrevStory}
+              type="button"
+            />
+          </div>
+          <div className="StoryViewer__protection StoryViewer__protection--top" />
           <div className="StoryViewer__container">
             <StoryImage
               attachment={attachment}
@@ -481,6 +537,22 @@ export const StoryViewer = ({
               </div>
             </div>
           </div>
+          <div
+            className={classNames(
+              'StoryViewer__arrow StoryViewer__arrow--right',
+              {
+                'StoryViewer__arrow--visible': arrowToShow === Arrow.Right,
+              }
+            )}
+            onMouseMove={() => setArrowToShow(Arrow.Right)}
+          >
+            <button
+              aria-label={i18n('forward')}
+              onClick={showNextStory}
+              type="button"
+            />
+          </div>
+          <div className="StoryViewer__protection StoryViewer__protection--bottom" />
           <button
             aria-label={i18n('MyStories__more')}
             className="StoryViewer__more"

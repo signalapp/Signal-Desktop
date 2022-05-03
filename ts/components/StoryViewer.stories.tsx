@@ -42,6 +42,7 @@ function getDefaultProps(): PropsType {
     stories: [
       {
         attachment: fakeAttachment({
+          path: 'snow.jpg',
           url: '/fixtures/snow.jpg',
         }),
         messageId: '123',
@@ -60,6 +61,7 @@ story.add('Wide story', () => (
     stories={[
       {
         attachment: fakeAttachment({
+          path: 'file.jpg',
           url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
         }),
         messageId: '123',
@@ -89,6 +91,7 @@ story.add('Multi story', () => {
       stories={[
         {
           attachment: fakeAttachment({
+            path: 'snow.jpg',
             url: '/fixtures/snow.jpg',
           }),
           messageId: '123',
@@ -97,6 +100,7 @@ story.add('Multi story', () => {
         },
         {
           attachment: fakeAttachment({
+            path: 'file.jpg',
             url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
           }),
           messageId: '456',
@@ -115,6 +119,7 @@ story.add('Caption', () => (
       {
         attachment: fakeAttachment({
           caption: 'This place looks lovely',
+          path: 'file.jpg',
           url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
         }),
         messageId: '123',
@@ -133,6 +138,7 @@ story.add('Long Caption', () => (
         attachment: fakeAttachment({
           caption:
             'Snowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like',
+          path: 'file.jpg',
           url: '/fixtures/snow.jpg',
         }),
         messageId: '123',
