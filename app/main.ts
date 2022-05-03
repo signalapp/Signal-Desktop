@@ -1287,6 +1287,21 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
   });
 }
 
+const runSQLCorruptionHandler = async () => {
+  // This is a glorified event handler. Normally, this promise never resolves,
+  // but if there is a corruption error triggered by any query that we run
+  // against the database - the promise will resolve and we will call
+  // `onDatabaseError`.
+  const error = await sql.whenCorrupted();
+
+  getLogger().error(
+    'Detected sql corruption in main process. ' +
+      `Restarting the application immediately. Error: ${error.message}`
+  );
+
+  await onDatabaseError(error.stack || error.message);
+};
+
 async function initializeSQL(
   userDataPath: string
 ): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
@@ -1331,6 +1346,9 @@ async function initializeSQL(
     sqlInitTimeEnd = Date.now();
   }
 
+  // Only if we've initialized things successfully do we set up the corruption handler
+  runSQLCorruptionHandler();
+
   return { ok: true, error: undefined };
 }
 
@@ -1346,43 +1364,31 @@ const onDatabaseError = async (error: string) => {
 
   const buttonIndex = dialog.showMessageBoxSync({
     buttons: [
-      getLocale().i18n('copyErrorAndQuit'),
       getLocale().i18n('deleteAndRestart'),
+      getLocale().i18n('copyErrorAndQuit'),
     ],
-    defaultId: 0,
+    defaultId: 1,
+    cancelId: 1,
     detail: redactAll(error),
     message: getLocale().i18n('databaseError'),
     noLink: true,
     type: 'error',
   });
 
-  if (buttonIndex === 0) {
+  if (buttonIndex === 1) {
     clipboard.writeText(`Database startup error:\n\n${redactAll(error)}`);
   } else {
     await sql.removeDB();
     userConfig.remove();
+    getLogger().error(
+      'onDatabaseError: Requesting immediate restart after quit'
+    );
     app.relaunch();
   }
 
+  getLogger().error('onDatabaseError: Quitting application');
   app.exit(1);
 };
-
-const runSQLCorruptionHandler = async () => {
-  // This is a glorified event handler. Normally, this promise never resolves,
-  // but if there is a corruption error triggered by any query that we run
-  // against the database - the promise will resolve and we will call
-  // `onDatabaseError`.
-  const error = await sql.whenCorrupted();
-
-  getLogger().error(
-    'Detected sql corruption in main process. ' +
-      `Restarting the application immediately. Error: ${error.message}`
-  );
-
-  await onDatabaseError(error.stack || error.message);
-};
-
-runSQLCorruptionHandler();
 
 let sqlInitPromise:
   | Promise<{ ok: true; error: undefined } | { ok: false; error: Error }>
