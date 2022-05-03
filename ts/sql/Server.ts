@@ -595,6 +595,7 @@ async function removeDB(): Promise<void> {
     );
   }
 
+  logger.warn('removeDB: Removing all database files');
   rimraf.sync(databaseFilePath);
   rimraf.sync(`${databaseFilePath}-shm`);
   rimraf.sync(`${databaseFilePath}-wal`);
