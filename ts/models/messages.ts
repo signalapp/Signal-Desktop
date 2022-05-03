@@ -2647,6 +2647,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     window.Whisper.events.trigger('incrementProgress');
     confirm();
+
+    conversation.queueJob('updateUnread', () => conversation.updateUnread());
   }
 
   // This function is called twice - once from handleDataMessage, and then again from
@@ -2776,7 +2778,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
       } else if (isFirstRun && !isGroupStoryReply) {
         conversation.set({
-          unreadCount: (conversation.get('unreadCount') || 0) + 1,
           isArchived: false,
         });
       }
