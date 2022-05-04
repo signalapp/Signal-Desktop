@@ -23,6 +23,7 @@ import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
 import { getAppRootPath } from './getRootPath';
+import { UpdateLastHashType } from '../types/sqlSharedTypes';
 // tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
 const openDbOptions = {
   // tslint:disable-next-line: no-constant-condition
@@ -47,6 +48,7 @@ const GUARD_NODE_TABLE = 'guardNodes';
 const ITEMS_TABLE = 'items';
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
+const LAST_HASHES_TABLE = 'lastHashes';
 
 const MAX_PUBKEYS_MEMBERS = 300;
 
@@ -434,7 +436,7 @@ function updateToSchemaVersion6(currentVersion: number, db: BetterSqlite3.Databa
   console.log('updateToSchemaVersion6: starting...');
   db.transaction(() => {
     db.exec(`
-    CREATE TABLE lastHashes(
+    CREATE TABLE ${LAST_HASHES_TABLE}(
       snode TEXT PRIMARY KEY,
       hash TEXT,
       expiresAt INTEGER
@@ -766,6 +768,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion20,
   updateToLokiSchemaVersion21,
   updateToLokiSchemaVersion22,
+  updateToLokiSchemaVersion23,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -846,8 +849,8 @@ function updateToLokiSchemaVersion4(currentVersion: number, db: BetterSqlite3.Da
 
   db.transaction(() => {
     db.exec(`
-    DROP TABLE lastHashes;
-    CREATE TABLE lastHashes(
+    DROP TABLE ${LAST_HASHES_TABLE};
+    CREATE TABLE ${LAST_HASHES_TABLE}(
       id TEXT,
       snode TEXT,
       hash TEXT,
@@ -1354,6 +1357,40 @@ function updateToLokiSchemaVersion22(currentVersion: number, db: BetterSqlite3.D
         json = json_remove(json, '$.schemaVersion', '$.recipients', '$.decrypted_at', '$.sourceDevice', '$.read_by')
       `);
     rebuildFtsTable(db);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion23(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 23;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(
+      `
+      ALTER TABLE ${LAST_HASHES_TABLE} RENAME TO ${LAST_HASHES_TABLE}_old;
+      CREATE TABLE ${LAST_HASHES_TABLE}(
+        id TEXT,
+        snode TEXT,
+        hash TEXT,
+        expiresAt INTEGER,
+        namespace INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (id, snode, namespace)
+      );
+
+
+      `
+    );
+
+    db.exec(
+      `INSERT INTO ${LAST_HASHES_TABLE}(id, snode, hash, expiresAt) SELECT id, snode, hash, expiresAt FROM ${LAST_HASHES_TABLE}_old;`
+    );
+    db.exec(`DROP TABLE ${LAST_HASHES_TABLE}_old;`);
+
     writeLokiSchemaVersion(targetVersion, db);
   })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
@@ -2111,30 +2148,33 @@ function saveSeenMessageHashes(arrayOfHashes: Array<string>) {
   })();
 }
 
-function updateLastHash(data: any) {
-  const { convoId, snode, hash, expiresAt } = data;
-
-  const id = convoId;
-
+function updateLastHash(data: UpdateLastHashType) {
+  const { convoId, snode, hash, expiresAt, namespace } = data;
+  if (!isNumber(namespace)) {
+    throw new Error('updateLastHash: namespace must be set to a number');
+  }
   assertGlobalInstance()
     .prepare(
-      `INSERT OR REPLACE INTO lastHashes (
-      id,
-      snode,
-      hash,
-      expiresAt
-    ) values (
-      $id,
-      $snode,
-      $hash,
-      $expiresAt
-    )`
-    )
-    .run({
+      `INSERT OR REPLACE INTO ${LAST_HASHES_TABLE} (
       id,
       snode,
       hash,
       expiresAt,
+      namespace
+    ) values (
+      $id,
+      $snode,
+      $hash,
+      $expiresAt,
+      $namespace
+    )`
+    )
+    .run({
+      id: convoId,
+      snode,
+      hash,
+      expiresAt,
+      namespace,
     });
 }
 
@@ -2162,7 +2202,7 @@ function saveSeenMessageHash(data: any) {
 
 function cleanLastHashes() {
   assertGlobalInstance()
-    .prepare('DELETE FROM lastHashes WHERE expiresAt <= $now;')
+    .prepare(`DELETE FROM ${LAST_HASHES_TABLE} WHERE expiresAt <= $now;`)
     .run({
       now: Date.now(),
     });
@@ -2579,12 +2619,18 @@ function getMessagesBySentAt(sentAt: number) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getLastHashBySnode(convoId: string, snode: string) {
+function getLastHashBySnode(convoId: string, snode: string, namespace: number) {
+  if (!isNumber(namespace)) {
+    throw new Error('getLastHashBySnode: namespace must be set to a number');
+  }
   const row = assertGlobalInstance()
-    .prepare('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;')
+    .prepare(
+      `SELECT * FROM ${LAST_HASHES_TABLE} WHERE snode = $snode AND id = $id AND namespace = $namespace;`
+    )
     .get({
       snode,
       id: convoId,
+      namespace,
     });
 
   if (!row) {
@@ -2848,7 +2894,7 @@ function removeAll() {
 
     DELETE FROM ${ITEMS_TABLE};
     DELETE FROM unprocessed;
-    DELETE FROM lastHashes;
+    DELETE FROM ${LAST_HASHES_TABLE};
     DELETE FROM ${NODES_FOR_PUBKEY_TABLE};
     DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};
     DELETE FROM seenMessages;

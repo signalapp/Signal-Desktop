@@ -505,7 +505,7 @@ export async function retrieveNextMessages(
   targetNode: Snode,
   lastHash: string,
   associatedWith: string,
-  namespace?: number
+  namespace: number
 ): Promise<Array<any>> {
   const params: RetrieveRequestParams = {
     pubKey: associatedWith,
