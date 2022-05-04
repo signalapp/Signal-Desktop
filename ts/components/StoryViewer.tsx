@@ -18,6 +18,7 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
 import type { ReplyStateType } from '../types/Stories';
 import type { StoryViewType } from './StoryListItem';
+import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenuPopper } from './ContextMenu';
@@ -117,6 +118,7 @@ export const StoryViewer = ({
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
+  const [reactionEmoji, setReactionEmoji] = useState<string | undefined>();
 
   const visibleStory = stories[currentStoryIndex];
 
@@ -263,7 +265,8 @@ export const StoryViewer = ({
     hasConfirmHideStory ||
     hasExpandedCaption ||
     hasReplyModal ||
-    isShowingContextMenu;
+    isShowingContextMenu ||
+    Boolean(reactionEmoji);
 
   useEffect(() => {
     if (shouldPauseViewing) {
@@ -392,7 +395,18 @@ export const StoryViewer = ({
               moduleClassName="StoryViewer__story"
               queueStoryDownload={queueStoryDownload}
               storyId={messageId}
-            />
+            >
+              {reactionEmoji && (
+                <div className="StoryViewer__animated-emojis">
+                  <AnimatedEmojiGalore
+                    emoji={reactionEmoji}
+                    onAnimationEnd={() => {
+                      setReactionEmoji(undefined);
+                    }}
+                  />
+                </div>
+              )}
+            </StoryImage>
             {hasExpandedCaption && (
               <button
                 aria-label={i18n('close-popup')}
@@ -610,6 +624,8 @@ export const StoryViewer = ({
             onClose={() => setHasReplyModal(false)}
             onReact={emoji => {
               onReactToStory(emoji, visibleStory);
+              setHasReplyModal(false);
+              setReactionEmoji(emoji);
             }}
             onReply={(message, mentions, replyTimestamp) => {
               if (!isGroupStory) {

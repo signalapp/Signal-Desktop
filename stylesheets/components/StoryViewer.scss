@@ -148,6 +148,13 @@
     }
   }
 
+  &__animated-emojis {
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+    z-index: $z-index-above-base;
+  }
+
   &__arrow {
     align-items: center;
     display: flex;

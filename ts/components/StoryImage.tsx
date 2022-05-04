@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReactNode } from 'react';
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
@@ -22,6 +23,7 @@ import { isVideoTypeSupported } from '../util/GoogleChrome';
 
 export type PropsType = {
   readonly attachment?: AttachmentType;
+  readonly children?: ReactNode;
   readonly i18n: LocalizerType;
   readonly isPaused?: boolean;
   readonly isThumbnail?: boolean;
@@ -33,6 +35,7 @@ export type PropsType = {
 
 export const StoryImage = ({
   attachment,
+  children,
   i18n,
   isPaused,
   isThumbnail,
@@ -142,6 +145,7 @@ export const StoryImage = ({
     >
       {storyElement}
       {overlay}
+      {children}
     </div>
   );
 };
