@@ -370,21 +370,18 @@ export const StoryViewer = ({
           style={{ background: getStoryBackground(attachment) }}
         />
         <div className="StoryViewer__content">
-          <div
+          <button
+            aria-label={i18n('back')}
             className={classNames(
               'StoryViewer__arrow StoryViewer__arrow--left',
               {
                 'StoryViewer__arrow--visible': arrowToShow === Arrow.Left,
               }
             )}
+            onClick={showPrevStory}
             onMouseMove={() => setArrowToShow(Arrow.Left)}
-          >
-            <button
-              aria-label={i18n('back')}
-              onClick={showPrevStory}
-              type="button"
-            />
-          </div>
+            type="button"
+          />
           <div className="StoryViewer__protection StoryViewer__protection--top" />
           <div className="StoryViewer__container">
             <StoryImage
@@ -415,157 +412,154 @@ export const StoryViewer = ({
                 type="button"
               />
             )}
-            <div className="StoryViewer__meta">
-              {caption && (
-                <div className="StoryViewer__caption">
-                  {caption.text}
-                  {caption.hasReadMore && !hasExpandedCaption && (
-                    <button
-                      className="MessageBody__read-more"
-                      onClick={() => {
-                        setHasExpandedCaption(true);
-                      }}
-                      onKeyDown={(ev: React.KeyboardEvent) => {
-                        if (ev.key === 'Space' || ev.key === 'Enter') {
-                          setHasExpandedCaption(true);
-                        }
-                      }}
-                      type="button"
-                    >
-                      ...
-                      {i18n('MessageBody--read-more')}
-                    </button>
-                  )}
-                </div>
-              )}
-              <Avatar
-                acceptedMessageRequest={acceptedMessageRequest}
-                avatarPath={avatarPath}
-                badge={undefined}
-                color={getAvatarColor(color)}
-                conversationType="direct"
-                i18n={i18n}
-                isMe={Boolean(isMe)}
-                name={name}
-                profileName={profileName}
-                sharedGroupNames={sharedGroupNames}
-                size={AvatarSize.TWENTY_EIGHT}
-                title={title}
-              />
-              {group && (
-                <Avatar
-                  acceptedMessageRequest={group.acceptedMessageRequest}
-                  avatarPath={group.avatarPath}
-                  badge={undefined}
-                  className="StoryViewer__meta--group-avatar"
-                  color={getAvatarColor(group.color)}
-                  conversationType="group"
-                  i18n={i18n}
-                  isMe={false}
-                  name={group.name}
-                  profileName={group.profileName}
-                  sharedGroupNames={group.sharedGroupNames}
-                  size={AvatarSize.TWENTY_EIGHT}
-                  title={group.title}
-                />
-              )}
-              <div className="StoryViewer__meta--title">
-                {group
-                  ? i18n('Stories__from-to-group', {
-                      name: title,
-                      group: group.title,
-                    })
-                  : title}
-              </div>
-              <MessageTimestamp
-                i18n={i18n}
-                module="StoryViewer__meta--timestamp"
-                timestamp={timestamp}
-              />
-              <div className="StoryViewer__progress">
-                {stories.map((story, index) => (
-                  <div
-                    className="StoryViewer__progress--container"
-                    key={story.messageId}
-                  >
-                    {currentStoryIndex === index ? (
-                      <animated.div
-                        className="StoryViewer__progress--bar"
-                        style={{
-                          width: to([styles.width], width => `${width}%`),
-                        }}
-                      />
-                    ) : (
-                      <div
-                        className="StoryViewer__progress--bar"
-                        style={{
-                          width: currentStoryIndex < index ? '0%' : '100%',
-                        }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="StoryViewer__actions">
-                {canReply && (
+          </div>
+          <div className="StoryViewer__meta">
+            {caption && (
+              <div className="StoryViewer__caption">
+                {caption.text}
+                {caption.hasReadMore && !hasExpandedCaption && (
                   <button
-                    className="StoryViewer__reply"
-                    onClick={() => setHasReplyModal(true)}
-                    tabIndex={0}
+                    className="MessageBody__read-more"
+                    onClick={() => {
+                      setHasExpandedCaption(true);
+                    }}
+                    onKeyDown={(ev: React.KeyboardEvent) => {
+                      if (ev.key === 'Space' || ev.key === 'Enter') {
+                        setHasExpandedCaption(true);
+                      }
+                    }}
                     type="button"
                   >
-                    <>
-                      {viewCount > 0 &&
-                        (viewCount === 1 ? (
-                          <Intl
-                            i18n={i18n}
-                            id="MyStories__views--singular"
-                            components={[<strong>{viewCount}</strong>]}
-                          />
-                        ) : (
-                          <Intl
-                            i18n={i18n}
-                            id="MyStories__views--plural"
-                            components={[<strong>{viewCount}</strong>]}
-                          />
-                        ))}
-                      {viewCount > 0 && replyCount > 0 && ' '}
-                      {replyCount > 0 &&
-                        (replyCount === 1 ? (
-                          <Intl
-                            i18n={i18n}
-                            id="MyStories__replies--singular"
-                            components={[<strong>{replyCount}</strong>]}
-                          />
-                        ) : (
-                          <Intl
-                            i18n={i18n}
-                            id="MyStories__replies--plural"
-                            components={[<strong>{replyCount}</strong>]}
-                          />
-                        ))}
-                      {!viewCount && !replyCount && i18n('StoryViewer__reply')}
-                    </>
+                    ...
+                    {i18n('MessageBody--read-more')}
                   </button>
                 )}
               </div>
+            )}
+            <Avatar
+              acceptedMessageRequest={acceptedMessageRequest}
+              avatarPath={avatarPath}
+              badge={undefined}
+              color={getAvatarColor(color)}
+              conversationType="direct"
+              i18n={i18n}
+              isMe={Boolean(isMe)}
+              name={name}
+              profileName={profileName}
+              sharedGroupNames={sharedGroupNames}
+              size={AvatarSize.TWENTY_EIGHT}
+              title={title}
+            />
+            {group && (
+              <Avatar
+                acceptedMessageRequest={group.acceptedMessageRequest}
+                avatarPath={group.avatarPath}
+                badge={undefined}
+                className="StoryViewer__meta--group-avatar"
+                color={getAvatarColor(group.color)}
+                conversationType="group"
+                i18n={i18n}
+                isMe={false}
+                name={group.name}
+                profileName={group.profileName}
+                sharedGroupNames={group.sharedGroupNames}
+                size={AvatarSize.TWENTY_EIGHT}
+                title={group.title}
+              />
+            )}
+            <div className="StoryViewer__meta--title">
+              {group
+                ? i18n('Stories__from-to-group', {
+                    name: title,
+                    group: group.title,
+                  })
+                : title}
+            </div>
+            <MessageTimestamp
+              i18n={i18n}
+              module="StoryViewer__meta--timestamp"
+              timestamp={timestamp}
+            />
+            <div className="StoryViewer__progress">
+              {stories.map((story, index) => (
+                <div
+                  className="StoryViewer__progress--container"
+                  key={story.messageId}
+                >
+                  {currentStoryIndex === index ? (
+                    <animated.div
+                      className="StoryViewer__progress--bar"
+                      style={{
+                        width: to([styles.width], width => `${width}%`),
+                      }}
+                    />
+                  ) : (
+                    <div
+                      className="StoryViewer__progress--bar"
+                      style={{
+                        width: currentStoryIndex < index ? '0%' : '100%',
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="StoryViewer__actions">
+              {canReply && (
+                <button
+                  className="StoryViewer__reply"
+                  onClick={() => setHasReplyModal(true)}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <>
+                    {viewCount > 0 &&
+                      (viewCount === 1 ? (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__views--singular"
+                          components={[<strong>{viewCount}</strong>]}
+                        />
+                      ) : (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__views--plural"
+                          components={[<strong>{viewCount}</strong>]}
+                        />
+                      ))}
+                    {viewCount > 0 && replyCount > 0 && ' '}
+                    {replyCount > 0 &&
+                      (replyCount === 1 ? (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__replies--singular"
+                          components={[<strong>{replyCount}</strong>]}
+                        />
+                      ) : (
+                        <Intl
+                          i18n={i18n}
+                          id="MyStories__replies--plural"
+                          components={[<strong>{replyCount}</strong>]}
+                        />
+                      ))}
+                    {!viewCount && !replyCount && i18n('StoryViewer__reply')}
+                  </>
+                </button>
+              )}
             </div>
           </div>
-          <div
+          <button
+            aria-label={i18n('forward')}
             className={classNames(
               'StoryViewer__arrow StoryViewer__arrow--right',
               {
                 'StoryViewer__arrow--visible': arrowToShow === Arrow.Right,
               }
             )}
+            onClick={showNextStory}
             onMouseMove={() => setArrowToShow(Arrow.Right)}
-          >
-            <button
-              aria-label={i18n('forward')}
-              onClick={showNextStory}
-              type="button"
-            />
-          </div>
+            type="button"
+          />
           <div className="StoryViewer__protection StoryViewer__protection--bottom" />
           <button
             aria-label={i18n('MyStories__more')}

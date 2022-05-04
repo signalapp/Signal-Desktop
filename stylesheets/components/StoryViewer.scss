@@ -56,8 +56,6 @@
   &__container {
     flex-grow: 1;
     overflow: hidden;
-    position: relative;
-    z-index: $z-index-base;
   }
 
   &__story {
@@ -74,7 +72,7 @@
     transform: translateX(-50%);
     min-width: 284px;
     width: 56.25vh;
-    z-index: $z-index-above-base;
+    z-index: $z-index-above-above-base;
 
     &--group-avatar {
       margin-left: -8px;
@@ -156,14 +154,16 @@
   }
 
   &__arrow {
+    @include button-reset;
     align-items: center;
     display: flex;
     height: 100vh;
     position: absolute;
     width: 25%;
+    z-index: $z-index-above-above-base;
 
-    button {
-      @include button-reset;
+    &::before {
+      content: '';
       height: 24px;
       opacity: 0;
       width: 24px;
@@ -174,10 +174,10 @@
       justify-content: flex-start;
       left: 0;
 
-      button {
+      &::before {
         margin-left: 24px;
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v2/arrow-left-32.svg',
           $color-white
         );
       }
@@ -187,25 +187,24 @@
       justify-content: flex-end;
       right: 0;
 
-      button {
+      &::before {
         margin-right: 24px;
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
+          '../images/icons/v2/arrow-right-32.svg',
           $color-white
         );
       }
     }
 
-    &--visible button {
+    &--visible::before {
       opacity: 1;
-      visibility: visible;
     }
   }
 
   &__protection {
     position: absolute;
     width: 100%;
-    z-index: $z-index-above-base;
+    z-index: $z-index-base;
 
     &--top {
       background: linear-gradient($color-black-alpha-16, $color-transparent);
