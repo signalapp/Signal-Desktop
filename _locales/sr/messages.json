@@ -7047,6 +7047,10 @@
         "message": "Унесите одговор...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Без одговора",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Прегледа",
         "description": "Title for views tab"
@@ -7108,7 +7112,7 @@
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
+        "message": "Хвала нашим сарадницима отвореног кода $dsanders11$ и $yusufsahinhamza$ за допринос овим побољшањима.",
         "description": "Release notes for v5.40",
         "placeholders": {
             "dsanders11": {

@@ -7047,6 +7047,10 @@
         "message": "Teipiwch ateb...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Dim atebion eto",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Golygon",
         "description": "Title for views tab"

@@ -7047,6 +7047,10 @@
         "message": "Shtypni një përgjigje…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Ende pa përgjigje",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Parje",
         "description": "Title for views tab"

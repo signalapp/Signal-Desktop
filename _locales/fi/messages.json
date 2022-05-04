@@ -6102,11 +6102,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd D. MMMMta",
+        "message": "ddd D. MMMM[ta]",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "ddd D. MMMMta YYYY",
+        "message": "ddd D. MMMM[ta] YYYY",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -7046,6 +7046,10 @@
     "StoryViewsNRepliesModal__placeholder": {
         "message": "Kirjoita vastaus...",
         "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Ei vastauksia vielä",
+        "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Näytöt",

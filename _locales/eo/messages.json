@@ -7047,6 +7047,10 @@
         "message": "Entajpi respondon...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Neniu respondo",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Vidoj",
         "description": "Title for views tab"

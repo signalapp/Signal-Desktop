@@ -7047,6 +7047,10 @@
         "message": "Γράψε μια απάντηση...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Καμία απάντηση ακόμα",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Προβολές",
         "description": "Title for views tab"

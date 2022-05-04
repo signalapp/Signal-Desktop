@@ -7047,6 +7047,10 @@
         "message": "Tapez une réponse…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Aucune réponse pour le moment",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Vues",
         "description": "Title for views tab"
@@ -7104,7 +7108,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
+        "message": "Correction de bogues, notamment d’un problème rendant parfois difficile de cliquer sur les menus.",
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {

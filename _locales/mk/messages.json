@@ -7047,6 +7047,10 @@
         "message": "Type a reply...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Сè уште нема одговори",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Прегледи",
         "description": "Title for views tab"

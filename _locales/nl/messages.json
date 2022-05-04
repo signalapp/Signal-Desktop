@@ -7047,6 +7047,10 @@
         "message": "Typ een reactie …",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Nog geen reacties",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Aantal weergaven",
         "description": "Title for views tab"

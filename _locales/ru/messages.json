@@ -7047,6 +7047,10 @@
         "message": "Введите ответ…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Ещё нет ответов",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Просмотры",
         "description": "Title for views tab"

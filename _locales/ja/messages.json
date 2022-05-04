@@ -7047,6 +7047,10 @@
         "message": "返信を入力してください…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "返信 なし",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "閲覧",
         "description": "Title for views tab"
