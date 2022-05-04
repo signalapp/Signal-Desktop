@@ -111,7 +111,7 @@ export async function snodeRpc(
     timeout = 10000,
   }: {
     method: string;
-    params: any;
+    params: Record<string, any>;
     targetNode: Snode;
     associatedWith?: string;
     timeout?: number;
@@ -128,6 +128,7 @@ export async function snodeRpc(
       pubKey: getStoragePubKey(params.pubKey),
     };
   }
+
   const body = {
     jsonrpc: '2.0',
     id: '0',
