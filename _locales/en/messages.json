@@ -97,7 +97,7 @@
   "deleteMessagesQuestion": "Delete $count$ messages?",
   "deleteMessageQuestion": "Delete this message?",
   "deleteMessages": "Delete Messages",
-  "deleted": "Deleted",
+  "deleted": "$count$ deleted",
   "messageDeletedPlaceholder": "This message has been deleted",
   "from": "From:",
   "to": "To:",
