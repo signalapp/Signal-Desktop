@@ -290,6 +290,7 @@ export const StoryViewsNRepliesModal = ({
                 </div>
 
                 <MessageBody
+                  disableJumbomoji
                   i18n={i18n}
                   text={
                     reply.deletedForEveryone
