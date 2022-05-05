@@ -307,12 +307,12 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   getConversationAndMessageAtIndex(
-    _conversationIndex: number
+    conversationIndex: number
   ): undefined | { conversationId: string; messageId?: string } {
-    if (_conversationIndex < 0) {
+    if (conversationIndex < 0) {
       return undefined;
     }
-    let pointer = _conversationIndex;
+    let pointer = conversationIndex;
     for (const list of this.allResults()) {
       if (list.isLoading) {
         continue;
