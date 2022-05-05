@@ -42,7 +42,7 @@ declare global {
     onLogin: any;
     persistStore?: Persistor;
     restart: any;
-    getSeedNodeList: () => Array<any> | undefined;
+    getSeedNodeList: () => Array<string> | undefined;
     setPassword: any;
     storage: any;
     isOnline: boolean;

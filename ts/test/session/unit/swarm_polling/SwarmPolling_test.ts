@@ -231,7 +231,7 @@ describe('SwarmPolling', () => {
       // our pubkey will be polled for, hence the 2
       expect(pollOnceForKeySpy.callCount).to.eq(3);
       expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, 0]);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, 0]);
+      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, undefined]);
       expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([groupConvoPubkey, true, -10]);
       getItemByIdStub.restore();
       getItemByIdStub = TestUtils.stubDataItem('getItemById');

@@ -5,7 +5,7 @@
 async function sign(key: any, data: any) {
   return crypto.subtle
     .importKey('raw', key, { name: 'HMAC', hash: { name: 'SHA-256' } }, false, ['sign'])
-    .then(async function(secondKey: any) {
+    .then(async function(secondKey) {
       return crypto.subtle.sign({ name: 'HMAC', hash: 'SHA-256' }, secondKey, data);
     });
 }
@@ -13,14 +13,14 @@ async function sign(key: any, data: any) {
 async function encrypt(key: any, data: any, iv: any) {
   return crypto.subtle
     .importKey('raw', key, { name: 'AES-CBC' }, false, ['encrypt'])
-    .then(async function(secondKey: any) {
+    .then(async function(secondKey) {
       return crypto.subtle.encrypt({ name: 'AES-CBC', iv: new Uint8Array(iv) }, secondKey, data);
     });
 }
 async function decrypt(key: any, data: any, iv: any) {
   return crypto.subtle
     .importKey('raw', key, { name: 'AES-CBC' }, false, ['decrypt'])
-    .then(async function(secondKey: any) {
+    .then(async function(secondKey) {
       return crypto.subtle.decrypt({ name: 'AES-CBC', iv: new Uint8Array(iv) }, secondKey, data);
     });
 }

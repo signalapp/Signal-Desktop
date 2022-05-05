@@ -66,6 +66,7 @@ export type SendParams = {
   data: string;
   isSyncMessage?: boolean;
   messageId?: string;
+  namespace: number;
 };
 
 /**
@@ -438,6 +439,7 @@ export async function storeOnNode(
     try {
       const parsed = JSON.parse(result.body);
       handleTimestampOffset('store', parsed.t);
+      await handleHardforkResult(parsed);
 
       const messageHash = parsed.hash;
       if (messageHash) {
@@ -505,12 +507,12 @@ export async function retrieveNextMessages(
   targetNode: Snode,
   lastHash: string,
   associatedWith: string,
-  namespace: number
+  namespace?: number
 ): Promise<Array<any>> {
   const params: RetrieveRequestParams = {
     pubKey: associatedWith,
     lastHash: lastHash || '',
-    namespace: namespace || 0,
+    namespace,
   };
 
   const signatureParams = (await getRetrieveSignatureParams(params)) || {};

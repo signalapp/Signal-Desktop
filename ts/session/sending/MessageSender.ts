@@ -22,6 +22,7 @@ import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
 import { EmptySwarmError } from '../utils/errors';
 import ByteBuffer from 'bytebuffer';
+import { getHasSeenHF190, getHasSeenHF191 } from '../apis/snode_api/hfHandling';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -137,29 +138,34 @@ export async function sendMessageToSnode(
   const data64 = ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
 
+  const conversation = getConversationController().get(pubKey);
+  const isClosedGroup = conversation?.isClosedGroup();
+
+  const hardfork190Happened = await getHasSeenHF190();
+  const hardfork191Happened = await getHasSeenHF191();
+  const namespace = isClosedGroup ? -10 : 0;
+
   window?.log?.debug(
-    'Sending envelope with timestamp: ',
-    timestamp,
-    ' to ',
-    ed25519Str(pubKey),
-    ' size base64:',
-    data64.length
+    `Sending envelope with timestamp: ${timestamp} to ${ed25519Str(pubKey)} size base64: ${
+      data64.length
+    }; hardfork190Happened:${hardfork190Happened}; hardfork191Happened:${hardfork191Happened} to namespace:${namespace}`
   );
+
   // send parameters
   const params = {
     pubKey,
     ttl: `${ttl}`,
     timestamp: `${timestamp}`,
     data: data64,
-    isSyncMessage,
-    messageId,
+    isSyncMessage, // I don't think that's of any use
+    messageId, // I don't think that's of any use
+    namespace,
   };
 
   const usedNodes = _.slice(swarm, 0, DEFAULT_CONNECTIONS);
 
   let successfulSendHash: any;
   const promises = usedNodes.map(async usedNode => {
-    // TODO: Revert back to using snode address instead of IP
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
     // the only case we could care about a retry would be when the usedNode is not correct,
     // but considering we trigger this request with a few snode in //, this should be fine.
@@ -188,9 +194,6 @@ export async function sendMessageToSnode(
   if (!usedNodes || usedNodes.length === 0) {
     throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
   }
-
-  const conversation = getConversationController().get(pubKey);
-  const isClosedGroup = conversation?.isClosedGroup();
 
   // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
   if (messageId && (isSyncMessage || isClosedGroup)) {

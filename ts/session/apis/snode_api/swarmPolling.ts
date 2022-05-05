@@ -163,17 +163,16 @@ export class SwarmPolling {
           ?.idForLogging() || group.pubkey.key;
 
       if (diff >= convoPollingTimeout) {
-        window?.log?.info(
-          `Polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
-        );
-
         const hardfork190Happened = await getHasSeenHF190();
         const hardfork191Happened = await getHasSeenHF191();
+        window?.log?.info(
+          `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} ; hardfork190Happened: ${hardfork190Happened}; hardfork191Happened: ${hardfork191Happened} `
+        );
 
         if (hardfork190Happened && !hardfork191Happened) {
           // during the transition period, we poll from both namespaces (0 and -10) for groups
           return Promise.all([
-            this.pollOnceForKey(group.pubkey, true, 0),
+            this.pollOnceForKey(group.pubkey, true, undefined),
             this.pollOnceForKey(group.pubkey, true, -10),
           ]).then(() => undefined);
         }
@@ -184,7 +183,6 @@ export class SwarmPolling {
         }
 
         // before any of those hardforks, we just poll from the default namespace being 0
-        console.warn('before any of those hardforks');
         return this.pollOnceForKey(group.pubkey, true, 0);
       }
       window?.log?.info(
@@ -206,7 +204,7 @@ export class SwarmPolling {
   /**
    * Only exposed as public for testing
    */
-  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespace: number) {
+  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespace?: number) {
     const pkStr = pubkey.key;
 
     const swarmSnodes = await snodePool.getSwarmFor(pkStr);
@@ -290,7 +288,7 @@ export class SwarmPolling {
   private async pollNodeForKey(
     node: Snode,
     pubkey: PubKey,
-    namespace: number
+    namespace?: number
   ): Promise<Array<any> | null> {
     const edkey = node.pubkey_ed25519;
 
@@ -299,7 +297,7 @@ export class SwarmPolling {
     try {
       return await pRetry(
         async () => {
-          const prevHash = await this.getLastHash(edkey, pkStr, namespace);
+          const prevHash = await this.getLastHash(edkey, pkStr, namespace || 0);
           const messages = await retrieveNextMessages(node, prevHash, pkStr, namespace);
           if (!messages.length) {
             return [];
@@ -310,7 +308,7 @@ export class SwarmPolling {
           await this.updateLastHash({
             edkey: edkey,
             pubkey,
-            namespace,
+            namespace: namespace || 0,
             hash: lastMessage.hash,
             expiration: lastMessage.expiration,
           });

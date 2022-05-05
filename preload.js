@@ -212,15 +212,9 @@ window.ReactDOM = require('react-dom');
 window.clipboard = clipboard;
 
 window.getSeedNodeList = () => [
-  {
-    url: 'https://storage.seed1.loki.network:4433/',
-  },
-  {
-    url: 'https://storage.seed3.loki.network:4433/',
-  },
-  {
-    url: 'https://public.loki.foundation:4433/',
-  },
+  'https://storage.seed1.loki.network:4433/',
+  'https://storage.seed3.loki.network:4433/',
+  'https://public.loki.foundation:4433/',
 ];
 
 const { locale: localFromEnv } = config;

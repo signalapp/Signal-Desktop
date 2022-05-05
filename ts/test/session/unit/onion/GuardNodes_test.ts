@@ -63,7 +63,7 @@ describe('GuardNodes', () => {
         SnodePool,
         'TEST_fetchFromSeedWithRetriesAndWriteToDb'
       ).resolves();
-      const testGuardNode = Sinon.stub(OnionPaths, 'TEST_testGuardNode').resolves(true);
+      const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(true);
 
       Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
@@ -98,7 +98,7 @@ describe('GuardNodes', () => {
         SnodePool,
         'TEST_fetchFromSeedWithRetriesAndWriteToDb'
       ).resolves();
-      const testGuardNode = Sinon.stub(OnionPaths, 'TEST_testGuardNode').resolves(false);
+      const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(false);
 
       Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
@@ -154,7 +154,7 @@ describe('GuardNodes', () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
       Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
-      const testGuardNode = Sinon.stub(OnionPaths, 'TEST_testGuardNode').resolves(true);
+      const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(true);
 
       getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
         SnodePool,

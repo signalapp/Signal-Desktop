@@ -1,7 +1,8 @@
 import { fromHexToArray } from '../utils/String';
 
-export const getStoragePubKey = (key: string) =>
-  window.isDev?.() || false ? key.substring(2) : key;
+export const useTestNet = process.env.NODE_APP_INSTANCE?.includes('testnet');
+
+export const getStoragePubKey = (key: string) => (useTestNet ? key.substring(2) : key);
 
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;

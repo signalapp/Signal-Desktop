@@ -1181,6 +1181,7 @@ function updateToLokiSchemaVersion17(currentVersion: number, db: BetterSqlite3.D
 }
 
 function dropFtsAndTriggers(db: BetterSqlite3.Database) {
+  console.info('dropping fts5 table');
   db.exec(`
   DROP TRIGGER IF EXISTS messages_on_insert;
   DROP TRIGGER IF EXISTS messages_on_delete;
@@ -1190,6 +1191,7 @@ function dropFtsAndTriggers(db: BetterSqlite3.Database) {
 }
 
 function rebuildFtsTable(db: BetterSqlite3.Database) {
+  console.info('rebuildFtsTable');
   db.exec(`
     -- Then we create our full-text search table and populate it
     CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
@@ -1220,6 +1222,7 @@ function rebuildFtsTable(db: BetterSqlite3.Database) {
       );
     END;
     `);
+  console.info('rebuildFtsTable built');
 }
 
 function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1380,10 +1383,7 @@ function updateToLokiSchemaVersion23(currentVersion: number, db: BetterSqlite3.D
         expiresAt INTEGER,
         namespace INTEGER NOT NULL DEFAULT 0,
         PRIMARY KEY (id, snode, namespace)
-      );
-
-
-      `
+      );`
     );
 
     db.exec(
@@ -2891,7 +2891,6 @@ function removeAllAttachmentDownloadJobs() {
 function removeAll() {
   assertGlobalInstance().exec(`
     DELETE FROM ${IDENTITY_KEYS_TABLE};
-
     DELETE FROM ${ITEMS_TABLE};
     DELETE FROM unprocessed;
     DELETE FROM ${LAST_HASHES_TABLE};
@@ -3417,89 +3416,93 @@ function cleanUpOldOpengroups() {
 
   // first remove very old messages for each opengroups
 
-  dropFtsAndTriggers(assertGlobalInstance());
-  v2Convos.forEach(convo => {
-    const convoId = convo.id;
-    const messagesInConvoBefore = getMessagesCountByConversation(convoId);
+  assertGlobalInstance().transaction(() => {
+    dropFtsAndTriggers(assertGlobalInstance());
+    v2Convos.forEach(convo => {
+      const convoId = convo.id;
+      const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
-    if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
-      const minute = 1000 * 60;
-      const sixMonths = minute * 60 * 24 * 30 * 6;
-      const messagesTimestampToRemove = Date.now() - sixMonths;
-      const countToRemove = assertGlobalInstance()
-        .prepare(
-          `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
-        )
-        .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
+      if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
+        const minute = 1000 * 60;
+        const sixMonths = minute * 60 * 24 * 30 * 6;
+        const messagesTimestampToRemove = Date.now() - sixMonths;
+        const countToRemove = assertGlobalInstance()
+          .prepare(
+            `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
+          )
+          .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
+        const start = Date.now();
+
+        assertGlobalInstance()
+          .prepare(
+            `
+      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
+          )
+          .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
+        const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+
+        console.info(
+          `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
+            start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+        );
+
+        const unreadCount = getUnreadCountByConversation(convoId);
+        const convoProps = getConversationById(convoId);
+        if (convoProps) {
+          convoProps.unreadCount = unreadCount;
+          updateConversation(convoProps);
+        }
+      }
+    });
+
+    // now, we might have a bunch of private conversation, without any interaction and no messages
+    // those are the conversation of the old members in the opengroups we just cleaned.
+    const allInactiveConvos = assertGlobalInstance()
+      .prepare(
+        `
+    SELECT id FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (active_at IS NULL OR active_at = 0)`
+      )
+      .all();
+
+    const ourNumber = getItemById('number_id');
+    if (!ourNumber || !ourNumber.value) {
+      return;
+    }
+    const ourPubkey = ourNumber.value.split('.')[0];
+
+    const allInactiveAndWithoutMessagesConvo = allInactiveConvos
+      .map(c => c.id as string)
+      .filter(convoId => {
+        return convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0
+          ? true
+          : false;
+      });
+    if (allInactiveAndWithoutMessagesConvo.length) {
+      console.info(
+        `Removing ${allInactiveAndWithoutMessagesConvo.length} completely inactive convos`
+      );
       const start = Date.now();
 
-      assertGlobalInstance()
-        .prepare(
-          `
-      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
-        )
-        .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
-      const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+      const chunks = chunk(allInactiveAndWithoutMessagesConvo, 500);
+      chunks.forEach(ch => {
+        assertGlobalInstance()
+          .prepare(
+            `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`
+          )
+          .run(ch);
+      });
 
       console.info(
-        `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
-          start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+        `Removing of ${
+          allInactiveAndWithoutMessagesConvo.length
+        } completely inactive convos done in ${Date.now() - start}ms`
       );
-
-      const unreadCount = getUnreadCountByConversation(convoId);
-      const convoProps = getConversationById(convoId);
-      if (convoProps) {
-        convoProps.unreadCount = unreadCount;
-        updateConversation(convoProps);
-      }
     }
+
+    cleanUpMessagesJson();
+
+    rebuildFtsTable(assertGlobalInstance());
   });
-
-  // now, we might have a bunch of private conversation, without any interaction and no messages
-  // those are the conversation of the old members in the opengroups we just cleaned.
-  const allInactiveConvos = assertGlobalInstance()
-    .prepare(
-      `
-    SELECT id FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (active_at IS NULL OR active_at = 0)`
-    )
-    .all();
-
-  const ourNumber = getItemById('number_id');
-  if (!ourNumber || !ourNumber.value) {
-    return;
-  }
-  const ourPubkey = ourNumber.value.split('.')[0];
-
-  const allInactiveAndWithoutMessagesConvo = allInactiveConvos
-    .map(c => c.id as string)
-    .filter(convoId => {
-      return convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0
-        ? true
-        : false;
-    });
-  if (allInactiveAndWithoutMessagesConvo.length) {
-    console.info(
-      `Removing ${allInactiveAndWithoutMessagesConvo.length} completely inactive convos`
-    );
-    const start = Date.now();
-
-    const chunks = chunk(allInactiveAndWithoutMessagesConvo, 500);
-    chunks.forEach(ch => {
-      assertGlobalInstance()
-        .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`)
-        .run(ch);
-    });
-
-    console.info(
-      `Removing of ${
-        allInactiveAndWithoutMessagesConvo.length
-      } completely inactive convos done in ${Date.now() - start}ms`
-    );
-  }
-
-  cleanUpMessagesJson();
-
-  rebuildFtsTable(assertGlobalInstance());
 }
 
 // tslint:disable: binary-expression-operand-order insecure-random
