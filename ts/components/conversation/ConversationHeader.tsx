@@ -104,7 +104,7 @@ const SelectionOverlay = () => {
 
   const isOnlyServerDeletable = isPublic;
   const deleteMessageButtonText = i18n('delete');
-  const deleteForEveroneMessageButtonText = i18n('deleteForEveryone');
+  const deleteForEveryoneMessageButtonText = i18n('deleteForEveryone');
 
   return (
     <div className="message-selection-overlay">
@@ -124,7 +124,7 @@ const SelectionOverlay = () => {
         <SessionButton
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
-          text={deleteForEveroneMessageButtonText}
+          text={deleteForEveryoneMessageButtonText}
           onClick={onDeleteSelectedMessagesForEveryone}
         />
       </div>
