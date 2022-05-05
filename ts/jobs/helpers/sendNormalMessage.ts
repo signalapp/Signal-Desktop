@@ -7,7 +7,7 @@ import * as Errors from '../../types/errors';
 import type { MessageModel } from '../../models/messages';
 import { getMessageById } from '../../messages/getMessageById';
 import type { ConversationModel } from '../../models/conversations';
-import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
+import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { getSendOptions } from '../../util/getSendOptions';
 import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
@@ -148,6 +148,15 @@ export async function sendNormalMessage(
     let messageSendPromise: Promise<CallbackResultType | void>;
 
     if (recipientIdentifiersWithoutMe.length === 0) {
+      if (!isMe(conversation.attributes) && !isGroup(conversation.attributes)) {
+        log.info(
+          'No recipients, but we are not sending to ourselves or to group. Failing job.'
+        );
+        markMessageFailed(message, [new Error('No valid recipients')]);
+        return;
+      }
+
+      // We're sending to Note to Self or a 'lonely group' with just us in it
       log.info('sending sync message only');
       const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments,
