@@ -7047,6 +7047,10 @@
         "message": "‫يُرجى كتابة رد...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "لا جواب حاليا",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "المشاهدات",
         "description": "Title for views tab"

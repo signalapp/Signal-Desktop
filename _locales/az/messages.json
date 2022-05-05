@@ -7047,6 +7047,10 @@
         "message": "Bir cavab yazın...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Hələ ki, cavab yoxdur",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Baxış",
         "description": "Title for views tab"

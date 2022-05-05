@@ -7047,6 +7047,10 @@
         "message": "הקלד תשובה…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "אין תשובות עדין",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "צפיות",
         "description": "Title for views tab"

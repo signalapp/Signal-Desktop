@@ -7047,6 +7047,10 @@
         "message": "Napisz odpowiedź...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Brak odpowiedzi",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Odsłony",
         "description": "Title for views tab"

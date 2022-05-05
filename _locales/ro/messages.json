@@ -6174,7 +6174,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ membri ai grupului au nume similar, revizuiește membri de mai jos sau alege să iei o decizie.",
+        "message": "$count$ membri ai grupului au nume similar, revizuiește membri de mai jos sau ia măsuri.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -7046,6 +7046,10 @@
     "StoryViewsNRepliesModal__placeholder": {
         "message": "Scrie un răspuns...",
         "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Niciun răspuns încă",
+        "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Vizualizări",

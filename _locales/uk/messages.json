@@ -7047,6 +7047,10 @@
         "message": "Відповісти...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Ще немає відповідей",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Перегляди",
         "description": "Title for views tab"
@@ -7068,7 +7072,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "Показати історії",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {

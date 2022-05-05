@@ -7047,6 +7047,10 @@
         "message": "輸入回覆...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "未有回覆",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "檢視",
         "description": "Title for views tab"

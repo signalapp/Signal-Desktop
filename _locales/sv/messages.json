@@ -584,11 +584,11 @@
         "description": "The string \"yesterday\""
     },
     "thisWeek": {
-        "message": "Denna vecka",
+        "message": "Den här veckan",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Denna månad",
+        "message": "Den här månaden",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -876,7 +876,7 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Skrivanimation för denna konversation",
+        "message": "Skrivanimation för den här konversationen",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
@@ -1150,7 +1150,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Detta meddelande tas bort från denna enhet.",
+        "message": "Det här meddelandet tas bort från den här enheten.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1208,7 +1208,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med kontakten är tillgänglig efter det första meddelandet.",
+        "message": "Du har inte utbytt några meddelanden med den här kontakten ännu. Ditt säkerhetsnummer med kontakten är tillgänglig efter det första meddelandet.",
         "description": ""
     },
     "back": {
@@ -1264,7 +1264,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal använder end-to-end-kryptering och det kan behöva uppdatera din chattsession ibland. Detta påverkar inte din chatts säkerhet, men du kan ha missat ett meddelande från denna kontakt och du kan behöva be dem skicka det igen.",
+        "message": "Signal använder end-to-end-kryptering och det kan behöva uppdatera din chattsession ibland. Detta påverkar inte din chatts säkerhet, men du kan ha missat ett meddelande från den här kontakten och du kan behöva be dem skicka det igen.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1340,7 +1340,7 @@
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Ikon visandes att denna bild har en bildtext",
+        "message": "Ikon visandes att den här bilden har en bildtext",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "save": {
@@ -2170,11 +2170,11 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Sluta blockera denna kontakt för att skicka meddelanden.",
+        "message": "Sluta blockera den här kontakten för att skicka meddelanden.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Sluta blockera denna grupp för att skicka meddelanden.",
+        "message": "Sluta blockera den här gruppen för att skicka meddelanden.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
@@ -2362,7 +2362,7 @@
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Notering till mig själv",
+        "message": "Egen anteckning",
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
@@ -2508,7 +2508,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Denna grupp kunde inte skapas. Kontrollera din anslutning och försök igen.",
+        "message": "Den här gruppen kunde inte skapas. Kontrollera din anslutning och försök igen.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -3482,11 +3482,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Gå med i denna grupp och dela ditt namn och foto med dess medlemmar? De vet inte att du har sett sina meddelanden förrän du accepterar det.",
+        "message": "Gå med i den här gruppen och dela ditt namn och foto med dess medlemmar? De vet inte att du har sett sina meddelanden förrän du accepterar det.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Ta bort blockeringen av denna grupp och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har avblockerat gruppen.",
+        "message": "Ta bort blockeringen av den här gruppen och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har avblockerat gruppen.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3512,7 +3512,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Gruppmedlemmar kommer att kunna lägga till dig i denna grupp igen.",
+        "message": "Gruppmedlemmar kommer att kunna lägga till dig i den här gruppen igen.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
@@ -3560,7 +3560,7 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Denna konversation tas bort från alla dina enheter.",
+        "message": "Den här konversationen tas bort från alla dina enheter.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -3582,7 +3582,7 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Du kommer lämnar denna grupp och den tas bort från alla dina enheter.",
+        "message": "Du kommer lämnar den här gruppen och den tas bort från alla dina enheter.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3604,7 +3604,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Fortsätt denna konversation med $firstName$ och dela ditt namn och foto med personen? $learnMore$",
+        "message": "Fortsätt den här konversationen med $firstName$ och dela ditt namn och foto med personen? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -4126,15 +4126,15 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Vill du gå med i denna grupp och dela ditt namn och foto med dess medlemmar?",
+        "message": "Vill du gå med i den här gruppen och dela ditt namn och foto med dess medlemmar?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "Du är redan i denna grupp.",
+        "message": "Du är redan i den här gruppen.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "Du har redan begärt godkännande för att gå med i denna grupp.",
+        "message": "Du har redan begärt godkännande för att gå med i den här gruppen.",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
@@ -4150,7 +4150,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "Denna grupplänk är inte längre giltig.",
+        "message": "Den här grupplänken är inte längre giltig.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-forbidden--title": {
@@ -5364,7 +5364,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Uppgradera den här gruppen för att aktivera nya funktioner som @omnämnanden och administratörer. Medlemmar som inte har delat sitt namn eller foto i denna grupp kommer att bjudas in att gå med. $learnMore$",
+        "message": "Uppgradera den här gruppen för att aktivera nya funktioner som @omnämnanden och administratörer. Medlemmar som inte har delat sitt namn eller foto i den här gruppen kommer att bjudas in att gå med. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5374,7 +5374,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "Denna grupp uppgraderades till en Ny grupp.",
+        "message": "Den här gruppen uppgraderades till en Ny grupp.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -5406,7 +5406,7 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Du måste acceptera en inbjudan för att gå med i denna grupp igen och kommer inte att få gruppmeddelanden förrän du accepterar.",
+        "message": "Du måste acceptera en inbjudan för att gå med i den här gruppen igen och kommer inte att få gruppmeddelanden förrän du accepterar.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -5414,7 +5414,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Denna medlem måste acceptera en inbjudan att gå med i denna grupp igen och kommer inte att få gruppmeddelanden förrän medlemmen accepterar:",
+        "message": "Den här medlemmen måste acceptera en inbjudan att gå med i den här gruppen igen och kommer inte att få gruppmeddelanden förrän medlemmen accepterar:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -5422,7 +5422,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Denna medlem kan inte gå med i Nya grupper och kommer att tas bort från gruppen:",
+        "message": "Den här medlemmen kan inte gå med i Nya grupper och kommer att tas bort från gruppen:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
@@ -5430,7 +5430,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Denna medlem kunde inte gå med i Nya grupper och togs bort från gruppen:",
+        "message": "Den här medlemmen kunde inte gå med i Nya grupper och togs bort från gruppen:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
@@ -5646,7 +5646,7 @@
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Innan du lämnar måste du välja minst en ny administratör för denna grupp.",
+        "message": "Innan du lämnar måste du välja minst en ny administratör för den här gruppen.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5654,7 +5654,7 @@
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "Du kommer inte längre att kunna skicka eller ta emot meddelanden i denna grupp.",
+        "message": "Du kommer inte längre att kunna skicka eller ta emot meddelanden i den här gruppen.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
@@ -7046,6 +7046,10 @@
     "StoryViewsNRepliesModal__placeholder": {
         "message": "Skriv ett svar...",
         "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Inga svar ännu",
+        "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Visningar",

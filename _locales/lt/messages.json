@@ -7047,6 +7047,10 @@
         "message": "Rašykite atsakymą...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Atsakymų kol kas nėra",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Peržiūros",
         "description": "Title for views tab"

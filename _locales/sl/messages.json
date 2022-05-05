@@ -1114,7 +1114,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Pošiljanje nekaterim prejemnikom ni uspelo. Preverite povezavo z omrežjem.",
+        "message": "Pošiljanje nekaterim prejemnikom_cam ni uspelo. Preverite povezavo z omrežjem.",
         "description": ""
     },
     "error": {
@@ -5598,7 +5598,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "Poslana in prejeta sporočila bodo izginila po tem, ko bodo videna s strani prejemnika.",
+        "message": "Poslana in prejeta sporočila bodo izginila po tem, ko bodo videna s strani prejemnika_ce.",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
@@ -6998,7 +6998,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah dugih prejemnikov.",
+        "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah dugih prejemnikov_ic.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7046,6 +7046,10 @@
     "StoryViewsNRepliesModal__placeholder": {
         "message": "Vnesi odgovor ...",
         "description": "Placeholder text for the story reply modal"
+    },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Brez odgovorov",
+        "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Ogledi",
