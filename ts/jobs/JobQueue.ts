@@ -93,7 +93,7 @@ export abstract class JobQueue<T> {
    * takes a single number, `parseData` should throw if `data` is a number and should
    * return the number otherwise.
    *
-   * If it throws, the job will be deleted from the store and the job will not be run.
+   * If it throws, the job will be deleted from the database and the job will not be run.
    *
    * Will only be called once per job, even if `maxAttempts > 1`.
    */
@@ -205,9 +205,10 @@ export abstract class JobQueue<T> {
       parsedData = this.parseData(storedJob.data);
     } catch (err) {
       log.error(
-        `${this.logPrefix} failed to parse data for job ${storedJob.id}`,
+        `${this.logPrefix} failed to parse data for job ${storedJob.id}, created ${storedJob.timestamp}. Deleting job. Parse error:`,
         Errors.toLogFormat(err)
       );
+      await this.store.delete(storedJob.id);
       reject(
         new Error(
           'Failed to parse job data. Was unexpected data loaded from the database?'

@@ -513,7 +513,7 @@ describe('JobQueue', () => {
       sinon.assert.calledWithMatch(run, { data: 'valid' });
     });
 
-    it('keeps jobs in the storage if parseData throws', async () => {
+    it('deletes jobs from storage if parseData throws', async () => {
       const store = new TestJobQueueStore();
 
       class TestQueue extends JobQueue<string> {
@@ -539,9 +539,10 @@ describe('JobQueue', () => {
 
       await (await queue.add('invalid 1')).completion.catch(noop);
       await (await queue.add('invalid 2')).completion.catch(noop);
+      await queue.add('valid');
 
       const datas = store.storedJobs.map(job => job.data);
-      assert.sameMembers(datas, ['invalid 1', 'invalid 2']);
+      assert.sameMembers(datas, ['valid']);
     });
 
     it('adding the job resolves AFTER inserting the job into the database', async () => {
