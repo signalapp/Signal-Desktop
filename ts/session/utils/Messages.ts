@@ -1,22 +1,23 @@
 import { RawMessage } from '../types/RawMessage';
 
-import { EncryptionType, PubKey } from '../types';
+import { PubKey } from '../types';
 import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { SignalService } from '../../protobuf';
 
 function getEncryptionTypeFromMessageType(
   message: ContentMessage,
   isGroup = false
-): EncryptionType {
+): SignalService.Envelope.Type {
   // ClosedGroupNewMessage is sent using established channels, so using fallback
   if (
     message instanceof ClosedGroupNewMessage ||
     message instanceof ClosedGroupEncryptionPairReplyMessage
   ) {
-    return EncryptionType.Fallback;
+    return SignalService.Envelope.Type.SESSION_MESSAGE;
   }
 
   // 1. any ClosedGroupMessage which is not a ClosedGroupNewMessage must be encoded with ClosedGroup
@@ -26,9 +27,9 @@ function getEncryptionTypeFromMessageType(
     (message instanceof ExpirationTimerUpdateMessage && message.groupId) ||
     isGroup
   ) {
-    return EncryptionType.ClosedGroup;
+    return SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
   } else {
-    return EncryptionType.Fallback;
+    return SignalService.Envelope.Type.SESSION_MESSAGE;
   }
 }
 

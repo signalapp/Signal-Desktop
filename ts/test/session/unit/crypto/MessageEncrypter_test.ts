@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import * as crypto from 'crypto';
 import Sinon, * as sinon from 'sinon';
 import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '../../../../session/crypto';
-import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { TestUtils } from '../../../test-utils';
 import { SignalService } from '../../../../protobuf';
 
@@ -120,7 +119,7 @@ describe('MessageEncrypter', () => {
         const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.ClosedGroup
+          SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE
         );
         chai
           .expect(result.envelopeType)
@@ -133,7 +132,7 @@ describe('MessageEncrypter', () => {
         const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.Fallback
+          SignalService.Envelope.Type.SESSION_MESSAGE
         );
         chai.expect(result.envelopeType).to.deep.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
       });
@@ -143,7 +142,7 @@ describe('MessageEncrypter', () => {
         return MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.Signal
+          3 as any
         ).should.eventually.be.rejectedWith(Error);
       });
     });
@@ -162,7 +161,11 @@ describe('MessageEncrypter', () => {
     it('should pass the padded message body to encrypt', async () => {
       const data = crypto.randomBytes(10);
       const spy = sinon.spy(MessageEncrypter, 'encryptUsingSessionProtocol');
-      await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Fallback);
+      await MessageEncrypter.encrypt(
+        TestUtils.generateFakePubKey(),
+        data,
+        SignalService.Envelope.Type.SESSION_MESSAGE
+      );
       chai.expect(spy.callCount).to.be.equal(1);
       const paddedData = addMessagePadding(data);
       const firstArgument = new Uint8Array(spy.args[0][1]);

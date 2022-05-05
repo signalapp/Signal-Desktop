@@ -1,11 +1,11 @@
-import { EncryptionType } from './EncryptionType';
+import { SignalService } from '../../protobuf';
 
 export type RawMessage = {
   identifier: string;
   plainTextBuffer: Uint8Array;
   device: string;
   ttl: number;
-  encryption: EncryptionType;
+  encryption: SignalService.Envelope.Type;
 };
 
 // For building RawMessages from JSON

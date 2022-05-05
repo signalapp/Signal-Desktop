@@ -3,7 +3,7 @@ import { getMessageById } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { PnServer } from '../apis/push_notification_api';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { EncryptionType, RawMessage } from '../types';
+import { RawMessage } from '../types';
 import { UserUtils } from '../utils';
 
 // tslint:disable-next-line: no-unnecessary-class
@@ -58,7 +58,8 @@ export class MessageSentHandler {
     // FIXME this is not correct and will cause issues with syncing
     // At this point the only way to check for medium
     // group is by comparing the encryption type
-    const isClosedGroupMessage = sentMessage.encryption === EncryptionType.ClosedGroup;
+    const isClosedGroupMessage =
+      sentMessage.encryption === SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
 
     // We trigger a sync message only when the message is not to one of our devices, AND
     // the message is not for an open group (there is no sync for opengroups, each device pulls all messages), AND

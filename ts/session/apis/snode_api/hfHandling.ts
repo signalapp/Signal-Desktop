@@ -15,7 +15,6 @@ export async function getHasSeenHF190() {
   if (hasSeenHardfork190 === undefined) {
     // read values from db and cache them as it looks like we did not
     const oldHhasSeenHardfork190 = (await getItemById('hasSeenHardfork190'))?.value;
-
     // values do not exist in the db yet. Let's store false for now in the db and update our cached value.
     if (oldHhasSeenHardfork190 === undefined) {
       await createOrUpdateItem({ id: 'hasSeenHardfork190', value: false });

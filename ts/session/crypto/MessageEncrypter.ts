@@ -1,4 +1,3 @@
-import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { PubKey } from '../types';
 import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '.';
@@ -24,15 +23,15 @@ type EncryptResult = {
 export async function encrypt(
   device: PubKey,
   plainTextBuffer: Uint8Array,
-  encryptionType: EncryptionType
+  encryptionType: SignalService.Envelope.Type
 ): Promise<EncryptResult> {
   const { CLOSED_GROUP_MESSAGE, SESSION_MESSAGE } = SignalService.Envelope.Type;
 
-  if (encryptionType !== EncryptionType.ClosedGroup && encryptionType !== EncryptionType.Fallback) {
+  if (encryptionType !== CLOSED_GROUP_MESSAGE && encryptionType !== SESSION_MESSAGE) {
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
 
-  const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
+  const encryptForClosedGroup = encryptionType === CLOSED_GROUP_MESSAGE;
   const plainText = addMessagePadding(plainTextBuffer);
 
   if (encryptForClosedGroup) {

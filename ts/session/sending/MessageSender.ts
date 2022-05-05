@@ -75,7 +75,7 @@ export async function send(
 ): Promise<{ wrappedEnvelope: Uint8Array; effectiveTimestamp: number }> {
   return pRetry(
     async () => {
-      const device = PubKey.cast(message.device);
+      const recipient = PubKey.cast(message.device);
       const { encryption, ttl } = message;
 
       const {
@@ -84,12 +84,17 @@ export async function send(
       } = overwriteOutgoingTimestampWithNetworkTimestamp(message);
 
       const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
-        device,
+        recipient,
         overRiddenTimestampBuffer,
         encryption
       );
 
-      const envelope = await buildEnvelope(envelopeType, device.key, networkTimestamp, cipherText);
+      const envelope = await buildEnvelope(
+        envelopeType,
+        recipient.key,
+        networkTimestamp,
+        cipherText
+      );
 
       const data = wrapEnvelope(envelope);
       // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
@@ -102,8 +107,8 @@ export async function send(
         found.set({ sent_at: networkTimestamp });
         await found.commit();
       }
-      await MessageSender.TEST_sendMessageToSnode(
-        device.key,
+      await MessageSender.sendMessageToSnode(
+        recipient.key,
         data,
         ttl,
         networkTimestamp,
@@ -121,7 +126,7 @@ export async function send(
 }
 
 // tslint:disable-next-line: function-name
-export async function TEST_sendMessageToSnode(
+export async function sendMessageToSnode(
   pubKey: string,
   data: Uint8Array,
   ttl: number,

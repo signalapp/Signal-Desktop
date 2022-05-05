@@ -3,7 +3,7 @@ import * as snodePool from './snodePool';
 import { ERROR_CODE_NO_CONNECT, retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
-import _ from 'lodash';
+import _, { concat } from 'lodash';
 import {
   getLastHashBySnode,
   getSeenMessagesByHashList,
@@ -20,6 +20,7 @@ import { perfEnd, perfStart } from '../../utils/Performance';
 import { ed25519Str } from '../../onions/onionPath';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import pRetry from 'p-retry';
+import { getHasSeenHF190, getHasSeenHF191 } from './hfHandling';
 
 interface Message {
   hash: string;
@@ -145,7 +146,10 @@ export class SwarmPolling {
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
-    const directPromise = this.pollOnceForKey(ourPubkey, false, 0);
+    const directPromises = Promise.all([
+      this.pollOnceForKey(ourPubkey, false, 0),
+      // this.pollOnceForKey(ourPubkey, false, 5), // uncomment, and test me once we store the config messages to the namespace 5
+    ]).then(() => undefined);
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {
@@ -162,6 +166,25 @@ export class SwarmPolling {
         window?.log?.info(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
         );
+
+        const hardfork190Happened = await getHasSeenHF190();
+        const hardfork191Happened = await getHasSeenHF191();
+
+        if (hardfork190Happened && !hardfork191Happened) {
+          // during the transition period, we poll from both namespaces (0 and -10) for groups
+          return Promise.all([
+            this.pollOnceForKey(group.pubkey, true, 0),
+            this.pollOnceForKey(group.pubkey, true, -10),
+          ]).then(() => undefined);
+        }
+
+        if (hardfork190Happened && hardfork191Happened) {
+          // after the transition period, we poll from the namespace -10 only for groups
+          return this.pollOnceForKey(group.pubkey, true, -10);
+        }
+
+        // before any of those hardforks, we just poll from the default namespace being 0
+        console.warn('before any of those hardforks');
         return this.pollOnceForKey(group.pubkey, true, 0);
       }
       window?.log?.info(
@@ -171,7 +194,7 @@ export class SwarmPolling {
       return Promise.resolve();
     });
     try {
-      await Promise.all(_.concat(directPromise, groupPromises));
+      await Promise.all(concat([directPromises], groupPromises));
     } catch (e) {
       window?.log?.info('pollForAllKeys exception: ', e);
       throw e;
@@ -193,22 +216,19 @@ export class SwarmPolling {
 
     // If we need more nodes, select randomly from the remaining nodes:
 
-    // Use 1 node for now:
-    const COUNT = 1;
-
-    let nodesToPoll = _.sampleSize(alreadyPolled, COUNT);
-    if (nodesToPoll.length < COUNT) {
+    // We only poll from a single node.
+    let nodesToPoll = _.sampleSize(alreadyPolled, 1);
+    if (nodesToPoll.length < 1) {
       const notPolled = _.difference(swarmSnodes, alreadyPolled);
 
-      const newNeeded = COUNT - alreadyPolled.length;
-
-      const newNodes = _.sampleSize(notPolled, newNeeded);
+      const newNodes = _.sampleSize(notPolled, 1);
 
       nodesToPoll = _.concat(nodesToPoll, newNodes);
     }
 
+    // this actually doesn't make much sense as we are at only polling from a single one
     const promisesSettled = await Promise.allSettled(
-      nodesToPoll.map(async (n: Snode) => {
+      nodesToPoll.map(async n => {
         return this.pollNodeForKey(n, pubkey, namespace);
       })
     );
