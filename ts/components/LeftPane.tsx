@@ -329,7 +329,8 @@ export const LeftPane: React.FC<PropsType> = ({
           };
 
       const numericIndex = keyboardKeyToNumericIndex(event.key);
-      if (commandOrCtrl && isNumber(numericIndex)) {
+      const openedByNumber = commandOrCtrl && isNumber(numericIndex);
+      if (openedByNumber) {
         conversationToOpen =
           helper.getConversationAndMessageAtIndex(numericIndex);
       } else {
@@ -363,6 +364,9 @@ export const LeftPane: React.FC<PropsType> = ({
       if (conversationToOpen) {
         const { conversationId, messageId } = conversationToOpen;
         openConversationInternal({ conversationId, messageId });
+        if (openedByNumber) {
+          clearSearch();
+        }
         event.preventDefault();
         event.stopPropagation();
       }
@@ -388,6 +392,7 @@ export const LeftPane: React.FC<PropsType> = ({
     showInbox,
     startComposing,
     startSearch,
+    clearSearch,
   ]);
 
   const requiresFullWidth = helper.requiresFullWidth();
