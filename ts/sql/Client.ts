@@ -247,7 +247,7 @@ const dataInterface: ClientInterface = {
   migrateConversationMessages,
 
   getUnprocessedCount,
-  getAllUnprocessed,
+  getAllUnprocessedAndIncrementAttempts,
   getUnprocessedById,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
@@ -1170,9 +1170,12 @@ async function getMessageBySender({
 
 async function getTotalUnreadForConversation(
   conversationId: string,
-  storyId?: UUIDStringType
+  options: {
+    storyId: UUIDStringType | undefined;
+    isGroup: boolean;
+  }
 ) {
-  return channels.getTotalUnreadForConversation(conversationId, storyId);
+  return channels.getTotalUnreadForConversation(conversationId, options);
 }
 
 async function getUnreadByConversationAndMarkRead(options: {
@@ -1440,8 +1443,8 @@ async function getUnprocessedCount() {
   return channels.getUnprocessedCount();
 }
 
-async function getAllUnprocessed() {
-  return channels.getAllUnprocessed();
+async function getAllUnprocessedAndIncrementAttempts() {
+  return channels.getAllUnprocessedAndIncrementAttempts();
 }
 
 async function getUnprocessedById(id: string) {

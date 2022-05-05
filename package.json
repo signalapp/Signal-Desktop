@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "5.41.0-beta.1",
+  "version": "5.43.0-beta.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -80,7 +80,7 @@
     "@evanhahn/lottie-web-light": "5.8.1",
     "@popperjs/core": "2.9.2",
     "@react-spring/web": "9.4.1",
-    "@signalapp/libsignal-client": "0.15.0",
+    "@signalapp/libsignal-client": "0.16.0",
     "@sindresorhus/is": "0.8.0",
     "@types/fabric": "4.5.3",
     "abort-controller": "3.0.0",
@@ -164,7 +164,7 @@
     "redux-ts-utils": "3.2.2",
     "reselect": "4.1.2",
     "rimraf": "2.6.2",
-    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#0464fe30a74b0617c976b66528c9a033fa80ad38",
+    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#ccb71f118a8f8962addc53333730c77b287d7e43",
     "rotating-file-stream": "2.1.5",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
@@ -189,7 +189,7 @@
     "@chanzuckerberg/axe-storybook-testing": "3.0.2",
     "@electron/fuses": "1.5.0",
     "@mixer/parallel-prettier": "2.0.1",
-    "@signalapp/mock-server": "1.5.0-rc.3",
+    "@signalapp/mock-server": "1.5.1",
     "@storybook/addon-actions": "5.1.11",
     "@storybook/addon-knobs": "5.1.11",
     "@storybook/addons": "5.1.11",
@@ -221,7 +221,7 @@
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "9.0.0",
     "@types/mustache": "4.1.2",
-    "@types/node": "16.11.26",
+    "@types/node": "16.11.29",
     "@types/node-fetch": "2.5.7",
     "@types/node-forge": "0.9.5",
     "@types/normalize-path": "3.0.0",
@@ -264,10 +264,10 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "debug": "4.3.3",
-    "electron": "17.3.1",
-    "electron-builder": "23.0.1",
+    "electron": "18.1.0",
+    "electron-builder": "23.0.8",
     "electron-mocha": "11.0.2",
-    "electron-notarize": "0.1.1",
+    "electron-notarize": "1.2.1",
     "esbuild": "0.14.28",
     "eslint": "7.7.0",
     "eslint-config-airbnb-typescript-prettier": "4.2.0",
@@ -309,7 +309,7 @@
     "sharp/color/color-string": "1.7.4"
   },
   "engines": {
-    "node": "16.13.0"
+    "node": "16.13.2"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

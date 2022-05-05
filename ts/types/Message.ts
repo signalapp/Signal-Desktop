@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -10,7 +10,6 @@ import type { IndexableBoolean, IndexablePresence } from './IndexedDB';
 export type Message = (
   | UserMessage
   | VerifiedChangeMessage
-  | MessageHistoryUnsyncedMessage
   | ProfileChangeNotificationMessage
 ) & { deletedForEveryone?: boolean };
 export type UserMessage = IncomingMessage | OutgoingMessage;
@@ -63,14 +62,6 @@ export type OutgoingMessage = Readonly<
 export type VerifiedChangeMessage = Readonly<
   {
     type: 'verified-change';
-  } & SharedMessageProperties &
-    MessageSchemaVersion5 &
-    ExpirationTimerUpdate
->;
-
-export type MessageHistoryUnsyncedMessage = Readonly<
-  {
-    type: 'message-history-unsynced';
   } & SharedMessageProperties &
     MessageSchemaVersion5 &
     ExpirationTimerUpdate

@@ -1,0 +1,125 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-conversation-hero {
+  padding: 32px 0 28px 0;
+  text-align: center;
+
+  &__avatar {
+    margin-bottom: 12px;
+  }
+
+  &__profile-name {
+    @include font-title-2;
+    margin-bottom: 2px;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+
+  &__with {
+    @include font-body-2;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    max-width: 500px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+
+  &__membership {
+    @include font-body-2;
+
+    padding: 0 16px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &__name {
+      @include font-body-2-bold;
+    }
+  }
+
+  &__message-request-warning {
+    @include font-body-2;
+
+    &__message {
+      display: flex;
+      margin-bottom: 12px;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        height: 14px;
+        margin-right: 8px;
+        width: 14px;
+
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/info-outline-24.svg',
+            $color-gray-60
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/info-solid-24.svg',
+            $color-gray-25
+          );
+        }
+      }
+    }
+  }
+
+  &__linkNotification {
+    @include font-body-2;
+    text-align: center;
+    user-select: none;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      height: 16px;
+      margin-right: 8px;
+      vertical-align: middle;
+      width: 16px;
+
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/info-outline-24.svg',
+          $color-gray-60
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/info-solid-24.svg',
+          $color-gray-25
+        );
+      }
+    }
+  }
+}

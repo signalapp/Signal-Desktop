@@ -7013,6 +7013,10 @@
         "message": "Pridėti istoriją",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Paslėptos istorijos",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Šiuo metu nėra paskiausių istorijų, kurias rodyti",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Rašykite atsakymą...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Atsakymų kol kas nėra",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Peržiūros",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Istorija",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Rodyti istorijas",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Slėpti istoriją",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Trumpas žinutes išlaikome trumpomis, atvaizduodami laiko žymes toje pačioje eilutėje, kaip ir tekstą. Dabar, ekrane yra daugiau vietos, kad parašytumėte draugui greitą žinutę su žodžiu „Labas“.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Šalin trūkstamus lipdukų paketus! Dabar, darbalaukio programa turėtų gebėti apdoroti visus lipdukų paketus, kuriuos gali apdoroti jūsų telefonas!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Dabar, galite pridėti žmones į grupes, naudodami tik jų telefono numerį.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Jūsų mėgstami adresatai yra tik kelių klavišų paspaudimų atstumu. Adresatų paieška nuo šiol palaiko ne lotyniškas abėcėles, pavyzdžiui, kirilicą.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Klaidų pataisymas, skirtas išspręsti problemą, dėl kurios, kartais, būdavo sunku spustelėti ant meniu.",

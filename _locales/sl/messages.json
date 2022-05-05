@@ -324,7 +324,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Niste več član/ica skupine.",
+        "message": "Niste več član_ica skupine.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
@@ -402,7 +402,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, preverite svoje novo varnostno število z uporabnikom/co $name1$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik/ca$name2$ zgolj ponovno namestil/a aplikacijo Signal.",
+        "message": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, preverite svoje novo varnostno število z uporabnikom_co $name1$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik_ca$name2$ zgolj ponovno namestil_a aplikacijo Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -416,7 +416,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Našteti uporabniki/ce so najbrž ponovno namestili Signal ali zamenjali napravo. Za potrditev istovetnosti ponovno preverite varnostno število z njimi.",
+        "message": "Našteti uporabniki_ce so najbrž ponovno namestili Signal ali zamenjali napravo. Za potrditev istovetnosti ponovno preverite varnostno število z njimi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
@@ -424,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Vaše varnostno število z uporabnikom/co $name1$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik/ca $name2$ zgolj ponovno namestil/a aplikacijo Signal. Morda bi želeli ponovno preveriti vajino varnostno število.",
+        "message": "Vaše varnostno število z uporabnikom_co $name1$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik_ca $name2$ zgolj ponovno namestil_a aplikacijo Signal. Morda bi želeli ponovno preveriti vajino varnostno število.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -646,7 +646,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Prišlo je do napake pri dekripciji z uporabnikom/co $name$, naprava $deviceId$",
+        "message": "Prišlo je do napake pri dekripciji z uporabnikom_co $name$, naprava $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -880,7 +880,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "Uporabnik/ca je med vašimi stiki.",
+        "message": "Uporabnik_ca je med vašimi stiki.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -1114,7 +1114,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Pošiljanje nekaterim prejemnikom ni uspelo. Preverite povezavo z omrežjem.",
+        "message": "Pošiljanje nekaterim prejemnikom_cam ni uspelo. Preverite povezavo z omrežjem.",
         "description": ""
     },
     "error": {
@@ -1154,7 +1154,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "To sporočilo bo izbrisano za vse udeležene v pogovoru, če imajo nameščeno zadnjo različico aplikacije Signal. Člani/ce skupine bodo lahko videli/e, da ste izbrisali sporočilo.",
+        "message": "To sporočilo bo izbrisano za vse udeležene v pogovoru, če imajo nameščeno zadnjo različico aplikacije Signal. Člani_ce skupine bodo lahko videli_e, da ste izbrisali sporočilo.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1264,7 +1264,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal uporablja šifriranje od-pošiljetalja-do-naslovnika, zato je včasih potrebna osvežitev seje klepeta. To ne bo vplivalo na varnost, lahko pa se bo izgubilo kakšno sporočilo s tem stikom in ga/jo boste morali prositi, da ga pošlje znova.",
+        "message": "Signal uporablja šifriranje od-pošiljetalja-do-naslovnika, zato je včasih potrebna osvežitev seje klepeta. To ne bo vplivalo na varnost, lahko pa se bo izgubilo kakšno sporočilo s tem stikom in ga_jo boste morali prositi, da ga pošlje znova.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1276,7 +1276,7 @@
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "Sporočilo uporabnika/ce $sender$ ni moglo biti dostavljeno",
+        "message": "Sporočilo uporabnika_ce $sender$ ni moglo biti dostavljeno",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1294,7 +1294,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika/ce $sender$ vam ne morejo biti dostavljeni. Lahko so bili poslani osebno ali prek skupine.",
+        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika_ce $sender$ vam ne morejo biti dostavljeni. Lahko so bili poslani osebno ali prek skupine.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika/ce $sender$ niso mogli biti dostavljeni.",
+        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika_ce $sender$ niso mogli biti dostavljeni.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1314,7 +1314,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "Uporabnik/ca $sender$ je spremenil/a svojo telefonsko številko.",
+        "message": "$sender$ je spremenil_a svojo telefonsko številko.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1590,7 +1590,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__pre-call-info--1-person-in-call": {
-        "message": "Uporabnik/ca $first$ je v tem klicu",
+        "message": "$first$ je v tem klicu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1604,7 +1604,7 @@
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
-        "message": "Uporabnika/ci $first$ in $second$ sta v tem klicu",
+        "message": "$first$ in $second$ sta v tem klicu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1618,7 +1618,7 @@
         }
     },
     "calling__pre-call-info--3-people-in-call": {
-        "message": "Uporabniki/ce $first$, $second$, in $third$ so v tem klicu",
+        "message": "$first$, $second$, in $third$ so v tem klicu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1636,7 +1636,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "Uporabnika/ci $first$, $second$, in še $others$ drugih so v tem klicu",
+        "message": "$first$, $second$, in še $others$ drugih so v tem klicu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal bo pozvonil uporabniku/ci $person$",
+        "message": "Signal bo pozvonil uporabniku_ci $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal bo zvonil uporabnikoma/cama $first$ in $second$",
+        "message": "Signal bo zvonil uporabnikoma_cama $first$ in $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal bo zvonil uporabnikom/cam $first$, $second$ in $third$",
+        "message": "Signal bo zvonil uporabnikom_cam $first$, $second$ in $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal bo zvonil uporabnikoma/cama $first$, $second$ in še $others$ ",
+        "message": "Signal bo zvonil uporabnikoma_cama $first$, $second$ in še $others$ ",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1714,7 +1714,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "Uporabnik/ca $person$ bo obveščen/a",
+        "message": "$person$ bo obveščen_a",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1724,7 +1724,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "Uporabnika/ci $first$ in $second$ bosta obveščena/i",
+        "message": "$first$ in $second$ bosta obveščena_i",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1738,7 +1738,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "Uporabniki/ce $first$, $second$, in $third$ bodo obveščeni/e",
+        "message": "$first$, $second$, in $third$ bodo obveščeni_e",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1756,7 +1756,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "Uporabnika/ci $first$, $second$, in $others$ drugih bo obveščenih",
+        "message": "$first$, $second$, in $others$ drugih bo obveščenih",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1792,7 +1792,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "Blokirali ste uporabnika/co $name$",
+        "message": "Blokirali ste uporabnika_co $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1840,7 +1840,7 @@
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "Uporabnik/ca $name$ predvaja",
+        "message": "$name$ predvaja",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1850,7 +1850,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "Uporabnik/ca$name$ je prenehal/a s predvajanjem",
+        "message": "$name$ je prenehal_a s predvajanjem",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -2198,7 +2198,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Član/ica skupine je nastavil/a odštevanje za izginjajoča sporočila na $time$.",
+        "message": "Član_ica skupine je nastavil_a odštevanje za izginjajoča sporočila na $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2208,7 +2208,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "Uporabnik/ca $name$ je nastavil/a odštevanje za izginjajoča števila na $time$",
+        "message": "$name$ je nastavil_a odštevanje za izginjajoča števila na $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -2234,11 +2234,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Član/ica skupine je izključil/a izginjajoča sporočila.",
+        "message": "Član_ica skupine je izključil_a izginjajoča sporočila.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "Uporabnik/ca $name$ je izključi/al izginjajoča sporočila",
+        "message": "$name$ je izključi_a izginjajoča sporočila",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -2278,7 +2278,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "Uporabnik/ca $sender$ je preimenoval/a svoj profil iz $oldProfile$ v $newProfile$.",
+        "message": "$sender$ je preimenoval_a svoj profil iz $oldProfile$ v $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2296,7 +2296,7 @@
         }
     },
     "changedProfileName": {
-        "message": "Uporabnik/ca $oldProfile$ je preimenoval/a svoj profil v $newProfile$.",
+        "message": "$oldProfile$ je preimenoval_a svoj profil v $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2336,11 +2336,11 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Istovetnosti uporabnika/ce ne morete preveriti, dokler z njim/njo ne izmenjate sporočila.",
+        "message": "Istovetnosti uporabnika_ce ne morete preveriti, dokler z njim_njo ne izmenjate sporočila.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Vaše varnostno število z uporabnikom/co $name1$:",
+        "message": "Vaše varnostno število z uporabnikom_co $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -2410,7 +2410,7 @@
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "Uporabnik/ca ni bil najden/a. $atUsername$ ni uporabnik/ca Signala. Prepričajte se, da ste vnesli pravo ime.",
+        "message": "Uporabnik_ca ni bil_a najden_a. $atUsername$ ni uporabnik_ca Signala. Prepričajte se, da ste vnesli pravo ime.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2440,7 +2440,7 @@
         }
     },
     "chooseGroupMembers__title": {
-        "message": "Izberi člane/ice",
+        "message": "Izberi člane_ice",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -2460,7 +2460,7 @@
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
-        "message": "Skupine Signal imajo lahko največ $max$ članov/ic.",
+        "message": "Skupine Signal imajo lahko največ $max$ članov_ic.",
         "description": "Shown in the alert when you add the maximum number of group members",
         "placeholders": {
             "max": {
@@ -2470,11 +2470,11 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Priporočeno število članov/ic je bilo preseženo",
+        "message": "Priporočeno število članov_ic je bilo preseženo",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Skupine Signal najbolje delujejo z $max$ ali manj člani/cami. Dodajanje novih članov/ic bo povzročalo zamude pri pošiljanju in dostavi sporočil.",
+        "message": "Skupine Signal najbolje delujejo z $max$ ali manj člani_cami. Dodajanje novih članov_ic bo povzročalo zamude pri pošiljanju in dostavi sporočil.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2488,7 +2488,7 @@
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
-        "message": "Nazaj k izboru članov/ic",
+        "message": "Nazaj k izboru članov_ic",
         "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__group-name-placeholder": {
@@ -2504,7 +2504,7 @@
         "description": "The 'create group' button text in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__members-header": {
-        "message": "Člani/ce",
+        "message": "Člani_ce",
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
@@ -3462,7 +3462,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Želite omogočiti uporabniku/ci $name$, da vam pošilja sporočila in z njim/njo deliti svoje ime in fotografijo? Dokler ne sprejmete vabila, pošiljatelj/ica ne bo vedel/a, da ste prebrali njegovo/njeno sporočilo.",
+        "message": "Želite omogočiti uporabniku_ci $name$, da vam pošilja sporočila in z njim_njo deliti svoje ime in fotografijo? Dokler ne sprejmete vabila, pošiljatelj_ica ne bo vedel_a, da ste prebrali njegovo_njeno sporočilo.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3472,7 +3472,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Želite omogočiti uporabniku/ci $name$, da vam pošilja sporočila in z njim/njo deliti svoje ime in fotografijo? Dokler ga/je ne odblokirate, od njega/nje ne boste prejemali sporočil.",
+        "message": "Želite omogočiti uporabniku_ci $name$, da vam pošilja sporočila in z njim_njo deliti svoje ime in fotografijo? Dokler ga_je ne odblokirate, od njega_nje ne boste prejemali sporočil.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3486,7 +3486,7 @@
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Želite omogočiti članom/icam skupine, da vam pošiljajo sporočila in z njimi deliti svoje ime in fotografijo? Dokler jih ne odblokirate, od njih ne boste prejemali sporočil.",
+        "message": "Želite omogočiti članom_icam skupine, da vam pošiljajo sporočila in z njimi deliti svoje ime in fotografijo? Dokler jih ne odblokirate, od njih ne boste prejemali sporočil.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3512,7 +3512,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Drugi/e člani/ce vas bodo lahko ponovno dodali/e v skupino.",
+        "message": "Drugi_e člani_ce vas bodo lahko ponovno dodali_e v skupino.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
@@ -3534,7 +3534,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blokirani uporabniki/ce vas ne bodo mogli klicati ali vam pošiljati sporočil.",
+        "message": "Blokirani uporabniki_ce vas ne bodo mogli klicati ali vam pošiljati sporočil.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -3548,7 +3548,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Od skupine ne boste več prejemali sporočil in posodobitev. Člani/ce skupine vas ne bodo več mogli/e dodati nazaj v skupino.",
+        "message": "Od skupine ne boste več prejemali sporočil in posodobitev. Člani_ce skupine vas ne bodo več mogli_e dodati nazaj v skupino.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3594,7 +3594,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Želite še naprej sodelovati v pogovoru s to skupino in z njenimi člani/cami deliti svoje ime in fotografijo? $learnMore$",
+        "message": "Želite še naprej sodelovati v pogovoru s to skupino in z njenimi člani_cami deliti svoje ime in fotografijo? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3604,7 +3604,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Želite še naprej sodelovati v pogovoru z uporabnikom/co $firstName$ in z njim/jo deliti svoje ime in fotografijo? $learnMore$",
+        "message": "Želite še naprej sodelovati v pogovoru z uporabnikom_co $firstName$ in z njim_jo deliti svoje ime in fotografijo? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3632,7 +3632,7 @@
         }
     },
     "ConversationHero--members-1": {
-        "message": "1 član/ica",
+        "message": "1 član_ica",
         "description": "Specifies the number of members in a group conversation when there is one member",
         "placeholders": {
             "count": {
@@ -3642,7 +3642,7 @@
         }
     },
     "member-of-1-group": {
-        "message": "Član/ica skupine $group$",
+        "message": "Član_ica skupine $group$",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -3652,7 +3652,7 @@
         }
     },
     "member-of-2-groups": {
-        "message": "Član/ica skupin $group1$in $group2$",
+        "message": "Član_ica skupin $group1$in $group2$",
         "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
@@ -3666,7 +3666,7 @@
         }
     },
     "member-of-3-groups": {
-        "message": "Član/ica skupin $group1$, $group2$in $group3$",
+        "message": "Član_ica skupin $group1$, $group2$in $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
@@ -3684,7 +3684,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Član/ica $group1$, $group2$, $group3$ in še ene skupine",
+        "message": "Član_ica $group1$, $group2$, $group3$ in še ene skupine",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3702,7 +3702,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Član/ica skupin $group1$, $group2$, $group3$ in $remainingCount$ drugih",
+        "message": "Član_ica skupin $group1$, $group2$, $group3$ in $remainingCount$ drugih",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -3724,7 +3724,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "Uporabnik/ca $name$ vas je dodal/a v skupino.",
+        "message": "$name$ vas je dodal_a v skupino.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3802,7 +3802,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "Uporabnik/ ca $ringer$ vas kliče",
+        "message": "$ringer$ vas kliče",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3812,7 +3812,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "Uporabnik/ca $ringer$ kliče vas in uporabnika/co $otherMember$",
+        "message": "$ringer$ kliče vas in uporabnika_co $otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3826,7 +3826,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "Uporabnik/ca$ringer$ kliče vas, uporabnika/co $first$ in uporabnika/co $second$",
+        "message": "$ringer$ kliče vas, uporabnika_co $first$ in uporabnika_co $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3844,7 +3844,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "Uporabnik/ca $ringer$ kliče vas, uporabnika/co $first$, uporabnika/co $second$ in še enega/o",
+        "message": "$ringer$ kliče vas, uporabnika_co $first$, uporabnika_co $second$ in še enega_o",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3862,7 +3862,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "Uporabnik/ca $ringer$ kliče vas, uporabnika/co $first$, uporabnika/co $second$ in še $remaining$",
+        "message": "$ringer$ kliče vas, uporabnika_co $first$, uporabnika_co $second$ in še $remaining$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3900,7 +3900,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "Uporabnik/ca $title$ bo prejel/a vaše vabilo. Ko ga bo potrdil/a, ga/jo lahko pokličete.",
+        "message": "$title$ bo prejel_a vaše vabilo. Ko ga bo potrdil_a, ga_jo lahko pokličete.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3950,7 +3950,7 @@
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "Uporabnik/ca $name$ je začel/a skupinski klic",
+        "message": "$name$ je začel_a skupinski klic",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -4114,7 +4114,7 @@
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Samo skrbniki/ce skupine lahko začno klic.",
+        "message": "Samo skrbniki_ce skupine lahko začno klic.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -4126,7 +4126,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Se želite pridružiti skupini in z njenimi člani/cami deliti svoje ime in fotografijo?",
+        "message": "Se želite pridružiti skupini in z njenimi člani_cami deliti svoje ime in fotografijo?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -4162,7 +4162,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "Skrbnik/ca skupine mora odobriti vašo prošnjo za pridružitev. Če bo odobrena, bosta vaše ime in fotografija deljena s skupino in njenimi člani.",
+        "message": "Skrbnik_ca skupine mora odobriti vašo prošnjo za pridružitev. Če bo odobrena, bosta vaše ime in fotografija deljena s skupino in njenimi člani_cami.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -4190,7 +4190,7 @@
         "description": "Choosing not to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--member-count--single": {
-        "message": "1 član/ica",
+        "message": "1 član_ica",
         "description": "Shown in the metadata section if group has just one member"
     },
     "GroupV2--join--member-count--multiple": {
@@ -4214,7 +4214,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "Vaša prošnja za pridružitev je bila poslana skrbniku/ci skupine. O njegovi/njeni odločitvi boste obveščeni.",
+        "message": "Vaša prošnja za pridružitev je bila poslana skrbniku_ci skupine. O njegovi_njeni odločitvi boste obveščeni.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -4246,7 +4246,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "Uporabnik/ca$memberName$ je ustvaril/a skupino.",
+        "message": "$memberName$ je ustvaril_a skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4260,7 +4260,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "Član/ica $memberName$ je spremenil/a ime skupine v \"$newTitle$\".",
+        "message": "Član_ica $memberName$ je spremenil_a ime skupine v \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4284,7 +4284,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "Član/ica skupine je spremenil/a ime skupine v \"$newTitle$\".",
+        "message": "Član_ica skupine je spremenil_a ime skupine v \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4294,7 +4294,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "Član/ica$memberName$ je odstranila ime skupine.",
+        "message": "Član_ica$memberName$ je odstranila ime skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4308,11 +4308,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "Član/ica je odstranila ime skupine.",
+        "message": "Član_ica je odstranila ime skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "Član/ica $memberName$ je spremenila avatar skupine.",
+        "message": "Član_ica $memberName$ je spremenila avatar skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4326,11 +4326,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "Član/ica je spremenil/a avatar skupine.",
+        "message": "Član_ica je spremenil_a avatar skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "Član/ica $memberName$ je odstranil/a avatar skupine.",
+        "message": "Član_ica $memberName$ je odstranil_a avatar skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4344,11 +4344,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "Član/ica je odstranil/a avatar skupine.",
+        "message": "Član_ica je odstranil_a avatar skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "Skrbnik/ca $adminName$ je spremenil/a, kdo lahko ureja informacije o skupini, v: \"Samo skrbniki/ce.\"",
+        "message": "$adminName$ je spremenil_a, kdo lahko ureja informacije o skupini, v: \"Samo skrbniki_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4358,15 +4358,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "Spremenili ste, kdo lahko ureja informacije o skupini, v: \"Samo skrbniki/ce.\"",
+        "message": "Spremenili ste, kdo lahko ureja informacije o skupini, v: \"Samo skrbniki_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Skrbnik/ca je spremenil/a, kdo lahko ureja informacije o skupini, v: \"Samo skrbniki/ce.\"",
+        "message": "Skrbnik_ca je spremenil_a, kdo lahko ureja informacije o skupini, v: \"Samo skrbniki_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "Skrbnik/ca $adminName$ je spremenil/a, kdo lahko ureja informacije o skupini, v: \"Vsi/e čnani/ce.\"",
+        "message": "$adminName$ je spremenil_a, kdo lahko ureja informacije o skupini, v: \"Vsi_e člani_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4376,15 +4376,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Spremenili ste, kdo lahko ureja informacije o skupini, v: \"Vsi/e čnani/ce.\"",
+        "message": "Spremenili ste, kdo lahko ureja informacije o skupini, v: \"Vsi_e člani_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Skrbnik/ca je spremenil/a, kdo lahko ureja informacije o skupini, v: \"Vsi/e čnani/ce.\"",
+        "message": "Skrbnik_ca je spremenil_a, kdo lahko ureja informacije o skupini, v: \"Vsi_e člani_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "Skrbnik/ca $adminName$ je spremenil/a, kdo lahko ureja članstvo skupine, v: \"Samo skrbniki/ce.\"",
+        "message": "$adminName$ je spremenil_a, kdo lahko ureja članstvo skupine, v: \"Samo skrbniki_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4394,15 +4394,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "Spremenili ste, kdo lahko ureja članstvo skupine, v: \"Samo skrbniki/ce.\"",
+        "message": "Spremenili ste, kdo lahko ureja članstvo skupine, v: \"Samo skrbniki_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "Skrbnik/ca je spremenil/a, kdo lahko ureja članstvo skupine, v: \"Samo skrbniki/ce.\"",
+        "message": "Skrbnik_ca je spremenil_a, kdo lahko ureja članstvo skupine, v: \"Samo skrbniki_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "Skrbnik/ca $adminName$ je spremenil/a, kdo lahko ureja članstvo skupine, v: \"Vsi/e čnani/ce.\"",
+        "message": "Skrbnik_ca $adminName$ je spremenil_a, kdo lahko ureja članstvo skupine, v: \"Vsi_e člani_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4412,19 +4412,19 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "Spremenili ste, kdo lahko ureja članstvo skupine, v: \"Vsi/e čnani/ce.\"",
+        "message": "Spremenili ste, kdo lahko ureja članstvo skupine, v: \"Vsi_e člani_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Skrbnik/ca je spremenil/a, kdo lahko ureja članstvo skupine, v: \"Vsi/e čnani/ce.\"",
+        "message": "Skrbnik_ca je spremenil_a, kdo lahko ureja članstvo skupine, v: \"Vsi_e člani_ce.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Onemogočili ste odobritev skrbnika/ce za to povezavo.",
+        "message": "Onemogočili ste odobritev skrbnika_ce za to povezavo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "Član/ica $adminName$ je izklopil/a potrjevanje skrbnika/ce za pridruževanje skupini preko povezave.",
+        "message": "Član_ica $adminName$ je izklopil_a potrjevanje skrbnika_ce za pridruževanje skupini preko povezave.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4434,15 +4434,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Potrjevanje skrbnika/ce za pridruževanje skupini preko deljene povezave je bilo izklopljeno.",
+        "message": "Potrjevanje skrbnika_ce za pridruževanje skupini preko deljene povezave je bilo izklopljeno.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Vklopili ste potrjevanje skrbnika/ce za pridruževanje skupini preko deljene povezave.",
+        "message": "Vklopili ste potrjevanje skrbnika_ce za pridruževanje skupini preko deljene povezave.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "Član/ica $adminName$ je vklopil/a potrjevanje skrbnika/ce za pridruževanje skupini preko deljene povezave.",
+        "message": "Član_ica $adminName$ je vklopil_a potrjevanje skrbnika_ce za pridruževanje skupini preko deljene povezave.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4452,11 +4452,11 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "V klopljeno je bilo obvezno potrjevanje skrbnika/ce za pridruževanje skupini preko deljene povezave.",
+        "message": "Vklopljeno je bilo obvezno potrjevanje skrbnika_ce za pridruževanje skupini preko deljene povezave.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "Dodali ste povabljenega/no uporabnika/co $inviteeName$.",
+        "message": "Dodali ste povabljenega_no uporabnika_co $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4466,7 +4466,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "Član/ica$memberName$ je dodal/a povabljenega uporabnika/co $inviteeName$.",
+        "message": "Član_ica$memberName$ je dodal_a povabljenega uporabnika_co $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4480,7 +4480,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "Član/ica je dodal/a povabljenega uporabnika/co $inviteeName$.",
+        "message": "Član_ica je dodal_a povabljenega uporabnika_co $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4490,7 +4490,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "Povabljeni/a$inviteeName$ je sprejel/a vabilo člana/ice $inviterName$v skupino.",
+        "message": "$inviteeName$ je sprejel_a vabilo člana_ice $inviterName$v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4504,7 +4504,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "Povabljeni/a$inviteeName$ je sprejel/a vabilo v skupino.",
+        "message": "$inviteeName$ je sprejel_a vabilo v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4514,7 +4514,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "Sprejeli ste vabilo uporabnika/ce $inviterName$v skupino.",
+        "message": "Sprejeli ste vabilo uporabnika_ce $inviterName$ v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4528,7 +4528,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "Povabljeni/a$inviteeName$ je sprejel/a vaše vabilo v skupino.",
+        "message": "$inviteeName$ je sprejel_a vaše vabilo v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4538,7 +4538,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "Član/ica$adderName$ je dodala uporabnika/co $addeeName$v skupino.",
+        "message": "Član_ica$adderName$ je dodal_a uporabnika_co $addeeName$v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -4552,7 +4552,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "Dodali ste uporabnika/co$memberName$v skupino.",
+        "message": "Dodali ste uporabnika_co$memberName$v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4562,7 +4562,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "Član/ica skupine je dodal/a uporanika/co $memberName$v skupino.",
+        "message": "Član_ica skupine je dodal_a uporanika_co $memberName$v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4572,7 +4572,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "Član/ica$memberName$ vas je dodal/a v skupino.",
+        "message": "Član_ica$memberName$ vas je dodal_a v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4594,7 +4594,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "Uporabnik/ca $memberName$ se je pridružil/a skupini preko deljene povezave.",
+        "message": "$memberName$ se je pridružil_a skupini preko deljene povezave.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4604,7 +4604,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "Član/ica $adminName$ je odobril/a vašo prošnjo za pridružitev skupini.",
+        "message": "Član_ica $adminName$ je odobril_a vašo prošnjo za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4618,7 +4618,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "Odobrili ste prošnjo uporabnika/ce $joinerName$za pridružitev skupini.",
+        "message": "Odobrili ste prošnjo uporabnika_ce $joinerName$za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4628,7 +4628,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "Član/ica $adminName$ je odobril/a prošnjo uporabnika/ce $joinerName$za pridružitev skupini.",
+        "message": "Član_ica $adminName$ je odobril_a prošnjo uporabnika_ce $joinerName$za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4642,7 +4642,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "Prošnja uporabnika/ce $joinerName$ za pridružitev skupini je bila odobrena.",
+        "message": "Prošnja uporabnika_ce $joinerName$ za pridružitev skupini je bila odobrena.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4652,7 +4652,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "Skrbnik/ca$adminName$ je odstranil/a člana/ico $memberName$iz skupine.",
+        "message": "$adminName$ je odstranil_a člana_ico $memberName$iz skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4666,7 +4666,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "Član/ica$memberName$ je zapustil/a skupino",
+        "message": "Član_ica$memberName$ je zapustil_a skupino",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4676,7 +4676,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "Odstranili ste člana/ico $memberName$iz skupine.",
+        "message": "Odstranili ste člana_ico $memberName$iz skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4686,7 +4686,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "Član/ica skupine je odstranil/a uporabnika/co $memberName$iz skupine.",
+        "message": "Član_ica skupine je odstranil_a uporabnika_co $memberName$iz skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4696,7 +4696,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "Skrbnik/ca$adminName$ vas je odstranil/a iz skupine.",
+        "message": "$adminName$ vas je odstranil_a iz skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4714,7 +4714,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "Skrbnik/ca$adminName$ je določil/a člana/ico $memberName$ za skrnika/co.",
+        "message": "$adminName$ je določil_a člana_ico $memberName$ za skrbnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4728,7 +4728,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "Določili ste člana/ico $memberName$ za skrnika/co.",
+        "message": "Določili ste člana_ico $memberName$ za skrbnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4738,7 +4738,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "Skrbnik/ca je določil/a člana/ico $memberName$ za skrnika/co.",
+        "message": "Skrbnik_ca je določil_a člana_ico $memberName$ za skrbnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4748,7 +4748,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "Skrbnik/ca$adminName$vas je določil/a za skrnika/co.",
+        "message": "$adminName$vas je določil_a za skrbnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,11 +4758,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "Skrbnik/ca skupine vas je določil/a za skrbnika/co.",
+        "message": "Skrbnik_ca skupine vas je določil_a za skrbnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "Skrbnik/ca$adminName$ je odvzel/a skrbniška pooblastila članu/ici $memberName$.",
+        "message": "$adminName$ je odvzel_a skrbniška pooblastila članu_ici $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4776,7 +4776,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "Odvzeli ste skrbniška pooblastila članu/ici $memberName$.",
+        "message": "Odvzeli ste skrbniška pooblastila članu_ici $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4786,7 +4786,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "Skrbnik/ca je odvzel/a skrbniška pooblastila članu/ici $memberName$.",
+        "message": "Skrbnik_ca je odvzel_a skrbniška pooblastila članu_ici $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4796,7 +4796,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "Skrbnik/ca$adminName$ vam je odvzel/a skrbniška pooblastila.",
+        "message": "$adminName$ vam je odvzel_a skrbniška pooblastila.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4806,11 +4806,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "Skrbnik/ca vam je odvzel/a skrbniška pooblastila.",
+        "message": "Skrbnik_ca vam je odvzel_a skrbniška pooblastila.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "Član/ica$memberName$ je povabila 1 uporabnika/co v skupino.",
+        "message": "Član_ica$memberName$ je povabila 1 uporabnika_co v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4820,7 +4820,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "Povabili ste uporabnika/co $inviteeName$ v skupino.",
+        "message": "Povabili ste uporabnika_co $inviteeName$ v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4830,7 +4830,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "En/a uporabnik/ca je bil/a povabljen/a v skupino.",
+        "message": "En_a uporabnik_ca je bil_a povabljen_a v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4840,7 +4840,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "Član/ica$memberName$ vas je povabil/a v skupino.",
+        "message": "Član_ica$memberName$ vas je povabil_a v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4854,7 +4854,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "Član/ica$memberName$ je povabil/a $count$ uporabnikov/ic v skupino.",
+        "message": "Član_ica$memberName$ je povabil_a $count$ uporabnikov_ic v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4868,7 +4868,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "Povabili ste $count$ uporabnikov/ic v skupino.",
+        "message": "Povabili ste $count$ uporabnikov_ic v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4878,7 +4878,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ uporabnikov/ic je bilo povabljenih v skupino.",
+        "message": "$count$ uporabnikov_ic je bilo povabljenih v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4888,7 +4888,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "1 uporabnik/ca, povabljen/a s strani člana/ice $memberName$ , je zavrnil/a povabilo v skupino.",
+        "message": "1 uporabnik_ca, povabljen_a s strani člana_ice $memberName$, je zavrnil_a povabilo v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4898,7 +4898,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "Povabljeni/a$inviteeName$ je zavrnil/a vaše povabilo v skupino.",
+        "message": "$inviteeName$ je zavrnil_a vaše povabilo v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4912,11 +4912,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 uporabnik/ca je zavrnil/a povabilo v skupino.",
+        "message": "1 uporabnik_ca je zavrnil_a povabilo v skupino.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "Član/ica$memberName$ je preklical/a vabilo v skupino za 1 uporabnika/co.",
+        "message": "Član_ica$memberName$ je preklical_a vabilo v skupino za 1 uporabnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4926,7 +4926,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "Preklicali ste vabilo v skupino za 1 uporabnika/co.",
+        "message": "Preklicali ste vabilo v skupino za 1 uporabnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4936,7 +4936,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "Član/ica$inviterName$ je preklical/a svoje povabilo v skupino za vas.",
+        "message": "Član_ica$inviterName$ je preklical_a svoje povabilo v skupino za vas.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4946,7 +4946,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "Član/ica$inviterName$ je preklical/a vabilo v skupino za 1 uporabnika/co.",
+        "message": "Član_ica$inviterName$ je preklical_a vabilo v skupino za 1 uporabnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4956,7 +4956,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "Skrbnik/ca je preklical/a vabilo v skupino za 1 uporabnika/co.",
+        "message": "Skrbnik_ca je preklical_a vabilo v skupino za 1 uporabnika_co.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4966,7 +4966,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "Član/ica$memberName$ je preklical/a vabilo v skupino za $count$ uporabnikov/ic.",
+        "message": "Član_ica$memberName$ je preklical_a vabilo v skupino za $count$ uporabnikov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4980,7 +4980,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "Preklicali ste vabilo v skupino za $count$ uporabnikov/ic.",
+        "message": "Preklicali ste vabilo v skupino za $count$ uporabnikov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4990,7 +4990,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "Skrbnik/ca je preklical/a vabilo v skupino za$count$ uporabnikov/ic.",
+        "message": "Skrbnik_ca je preklical_a vabilo v skupino za$count$ uporabnikov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5000,7 +5000,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "Skrbnik/ca$adminName$ je preklical/a vabilo v skupino za 1 uporabnika/co, povabljeno s strani člana/ice $memberName$.",
+        "message": "$adminName$ je preklical_a vabilo v skupino za 1 uporabnika_co, povabljenega_no s strani člana_ice $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5014,7 +5014,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Preklicali ste vabilo v skupino za 1 uporabnika/co, povabljeno s strani člana/ice $memberName$.",
+        "message": "Preklicali ste vabilo v skupino za 1 uporabnika_co, povabljeno s strani člana_ice $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5024,7 +5024,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Skrbnik/ca je preklical/a vabilo v skupino za 1 uporabnika/co, povabljeno s strani člana/ice $memberName$.",
+        "message": "Skrbnik_ca je preklical_a vabilo v skupino za 1 uporabnika_co, povabljeno s strani člana_ice $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5034,7 +5034,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "Skrbnik/ca$adminName$ je preklical/a vabilo v skupino, ki ste ga poslali uporabniku/ci $inviteeName$.",
+        "message": "$adminName$ je preklical_a vabilo v skupino, ki ste ga poslali uporabniku_ci $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5044,7 +5044,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Preklicali ste svoje vabilo v skupino uporabniku/ci $inviteeName$.",
+        "message": "Preklicali ste vabilo v skupino uporabniku_ci $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5054,7 +5054,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "Skrbnik/ca je preklical/a vaše vabilo v skupino uporabniku/ci $inviteeName$.",
+        "message": "Skrbnik_ca je preklical_a vaše vabilo v skupino uporabniku_ci $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5064,7 +5064,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "Skrbnik/ca$adminName$ je preklical/a vabilo v skupino za  $count$ uporabnikov/ic, povabljenih s strani člana/ice $memberName$.",
+        "message": "$adminName$ je preklical_a vabilo v skupino za $count$ uporabnikov_ic, povabljenih s strani člana_ice $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5078,7 +5078,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "Preklicali ste vabilo v skupino za $count$ uporabnikov/ic, povabljenih s strani člana/ice $memberName$.",
+        "message": "Preklicali ste vabilo v skupino za $count$ uporabnikov_ic, povabljenih s strani člana_ice $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5092,7 +5092,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "Skrbnik/ca je preklical/a vabilo v skupino za $count$ uporabnikov/ic, povabljenih s strani člana/ice$memberName$.",
+        "message": "Skrbnik_ca je preklical_a vabilo v skupino za $count$ uporabnikov_ic, povabljenih s strani člana_ice$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5106,7 +5106,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "Skrbnik/ca$adminName$ je preklical/a vaše vabilo v skupino za $count$ uporabnikov/ic.",
+        "message": "$adminName$ je preklical_a vaše vabilo v skupino za $count$ uporabnikov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5120,7 +5120,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "Preklicali ste svoje vabilo v skupino za $count$ uporabnikov/ic.",
+        "message": "Preklicali ste svoje vabilo v skupino za $count$ uporabnikov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5130,7 +5130,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "Skrbnik/ca je preklicala vabilo v skupino za $count$ uporabnikov.",
+        "message": "Skrbnik_ca je preklical_a vabilo v skupino za $count$ uporabnikov.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5144,7 +5144,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "Uporabnik/ca $joinerName$ je preko deljene povezave zaprosil/a za pridružitev skupini.",
+        "message": "$joinerName$ je preko deljene povezave zaprosil_a za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5158,11 +5158,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Vaša prošnja za pridružitev skupini je bila zavrnjena s strani skrbnika/ce.",
+        "message": "Vaša prošnja za pridružitev skupini je bila zavrnjena s strani skrbnika_ce.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Zavrnili ste prošnjo uporabnika/ce $joinerName$za pridružitev skupini.",
+        "message": "Zavrnili ste prošnjo uporabnika_ce $joinerName$za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5172,7 +5172,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "Uporabnik/ca$joinerName$ je preklical/a svojo prošnjo za pridružitev skupini.",
+        "message": "$joinerName$ je preklical_a svojo prošnjo za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5182,7 +5182,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "Član/ica $adminName$ je zavrnil/a prošnjo uporabnika/ce $joinerName$za pridružitev skupini.",
+        "message": "Član_ica $adminName$ je zavrnil_a prošnjo uporabnika_ce $joinerName$za pridružitev skupini.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5220,11 +5220,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Vklopili ste povezavo do skupine z izklopljenim obveznim skrbniškim potrjevanjem novih članov/ic.",
+        "message": "Vklopili ste povezavo do skupine z izklopljenim obveznim skrbniškim potrjevanjem novih članov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "Član/ica $adminName$ je vklopil/a povezavo do skupine z obveznim skrbniškim potrjevanjem novih članov/ic.",
+        "message": "Član_ica $adminName$ je vklopil_a povezavo do skupine z obveznim skrbniškim potrjevanjem novih članov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5234,15 +5234,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Vklopljena je bila povezava do skupine brez obveznega skrbniškega potrjevanja novih članov/ic.",
+        "message": "Vklopljena je bila povezava do skupine brez obveznega skrbniškega potrjevanja novih članov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Vklopili ste povezavo do skupine z vlopljenim obveznim skrbniškim potrjevanjem novih članov/ic.",
+        "message": "Vklopili ste povezavo do skupine z vlopljenim obveznim skrbniškim potrjevanjem novih članov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "Član/ica $adminName$ je vklopil/a povezavo do skupine z obveznim skrbniškim potrjevanjem novih članov/ic.",
+        "message": "Član_ica $adminName$ je vklopil_a povezavo do skupine z obveznim skrbniškim potrjevanjem novih članov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5252,7 +5252,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Vklopljena je bila povezava do skupine z obveznim skrbniškim potrjevanjem novih članov/ic.",
+        "message": "Vklopljena je bila povezava do skupine z obveznim skrbniškim potrjevanjem novih članov_ic.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -5260,7 +5260,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "Uporabnik/ca $adminName$ je izklopil/a povezavo do skupine.",
+        "message": "$adminName$ je izklopil_a povezavo do skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5278,7 +5278,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "Uporabnik/ca $adminName$ je ponastavil/a povezavo do skupine.",
+        "message": "$adminName$ je ponastavil_a povezavo do skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5296,7 +5296,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "Uporabnik/ca je odstranil/a $memberName$ opis skupine.",
+        "message": "$memberName$ je odstranil_a opis skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5314,7 +5314,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "Uporabnik/ca $memberName$ je spremenil/a opis skupine.",
+        "message": "$memberName$ je spremenil_a opis skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5328,11 +5328,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Nastavitve skupine ste spremenili tako, da lahko le skrbniki/ce pošiljajo sporočila.",
+        "message": "Nastavitve skupine ste spremenili tako, da lahko le skrbniki_ce pošiljajo sporočila.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "Uporabnik/ca $memberName$ je spremenil/a nastavitve skupine tako, da lahko le skrbniki/ce pošiljajo sporočila.",
+        "message": "$memberName$ je spremenil_a nastavitve skupine tako, da lahko le skrbniki_ce pošiljajo sporočila.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5342,15 +5342,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Skupinske nastavitve so bile spremenjene tako, da lahko le skrbniki/ce pošiljajo sporočila.",
+        "message": "Skupinske nastavitve so bile spremenjene tako, da lahko le skrbniki_ce pošiljajo sporočila.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Nastavitve skupine ste spremenili tako, da lahko vsi/e uporabniki/ce pošiljajo sporočila.",
+        "message": "Nastavitve skupine ste spremenili tako, da lahko vsi_e uporabniki_ce pošiljajo sporočila.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "Uporabnik/ca $memberName$ je spremenil/a nastavitve skupine tako, da lahko vsi/e uporabniki/ce pošiljajo sporočila.",
+        "message": "$memberName$ je spremenil_a nastavitve skupine tako, da lahko vsi_e uporabniki_ce pošiljajo sporočila.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5360,11 +5360,11 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "Skupinske nastavitve so bile spremenjene tako, da lahko vsi/ uporaniki/ce pošiljajo sporočila.",
+        "message": "Skupinske nastavitve so bile spremenjene tako, da lahko vsi_e uporaniki_ce pošiljajo sporočila.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Nadgradite to skupino, da boste lahko uporabljali napredne funkcije, kot so @omembe in skrbniki/ce skupine. Člani/ce, ki s skupino niso delili/e svojega imena in fotografije, bodo povabljeni/e, da se pridružijo.\n$learnMore$",
+        "message": "Nadgradite to skupino, da boste lahko uporabljali napredne funkcije, kot so @omembe in skrbniki_ce skupine. Člani_ce, ki s skupino niso delili_e svojega imena in fotografije, bodo povabljeni_e, da se pridružijo.\n$learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5394,7 +5394,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Nove skupine omogočajo napredne funkcije kot so @omembe in skrbniki/ce skupin, ter v prihodnosti še veliko novih funkcij.",
+        "message": "Nove skupine omogočajo napredne funkcije kot so @omembe in skrbniki_ce skupin, ter v prihodnosti še veliko novih funkcij.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -5410,27 +5410,27 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Ti/te člani/ce bodo morali/e potrditi vabilo za ponovno pridružitev skupini in do takrat ne bodo mogli/e prejemati novih sporočil skupine:",
+        "message": "Ti_te člani_ce bodo morali_e potrditi vabilo za ponovno pridružitev skupini in do takrat ne bodo mogli_e prejemati novih sporočil skupine:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Ta član/ica bo moral/a potrditi vabilo za ponovno pridružitev skupini in do takrat ne bo mogel/la prejemati novih sporočil skupine:",
+        "message": "Ta član_ica bo moral_a potrditi vabilo za ponovno pridružitev skupini in do takrat ne bo mogel_la prejemati novih sporočil skupine:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Ti/te člani/ce se ne morejo pridružiti Novim skupinam, zato so bili/e odstranjeni/e iz skupine:",
+        "message": "Ti_te člani_ce se ne morejo pridružiti Novim skupinam, zato so bili_e odstranjeni_e iz skupine:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Ta član/ica se ne more pridružiti Novim skupinam, zato je bil/a odstranjen/a iz skupine:",
+        "message": "Ta član_ica se ne more pridružiti Novim skupinam, zato je bil_a odstranjen_a iz skupine:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Ti/te člani/ce se niso mogli pridružiti Novim skupinam, zato so bili/e odstranjeni/e iz skupine:",
+        "message": "Ti_te člani_ce se niso mogli pridružiti Novim skupinam, zato so bili_e odstranjeni_e iz skupine:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Ta član/ica se ni mogla pridružiti Novim skupinam, zato je bil/a odstranjen/a iz skupine:",
+        "message": "Ta član_ica se ni mogla pridružiti Novim skupinam, zato je bil_a odstranjen_a iz skupine:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
@@ -5438,7 +5438,7 @@
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "Uporabnik/ca $contact$ ni mogel/la biti dodan/a v Novo skupino, zato je bil/a povabljen/a, da se pridruži.",
+        "message": "$contact$ ni mogel_la biti dodan_a v Novo skupino, zato je bil_a povabljen_a, da se pridruži.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5448,7 +5448,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ uporabnikov/ic ni moglo biti dodanih v Novo skupino, zato so bili/e povabljeni/e, da se pridružijo.",
+        "message": "$count$ uporabnikov_ic ni moglo biti dodanih v Novo skupino, zato so bili_e povabljeni_e, da se pridružijo.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5458,7 +5458,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "Uporabnik/ca $contact$ je bil/a odstranjen/a iz skupine.",
+        "message": "$contact$ je bil_a odstranjen_a iz skupine.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -5468,7 +5468,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ uporabnikov/ic je bilo odstranjenih iz skupine.",
+        "message": "$count$ uporabnikov_ic je bilo odstranjenih iz skupine.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -5490,11 +5490,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Postanite podpornik/ca",
+        "message": "Postanite podpornik_ca",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Postanite podpornik/ca",
+        "message": "Postanite podpornik_ca",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5510,7 +5510,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tapnite na \"Postanite podpornik/ca\" in se naročite",
+        "message": "Tapnite na \"Postanite podpornik_ca\" in se naročite",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5542,7 +5542,7 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Odstrani kot skrbnika/co",
+        "message": "Odstrani kot skrbnika_co",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
@@ -5550,7 +5550,7 @@
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "Uporabnik/ca $contact$ bo lahko urejal/a to skupino in njeno članstvo. ",
+        "message": "$contact$ bo lahko urejal_a to skupino in njeno članstvo. ",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -5560,7 +5560,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Res želite ukiniti uporabniku/ci $contact$ skrbniška pooblastila?",
+        "message": "Res želite odvzeti uporabniku_ci $contact$ skrbniška pooblastila?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5598,7 +5598,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "Poslana in prejeta sporočila bodo izginila po tem, ko bodo videna s strani prejemnika.",
+        "message": "Poslana in prejeta sporočila bodo izginila po tem, ko bodo videna s strani prejemnika_ce.",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
@@ -5618,11 +5618,11 @@
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Kdo lahko dodaja člane/ice",
+        "message": "Kdo lahko dodaja člane_ice",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Izberite kdo lahko dodaja člane/ice v skupino.",
+        "message": "Izberite kdo lahko dodaja člane_ice v skupino.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
@@ -5646,7 +5646,7 @@
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Pred odhodom iz skupine morate določiti vsaj enega skrbnika/co skupine.",
+        "message": "Pred odhodom iz skupine morate določiti vsaj enega skrbnika_co skupine.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5680,7 +5680,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ članov/ic",
+        "message": "$number$ članov_ic",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -5698,7 +5698,7 @@
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ članov/ic",
+        "message": "$number$ članov_ic",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -5708,7 +5708,7 @@
         }
     },
     "ConversationDetailsMembershipList--add-members": {
-        "message": "Dodaj člane/ice",
+        "message": "Dodaj člane_ice",
         "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
@@ -5740,7 +5740,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Ste prepričani, da želite ponastaviti povezavo do skupine? Uporabiki/ce se več ne bodo mogli/e pridružiti skupini preko sedanje povezave.",
+        "message": "Ste prepričani, da želite ponastaviti povezavo do skupine? Uporabiki_ce se več ne bodo mogli_e pridružiti skupini preko sedanje povezave.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5748,11 +5748,11 @@
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
-        "message": "Odobritev novih članov/ic",
+        "message": "Odobritev novih članov_ic",
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Za pridružitev tej skupini preko deljene povezave je potrebna odobritev skrbnika/ce.",
+        "message": "Za pridružitev tej skupini preko deljene povezave je potrebna odobritev skrbnika_ce.",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5776,7 +5776,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Želite potrditi prošnjo uporabnika/ce \"$name$\"?",
+        "message": "Želite potrditi prošnjo uporabnika_ce \"$name$\"?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5786,7 +5786,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Želite zavrniti prošnjo uporabnika/ce \"$name$\"?",
+        "message": "Želite zavrniti prošnjo uporabnika_ce \"$name$\"?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5832,7 +5832,7 @@
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Želite preklicati vabilo za uporabnika/co \"$name$\"?",
+        "message": "Želite preklicati vabilo za uporabnika_co \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -5846,7 +5846,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Želite preklicati 1 vabilo, poslano s strani uporabnika/ce \"$name$\"?",
+        "message": "Želite preklicati 1 vabilo, poslano s strani uporabnika_ce \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5856,7 +5856,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Res želite umakniti $number$ povabil uporabnika/ce \"$name$\"?",
+        "message": "Res želite umakniti $number$ vabil uporabnika_ce \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5882,7 +5882,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "Uporabniki/ce na seznamu se želijo pridružiti skupini  \"$name$\" preko deljene povezave.",
+        "message": "Uporabniki_ce na seznamu se želijo pridružiti skupini  \"$name$\" preko deljene povezave.",
         "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -5892,7 +5892,7 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Podrobnosti o uporabnikih/cah, povabljenih v skupino ne bodo prikazane, dokler se ne pridružijo. Povabljeni/e bodo lahko prebirali/e sporočila šele, ko se pridružijo skupini.",
+        "message": "Podrobnosti o uporabnikih_cah, povabljenih v skupino ne bodo prikazane, dokler se ne pridružijo. Povabljeni_e bodo lahko prebirali_e sporočila šele, ko se pridružijo skupini.",
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
@@ -5938,7 +5938,7 @@
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
-        "message": "Odstrani člana/ico",
+        "message": "Odstrani člana_ico",
         "description": "The label for the 'remove' button on the contact pill"
     },
     "ComposeErrorDialog--close": {
@@ -5960,7 +5960,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "Uporabnika/ce $name$ ne morete avtomatsko dodati v skupino.",
+        "message": "Uporabnika_ce $name$ ne morete avtomatsko dodati v skupino.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5970,11 +5970,11 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "Teh uporabnikov/ic ne morete avtomatsko dodati v skupino.",
+        "message": "Teh uporabnikov_ic ne morete avtomatsko dodati v skupino.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "Uporabniki/ce so bili/e povabljeni/e, da se pridružijo. Dokler ne potrdijo vabila, ne bodo mogli/e videti sporočil skupine.",
+        "message": "Uporabniki_ce so bili_e povabljeni_e, da se pridružijo. Dokler ne potrdijo vabila, ne bodo mogli_e videti sporočil skupine.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5982,7 +5982,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
-        "message": "Dodaj člane/ice",
+        "message": "Dodaj člane_ice",
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--continue-to-confirm": {
@@ -5990,7 +5990,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "Želite dodati uporabnika/co $person$ v skupino \"$group$\"?",
+        "message": "Želite dodati uporabnika_co $person$ v skupino \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -6004,7 +6004,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "Želite dodati $count$ uporabnikov/ic v skupino \"$group$\"?",
+        "message": "Želite dodati $count$ uporabnikov_ic v skupino \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -6022,7 +6022,7 @@
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "AddGroupMembersModal--confirm-button--many": {
-        "message": "Dodaj člane/ice",
+        "message": "Dodaj člane_ice",
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "createNewGroupButton": {
@@ -6030,7 +6030,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Označi uporabnika/co $name$",
+        "message": "Označi uporabnika_co $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -6040,7 +6040,7 @@
         }
     },
     "deselectContact": {
-        "message": "Odznači uporabnika/co $name$",
+        "message": "Odznači uporabnika_co $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -6050,7 +6050,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Uporabnika/co $name$ ni mogoče označiti",
+        "message": "Uporabnika_ce $name$ ni mogoče označiti",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6060,7 +6060,7 @@
         }
     },
     "alreadyAMember": {
-        "message": "Uporabnik/ca je že član/ica skupine",
+        "message": "Uporabnik_ca je že član_ica skupine",
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
@@ -6132,7 +6132,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ članov/ic skupine ima enako ime. $link$",
+        "message": "$count$ članov_ic skupine ima enako ime. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -6174,15 +6174,15 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ članov/ic skupine ima podobno ime. Preglejte člane/ice spodaj in ustrezno ukrepajte.",
+        "message": "$count$ članov_ic skupine ima podobno ime. Preglejte člane_ice spodaj in ustrezno ukrepajte.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
-        "message": "Člani/ce",
+        "message": "Člani_ce",
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Uporabnik/ca je pred kratkim spremenil/a svoje ime iz $oldName$ v $newName$",
+        "message": "Uporabnik_ca je pred kratkim spremenil_a svoje ime iz $oldName$ v $newName$",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -6200,7 +6200,7 @@
         "description": "When confirming the removal of a group member, show this text in the button"
     },
     "RemoveGroupMemberConfirmation__description": {
-        "message": "Želite odstraniti uporabnika/co \"$name$\" iz skupine?",
+        "message": "Želite odstraniti uporabnika_co \"$name$\" iz skupine?",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6424,7 +6424,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Opisi skupine bodo vidni članom/icam skupine in ljudem, ki so bili povabljeni.",
+        "message": "Opisi skupine bodo vidni članom_icam skupine in ljudem, ki so bili povabljeni.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -6464,15 +6464,15 @@
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
-        "message": "Poslano uporabniku/ci",
+        "message": "Poslano uporabniku_ci",
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "Dostavljeno uporabniku/ci",
+        "message": "Dostavljeno uporabniku_ci",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "Prebral uporabnik/ca",
+        "message": "Prebral_a uporabnik_ca",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
@@ -6492,7 +6492,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Uporabniška imena Signal so neobvezna. Če si boste ustvarili uporabniško ime Signal, vas bodo drugi/e uporabniki/ce lahko našli/e po njem in vam pošiljali/e sporočila, ne da bi poznali/e vašo telefonsko številko.",
+        "message": "Signalova uporabniška imena so neobvezna. Če si boste ustvarili Signalovo uporabniško ime, vas bodo drugi_e uporabniki_ce lahko našli_e po njem in vam pošiljali_e sporočila, ne da bi poznali_e vašo telefonsko številko.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6622,7 +6622,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Sporočilo skrbniku/ci skupine",
+        "message": "Sporočilo skrbniku_ci skupine",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -6636,7 +6636,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "skrbniki/ce",
+        "message": "skrbniki_ce",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
@@ -6738,7 +6738,7 @@
         }
     },
     "Preferences__who-can--title": {
-        "message": "Uporabniki/ce, ki lahko ...",
+        "message": "Uporabniki_ce, ki lahko ...",
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
@@ -6822,11 +6822,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Failed to decompress files. Please try running the installer again.",
+        "message": "Neuspešno razširjanje datotek. Poskusite ponovno zagnati inštalacijo.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "Neuspešno odnameščanje starih datotek. Poskusite ponovno zagnati inštalacijo.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -6998,7 +6998,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah dugih prejemnikov.",
+        "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah dugih prejemnikov_ic.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7012,6 +7012,10 @@
     "Stories__add": {
         "message": "Dodaj zgodbo",
         "description": "Description hint to add a story"
+    },
+    "Stories__hidden-stories": {
+        "message": "Skrite zgodbe",
+        "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
         "message": "Trenutno ni nobenih zgodb za prikaz",
@@ -7043,6 +7047,10 @@
         "message": "Vnesi odgovor ...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Brez odgovorov",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Ogledi",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Zgodba",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Prikaži zgodbe",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Skrij zgodbo",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ta različica vsebuje majhne spremembe in popravke, ki omogočajo, da Signal teče brez težav.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Kratka sporočila ostajajo kratka tudi zato, ker stvari kot so časovne oznake dodajamo v isto vrstico kot besedilo. Sedaj vam je na voljo več prostora na zaslonu za tisti hitri 'hej', da preverite prijatelja.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Nič več izgubljenih paketov z nalepkami! Namizna različica odslej deluje z vsemi paketi z nalepkami, s katerimi zna delati telefon!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Ljudi lahko sedaj dodajate v skupino z uporabo njihove telefonske številke.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Priljubljeni stiki so le še nekaj tipk oddaljeni. Iskanje stikov odslej podpira tudi ne-latinske abecede, kot je cirilica.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",

@@ -3,7 +3,6 @@
 
 .StoryImage {
   align-items: center;
-  border-radius: 8px;
   display: flex;
   height: 100%;
   justify-content: center;
@@ -23,7 +22,7 @@
     width: 100%;
   }
 
-  &__spinner-container {
+  &__overlay-container {
     align-items: center;
     display: flex;
     height: 100%;

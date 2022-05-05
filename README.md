@@ -28,7 +28,7 @@ https://www.transifex.com/projects/p/signal-desktop
 
 ## Contributing Code
 
-Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/development/CONTRIBUTING.md)
+Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md)
 for setup instructions and guidelines for new contributors. Don't forget to sign the [CLA](https://signal.org/cla/).
 
 ## Contributing Funds

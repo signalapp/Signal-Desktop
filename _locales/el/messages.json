@@ -7013,6 +7013,10 @@
         "message": "Προσθήκη ιστορίας",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Κρυμμένες ιστορίες",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Δεν υπάρχουν πρόσφατες ιστορίες αυτή τη στιγμή",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Γράψε μια απάντηση...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Καμία απάντηση ακόμα",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Προβολές",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Ιστορία",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Show stories",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Απόκρυψη ιστορίας",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Κρατάμε τα μικρά μηνύματα μικρά, βάζοντας πράγματα όπως χρονικές σημάνσεις στην ίδια γραμμή με το κείμενο. Πλέον έχετε περισσότερο χώρο στην οθόνη για να στείλετε ένα απλό «γεια» στον φίλο σας και να δείτε τι κάνει.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Αντίο στα ελλιπή πακέτα αυτοκολλήτων! Η έκδοση υπολογιστή θα μπορεί πλέον να διαχειρίζεται όλα τα πακέτα αυτοκολλήτων που λειτουργούν και στο κινητό!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Μπορείτε πλέον να προσθέτετε άτομα σε ομάδες χρησιμοποιώντας τους τηλεφωνικούς τους αριθμούς.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Οι αγαπημένες σας επαφές είναι μόλις λίγα κουμπιά μακριά. Η αναζήτηση επαφών υποστηρίζει πλέον και τα μη λατινικά αλφάβητα, όπως το Κυριλλικό.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Διορθώσεις σφαλμάτων, συμπεριλαμβανομένης της διόρθωσης ενός προβλήματος που έκανε δύσκολο το κλικ στα μενού.",

@@ -324,7 +324,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Je kunt geen berichten verzenden omdat je niet langer lid bent van de groep.",
+        "message": "Je bent niet langer lid van deze groep en je zult daarom geen nieuwe berichten zien.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
@@ -464,7 +464,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde URL. Die URL kun je vervolgens naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
+        "message": "Dit log bevat geen persoonlijke details zoals telefoonnummers. Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde verwijzing. Die verwijzing kun je zelf naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -504,7 +504,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Verzenden",
+        "message": "Uploaden",
         "description": ""
     },
     "acceptNewKey": {
@@ -1276,7 +1276,7 @@
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "Een bericht van $sender$ kon niet worden afgeleverd",
+        "message": "Een bericht van $sender$ kan niet worden afgeleverd",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1940,7 +1940,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Dit verwijdert alle gegevens in de toepassing: alle berichten, alle opgeslagen voorkeuren en alle profielinformatie.",
+        "message": "Dit wist alle gegevens in de toepassing: alle berichten, alle opgeslagen voorkeuren en alle profielinformatie.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1960,7 +1960,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Verbinding wordt verbroken en alle gegevens worden verwijderd",
+        "message": "Verbinding wordt verbroken en alle gegevens worden gewist",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
@@ -2674,7 +2674,7 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "Het meest recente bericht is mogelijk verwijderd.",
+        "message": "Het meest recente bericht is mogelijk gewist.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
@@ -3556,7 +3556,7 @@
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "Gesprek verwijderen?",
+        "message": "Gesprek wissen?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
@@ -3564,7 +3564,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "$group$ verlaten en verwijderen?",
+        "message": "$group$ verlaten en wissen?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3574,11 +3574,11 @@
         }
     },
     "MessageRequests--delete-direct": {
-        "message": "Verwijderen",
+        "message": "Wissen",
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "Verwijderen en verlaten",
+        "message": "Wissen en verlaten",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
@@ -6256,7 +6256,7 @@
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "Kleur verwijderen",
+        "message": "Kleur wissen",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
@@ -6532,15 +6532,15 @@
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Je gebruikersnaam kan niet worden verwijderd. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
+        "message": "Je gebruikersnaam kan niet worden gewist. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Gebruikersnaam verwijderen",
+        "message": "Gebruikersnaam wissen",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Je staat op het punt je gebruikersnaam te verwijderen. Als je door gaat kunnen anderen deze naam claimen. Weet je het zeker?",
+        "message": "Je staat op het punt je gebruikersnaam te wissen. Als je door gaat kunnen anderen deze naam claimen. Weet je het zeker?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -7013,6 +7013,10 @@
         "message": "Een verhaal toevoegen",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Verborgen verhalen",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Er zijn op dit moment geen recente verhalen om weer te geven",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Typ een reactie …",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Nog geen reacties",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Aantal weergaven",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Verhaal",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Verhalen niet langer verbergen",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Verhaal verbergen",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Korte berichten zijn vanaf nu nog korter, omdat de tijdsindicatie op dezelfde regel staat als de tekst van je bericht.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Er was een fout waardoor sommige stickerpakketten niet konden worden weergegeven in Signal-desktop. Vanaf nu kun je alle stickerpakketten zien net als op je telefoon.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Je kunt vanaf nu ook personen toevoegen aan groepen door alleen hun telefoonnummer in te voeren.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Ook personen die niet het Latijnse alfabet gebruiken kunnen vanaf nu contactpersonen zoeken.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Foutoplossingen, waaronder een oplossing voor een fout waarbij het soms moeilijk was op op menuknoppen te klikken.",

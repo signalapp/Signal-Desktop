@@ -27,6 +27,8 @@ function getDefaultProps(): PropsType {
     loadStoryReplies: action('loadStoryReplies'),
     markStoryRead: action('markStoryRead'),
     onClose: action('onClose'),
+    onGoToConversation: action('onGoToConversation'),
+    onHideStory: action('onHideStory'),
     onNextUserStories: action('onNextUserStories'),
     onPrevUserStories: action('onPrevUserStories'),
     onReactToStory: action('onReactToStory'),
@@ -40,8 +42,10 @@ function getDefaultProps(): PropsType {
     stories: [
       {
         attachment: fakeAttachment({
+          path: 'snow.jpg',
           url: '/fixtures/snow.jpg',
         }),
+        canReply: true,
         messageId: '123',
         sender,
         timestamp: Date.now(),
@@ -58,8 +62,10 @@ story.add('Wide story', () => (
     stories={[
       {
         attachment: fakeAttachment({
+          path: 'file.jpg',
           url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
         }),
+        canReply: true,
         messageId: '123',
         sender: getDefaultConversation(),
         timestamp: Date.now(),
@@ -87,6 +93,7 @@ story.add('Multi story', () => {
       stories={[
         {
           attachment: fakeAttachment({
+            path: 'snow.jpg',
             url: '/fixtures/snow.jpg',
           }),
           messageId: '123',
@@ -95,8 +102,10 @@ story.add('Multi story', () => {
         },
         {
           attachment: fakeAttachment({
+            path: 'file.jpg',
             url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
           }),
+          canReply: true,
           messageId: '456',
           sender,
           timestamp: Date.now() - 3600,
@@ -106,19 +115,41 @@ story.add('Multi story', () => {
   );
 });
 
-story.add('So many stories', () => {
-  const sender = getDefaultConversation();
-  return (
-    <StoryViewer
-      {...getDefaultProps()}
-      stories={Array(20).fill({
+story.add('Caption', () => (
+  <StoryViewer
+    {...getDefaultProps()}
+    stories={[
+      {
         attachment: fakeAttachment({
+          caption: 'This place looks lovely',
+          path: 'file.jpg',
+          url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
+        }),
+        canReply: true,
+        messageId: '123',
+        sender: getDefaultConversation(),
+        timestamp: Date.now(),
+      },
+    ]}
+  />
+));
+
+story.add('Long Caption', () => (
+  <StoryViewer
+    {...getDefaultProps()}
+    stories={[
+      {
+        attachment: fakeAttachment({
+          caption:
+            'Snowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like',
+          path: 'file.jpg',
           url: '/fixtures/snow.jpg',
         }),
+        canReply: true,
         messageId: '123',
-        sender,
+        sender: getDefaultConversation(),
         timestamp: Date.now(),
-      })}
-    />
-  );
-});
+      },
+    ]}
+  />
+));

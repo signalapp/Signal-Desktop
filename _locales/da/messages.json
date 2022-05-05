@@ -2314,7 +2314,7 @@
         "description": "Title for the modal for safety number verification"
     },
     "safetyNumberChanged": {
-        "message": "Sikkerhedsnummer har ændret sig",
+        "message": "Sikkerhedsnummer er ændret",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
@@ -7013,6 +7013,10 @@
         "message": "Tilføj en historie",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Skjulte historier",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Ingen nye historier at vise lige nu",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Indtast et svar...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Ingen svar endnu",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Visninger",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Historie",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Vis historier",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Skjul historie",
@@ -7095,28 +7107,12 @@
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.37--1": {
-        "message": "Vi sørger for at holde korte beskeder korte ved at sætte ting som tidsstempler på samme linje som teksten. Nu har du mere plads på skærmen til et hurtigt \"hej\" for at tjekke, hvordan det går med en ven.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Slut med manglende klistermærkepakker! Desktop burde nu kunne håndtere alle de samme klistermærkepakker, som din telefon kan!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Du kan nu tilføje personer til grupper ved blot at bruge deres telefonnummer.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Dine foretrukne kontakter er nu kun et par tastetryk væk. Kontaktsøgning understøtter nu ikke-latinske alfabeter såsom kyrillisk.",
-        "description": "Release notes for v5.39"
-    },
     "WhatsNew__v5.40--1": {
         "message": "Fejlrettelser, herunder en rettelse af et problem, som nogle gange gjorde det svært at klikke på menuer. ",
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {
-        "message": "Tak til vores open source-bidragydere $dsanders11$ og $yusufsahinhamza$ for at bidrage med disse forbedringer.",
+        "message": "Tak til vores open source-bidragsydere $dsanders11$ og $yusufsahinhamza$ for at bidrage med disse forbedringer.",
         "description": "Release notes for v5.40",
         "placeholders": {
             "dsanders11": {

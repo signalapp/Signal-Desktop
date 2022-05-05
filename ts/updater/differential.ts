@@ -386,8 +386,14 @@ export async function downloadRanges(
       'response'
     );
 
-    // When the result is single range we might get 200 status code
-    if (ranges.length === 1 && statusCode === 200) {
+    strictAssert(statusCode === 206, `Invalid status code: ${statusCode}`);
+
+    const match = headers['content-type']?.match(
+      /^multipart\/byteranges;\s*boundary=([^\s;]+)/
+    );
+
+    // When the result is single range we might non-multipart response
+    if (ranges.length === 1 && !match) {
       await saveDiffStream({
         diff: ranges[0],
         stream,
@@ -397,13 +403,6 @@ export async function downloadRanges(
       });
       return;
     }
-
-    strictAssert(statusCode === 206, `Invalid status code: ${statusCode}`);
-
-    const match = headers['content-type']?.match(
-      /^multipart\/byteranges;\s*boundary=([^\s;]+)/
-    );
-    strictAssert(match, `Invalid Content-Type: ${headers['content-type']}`);
 
     // eslint-disable-next-line prefer-destructuring
     boundary = match[1];
@@ -510,6 +509,12 @@ async function saveDiffStream({
 
     await output.write(chunk, 0, chunk.length, offset + diff.writeOffset);
     offset += chunk.length;
+
+    // Check for signal again so that we don't invoke status callback when
+    // aborted.
+    if (abortSignal?.aborted) {
+      return;
+    }
 
     chunkStatusCallback(chunk.length);
   }

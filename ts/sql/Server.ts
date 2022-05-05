@@ -110,6 +110,7 @@ import type {
   UnprocessedType,
   UnprocessedUpdateType,
 } from './Interface';
+import { SeenStatus } from '../MessageSeenStatus';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -243,7 +244,7 @@ const dataInterface: ServerInterface = {
   migrateConversationMessages,
 
   getUnprocessedCount,
-  getAllUnprocessed,
+  getAllUnprocessedAndIncrementAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
@@ -594,6 +595,7 @@ async function removeDB(): Promise<void> {
     );
   }
 
+  logger.warn('removeDB: Removing all database files');
   rimraf.sync(databaseFilePath);
   rimraf.sync(`${databaseFilePath}-shm`);
   rimraf.sync(`${databaseFilePath}-wal`);
@@ -1737,6 +1739,20 @@ function saveMessageSync(
     expireTimer,
     expirationStartTimestamp,
   } = data;
+  let { seenStatus } = data;
+
+  if (readStatus === ReadStatus.Unread && seenStatus !== SeenStatus.Unseen) {
+    log.warn(
+      `saveMessage: Message ${id}/${type} is unread but had seenStatus=${seenStatus}. Forcing to UnseenStatus.Unseen.`
+    );
+
+    // eslint-disable-next-line no-param-reassign
+    data = {
+      ...data,
+      seenStatus: SeenStatus.Unseen,
+    };
+    seenStatus = SeenStatus.Unseen;
+  }
 
   const payload = {
     id,
@@ -1762,6 +1778,7 @@ function saveMessageSync(
     storyId: storyId || null,
     type: type || null,
     readStatus: readStatus ?? null,
+    seenStatus: seenStatus ?? SeenStatus.NotApplicable,
   };
 
   if (id && !forceSave) {
@@ -1791,7 +1808,8 @@ function saveMessageSync(
         sourceDevice = $sourceDevice,
         storyId = $storyId,
         type = $type,
-        readStatus = $readStatus
+        readStatus = $readStatus,
+        seenStatus = $seenStatus
       WHERE id = $id;
       `
     ).run(payload);
@@ -1834,7 +1852,8 @@ function saveMessageSync(
       sourceDevice,
       storyId,
       type,
-      readStatus
+      readStatus,
+      seenStatus
     ) values (
       $id,
       $json,
@@ -1858,7 +1877,8 @@ function saveMessageSync(
       $sourceDevice,
       $storyId,
       $type,
-      $readStatus
+      $readStatus,
+      $seenStatus
     );
     `
   ).run({
@@ -2056,7 +2076,18 @@ async function getUnreadByConversationAndMarkRead({
   storyId?: UUIDStringType;
   readAt?: number;
 }): Promise<
-  Array<Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>>
+  Array<
+    { originalReadStatus: ReadStatus | undefined } & Pick<
+      MessageType,
+      | 'id'
+      | 'source'
+      | 'sourceUuid'
+      | 'sent_at'
+      | 'type'
+      | 'readStatus'
+      | 'seenStatus'
+    >
+  >
 > {
   const db = getInstance();
   return db.transaction(() => {
@@ -2090,10 +2121,10 @@ async function getUnreadByConversationAndMarkRead({
       .prepare<Query>(
         `
         SELECT id, json FROM messages
-        INDEXED BY messages_unread
         WHERE
-          readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
+          seenStatus = ${SeenStatus.Unseen} AND
+          isStory = 0 AND
           (${_storyIdPredicate(storyId, isGroup)}) AND
           received_at <= $newestUnreadAt
         ORDER BY received_at DESC, sent_at DESC;
@@ -2110,16 +2141,21 @@ async function getUnreadByConversationAndMarkRead({
         UPDATE messages
         SET
           readStatus = ${ReadStatus.Read},
+          seenStatus = ${SeenStatus.Seen},
           json = json_patch(json, $jsonPatch)
         WHERE
-          readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
+          seenStatus = ${SeenStatus.Unseen} AND
+          isStory = 0 AND
           (${_storyIdPredicate(storyId, isGroup)}) AND
           received_at <= $newestUnreadAt;
         `
     ).run({
       conversationId,
-      jsonPatch: JSON.stringify({ readStatus: ReadStatus.Read }),
+      jsonPatch: JSON.stringify({
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+      }),
       newestUnreadAt,
       storyId: storyId || null,
     });
@@ -2127,7 +2163,9 @@ async function getUnreadByConversationAndMarkRead({
     return rows.map(row => {
       const json = jsonToObject<MessageType>(row.json);
       return {
+        originalReadStatus: json.readStatus,
         readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         ...pick(json, [
           'expirationStartTimestamp',
           'id',
@@ -2644,7 +2682,7 @@ async function getLastConversationMessage({
   return jsonToObject(row.json);
 }
 
-function getOldestUnreadMessageForConversation(
+function getOldestUnseenMessageForConversation(
   conversationId: string,
   storyId?: UUIDStringType,
   isGroup?: boolean
@@ -2655,7 +2693,7 @@ function getOldestUnreadMessageForConversation(
       `
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
-        readStatus = ${ReadStatus.Unread} AND
+        seenStatus = ${SeenStatus.Unseen} AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, isGroup)})
       ORDER BY received_at ASC, sent_at ASC
@@ -2676,14 +2714,22 @@ function getOldestUnreadMessageForConversation(
 
 async function getTotalUnreadForConversation(
   conversationId: string,
-  storyId?: UUIDStringType
+  options: {
+    storyId: UUIDStringType | undefined;
+    isGroup: boolean;
+  }
 ): Promise<number> {
-  return getTotalUnreadForConversationSync(conversationId, storyId);
+  return getTotalUnreadForConversationSync(conversationId, options);
 }
 function getTotalUnreadForConversationSync(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  {
+    storyId,
+    isGroup,
+  }: {
+    storyId: UUIDStringType | undefined;
+    isGroup: boolean;
+  }
 ): number {
   const db = getInstance();
   const row = db
@@ -2705,6 +2751,35 @@ function getTotalUnreadForConversationSync(
 
   if (!row) {
     throw new Error('getTotalUnreadForConversation: Unable to get count');
+  }
+
+  return row['count(id)'];
+}
+function getTotalUnseenForConversationSync(
+  conversationId: string,
+  storyId?: UUIDStringType,
+  isGroup?: boolean
+): number {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT count(id)
+      FROM messages
+      WHERE
+        conversationId = $conversationId AND
+        seenStatus = ${SeenStatus.Unseen} AND
+        isStory IS 0 AND
+        (${_storyIdPredicate(storyId, isGroup)})
+      `
+    )
+    .get({
+      conversationId,
+      storyId: storyId || null,
+    });
+
+  if (!row) {
+    throw new Error('getTotalUnseenForConversationSync: Unable to get count');
   }
 
   return row['count(id)'];
@@ -2732,12 +2807,12 @@ function getMessageMetricsForConversationSync(
     storyId,
     isGroup
   );
-  const oldestUnread = getOldestUnreadMessageForConversation(
+  const oldestUnseen = getOldestUnseenMessageForConversation(
     conversationId,
     storyId,
     isGroup
   );
-  const totalUnread = getTotalUnreadForConversationSync(
+  const totalUnseen = getTotalUnseenForConversationSync(
     conversationId,
     storyId,
     isGroup
@@ -2746,10 +2821,10 @@ function getMessageMetricsForConversationSync(
   return {
     oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : undefined,
     newest: newest ? pick(newest, ['received_at', 'sent_at', 'id']) : undefined,
-    oldestUnread: oldestUnread
-      ? pick(oldestUnread, ['received_at', 'sent_at', 'id'])
+    oldestUnseen: oldestUnseen
+      ? pick(oldestUnseen, ['received_at', 'sent_at', 'id'])
       : undefined,
-    totalUnread,
+    totalUnseen,
   };
 }
 
@@ -3120,32 +3195,58 @@ async function getUnprocessedCount(): Promise<number> {
   return getCountFromTable(getInstance(), 'unprocessed');
 }
 
-async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
+async function getAllUnprocessedAndIncrementAttempts(): Promise<
+  Array<UnprocessedType>
+> {
   const db = getInstance();
 
-  const { changes: deletedCount } = db
-    .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
-    .run({
-      monthAgo: Date.now() - durations.MONTH,
-    });
+  return db.transaction(() => {
+    const { changes: deletedStaleCount } = db
+      .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
+      .run({
+        monthAgo: Date.now() - durations.MONTH,
+      });
 
-  if (deletedCount !== 0) {
-    logger.warn(
-      `getAllUnprocessed: deleting ${deletedCount} old unprocessed envelopes`
-    );
-  }
+    if (deletedStaleCount !== 0) {
+      logger.warn(
+        'getAllUnprocessedAndIncrementAttempts: ' +
+          `deleting ${deletedStaleCount} old unprocessed envelopes`
+      );
+    }
 
-  const rows = db
-    .prepare<EmptyQuery>(
+    db.prepare<EmptyQuery>(
       `
-      SELECT *
-      FROM unprocessed
-      ORDER BY timestamp ASC;
+        UPDATE unprocessed
+        SET attempts = attempts + 1
       `
-    )
-    .all();
+    ).run();
 
-  return rows;
+    const { changes: deletedInvalidCount } = db
+      .prepare<Query>(
+        `
+          DELETE FROM unprocessed
+          WHERE attempts >= $MAX_UNPROCESSED_ATTEMPTS
+        `
+      )
+      .run({ MAX_UNPROCESSED_ATTEMPTS });
+
+    if (deletedInvalidCount !== 0) {
+      logger.warn(
+        'getAllUnprocessedAndIncrementAttempts: ' +
+          `deleting ${deletedInvalidCount} invalid unprocessed envelopes`
+      );
+    }
+
+    return db
+      .prepare<EmptyQuery>(
+        `
+          SELECT *
+          FROM unprocessed
+          ORDER BY timestamp ASC;
+        `
+      )
+      .all();
+  })();
 }
 
 function removeUnprocessedsSync(ids: Array<string>): void {

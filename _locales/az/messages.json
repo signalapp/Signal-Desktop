@@ -7013,6 +7013,10 @@
         "message": "Bir hekayə əlavə et",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Gizli hekayələr",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Hal-hazırda göstəriləcək yeni bir hekayə yoxdur",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Bir cavab yazın...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Hələ ki, cavab yoxdur",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Baxış",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Hekayə",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Hekayələri göstər",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Hekayəni gizlət",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Mətnlə eyni sətrə vaxtı əlavə edərək mesajları qısa saxlamağa çalışırıq. Artıq bir dostunuzu daha tez \"salamlamaq\" üçün ekranınızda daha çox yer var.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Əskik stiker paketlər geri qayıtdı! Artıq Masaüstü versiya, telefonunuzun bacara bildiyi bütün stiker paketlərini ələ ala bilməlidir!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Artıq insanları, onların telefon nömrələrini istifadə edərək qruplara əlavə edə bilərsiniz.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Artıq sevimli əlaqələriniz sadəcə klaviaturadakı bir neçə toxunuş qədər yaxındır. Əlaqə axtarışı artıq Kiril kimi Latin olmayan əlifbaları da dəstəkləyir.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Bəzən menyuya klikləməni çətinləşdirən problemin həlli də daxil olmaqla bir çox xətalar aradan qaldırılıb.",

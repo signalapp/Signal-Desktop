@@ -7013,6 +7013,10 @@
         "message": "Afegiu-hi una història",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Històries amagades",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Ara no hi ha històries per veure.",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Escriviu una resposta...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Encara no té respostes",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Visualitzacions",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Història",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Mostra les històries",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Amaga la història",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Mantenim els missatges curts, posant-hi coses com ara marques de temps a la mateixa línia que el text. Ara teniu més espai a la pantalla per a un \"Ei!\" ràpid amb una amistat.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Falten paquets d'adhesius! Ara l'escriptori hauria de poder gestionar els mateixos paquets d'adhesius que el telèfon!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Ara podeu afegir persones als grups només amb el número de telèfon.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Els contactes preferits són ara només a unes poques tecles de distància. La cerca de contactes ara admet alfabets no llatins com ara el ciríl·lic.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Correccions d'errors, inclosa una solució a un problema que de vegades dificultava fer clic als menús.",

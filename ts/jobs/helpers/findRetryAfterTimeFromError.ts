@@ -3,7 +3,7 @@
 
 import { isRecord } from '../../util/isRecord';
 import { HTTPError } from '../../textsecure/Errors';
-import { parseRetryAfter } from '../../util/parseRetryAfter';
+import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter';
 
 export function findRetryAfterTimeFromError(err: unknown): number {
   let rawValue: unknown;
@@ -16,5 +16,5 @@ export function findRetryAfterTimeFromError(err: unknown): number {
     }
   }
 
-  return parseRetryAfter(rawValue);
+  return parseRetryAfterWithDefault(rawValue);
 }

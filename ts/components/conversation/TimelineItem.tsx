@@ -23,7 +23,6 @@ import type {
   PropsDataType as DeliveryIssueProps,
 } from './DeliveryIssueNotification';
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
-import { LinkNotification } from './LinkNotification';
 import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
 import { ChangeNumberNotification } from './ChangeNumberNotification';
 import type { CallingNotificationType } from '../../util/callingNotification';
@@ -68,10 +67,6 @@ type ChatSessionRefreshedType = {
 type DeliveryIssueType = {
   type: 'deliveryIssue';
   data: DeliveryIssueProps;
-};
-type LinkNotificationType = {
-  type: 'linkNotification';
-  data: null;
 };
 type MessageType = {
   type: 'message';
@@ -129,7 +124,6 @@ export type TimelineItemType = (
   | GroupNotificationType
   | GroupV1MigrationType
   | GroupV2ChangeType
-  | LinkNotificationType
   | MessageType
   | ProfileChangeNotificationType
   | ResetSessionNotificationType
@@ -261,8 +255,6 @@ export class TimelineItem extends React.PureComponent<PropsType> {
             i18n={i18n}
           />
         );
-      } else if (item.type === 'linkNotification') {
-        notification = <LinkNotification i18n={i18n} />;
       } else if (item.type === 'timerNotification') {
         notification = (
           <TimerNotification {...this.props} {...item.data} i18n={i18n} />

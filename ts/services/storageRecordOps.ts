@@ -1111,16 +1111,6 @@ export async function mergeAccountRecord(
 
     remotelyPinnedConversations.forEach(conversation => {
       conversation.set({ isPinned: true, isArchived: false });
-
-      if (
-        window.Signal.Util.postLinkExperience.isActive() &&
-        isGroupV2(conversation.attributes)
-      ) {
-        log.info(
-          'mergeAccountRecord: Adding the message history disclaimer on link'
-        );
-        conversation.addMessageHistoryDisclaimer();
-      }
       updatedConversations.push(conversation);
     });
 

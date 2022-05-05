@@ -7013,6 +7013,10 @@
         "message": "Додати історію",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Приховані історії",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Нових історій немає",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Відповісти...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Ще немає відповідей",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Перегляди",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Історія",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Показати історії",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Сховати історію",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Ми зберігаємо короткі повідомлення короткими, розміщуючи такі речі, як позначки часу, в одному рядку з текстом. Тепер у вас є більше місця на екрані для швидкого «привіт», щоб дізнатись, як себе має ваш друг.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Зниклі стікер-паки знайшлись! Відтепер комп'ютерна версія застосунку підтримує усі стікер-паки, що й телефон!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Відтепер можна додавати користувачів до груп за їхнім номером телефону.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Ваші улюблені контакти усього у декількох натисканнях на клавіатуру від вас. Пошук контактів відтепер підтримує не лише латинські літери, як-от кирилицю.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Виправлення помилок, зокрема помилки, яка інколи призводила до важкостей з клацанням на меню.",

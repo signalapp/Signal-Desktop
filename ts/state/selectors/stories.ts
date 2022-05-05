@@ -5,10 +5,12 @@ import { createSelector } from 'reselect';
 import { pick } from 'lodash';
 
 import type { GetConversationByIdType } from './conversations';
+import type { ConversationType } from '../ducks/conversations';
 import type {
   ConversationStoryType,
   StoryViewType,
 } from '../../components/StoryListItem';
+import type { MessageReactionType } from '../../model-types.d';
 import type { ReplyStateType } from '../../types/Stories';
 import type { StateType } from '../reducer';
 import type { StoryDataType, StoriesStateType } from '../ducks/stories';
@@ -55,6 +57,35 @@ function sortByRecencyAndUnread(
   return storyA.timestamp > storyB.timestamp ? -1 : 1;
 }
 
+function getReactionUniqueId(reaction: MessageReactionType): string {
+  return `${reaction.fromId}:${reaction.targetAuthorUuid}:${reaction.timestamp}`;
+}
+
+function getAvatarData(
+  conversation: ConversationType
+): Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'isMe'
+  | 'name'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+> {
+  return pick(conversation, [
+    'acceptedMessageRequest',
+    'avatarPath',
+    'color',
+    'isMe',
+    'name',
+    'profileName',
+    'sharedGroupNames',
+    'title',
+  ]);
+}
+
 function getConversationStory(
   conversationSelector: GetConversationByIdType,
   story: StoryDataType,
@@ -92,7 +123,6 @@ function getConversationStory(
     canReply: canReply(story, ourConversationId, conversationSelector),
     isUnread: story.readStatus === ReadStatus.Unread,
     messageId: story.messageId,
-    selectedReaction: story.selectedReaction,
     sender,
     timestamp,
   };
@@ -153,38 +183,56 @@ export const getStoryReplies = createSelector(
     conversationSelector,
     contactNameColorSelector,
     me,
-    { replyState }: Readonly<StoriesStateType>
+    { stories, replyState }: Readonly<StoriesStateType>
   ): ReplyStateType | undefined => {
     if (!replyState) {
       return;
     }
 
+    const foundStory = stories.find(
+      story => story.messageId === replyState.messageId
+    );
+
+    const reactions = foundStory
+      ? (foundStory.reactions || []).map(reaction => {
+          const conversation = conversationSelector(reaction.fromId);
+
+          return {
+            ...getAvatarData(conversation),
+            contactNameColor: contactNameColorSelector(
+              foundStory.conversationId,
+              conversation.id
+            ),
+            id: getReactionUniqueId(reaction),
+            reactionEmoji: reaction.emoji,
+            timestamp: reaction.timestamp,
+          };
+        })
+      : [];
+
+    const replies = replyState.replies.map(reply => {
+      const conversation =
+        reply.type === 'outgoing'
+          ? me
+          : conversationSelector(reply.sourceUuid || reply.source);
+
+      return {
+        ...getAvatarData(conversation),
+        ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
+        contactNameColor: contactNameColorSelector(
+          reply.conversationId,
+          conversation.id
+        ),
+      };
+    });
+
+    const combined = [...replies, ...reactions].sort((a, b) =>
+      a.timestamp > b.timestamp ? 1 : -1
+    );
+
     return {
       messageId: replyState.messageId,
-      replies: replyState.replies.map(reply => {
-        const conversation =
-          reply.type === 'outgoing'
-            ? me
-            : conversationSelector(reply.sourceUuid || reply.source);
-
-        return {
-          ...pick(conversation, [
-            'acceptedMessageRequest',
-            'avatarPath',
-            'color',
-            'isMe',
-            'name',
-            'profileName',
-            'sharedGroupNames',
-            'title',
-          ]),
-          ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
-          contactNameColor: contactNameColorSelector(
-            reply.conversationId,
-            conversation.id
-          ),
-        };
-      }),
+      replies: combined,
     };
   }
 );

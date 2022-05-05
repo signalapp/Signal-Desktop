@@ -28,7 +28,7 @@ import { MessageMetadata } from './MessageMetadata';
 import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer';
 import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
-import { Image } from './Image';
+import { CurveType, Image } from './Image';
 import { ContactName } from './ContactName';
 import type { QuotedAttachmentType } from './Quote';
 import { Quote } from './Quote';
@@ -908,18 +908,17 @@ export class Message extends React.PureComponent<Props, State> {
           <div className={containerClassName}>
             <ImageGrid
               attachments={attachments}
-              withContentAbove={
-                isSticker || withContentAbove || shouldCollapseAbove
-              }
-              withContentBelow={
-                isSticker || withContentBelow || shouldCollapseBelow
-              }
+              direction={direction}
+              withContentAbove={isSticker || withContentAbove}
+              withContentBelow={isSticker || withContentBelow}
               isSticker={isSticker}
               stickerSize={STICKER_SIZE}
               bottomOverlay={bottomOverlay}
               i18n={i18n}
-              theme={theme}
               onError={this.handleImageError}
+              theme={theme}
+              shouldCollapseAbove={shouldCollapseAbove}
+              shouldCollapseBelow={shouldCollapseBelow}
               tabIndex={tabIndex}
               onClick={attachment => {
                 if (!isDownloaded(attachment)) {
@@ -1060,6 +1059,7 @@ export class Message extends React.PureComponent<Props, State> {
       openLink,
       previews,
       quote,
+      shouldCollapseAbove,
       theme,
       kickOffAttachmentDownload,
     } = this.props;
@@ -1113,6 +1113,8 @@ export class Message extends React.PureComponent<Props, State> {
           <ImageGrid
             attachments={[first.image]}
             withContentAbove={withContentAbove}
+            direction={direction}
+            shouldCollapseAbove={shouldCollapseAbove}
             withContentBelow
             onError={this.handleImageError}
             i18n={i18n}
@@ -1124,10 +1126,14 @@ export class Message extends React.PureComponent<Props, State> {
           {first.image && previewHasImage && !isFullSizeImage ? (
             <div className="module-message__link-preview__icon_container">
               <Image
-                smallCurveTopLeft={!withContentAbove}
                 noBorder
                 noBackground
-                softCorners
+                curveBottomLeft={
+                  withContentAbove ? CurveType.Tiny : CurveType.Small
+                }
+                curveBottomRight={CurveType.Tiny}
+                curveTopRight={CurveType.Tiny}
+                curveTopLeft={CurveType.Tiny}
                 alt={i18n('previewThumbnail', [first.domain])}
                 height={72}
                 width={72}
@@ -2668,6 +2674,10 @@ export class Message extends React.PureComponent<Props, State> {
           className={containerClassnames}
           style={containerStyles}
           onContextMenu={this.showContextMenu}
+          role="row"
+          onKeyDown={this.handleKeyDown}
+          onClick={this.handleClick}
+          tabIndex={-1}
         >
           {this.renderAuthor()}
           {this.renderContents()}
@@ -2717,7 +2727,6 @@ export class Message extends React.PureComponent<Props, State> {
         //   cannot be within another button
         role="button"
         onKeyDown={this.handleKeyDown}
-        onClick={this.handleClick}
         onFocus={this.handleFocus}
         ref={this.focusRef}
       >

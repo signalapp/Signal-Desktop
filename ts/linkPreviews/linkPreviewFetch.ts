@@ -3,6 +3,7 @@
 
 import type { RequestInit, Response } from 'node-fetch';
 import type { AbortSignal as AbortSignalForNodeFetch } from 'abort-controller';
+import { blobToArrayBuffer } from 'blob-util';
 
 import type { MIMEType } from '../types/MIME';
 import {
@@ -14,6 +15,7 @@ import {
   stringToMIMEType,
 } from '../types/MIME';
 import type { LoggerType } from '../types/Logging';
+import { scaleImageToLevel } from '../util/scaleImageToLevel';
 import * as log from '../logging/log';
 
 const USER_AGENT = 'WhatsApp/2';
@@ -601,6 +603,21 @@ export async function fetchLinkPreviewImage(
 
   if (abortSignal.aborted) {
     return null;
+  }
+
+  // Scale link preview image
+  if (contentType !== IMAGE_GIF) {
+    const dataBlob = new Blob([data], {
+      type: contentType,
+    });
+    const { blob: xcodedDataBlob } = await scaleImageToLevel(
+      dataBlob,
+      contentType,
+      false
+    );
+    const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
+
+    data = new Uint8Array(xcodedDataArrayBuffer);
   }
 
   return { data, contentType };

@@ -40,24 +40,6 @@ describe('<Timeline> utilities', () => {
       assert.isFalse(areMessagesInSameGroup(undefined, false, defaultNewer));
     });
 
-    it('returns false if either item is not a message', () => {
-      const linkNotification = {
-        type: 'linkNotification' as const,
-        data: null,
-        timestamp: Date.now(),
-      };
-
-      assert.isFalse(
-        areMessagesInSameGroup(defaultNewer, false, linkNotification)
-      );
-      assert.isFalse(
-        areMessagesInSameGroup(linkNotification, false, defaultNewer)
-      );
-      assert.isFalse(
-        areMessagesInSameGroup(linkNotification, false, linkNotification)
-      );
-    });
-
     it("returns false if authors don't match", () => {
       const older = {
         ...defaultOlder,
@@ -152,18 +134,6 @@ describe('<Timeline> utilities', () => {
     it('returns false if newer item is missing', () => {
       assert.isFalse(
         shouldCurrentMessageHideMetadata(true, defaultCurrent, undefined)
-      );
-    });
-
-    it('returns false if newer item is not a message', () => {
-      const linkNotification = {
-        type: 'linkNotification' as const,
-        data: null,
-        timestamp: Date.now(),
-      };
-
-      assert.isFalse(
-        shouldCurrentMessageHideMetadata(true, defaultCurrent, linkNotification)
       );
     });
 
@@ -352,7 +322,7 @@ describe('<Timeline> utilities', () => {
         const props = {
           ...defaultProps,
           items: fakeItems(10),
-          oldestUnreadIndex: 3,
+          oldestUnseenIndex: 3,
         };
 
         assert.strictEqual(

@@ -1940,7 +1940,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Toutes les données dans l’application seront supprimées, y compris tous les messages et les renseignements de compte enregistrés.",
+        "message": "Toutes les données dans l’application seront supprimées, y compris tous les messages et les informations de compte enregistrées.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1952,7 +1952,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Vous êtes sur le point de supprimer tous les renseignements de compte enregistrés de cette application, y compris tous les contacts et messages. Vous pourrez toujours relier votre appareil mobile de nouveau, mais cela ne restaurera pas les messages supprimés.",
+        "message": "Vous êtes sur le point de supprimer toutes les informations de compte enregistrées de cette application, y compris tous les contacts et messages. Vous pourrez toujours relier votre appareil mobile de nouveau, mais cela ne restaurera pas les messages supprimés.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -4348,7 +4348,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ a changé qui peut modifier les renseignements du groupe en « Les administrateurs ».",
+        "message": "$adminName$ a changé qui peut modifier les informations du groupe en « Les administrateurs ».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4358,15 +4358,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "Vous avez changé qui peut modifier les renseignements du groupe en « Les administrateurs ».",
+        "message": "Vous avez changé qui peut modifier les informations du groupe en « Les administrateurs ».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Un administrateur a changé qui peut modifier les renseignements du groupe en « Les administrateurs ».",
+        "message": "Un administrateur a changé qui peut modifier les informations du groupe en « Les administrateurs ».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ a changé qui peut modifier les renseignements du groupe en « Tous les membres ».",
+        "message": "$adminName$ a changé qui peut modifier les informations du groupe en « Tous les membres ».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4376,11 +4376,11 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Vous avez changé qui peut modifier les renseignements du groupe en « Tous les membres ».",
+        "message": "Vous avez changé qui peut modifier les informations du groupe en « Tous les membres ».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Un administrateur a changé qui peut modifier les renseignements du groupe en « Tous les membres ».",
+        "message": "Un administrateur a changé qui peut modifier les informations du groupe en « Tous les membres ».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
@@ -5610,7 +5610,7 @@
         "description": "This is the label for notifications in the conversation details screen"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Qui peut modifier les renseignements du groupe",
+        "message": "Qui peut modifier les informations du groupe",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
@@ -6358,11 +6358,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__label--value": {
-        "message": "Number",
+        "message": "Nombre",
         "description": "aria-label for the number select box"
     },
     "DisappearingTimeDialog__label--units": {
-        "message": "Unit of time",
+        "message": "Unité de temps",
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
@@ -6822,11 +6822,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Failed to decompress files. Please try running the installer again.",
+        "message": "Échec de décompression des fichiers. Veuillez réessayer d’exécuter l'installeur.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "Échec de désinstallation des anciens fichiers d'application . Veuillez réessayer d’exécuter l'installeur.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7013,6 +7013,10 @@
         "message": "Ajouter une histoire",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Histoires cachées",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Aucune histoire récente à afficher pour l’instant",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Tapez une réponse…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Aucune réponse pour le moment",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Vues",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Histoire",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Montrer les histoires",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Cacher l’histoire",
@@ -7095,24 +7107,8 @@
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.37--1": {
-        "message": "Les renseignements tels que les estampilles temporelles sont sur la même ligne que le texte afin que les messages courts soient courts. Vous avez désormais plus d’espace sur l’écran pour ce « Salut » rapide à vos amis.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Adieu, paquets d’autocollants manquants ! Signal pour ordinateur devrait désormais pouvoir gérer tous les paquets que votre téléphone peut gérer.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Vous pouvez désormais ajouter des personnes aux groupes grâce à leur numéro de téléphone.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Vos contacts favoris sont désormais facilement accessibles et la recherche de contacts prend en charge les alphabets non latins tels que le cyrillique.",
-        "description": "Release notes for v5.39"
-    },
     "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
+        "message": "Correction de bogues, notamment d’un problème rendant parfois difficile de cliquer sur les menus.",
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {

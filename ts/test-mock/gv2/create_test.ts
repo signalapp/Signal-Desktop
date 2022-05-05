@@ -17,13 +17,14 @@ describe('gv2', function needsName() {
 
   let bootstrap: Bootstrap;
   let app: App;
+  let aciContact: PrimaryDevice;
   let pniContact: PrimaryDevice;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap();
     await bootstrap.init();
 
-    const { phone, contacts, server } = bootstrap;
+    const { phone, server } = bootstrap;
 
     let state = StorageState.getEmpty();
 
@@ -32,17 +33,19 @@ describe('gv2', function needsName() {
       e164: phone.device.number,
     });
 
-    const [first] = contacts;
-    state = state.addContact(first, {
+    aciContact = await server.createPrimaryDevice({
+      profileName: 'ACI Contact',
+    });
+    state = state.addContact(aciContact, {
       identityState: Proto.ContactRecord.IdentityState.VERIFIED,
       whitelisted: true,
 
-      identityKey: first.publicKey.serialize(),
-      profileKey: first.profileKey.serialize(),
+      identityKey: aciContact.publicKey.serialize(),
+      profileKey: aciContact.profileKey.serialize(),
     });
 
     pniContact = await server.createPrimaryDevice({
-      profileName: 'My name is PNI',
+      profileName: 'My profile is a secret',
     });
     state = state.addContact(pniContact, {
       identityState: Proto.ContactRecord.IdentityState.VERIFIED,
@@ -66,8 +69,7 @@ describe('gv2', function needsName() {
   });
 
   it('should create group and modify it', async () => {
-    const { phone, contacts } = bootstrap;
-    const [first] = contacts;
+    const { phone } = bootstrap;
 
     let state = await phone.expectStorageState('initial state');
 
@@ -87,17 +89,18 @@ describe('gv2', function needsName() {
     debug('inviting ACI member');
 
     await leftPane
-      .locator(
-        '_react=BaseConversationListItem' +
-          `[title = ${JSON.stringify(first.profileName)}]`
-      )
+      .locator('.module-left-pane__compose-search-form__input')
+      .fill('ACI');
+
+    await leftPane
+      .locator('_react=BaseConversationListItem[title = "ACI Contact"]')
       .click();
 
     debug('inviting PNI member');
 
     await leftPane
       .locator('.module-left-pane__compose-search-form__input')
-      .type('PNI');
+      .fill('PNI');
 
     await leftPane
       .locator('_react=BaseConversationListItem[title = "PNI Contact"]')

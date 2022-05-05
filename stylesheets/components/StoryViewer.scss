@@ -3,8 +3,7 @@
 
 .StoryViewer {
   &__overlay {
-    background: $color-gray-95;
-    filter: blur(160px);
+    background-size: contain;
     height: 100vh;
     left: 0;
     position: absolute;
@@ -15,6 +14,8 @@
 
   &__content {
     align-items: center;
+    backdrop-filter: blur(90px);
+    background: $color-black-alpha-20;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -29,16 +30,19 @@
   &__close-button {
     @include button-reset;
     @include modal-close-button;
+    right: 28px;
     top: var(--title-bar-drag-area-height);
+    z-index: $z-index-above-base;
   }
 
   &__more {
     @include button-reset;
     height: 24px;
     position: absolute;
-    right: 48px;
+    right: 80px;
     top: var(--title-bar-drag-area-height);
     width: 24px;
+    z-index: $z-index-above-base;
 
     @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
 
@@ -51,14 +55,10 @@
 
   &__container {
     flex-grow: 1;
-    margin-top: 36px;
     overflow: hidden;
-    position: relative;
-    z-index: $z-index-base;
   }
 
   &__story {
-    border-radius: 12px;
     max-height: 100%;
     outline: none;
     width: auto;
@@ -67,11 +67,12 @@
   &__meta {
     bottom: 0;
     left: 50%;
-    padding: 16px;
+    padding: 0 16px;
     position: absolute;
     transform: translateX(-50%);
-    width: 284px;
-    z-index: $z-index-above-base;
+    min-width: 284px;
+    width: 56.25vh;
+    z-index: $z-index-above-above-base;
 
     &--group-avatar {
       margin-left: -8px;
@@ -91,11 +92,13 @@
   }
 
   &__caption {
-    @include font-body-1-bold;
+    @include font-body-1;
     color: $color-gray-05;
     padding: 4px 0;
+    margin-bottom: 24px;
 
     &__overlay {
+      @include button-reset;
       background: $color-black-alpha-60;
       height: 100%;
       left: 0;
@@ -107,11 +110,9 @@
   }
 
   &__actions {
-    align-items: center;
     display: flex;
     justify-content: center;
-    margin-bottom: 32px;
-    min-height: 52px;
+    min-height: 60px;
   }
 
   &__reply {
@@ -142,6 +143,79 @@
       border-radius: 2px;
       display: block;
       height: 100%;
+    }
+  }
+
+  &__animated-emojis {
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+    z-index: $z-index-above-base;
+  }
+
+  &__arrow {
+    @include button-reset;
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    position: absolute;
+    width: 25%;
+    z-index: $z-index-above-above-base;
+
+    &::before {
+      content: '';
+      height: 24px;
+      opacity: 0;
+      width: 24px;
+      transition: opacity 200ms ease-in-out;
+    }
+
+    &--left {
+      justify-content: flex-start;
+      left: 0;
+
+      &::before {
+        margin-left: 24px;
+        @include color-svg(
+          '../images/icons/v2/arrow-left-32.svg',
+          $color-white
+        );
+      }
+    }
+
+    &--right {
+      justify-content: flex-end;
+      right: 0;
+
+      &::before {
+        margin-right: 24px;
+        @include color-svg(
+          '../images/icons/v2/arrow-right-32.svg',
+          $color-white
+        );
+      }
+    }
+
+    &--visible::before {
+      opacity: 1;
+    }
+  }
+
+  &__protection {
+    position: absolute;
+    width: 100%;
+    z-index: $z-index-base;
+
+    &--top {
+      background: linear-gradient($color-black-alpha-16, $color-transparent);
+      top: 0;
+      height: 80px;
+    }
+
+    &--bottom {
+      background: linear-gradient($color-transparent, $color-black-alpha-40);
+      bottom: 0;
+      height: 180px;
     }
   }
 }

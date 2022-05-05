@@ -7013,6 +7013,10 @@
         "message": "Dodaj historię",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Ukryte historie",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "W tej chwili nie ma nowych historii do pokazania",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Napisz odpowiedź...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Brak odpowiedzi",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Odsłony",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Historia",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Pokaż historie",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Ukryj historię",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Pilnujemy, żeby krótkie wiadomości pozostały krótkie, umieszczając stemple czasowe itp. w tej samej linii, co tekst. Masz teraz więcej przestrzeni na ekranie, żeby rzucić przyjaciołom krótkie \"cześć\".",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Przepadnijcie brakujące pakiety naklejek! Aplikacja Desktop powinna teraz obsługiwać wszystkie pakiety naklejek, które masz na telefonie!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Teraz możesz dodawać ludzi do grup, używając tylko ich numeru telefonu.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Twoje ulubione kontakty znajdą się już po naciśnięciu kilku klawiszy. Wyszukiwanie kontaktów obsługuje teraz alfabety inne, niż łaciński, takie jak cyrylica.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Poprawki błędów, w tym problemu powodującego czasem trudności z kliknięciem menu.",

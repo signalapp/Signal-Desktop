@@ -192,11 +192,11 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "يتم تحسين التطبيق...‏",
+        "message": "يجري تحسين التطبيق...‏",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "يتم تحسين الرسائل... تمّ $status$.",
+        "message": "يجري تحسين الرسائل... تمّ $status$.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -7013,6 +7013,10 @@
         "message": "إضافة قصة",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "القصص المخفية",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "لا توجد قصص حديثة للمشاهدة حاليا",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "‫يُرجى كتابة رد...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "لا جواب حاليا",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "المشاهدات",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "القصص",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "إظهار القصص",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "إخفاء قصة",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على تشغيل Signal بسلاسة.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "We're keeping short messages short, by putting stuff like timestamps on the same line as the text. Now you've got more space on the screen for that quick 'hey' to check in on a friend.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Missing sticker packs begone! Desktop should now be able to handle all sticker packs that your phone can!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "‫يمكنك الآن إضافة أفراد للمجموعات باستخدام رقم هاتفهم فقط.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Your favorite contacts are now just a few keystrokes away. Contact search now supports non-Latin alphabets like Cyrillic.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "‫إن إصلاح العلل يتضمن تصحيح مشكلة كانت تجعل أحيانا الضغط على القوائم عسيرا.",

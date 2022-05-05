@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import type { ReactNode } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
@@ -22,7 +23,9 @@ import { isVideoTypeSupported } from '../util/GoogleChrome';
 
 export type PropsType = {
   readonly attachment?: AttachmentType;
+  readonly children?: ReactNode;
   readonly i18n: LocalizerType;
+  readonly isPaused?: boolean;
   readonly isThumbnail?: boolean;
   readonly label: string;
   readonly moduleClassName?: string;
@@ -32,7 +35,9 @@ export type PropsType = {
 
 export const StoryImage = ({
   attachment,
+  children,
   i18n,
+  isPaused,
   isThumbnail,
   label,
   moduleClassName,
@@ -40,13 +45,29 @@ export const StoryImage = ({
   storyId,
 }: PropsType): JSX.Element | null => {
   const shouldDownloadAttachment =
-    !isDownloaded(attachment) && !isDownloading(attachment);
+    !isDownloaded(attachment) &&
+    !isDownloading(attachment) &&
+    !hasNotResolved(attachment);
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     if (shouldDownloadAttachment) {
       queueStoryDownload(storyId);
     }
   }, [queueStoryDownload, shouldDownloadAttachment, storyId]);
+
+  useEffect(() => {
+    if (!videoRef.current) {
+      return;
+    }
+
+    if (isPaused) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+  }, [isPaused]);
 
   if (!attachment) {
     return null;
@@ -61,7 +82,11 @@ export const StoryImage = ({
   let storyElement: JSX.Element;
   if (attachment.textAttachment) {
     storyElement = (
-      <TextAttachment i18n={i18n} textAttachment={attachment.textAttachment} />
+      <TextAttachment
+        i18n={i18n}
+        isThumbnail={isThumbnail}
+        textAttachment={attachment.textAttachment}
+      />
     );
   } else if (isNotReadyToShow) {
     storyElement = (
@@ -79,7 +104,9 @@ export const StoryImage = ({
         autoPlay
         className={getClassName('__image')}
         controls={false}
+        key={attachment.url}
         loop={shouldLoop}
+        ref={videoRef}
       >
         <source src={attachment.url} />
       </video>
@@ -98,10 +125,10 @@ export const StoryImage = ({
     );
   }
 
-  let spinner: JSX.Element | undefined;
+  let overlay: JSX.Element | undefined;
   if (isPending) {
-    spinner = (
-      <div className="StoryImage__spinner-container">
+    overlay = (
+      <div className="StoryImage__overlay-container">
         <div className="StoryImage__spinner-bubble" title={i18n('loading')}>
           <Spinner moduleClassName="StoryImage__spinner" svgSize="small" />
         </div>
@@ -117,7 +144,8 @@ export const StoryImage = ({
       )}
     >
       {storyElement}
-      {spinner}
+      {overlay}
+      {children}
     </div>
   );
 };

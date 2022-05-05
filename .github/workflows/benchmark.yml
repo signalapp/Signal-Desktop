@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - development
+      - main
       - '[0-9]+.[0-9]+.x'
   pull_request:
 
@@ -27,7 +28,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16.13.0'
+        node-version: '16.13.2'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10
 

@@ -7638,8 +7638,22 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryImage.tsx",
+    "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-04-29T23:54:21.656Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewer.tsx",
+    "line": "  const storiesRef = useRef(stories);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-04-30T00:44:47.213Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/StoryViewsNRepliesModal.tsx",
-    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2022-02-15T17:57:06.507Z"
   },

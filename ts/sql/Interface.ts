@@ -21,6 +21,7 @@ import type { UUIDStringType } from '../types/UUID';
 import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
+import type { ReadStatus } from '../messages/MessageReadStatus';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -50,8 +51,8 @@ export type MessageMetricsType = {
 export type ConversationMetricsType = {
   oldest?: MessageMetricsType;
   newest?: MessageMetricsType;
-  oldestUnread?: MessageMetricsType;
-  totalUnread: number;
+  oldestUnseen?: MessageMetricsType;
+  totalUnseen: number;
 };
 export type ConversationType = ConversationAttributesType;
 export type EmojiType = {
@@ -384,7 +385,10 @@ export type DataInterface = {
   removeMessages: (ids: Array<string>) => Promise<void>;
   getTotalUnreadForConversation: (
     conversationId: string,
-    storyId?: UUIDStringType
+    options: {
+      storyId: UUIDStringType | undefined;
+      isGroup: boolean;
+    }
   ) => Promise<number>;
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
@@ -394,7 +398,16 @@ export type DataInterface = {
     storyId?: UUIDStringType;
   }) => Promise<
     Array<
-      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+      { originalReadStatus: ReadStatus | undefined } & Pick<
+        MessageType,
+        | 'id'
+        | 'readStatus'
+        | 'seenStatus'
+        | 'sent_at'
+        | 'source'
+        | 'sourceUuid'
+        | 'type'
+      >
     >
   >;
   getUnreadReactionsAndMarkRead: (options: {
@@ -471,7 +484,7 @@ export type DataInterface = {
   ) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
-  getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
+  getAllUnprocessedAndIncrementAttempts: () => Promise<Array<UnprocessedType>>;
   updateUnprocessedWithData: (
     id: string,
     data: UnprocessedUpdateType

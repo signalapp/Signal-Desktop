@@ -34,7 +34,7 @@ export const About = ({
         <div>
           <a
             className="acknowledgments"
-            href="https://github.com/signalapp/Signal-Desktop/blob/development/ACKNOWLEDGMENTS.md"
+            href="https://github.com/signalapp/Signal-Desktop/blob/main/ACKNOWLEDGMENTS.md"
           >
             {i18n('softwareAcknowledgments')}
           </a>

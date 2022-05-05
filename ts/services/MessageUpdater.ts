@@ -4,6 +4,7 @@
 import type { MessageAttributesType } from '../model-types.d';
 import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus';
 import { notificationService } from './notifications';
+import { SeenStatus } from '../MessageSeenStatus';
 
 function markReadOrViewed(
   messageAttrs: Readonly<MessageAttributesType>,
@@ -17,6 +18,7 @@ function markReadOrViewed(
   const nextMessageAttributes: MessageAttributesType = {
     ...messageAttrs,
     readStatus: newReadStatus,
+    seenStatus: SeenStatus.Seen,
   };
 
   const { id: messageId, expireTimer, expirationStartTimestamp } = messageAttrs;

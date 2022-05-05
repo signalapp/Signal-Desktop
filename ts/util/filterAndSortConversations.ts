@@ -9,7 +9,7 @@ import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
-  threshold: 0.1,
+  threshold: 0.2,
   useExtendedSearch: true,
   keys: [
     {
@@ -42,6 +42,29 @@ const cachedIndices = new WeakMap<
   Fuse<ConversationType>
 >();
 
+type CommandRunnerType = (
+  conversations: ReadonlyArray<ConversationType>,
+  query: string
+) => Array<ConversationType>;
+
+const COMMANDS = new Map<string, CommandRunnerType>();
+
+COMMANDS.set('uuidEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.uuid?.endsWith(query));
+});
+
+COMMANDS.set('idEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.id?.endsWith(query));
+});
+
+COMMANDS.set('e164EndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.e164?.endsWith(query));
+});
+
+COMMANDS.set('groupIdEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.groupId?.endsWith(query));
+});
+
 // See https://fusejs.io/examples.html#extended-search for
 // extended search documentation.
 function searchConversations(
@@ -49,6 +72,16 @@ function searchConversations(
   searchTerm: string,
   regionCode: string | undefined
 ): Array<ConversationType> {
+  const maybeCommand = searchTerm.match(/^!([^\s]+):(.*)$/);
+  if (maybeCommand) {
+    const [, commandName, query] = maybeCommand;
+
+    const command = COMMANDS.get(commandName);
+    if (command) {
+      return command(conversations, query);
+    }
+  }
+
   const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
 
   // Escape the search term

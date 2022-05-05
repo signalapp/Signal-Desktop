@@ -205,6 +205,7 @@ export async function sendNormalMessage(
                 profileKey,
                 quote,
                 sticker,
+                storyContext,
                 timestamp: messageTimestamp,
                 mentions,
               },

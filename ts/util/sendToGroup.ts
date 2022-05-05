@@ -22,7 +22,7 @@ import {
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
-import { isEnabled } from '../RemoteConfig';
+import { getValue, isEnabled } from '../RemoteConfig';
 import { isRecord } from './isRecord';
 
 import { isOlderThan } from './timestamp';
@@ -55,7 +55,6 @@ import {
   multiRecipient410ResponseSchema,
 } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
-import * as RemoteConfig from '../RemoteConfig';
 
 import { strictAssert } from './assert';
 import * as log from '../logging/log';
@@ -169,8 +168,8 @@ export async function sendContentMessageToGroup({
 
   if (
     isEnabled('desktop.sendSenderKey3') &&
+    isEnabled('desktop.senderKey.send') &&
     ourConversation?.get('capabilities')?.senderKey &&
-    RemoteConfig.isEnabled('desktop.senderKey.send') &&
     sendTarget.isValid()
   ) {
     try {
@@ -681,7 +680,7 @@ const MAX_SENDER_KEY_EXPIRE_DURATION = 90 * DAY;
 function getSenderKeyExpireDuration(): number {
   try {
     const parsed = parseIntOrThrow(
-      window.Signal.RemoteConfig.getValue('desktop.senderKeyMaxAge'),
+      getValue('desktop.senderKeyMaxAge'),
       'getSenderKeyExpireDuration'
     );
 

@@ -47,15 +47,25 @@ export async function afterSign({
     return;
   }
 
+  const teamId = process.env.APPLE_TEAM_ID;
+  if (!teamId) {
+    console.warn(
+      'teamId must be provided in environment variable APPLE_TEAM_ID'
+    );
+    return;
+  }
+
   console.log('Notarizing with...');
   console.log(`  primaryBundleId: ${appBundleId}`);
   console.log(`  username: ${appleId}`);
   console.log(`  file: ${appPath}`);
 
   await notarize({
+    tool: 'notarytool',
     appBundleId,
     appPath,
     appleId,
     appleIdPassword,
+    teamId,
   });
 }

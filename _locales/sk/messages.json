@@ -7013,6 +7013,10 @@
         "message": "Pridajte príbeh",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Skryté príbehy",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Momentálne nie sú k dispozícii žiadne najnovšie príbehy",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Napíšte odpoveď...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Zatiaľ žiadne odpovede",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Pozretia",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Príbeh",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Zobraziť príbehy",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Skryť príbeh",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Krátke správy sú krátke tým, že veci, ako sú časové pečiatky, umiestňujeme na rovnaký riadok ako text. Teraz máte na obrazovke viac miesta na rýchle „ahoj“ na kontrolu priateľa.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Chýbajúce balíčky nálepiek sú preč! Desktop by teraz mal zvládnuť všetky balíčky nálepiek, ktoré dokáže váš telefón!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Teraz môžete pridávať ľudí do skupín iba pomocou ich telefónneho čísla.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Vaše obľúbené kontakty sú teraz vzdialené len na niekoľko stlačení kláves. Vyhľadávanie kontaktov teraz podporuje aj inú ako latinskú abecedu, ako napríklad cyriliku.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Opravy chýb vrátane opravy problému, ktorý niekedy sťažoval klikanie na ponuky.",

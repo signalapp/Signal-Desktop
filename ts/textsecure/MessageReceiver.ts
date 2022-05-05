@@ -802,17 +802,11 @@ export default class MessageReceiver
       return [];
     }
 
-    const items = await this.storage.protocol.getAllUnprocessed();
+    const items =
+      await this.storage.protocol.getAllUnprocessedAndIncrementAttempts();
     log.info('getAllFromCache loaded', items.length, 'saved envelopes');
 
-    return items.map(item => {
-      const { attempts = 0 } = item;
-
-      return {
-        ...item,
-        attempts: attempts + 1,
-      };
-    });
+    return items;
   }
 
   private async decryptAndCacheBatch(

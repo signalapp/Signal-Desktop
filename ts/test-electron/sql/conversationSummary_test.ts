@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -167,15 +167,6 @@ describe('sql/conversationSummary', () => {
       };
       const message4: MessageAttributesType = {
         id: getUuid(),
-        body: 'message 4',
-        type: 'message-history-unsynced',
-        conversationId,
-        sent_at: now + 4,
-        received_at: now + 4,
-        timestamp: now + 4,
-      };
-      const message5: MessageAttributesType = {
-        id: getUuid(),
         body: 'message 5',
         type: 'profile-change',
         conversationId,
@@ -183,7 +174,7 @@ describe('sql/conversationSummary', () => {
         received_at: now + 5,
         timestamp: now + 5,
       };
-      const message6: MessageAttributesType = {
+      const message5: MessageAttributesType = {
         id: getUuid(),
         body: 'message 6',
         type: 'story',
@@ -192,7 +183,7 @@ describe('sql/conversationSummary', () => {
         received_at: now + 6,
         timestamp: now + 6,
       };
-      const message7: MessageAttributesType = {
+      const message6: MessageAttributesType = {
         id: getUuid(),
         body: 'message 7',
         type: 'universal-timer-notification',
@@ -201,7 +192,7 @@ describe('sql/conversationSummary', () => {
         received_at: now + 7,
         timestamp: now + 7,
       };
-      const message8: MessageAttributesType = {
+      const message7: MessageAttributesType = {
         id: getUuid(),
         body: 'message 8',
         type: 'verified-change',
@@ -212,23 +203,14 @@ describe('sql/conversationSummary', () => {
       };
 
       await saveMessages(
-        [
-          message1,
-          message2,
-          message3,
-          message4,
-          message5,
-          message6,
-          message7,
-          message8,
-        ],
+        [message1, message2, message3, message4, message5, message6, message7],
         {
           forceSave: true,
           ourUuid,
         }
       );
 
-      assert.lengthOf(await _getAllMessages(), 8);
+      assert.lengthOf(await _getAllMessages(), 7);
 
       const messages = await getConversationMessageStats({
         conversationId,
@@ -283,15 +265,6 @@ describe('sql/conversationSummary', () => {
       };
       const message5: MessageAttributesType = {
         id: getUuid(),
-        body: 'message 5',
-        type: 'message-history-unsynced',
-        conversationId,
-        sent_at: now + 5,
-        received_at: now + 5,
-        timestamp: now + 5,
-      };
-      const message6: MessageAttributesType = {
-        id: getUuid(),
         body: 'message 6',
         type: 'profile-change',
         conversationId,
@@ -299,7 +272,7 @@ describe('sql/conversationSummary', () => {
         received_at: now + 6,
         timestamp: now + 6,
       };
-      const message7: MessageAttributesType = {
+      const message6: MessageAttributesType = {
         id: getUuid(),
         body: 'message 7',
         type: 'story',
@@ -308,7 +281,7 @@ describe('sql/conversationSummary', () => {
         received_at: now + 7,
         timestamp: now + 7,
       };
-      const message8: MessageAttributesType = {
+      const message7: MessageAttributesType = {
         id: getUuid(),
         body: 'message 8',
         type: 'universal-timer-notification',
@@ -317,7 +290,7 @@ describe('sql/conversationSummary', () => {
         received_at: now + 8,
         timestamp: now + 8,
       };
-      const message9: MessageAttributesType = {
+      const message8: MessageAttributesType = {
         id: getUuid(),
         body: 'message 9',
         type: 'verified-change',
@@ -337,7 +310,6 @@ describe('sql/conversationSummary', () => {
           message6,
           message7,
           message8,
-          message9,
         ],
         {
           forceSave: true,
@@ -345,7 +317,7 @@ describe('sql/conversationSummary', () => {
         }
       );
 
-      assert.lengthOf(await _getAllMessages(), 9);
+      assert.lengthOf(await _getAllMessages(), 8);
 
       const messages = await getConversationMessageStats({
         conversationId,

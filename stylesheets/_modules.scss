@@ -779,7 +779,7 @@
   width: calc(100% + 24px);
   outline: none;
 
-  margin-top: -10px;
+  margin-top: -8px;
   margin-bottom: 5px;
   overflow: hidden;
 
@@ -2132,103 +2132,6 @@ button.ConversationDetails__action-button {
   color: $color-gray-45;
 }
 
-// Module: Conversation Hero
-
-.module-conversation-hero {
-  padding: 32px 0 28px 0;
-  text-align: center;
-
-  &__avatar {
-    margin-bottom: 12px;
-  }
-
-  &__profile-name {
-    @include font-title-2;
-    margin-bottom: 2px;
-
-    @include light-theme {
-      color: $color-gray-90;
-    }
-
-    @include dark-theme {
-      color: $color-gray-05;
-    }
-  }
-
-  &__with {
-    @include font-body-2;
-    margin: 0 auto;
-    margin-bottom: 16px;
-    max-width: 500px;
-
-    @include light-theme {
-      color: $color-gray-60;
-    }
-
-    @include dark-theme {
-      color: $color-gray-25;
-    }
-  }
-
-  &__membership {
-    @include font-body-2;
-
-    padding: 0 16px;
-
-    @include light-theme {
-      color: $color-gray-60;
-    }
-
-    @include dark-theme {
-      color: $color-gray-25;
-    }
-
-    &__name {
-      @include font-body-2-bold;
-    }
-  }
-
-  &__message-request-warning {
-    @include font-body-2;
-
-    &__message {
-      display: flex;
-      margin-bottom: 12px;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-
-      @include light-theme {
-        color: $color-gray-60;
-      }
-      @include dark-theme {
-        color: $color-gray-25;
-      }
-
-      &::before {
-        content: '';
-        display: block;
-        height: 14px;
-        margin-right: 8px;
-        width: 14px;
-
-        @include light-theme {
-          @include color-svg(
-            '../images/icons/v2/info-outline-24.svg',
-            $color-gray-60
-          );
-        }
-        @include dark-theme {
-          @include color-svg(
-            '../images/icons/v2/info-solid-24.svg',
-            $color-gray-25
-          );
-        }
-      }
-    }
-  }
-}
-
 // Module: Message Request Actions
 
 .module-message-request-actions {
@@ -2589,28 +2492,8 @@ button.ConversationDetails__action-button {
   left: 6px;
 }
 
-.module-image--soft-corners {
-  border-radius: 4px;
-}
-
 .module-image--cropped {
   overflow: hidden;
-}
-
-.module-image--curved-top-left {
-  border-top-left-radius: 18px;
-}
-.module-image--curved-top-right {
-  border-top-right-radius: 18px;
-}
-.module-image--curved-bottom-left {
-  border-bottom-left-radius: 18px;
-}
-.module-image--curved-bottom-right {
-  border-bottom-right-radius: 18px;
-}
-.module-image--small-curved-top-left {
-  border-top-left-radius: 10px;
 }
 
 .module-image__border-overlay {
@@ -7291,6 +7174,8 @@ button.module-image__border-overlay:focus {
 
   select {
     @include font-body-1;
+    background: $color-gray-75;
+    color: $color-gray-02;
     -webkit-appearance: none;
     border-radius: 4px;
     border: 1px solid $color-gray-45;

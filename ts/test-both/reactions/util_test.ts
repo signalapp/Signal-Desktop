@@ -4,7 +4,10 @@
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
 import { omit } from 'lodash';
-import type { MessageReactionType } from '../../model-types.d';
+import type {
+  MessageAttributesType,
+  MessageReactionType,
+} from '../../model-types.d';
 import { isEmpty } from '../../util/iterables';
 
 import {
@@ -47,6 +50,18 @@ describe('reaction utilities', () => {
       const reaction = rxn('😀');
       const newReactions = addOutgoingReaction(oldReactions, reaction);
       assert.deepStrictEqual(newReactions, [oldReactions[1], reaction]);
+    });
+
+    it('does not remove any pending reactions if its a story', () => {
+      const oldReactions = [
+        { ...rxn('😭', { isPending: true }), timestamp: 3 },
+        { ...rxn('💬'), fromId: uuid() },
+        { ...rxn('🥀', { isPending: true }), timestamp: 1 },
+        { ...rxn('🌹', { isPending: true }), timestamp: 2 },
+      ];
+      const reaction = rxn('😀');
+      const newReactions = addOutgoingReaction(oldReactions, reaction, true);
+      assert.deepStrictEqual(newReactions, [...oldReactions, reaction]);
     });
   });
 
@@ -199,21 +214,36 @@ describe('reaction utilities', () => {
 
     const reactions = [star, none, { ...rxn('🔕'), timestamp: 1 }];
 
+    function getMessage(): MessageAttributesType {
+      const now = Date.now();
+      return {
+        conversationId: uuid(),
+        id: uuid(),
+        received_at: now,
+        sent_at: now,
+        timestamp: now,
+        type: 'incoming',
+      };
+    }
+
     it("does nothing if the reaction isn't in the list", () => {
       const result = markOutgoingReactionSent(
         reactions,
         rxn('🥀', { isPending: true }),
-        [uuid()]
+        [uuid()],
+        getMessage()
       );
       assert.deepStrictEqual(result, reactions);
     });
 
     it('updates reactions to be partially sent', () => {
       [star, none].forEach(reaction => {
-        const result = markOutgoingReactionSent(reactions, reaction, [
-          uuid1,
-          uuid2,
-        ]);
+        const result = markOutgoingReactionSent(
+          reactions,
+          reaction,
+          [uuid1, uuid2],
+          getMessage()
+        );
         assert.deepStrictEqual(
           result.find(re => re.emoji === reaction.emoji)
             ?.isSentByConversationId,
@@ -227,11 +257,12 @@ describe('reaction utilities', () => {
     });
 
     it('removes sent state if a reaction with emoji is fully sent', () => {
-      const result = markOutgoingReactionSent(reactions, star, [
-        uuid1,
-        uuid2,
-        uuid3,
-      ]);
+      const result = markOutgoingReactionSent(
+        reactions,
+        star,
+        [uuid1, uuid2, uuid3],
+        getMessage()
+      );
 
       const newReaction = result.find(re => re.emoji === '⭐️');
       assert.isDefined(newReaction);
@@ -239,11 +270,12 @@ describe('reaction utilities', () => {
     });
 
     it('removes a fully-sent reaction removal', () => {
-      const result = markOutgoingReactionSent(reactions, none, [
-        uuid1,
-        uuid2,
-        uuid3,
-      ]);
+      const result = markOutgoingReactionSent(
+        reactions,
+        none,
+        [uuid1, uuid2, uuid3],
+        getMessage()
+      );
 
       assert(
         result.every(({ emoji }) => typeof emoji === 'string'),
@@ -252,13 +284,25 @@ describe('reaction utilities', () => {
     });
 
     it('removes older reactions of mine', () => {
-      const result = markOutgoingReactionSent(reactions, star, [
-        uuid1,
-        uuid2,
-        uuid3,
-      ]);
+      const result = markOutgoingReactionSent(
+        reactions,
+        star,
+        [uuid1, uuid2, uuid3],
+        getMessage()
+      );
 
       assert.isUndefined(result.find(re => re.emoji === '🔕'));
+    });
+
+    it('does not remove my older reactions if they are on a story', () => {
+      const result = markOutgoingReactionSent(
+        reactions,
+        star,
+        [uuid1, uuid2, uuid3],
+        { ...getMessage(), type: 'story' }
+      );
+
+      assert.isDefined(result.find(re => re.emoji === '🔕'));
     });
   });
 });

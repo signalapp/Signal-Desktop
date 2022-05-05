@@ -332,7 +332,7 @@ describe('both/state/ducks/conversations', () => {
       return {
         messageIds: [],
         metrics: {
-          totalUnread: 0,
+          totalUnseen: 0,
         },
         scrollToMessageCounter: 0,
       };
@@ -1008,7 +1008,7 @@ describe('both/state/ducks/conversations', () => {
               ...getDefaultConversationMessage(),
               messageIds: [messageIdThree, messageIdTwo, messageId],
               metrics: {
-                totalUnread: 0,
+                totalUnseen: 0,
               },
             },
           },
@@ -1028,7 +1028,7 @@ describe('both/state/ducks/conversations', () => {
               ...getDefaultConversationMessage(),
               messageIds: [messageIdThree, messageIdTwo, messageId],
               metrics: {
-                totalUnread: 0,
+                totalUnseen: 0,
                 newest: {
                   id: messageId,
                   received_at: time,
@@ -1058,7 +1058,7 @@ describe('both/state/ducks/conversations', () => {
               ...getDefaultConversationMessage(),
               messageIds: [],
               metrics: {
-                totalUnread: 0,
+                totalUnseen: 0,
                 newest: {
                   id: messageId,
                   received_at: time,
@@ -1082,7 +1082,7 @@ describe('both/state/ducks/conversations', () => {
               messageIds: [],
               metrics: {
                 newest: undefined,
-                totalUnread: 0,
+                totalUnseen: 0,
               },
             },
           },
@@ -1118,7 +1118,7 @@ describe('both/state/ducks/conversations', () => {
               ...getDefaultConversationMessage(),
               messageIds: [messageId, messageIdTwo, messageIdThree],
               metrics: {
-                totalUnread: 0,
+                totalUnseen: 0,
               },
             },
           },
@@ -1138,7 +1138,7 @@ describe('both/state/ducks/conversations', () => {
               ...getDefaultConversationMessage(),
               messageIds: [messageId, messageIdTwo, messageIdThree],
               metrics: {
-                totalUnread: 0,
+                totalUnseen: 0,
                 oldest: {
                   id: messageId,
                   received_at: time,
@@ -1168,7 +1168,7 @@ describe('both/state/ducks/conversations', () => {
               ...getDefaultConversationMessage(),
               messageIds: [],
               metrics: {
-                totalUnread: 0,
+                totalUnseen: 0,
                 oldest: {
                   id: messageId,
                   received_at: time,
@@ -1192,7 +1192,7 @@ describe('both/state/ducks/conversations', () => {
               messageIds: [],
               metrics: {
                 oldest: undefined,
-                totalUnread: 0,
+                totalUnseen: 0,
               },
             },
           },

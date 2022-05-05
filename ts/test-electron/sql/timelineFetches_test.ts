@@ -692,9 +692,9 @@ describe('sql/timelineFetches', () => {
         received_at: target - 8,
         timestamp: target - 8,
       };
-      const oldestUnread: MessageAttributesType = {
+      const oldestUnseen: MessageAttributesType = {
         id: getUuid(),
-        body: 'oldestUnread',
+        body: 'oldestUnseen',
         type: 'incoming',
         conversationId,
         sent_at: target - 7,
@@ -748,7 +748,7 @@ describe('sql/timelineFetches', () => {
           story,
           oldestInStory,
           oldest,
-          oldestUnread,
+          oldestUnseen,
           oldestStoryUnread,
           anotherUnread,
           newestInStory,
@@ -769,11 +769,11 @@ describe('sql/timelineFetches', () => {
       );
       assert.strictEqual(metricsInTimeline?.newest?.id, newest.id, 'newest');
       assert.strictEqual(
-        metricsInTimeline?.oldestUnread?.id,
-        oldestUnread.id,
-        'oldestUnread'
+        metricsInTimeline?.oldestUnseen?.id,
+        oldestUnseen.id,
+        'oldestUnseen'
       );
-      assert.strictEqual(metricsInTimeline?.totalUnread, 3, 'totalUnread');
+      assert.strictEqual(metricsInTimeline?.totalUnseen, 3, 'totalUnseen');
 
       const metricsInStory = await getMessageMetricsForConversation(
         conversationId,
@@ -790,11 +790,11 @@ describe('sql/timelineFetches', () => {
         'newestInStory'
       );
       assert.strictEqual(
-        metricsInStory?.oldestUnread?.id,
+        metricsInStory?.oldestUnseen?.id,
         oldestStoryUnread.id,
         'oldestStoryUnread'
       );
-      assert.strictEqual(metricsInStory?.totalUnread, 1, 'totalUnread');
+      assert.strictEqual(metricsInStory?.totalUnseen, 1, 'totalUnseen');
     });
   });
 });

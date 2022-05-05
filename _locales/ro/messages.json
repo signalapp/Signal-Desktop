@@ -6174,7 +6174,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ membri ai grupului au nume similar, revizuiește membri de mai jos sau alege să iei o decizie.",
+        "message": "$count$ membri ai grupului au nume similar, revizuiește membri de mai jos sau ia măsuri.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -7013,6 +7013,10 @@
         "message": "Adaugă o poveste",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "Povești ascunse",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "Nu există povești recente",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "Scrie un răspuns...",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "Niciun răspuns încă",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "Vizualizări",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "Poveste",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "Afișează povești",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "Ascunde povestea",
@@ -7094,22 +7106,6 @@
     "WhatsNew__bugfixes": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.37--1": {
-        "message": "Menținem mesajele scurte, punând elemente precum marcajele de timp pe aceeași linie cu textul. Acum ai mai mult spațiu pe ecran pentru acel \"salut\" rapid către un prieten.",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "Nu vor mai exista pachete de autocolante lipsă! Signal Desktop ar trebui să fie acum capabil să gestioneze toate pachetele de autocolante pe care le poate gestiona telefonul tău!",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "Acum poți adăuga persoane în grupuri folosind doar numărul lor de telefon.",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "Contactele tale preferate sunt acum la doar câteva apăsări de taste distanță. Căutarea de contacte acceptă acum alfabete non-latine, cum ar fi cel chirilic.",
-        "description": "Release notes for v5.39"
     },
     "WhatsNew__v5.40--1": {
         "message": "Remedieri de erori, printre care și o eroare ce făcea dificilă uneori folosirea meniurilor.",

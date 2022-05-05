@@ -222,7 +222,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
-        "message": "No archived conversations.",
+        "message": "アーカイブ済みのチャットはありません。",
         "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
     },
     "archiveConversation": {
@@ -2406,7 +2406,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Failed to fetch phone number. Check your connection and try again.",
+        "message": "電話番号の取得に失敗しました。接続を確認して再度お試しください。",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+        "message": "ユーザーが見つかりません。\"$phoneNumber$\"は、Signalユーザーではありません。",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+        "message": "ユーザーが見つかりません。\"$phoneNumber$\"は、無効な電話番号です。",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -5196,7 +5196,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$ は、グループリンクからの参加申請をキャンセルしました。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5206,7 +5206,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$ は、グループリンクからの参加申請を$numberOfRequests$件キャンセルしました。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5796,7 +5796,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "\"$name$\" からの申請を拒否しますか？このユーザーは、このグループリンクから再申請できなくなります。",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5904,7 +5904,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$ はこのグループリンクからの参加申請ができなくなりますが、手動でグループに追加することはできます。",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6210,7 +6210,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "\"$name$\"を、グループから削除しますか？このユーザは、グループリンクからもう一度このグループに入ることは、できなくなります。",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6812,7 +6812,7 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+        "message": "$appName$ が起動しています。\nOKをクリックして、閉じてください。\n閉じない場合は、手動で閉じてください。",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6822,11 +6822,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Failed to decompress files. Please try running the installer again.",
+        "message": "ファイルの解凍に失敗しました。もう一度インストーラーを実行してみてください。",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "古いアプリケーションファイルのアンインストールに失敗しました。もう一度インストーラーを実行してみてください。",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7013,6 +7013,10 @@
         "message": "ストーリーを追加",
         "description": "Description hint to add a story"
     },
+    "Stories__hidden-stories": {
+        "message": "非表示のストーリー",
+        "description": "Button label to go to hidden stories pane"
+    },
     "Stories__list-empty": {
         "message": "表示できるストーリーはありません",
         "description": "Description for when there are no stories to show"
@@ -7043,6 +7047,10 @@
         "message": "返信を入力してください…",
         "description": "Placeholder text for the story reply modal"
     },
+    "StoryViewsNRepliesModal__no-replies": {
+        "message": "返信 なし",
+        "description": "Placeholder text for when there are no replies"
+    },
     "StoryViewsNRepliesModal__tab--views": {
         "message": "閲覧",
         "description": "Title for views tab"
@@ -7062,6 +7070,10 @@
     "StoryListItem__label": {
         "message": "ストーリー",
         "description": "aria-label for the story list button"
+    },
+    "StoryListItem__unhide": {
+        "message": "ストーリーを表示",
+        "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
         "message": "ストーリーを閉じる",
@@ -7095,28 +7107,12 @@
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.37--1": {
-        "message": "タイムスタンプをテキストと同じ行に配置することで、画面のスペースを節約し、たくさんのメッセージを表示できるようになりました。",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.37--2": {
-        "message": "デスクトップ版Signalでステッカーパックが表示されないバグが、修正されました。スマートフォンと同じステッカーパックが使えます。",
-        "description": "Release notes for v5.37"
-    },
-    "WhatsNew__v5.39--1": {
-        "message": "グループのメンバーを電話番号で追加できるようになりました。",
-        "description": "Release notes for v5.39"
-    },
-    "WhatsNew__v5.39--2": {
-        "message": "連絡先の検索に、キリル文字などのラテン語以外の言語が対応しました。",
-        "description": "Release notes for v5.39"
-    },
     "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
+        "message": "メニューがクリックしにくくなることがあるバグを修正しました。",
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
+        "message": "コントリビューターである、$dsanders11$ と、 $yusufsahinhamza$、ありがとうございます！",
         "description": "Release notes for v5.40",
         "placeholders": {
             "dsanders11": {

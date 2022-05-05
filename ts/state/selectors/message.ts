@@ -785,13 +785,6 @@ export function getPropsForBubble(
       timestamp,
     };
   }
-  if (isMessageHistoryUnsynced(message)) {
-    return {
-      type: 'linkNotification',
-      data: null,
-      timestamp,
-    };
-  }
   if (isExpirationTimerUpdate(message)) {
     return {
       type: 'timerNotification',
@@ -982,14 +975,6 @@ function getPropsForGroupV1Migration(
     droppedMembers,
     invitedMembers,
   };
-}
-
-// Message History Unsynced
-
-export function isMessageHistoryUnsynced(
-  message: MessageWithUIFieldsType
-): boolean {
-  return message.type === 'message-history-unsynced';
 }
 
 // Note: props are null!

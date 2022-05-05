@@ -1,7 +1,13 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useReducer,
+  useCallback,
+} from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
@@ -9,6 +15,7 @@ import { assert } from '../../util/assert';
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
 import { isDownloaded } from '../../types/Attachment';
+import { missingCaseError } from '../../util/missingCaseError';
 import type { DirectionType, MessageStatusType } from './Message';
 
 import type { ComputePeaksResult } from '../GlobalAudioContext';
@@ -133,6 +140,37 @@ const Button: React.FC<ButtonProps> = props => {
   );
 };
 
+type StateType = Readonly<{
+  isPlaying: boolean;
+  currentTime: number;
+  lastAriaTime: number;
+}>;
+
+type ActionType = Readonly<
+  | {
+      type: 'SET_IS_PLAYING';
+      value: boolean;
+    }
+  | {
+      type: 'SET_CURRENT_TIME';
+      value: number;
+    }
+>;
+
+function reducer(state: StateType, action: ActionType): StateType {
+  if (action.type === 'SET_IS_PLAYING') {
+    return {
+      ...state,
+      isPlaying: action.value,
+      lastAriaTime: state.currentTime,
+    };
+  }
+  if (action.type === 'SET_CURRENT_TIME') {
+    return { ...state, currentTime: action.value };
+  }
+  throw missingCaseError(action);
+}
+
 /**
  * Display message audio attachment along with its waveform, duration, and
  * toggle Play/Pause button.
@@ -184,11 +222,27 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     activeAudioID === id && activeAudioContext === renderingContext;
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(
-    isActive && !(audio.paused || audio.ended)
+  const [{ isPlaying, currentTime, lastAriaTime }, dispatch] = useReducer(
+    reducer,
+    {
+      isPlaying: isActive && !(audio.paused || audio.ended),
+      currentTime: isActive ? audio.currentTime : 0,
+      lastAriaTime: isActive ? audio.currentTime : 0,
+    }
   );
-  const [currentTime, setCurrentTime] = useState(
-    isActive ? audio.currentTime : 0
+
+  const setIsPlaying = useCallback(
+    (value: boolean) => {
+      dispatch({ type: 'SET_IS_PLAYING', value });
+    },
+    [dispatch]
+  );
+
+  const setCurrentTime = useCallback(
+    (value: number) => {
+      dispatch({ type: 'SET_CURRENT_TIME', value });
+    },
+    [dispatch]
   );
 
   // NOTE: Avoid division by zero
@@ -326,7 +380,15 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('durationchange', onDurationChange);
     };
-  }, [id, audio, isActive, currentTime, duration]);
+  }, [
+    id,
+    audio,
+    isActive,
+    currentTime,
+    duration,
+    setCurrentTime,
+    setIsPlaying,
+  ]);
 
   // This effect detects `isPlaying` changes and starts/pauses playback when
   // needed (+keeps waveform position and audio position in sync).
@@ -457,10 +519,10 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       role="slider"
       aria-label={i18n('MessageAudio--slider')}
       aria-orientation="horizontal"
-      aria-valuenow={currentTime}
+      aria-valuenow={lastAriaTime}
       aria-valuemin={0}
       aria-valuemax={duration}
-      aria-valuetext={timeToText(currentTime)}
+      aria-valuetext={timeToText(lastAriaTime)}
     >
       {peaks.map((peak, i) => {
         let height = Math.max(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT * peak);
@@ -531,6 +593,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
       <div
+        aria-hidden="true"
         className={classNames(
           `${CSS_BASE}__countdown`,
           `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`

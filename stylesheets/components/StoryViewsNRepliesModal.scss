@@ -3,9 +3,27 @@
 
 .StoryViewsNRepliesModal {
   min-width: 320px;
+  overflow: hidden;
 
   &--group {
-    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+  }
+
+  &__replies {
+    flex: 1;
+    max-height: 75vh;
+    overflow-y: overlay;
+
+    &--none {
+      align-items: center;
+      color: $color-gray-45;
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      user-select: none;
+    }
   }
 
   &__overlay-container {

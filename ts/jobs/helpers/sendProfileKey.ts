@@ -7,6 +7,7 @@ import { handleMessageSend } from '../../util/handleMessageSend';
 import { getSendOptions } from '../../util/getSendOptions';
 import {
   isDirectConversation,
+  isGroup,
   isGroupV2,
 } from '../../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../../protobuf';
@@ -22,10 +23,39 @@ import type {
   ProfileKeyJobData,
 } from '../conversationJobQueue';
 import type { CallbackResultType } from '../../textsecure/Types.d';
-import { getUntrustedConversationIds } from './getUntrustedConversationIds';
-import { areAllErrorsUnregistered } from './areAllErrorsUnregistered';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import type { ConversationAttributesType } from '../../model-types.d';
+import {
+  OutgoingIdentityKeyError,
+  SendMessageChallengeError,
+  SendMessageProtoError,
+  UnregisteredUserError,
+} from '../../textsecure/Errors';
+
+export function canAllErrorsBeIgnored(
+  conversation: ConversationAttributesType,
+  error: unknown
+): boolean {
+  if (
+    error instanceof OutgoingIdentityKeyError ||
+    error instanceof SendMessageChallengeError ||
+    error instanceof UnregisteredUserError
+  ) {
+    return true;
+  }
+
+  return Boolean(
+    isGroup(conversation) &&
+      error instanceof SendMessageProtoError &&
+      error.errors?.every(
+        item =>
+          item instanceof OutgoingIdentityKeyError ||
+          item instanceof SendMessageChallengeError ||
+          item instanceof UnregisteredUserError
+      )
+  );
+}
 
 // Note: because we don't have a recipient map, we will resend this message to folks that
 //   got it on the first go-round, if some sends fail. This is okay, because a recipient
@@ -71,18 +101,7 @@ export async function sendProfileKey(
 
   // Note: flags and the profileKey itself are all that matter in the proto.
 
-  const untrustedConversationIds = getUntrustedConversationIds(
-    conversation.getRecipients()
-  );
-  if (untrustedConversationIds.length) {
-    window.reduxActions.conversations.conversationStoppedByMissingVerification({
-      conversationId: conversation.id,
-      untrustedConversationIds,
-    });
-    throw new Error(
-      `Profile key send blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Failing this attempt.`
-    );
-  }
+  // Note: we don't check for untrusted conversations here; we attempt to send anyway
 
   if (isDirectConversation(conversation.attributes)) {
     if (!isConversationAccepted(conversation.attributes)) {
@@ -149,9 +168,9 @@ export async function sendProfileKey(
       sendType,
     });
   } catch (error: unknown) {
-    if (areAllErrorsUnregistered(conversation.attributes, error)) {
+    if (canAllErrorsBeIgnored(conversation.attributes, error)) {
       log.info(
-        'Group send failures were all UnregisteredUserError, returning succcessfully.'
+        'Group send failures were all OutgoingIdentityKeyError, SendMessageChallengeError, or UnregisteredUserError. Returning succcessfully.'
       );
       return;
     }

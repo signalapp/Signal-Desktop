@@ -89,19 +89,20 @@ export class MediaGallery extends React.Component<Props, State> {
   }
 
   public override render(): JSX.Element {
+    const { i18n } = this.props;
     const { selectedTab } = this.state;
 
     return (
       <div className="module-media-gallery" tabIndex={-1} ref={this.focusRef}>
         <div className="module-media-gallery__tab-container">
           <Tab
-            label="Media"
+            label={i18n('media')}
             type="media"
             isSelected={selectedTab === 'media'}
             onSelect={this.handleTabSelect}
           />
           <Tab
-            label="Documents"
+            label={i18n('documents')}
             type="documents"
             isSelected={selectedTab === 'documents'}
             onSelect={this.handleTabSelect}

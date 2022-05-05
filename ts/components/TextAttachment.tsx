@@ -13,6 +13,10 @@ import { TextAttachmentStyleType } from '../types/Attachment';
 import { count } from '../util/grapheme';
 import { getDomain } from '../types/LinkPreview';
 import { getFontNameByTextScript } from '../util/getFontNameByTextScript';
+import {
+  getHexFromNumber,
+  getBackgroundColor,
+} from '../util/getStoryBackground';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
@@ -36,6 +40,7 @@ enum TextSize {
 
 export type PropsType = {
   i18n: LocalizerType;
+  isThumbnail?: boolean;
   textAttachment: TextAttachmentType;
 };
 
@@ -51,20 +56,6 @@ function getTextSize(text: string): TextSize {
   }
 
   return TextSize.Small;
-}
-
-function getHexFromNumber(color: number): string {
-  return `#${color.toString(16).slice(2)}`;
-}
-
-function getBackground({ color, gradient }: TextAttachmentType): string {
-  if (gradient) {
-    return `linear-gradient(${gradient.angle}deg, ${getHexFromNumber(
-      gradient.startColor || COLOR_WHITE_INT
-    )}, ${getHexFromNumber(gradient.endColor || COLOR_WHITE_INT)})`;
-  }
-
-  return getHexFromNumber(color || COLOR_WHITE_INT);
 }
 
 function getFont(
@@ -95,6 +86,7 @@ function getFont(
 
 export const TextAttachment = ({
   i18n,
+  isThumbnail,
   textAttachment,
 }: PropsType): JSX.Element | null => {
   const linkPreview = useRef<HTMLDivElement | null>(null);
@@ -123,7 +115,7 @@ export const TextAttachment = ({
           <div
             className="TextAttachment__story"
             style={{
-              background: getBackground(textAttachment),
+              background: getBackgroundColor(textAttachment),
               transform: `scale(${(contentRect.bounds?.height || 1) / 1280})`,
             }}
           >
@@ -159,25 +151,27 @@ export const TextAttachment = ({
             )}
             {textAttachment.preview && (
               <>
-                {linkPreviewOffsetTop && textAttachment.preview.url && (
-                  <a
-                    className="TextAttachment__preview__tooltip"
-                    href={textAttachment.preview.url}
-                    rel="noreferrer"
-                    style={{
-                      top: linkPreviewOffsetTop - 150,
-                    }}
-                    target="_blank"
-                  >
-                    <div>
-                      <div>{i18n('TextAttachment__preview__link')}</div>
-                      <div className="TextAttachment__preview__tooltip__url">
-                        {textAttachment.preview.url}
+                {linkPreviewOffsetTop &&
+                  !isThumbnail &&
+                  textAttachment.preview.url && (
+                    <a
+                      className="TextAttachment__preview__tooltip"
+                      href={textAttachment.preview.url}
+                      rel="noreferrer"
+                      style={{
+                        top: linkPreviewOffsetTop - 150,
+                      }}
+                      target="_blank"
+                    >
+                      <div>
+                        <div>{i18n('TextAttachment__preview__link')}</div>
+                        <div className="TextAttachment__preview__tooltip__url">
+                          {textAttachment.preview.url}
+                        </div>
                       </div>
-                    </div>
-                    <div className="TextAttachment__preview__tooltip__arrow" />
-                  </a>
-                )}
+                      <div className="TextAttachment__preview__tooltip__arrow" />
+                    </a>
+                  )}
                 <div
                   className={classNames('TextAttachment__preview', {
                     'TextAttachment__preview--large': Boolean(

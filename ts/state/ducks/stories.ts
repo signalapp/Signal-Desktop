@@ -25,7 +25,11 @@ import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { replaceIndex } from '../../util/replaceIndex';
 import { showToast } from '../../util/showToast';
-import { isDownloaded, isDownloading } from '../../types/Attachment';
+import {
+  hasNotResolved,
+  isDownloaded,
+  isDownloading,
+} from '../../types/Attachment';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
@@ -33,11 +37,11 @@ import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 export type StoryDataType = {
   attachment?: AttachmentType;
   messageId: string;
-  selectedReaction?: string;
 } & Pick<
   MessageAttributesType,
   | 'conversationId'
   | 'deletedForEveryone'
+  | 'reactions'
   | 'readStatus'
   | 'sendStateByConversationId'
   | 'source'
@@ -61,8 +65,8 @@ export type StoriesStateType = {
 
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
-const REACT_TO_STORY = 'stories/REACT_TO_STORY';
 const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
+export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
 
@@ -79,17 +83,17 @@ type MarkStoryReadActionType = {
   payload: string;
 };
 
-type ReactToStoryActionType = {
-  type: typeof REACT_TO_STORY;
-  payload: {
-    messageId: string;
-    selectedReaction: string;
-  };
-};
-
 type ReplyToStoryActionType = {
   type: typeof REPLY_TO_STORY;
   payload: MessageAttributesType;
+};
+
+type ResolveAttachmentUrlActionType = {
+  type: typeof RESOLVE_ATTACHMENT_URL;
+  payload: {
+    messageId: string;
+    attachmentUrl: string;
+  };
 };
 
 type StoryChangedActionType = {
@@ -106,8 +110,8 @@ export type StoriesActionType =
   | MarkStoryReadActionType
   | MessageChangedActionType
   | MessageDeletedActionType
-  | ReactToStoryActionType
   | ReplyToStoryActionType
+  | ResolveAttachmentUrlActionType
   | StoryChangedActionType
   | ToggleViewActionType;
 
@@ -206,7 +210,12 @@ function markStoryRead(
 
 function queueStoryDownload(
   storyId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ResolveAttachmentUrlActionType
+> {
   return async dispatch => {
     const story = await getMessageById(storyId);
 
@@ -226,6 +235,25 @@ function queueStoryDownload(
     }
 
     if (isDownloaded(attachment)) {
+      if (!attachment.path) {
+        return;
+      }
+
+      // This function also resolves the attachment's URL in case we've already
+      // downloaded the attachment but haven't pointed its path to an absolute
+      // location on disk.
+      if (hasNotResolved(attachment)) {
+        dispatch({
+          type: RESOLVE_ATTACHMENT_URL,
+          payload: {
+            messageId: storyId,
+            attachmentUrl: window.Signal.Migrations.getAbsoluteAttachmentPath(
+              attachment.path
+            ),
+          },
+        });
+      }
+
       return;
     }
 
@@ -248,27 +276,24 @@ function queueStoryDownload(
 
 function reactToStory(
   nextReaction: string,
-  messageId: string,
-  previousReaction?: string
-): ThunkAction<void, RootStateType, unknown, ReactToStoryActionType> {
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     try {
       await enqueueReactionForSend({
         messageId,
         emoji: nextReaction,
-        remove: nextReaction === previousReaction,
-      });
-      dispatch({
-        type: REACT_TO_STORY,
-        payload: {
-          messageId,
-          selectedReaction: nextReaction,
-        },
+        remove: false,
       });
     } catch (error) {
       log.error('Error enqueuing reaction', error, messageId, nextReaction);
       showToast(ToastReactionFailed);
     }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 
@@ -365,8 +390,8 @@ export function reducer(
       'conversationId',
       'deletedForEveryone',
       'messageId',
+      'reactions',
       'readStatus',
-      'selectedReaction',
       'sendStateByConversationId',
       'source',
       'sourceUuid',
@@ -386,9 +411,14 @@ export function reducer(
         !isDownloaded(prevStory.attachment) &&
         isDownloaded(newStory.attachment);
       const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
+      const reactionsChanged =
+        prevStory.reactions?.length !== newStory.reactions?.length;
 
       const shouldReplace =
-        isDownloadingAttachment || hasAttachmentDownloaded || readStatusChanged;
+        isDownloadingAttachment ||
+        hasAttachmentDownloaded ||
+        readStatusChanged ||
+        reactionsChanged;
       if (!shouldReplace) {
         return state;
       }
@@ -407,22 +437,6 @@ export function reducer(
     return {
       ...state,
       stories,
-    };
-  }
-
-  if (action.type === REACT_TO_STORY) {
-    return {
-      ...state,
-      stories: state.stories.map(story => {
-        if (story.messageId === action.payload.messageId) {
-          return {
-            ...story,
-            selectedReaction: action.payload.selectedReaction,
-          };
-        }
-
-        return story;
-      }),
     };
   }
 
@@ -497,6 +511,41 @@ export function reducer(
         messageId: replyState.messageId,
         replies: [...replyState.replies, action.payload],
       },
+    };
+  }
+
+  if (action.type === RESOLVE_ATTACHMENT_URL) {
+    const { messageId, attachmentUrl } = action.payload;
+
+    const storyIndex = state.stories.findIndex(
+      existingStory => existingStory.messageId === messageId
+    );
+
+    if (storyIndex < 0) {
+      return state;
+    }
+
+    const story = state.stories[storyIndex];
+
+    if (!story.attachment) {
+      return state;
+    }
+
+    const storyWithResolvedAttachment = {
+      ...story,
+      attachment: {
+        ...story.attachment,
+        url: attachmentUrl,
+      },
+    };
+
+    return {
+      ...state,
+      stories: replaceIndex(
+        state.stories,
+        storyIndex,
+        storyWithResolvedAttachment
+      ),
     };
   }
 

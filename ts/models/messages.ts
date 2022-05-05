@@ -91,7 +91,6 @@ import {
   isGroupV2Change,
   isIncoming,
   isKeyChange,
-  isMessageHistoryUnsynced,
   isOutgoing,
   isStory,
   isProfileChange,
@@ -141,7 +140,7 @@ import {
 } from '../messages/helpers';
 import type { ReplacementValuesType } from '../types/I18N';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
-import { getMessageIdForLogging } from '../util/getMessageIdForLogging';
+import { getMessageIdForLogging } from '../util/idForLogging';
 import { hasAttachmentDownloads } from '../util/hasAttachmentDownloads';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { findStoryMessage } from '../util/findStoryMessage';
@@ -152,6 +151,8 @@ import { getMessageById } from '../messages/getMessageById';
 import { shouldDownloadStory } from '../util/shouldDownloadStory';
 import { shouldShowStoriesView } from '../state/selectors/stories';
 import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
+import { SeenStatus } from '../MessageSeenStatus';
+import { isNewReactionReplacingPrevious } from '../reactions/util';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -209,7 +210,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const readStatus = migrateLegacyReadStatus(this.attributes);
     if (readStatus !== undefined) {
-      this.set('readStatus', readStatus, { silent: true });
+      this.set(
+        {
+          readStatus,
+          seenStatus:
+            readStatus === ReadStatus.Unread
+              ? SeenStatus.Unseen
+              : SeenStatus.Seen,
+        },
+        { silent: true }
+      );
     }
 
     const sendStateByConversationId = migrateLegacySendAttributes(
@@ -233,12 +243,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
-      const ourConversationId =
-        window.ConversationController.getOurConversationIdOrThrow();
-      const storyData = getStoryDataFromMessageAttributes(
-        this.attributes,
-        ourConversationId
-      );
+      const storyData = getStoryDataFromMessageAttributes(this.attributes);
 
       if (!storyData) {
         return;
@@ -294,7 +299,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !isGroupV2Change(attributes) &&
       !isGroupV1Migration(attributes) &&
       !isKeyChange(attributes) &&
-      !isMessageHistoryUnsynced(attributes) &&
       !isProfileChange(attributes) &&
       !isUniversalTimerNotification(attributes) &&
       !isUnsupportedMessage(attributes) &&
@@ -1055,7 +1059,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // Locally-generated notifications
     const isKeyChangeValue = isKeyChange(attributes);
-    const isMessageHistoryUnsyncedValue = isMessageHistoryUnsynced(attributes);
     const isProfileChangeValue = isProfileChange(attributes);
     const isUniversalTimerNotificationValue =
       isUniversalTimerNotification(attributes);
@@ -1084,7 +1087,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       hasErrorsValue ||
       // Locally-generated notifications
       isKeyChangeValue ||
-      isMessageHistoryUnsyncedValue ||
       isProfileChangeValue ||
       isUniversalTimerNotificationValue;
 
@@ -2440,9 +2442,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           if (isStory(message.attributes)) {
             attributes.hasPostedStory = true;
+          } else {
+            attributes.active_at = now;
           }
 
-          attributes.active_at = now;
           conversation.set(attributes);
 
           if (
@@ -2545,6 +2548,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const isGroupStoryReply =
           isGroup(conversation.attributes) && message.get('storyId');
         if (
+          !isStory(message.attributes) &&
           !isGroupStoryReply &&
           (!conversationTimestamp ||
             message.get('sent_at') > conversationTimestamp)
@@ -2643,6 +2647,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     window.Whisper.events.trigger('incrementProgress');
     confirm();
+
+    conversation.queueJob('updateUnread', () => conversation.updateUnread());
   }
 
   // This function is called twice - once from handleDataMessage, and then again from
@@ -2760,7 +2766,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           newReadStatus = ReadStatus.Read;
         }
 
-        message.set('readStatus', newReadStatus);
+        message.set({
+          readStatus: newReadStatus,
+          seenStatus: SeenStatus.Seen,
+        });
         changed = true;
 
         this.pendingMarkRead = Math.min(
@@ -2769,7 +2778,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
       } else if (isFirstRun && !isGroupStoryReply) {
         conversation.set({
-          unreadCount: (conversation.get('unreadCount') || 0) + 1,
           isArchived: false,
         });
       }
@@ -2890,14 +2898,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const reactions = reactionUtil.addOutgoingReaction(
         this.get('reactions') || [],
-        newReaction
+        newReaction,
+        isStory(this.attributes)
       );
       this.set({ reactions });
     } else {
       const oldReactions = this.get('reactions') || [];
       let reactions: Array<MessageReactionType>;
-      const oldReaction = oldReactions.find(
-        re => re.fromId === reaction.get('fromId')
+      const oldReaction = oldReactions.find(re =>
+        isNewReactionReplacingPrevious(re, reaction.attributes, this.attributes)
       );
       if (oldReaction) {
         this.clearNotifications(oldReaction);
@@ -2912,12 +2921,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         if (reaction.get('source') === ReactionSource.FromSync) {
           reactions = oldReactions.filter(
             re =>
-              re.fromId !== reaction.get('fromId') ||
-              re.timestamp > reaction.get('timestamp')
+              !isNewReactionReplacingPrevious(
+                re,
+                reaction.attributes,
+                this.attributes
+              ) || re.timestamp > reaction.get('timestamp')
           );
         } else {
           reactions = oldReactions.filter(
-            re => re.fromId !== reaction.get('fromId')
+            re =>
+              !isNewReactionReplacingPrevious(
+                re,
+                reaction.attributes,
+                this.attributes
+              )
           );
         }
         this.set({ reactions });
@@ -2946,7 +2963,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         reactions = oldReactions.filter(
-          re => re.fromId !== reaction.get('fromId')
+          re =>
+            !isNewReactionReplacingPrevious(
+              re,
+              reaction.attributes,
+              this.attributes
+            )
         );
         reactions.push(reactionToAdd);
         this.set({ reactions });
