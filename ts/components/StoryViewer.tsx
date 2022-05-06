@@ -513,36 +513,46 @@ export const StoryViewer = ({
                   type="button"
                 >
                   <>
-                    {viewCount > 0 &&
-                      (viewCount === 1 ? (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__views--singular"
-                          components={[<strong>{viewCount}</strong>]}
-                        />
-                      ) : (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__views--plural"
-                          components={[<strong>{viewCount}</strong>]}
-                        />
-                      ))}
-                    {viewCount > 0 && replyCount > 0 && ' '}
-                    {replyCount > 0 &&
-                      (replyCount === 1 ? (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__replies--singular"
-                          components={[<strong>{replyCount}</strong>]}
-                        />
-                      ) : (
-                        <Intl
-                          i18n={i18n}
-                          id="MyStories__replies--plural"
-                          components={[<strong>{replyCount}</strong>]}
-                        />
-                      ))}
-                    {!viewCount && !replyCount && i18n('StoryViewer__reply')}
+                    {viewCount > 0 || replyCount > 0 ? (
+                      <span className="StoryViewer__reply__chevron">
+                        {viewCount > 0 &&
+                          (viewCount === 1 ? (
+                            <Intl
+                              i18n={i18n}
+                              id="MyStories__views--singular"
+                              components={[<strong>{viewCount}</strong>]}
+                            />
+                          ) : (
+                            <Intl
+                              i18n={i18n}
+                              id="MyStories__views--plural"
+                              components={[<strong>{viewCount}</strong>]}
+                            />
+                          ))}
+                        {viewCount > 0 && replyCount > 0 && ' '}
+                        {replyCount > 0 &&
+                          (replyCount === 1 ? (
+                            <Intl
+                              i18n={i18n}
+                              id="MyStories__replies--singular"
+                              components={[<strong>{replyCount}</strong>]}
+                            />
+                          ) : (
+                            <Intl
+                              i18n={i18n}
+                              id="MyStories__replies--plural"
+                              components={[<strong>{replyCount}</strong>]}
+                            />
+                          ))}
+                      </span>
+                    ) : null}
+                    {!viewCount && !replyCount && (
+                      <span className="StoryViewer__reply__arrow">
+                        {isGroupStory
+                          ? i18n('StoryViewer__reply-group')
+                          : i18n('StoryViewer__reply')}
+                      </span>
+                    )}
                   </>
                 </button>
               )}

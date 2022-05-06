@@ -118,6 +118,22 @@ story.add('Multi story', () => {
 story.add('Caption', () => (
   <StoryViewer
     {...getDefaultProps()}
+    group={getDefaultConversation({
+      avatarPath: '/fixtures/kitten-4-112-112.jpg',
+      title: 'Broskis',
+      type: 'group',
+    })}
+    replyState={{
+      messageId: '123',
+      replies: [
+        {
+          ...getDefaultConversation(),
+          body: 'Cool',
+          id: 'abc',
+          timestamp: Date.now(),
+        },
+      ],
+    }}
     stories={[
       {
         attachment: fakeAttachment({

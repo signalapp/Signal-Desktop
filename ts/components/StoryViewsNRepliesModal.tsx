@@ -168,7 +168,11 @@ export const StoryViewsNRepliesModal = ({
               onReply(...args);
             }}
             onTextTooLong={onTextTooLong}
-            placeholder={i18n('StoryViewsNRepliesModal__placeholder')}
+            placeholder={
+              isGroupStory
+                ? i18n('StoryViewer__reply-group')
+                : i18n('StoryViewer__reply')
+            }
             theme={ThemeType.dark}
           >
             <EmojiButton

@@ -123,6 +123,35 @@
         color: $color-ultramarine;
       }
     }
+
+    &__arrow {
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: '';
+        height: 20px;
+        margin-right: 12px;
+        width: 20px;
+        @include color-svg(
+          '../images/icons/v2/reply-outline-24.svg',
+          $color-white
+        );
+      }
+    }
+
+    &__chevron::after {
+      content: '';
+      display: inline-block;
+      height: 20px;
+      margin-left: 12px;
+      vertical-align: middle;
+      width: 20px;
+      @include color-svg(
+        '../images/icons/v2/chevron-right-24.svg',
+        $color-white
+      );
+    }
   }
 
   &__progress {
