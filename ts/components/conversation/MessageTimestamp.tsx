@@ -15,6 +15,7 @@ export type Props = {
   deletedForEveryone?: boolean;
   direction?: 'incoming' | 'outgoing';
   i18n: LocalizerType;
+  isRelativeTime?: boolean;
   module?: string;
   timestamp: number;
   withImageNoCaption?: boolean;
@@ -26,6 +27,7 @@ export function MessageTimestamp({
   deletedForEveryone,
   direction,
   i18n,
+  isRelativeTime,
   module,
   timestamp,
   withImageNoCaption,
@@ -49,7 +51,7 @@ export function MessageTimestamp({
       )}
       timestamp={timestamp}
     >
-      {formatTime(i18n, timestamp, now)}
+      {formatTime(i18n, timestamp, now, isRelativeTime)}
     </Time>
   );
 }

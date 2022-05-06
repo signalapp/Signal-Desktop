@@ -26,6 +26,7 @@ import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
+import { Theme } from '../util/theme';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
@@ -47,6 +48,7 @@ export type PropsType = {
     | 'sharedGroupNames'
     | 'title'
   >;
+  hasAllStoriesMuted: boolean;
   i18n: LocalizerType;
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
   markStoryRead: (mId: string) => unknown;
@@ -72,6 +74,7 @@ export type PropsType = {
   replyState?: ReplyStateType;
   skinTone?: number;
   stories: Array<StoryViewType>;
+  toggleHasAllStoriesMuted: () => unknown;
   views?: Array<string>;
 };
 
@@ -90,6 +93,7 @@ export const StoryViewer = ({
   conversationId,
   getPreferredBadge,
   group,
+  hasAllStoriesMuted,
   i18n,
   loadStoryReplies,
   markStoryRead,
@@ -110,6 +114,7 @@ export const StoryViewer = ({
   replyState,
   skinTone,
   stories,
+  toggleHasAllStoriesMuted,
   views,
 }: PropsType): JSX.Element => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
@@ -261,11 +266,14 @@ export const StoryViewer = ({
     };
   }, [currentStoryIndex, spring, storyDuration]);
 
+  const [pauseStory, setPauseStory] = useState(false);
+
   const shouldPauseViewing =
     hasConfirmHideStory ||
     hasExpandedCaption ||
     hasReplyModal ||
     isShowingContextMenu ||
+    pauseStory ||
     Boolean(reactionEmoji);
 
   useEffect(() => {
@@ -388,6 +396,7 @@ export const StoryViewer = ({
               attachment={attachment}
               i18n={i18n}
               isPaused={shouldPauseViewing}
+              isMuted={hasAllStoriesMuted}
               label={i18n('lightboxImageAlt')}
               moduleClassName="StoryViewer__story"
               queueStoryDownload={queueStoryDownload}
@@ -436,50 +445,90 @@ export const StoryViewer = ({
                 )}
               </div>
             )}
-            <Avatar
-              acceptedMessageRequest={acceptedMessageRequest}
-              avatarPath={avatarPath}
-              badge={undefined}
-              color={getAvatarColor(color)}
-              conversationType="direct"
-              i18n={i18n}
-              isMe={Boolean(isMe)}
-              name={name}
-              profileName={profileName}
-              sharedGroupNames={sharedGroupNames}
-              size={AvatarSize.TWENTY_EIGHT}
-              title={title}
-            />
-            {group && (
-              <Avatar
-                acceptedMessageRequest={group.acceptedMessageRequest}
-                avatarPath={group.avatarPath}
-                badge={undefined}
-                className="StoryViewer__meta--group-avatar"
-                color={getAvatarColor(group.color)}
-                conversationType="group"
-                i18n={i18n}
-                isMe={false}
-                name={group.name}
-                profileName={group.profileName}
-                sharedGroupNames={group.sharedGroupNames}
-                size={AvatarSize.TWENTY_EIGHT}
-                title={group.title}
-              />
-            )}
-            <div className="StoryViewer__meta--title">
-              {group
-                ? i18n('Stories__from-to-group', {
-                    name: title,
-                    group: group.title,
-                  })
-                : title}
+            <div className="StoryViewer__meta__playback-bar">
+              <div>
+                <Avatar
+                  acceptedMessageRequest={acceptedMessageRequest}
+                  avatarPath={avatarPath}
+                  badge={undefined}
+                  color={getAvatarColor(color)}
+                  conversationType="direct"
+                  i18n={i18n}
+                  isMe={Boolean(isMe)}
+                  name={name}
+                  profileName={profileName}
+                  sharedGroupNames={sharedGroupNames}
+                  size={AvatarSize.TWENTY_EIGHT}
+                  title={title}
+                />
+                {group && (
+                  <Avatar
+                    acceptedMessageRequest={group.acceptedMessageRequest}
+                    avatarPath={group.avatarPath}
+                    badge={undefined}
+                    className="StoryViewer__meta--group-avatar"
+                    color={getAvatarColor(group.color)}
+                    conversationType="group"
+                    i18n={i18n}
+                    isMe={false}
+                    name={group.name}
+                    profileName={group.profileName}
+                    sharedGroupNames={group.sharedGroupNames}
+                    size={AvatarSize.TWENTY_EIGHT}
+                    title={group.title}
+                  />
+                )}
+                <div className="StoryViewer__meta--title">
+                  {group
+                    ? i18n('Stories__from-to-group', {
+                        name: title,
+                        group: group.title,
+                      })
+                    : title}
+                </div>
+                <MessageTimestamp
+                  i18n={i18n}
+                  isRelativeTime
+                  module="StoryViewer__meta--timestamp"
+                  timestamp={timestamp}
+                />
+              </div>
+              <div className="StoryViewer__meta__playback-controls">
+                <button
+                  aria-label={
+                    pauseStory
+                      ? i18n('StoryViewer__play')
+                      : i18n('StoryViewer__pause')
+                  }
+                  className={
+                    pauseStory ? 'StoryViewer__play' : 'StoryViewer__pause'
+                  }
+                  onClick={() => setPauseStory(!pauseStory)}
+                  type="button"
+                />
+                <button
+                  aria-label={
+                    hasAllStoriesMuted
+                      ? i18n('StoryViewer__unmute')
+                      : i18n('StoryViewer__mute')
+                  }
+                  className={
+                    hasAllStoriesMuted
+                      ? 'StoryViewer__unmute'
+                      : 'StoryViewer__mute'
+                  }
+                  onClick={toggleHasAllStoriesMuted}
+                  type="button"
+                />
+                <button
+                  aria-label={i18n('MyStories__more')}
+                  className="StoryViewer__more"
+                  onClick={() => setIsShowingContextMenu(true)}
+                  ref={setReferenceElement}
+                  type="button"
+                />
+              </div>
             </div>
-            <MessageTimestamp
-              i18n={i18n}
-              module="StoryViewer__meta--timestamp"
-              timestamp={timestamp}
-            />
             <div className="StoryViewer__progress">
               {stories.map((story, index) => (
                 <div
@@ -572,14 +621,6 @@ export const StoryViewer = ({
           />
           <div className="StoryViewer__protection StoryViewer__protection--bottom" />
           <button
-            aria-label={i18n('MyStories__more')}
-            className="StoryViewer__more"
-            onClick={() => setIsShowingContextMenu(true)}
-            ref={setReferenceElement}
-            tabIndex={0}
-            type="button"
-          />
-          <button
             aria-label={i18n('close')}
             className="StoryViewer__close-button"
             onClick={onClose}
@@ -612,11 +653,8 @@ export const StoryViewer = ({
             },
           ]}
           onClose={() => setIsShowingContextMenu(false)}
-          popperOptions={{
-            placement: 'bottom',
-            strategy: 'absolute',
-          }}
           referenceElement={referenceElement}
+          theme={Theme.Dark}
         />
         {hasReplyModal && canReply && (
           <StoryViewsNRepliesModal

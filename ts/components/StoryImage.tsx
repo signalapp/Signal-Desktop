@@ -25,6 +25,7 @@ export type PropsType = {
   readonly attachment?: AttachmentType;
   readonly children?: ReactNode;
   readonly i18n: LocalizerType;
+  readonly isMuted?: boolean;
   readonly isPaused?: boolean;
   readonly isThumbnail?: boolean;
   readonly label: string;
@@ -37,6 +38,7 @@ export const StoryImage = ({
   attachment,
   children,
   i18n,
+  isMuted,
   isPaused,
   isThumbnail,
   label,
@@ -106,6 +108,7 @@ export const StoryImage = ({
         controls={false}
         key={attachment.url}
         loop={shouldLoop}
+        muted={isMuted}
         ref={videoRef}
       >
         <source src={attachment.url} />

@@ -7018,6 +7018,14 @@
       }
     }
   },
+  "StoryViewer__pause": {
+    "message": "Pause",
+    "description": "Aria label for pausing a story"
+  },
+  "StoryViewer__play": {
+    "message": "Play",
+    "description": "Aria label for playing a story"
+  },
   "StoryViewer__reply": {
     "message": "Reply",
     "description": "Button label to reply to a story"
@@ -7025,6 +7033,14 @@
   "StoryViewer__reply-group": {
     "message": "Reply to Group",
     "description": "Button label to reply to a group story"
+  },
+  "StoryViewer__mute": {
+    "message": "Mute",
+    "description": "Aria label for muting stories"
+  },
+  "StoryViewer__unmute": {
+    "message": "Unmute",
+    "description": "Aria label for unmuting stories"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "No replies yet",

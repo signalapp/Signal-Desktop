@@ -23,6 +23,7 @@ function getDefaultProps(): PropsType {
     conversationId: sender.id,
     getPreferredBadge: () => undefined,
     group: undefined,
+    hasAllStoriesMuted: false,
     i18n,
     loadStoryReplies: action('loadStoryReplies'),
     markStoryRead: action('markStoryRead'),
@@ -51,6 +52,7 @@ function getDefaultProps(): PropsType {
         timestamp: Date.now(),
       },
     ],
+    toggleHasAllStoriesMuted: action('toggleHasAllStoriesMuted'),
   };
 }
 
@@ -153,6 +155,7 @@ story.add('Caption', () => (
 story.add('Long Caption', () => (
   <StoryViewer
     {...getDefaultProps()}
+    hasAllStoriesMuted
     stories={[
       {
         attachment: fakeAttachment({

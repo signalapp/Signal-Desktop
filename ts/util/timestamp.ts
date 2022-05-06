@@ -103,7 +103,8 @@ export function formatDateTimeLong(
 export function formatTime(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp,
-  now: RawTimestamp
+  now: RawTimestamp,
+  isRelativeTime?: boolean
 ): string {
   const timestamp = rawTimestamp.valueOf();
   const diff = now.valueOf() - timestamp;
@@ -114,6 +115,10 @@ export function formatTime(
 
   if (diff < HOUR) {
     return i18n('minutesAgo', [Math.floor(diff / MINUTE).toString()]);
+  }
+
+  if (isRelativeTime) {
+    return i18n('hoursAgo', [Math.floor(diff / HOUR).toString()]);
   }
 
   return new Date(timestamp).toLocaleTimeString([], {

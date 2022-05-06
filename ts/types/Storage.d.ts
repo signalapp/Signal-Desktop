@@ -140,6 +140,7 @@ export type StorageAccessType = {
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
+  hasAllStoriesMuted: boolean;
 
   // Deprecated
   senderCertificateWithUuid: never;

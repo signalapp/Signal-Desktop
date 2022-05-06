@@ -91,6 +91,7 @@ export const actions = {
   removeItem,
   removeItemExternal,
   resetItems,
+  toggleHasAllStoriesMuted,
 };
 
 export const useActions = (): typeof actions => useBoundActions(actions);
@@ -109,6 +110,19 @@ function putItem<K extends keyof StorageAccessType>(
 
 function onSetSkinTone(tone: number): ItemPutAction {
   return putItem('skinTone', tone);
+}
+
+function toggleHasAllStoriesMuted(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ItemPutAction
+> {
+  return (dispatch, getState) => {
+    const hasAllStoriesMuted = Boolean(getState().items.hasAllStoriesMuted);
+
+    dispatch(putItem('hasAllStoriesMuted', !hasAllStoriesMuted));
+  };
 }
 
 function putItemExternal(key: string, value: unknown): ItemPutExternalAction {

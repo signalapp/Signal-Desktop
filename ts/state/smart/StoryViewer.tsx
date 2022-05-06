@@ -11,6 +11,7 @@ import { StoryViewer } from '../../components/StoryViewer';
 import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
 import {
   getEmojiSkinTone,
+  getHasAllStoriesMuted,
   getPreferredReactionEmoji,
 } from '../selectors/items';
 import { getIntl } from '../selectors/user';
@@ -38,7 +39,7 @@ export function SmartStoryViewer({
   onPrevUserStories,
 }: PropsType): JSX.Element | null {
   const storiesActions = useStoriesActions();
-  const { onSetSkinTone } = useItemsActions();
+  const { onSetSkinTone, toggleHasAllStoriesMuted } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { openConversationInternal, toggleHideStories } =
     useConversationsActions();
@@ -59,12 +60,16 @@ export function SmartStoryViewer({
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
   const replyState = useSelector(getStoryReplies);
+  const hasAllStoriesMuted = useSelector<StateType, boolean>(
+    getHasAllStoriesMuted
+  );
 
   return (
     <StoryViewer
       conversationId={conversationId}
       getPreferredBadge={getPreferredBadge}
       group={group}
+      hasAllStoriesMuted={hasAllStoriesMuted}
       i18n={i18n}
       onClose={onClose}
       onHideStory={toggleHideStories}
@@ -96,6 +101,7 @@ export function SmartStoryViewer({
       replyState={replyState}
       stories={stories}
       skinTone={skinTone}
+      toggleHasAllStoriesMuted={toggleHasAllStoriesMuted}
       {...storiesActions}
     />
   );
