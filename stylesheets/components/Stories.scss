@@ -116,7 +116,7 @@
 
   &__placeholder {
     align-items: center;
-    color: $color-gray-05;
+    color: $color-gray-45;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -129,7 +129,7 @@
 
       @include color-svg(
         '../images/icons/v2/stories-outline-56.svg',
-        $color-gray-05
+        $color-gray-45
       );
     }
   }
