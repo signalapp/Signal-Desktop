@@ -37,6 +37,7 @@ declare global {
     log: any;
     sessionFeatureFlags: {
       useOnionRequests: boolean;
+      useTestNet: boolean;
     };
     SessionSnodeAPI: SessionSnodeAPI;
     onLogin: any;

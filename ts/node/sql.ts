@@ -1182,6 +1182,7 @@ function updateToLokiSchemaVersion17(currentVersion: number, db: BetterSqlite3.D
 
 function dropFtsAndTriggers(db: BetterSqlite3.Database) {
   console.info('dropping fts5 table');
+
   db.exec(`
   DROP TRIGGER IF EXISTS messages_on_insert;
   DROP TRIGGER IF EXISTS messages_on_delete;
@@ -3466,6 +3467,8 @@ function cleanUpOldOpengroups() {
 
     const ourNumber = getItemById('number_id');
     if (!ourNumber || !ourNumber.value) {
+      rebuildFtsTable(assertGlobalInstance());
+
       return;
     }
     const ourPubkey = ourNumber.value.split('.')[0];

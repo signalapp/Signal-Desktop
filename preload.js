@@ -26,6 +26,9 @@ window.getNodeVersion = () => configAny.node_version;
 
 window.sessionFeatureFlags = {
   useOnionRequests: true,
+  useTestNet: Boolean(
+    process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
+  ),
 };
 
 window.versionInfo = {
@@ -211,11 +214,14 @@ window.ReactDOM = require('react-dom');
 
 window.clipboard = clipboard;
 
-window.getSeedNodeList = () => [
-  'https://storage.seed1.loki.network:4433/',
-  'https://storage.seed3.loki.network:4433/',
-  'https://public.loki.foundation:4433/',
-];
+window.getSeedNodeList = () =>
+  window.sessionFeatureFlags.useTestNet
+    ? ['http://public.loki.foundation:38157']
+    : [
+        'https://storage.seed1.loki.network:4433/',
+        'https://storage.seed3.loki.network:4433/',
+        'https://public.loki.foundation:4433/',
+      ];
 
 const { locale: localFromEnv } = config;
 window.i18n = setupi18n(localFromEnv, localeMessages);

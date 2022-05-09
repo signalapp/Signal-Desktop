@@ -9,7 +9,7 @@ import { ed25519Str } from '../../onions/onionPath';
 import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
 import { SeedNodeAPI } from '../seed_node_api';
-import { useTestNet } from '../../types';
+
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
  */
@@ -180,8 +180,7 @@ export async function getRandomSnodePool(): Promise<Array<Data.Snode>> {
  */
 // tslint:disable: function-name
 export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
-  // tslint:disable-next-line: no-http-string
-  const seedNodes = useTestNet ? ['http://public.loki.foundation:38157'] : window.getSeedNodeList();
+  const seedNodes = window.getSeedNodeList();
 
   if (!seedNodes || !seedNodes.length) {
     window?.log?.error(

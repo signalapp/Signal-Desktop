@@ -1250,7 +1250,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
     if (value !== this.isApproved()) {
-      window?.log?.info(`Setting ${ed25519Str(this.attributes.id)} isApproved to: ${value}`);
+      window?.log?.info(`Setting ${ed25519Str(this.id)} isApproved to: ${value}`);
       this.set({
         isApproved: value,
       });
@@ -1263,7 +1263,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async setDidApproveMe(value: boolean, shouldCommit: boolean = true) {
     if (value !== this.didApproveMe()) {
-      window?.log?.info(`Setting ${ed25519Str(this.attributes.id)} didApproveMe to: ${value}`);
+      window?.log?.info(`Setting ${ed25519Str(this.id)} didApproveMe to: ${value}`);
       this.set({
         didApproveMe: value,
       });
