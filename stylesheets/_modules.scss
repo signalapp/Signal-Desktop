@@ -2319,8 +2319,7 @@ button.ConversationDetails__action-button {
     }
 
     @include light-theme {
-      &:hover,
-      &:focus {
+      &:hover {
         background: $color-gray-15;
       }
       &:active {
@@ -2328,8 +2327,7 @@ button.ConversationDetails__action-button {
       }
     }
     @include dark-theme {
-      &:hover,
-      &:focus {
+      &:hover {
         background: $color-gray-75;
       }
       &:active {
