@@ -27,7 +27,6 @@ import { CallMode } from '../types/Calling';
 import * as EmbeddedContact from '../types/EmbeddedContact';
 import * as Conversation from '../types/Conversation';
 import * as Stickers from '../types/Stickers';
-import { CapabilityError } from '../types/errors';
 import type {
   ContactWithHydratedAvatar,
   GroupV1InfoType,
@@ -616,14 +615,6 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    if (
-      this.get('announcementsOnly') &&
-      !toRequest.get('capabilities')?.announcementGroup
-    ) {
-      log.warn(`addPendingApprovalRequest/${idLog}: member needs to upgrade.`);
-      return undefined;
-    }
-
     // We need the user's profileKeyCredential, which requires a roundtrip with the
     //   server, and most definitely their profileKey. A getProfiles() call will
     //   ensure that we have as much as we can get with the data we have.
@@ -666,16 +657,6 @@ export class ConversationModel extends window.Backbone
       throw new Error(
         `addMember/${idLog}: No conversation found for conversation ${conversationId}`
       );
-    }
-
-    if (
-      this.get('announcementsOnly') &&
-      !toRequest.get('capabilities')?.announcementGroup
-    ) {
-      log.warn(
-        `addMember/${idLog}: ${toRequest.idForLogging()} needs to upgrade.`
-      );
-      return undefined;
     }
 
     const uuid = toRequest.get('uuid');
@@ -2301,18 +2282,6 @@ export class ConversationModel extends window.Backbone
   }
 
   async addMembersV2(conversationIds: ReadonlyArray<string>): Promise<void> {
-    if (this.get('announcementsOnly')) {
-      const isEveryMemberCapable = conversationIds.every(conversationId => {
-        const model = window.ConversationController.get(conversationId);
-        return Boolean(model?.get('capabilities')?.announcementGroup);
-      });
-      if (!isEveryMemberCapable) {
-        throw new CapabilityError(
-          'addMembersV2: some or all members need to upgrade.'
-        );
-      }
-    }
-
     await this.modifyGroupV2({
       name: 'addMembersV2',
       createGroupChange: () =>
@@ -3603,10 +3572,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    const members = getConversationMembers(this.attributes);
-    return members.every(conversationAttrs =>
-      Boolean(conversationAttrs.capabilities?.announcementGroup)
-    );
+    return true;
   }
 
   getMemberIds(): Array<string> {

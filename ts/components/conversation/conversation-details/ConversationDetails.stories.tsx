@@ -8,7 +8,6 @@ import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
 import { setupI18n } from '../../../util/setupI18n';
-import { CapabilityError } from '../../../types/errors';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetails';
 import { ConversationDetails } from './ConversationDetails';
@@ -188,16 +187,6 @@ story.add('Group Links On', () => {
 
   return <ConversationDetails {...props} isAdmin />;
 });
-
-story.add('Group add with missing capabilities', () => (
-  <ConversationDetails
-    {...createProps()}
-    canEditGroupInfo
-    addMembers={async () => {
-      throw new CapabilityError('stories');
-    }}
-  />
-));
 
 story.add('1:1', () => (
   <ConversationDetails {...createProps()} isGroup={false} />

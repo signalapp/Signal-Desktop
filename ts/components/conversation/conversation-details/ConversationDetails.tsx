@@ -16,7 +16,6 @@ import { getMutedUntilText } from '../../../util/getMutedUntilText';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
 import type { BadgeType } from '../../../badges/types';
-import { CapabilityError } from '../../../types/errors';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
@@ -166,8 +165,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     useState<RequestState>(RequestState.Inactive);
   const [addGroupMembersRequestState, setAddGroupMembersRequestState] =
     useState<RequestState>(RequestState.Inactive);
-  const [membersMissingCapability, setMembersMissingCapability] =
-    useState(false);
 
   if (conversation === undefined) {
     throw new Error('ConversationDetails rendered without a conversation');
@@ -260,12 +257,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               setModalState(ModalState.NothingOpen);
               setAddGroupMembersRequestState(RequestState.Inactive);
             } catch (err) {
-              if (err instanceof CapabilityError) {
-                setMembersMissingCapability(true);
-                setAddGroupMembersRequestState(RequestState.InactiveWithError);
-              } else {
-                setAddGroupMembersRequestState(RequestState.InactiveWithError);
-              }
+              setAddGroupMembersRequestState(RequestState.InactiveWithError);
             }
           }}
           onClose={() => {
@@ -317,16 +309,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
   return (
     <div className="conversation-details-panel">
-      {membersMissingCapability && (
-        <ConfirmationDialog
-          cancelText={i18n('Confirmation--confirm')}
-          i18n={i18n}
-          onClose={() => setMembersMissingCapability(false)}
-        >
-          {i18n('GroupV2--add--missing-capability')}
-        </ConfirmationDialog>
-      )}
-
       <ConversationDetailsHeader
         areWeASubscriber={areWeASubscriber}
         badges={badges}

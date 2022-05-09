@@ -17,6 +17,4 @@ export function toLogFormat(error: unknown): string {
   return String(error);
 }
 
-export class CapabilityError extends Error {}
-
 export class ProfileDecryptError extends Error {}

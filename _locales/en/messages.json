@@ -4066,10 +4066,6 @@
     "message": "You cannot send messages to that group.",
     "description": "Shown in toast when you attempt to forward a message to an announcement only group"
   },
-  "GroupV2--add--missing-capability": {
-    "message": "These people cannot be added to the group until they upgrade Signal.",
-    "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
-  },
   "GroupV2--cannot-start-group-call": {
     "message": "Only admins of the group can start a call.",
     "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
