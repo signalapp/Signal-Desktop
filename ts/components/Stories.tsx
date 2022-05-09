@@ -10,6 +10,7 @@ import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/Stor
 import { StoriesPane } from './StoriesPane';
 import { Theme, themeClassName } from '../util/theme';
 import { getWidthFromPreferredWidth } from '../util/leftPaneWidth';
+import * as log from '../logging/log';
 
 export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
@@ -48,6 +49,8 @@ export const Stories = ({
       conversationStory.stories.some(story => story.isUnread)
     );
 
+    log.info('stories.onNextUserStories', { nextUnreadIndex });
+
     if (nextUnreadIndex >= 0) {
       const nextStory = stories[nextUnreadIndex];
       setConversationIdToView(nextStory.conversationId);
@@ -58,6 +61,11 @@ export const Stories = ({
     const storyIndex = stories.findIndex(
       x => x.conversationId === conversationIdToView
     );
+
+    log.info('stories.onNextUserStories', {
+      storyIndex,
+      length: stories.length,
+    });
 
     // If we've reached the end, close the viewer
     if (storyIndex >= stories.length - 1 || storyIndex === -1) {
@@ -72,6 +80,12 @@ export const Stories = ({
     const storyIndex = stories.findIndex(
       x => x.conversationId === conversationIdToView
     );
+
+    log.info('stories.onPrevUserStories', {
+      storyIndex,
+      length: stories.length,
+    });
+
     if (storyIndex <= 0) {
       // Restart playback on the story if it's the oldest
       setConversationIdToView(conversationIdToView);
@@ -95,7 +109,16 @@ export const Stories = ({
           <StoriesPane
             hiddenStories={hiddenStories}
             i18n={i18n}
-            onStoryClicked={setConversationIdToView}
+            onStoryClicked={clickedIdToView => {
+              const storyIndex = stories.findIndex(
+                x => x.conversationId === clickedIdToView
+              );
+              log.info('stories.onStoryClicked', {
+                storyIndex,
+                length: stories.length,
+              });
+              setConversationIdToView(clickedIdToView);
+            }}
             openConversationInternal={openConversationInternal}
             queueStoryDownload={queueStoryDownload}
             stories={stories}

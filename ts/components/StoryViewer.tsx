@@ -33,6 +33,7 @@ import { getStoryDuration } from '../util/getStoryDuration';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import { isDownloaded, isDownloading } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import * as log from '../logging/log';
 
 export type PropsType = {
   conversationId: string;
@@ -183,6 +184,10 @@ export const StoryViewer = ({
     const unreadStoryIndex = storiesRef.current.findIndex(
       story => story.isUnread
     );
+    log.info('stories.findUnreadStory', {
+      unreadStoryIndex,
+      stories: storiesRef.current.length,
+    });
     setCurrentStoryIndex(unreadStoryIndex < 0 ? 0 : unreadStoryIndex);
   }, [conversationId]);
 
@@ -221,6 +226,12 @@ export const StoryViewer = ({
       if (shouldCancel) {
         return;
       }
+      log.info('stories.setStoryDuration', {
+        contentType: attachment.textAttachment
+          ? 'text'
+          : attachment.contentType,
+        duration,
+      });
       setStoryDuration(duration);
     })();
 
@@ -286,6 +297,7 @@ export const StoryViewer = ({
 
   useEffect(() => {
     markStoryRead(messageId);
+    log.info('stories.markStoryRead', { messageId });
   }, [markStoryRead, messageId]);
 
   // Queue all undownloaded stories once we're viewing someone's stories
