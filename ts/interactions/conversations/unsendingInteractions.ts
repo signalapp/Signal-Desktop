@@ -365,13 +365,14 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
     await Promise.all(messageIds.map(m => getMessageById(m, false)))
   );
 
+  const messageCount = selectedMessages.length;
   const moreThanOne = selectedMessages.length > 1;
 
   window.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('deleteJustForMe'),
       message: moreThanOne
-        ? window.i18n('deleteMessagesQuestion')
+        ? window.i18n('deleteMessagesQuestion', [messageCount.toString()])
         : window.i18n('deleteMessageQuestion'),
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
