@@ -216,8 +216,8 @@ export function someDeletionsFailed() {
   pushToastWarning('deletionError', 'Deletion error');
 }
 
-export function pushDeleted() {
-  pushToastSuccess('deleted', window.i18n('deleted'), undefined, 'check');
+export function pushDeleted(messageCount: number) {
+  pushToastSuccess('deleted', window.i18n('deleted', [messageCount.toString()]), undefined, 'check');
 }
 
 export function pushCannotRemoveCreatorFromGroup() {

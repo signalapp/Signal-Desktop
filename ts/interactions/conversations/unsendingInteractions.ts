@@ -62,7 +62,7 @@ async function unsendMessagesForEveryone(
   await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
 
   window.inboxStore?.dispatch(resetSelectedMessageIds());
-  ToastUtils.pushDeleted();
+  ToastUtils.pushDeleted(msgsToDelete.length);
 }
 
 function getUnsendMessagesObjects(messages: Array<MessageModel>) {
@@ -230,7 +230,7 @@ async function unsendMessageJustForThisUser(
 
   // Update view and trigger update
   window.inboxStore?.dispatch(resetSelectedMessageIds());
-  ToastUtils.pushDeleted();
+  ToastUtils.pushDeleted(msgsToDelete.length);
 }
 
 const doDeleteSelectedMessagesInSOGS = async (
@@ -270,7 +270,7 @@ const doDeleteSelectedMessagesInSOGS = async (
     })
   );
   // successful deletion
-  ToastUtils.pushDeleted();
+  ToastUtils.pushDeleted(toDeleteLocallyIds.length);
   window.inboxStore?.dispatch(resetSelectedMessageIds());
   //#endregion
 };
@@ -317,7 +317,7 @@ const doDeleteSelectedMessages = async ({
 
     // Update view and trigger update
     window.inboxStore?.dispatch(resetSelectedMessageIds());
-    ToastUtils.pushDeleted();
+    ToastUtils.pushDeleted(selectedMessages.length);
     return;
   }
   // otherwise, delete that message locally, from our swarm and from our other devices
