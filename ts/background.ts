@@ -3435,7 +3435,6 @@ export async function startApp(): Promise<void> {
 
     const { source, sourceUuid, timestamp } = ev;
     log.info(`view once open sync ${source} ${timestamp}`);
-    strictAssert(source, 'ViewOnceOpen without source');
     strictAssert(sourceUuid, 'ViewOnceOpen without sourceUuid');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
