@@ -273,11 +273,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           {!props.isInPip && (
             <div
               className={classNames(
-                'module-ongoing-call__group-call-remote-participant__info',
-                {
-                  'module-ongoing-call__group-call-remote-participant__info--audio-muted':
-                    !hasRemoteAudio,
-                }
+                'module-ongoing-call__group-call-remote-participant__info'
               )}
             >
               <ContactName

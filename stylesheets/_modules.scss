@@ -3745,12 +3745,14 @@ button.module-image__border-overlay:focus {
       z-index: $z-index-above-base;
 
       &__contact-name {
+        font-size: 12px;
         color: $color-white;
         margin-right: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
         visibility: hidden;
         white-space: nowrap;
+        margin-bottom: 2px;
       }
     }
 
@@ -3901,10 +3903,6 @@ button.module-image__border-overlay:focus {
       overflow: hidden;
       position: relative;
       width: 100%;
-
-      .module-ongoing-call__group-call-remote-participant--audio-muted::after {
-        display: none;
-      }
 
       // The avatar image can be dragged on Windows.
       .module-Avatar img {
