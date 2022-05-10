@@ -3406,8 +3406,14 @@ function cleanUpMessagesJson() {
 }
 
 function cleanUpOldOpengroups() {
+  const ourNumber = getItemById('number_id');
+  if (!ourNumber || !ourNumber.value) {
+    return;
+  }
   const v2Convos = getAllOpenGroupV2Conversations();
-
+  if (!v2Convos || !v2Convos.length) {
+    return;
+  }
   // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
   // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
   // This is the only way we can cleanup conversations objects from users which just sent messages a while ago and with whom we never interacted.
@@ -3465,12 +3471,6 @@ function cleanUpOldOpengroups() {
       )
       .all();
 
-    const ourNumber = getItemById('number_id');
-    if (!ourNumber || !ourNumber.value) {
-      rebuildFtsTable(assertGlobalInstance());
-
-      return;
-    }
     const ourPubkey = ourNumber.value.split('.')[0];
 
     const allInactiveAndWithoutMessagesConvo = allInactiveConvos
