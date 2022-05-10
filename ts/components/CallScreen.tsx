@@ -39,6 +39,10 @@ import { missingCaseError } from '../util/missingCaseError';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 import { CallingAudioIndicator } from './CallingAudioIndicator';
+import {
+  useActiveCallShortcuts,
+  useKeyboardShortcuts,
+} from '../hooks/useKeyboardShortcuts';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -139,6 +143,9 @@ export const CallScreen: React.FC<PropsType> = ({
     isInSpeakerView,
     toggleSpeakerView
   );
+
+  const activeCallShortcuts = useActiveCallShortcuts(hangUpActiveCall);
+  useKeyboardShortcuts(activeCallShortcuts);
 
   const toggleAudio = useCallback(() => {
     setLocalAudio({

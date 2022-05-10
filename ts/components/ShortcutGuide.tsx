@@ -15,6 +15,7 @@ export type Props = {
 
 type KeyType =
   | 'commandOrCtrl'
+  | 'ctrlOrAlt'
   | 'optionOrAlt'
   | 'shift'
   | 'enter'
@@ -40,6 +41,7 @@ type KeyType =
   | 'U'
   | 'V'
   | 'X'
+  | 'Y'
   | '1 to 9';
 type ShortcutType = {
   description: string;
@@ -202,6 +204,30 @@ const CALLING_SHORTCUTS: Array<ShortcutType> = [
     description: 'Keyboard--toggle-video',
     keys: [['shift', 'V']],
   },
+  {
+    description: 'Keyboard--accept-video-call',
+    keys: [['ctrlOrAlt', 'shift', 'V']],
+  },
+  {
+    description: 'Keyboard--accept-audio-call',
+    keys: [['ctrlOrAlt', 'shift', 'A']],
+  },
+  {
+    description: 'Keyboard--decline-call',
+    keys: [['ctrlOrAlt', 'shift', 'D']],
+  },
+  {
+    description: 'Keyboard--start-audio-call',
+    keys: [['ctrlOrAlt', 'shift', 'C']],
+  },
+  {
+    description: 'Keyboard--start-video-call',
+    keys: [['ctrlOrAlt', 'shift', 'Y']],
+  },
+  {
+    description: 'Keyboard--hang-up',
+    keys: [['ctrlOrAlt', 'shift', 'E']],
+  },
 ];
 
 export const ShortcutGuide = (props: Props): JSX.Element => {
@@ -310,6 +336,14 @@ function renderShortcut(
               }
               if (key === 'commandOrCtrl' && !isMacOS) {
                 label = i18n('Keyboard--Key--ctrl');
+                isSquare = false;
+              }
+              if (key === 'ctrlOrAlt' && isMacOS) {
+                label = i18n('Keyboard--Key--ctrl');
+                isSquare = false;
+              }
+              if (key === 'ctrlOrAlt' && !isMacOS) {
+                label = i18n('Keyboard--Key--alt');
                 isSquare = false;
               }
               if (key === 'optionOrAlt' && isMacOS) {

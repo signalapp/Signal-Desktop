@@ -24,6 +24,10 @@ import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import {
+  useStartCallShortcuts,
+  useKeyboardShortcuts,
+} from '../../hooks/useKeyboardShortcuts';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -297,80 +301,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     );
   }
 
-  private renderOutgoingCallButtons(): ReactNode {
-    const {
-      announcementsOnly,
-      areWeAdmin,
-      i18n,
-      onOutgoingAudioCallInConversation,
-      onOutgoingVideoCallInConversation,
-      outgoingCallButtonStyle,
-      showBackButton,
-    } = this.props;
-    const { isNarrow } = this.state;
-
-    const videoButton = (
-      <button
-        aria-label={i18n('makeOutgoingVideoCall')}
-        className={classNames(
-          'module-ConversationHeader__button',
-          'module-ConversationHeader__button--video',
-          showBackButton ? null : 'module-ConversationHeader__button--show',
-          !showBackButton && announcementsOnly && !areWeAdmin
-            ? 'module-ConversationHeader__button--show-disabled'
-            : undefined
-        )}
-        disabled={showBackButton}
-        onClick={onOutgoingVideoCallInConversation}
-        type="button"
-      />
-    );
-
-    switch (outgoingCallButtonStyle) {
-      case OutgoingCallButtonStyle.None:
-        return null;
-      case OutgoingCallButtonStyle.JustVideo:
-        return videoButton;
-      case OutgoingCallButtonStyle.Both:
-        return (
-          <>
-            {videoButton}
-            <button
-              type="button"
-              onClick={onOutgoingAudioCallInConversation}
-              className={classNames(
-                'module-ConversationHeader__button',
-                'module-ConversationHeader__button--audio',
-                showBackButton
-                  ? null
-                  : 'module-ConversationHeader__button--show'
-              )}
-              disabled={showBackButton}
-              aria-label={i18n('makeOutgoingCall')}
-            />
-          </>
-        );
-      case OutgoingCallButtonStyle.Join:
-        return (
-          <button
-            aria-label={i18n('joinOngoingCall')}
-            className={classNames(
-              'module-ConversationHeader__button',
-              'module-ConversationHeader__button--join-call',
-              showBackButton ? null : 'module-ConversationHeader__button--show'
-            )}
-            disabled={showBackButton}
-            onClick={onOutgoingVideoCallInConversation}
-            type="button"
-          >
-            {isNarrow ? null : i18n('joinOngoingCall')}
-          </button>
-        );
-      default:
-        throw missingCaseError(outgoingCallButtonStyle);
-    }
-  }
-
   private renderMenu(triggerId: string): ReactNode {
     const {
       acceptedMessageRequest,
@@ -588,8 +518,19 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   public override render(): ReactNode {
-    const { id, isSMSOnly, i18n, onSetDisappearingMessages, expireTimer } =
-      this.props;
+    const {
+      announcementsOnly,
+      areWeAdmin,
+      expireTimer,
+      i18n,
+      id,
+      isSMSOnly,
+      onOutgoingAudioCallInConversation,
+      onOutgoingVideoCallInConversation,
+      onSetDisappearingMessages,
+      outgoingCallButtonStyle,
+      showBackButton,
+    } = this.props;
     const { isNarrow, modalState } = this.state;
     const triggerId = `conversation-${id}`;
 
@@ -633,7 +574,22 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             >
               {this.renderBackButton()}
               {this.renderHeader()}
-              {!isSMSOnly && this.renderOutgoingCallButtons()}
+              {!isSMSOnly && (
+                <OutgoingCallButtons
+                  announcementsOnly={announcementsOnly}
+                  areWeAdmin={areWeAdmin}
+                  i18n={i18n}
+                  isNarrow={isNarrow}
+                  onOutgoingAudioCallInConversation={
+                    onOutgoingAudioCallInConversation
+                  }
+                  onOutgoingVideoCallInConversation={
+                    onOutgoingVideoCallInConversation
+                  }
+                  outgoingCallButtonStyle={outgoingCallButtonStyle}
+                  showBackButton={showBackButton}
+                />
+              )}
               {this.renderSearchButton()}
               {this.renderMoreButton(triggerId)}
               {this.renderMenu(triggerId)}
@@ -642,5 +598,90 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         </Measure>
       </>
     );
+  }
+}
+
+function OutgoingCallButtons({
+  announcementsOnly,
+  areWeAdmin,
+  i18n,
+  isNarrow,
+  onOutgoingAudioCallInConversation,
+  onOutgoingVideoCallInConversation,
+  outgoingCallButtonStyle,
+  showBackButton,
+}: { isNarrow: boolean } & Pick<
+  PropsType,
+  | 'announcementsOnly'
+  | 'areWeAdmin'
+  | 'i18n'
+  | 'onOutgoingAudioCallInConversation'
+  | 'onOutgoingVideoCallInConversation'
+  | 'outgoingCallButtonStyle'
+  | 'showBackButton'
+>): JSX.Element | null {
+  const videoButton = (
+    <button
+      aria-label={i18n('makeOutgoingVideoCall')}
+      className={classNames(
+        'module-ConversationHeader__button',
+        'module-ConversationHeader__button--video',
+        showBackButton ? null : 'module-ConversationHeader__button--show',
+        !showBackButton && announcementsOnly && !areWeAdmin
+          ? 'module-ConversationHeader__button--show-disabled'
+          : undefined
+      )}
+      disabled={showBackButton}
+      onClick={onOutgoingVideoCallInConversation}
+      type="button"
+    />
+  );
+
+  const startCallShortcuts = useStartCallShortcuts(
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation
+  );
+  useKeyboardShortcuts(startCallShortcuts);
+
+  switch (outgoingCallButtonStyle) {
+    case OutgoingCallButtonStyle.None:
+      return null;
+    case OutgoingCallButtonStyle.JustVideo:
+      return videoButton;
+    case OutgoingCallButtonStyle.Both:
+      return (
+        <>
+          {videoButton}
+          <button
+            type="button"
+            onClick={onOutgoingAudioCallInConversation}
+            className={classNames(
+              'module-ConversationHeader__button',
+              'module-ConversationHeader__button--audio',
+              showBackButton ? null : 'module-ConversationHeader__button--show'
+            )}
+            disabled={showBackButton}
+            aria-label={i18n('makeOutgoingCall')}
+          />
+        </>
+      );
+    case OutgoingCallButtonStyle.Join:
+      return (
+        <button
+          aria-label={i18n('joinOngoingCall')}
+          className={classNames(
+            'module-ConversationHeader__button',
+            'module-ConversationHeader__button--join-call',
+            showBackButton ? null : 'module-ConversationHeader__button--show'
+          )}
+          disabled={showBackButton}
+          onClick={onOutgoingVideoCallInConversation}
+          type="button"
+        >
+          {isNarrow ? null : i18n('joinOngoingCall')}
+        </button>
+      );
+    default:
+      throw missingCaseError(outgoingCallButtonStyle);
   }
 }

@@ -3133,6 +3133,30 @@
     "message": "Toggle video on and off",
     "description": "Shown in the shortcuts guide"
   },
+  "Keyboard--accept-video-call": {
+    "message": "Accept call with video",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "Keyboard--accept-audio-call": {
+    "message": "Accept call with audio",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "Keyboard--start-audio-call": {
+    "message": "Start audio call",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "Keyboard--start-video-call": {
+    "message": "Start video call",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "Keyboard--decline-call": {
+    "message": "Decline call",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "Keyboard--hang-up": {
+    "message": "End call",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
   "close-popup": {
     "message": "Close Popup",
     "description": "Used as alt text for any button closing a popup"

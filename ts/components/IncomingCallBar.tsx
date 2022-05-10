@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Avatar } from './Avatar';
 import { Tooltip } from './Tooltip';
 import { Intl } from './Intl';
@@ -16,6 +16,10 @@ import { CallMode } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
 import { missingCaseError } from '../util/missingCaseError';
+import {
+  useIncomingCallShortcuts,
+  useKeyboardShortcuts,
+} from '../hooks/useKeyboardShortcuts';
 
 export type PropsType = {
   acceptCall: (_: AcceptCallType) => void;
@@ -222,6 +226,25 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
     };
   }, [bounceAppIconStart, bounceAppIconStop]);
 
+  const acceptVideoCall = useCallback(() => {
+    acceptCall({ conversationId, asVideoCall: true });
+  }, [acceptCall, conversationId]);
+
+  const acceptAudioCall = useCallback(() => {
+    acceptCall({ conversationId, asVideoCall: false });
+  }, [acceptCall, conversationId]);
+
+  const declineIncomingCall = useCallback(() => {
+    declineCall({ conversationId });
+  }, [conversationId, declineCall]);
+
+  const incomingCallShortcuts = useIncomingCallShortcuts(
+    acceptAudioCall,
+    acceptVideoCall,
+    declineIncomingCall
+  );
+  useKeyboardShortcuts(incomingCallShortcuts);
+
   return (
     <div className="IncomingCallBar__container">
       <div className="IncomingCallBar__bar">
@@ -259,9 +282,7 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
         <div className="IncomingCallBar__actions">
           <CallButton
             classSuffix="decline"
-            onClick={() => {
-              declineCall({ conversationId });
-            }}
+            onClick={declineIncomingCall}
             tabIndex={0}
             tooltipContent={i18n('declineCall')}
           />
@@ -269,17 +290,13 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
             <>
               <CallButton
                 classSuffix="accept-video-as-audio"
-                onClick={() => {
-                  acceptCall({ conversationId, asVideoCall: false });
-                }}
+                onClick={acceptAudioCall}
                 tabIndex={0}
                 tooltipContent={i18n('acceptCallWithoutVideo')}
               />
               <CallButton
                 classSuffix="accept-video"
-                onClick={() => {
-                  acceptCall({ conversationId, asVideoCall: true });
-                }}
+                onClick={acceptVideoCall}
                 tabIndex={0}
                 tooltipContent={i18n('acceptCall')}
               />
@@ -287,9 +304,7 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
           ) : (
             <CallButton
               classSuffix="accept-audio"
-              onClick={() => {
-                acceptCall({ conversationId, asVideoCall: false });
-              }}
+              onClick={acceptAudioCall}
               tabIndex={0}
               tooltipContent={i18n('acceptCall')}
             />
