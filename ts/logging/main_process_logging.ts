@@ -20,6 +20,7 @@ import rimraf from 'rimraf';
 import { createStream } from 'rotating-file-stream';
 
 import type { LoggerType } from '../types/Logging';
+import * as durations from '../util/durations';
 
 import * as log from './log';
 import { Environment, getEnvironment } from '../environment';
@@ -55,6 +56,13 @@ export async function initialize(
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');
   mkdirp.sync(logPath);
+
+  let appMetrics = app.getAppMetrics();
+
+  setInterval(() => {
+    // CPU stats are computed since the last call to `getAppMetrics`.
+    appMetrics = app.getAppMetrics();
+  }, 30 * durations.SECOND).unref();
 
   try {
     await cleanupLogs(logPath);
@@ -103,7 +111,7 @@ export async function initialize(
     timestamp: pino.stdTimeFunctions.isoTime,
   });
 
-  ipc.on('fetch-log', async event => {
+  ipc.handle('fetch-log', async () => {
     const mainWindow = getMainWindow();
     if (!mainWindow) {
       logger.info('Logs were requested, but the main window is missing');
@@ -118,6 +126,7 @@ export async function initialize(
       ]);
       data = {
         logEntries,
+        appMetrics,
         ...rest,
       };
     } catch (error) {
@@ -125,25 +134,10 @@ export async function initialize(
       return;
     }
 
-    try {
-      event.sender.send('fetched-log', data);
-    } catch (err: unknown) {
-      // NOTE(evanhahn): We don't want to send a message to a window that's closed.
-      //   I wanted to use `event.sender.isDestroyed()` but that seems to fail.
-      //   Instead, we attempt the send and catch the failure as best we can.
-      const hasUserClosedWindow = isProbablyObjectHasBeenDestroyedError(err);
-      if (hasUserClosedWindow) {
-        logger.info('Logs were requested, but it seems the window was closed');
-      } else {
-        logger.error(
-          'Problem replying with fetched logs',
-          err instanceof Error && err.stack ? err.stack : err
-        );
-      }
-    }
+    return data;
   });
 
-  ipc.on('delete-all-logs', async event => {
+  ipc.handle('delete-all-logs', async () => {
     // Restart logging when the streams will close
     shouldRestart = true;
 
@@ -152,8 +146,6 @@ export async function initialize(
     } catch (error) {
       logger.error(`Problem deleting all logs: ${error.stack}`);
     }
-
-    event.sender.send('delete-all-logs-complete');
   });
 
   globalLogger = logger;
@@ -335,7 +327,7 @@ export function fetchLogs(logPath: string): Promise<Array<LogEntryType>> {
 
 export const fetchAdditionalLogData = (
   mainWindow: BrowserWindow
-): Promise<Omit<FetchLogIpcData, 'logEntries'>> =>
+): Promise<Omit<FetchLogIpcData, 'logEntries' | 'appMetrics'>> =>
   new Promise(resolve => {
     mainWindow.webContents.send('additional-log-data-request');
     ipc.once('additional-log-data-response', (_event, data) => {
@@ -350,10 +342,6 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
   } else if (isRunningFromConsole && !process.stdout.destroyed) {
     console._log(...args);
   }
-}
-
-function isProbablyObjectHasBeenDestroyedError(err: unknown): boolean {
-  return err instanceof Error && err.message === 'Object has been destroyed';
 }
 
 // This blows up using mocha --watch, so we ensure it is run just once

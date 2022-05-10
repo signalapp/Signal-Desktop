@@ -2,23 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
+import pTimeout from 'p-timeout';
 
 import { beforeRestart } from '../logging/set_up_renderer_logging';
+import * as durations from './durations';
 
 export function deleteAllLogs(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    // Restart logging again when the file stream close
-    beforeRestart();
+  // Restart logging again when the file stream close
+  beforeRestart();
 
-    const timeout = setTimeout(() => {
-      reject(new Error('Request to delete all logs timed out'));
-    }, 5000);
-
-    ipcRenderer.once('delete-all-logs-complete', () => {
-      clearTimeout(timeout);
-      resolve();
-    });
-
-    ipcRenderer.send('delete-all-logs');
-  });
+  return pTimeout(ipcRenderer.invoke('delete-all-logs'), 5 * durations.SECOND);
 }

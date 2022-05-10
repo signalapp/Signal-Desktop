@@ -39,6 +39,7 @@ const getHeader = (
     capabilities,
     remoteConfig,
     statistics,
+    appMetrics,
     user,
   }: Omit<FetchLogIpcData, 'logEntries'>,
   nodeVersion: string,
@@ -56,6 +57,29 @@ const getHeader = (
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
     headerSection('Remote config', remoteConfig),
+    headerSection(
+      'Metrics',
+      appMetrics.reduce((acc, stats, index) => {
+        const {
+          type = '?',
+          serviceName = '?',
+          name = '?',
+          cpu,
+          memory,
+        } = stats;
+
+        const processId = `${index}:${type}/${serviceName}/${name}`;
+
+        return {
+          ...acc,
+          [processId]:
+            `cpuUsage=${cpu.percentCPUUsage.toFixed(2)} ` +
+            `wakeups=${cpu.idleWakeupsPerSecond} ` +
+            `workingMemory=${memory.workingSetSize} ` +
+            `peakWorkingMemory=${memory.peakWorkingSetSize}`,
+        };
+      }, {})
+    ),
     headerSection('Statistics', statistics),
     headerSectionTitle('Logs'),
   ].join('\n');
@@ -79,32 +103,27 @@ function formatLine(mightBeEntry: unknown): string {
   return `${getLevel(entry.level)} ${entry.time} ${entry.msg}`;
 }
 
-export function fetch(
+export async function fetch(
   nodeVersion: string,
   appVersion: string
 ): Promise<string> {
-  return new Promise(resolve => {
-    ipc.send('fetch-log');
+  const data: unknown = await ipc.invoke('fetch-log');
 
-    ipc.on('fetched-log', (_event, data: unknown) => {
-      let header: string;
-      let body: string;
-      if (isFetchLogIpcData(data)) {
-        const { logEntries } = data;
-        header = getHeader(data, nodeVersion, appVersion);
-        body = logEntries.map(formatLine).join('\n');
-      } else {
-        header = headerSectionTitle('Partial logs');
-        const entry: LogEntryType = {
-          level: LogLevel.Error,
-          msg: 'Invalid IPC data when fetching logs; dropping all logs',
-          time: new Date().toISOString(),
-        };
-        body = formatLine(entry);
-      }
+  let header: string;
+  let body: string;
+  if (isFetchLogIpcData(data)) {
+    const { logEntries } = data;
+    header = getHeader(data, nodeVersion, appVersion);
+    body = logEntries.map(formatLine).join('\n');
+  } else {
+    header = headerSectionTitle('Partial logs');
+    const entry: LogEntryType = {
+      level: LogLevel.Error,
+      msg: 'Invalid IPC data when fetching logs; dropping all logs',
+      time: new Date().toISOString(),
+    };
+    body = formatLine(entry);
+  }
 
-      const result = `${header}\n${body}`;
-      resolve(result);
-    });
-  });
+  return `${header}\n${body}`;
 }
