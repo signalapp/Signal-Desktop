@@ -26,6 +26,7 @@ import { canReact, isStory } from '../../state/selectors/message';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
 import { UUID } from '../../types/UUID';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter';
 
 import type {
   ConversationQueueJobBundle,
@@ -138,9 +139,8 @@ export async function sendReaction(
       type: 'outgoing',
       conversationId: conversation.get('id'),
       sent_at: pendingReaction.timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       received_at_ms: pendingReaction.timestamp,
-      reaction: reactionForSend,
       timestamp: pendingReaction.timestamp,
       sendStateByConversationId: zipObject(
         Object.keys(pendingReaction.isSentByConversationId || {}),
@@ -150,7 +150,18 @@ export async function sendReaction(
         })
       ),
     });
-    ephemeralMessageForReactionSend.doNotSave = true;
+
+    if (
+      isStory(message.attributes) &&
+      isDirectConversation(conversation.attributes)
+    ) {
+      ephemeralMessageForReactionSend.set({
+        storyId: message.id,
+        storyReactionEmoji: reactionForSend.emoji,
+      });
+    } else {
+      ephemeralMessageForReactionSend.doNotSave = true;
+    }
 
     let didFullySend: boolean;
     const successfulConversationIds = new Set<string>();
@@ -307,6 +318,22 @@ export async function sendReaction(
         } else {
           didFullySend = false;
         }
+      }
+
+      if (!ephemeralMessageForReactionSend.doNotSave) {
+        const reactionMessage = ephemeralMessageForReactionSend;
+
+        await Promise.all([
+          await window.Signal.Data.saveMessage(reactionMessage.attributes, {
+            ourUuid,
+            forceSave: true,
+          }),
+          reactionMessage.hydrateStoryContext(message),
+        ]);
+
+        conversation.addSingleMessage(
+          window.MessageController.register(reactionMessage.id, reactionMessage)
+        );
       }
     }
 

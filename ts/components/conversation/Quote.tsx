@@ -17,6 +17,8 @@ import type {
   CustomColorType,
 } from '../../types/Colors';
 import { ContactName } from './ContactName';
+import { Emojify } from './Emojify';
+import { TextAttachment } from '../TextAttachment';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
@@ -31,12 +33,14 @@ export type Props = {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming?: boolean;
+  isStoryReply?: boolean;
   moduleClassName?: string;
   onClick?: () => void;
   onClose?: () => void;
   text: string;
   rawAttachment?: QuotedAttachmentType;
   isViewOnce: boolean;
+  reactionEmoji?: string;
   referencedMessageNotFound: boolean;
   doubleCheckMissingQuoteReference?: () => unknown;
 };
@@ -51,6 +55,13 @@ export type QuotedAttachmentType = Pick<
 >;
 
 function validateQuote(quote: Props): boolean {
+  if (
+    quote.isStoryReply &&
+    (quote.referencedMessageNotFound || quote.reactionEmoji)
+  ) {
+    return true;
+  }
+
   if (quote.text) {
     return true;
   }
@@ -250,7 +261,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderIconContainer(): JSX.Element | null {
-    const { rawAttachment, isViewOnce } = this.props;
+    const { rawAttachment, isViewOnce, i18n } = this.props;
     const { imageBroken } = this.state;
     const attachment = getAttachment(rawAttachment);
 
@@ -265,9 +276,16 @@ export class Quote extends React.Component<Props, State> {
       return this.renderIcon('view-once');
     }
 
-    // TODO DESKTOP-3433
     if (textAttachment) {
-      return this.renderIcon('image');
+      return (
+        <div className={this.getClassName('__icon-container')}>
+          <TextAttachment
+            i18n={i18n}
+            isThumbnail
+            textAttachment={textAttachment}
+          />
+        </div>
+      );
     }
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
@@ -385,7 +403,17 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderAuthor(): JSX.Element {
-    const { authorTitle, i18n, isFromMe, isIncoming } = this.props;
+    const { authorTitle, i18n, isFromMe, isIncoming, isStoryReply } =
+      this.props;
+
+    const title = isFromMe ? i18n('you') : <ContactName title={authorTitle} />;
+    const author = isStoryReply ? (
+      <>
+        {title} &middot; {i18n('Quote__story')}
+      </>
+    ) : (
+      title
+    );
 
     return (
       <div
@@ -394,7 +422,7 @@ export class Quote extends React.Component<Props, State> {
           isIncoming ? this.getClassName('__primary__author--incoming') : null
         )}
       >
-        {isFromMe ? i18n('you') : <ContactName title={authorTitle} />}
+        {author}
       </div>
     );
   }
@@ -405,10 +433,11 @@ export class Quote extends React.Component<Props, State> {
       customColor,
       i18n,
       isIncoming,
+      isStoryReply,
       referencedMessageNotFound,
     } = this.props;
 
-    if (!referencedMessageNotFound) {
+    if (!referencedMessageNotFound || isStoryReply) {
       return null;
     }
 
@@ -452,6 +481,8 @@ export class Quote extends React.Component<Props, State> {
       customColor,
       isIncoming,
       onClick,
+      rawAttachment,
+      reactionEmoji,
       referencedMessageNotFound,
     } = this.props;
 
@@ -486,6 +517,17 @@ export class Quote extends React.Component<Props, State> {
             {this.renderGenericFile()}
             {this.renderText()}
           </div>
+          {reactionEmoji && (
+            <div
+              className={
+                rawAttachment
+                  ? this.getClassName('__reaction-emoji')
+                  : this.getClassName('__reaction-emoji--story-unavailable')
+              }
+            >
+              <Emojify text={reactionEmoji} />
+            </div>
+          )}
           {this.renderIconContainer()}
           {this.renderClose()}
         </button>

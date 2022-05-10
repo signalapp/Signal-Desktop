@@ -4,11 +4,12 @@
 /* eslint-disable max-classes-per-file */
 
 import { Collection, Model } from 'backbone';
-import type { MessageModel } from '../models/messages';
-import { getContactId, getContact } from '../messages/helpers';
-import { isOutgoing } from '../state/selectors/message';
-import type { ReactionAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
+import type { MessageModel } from '../models/messages';
+import type { ReactionAttributesType } from '../model-types.d';
+import { getContactId, getContact } from '../messages/helpers';
+import { isDirectConversation } from '../util/whatTypeOfConversation';
+import { isOutgoing, isStory } from '../state/selectors/message';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}
 
@@ -55,7 +56,10 @@ export class Reactions extends Collection<ReactionModel> {
     return [];
   }
 
-  async onReaction(reaction: ReactionModel): Promise<void> {
+  async onReaction(
+    reaction: ReactionModel,
+    generatedMessage: MessageModel
+  ): Promise<void> {
     try {
       // The conversation the target message was in; we have to find it in the database
       //   to to figure that out.
@@ -132,6 +136,35 @@ export class Reactions extends Collection<ReactionModel> {
           targetMessage.id,
           targetMessage
         );
+
+        // Use the generated message in ts/background.ts to create a message
+        // if the reaction is targetted at a story on a 1:1 conversation.
+        if (
+          isStory(targetMessage) &&
+          isDirectConversation(targetConversation.attributes)
+        ) {
+          generatedMessage.set({
+            storyId: targetMessage.id,
+            storyReactionEmoji: reaction.get('emoji'),
+          });
+
+          await Promise.all([
+            window.Signal.Data.saveMessage(generatedMessage.attributes, {
+              ourUuid: window.textsecure.storage.user
+                .getCheckedUuid()
+                .toString(),
+              forceSave: true,
+            }),
+            generatedMessage.hydrateStoryContext(message),
+          ]);
+
+          targetConversation.addSingleMessage(
+            window.MessageController.register(
+              generatedMessage.id,
+              generatedMessage
+            )
+          );
+        }
 
         await message.handleReaction(reaction);
 

@@ -227,8 +227,11 @@ export type PropsData = {
     authorTitle: string;
     conversationColor: ConversationColorType;
     customColor?: CustomColorType;
+    emoji?: string;
     isFromMe: boolean;
     rawAttachment?: QuotedAttachmentType;
+    referencedMessageNotFound?: boolean;
+    text: string;
   };
   previews: Array<LinkPreviewType>;
 
@@ -1299,27 +1302,35 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Quote
-        authorTitle={storyReplyContext.authorTitle}
-        conversationColor={conversationColor}
-        curveTopLeft={curveTopLeft}
-        curveTopRight={curveTopRight}
-        customColor={customColor}
-        i18n={i18n}
-        isFromMe={storyReplyContext.isFromMe}
-        isIncoming={isIncoming}
-        isViewOnce={false}
-        moduleClassName="StoryReplyQuote"
-        onClick={() => {
-          // TODO DESKTOP-3255
-        }}
-        rawAttachment={storyReplyContext.rawAttachment}
-        referencedMessageNotFound={false}
-        text={i18n('message--getNotificationText--text-with-emoji', {
-          text: i18n('message--getNotificationText--photo'),
-          emoji: '📷',
-        })}
-      />
+      <>
+        {storyReplyContext.emoji && (
+          <div className="module-message__quote-story-reaction-header">
+            {i18n('Quote__story-reaction', [storyReplyContext.authorTitle])}
+          </div>
+        )}
+        <Quote
+          authorTitle={storyReplyContext.authorTitle}
+          conversationColor={conversationColor}
+          curveTopLeft={curveTopLeft}
+          curveTopRight={curveTopRight}
+          customColor={customColor}
+          i18n={i18n}
+          isFromMe={storyReplyContext.isFromMe}
+          isIncoming={isIncoming}
+          isStoryReply
+          isViewOnce={false}
+          moduleClassName="StoryReplyQuote"
+          onClick={() => {
+            // TODO DESKTOP-3255
+          }}
+          rawAttachment={storyReplyContext.rawAttachment}
+          reactionEmoji={storyReplyContext.emoji}
+          referencedMessageNotFound={Boolean(
+            storyReplyContext.referencedMessageNotFound
+          )}
+          text={storyReplyContext.text}
+        />
+      </>
     );
   }
 

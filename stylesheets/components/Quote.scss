@@ -30,6 +30,25 @@
       box-shadow: 0px 0px 0px 2px $color-ultramarine;
     }
   }
+
+  &__reaction-emoji {
+    bottom: 5px;
+    position: absolute;
+    right: 25px;
+    z-index: $z-index-base;
+
+    img.emoji {
+      height: 24px;
+      width: 24px;
+    }
+
+    &--story-unavailable {
+      align-items: flex-end;
+      display: flex;
+      margin-left: 32px;
+      padding-bottom: 7px;
+    }
+  }
 }
 
 .module-quote--no-click {

@@ -27,6 +27,7 @@ import { Tabs } from './Tabs';
 import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
 import { getAvatarColor } from '../types/Colors';
+import { getStoryReplyText } from '../util/getStoryReplyText';
 
 type ViewType = Pick<
   ConversationType,
@@ -135,88 +136,88 @@ export const StoryViewsNRepliesModal = ({
 
   if (!isMyStory) {
     composerElement = (
-      <div className="StoryViewsNRepliesModal__compose-container">
-        <div className="StoryViewsNRepliesModal__composer">
-          {!isGroupStory && (
-            <Quote
-              authorTitle={authorTitle}
-              conversationColor="ultramarine"
-              i18n={i18n}
-              isFromMe={false}
-              isViewOnce={false}
-              moduleClassName="StoryViewsNRepliesModal__quote"
-              rawAttachment={storyPreviewAttachment}
-              referencedMessageNotFound={false}
-              text={i18n('message--getNotificationText--text-with-emoji', {
-                text: i18n('message--getNotificationText--photo'),
-                emoji: '📷',
-              })}
-            />
-          )}
-          <CompositionInput
-            draftText={messageBodyText}
-            getPreferredBadge={getPreferredBadge}
+      <>
+        {!isGroupStory && (
+          <Quote
+            authorTitle={authorTitle}
+            conversationColor="ultramarine"
             i18n={i18n}
-            inputApi={inputApiRef}
-            moduleClassName="StoryViewsNRepliesModal__input"
-            onEditorStateChange={messageText => {
-              setMessageBodyText(messageText);
-            }}
-            onPickEmoji={insertEmoji}
-            onSubmit={(...args) => {
-              inputApiRef.current?.reset();
-              onReply(...args);
-            }}
-            onTextTooLong={onTextTooLong}
-            placeholder={
-              isGroupStory
-                ? i18n('StoryViewer__reply-group')
-                : i18n('StoryViewer__reply')
-            }
-            theme={ThemeType.dark}
-          >
-            <EmojiButton
-              className="StoryViewsNRepliesModal__emoji-button"
-              i18n={i18n}
-              onPickEmoji={insertEmoji}
-              onClose={focusComposer}
-              recentEmojis={recentEmojis}
-              skinTone={skinTone}
-              onSetSkinTone={onSetSkinTone}
-            />
-          </CompositionInput>
-        </div>
-        <button
-          aria-label={i18n('StoryViewsNRepliesModal__react')}
-          className="StoryViewsNRepliesModal__react"
-          onClick={() => {
-            setShowReactionPicker(!showReactionPicker);
-          }}
-          ref={setReferenceElement}
-          type="button"
-        />
-        {showReactionPicker && (
-          <div
-            ref={setPopperElement}
-            style={styles.popper}
-            {...attributes.popper}
-          >
-            <ReactionPicker
-              i18n={i18n}
-              onClose={() => {
-                setShowReactionPicker(false);
-              }}
-              onPick={emoji => {
-                setShowReactionPicker(false);
-                onReact(emoji);
-              }}
-              onSetSkinTone={onSetSkinTone}
-              preferredReactionEmoji={preferredReactionEmoji}
-              renderEmojiPicker={renderEmojiPicker}
-            />
-          </div>
+            isFromMe={false}
+            isStoryReply
+            isViewOnce={false}
+            moduleClassName="StoryViewsNRepliesModal__quote"
+            rawAttachment={storyPreviewAttachment}
+            referencedMessageNotFound={false}
+            text={getStoryReplyText(i18n, storyPreviewAttachment)}
+          />
         )}
-      </div>
+        <div className="StoryViewsNRepliesModal__compose-container">
+          <div className="StoryViewsNRepliesModal__composer">
+            <CompositionInput
+              draftText={messageBodyText}
+              getPreferredBadge={getPreferredBadge}
+              i18n={i18n}
+              inputApi={inputApiRef}
+              moduleClassName="StoryViewsNRepliesModal__input"
+              onEditorStateChange={messageText => {
+                setMessageBodyText(messageText);
+              }}
+              onPickEmoji={insertEmoji}
+              onSubmit={(...args) => {
+                inputApiRef.current?.reset();
+                onReply(...args);
+              }}
+              onTextTooLong={onTextTooLong}
+              placeholder={
+                isGroupStory
+                  ? i18n('StoryViewer__reply-group')
+                  : i18n('StoryViewer__reply')
+              }
+              theme={ThemeType.dark}
+            >
+              <EmojiButton
+                className="StoryViewsNRepliesModal__emoji-button"
+                i18n={i18n}
+                onPickEmoji={insertEmoji}
+                onClose={focusComposer}
+                recentEmojis={recentEmojis}
+                skinTone={skinTone}
+                onSetSkinTone={onSetSkinTone}
+              />
+            </CompositionInput>
+          </div>
+          <button
+            aria-label={i18n('StoryViewsNRepliesModal__react')}
+            className="StoryViewsNRepliesModal__react"
+            onClick={() => {
+              setShowReactionPicker(!showReactionPicker);
+            }}
+            ref={setReferenceElement}
+            type="button"
+          />
+          {showReactionPicker && (
+            <div
+              ref={setPopperElement}
+              style={styles.popper}
+              {...attributes.popper}
+            >
+              <ReactionPicker
+                i18n={i18n}
+                onClose={() => {
+                  setShowReactionPicker(false);
+                }}
+                onPick={emoji => {
+                  setShowReactionPicker(false);
+                  onReact(emoji);
+                }}
+                onSetSkinTone={onSetSkinTone}
+                preferredReactionEmoji={preferredReactionEmoji}
+                renderEmojiPicker={renderEmojiPicker}
+              />
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 

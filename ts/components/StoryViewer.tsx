@@ -670,7 +670,7 @@ export const StoryViewer = ({
         />
         {hasReplyModal && canReply && (
           <StoryViewsNRepliesModal
-            authorTitle={title}
+            authorTitle={firstName || title}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             isGroupStory={isGroupStory}

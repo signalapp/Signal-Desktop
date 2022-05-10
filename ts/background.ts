@@ -2869,8 +2869,9 @@ export async function startApp(): Promise<void> {
         source: ReactionSource.FromSomeoneElse,
       };
       const reactionModel = Reactions.getSingleton().add(attributes);
+
       // Note: We do not wait for completion here
-      Reactions.getSingleton().onReaction(reactionModel);
+      Reactions.getSingleton().onReaction(reactionModel, message);
       confirm();
       return Promise.resolve();
     }
@@ -3237,7 +3238,7 @@ export async function startApp(): Promise<void> {
       };
       const reactionModel = Reactions.getSingleton().add(attributes);
       // Note: We do not wait for completion here
-      Reactions.getSingleton().onReaction(reactionModel);
+      Reactions.getSingleton().onReaction(reactionModel, message);
 
       event.confirm();
       return Promise.resolve();

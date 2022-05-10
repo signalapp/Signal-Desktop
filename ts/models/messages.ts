@@ -306,7 +306,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
   }
 
-  async hydrateStoryContext(): Promise<void> {
+  async hydrateStoryContext(inMemoryMessage?: MessageModel): Promise<void> {
     const storyId = this.get('storyId');
     if (!storyId) {
       return;
@@ -316,9 +316,24 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const message = await getMessageById(storyId);
+    const message = inMemoryMessage || (await getMessageById(storyId));
 
     if (!message) {
+      const conversation = this.getConversation();
+      strictAssert(
+        conversation && isDirectConversation(conversation.attributes),
+        'Hydrating story context on a non-private conversation'
+      );
+      this.set({
+        storyReplyContext: {
+          attachment: undefined,
+          // This is ok to do because story replies only show in 1:1 conversations
+          // so the story that was quoted should be from the same conversation.
+          authorUuid: conversation.get('uuid'),
+          // No messageId, referenced story not found!
+          messageId: '',
+        },
+      });
       return;
     }
 
@@ -772,6 +787,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { text, emoji } = this.getNotificationData();
     const { attributes } = this;
 
+    if (attributes.storyReactionEmoji) {
+      const conversation = this.getConversation();
+      const firstName = conversation?.attributes.profileName;
+
+      if (!conversation || !firstName) {
+        return window.i18n('Quote__story-reaction--single');
+      }
+
+      if (isMe(conversation.attributes)) {
+        return window.i18n('Quote__story-reaction--yours');
+      }
+
+      return window.i18n('Quote__story-reaction', [firstName]);
+    }
+
     let modifiedText = text;
 
     const bodyRanges = processBodyRanges(attributes, {
@@ -936,6 +966,25 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   async doubleCheckMissingQuoteReference(): Promise<void> {
     const logId = this.idForLogging();
+
+    const storyId = this.get('storyId');
+    if (storyId) {
+      log.warn(
+        `doubleCheckMissingQuoteReference/${logId}: missing story reference`
+      );
+
+      const message = window.MessageController.getById(storyId);
+      if (!message) {
+        return;
+      }
+
+      if (this.get('storyReplyContext')) {
+        this.unset('storyReplyContext');
+      }
+      await this.hydrateStoryContext(message);
+      return;
+    }
+
     const quote = this.get('quote');
     if (!quote) {
       log.warn(`doubleCheckMissingQuoteReference/${logId}: Missing quote!`);

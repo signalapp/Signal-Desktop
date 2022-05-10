@@ -521,3 +521,51 @@ story.add('Custom Color', () => (
     />
   </>
 ));
+
+story.add('isStoryReply', () => {
+  const props = createProps({
+    text: 'Wow!',
+  });
+
+  return (
+    <Quote
+      {...props}
+      authorTitle="Amanda"
+      isStoryReply
+      moduleClassName="StoryReplyQuote"
+      onClose={undefined}
+      rawAttachment={{
+        contentType: VIDEO_MP4,
+        fileName: 'great-video.mp4',
+        isVoiceMessage: false,
+      }}
+    />
+  );
+});
+
+story.add('isStoryReply emoji', () => {
+  const props = createProps();
+
+  return (
+    <Quote
+      {...props}
+      authorTitle="Charlie"
+      isStoryReply
+      moduleClassName="StoryReplyQuote"
+      onClose={undefined}
+      rawAttachment={{
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        isVoiceMessage: false,
+        thumbnail: {
+          contentType: IMAGE_PNG,
+          height: 100,
+          width: 100,
+          path: pngUrl,
+          objectUrl: pngUrl,
+        },
+      }}
+      reactionEmoji="🏋️"
+    />
+  );
+});

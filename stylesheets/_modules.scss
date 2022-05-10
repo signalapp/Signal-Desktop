@@ -62,6 +62,19 @@
   transition: background 0.1s ease-out;
 }
 
+.module-message__quote-story-reaction-header {
+  @include font-subtitle;
+  margin-bottom: 6px;
+
+  .module-message__container-outgoing & {
+    color: $color-white-alpha-80;
+  }
+
+  .module-message__container-incoming & {
+    color: $color-gray-60;
+  }
+}
+
 .module-message--expired {
   animation: module-message__shake 0.2s linear infinite;
 }

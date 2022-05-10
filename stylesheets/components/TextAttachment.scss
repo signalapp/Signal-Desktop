@@ -3,16 +3,24 @@
 
 .TextAttachment {
   max-height: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &__story {
     align-items: center;
     display: flex;
     flex-direction: column;
-    height: 1280px;
     justify-content: center;
     overflow: hidden;
-    transform-origin: top center;
     user-select: none;
+
+    height: 1280px;
+    max-height: 1280px;
+    max-width: 720px;
+    min-height: 1280px;
+    min-width: 720px;
     width: 720px;
   }
 

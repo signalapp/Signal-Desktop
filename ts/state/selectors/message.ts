@@ -76,6 +76,7 @@ import {
 import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import { DAY, HOUR } from '../../util/durations';
+import { getStoryReplyText } from '../../util/getStoryReplyText';
 
 const THREE_HOURS = 3 * HOUR;
 
@@ -435,7 +436,7 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
   (
     message: Pick<
       MessageWithUIFieldsType,
-      'body' | 'conversationId' | 'storyReplyContext'
+      'body' | 'conversationId' | 'storyReactionEmoji' | 'storyReplyContext'
     >,
     {
       conversationSelector,
@@ -445,14 +446,14 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
       ourConversationId?: string;
     }
   ): PropsData['storyReplyContext'] => {
-    const { storyReplyContext } = message;
+    const { storyReactionEmoji, storyReplyContext } = message;
     if (!storyReplyContext) {
       return undefined;
     }
 
     const contact = conversationSelector(storyReplyContext.authorUuid);
 
-    const authorTitle = contact.title;
+    const authorTitle = contact.firstName || contact.title;
     const isFromMe = contact.id === ourConversationId;
 
     const conversation = getConversation(message, conversationSelector);
@@ -464,10 +465,13 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
       authorTitle,
       conversationColor,
       customColor,
+      emoji: storyReactionEmoji,
       isFromMe,
       rawAttachment: storyReplyContext.attachment
         ? processQuoteAttachment(storyReplyContext.attachment)
         : undefined,
+      referencedMessageNotFound: !storyReplyContext.messageId,
+      text: getStoryReplyText(window.i18n, storyReplyContext.attachment),
     };
   },
 

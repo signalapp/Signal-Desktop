@@ -186,7 +186,7 @@ export type MessageAttributesType = {
   unidentifiedDeliveries?: Array<string>;
   contact?: Array<EmbeddedContactType>;
   conversationId: string;
-  reaction?: WhatIsThis;
+  storyReactionEmoji?: string;
 
   expirationTimerUpdate?: {
     expireTimer: number;

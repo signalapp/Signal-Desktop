@@ -7114,6 +7114,32 @@
     "message": "Visit link",
     "description": "Title for the link preview tooltip"
   },
+  "Quote__story": {
+    "message": "Story",
+    "description": "Title for replies to stories"
+  },
+  "Quote__story-reaction": {
+    "message": "Reacted to a story from $name$",
+    "description": "Label for when a person reacts to a story",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Charlie"
+      }
+    }
+  },
+  "Quote__story-reaction--yours": {
+    "message": "Reacted to your story",
+    "description": "Label for when a person reacts to your story"
+  },
+  "Quote__story-reaction--single": {
+    "message": "Reacted to a story",
+    "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-unavailable": {
+    "message": "No longer available",
+    "description": "Label for when a story is not found"
+  },
   "WhatsNew__modal-title": {
     "message": "What's New",
     "description": "Title for the whats new modal"

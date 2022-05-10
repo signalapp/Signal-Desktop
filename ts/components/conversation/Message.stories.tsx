@@ -1540,15 +1540,53 @@ story.add('Story reply', () => {
   const conversation = getDefaultConversation();
 
   return renderThree({
-    ...createProps({ text: 'Wow!' }),
+    ...createProps({ direction: 'outgoing', text: 'Wow!' }),
     storyReplyContext: {
-      authorTitle: conversation.title,
+      authorTitle: conversation.firstName || conversation.title,
       conversationColor: ConversationColors[0],
       isFromMe: false,
       rawAttachment: fakeAttachment({
         url: '/fixtures/snow.jpg',
         thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
       }),
+      text: 'Photo',
+    },
+  });
+});
+
+story.add('Story reply (yours)', () => {
+  const conversation = getDefaultConversation();
+
+  return renderThree({
+    ...createProps({ direction: 'incoming', text: 'Wow!' }),
+    storyReplyContext: {
+      authorTitle: conversation.firstName || conversation.title,
+      conversationColor: ConversationColors[0],
+      isFromMe: true,
+      rawAttachment: fakeAttachment({
+        url: '/fixtures/snow.jpg',
+        thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
+      }),
+      text: 'Photo',
+    },
+  });
+});
+
+story.add('Story reply (emoji)', () => {
+  const conversation = getDefaultConversation();
+
+  return renderThree({
+    ...createProps({ direction: 'outgoing', text: 'Wow!' }),
+    storyReplyContext: {
+      authorTitle: conversation.firstName || conversation.title,
+      conversationColor: ConversationColors[0],
+      emoji: '💄',
+      isFromMe: false,
+      rawAttachment: fakeAttachment({
+        url: '/fixtures/snow.jpg',
+        thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
+      }),
+      text: 'Photo',
     },
   });
 });
