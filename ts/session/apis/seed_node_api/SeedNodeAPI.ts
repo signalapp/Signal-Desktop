@@ -14,17 +14,13 @@ import { ipcRenderer } from 'electron';
 
 // tslint:disable: function-name
 
-export type SeedNode = {
-  url: string;
-};
-
 /**
  * Fetch all snodes from seed nodes.
  * Exported only for tests. This is not to be used by the app directly
  * @param seedNodes the seednodes to use to fetch snodes details
  */
 export async function fetchSnodePoolFromSeedNodeWithRetries(
-  seedNodes: Array<SeedNode>
+  seedNodes: Array<string>
 ): Promise<Array<Data.Snode>> {
   try {
     window?.log?.info(`fetchSnodePoolFromSeedNode with seedNodes.length ${seedNodes.length}`);
@@ -148,7 +144,7 @@ export interface SnodeFromSeed {
  * If all attempts fails, this function will throw the last error.
  * The returned list is not shuffled when returned.
  */
-async function getSnodeListFromSeednode(seedNodes: Array<SeedNode>): Promise<Array<SnodeFromSeed>> {
+async function getSnodeListFromSeednode(seedNodes: Array<string>): Promise<Array<SnodeFromSeed>> {
   const SEED_NODE_RETRIES = 4;
 
   return pRetry(
@@ -185,7 +181,7 @@ export function getMinTimeout() {
  * This function is to be used with a pRetry caller
  */
 export async function TEST_fetchSnodePoolFromSeedNodeRetryable(
-  seedNodes: Array<SeedNode>
+  seedNodes: Array<string>
 ): Promise<Array<SnodeFromSeed>> {
   window?.log?.info('fetchSnodePoolFromSeedNodeRetryable starting...');
 
@@ -194,8 +190,8 @@ export async function TEST_fetchSnodePoolFromSeedNodeRetryable(
     throw new Error('fetchSnodePoolFromSeedNodeRetryable: Seed nodes are empty');
   }
 
-  const seedNode = _.sample(seedNodes);
-  if (!seedNode) {
+  const seedNodeUrl = _.sample(seedNodes);
+  if (!seedNodeUrl) {
     window?.log?.warn(
       'loki_snode_api::fetchSnodePoolFromSeedNodeRetryable - Could not select random snodes from',
       seedNodes
@@ -203,14 +199,14 @@ export async function TEST_fetchSnodePoolFromSeedNodeRetryable(
     throw new Error('fetchSnodePoolFromSeedNodeRetryable: Seed nodes are empty #2');
   }
 
-  const tryUrl = new URL(seedNode.url);
+  const tryUrl = new URL(seedNodeUrl);
 
   const snodes = await getSnodesFromSeedUrl(tryUrl);
   if (snodes.length === 0) {
     window?.log?.warn(
-      `loki_snode_api::fetchSnodePoolFromSeedNodeRetryable - ${seedNode.url} did not return any snodes`
+      `loki_snode_api::fetchSnodePoolFromSeedNodeRetryable - ${seedNodeUrl} did not return any snodes`
     );
-    throw new Error(`Failed to contact seed node: ${seedNode.url}`);
+    throw new Error(`Failed to contact seed node: ${seedNodeUrl}`);
   }
 
   return snodes;

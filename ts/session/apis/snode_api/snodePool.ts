@@ -9,6 +9,7 @@ import { ed25519Str } from '../../onions/onionPath';
 import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
 import { SeedNodeAPI } from '../seed_node_api';
+
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
  */

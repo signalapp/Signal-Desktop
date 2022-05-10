@@ -74,9 +74,7 @@ describe('SeedNodeAPI', () => {
       Sinon.stub(SeedNodeAPI, 'getMinTimeout').returns(20);
 
       // run the command
-      const fetched = await SeedNodeAPI.fetchSnodePoolFromSeedNodeWithRetries([
-        { url: 'seednode1' },
-      ]);
+      const fetched = await SeedNodeAPI.fetchSnodePoolFromSeedNodeWithRetries(['seednode1']);
 
       const sortedFetch = fetched.sort((a, b) => (a.pubkey_ed25519 > b.pubkey_ed25519 ? -1 : 1));
       const sortedFakeSnodePool = fakeSnodePool.sort((a, b) =>

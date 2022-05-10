@@ -23,6 +23,7 @@ import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
 import { getAppRootPath } from './getRootPath';
+import { UpdateLastHashType } from '../types/sqlSharedTypes';
 // tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
 const openDbOptions = {
   // tslint:disable-next-line: no-constant-condition
@@ -47,6 +48,7 @@ const GUARD_NODE_TABLE = 'guardNodes';
 const ITEMS_TABLE = 'items';
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
+const LAST_HASHES_TABLE = 'lastHashes';
 
 const MAX_PUBKEYS_MEMBERS = 300;
 
@@ -434,7 +436,7 @@ function updateToSchemaVersion6(currentVersion: number, db: BetterSqlite3.Databa
   console.log('updateToSchemaVersion6: starting...');
   db.transaction(() => {
     db.exec(`
-    CREATE TABLE lastHashes(
+    CREATE TABLE ${LAST_HASHES_TABLE}(
       snode TEXT PRIMARY KEY,
       hash TEXT,
       expiresAt INTEGER
@@ -766,6 +768,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion20,
   updateToLokiSchemaVersion21,
   updateToLokiSchemaVersion22,
+  updateToLokiSchemaVersion23,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -846,8 +849,8 @@ function updateToLokiSchemaVersion4(currentVersion: number, db: BetterSqlite3.Da
 
   db.transaction(() => {
     db.exec(`
-    DROP TABLE lastHashes;
-    CREATE TABLE lastHashes(
+    DROP TABLE ${LAST_HASHES_TABLE};
+    CREATE TABLE ${LAST_HASHES_TABLE}(
       id TEXT,
       snode TEXT,
       hash TEXT,
@@ -1178,6 +1181,8 @@ function updateToLokiSchemaVersion17(currentVersion: number, db: BetterSqlite3.D
 }
 
 function dropFtsAndTriggers(db: BetterSqlite3.Database) {
+  console.info('dropping fts5 table');
+
   db.exec(`
   DROP TRIGGER IF EXISTS messages_on_insert;
   DROP TRIGGER IF EXISTS messages_on_delete;
@@ -1187,6 +1192,7 @@ function dropFtsAndTriggers(db: BetterSqlite3.Database) {
 }
 
 function rebuildFtsTable(db: BetterSqlite3.Database) {
+  console.info('rebuildFtsTable');
   db.exec(`
     -- Then we create our full-text search table and populate it
     CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
@@ -1217,6 +1223,7 @@ function rebuildFtsTable(db: BetterSqlite3.Database) {
       );
     END;
     `);
+  console.info('rebuildFtsTable built');
 }
 
 function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1354,6 +1361,37 @@ function updateToLokiSchemaVersion22(currentVersion: number, db: BetterSqlite3.D
         json = json_remove(json, '$.schemaVersion', '$.recipients', '$.decrypted_at', '$.sourceDevice', '$.read_by')
       `);
     rebuildFtsTable(db);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion23(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 23;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(
+      `
+      ALTER TABLE ${LAST_HASHES_TABLE} RENAME TO ${LAST_HASHES_TABLE}_old;
+      CREATE TABLE ${LAST_HASHES_TABLE}(
+        id TEXT,
+        snode TEXT,
+        hash TEXT,
+        expiresAt INTEGER,
+        namespace INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (id, snode, namespace)
+      );`
+    );
+
+    db.exec(
+      `INSERT INTO ${LAST_HASHES_TABLE}(id, snode, hash, expiresAt) SELECT id, snode, hash, expiresAt FROM ${LAST_HASHES_TABLE}_old;`
+    );
+    db.exec(`DROP TABLE ${LAST_HASHES_TABLE}_old;`);
+
     writeLokiSchemaVersion(targetVersion, db);
   })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
@@ -2111,30 +2149,33 @@ function saveSeenMessageHashes(arrayOfHashes: Array<string>) {
   })();
 }
 
-function updateLastHash(data: any) {
-  const { convoId, snode, hash, expiresAt } = data;
-
-  const id = convoId;
-
+function updateLastHash(data: UpdateLastHashType) {
+  const { convoId, snode, hash, expiresAt, namespace } = data;
+  if (!isNumber(namespace)) {
+    throw new Error('updateLastHash: namespace must be set to a number');
+  }
   assertGlobalInstance()
     .prepare(
-      `INSERT OR REPLACE INTO lastHashes (
-      id,
-      snode,
-      hash,
-      expiresAt
-    ) values (
-      $id,
-      $snode,
-      $hash,
-      $expiresAt
-    )`
-    )
-    .run({
+      `INSERT OR REPLACE INTO ${LAST_HASHES_TABLE} (
       id,
       snode,
       hash,
       expiresAt,
+      namespace
+    ) values (
+      $id,
+      $snode,
+      $hash,
+      $expiresAt,
+      $namespace
+    )`
+    )
+    .run({
+      id: convoId,
+      snode,
+      hash,
+      expiresAt,
+      namespace,
     });
 }
 
@@ -2162,7 +2203,7 @@ function saveSeenMessageHash(data: any) {
 
 function cleanLastHashes() {
   assertGlobalInstance()
-    .prepare('DELETE FROM lastHashes WHERE expiresAt <= $now;')
+    .prepare(`DELETE FROM ${LAST_HASHES_TABLE} WHERE expiresAt <= $now;`)
     .run({
       now: Date.now(),
     });
@@ -2579,12 +2620,18 @@ function getMessagesBySentAt(sentAt: number) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getLastHashBySnode(convoId: string, snode: string) {
+function getLastHashBySnode(convoId: string, snode: string, namespace: number) {
+  if (!isNumber(namespace)) {
+    throw new Error('getLastHashBySnode: namespace must be set to a number');
+  }
   const row = assertGlobalInstance()
-    .prepare('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;')
+    .prepare(
+      `SELECT * FROM ${LAST_HASHES_TABLE} WHERE snode = $snode AND id = $id AND namespace = $namespace;`
+    )
     .get({
       snode,
       id: convoId,
+      namespace,
     });
 
   if (!row) {
@@ -2845,10 +2892,9 @@ function removeAllAttachmentDownloadJobs() {
 function removeAll() {
   assertGlobalInstance().exec(`
     DELETE FROM ${IDENTITY_KEYS_TABLE};
-
     DELETE FROM ${ITEMS_TABLE};
     DELETE FROM unprocessed;
-    DELETE FROM lastHashes;
+    DELETE FROM ${LAST_HASHES_TABLE};
     DELETE FROM ${NODES_FOR_PUBKEY_TABLE};
     DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};
     DELETE FROM seenMessages;
@@ -3371,89 +3417,95 @@ function cleanUpOldOpengroups() {
 
   // first remove very old messages for each opengroups
 
-  dropFtsAndTriggers(assertGlobalInstance());
-  v2Convos.forEach(convo => {
-    const convoId = convo.id;
-    const messagesInConvoBefore = getMessagesCountByConversation(convoId);
+  assertGlobalInstance().transaction(() => {
+    dropFtsAndTriggers(assertGlobalInstance());
+    v2Convos.forEach(convo => {
+      const convoId = convo.id;
+      const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
-    if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
-      const minute = 1000 * 60;
-      const sixMonths = minute * 60 * 24 * 30 * 6;
-      const messagesTimestampToRemove = Date.now() - sixMonths;
-      const countToRemove = assertGlobalInstance()
-        .prepare(
-          `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
-        )
-        .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
+      if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
+        const minute = 1000 * 60;
+        const sixMonths = minute * 60 * 24 * 30 * 6;
+        const messagesTimestampToRemove = Date.now() - sixMonths;
+        const countToRemove = assertGlobalInstance()
+          .prepare(
+            `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
+          )
+          .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
+        const start = Date.now();
+
+        assertGlobalInstance()
+          .prepare(
+            `
+      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
+          )
+          .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
+        const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+
+        console.info(
+          `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
+            start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+        );
+
+        const unreadCount = getUnreadCountByConversation(convoId);
+        const convoProps = getConversationById(convoId);
+        if (convoProps) {
+          convoProps.unreadCount = unreadCount;
+          updateConversation(convoProps);
+        }
+      }
+    });
+
+    // now, we might have a bunch of private conversation, without any interaction and no messages
+    // those are the conversation of the old members in the opengroups we just cleaned.
+    const allInactiveConvos = assertGlobalInstance()
+      .prepare(
+        `
+    SELECT id FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (active_at IS NULL OR active_at = 0)`
+      )
+      .all();
+
+    const ourNumber = getItemById('number_id');
+    if (!ourNumber || !ourNumber.value) {
+      rebuildFtsTable(assertGlobalInstance());
+
+      return;
+    }
+    const ourPubkey = ourNumber.value.split('.')[0];
+
+    const allInactiveAndWithoutMessagesConvo = allInactiveConvos
+      .map(c => c.id as string)
+      .filter(convoId => {
+        return convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0
+          ? true
+          : false;
+      });
+    if (allInactiveAndWithoutMessagesConvo.length) {
+      console.info(
+        `Removing ${allInactiveAndWithoutMessagesConvo.length} completely inactive convos`
+      );
       const start = Date.now();
 
-      assertGlobalInstance()
-        .prepare(
-          `
-      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
-        )
-        .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
-      const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+      const chunks = chunk(allInactiveAndWithoutMessagesConvo, 500);
+      chunks.forEach(ch => {
+        assertGlobalInstance()
+          .prepare(
+            `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`
+          )
+          .run(ch);
+      });
 
       console.info(
-        `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
-          start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+        `Removing of ${
+          allInactiveAndWithoutMessagesConvo.length
+        } completely inactive convos done in ${Date.now() - start}ms`
       );
-
-      const unreadCount = getUnreadCountByConversation(convoId);
-      const convoProps = getConversationById(convoId);
-      if (convoProps) {
-        convoProps.unreadCount = unreadCount;
-        updateConversation(convoProps);
-      }
     }
+
+    cleanUpMessagesJson();
+
+    rebuildFtsTable(assertGlobalInstance());
   });
-
-  // now, we might have a bunch of private conversation, without any interaction and no messages
-  // those are the conversation of the old members in the opengroups we just cleaned.
-  const allInactiveConvos = assertGlobalInstance()
-    .prepare(
-      `
-    SELECT id FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (active_at IS NULL OR active_at = 0)`
-    )
-    .all();
-
-  const ourNumber = getItemById('number_id');
-  if (!ourNumber || !ourNumber.value) {
-    return;
-  }
-  const ourPubkey = ourNumber.value.split('.')[0];
-
-  const allInactiveAndWithoutMessagesConvo = allInactiveConvos
-    .map(c => c.id as string)
-    .filter(convoId => {
-      return convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0
-        ? true
-        : false;
-    });
-  if (allInactiveAndWithoutMessagesConvo.length) {
-    console.info(
-      `Removing ${allInactiveAndWithoutMessagesConvo.length} completely inactive convos`
-    );
-    const start = Date.now();
-
-    const chunks = chunk(allInactiveAndWithoutMessagesConvo, 500);
-    chunks.forEach(ch => {
-      assertGlobalInstance()
-        .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`)
-        .run(ch);
-    });
-
-    console.info(
-      `Removing of ${
-        allInactiveAndWithoutMessagesConvo.length
-      } completely inactive convos done in ${Date.now() - start}ms`
-    );
-  }
-
-  cleanUpMessagesJson();
-
-  rebuildFtsTable(assertGlobalInstance());
 }
 
 // tslint:disable: binary-expression-operand-order insecure-random

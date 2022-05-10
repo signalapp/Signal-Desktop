@@ -5,7 +5,6 @@ import { MessageSender } from '../../../../session/sending';
 import { TestUtils } from '../../../test-utils';
 import { MessageEncrypter } from '../../../../session/crypto';
 import { SignalService } from '../../../../protobuf';
-import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { ApiV2 } from '../../../../session/apis/open_group_api/opengroupV2';
@@ -26,10 +25,10 @@ describe('MessageSender', () => {
   describe('send', () => {
     const ourNumber = '0123456789abcdef';
     let sessionMessageAPISendStub: sinon.SinonStub<any>;
-    let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, EncryptionType]>;
+    let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, SignalService.Envelope.Type]>;
 
     beforeEach(() => {
-      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'TEST_sendMessageToSnode').resolves();
+      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'sendMessageToSnode').resolves();
 
       Sinon.stub(Data, 'getMessageById').resolves();
 

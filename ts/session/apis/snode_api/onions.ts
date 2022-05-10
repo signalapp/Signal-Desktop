@@ -259,7 +259,9 @@ async function processOnionRequestErrorAtDestination({
   if (statusCode === 200) {
     return;
   }
-  window?.log?.info('processOnionRequestErrorAtDestination. statusCode nok:', statusCode);
+  window?.log?.info(
+    `processOnionRequestErrorAtDestination. statusCode nok: ${statusCode}: "${body}"`
+  );
 
   process406Error(statusCode);
   await process421Error(statusCode, body, associatedWith, destinationEd25519);

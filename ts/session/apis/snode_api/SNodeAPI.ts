@@ -7,7 +7,7 @@ import {
   requiredSnodesForAgreement,
 } from './snodePool';
 import { getSodiumRenderer } from '../../crypto';
-import _, { range } from 'lodash';
+import _, { isEmpty, range } from 'lodash';
 import pRetry from 'p-retry';
 import {
   fromBase64ToArray,
@@ -21,6 +21,7 @@ import { updateIsOnline } from '../../../state/ducks/onion';
 import { ed25519Str } from '../../onions/onionPath';
 import { StringUtils, UserUtils } from '../../utils';
 import { SnodePool } from '.';
+import { handleHardforkResult } from './hfHandling';
 
 // ONS name can have [a-zA-Z0-9_-] except that - is not allowed as start or end
 // do not define a regex but rather create it on the fly to avoid https://stackoverflow.com/questions/3891641/regex-test-only-works-every-other-time
@@ -65,6 +66,7 @@ export type SendParams = {
   data: string;
   isSyncMessage?: boolean;
   messageId?: string;
+  namespace: number;
 };
 
 /**
@@ -437,6 +439,7 @@ export async function storeOnNode(
     try {
       const parsed = JSON.parse(result.body);
       handleTimestampOffset('store', parsed.t);
+      await handleHardforkResult(parsed);
 
       const messageHash = parsed.hash;
       if (messageHash) {
@@ -454,22 +457,71 @@ export async function storeOnNode(
   }
 }
 
+async function getRetrieveSignatureParams(
+  params: RetrieveRequestParams
+): Promise<{ timestamp: number; signature: string; pubkey_ed25519: string } | null> {
+  const ourPubkey = UserUtils.getOurPubKeyFromCache();
+  const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
+
+  if (isEmpty(params?.pubKey) || ourPubkey.key !== params.pubKey || !ourEd25519Key) {
+    return null;
+  }
+  const hasNamespace = params.namespace && params.namespace !== 0;
+  const namespace = params.namespace || 0;
+  const edKeyPrivBytes = fromHexToArray(ourEd25519Key?.privKey);
+
+  const signatureTimestamp = getNowWithNetworkOffset();
+
+  const verificationData = hasNamespace
+    ? StringUtils.encode(`retrieve${namespace}${signatureTimestamp}`, 'utf8')
+    : StringUtils.encode(`retrieve${signatureTimestamp}`, 'utf8');
+  const message = new Uint8Array(verificationData);
+
+  const sodium = await getSodiumRenderer();
+  try {
+    const signature = sodium.crypto_sign_detached(message, edKeyPrivBytes);
+    const signatureBase64 = fromUInt8ArrayToBase64(signature);
+
+    const namespaceObject = hasNamespace ? { namespace } : {};
+
+    return {
+      timestamp: signatureTimestamp,
+      signature: signatureBase64,
+      pubkey_ed25519: ourEd25519Key.pubKey,
+      ...namespaceObject,
+    };
+  } catch (e) {
+    window.log.warn('getSignatureParams failed with: ', e.message);
+    return null;
+  }
+}
+
+type RetrieveRequestParams = {
+  pubKey: string;
+  lastHash: string;
+  namespace?: number;
+};
+
 /** */
 export async function retrieveNextMessages(
   targetNode: Snode,
   lastHash: string,
-  associatedWith: string
+  associatedWith: string,
+  namespace?: number
 ): Promise<Array<any>> {
-  const params = {
+  const params: RetrieveRequestParams = {
     pubKey: associatedWith,
     lastHash: lastHash || '',
+    namespace,
   };
+
+  const signatureParams = (await getRetrieveSignatureParams(params)) || {};
 
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
   const result = await snodeRpc({
     method: 'retrieve',
-    params,
+    params: { ...signatureParams, ...params },
     targetNode,
     associatedWith,
     timeout: 4000,
@@ -498,6 +550,7 @@ export async function retrieveNextMessages(
     }
 
     handleTimestampOffset('retrieve', json.t);
+    await handleHardforkResult(json);
 
     return json.messages || [];
   } catch (e) {
@@ -517,7 +570,7 @@ export async function retrieveNextMessages(
  * @returns timestamp of the response from snode
  */
 // tslint:disable-next-line: variable-name
-export const TEST_getNetworkTime = async (snode: Snode): Promise<string | number> => {
+export const getNetworkTime = async (snode: Snode): Promise<string | number> => {
   const response: any = await snodeRpc({ method: 'info', params: {}, targetNode: snode });
   const body = JSON.parse(response.body);
   const timestamp = body?.timestamp;
@@ -554,7 +607,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
 
         return pRetry(
           async () => {
-            const timestamp = await exports.TEST_getNetworkTime(snodeToMakeRequestTo);
+            const timestamp = await exports.getNetworkTime(snodeToMakeRequestTo);
 
             const verificationData = StringUtils.encode(`delete_all${timestamp}`, 'utf8');
             const message = new Uint8Array(verificationData);

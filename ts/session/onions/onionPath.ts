@@ -276,7 +276,7 @@ async function internalUpdateGuardNodes(updatedGuardNodes: Array<Data.Snode>) {
   await Data.updateGuardNodes(edKeys);
 }
 
-export async function TEST_testGuardNode(snode: Data.Snode) {
+export async function testGuardNode(snode: Data.Snode) {
   window?.log?.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
 
   // Send a post request and make sure it is OK
@@ -381,7 +381,7 @@ export async function selectGuardNodes(): Promise<Array<Data.Snode>> {
     // Test all three nodes at once, wait for all to resolve or reject
     // eslint-disable-next-line no-await-in-loop
     const idxOk = (
-      await Promise.allSettled(candidateNodes.map(OnionPaths.TEST_testGuardNode))
+      await Promise.allSettled(candidateNodes.map(OnionPaths.testGuardNode))
     ).flatMap(p => (p.status === 'fulfilled' ? p.value : null));
 
     const goodNodes = _.zip(idxOk, candidateNodes)
