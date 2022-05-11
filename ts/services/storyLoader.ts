@@ -14,6 +14,7 @@ let storyData: Array<MessageAttributesType> | undefined;
 
 export async function loadStories(): Promise<void> {
   storyData = await dataInterface.getOlderStories({});
+  await repairUnexpiredStories();
 }
 
 export function getStoryDataFromMessageAttributes(
@@ -61,11 +62,7 @@ export function getStoriesForRedux(): Array<StoryDataType> {
   return stories;
 }
 
-export async function repairUnexpiredStories(): Promise<void> {
-  if (!storyData) {
-    await loadStories();
-  }
-
+async function repairUnexpiredStories(): Promise<void> {
   strictAssert(storyData, 'Could not load stories');
 
   const storiesWithExpiry = storyData
@@ -77,6 +74,10 @@ export async function repairUnexpiredStories(): Promise<void> {
         Date.now()
       ),
     }));
+
+  if (!storiesWithExpiry.length) {
+    return;
+  }
 
   log.info(
     'repairUnexpiredStories: repairing number of stories',
