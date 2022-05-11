@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
+import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
 
 import { assert, strictAssert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
@@ -21,8 +22,10 @@ import type {
   ProcessedSticker,
   ProcessedReaction,
   ProcessedDelete,
+  ProcessedGiftBadge,
 } from './Types.d';
 import { WarnOnlyError } from './Errors';
+import { GiftBadgeStates } from '../components/conversation/Message';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -130,6 +133,7 @@ export function processQuote(
       };
     }),
     bodyRanges: quote.bodyRanges ?? [],
+    type: quote.type || Proto.DataMessage.Quote.Type.NORMAL,
   };
 }
 
@@ -227,6 +231,32 @@ export function processDelete(
   };
 }
 
+export function processGiftBadge(
+  timestamp: number,
+  giftBadge: Proto.DataMessage.IGiftBadge | null | undefined
+): ProcessedGiftBadge | undefined {
+  if (
+    !giftBadge ||
+    !giftBadge.receiptCredentialPresentation ||
+    giftBadge.receiptCredentialPresentation.length === 0
+  ) {
+    return undefined;
+  }
+
+  const receipt = new ReceiptCredentialPresentation(
+    Buffer.from(giftBadge.receiptCredentialPresentation)
+  );
+
+  return {
+    expiration: timestamp + Number(receipt.getReceiptExpirationTime()),
+    level: Number(receipt.getReceiptLevel()),
+    receiptCredentialPresentation: Bytes.toBase64(
+      giftBadge.receiptCredentialPresentation
+    ),
+    state: GiftBadgeStates.Unopened,
+  };
+}
+
 export async function processDataMessage(
   message: Proto.IDataMessage,
   envelopeTimestamp: number
@@ -276,6 +306,7 @@ export async function processDataMessage(
     bodyRanges: message.bodyRanges ?? [],
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: dropNull(message.storyContext),
+    giftBadge: processGiftBadge(timestamp, message.giftBadge),
   };
 
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);

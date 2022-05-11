@@ -128,6 +128,11 @@ message DataMessage {
   }
 
   message Quote {
+    enum Type {
+      NORMAL = 0;
+      GIFT_BADGE = 1;
+    }
+
     message QuotedAttachment {
       optional string            contentType = 1;
       optional string            fileName    = 2;
@@ -140,6 +145,7 @@ message DataMessage {
     optional string           text        = 3;
     repeated QuotedAttachment attachments = 4;
     repeated BodyRange        bodyRanges  = 6;
+    optional Type             type        = 7;
   }
 
   message Contact {
@@ -269,6 +275,10 @@ message DataMessage {
     CURRENT = 7;
   }
 
+  message GiftBadge {
+    optional bytes receiptCredentialPresentation = 1;
+  }
+
   optional string             body                    = 1;
   repeated AttachmentPointer  attachments             = 2;
   optional GroupContext       group                   = 3;
@@ -289,6 +299,7 @@ message DataMessage {
   optional GroupCallUpdate    groupCallUpdate         = 19;
   reserved /* Payment         payment */                20;
   optional StoryContext       storyContext            = 21;
+  optional GiftBadge          giftBadge               = 22;
 }
 
 message NullMessage {

@@ -19,6 +19,7 @@ describe('both/state/ducks/composer', () => {
       attachments: [],
       id: 456,
       isViewOnce: false,
+      isGiftBadge: false,
       messageId: '789',
       referencedMessageNotFound: false,
     },

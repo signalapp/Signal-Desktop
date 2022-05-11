@@ -118,11 +118,12 @@ export type StickerType = {
 };
 
 export type QuoteType = {
-  id?: number;
-  authorUuid?: string;
-  text?: string;
   attachments?: Array<AttachmentType>;
+  authorUuid?: string;
   bodyRanges?: BodyRangesType;
+  id?: number;
+  isGiftBadge?: boolean;
+  text?: string;
 };
 
 export type ReactionType = {
@@ -493,6 +494,12 @@ class Message {
 
       proto.quote = new Quote();
       const { quote } = proto;
+
+      if (this.quote.isGiftBadge) {
+        quote.type = Proto.DataMessage.Quote.Type.GIFT_BADGE;
+      } else {
+        quote.type = Proto.DataMessage.Quote.Type.NORMAL;
+      }
 
       quote.id =
         this.quote.id === undefined ? null : Long.fromNumber(this.quote.id);

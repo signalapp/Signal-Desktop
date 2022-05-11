@@ -93,6 +93,7 @@ import { SignalService as Proto } from '../protobuf';
 import {
   getMessagePropStatus,
   hasErrors,
+  isGiftBadge,
   isIncoming,
   isStory,
   isTapToView,
@@ -1818,7 +1819,6 @@ export class ConversationModel extends window.Backbone
     const { customColor, customColorId } = this.getCustomColorData();
 
     // TODO: DESKTOP-720
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     return {
       id: this.id,
       uuid: this.get('uuid'),
@@ -1832,6 +1832,7 @@ export class ConversationModel extends window.Backbone
       aboutText: this.get('about'),
       aboutEmoji: this.get('aboutEmoji'),
       acceptedMessageRequest: this.getAccepted(),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       activeAt: this.get('active_at')!,
       areWePending: Boolean(
         ourConversationId && this.isMemberPending(ourConversationId)
@@ -1857,14 +1858,14 @@ export class ConversationModel extends window.Backbone
       draftPreview,
       draftText,
       familyName: this.get('profileFamilyName'),
-      firstName: this.get('profileName')!,
+      firstName: this.get('profileName'),
       groupDescription: this.get('description'),
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
       hideStory: Boolean(this.get('hideStory')),
       inboxPosition,
-      isArchived: this.get('isArchived')!,
+      isArchived: this.get('isArchived'),
       isBlocked: this.isBlocked(),
       isMe: isMe(this.attributes),
       isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
@@ -1873,9 +1874,10 @@ export class ConversationModel extends window.Backbone
       isVerified: this.isVerified(),
       isFetchingUUID: this.isFetchingUUID,
       lastMessage,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       lastUpdated: this.get('timestamp')!,
       left: Boolean(this.get('left')),
-      markedUnread: this.get('markedUnread')!,
+      markedUnread: this.get('markedUnread'),
       membersCount: this.getMembersCount(),
       memberships: this.getMemberships(),
       messageCount: this.get('messageCount') || 0,
@@ -1891,23 +1893,23 @@ export class ConversationModel extends window.Backbone
       announcementsOnly: Boolean(this.get('announcementsOnly')),
       announcementsOnlyReady: this.canBeAnnouncementGroup(),
       expireTimer: this.get('expireTimer'),
-      muteExpiresAt: this.get('muteExpiresAt')!,
+      muteExpiresAt: this.get('muteExpiresAt'),
       dontNotifyForMentionsIfMuted: this.get('dontNotifyForMentionsIfMuted'),
-      name: this.get('name')!,
-      phoneNumber: this.getNumber()!,
-      profileName: this.getProfileName()!,
+      name: this.get('name'),
+      phoneNumber: this.getNumber(),
+      profileName: this.getProfileName(),
       profileSharing: this.get('profileSharing'),
       publicParams: this.get('publicParams'),
       secretParams: this.get('secretParams'),
       shouldShowDraft,
       sortedGroupMembers,
       timestamp,
-      title: this.getTitle()!,
+      title: this.getTitle(),
       typingContactId: typingMostRecent?.senderId,
       searchableTitle: isMe(this.attributes)
         ? window.i18n('noteToSelf')
         : this.getTitle(),
-      unreadCount: this.get('unreadCount')! || 0,
+      unreadCount: this.get('unreadCount') || 0,
       ...(isDirectConversation(this.attributes)
         ? {
             type: 'direct' as const,
@@ -1920,7 +1922,6 @@ export class ConversationModel extends window.Backbone
             sharedGroupNames: [],
           }),
     };
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
   }
 
   updateE164(e164?: string | null): void {
@@ -3762,6 +3763,7 @@ export class ConversationModel extends window.Backbone
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
       isViewOnce: isTapToView(quotedMessage.attributes),
+      isGiftBadge: isGiftBadge(quotedMessage.attributes),
       messageId: quotedMessage.get('id'),
       referencedMessageNotFound: false,
       text: body || embeddedContactName,

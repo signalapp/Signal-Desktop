@@ -4,29 +4,20 @@
 import * as Backbone from 'backbone';
 
 import { GroupV2ChangeType } from './groups';
-import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
+import { BodyRangeType, BodyRangesType } from './types/Util';
 import { CallHistoryDetailsFromDiskType } from './types/Calling';
 import { CustomColorType } from './types/Colors';
 import { DeviceType } from './textsecure/Types';
-import { SendOptionsType } from './textsecure/SendMessage';
 import { SendMessageChallengeData } from './textsecure/Errors';
-import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
 import { ReadStatus } from './messages/MessageReadStatus';
-import {
-  SendState,
-  SendStateByConversationId,
-} from './messages/MessageSendState';
+import { SendStateByConversationId } from './messages/MessageSendState';
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 import { ConversationColorType } from './types/Colors';
-import {
-  AttachmentDraftType,
-  AttachmentType,
-  ThumbnailType,
-} from './types/Attachment';
+import { AttachmentDraftType, AttachmentType } from './types/Attachment';
 import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
@@ -36,6 +27,7 @@ import { ReactionSource } from './reactions/ReactionSource';
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
 import { SeenStatus } from './MessageSeenStatus';
+import { GiftBadgeStates } from './components/conversation/Message';
 
 export type WhatIsThis = any;
 
@@ -80,10 +72,11 @@ export type QuotedMessageType = {
   authorUuid?: string;
   bodyRanges?: BodyRangesType;
   id: number;
-  referencedMessageNotFound: boolean;
+  isGiftBadge?: boolean;
   isViewOnce: boolean;
-  text?: string;
   messageId: string;
+  referencedMessageNotFound: boolean;
+  text?: string;
 };
 
 type StoryReplyContextType = {
@@ -187,6 +180,12 @@ export type MessageAttributesType = {
   contact?: Array<EmbeddedContactType>;
   conversationId: string;
   storyReactionEmoji?: string;
+  giftBadge?: {
+    expiration: number;
+    level: number;
+    receiptCredentialPresentation: string;
+    state: GiftBadgeStates;
+  };
 
   expirationTimerUpdate?: {
     expireTimer: number;

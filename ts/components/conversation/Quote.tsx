@@ -26,8 +26,6 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 export type Props = {
   authorTitle: string;
   conversationColor: ConversationColorType;
-  curveTopLeft?: boolean;
-  curveTopRight?: boolean;
   customColor?: CustomColorType;
   bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
@@ -39,6 +37,7 @@ export type Props = {
   onClose?: () => void;
   text: string;
   rawAttachment?: QuotedAttachmentType;
+  isGiftBadge: boolean;
   isViewOnce: boolean;
   reactionEmoji?: string;
   referencedMessageNotFound: boolean;
@@ -59,6 +58,10 @@ function validateQuote(quote: Props): boolean {
     quote.isStoryReply &&
     (quote.referencedMessageNotFound || quote.reactionEmoji)
   ) {
+    return true;
+  }
+
+  if (quote.isGiftBadge) {
     return true;
   }
 
@@ -178,7 +181,12 @@ export class Quote extends React.Component<Props, State> {
     });
   };
 
-  public renderImage(url: string, icon?: string): JSX.Element {
+  public renderImage(
+    url: string,
+    icon: string | undefined,
+    isGiftBadge?: boolean
+  ): JSX.Element {
+    const { isIncoming } = this.props;
     const iconElement = icon ? (
       <div className={this.getClassName('__icon-container__inner')}>
         <div
@@ -196,7 +204,12 @@ export class Quote extends React.Component<Props, State> {
 
     return (
       <ThumbnailImage
-        className={this.getClassName('__icon-container')}
+        className={classNames(
+          this.getClassName('__icon-container'),
+          isIncoming === false &&
+            isGiftBadge &&
+            this.getClassName('__icon-container__outgoing-gift-badge')
+        )}
         src={url}
         onError={this.handleImageError}
       >
@@ -261,9 +274,13 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderIconContainer(): JSX.Element | null {
-    const { rawAttachment, isViewOnce, i18n } = this.props;
+    const { isGiftBadge, isViewOnce, i18n, rawAttachment } = this.props;
     const { imageBroken } = this.state;
     const attachment = getAttachment(rawAttachment);
+
+    if (isGiftBadge) {
+      return this.renderImage('images/gift-thumbnail.svg', undefined, true);
+    }
 
     if (!attachment) {
       return null;
@@ -295,7 +312,7 @@ export class Quote extends React.Component<Props, State> {
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
       return url && !imageBroken
-        ? this.renderImage(url)
+        ? this.renderImage(url, undefined)
         : this.renderIcon('image');
     }
     if (MIME.isAudio(contentType)) {
@@ -306,8 +323,15 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText(): JSX.Element | null {
-    const { bodyRanges, i18n, text, rawAttachment, isIncoming, isViewOnce } =
-      this.props;
+    const {
+      bodyRanges,
+      isGiftBadge,
+      i18n,
+      text,
+      rawAttachment,
+      isIncoming,
+      isViewOnce,
+    } = this.props;
 
     if (text) {
       const quoteText = bodyRanges
@@ -334,18 +358,22 @@ export class Quote extends React.Component<Props, State> {
 
     const attachment = getAttachment(rawAttachment);
 
-    if (!attachment) {
+    let typeLabel;
+
+    if (isGiftBadge) {
+      typeLabel = i18n('quote--giftBadge');
+    } else if (attachment) {
+      const { contentType, isVoiceMessage } = attachment;
+      typeLabel = getTypeLabel({
+        i18n,
+        isViewOnce,
+        contentType,
+        isVoiceMessage,
+      });
+    } else {
       return null;
     }
 
-    const { contentType, isVoiceMessage } = attachment;
-
-    const typeLabel = getTypeLabel({
-      i18n,
-      isViewOnce,
-      contentType,
-      isVoiceMessage,
-    });
     if (typeLabel) {
       return (
         <div
@@ -476,8 +504,6 @@ export class Quote extends React.Component<Props, State> {
   public override render(): JSX.Element | null {
     const {
       conversationColor,
-      curveTopLeft,
-      curveTopRight,
       customColor,
       isIncoming,
       onClick,
@@ -506,9 +532,7 @@ export class Quote extends React.Component<Props, State> {
               : this.getClassName(`--outgoing-${conversationColor}`),
             !onClick && this.getClassName('--no-click'),
             referencedMessageNotFound &&
-              this.getClassName('--with-reference-warning'),
-            curveTopLeft && this.getClassName('--curve-top-left'),
-            curveTopRight && this.getClassName('--curve-top-right')
+              this.getClassName('--with-reference-warning')
           )}
           style={{ ...getCustomColorStyle(customColor, true) }}
         >

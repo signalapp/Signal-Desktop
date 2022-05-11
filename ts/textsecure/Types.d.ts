@@ -5,6 +5,7 @@ import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { UUID } from '../types/UUID';
 import type { TextAttachmentType } from '../types/Attachment';
+import { GiftBadgeStates } from '../components/conversation/Message';
 
 export {
   IdentityKeyType,
@@ -143,6 +144,7 @@ export type ProcessedQuote = {
   text?: string;
   attachments: ReadonlyArray<ProcessedQuoteAttachment>;
   bodyRanges: ReadonlyArray<Proto.DataMessage.IBodyRange>;
+  type: Proto.DataMessage.Quote.Type;
 };
 
 export type ProcessedAvatar = {
@@ -186,6 +188,13 @@ export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
 
 export type ProcessedStoryContext = Proto.DataMessage.IStoryContext;
 
+export type ProcessedGiftBadge = {
+  receiptCredentialPresentation: string;
+  level: number;
+  expiration: number;
+  state: GiftBadgeStates;
+};
+
 export type ProcessedDataMessage = {
   body?: string;
   attachments: ReadonlyArray<ProcessedAttachment>;
@@ -207,6 +216,7 @@ export type ProcessedDataMessage = {
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
   groupCallUpdate?: ProcessedGroupCallUpdate;
   storyContext?: ProcessedStoryContext;
+  giftBadge?: ProcessedGiftBadge;
 };
 
 export type ProcessedUnidentifiedDeliveryStatus = Omit<

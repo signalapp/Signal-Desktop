@@ -11,6 +11,7 @@ import { markViewed } from '../services/MessageUpdater';
 import { isIncoming, isStory } from '../state/selectors/message';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
+import { GiftBadgeStates } from '../components/conversation/Message';
 
 export type ViewSyncAttributesType = {
   senderId: string;
@@ -90,6 +91,16 @@ export class ViewSyncs extends Collection {
 
       if (message.get('readStatus') !== ReadStatus.Viewed) {
         message.set(markViewed(message.attributes, sync.get('viewedAt')));
+      }
+
+      const giftBadge = message.get('giftBadge');
+      if (giftBadge) {
+        message.set({
+          giftBadge: {
+            ...giftBadge,
+            state: GiftBadgeStates.Redeemed,
+          },
+        });
       }
 
       this.remove(sync);

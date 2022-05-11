@@ -5,6 +5,7 @@ import type { ReactNode, RefObject } from 'react';
 import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
+import getDirection from 'direction';
 import { drop, groupBy, orderBy, take, unescape } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
@@ -41,6 +42,7 @@ import { LinkPreviewDate } from './LinkPreviewDate';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 import { WidthBreakpoint } from '../_util';
+import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
 import * as log from '../../logging/log';
 
 import type { AttachmentType } from '../../types/Attachment';
@@ -69,6 +71,7 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../../types/Util';
+
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import type {
   ContactNameColorType,
@@ -84,6 +87,9 @@ import { offsetDistanceModifier } from '../../util/popperUtil';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { StopPropagation } from '../StopPropagation';
 import type { UUIDStringType } from '../../types/UUID';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
+import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -116,6 +122,7 @@ const SENT_STATUSES = new Set<MessageStatusType>([
   'sent',
   'viewed',
 ]);
+const GIFT_BADGE_UPDATE_INTERVAL = 30 * SECOND;
 
 enum MetadataPlacement {
   NotRendered,
@@ -171,11 +178,22 @@ export type AudioAttachmentProps = {
   onFirstPlayed(): void;
 };
 
+export enum GiftBadgeStates {
+  Unopened = 'Unopened',
+  Redeemed = 'Redeemed',
+}
+export type GiftBadgeType = {
+  level: number;
+  expiration: number;
+  state: GiftBadgeStates.Redeemed | GiftBadgeStates.Unopened;
+};
+
 export type PropsData = {
   id: string;
   renderingContext: string;
   contactNameColor?: ContactNameColorType;
   conversationColor: ConversationColorType;
+  conversationTitle: string;
   customColor?: CustomColorType;
   conversationId: string;
   displayLimit?: number;
@@ -207,6 +225,7 @@ export type PropsData = {
   reducedMotion?: boolean;
   conversationType: ConversationTypeType;
   attachments?: Array<AttachmentType>;
+  giftBadge?: GiftBadgeType;
   quote?: {
     conversationColor: ConversationColorType;
     customColor?: CustomColorType;
@@ -222,6 +241,7 @@ export type PropsData = {
     bodyRanges?: BodyRangesType;
     referencedMessageNotFound: boolean;
     isViewOnce: boolean;
+    isGiftBadge: boolean;
   };
   storyReplyContext?: {
     authorTitle: string;
@@ -299,6 +319,7 @@ export type PropsActions = {
 
   startConversation: (e164: string, uuid: UUIDStringType) => void;
   openConversation: (conversationId: string, messageId?: string) => void;
+  openGiftBadge: (messageId: string) => void;
   showContactDetail: (options: {
     contact: EmbeddedContactType;
     signalAccount?: {
@@ -357,6 +378,9 @@ type State = {
   reactionViewerRoot: HTMLDivElement | null;
   reactionPickerRoot: HTMLDivElement | null;
 
+  giftBadgeCounter: number | null;
+  showOutgoingGiftBadgeModal: boolean;
+
   hasDeleteForEveryoneTimerExpired: boolean;
 };
 
@@ -373,6 +397,8 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRefMerger = createRefMerger();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
+
+  public giftBadgeInterval: NodeJS.Timeout | undefined;
 
   public expiredTimeout: NodeJS.Timeout | undefined;
 
@@ -395,6 +421,9 @@ export class Message extends React.PureComponent<Props, State> {
 
       reactionViewerRoot: null,
       reactionPickerRoot: null,
+
+      giftBadgeCounter: null,
+      showOutgoingGiftBadgeModal: false,
 
       hasDeleteForEveryoneTimerExpired:
         this.getTimeRemainingForDeleteForEveryone() <= 0,
@@ -490,6 +519,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     this.startSelectedTimer();
     this.startDeleteForEveryoneTimerIfApplicable();
+    this.startGiftBadgeInterval();
 
     const { isSelected } = this.props;
     if (isSelected) {
@@ -519,6 +549,7 @@ export class Message extends React.PureComponent<Props, State> {
     clearTimeoutIfNecessary(this.expirationCheckInterval);
     clearTimeoutIfNecessary(this.expiredTimeout);
     clearTimeoutIfNecessary(this.deleteForEveryoneTimeout);
+    clearTimeoutIfNecessary(this.giftBadgeInterval);
     this.toggleReactionViewer(true);
     this.toggleReactionPicker(true);
   }
@@ -559,6 +590,8 @@ export class Message extends React.PureComponent<Props, State> {
       deletedForEveryone,
       expirationLength,
       expirationTimestamp,
+      giftBadge,
+      i18n,
       shouldHideMetadata,
       status,
       text,
@@ -574,6 +607,17 @@ export class Message extends React.PureComponent<Props, State> {
       shouldHideMetadata
     ) {
       return MetadataPlacement.NotRendered;
+    }
+
+    if (giftBadge) {
+      const description = i18n('message--giftBadge--unopened');
+      const isDescriptionRTL = getDirection(description) === 'rtl';
+
+      if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {
+        return MetadataPlacement.InlineWithText;
+      }
+
+      return MetadataPlacement.Bottom;
     }
 
     if (!text && !deletedForEveryone) {
@@ -633,6 +677,24 @@ export class Message extends React.PureComponent<Props, State> {
         clearSelectedMessage();
       }, SELECTED_TIMEOUT);
     }
+  }
+
+  public startGiftBadgeInterval(): void {
+    const { giftBadge } = this.props;
+
+    if (!giftBadge) {
+      return;
+    }
+
+    this.giftBadgeInterval = setInterval(() => {
+      this.updateGiftBadgeCounter();
+    }, GIFT_BADGE_UPDATE_INTERVAL);
+  }
+
+  public updateGiftBadgeCounter(): void {
+    this.setState((state: State) => ({
+      giftBadgeCounter: (state.giftBadgeCounter || 0) + 1,
+    }));
   }
 
   private getTimeRemainingForDeleteForEveryone(): number {
@@ -1054,17 +1116,17 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderPreview(): JSX.Element | null {
     const {
-      id,
       attachments,
       conversationType,
       direction,
       i18n,
+      id,
+      kickOffAttachmentDownload,
       openLink,
       previews,
       quote,
       shouldCollapseAbove,
       theme,
-      kickOffAttachmentDownload,
     } = this.props;
 
     // Attachments take precedence over Link Previews
@@ -1205,6 +1267,188 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  public renderGiftBadge(): JSX.Element | null {
+    const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
+      this.props;
+    const { showOutgoingGiftBadgeModal } = this.state;
+    if (!giftBadge) {
+      return null;
+    }
+
+    if (giftBadge.state === GiftBadgeStates.Unopened) {
+      const description = i18n('message--giftBadge--unopened');
+      const isRTL = getDirection(description) === 'rtl';
+      const { metadataWidth } = this.state;
+
+      return (
+        <div className="module-message__unopened-gift-badge__container">
+          <div
+            className={classNames(
+              'module-message__unopened-gift-badge',
+              `module-message__unopened-gift-badge--${direction}`
+            )}
+            aria-label={i18n('message--giftBadge--unopened--label')}
+          >
+            <div
+              className="module-message__unopened-gift-badge__ribbon-horizontal"
+              aria-hidden
+            />
+            <div
+              className="module-message__unopened-gift-badge__ribbon-vertical"
+              aria-hidden
+            />
+            <img
+              className="module-message__unopened-gift-badge__bow"
+              src="images/gift-bow.svg"
+              alt=""
+              aria-hidden
+            />
+          </div>
+          <div
+            className={classNames(
+              'module-message__unopened-gift-badge__text',
+              `module-message__unopened-gift-badge__text--${direction}`
+            )}
+          >
+            <div
+              className={classNames(
+                'module-message__text',
+                `module-message__text--${direction}`
+              )}
+              dir={isRTL ? 'rtl' : undefined}
+            >
+              {description}
+              {this.getMetadataPlacement() ===
+                MetadataPlacement.InlineWithText && (
+                <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
+              )}
+            </div>
+            {this.renderMetadata()}
+          </div>
+        </div>
+      );
+    }
+
+    if (giftBadge.state === GiftBadgeStates.Redeemed) {
+      const badgeId = `BOOST-${giftBadge.level}`;
+      const badgeSize = 64;
+      const badge = getPreferredBadge([{ id: badgeId }]);
+      const badgeImagePath = getBadgeImageFileLocalPath(
+        badge,
+        badgeSize,
+        BadgeImageTheme.Transparent
+      );
+
+      let remaining: string;
+      const duration = giftBadge.expiration - Date.now();
+
+      const remainingDays = Math.floor(duration / DAY);
+      const remainingHours = Math.floor(duration / HOUR);
+      const remainingMinutes = Math.floor(duration / MINUTE);
+
+      if (remainingDays > 1) {
+        remaining = i18n('message--giftBadge--remaining--days', {
+          days: remainingDays,
+        });
+      } else if (remainingHours > 1) {
+        remaining = i18n('message--giftBadge--remaining--hours', {
+          hours: remainingHours,
+        });
+      } else if (remainingMinutes > 1) {
+        remaining = i18n('message--giftBadge--remaining--minutes', {
+          minutes: remainingMinutes,
+        });
+      } else if (remainingMinutes === 1) {
+        remaining = i18n('message--giftBadge--remaining--one-minute');
+      } else {
+        remaining = i18n('message--giftBadge--expired');
+      }
+
+      const wasSent = direction === 'outgoing';
+      const buttonContents = wasSent ? (
+        i18n('message--giftBadge--view')
+      ) : (
+        <>
+          <span
+            className={classNames(
+              'module-message__redeemed-gift-badge__icon-check',
+              `module-message__redeemed-gift-badge__icon-check--${direction}`
+            )}
+          />{' '}
+          {i18n('message--giftBadge--redeemed')}
+        </>
+      );
+
+      const badgeElement = badge ? (
+        <img
+          className="module-message__redeemed-gift-badge__badge"
+          src={badgeImagePath}
+          alt={badge.name}
+        />
+      ) : (
+        <div
+          className={classNames(
+            'module-message__redeemed-gift-badge__badge',
+            `module-message__redeemed-gift-badge__badge--missing-${direction}`
+          )}
+          aria-label={i18n('giftBadge--missing')}
+        />
+      );
+
+      return (
+        <div className="module-message__redeemed-gift-badge__container">
+          <div className="module-message__redeemed-gift-badge">
+            {badgeElement}
+            <div className="module-message__redeemed-gift-badge__text">
+              <div className="module-message__redeemed-gift-badge__title">
+                {i18n('message--giftBadge')}
+              </div>
+              <div
+                className={classNames(
+                  'module-message__redeemed-gift-badge__remaining',
+                  `module-message__redeemed-gift-badge__remaining--${direction}`
+                )}
+              >
+                {remaining}
+              </div>
+            </div>
+          </div>
+          <button
+            className={classNames(
+              'module-message__redeemed-gift-badge__button',
+              `module-message__redeemed-gift-badge__button--${direction}`
+            )}
+            disabled={!wasSent}
+            onClick={
+              wasSent
+                ? () => this.setState({ showOutgoingGiftBadgeModal: true })
+                : undefined
+            }
+            type="button"
+          >
+            <div className="module-message__redeemed-gift-badge__button__text">
+              {buttonContents}
+            </div>
+          </button>
+          {this.renderMetadata()}
+          {showOutgoingGiftBadgeModal ? (
+            <OutgoingGiftBadgeModal
+              i18n={i18n}
+              recipientTitle={conversationTitle}
+              badgeId={badgeId}
+              getPreferredBadge={getPreferredBadge}
+              hideOutgoingGiftBadgeModal={() =>
+                this.setState({ showOutgoingGiftBadgeModal: false })
+              }
+            />
+          ) : null}
+        </div>
+      );
+    }
+
+    throw missingCaseError(giftBadge.state);
+  }
+
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
@@ -1216,14 +1460,13 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       quote,
       scrollToQuotedMessage,
-      shouldCollapseAbove,
     } = this.props;
 
     if (!quote) {
       return null;
     }
 
-    const { isViewOnce, referencedMessageNotFound } = quote;
+    const { isGiftBadge, isViewOnce, referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
       ? undefined
@@ -1236,19 +1479,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
 
-    let curveTopLeft: boolean;
-    let curveTopRight: boolean;
-    if (this.shouldRenderAuthor()) {
-      curveTopLeft = false;
-      curveTopRight = false;
-    } else if (isIncoming) {
-      curveTopLeft = !shouldCollapseAbove;
-      curveTopRight = true;
-    } else {
-      curveTopLeft = true;
-      curveTopRight = !shouldCollapseAbove;
-    }
-
     return (
       <Quote
         i18n={i18n}
@@ -1260,9 +1490,8 @@ export class Message extends React.PureComponent<Props, State> {
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
         customColor={customColor}
-        curveTopLeft={curveTopLeft}
-        curveTopRight={curveTopRight}
         isViewOnce={isViewOnce}
+        isGiftBadge={isGiftBadge}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         doubleCheckMissingQuoteReference={() =>
@@ -1279,7 +1508,6 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       storyReplyContext,
-      shouldCollapseAbove,
     } = this.props;
 
     if (!storyReplyContext) {
@@ -1287,19 +1515,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const isIncoming = direction === 'incoming';
-
-    let curveTopLeft: boolean;
-    let curveTopRight: boolean;
-    if (this.shouldRenderAuthor()) {
-      curveTopLeft = false;
-      curveTopRight = false;
-    } else if (isIncoming) {
-      curveTopLeft = !shouldCollapseAbove;
-      curveTopRight = true;
-    } else {
-      curveTopLeft = true;
-      curveTopRight = !shouldCollapseAbove;
-    }
 
     return (
       <>
@@ -1311,11 +1526,10 @@ export class Message extends React.PureComponent<Props, State> {
         <Quote
           authorTitle={storyReplyContext.authorTitle}
           conversationColor={conversationColor}
-          curveTopLeft={curveTopLeft}
-          curveTopRight={curveTopRight}
           customColor={customColor}
           i18n={i18n}
           isFromMe={storyReplyContext.isFromMe}
+          isGiftBadge={false}
           isIncoming={isIncoming}
           isStoryReply
           isViewOnce={false}
@@ -1757,6 +1971,7 @@ export class Message extends React.PureComponent<Props, State> {
       deleteMessage,
       deleteMessageForEveryone,
       deletedForEveryone,
+      giftBadge,
       i18n,
       id,
       isSticker,
@@ -1769,7 +1984,8 @@ export class Message extends React.PureComponent<Props, State> {
       text,
     } = this.props;
 
-    const canForward = !isTapToView && !deletedForEveryone && !contact;
+    const canForward =
+      !isTapToView && !deletedForEveryone && !giftBadge && !contact;
     const multipleAttachments = attachments && attachments.length > 1;
 
     const shouldShowAdditional =
@@ -1934,7 +2150,11 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public getWidth(): number | undefined {
-    const { attachments, isSticker, previews } = this.props;
+    const { attachments, giftBadge, isSticker, previews } = this.props;
+
+    if (giftBadge) {
+      return 240;
+    }
 
     if (attachments && attachments.length) {
       if (isGIF(attachments)) {
@@ -2370,7 +2590,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderContents(): JSX.Element | null {
-    const { isTapToView, deletedForEveryone } = this.props;
+    const { giftBadge, isTapToView, deletedForEveryone } = this.props;
 
     if (deletedForEveryone) {
       return (
@@ -2379,6 +2599,10 @@ export class Message extends React.PureComponent<Props, State> {
           {this.renderMetadata()}
         </>
       );
+    }
+
+    if (giftBadge) {
+      return this.renderGiftBadge();
     }
 
     if (isTapToView) {
@@ -2412,11 +2636,13 @@ export class Message extends React.PureComponent<Props, State> {
       contact,
       displayTapToViewMessage,
       direction,
+      giftBadge,
       id,
       isTapToView,
       isTapToViewExpired,
       kickOffAttachmentDownload,
       openConversation,
+      openGiftBadge,
       showContactDetail,
       showVisualAttachment,
       showExpiredIncomingTapToViewToast,
@@ -2425,6 +2651,11 @@ export class Message extends React.PureComponent<Props, State> {
     const { imageBroken } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
+
+    if (giftBadge && giftBadge.state === GiftBadgeStates.Unopened) {
+      openGiftBadge(id);
+      return;
+    }
 
     if (isTapToView) {
       if (isAttachmentPending) {
@@ -2621,6 +2852,7 @@ export class Message extends React.PureComponent<Props, State> {
       customColor,
       deletedForEveryone,
       direction,
+      giftBadge,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -2632,7 +2864,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isAttachmentPending = this.isAttachmentPending();
 
     const width = this.getWidth();
-    const isShowingImage = this.isShowingImage();
+    const shouldUseWidth = Boolean(giftBadge || this.isShowingImage());
 
     const isEmojiOnly = this.canRenderStickerLikeEmoji();
     const isStickerLike = isSticker || isEmojiOnly;
@@ -2673,7 +2905,7 @@ export class Message extends React.PureComponent<Props, State> {
         : null
     );
     const containerStyles = {
-      width: isShowingImage ? width : undefined,
+      width: shouldUseWidth ? width : undefined,
     };
     if (!isStickerLike && !deletedForEveryone && direction === 'outgoing') {
       Object.assign(containerStyles, getCustomColorStyle(customColor));

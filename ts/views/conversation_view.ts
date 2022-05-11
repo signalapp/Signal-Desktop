@@ -97,6 +97,7 @@ import { ToastReportedSpamAndBlocked } from '../components/ToastReportedSpamAndB
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
+import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
 import { autoScale } from '../util/handleImageAttachment';
 import { copyGroupLink } from '../util/copyGroupLink';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
@@ -163,6 +164,7 @@ type MessageActionsType = {
   markAttachmentAsCorrupted: (options: AttachmentOptions) => unknown;
   markViewed: (messageId: string) => unknown;
   openConversation: (conversationId: string, messageId?: string) => unknown;
+  openGiftBadge: (messageId: string) => unknown;
   openLink: (url: string) => unknown;
   reactToMessage: (
     messageId: string,
@@ -859,6 +861,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const showIdentity = (conversationId: string) => {
       this.showSafetyNumber(conversationId);
     };
+    const openGiftBadge = (messageId: string): void => {
+      const message = window.MessageController.getById(messageId);
+      if (!message) {
+        throw new Error(`openGiftBadge: Message ${messageId} missing!`);
+      }
+
+      showToast(ToastCannotOpenGiftBadge, {
+        isIncoming: isIncoming(message.attributes),
+      });
+    };
+
     const openLink = openLinkInWebBrowser;
     const downloadNewVersion = () => {
       openLinkInWebBrowser('https://signal.org/download');
@@ -888,6 +901,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       markAttachmentAsCorrupted,
       markViewed: onMarkViewed,
       openConversation,
+      openGiftBadge,
       openLink,
       reactToMessage,
       replyToMessage,

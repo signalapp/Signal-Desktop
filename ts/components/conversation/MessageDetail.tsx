@@ -73,6 +73,7 @@ export type PropsBackboneActions = Pick<
   | 'markAttachmentAsCorrupted'
   | 'markViewed'
   | 'openConversation'
+  | 'openGiftBadge'
   | 'openLink'
   | 'reactToMessage'
   | 'renderAudioAttachment'
@@ -284,6 +285,7 @@ export class MessageDetail extends React.Component<Props> {
       markAttachmentAsCorrupted,
       markViewed,
       openConversation,
+      openGiftBadge,
       openLink,
       reactToMessage,
       renderAudioAttachment,
@@ -339,6 +341,7 @@ export class MessageDetail extends React.Component<Props> {
             markViewed={markViewed}
             messageExpanded={noop}
             openConversation={openConversation}
+            openGiftBadge={openGiftBadge}
             openLink={openLink}
             reactToMessage={reactToMessage}
             renderAudioAttachment={renderAudioAttachment}

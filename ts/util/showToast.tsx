@@ -9,6 +9,10 @@ import type { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequ
 import type { ToastBlocked } from '../components/ToastBlocked';
 import type { ToastBlockedGroup } from '../components/ToastBlockedGroup';
 import type { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
+import type {
+  ToastCannotOpenGiftBadge,
+  ToastPropsType as ToastCannotOpenGiftBadgePropsType,
+} from '../components/ToastCannotOpenGiftBadge';
 import type { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
 import type { ToastCaptchaFailed } from '../components/ToastCaptchaFailed';
 import type { ToastCaptchaSolved } from '../components/ToastCaptchaSolved';
@@ -60,6 +64,10 @@ export function showToast(
   Toast: typeof ToastCannotMixImageAndNonImageAttachments
 ): void;
 export function showToast(Toast: typeof ToastCannotStartGroupCall): void;
+export function showToast(
+  Toast: typeof ToastCannotOpenGiftBadge,
+  props: Omit<ToastCannotOpenGiftBadgePropsType, 'i18n' | 'onClose'>
+): void;
 export function showToast(Toast: typeof ToastCaptchaFailed): void;
 export function showToast(Toast: typeof ToastCaptchaSolved): void;
 export function showToast(

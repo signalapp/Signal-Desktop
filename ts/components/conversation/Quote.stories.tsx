@@ -49,6 +49,7 @@ const defaultMessageProps: MessagesProps = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor: 'crimson',
   conversationId: 'conversationId',
+  conversationTitle: 'Conversation Title',
   conversationType: 'direct', // override
   deleteMessage: action('default--deleteMessage'),
   deleteMessageForEveryone: action('default--deleteMessageForEveryone'),
@@ -70,6 +71,7 @@ const defaultMessageProps: MessagesProps = {
   markViewed: action('default--markViewed'),
   messageExpanded: action('default--message-expanded'),
   openConversation: action('default--openConversation'),
+  openGiftBadge: action('openGiftBadge'),
   openLink: action('default--openLink'),
   previews: [],
   reactToMessage: action('default--reactToMessage'),
@@ -110,6 +112,7 @@ const renderInMessage = ({
   isFromMe,
   rawAttachment,
   isViewOnce,
+  isGiftBadge,
   referencedMessageNotFound,
   text: quoteText,
 }: Props) => {
@@ -123,6 +126,7 @@ const renderInMessage = ({
       isFromMe,
       rawAttachment,
       isViewOnce,
+      isGiftBadge,
       referencedMessageNotFound,
       sentAt: Date.now() - 30 * 1000,
       text: quoteText,
@@ -139,7 +143,10 @@ const renderInMessage = ({
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  authorTitle: text(
+    'authorTitle',
+    overrideProps.authorTitle || 'Default Sender'
+  ),
   conversationColor: overrideProps.conversationColor || 'forest',
   doubleCheckMissingQuoteReference:
     overrideProps.doubleCheckMissingQuoteReference ||
@@ -154,6 +161,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false
   ),
+  isGiftBadge: boolean('isGiftBadge', overrideProps.isGiftBadge || false),
   isViewOnce: boolean('isViewOnce', overrideProps.isViewOnce || false),
   text: text(
     'text',
@@ -336,6 +344,15 @@ story.add('Video Tap-to-View', () => {
   });
 
   return <Quote {...props} />;
+});
+
+story.add('Gift Badge', () => {
+  const props = createProps({
+    text: '',
+    isGiftBadge: true,
+  });
+
+  return renderInMessage(props);
 });
 
 story.add('Audio Only', () => {

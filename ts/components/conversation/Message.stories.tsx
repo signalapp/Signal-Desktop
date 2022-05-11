@@ -12,7 +12,7 @@ import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import type { Props, AudioAttachmentProps } from './Message';
-import { TextDirection, Message } from './Message';
+import { GiftBadgeStates, Message, TextDirection } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -30,7 +30,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
-import { MINUTE } from '../../util/durations';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { ContactFormType } from '../../types/EmbeddedContact';
 
 import {
@@ -40,6 +40,7 @@ import {
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 import { UUID } from '../../types/UUID';
+import { BadgeCategory } from '../../badges/BadgeCategory';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -119,6 +120,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationColor:
     overrideProps.conversationColor ||
     select('conversationColor', ConversationColors, ConversationColors[0]),
+  conversationTitle:
+    overrideProps.conversationTitle ||
+    text('conversationTitle', 'Conversation Title'),
   conversationId: text('conversationId', overrideProps.conversationId || ''),
   conversationType: overrideProps.conversationType || 'direct',
   contact: overrideProps.contact,
@@ -138,8 +142,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     number('expirationTimestamp', overrideProps.expirationTimestamp || 0) ||
     undefined,
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
+  giftBadge: overrideProps.giftBadge,
   i18n,
-  id: text('id', overrideProps.id || ''),
+  id: text('id', overrideProps.id || 'random-message-id'),
   renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
@@ -159,6 +164,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
   openConversation: action('openConversation'),
+  openGiftBadge: action('openGiftBadge'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],
   reactions: overrideProps.reactions,
@@ -1218,6 +1224,7 @@ story.add('Other File Type', () => {
         contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
+        fileSize: '10MB',
       }),
     ],
     status: 'sent',
@@ -1233,6 +1240,7 @@ story.add('Other File Type with Caption', () => {
         contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
+        fileSize: '10MB',
       }),
     ],
     status: 'sent',
@@ -1250,6 +1258,7 @@ story.add('Other File Type with Long Filename', () => {
         fileName:
           'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
         url: 'a2/a2334324darewer4234',
+        fileSize: '10MB',
       }),
     ],
     status: 'sent',
@@ -1710,6 +1719,104 @@ story.add('EmbeddedContact: Loading Avatar', () => {
         }),
         isProfile: true,
       },
+    },
+  });
+  return renderBothDirections(props);
+});
+
+story.add('Gift Badge: Unopened', () => {
+  const props = createProps({
+    giftBadge: {
+      state: GiftBadgeStates.Unopened,
+      expiration: Date.now() + DAY * 30,
+      level: 3,
+    },
+  });
+  return renderBothDirections(props);
+});
+
+const getPreferredBadge = () => ({
+  category: BadgeCategory.Donor,
+  descriptionTemplate: 'This is a description of the badge',
+  id: 'BOOST-3',
+  images: [
+    {
+      transparent: {
+        localPath: '/fixtures/orange-heart.svg',
+        url: 'http://someplace',
+      },
+    },
+  ],
+  name: 'heart',
+});
+
+story.add('Gift Badge: Redeemed (30 days)', () => {
+  const props = createProps({
+    getPreferredBadge,
+    giftBadge: {
+      state: GiftBadgeStates.Redeemed,
+      expiration: Date.now() + DAY * 30 + SECOND,
+      level: 3,
+    },
+  });
+  return renderBothDirections(props);
+});
+
+story.add('Gift Badge: Redeemed (24 hours)', () => {
+  const props = createProps({
+    getPreferredBadge,
+    giftBadge: {
+      state: GiftBadgeStates.Redeemed,
+      expiration: Date.now() + DAY + SECOND,
+      level: 3,
+    },
+  });
+  return renderBothDirections(props);
+});
+
+story.add('Gift Badge: Redeemed (60 minutes)', () => {
+  const props = createProps({
+    getPreferredBadge,
+    giftBadge: {
+      state: GiftBadgeStates.Redeemed,
+      expiration: Date.now() + HOUR + SECOND,
+      level: 3,
+    },
+  });
+  return renderBothDirections(props);
+});
+
+story.add('Gift Badge: Redeemed (1 minute)', () => {
+  const props = createProps({
+    getPreferredBadge,
+    giftBadge: {
+      state: GiftBadgeStates.Redeemed,
+      expiration: Date.now() + MINUTE + SECOND,
+      level: 3,
+    },
+  });
+  return renderBothDirections(props);
+});
+
+story.add('Gift Badge: Redeemed (expired)', () => {
+  const props = createProps({
+    getPreferredBadge,
+    giftBadge: {
+      state: GiftBadgeStates.Redeemed,
+      expiration: Date.now(),
+      level: 3,
+    },
+  });
+  return renderBothDirections(props);
+});
+
+story.add('Gift Badge: Missing Badge', () => {
+  const props = createProps({
+    getPreferredBadge: () => undefined,
+    giftBadge: {
+      state: GiftBadgeStates.Redeemed,
+      expiration: Date.now() + MINUTE + SECOND,
+      level: 3,
     },
   });
   return renderBothDirections(props);

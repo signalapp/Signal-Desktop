@@ -248,6 +248,7 @@ const getActions = createSelector(
       'deleteMessageForEveryone',
       'showMessageDetail',
       'openConversation',
+      'openGiftBadge',
       'showContactDetail',
       'showContactModal',
       'kickOffAttachmentDownload',

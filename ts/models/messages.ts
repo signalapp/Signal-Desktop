@@ -38,6 +38,7 @@ import type {
 } from '../textsecure/Types.d';
 import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
+import { getUserLanguages } from '../util/userLanguages';
 
 import type { ReactionType } from '../types/Reactions';
 import { UUID, UUIDKind } from '../types/UUID';
@@ -86,6 +87,7 @@ import {
   isDeliveryIssue,
   isEndSession,
   isExpirationTimerUpdate,
+  isGiftBadge,
   isGroupUpdate,
   isGroupV1Migration,
   isGroupV2Change,
@@ -153,6 +155,8 @@ import { shouldShowStoriesView } from '../state/selectors/stories';
 import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
 import { SeenStatus } from '../MessageSeenStatus';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
+import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
+import { GiftBadgeStates } from '../components/conversation/Message';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -762,6 +766,26 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       };
     }
 
+    const giftBadge = this.get('giftBadge');
+    if (giftBadge) {
+      const emoji = '🎁';
+
+      if (isIncoming(this.attributes)) {
+        return {
+          emoji,
+          text: window.i18n('message--giftBadge--preview--sent'),
+        };
+      }
+
+      return {
+        emoji,
+        text:
+          giftBadge.state === GiftBadgeStates.Unopened
+            ? window.i18n('message--giftBadge--preview--unopened')
+            : window.i18n('message--giftBadge--preview--redeemed'),
+      };
+    }
+
     if (body) {
       return { text: body };
     }
@@ -1093,6 +1117,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isCallHistoryValue = isCallHistory(attributes);
     const isChatSessionRefreshedValue = isChatSessionRefreshed(attributes);
     const isDeliveryIssueValue = isDeliveryIssue(attributes);
+    const isGiftBadgeValue = isGiftBadge(attributes);
     const isGroupUpdateValue = isGroupUpdate(attributes);
     const isGroupV2ChangeValue = isGroupV2Change(attributes);
     const isEndSessionValue = isEndSession(attributes);
@@ -1124,6 +1149,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isCallHistoryValue ||
       isChatSessionRefreshedValue ||
       isDeliveryIssueValue ||
+      isGiftBadgeValue ||
       isGroupUpdateValue ||
       isGroupV2ChangeValue ||
       isEndSessionValue ||
@@ -1812,6 +1838,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       // Just placeholder values for the fields
       referencedMessageNotFound: false,
+      isGiftBadge: quote.type === Proto.DataMessage.Quote.Type.GIFT_BADGE,
       isViewOnce: false,
       messageId: '',
     };
@@ -1865,6 +1892,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ];
       // eslint-disable-next-line no-param-reassign
       quote.isViewOnce = true;
+
+      return;
+    }
+
+    const isMessageAGiftBadge = isGiftBadge(originalMessage.attributes);
+    if (isMessageAGiftBadge !== quote.isGiftBadge) {
+      log.warn(
+        `copyQuoteContentFromOriginal: Quote.isGiftBadge: ${quote.isGiftBadge}, isGiftBadge(message): ${isMessageAGiftBadge}`
+      );
+      // eslint-disable-next-line no-param-reassign
+      quote.isGiftBadge = isMessageAGiftBadge;
+    }
+    if (isMessageAGiftBadge) {
+      // eslint-disable-next-line no-param-reassign
+      quote.text = undefined;
+      // eslint-disable-next-line no-param-reassign
+      quote.attachments = [];
 
       return;
     }
@@ -2310,6 +2354,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           decrypted_at: now,
           errors: [],
           flags: dataMessage.flags,
+          giftBadge: initialMessage.giftBadge,
           hasAttachments: dataMessage.hasAttachments,
           hasFileAttachments: dataMessage.hasFileAttachments,
           hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
@@ -2612,9 +2657,50 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         conversation.incrementMessageCount();
         window.Signal.Data.updateConversation(conversation.attributes);
 
+        const reduxState = window.reduxStore.getState();
+
+        const giftBadge = message.get('giftBadge');
+        if (giftBadge) {
+          const { level } = giftBadge;
+          const existingBadgesById = reduxState.badges.byId;
+
+          const badgeId = `BOOST-${level}`;
+          if (!existingBadgesById[badgeId]) {
+            const { updatesUrl } = window.SignalContext.config;
+            strictAssert(
+              typeof updatesUrl === 'string',
+              'getProfile: expected updatesUrl to be a defined string'
+            );
+            const userLanguages = getUserLanguages(
+              navigator.languages,
+              window.getLocale()
+            );
+            const response =
+              await window.textsecure.messaging.server.getBoostBadgesFromServer(
+                userLanguages
+              );
+            const boostBadges = parseBoostBadgeListFromServer(
+              response,
+              updatesUrl
+            );
+            const badge = boostBadges[badgeId];
+            if (!badge) {
+              log.error(
+                `handleDataMessage: gift badge ${badgeId} not found on server`
+              );
+            } else {
+              await window.reduxActions.badges.updateOrCreate([
+                {
+                  ...badge,
+                  id: badgeId,
+                },
+              ]);
+            }
+          }
+        }
+
         // Only queue attachments for downloads if this is a story or
         // outgoing message or we've accepted the conversation
-        const reduxState = window.reduxStore.getState();
         const attachments = this.get('attachments') || [];
 
         let queueStoryForDownload = false;

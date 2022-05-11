@@ -200,6 +200,7 @@ describe('processDataMessage', () => {
         },
       ],
       bodyRanges: [],
+      type: 0,
     });
   });
 

@@ -83,6 +83,7 @@ export type TimelinePropsType = ExternalProps &
     | 'onDelete'
     | 'onUnblock'
     | 'openConversation'
+    | 'openGiftBadge'
     | 'openLink'
     | 'reactToMessage'
     | 'removeMember'

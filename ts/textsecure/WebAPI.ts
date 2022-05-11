@@ -527,6 +527,7 @@ const URL_CALLS = {
   accountExistence: 'v1/accounts/account',
   attachmentId: 'v2/attachments/form/upload',
   attestation: 'v1/attestation',
+  boostBadges: 'v1/subscription/boost/badges',
   challenge: 'v1/challenge',
   config: 'v1/config',
   deliveryCert: 'v1/certificate/delivery',
@@ -660,6 +661,7 @@ export type WebAPIConnectType = {
 
 export type CapabilitiesType = {
   announcementGroup: boolean;
+  giftBadges: boolean;
   'gv1-migration': boolean;
   senderKey: boolean;
   changeNumber: boolean;
@@ -667,6 +669,7 @@ export type CapabilitiesType = {
 };
 export type CapabilitiesUploadType = {
   announcementGroup: true;
+  giftBadges: true;
   'gv2-3': true;
   'gv1-migration': true;
   senderKey: true;
@@ -864,6 +867,9 @@ export type WebAPIType = {
     options: GetProfileUnauthOptionsType
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
+  getBoostBadgesFromServer: (
+    userLanguages: ReadonlyArray<string>
+  ) => Promise<unknown>;
   getProvisioningResource: (
     handler: IRequestHandler
   ) => Promise<WebSocketResource>;
@@ -1186,6 +1192,7 @@ export function initialize({
       getProfileForUsername,
       getProfileUnauth,
       getBadgeImageFile,
+      getBoostBadgesFromServer,
       getProvisioningResource,
       getSenderCertificate,
       getSticker,
@@ -1630,6 +1637,19 @@ export function initialize({
       });
     }
 
+    async function getBoostBadgesFromServer(
+      userLanguages: ReadonlyArray<string>
+    ): Promise<unknown> {
+      return _ajax({
+        call: 'boostBadges',
+        httpType: 'GET',
+        headers: {
+          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
+        },
+        responseType: 'json',
+      });
+    }
+
     async function getAvatar(path: string) {
       // Using _outerAJAX, since it's not hardcoded to the Signal Server. Unlike our
       //   attachment CDN, it uses our self-signed certificate, so we pass it in.
@@ -1744,6 +1764,7 @@ export function initialize({
     ) {
       const capabilities: CapabilitiesUploadType = {
         announcementGroup: true,
+        giftBadges: true,
         'gv2-3': true,
         'gv1-migration': true,
         senderKey: true,

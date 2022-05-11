@@ -143,6 +143,7 @@ export const StoryViewsNRepliesModal = ({
             conversationColor="ultramarine"
             i18n={i18n}
             isFromMe={false}
+            isGiftBadge={false}
             isStoryReply
             isViewOnce={false}
             moduleClassName="StoryViewsNRepliesModal__quote"

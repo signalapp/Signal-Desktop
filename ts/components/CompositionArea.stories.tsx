@@ -191,6 +191,7 @@ story.add('Quote', () => (
       quotedMessageProps: {
         text: 'something',
         conversationColor: ConversationColors[10],
+        isGiftBadge: false,
         isViewOnce: false,
         referencedMessageNotFound: false,
         authorTitle: 'Someone',

@@ -502,6 +502,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       authorUuid,
       id: sentAt,
       isViewOnce,
+      isGiftBadge: isTargetGiftBadge,
       referencedMessageNotFound,
       text = '',
     } = quote;
@@ -534,6 +535,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       rawAttachment: firstAttachment
         ? processQuoteAttachment(firstAttachment)
         : undefined,
+      isGiftBadge: Boolean(isTargetGiftBadge),
       isViewOnce,
       referencedMessageNotFound,
       sentAt: Number(sentAt),
@@ -569,6 +571,7 @@ type ShallowPropsType = Pick<
   | 'contactNameColor'
   | 'conversationColor'
   | 'conversationId'
+  | 'conversationTitle'
   | 'conversationType'
   | 'customColor'
   | 'deletedForEveryone'
@@ -576,6 +579,7 @@ type ShallowPropsType = Pick<
   | 'displayLimit'
   | 'expirationLength'
   | 'expirationTimestamp'
+  | 'giftBadge'
   | 'id'
   | 'isBlocked'
   | 'isMessageRequestAccepted'
@@ -654,6 +658,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       contactNameColor,
       conversationColor,
       conversationId,
+      conversationTitle: conversation.title,
       conversationType: isGroup ? 'group' : 'direct',
       customColor,
       deletedForEveryone: message.deletedForEveryone || false,
@@ -661,6 +666,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       displayLimit: message.displayLimit,
       expirationLength,
       expirationTimestamp,
+      giftBadge: message.giftBadge,
       id: message.id,
       isBlocked: conversation.isBlocked || false,
       isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
@@ -1078,6 +1084,14 @@ function getPropsForVerificationNotification(
     isLocal,
     contact: conversationSelector(identifier),
   };
+}
+
+// Gift Badge
+
+export function isGiftBadge(
+  message: Pick<MessageWithUIFieldsType, 'giftBadge'>
+): boolean {
+  return Boolean(message.giftBadge);
 }
 
 // Group Update (V1)

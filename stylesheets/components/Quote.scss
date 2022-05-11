@@ -63,7 +63,6 @@
 .module-quote--outgoing {
   border-left-color: $color-steel;
   background-color: $color-steel;
-  margin-top: -4px;
 
   // To preserve contrast
   @include keyboard-mode {
@@ -124,14 +123,6 @@
   .module-quote--outgoing-#{$color} {
     border-left-color: $color-white;
   }
-}
-
-.module-quote--curve-top-left {
-  border-top-left-radius: 12px;
-}
-
-.module-quote--curve-top-right {
-  border-top-right-radius: 12px;
 }
 
 .module-quote__primary {
@@ -265,6 +256,18 @@
   flex: 0 0 54px;
   position: relative;
   width: 54px;
+
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.module-quote__icon-container__outgoing-gift-badge {
+  @include light-theme {
+    border: 1px solid $color-white;
+  }
+  @include dark-theme {
+    border: 1px solid $color-white-alpha-80;
+  }
 }
 
 .module-quote__icon-container__inner {

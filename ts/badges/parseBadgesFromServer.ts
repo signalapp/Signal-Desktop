@@ -23,6 +23,96 @@ const badgeFromServerSchema = z.object({
   visible: z.boolean().optional(),
 });
 
+// GET /v1/subscription/boost/badges
+const boostBadgesFromServerSchema = z.object({
+  levels: z.record(
+    z
+      .object({
+        badge: z.unknown(),
+      })
+      .or(z.undefined())
+  ),
+});
+
+export function parseBoostBadgeListFromServer(
+  value: unknown,
+  updatesUrl: string
+): Record<string, BadgeType> {
+  const result: Record<string, BadgeType> = {};
+
+  const parseResult = boostBadgesFromServerSchema.safeParse(value);
+  if (!parseResult.success) {
+    log.warn(
+      'parseBoostBadgeListFromServer: server response was invalid:',
+      parseResult.error.format()
+    );
+    throw new Error(
+      'parseBoostBadgeListFromServer: Failed to parse server response'
+    );
+  }
+
+  const boostBadges = parseResult.data;
+  Object.keys(boostBadges.levels).forEach(level => {
+    const item = boostBadges.levels[level];
+    if (!item) {
+      log.warn(`parseBoostBadgeListFromServer: level ${level} had no badge`);
+      return;
+    }
+
+    const parsed = parseBadgeFromServer(item.badge, updatesUrl);
+
+    if (parsed) {
+      result[`BOOST-${level}`] = parsed;
+    }
+  });
+
+  return result;
+}
+
+export function parseBadgeFromServer(
+  value: unknown,
+  updatesUrl: string
+): BadgeType | undefined {
+  const parseResult = badgeFromServerSchema.safeParse(value);
+  if (!parseResult.success) {
+    log.warn(
+      'parseBadgeFromServer: badge was invalid:',
+      parseResult.error.format()
+    );
+    return undefined;
+  }
+
+  const {
+    category,
+    description: descriptionTemplate,
+    expiration,
+    id,
+    name,
+    svg,
+    svgs,
+    visible,
+  } = parseResult.data;
+  const images = parseImages(svgs, svg, updatesUrl);
+  if (images.length !== 4) {
+    log.warn('Got invalid number of SVGs from the server');
+    return undefined;
+  }
+
+  return {
+    id,
+    category: parseBadgeCategory(category),
+    name,
+    descriptionTemplate,
+    images,
+    ...(isNormalNumber(expiration) && typeof visible === 'boolean'
+      ? {
+          expiresAt: expiration * 1000,
+          isVisible: visible,
+        }
+      : {}),
+  };
+}
+
 export function parseBadgesFromServer(
   value: unknown,
   updatesUrl: string
@@ -36,45 +126,13 @@ export function parseBadgesFromServer(
   const numberOfBadgesToParse = Math.min(value.length, MAX_BADGES);
   for (let i = 0; i < numberOfBadgesToParse; i += 1) {
     const item = value[i];
+    const parsed = parseBadgeFromServer(item, updatesUrl);
 
-    const parseResult = badgeFromServerSchema.safeParse(item);
-    if (!parseResult.success) {
-      log.warn(
-        'parseBadgesFromServer got an invalid item',
-        parseResult.error.format()
-      );
+    if (!parsed) {
       continue;
     }
 
-    const {
-      category,
-      description: descriptionTemplate,
-      expiration,
-      id,
-      name,
-      svg,
-      svgs,
-      visible,
-    } = parseResult.data;
-    const images = parseImages(svgs, svg, updatesUrl);
-    if (images.length !== 4) {
-      log.warn('Got invalid number of SVGs from the server');
-      continue;
-    }
-
-    result.push({
-      id,
-      category: parseBadgeCategory(category),
-      name,
-      descriptionTemplate,
-      images,
-      ...(isNormalNumber(expiration) && typeof visible === 'boolean'
-        ? {
-            expiresAt: expiration * 1000,
-            isVisible: visible,
-          }
-        : {}),
-    });
+    result.push(parsed);
   }
 
   return result;

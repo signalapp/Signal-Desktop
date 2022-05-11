@@ -2096,6 +2096,7 @@ export async function startApp(): Promise<void> {
           await Promise.all([
             server.registerCapabilities({
               announcementGroup: true,
+              giftBadges: true,
               'gv2-3': true,
               'gv1-migration': true,
               senderKey: true,
