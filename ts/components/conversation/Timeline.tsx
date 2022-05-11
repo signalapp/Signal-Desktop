@@ -86,6 +86,7 @@ export type ContactSpoofingReviewPropType =
 export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
+  messageChangeCounter: number;
   messageLoadingState?: TimelineMessageLoadingState;
   isNearBottom?: boolean;
   items: ReadonlyArray<string>;
@@ -648,12 +649,14 @@ export class Timeline extends React.Component<
   ): void {
     const {
       items: oldItems,
+      messageChangeCounter: previousMessageChangeCounter,
       messageLoadingState: previousMessageLoadingState,
     } = prevProps;
     const {
       discardMessages,
       id,
       items: newItems,
+      messageChangeCounter,
       messageLoadingState,
     } = this.props;
 
@@ -712,7 +715,8 @@ export class Timeline extends React.Component<
           numberToKeepAtTop,
         });
       }
-    } else {
+    }
+    if (previousMessageChangeCounter !== messageChangeCounter) {
       this.markNewestBottomVisibleMessageRead();
     }
   }

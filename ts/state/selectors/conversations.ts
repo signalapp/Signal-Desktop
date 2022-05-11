@@ -828,6 +828,7 @@ export function _conversationMessagesSelector(
 ): TimelinePropsType {
   const {
     isNearBottom,
+    messageChangeCounter,
     messageIds,
     messageLoadingState,
     metrics,
@@ -860,6 +861,7 @@ export function _conversationMessagesSelector(
     haveOldest,
     isNearBottom,
     items,
+    messageChangeCounter,
     messageLoadingState,
     oldestUnseenIndex:
       isNumber(oldestUnseenIndex) && oldestUnseenIndex >= 0
@@ -899,6 +901,7 @@ export const getConversationMessagesSelector = createSelector(
         return {
           haveNewest: false,
           haveOldest: false,
+          messageChangeCounter: 0,
           messageLoadingState: TimelineMessageLoadingState.DoingInitialLoad,
           scrollToIndexCounter: 0,
           totalUnseen: 0,

@@ -244,6 +244,7 @@ export type MessageLookupType = {
 };
 export type ConversationMessageType = {
   isNearBottom?: boolean;
+  messageChangeCounter: number;
   messageIds: Array<string>;
   messageLoadingState?: undefined | TimelineMessageLoadingState;
   metrics: MessageMetricsType;
@@ -2502,8 +2503,18 @@ export function reducer(
       return state;
     }
 
+    const toIncrement = data.reactions?.length ? 1 : 0;
+
     return {
       ...state,
+      messagesByConversation: {
+        ...state.messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          messageChangeCounter:
+            (existingConversation.messageChangeCounter || 0) + toIncrement,
+        },
+      },
       messagesLookup: {
         ...state.messagesLookup,
         [id]: {
@@ -2582,6 +2593,7 @@ export function reducer(
       messagesByConversation: {
         ...messagesByConversation,
         [conversationId]: {
+          messageChangeCounter: 0,
           scrollToMessageId,
           scrollToMessageCounter: existingConversation
             ? existingConversation.scrollToMessageCounter + 1

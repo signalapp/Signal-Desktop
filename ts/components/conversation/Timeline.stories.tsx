@@ -542,6 +542,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.isIncomingMessageRequest === true
   ),
   items: overrideProps.items || Object.keys(items),
+  messageChangeCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
   totalUnseen: number('totalUnseen', overrideProps.totalUnseen || 0),
