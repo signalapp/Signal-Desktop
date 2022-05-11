@@ -17,6 +17,7 @@ import type {
 const EPHEMERAL_NAME_MAP = new Map([
   ['spellCheck', 'spell-check'],
   ['systemTraySetting', 'system-tray-setting'],
+  ['themeSetting', 'theme-setting'],
 ]);
 
 type ResponseQueueEntry = Readonly<{
@@ -68,7 +69,9 @@ export class SettingsChannel {
     this.installSetting('readReceiptSetting', { setter: false });
     this.installSetting('typingIndicatorSetting', { setter: false });
 
-    this.installSetting('themeSetting');
+    this.installSetting('themeSetting', {
+      isEphemeral: true,
+    });
     this.installSetting('hideMenuBar');
     this.installSetting('systemTraySetting', {
       isEphemeral: true,

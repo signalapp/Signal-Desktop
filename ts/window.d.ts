@@ -29,7 +29,7 @@ import * as Curve from './Curve';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
 import { getEnvironment } from './environment';
-import { LocalizerType } from './types/Util';
+import { LocalizerType, ThemeType } from './types/Util';
 import type { Receipt } from './types/Receipt';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
@@ -212,6 +212,7 @@ declare global {
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
+    initialTheme?: ThemeType;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;

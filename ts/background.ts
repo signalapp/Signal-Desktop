@@ -29,6 +29,7 @@ import type { Receipt } from './types/Receipt';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
+import { ThemeType } from './types/Util';
 import { ChallengeHandler } from './challenge';
 import * as durations from './util/durations';
 import { explodePromise } from './util/explodePromise';
@@ -166,6 +167,13 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
+  if (window.initialTheme === ThemeType.light) {
+    document.body.classList.add('light-theme');
+  }
+  if (window.initialTheme === ThemeType.dark) {
+    document.body.classList.add('dark-theme');
+  }
+
   const idleDetector = new IdleDetector();
 
   await KeyboardLayout.initialize();

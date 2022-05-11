@@ -15,6 +15,7 @@ try {
   const { strictAssert } = require('./ts/util/assert');
   const { parseIntWithFallback } = require('./ts/util/parseIntWithFallback');
   const { UUIDKind } = require('./ts/types/UUID');
+  const { ThemeType } = require('./ts/types/Util');
 
   // It is important to call this as early as possible
   const { SignalContext } = require('./ts/windows/context');
@@ -245,6 +246,12 @@ try {
       isFullScreen = Boolean(isFull);
       window.onFullScreenChange(isFullScreen);
     });
+  }
+
+  if (config.resolvedTheme === 'light') {
+    window.initialTheme = ThemeType.light;
+  } else if (config.resolvedTheme === 'dark') {
+    window.initialTheme = ThemeType.dark;
   }
 
   // Settings-related events

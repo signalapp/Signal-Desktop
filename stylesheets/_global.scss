@@ -235,7 +235,16 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: $color-ultramarine-icon;
+
+  /* Note: background-color is intentionally transparent until body has the
+   *       theme class.
+   */
+  @include explicit-light-theme {
+    background-color: $color-ultramarine-icon;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
   color: $color-white;
   display: flex;
   flex-direction: column;
