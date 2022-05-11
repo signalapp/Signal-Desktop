@@ -54,6 +54,7 @@ const {
   closeRecommendedGroupSizeModal,
   conversationStoppedByMissingVerification,
   createGroup,
+  discardMessages,
   openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
@@ -1303,6 +1304,52 @@ describe('both/state/ducks/conversations', () => {
           ...defaultStartDirectConversationComposerState,
           searchTerm: 'foo bar',
         });
+      });
+    });
+
+    describe('DISCARD_MESSAGES', () => {
+      const startState: ConversationsStateType = {
+        ...getEmptyState(),
+        messagesLookup: {
+          [messageId]: getDefaultMessage(messageId),
+          [messageIdTwo]: getDefaultMessage(messageIdTwo),
+          [messageIdThree]: getDefaultMessage(messageIdThree),
+        },
+        messagesByConversation: {
+          [conversationId]: {
+            metrics: {
+              totalUnseen: 0,
+            },
+            scrollToMessageCounter: 0,
+            messageIds: [messageId, messageIdTwo, messageIdThree],
+          },
+        },
+      };
+
+      it('eliminates older messages', () => {
+        const toDiscard = {
+          conversationId,
+          numberToKeepAtBottom: 2,
+        };
+        const state = reducer(startState, discardMessages(toDiscard));
+
+        assert.deepEqual(
+          state.messagesByConversation[conversationId]?.messageIds,
+          [messageIdTwo, messageIdThree]
+        );
+      });
+
+      it('eliminates newer messages', () => {
+        const toDiscard = {
+          conversationId,
+          numberToKeepAtTop: 2,
+        };
+        const state = reducer(startState, discardMessages(toDiscard));
+
+        assert.deepEqual(
+          state.messagesByConversation[conversationId]?.messageIds,
+          [messageId, messageIdTwo]
+        );
       });
     });
 

@@ -80,6 +80,7 @@ import type { NoopActionType } from './noop';
 import { conversationJobQueue } from '../../jobs/conversationJobQueue';
 import type { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import { isGroup } from '../../util/whatTypeOfConversation';
+import { missingCaseError } from '../../util/missingCaseError';
 
 // State
 
@@ -465,7 +466,13 @@ type CustomColorRemovedActionType = {
 };
 type DiscardMessagesActionType = {
   type: typeof DISCARD_MESSAGES;
-  payload: { conversationId: string; numberToKeepAtBottom: number };
+  payload: Readonly<
+    | {
+        conversationId: string;
+        numberToKeepAtBottom: number;
+      }
+    | { conversationId: string; numberToKeepAtTop: number }
+  >;
 };
 type SetPreJoinConversationActionType = {
   type: 'SET_PRE_JOIN_CONVERSATION';
@@ -2195,35 +2202,70 @@ export function reducer(
   }
 
   if (action.type === DISCARD_MESSAGES) {
-    const { conversationId, numberToKeepAtBottom } = action.payload;
+    const { conversationId } = action.payload;
+    if ('numberToKeepAtBottom' in action.payload) {
+      const { numberToKeepAtBottom } = action.payload;
+      const conversationMessages = getOwn(
+        state.messagesByConversation,
+        conversationId
+      );
+      if (!conversationMessages) {
+        return state;
+      }
 
-    const conversationMessages = getOwn(
-      state.messagesByConversation,
-      conversationId
-    );
-    if (!conversationMessages) {
-      return state;
-    }
+      const { messageIds: oldMessageIds } = conversationMessages;
+      if (oldMessageIds.length <= numberToKeepAtBottom) {
+        return state;
+      }
 
-    const { messageIds: oldMessageIds } = conversationMessages;
-    if (oldMessageIds.length <= numberToKeepAtBottom) {
-      return state;
-    }
+      const messageIdsToRemove = oldMessageIds.slice(0, -numberToKeepAtBottom);
+      const messageIdsToKeep = oldMessageIds.slice(-numberToKeepAtBottom);
 
-    const messageIdsToRemove = oldMessageIds.slice(0, -numberToKeepAtBottom);
-    const messageIdsToKeep = oldMessageIds.slice(-numberToKeepAtBottom);
-
-    return {
-      ...state,
-      messagesLookup: omit(state.messagesLookup, messageIdsToRemove),
-      messagesByConversation: {
-        ...state.messagesByConversation,
-        [conversationId]: {
-          ...conversationMessages,
-          messageIds: messageIdsToKeep,
+      return {
+        ...state,
+        messagesLookup: omit(state.messagesLookup, messageIdsToRemove),
+        messagesByConversation: {
+          ...state.messagesByConversation,
+          [conversationId]: {
+            ...conversationMessages,
+            messageIds: messageIdsToKeep,
+          },
         },
-      },
-    };
+      };
+    }
+
+    if ('numberToKeepAtTop' in action.payload) {
+      const { numberToKeepAtTop } = action.payload;
+      const conversationMessages = getOwn(
+        state.messagesByConversation,
+        conversationId
+      );
+      if (!conversationMessages) {
+        return state;
+      }
+
+      const { messageIds: oldMessageIds } = conversationMessages;
+      if (oldMessageIds.length <= numberToKeepAtTop) {
+        return state;
+      }
+
+      const messageIdsToRemove = oldMessageIds.slice(numberToKeepAtTop);
+      const messageIdsToKeep = oldMessageIds.slice(0, numberToKeepAtTop);
+
+      return {
+        ...state,
+        messagesLookup: omit(state.messagesLookup, messageIdsToRemove),
+        messagesByConversation: {
+          ...state.messagesByConversation,
+          [conversationId]: {
+            ...conversationMessages,
+            messageIds: messageIdsToKeep,
+          },
+        },
+      };
+    }
+
+    throw missingCaseError(action.payload);
   }
 
   if (action.type === 'SET_PRE_JOIN_CONVERSATION') {
