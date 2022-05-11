@@ -93,7 +93,9 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 5);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
+        isGroup: false,
         limit: 5,
+        storyId: undefined,
       });
       assert.lengthOf(messages, 3);
 
@@ -148,6 +150,7 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
         storyId,
       });
@@ -203,6 +206,7 @@ describe('sql/timelineFetches', () => {
       const messages = await getOlderMessagesByConversation(conversationId, {
         isGroup: true,
         limit: 5,
+        storyId: undefined,
       });
       assert.lengthOf(messages, 1);
       assert.strictEqual(messages[0].id, message3.id);
@@ -251,9 +255,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
         receivedAt: target,
         sentAt: target,
+        storyId: undefined,
       });
       assert.lengthOf(messages, 1);
       assert.strictEqual(messages[0].id, message1.id);
@@ -302,9 +308,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
         receivedAt: target,
         sentAt: target,
+        storyId: undefined,
       });
 
       assert.lengthOf(messages, 2);
@@ -357,10 +365,12 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
+        messageId: message2.id,
         receivedAt: target,
         sentAt: target,
-        messageId: message2.id,
+        storyId: undefined,
       });
 
       assert.lengthOf(messages, 1);
@@ -433,7 +443,9 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 5);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
+        isGroup: false,
         limit: 5,
+        storyId: undefined,
       });
 
       assert.lengthOf(messages, 3);
@@ -487,6 +499,7 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
         storyId,
       });
@@ -538,9 +551,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
         receivedAt: target,
         sentAt: target,
+        storyId: undefined,
       });
       assert.lengthOf(messages, 1);
       assert.strictEqual(messages[0].id, message3.id);
@@ -593,6 +608,7 @@ describe('sql/timelineFetches', () => {
       const messages = await getNewerMessagesByConversation(conversationId, {
         isGroup: true,
         limit: 5,
+        storyId: undefined,
         receivedAt: target,
         sentAt: target,
       });
@@ -643,9 +659,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
+        isGroup: true,
         limit: 5,
         receivedAt: target,
         sentAt: target,
+        storyId: undefined,
       });
 
       assert.lengthOf(messages, 2);

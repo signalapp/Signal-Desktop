@@ -2352,13 +2352,13 @@ async function _removeAllReactions(): Promise<void> {
 
 async function getOlderMessagesByConversation(
   conversationId: string,
-  options?: {
-    isGroup?: boolean;
+  options: {
+    isGroup: boolean;
     limit?: number;
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: string;
+    storyId: string | undefined;
   }
 ): Promise<Array<MessageTypeUnhydrated>> {
   return getOlderMessagesByConversationSync(conversationId, options);
@@ -2373,13 +2373,13 @@ function getOlderMessagesByConversationSync(
     sentAt = Number.MAX_VALUE,
     storyId,
   }: {
-    isGroup?: boolean;
+    isGroup: boolean;
     limit?: number;
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: string;
-  } = {}
+    storyId: string | undefined;
+  }
 ): Array<MessageTypeUnhydrated> {
   const db = getInstance();
 
@@ -2453,11 +2453,12 @@ async function getOlderStories({
 
 async function getNewerMessagesByConversation(
   conversationId: string,
-  options?: {
+  options: {
+    isGroup: boolean;
     limit?: number;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId: UUIDStringType | undefined;
   }
 ): Promise<Array<MessageTypeUnhydrated>> {
   return getNewerMessagesByConversationSync(conversationId, options);
@@ -2471,12 +2472,12 @@ function getNewerMessagesByConversationSync(
     sentAt = 0,
     storyId,
   }: {
-    isGroup?: boolean;
+    isGroup: boolean;
     limit?: number;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
-  } = {}
+    storyId: UUIDStringType | undefined;
+  }
 ): Array<MessageTypeUnhydrated> {
   const db = getInstance();
   const rows: JSONRows = db
@@ -2830,6 +2831,7 @@ function getMessageMetricsForConversationSync(
 
 async function getConversationRangeCenteredOnMessage({
   conversationId,
+  isGroup,
   limit,
   messageId,
   receivedAt,
@@ -2837,11 +2839,12 @@ async function getConversationRangeCenteredOnMessage({
   storyId,
 }: {
   conversationId: string;
+  isGroup: boolean;
   limit?: number;
   messageId: string;
   receivedAt: number;
   sentAt?: number;
-  storyId?: UUIDStringType;
+  storyId: UUIDStringType | undefined;
 }): Promise<{
   older: Array<MessageTypeUnhydrated>;
   newer: Array<MessageTypeUnhydrated>;
@@ -2852,6 +2855,7 @@ async function getConversationRangeCenteredOnMessage({
   return db.transaction(() => {
     return {
       older: getOlderMessagesByConversationSync(conversationId, {
+        isGroup,
         limit,
         messageId,
         receivedAt,
@@ -2859,6 +2863,7 @@ async function getConversationRangeCenteredOnMessage({
         storyId,
       }),
       newer: getNewerMessagesByConversationSync(conversationId, {
+        isGroup,
         limit,
         receivedAt,
         sentAt,

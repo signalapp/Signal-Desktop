@@ -628,32 +628,33 @@ export type ServerInterface = DataInterface & {
 
   getOlderMessagesByConversation: (
     conversationId: string,
-    options?: {
-      isGroup?: boolean;
+    options: {
+      isGroup: boolean;
       limit?: number;
       messageId?: string;
       receivedAt?: number;
       sentAt?: number;
-      storyId?: string;
+      storyId: string | undefined;
     }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
     conversationId: string,
-    options?: {
-      isGroup?: boolean;
+    options: {
+      isGroup: boolean;
       limit?: number;
       receivedAt?: number;
       sentAt?: number;
-      storyId?: UUIDStringType;
+      storyId: UUIDStringType | undefined;
     }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getConversationRangeCenteredOnMessage: (options: {
     conversationId: string;
+    isGroup: boolean;
     limit?: number;
     messageId: string;
     receivedAt: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId: UUIDStringType | undefined;
   }) => Promise<{
     older: Array<MessageTypeUnhydrated>;
     newer: Array<MessageTypeUnhydrated>;
@@ -701,31 +702,32 @@ export type ClientInterface = DataInterface & {
   getOlderMessagesByConversation: (
     conversationId: string,
     options: {
-      isGroup?: boolean;
+      isGroup: boolean;
       limit?: number;
       messageId?: string;
       receivedAt?: number;
       sentAt?: number;
-      storyId?: string;
+      storyId: string | undefined;
     }
   ) => Promise<Array<MessageAttributesType>>;
   getNewerMessagesByConversation: (
     conversationId: string,
     options: {
-      isGroup?: boolean;
+      isGroup: boolean;
       limit?: number;
       receivedAt?: number;
       sentAt?: number;
-      storyId?: UUIDStringType;
+      storyId: UUIDStringType | undefined;
     }
   ) => Promise<Array<MessageAttributesType>>;
   getConversationRangeCenteredOnMessage: (options: {
     conversationId: string;
+    isGroup: boolean;
     limit?: number;
     messageId: string;
     receivedAt: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId: UUIDStringType | undefined;
   }) => Promise<{
     older: Array<MessageAttributesType>;
     newer: Array<MessageAttributesType>;

@@ -1490,6 +1490,7 @@ export class ConversationModel extends window.Backbone
       const messages = await getOlderMessagesByConversation(conversationId, {
         isGroup: isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
+        storyId: undefined,
       });
 
       const cleaned: Array<MessageModel> = await this.cleanModels(messages);
@@ -1541,10 +1542,11 @@ export class ConversationModel extends window.Backbone
       const sentAt = message.sent_at;
       const models = await getOlderMessagesByConversation(conversationId, {
         isGroup: isGroup(this.attributes),
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        messageId: oldestMessageId,
         receivedAt,
         sentAt,
-        messageId: oldestMessageId,
-        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        storyId: undefined,
       });
 
       if (models.length < 1) {
@@ -1595,9 +1597,10 @@ export class ConversationModel extends window.Backbone
       const sentAt = message.sent_at;
       const models = await getNewerMessagesByConversation(conversationId, {
         isGroup: isGroup(this.attributes),
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
         receivedAt,
         sentAt,
-        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        storyId: undefined,
       });
 
       if (models.length < 1) {
@@ -1651,10 +1654,12 @@ export class ConversationModel extends window.Backbone
       const { older, newer, metrics } =
         await getConversationRangeCenteredOnMessage({
           conversationId,
+          isGroup: isGroup(this.attributes),
           limit: MESSAGE_LOAD_CHUNK_SIZE,
+          messageId,
           receivedAt,
           sentAt,
-          messageId,
+          storyId: undefined,
         });
       const all = [...older, message, ...newer];
 
@@ -2035,9 +2040,10 @@ export class ConversationModel extends window.Backbone
         {
           isGroup: isGroup(this.attributes),
           limit: 100,
+          messageId: first ? first.id : undefined,
           receivedAt: first ? first.received_at : undefined,
           sentAt: first ? first.sent_at : undefined,
-          messageId: first ? first.id : undefined,
+          storyId: undefined,
         }
       );
 

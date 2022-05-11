@@ -1239,12 +1239,12 @@ async function getOlderMessagesByConversation(
     sentAt = Number.MAX_VALUE,
     storyId,
   }: {
-    isGroup?: boolean;
+    isGroup: boolean;
     limit?: number;
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: string;
+    storyId: string | undefined;
   }
 ) {
   const messages = await channels.getOlderMessagesByConversation(
@@ -1280,11 +1280,11 @@ async function getNewerMessagesByConversation(
     sentAt = 0,
     storyId,
   }: {
-    isGroup?: boolean;
+    isGroup: boolean;
     limit?: number;
     receivedAt?: number;
     sentAt?: number;
-    storyId?: UUIDStringType;
+    storyId: UUIDStringType | undefined;
   }
 ) {
   const messages = await channels.getNewerMessagesByConversation(
@@ -1344,11 +1344,12 @@ async function getMessageMetricsForConversation(
 }
 async function getConversationRangeCenteredOnMessage(options: {
   conversationId: string;
+  isGroup: boolean;
   limit?: number;
   messageId: string;
   receivedAt: number;
   sentAt?: number;
-  storyId?: UUIDStringType;
+  storyId: UUIDStringType | undefined;
 }) {
   const result = await channels.getConversationRangeCenteredOnMessage(options);
 
@@ -1390,6 +1391,8 @@ async function removeAllMessagesInConversation(
     //   time so we don't use too much memory.
     messages = await getOlderMessagesByConversation(conversationId, {
       limit: chunkSize,
+      isGroup: true,
+      storyId: undefined,
     });
 
     if (!messages.length) {

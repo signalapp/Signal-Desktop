@@ -33,6 +33,8 @@ import {
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
+import { isGroup } from '../../util/whatTypeOfConversation';
+import { getConversationSelector } from '../selectors/conversations';
 
 export type StoryDataType = {
   attachment?: AttachmentType;
@@ -133,10 +135,11 @@ function loadStoryReplies(
   conversationId: string,
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, LoadStoryRepliesActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const conversation = getConversationSelector(getState())(conversationId);
     const replies = await dataInterface.getOlderMessagesByConversation(
       conversationId,
-      { limit: 9000, storyId: messageId }
+      { limit: 9000, storyId: messageId, isGroup: isGroup(conversation) }
     );
 
     dispatch({
