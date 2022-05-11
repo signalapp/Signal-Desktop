@@ -2869,7 +2869,11 @@ async function getConversationRangeCenteredOnMessage({
         sentAt,
         storyId,
       }),
-      metrics: getMessageMetricsForConversationSync(conversationId, storyId),
+      metrics: getMessageMetricsForConversationSync(
+        conversationId,
+        storyId,
+        isGroup
+      ),
     };
   })();
 }

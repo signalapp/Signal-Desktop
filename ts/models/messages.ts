@@ -21,7 +21,7 @@ import {
 import type { SentEventData } from '../textsecure/messageReceiverEvents';
 import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
-import { strictAssert } from '../util/assert';
+import { softAssert, strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { dropNull } from '../util/dropNull';
 import type { ConversationModel } from './conversations';
@@ -324,16 +324,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (!message) {
       const conversation = this.getConversation();
-      strictAssert(
+      softAssert(
         conversation && isDirectConversation(conversation.attributes),
-        'Hydrating story context on a non-private conversation'
+        'hydrateStoryContext: Not a type=direct conversation'
       );
       this.set({
         storyReplyContext: {
           attachment: undefined,
           // This is ok to do because story replies only show in 1:1 conversations
           // so the story that was quoted should be from the same conversation.
-          authorUuid: conversation.get('uuid'),
+          authorUuid: conversation?.get('uuid'),
           // No messageId, referenced story not found!
           messageId: '',
         },
