@@ -9,29 +9,50 @@ import animationData from '../../images/lottie-animations/CallingSpeakingIndicat
 import { Lottie } from './Lottie';
 
 const SPEAKING_LINGER_MS = 100;
+const SPEAKING_BACKGROUND_LINGER_MS = 500;
 
 const BASE_CLASS_NAME = 'CallingAudioIndicator';
 const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
+
+enum SpeakingState {
+  None = 'None',
+  Speaking = 'Speaking',
+  BackgroundOnly = 'BackgroundOnly',
+}
 
 export function CallingAudioIndicator({
   hasAudio,
   isSpeaking,
 }: Readonly<{ hasAudio: boolean; isSpeaking: boolean }>): ReactElement {
-  const [shouldShowSpeaking, setShouldShowSpeaking] = useState(isSpeaking);
+  const [speakingState, setSpeakingState] = useState(
+    isSpeaking ? SpeakingState.Speaking : SpeakingState.None
+  );
 
   useEffect(() => {
     if (isSpeaking) {
-      setShouldShowSpeaking(true);
-    } else if (shouldShowSpeaking) {
-      const timeout = setTimeout(() => {
-        setShouldShowSpeaking(false);
-      }, SPEAKING_LINGER_MS);
-      return () => {
-        clearTimeout(timeout);
-      };
+      setSpeakingState(SpeakingState.Speaking);
+      return noop;
     }
-    return noop;
-  }, [isSpeaking, shouldShowSpeaking]);
+
+    if (speakingState === SpeakingState.None) {
+      return noop;
+    }
+
+    let timeout: NodeJS.Timeout;
+    if (speakingState === SpeakingState.Speaking) {
+      timeout = setTimeout(() => {
+        setSpeakingState(SpeakingState.BackgroundOnly);
+      }, SPEAKING_LINGER_MS);
+    } else if (speakingState === SpeakingState.BackgroundOnly) {
+      timeout = setTimeout(() => {
+        setSpeakingState(SpeakingState.None);
+      }, SPEAKING_BACKGROUND_LINGER_MS);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isSpeaking, speakingState]);
 
   if (!hasAudio) {
     return (
@@ -51,7 +72,14 @@ export function CallingAudioIndicator({
     );
   }
 
-  if (shouldShowSpeaking) {
+  if (speakingState !== SpeakingState.None) {
+    let maybeAnimation: React.ReactElement | undefined;
+    if (speakingState === SpeakingState.Speaking) {
+      maybeAnimation = (
+        <Lottie animationData={animationData} className={CONTENT_CLASS_NAME} />
+      );
+    }
+
     return (
       <div
         className={classNames(
@@ -59,7 +87,7 @@ export function CallingAudioIndicator({
           `${BASE_CLASS_NAME}--with-content`
         )}
       >
-        <Lottie animationData={animationData} className={CONTENT_CLASS_NAME} />
+        {maybeAnimation}
       </div>
     );
   }
