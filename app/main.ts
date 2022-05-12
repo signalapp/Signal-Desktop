@@ -551,6 +551,7 @@ async function createWindow() {
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: isThrottlingEnabled,
       enablePreferredSizeMode: true,
+      disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
     icon: windowIcon,
     ...pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y']),
