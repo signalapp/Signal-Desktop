@@ -23,6 +23,7 @@ type Props = {
   playIconOverlay?: boolean;
   softCorners?: boolean;
   forceSquare?: boolean;
+  attachmentIndex?: number;
 
   onClick?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
   onClickClose?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
@@ -45,6 +46,7 @@ export const Image = (props: Props) => {
     playIconOverlay,
     softCorners,
     forceSquare,
+    attachmentIndex,
     url,
     width,
   } = props;
@@ -87,6 +89,7 @@ export const Image = (props: Props) => {
         maxHeight: `${height}px`,
         maxWidth: `${width}px`,
       }}
+      data-attachmentindex={attachmentIndex}
     >
       {pending || loading ? (
         <div

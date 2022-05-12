@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
 
@@ -34,8 +34,6 @@ const fakeSnodePool: Array<Data.Snode> = [
 
 // tslint:disable-next-line: max-func-body-length
 describe('GuardNodes', () => {
-  // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
   let getSnodePoolFromDBOrFetchFromSeed: sinon.SinonStub;
   let fetchFromSeedWithRetriesAndWriteToDb: sinon.SinonStub;
   describe('selectGuardNodes', () => {
@@ -51,22 +49,23 @@ describe('GuardNodes', () => {
     });
 
     afterEach(() => {
-      TestUtils.restoreStubs();
-      sandbox.restore();
+      Sinon.restore();
     });
 
     it('does not fetch from seed if we got 12 or more snodes in the db', async () => {
-      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
 
-      getSnodePoolFromDBOrFetchFromSeed = sandbox
-        .stub(SnodePool, 'getSnodePoolFromDBOrFetchFromSeed')
-        .callThrough();
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox
-        .stub(SnodePool, 'TEST_fetchFromSeedWithRetriesAndWriteToDb')
-        .resolves();
-      const testGuardNode = sandbox.stub(OnionPaths, 'TEST_testGuardNode').resolves(true);
+      getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
+        SnodePool,
+        'getSnodePoolFromDBOrFetchFromSeed'
+      ).callThrough();
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
+        SnodePool,
+        'TEST_fetchFromSeedWithRetriesAndWriteToDb'
+      ).resolves();
+      const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(true);
 
-      sandbox.stub(Data, 'updateGuardNodes').resolves();
+      Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
       const fetchedGuardNodes = await OnionPaths.selectGuardNodes();
 
@@ -89,17 +88,19 @@ describe('GuardNodes', () => {
     });
 
     it('throws an error if we got enough snodes in the db but none test passes', async () => {
-      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
 
-      getSnodePoolFromDBOrFetchFromSeed = sandbox
-        .stub(SnodePool, 'getSnodePoolFromDBOrFetchFromSeed')
-        .callThrough();
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox
-        .stub(SnodePool, 'TEST_fetchFromSeedWithRetriesAndWriteToDb')
-        .resolves();
-      const testGuardNode = sandbox.stub(OnionPaths, 'TEST_testGuardNode').resolves(false);
+      getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
+        SnodePool,
+        'getSnodePoolFromDBOrFetchFromSeed'
+      ).callThrough();
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
+        SnodePool,
+        'TEST_fetchFromSeedWithRetriesAndWriteToDb'
+      ).resolves();
+      const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(false);
 
-      sandbox.stub(Data, 'updateGuardNodes').resolves();
+      Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
       let throwedError: string | undefined;
       try {
@@ -125,17 +126,19 @@ describe('GuardNodes', () => {
 
     it('throws an error if we have to fetch from seed, fetch from seed enough snode but we still fail', async () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
-      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
+      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
 
-      getSnodePoolFromDBOrFetchFromSeed = sandbox
-        .stub(SnodePool, 'getSnodePoolFromDBOrFetchFromSeed')
-        .callThrough();
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox
-        .stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries')
-        .resolves(fakeSnodePool);
+      getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
+        SnodePool,
+        'getSnodePoolFromDBOrFetchFromSeed'
+      ).callThrough();
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
+        SeedNodeAPI,
+        'fetchSnodePoolFromSeedNodeWithRetries'
+      ).resolves(fakeSnodePool);
 
-      sandbox.stub(Data, 'updateGuardNodes').resolves();
+      Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
       let throwedError: string | undefined;
       try {
@@ -149,18 +152,20 @@ describe('GuardNodes', () => {
 
     it('returns valid guardnode if we have to fetch from seed, fetch from seed enough snodes but guard node tests passes', async () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
-      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
+      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
-      const testGuardNode = sandbox.stub(OnionPaths, 'TEST_testGuardNode').resolves(true);
+      const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(true);
 
-      getSnodePoolFromDBOrFetchFromSeed = sandbox
-        .stub(SnodePool, 'getSnodePoolFromDBOrFetchFromSeed')
-        .callThrough();
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox
-        .stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries')
-        .resolves(fakeSnodePool);
+      getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
+        SnodePool,
+        'getSnodePoolFromDBOrFetchFromSeed'
+      ).callThrough();
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
+        SeedNodeAPI,
+        'fetchSnodePoolFromSeedNodeWithRetries'
+      ).resolves(fakeSnodePool);
 
-      sandbox.stub(Data, 'updateGuardNodes').resolves();
+      Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
       const guardNodes = await OnionPaths.selectGuardNodes();
 
@@ -170,17 +175,19 @@ describe('GuardNodes', () => {
 
     it('throws if we have to fetch from seed, fetch from seed but not have enough fetched snodes', async () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
-      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
+      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
 
-      getSnodePoolFromDBOrFetchFromSeed = sandbox
-        .stub(SnodePool, 'getSnodePoolFromDBOrFetchFromSeed')
-        .callThrough();
-      fetchFromSeedWithRetriesAndWriteToDb = sandbox
-        .stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries')
-        .resolves(invalidSndodePool);
+      getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
+        SnodePool,
+        'getSnodePoolFromDBOrFetchFromSeed'
+      ).callThrough();
+      fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
+        SeedNodeAPI,
+        'fetchSnodePoolFromSeedNodeWithRetries'
+      ).resolves(invalidSndodePool);
 
-      sandbox.stub(Data, 'updateGuardNodes').resolves();
+      Sinon.stub(Data, 'updateGuardNodes').resolves();
       // run the command
       let throwedError: string | undefined;
       try {

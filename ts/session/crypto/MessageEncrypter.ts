@@ -1,9 +1,8 @@
-import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { PubKey } from '../types';
-import { concatUInt8Array, getSodium, MessageEncrypter } from '.';
+import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '.';
 import { fromHexToArray } from '../utils/String';
-export { concatUInt8Array, getSodium };
+export { concatUInt8Array, getSodiumRenderer };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import { UserUtils } from '../utils';
 import { addMessagePadding } from './BufferPadding';
@@ -24,15 +23,15 @@ type EncryptResult = {
 export async function encrypt(
   device: PubKey,
   plainTextBuffer: Uint8Array,
-  encryptionType: EncryptionType
+  encryptionType: SignalService.Envelope.Type
 ): Promise<EncryptResult> {
   const { CLOSED_GROUP_MESSAGE, SESSION_MESSAGE } = SignalService.Envelope.Type;
 
-  if (encryptionType !== EncryptionType.ClosedGroup && encryptionType !== EncryptionType.Fallback) {
+  if (encryptionType !== CLOSED_GROUP_MESSAGE && encryptionType !== SESSION_MESSAGE) {
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
 
-  const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
+  const encryptForClosedGroup = encryptionType === CLOSED_GROUP_MESSAGE;
   const plainText = addMessagePadding(plainTextBuffer);
 
   if (encryptForClosedGroup) {
@@ -73,7 +72,7 @@ export async function encryptUsingSessionProtocol(
   ) {
     throw new Error("Couldn't find user ED25519 key pair.");
   }
-  const sodium = await getSodium();
+  const sodium = await getSodiumRenderer();
 
   // window?.log?.info('encryptUsingSessionProtocol for ', recipientHexEncodedX25519PublicKey.key);
 

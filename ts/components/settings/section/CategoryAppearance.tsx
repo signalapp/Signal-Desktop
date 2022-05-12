@@ -8,6 +8,7 @@ import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
+import { isHideMenuBarSupported } from '../../../types/Settings';
 import { SessionButtonColor } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
@@ -70,7 +71,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
 
     return (
       <>
-        {window.Signal.Types.Settings.isHideMenuBarSupported() && (
+        {isHideMenuBarSupported() && (
           <SessionToggleWithDescription
             onClickToggle={() => {
               window.toggleMenuBar();
@@ -131,28 +132,6 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('translation')}
         />
-        {/* <SessionSettingButtonItem
-          title={window.i18n('trimDatabase')}
-          description={window.i18n('trimDatabaseDescription')}
-          onClick={async () => {
-            const msgCount = await getMessageCount();
-            const deleteAmount = Math.max(msgCount - 10000, 0);
-
-            dispatch(
-              updateConfirmModal({
-                onClickOk: () => {
-                  void trimMessages();
-                },
-                onClickClose: () => {
-                  updateConfirmModal(null);
-                },
-                message: window.i18n('trimDatabaseConfirmationBody', [`${deleteAmount}`]),
-              })
-            );
-          }}
-          buttonColor={SessionButtonColor.Primary}
-          buttonText={window.i18n('trimDatabase')}
-        /> */}
         <SessionSettingButtonItem
           onClick={() => {
             ipcRenderer.send('show-debug-log');

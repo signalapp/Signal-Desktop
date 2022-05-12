@@ -1,9 +1,8 @@
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 import * as MIME from '../../../ts/types/MIME';
 import { toLogFormat } from './Errors';
-import { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } from 'blob-util';
+import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
 
-import loadImage from 'blueimp-load-image';
 import { isString } from 'lodash';
 import {
   getImageDimensions,
@@ -20,23 +19,6 @@ import {
   readAttachmentData,
   writeNewAttachmentData,
 } from '../MessageAttachment';
-
-const DEFAULT_JPEG_QUALITY = 0.85;
-
-// File | Blob | URLString -> LoadImageOptions -> Promise<DataURLString>
-//
-// Documentation for `options` (`LoadImageOptions`):
-// https://github.com/blueimp/JavaScript-Load-Image/tree/v2.18.0#options
-export const autoOrientJpegImage = async (
-  fileOrBlobOrURL: string | File | Blob
-): Promise<string> => {
-  const loadedImage = await loadImage(fileOrBlobOrURL, { orientation: true, canvas: true });
-
-  const canvas = loadedImage.image as HTMLCanvasElement;
-  const dataURL = canvas.toDataURL(MIME.IMAGE_JPEG, DEFAULT_JPEG_QUALITY);
-
-  return dataURL;
-};
 
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
 // Over time, we can expand this definition to become more narrow, e.g. require certain
@@ -76,8 +58,7 @@ export const autoOrientJPEGAttachment = async (attachment: {
   }
 
   const dataBlob = arrayBufferToBlob(attachment.data, attachment.contentType);
-  const newDataBlob = dataURLToBlob(await autoOrientJpegImage(dataBlob));
-  const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
+  const newDataArrayBuffer = await blobToArrayBuffer(dataBlob);
 
   // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original
   // image data. Ideally, we’d preserve the original image data for users who want to

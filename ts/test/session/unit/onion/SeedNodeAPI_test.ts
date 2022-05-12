@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
 
@@ -44,7 +44,6 @@ const fakeSnodePoolFromSeedNode: Array<SnodeFromSeed> = fakeSnodePool.map(m => {
 // tslint:disable-next-line: max-func-body-length
 describe('SeedNodeAPI', () => {
   // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
 
   describe('getSnodeListFromSeednode', () => {
     beforeEach(() => {
@@ -59,24 +58,23 @@ describe('SeedNodeAPI', () => {
     });
 
     afterEach(() => {
-      TestUtils.restoreStubs();
-      sandbox.restore();
+      Sinon.restore();
     });
 
     it('if the cached snode pool has less than 12 snodes, trigger a fetch from the seed nodes with retries', async () => {
-      const TEST_fetchSnodePoolFromSeedNodeRetryable = sandbox
-        .stub(SeedNodeAPI, 'TEST_fetchSnodePoolFromSeedNodeRetryable')
+      const TEST_fetchSnodePoolFromSeedNodeRetryable = Sinon.stub(
+        SeedNodeAPI,
+        'TEST_fetchSnodePoolFromSeedNodeRetryable'
+      )
         .onFirstCall()
         .throws()
         .onSecondCall()
         .resolves(fakeSnodePoolFromSeedNode);
 
-      sandbox.stub(SeedNodeAPI, 'getMinTimeout').returns(20);
+      Sinon.stub(SeedNodeAPI, 'getMinTimeout').returns(20);
 
       // run the command
-      const fetched = await SeedNodeAPI.fetchSnodePoolFromSeedNodeWithRetries([
-        { url: 'seednode1' },
-      ]);
+      const fetched = await SeedNodeAPI.fetchSnodePoolFromSeedNodeWithRetries(['seednode1']);
 
       const sortedFetch = fetched.sort((a, b) => (a.pubkey_ed25519 > b.pubkey_ed25519 ? -1 : 1));
       const sortedFakeSnodePool = fakeSnodePool.sort((a, b) =>

@@ -218,7 +218,7 @@ async function _runJob(job: any) {
         hasAttachments,
         hasVisualMediaAttachments,
         hasFileAttachments,
-      } = await getAttachmentMetadata(found);
+      } = getAttachmentMetadata(found);
       found.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
     }
 

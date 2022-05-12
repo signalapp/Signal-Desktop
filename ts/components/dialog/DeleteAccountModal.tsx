@@ -10,14 +10,17 @@ import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
+import * as Data from '../../data/data';
+import { deleteAllLogs } from '../../node/logs';
+
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
   window.persistStore?.purge();
-  await window.Signal.Logs.deleteAll();
-  await window.Signal.Data.removeAll();
-  await window.Signal.Data.close();
-  await window.Signal.Data.removeDB();
-  await window.Signal.Data.removeOtherData();
+  await deleteAllLogs();
+  await Data.removeAll();
+  await Data.close();
+  await Data.removeDB();
+  await Data.removeOtherData();
   window.localStorage.setItem('restart-reason', 'delete-account');
 };
 

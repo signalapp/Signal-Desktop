@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import { autoUpdater, UpdateInfo } from 'electron-updater';
 import { app, BrowserWindow } from 'electron';
-import { markShouldQuit } from '../../app/window_state';
+import { windowMarkShouldQuit } from '../node/window_state';
 
 import {
   getPrintableError,
@@ -13,6 +13,7 @@ import {
   showUpdateDialog,
 } from './common';
 import { gt as isVersionGreaterThan, parse as parseVersion } from 'semver';
+import { getLastestRelease } from '../node/latest_desktop_release';
 
 let isUpdating = false;
 let downloadIgnored = false;
@@ -20,7 +21,7 @@ let interval: NodeJS.Timeout | undefined;
 let stopped = false;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | null,
   messages: MessagesType,
   logger: LoggerType
 ) {
@@ -56,7 +57,7 @@ export function stop() {
 }
 
 async function checkForUpdates(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | null,
   messages: MessagesType,
   logger: LoggerType
 ) {
@@ -77,9 +78,7 @@ async function checkForUpdates(
   isUpdating = true;
 
   try {
-    const latestVersionFromFsFromRenderer = getMainWindow()
-      ? ((getMainWindow() as any).getLatestDesktopRelease() as string | undefined)
-      : undefined;
+    const latestVersionFromFsFromRenderer = getLastestRelease();
 
     logger.info('[updater] latestVersionFromFsFromRenderer', latestVersionFromFsFromRenderer);
     if (!latestVersionFromFsFromRenderer || !latestVersionFromFsFromRenderer?.length) {
@@ -120,8 +119,13 @@ async function checkForUpdates(
         return;
       }
 
+      const mainWindow = getMainWindow();
+      if (!mainWindow) {
+        console.warn('cannot showDownloadUpdateDialog, mainWindow is unset');
+        return;
+      }
       logger.info('[updater] showing download dialog...');
-      const shouldDownload = await showDownloadUpdateDialog(getMainWindow(), messages);
+      const shouldDownload = await showDownloadUpdateDialog(mainWindow, messages);
       logger.info('[updater] shouldDownload:', shouldDownload);
 
       if (!shouldDownload) {
@@ -132,19 +136,28 @@ async function checkForUpdates(
 
       await autoUpdater.downloadUpdate();
     } catch (error) {
-      await showCannotUpdateDialog(getMainWindow(), messages);
+      const mainWindow = getMainWindow();
+      if (!mainWindow) {
+        console.warn('cannot showDownloadUpdateDialog, mainWindow is unset');
+        return;
+      }
+      await showCannotUpdateDialog(mainWindow, messages);
       throw error;
     }
-
+    const window = getMainWindow();
+    if (!window) {
+      console.warn('cannot showDownloadUpdateDialog, mainWindow is unset');
+      return;
+    }
     // Update downloaded successfully, we should ask the user to update
     logger.info('[updater] showing update dialog...');
-    const shouldUpdate = await showUpdateDialog(getMainWindow(), messages);
+    const shouldUpdate = await showUpdateDialog(window, messages);
     if (!shouldUpdate) {
       return;
     }
 
     logger.info('[updater] calling quitAndInstall...');
-    markShouldQuit();
+    windowMarkShouldQuit();
     autoUpdater.quitAndInstall();
   } finally {
     isUpdating = false;

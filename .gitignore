@@ -1,7 +1,7 @@
 node_modules
+.parcel-cache
 .sass-cache
 .eslintcache
-build/curve25519_compiled.js
 stylesheets/*.css.map
 /dist
 .DS_Store
@@ -14,12 +14,7 @@ release/
 sql/
 
 # generated files
-js/components.js
-js/util_worker.js
-js/libtextsecure.js
-libtextsecure/components.js
 stylesheets/*.css
-test/test.js
 
 # React / TypeScript
 ts/**/*.js
@@ -46,7 +41,8 @@ yarn-error.log
 # editor
 .vscode/
 
-libloki/test/test.js
 
 playwright.config.js
-playwright.config.js.map
+*.js.map
+ts/node/**/*.d.ts
+ts/node/**/*.d.ts.map

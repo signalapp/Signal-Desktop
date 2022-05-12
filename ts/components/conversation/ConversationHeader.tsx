@@ -41,6 +41,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 import { Flex } from '../basic/Flex';
+import { ExpirationTimerOptions } from '../../util/expiringMessages';
 
 export interface TimerOption {
   name: string;
@@ -103,7 +104,7 @@ const SelectionOverlay = () => {
 
   const isOnlyServerDeletable = isPublic;
   const deleteMessageButtonText = i18n('delete');
-  const deleteForEveroneMessageButtonText = i18n('deleteForEveryone');
+  const deleteForEveryoneMessageButtonText = i18n('deleteForEveryone');
 
   return (
     <div className="message-selection-overlay">
@@ -123,7 +124,7 @@ const SelectionOverlay = () => {
         <SessionButton
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
-          text={deleteForEveroneMessageButtonText}
+          text={deleteForEveryoneMessageButtonText}
           onClick={onDeleteSelectedMessagesForEveryone}
         />
       </div>
@@ -338,8 +339,8 @@ export const ConversationHeaderWithDetails = () => {
   const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
   const expireTimerSetting = useExpireTimer(selectedConvoKey);
   const expirationSettingName = expireTimerSetting
-    ? window.Whisper.ExpirationTimerOptions.getName(expireTimerSetting || 0)
-    : null;
+    ? ExpirationTimerOptions.getName(expireTimerSetting || 0)
+    : undefined;
 
   const triggerId = 'conversation-header';
 

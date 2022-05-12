@@ -55,14 +55,9 @@
       flex-direction: column;
 
       padding: 0px 12px;
-      color: var(--color-text-opposite);
       .group-name {
         font-weight: bold;
         font-size: 18px;
-      }
-
-      .group-address {
-        color: var(--color-text);
       }
     }
 
@@ -77,5 +72,17 @@
         fill: var(--color-text-opposite);
       }
     }
+  }
+}
+
+.group-invitation {
+  .group-details {
+    color: var(--color-received-message-text);
+  }
+}
+
+.group-invitation.invitation-outgoing {
+  .group-details {
+    color: var(--color-sent-message-text);
   }
 }

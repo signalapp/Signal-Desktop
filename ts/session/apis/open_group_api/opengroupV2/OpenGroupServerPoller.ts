@@ -11,7 +11,7 @@ import {
   ParsedMemberCount,
   ParsedRoomCompactPollResults,
 } from './OpenGroupAPIV2CompactPoll';
-import _ from 'lodash';
+import _, { now } from 'lodash';
 import { ConversationModel } from '../../../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../../../data/data';
 import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../../../data/opengroups';
@@ -22,6 +22,8 @@ import { DURATION } from '../../../constants';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
 import { MIME } from '../../../../types';
 import { handleOpenGroupV2Message } from '../../../../receiver/opengroup';
+import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { filterDuplicatesFromDbAndIncoming } from './SogsFilterDuplicate';
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
@@ -415,19 +417,27 @@ const handleNewMessages = async (
     }
     const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
     const maxNewMessageId = Math.max(...incomingMessageIds);
-    // TODO filter out duplicates ?
 
     const roomDetails: OpenGroupRequestCommonType = _.pick(roomInfos, 'serverUrl', 'roomId');
 
+    // this call filters duplicates based on the sender & senttimestamp from the incoming messages array and the database
+    const filteredDuplicates = await filterDuplicatesFromDbAndIncoming(newMessages);
+
+    const startHandleOpengroupMessage = now();
     // tslint:disable-next-line: prefer-for-of
-    for (let index = 0; index < newMessages.length; index++) {
-      const newMessage = newMessages[index];
+    for (let index = 0; index < filteredDuplicates.length; index++) {
+      const newMessage = filteredDuplicates[index];
       try {
         await handleOpenGroupV2Message(newMessage, roomDetails);
       } catch (e) {
         window?.log?.warn('handleOpenGroupV2Message', e);
       }
     }
+
+    window.log.debug(
+      `[perf] handle ${filteredDuplicates.length} opengroupMessages took ${now() -
+        startHandleOpengroupMessage}ms.`
+    );
 
     // we need to update the timestamp even if we don't have a new MaxMessageServerId
     if (roomInfos) {
@@ -493,7 +503,7 @@ const handleBase64AvatarUpdate = async (
 
         const upgradedAttachment = await processNewAttachment({
           isRaw: true,
-          data: await window.callWorker('fromBase64ToArrayBuffer', res.base64),
+          data: await callUtilsWorker('fromBase64ToArrayBuffer', res.base64),
           contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.          // url: `${serverUrl}/${res.roomId}`,
         });
         // update the hash on the conversationModel

@@ -1,0 +1,14 @@
+diff --git a/node_modules/bunyan/lib/bunyan.js b/node_modules/bunyan/lib/bunyan.js
+index f988560..11af013 100644
+--- a/node_modules/bunyan/lib/bunyan.js
++++ b/node_modules/bunyan/lib/bunyan.js
+@@ -76,7 +76,8 @@ if (runtimeEnv === 'browser') {
+     os = require('os');
+     fs = require('fs');
+     try {
+-        dtrace = require('dtrace-provider' + '');
++        throw new Error('dtrace-provider is not available')
++        // dtrace = require('dtrace-provider' + '');
+     } catch (e) {
+         dtrace = null;
+     }

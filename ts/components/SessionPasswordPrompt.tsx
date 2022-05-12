@@ -6,11 +6,13 @@ import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { Constants } from '../session';
+import { SessionSpinner } from './basic/SessionSpinner';
 
 interface State {
   error: string;
   errorCount: number;
   clearDataView: boolean;
+  loading: boolean;
 }
 
 export const MAX_LOGIN_TRIES = 3;
@@ -25,6 +27,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       error: '',
       errorCount: 0,
       clearDataView: false,
+      loading: false,
     };
 
     autoBind(this);
@@ -84,28 +87,31 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         )}
       </div>
     );
+    const spinner = this.state.loading ? <SessionSpinner loading={true} /> : null;
 
     return (
-      <div className={wrapperClass}>
-        <div className={containerClass}>
-          <div className={infoAreaClass}>
-            {infoIcon}
+      <div className="password">
+        <div className={wrapperClass}>
+          <div className={containerClass}>
+            <div className={infoAreaClass}>
+              {infoIcon}
 
-            <h1>{infoTitle}</h1>
+              <h1>{infoTitle}</h1>
+            </div>
+
+            {spinner || featureElement}
+            {errorSection}
+            {buttonGroup}
           </div>
-
-          {featureElement}
-          {errorSection}
-          {buttonGroup}
         </div>
       </div>
     );
   }
 
-  public async onKeyUp(event: any) {
+  public onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
-        await this.initLogin();
+        this.initLogin();
         break;
       default:
     }
@@ -124,12 +130,22 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       });
 
       this.setState({ error });
+      global.setTimeout(() => {
+        document.getElementById('password-prompt-input')?.focus();
+      }, 50);
     }
+    this.setState({
+      loading: false,
+    });
   }
 
-  private async initLogin() {
+  private initLogin() {
+    this.setState({
+      loading: true,
+    });
     const passPhrase = String((this.inputRef as HTMLInputElement).value);
-    await this.onLogin(passPhrase);
+
+    global.setTimeout(() => this.onLogin(passPhrase), 100);
   }
 
   private initClearDataView() {

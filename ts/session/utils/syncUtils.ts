@@ -46,7 +46,7 @@ export const syncConfigurationIfNeeded = async () => {
   const now = Date.now();
 
   // if the last sync was less than 2 days before, return early.
-  if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 7) {
+  if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 2) {
     return;
   }
 

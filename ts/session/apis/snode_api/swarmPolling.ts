@@ -3,7 +3,7 @@ import * as snodePool from './snodePool';
 import { ERROR_CODE_NO_CONNECT, retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
-import _ from 'lodash';
+import _, { concat } from 'lodash';
 import {
   getLastHashBySnode,
   getSeenMessagesByHashList,
@@ -20,8 +20,7 @@ import { perfEnd, perfStart } from '../../utils/Performance';
 import { ed25519Str } from '../../onions/onionPath';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import pRetry from 'p-retry';
-
-type PubkeyToHash = { [key: string]: string };
+import { getHasSeenHF190, getHasSeenHF191 } from './hfHandling';
 
 interface Message {
   hash: string;
@@ -56,7 +55,7 @@ export const getSwarmPollingInstance = () => {
 
 export class SwarmPolling {
   private groupPolling: Array<{ pubkey: PubKey; lastPolledTimestamp: number }>;
-  private readonly lastHashes: { [key: string]: PubkeyToHash };
+  private readonly lastHashes: Record<string, Record<string, Record<number, string>>>;
 
   constructor() {
     this.groupPolling = [];
@@ -66,20 +65,20 @@ export class SwarmPolling {
   public async start(waitForFirstPoll = false): Promise<void> {
     this.loadGroupIds();
     if (waitForFirstPoll) {
-      await this.TEST_pollForAllKeys();
+      await this.pollForAllKeys();
     } else {
-      void this.TEST_pollForAllKeys();
+      void this.pollForAllKeys();
     }
   }
 
   /**
    * Used fo testing only
    */
-  public TEST_reset() {
+  public resetSwarmPolling() {
     this.groupPolling = [];
   }
 
-  public TEST_forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {
+  public forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {
     this.groupPolling = this.groupPolling.map(group => {
       if (PubKey.isEqual(pubkey, group.pubkey)) {
         return {
@@ -112,7 +111,7 @@ export class SwarmPolling {
    *  -> an activeAt less than 1 week old is considered medium_active and polled a bit less (every minute)
    *  -> an activeAt more than a week old is considered inactive, and not polled much (every 2 minutes)
    */
-  public TEST_getPollingTimeout(convoId: PubKey) {
+  public getPollingTimeout(convoId: PubKey) {
     const convo = getConversationController().get(convoId.key);
     if (!convo) {
       return SWARM_POLLING_TIMEOUT.INACTIVE;
@@ -138,20 +137,23 @@ export class SwarmPolling {
   /**
    * Only public for testing
    */
-  public async TEST_pollForAllKeys() {
+  public async pollForAllKeys() {
     if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('pollForAllKeys: offline');
       // Important to set up a new polling
-      setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
       return;
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
-    const directPromise = this.TEST_pollOnceForKey(ourPubkey, false);
+    const directPromises = Promise.all([
+      this.pollOnceForKey(ourPubkey, false, 0),
+      // this.pollOnceForKey(ourPubkey, false, 5), // uncomment, and test me once we store the config messages to the namespace 5
+    ]).then(() => undefined);
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {
-      const convoPollingTimeout = this.TEST_getPollingTimeout(group.pubkey);
+      const convoPollingTimeout = this.getPollingTimeout(group.pubkey);
 
       const diff = now - group.lastPolledTimestamp;
 
@@ -161,10 +163,27 @@ export class SwarmPolling {
           ?.idForLogging() || group.pubkey.key;
 
       if (diff >= convoPollingTimeout) {
+        const hardfork190Happened = await getHasSeenHF190();
+        const hardfork191Happened = await getHasSeenHF191();
         window?.log?.info(
-          `Polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
+          `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} ; hardfork190Happened: ${hardfork190Happened}; hardfork191Happened: ${hardfork191Happened} `
         );
-        return this.TEST_pollOnceForKey(group.pubkey, true);
+
+        if (hardfork190Happened && !hardfork191Happened) {
+          // during the transition period, we poll from both namespaces (0 and -10) for groups
+          return Promise.all([
+            this.pollOnceForKey(group.pubkey, true, undefined),
+            this.pollOnceForKey(group.pubkey, true, -10),
+          ]).then(() => undefined);
+        }
+
+        if (hardfork190Happened && hardfork191Happened) {
+          // after the transition period, we poll from the namespace -10 only for groups
+          return this.pollOnceForKey(group.pubkey, true, -10);
+        }
+
+        // before any of those hardforks, we just poll from the default namespace being 0
+        return this.pollOnceForKey(group.pubkey, true, 0);
       }
       window?.log?.info(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
@@ -173,47 +192,42 @@ export class SwarmPolling {
       return Promise.resolve();
     });
     try {
-      await Promise.all(_.concat(directPromise, groupPromises));
+      await Promise.all(concat([directPromises], groupPromises));
     } catch (e) {
       window?.log?.info('pollForAllKeys exception: ', e);
       throw e;
     } finally {
-      setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
     }
   }
 
   /**
    * Only exposed as public for testing
    */
-  public async TEST_pollOnceForKey(pubkey: PubKey, isGroup: boolean) {
-    // NOTE: sometimes pubkey is string, sometimes it is object, so
-    // accept both until this is fixed:
+  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespace?: number) {
     const pkStr = pubkey.key;
 
-    const snodes = await snodePool.getSwarmFor(pkStr);
+    const swarmSnodes = await snodePool.getSwarmFor(pkStr);
 
     // Select nodes for which we already have lastHashes
-    const alreadyPolled = snodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
+    const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
 
     // If we need more nodes, select randomly from the remaining nodes:
 
-    // Use 1 node for now:
-    const COUNT = 1;
+    // We only poll from a single node.
+    let nodesToPoll = _.sampleSize(alreadyPolled, 1);
+    if (nodesToPoll.length < 1) {
+      const notPolled = _.difference(swarmSnodes, alreadyPolled);
 
-    let nodesToPoll = _.sampleSize(alreadyPolled, COUNT);
-    if (nodesToPoll.length < COUNT) {
-      const notPolled = _.difference(snodes, alreadyPolled);
-
-      const newNeeded = COUNT - alreadyPolled.length;
-
-      const newNodes = _.sampleSize(notPolled, newNeeded);
+      const newNodes = _.sampleSize(notPolled, 1);
 
       nodesToPoll = _.concat(nodesToPoll, newNodes);
     }
 
+    // this actually doesn't make much sense as we are at only polling from a single one
     const promisesSettled = await Promise.allSettled(
-      nodesToPoll.map(async (n: Snode) => {
-        return this.pollNodeForKey(n, pubkey);
+      nodesToPoll.map(async n => {
+        return this.pollNodeForKey(n, pubkey, namespace);
       })
     );
 
@@ -271,24 +285,33 @@ export class SwarmPolling {
 
   // Fetches messages for `pubkey` from `node` potentially updating
   // the lash hash record
-  private async pollNodeForKey(node: Snode, pubkey: PubKey): Promise<Array<any> | null> {
+  private async pollNodeForKey(
+    node: Snode,
+    pubkey: PubKey,
+    namespace?: number
+  ): Promise<Array<any> | null> {
     const edkey = node.pubkey_ed25519;
 
     const pkStr = pubkey.key;
 
-    const prevHash = await this.getLastHash(edkey, pkStr);
-
     try {
       return await pRetry(
         async () => {
-          const messages = await retrieveNextMessages(node, prevHash, pkStr);
+          const prevHash = await this.getLastHash(edkey, pkStr, namespace || 0);
+          const messages = await retrieveNextMessages(node, prevHash, pkStr, namespace);
           if (!messages.length) {
             return [];
           }
 
           const lastMessage = _.last(messages);
 
-          await this.updateLastHash(edkey, pubkey, lastMessage.hash, lastMessage.expiration);
+          await this.updateLastHash({
+            edkey: edkey,
+            pubkey,
+            namespace: namespace || 0,
+            hash: lastMessage.hash,
+            expiration: lastMessage.expiration,
+          });
           return messages;
         },
         {
@@ -350,12 +373,19 @@ export class SwarmPolling {
     return newMessages;
   }
 
-  private async updateLastHash(
-    edkey: string,
-    pubkey: PubKey,
-    hash: string,
-    expiration: number
-  ): Promise<void> {
+  private async updateLastHash({
+    edkey,
+    expiration,
+    hash,
+    namespace,
+    pubkey,
+  }: {
+    edkey: string;
+    pubkey: PubKey;
+    namespace: number;
+    hash: string;
+    expiration: number;
+  }): Promise<void> {
     const pkStr = pubkey.key;
 
     await updateLastHash({
@@ -363,27 +393,33 @@ export class SwarmPolling {
       snode: edkey,
       hash,
       expiresAt: expiration,
+      namespace,
     });
 
     if (!this.lastHashes[edkey]) {
       this.lastHashes[edkey] = {};
     }
-
-    this.lastHashes[edkey][pkStr] = hash;
+    if (!this.lastHashes[edkey][pkStr]) {
+      this.lastHashes[edkey][pkStr] = {};
+    }
+    this.lastHashes[edkey][pkStr][namespace] = hash;
   }
 
-  private async getLastHash(nodeEdKey: string, pubkey: string): Promise<string> {
-    // TODO: always retrieve from the database?
+  private async getLastHash(nodeEdKey: string, pubkey: string, namespace: number): Promise<string> {
+    if (!this.lastHashes[nodeEdKey]?.[pubkey]?.[namespace]) {
+      const lastHash = await getLastHashBySnode(pubkey, nodeEdKey, namespace);
 
-    const nodeRecords = this.lastHashes[nodeEdKey];
+      if (!this.lastHashes[nodeEdKey]) {
+        this.lastHashes[nodeEdKey] = {};
+      }
 
-    if (!nodeRecords || !nodeRecords[pubkey]) {
-      const lastHash = await getLastHashBySnode(pubkey, nodeEdKey);
-
-      return lastHash || '';
-    } else {
-      // Don't need to go to the database every time:
-      return nodeRecords[pubkey];
+      if (!this.lastHashes[nodeEdKey][pubkey]) {
+        this.lastHashes[nodeEdKey][pubkey] = {};
+      }
+      this.lastHashes[nodeEdKey][pubkey][namespace] = lastHash || '';
+      return this.lastHashes[nodeEdKey][pubkey][namespace];
     }
+    // return the cached value
+    return this.lastHashes[nodeEdKey][pubkey][namespace];
   }
 }

@@ -1,9 +1,13 @@
-import { KeyPair } from '../../libtextsecure/libsignal-protocol';
 import { fromHexToArray, toHex } from '../session/utils/String';
 
 export type HexKeyPair = {
   publicHex: string;
   privateHex: string;
+};
+
+export type SessionKeyPair = {
+  pubKey: ArrayBuffer;
+  privKey: ArrayBuffer;
 };
 
 export class ECKeyPair {
@@ -19,7 +23,7 @@ export class ECKeyPair {
     return new ECKeyPair(new Uint8Array(pub), new Uint8Array(priv));
   }
 
-  public static fromKeyPair(pair: KeyPair) {
+  public static fromKeyPair(pair: SessionKeyPair) {
     return new ECKeyPair(new Uint8Array(pair.pubKey), new Uint8Array(pair.privKey));
   }
 

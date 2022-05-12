@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
 
@@ -42,7 +42,6 @@ const fakeGuardNodesFromDB: Array<Data.GuardNode> = fakeGuardNodesEd25519.map(ed
 // tslint:disable-next-line: max-func-body-length
 describe('OnionPaths', () => {
   // Initialize new stubbed cache
-  const sandbox = sinon.createSandbox();
   let oldOnionPaths: Array<Array<Snode>>;
 
   describe('dropSnodeFromPath', () => {
@@ -50,9 +49,9 @@ describe('OnionPaths', () => {
       // Utils Stubs
       OnionPaths.clearTestOnionPath();
 
-      sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
-      sandbox.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(fakeGuardNodes);
-      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      Sinon.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
+      Sinon.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(fakeGuardNodes);
+      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
 
       TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesFromDB);
       TestUtils.stubData('createOrUpdateItem').resolves();
@@ -61,7 +60,7 @@ describe('OnionPaths', () => {
 
       TestUtils.stubWindowLog();
 
-      sandbox.stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries').resolves(fakeSnodePool);
+      Sinon.stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries').resolves(fakeSnodePool);
       SNodeAPI.Onions.resetSnodeFailureCount();
       OnionPaths.resetPathFailureCount();
       // get a copy of what old ones look like
@@ -75,8 +74,7 @@ describe('OnionPaths', () => {
     });
 
     afterEach(() => {
-      TestUtils.restoreStubs();
-      sandbox.restore();
+      Sinon.restore();
     });
     describe('with valid snode pool', () => {
       it('rebuilds after removing last snode on path', async () => {

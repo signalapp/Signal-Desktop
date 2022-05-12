@@ -1,19 +1,25 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 
 import { PromiseUtils } from '../../../../session/utils';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 import chaiAsPromised from 'chai-as-promised';
+import {
+  allowOnlyOneAtATime,
+  hasAlreadyOneAtaTimeMatching,
+  sleepFor,
+} from '../../../../session/utils/Promise';
+import { TestUtils } from '../../../test-utils';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
 const { expect } = chai;
 
 describe('Promise Utils', () => {
-  const sandbox = sinon.createSandbox();
   let pollSpy: sinon.SinonSpy<
     [
       (done: (arg: any) => void) => Promise<void> | void,
@@ -31,19 +37,20 @@ describe('Promise Utils', () => {
   >;
 
   beforeEach(() => {
-    pollSpy = sandbox.spy(PromiseUtils, 'poll');
-    waitForTaskSpy = sandbox.spy(PromiseUtils, 'waitForTask');
-    waitUntilSpy = sandbox.spy(PromiseUtils, 'waitUntil');
+    pollSpy = Sinon.spy(PromiseUtils, 'poll');
+    waitForTaskSpy = Sinon.spy(PromiseUtils, 'waitForTask');
+    waitUntilSpy = Sinon.spy(PromiseUtils, 'waitUntil');
+    TestUtils.stubWindowLog();
   });
 
   afterEach(() => {
-    sandbox.restore();
+    Sinon.restore();
   });
 
   describe('poll', () => {
     it('will call done on finished', async () => {
       // completionSpy will be called on done
-      const completionSpy = sandbox.spy();
+      const completionSpy = Sinon.spy();
 
       // tslint:disable-next-line: mocha-unneeded-done
       const task = (done: any) => {
@@ -60,7 +67,7 @@ describe('Promise Utils', () => {
 
     it('can timeout a task', () => {
       // completionSpy will be called on done
-      const completionSpy = sandbox.spy();
+      const completionSpy = Sinon.spy();
       const task = (_done: any) => undefined;
 
       const promise = PromiseUtils.poll(task, { timeoutMs: 1, interval: 10 });
@@ -75,7 +82,7 @@ describe('Promise Utils', () => {
       const timeout = 3000;
       const interval = 3;
 
-      const recurrenceSpy = sandbox.spy();
+      const recurrenceSpy = Sinon.spy();
       const task = (done: any) => {
         recurrenceSpy();
 
@@ -96,7 +103,7 @@ describe('Promise Utils', () => {
   describe('waitForTask', () => {
     it('can wait for a task', async () => {
       // completionSpy will be called on done
-      const completionSpy = sandbox.spy();
+      const completionSpy = Sinon.spy();
 
       // tslint:disable-next-line: mocha-unneeded-done
       const task = (done: any) => {
@@ -113,7 +120,7 @@ describe('Promise Utils', () => {
 
     it('can timeout a task', () => {
       // completionSpy will be called on done
-      const completionSpy = sandbox.spy();
+      const completionSpy = Sinon.spy();
       const task = async (_done: any) => undefined;
 
       const promise = PromiseUtils.waitForTask(task, 1);
@@ -139,6 +146,69 @@ describe('Promise Utils', () => {
 
       expect(waitUntilSpy.callCount).to.equal(1);
       return promise.should.eventually.be.rejectedWith('Periodic check timeout');
+    });
+  });
+
+  describe('allowOnlyOneAtATime', () => {
+    it('start if not running', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      await allowOnlyOneAtATime('testing', spy);
+      expect(spy.callCount).to.be.eq(1);
+    });
+
+    it('starts only once if already running', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      void allowOnlyOneAtATime('testing', spy);
+
+      await allowOnlyOneAtATime('testing', spy);
+      expect(spy.callCount).to.be.eq(1);
+    });
+
+    it('throw if took longer than expected timeout', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      try {
+        await allowOnlyOneAtATime('testing', spy, 5);
+        throw new Error('should not get here');
+      } catch (e) {
+        console.warn(e);
+        expect(e).to.be.be.eql(undefined, 'should be undefined');
+      }
+
+      expect(spy.callCount).to.be.eq(1);
+    });
+
+    it('does not throw if took less than expected timeout', async () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      try {
+        await allowOnlyOneAtATime('testing', spy, 15);
+        throw new Error('should get here');
+      } catch (e) {
+        expect(e.message).to.be.be.eql('should get here');
+      }
+
+      expect(spy.callCount).to.be.eq(1);
+    });
+  });
+
+  describe('hasAlreadyOneAtaTimeMatching', () => {
+    it('returns true if already started', () => {
+      const spy = sinon.spy(async () => {
+        return sleepFor(10);
+      });
+      void allowOnlyOneAtATime('testing', spy);
+      expect(hasAlreadyOneAtaTimeMatching('testing')).to.be.eq(true, 'should be true');
+    });
+
+    it('returns false if not already started', () => {
+      expect(hasAlreadyOneAtaTimeMatching('testing2')).to.be.eq(false, 'should be false');
     });
   });
 });

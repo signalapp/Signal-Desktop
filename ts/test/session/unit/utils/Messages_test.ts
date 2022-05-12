@@ -1,10 +1,9 @@
 // tslint:disable: no-implicit-dependencies
 
 import chai from 'chai';
-import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
-import { EncryptionType, PubKey } from '../../../../session/types';
+import { PubKey } from '../../../../session/types';
 import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 
@@ -17,14 +16,13 @@ import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/o
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import Sinon from 'sinon';
 
 const { expect } = chai;
 
 describe('Message Utils', () => {
-  const sandbox = sinon.createSandbox();
-
   afterEach(() => {
-    sandbox.restore();
+    Sinon.restore();
   });
 
   // tslint:disable-next-line: max-func-body-length
@@ -75,7 +73,7 @@ describe('Message Utils', () => {
       const rawMessage = await MessageUtils.toRawMessage(device, message);
       const derivedPubKey = PubKey.from(rawMessage.device);
 
-      expect(derivedPubKey).to.exist;
+      expect(derivedPubKey).to.not.be.eq(undefined, 'should maintain pubkey');
       expect(derivedPubKey?.isEqual(device)).to.equal(
         true,
         'pubkey of message was not converted correctly'
@@ -89,7 +87,7 @@ describe('Message Utils', () => {
       const message = new ClosedGroupVisibleMessage({ chatMessage, groupId });
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
-      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
     it('should set encryption to Fallback on other messages', async () => {
@@ -97,7 +95,7 @@ describe('Message Utils', () => {
       const message = TestUtils.generateVisibleMessage();
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
-      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
 
     it('passing ClosedGroupNewMessage returns Fallback', async () => {
@@ -114,7 +112,7 @@ describe('Message Utils', () => {
         expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
 
     it('passing ClosedGroupNameChangeMessage returns ClosedGroup', async () => {
@@ -126,7 +124,7 @@ describe('Message Utils', () => {
         groupId: TestUtils.generateFakePubKey().key,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
     it('passing ClosedGroupAddedMembersMessage returns ClosedGroup', async () => {
@@ -138,7 +136,7 @@ describe('Message Utils', () => {
         groupId: TestUtils.generateFakePubKey().key,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
     it('passing ClosedGroupRemovedMembersMessage returns ClosedGroup', async () => {
@@ -150,7 +148,7 @@ describe('Message Utils', () => {
         groupId: TestUtils.generateFakePubKey().key,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
     it('passing ClosedGroupEncryptionPairMessage returns ClosedGroup', async () => {
@@ -171,7 +169,7 @@ describe('Message Utils', () => {
         encryptedKeyPairs: fakeWrappers,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
     it('passing ClosedGroupEncryptionKeyPairReply returns Fallback', async () => {
@@ -192,7 +190,7 @@ describe('Message Utils', () => {
         encryptedKeyPairs: fakeWrappers,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
 
     it('passing a ConfigurationMessage returns Fallback', async () => {
@@ -206,7 +204,7 @@ describe('Message Utils', () => {
         contacts: [],
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
-      expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
+      expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
   });
 
@@ -236,13 +234,13 @@ describe('Message Utils', () => {
 
     beforeEach(() => {
       // convos = [];
-      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
-      sandbox.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
+      Sinon.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
     });
 
     beforeEach(() => {
       // convos = [];
-      sandbox.restore();
+      Sinon.restore();
     });
 
     // it('filter out non active open groups', async () => {

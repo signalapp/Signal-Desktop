@@ -145,7 +145,7 @@ export function handleRequest(plaintext: any, options: ReqOptions, messageHash: 
 
 // tslint:enable:cyclomatic-complexity max-func-body-length */
 /**
- * Used in background.js
+ * Used in main_renderer.js
  */
 export async function queueAllCached() {
   const items = await getAllFromCache();
@@ -174,7 +174,6 @@ async function queueCached(item: any) {
     envelope.source = envelope.source || item.source;
 
     // Why do we need to do this???
-    envelope.sourceDevice = 1;
     envelope.senderIdentity = envelope.senderIdentity || item.senderIdentity;
     envelope.serverTimestamp = envelope.serverTimestamp || item.serverTimestamp;
 
@@ -231,7 +230,9 @@ async function handleDecryptedEnvelope(
   messageHash: string
 ) {
   if (envelope.content) {
-    await innerHandleSwarmContentMessage(envelope, plaintext, messageHash);
+    const sentAtTimestamp = _.toNumber(envelope.timestamp);
+
+    await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } else {
     await removeFromCache(envelope);
   }

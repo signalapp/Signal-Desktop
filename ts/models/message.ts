@@ -51,7 +51,7 @@ import { getV2OpenGroupRoom } from '../data/opengroups';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { SettingsKey } from '../data/settings-key';
 import {
   deleteExternalMessageFiles,
@@ -60,6 +60,10 @@ import {
   loadPreviewData,
   loadQuoteData,
 } from '../types/MessageAttachment';
+import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { Notifications } from '../util/notifications';
+import { Storage } from '../util/storage';
+import { LinkPreviews } from '../util/linkPreviews';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -96,7 +100,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     autoBind(this);
 
-    window.contextMenuShown = false;
+    if (window) {
+      window.contextMenuShown = false;
+    }
 
     this.getMessageModelProps();
   }
@@ -214,10 +220,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('disappearingMessagesDisabled');
       }
 
-      return window.i18n(
-        'timerSetTo',
-        window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0)
-      );
+      return window.i18n('timerSetTo', [
+        ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0),
+      ]);
     }
 
     return '';
@@ -241,7 +246,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0) as string;
+    const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
@@ -427,7 +432,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const readBy = this.get('read_by') || [];
-    if (window.storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
+    if (Storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
       return 'read';
     }
     const sent = this.get('sent');
@@ -563,7 +568,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       return {
         ...preview,
-        domain: window.Signal.LinkPreviews.getDomain(preview.url),
+        domain: LinkPreviews.getDomain(preview.url),
         image,
       };
     });
@@ -606,7 +611,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (quote.text) {
         // do not show text of not found messages.
         // if the message was deleted better not show it's text content in the message
-        quoteProps.text = this.createNonBreakingLastSeparator(quote.text);
+        quoteProps.text = this.createNonBreakingLastSeparator(sliceQuoteText(quote.text));
       }
 
       const quoteAttachment = firstAttachment
@@ -807,7 +812,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
-    if (!window.textsecure.messaging) {
+    if (!window.isOnline) {
       window?.log?.error('retrySend: Cannot retry since we are offline!');
       return null;
     }
@@ -1088,11 +1093,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.set({ expirationStartTimestamp });
     }
 
-    window.Whisper.Notifications.remove(
-      window.Whisper.Notifications.where({
-        messageId: this.id,
-      })
-    );
+    Notifications.clearByMessageId(this.id);
   }
 
   public isExpiring() {
@@ -1312,13 +1313,25 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 }
 
-const trotthledAllMessagesDispatch = _.throttle(() => {
-  if (updatesToDispatch.size === 0) {
-    return;
+// this is to avoid saving 2k chars for just the quote object inside a message
+export function sliceQuoteText(quotedText: string | undefined | null) {
+  if (!quotedText || isEmpty(quotedText)) {
+    return '';
   }
-  window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
-  updatesToDispatch.clear();
-}, 1000);
+  return quotedText.slice(0, 60);
+}
+
+const trotthledAllMessagesDispatch = _.debounce(
+  () => {
+    if (updatesToDispatch.size === 0) {
+      return;
+    }
+    window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
+    updatesToDispatch.clear();
+  },
+  2000,
+  { trailing: true, maxWait: 5000 }
+);
 
 const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new Map();
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

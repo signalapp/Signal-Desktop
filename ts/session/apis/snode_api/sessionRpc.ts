@@ -1,5 +1,6 @@
 import { default as insecureNodeFetch } from 'node-fetch';
 import pRetry from 'p-retry';
+import { HTTPError, NotFoundError } from '../../utils/errors';
 import { Snode } from '../../../data/data';
 import { getStoragePubKey } from '../../types';
 
@@ -75,7 +76,7 @@ async function lokiFetch({
     const response = await insecureNodeFetch(url, fetchOptions);
 
     if (!response.ok) {
-      throw new window.textsecure.HTTPError('Loki_rpc error', response);
+      throw new HTTPError('Loki_rpc error', response);
     }
     const result = await response.text();
 
@@ -85,7 +86,7 @@ async function lokiFetch({
     };
   } catch (e) {
     if (e.code === 'ENOTFOUND') {
-      throw new window.textsecure.NotFoundError('Failed to resolve address', e);
+      throw new NotFoundError('Failed to resolve address', e);
     }
     if (e.message === ERROR_421_HANDLED_RETRY_REQUEST) {
       throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
@@ -110,7 +111,7 @@ export async function snodeRpc(
     timeout = 10000,
   }: {
     method: string;
-    params: any;
+    params: Record<string, any>;
     targetNode: Snode;
     associatedWith?: string;
     timeout?: number;
@@ -127,6 +128,7 @@ export async function snodeRpc(
       pubKey: getStoragePubKey(params.pubKey),
     };
   }
+
   const body = {
     jsonrpc: '2.0',
     id: '0',

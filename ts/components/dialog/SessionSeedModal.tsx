@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { ToastUtils, UserUtils } from '../../session/utils';
-import { PasswordUtil } from '../../util';
+import { ToastUtils } from '../../session/utils';
+import { matchesHash } from '../../util/passwordUtils';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
@@ -10,6 +10,7 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { getCurrentRecoveryPhrase } from '../../util/storage';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;
@@ -25,8 +26,8 @@ const Password = (props: PasswordProps) => {
   const onClose = () => dispatch(recoveryPhraseModal(null));
 
   const confirmPassword = () => {
-    const passwordValue = jQuery('#seed-input-password').val();
-    const isPasswordValid = PasswordUtil.matchesHash(passwordValue as string, passwordHash);
+    const passwordValue = (document.getElementById('seed-input-password') as any)?.val();
+    const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
       setError('noGivenPassword');
@@ -144,7 +145,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
+    setTimeout(() => (document.getElementById('seed-input-password') as any)?.focus(), 100);
     void checkHasPassword();
     void getRecoveryPhrase();
   }, []);
@@ -168,7 +169,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
     if (recoveryPhrase) {
       return false;
     }
-    const newRecoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+    const newRecoveryPhrase = getCurrentRecoveryPhrase();
     setRecoveryPhrase(newRecoveryPhrase);
     setLoadingSeed(false);
 

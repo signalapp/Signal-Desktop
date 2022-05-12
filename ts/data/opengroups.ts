@@ -46,7 +46,7 @@ export async function getV2OpenGroupRoom(
   if (!isOpenGroupV2(conversationId)) {
     throw new Error(`getV2OpenGroupRoom: this is not a valid v2 id: ${conversationId}`);
   }
-  const opengroupv2Rooms = channels.getV2OpenGroupRoom(conversationId);
+  const opengroupv2Rooms = await channels.getV2OpenGroupRoom(conversationId);
 
   if (!opengroupv2Rooms) {
     return undefined;
@@ -83,15 +83,6 @@ export async function saveV2OpenGroupRoom(opengroupsv2Room: OpenGroupV2Room): Pr
 export async function removeV2OpenGroupRoom(conversationId: string): Promise<void> {
   await channels.removeV2OpenGroupRoom(conversationId);
 }
-
-export const channelsToMake = {
-  getAllV2OpenGroupRooms,
-  getV2OpenGroupRoom,
-  getV2OpenGroupRoomByRoomId,
-  saveV2OpenGroupRoom,
-  removeV2OpenGroupRoom,
-  getAllOpenGroupV2Conversations,
-};
 
 export async function getAllOpenGroupV2Conversations(): Promise<ConversationCollection> {
   const conversations = await channels.getAllOpenGroupV2Conversations();

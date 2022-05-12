@@ -5,22 +5,28 @@ import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { MessageModel } from '../models/message';
-import { getMessageById, getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
+import { MessageModel, sliceQuoteText } from '../models/message';
+import { getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
 
-import { updateProfileOneAtATime } from './dataMessage';
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
 import { showMessageRequestBanner } from '../state/ducks/userConfig';
 import { MessageDirection } from '../models/messageType';
+import { LinkPreviews } from '../util/linkPreviews';
+import { GoogleChrome } from '../util';
+import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 
 function contentTypeSupported(type: string): boolean {
-  const Chrome = window.Signal.Util.GoogleChrome;
+  const Chrome = GoogleChrome;
   return Chrome.isImageTypeSupported(type) || Chrome.isVideoTypeSupported(type);
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
+/**
+ * Note: this function does not trigger a write to the db nor trigger redux update.
+ * You have to call msg.commit() once you are done with the handling of this message
+ */
 async function copyFromQuotedMessage(
+  // tslint:disable-next-line: cyclomatic-complexity
   msg: MessageModel,
   quote?: SignalService.DataMessage.IQuote | null
 ): Promise<void> {
@@ -39,7 +45,7 @@ async function copyFromQuotedMessage(
 
   const firstAttachment = attachments?.[0] || undefined;
 
-  const id: number = _.toNumber(quoteId);
+  const id = _.toNumber(quoteId);
 
   // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
   // this will return an array of sent message by id we have locally.
@@ -54,14 +60,13 @@ async function copyFromQuotedMessage(
     window?.log?.warn(`We did not found quoted message ${id}.`);
     quoteLocal.referencedMessageNotFound = true;
     msg.set({ quote: quoteLocal });
-    await msg.commit();
     return;
   }
 
   window?.log?.info(`Found quoted message id: ${id}`);
   quoteLocal.referencedMessageNotFound = false;
 
-  quoteLocal.text = found.get('body') || '';
+  quoteLocal.text = sliceQuoteText(found.get('body') || '');
 
   // no attachments, just save the quote with the body
   if (
@@ -70,7 +75,6 @@ async function copyFromQuotedMessage(
     !contentTypeSupported(firstAttachment.contentType)
   ) {
     msg.set({ quote: quoteLocal });
-    await msg.commit();
     return;
   }
 
@@ -105,12 +109,13 @@ async function copyFromQuotedMessage(
   quoteLocal.attachments = [firstAttachment];
 
   msg.set({ quote: quoteLocal });
-  await msg.commit();
-  return;
 }
 
+/**
+ * Note: This does not trigger a redux update, nor write to the DB
+ */
 function handleLinkPreviews(messageBody: string, messagePreview: any, message: MessageModel) {
-  const urls = window.Signal.LinkPreviews.findLinks(messageBody);
+  const urls = LinkPreviews.findLinks(messageBody);
   const incomingPreview = messagePreview || [];
   const preview = incomingPreview.filter(
     (item: any) => (item.image || item.title) && urls.includes(item.url)
@@ -125,15 +130,15 @@ function handleLinkPreviews(messageBody: string, messagePreview: any, message: M
   message.set({ preview });
 }
 
-async function processProfileKey(
+async function processProfileKeyNoCommit(
   conversation: ConversationModel,
   sendingDeviceConversation: ConversationModel,
   profileKeyBuffer?: Uint8Array
 ) {
   if (conversation.isPrivate()) {
-    await conversation.setProfileKey(profileKeyBuffer);
+    await conversation.setProfileKey(profileKeyBuffer, false);
   } else {
-    await sendingDeviceConversation.setProfileKey(profileKeyBuffer);
+    await sendingDeviceConversation.setProfileKey(profileKeyBuffer, false);
   }
 }
 
@@ -148,32 +153,17 @@ function handleMentions(
   }
 }
 
-function updateReadStatus(message: MessageModel, conversation: ConversationModel) {
-  const readSync = window.Whisper.ReadSyncs.forMessage(message);
-  if (readSync) {
-    const shouldExpire = message.get('expireTimer');
-    const alreadyStarted = message.get('expirationStartTimestamp');
-    if (shouldExpire && !alreadyStarted) {
-      // Start message expiration timer
-      const start = Math.min(readSync.get('read_at'), Date.now());
-      message.set('expirationStartTimestamp', start);
-    }
-  }
-  if (readSync || message.isExpirationTimerUpdate()) {
+function updateReadStatus(message: MessageModel) {
+  if (message.isExpirationTimerUpdate()) {
     message.set({ unread: 0 });
-
-    // This is primarily to allow the conversation to mark all older
-    // messages as read, as is done when we receive a read sync for
-    // a message we already know about.
-    void conversation.onReadMessage(message, Date.now());
   }
 }
 
-async function handleSyncedReceipts(message: MessageModel, conversation: ConversationModel) {
+function handleSyncedReceiptsNoCommit(message: MessageModel, conversation: ConversationModel) {
   // If the newly received message is from us, we assume that we've seen the messages up until that point
   const sentTimestamp = message.get('sent_at');
   if (sentTimestamp) {
-    await conversation.markRead(sentTimestamp);
+    conversation.markRead(sentTimestamp);
   }
 }
 
@@ -212,12 +202,14 @@ export function toRegularMessage(rawDataMessage: SignalService.DataMessage): Reg
 
 async function handleRegularMessage(
   conversation: ConversationModel,
+  sendingDeviceConversation: ConversationModel,
   message: MessageModel,
   rawDataMessage: RegularMessageType,
   source: string,
   messageHash: string
-) {
+): Promise<void> {
   const type = message.get('type');
+  // this does not trigger a UI update nor write to the db
   await copyFromQuotedMessage(message, rawDataMessage.quote);
 
   if (rawDataMessage.openGroupInvitation) {
@@ -249,8 +241,8 @@ async function handleRegularMessage(
   handleMentions(message, conversation, ourPubKey);
 
   if (type === 'incoming') {
-    updateReadStatus(message, conversation);
     if (conversation.isPrivate()) {
+      updateReadStatus(message);
       const incomingMessageCount = await getMessageCountByType(
         conversation.id,
         MessageDirection.incoming
@@ -274,12 +266,10 @@ async function handleRegularMessage(
       }
       // should only occur after isOutgoing request as it relies on didApproveMe being false.
       await conversation.setDidApproveMe(true);
-      // edge case end
     }
-  }
-
-  if (type === 'outgoing') {
-    await handleSyncedReceipts(message, conversation);
+  } else if (type === 'outgoing') {
+    // we want to do this for all types of conversations, not just private chats
+    handleSyncedReceiptsNoCommit(message, conversation);
 
     if (conversation.isPrivate()) {
       await conversation.setIsApproved(true);
@@ -294,34 +284,22 @@ async function handleRegularMessage(
     });
   }
 
-  const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
-    source,
-    ConversationTypeEnum.PRIVATE
-  );
-
-  // Check if we need to update any profile names
-  // the only profile we don't update with what is coming here is ours,
-  // as our profile is shared accross our devices with a ConfigurationMessage
-  if (type === 'incoming' && rawDataMessage.profile) {
-    void updateProfileOneAtATime(
+  if (rawDataMessage.profileKey) {
+    await processProfileKeyNoCommit(
+      conversation,
       sendingDeviceConversation,
-      rawDataMessage.profile,
       rawDataMessage.profileKey
     );
   }
 
-  if (rawDataMessage.profileKey) {
-    await processProfileKey(conversation, sendingDeviceConversation, rawDataMessage.profileKey);
-  }
-
   // we just received a message from that user so we reset the typing indicator for this convo
-  await conversation.notifyTyping({
+  await conversation.notifyTypingNoCommit({
     isTyping: false,
     sender: source,
   });
 }
 
-async function handleExpirationTimerUpdate(
+async function handleExpirationTimerUpdateNoCommit(
   conversation: ConversationModel,
   message: MessageModel,
   source: string,
@@ -336,7 +314,7 @@ async function handleExpirationTimerUpdate(
   });
   conversation.set({ expireTimer });
 
-  await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'));
+  await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'), {}, false);
 }
 
 export async function handleMessageJob(
@@ -348,11 +326,15 @@ export async function handleMessageJob(
   messageHash: string
 ) {
   window?.log?.info(
-    `Starting handleSwarmDataMessage for message ${messageModel.idForLogging()}, ${messageModel.get(
+    `Starting handleMessageJob for message ${messageModel.idForLogging()}, ${messageModel.get(
       'serverTimestamp'
     ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
   );
 
+  const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
+    source,
+    ConversationTypeEnum.PRIVATE
+  );
   try {
     messageModel.set({ flags: regularDataMessage.flags });
     if (messageModel.isExpirationTimerUpdate()) {
@@ -365,10 +347,12 @@ export async function handleMessageJob(
         );
         return;
       }
-      await handleExpirationTimerUpdate(conversation, messageModel, source, expireTimer);
+      await handleExpirationTimerUpdateNoCommit(conversation, messageModel, source, expireTimer);
     } else {
+      // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(
         conversation,
+        sendingDeviceConversation,
         messageModel,
         regularDataMessage,
         source,
@@ -376,7 +360,7 @@ export async function handleMessageJob(
       );
     }
 
-    // save the message model to the db and it save the messageId generated to our copy
+    // save the message model to the db and it save the messageId generated to our in-memory copy
     const id = await messageModel.commit();
     messageModel.set({ id });
 
@@ -384,41 +368,56 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
 
-    void queueAttachmentDownloads(messageModel, conversation);
-
     const unreadCount = await conversation.getUnreadCount();
     conversation.set({ unreadCount });
-    // this is a throttled call and will only run once every 1 sec
+    // this is a throttled call and will only run once every 1 sec at most
     conversation.updateLastMessage();
     await conversation.commit();
 
-    try {
-      // We go to the database here because, between the message save above and
-      // the previous line's trigger() call, we might have marked all messages
-      // unread in the database. This message might already be read!
-      const fetched = await getMessageById(messageModel.get('id'));
+    if (conversation.id !== sendingDeviceConversation.id) {
+      await sendingDeviceConversation.commit();
+    }
 
-      const previousUnread = messageModel.get('unread');
-
-      // Important to update message with latest read state from database
-      messageModel.merge(fetched);
-
-      if (previousUnread !== messageModel.get('unread')) {
-        window?.log?.warn(
-          'Caught race condition on new message read state! ' + 'Manually starting timers.'
-        );
-        // We call markRead() even though the message is already
-        // marked read because we need to start expiration
-        // timers, etc.
-        await messageModel.markRead(Date.now());
-      }
-    } catch (error) {
-      window?.log?.warn(
-        'handleSwarmDataMessage: Message',
-        messageModel.idForLogging(),
-        'was deleted'
+    void queueAttachmentDownloads(messageModel, conversation);
+    // Check if we need to update any profile names
+    // the only profile we don't update with what is coming here is ours,
+    // as our profile is shared accross our devices with a ConfigurationMessage
+    if (messageModel.isIncoming() && regularDataMessage.profile) {
+      void appendFetchAvatarAndProfileJob(
+        sendingDeviceConversation,
+        regularDataMessage.profile,
+        regularDataMessage.profileKey
       );
     }
+
+    // even with all the warnings, I am very sus about if this is usefull or not
+    // try {
+    //   // We go to the database here because, between the message save above and
+    //   // the previous line's trigger() call, we might have marked all messages
+    //   // unread in the database. This message might already be read!
+    //   const fetched = await getMessageById(messageModel.get('id'));
+
+    //   const previousUnread = messageModel.get('unread');
+
+    //   // Important to update message with latest read state from database
+    //   messageModel.merge(fetched);
+
+    //   if (previousUnread !== messageModel.get('unread')) {
+    //     window?.log?.warn(
+    //       'Caught race condition on new message read state! ' + 'Manually starting timers.'
+    //     );
+    //     // We call markRead() even though the message is already
+    //     // marked read because we need to start expiration
+    //     // timers, etc.
+    //     await messageModel.markRead(Date.now());
+    //   }
+    // } catch (error) {
+    //   window?.log?.warn(
+    //     'handleMessageJob: Message',
+    //     messageModel.idForLogging(),
+    //     'was deleted'
+    //   );
+    // }
 
     if (messageModel.get('unread')) {
       conversation.throttledNotify(messageModel);
@@ -427,13 +426,6 @@ export async function handleMessageJob(
     confirm?.();
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
-    window?.log?.error(
-      'handleSwarmDataMessage',
-      messageModel.idForLogging(),
-      'error:',
-      errorForLog
-    );
-
-    throw error;
+    window?.log?.error('handleMessageJob', messageModel.idForLogging(), 'error:', errorForLog);
   }
 }

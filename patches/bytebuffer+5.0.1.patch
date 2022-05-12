@@ -1,0 +1,13 @@
+diff --git a/node_modules/bytebuffer/dist/bytebuffer-node.js b/node_modules/bytebuffer/dist/bytebuffer-node.js
+index 93a7c46..11fed8c 100644
+--- a/node_modules/bytebuffer/dist/bytebuffer-node.js
++++ b/node_modules/bytebuffer/dist/bytebuffer-node.js
+@@ -26,7 +26,7 @@ module.exports = (function() {
+     var buffer = require("buffer"),
+         Buffer = buffer["Buffer"],
+         Long = require("long"),
+-        memcpy = null; try { memcpy = require("memcpy"); } catch (e) {}
++        memcpy = null; // try { memcpy = require("memcpy"); } catch (e) {}
+
+     /**
+      * Constructs a new ByteBuffer.

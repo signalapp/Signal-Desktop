@@ -45,6 +45,9 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { processNewAttachment } from '../types/MessageAttachment';
 import { urlToBlob } from '../types/attachments/VisualAttachment';
 import { MIME } from '../types';
+import { setLastProfileUpdateTimestamp } from '../util/storage';
+import { getSodiumRenderer } from '../session/crypto';
+import { encryptProfile } from '../util/crypto/profileEncrypter';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -388,7 +391,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   let decryptedAvatarData;
   if (newAvatarDecrypted) {
     // Encrypt with a new key every time
-    profileKey = window.libsignal.crypto.getRandomBytes(32) as Uint8Array;
+    profileKey = (await getSodiumRenderer()).randombytes_buf(32);
     decryptedAvatarData = newAvatarDecrypted;
   } else {
     // this is a reupload. no need to generate a new profileKey
@@ -425,10 +428,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     return;
   }
 
-  const encryptedData = await window.textsecure.crypto.encryptProfile(
-    decryptedAvatarData,
-    profileKey
-  );
+  const encryptedData = await encryptProfile(decryptedAvatarData, profileKey);
 
   const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
   let fileUrl;
@@ -462,7 +462,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
 
   if (newAvatarDecrypted) {
-    UserUtils.setLastProfileUpdateTimestamp(Date.now());
+    await setLastProfileUpdateTimestamp(Date.now());
     await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
   } else {
     window.log.info(

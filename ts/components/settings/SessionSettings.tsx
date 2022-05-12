@@ -12,7 +12,7 @@ import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { getPasswordHash } from '../../data/data';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { PasswordUtil } from '../../util';
+import { matchesHash } from '../../util/passwordUtils';
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -110,7 +110,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     const callMediaSetting = getCallMediaPermissionsSettings();
     this.setState({ mediaSetting, callMediaSetting });
 
-    setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
+    setTimeout(() => document.getElementById('password-lock-input')?.focus(), 100);
   }
 
   public componentWillUnmount() {
@@ -149,7 +149,9 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
   }
 
   public async validatePasswordLock() {
-    const enteredPassword = String(jQuery('#password-lock-input').val());
+    const enteredPassword = String(
+      (document.getElementById('password-lock-input') as HTMLInputElement)?.value
+    );
 
     if (!enteredPassword) {
       this.setState({
@@ -161,7 +163,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
     // Check if the password matches the hash we have stored
     const hash = await getPasswordHash();
-    if (hash && !PasswordUtil.matchesHash(enteredPassword, hash)) {
+    if (hash && !matchesHash(enteredPassword, hash)) {
       this.setState({
         pwdLockError: window.i18n('invalidPassword'),
       });
@@ -236,9 +238,9 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
   }
 
   private async onKeyUp(event: any) {
-    const lockPasswordFocussed = ($('#password-lock-input') as any).is(':focus');
+    const lockPasswordVisible = Boolean(document.getElementById('password-lock-input'));
 
-    if (event.key === 'Enter' && lockPasswordFocussed) {
+    if (event.key === 'Enter' && lockPasswordVisible) {
       await this.validatePasswordLock();
     }
 

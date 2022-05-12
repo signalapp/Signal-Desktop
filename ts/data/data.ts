@@ -1,5 +1,3 @@
-import { ipcRenderer } from 'electron';
-
 // tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
 // tslint:disable: function-name
 
@@ -14,32 +12,21 @@ import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
-import { getSodium } from '../session/crypto';
+import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { ReduxConversationType } from '../state/ducks/conversations';
+import { MsgDuplicateSearchOpenGroup, UpdateLastHashType } from '../types/sqlSharedTypes';
+import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { Storage } from '../util/storage';
 import { channels } from './channels';
-import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
+import { createOrUpdateItem, getAllItems, getItemById, removeItemById } from './channelsItem';
+import * as dataInit from './dataInit';
 
-const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
+export { createOrUpdateItem, getAllItems, getItemById, removeItemById };
 
-const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
-
-export const _jobs = Object.create(null);
-const _DEBUG = false;
-let _jobCounter = 0;
-let _shuttingDown = false;
-let _shutdownCallback: any = null;
-let _shutdownPromise: any = null;
-
-export type StorageItem = {
-  id: string;
-  value: any;
-  timestamp?: number;
-};
 
 export type IdentityKey = {
   id: string;
@@ -72,141 +59,6 @@ export type ServerToken = {
 export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 export const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
-
-const channelsToMake = {
-  shutdown,
-  close,
-  removeDB,
-  getPasswordHash,
-
-  getGuardNodes,
-  updateGuardNodes,
-
-  createOrUpdateItem,
-  getItemById,
-  getAllItems,
-  removeItemById,
-
-  getSwarmNodesForPubkey,
-  updateSwarmNodesForPubkey,
-
-  saveConversation,
-  getConversationById,
-  updateConversation,
-  removeConversation,
-
-  getAllConversations,
-  getAllOpenGroupV1Conversations,
-  getPubkeysInPublicConversation,
-  getAllGroupsInvolvingId,
-
-  searchConversations,
-  searchMessages,
-  searchMessagesInConversation,
-
-  saveMessage,
-  cleanSeenMessages,
-  cleanLastHashes,
-  updateLastHash,
-  saveSeenMessageHashes,
-  saveMessages,
-  removeMessage,
-  _removeMessages,
-  getUnreadByConversation,
-  getUnreadCountByConversation,
-  getMessageCountByType,
-
-  removeAllMessagesInConversation,
-
-  getMessageCount,
-  getMessageBySenderAndSentAt,
-  getMessageBySenderAndServerTimestamp,
-  getMessageBySenderAndTimestamp,
-  getMessageIdsFromServerIds,
-  getMessageById,
-  getMessagesBySentAt,
-  getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
-  getMessagesByConversation,
-  getLastMessagesByConversation,
-  getOldestMessageInConversation,
-  getFirstUnreadMessageIdInConversation,
-  getFirstUnreadMessageWithMention,
-  hasConversationOutgoingMessage,
-  getSeenMessagesByHashList,
-  getLastHashBySnode,
-  trimMessages,
-
-  getUnprocessedCount,
-  getAllUnprocessed,
-  getUnprocessedById,
-  saveUnprocessed,
-  updateUnprocessedAttempts,
-  updateUnprocessedWithData,
-  removeUnprocessed,
-  removeAllUnprocessed,
-
-  getNextAttachmentDownloadJobs,
-  saveAttachmentDownloadJob,
-  resetAttachmentDownloadPending,
-  setAttachmentDownloadJobPending,
-  removeAttachmentDownloadJob,
-  removeAllAttachmentDownloadJobs,
-
-  removeAll,
-  removeAllConversations,
-
-  removeOtherData,
-  cleanupOrphanedAttachments,
-
-  // Returning plain JSON
-  getMessagesWithVisualMediaAttachments,
-  getMessagesWithFileAttachments,
-
-  getAllEncryptionKeyPairsForGroup,
-  getLatestClosedGroupEncryptionKeyPair,
-  addClosedGroupEncryptionKeyPair,
-  removeAllClosedGroupEncryptionKeyPairs,
-  removeOneOpenGroupV1Message,
-
-  // dev performance testing
-  fillWithTestData,
-
-  // open group v2
-  ...channelstoMakeOpenGroupV2,
-};
-
-export function init() {
-  // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
-  //   any warnings that might be sent to the console in that case.
-  ipcRenderer.setMaxListeners(0);
-
-  _.forEach(channelsToMake, fn => {
-    if (_.isFunction(fn)) {
-      makeChannel(fn.name);
-    }
-  });
-
-  ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (_event, jobId, errorForDisplay, result) => {
-    const job = _getJob(jobId);
-    if (!job) {
-      throw new Error(
-        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-      );
-    }
-
-    const { resolve, reject, fnName } = job;
-
-    if (errorForDisplay) {
-      return reject(
-        new Error(`Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`)
-      );
-    }
-
-    return resolve(result);
-  });
-}
 
 /**
  * When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
@@ -253,161 +105,10 @@ function _cleanData(data: any): any {
   return data;
 }
 
-async function _shutdown() {
-  if (_shutdownPromise) {
-    return _shutdownPromise;
-  }
-
-  _shuttingDown = true;
-
-  const jobKeys = Object.keys(_jobs);
-  window?.log?.info(`data.shutdown: starting process. ${jobKeys.length} jobs outstanding`);
-
-  // No outstanding jobs, return immediately
-  if (jobKeys.length === 0) {
-    return null;
-  }
-
-  // Outstanding jobs; we need to wait until the last one is done
-  _shutdownPromise = new Promise((resolve, reject) => {
-    _shutdownCallback = (error: any) => {
-      window?.log?.info('data.shutdown: process complete');
-      if (error) {
-        return reject(error);
-      }
-
-      return resolve(undefined);
-    };
-  });
-
-  return _shutdownPromise;
-}
-
-function _makeJob(fnName: string) {
-  if (_shuttingDown && fnName !== 'close') {
-    throw new Error(`Rejecting SQL channel job (${fnName}); application is shutting down`);
-  }
-
-  _jobCounter += 1;
-  const id = _jobCounter;
-
-  if (_DEBUG) {
-    window?.log?.debug(`SQL channel job ${id} (${fnName}) started`);
-  }
-  _jobs[id] = {
-    fnName,
-    start: Date.now(),
-  };
-
-  return id;
-}
-
-function _updateJob(id: number, data: any) {
-  const { resolve, reject } = data;
-  const { fnName, start } = _jobs[id];
-
-  _jobs[id] = {
-    ..._jobs[id],
-    ...data,
-    resolve: (value: any) => {
-      _removeJob(id);
-      if (_DEBUG) {
-        const end = Date.now();
-        const delta = end - start;
-        if (delta > 10) {
-          window?.log?.debug(`SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`);
-        }
-      }
-      return resolve(value);
-    },
-    reject: (error: any) => {
-      _removeJob(id);
-      const end = Date.now();
-      window?.log?.warn(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
-      return reject(error);
-    },
-  };
-}
-
-function _removeJob(id: number) {
-  if (_DEBUG) {
-    _jobs[id].complete = true;
-    return;
-  }
-
-  if (_jobs[id].timer) {
-    global.clearTimeout(_jobs[id].timer);
-    _jobs[id].timer = null;
-  }
-
-  // tslint:disable-next-line: no-dynamic-delete
-  delete _jobs[id];
-
-  if (_shutdownCallback) {
-    const keys = Object.keys(_jobs);
-    if (keys.length === 0) {
-      _shutdownCallback();
-    }
-  }
-}
-
-function _getJob(id: number) {
-  return _jobs[id];
-}
-
-function makeChannel(fnName: string) {
-  channels[fnName] = async (...args: any) => {
-    const jobId = _makeJob(fnName);
-
-    return new Promise((resolve, reject) => {
-      ipcRenderer.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
-
-      _updateJob(jobId, {
-        resolve,
-        reject,
-        args: _DEBUG ? args : null,
-      });
-
-      _jobs[jobId].timer = setTimeout(
-        () => reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
-        DATABASE_UPDATE_TIMEOUT
-      );
-    });
-  };
-}
-
-function keysToArrayBuffer(keys: any, data: any) {
-  const updated = _.cloneDeep(data);
-  for (let i = 0, max = keys.length; i < max; i += 1) {
-    const key = keys[i];
-    const value = _.get(data, key);
-
-    if (value) {
-      _.set(updated, key, fromBase64ToArrayBuffer(value));
-    }
-  }
-
-  return updated;
-}
-
-function keysFromArrayBuffer(keys: any, data: any) {
-  const updated = _.cloneDeep(data);
-  for (let i = 0, max = keys.length; i < max; i += 1) {
-    const key = keys[i];
-    const value = _.get(data, key);
-
-    if (value) {
-      _.set(updated, key, fromArrayBufferToBase64(value));
-    }
-  }
-
-  return updated;
-}
-
 // Basic
 export async function shutdown(): Promise<void> {
   // Stop accepting new SQL jobs, flush outstanding queue
-  await _shutdown();
+  await dataInit._shutdown();
   await close();
 }
 // Note: will need to restart the app after calling this, to set up afresh
@@ -434,54 +135,18 @@ export async function updateGuardNodes(nodes: Array<string>): Promise<void> {
   return channels.updateGuardNodes(nodes);
 }
 
-// Items
-
-const ITEM_KEYS: Object = {
-  identityKey: ['value.pubKey', 'value.privKey'],
-  profileKey: ['value'],
-};
-export async function createOrUpdateItem(data: StorageItem): Promise<void> {
-  const { id } = data;
-  if (!id) {
-    throw new Error('createOrUpdateItem: Provided data did not have a truthy id');
-  }
-
-  const keys = (ITEM_KEYS as any)[id];
-  const updated = Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
-
-  await channels.createOrUpdateItem(updated);
-}
-export async function getItemById(id: string): Promise<StorageItem | undefined> {
-  const keys = (ITEM_KEYS as any)[id];
-  const data = await channels.getItemById(id);
-
-  return Array.isArray(keys) ? keysToArrayBuffer(keys, data) : data;
-}
-
 export async function generateAttachmentKeyIfEmpty() {
   const existingKey = await getItemById('local_attachment_encrypted_key');
   if (!existingKey) {
-    const sodium = await getSodium();
+    const sodium = await getSodiumRenderer();
     const encryptingKey = sodium.to_hex(sodium.randombytes_buf(32));
     await createOrUpdateItem({
       id: 'local_attachment_encrypted_key',
       value: encryptingKey,
     });
     // be sure to write the new key to the cache. so we can access it straight away
-    window.textsecure.storage.put('local_attachment_encrypted_key', encryptingKey);
+    await Storage.put('local_attachment_encrypted_key', encryptingKey);
   }
-}
-
-export async function getAllItems(): Promise<Array<StorageItem>> {
-  const items = await channels.getAllItems();
-  return _.map(items, item => {
-    const { id } = item;
-    const keys = (ITEM_KEYS as any)[id];
-    return Array.isArray(keys) ? keysToArrayBuffer(keys, item) : item;
-  });
-}
-export async function removeItemById(id: string): Promise<void> {
-  await channels.removeItemById(id);
 }
 
 // Swarm nodes
@@ -611,9 +276,11 @@ export async function searchMessagesInConversation(
   conversationId: string,
   limit: number
 ): Promise<Array<MessageAttributes>> {
-  const messages = (await channels.searchMessagesInConversation(query, conversationId, {
-    limit,
-  })) as Array<MessageAttributes>;
+  const messages = (await channels.searchMessagesInConversation(
+    query,
+    conversationId,
+    limit
+  )) as Array<MessageAttributes>;
   return messages;
 }
 
@@ -636,19 +303,14 @@ export async function saveSeenMessageHashes(
   await channels.saveSeenMessageHashes(_cleanData(data));
 }
 
-export async function updateLastHash(data: {
-  convoId: string;
-  snode: string;
-  hash: string;
-  expiresAt: number;
-}): Promise<void> {
+export async function updateLastHash(data: UpdateLastHashType): Promise<void> {
   await channels.updateLastHash(_cleanData(data));
 }
 
 export async function saveMessage(data: MessageAttributes): Promise<string> {
   const cleanedData = _cleanData(data);
   const id = await channels.saveMessage(cleanedData);
-  window.Whisper.ExpiringMessagesListener.update();
+  ExpirationTimerOptions.updateExpiringMessagesCheck();
   return id;
 }
 
@@ -712,22 +374,11 @@ export async function getMessageBySenderAndSentAt({
   return new MessageModel(messages[0]);
 }
 
-export async function getMessageBySenderAndServerTimestamp({
-  source,
-  serverTimestamp,
-}: {
-  source: string;
-  serverTimestamp: number;
-}): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndServerTimestamp({
-    source,
-    serverTimestamp,
-  });
-  if (!messages || !messages.length) {
-    return null;
-  }
-
-  return new MessageModel(messages[0]);
+export async function filterAlreadyFetchedOpengroupMessage(
+  msgDetails: MsgDuplicateSearchOpenGroup
+): Promise<MsgDuplicateSearchOpenGroup> {
+  const msgDetailsNotAlreadyThere = await channels.filterAlreadyFetchedOpengroupMessage(msgDetails);
+  return msgDetailsNotAlreadyThere || [];
 }
 
 /**
@@ -863,8 +514,12 @@ export async function getFirstUnreadMessageWithMention(
 export async function hasConversationOutgoingMessage(conversationId: string): Promise<boolean> {
   return channels.hasConversationOutgoingMessage(conversationId);
 }
-export async function getLastHashBySnode(convoId: string, snode: string): Promise<string> {
-  return channels.getLastHashBySnode(convoId, snode);
+export async function getLastHashBySnode(
+  convoId: string,
+  snode: string,
+  namespace: number
+): Promise<string> {
+  return channels.getLastHashBySnode(convoId, snode, namespace);
 }
 
 export async function getSeenMessagesByHashList(hashes: Array<string>): Promise<any> {
@@ -893,11 +548,6 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessage(ids);
   } while (messages.length > 0);
-}
-
-export async function trimMessages(): Promise<void> {
-  await channels.trimMessages(1000);
-  return;
 }
 
 export async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {
@@ -998,50 +648,31 @@ export async function removeAllConversations(): Promise<void> {
 }
 
 export async function cleanupOrphanedAttachments(): Promise<void> {
-  await callChannel(CLEANUP_ORPHANED_ATTACHMENTS_KEY);
+  await dataInit.callChannel(CLEANUP_ORPHANED_ATTACHMENTS_KEY);
 }
 
 // Note: will need to restart the app after calling this, to set up afresh
 export async function removeOtherData(): Promise<void> {
-  await Promise.all([callChannel(ERASE_SQL_KEY), callChannel(ERASE_ATTACHMENTS_KEY)]);
-}
-
-async function callChannel(name: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    ipcRenderer.send(name);
-    ipcRenderer.once(`${name}-done`, (_event, error) => {
-      if (error) {
-        return reject(error);
-      }
-
-      return resolve(undefined);
-    });
-
-    setTimeout(
-      () => reject(new Error(`callChannel call to ${name} timed out`)),
-      DATABASE_UPDATE_TIMEOUT
-    );
-  });
+  await Promise.all([
+    dataInit.callChannel(ERASE_SQL_KEY),
+    dataInit.callChannel(ERASE_ATTACHMENTS_KEY),
+  ]);
 }
 
 // Functions below here return plain JSON instead of Backbone Models
 
 export async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
-  options?: { limit: number }
+  limit?: number
 ): Promise<Array<MessageAttributes>> {
-  return channels.getMessagesWithVisualMediaAttachments(conversationId, {
-    limit: options?.limit,
-  });
+  return channels.getMessagesWithVisualMediaAttachments(conversationId, limit);
 }
 
 export async function getMessagesWithFileAttachments(
   conversationId: string,
-  options?: { limit: number }
+  limit: number
 ): Promise<Array<MessageAttributes>> {
-  return channels.getMessagesWithFileAttachments(conversationId, {
-    limit: options?.limit,
-  });
+  return channels.getMessagesWithFileAttachments(conversationId, limit);
 }
 
 export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';

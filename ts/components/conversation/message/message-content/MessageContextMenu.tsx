@@ -72,8 +72,7 @@ export const MessageContextMenu = (props: Props) => {
   const { messageId, contextMenuId } = props;
   const isOutgoing = direction === 'outgoing';
   const showRetry = status === 'error' && isOutgoing;
-  const isSent = status === 'sent';
-  const multipleAttachments = attachments && attachments.length > 1;
+  const isSent = status === 'sent' || status === 'read'; // a read message should be replyable
 
   const onContextMenuShown = useCallback(() => {
     window.contextMenuShown = true;
@@ -120,13 +119,23 @@ export const MessageContextMenu = (props: Props) => {
 
   const saveAttachment = useCallback(
     (e: any) => {
+      // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
+      // and the context menu save attachment item to save the right attachment I did not find a better way for now.
+      let targetAttachmentIndex = e.triggerEvent.path[1].getAttribute('data-attachmentindex');
       e.event.stopPropagation();
       if (!attachments?.length) {
         return;
       }
+
+      if (!targetAttachmentIndex) {
+        targetAttachmentIndex = 0;
+      }
+      if (targetAttachmentIndex > attachments.length) {
+        return;
+      }
       const messageTimestamp = timestamp || serverTimestamp || 0;
       void saveAttachmentToDisk({
-        attachment: attachments[0],
+        attachment: attachments[targetAttachmentIndex],
         messageTimestamp,
         messageSender: sender,
         conversationId: convoId,
@@ -173,7 +182,7 @@ export const MessageContextMenu = (props: Props) => {
       onHidden={onContextMenuHidden}
       animation={animation.fade}
     >
-      {!multipleAttachments && attachments && attachments[0] ? (
+      {attachments?.length ? (
         <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
       ) : null}
 
