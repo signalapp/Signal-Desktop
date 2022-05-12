@@ -974,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Τα φωνητικά μηνύματα έχουν περιορισμό μίας ώρας. Η καταγραφή θα σταματήσει αν μεταβείτε σε άλλη εφαρμογή.",
+        "message": "Τα φωνητικά μηνύματα έχουν περιορισμό μίας ώρας. Η καταγραφή θα σταματήσει αν μεταβείς σε άλλη εφαρμογή.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Το Signal δεν μπόρεσε να ενημερωθεί. Επισκεφτείτε το $url$ για να το εγκαταστήσετε χειροκίνητα. Έπειτα,$support$ γι' αυτό το πρόβλημα.",
+        "message": "Το Signal δεν μπόρεσε να ενημερωθεί. Πήγαινε στο $url$ για να το εγκαταστήσεις χειροκίνητα. Έπειτα,$support$ γι' αυτό το πρόβλημα.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -2406,7 +2406,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Αποτυχία λήψης του τηλεφωνικού αριθμού. Ελέγξτε τη σύνδεσή σας και προσπαθήστε ξανά.",
+        "message": "Αποτυχία λήψης του τηλεφωνικού αριθμού. Έλεγξε τη σύνδεσή σου και προσπάθησε ξανά.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
@@ -6362,7 +6362,7 @@
         "description": "aria-label for the number select box"
     },
     "DisappearingTimeDialog__label--units": {
-        "message": "Χρονική μονάδα",
+        "message": "Μονάδα χρόνου",
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
@@ -6812,7 +6812,7 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "Το $appName$ εκτελείται ήδη. \nΚάντε κλικ στο ΟΚ για κλείσιμο.\nΑν δεν κλείνει, δοκιμάστε να το κλείσετε εσείς.",
+        "message": "Το $appName$ εκτελείται ήδη. \nΠάτα ΟΚ για κλείσιμο.\nΑν δεν κλείνει, δοκίμασε να το κλείσεις χειροκίνητα.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6822,11 +6822,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Αποτυχία αποσυμπίεσης των αρχείων. Παρακαλούμε ξαναπροσπαθήστε την εγκατάσταση.",
+        "message": "Αποτυχία αποσυμπίεσης των αρχείων. Παρακαλούμε προσπάθησε να εγκαταστήσεις ξανά.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Δεν ήταν δυνατή η απεγκατάσταση των παλιών αρχείων εφαρμογής. Ξαναπροσπαθήστε την απεγκατάσταση αργότερα.",
+        "message": "Δεν ήταν δυνατή η απεγκατάσταση των παλιών αρχείων εφαρμογής. Προσπάθησε την απεγκατάσταση ξανά αργότερα.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7072,7 +7072,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "Εμφάνιση ιστοριών",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
@@ -7112,7 +7112,7 @@
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {
-        "message": "Ευχαριστούμε τους συμμετέχοντες πάνω στον ανοιχτό κώδικα, $dsanders11$ και $yusufsahinhamza$, για τη συνεισφορά τους στις βελτιώσεις αυτές.",
+        "message": "Ευχαριστούμε τους συνεισφέροντες στον ανοιχτού κώδικα, $dsanders11$ και $yusufsahinhamza$, για τη συνεισφορά τους στις βελτιώσεις αυτές.",
         "description": "Release notes for v5.40",
         "placeholders": {
             "dsanders11": {

@@ -100,7 +100,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Wissen",
+        "message": "Geselecteerde tekst wissen",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -1126,7 +1126,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Wissen",
+        "message": "Afwijzen",
         "description": ""
     },
     "accept": {
@@ -1244,7 +1244,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Wissen",
+        "message": "Gesprek wissen",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -1534,7 +1534,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Microfoon dempen",
+        "message": "Micro­foon dempen",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -1896,7 +1896,7 @@
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
-        "message": "Toestemmingen",
+        "message": "Machtigingen",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
@@ -1924,11 +1924,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimaliseren naar systeemvak",
+        "message": "Minimaliseer naar systeemvak in plaats van taakbalk",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Geminimaliseerd naar systeemvak starten",
+        "message": "Houd Signal geminimaliseerd naar systeemvak wanneer het wordt gestart",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -3472,7 +3472,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Wil je berichten van $name$ ontvangen, en sta je toe dat hij of zij je profielnaam en -foto kan zien? Je zult geen berichten ontvangen en je profiel zal voor hem of haar niet meer worden bijgewerkt totdat je hem of haar hebt gedeblokkeerd.",
+        "message": "Wil je berichten van $name$ ontvangen, en sta je toe dat hij of zij je profielnaam en -foto kan zien? Totdat je hem of haar hebt gedeblokkeerd zul je geen berichten of oproepen ontvangen en kan hij of zij veranderingen van je profiel niet zien.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3486,7 +3486,7 @@
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Wil je weer berichten van deze groep ontvangen, en sta je toe dat alle leden van de groep je profielnaam en -foto kunnen zien? Je zult geen berichten ontvangen en je profiel zal voor de leden van deze groep niet worden bijgewerkt totdat je de groep hebt gedeblokkeerd.",
+        "message": "Wil je weer berichten van deze groep ontvangen, en sta je toe dat alle leden van de groep je profielnaam en -foto kunnen zien? Totdat je de groep hebt gedeblokkeerd zul je geen berichten of oproepen ontvangen en kunnen leden van deze groep veranderingen van je profiel niet zien.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3574,7 +3574,7 @@
         }
     },
     "MessageRequests--delete-direct": {
-        "message": "Wissen",
+        "message": "Gesprek wissen",
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
@@ -4348,7 +4348,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ heeft de instelling voor wie de groepsinformatie kan wijzigen naar ‘Enkel beheerders’ ingesteld.",
+        "message": "$adminName$ heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Uitsluitend beheerders’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4358,15 +4358,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "Je hebt de instelling voor wie de groepsinformatie kan wijzigen naar ‘Enkel beheerders’ ingesteld.",
+        "message": "Je hebt de instelling voor wie de groepsinformatie kan wijzigen op ‘Uitsluitend beheerders’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Een beheerder heeft de instelling voor wie de groepsinformatie kan wijzigen naar ‘Enkel beheerders’ ingesteld.",
+        "message": "Een beheerder heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Uitsluitend beheerders’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ heeft de instelling voor wie de groepsinformatie kan wijzigen naar ‘Alle groepsleden’ ingesteld.",
+        "message": "$adminName$ heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Alle groepsleden’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4376,15 +4376,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Je hebt de instelling voor wie de groepsinformatie kan wijzigen naar ‘Alle groepsleden’ ingesteld.",
+        "message": "Je hebt de instelling voor wie de groepsinformatie kan wijzigen op ‘Alle groepsleden’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Een beheerder heeft de instelling voor wie de groepsinformatie kan wijzigen naar ‘Alle groepsleden’ ingesteld.",
+        "message": "Een beheerder heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Alle groepsleden’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ heeft de instelling voor wie de groepsleden kan wijzigen naar ‘Enkel beheerders’ ingesteld.",
+        "message": "$adminName$ heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Uitsluitend beheerders’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4394,15 +4394,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "Je hebt de instelling voor wie de groepsleden kan wijzigen naar ‘Enkel beheerders’ ingesteld.",
+        "message": "Je hebt de instelling voor wie groepslidmaatschap kan aanpassen op ‘Uitsluitend beheerders’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "Een beheerder heeft de instelling voor wie de groepsleden kan wijzigen naar ‘Enkel beheerders’ ingesteld.",
+        "message": "Een beheerder heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Uitsluitend beheerders’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ heeft de instelling voor wie de groepsleden kan wijzigen naar ‘Alle groepsleden’ ingesteld.",
+        "message": "$adminName$ heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Alle groepsleden’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4412,11 +4412,11 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "Je hebt de instelling voor wie de groepsleden kan wijzigen naar ‘Alle groepsleden’ ingesteld.",
+        "message": "Je hebt de instelling voor wie groepslidmaatschap kan aanpassen op ‘Alle groepsleden’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Een beheerder heeft de instelling voor wie de groepsleden kan wijzigen naar ‘Alle groepsleden’ ingesteld.",
+        "message": "Een beheerder heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Alle groepsleden’ ingesteld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
@@ -5328,11 +5328,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Je hebt de groepsinstellingen aangepast om alleen beheerders de mogelijkheid te geven om berichten te verzenden.",
+        "message": "Je hebt de groepsinstellingen aangepast om uitsluitend beheerders de mogelijkheid te geven om berichten te verzenden en oproepen te beginnen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ heeft de groepsinstellingen aangepast om alleen beheerders de mogelijkheid te geven om berichten te verzenden.",
+        "message": "$memberName$ heeft de groepsinstellingen aangepast om uitsluitend beheerders de mogelijkheid te geven om berichten te verzenden en oproepen te beginnen.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5342,15 +5342,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "De groepsinstellingen zijn aangepast om alleen beheerders de mogelijkheid te geven om berichten te verzenden.",
+        "message": "De groepsinstellingen zijn aangepast om uitsluitend beheerders de mogelijkheid te geven om berichten te verzenden en oproepen te beginnen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Je hebt de groepsinstellingen aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden.",
+        "message": "Je hebt de groepsinstellingen aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden en oproepen te beginnen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ heeft de groepsinstellingen aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden.",
+        "message": "$memberName$ heeft de groepsinstellingen aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden en oproepen te beginnen.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5360,7 +5360,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "De groepsinstellingen zijn aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden.",
+        "message": "De groepsinstellingen zijn aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden en oproepen te beginnen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5590,7 +5590,7 @@
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
-        "message": "Groepsverwijzing voor deze groep",
+        "message": "Groepsverwijzing",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -5610,7 +5610,7 @@
         "description": "This is the label for notifications in the conversation details screen"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Wie de groepsinformatie kan aanpassen",
+        "message": "Groepsinformatie aanpassen",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
@@ -5618,19 +5618,19 @@
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Wie mag nieuwe leden toevoegen?",
+        "message": "Groepsleden toevoegen",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Kies wie leden mag toevoegen aan deze groep.",
+        "message": "Kies wie leden mogen toevoegen aan deze groep.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Wie berichten kan verzenden",
+        "message": "Berichten verzenden & oproepen beginnen",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Kies wie berichten mag verzenden aan deze groep.",
+        "message": "Kies wie berichten aan de groep mogen verzenden en oproepen mogen beginnen.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -6236,7 +6236,7 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "Als je er voor kiest om de verificatie dat je echt een mens bent over te slaan, dan kan het zijn dat je sommige berichten niet ontvangt en dat het niet langer mogelijk is om berichten te verzenden.",
+        "message": "Als je er voor kiest om de verificatie dat je echt een mens bent over te slaan, dan kan het zijn dat je sommige berichten niet ontvangt en dat het niet langer mogelijk is om berichten te verzenden en oproepen te beginnen.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -6326,7 +6326,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
-        "message": "Wissen",
+        "message": "Kleur wissen",
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
@@ -6544,7 +6544,7 @@
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
-        "message": "Wissen",
+        "message": "Gebruikersnaam wissen",
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
@@ -6690,7 +6690,7 @@
         }
     },
     "Preferences--system": {
-        "message": "Systeemstandaard volgen",
+        "message": "Systeem",
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {

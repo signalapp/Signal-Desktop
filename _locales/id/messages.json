@@ -7010,11 +7010,11 @@
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "Tambahkan sebuah cerita",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "Cerita tersembunyi",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
@@ -7076,11 +7076,11 @@
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "Sembunyikan cerita",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "Pergi ke chat",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
