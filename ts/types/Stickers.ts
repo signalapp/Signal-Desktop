@@ -63,6 +63,10 @@ export const BLESSED_PACKS: Record<string, BlessedType> = {
     key: 'RXMOYPCdVWYRUiN0RTemt9nqmc7qy3eh+9aAG5YH+88=',
     status: 'downloaded',
   },
+  cfc50156556893ef9838069d3890fe49: {
+    key: 'X1vqt9OCRDywCh5I65Upe2uMrf0GMeXQ2dyUnmmZ/0s=',
+    status: 'downloaded',
+  },
 };
 
 const STICKER_PACK_DEFAULTS: StickerPackType = {
