@@ -3508,7 +3508,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "תוכלו להתכתב ולהתקשר אחד לשני.",
+        "message": "תוכלו להתכתב ולהתקשר זה עם זה.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {

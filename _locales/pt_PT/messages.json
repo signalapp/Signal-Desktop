@@ -7112,7 +7112,7 @@
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
+        "message": "Agradecemos aos nossos colaboradores de código aberto $dsanders11$ e $yusufsahinhamza$ por contribuírem para estas melhorias.",
         "description": "Release notes for v5.40",
         "placeholders": {
             "dsanders11": {
