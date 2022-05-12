@@ -27,6 +27,15 @@ import { SessionMainPanel } from './SessionMainPanel';
 import { createStore } from '../state/createStore';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 
+// moment does not support es-419 correctly (and cause white screen on app start)
+import moment from 'moment';
+
+// Default to the locale from env. It will be overriden if moment
+// does not recognize it with what moment knows which is the closest.
+// i.e. es-419 will return 'es'.
+// We just need to use what we got from moment in getLocale on the updateLocale below
+moment.locale((window.i18n as any).getLocale());
+
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 
