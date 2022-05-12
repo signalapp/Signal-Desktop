@@ -83,6 +83,8 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from './jobs/conversationJobQueue';
+import { ReadStatus } from './messages/MessageReadStatus';
+import { SeenStatus } from './MessageSeenStatus';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -272,7 +274,10 @@ type UploadedAvatarType = {
   key: string;
 };
 
-type BasicMessageType = Pick<MessageAttributesType, 'id' | 'schemaVersion'>;
+type BasicMessageType = Pick<
+  MessageAttributesType,
+  'id' | 'schemaVersion' | 'readStatus' | 'seenStatus'
+>;
 
 type GroupV2ChangeMessageType = {
   type: 'group-v2-change';
@@ -1845,9 +1850,11 @@ export async function createGroupV2({
     type: 'group-v2-change',
     sourceUuid: ourUuid,
     conversationId: conversation.id,
+    readStatus: ReadStatus.Read,
     received_at: window.Signal.Util.incrementMessageCounter(),
     received_at_ms: timestamp,
     timestamp,
+    seenStatus: SeenStatus.Seen,
     sent_at: timestamp,
     groupV2Change: {
       from: ourUuid,
@@ -2289,6 +2296,8 @@ export async function initiateMigrationToGroupV2(
         type: 'group-v1-migration',
         invitedGV2Members: pendingMembersV2,
         droppedGV2MemberIds,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
       });
 
       await updateGroup({
@@ -2634,7 +2643,11 @@ export async function respondToGroupV2Migration({
                   ),
                 },
                 groupChangeMessages: [
-                  getBasicMigrationBubble(),
+                  {
+                    ...getBasicMigrationBubble(),
+                    readStatus: ReadStatus.Read,
+                    seenStatus: SeenStatus.Seen,
+                  },
                   {
                     ...generateBasicMessage(),
                     type: 'group-v2-change',
@@ -2646,6 +2659,8 @@ export async function respondToGroupV2Migration({
                         },
                       ],
                     },
+                    readStatus: ReadStatus.Read,
+                    seenStatus: SeenStatus.Unseen,
                   },
                 ],
                 members: [],
@@ -2663,7 +2678,13 @@ export async function respondToGroupV2Migration({
             sentAt,
             updates: {
               newAttributes: attributes,
-              groupChangeMessages: [getBasicMigrationBubble()],
+              groupChangeMessages: [
+                {
+                  ...getBasicMigrationBubble(),
+                  readStatus: ReadStatus.Read,
+                  seenStatus: SeenStatus.Seen,
+                },
+              ],
               members: [],
             },
           });
@@ -2694,9 +2715,11 @@ export async function respondToGroupV2Migration({
   // Generate notifications into the timeline
   const groupChangeMessages: Array<GroupChangeMessageType> = [];
 
-  groupChangeMessages.push(
-    buildMigrationBubble(previousGroupV1MembersIds, newAttributes)
-  );
+  groupChangeMessages.push({
+    ...buildMigrationBubble(previousGroupV1MembersIds, newAttributes),
+    readStatus: ReadStatus.Read,
+    seenStatus: SeenStatus.Seen,
+  });
 
   const areWeInvited = (newAttributes.pendingMembersV2 || []).some(
     item => item.uuid === ourUuid
@@ -2717,6 +2740,8 @@ export async function respondToGroupV2Migration({
           },
         ],
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.Unseen,
     });
   }
 
@@ -3190,6 +3215,7 @@ async function appendChangeMessages(
   // We updated the message, but didn't add new ones - refresh left pane
   if (!newMessages && mergedMessages.length > 0) {
     await conversation.updateLastMessage();
+    conversation.updateUnread();
   }
 }
 
@@ -3519,6 +3545,8 @@ async function generateLeftGroupChanges(
         },
       ],
     },
+    readStatus: ReadStatus.Read,
+    seenStatus: SeenStatus.Unseen,
   };
 
   return {
@@ -4299,6 +4327,7 @@ function extractDiffs({
   let timerNotification: GroupChangeMessageType | undefined;
 
   const firstUpdate = !isNumber(old.revision);
+  const isFromUs = ourUuid === sourceUuid;
 
   // Here we hardcode initial messages if this is our first time processing data this
   //   group. Ideally we can collapse it down to just one of: 'you were added',
@@ -4317,6 +4346,8 @@ function extractDiffs({
           },
         ],
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   } else if (firstUpdate && dropInitialJoinMessage) {
     // None of the rest of the messages should be added if dropInitialJoinMessage = true
@@ -4333,6 +4364,8 @@ function extractDiffs({
           },
         ],
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   } else if (firstUpdate && areWeInGroup) {
     message = {
@@ -4347,6 +4380,8 @@ function extractDiffs({
           },
         ],
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   } else if (firstUpdate) {
     message = {
@@ -4360,6 +4395,8 @@ function extractDiffs({
           },
         ],
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   } else if (details.length > 0) {
     message = {
@@ -4370,6 +4407,8 @@ function extractDiffs({
         from: sourceUuid,
         details,
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   }
 

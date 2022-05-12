@@ -2026,4 +2026,340 @@ describe('SQL migrations test', () => {
       assert.notInclude(second, 'SCAN', 'second');
     });
   });
+
+  describe('updateToSchemaVersion58', () => {
+    it('updates readStatus/seenStatus for messages with unread: true/1 in JSON', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(57);
+
+      // prettier-ignore
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'incoming', '${JSON.stringify(
+            { unread: true }
+          )}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'incoming', '${JSON.stringify(
+            { unread: 1 }
+          )}'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'incoming', '${JSON.stringify(
+            { unread: undefined }
+           )}'),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}', 'incoming', '${JSON.stringify(
+            { unread: 0 }
+          )}');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        4,
+        'starting total'
+      );
+
+      updateToVersion(58);
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        4,
+        'ending total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        2,
+        'ending unread count'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`
+          )
+          .pluck()
+          .get(),
+        2,
+        'ending unread count'
+      );
+
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT readStatus FROM messages WHERE id = '${MESSAGE_ID_2}' LIMIT 1;`
+          )
+          .pluck()
+          .get(),
+        ReadStatus.Unread,
+        'checking read status for message2'
+      );
+    });
+
+    it('updates unseenStatus for previously-unread messages', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const MESSAGE_ID_5 = generateGuid();
+      const MESSAGE_ID_6 = generateGuid();
+      const MESSAGE_ID_7 = generateGuid();
+      const MESSAGE_ID_8 = generateGuid();
+      const MESSAGE_ID_9 = generateGuid();
+      const MESSAGE_ID_10 = generateGuid();
+      const MESSAGE_ID_11 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(55);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, readStatus)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'call-history', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'change-number-notification', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'chat-session-refreshed', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}', 'delivery-issue', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_5}', '${CONVERSATION_ID}', 'group', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_6}', '${CONVERSATION_ID}', 'incoming', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_7}', '${CONVERSATION_ID}', 'keychange', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_8}', '${CONVERSATION_ID}', 'timer-notification', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_9}', '${CONVERSATION_ID}', 'verified-change', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_10}', '${CONVERSATION_ID}', NULL, ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_11}', '${CONVERSATION_ID}', 'other', ${ReadStatus.Unread});
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        11,
+        'starting total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        11,
+        'starting unread count'
+      );
+
+      updateToVersion(56);
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        11,
+        'ending total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        10,
+        'ending unread count'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE seenStatus = ${SeenStatus.Unseen};`
+          )
+          .pluck()
+          .get(),
+        10,
+        'ending unseen count'
+      );
+
+      assert.strictEqual(
+        db
+          .prepare(
+            "SELECT readStatus FROM messages WHERE type = 'other' LIMIT 1;"
+          )
+          .pluck()
+          .get(),
+        ReadStatus.Read,
+        "checking read status for 'other' message"
+      );
+    });
+
+    it('Sets readStatus=Read for keychange and change-number-notification messages', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(57);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, readStatus)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'incoming', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'change-number-notification', ${ReadStatus.Unread}),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'keychange', ${ReadStatus.Unread});
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        3,
+        'starting total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        3,
+        'starting unread count'
+      );
+
+      updateToVersion(58);
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        3,
+        'ending total'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT COUNT(*) FROM messages WHERE readStatus = ${ReadStatus.Unread};`
+          )
+          .pluck()
+          .get(),
+        1,
+        'ending unread count'
+      );
+
+      assert.strictEqual(
+        db
+          .prepare(
+            "SELECT readStatus FROM messages WHERE type = 'keychange' LIMIT 1;"
+          )
+          .pluck()
+          .get(),
+        ReadStatus.Read,
+        "checking read status for 'keychange' message"
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            "SELECT seenStatus FROM messages WHERE type = 'keychange' LIMIT 1;"
+          )
+          .pluck()
+          .get(),
+        SeenStatus.Unseen,
+        "checking seen status for 'keychange' message"
+      );
+    });
+
+    it('updates readStatus/seenStatus for messages with unread: true/1 in JSON', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(57);
+
+      // prettier-ignore
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, readStatus, seenStatus, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'incoming', ${ReadStatus.Unread}, NULL, '${JSON.stringify(
+            { body: 'message1' }
+          )}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'incoming', ${ReadStatus.Read}, NULL, '${JSON.stringify(
+            { body: 'message2' }
+          )}'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'incoming', NULL, ${SeenStatus.Unseen}, '${JSON.stringify(
+            { body: 'message3' }
+           )}'),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}', 'incoming', NULL, ${SeenStatus.Seen}, '${JSON.stringify(
+            { body: 'message4' }
+          )}');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        4,
+        'starting total'
+      );
+
+      updateToVersion(58);
+
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_1}' LIMIT 1;`
+          )
+          .pluck()
+          .get(),
+        JSON.stringify({
+          body: 'message1',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+        }),
+        'checking JSON for message1'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_2}' LIMIT 1;`
+          )
+          .pluck()
+          .get(),
+        JSON.stringify({ body: 'message2', readStatus: ReadStatus.Read }),
+        'checking JSON for message2'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_3}' LIMIT 1;`
+          )
+          .pluck()
+          .get(),
+        JSON.stringify({
+          body: 'message3',
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Unseen,
+        }),
+        'checking JSON for message3'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            `SELECT json FROM messages WHERE id = '${MESSAGE_ID_4}' LIMIT 1;`
+          )
+          .pluck()
+          .get(),
+        JSON.stringify({
+          body: 'message4',
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+        }),
+        'checking JSON for message4'
+      );
+    });
+  });
 });

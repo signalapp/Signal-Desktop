@@ -2909,6 +2909,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
+    this.updateUnread();
   }
 
   async addDeliveryIssue({
@@ -2954,6 +2955,7 @@ export class ConversationModel extends window.Backbone
     this.trigger('newmessage', model);
 
     await this.notify(model);
+    this.updateUnread();
   }
 
   async addKeyChange(keyChangedId: UUID): Promise<void> {
@@ -3050,6 +3052,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
+    this.updateUnread();
 
     const uuid = this.getUuid();
     if (isDirectConversation(this.attributes) && uuid) {
@@ -3115,6 +3118,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
+    this.updateUnread();
   }
 
   /**
@@ -4546,7 +4550,9 @@ export class ConversationModel extends window.Backbone
     model.set({ id });
 
     const message = window.MessageController.register(id, model);
+
     this.addSingleMessage(message);
+    this.updateUnread();
 
     return message;
   }
