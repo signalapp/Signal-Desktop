@@ -26,7 +26,7 @@ const Password = (props: PasswordProps) => {
   const onClose = () => dispatch(recoveryPhraseModal(null));
 
   const confirmPassword = () => {
-    const passwordValue = (document.getElementById('seed-input-password') as any)?.val();
+    const passwordValue = (document.getElementById('seed-input-password') as any)?.value;
     const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
