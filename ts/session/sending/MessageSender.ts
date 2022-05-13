@@ -17,7 +17,7 @@ import { getNowWithNetworkOffset, storeOnNode } from '../apis/snode_api/SNodeAPI
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
-import { getMessageById } from '../../../ts/data/data';
+import { getMessageById, Snode } from '../../../ts/data/data';
 import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
 import { EmptySwarmError } from '../utils/errors';
@@ -151,6 +151,8 @@ export async function sendMessageToSnode(
     }; hardfork190Happened:${hardfork190Happened}; hardfork191Happened:${hardfork191Happened} to namespace:${namespace}`
   );
 
+  const isBetweenBothHF = hardfork190Happened && !hardfork191Happened;
+
   // send parameters
   const params = {
     pubKey,
@@ -163,13 +165,26 @@ export async function sendMessageToSnode(
   };
 
   const usedNodes = _.slice(swarm, 0, DEFAULT_CONNECTIONS);
+  if (!usedNodes || usedNodes.length === 0) {
+    throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
+  }
 
-  let successfulSendHash: any;
+  let successfulSendHash: string | undefined;
   const promises = usedNodes.map(async usedNode => {
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
     // the only case we could care about a retry would be when the usedNode is not correct,
     // but considering we trigger this request with a few snode in //, this should be fine.
     const successfulSend = await storeOnNode(usedNode, params);
+
+    if (isBetweenBothHF && isClosedGroup) {
+      window.log.warn(
+        'closedGroup and betweenHF case. Forcing duplicating to 0 and -10 inboxes...'
+      );
+      await storeOnNode(usedNode, { ...params, namespace: 0 });
+      window.log.warn(
+        'closedGroup and betweenHF case. Forcing duplicating to 0 and -10 inboxes done'
+      );
+    }
     if (successfulSend) {
       if (_.isString(successfulSend)) {
         successfulSendHash = successfulSend;
@@ -180,7 +195,7 @@ export async function sendMessageToSnode(
     return undefined;
   });
 
-  let snode;
+  let snode: Snode | undefined;
   try {
     const firstSuccessSnode = await firstTrue(promises);
     snode = firstSuccessSnode;
@@ -191,12 +206,9 @@ export async function sendMessageToSnode(
     );
     throw e;
   }
-  if (!usedNodes || usedNodes.length === 0) {
-    throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
-  }
 
   // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
-  if (messageId && (isSyncMessage || isClosedGroup)) {
+  if (messageId && (isSyncMessage || isClosedGroup) && successfulSendHash) {
     const message = await getMessageById(messageId);
     if (message) {
       await message.updateMessageHash(successfulSendHash);
