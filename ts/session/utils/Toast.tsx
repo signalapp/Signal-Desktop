@@ -217,7 +217,12 @@ export function someDeletionsFailed() {
 }
 
 export function pushDeleted(messageCount: number) {
-  pushToastSuccess('deleted', window.i18n('deleted', [messageCount.toString()]), undefined, 'check');
+  pushToastSuccess(
+    'deleted',
+    window.i18n('deleted', [messageCount.toString()]),
+    undefined,
+    'check'
+  );
 }
 
 export function pushCannotRemoveCreatorFromGroup() {
