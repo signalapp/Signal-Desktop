@@ -3408,10 +3408,12 @@ function cleanUpMessagesJson() {
 function cleanUpOldOpengroups() {
   const ourNumber = getItemById('number_id');
   if (!ourNumber || !ourNumber.value) {
+    console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
   const v2Convos = getAllOpenGroupV2Conversations();
   if (!v2Convos || !v2Convos.length) {
+    console.info('cleanUpOldOpengroups: v2Convos is empty');
     return;
   }
   // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
@@ -3423,8 +3425,10 @@ function cleanUpOldOpengroups() {
 
   // first remove very old messages for each opengroups
 
-  assertGlobalInstance().transaction(() => {
-    dropFtsAndTriggers(assertGlobalInstance());
+  const db = assertGlobalInstance();
+
+  db.transaction(() => {
+    dropFtsAndTriggers(db);
     v2Convos.forEach(convo => {
       const convoId = convo.id;
       const messagesInConvoBefore = getMessagesCountByConversation(convoId);
@@ -3488,11 +3492,9 @@ function cleanUpOldOpengroups() {
 
       const chunks = chunk(allInactiveAndWithoutMessagesConvo, 500);
       chunks.forEach(ch => {
-        assertGlobalInstance()
-          .prepare(
-            `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`
-          )
-          .run(ch);
+        db.prepare(
+          `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN (${ch.map(() => '?').join(',')});`
+        ).run(ch);
       });
 
       console.info(
@@ -3504,8 +3506,8 @@ function cleanUpOldOpengroups() {
 
     cleanUpMessagesJson();
 
-    rebuildFtsTable(assertGlobalInstance());
-  });
+    rebuildFtsTable(db);
+  })();
 }
 
 // tslint:disable: binary-expression-operand-order insecure-random
