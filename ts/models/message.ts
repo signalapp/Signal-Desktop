@@ -1164,7 +1164,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
-    trotthledAllMessagesDispatch();
+    throttledAllMessagesDispatch();
   }
 
   /**
@@ -1321,7 +1321,7 @@ export function sliceQuoteText(quotedText: string | undefined | null) {
   return quotedText.slice(0, 60);
 }
 
-const trotthledAllMessagesDispatch = _.debounce(
+const throttledAllMessagesDispatch = _.debounce(
   () => {
     if (updatesToDispatch.size === 0) {
       return;
@@ -1329,8 +1329,8 @@ const trotthledAllMessagesDispatch = _.debounce(
     window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
     updatesToDispatch.clear();
   },
-  2000,
-  { trailing: true, maxWait: 5000 }
+  500,
+  { trailing: true, leading: true, maxWait: 1000 }
 );
 
 const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new Map();
