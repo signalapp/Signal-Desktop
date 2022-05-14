@@ -13,6 +13,7 @@ import { SessionButtonColor } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { ZoomingSessionSlider } from '../ZoomingSessionSlider';
+import { PruningSessionSlider } from '../PruningSessionSlider';
 
 async function toggleLinkPreviews() {
   const newValue = !window.getSettingValue('link-preview-setting');
@@ -119,6 +120,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           description={window.i18n('audioMessageAutoplayDescription')}
           active={audioAutoPlay}
         />
+        <PruningSessionSlider />
         <ZoomingSessionSlider />
         <SessionSettingButtonItem
           title={window.i18n('surveyTitle')}

@@ -1550,7 +1550,6 @@ async function initializeSql({
 
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
-    cleanUpOldOpengroups();
     cleanUpUnusedNodeForKeyEntries();
     printDbStats();
 
@@ -3405,7 +3404,7 @@ function cleanUpMessagesJson() {
   console.info(`cleanUpMessagesJson took ${Date.now() - start}ms`);
 }
 
-function cleanUpOldOpengroups() {
+function cleanUpOldOpengroups(pruneSetting: number) {
   const ourNumber = getItemById('number_id');
   if (!ourNumber || !ourNumber.value) {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
@@ -3429,42 +3428,46 @@ function cleanUpOldOpengroups() {
 
   db.transaction(() => {
     dropFtsAndTriggers(db);
-    v2Convos.forEach(convo => {
-      const convoId = convo.id;
-      const messagesInConvoBefore = getMessagesCountByConversation(convoId);
+    if (pruneSetting !== 0) {
+      v2Convos.forEach(convo => {
+        const convoId = convo.id;
+        const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
-      if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
-        const minute = 1000 * 60;
-        const sixMonths = minute * 60 * 24 * 30 * 6;
-        const messagesTimestampToRemove = Date.now() - sixMonths;
-        const countToRemove = assertGlobalInstance()
-          .prepare(
-            `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
-          )
-          .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
-        const start = Date.now();
+        if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
+          const minute = 1000 * 60;
+          const userDefinedMonths = minute * 60 * 24 * 30 * pruneSetting;
+          const messagesTimestampToRemove = Date.now() - userDefinedMonths;
+          const countToRemove = assertGlobalInstance()
+            .prepare(
+              `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
+            )
+            .get({ conversationId: convoId, serverTimestamp: Date.now() - userDefinedMonths })['count(*)'];
+          const start = Date.now();
 
-        assertGlobalInstance()
-          .prepare(
-            `
-      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
-          )
-          .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
-        const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+          assertGlobalInstance()
+            .prepare(
+              `
+        DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
+            )
+            .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than the user-specified age.
+          const messagesInConvoAfter = getMessagesCountByConversation(convoId);
 
-        console.info(
-          `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
-            start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
-        );
+          console.info(
+            `Cleaning ${countToRemove} messages older than ${pruneSetting} months in public convo: ${convoId} took ${Date.now() -
+              start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+          );
 
-        const unreadCount = getUnreadCountByConversation(convoId);
-        const convoProps = getConversationById(convoId);
-        if (convoProps) {
-          convoProps.unreadCount = unreadCount;
-          updateConversation(convoProps);
+          const unreadCount = getUnreadCountByConversation(convoId);
+          const convoProps = getConversationById(convoId);
+          if (convoProps) {
+            convoProps.unreadCount = unreadCount;
+            updateConversation(convoProps);
+          }
         }
-      }
-    });
+      });
+    } else {
+      console.info('Skipping cleaning messages in public convos.');
+    };
 
     // now, we might have a bunch of private conversation, without any interaction and no messages
     // those are the conversation of the old members in the opengroups we just cleaned.
@@ -3680,6 +3683,7 @@ export const sqlNode = {
   getPubkeysInPublicConversation,
   getAllGroupsInvolvingId,
   removeAllConversations,
+  cleanUpOldOpengroups,
 
   searchConversations,
   searchMessages,

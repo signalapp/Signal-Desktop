@@ -98,6 +98,16 @@ async function getSpellCheckSetting() {
   return json.value;
 }
 
+async function getPruneSetting() {
+  const json = sqlNode.getItemById('prune-setting');
+  // Default to `6` if setting doesn't exist yet
+  if (!json) {
+    return 6;
+  }
+
+  return json.value;
+}
+
 function showWindow() {
   if (!mainWindow) {
     return;
@@ -750,8 +760,11 @@ async function showMainWindow(sqlKey: string, passwordAttempt = false) {
     messages: locale.messages,
     passwordAttempt,
   });
+  const pruneSetting = await getPruneSetting();
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   sqlChannels.initializeSqlChannel();
+
+  sqlNode.cleanUpOldOpengroups(pruneSetting);
 
   await initAttachmentsChannel({
     userDataPath,
