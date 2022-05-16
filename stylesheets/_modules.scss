@@ -1268,11 +1268,6 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__unopened-gift-badge__container {
-  cursor: pointer;
-  user-select: none;
-}
-
 .module-message__unopened-gift-badge {
   width: 240px;
   height: 132px;
@@ -1285,82 +1280,89 @@ $message-padding-horizontal: 12px;
     top: -$message-padding-vertical;
     bottom: $message-padding-vertical;
   }
-}
 
-.module-message__unopened-gift-badge--outgoing {
-  @include light-theme {
-    border-bottom: 1px solid $color-white-alpha-80;
+  &--outgoing {
+    @include light-theme {
+      border-bottom: 1px solid $color-white-alpha-80;
+    }
+    @include dark-theme {
+      border-bottom: 1px solid $color-gray-95;
+    }
   }
-  @include dark-theme {
-    border-bottom: 1px solid $color-gray-95;
+
+  &__container {
+    cursor: default;
+    user-select: none;
   }
-}
 
-.module-message__unopened-gift-badge__ribbon-horizontal {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: $color-white;
-}
-.module-message__unopened-gift-badge__ribbon-vertical {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: $color-white;
-}
-.module-message__unopened-gift-badge__bow {
-  position: absolute;
-
-  // Centered
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  // For proper alignment with the ribbons
-  margin-top: 3px;
-
-  // 75.26px by 51.93px in Figma, but there's a buffer in the SVG file
-  width: 81px;
-  height: 60px;
-}
-
-.module-message__unopened-gift-badge__text {
-  @include font-body-2;
-}
-.module-message__unopened-gift-badge__text--incoming {
-  @include light-theme {
-    color: $color-gray-60;
+  &__ribbon-horizontal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: $color-white;
   }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-.module-message__unopened-gift-badge__container
-  .module-message__text--incoming {
-  @include font-body-2;
 
-  @include light-theme {
-    color: $color-gray-60;
+  &__ribbon-vertical {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $color-white;
   }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-.module-message__unopened-gift-badge__container
-  .module-message__text--outgoing {
-  @include font-body-2;
 
-  @include light-theme {
-    color: $color-white-alpha-80;
+  &__bow {
+    position: absolute;
+
+    // Centered
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    // For proper alignment with the ribbons
+    margin-top: 3px;
+
+    // 75.26px by 51.93px in Figma, but there's a buffer in the SVG file
+    width: 81px;
+    height: 60px;
   }
-  @include dark-theme {
-    color: $color-white-alpha-80;
+
+  &__text {
+    @include font-body-2-italic;
+
+    &--incoming {
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
+  }
+
+  &__container .module-message__text--incoming {
+    @include font-body-2-italic;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+  &__container .module-message__text--outgoing {
+    @include font-body-2-italic;
+
+    @include light-theme {
+      color: $color-white-alpha-80;
+    }
+    @include dark-theme {
+      color: $color-white-alpha-80;
+    }
   }
 }
 

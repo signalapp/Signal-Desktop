@@ -180,12 +180,14 @@ export type AudioAttachmentProps = {
 
 export enum GiftBadgeStates {
   Unopened = 'Unopened',
+  Opened = 'Opened',
   Redeemed = 'Redeemed',
 }
 export type GiftBadgeType = {
-  level: number;
   expiration: number;
-  state: GiftBadgeStates.Redeemed | GiftBadgeStates.Unopened;
+  id: string | undefined;
+  level: number;
+  state: GiftBadgeStates;
 };
 
 export type PropsData = {
@@ -1329,8 +1331,11 @@ export class Message extends React.PureComponent<Props, State> {
       );
     }
 
-    if (giftBadge.state === GiftBadgeStates.Redeemed) {
-      const badgeId = `BOOST-${giftBadge.level}`;
+    if (
+      giftBadge.state === GiftBadgeStates.Redeemed ||
+      giftBadge.state === GiftBadgeStates.Opened
+    ) {
+      const badgeId = giftBadge.id || `BOOST-${giftBadge.level}`;
       const badgeSize = 64;
       const badge = getPreferredBadge([{ id: badgeId }]);
       const badgeImagePath = getBadgeImageFileLocalPath(

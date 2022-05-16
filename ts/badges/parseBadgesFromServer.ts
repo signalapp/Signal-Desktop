@@ -62,7 +62,7 @@ export function parseBoostBadgeListFromServer(
     const parsed = parseBadgeFromServer(item.badge, updatesUrl);
 
     if (parsed) {
-      result[`BOOST-${level}`] = parsed;
+      result[level] = parsed;
     }
   });
 

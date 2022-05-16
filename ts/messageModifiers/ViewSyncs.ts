@@ -98,7 +98,9 @@ export class ViewSyncs extends Collection {
         message.set({
           giftBadge: {
             ...giftBadge,
-            state: GiftBadgeStates.Redeemed,
+            state: isIncoming(message.attributes)
+              ? GiftBadgeStates.Redeemed
+              : GiftBadgeStates.Opened,
           },
         });
       }

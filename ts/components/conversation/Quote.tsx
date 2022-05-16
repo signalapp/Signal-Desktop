@@ -333,7 +333,7 @@ export class Quote extends React.Component<Props, State> {
       isViewOnce,
     } = this.props;
 
-    if (text) {
+    if (text && !isGiftBadge) {
       const quoteText = bodyRanges
         ? getTextWithMentions(bodyRanges, text)
         : text;

@@ -2682,40 +2682,31 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const giftBadge = message.get('giftBadge');
         if (giftBadge) {
           const { level } = giftBadge;
-          const existingBadgesById = reduxState.badges.byId;
-
-          const badgeId = `BOOST-${level}`;
-          if (!existingBadgesById[badgeId]) {
-            const { updatesUrl } = window.SignalContext.config;
-            strictAssert(
-              typeof updatesUrl === 'string',
-              'getProfile: expected updatesUrl to be a defined string'
+          const { updatesUrl } = window.SignalContext.config;
+          strictAssert(
+            typeof updatesUrl === 'string',
+            'getProfile: expected updatesUrl to be a defined string'
+          );
+          const userLanguages = getUserLanguages(
+            navigator.languages,
+            window.getLocale()
+          );
+          const response =
+            await window.textsecure.messaging.server.getBoostBadgesFromServer(
+              userLanguages
             );
-            const userLanguages = getUserLanguages(
-              navigator.languages,
-              window.getLocale()
+          const boostBadgesByLevel = parseBoostBadgeListFromServer(
+            response,
+            updatesUrl
+          );
+          const badge = boostBadgesByLevel[level];
+          if (!badge) {
+            log.error(
+              `handleDataMessage: gift badge with level ${level} not found on server`
             );
-            const response =
-              await window.textsecure.messaging.server.getBoostBadgesFromServer(
-                userLanguages
-              );
-            const boostBadges = parseBoostBadgeListFromServer(
-              response,
-              updatesUrl
-            );
-            const badge = boostBadges[badgeId];
-            if (!badge) {
-              log.error(
-                `handleDataMessage: gift badge ${badgeId} not found on server`
-              );
-            } else {
-              await window.reduxActions.badges.updateOrCreate([
-                {
-                  ...badge,
-                  id: badgeId,
-                },
-              ]);
-            }
+          } else {
+            await window.reduxActions.badges.updateOrCreate([badge]);
+            giftBadge.id = badge.id;
           }
         }
 

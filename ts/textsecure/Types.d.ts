@@ -189,9 +189,10 @@ export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
 export type ProcessedStoryContext = Proto.DataMessage.IStoryContext;
 
 export type ProcessedGiftBadge = {
-  receiptCredentialPresentation: string;
-  level: number;
   expiration: number;
+  id: string | undefined;
+  level: number;
+  receiptCredentialPresentation: string;
   state: GiftBadgeStates;
 };
 

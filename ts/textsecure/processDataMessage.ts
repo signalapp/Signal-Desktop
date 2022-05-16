@@ -249,6 +249,7 @@ export function processGiftBadge(
 
   return {
     expiration: timestamp + Number(receipt.getReceiptExpirationTime()),
+    id: undefined,
     level: Number(receipt.getReceiptLevel()),
     receiptCredentialPresentation: Bytes.toBase64(
       giftBadge.receiptCredentialPresentation

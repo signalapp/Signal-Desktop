@@ -1727,9 +1727,10 @@ story.add('EmbeddedContact: Loading Avatar', () => {
 story.add('Gift Badge: Unopened', () => {
   const props = createProps({
     giftBadge: {
-      state: GiftBadgeStates.Unopened,
+      id: 'GIFT',
       expiration: Date.now() + DAY * 30,
       level: 3,
+      state: GiftBadgeStates.Unopened,
     },
   });
   return renderBothDirections(props);
@@ -1738,7 +1739,7 @@ story.add('Gift Badge: Unopened', () => {
 const getPreferredBadge = () => ({
   category: BadgeCategory.Donor,
   descriptionTemplate: 'This is a description of the badge',
-  id: 'BOOST-3',
+  id: 'GIFT',
   images: [
     {
       transparent: {
@@ -1754,9 +1755,10 @@ story.add('Gift Badge: Redeemed (30 days)', () => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
-      state: GiftBadgeStates.Redeemed,
       expiration: Date.now() + DAY * 30 + SECOND,
+      id: 'GIFT',
       level: 3,
+      state: GiftBadgeStates.Redeemed,
     },
   });
   return renderBothDirections(props);
@@ -1766,21 +1768,23 @@ story.add('Gift Badge: Redeemed (24 hours)', () => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
-      state: GiftBadgeStates.Redeemed,
       expiration: Date.now() + DAY + SECOND,
+      id: 'GIFT',
       level: 3,
+      state: GiftBadgeStates.Redeemed,
     },
   });
   return renderBothDirections(props);
 });
 
-story.add('Gift Badge: Redeemed (60 minutes)', () => {
+story.add('Gift Badge: Opened (60 minutes)', () => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
-      state: GiftBadgeStates.Redeemed,
       expiration: Date.now() + HOUR + SECOND,
+      id: 'GIFT',
       level: 3,
+      state: GiftBadgeStates.Opened,
     },
   });
   return renderBothDirections(props);
@@ -1790,21 +1794,23 @@ story.add('Gift Badge: Redeemed (1 minute)', () => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
-      state: GiftBadgeStates.Redeemed,
       expiration: Date.now() + MINUTE + SECOND,
+      id: 'GIFT',
       level: 3,
+      state: GiftBadgeStates.Redeemed,
     },
   });
   return renderBothDirections(props);
 });
 
-story.add('Gift Badge: Redeemed (expired)', () => {
+story.add('Gift Badge: Opened (expired)', () => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
-      state: GiftBadgeStates.Redeemed,
       expiration: Date.now(),
+      id: 'GIFT',
       level: 3,
+      state: GiftBadgeStates.Opened,
     },
   });
   return renderBothDirections(props);
@@ -1814,9 +1820,10 @@ story.add('Gift Badge: Missing Badge', () => {
   const props = createProps({
     getPreferredBadge: () => undefined,
     giftBadge: {
-      state: GiftBadgeStates.Redeemed,
       expiration: Date.now() + MINUTE + SECOND,
+      id: 'MISSING',
       level: 3,
+      state: GiftBadgeStates.Redeemed,
     },
   });
   return renderBothDirections(props);

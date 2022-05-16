@@ -183,6 +183,7 @@ export type MessageAttributesType = {
   giftBadge?: {
     expiration: number;
     level: number;
+    id: string | undefined;
     receiptCredentialPresentation: string;
     state: GiftBadgeStates;
   };

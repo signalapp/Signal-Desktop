@@ -348,7 +348,7 @@ story.add('Video Tap-to-View', () => {
 
 story.add('Gift Badge', () => {
   const props = createProps({
-    text: '',
+    text: "Some text which shouldn't be rendered",
     isGiftBadge: true,
   });
 
