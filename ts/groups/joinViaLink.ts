@@ -27,6 +27,7 @@ import { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
 import { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
 import { HTTPError } from '../textsecure/Errors';
 import { isAccessControlEnabled } from './util';
+import { sleep } from '../util/sleep';
 
 export async function joinViaLink(hash: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -153,6 +154,15 @@ export async function joinViaLink(hash: string): Promise<void> {
     log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
     );
+    const timestamp = existingConversation.get('timestamp') || Date.now();
+    // eslint-disable-next-line camelcase
+    const active_at = existingConversation.get('active_at') || Date.now();
+    existingConversation.set({ active_at, timestamp });
+    window.Signal.Data.updateConversation(existingConversation.attributes);
+
+    // We're waiting for the left pane to re-sort before we navigate to that conversation
+    await sleep(200);
+
     window.reduxActions.conversations.openConversationInternal({
       conversationId: existingConversation.id,
     });
@@ -257,6 +267,9 @@ export async function joinViaLink(hash: string): Promise<void> {
                   // This will cause this conversation to be deleted at next startup
                   isTemporary: true,
 
+                  active_at: Date.now(),
+                  timestamp: Date.now(),
+
                   groupVersion: 2,
                   masterKey,
                   secretParams,
@@ -272,6 +285,7 @@ export async function joinViaLink(hash: string): Promise<void> {
                           path: localAvatar.path,
                         }
                       : undefined,
+                  description: groupDescription,
                   groupInviteLinkPassword: inviteLinkPassword,
                   name: title,
                   temporaryMemberCount: memberCount,
@@ -281,7 +295,13 @@ export async function joinViaLink(hash: string): Promise<void> {
             } else {
               // Ensure the group maintains the title and avatar you saw when attempting
               //   to join it.
+              const timestamp =
+                targetConversation.get('timestamp') || Date.now();
+              // eslint-disable-next-line camelcase
+              const active_at =
+                targetConversation.get('active_at') || Date.now();
               targetConversation.set({
+                active_at,
                 avatar:
                   localAvatar && localAvatar.path && result.avatar
                     ? {
@@ -289,9 +309,12 @@ export async function joinViaLink(hash: string): Promise<void> {
                         path: localAvatar.path,
                       }
                     : undefined,
+                description: groupDescription,
                 groupInviteLinkPassword: inviteLinkPassword,
                 name: title,
+                revision: result.version,
                 temporaryMemberCount: memberCount,
+                timestamp,
               });
               window.Signal.Data.updateConversation(
                 targetConversation.attributes

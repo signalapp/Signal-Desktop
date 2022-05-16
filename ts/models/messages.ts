@@ -2019,9 +2019,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(conversationId)!;
+    const idLog = conversation.idForLogging();
     await conversation.queueJob('handleDataMessage', async () => {
       log.info(
-        `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+        `handleDataMessage/${idLog}: processsing message ${message.idForLogging()}`
       );
 
       if (
@@ -2031,7 +2032,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         })
       ) {
         log.info(
-          'handleDataMessage: dropping story from !accepted',
+          `handleDataMessage/${idLog}: dropping story from !accepted`,
           this.getSenderIdentifier()
         );
         confirm();
@@ -2043,10 +2044,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.getSenderIdentifier()
       );
       if (inMemoryMessage) {
-        log.info('handleDataMessage: cache hit', this.getSenderIdentifier());
+        log.info(
+          `handleDataMessage/${idLog}: cache hit`,
+          this.getSenderIdentifier()
+        );
       } else {
         log.info(
-          'handleDataMessage: duplicate check db lookup needed',
+          `handleDataMessage/${idLog}: duplicate check db lookup needed`,
           this.getSenderIdentifier()
         );
       }
@@ -2055,14 +2059,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isUpdate = Boolean(data && data.isRecipientUpdate);
 
       if (existingMessage && type === 'incoming') {
-        log.warn('Received duplicate message', this.idForLogging());
+        log.warn(
+          `handleDataMessage/${idLog}: Received duplicate message`,
+          this.idForLogging()
+        );
         confirm();
         return;
       }
       if (type === 'outgoing') {
         if (isUpdate && existingMessage) {
           log.info(
-            `handleDataMessage: Updating message ${message.idForLogging()} with received transcript`
+            `handleDataMessage/${idLog}: Updating message ${message.idForLogging()} with received transcript`
           );
 
           const toUpdate = window.MessageController.register(
@@ -2139,7 +2146,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
         if (isUpdate) {
           log.warn(
-            `handleDataMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
+            `handleDataMessage/${idLog}: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
           );
 
           confirm();
@@ -2147,7 +2154,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
         if (existingMessage) {
           log.warn(
-            `handleDataMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
+            `handleDataMessage/${idLog}: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
           );
 
           confirm();
@@ -2212,7 +2219,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             } catch (error) {
               const errorText = error && error.stack ? error.stack : error;
               log.error(
-                `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
+                `handleDataMessage/${idLog}: Failed to process group update as part of message ${message.idForLogging()}: ${errorText}`
               );
               throw error;
             }
@@ -2232,6 +2239,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isV1GroupUpdate =
         initialMessage.group &&
         initialMessage.group.type !== Proto.GroupContext.Type.DELIVER;
+
+      // Drop if from blocked user. Only GroupV2 messages should need to be dropped here.
+      const isBlocked =
+        (source && window.storage.blocked.isBlocked(source)) ||
+        (sourceUuid && window.storage.blocked.isUuidBlocked(sourceUuid));
+      if (isBlocked) {
+        log.info(
+          `handleDataMessage/${idLog}: Dropping message from blocked sender. hasGroupV2Prop: ${hasGroupV2Prop}`
+        );
+
+        confirm();
+        return;
+      }
 
       // Drop an incoming GroupV2 message if we or the sender are not part of the group
       //   after applying the message's associated group changes.

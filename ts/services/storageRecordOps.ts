@@ -744,7 +744,7 @@ export async function mergeGroupV2Record(
         conversation,
         dropInitialJoinMessage,
       },
-      { viaSync: true }
+      { viaFirstStorageSync: isFirstSync }
     );
   }
 

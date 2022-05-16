@@ -542,7 +542,7 @@ const URL_CALLS = {
   groupLog: 'v1/groups/logs',
   groupJoinedAtVersion: 'v1/groups/joined_at_version',
   groups: 'v1/groups',
-  groupsViaLink: 'v1/groups/join',
+  groupsViaLink: 'v1/groups/join/',
   groupToken: 'v1/groups/token',
   keys: 'v2/keys',
   messages: 'v1/messages',
@@ -830,7 +830,7 @@ export type WebAPIType = {
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
-    inviteLinkPassword: string,
+    inviteLinkPassword: string | undefined,
     auth: GroupCredentialsType
   ) => Promise<Proto.GroupJoinInfo>;
   getGroupAvatar: (key: string) => Promise<Uint8Array>;
@@ -2595,14 +2595,16 @@ export function initialize({
     }
 
     async function getGroupFromLink(
-      inviteLinkPassword: string,
+      inviteLinkPassword: string | undefined,
       auth: GroupCredentialsType
     ): Promise<Proto.GroupJoinInfo> {
       const basicAuth = generateGroupAuth(
         auth.groupPublicParamsHex,
         auth.authCredentialPresentationHex
       );
-      const safeInviteLinkPassword = toWebSafeBase64(inviteLinkPassword);
+      const safeInviteLinkPassword = inviteLinkPassword
+        ? toWebSafeBase64(inviteLinkPassword)
+        : undefined;
 
       const response = await _ajax({
         basicAuth,
@@ -2611,7 +2613,9 @@ export function initialize({
         host: storageUrl,
         httpType: 'GET',
         responseType: 'bytes',
-        urlParameters: `/${safeInviteLinkPassword}`,
+        urlParameters: safeInviteLinkPassword
+          ? `${safeInviteLinkPassword}`
+          : undefined,
         redactUrl: _createRedactor(safeInviteLinkPassword),
       });
 

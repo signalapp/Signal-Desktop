@@ -1238,8 +1238,12 @@ export default class MessageReceiver
 
     // Note: we need to process this as part of decryption, because we might need this
     //   sender key to decrypt the next message in the queue!
+    let isGroupV2 = false;
+
     try {
       const content = Proto.Content.decode(plaintext);
+
+      isGroupV2 = Boolean(content.dataMessage?.groupV2);
 
       if (
         content.senderKeyDistributionMessage &&
@@ -1258,12 +1262,14 @@ export default class MessageReceiver
       );
     }
 
+    // We want to process GroupV2 updates, even from blocked users. We'll drop them later.
     if (
-      (envelope.source && this.isBlocked(envelope.source)) ||
-      (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+      !isGroupV2 &&
+      ((envelope.source && this.isBlocked(envelope.source)) ||
+        (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid)))
     ) {
       log.info(
-        'MessageReceiver.decryptEnvelope: Dropping message from blocked sender'
+        'MessageReceiver.decryptEnvelope: Dropping non-GV2 message from blocked sender'
       );
       return { plaintext: undefined, envelope };
     }

@@ -40,6 +40,7 @@ try {
   window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING = true;
   window.GV2_ENABLE_CHANGE_PROCESSING = true;
   window.GV2_ENABLE_STATE_PROCESSING = true;
+  window.GV2_ENABLE_PRE_JOIN_FETCH = true;
 
   window.GV2_MIGRATION_DISABLE_ADD = false;
   window.GV2_MIGRATION_DISABLE_INVITE = false;

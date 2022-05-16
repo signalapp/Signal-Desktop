@@ -2244,7 +2244,7 @@ export default class MessageSender {
   }
 
   async getGroupFromLink(
-    groupInviteLink: string,
+    groupInviteLink: string | undefined,
     auth: Readonly<GroupCredentialsType>
   ): Promise<Proto.GroupJoinInfo> {
     return this.server.getGroupFromLink(groupInviteLink, auth);

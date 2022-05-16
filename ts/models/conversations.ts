@@ -2277,7 +2277,9 @@ export class ConversationModel extends window.Backbone
 
     const inviteLinkPassword = this.get('groupInviteLinkPassword');
     if (!inviteLinkPassword) {
-      throw new Error('Missing groupInviteLinkPassword!');
+      log.warn(
+        `cancelJoinRequest/${this.idForLogging()}: We don't have an inviteLinkPassword!`
+      );
     }
 
     await this.modifyGroupV2({
