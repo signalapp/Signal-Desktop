@@ -211,7 +211,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       break;
     }
     case CallMode.Group: {
-      showCallLobby = activeCall.joinState === GroupCallJoinState.NotJoined;
+      showCallLobby = activeCall.joinState !== GroupCallJoinState.Joined;
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
       ({ groupMembers } = activeCall);
       break;
