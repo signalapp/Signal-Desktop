@@ -41,8 +41,8 @@ $session-compose-margin: 20px;
     }
 
     &__unread-count {
-      color: black;
-      background: var(--color-accent);
+      color: var(--color-text);
+      background: var(--color-clickable-hovered);
 
       position: static !important;
       font-weight: 700 !important;
