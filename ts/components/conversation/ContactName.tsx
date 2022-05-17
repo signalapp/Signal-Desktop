@@ -29,7 +29,11 @@ export const ContactName = (props: Props) => {
   const textProfile = profileName || name || convoName || window.i18n('anonymous');
 
   return (
-    <span className={classNames(prefix, compact && 'compact')} dir="auto">
+    <span
+      className={classNames(prefix, compact && 'compact')}
+      dir="auto"
+      data-testid={`${prefix}__profile-name`}
+    >
       {shouldShowProfile ? (
         <span style={styles as any} className={`${prefix}__profile-name`}>
           <Emojify text={textProfile} sizeClass="small" isGroup={!isPrivate} />

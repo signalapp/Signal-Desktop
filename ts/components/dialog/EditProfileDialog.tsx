@@ -124,6 +124,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
                 onClick={() => {
                   copySessionID(sessionID);
                 }}
+                dataTestId="copy-button-profile-update"
               />
             ) : (
               !this.state.loading && (
@@ -133,6 +134,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
                   buttonColor={SessionButtonColor.Green}
                   onClick={this.onClickOK}
                   disabled={this.state.loading}
+                  dataTestId="save-button-profile-update"
                 />
               )
             )}
@@ -150,7 +152,12 @@ export class EditProfileDialog extends React.Component<{}, State> {
         <div className="avatar-center">
           <div className="avatar-center-inner">
             {this.renderAvatar()}
-            <div className="image-upload-section" role="button" onClick={this.fireInputEvent} />
+            <div
+              className="image-upload-section"
+              role="button"
+              onClick={this.fireInputEvent}
+              data-testid="image-upload-section"
+            />
             <div
               className="qr-view-button"
               onClick={() => {
@@ -191,6 +198,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}
+            dataTestId="edit-profile-icon"
           />
         </div>
       </>
@@ -214,6 +222,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             tabIndex={0}
             required={true}
             aria-required={true}
+            data-testid="profile-name-input"
           />
         </div>
       </>

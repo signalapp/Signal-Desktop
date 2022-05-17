@@ -68,7 +68,13 @@ export const PasswordLock = ({
     <div className="session-settings__password-lock">
       <div className="session-settings__password-lock-box">
         <h3>{window.i18n('password')}</h3>
-        <input type="password" id="password-lock-input" defaultValue="" placeholder="Password" />
+        <input
+          type="password"
+          id="password-lock-input"
+          defaultValue=""
+          placeholder="Password"
+          data-testid="password-lock-input"
+        />
 
         {pwdLockError && <div className="session-label warning">{pwdLockError}</div>}
 

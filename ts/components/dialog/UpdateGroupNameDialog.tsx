@@ -119,6 +119,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
             required={true}
             aria-required={true}
             autoFocus={true}
+            data-testid="group-name-input"
           />
         ) : null}
 

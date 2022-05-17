@@ -51,8 +51,11 @@ const LeftPaneSettingsCategoryRow = (props: {
 
   const isMessageRequestSetting = id === SessionSettingCategory.MessageRequests;
 
+  const dataTestId = `${title.toLowerCase()}-settings-menu-item`;
+
   return (
     <div
+      data-testid={dataTestId}
       key={id}
       className={classNames(
         'left-pane-setting-category-list-item',

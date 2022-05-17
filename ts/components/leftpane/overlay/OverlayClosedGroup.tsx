@@ -78,6 +78,7 @@ export const OverlayClosedGroup = () => {
           maxLength={100}
           onChange={setGroupName}
           onPressEnter={onEnterPressed}
+          dataTestId="new-closed-group-name"
         />
       </div>
 

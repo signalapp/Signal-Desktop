@@ -47,8 +47,7 @@ const StyledCircleIcon = styled.div`
 const StyledUnreadCounter = styled.div`
   font-weight: bold;
   border-radius: var(--margins-sm);
-  background-color: var(--color-accent);
-  color: black;
+  background-color: var(--color-request-banner-unread-background);
   margin-left: 10px;
   min-width: 20px;
   height: 20px;
@@ -119,6 +118,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
           e.stopPropagation();
           e.preventDefault();
         }}
+        data-testid="message-request-banner"
       >
         <CirclularIcon iconType="messageRequest" iconSize="medium" />
         <StyledMessageRequestBannerHeader>

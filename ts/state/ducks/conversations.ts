@@ -469,6 +469,7 @@ function handleMessageChangedOrAdded(
 
   // this message was not present before in the state, and we assume it was added at the bottom.
   // as showScrollButton is set, it means we are not scrolled down, hence, that message is not visible
+  // this is to avoid adding messages at the bottom when we are scrolled up looking at old messages. The new message which just came in is not going to at his right place by adding it at the end here.
   if (state.showScrollButton) {
     return state;
   }
@@ -713,6 +714,21 @@ const conversationsSlice = createSlice({
         return state;
       }
 
+      // this is quite hacky, but we don't want to show the showScrollButton if we have only a small amount of messages,
+      // or if the first unread message is not far from the most recent one.
+      // this is because when a new message get added, we do not add it to redux depending on the showScrollButton state.
+      const messagesToConsiderForShowingUnreadBanner = 10;
+
+      let showScrollButton = Boolean(action.payload.firstUnreadIdOnOpen);
+
+      if (
+        action.payload.initialMessages?.length <= messagesToConsiderForShowingUnreadBanner ||
+        action.payload.initialMessages
+          ?.slice(0, messagesToConsiderForShowingUnreadBanner)
+          .some(n => n.propsForMessage.id === action.payload.firstUnreadIdOnOpen)
+      ) {
+        showScrollButton = false;
+      }
       return {
         conversationLookup: state.conversationLookup,
         mostRecentMessageId: action.payload.mostRecentMessageIdOnOpen,
@@ -729,7 +745,7 @@ const conversationsSlice = createSlice({
         quotedMessage: undefined,
 
         nextMessageToPlay: undefined,
-        showScrollButton: Boolean(action.payload.firstUnreadIdOnOpen),
+        showScrollButton,
         animateQuotedMessageId: undefined,
         shouldHighlightMessage: false,
         oldTopMessageId: null,

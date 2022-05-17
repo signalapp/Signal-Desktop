@@ -208,10 +208,15 @@ export async function delay(timeoutMs: number = 2000): Promise<Boolean> {
 }
 
 // tslint:disable: no-string-based-set-timeout
-export const sleepFor = async (ms: number) =>
-  new Promise(resolve => {
+export const sleepFor = async (ms: number, showLog = false) => {
+  if (showLog) {
+    // tslint:disable-next-line: no-console
+    console.info(`sleeping for ${ms}ms...`);
+  }
+  return new Promise(resolve => {
     setTimeout(resolve, ms);
   });
+};
 
 // Taken from https://stackoverflow.com/questions/51160260/clean-way-to-wait-for-first-true-returned-by-promise
 // The promise returned by this function will resolve true when the first promise
