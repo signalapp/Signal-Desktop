@@ -31,6 +31,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     iconPadding,
     margin,
     id,
+    dataTestId,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
@@ -47,7 +48,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
       id={id}
       onClick={clickHandler}
       style={{ display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
-      data-testid={props.dataTestId}
+      data-testid={dataTestId}
     >
       <SessionIcon
         iconType={iconType}

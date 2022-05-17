@@ -124,6 +124,7 @@ const HeaderItem = () => {
         onClick={() => {
           dispatch(closeRightPanel());
         }}
+        dataTestId="back-button-conversation-options"
       />
       <Avatar size={AvatarSize.XL} pubkey={id} />
       <div className="invite-friends-container">
@@ -136,6 +137,7 @@ const HeaderItem = () => {
                 showInviteContactByConvoId(selectedConversation.id);
               }
             }}
+            dataTestId="add-user-button"
           />
         )}
       </div>
@@ -237,7 +239,7 @@ export const SessionRightPanelWithDetails = () => {
   return (
     <div className="group-settings">
       <HeaderItem />
-      <h2>{name}</h2>
+      <h2 data-testid="right-panel-group-name">{name}</h2>
       {showMemberCount && (
         <>
           <SpacerLG />

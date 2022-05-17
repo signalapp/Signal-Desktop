@@ -437,6 +437,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         inputRef={this.textarea}
         disabled={!typingEnabled}
         rows={1}
+        data-testid="message-input-text-area"
         style={sendMessageStyle}
         suggestionsPortalHost={this.container as any}
         forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now

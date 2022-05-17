@@ -29,8 +29,18 @@ export const MemberListItem = (props: {
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
+  dataTestId?: string;
 }) => {
-  const { isSelected, pubkey, isZombie, isAdmin, onSelect, onUnselect, disableBg } = props;
+  const {
+    isSelected,
+    pubkey,
+    isZombie,
+    isAdmin,
+    onSelect,
+    onUnselect,
+    disableBg,
+    dataTestId,
+  } = props;
 
   const memberName = useConversationUsernameOrShorten(pubkey);
 
@@ -54,6 +64,7 @@ export const MemberListItem = (props: {
           : {}
       }
       role="button"
+      data-testid={dataTestId}
     >
       <div className="session-member-item__info">
         <span className="session-member-item__avatar">

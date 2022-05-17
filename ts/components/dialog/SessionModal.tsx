@@ -78,7 +78,12 @@ export class SessionModal extends React.PureComponent<Props, State> {
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
-                  <SessionIconButton iconType="exit" iconSize="small" onClick={this.close} />
+                  <SessionIconButton
+                    iconType="exit"
+                    iconSize="small"
+                    onClick={this.close}
+                    dataTestId="modal-close-button"
+                  />
                 ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>

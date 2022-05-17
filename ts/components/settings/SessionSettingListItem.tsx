@@ -9,6 +9,7 @@ type ButtonSettingsProps = {
   description?: string;
   buttonColor: SessionButtonColor;
   buttonText: string;
+  dataTestId?: string;
   onClick: () => void;
 };
 
@@ -63,11 +64,16 @@ export const SessionToggleWithDescription = (props: {
 };
 
 export const SessionSettingButtonItem = (props: ButtonSettingsProps) => {
-  const { title, description, buttonColor, buttonText, onClick } = props;
+  const { title, description, buttonColor, buttonText, dataTestId, onClick } = props;
 
   return (
     <SessionSettingsItemWrapper title={title} description={description} inline={true}>
-      <SessionButton text={buttonText} buttonColor={buttonColor} onClick={onClick} />
+      <SessionButton
+        dataTestId={dataTestId}
+        text={buttonText}
+        buttonColor={buttonColor}
+        onClick={onClick}
+      />
     </SessionSettingsItemWrapper>
   );
 };

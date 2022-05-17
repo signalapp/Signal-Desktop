@@ -15,7 +15,7 @@ const MessageStatusSendingContainer = styled.div`
 const MessageStatusSending = ({ dataTestId }: { dataTestId?: string }) => {
   const iconColor = 'var(--color-text)';
   return (
-    <MessageStatusSendingContainer data-testid={dataTestId} data-test-type="sending">
+    <MessageStatusSendingContainer data-testid={dataTestId} data-testtype="sending">
       <SessionIcon rotateDuration={2} iconColor={iconColor} iconType="sending" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
@@ -25,7 +25,7 @@ const MessageStatusSent = ({ dataTestId }: { dataTestId?: string }) => {
   const iconColor = 'var(--color-text)';
 
   return (
-    <MessageStatusSendingContainer data-testid={dataTestId} data-test-type="sent">
+    <MessageStatusSendingContainer data-testid={dataTestId} data-testtype="sent">
       <SessionIcon iconColor={iconColor} iconType="circleCheck" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
@@ -35,7 +35,7 @@ const MessageStatusRead = ({ dataTestId }: { dataTestId?: string }) => {
   const iconColor = 'var(--color-text)';
 
   return (
-    <MessageStatusSendingContainer data-testid={dataTestId} data-test-type="read">
+    <MessageStatusSendingContainer data-testid={dataTestId} data-testtype="read">
       <SessionIcon iconColor={iconColor} iconType="doubleCheckCircleFilled" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
@@ -49,7 +49,7 @@ const MessageStatusError = ({ dataTestId }: { dataTestId?: string }) => {
   return (
     <MessageStatusSendingContainer
       data-testid={dataTestId}
-      data-test-type="failed"
+      data-testtype="failed"
       onClick={showDebugLog}
       title={window.i18n('sendFailed')}
     >

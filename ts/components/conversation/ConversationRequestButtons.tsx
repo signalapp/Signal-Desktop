@@ -67,12 +67,14 @@ export const ConversationMessageRequestButtons = () => {
           buttonType={SessionButtonType.BrandOutline}
           onClick={handleAcceptConversationRequest}
           text={window.i18n('accept')}
+          dataTestId="accept-message-request"
         />
         <SessionButton
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.BrandOutline}
           text={window.i18n('decline')}
           onClick={handleDeclineConversationRequest}
+          dataTestId="decline-message-request"
         />
       </ConversationBannerRow>
     </ConversationRequestBanner>

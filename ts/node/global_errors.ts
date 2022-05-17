@@ -24,7 +24,6 @@ async function handleError(prefix: string, error: any) {
       noLink: true,
       type: 'error',
     });
-
     if (button.response === 1) {
       clipboard.writeText(`${prefix}\n\n${redactAll(error.stack)}`);
     }

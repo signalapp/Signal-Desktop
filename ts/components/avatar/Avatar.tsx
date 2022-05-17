@@ -86,9 +86,10 @@ const AvatarImage = (props: {
   base64Data?: string;
   name?: string; // display name, profileName or pubkey, whatever is set first
   imageBroken: boolean;
+  datatestId?: string;
   handleImageError: () => any;
 }) => {
-  const { avatarPath, base64Data, name, imageBroken, handleImageError } = props;
+  const { avatarPath, base64Data, name, imageBroken, datatestId, handleImageError } = props;
 
   const disableDrag = useDisableDrag();
 
@@ -103,6 +104,7 @@ const AvatarImage = (props: {
       onDragStart={disableDrag}
       alt={window.i18n('contactAvatarAlt', [name || 'avatar'])}
       src={dataToDisplay}
+      data-testid={datatestId}
     />
   );
 };
@@ -149,12 +151,14 @@ const AvatarInner = (props: Props) => {
       data-testid={dataTestId}
     >
       {hasImage ? (
+        // tslint:disable-next-line: use-simple-attributes
         <AvatarImage
           avatarPath={urlToLoad}
           base64Data={base64Data}
           imageBroken={imageBroken}
           name={forcedName || name}
           handleImageError={handleImageError}
+          datatestId={dataTestId ? `img-${dataTestId}` : undefined}
         />
       ) : (
         <NoImage {...props} isClosedGroup={isClosedGroupAvatar} />

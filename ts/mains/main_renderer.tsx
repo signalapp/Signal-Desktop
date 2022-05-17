@@ -350,7 +350,7 @@ async function start() {
   });
 }
 
-let disconnectTimer: number | null = null;
+let disconnectTimer: NodeJS.Timeout | null = null;
 function onOffline() {
   window.log.info('offline');
   window.globalOnlineStatus = false;
@@ -361,7 +361,7 @@ function onOffline() {
   // We've received logs from Linux where we get an 'offline' event, then 30ms later
   //   we get an online event. This waits a bit after getting an 'offline' event
   //   before disconnecting the socket manually.
-  disconnectTimer = setTimeout(disconnect, 1000);
+  disconnectTimer = global.setTimeout(disconnect, 1000);
 }
 
 function onOnline() {

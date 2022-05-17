@@ -1,13 +1,12 @@
 import { _electron, Page } from '@playwright/test';
+import { messageSent } from './message';
+import { clickOnTestIdWithText, typeIntoInput } from './utils';
 
-export const sendMessage = async (window: Page, sessionid: string, message: string) => {
-  await window.click('[data-testid=new-conversation-button]');
+export const sendNewMessage = async (window: Page, sessionid: string, message: string) => {
+  await clickOnTestIdWithText(window, 'new-conversation-button');
   // Enter session ID of USER B
-  await window.fill('.session-id-editable-textarea', sessionid);
+  await typeIntoInput(window, 'new-session-conversation', sessionid);
   // click next
-  await window.click('text=Next');
-  // type into message input box
-  await window.fill('[data-testid=message-input] * textarea', message);
-  // click up arrow (send)
-  await window.click('[data-testid=send-message-button]');
+  await clickOnTestIdWithText(window, 'next-new-conversation-button', 'Next');
+  await messageSent(window, message);
 };

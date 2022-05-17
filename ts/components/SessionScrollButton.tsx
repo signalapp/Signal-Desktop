@@ -22,6 +22,7 @@ export const SessionScrollButton = (props: { onClickScrollBottom: () => void }) 
         iconSize={'huge'}
         isHidden={!show}
         onClick={props.onClickScrollBottom}
+        dataTestId="scroll-to-bottom-button"
       />
     </SessionScrollButtonDiv>
   );
