@@ -447,11 +447,9 @@ export async function innerHandleSwarmContentMessage(
 }
 
 function onReadReceipt(readAt: number, timestamp: number, source: string) {
-  const { storage } = window;
-
   window?.log?.info('read receipt', source, timestamp);
 
-  if (!storage.get(SettingsKey.settingsReadReceipt)) {
+  if (!Storage.get(SettingsKey.settingsReadReceipt)) {
     return;
   }
 
