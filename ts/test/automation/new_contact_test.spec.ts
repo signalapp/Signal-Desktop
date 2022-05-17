@@ -1,9 +1,9 @@
-import { _electron, expect, Page, test } from '@playwright/test';
+import { _electron, Page, test } from '@playwright/test';
 import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
 
 import { sendNewMessage } from './send_message';
 import { openAppsAndNewUsers } from './setup/new_user';
-import { clickOnTestIdWithText } from './utils';
+import { clickOnTestIdWithText, waitForTestIdWithText } from './utils';
 
 const testMessage = 'A -> B';
 const testReply = 'B -> A';
@@ -27,7 +27,8 @@ test('Send message to new contact', async () => {
 
   await clickOnTestIdWithText(windowA, 'contact-section');
   await windowA.waitForTimeout(2000);
-  expect(await windowB.innerText('.module-conversation__user__profile-name')).toBe(userA.userName);
+  await waitForTestIdWithText(windowB, 'module-conversation__user__profile-name', userA.userName);
+
   // Navigate to contacts tab in User A's window
   await clickOnTestIdWithText(windowA, 'contact-section');
 });
