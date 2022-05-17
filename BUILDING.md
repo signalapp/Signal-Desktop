@@ -124,6 +124,15 @@ yarn start-prod # start the app on production mode (currently this is the only o
 
 ### Commands
 
+The `rpm` package is required for running the build-release script. Run the appropriate command to install the `rpm` package:
+```sh
+sudo pacman -S rpm    # Arch
+```
+```sh
+sudo apt install rpm  # Ubuntu/Debian
+```
+
+
 Run the following to build the binaries for your specific system OS.
 
 ```
