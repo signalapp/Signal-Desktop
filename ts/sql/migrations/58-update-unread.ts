@@ -21,13 +21,17 @@ export default function updateToSchemaVersion58(
       `
       --- Promote unread status in JSON to SQL column
 
-      UPDATE messages
-        SET
-          readStatus = ${ReadStatus.Unread},
-          seenStatus = ${SeenStatus.Unseen}
-        WHERE
-          json_extract(json, '$.unread') IS true OR
-          json_extract(json, '$.unread') IS 1;
+      -- NOTE: This was disabled because the 'unread' json field was deprecated
+      -- in b0750e5f4e1f79f0f177b17cbe06d688431f948d, but the old value was kept
+      -- in the messages created before the release of that commit.
+      --
+      -- UPDATE messages
+      --   SET
+      --     readStatus = ${ReadStatus.Unread},
+      --     seenStatus = ${SeenStatus.Unseen}
+      --   WHERE
+      --     json_extract(json, '$.unread') IS true OR
+      --     json_extract(json, '$.unread') IS 1;
 
       --- Clean up all old messages that still have a null read status
       ---   Note: we don't need to update seenStatus, because that was defaulted to zero
