@@ -127,6 +127,12 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
       </div>
 
       <div className="session-modal__button-group">
+        <SessionButton
+          text={okText}
+          buttonColor={okTheme}
+          onClick={onClickOkHandler}
+          dataTestId="session-confirm-ok-button"
+        />
         {!hideCancel && (
           <SessionButton
             text={cancelText}
@@ -135,12 +141,6 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
             dataTestId="session-confirm-cancel-button"
           />
         )}
-        <SessionButton
-          text={okText}
-          buttonColor={okTheme}
-          onClick={onClickOkHandler}
-          dataTestId="session-confirm-ok-button"
-        />
       </div>
     </SessionWrapperModal>
   );

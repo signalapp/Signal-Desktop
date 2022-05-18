@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
-import { CallManager } from '../../../session/utils';
+import { CallManager, ToastUtils } from '../../../session/utils';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleMessageRequests } from '../../../state/ducks/userConfig';
 import { getHideMessageRequestBanner } from '../../../state/selectors/userConfig';
@@ -50,13 +50,28 @@ function displayPasswordModal(
   );
 }
 
+async function toggleOpengroupPruning() {
+  try {
+    const newValue = !(await window.getOpengroupPruning());
+
+    // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
+    window.setSettingValue(SettingsKey.settingsOpengroupPruning, newValue);
+    await window.setOpengroupPruning(newValue);
+    ToastUtils.pushRestartNeeded();
+  } catch (e) {
+    window.log.warn('toggleOpengroupPruning change error:', e);
+  }
+}
+
 export const SettingsCategoryPrivacy = (props: {
   hasPassword: boolean | null;
   onPasswordUpdated: (action: string) => void;
 }) => {
   const forceUpdate = useUpdate();
   const dispatch = useDispatch();
-
+  const isOpengroupPruningEnabled = Boolean(
+    window.getSettingValue(SettingsKey.settingsOpengroupPruning)
+  );
   if (props.hasPassword !== null) {
     return (
       <>
@@ -116,6 +131,15 @@ export const SettingsCategoryPrivacy = (props: {
           title={window.i18n('hideRequestBanner')}
           description={window.i18n('hideRequestBannerDescription')}
           active={useSelector(getHideMessageRequestBanner)}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await toggleOpengroupPruning();
+            forceUpdate();
+          }}
+          title={window.i18n('pruneSettingTitle')}
+          description={window.i18n('pruneSettingDescription')}
+          active={isOpengroupPruningEnabled}
         />
         {!props.hasPassword && (
           <SessionSettingButtonItem

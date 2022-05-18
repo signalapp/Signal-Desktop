@@ -551,7 +551,9 @@ label {
 
   &-main-message {
     font-size: $session-font-md;
+    line-height: 1.5;
   }
+
   &-sub-message {
     text-align: center;
     margin-top: 20px;
