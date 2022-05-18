@@ -201,7 +201,7 @@ export async function handleSwarmDataMessage(
   );
 
   window?.log?.info(
-    `Handle dataMessage about convo ${convoIdToAddTheMessageTo} from user: ${convoIdOfSender}: ${cleanDataMessage}`
+    `Handle dataMessage about convo ${convoIdToAddTheMessageTo} from user: ${convoIdOfSender}`
   );
   // remove the prefix from the source object so this is correct for all other
 

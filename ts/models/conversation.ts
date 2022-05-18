@@ -231,7 +231,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (newestUnreadDate > lastReadTimestamp) {
         this.lastReadTimestamp = newestUnreadDate;
       }
-      void markReadDebounced(newestUnreadDate);
+
+      if (newestUnreadDate !== lastReadTimestamp) {
+        void markReadDebounced(newestUnreadDate);
+      }
     };
     // Listening for out-of-band data updates
 
@@ -1059,6 +1062,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
     const lastReadTimestamp = this.lastReadTimestamp;
     if (newestUnreadDate < lastReadTimestamp) {
@@ -1107,7 +1111,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const realUnreadCount = await this.getUnreadCount();
     if (read.length === 0) {
       const cachedUnreadCountOnConvo = this.get('unreadCount');
-      if (cachedUnreadCountOnConvo !== read.length) {
+      if (cachedUnreadCountOnConvo !== realUnreadCount) {
         // reset the unreadCount on the convo to the real one coming from markRead messages on the db
         this.set({ unreadCount: realUnreadCount });
         await this.commit();
@@ -1142,25 +1146,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //      conversation is viewed, another error message shows up for the contact
     read = read.filter(item => !item.hasErrors);
 
-    if (this.isPublic()) {
+    if (!this.isPrivate() || !read.length || !options.sendReadReceipts) {
       return;
     }
-    if (this.isPrivate() && read.length && options.sendReadReceipts) {
-      window?.log?.info(
-        `Sending ${read.length} read receipts?`,
-        Storage.get(SettingsKey.settingsReadReceipt) || false
-      );
-      const dontSendReceipt = this.isBlocked() || this.isIncomingRequest();
-      if (Storage.get(SettingsKey.settingsReadReceipt) && !dontSendReceipt) {
-        const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
-        const receiptMessage = new ReadReceiptMessage({
-          timestamp: Date.now(),
-          timestamps,
-        });
+    const settingsReadReceiptEnabled = Storage.get(SettingsKey.settingsReadReceipt) || false;
+    const sendReceipt =
+      settingsReadReceiptEnabled && !this.isBlocked() && !this.isIncomingRequest();
 
-        const device = new PubKey(this.id);
-        await getMessageQueue().sendToPubKey(device, receiptMessage);
-      }
+    if (sendReceipt) {
+      window?.log?.info(`Sending ${read.length} read receipts.`);
+
+      const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
+      const receiptMessage = new ReadReceiptMessage({
+        timestamp: Date.now(),
+        timestamps,
+      });
+
+      const device = new PubKey(this.id);
+      await getMessageQueue().sendToPubKey(device, receiptMessage);
     }
   }
 
