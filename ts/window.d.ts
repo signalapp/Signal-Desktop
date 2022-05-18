@@ -91,6 +91,8 @@ declare global {
     confirmationDialog: any;
     setStartInTray: (val: boolean) => Promise<void>;
     getStartInTray: () => Promise<boolean>;
+    getOpengroupPruning: () => Promise<boolean>;
+    setOpengroupPruning: (val: boolean) => Promise<void>;
     closeAbout: () => void;
     getAutoUpdateEnabled: () => boolean;
     setAutoUpdateEnabled: (enabled: boolean) => void;
