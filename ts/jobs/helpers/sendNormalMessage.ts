@@ -91,7 +91,9 @@ export async function sendNormalMessage(
 
   if (!shouldContinue) {
     log.info(`message ${messageId} ran out of time. Giving up on sending it`);
-    await markMessageFailed(message, messageSendErrors);
+    await markMessageFailed(message, [
+      new Error('Message send ran out of time'),
+    ]);
     return;
   }
 
