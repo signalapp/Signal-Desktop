@@ -98,16 +98,6 @@ async function getSpellCheckSetting() {
   return json.value;
 }
 
-async function getPruneSetting() {
-  const json = sqlNode.getItemById('prune-setting');
-  // Default to `6` if setting doesn't exist yet
-  if (!json) {
-    return 6;
-  }
-
-  return json.value;
-}
-
 function showWindow() {
   if (!mainWindow) {
     return;
@@ -760,11 +750,10 @@ async function showMainWindow(sqlKey: string, passwordAttempt = false) {
     messages: locale.messages,
     passwordAttempt,
   });
-  const pruneSetting = await getPruneSetting();
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   sqlChannels.initializeSqlChannel();
 
-  sqlNode.cleanUpOldOpengroups(pruneSetting);
+  sqlNode.cleanUpOldOpengroups();
 
   await initAttachmentsChannel({
     userDataPath,
@@ -939,6 +928,7 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     sendResponse(localisedError || 'Invalid password');
   }
 });
+
 ipc.on('start-in-tray-on-start', (event, newValue) => {
   try {
     userConfig.set('startInTray', newValue);
@@ -964,6 +954,24 @@ ipc.on('get-start-in-tray', event => {
     event.sender.send('get-start-in-tray-response', val);
   } catch (e) {
     event.sender.send('get-start-in-tray-response', false);
+  }
+});
+
+ipc.on('get-opengroup-pruning', event => {
+  try {
+    const val = userConfig.get('opengroupPruning');
+    event.sender.send('get-opengroup-pruning-response', val);
+  } catch (e) {
+    event.sender.send('get-opengroup-pruning-response', false);
+  }
+});
+
+ipc.on('set-opengroup-pruning', (event, newValue) => {
+  try {
+    userConfig.set('opengroupPruning', newValue);
+    event.sender.send('set-opengroup-pruning-response', null);
+  } catch (e) {
+    event.sender.send('set-opengroup-pruning-response', e);
   }
 });
 

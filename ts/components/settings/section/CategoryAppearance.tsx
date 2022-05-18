@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import { createOrUpdateItem, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
+import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
@@ -13,11 +14,10 @@ import { SessionButtonColor } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { ZoomingSessionSlider } from '../ZoomingSessionSlider';
-import { PruningSessionSlider } from '../PruningSessionSlider';
 
 async function toggleLinkPreviews() {
-  const newValue = !window.getSettingValue('link-preview-setting');
-  window.setSettingValue('link-preview-setting', newValue);
+  const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);
+  window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
   if (!newValue) {
     await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
   } else {
@@ -36,7 +36,7 @@ async function toggleStartInTray() {
     const newValue = !(await window.getStartInTray());
 
     // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
-    window.setSettingValue('start-in-tray-setting', newValue);
+    window.setSettingValue(SettingsKey.settingsStartInTray, newValue);
     await window.setStartInTray(newValue);
     if (!newValue) {
       ToastUtils.pushRestartNeeded();
@@ -46,11 +46,6 @@ async function toggleStartInTray() {
   }
 }
 
-const settingsMenuBar = 'hide-menu-bar';
-const settingsSpellCheck = 'spell-check';
-const settingsLinkPreview = 'link-preview-setting';
-const settingsStartInTray = 'start-in-tray-setting';
-
 export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null }) => {
   const dispatch = useDispatch();
   const forceUpdate = useUpdate();
@@ -58,17 +53,17 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
 
   if (props.hasPassword !== null) {
     const isHideMenuBarActive =
-      window.getSettingValue(settingsMenuBar) === undefined
+      window.getSettingValue(SettingsKey.settingsMenuBar) === undefined
         ? true
-        : window.getSettingValue(settingsMenuBar);
+        : window.getSettingValue(SettingsKey.settingsMenuBar);
 
     const isSpellCheckActive =
-      window.getSettingValue(settingsSpellCheck) === undefined
+      window.getSettingValue(SettingsKey.settingsSpellCheck) === undefined
         ? true
-        : window.getSettingValue(settingsSpellCheck);
+        : window.getSettingValue(SettingsKey.settingsSpellCheck);
 
-    const isLinkPreviewsOn = Boolean(window.getSettingValue(settingsLinkPreview));
-    const isStartInTrayActive = Boolean(window.getSettingValue(settingsStartInTray));
+    const isLinkPreviewsOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
+    const isStartInTrayActive = Boolean(window.getSettingValue(SettingsKey.settingsStartInTray));
 
     return (
       <>
@@ -120,7 +115,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           description={window.i18n('audioMessageAutoplayDescription')}
           active={audioAutoPlay}
         />
-        <PruningSessionSlider />
+
         <ZoomingSessionSlider />
         <SessionSettingButtonItem
           title={window.i18n('surveyTitle')}

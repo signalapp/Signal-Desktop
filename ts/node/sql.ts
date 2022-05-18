@@ -1550,6 +1550,8 @@ async function initializeSql({
 
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
+    cleanUpOldOpengroups();
+
     cleanUpUnusedNodeForKeyEntries();
     printDbStats();
 
@@ -3404,17 +3406,32 @@ function cleanUpMessagesJson() {
   console.info(`cleanUpMessagesJson took ${Date.now() - start}ms`);
 }
 
-function cleanUpOldOpengroups(pruneSetting: number) {
+function cleanUpOldOpengroups() {
   const ourNumber = getItemById('number_id');
   if (!ourNumber || !ourNumber.value) {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
+  const pruneSetting = getItemById('prune-setting')?.value;
+
+  if (pruneSetting === undefined) {
+    console.info(
+      'Prune settings is undefined, skipping cleanUpOldOpengroups but we will need to ask user'
+    );
+    return;
+  }
+
+  if (!pruneSetting) {
+    console.info('Prune setting not enabled, skipping cleanUpOldOpengroups');
+    return;
+  }
+
   const v2Convos = getAllOpenGroupV2Conversations();
   if (!v2Convos || !v2Convos.length) {
     console.info('cleanUpOldOpengroups: v2Convos is empty');
     return;
   }
+
   // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
   // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
   // This is the only way we can cleanup conversations objects from users which just sent messages a while ago and with whom we never interacted.
@@ -3428,46 +3445,42 @@ function cleanUpOldOpengroups(pruneSetting: number) {
 
   db.transaction(() => {
     dropFtsAndTriggers(db);
-    if (pruneSetting !== 0) {
-      v2Convos.forEach(convo => {
-        const convoId = convo.id;
-        const messagesInConvoBefore = getMessagesCountByConversation(convoId);
+    v2Convos.forEach(convo => {
+      const convoId = convo.id;
+      const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
-        if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
-          const minute = 1000 * 60;
-          const userDefinedMonths = minute * 60 * 24 * 30 * pruneSetting;
-          const messagesTimestampToRemove = Date.now() - userDefinedMonths;
-          const countToRemove = assertGlobalInstance()
-            .prepare(
-              `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
-            )
-            .get({ conversationId: convoId, serverTimestamp: Date.now() - userDefinedMonths })['count(*)'];
-          const start = Date.now();
+      if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
+        const minute = 1000 * 60;
+        const sixMonths = minute * 60 * 24 * 30 * 6;
+        const limitTimestamp = Date.now() - sixMonths;
+        const countToRemove = assertGlobalInstance()
+          .prepare(
+            `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
+          )
+          .get({ conversationId: convoId, serverTimestamp: limitTimestamp })['count(*)'];
+        const start = Date.now();
 
-          assertGlobalInstance()
-            .prepare(
-              `
+        assertGlobalInstance()
+          .prepare(
+            `
         DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
-            )
-            .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than the user-specified age.
-          const messagesInConvoAfter = getMessagesCountByConversation(convoId);
+          )
+          .run({ conversationId: convoId, serverTimestamp: limitTimestamp }); // delete messages older than 6 months ago.
+        const messagesInConvoAfter = getMessagesCountByConversation(convoId);
 
-          console.info(
-            `Cleaning ${countToRemove} messages older than ${pruneSetting} months in public convo: ${convoId} took ${Date.now() -
-              start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
-          );
+        console.info(
+          `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
+            start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+        );
 
-          const unreadCount = getUnreadCountByConversation(convoId);
-          const convoProps = getConversationById(convoId);
-          if (convoProps) {
-            convoProps.unreadCount = unreadCount;
-            updateConversation(convoProps);
-          }
+        const unreadCount = getUnreadCountByConversation(convoId);
+        const convoProps = getConversationById(convoId);
+        if (convoProps) {
+          convoProps.unreadCount = unreadCount;
+          updateConversation(convoProps);
         }
-      });
-    } else {
-      console.info('Skipping cleaning messages in public convos.');
-    };
+      }
+    });
 
     // now, we might have a bunch of private conversation, without any interaction and no messages
     // those are the conversation of the old members in the opengroups we just cleaned.
