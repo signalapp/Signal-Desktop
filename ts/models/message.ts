@@ -1048,7 +1048,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     perfStart(`messageCommit-${this.attributes.id}`);
-    const id = await saveMessage(this.attributes);
+    // because the saving to db calls _cleanData which mutates the field for cleaning, we need to save a copy
+    const id = await saveMessage(_.cloneDeep(this.attributes));
     if (triggerUIUpdate) {
       this.dispatchMessageUpdate();
     }
