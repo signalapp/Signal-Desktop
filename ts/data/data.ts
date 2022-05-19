@@ -90,6 +90,12 @@ function _cleanData(data: any): any {
       data[key] = value.map(_cleanData);
     } else if (_.isObject(value) && value instanceof File) {
       data[key] = { name: value.name, path: value.path, size: value.size, type: value.type };
+    } else if (_.isObject(value) && value instanceof ArrayBuffer) {
+      window.log.error(
+        'Trying to save an ArrayBuffer to the db is most likely an error. This specific field should be removed before the cleanData call'
+      );
+      /// just skip it
+      continue;
     } else if (_.isObject(value)) {
       data[key] = _cleanData(value);
     } else if (_.isBoolean(value)) {
