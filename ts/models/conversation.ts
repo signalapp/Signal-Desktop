@@ -1146,7 +1146,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //      conversation is viewed, another error message shows up for the contact
     read = read.filter(item => !item.hasErrors);
 
-    if (!this.isPrivate() || !read.length || !options.sendReadReceipts) {
+    if (read.length && options.sendReadReceipts) {
+      const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
+      await this.sendReadReceiptsIfNeeded(timestamps);
+    }
+  }
+
+  public async sendReadReceiptsIfNeeded(timestamps: Array<number>) {
+    if (!this.isPrivate() || !timestamps.length) {
       return;
     }
     const settingsReadReceiptEnabled = Storage.get(SettingsKey.settingsReadReceipt) || false;
@@ -1154,9 +1161,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       settingsReadReceiptEnabled && !this.isBlocked() && !this.isIncomingRequest();
 
     if (sendReceipt) {
-      window?.log?.info(`Sending ${read.length} read receipts.`);
+      window?.log?.info(`Sending ${timestamps.length} read receipts.`);
+      // we should probably stack read receipts and send them every 5 seconds for instance per conversation
 
-      const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
       const receiptMessage = new ReadReceiptMessage({
         timestamp: Date.now(),
         timestamps,
