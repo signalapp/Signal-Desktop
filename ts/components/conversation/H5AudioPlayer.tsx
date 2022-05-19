@@ -18,9 +18,10 @@ export const AudioPlayerWithEncryptedFile = (props: {
   contentType: string;
   messageId: string;
 }) => {
+  const { messageId, contentType, src } = props;
   const dispatch = useDispatch();
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
-  const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType, false);
+  const { urlToLoad } = useEncryptedFileFetch(src, contentType, false);
   const player = useRef<H5AudioPlayer | null>(null);
 
   const autoPlaySetting = useSelector(getAudioAutoplay);
@@ -30,16 +31,19 @@ export const AudioPlayerWithEncryptedFile = (props: {
 
   useEffect(() => {
     // updates playback speed to value selected in context menu
-    if (player.current?.audio.current?.playbackRate) {
+    if (
+      player.current?.audio.current &&
+      player.current?.audio.current?.playbackRate !== playbackSpeed
+    ) {
       player.current.audio.current.playbackRate = playbackSpeed;
     }
   }, [playbackSpeed, player]);
 
   useEffect(() => {
-    if (props.messageId === nextMessageToPlayId) {
+    if (messageId !== undefined && messageId === nextMessageToPlayId) {
       player.current?.audio.current?.play();
     }
-  }, [props.messageId, nextMessageToPlayId, player]);
+  }, [messageId, nextMessageToPlayId, player]);
 
   const triggerPlayNextMessageIfNeeded = (endedMessageId: string) => {
     const justEndedMessageIndex = messageProps.findIndex(
@@ -75,8 +79,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
   const onEnded = () => {
     // if audio autoplay is enabled, call method to start playing
     // the next playable message
-    if (autoPlaySetting === true && props.messageId) {
-      triggerPlayNextMessageIfNeeded(props.messageId);
+    if (autoPlaySetting === true && messageId) {
+      triggerPlayNextMessageIfNeeded(messageId);
     }
   };
 
@@ -87,6 +91,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
       style={{ pointerEvents: multiSelectMode ? 'none' : 'inherit' }}
       layout="horizontal-reverse"
       showSkipControls={false}
+      autoPlay={false}
+      autoPlayAfterSrcChange={false}
       showJumpControls={false}
       showDownloadProgress={false}
       listenInterval={100}
