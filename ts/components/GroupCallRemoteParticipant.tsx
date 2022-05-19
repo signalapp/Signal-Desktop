@@ -42,7 +42,7 @@ type InPipPropsType = {
 type InOverflowAreaPropsType = {
   height: number;
   isInPip?: false;
-  isSpeaking: boolean;
+  audioLevel: number;
   width: number;
 };
 
@@ -282,7 +282,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               />
               <CallingAudioIndicator
                 hasAudio={hasRemoteAudio}
-                isSpeaking={props.isSpeaking}
+                audioLevel={props.audioLevel}
               />
             </div>
           )}

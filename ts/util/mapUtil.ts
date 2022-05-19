@@ -24,3 +24,24 @@ export const groupBy = <T, ResultT>(
     },
     new Map<ResultT, Array<T>>()
   );
+
+export const isEqual = <K, V>(
+  left: ReadonlyMap<K, V>,
+  right: ReadonlyMap<K, V>
+): boolean => {
+  if (left.size !== right.size) {
+    return false;
+  }
+
+  for (const [key, value] of left) {
+    if (!right.has(key)) {
+      return false;
+    }
+
+    if (right.get(key) !== value) {
+      return false;
+    }
+  }
+
+  return true;
+};

@@ -39,7 +39,7 @@ const defaultProps = {
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   i18n,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
-  speakingDemuxIds: new Set<number>(),
+  remoteAudioLevels: new Map<number, number>(),
 };
 
 // This component is usually rendered on a call screen.

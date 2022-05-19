@@ -130,7 +130,7 @@ const mapStateToActiveCallProp = (
     conversation,
     hasLocalAudio: activeCallState.hasLocalAudio,
     hasLocalVideo: activeCallState.hasLocalVideo,
-    amISpeaking: activeCallState.amISpeaking,
+    localAudioLevel: activeCallState.localAudioLevel,
     isInSpeakerView: activeCallState.isInSpeakerView,
     joinedAt: activeCallState.joinedAt,
     outgoingRing: activeCallState.outgoingRing,
@@ -263,7 +263,7 @@ const mapStateToActiveCallProp = (
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,
         remoteParticipants,
-        speakingDemuxIds: call.speakingDemuxIds || new Set<number>(),
+        remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
       };
     }
     default:

@@ -130,7 +130,7 @@ export const CallScreen: React.FC<PropsType> = ({
     conversation,
     hasLocalAudio,
     hasLocalVideo,
-    amISpeaking,
+    localAudioLevel,
     isInSpeakerView,
     presentingSource,
     remoteParticipants,
@@ -296,7 +296,7 @@ export const CallScreen: React.FC<PropsType> = ({
           isInSpeakerView={isInSpeakerView}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
-          speakingDemuxIds={activeCall.speakingDemuxIds}
+          remoteAudioLevels={activeCall.remoteAudioLevels}
         />
       );
       break;
@@ -514,7 +514,7 @@ export const CallScreen: React.FC<PropsType> = ({
           {localPreviewNode}
           <CallingAudioIndicator
             hasAudio={hasLocalAudio}
-            isSpeaking={amISpeaking}
+            audioLevel={localAudioLevel}
           />
         </div>
       </div>

@@ -28,7 +28,7 @@ type ActiveCallBaseType = {
   conversation: ConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  amISpeaking: boolean;
+  localAudioLevel: number;
   isInSpeakerView: boolean;
   isSharingScreen?: boolean;
   joinedAt?: number;
@@ -66,7 +66,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
-  speakingDemuxIds: Set<number>;
+  remoteAudioLevels: Map<number, number>;
 };
 
 export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;

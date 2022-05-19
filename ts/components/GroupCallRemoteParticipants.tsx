@@ -48,7 +48,7 @@ type PropsType = {
   isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
-  speakingDemuxIds: Set<number>;
+  remoteAudioLevels: Map<number, number>;
 };
 
 enum VideoRequestMode {
@@ -86,7 +86,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
-  speakingDemuxIds,
+  remoteAudioLevels,
 }) => {
   const [containerDimensions, setContainerDimensions] = useState<Dimensions>({
     width: 0,
@@ -270,7 +270,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       return remoteParticipantsInRow.map(remoteParticipant => {
         const { demuxId, videoAspectRatio } = remoteParticipant;
 
-        const isSpeaking = speakingDemuxIds.has(demuxId);
+        const audioLevel = remoteAudioLevels.get(demuxId) ?? 0;
 
         const renderedWidth = Math.floor(
           videoAspectRatio * gridParticipantHeight
@@ -286,7 +286,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             height={gridParticipantHeight}
             i18n={i18n}
-            isSpeaking={isSpeaking}
+            audioLevel={audioLevel}
             left={left}
             remoteParticipant={remoteParticipant}
             top={top}
@@ -418,7 +418,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             i18n={i18n}
             onParticipantVisibilityChanged={onParticipantVisibilityChanged}
             overflowedParticipants={overflowedParticipants}
-            speakingDemuxIds={speakingDemuxIds}
+            remoteAudioLevels={remoteAudioLevels}
           />
         </div>
       )}

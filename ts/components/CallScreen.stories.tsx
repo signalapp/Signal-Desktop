@@ -44,7 +44,7 @@ const conversation = getDefaultConversation({
 type OverridePropsBase = {
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
-  amISpeaking?: boolean;
+  localAudioLevel?: number;
   isInSpeakerView?: boolean;
 };
 
@@ -104,7 +104,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
   remoteParticipants: overrideProps.remoteParticipants || [],
-  speakingDemuxIds: new Set<number>(),
+  remoteAudioLevels: new Map<number, number>(),
 });
 
 const createActiveCallProp = (
@@ -121,7 +121,11 @@ const createActiveCallProp = (
       'hasLocalVideo',
       overrideProps.hasLocalVideo || false
     ),
-    amISpeaking: boolean('amISpeaking', overrideProps.amISpeaking || false),
+    localAudioLevel: select(
+      'localAudioLevel',
+      [0, 0.5, 1],
+      overrideProps.localAudioLevel || 0
+    ),
     isInSpeakerView: boolean(
       'isInSpeakerView',
       overrideProps.isInSpeakerView || false

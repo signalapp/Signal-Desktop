@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { groupBy } from '../../util/mapUtil';
+import { groupBy, isEqual } from '../../util/mapUtil';
 
 describe('map utilities', () => {
   describe('groupBy', () => {
@@ -24,6 +24,47 @@ describe('map utilities', () => {
           [2, [2.3, 2.9]],
           [3, [3.4]],
         ])
+      );
+    });
+  });
+
+  describe('isEqual', () => {
+    it('returns false on different maps', () => {
+      assert.isFalse(
+        isEqual<string, number>(new Map([]), new Map([['key', 1]]))
+      );
+
+      assert.isFalse(
+        isEqual<string, number>(new Map([['key', 0]]), new Map([['key', 1]]))
+      );
+
+      assert.isFalse(
+        isEqual<string, number>(
+          new Map([
+            ['key', 1],
+            ['another-key', 2],
+          ]),
+          new Map([['key', 1]])
+        )
+      );
+    });
+
+    it('returns true on equal maps', () => {
+      assert.isTrue(isEqual<string, number>(new Map([]), new Map([])));
+      assert.isTrue(
+        isEqual<string, number>(new Map([['key', 1]]), new Map([['key', 1]]))
+      );
+      assert.isTrue(
+        isEqual<string, number>(
+          new Map([
+            ['a', 1],
+            ['b', 2],
+          ]),
+          new Map([
+            ['b', 2],
+            ['a', 1],
+          ])
+        )
       );
     });
   });

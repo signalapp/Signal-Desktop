@@ -51,7 +51,7 @@ describe('state/selectors/calling', () => {
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
-      amISpeaking: false,
+      localAudioLevel: 0,
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],

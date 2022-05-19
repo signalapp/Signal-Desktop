@@ -15,6 +15,7 @@ import { getPlatform } from '../selectors/user';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { missingCaseError } from '../../util/missingCaseError';
 import { calling } from '../../services/calling';
+import { truncateAudioLevel } from '../../calling/truncateAudioLevel';
 import type { StateType as RootStateType } from '../reducer';
 import type {
   ChangeIODevicePayloadType,
@@ -44,7 +45,7 @@ import { getConversationCallMode } from './conversations';
 import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { waitForOnline } from '../../util/waitForOnline';
-import * as setUtil from '../../util/setUtil';
+import * as mapUtil from '../../util/mapUtil';
 
 // State
 
@@ -95,14 +96,14 @@ export type GroupCallStateType = {
   joinState: GroupCallJoinState;
   peekInfo?: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
-  speakingDemuxIds?: Set<number>;
+  remoteAudioLevels?: Map<number, number>;
 } & GroupCallRingStateType;
 
 export type ActiveCallStateType = {
   conversationId: string;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-  amISpeaking: boolean;
+  localAudioLevel: number;
   isInSpeakerView: boolean;
   joinedAt?: number;
   outgoingRing: boolean;
@@ -467,7 +468,6 @@ type DeclineCallActionType = {
 };
 
 type GroupCallAudioLevelsChangeActionPayloadType = Readonly<{
-  audioLevelForSpeaking: number;
   conversationId: string;
   localAudioLevel: number;
   remoteDeviceStates: ReadonlyArray<{ audioLevel: number; demuxId: number }>;
@@ -1456,7 +1456,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        amISpeaking: false,
+        localAudioLevel: 0,
         isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
@@ -1484,7 +1484,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        amISpeaking: false,
+        localAudioLevel: 0,
         isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
@@ -1507,7 +1507,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
-        amISpeaking: false,
+        localAudioLevel: 0,
         isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
@@ -1661,7 +1661,7 @@ export function reducer(
         conversationId: action.payload.conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
-        amISpeaking: false,
+        localAudioLevel: 0,
         isInSpeakerView: false,
         pip: false,
         safetyNumberChangedUuids: [],
@@ -1719,12 +1719,7 @@ export function reducer(
   }
 
   if (action.type === GROUP_CALL_AUDIO_LEVELS_CHANGE) {
-    const {
-      audioLevelForSpeaking,
-      conversationId,
-      localAudioLevel,
-      remoteDeviceStates,
-    } = action.payload;
+    const { conversationId, remoteDeviceStates } = action.payload;
 
     const { activeCallState } = state;
     const existingCall = getGroupCall(conversationId, state);
@@ -1735,36 +1730,38 @@ export function reducer(
       return state;
     }
 
-    const amISpeaking = localAudioLevel > audioLevelForSpeaking;
+    const localAudioLevel = truncateAudioLevel(action.payload.localAudioLevel);
 
-    const speakingDemuxIds = new Set<number>();
+    const remoteAudioLevels = new Map<number, number>();
     remoteDeviceStates.forEach(({ audioLevel, demuxId }) => {
       // We expect `audioLevel` to be a number but have this check just in case.
-      if (
-        typeof audioLevel === 'number' &&
-        audioLevel > audioLevelForSpeaking
-      ) {
-        speakingDemuxIds.add(demuxId);
+      if (typeof audioLevel !== 'number') {
+        return;
+      }
+
+      const graded = truncateAudioLevel(audioLevel);
+      if (graded > 0) {
+        remoteAudioLevels.set(demuxId, graded);
       }
     });
 
     // This action is dispatched frequently. This equality check helps avoid re-renders.
-    const oldAmISpeaking = activeCallState.amISpeaking;
-    const oldSpeakingDemuxIds = existingCall.speakingDemuxIds;
+    const oldLocalAudioLevel = activeCallState.localAudioLevel;
+    const oldRemoteAudioLevels = existingCall.remoteAudioLevels;
     if (
-      oldAmISpeaking === amISpeaking &&
-      oldSpeakingDemuxIds &&
-      setUtil.isEqual(oldSpeakingDemuxIds, speakingDemuxIds)
+      oldLocalAudioLevel === localAudioLevel &&
+      oldRemoteAudioLevels &&
+      mapUtil.isEqual(oldRemoteAudioLevels, remoteAudioLevels)
     ) {
       return state;
     }
 
     return {
       ...state,
-      activeCallState: { ...activeCallState, amISpeaking },
+      activeCallState: { ...activeCallState, localAudioLevel },
       callsByConversation: {
         ...callsByConversation,
-        [conversationId]: { ...existingCall, speakingDemuxIds },
+        [conversationId]: { ...existingCall, remoteAudioLevels },
       },
     };
   }

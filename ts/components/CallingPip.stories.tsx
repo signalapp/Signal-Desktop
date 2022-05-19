@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { times } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import { boolean } from '@storybook/addon-knobs';
+import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { AvatarColors } from '../types/Colors';
@@ -39,7 +39,7 @@ const getCommonActiveCallData = () => ({
   conversation,
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
-  amISpeaking: boolean('amISpeaking', false),
+  localAudioLevel: select('localAudioLevel', [0, 0.5, 1], 0),
   isInSpeakerView: boolean('isInSpeakerView', false),
   joinedAt: Date.now(),
   outgoingRing: true,
@@ -120,7 +120,7 @@ story.add('Group Call', () => {
       deviceCount: 0,
       peekedParticipants: [],
       remoteParticipants: [],
-      speakingDemuxIds: new Set<number>(),
+      remoteAudioLevels: new Map<number, number>(),
     },
   });
   return <CallingPip {...props} />;

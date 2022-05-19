@@ -22,11 +22,6 @@
     width: $size;
     height: $size;
 
-    /* Center Lottie animation */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     &--muted {
       @include color-svg(
         '../images/icons/v2/mic-off-solid-28.svg',

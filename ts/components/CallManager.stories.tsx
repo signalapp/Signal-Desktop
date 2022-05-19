@@ -50,7 +50,7 @@ const getCommonActiveCallData = () => ({
   joinedAt: Date.now(),
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
-  amISpeaking: boolean('amISpeaking', false),
+  localAudioLevel: select('localAudioLevel', [0, 0.5, 1], 0),
   isInSpeakerView: boolean('isInSpeakerView', false),
   outgoingRing: boolean('outgoingRing', true),
   pip: boolean('pip', false),
@@ -145,7 +145,7 @@ story.add('Ongoing Group Call', () => (
         groupMembers: [],
         peekedParticipants: [],
         remoteParticipants: [],
-        speakingDemuxIds: new Set<number>(),
+        remoteAudioLevels: new Map<number, number>(),
       },
     })}
   />
@@ -220,7 +220,7 @@ story.add('Group call - Safety Number Changed', () => (
         groupMembers: [],
         peekedParticipants: [],
         remoteParticipants: [],
-        speakingDemuxIds: new Set<number>(),
+        remoteAudioLevels: new Map<number, number>(),
       },
     })}
   />

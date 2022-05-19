@@ -24,7 +24,7 @@ type PropsType = {
     isVisible: boolean
   ) => unknown;
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
-  speakingDemuxIds: Set<number>;
+  remoteAudioLevels: Map<number, number>;
 };
 
 export const GroupCallOverflowArea: FC<PropsType> = ({
@@ -33,7 +33,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
   i18n,
   onParticipantVisibilityChanged,
   overflowedParticipants,
-  speakingDemuxIds,
+  remoteAudioLevels,
 }) => {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
@@ -116,7 +116,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
-            isSpeaking={speakingDemuxIds.has(remoteParticipant.demuxId)}
+            audioLevel={remoteAudioLevels.get(remoteParticipant.demuxId) ?? 0}
             onVisibilityChanged={onParticipantVisibilityChanged}
             width={OVERFLOW_PARTICIPANT_WIDTH}
             height={Math.floor(
