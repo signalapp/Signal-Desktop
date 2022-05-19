@@ -75,7 +75,7 @@ export async function addJob(attachment: any, job: any = {}) {
   const toSave = {
     ...job,
     id,
-    attachment,
+    attachment: omit(attachment, ['toJSON']), // when addJob is called from the receiver we get an object with a toJSON call we don't care
     timestamp,
     pending: 0,
     attempts: 0,
