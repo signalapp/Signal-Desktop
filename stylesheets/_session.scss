@@ -39,6 +39,7 @@ textarea {
   input,
   textarea {
     user-select: text;
+    word-break: break-all;
   }
 }
 
