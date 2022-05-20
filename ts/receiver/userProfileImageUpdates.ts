@@ -42,7 +42,7 @@ export async function appendFetchAvatarAndProfileJob(
     // );
     return;
   }
-  window.log.info(`[profile-update] queuing fetching avatar for ${conversation.id}`);
+  // window.log.info(`[profile-update] queuing fetching avatar for ${conversation.id}`);
   const task = allowOnlyOneAtATime(oneAtaTimeStr, async () => {
     return createOrUpdateProfile(conversation, profile, profileKey);
   });

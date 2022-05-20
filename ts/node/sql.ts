@@ -6,6 +6,7 @@ import { app, clipboard, dialog, Notification } from 'electron';
 
 import {
   chunk,
+  compact,
   difference,
   flattenDeep,
   forEach,
@@ -2378,6 +2379,38 @@ function getUnreadByConversation(conversationId: string) {
   return map(rows, row => jsonToObject(row.json));
 }
 
+/**
+ * Warning: This does not start expiration timer
+ */
+function markAllAsReadByConversationNoExpiration(
+  conversationId: string
+): Array<{ id: string; timestamp: number }> {
+  const messagesUnreadBefore = assertGlobalInstance()
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
+      unread = $unread AND
+      conversationId = $conversationId;`
+    )
+    .all({
+      unread: 1,
+      conversationId,
+    });
+
+  assertGlobalInstance()
+    .prepare(
+      `UPDATE ${MESSAGES_TABLE} SET
+      unread = 0, json = json_set(json, '$.unread', 0)
+      WHERE unread = $unread AND
+      conversationId = $conversationId;`
+    )
+    .run({
+      unread: 1,
+      conversationId,
+    });
+
+  return compact(messagesUnreadBefore.map(row => jsonToObject(row.json).sent_at));
+}
+
 function getUnreadCountByConversation(conversationId: string) {
   const row = assertGlobalInstance()
     .prepare(
@@ -2610,7 +2643,7 @@ function getFirstUnreadMessageWithMention(conversationId: string, ourpubkey: str
 function getMessagesBySentAt(sentAt: number) {
   const rows = assertGlobalInstance()
     .prepare(
-      `SELECT * FROM ${MESSAGES_TABLE}
+      `SELECT json FROM ${MESSAGES_TABLE}
      WHERE sent_at = $sent_at
      ORDER BY received_at DESC;`
     )
@@ -3712,6 +3745,7 @@ export const sqlNode = {
   saveMessages,
   removeMessage,
   getUnreadByConversation,
+  markAllAsReadByConversationNoExpiration,
   getUnreadCountByConversation,
   getMessageCountByType,
 

@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import _ from 'lodash';
+import _, { uniq } from 'lodash';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
@@ -17,6 +17,7 @@ import {
   getMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
+  markAllAsReadByConversationNoExpiration,
   removeMessage as dataRemoveMessage,
   saveMessages,
   updateConversation,
@@ -1062,15 +1063,50 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  /**
+   * Mark everything as read efficiently if possible.
+   *
+   * For convos with a expiration timer enable, start the timer as of no.
+   * Send read receipt if needed.
+   */
+  public async markAllAsRead() {
+    if (this.isOpenGroupV2()) {
+      // for opengroups, we batch everything as there is no expiration timer to take care (and potentially a lot of messages)
+
+      await markAllAsReadByConversationNoExpiration(this.id);
+      this.set({ mentionedUs: false, unreadCount: 0 });
+
+      await this.commit();
+      return;
+    }
+
+    // if the conversation has no expiration timer, we can also batch everything, but we also need to send read receipts potentially
+    // so we grab them from the db
+    if (!this.get('expireTimer')) {
+      const allReadMessages = await markAllAsReadByConversationNoExpiration(this.id);
+      this.set({ mentionedUs: false, unreadCount: 0 });
+      await this.commit();
+      if (allReadMessages.length) {
+        await this.sendReadReceiptsIfNeeded(uniq(allReadMessages));
+      }
+      return;
+    }
+
+    await this.markReadBouncy(Date.now());
+  }
+
   // tslint:disable-next-line: cyclomatic-complexity
-  public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
+  public async markReadBouncy(
+    newestUnreadDate: number,
+    providedOptions: { sendReadReceipts?: boolean; readAt?: number } = {}
+  ) {
     const lastReadTimestamp = this.lastReadTimestamp;
     if (newestUnreadDate < lastReadTimestamp) {
       return;
     }
 
-    const options = providedOptions || {};
-    _.defaults(options, { sendReadReceipts: true });
+    const defaultedReadAt = providedOptions?.readAt || Date.now();
+    const defaultedSendReadReceipts = providedOptions?.sendReadReceipts || true;
 
     const conversationId = this.id;
     Notifications.clearByConversationID(conversationId);
@@ -1084,7 +1120,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.markReadNoCommit(options.readAt);
+      nowRead.markReadNoCommit(defaultedReadAt);
 
       const errors = nowRead.get('errors');
       read.push({
@@ -1146,7 +1182,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //      conversation is viewed, another error message shows up for the contact
     read = read.filter(item => !item.hasErrors);
 
-    if (read.length && options.sendReadReceipts) {
+    if (read.length && defaultedSendReadReceipts) {
       const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
       await this.sendReadReceiptsIfNeeded(timestamps);
     }

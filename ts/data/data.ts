@@ -403,6 +403,7 @@ export async function getMessageBySenderAndTimestamp({
     source,
     timestamp,
   });
+
   if (!messages || !messages.length) {
     return null;
   }
@@ -413,6 +414,13 @@ export async function getMessageBySenderAndTimestamp({
 export async function getUnreadByConversation(conversationId: string): Promise<MessageCollection> {
   const messages = await channels.getUnreadByConversation(conversationId);
   return new MessageCollection(messages);
+}
+
+export async function markAllAsReadByConversationNoExpiration(
+  conversationId: string
+): Promise<Array<number>> {
+  const messagesIds = await channels.markAllAsReadByConversationNoExpiration(conversationId);
+  return messagesIds;
 }
 
 // might throw
