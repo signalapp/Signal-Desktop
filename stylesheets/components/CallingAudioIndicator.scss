@@ -18,11 +18,15 @@
   }
 
   &__content {
-    $size: 14px;
+    $size: 16px;
     width: $size;
     height: $size;
 
     &--muted {
+      $size: 14px;
+      width: $size;
+      height: $size;
+
       @include color-svg(
         '../images/icons/v2/mic-off-solid-28.svg',
         $color-white

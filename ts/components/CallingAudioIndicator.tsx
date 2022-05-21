@@ -20,11 +20,11 @@ const SIDE_SCALE_FACTOR = 0.75;
 const MAX_CENTRAL_BAR_DELTA = 9;
 
 /* Should match css */
-const CONTENT_WIDTH = 14;
-const CONTENT_HEIGHT = 14;
+const CONTENT_WIDTH = 16;
+const CONTENT_HEIGHT = 16;
 const BAR_WIDTH = 2;
 
-const CONTENT_PADDING = 1;
+const CONTENT_PADDING = 2;
 
 enum BarPosition {
   Left,
@@ -37,7 +37,7 @@ function generateBarPath(position: BarPosition, audioLevel: number): string {
   if (position === BarPosition.Left) {
     x = CONTENT_PADDING;
   } else if (position === BarPosition.Center) {
-    x = CONTENT_WIDTH / 2 - CONTENT_PADDING;
+    x = CONTENT_WIDTH / 2 - CONTENT_PADDING + BAR_WIDTH / 2;
   } else if (position === BarPosition.Right) {
     x = CONTENT_WIDTH - CONTENT_PADDING - BAR_WIDTH;
   } else {
