@@ -201,7 +201,7 @@ export type PropsData = {
   displayLimit?: number;
   text?: string;
   textDirection: TextDirection;
-  textPending?: boolean;
+  textAttachment?: AttachmentType;
   isSticker?: boolean;
   isSelected?: boolean;
   isSelectedCounter?: number;
@@ -818,7 +818,7 @@ export class Message extends React.PureComponent<Props, State> {
       status,
       i18n,
       text,
-      textPending,
+      textAttachment,
       timestamp,
       id,
       showMessageDetail,
@@ -842,7 +842,7 @@ export class Message extends React.PureComponent<Props, State> {
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         showMessageDetail={showMessageDetail}
         status={status}
-        textPending={textPending}
+        textPending={textAttachment?.pending}
         timestamp={timestamp}
       />
     );
@@ -903,7 +903,7 @@ export class Message extends React.PureComponent<Props, State> {
       shouldCollapseBelow,
       status,
       text,
-      textPending,
+      textAttachment,
       theme,
       timestamp,
     } = this.props;
@@ -1031,7 +1031,7 @@ export class Message extends React.PureComponent<Props, State> {
         played,
         showMessageDetail,
         status,
-        textPending,
+        textPending: textAttachment?.pending,
         timestamp,
 
         kickOffAttachmentDownload() {
@@ -1206,6 +1206,7 @@ export class Message extends React.PureComponent<Props, State> {
                 width={72}
                 url={first.image.url}
                 attachment={first.image}
+                blurHash={first.image.blurHash}
                 onError={this.handleImageError}
                 i18n={i18n}
                 onClick={onPreviewImageClick}
@@ -1699,10 +1700,11 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       messageExpanded,
       openConversation,
+      kickOffAttachmentDownload,
       status,
       text,
       textDirection,
-      textPending,
+      textAttachment,
     } = this.props;
     const { metadataWidth } = this.state;
     const isRTL = textDirection === TextDirection.RightToLeft;
@@ -1741,8 +1743,17 @@ export class Message extends React.PureComponent<Props, State> {
           id={id}
           messageExpanded={messageExpanded}
           openConversation={openConversation}
+          kickOffBodyDownload={() => {
+            if (!textAttachment) {
+              return;
+            }
+            kickOffAttachmentDownload({
+              attachment: textAttachment,
+              messageId: id,
+            });
+          }}
           text={contents || ''}
-          textPending={textPending}
+          textAttachment={textAttachment}
         />
         {!isRTL &&
           this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (

@@ -22,7 +22,7 @@ import {
 import dataInterface from '../sql/Client';
 
 type ReturnType = {
-  bodyPending?: boolean;
+  bodyAttachment?: AttachmentType;
   attachments: Array<AttachmentType>;
   preview: PreviewMessageType;
   contact: Array<EmbeddedContactType>;
@@ -41,7 +41,7 @@ export async function queueAttachmentDownloads(
   const idForLogging = getMessageIdForLogging(message);
 
   let count = 0;
-  let bodyPending;
+  let bodyAttachment;
 
   log.info(
     `Queueing ${attachmentsToQueue.length} attachment downloads for message ${idForLogging}`
@@ -64,8 +64,15 @@ export async function queueAttachmentDownloads(
 
   if (longMessageAttachments.length > 0) {
     count += 1;
-    bodyPending = true;
-    await AttachmentDownloads.addJob(longMessageAttachments[0], {
+    [bodyAttachment] = longMessageAttachments;
+  }
+  if (!bodyAttachment && message.bodyAttachment) {
+    count += 1;
+    bodyAttachment = message.bodyAttachment;
+  }
+
+  if (bodyAttachment) {
+    await AttachmentDownloads.addJob(bodyAttachment, {
       messageId,
       type: 'long-message',
       index: 0,
@@ -252,7 +259,7 @@ export async function queueAttachmentDownloads(
   }
 
   return {
-    bodyPending,
+    bodyAttachment,
     attachments,
     preview,
     contact,

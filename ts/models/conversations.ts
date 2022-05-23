@@ -3833,6 +3833,11 @@ export class ConversationModel extends window.Backbone
         contentType,
         width,
         height,
+        blurHash: await window.imageToBlurHash(
+          new Blob([data], {
+            type: IMAGE_JPEG,
+          })
+        ),
       },
     };
 

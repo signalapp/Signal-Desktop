@@ -4,6 +4,8 @@
 import type { KeyboardEvent } from 'react';
 import React from 'react';
 
+import type { AttachmentType } from '../../types/Attachment';
+import { canBeDownloaded } from '../../types/Attachment';
 import type { SizeClassType } from '../emoji/lib';
 import { getSizeClass } from '../emoji/lib';
 import { AtMentionify } from './AtMentionify';
@@ -25,7 +27,7 @@ type OpenConversationActionType = (
 export type Props = {
   direction?: 'incoming' | 'outgoing';
   text: string;
-  textPending?: boolean;
+  textAttachment?: Pick<AttachmentType, 'pending' | 'digest' | 'key'>;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
@@ -34,6 +36,7 @@ export type Props = {
   bodyRanges?: BodyRangesType;
   onIncreaseTextLength?: () => unknown;
   openConversation?: OpenConversationActionType;
+  kickOffBodyDownload?: () => void;
 };
 
 const renderEmoji = ({
@@ -71,10 +74,12 @@ export function MessageBody({
   onIncreaseTextLength,
   openConversation,
   text,
-  textPending,
+  textAttachment,
+  kickOffBodyDownload,
 }: Props): JSX.Element {
   const hasReadMore = Boolean(onIncreaseTextLength);
-  const textWithSuffix = textPending || hasReadMore ? `${text}...` : text;
+  const textWithSuffix =
+    textAttachment?.pending || hasReadMore ? `${text}...` : text;
 
   const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
   const processedText = AtMentionify.preprocessMentions(
@@ -103,6 +108,40 @@ export function MessageBody({
     );
   };
 
+  let pendingContent: React.ReactNode;
+  if (hasReadMore) {
+    pendingContent = null;
+  } else if (textAttachment?.pending) {
+    pendingContent = (
+      <span className="MessageBody__highlight"> {i18n('downloading')}</span>
+    );
+  } else if (
+    textAttachment &&
+    canBeDownloaded(textAttachment) &&
+    kickOffBodyDownload
+  ) {
+    pendingContent = (
+      <span>
+        {' '}
+        <button
+          className="MessageBody__download-body"
+          onClick={() => {
+            kickOffBodyDownload();
+          }}
+          onKeyDown={(ev: KeyboardEvent) => {
+            if (ev.key === 'Space' || ev.key === 'Enter') {
+              kickOffBodyDownload();
+            }
+          }}
+          tabIndex={0}
+          type="button"
+        >
+          {i18n('downloadFullMessage')}
+        </button>
+      </span>
+    );
+  }
+
   return (
     <span>
       {disableLinks ? (
@@ -127,9 +166,7 @@ export function MessageBody({
           }}
         />
       )}
-      {textPending ? (
-        <span className="MessageBody__highlight"> {i18n('downloading')}</span>
-      ) : null}
+      {pendingContent}
       {onIncreaseTextLength ? (
         <button
           className="MessageBody__read-more"

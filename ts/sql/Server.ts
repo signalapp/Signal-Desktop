@@ -251,6 +251,7 @@ const dataInterface: ServerInterface = {
   removeUnprocessed,
   removeAllUnprocessed,
 
+  getAttachmentDownloadJobById,
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
   resetAttachmentDownloadPending,
@@ -3299,6 +3300,11 @@ async function removeAllUnprocessed(): Promise<void> {
 // Attachment Downloads
 
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
+async function getAttachmentDownloadJobById(
+  id: string
+): Promise<AttachmentDownloadJobType | undefined> {
+  return getById(getInstance(), ATTACHMENT_DOWNLOADS_TABLE, id);
+}
 async function getNextAttachmentDownloadJobs(
   limit?: number,
   options: { timestamp?: number } = {}

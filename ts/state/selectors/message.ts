@@ -39,7 +39,7 @@ import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import type { AttachmentType } from '../../types/Attachment';
-import { isVoiceMessage } from '../../types/Attachment';
+import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import type { CallingNotificationType } from '../../util/callingNotification';
@@ -265,7 +265,7 @@ export const getAttachmentsForMessage = createSelectorCreator(memoizeByRoot)(
     }
 
     return attachments
-      .filter(attachment => !attachment.error)
+      .filter(attachment => !attachment.error || canBeDownloaded(attachment))
       .map(attachment => getPropsForAttachment(attachment))
       .filter(isNotNil);
   }
@@ -358,7 +358,7 @@ export const getPreviewsForMessage = createSelectorCreator(memoizeByRoot)(
       ...preview,
       isStickerPack: isStickerPack(preview.url),
       domain: getDomain(preview.url),
-      image: preview.image ? getPropsForAttachment(preview.image) : null,
+      image: preview.image ? getPropsForAttachment(preview.image) : undefined,
     }));
   }
 );
@@ -594,7 +594,6 @@ type ShallowPropsType = Pick<
   | 'status'
   | 'text'
   | 'textDirection'
-  | 'textPending'
   | 'timestamp'
 >;
 
@@ -682,13 +681,20 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       status: getMessagePropStatus(message, ourConversationId),
       text: message.body,
       textDirection: getTextDirection(message.body),
-      textPending: message.bodyPending,
       timestamp: message.sent_at,
     };
   },
 
   (_: unknown, props: ShallowPropsType) => props
 );
+
+function getTextAttachment(
+  message: MessageWithUIFieldsType
+): AttachmentType | undefined {
+  return (
+    message.bodyAttachment && getPropsForAttachment(message.bodyAttachment)
+  );
+}
 
 function getTextDirection(body?: string): TextDirection {
   if (!body) {
@@ -727,6 +733,7 @@ export const getPropsForMessage: (
   getReactionsForMessage,
   getPropsForQuote,
   getPropsForStoryReplyContext,
+  getTextAttachment,
   getShallowPropsForMessage,
   (
     _,
@@ -737,6 +744,7 @@ export const getPropsForMessage: (
     reactions: PropsData['reactions'],
     quote: PropsData['quote'],
     storyReplyContext: PropsData['storyReplyContext'],
+    textAttachment: PropsData['textAttachment'],
     shallowProps: ShallowPropsType
   ): Omit<PropsForMessage, 'renderingContext'> => {
     return {
@@ -747,6 +755,7 @@ export const getPropsForMessage: (
       quote,
       reactions,
       storyReplyContext,
+      textAttachment,
       ...shallowProps,
     };
   }
@@ -1468,9 +1477,9 @@ export function getPropsForEmbeddedContact(
 
 export function getPropsForAttachment(
   attachment: AttachmentType
-): AttachmentType | null {
+): AttachmentType | undefined {
   if (!attachment) {
-    return null;
+    return undefined;
   }
 
   const { path, pending, size, screenshot, thumbnail } = attachment;

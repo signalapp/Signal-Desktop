@@ -919,6 +919,10 @@
     "message": "Downloading",
     "description": "Shown in the message bubble while a long message attachment is being downloaded"
   },
+  "downloadFullMessage": {
+    "message": "Download Full Message",
+    "description": "Shown in the message bubble while a long message attachment is not downloaded"
+  },
   "downloadAttachment": {
     "message": "Download Attachment",
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"

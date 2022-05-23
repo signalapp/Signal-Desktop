@@ -25,7 +25,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   direction: 'incoming',
   i18n,
   text: text('text', overrideProps.text || ''),
-  textPending: boolean('textPending', overrideProps.textPending || false),
+  textAttachment: overrideProps.textAttachment || {
+    pending: boolean('textPending', false),
+  },
 });
 
 story.add('Links Enabled', () => {
@@ -91,7 +93,9 @@ story.add('Jumbomoji Disabled by Text', () => {
 story.add('Text Pending', () => {
   const props = createProps({
     text: 'Check out https://www.signal.org',
-    textPending: true,
+    textAttachment: {
+      pending: true,
+    },
   });
 
   return <MessageBody {...props} />;

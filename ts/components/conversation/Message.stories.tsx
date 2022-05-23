@@ -19,6 +19,7 @@ import {
   IMAGE_PNG,
   IMAGE_WEBP,
   VIDEO_MP4,
+  LONG_MESSAGE,
   stringToMIMEType,
   IMAGE_GIF,
 } from '../../types/MIME';
@@ -205,7 +206,11 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   status: overrideProps.status || 'sent',
   text: overrideProps.text || text('text', ''),
   textDirection: overrideProps.textDirection || TextDirection.Default,
-  textPending: boolean('textPending', overrideProps.textPending || false),
+  textAttachment: overrideProps.textAttachment || {
+    contentType: LONG_MESSAGE,
+    size: 123,
+    pending: boolean('textPending', false),
+  },
   theme: ThemeType.light,
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
 });
@@ -420,7 +425,27 @@ story.add('Will expire but still sending', () => {
 story.add('Pending', () => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-    textPending: true,
+    textAttachment: {
+      contentType: LONG_MESSAGE,
+      size: 123,
+      pending: true,
+    },
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Long body can be downloaded', () => {
+  const props = createProps({
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    textAttachment: {
+      contentType: LONG_MESSAGE,
+      size: 123,
+      pending: false,
+      error: true,
+      digest: 'abc',
+      key: 'def',
+    },
   });
 
   return renderBothDirections(props);

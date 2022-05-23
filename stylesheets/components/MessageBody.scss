@@ -6,6 +6,7 @@
     font-weight: bold;
   }
 
+  &__download-body,
   &__read-more {
     @include button-reset;
     font-weight: bold;

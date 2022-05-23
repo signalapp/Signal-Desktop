@@ -73,6 +73,10 @@ export type AttachmentType = {
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
+
+  /** Removed once we download the attachment */
+  digest?: string;
+  key?: string;
 };
 
 export enum TextAttachmentStyleType {
@@ -1017,4 +1021,10 @@ export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {
     return 'L05OQnoffQofoffQfQfQfQfQfQfQ';
   }
   return 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
+};
+
+export const canBeDownloaded = (
+  attachment: Pick<AttachmentType, 'key' | 'digest'>
+): boolean => {
+  return Boolean(attachment.key && attachment.digest);
 };

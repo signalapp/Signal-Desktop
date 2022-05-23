@@ -254,6 +254,7 @@ const dataInterface: ClientInterface = {
   removeUnprocessed,
   removeAllUnprocessed,
 
+  getAttachmentDownloadJobById,
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
   resetAttachmentDownloadPending,
@@ -1476,6 +1477,9 @@ async function removeAllUnprocessed() {
 
 // Attachment downloads
 
+async function getAttachmentDownloadJobById(id: string) {
+  return channels.getAttachmentDownloadJobById(id);
+}
 async function getNextAttachmentDownloadJobs(
   limit?: number,
   options?: { timestamp?: number }

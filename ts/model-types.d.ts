@@ -116,7 +116,7 @@ export type MessageReactionType = {
 };
 
 export type MessageAttributesType = {
-  bodyPending?: boolean;
+  bodyAttachment?: AttachmentType;
   bodyRanges?: BodyRangesType;
   callHistoryDetails?: CallHistoryDetailsFromDiskType;
   changedId?: string;

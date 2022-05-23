@@ -11,11 +11,12 @@ export type Props = Pick<
   MessageBodyPropsType,
   | 'direction'
   | 'text'
-  | 'textPending'
+  | 'textAttachment'
   | 'disableLinks'
   | 'i18n'
   | 'bodyRanges'
   | 'openConversation'
+  | 'kickOffBodyDownload'
 > & {
   id: string;
   displayLimit?: number;
@@ -39,8 +40,9 @@ export function MessageBodyReadMore({
   id,
   messageExpanded,
   openConversation,
+  kickOffBodyDownload,
   text,
-  textPending,
+  textAttachment,
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
@@ -64,8 +66,9 @@ export function MessageBodyReadMore({
       i18n={i18n}
       onIncreaseTextLength={onIncreaseTextLength}
       openConversation={openConversation}
+      kickOffBodyDownload={kickOffBodyDownload}
       text={slicedText}
-      textPending={textPending}
+      textAttachment={textAttachment}
     />
   );
 }

@@ -496,6 +496,9 @@ export type DataInterface = {
   removeUnprocessed: (id: string | Array<string>) => Promise<void>;
   removeAllUnprocessed: () => Promise<void>;
 
+  getAttachmentDownloadJobById: (
+    id: string
+  ) => Promise<AttachmentDownloadJobType | undefined>;
   getNextAttachmentDownloadJobs: (
     limit?: number,
     options?: { timestamp?: number }
