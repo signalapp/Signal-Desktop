@@ -3,7 +3,7 @@
 
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
-import { takeWhile, chunk, maxBy, flatten, noop } from 'lodash';
+import { takeWhile, clamp, chunk, maxBy, flatten, noop } from 'lodash';
 import type { VideoFrameSource } from 'ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
@@ -21,9 +21,10 @@ import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 import { missingCaseError } from '../util/missingCaseError';
 import { SECOND } from '../util/durations';
-import { filter } from '../util/iterables';
+import { filter, join } from '../util/iterables';
 import * as setUtil from '../util/setUtil';
 import * as log from '../logging/log';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 
 const MIN_RENDERED_HEIGHT = 180;
 const PARTICIPANT_MARGIN = 10;
@@ -52,9 +53,9 @@ type PropsType = {
 };
 
 enum VideoRequestMode {
-  Normal,
-  LowResolution,
-  NoVideo,
+  Normal = 'Normal',
+  LowResolution = 'LowResolution',
+  NoVideo = 'NoVideo',
 }
 
 // This component lays out group call remote participants. It uses a custom layout
@@ -298,6 +299,9 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   );
 
   const videoRequestMode = useVideoRequestMode();
+  useEffect(() => {
+    log.info(`Group call now using ${videoRequestMode} video request mode`);
+  }, [videoRequestMode]);
 
   useEffect(() => {
     let videoRequest: Array<GroupCallVideoRequest>;
@@ -310,35 +314,44 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             if (participant.sharingScreen) {
               // We want best-resolution video if someone is sharing their screen.
               scalar = Math.max(devicePixelRatio, 1);
-            } else if (participant.hasRemoteVideo) {
-              scalar = VIDEO_REQUEST_SCALAR;
             } else {
-              scalar = 0;
+              scalar = VIDEO_REQUEST_SCALAR;
             }
             return {
               demuxId: participant.demuxId,
-              width: Math.floor(
-                gridParticipantHeight * participant.videoAspectRatio * scalar
+              width: clamp(
+                Math.floor(
+                  gridParticipantHeight * participant.videoAspectRatio * scalar
+                ),
+                1,
+                MAX_FRAME_WIDTH
               ),
-              height: Math.floor(gridParticipantHeight * scalar),
+              height: clamp(
+                Math.floor(gridParticipantHeight * scalar),
+                1,
+                MAX_FRAME_HEIGHT
+              ),
             };
           }),
           ...overflowedParticipants.map(participant => {
-            if (
-              !participant.hasRemoteVideo ||
-              invisibleDemuxIds.has(participant.demuxId)
-            ) {
+            if (invisibleDemuxIds.has(participant.demuxId)) {
               return nonRenderedRemoteParticipant(participant);
             }
 
             return {
               demuxId: participant.demuxId,
-              width: Math.floor(
-                OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR
+              width: clamp(
+                Math.floor(OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR),
+                1,
+                MAX_FRAME_WIDTH
               ),
-              height: Math.floor(
-                (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
-                  VIDEO_REQUEST_SCALAR
+              height: clamp(
+                Math.floor(
+                  (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
+                    VIDEO_REQUEST_SCALAR
+                ),
+                1,
+                MAX_FRAME_HEIGHT
               ),
             };
           }),
@@ -453,6 +466,12 @@ function useInvisibleParticipants(
     },
     []
   );
+
+  useEffect(() => {
+    log.info(
+      `Invisible demux IDs changed to [${join(invisibleDemuxIds, ',')}]`
+    );
+  }, [invisibleDemuxIds]);
 
   useEffect(() => {
     const remoteParticipantDemuxIds = new Set<number>(

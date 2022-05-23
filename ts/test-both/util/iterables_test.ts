@@ -12,6 +12,7 @@ import {
   groupBy,
   isEmpty,
   isIterable,
+  join,
   map,
   reduce,
   repeat,
@@ -317,6 +318,31 @@ describe('iterable utilities', () => {
         throw new Error('this should never happen');
       }
       assert.isFalse(isEmpty(numbers()));
+    });
+  });
+
+  describe('join', () => {
+    it('returns the empty string for empty iterables', () => {
+      assert.isEmpty(join([], 'x'));
+      assert.isEmpty(join(new Set(), 'x'));
+    });
+
+    it("returns the stringified value if it's the only value", () => {
+      assert.strictEqual(join(new Set(['foo']), 'x'), 'foo');
+      assert.strictEqual(join(new Set([123]), 'x'), '123');
+      assert.strictEqual(join([{ toString: () => 'foo' }], 'x'), 'foo');
+    });
+
+    it('returns each value stringified, joined by separator', () => {
+      assert.strictEqual(
+        join(new Set(['foo', 'bar', 'baz']), ' '),
+        'foo bar baz'
+      );
+      assert.strictEqual(join(new Set([1, 2, 3]), '--'), '1--2--3');
+    });
+
+    it('handles undefined and null like Array.prototype.join', () => {
+      assert.strictEqual(join(new Set([undefined, null]), ','), ',');
     });
   });
 

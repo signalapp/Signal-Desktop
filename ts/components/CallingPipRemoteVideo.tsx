@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo, useEffect } from 'react';
-import { maxBy } from 'lodash';
+import { clamp, maxBy } from 'lodash';
 import type { VideoFrameSource } from 'ringrtc';
 import { Avatar } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
@@ -18,11 +18,13 @@ import { CallMode } from '../types/Calling';
 import { AvatarColors } from '../types/Colors';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
+import { MAX_FRAME_WIDTH } from '../calling/constants';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { missingCaseError } from '../util/missingCaseError';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 
-// This value should be kept in sync with the hard-coded CSS height.
+// This value should be kept in sync with the hard-coded CSS height. It should also be
+//   less than `MAX_FRAME_HEIGHT`.
 const PIP_VIDEO_HEIGHT_PX = 120;
 
 const NoVideo = ({
@@ -110,14 +112,13 @@ export const CallingPipRemoteVideo = ({
     if (isPageVisible) {
       setGroupCallVideoRequest(
         activeCall.remoteParticipants.map(participant => {
-          const isVisible =
-            participant === activeGroupCallSpeaker &&
-            participant.hasRemoteVideo;
-          if (isVisible) {
+          if (participant === activeGroupCallSpeaker) {
             return {
               demuxId: participant.demuxId,
-              width: Math.floor(
-                PIP_VIDEO_HEIGHT_PX * participant.videoAspectRatio
+              width: clamp(
+                Math.floor(PIP_VIDEO_HEIGHT_PX * participant.videoAspectRatio),
+                1,
+                MAX_FRAME_WIDTH
               ),
               height: PIP_VIDEO_HEIGHT_PX,
             };

@@ -133,6 +133,21 @@ export function groupBy<T>(
 export const isEmpty = (iterable: Iterable<unknown>): boolean =>
   Boolean(iterable[Symbol.iterator]().next().done);
 
+export function join(iterable: Iterable<unknown>, separator: string): string {
+  let hasProcessedFirst = false;
+  let result = '';
+  for (const value of iterable) {
+    const stringifiedValue = value == null ? '' : String(value);
+    if (hasProcessedFirst) {
+      result += separator + stringifiedValue;
+    } else {
+      result = stringifiedValue;
+    }
+    hasProcessedFirst = true;
+  }
+  return result;
+}
+
 export function map<T, ResultT>(
   iterable: Iterable<T>,
   fn: (value: T) => ResultT

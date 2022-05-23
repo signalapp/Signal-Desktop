@@ -22,7 +22,7 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { MAX_FRAME_SIZE } from '../calling/constants';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
@@ -150,7 +150,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       if (
         frameWidth < 2 ||
         frameHeight < 2 ||
-        frameWidth * frameHeight > MAX_FRAME_SIZE
+        frameWidth > MAX_FRAME_WIDTH ||
+        frameHeight > MAX_FRAME_HEIGHT
       ) {
         return;
       }
