@@ -3944,11 +3944,13 @@ export class ConversationModel extends window.Backbone
       sendHQImages,
       storyId,
       timestamp,
+      extraReduxActions,
     }: {
       dontClearDraft?: boolean;
       sendHQImages?: boolean;
       storyId?: string;
       timestamp?: number;
+      extraReduxActions?: () => void;
     } = {}
   ): Promise<MessageAttributesType | undefined> {
     if (this.isGroupV1AndDisabled()) {
@@ -4118,6 +4120,8 @@ export class ConversationModel extends window.Backbone
         if (enableProfileSharing) {
           this.captureChange('mandatoryProfileSharing');
         }
+
+        extraReduxActions?.();
       } finally {
         this.isInReduxBatch = false;
       }

@@ -3,7 +3,6 @@
 
 /* eslint-disable camelcase */
 
-import { batch as batchDispatch } from 'react-redux';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
@@ -2969,17 +2968,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         {
           sendHQImages,
           timestamp,
+          extraReduxActions: () => {
+            this.compositionApi.current?.reset();
+            model.setMarkedUnread(false);
+            this.setQuoteMessage(null);
+            this.resetLinkPreview();
+            this.clearAttachments();
+            window.reduxActions.composer.resetComposer();
+          },
         }
       );
-
-      batchDispatch(() => {
-        this.compositionApi.current?.reset();
-        model.setMarkedUnread(false);
-        this.setQuoteMessage(null);
-        this.resetLinkPreview();
-        this.clearAttachments();
-        window.reduxActions.composer.resetComposer();
-      });
     } catch (error) {
       log.error(
         'Error pulling attached files before send',
