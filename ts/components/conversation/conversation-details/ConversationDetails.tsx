@@ -44,7 +44,7 @@ import type {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../../../types/Avatar';
-import { isMuted } from '../../../util/isMuted';
+import { isConversationMuted } from '../../../util/isConversationMuted';
 
 enum ModalState {
   NothingOpen,
@@ -305,7 +305,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       throw missingCaseError(modalState);
   }
 
-  const isConversationMuted = isMuted(conversation.muteExpiresAt);
+  const isMuted = isConversationMuted(conversation);
 
   return (
     <div className="conversation-details-panel">
@@ -348,11 +348,9 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           </>
         )}
         <Button
-          icon={
-            isConversationMuted ? ButtonIconType.muted : ButtonIconType.unmuted
-          }
+          icon={isMuted ? ButtonIconType.muted : ButtonIconType.unmuted}
           onClick={() => {
-            if (isConversationMuted) {
+            if (isMuted) {
               setModalState(ModalState.UnmuteNotifications);
             } else {
               setModalState(ModalState.MuteNotifications);
@@ -360,7 +358,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           }}
           variant={ButtonVariant.Details}
         >
-          {isConversationMuted ? i18n('unmute') : i18n('mute')}
+          {isMuted ? i18n('unmute') : i18n('mute')}
         </Button>
         <Button
           icon={ButtonIconType.search}

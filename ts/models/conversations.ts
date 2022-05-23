@@ -44,7 +44,7 @@ import type {
 import type { MessageModel } from './messages';
 import { getContact } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
-import { isMuted } from '../util/isMuted';
+import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
@@ -5203,7 +5203,7 @@ export class ConversationModel extends window.Backbone
   }
 
   isMuted(): boolean {
-    return isMuted(this.get('muteExpiresAt'));
+    return isConversationMuted(this.attributes);
   }
 
   async notify(

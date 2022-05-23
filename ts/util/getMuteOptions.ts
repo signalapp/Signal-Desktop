@@ -1,10 +1,10 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from './durations';
 import type { LocalizerType } from '../types/Util';
 import { getMutedUntilText } from './getMutedUntilText';
-import { isMuted } from './isMuted';
+import { isConversationMuted } from './isConversationMuted';
 
 export type MuteOption = {
   name: string;
@@ -17,7 +17,7 @@ export function getMuteOptions(
   i18n: LocalizerType
 ): Array<MuteOption> {
   return [
-    ...(isMuted(muteExpiresAt)
+    ...(muteExpiresAt && isConversationMuted({ muteExpiresAt })
       ? [
           {
             name: getMutedUntilText(muteExpiresAt, i18n),

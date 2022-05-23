@@ -10,7 +10,7 @@ import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { Select } from '../../Select';
-import { isMuted } from '../../../util/isMuted';
+import { isConversationMuted } from '../../../util/isConversationMuted';
 import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
 import { useUniqueId } from '../../../hooks/useUniqueId';
@@ -40,7 +40,7 @@ export const ConversationNotificationsSettings: FunctionComponent<
   const mentionsSelectId = useUniqueId();
   const muteOptions = useMemo(
     () => [
-      ...(isMuted(muteExpiresAt)
+      ...(isConversationMuted({ muteExpiresAt })
         ? []
         : [
             {
