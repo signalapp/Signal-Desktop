@@ -53,7 +53,7 @@
     "integration-test": "npx playwright test",
     "integration-test-snapshots": "npx playwright test -g 'profile picture' --update-snapshots",
     "clean-transpile": "rimraf 'ts/**/*.js' 'ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
-    "ready": "yarn grunt && yarn lint-full && yarn test",
+    "ready": "yarn sass && yarn grunt && yarn lint-full && yarn test",
     "sedtoAppImage": "sed -i 's/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/\"target\": \"AppImage\"/g' package.json",
     "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/g' package.json",
     "sass": "rimraf 'dist' && parcel build --target sass --no-autoinstall",
@@ -237,10 +237,7 @@
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icon-mac.icns",
-      "target": [
-        "dmg",
-        "zip"
-      ],
+      "target": ["deb", "rpm", "freebsd"],
       "bundleVersion": "1",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
