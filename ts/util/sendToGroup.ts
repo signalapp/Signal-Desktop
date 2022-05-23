@@ -731,6 +731,11 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
   //   SendMessageChallengeError
   //   MessageError
   if (isRecord(error) && typeof error.code === 'number') {
+    if (error.code === 400) {
+      logError('Invalid request, failing.');
+      return true;
+    }
+
     if (error.code === 401) {
       logError('Permissions error, failing.');
       return true;

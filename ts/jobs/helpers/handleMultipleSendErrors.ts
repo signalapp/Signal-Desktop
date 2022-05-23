@@ -53,7 +53,7 @@ export async function handleMultipleSendErrors({
         retryAfterError = error;
         longestRetryAfterTime = retryAfterTime;
       }
-    } else if (errorCode === 508) {
+    } else if (errorCode === 508 || errorCode === 400) {
       serverAskedUsToStop = true;
     }
   });
@@ -67,7 +67,7 @@ export async function handleMultipleSendErrors({
   }
 
   if (serverAskedUsToStop) {
-    log.info('server responded with 508. Giving up on this job');
+    log.info('server responded with 508 or 400. Giving up on this job');
     return;
   }
 
