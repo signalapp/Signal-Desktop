@@ -237,7 +237,7 @@
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icon-mac.icns",
-      "target": ["deb", "rpm", "freebsd"],
+      "target": ["dmg", "zip"],
       "bundleVersion": "1",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
@@ -271,11 +271,7 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": [
-        "deb",
-        "rpm",
-        "freebsd"
-      ],
+      "target": ["deb", "rpm", "freebsd"],
       "icon": "build/icon-linux.icns"
     },
     "asarUnpack": [
