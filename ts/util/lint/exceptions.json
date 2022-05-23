@@ -133,41 +133,6 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
-    "line": "      this._elementHelper.append(img);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-01-27T20:06:59.988Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
-    "line": "    this.layerElement.insertBefore(newElement, nextElement);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-01-27T20:06:59.988Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
-    "line": "    parentNode.insertBefore(useElem, nextChild);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-01-27T20:06:59.988Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
-    "line": "          _workerSelf.assetLoader.load(",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-01-27T20:06:59.988Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
-    "line": "          _workerSelf.assetLoader.load(",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-01-27T20:06:59.988Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "node_modules/@malept/flatpak-bundler/node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -651,6 +616,30 @@
     "line": "function load() {",
     "reasonCategory": "falseMatch",
     "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/agentkeepalive/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/agentkeepalive/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/agentkeepalive/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
   },
   {
     "rule": "jQuery-wrap(",
@@ -4471,6 +4460,30 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/make-fetch-happen/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/make-fetch-happen/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/make-fetch-happen/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/micro/node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
@@ -4500,6 +4513,46 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Read, not write"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/minipass-fetch/lib/headers.js",
+    "line": "          this.append(headerName, value)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/minipass-fetch/lib/headers.js",
+    "line": "          this.append(pair[0], pair[1])",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/minipass-fetch/lib/headers.js",
+    "line": "          this.append(key, init[key])",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/minipass-fetch/lib/request.js",
+    "line": "        headers.append('Content-Type', contentType)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/minipass-fetch/lib/response.js",
+    "line": "        headers.append('Content-Type', contentType)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-04-08T07:10:10.677Z",
+    "reasonDetail": "node-gyp dependency"
   },
   {
     "rule": "jQuery-$(",
@@ -7566,14 +7619,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lottie.tsx",
-    "line": "  const containerRef = useRef<null | HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-01-27T20:06:59.988Z",
-    "reasonDetail": "Doesn't manipulate the DOM."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
     "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -8096,93 +8141,5 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/agentkeepalive/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/agentkeepalive/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/agentkeepalive/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/make-fetch-happen/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/make-fetch-happen/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/make-fetch-happen/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/minipass-fetch/lib/headers.js",
-    "line": "          this.append(headerName, value)",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/minipass-fetch/lib/headers.js",
-    "line": "          this.append(pair[0], pair[1])",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/minipass-fetch/lib/headers.js",
-    "line": "          this.append(key, init[key])",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/minipass-fetch/lib/request.js",
-    "line": "        headers.append('Content-Type', contentType)",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/minipass-fetch/lib/response.js",
-    "line": "        headers.append('Content-Type', contentType)",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-04-08T07:10:10.677Z",
-    "reasonDetail": "node-gyp dependency"
   }
 ]

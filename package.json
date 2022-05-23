@@ -77,7 +77,6 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@evanhahn/lottie-web-light": "5.8.1",
     "@popperjs/core": "2.9.2",
     "@react-spring/web": "9.4.1",
     "@signalapp/libsignal-client": "0.16.0",

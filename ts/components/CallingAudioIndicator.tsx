@@ -4,7 +4,7 @@
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import type { ReactElement } from 'react';
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 
 import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants';
@@ -20,11 +20,11 @@ const SIDE_SCALE_FACTOR = 0.75;
 const MAX_CENTRAL_BAR_DELTA = 9;
 
 /* Should match css */
-const CONTENT_WIDTH = 16;
-const CONTENT_HEIGHT = 16;
+const CONTENT_WIDTH = 14;
+const CONTENT_HEIGHT = 14;
 const BAR_WIDTH = 2;
 
-const CONTENT_PADDING = 2;
+const CONTENT_PADDING = 1;
 
 enum BarPosition {
   Left,
@@ -37,12 +37,14 @@ function generateBarPath(position: BarPosition, audioLevel: number): string {
   if (position === BarPosition.Left) {
     x = CONTENT_PADDING;
   } else if (position === BarPosition.Center) {
-    x = CONTENT_WIDTH / 2 - CONTENT_PADDING + BAR_WIDTH / 2;
+    x = CONTENT_WIDTH / 2 - BAR_WIDTH / 2;
   } else if (position === BarPosition.Right) {
     x = CONTENT_WIDTH - CONTENT_PADDING - BAR_WIDTH;
   } else {
     throw missingCaseError(position);
   }
+
+  x = Math.round(x);
 
   let height: number;
   if (position === BarPosition.Left || position === BarPosition.Right) {
@@ -58,36 +60,33 @@ function generateBarPath(position: BarPosition, audioLevel: number): string {
   height -= 2;
 
   const y = (CONTENT_HEIGHT - height) / 2;
-  const top = y;
-  const bottom = top + height;
+  const left = x;
+  const right = x + BAR_WIDTH;
+  const top = y.toFixed(2);
+  const bottom = (y + height).toFixed(2);
 
   return (
-    `M ${x} ${top} ` +
-    `L ${x} ${bottom} ` +
-    `A 0.5 0.5 0 0 0 ${x + BAR_WIDTH} ${bottom} ` +
-    `L ${x + BAR_WIDTH} ${top} ` +
-    `A 0.5 0.5 0 0 0 ${x} ${top}`
+    `M ${left} ${top} ` +
+    `L ${left} ${bottom} ` +
+    `A 0.5 0.5 0 0 0 ${right} ${bottom} ` +
+    `L ${right} ${top} ` +
+    `A 0.5 0.5 0 0 0 ${left} ${top}`
   );
 }
 
-function Bar({
-  position,
-  audioLevel,
-}: {
-  position: BarPosition;
-  audioLevel: number;
-}): ReactElement {
+function generateCombinedPath(audioLevel: number): string {
+  return (
+    `${generateBarPath(BarPosition.Left, audioLevel)} ` +
+    `${generateBarPath(BarPosition.Center, audioLevel)} ` +
+    `${generateBarPath(BarPosition.Right, audioLevel)} `
+  );
+}
+
+function Bars({ audioLevel }: { audioLevel: number }): ReactElement {
   const animatedProps = useSpring({
     from: { audioLevel: 0 },
     config: { duration: AUDIO_LEVEL_INTERVAL_MS },
   });
-
-  const levelToPath = useCallback(
-    (animatedLevel: number): string => {
-      return generateBarPath(position, animatedLevel);
-    },
-    [position]
-  );
 
   useEffect(() => {
     animatedProps.audioLevel.stop();
@@ -96,7 +95,7 @@ function Bar({
 
   return (
     <animated.path
-      d={animatedProps.audioLevel.to(levelToPath)}
+      d={animatedProps.audioLevel.to(generateCombinedPath)}
       fill="#ffffff"
     />
   );
@@ -148,10 +147,15 @@ export function CallingAudioIndicator({
           `${BASE_CLASS_NAME}--with-content`
         )}
       >
-        <svg className={CONTENT_CLASS_NAME}>
-          <Bar position={BarPosition.Left} audioLevel={audioLevel} />
-          <Bar position={BarPosition.Center} audioLevel={audioLevel} />
-          <Bar position={BarPosition.Right} audioLevel={audioLevel} />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={CONTENT_CLASS_NAME}
+          viewBox={`0 0 ${CONTENT_WIDTH} ${CONTENT_HEIGHT}`}
+          width={CONTENT_WIDTH}
+          height={CONTENT_HEIGHT}
+          style={{ transform: 'translate3d(0px, 0px, 0px)' }}
+        >
+          <Bars audioLevel={audioLevel} />
         </svg>
       </div>
     );
