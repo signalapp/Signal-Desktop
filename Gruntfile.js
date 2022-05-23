@@ -1,26 +1,8 @@
-const importOnce = require('node-sass-import-once');
-const sass = require('node-sass');
-
 /* eslint-disable more/no-then, no-console  */
 
 module.exports = grunt => {
-  grunt.loadNpmTasks('grunt-sass');
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    sass: {
-      options: {
-        implementation: sass,
-        sourceMap: true,
-        importer: importOnce,
-      },
-
-      dist: {
-        files: {
-          'stylesheets/manifest.css': 'stylesheets/manifest.scss',
-        },
-      },
-    },
     exec: {
       transpile: {
         cmd: 'yarn transpile',
@@ -63,11 +45,5 @@ module.exports = grunt => {
   });
 
   grunt.registerTask('date', ['gitinfo']);
-  grunt.registerTask('default', [
-    'exec:build-protobuf',
-    'sass',
-    'exec:transpile',
-    'date',
-    'getCommitHash',
-  ]);
+  grunt.registerTask('default', ['exec:build-protobuf', 'exec:transpile', 'date', 'getCommitHash']);
 };

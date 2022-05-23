@@ -202,7 +202,7 @@
 
     textarea {
       font-family: $session-font-default;
-      min-height: $composition-container-height / 3;
+      min-height: calc($composition-container-height / 3);
       max-height: 3 * $composition-container-height;
       margin-right: $session-margin-md;
       color: var(--color-text);

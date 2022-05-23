@@ -11,7 +11,6 @@ test/ts/**/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
-stylesheets/manifest.css
 ts/util/lint/exceptions.json
 ts/test/automation/notes
 

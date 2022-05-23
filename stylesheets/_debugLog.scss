@@ -35,8 +35,9 @@
       max-width: $group-max-width;
     }
 
-    $open-pad-x: ($open-width - $button-height - 2) / 2;
-    $open-pad-y: ($open-height - $button-height - 2) / 2;
+    $open-pad-x: calc(($open-width - $button-height - 2px) / 2);
+    $open-pad-y: calc(($open-height - $button-height - 2px) / 2);
+
     .open {
       float: left;
       display: inline-block;
