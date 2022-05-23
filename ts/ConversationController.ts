@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, uniq, without } from 'lodash';
@@ -14,8 +14,8 @@ import type { ConversationModel } from './models/conversations';
 import { getContactId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
-import { map, reduce } from './util/iterables';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
+import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
 import { UUID, isValidUuid } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
@@ -53,7 +53,10 @@ export function start(): void {
         1000
       );
 
-      this.on('add remove change:unreadCount', debouncedUpdateUnreadCount);
+      this.on(
+        'add remove change:unreadCount change:markedUnread change:isArchived change:muteExpiresAt',
+        debouncedUpdateUnreadCount
+      );
       window.Whisper.events.on('updateUnreadCount', debouncedUpdateUnreadCount);
       this.on('add', (model: ConversationModel): void => {
         // If the conversation is muted we set a timeout so when the mute expires
@@ -70,32 +73,16 @@ export function start(): void {
       }
     },
     updateUnreadCount() {
-      const canCountMutedConversations = window.storage.get(
-        'badge-count-muted-conversations'
-      );
+      const canCountMutedConversations =
+        window.storage.get('badge-count-muted-conversations') || false;
 
-      const canCount = (m: ConversationModel) =>
-        !m.isMuted() || canCountMutedConversations;
-
-      const getUnreadCount = (m: ConversationModel) => {
-        const unreadCount = m.get('unreadCount');
-
-        if (unreadCount) {
-          return unreadCount;
-        }
-
-        if (m.get('markedUnread')) {
-          return 1;
-        }
-
-        return 0;
-      };
-
-      const newUnreadCount = reduce(
-        map(this, (m: ConversationModel) =>
-          canCount(m) ? getUnreadCount(m) : 0
-        ),
-        (item: number, memo: number) => (item || 0) + memo,
+      const newUnreadCount = this.reduce(
+        (result: number, conversation: ConversationModel) =>
+          result +
+          getConversationUnreadCountForAppBadge(
+            conversation.attributes,
+            canCountMutedConversations
+          ),
         0
       );
       window.storage.put('unreadCount', newUnreadCount);

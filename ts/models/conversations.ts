@@ -4278,8 +4278,6 @@ export class ConversationModel extends window.Backbone
     if (Boolean(previousMarkedUnread) !== Boolean(markedUnread)) {
       this.captureChange('markedUnread');
     }
-
-    window.Whisper.events.trigger('updateUnreadCount');
   }
 
   async refreshGroupLink(): Promise<void> {
