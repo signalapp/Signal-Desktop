@@ -3440,13 +3440,19 @@ export class ConversationModel extends window.Backbone
     return null;
   }
 
-  queueJob<T>(name: string, callback: () => Promise<T>): Promise<T> {
+  queueJob<T>(
+    name: string,
+    callback: (abortSignal: AbortSignal) => Promise<T>
+  ): Promise<T> {
     this.jobQueue = this.jobQueue || new window.PQueue({ concurrency: 1 });
 
     const taskWithTimeout = createTaskWithTimeout(
       callback,
       `conversation ${this.idForLogging()}`
     );
+
+    const abortController = new AbortController();
+    const { signal: abortSignal } = abortController;
 
     const queuedAt = Date.now();
     return this.jobQueue.add(async () => {
@@ -3458,7 +3464,10 @@ export class ConversationModel extends window.Backbone
       }
 
       try {
-        return await taskWithTimeout();
+        return await taskWithTimeout(abortSignal);
+      } catch (error) {
+        abortController.abort();
+        throw error;
       } finally {
         const duration = Date.now() - startedAt;
 

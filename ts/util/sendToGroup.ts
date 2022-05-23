@@ -89,6 +89,7 @@ export type SenderKeyTargetType = {
 };
 
 export async function sendToGroup({
+  abortSignal,
   contentHint,
   groupSendOptions,
   isPartialSend,
@@ -97,6 +98,7 @@ export async function sendToGroup({
   sendTarget,
   sendType,
 }: {
+  abortSignal?: AbortSignal;
   contentHint: number;
   groupSendOptions: GroupSendOptionsType;
   isPartialSend?: boolean;
@@ -119,6 +121,12 @@ export async function sendToGroup({
   const contentMessage = await window.textsecure.messaging.getContentMessage(
     protoAttributes
   );
+
+  // Attachment upload might take too long to succeed - we don't want to proceed
+  // with the send if the caller aborted this call.
+  if (abortSignal?.aborted) {
+    throw new Error('sendToGroup was aborted');
+  }
 
   return sendContentMessageToGroup({
     contentHint,

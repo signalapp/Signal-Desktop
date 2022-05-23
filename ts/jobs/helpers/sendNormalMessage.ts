@@ -199,8 +199,9 @@ export async function sendNormalMessage(
         log.info('sending group message');
         innerPromise = conversation.queueJob(
           'conversationQueue/sendNormalMessage',
-          () =>
+          abortSignal =>
             window.Signal.Util.sendToGroup({
+              abortSignal,
               contentHint: ContentHint.RESENDABLE,
               groupSendOptions: {
                 attachments,

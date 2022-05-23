@@ -92,7 +92,7 @@ export async function sendDeleteForEveryone(
 
   await conversation.queueJob(
     'conversationQueue/sendDeleteForEveryone',
-    async () => {
+    async abortSignal => {
       log.info(
         `Sending deleteForEveryone to conversation ${logId}`,
         `with timestamp ${timestamp}`,
@@ -209,6 +209,7 @@ export async function sendDeleteForEveryone(
             messageIds,
             send: async () =>
               window.Signal.Util.sendToGroup({
+                abortSignal,
                 contentHint,
                 groupSendOptions: {
                   groupV1: conversation.getGroupV1Info(recipients),

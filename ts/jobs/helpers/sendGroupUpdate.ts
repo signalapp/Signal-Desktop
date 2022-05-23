@@ -90,27 +90,30 @@ export async function sendGroupUpdate(
   };
 
   try {
-    await conversation.queueJob('conversationQueue/sendGroupUpdate', async () =>
-      wrapWithSyncMessageSend({
-        conversation,
-        logId,
-        messageIds: [],
-        send: async () =>
-          window.Signal.Util.sendToGroup({
-            groupSendOptions: {
-              groupV2,
-              timestamp,
-              profileKey,
-            },
-            contentHint,
-            messageId: undefined,
-            sendOptions,
-            sendTarget: conversation.toSenderKeyTarget(),
-            sendType,
-          }),
-        sendType,
-        timestamp,
-      })
+    await conversation.queueJob(
+      'conversationQueue/sendGroupUpdate',
+      async abortSignal =>
+        wrapWithSyncMessageSend({
+          conversation,
+          logId,
+          messageIds: [],
+          send: async () =>
+            window.Signal.Util.sendToGroup({
+              abortSignal,
+              groupSendOptions: {
+                groupV2,
+                timestamp,
+                profileKey,
+              },
+              contentHint,
+              messageId: undefined,
+              sendOptions,
+              sendTarget: conversation.toSenderKeyTarget(),
+              sendType,
+            }),
+          sendType,
+          timestamp,
+        })
     );
   } catch (error: unknown) {
     await handleMultipleSendErrors({

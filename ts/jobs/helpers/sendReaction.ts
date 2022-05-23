@@ -242,7 +242,7 @@ export async function sendReaction(
         log.info('sending group reaction message');
         promise = conversation.queueJob(
           'conversationQueue/sendReaction',
-          () => {
+          abortSignal => {
             // Note: this will happen for all old jobs queued before 5.32.x
             if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
               log.error('No revision provided, but conversation is GroupV2');
@@ -256,6 +256,7 @@ export async function sendReaction(
             }
 
             return window.Signal.Util.sendToGroup({
+              abortSignal,
               contentHint: ContentHint.RESENDABLE,
               groupSendOptions: {
                 groupV1: conversation.getGroupV1Info(
