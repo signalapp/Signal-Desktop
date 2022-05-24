@@ -1,12 +1,12 @@
 // Modules
-@import 'node_modules/emoji-mart/css/emoji-mart.css';
-@import 'node_modules/react-h5-audio-player/lib/styles.css';
-@import 'node_modules/react-contexify/dist/ReactContexify.min.css';
-@import 'node_modules/react-toastify/dist/ReactToastify.css';
+@import '../node_modules/emoji-mart/css/emoji-mart.css';
+@import '../node_modules/react-h5-audio-player/lib/styles.css';
+@import '../node_modules/react-contexify/dist/ReactContexify.min.css';
+@import '../node_modules/react-toastify/dist/ReactToastify.css';
 
-@import 'node_modules/sanitize.css/sanitize.css';
-@import 'node_modules/sanitize.css/forms.css';
-@import 'node_modules/sanitize.css/typography.css';
+@import '../node_modules/sanitize.css/sanitize.css';
+@import '../node_modules/sanitize.css/forms.css';
+@import '../node_modules/sanitize.css/typography.css';
 
 // Global Settings, Variables, and Mixins
 @import 'session_constants';

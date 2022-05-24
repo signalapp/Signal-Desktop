@@ -2,7 +2,6 @@ node_modules
 .parcel-cache
 .sass-cache
 .eslintcache
-stylesheets/*.css.map
 /dist
 .DS_Store
 config/local.json
@@ -12,9 +11,6 @@ release/
 /dev-app-update.yml
 *.sublime*
 sql/
-
-# generated files
-stylesheets/*.css
 
 # React / TypeScript
 ts/**/*.js
