@@ -6220,10 +6220,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@18.2.4:
-  version "18.2.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-18.2.4.tgz#3ea3392f008ea4bdf66b0e3b2e1769e04370323c"
-  integrity sha512-wSjU2N6kBGyGKb2GgBhujpfKtnmNr+gDaZZ6fMmlVMoPJ+GvuW0Zr1ImKPdb5zPXopPYmaURDSvHuAfSd4oHFA==
+electron@18.3.0:
+  version "18.3.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-18.3.0.tgz#43de95979341e63f1b209c569a0ad148d98ae5b7"
+  integrity sha512-2+pAUIViVvFOGE5mJKKi8F6ruyvQrcqdfsm/AUfz+6P05vbvR5ZsR6WBkr90mlyojHW5w/nAVX9ZSOtz3aHs4A==
   dependencies:
     "@electron/get" "^1.13.0"
     "@types/node" "^16.11.26"
