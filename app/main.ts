@@ -253,8 +253,12 @@ async function getThemeSetting({
 
   const json = await sql.sqlCall('getItemById', ['theme-setting']);
 
-  // Default to `system` if setting doesn't exist yet
-  const slowValue = json ? json.value : 'system';
+  // Default to `system` if setting doesn't exist or is invalid
+  const setting: unknown = json?.value;
+  const slowValue =
+    setting === 'light' || setting === 'dark' || setting === 'system'
+      ? setting
+      : 'system';
 
   ephemeralConfig.set('theme-setting', slowValue);
 
