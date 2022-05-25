@@ -1891,6 +1891,10 @@ export async function startApp(): Promise<void> {
     }
   }
 
+  // When true - we are running the very first storage and contact sync after
+  // linking.
+  let isInitialSync = false;
+
   let connectCount = 0;
   let connecting = false;
   async function connect(firstRun?: boolean) {
@@ -1903,6 +1907,9 @@ export async function startApp(): Promise<void> {
 
     try {
       connecting = true;
+
+      // Reset the flag and update it below if needed
+      isInitialSync = false;
 
       log.info('connect', { firstRun, connectCount });
 
@@ -2145,6 +2152,7 @@ export async function startApp(): Promise<void> {
         const contactSyncComplete = waitForEvent('contactSync:complete');
 
         log.info('firstRun: requesting initial sync');
+        isInitialSync = true;
 
         // Request configuration, block, GV1 sync messages, contacts
         // (only avatars and inboxPosition),and Storage Service sync.
@@ -2175,6 +2183,9 @@ export async function startApp(): Promise<void> {
             Errors.toLogFormat(error)
           );
         }
+
+        log.info('firstRun: initial sync complete');
+        isInitialSync = false;
 
         // Switch to inbox view even if contact sync is still running
         if (
@@ -2641,6 +2652,7 @@ export async function startApp(): Promise<void> {
           undefined,
           {
             fromSync: true,
+            isInitialSync,
           }
         );
       }

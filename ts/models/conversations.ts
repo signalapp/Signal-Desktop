@@ -4460,7 +4460,15 @@ export class ConversationModel extends window.Backbone
     providedExpireTimer: number | undefined,
     providedSource?: unknown,
     initiatingMessage?: MessageModel,
-    options: { fromSync?: unknown; fromGroupUpdate?: unknown } = {}
+    {
+      fromSync = false,
+      isInitialSync = false,
+      fromGroupUpdate = false,
+    }: {
+      fromSync?: boolean;
+      isInitialSync?: boolean;
+      fromGroupUpdate?: boolean;
+    } = {}
   ): Promise<boolean | null | MessageModel | void> {
     const isSetByOther = providedSource || initiatingMessage;
 
@@ -4489,8 +4497,6 @@ export class ConversationModel extends window.Backbone
     if (this.get('left')) {
       return false;
     }
-
-    window._.defaults(options, { fromSync: false, fromGroupUpdate: false });
 
     if (!expireTimer) {
       expireTimer = undefined;
@@ -4548,14 +4554,14 @@ export class ConversationModel extends window.Backbone
       expirationTimerUpdate: {
         expireTimer,
         source,
-        fromSync: options.fromSync,
-        fromGroupUpdate: options.fromGroupUpdate,
+        fromSync,
+        fromGroupUpdate,
       },
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      readStatus: ReadStatus.Unread,
+      readStatus: isInitialSync ? ReadStatus.Read : ReadStatus.Unread,
       received_at_ms: receivedAtMS,
       received_at: receivedAt,
-      seenStatus: SeenStatus.Unseen,
+      seenStatus: isInitialSync ? SeenStatus.Seen : SeenStatus.Unseen,
       sent_at: sentAt,
       type: 'timer-notification',
       // TODO: DESKTOP-722
