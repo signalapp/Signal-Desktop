@@ -298,7 +298,7 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Enlaza este dispositivo con tu teléfono",
+        "message": "Enlaza este dispositivo con tu celular/móvil",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -1372,11 +1372,11 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Escanea este código desde Signal en tu teléfono",
+        "message": "Escanea este código desde Signal en tu celular/móvil",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Abre Signal en tu teléfono.",
+        "message": "Abre Signal en tu celular/móvil",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
@@ -1430,7 +1430,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "Este nombre aparecerá bajo «Dispositivos enlazados» en tu teléfono",
+        "message": "Este nombre aparecerá bajo «Dispositivos enlazados» en tu celular/móvil",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1466,7 +1466,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Actualiza Signal en este dispositivo para enlazar con tu teléfono.",
+        "message": "Actualiza Signal en este dispositivo para enlazar con tu celular/móvil.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1510,7 +1510,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Micrófono silenciado debido a llamada de grupo",
+        "message": "Micrófono silenciado en llamada de grupo numerosa",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -2114,7 +2114,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Fallo al importar. Asegúrate de que tu ordenador/computadora y teléfono/celular están conectados a internet.",
+        "message": "Fallo al importar. Asegúrate que tu ordenador/computadora y celular/móvil están conectados a internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -2198,7 +2198,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Un@ participante ha fijado la desaparición de mensajes en $time$.",
+        "message": "Alguien ha fijado la desaparición de mensajes en $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2234,7 +2234,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Un@ participante ha desactivado la desaparición de mensajes.",
+        "message": "Alguien ha desactivado la desaparición de mensajes.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -2757,6 +2757,102 @@
         "message": "Mensaje eliminado.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
+    "message--giftBadge--unopened": {
+        "message": "Abre este mensaje en tu celular/móvil para verlo",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "Regalo",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "Comprueba tu celular/móvil para abrir el regalo",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "Comprueba tu celular/móvil para ver tu regalo",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "Has recibido un regalo",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "Has canjeado un distintivo de regalo",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "Has enviado un distintivo como regalo",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "Distintivo de regalo",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "Regalo",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "$days$ días restantes",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "$hours$ horas restantes",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "$minutes$ minutos restantes",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "1 minuto restante",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "Caducado",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "Ver",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "Canjeado",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "¡Gracias por tu apoyo!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "Has regalado un distintivo a $name$. Cuando lo acepte, podrá seleccionar la opción de mostrarlo o no en su perfil.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
+    },
     "stickers--toast--InstallFailed": {
         "message": "Fallo al instalar el paquete de stickers",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -3179,6 +3275,30 @@
         "message": "Activar o desactivar vídeo",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--accept-video-call": {
+        "message": "Aceptar llamada con vídeo",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "Aceptar llamada de audio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "Iniciar llamada",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "Iniciar videollamada",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "Rechazar llamada",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "Finalizar llamada",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
     "close-popup": {
         "message": "Cerrar ventana emergente",
         "description": "Used as alt text for any button closing a popup"
@@ -3442,7 +3562,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Por favor, configura Signal en tu teléfono y enlázalo con Signal Desktop para usar el Creador de Paquetes de Stickers",
+        "message": "Por favor, configura Signal en tu celular/móvil y enlázalo con Signal Desktop para usar el Creador de Paquetes de Stickers",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -4109,10 +4229,6 @@
         "message": "No puedes enviar mensajes en el grupo.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
-    "GroupV2--add--missing-capability": {
-        "message": "Estas personas deben actualizar Signal para participar en el grupo. ",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
-    },
     "GroupV2--cannot-start-group-call": {
         "message": "Solo admins del grupo pueden iniciar una llamada.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
@@ -4284,7 +4400,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "Un@ participante ha modificado el nombre del grupo a «$newTitle$».",
+        "message": "Alguien ha modificado el nombre del grupo a «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4308,7 +4424,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "Un@ participante ha eliminado el nombre del grupo.",
+        "message": "Alguien ha eliminado el nombre del grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
@@ -4326,7 +4442,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "Un@ participante ha modificado la imagen del grupo.",
+        "message": "Alguien ha modificado la imagen del grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
@@ -4344,7 +4460,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "Un@ participante ha eliminado la imagen del grupo.",
+        "message": "Alguien ha eliminado la imagen del grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
@@ -4480,7 +4596,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "Un@ participante ha añadido a $inviteeName$ como invitad@.",
+        "message": "Alguien ha añadido a $inviteeName$ como invitad@.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4562,7 +4678,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "Un@ participante ha añadido a $memberName$.",
+        "message": "Alguien ha añadido a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4686,7 +4802,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "Un@ participante ha expulsado a $memberName$.",
+        "message": "Alguien ha expulsado a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5502,7 +5618,7 @@
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Abre Signal en tu teléfono.",
+        "message": "Abre Signal en tu celular/móvil",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -7039,13 +7155,29 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "Pausa",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "Reproducir",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "Responder",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "Escribe una respuesta …",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "Responder en el grupo",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "Silenciar",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "No silenciar",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Sin respuestas por ahora",
@@ -7098,6 +7230,32 @@
     "TextAttachment__preview__link": {
         "message": "Visitar enlace",
         "description": "Title for the link preview tooltip"
+    },
+    "Quote__story": {
+        "message": "Historia",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "Reaccionó a la historia de $name$",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "Reaccionó a tu historia",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "Reaccionó a una historia",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "Historia caducada",
+        "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {
         "message": "Novedades",
