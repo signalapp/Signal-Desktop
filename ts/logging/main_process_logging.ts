@@ -111,6 +111,7 @@ export async function initialize(
     timestamp: pino.stdTimeFunctions.isoTime,
   });
 
+  ipc.removeHandler('fetch-log');
   ipc.handle('fetch-log', async () => {
     const mainWindow = getMainWindow();
     if (!mainWindow) {
@@ -137,6 +138,7 @@ export async function initialize(
     return data;
   });
 
+  ipc.removeHandler('delete-all-logs');
   ipc.handle('delete-all-logs', async () => {
     // Restart logging when the streams will close
     shouldRestart = true;
