@@ -498,6 +498,7 @@ async function generateManifest(
 
   const manifestRecord = new Proto.ManifestRecord();
   manifestRecord.version = Long.fromNumber(version);
+  manifestRecord.sourceDevice = window.storage.user.getDeviceId() ?? 0;
   manifestRecord.keys = Array.from(manifestRecordKeys);
 
   const storageKeyBase64 = window.storage.get('storageKey');
@@ -1335,7 +1336,8 @@ async function sync(
     const version = manifest.version?.toNumber() ?? 0;
 
     log.info(
-      `storageService.sync: updating to remoteVersion=${version} from ` +
+      `storageService.sync: updating to remoteVersion=${version} ` +
+        `sourceDevice=${manifest.sourceDevice ?? '?'} from ` +
         `version=${localManifestVersion}`
     );
 
