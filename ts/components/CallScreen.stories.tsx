@@ -10,6 +10,7 @@ import { action } from '@storybook/addon-actions';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import {
   CallMode,
+  CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
@@ -45,7 +46,7 @@ type OverridePropsBase = {
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
   localAudioLevel?: number;
-  isInSpeakerView?: boolean;
+  viewMode?: CallViewMode;
 };
 
 type DirectCallOverrideProps = OverridePropsBase & {
@@ -126,9 +127,10 @@ const createActiveCallProp = (
       [0, 0.5, 1],
       overrideProps.localAudioLevel || 0
     ),
-    isInSpeakerView: boolean(
-      'isInSpeakerView',
-      overrideProps.isInSpeakerView || false
+    viewMode: select(
+      'viewMode',
+      [CallViewMode.Grid, CallViewMode.Speaker, CallViewMode.Presentation],
+      overrideProps.viewMode || CallViewMode.Grid
     ),
     outgoingRing: true,
     pip: false,
@@ -172,6 +174,8 @@ const createProps = (
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   stickyControls: boolean('stickyControls', false),
+  switchToPresentationView: action('switch-to-presentation-view'),
+  switchFromPresentationView: action('switch-from-presentation-view'),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleScreenRecordingPermissionsDialog: action(

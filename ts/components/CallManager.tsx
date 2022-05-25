@@ -91,6 +91,8 @@ export type PropsType = {
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stopRingtone: () => unknown;
+  switchToPresentationView: () => void;
+  switchFromPresentationView: () => void;
   hangUpActiveCall: () => void;
   theme: ThemeType;
   togglePip: () => void;
@@ -127,6 +129,8 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   setRendererCanvas,
   setOutgoingRing,
   startCall,
+  switchToPresentationView,
+  switchFromPresentationView,
   theme,
   toggleParticipants,
   togglePip,
@@ -270,8 +274,9 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
+        switchToPresentationView={switchToPresentationView}
+        switchFromPresentationView={switchFromPresentationView}
         togglePip={togglePip}
-        toggleSpeakerView={toggleSpeakerView}
       />
     );
   }
@@ -313,6 +318,8 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         setLocalVideo={setLocalVideo}
         setPresenting={setPresenting}
         stickyControls={showParticipantsList}
+        switchToPresentationView={switchToPresentationView}
+        switchFromPresentationView={switchFromPresentationView}
         toggleScreenRecordingPermissionsDialog={
           toggleScreenRecordingPermissionsDialog
         }

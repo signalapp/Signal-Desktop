@@ -14,6 +14,7 @@ import { CallingPip } from './CallingPip';
 import type { ActiveCallType } from '../types/Calling';
 import {
   CallMode,
+  CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
@@ -40,7 +41,11 @@ const getCommonActiveCallData = () => ({
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
   localAudioLevel: select('localAudioLevel', [0, 0.5, 1], 0),
-  isInSpeakerView: boolean('isInSpeakerView', false),
+  viewMode: select(
+    'viewMode',
+    [CallViewMode.Grid, CallViewMode.Speaker, CallViewMode.Presentation],
+    CallViewMode.Grid
+  ),
   joinedAt: Date.now(),
   outgoingRing: true,
   pip: true,
@@ -67,8 +72,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalPreview: action('set-local-preview'),
   setRendererCanvas: action('set-renderer-canvas'),
+  switchFromPresentationView: action('switch-to-presentation-view'),
+  switchToPresentationView: action('switch-to-presentation-view'),
   togglePip: action('toggle-pip'),
-  toggleSpeakerView: action('toggleSpeakerView'),
 });
 
 const story = storiesOf('Components/CallingPip', module);

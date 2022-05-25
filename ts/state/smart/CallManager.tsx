@@ -131,7 +131,7 @@ const mapStateToActiveCallProp = (
     hasLocalAudio: activeCallState.hasLocalAudio,
     hasLocalVideo: activeCallState.hasLocalVideo,
     localAudioLevel: activeCallState.localAudioLevel,
-    isInSpeakerView: activeCallState.isInSpeakerView,
+    viewMode: activeCallState.viewMode,
     joinedAt: activeCallState.joinedAt,
     outgoingRing: activeCallState.outgoingRing,
     pip: activeCallState.pip,

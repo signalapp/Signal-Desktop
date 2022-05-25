@@ -27,6 +27,7 @@ import type {
 import {
   CallingDeviceType,
   CallMode,
+  CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
@@ -104,7 +105,7 @@ export type ActiveCallStateType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   localAudioLevel: number;
-  isInSpeakerView: boolean;
+  viewMode: CallViewMode;
   joinedAt?: number;
   outgoingRing: boolean;
   pip: boolean;
@@ -427,6 +428,8 @@ const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 const TOGGLE_SPEAKER_VIEW = 'calling/TOGGLE_SPEAKER_VIEW';
+const SWITCH_TO_PRESENTATION_VIEW = 'calling/SWITCH_TO_PRESENTATION_VIEW';
+const SWITCH_FROM_PRESENTATION_VIEW = 'calling/SWITCH_FROM_PRESENTATION_VIEW';
 
 type AcceptCallPendingActionType = {
   type: 'calling/ACCEPT_CALL_PENDING';
@@ -597,6 +600,14 @@ type ToggleSpeakerViewActionType = {
   type: 'calling/TOGGLE_SPEAKER_VIEW';
 };
 
+type SwitchToPresentationViewActionType = {
+  type: 'calling/SWITCH_TO_PRESENTATION_VIEW';
+};
+
+type SwitchFromPresentationViewActionType = {
+  type: 'calling/SWITCH_FROM_PRESENTATION_VIEW';
+};
+
 export type CallingActionType =
   | AcceptCallPendingActionType
   | CancelCallActionType
@@ -632,7 +643,9 @@ export type CallingActionType =
   | TogglePipActionType
   | SetPresentingFulfilledActionType
   | ToggleSettingsActionType
-  | ToggleSpeakerViewActionType;
+  | ToggleSpeakerViewActionType
+  | SwitchToPresentationViewActionType
+  | SwitchFromPresentationViewActionType;
 
 // Action Creators
 
@@ -1314,6 +1327,18 @@ function toggleSpeakerView(): ToggleSpeakerViewActionType {
   };
 }
 
+function switchToPresentationView(): SwitchToPresentationViewActionType {
+  return {
+    type: SWITCH_TO_PRESENTATION_VIEW,
+  };
+}
+
+function switchFromPresentationView(): SwitchFromPresentationViewActionType {
+  return {
+    type: SWITCH_FROM_PRESENTATION_VIEW,
+  };
+}
+
 export const actions = {
   acceptCall,
   callStateChange,
@@ -1349,6 +1374,8 @@ export const actions = {
   setOutgoingRing,
   startCall,
   startCallingLobby,
+  switchToPresentationView,
+  switchFromPresentationView,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -1457,7 +1484,7 @@ export function reducer(
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
-        isInSpeakerView: false,
+        viewMode: CallViewMode.Grid,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -1485,7 +1512,7 @@ export function reducer(
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
-        isInSpeakerView: false,
+        viewMode: CallViewMode.Grid,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -1508,7 +1535,7 @@ export function reducer(
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
         localAudioLevel: 0,
-        isInSpeakerView: false,
+        viewMode: CallViewMode.Grid,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -1662,7 +1689,7 @@ export function reducer(
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
-        isInSpeakerView: false,
+        viewMode: CallViewMode.Grid,
         pip: false,
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
@@ -2129,11 +2156,61 @@ export function reducer(
       return state;
     }
 
+    let newViewMode: CallViewMode;
+    if (activeCallState.viewMode === CallViewMode.Grid) {
+      newViewMode = CallViewMode.Speaker;
+    } else {
+      // This will switch presentation/speaker to grid
+      newViewMode = CallViewMode.Grid;
+    }
+
     return {
       ...state,
       activeCallState: {
         ...activeCallState,
-        isInSpeakerView: !activeCallState.isInSpeakerView,
+        viewMode: newViewMode,
+      },
+    };
+  }
+
+  if (action.type === SWITCH_TO_PRESENTATION_VIEW) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      log.warn('Cannot switch to speaker view when there is no active call');
+      return state;
+    }
+
+    // "Presentation" mode reverts to "Grid" when the call is over so don't
+    // switch it if it is in "Speaker" mode.
+    if (activeCallState.viewMode === CallViewMode.Speaker) {
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        viewMode: CallViewMode.Presentation,
+      },
+    };
+  }
+
+  if (action.type === SWITCH_FROM_PRESENTATION_VIEW) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      log.warn('Cannot switch to speaker view when there is no active call');
+      return state;
+    }
+
+    if (activeCallState.viewMode !== CallViewMode.Presentation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        viewMode: CallViewMode.Grid,
       },
     };
   }

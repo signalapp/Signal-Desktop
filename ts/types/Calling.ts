@@ -11,6 +11,14 @@ export enum CallMode {
   Group = 'Group',
 }
 
+// Speaker and Presentation has the same UI, but Presentation mode will switch
+// to Grid mode when the presentation is over.
+export enum CallViewMode {
+  Grid = 'Grid',
+  Speaker = 'Speaker',
+  Presentation = 'Presentation',
+}
+
 export type PresentableSource = {
   appIcon?: string;
   id: string;
@@ -29,7 +37,7 @@ type ActiveCallBaseType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   localAudioLevel: number;
-  isInSpeakerView: boolean;
+  viewMode: CallViewMode;
   isSharingScreen?: boolean;
   joinedAt?: number;
   outgoingRing: boolean;

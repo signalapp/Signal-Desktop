@@ -11,19 +11,30 @@ type RemoteParticipant = {
   uuid?: string;
 };
 
-export function useActivateSpeakerViewOnPresenting(
-  remoteParticipants: ReadonlyArray<RemoteParticipant>,
-  isInSpeakerView: boolean,
-  toggleSpeakerView: () => void
-): void {
+export function useActivateSpeakerViewOnPresenting({
+  remoteParticipants,
+  switchToPresentationView,
+  switchFromPresentationView,
+}: {
+  remoteParticipants: ReadonlyArray<RemoteParticipant>;
+  switchToPresentationView: () => void;
+  switchFromPresentationView: () => void;
+}): void {
   const presenterUuid = remoteParticipants.find(
     participant => participant.presenting
   )?.uuid;
   const prevPresenterUuid = usePrevious(presenterUuid, presenterUuid);
 
   useEffect(() => {
-    if (prevPresenterUuid !== presenterUuid && !isInSpeakerView) {
-      toggleSpeakerView();
+    if (prevPresenterUuid !== presenterUuid && presenterUuid) {
+      switchToPresentationView();
+    } else if (prevPresenterUuid && !presenterUuid) {
+      switchFromPresentationView();
     }
-  }, [isInSpeakerView, presenterUuid, prevPresenterUuid, toggleSpeakerView]);
+  }, [
+    presenterUuid,
+    prevPresenterUuid,
+    switchToPresentationView,
+    switchFromPresentationView,
+  ]);
 }

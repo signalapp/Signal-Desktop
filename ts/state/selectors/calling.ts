@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
 import type {
+  ActiveCallStateType,
   CallingStateType,
   CallsByConversationType,
   DirectCallStateType,
@@ -13,6 +14,7 @@ import type {
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/calling';
 import { getUserUuid } from './user';
 import { getOwn } from '../../util/getOwn';
+import { CallViewMode } from '../../types/Calling';
 import type { UUIDStringType } from '../../types/UUID';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
@@ -71,3 +73,12 @@ export const getIncomingCall = createSelector(
     return getIncomingCallHelper(callsByConversation, ourUuid);
   }
 );
+
+export const isInSpeakerView = (
+  call: Pick<ActiveCallStateType, 'viewMode'> | undefined
+): boolean => {
+  return Boolean(
+    call?.viewMode === CallViewMode.Presentation ||
+      call?.viewMode === CallViewMode.Speaker
+  );
+};

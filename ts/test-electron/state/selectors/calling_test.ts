@@ -7,6 +7,7 @@ import { noopAction } from '../../../state/ducks/noop';
 import {
   CallMode,
   CallState,
+  CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../../../types/Calling';
@@ -52,7 +53,7 @@ describe('state/selectors/calling', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       localAudioLevel: 0,
-      isInSpeakerView: false,
+      viewMode: CallViewMode.Grid,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
       outgoingRing: true,

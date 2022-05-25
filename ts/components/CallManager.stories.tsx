@@ -12,6 +12,7 @@ import {
   CallEndedReason,
   CallMode,
   CallState,
+  CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
@@ -51,7 +52,11 @@ const getCommonActiveCallData = () => ({
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
   localAudioLevel: select('localAudioLevel', [0, 0.5, 1], 0),
-  isInSpeakerView: boolean('isInSpeakerView', false),
+  viewMode: select(
+    'viewMode',
+    [CallViewMode.Grid, CallViewMode.Presentation, CallViewMode.Speaker],
+    CallViewMode.Grid
+  ),
   outgoingRing: boolean('outgoingRing', true),
   pip: boolean('pip', false),
   settingsDialogOpen: boolean('settingsDialogOpen', false),
@@ -101,6 +106,8 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   setOutgoingRing: action('set-outgoing-ring'),
   startCall: action('start-call'),
   stopRingtone: action('stop-ringtone'),
+  switchToPresentationView: action('switch-to-presentation-view'),
+  switchFromPresentationView: action('switch-from-presentation-view'),
   theme: ThemeType.light,
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),

@@ -57,8 +57,9 @@ export type PropsType = {
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  switchToPresentationView: () => void;
+  switchFromPresentationView: () => void;
   togglePip: () => void;
-  toggleSpeakerView: () => void;
 };
 
 const PIP_HEIGHT = 156;
@@ -75,8 +76,9 @@ export const CallingPip = ({
   setGroupCallVideoRequest,
   setLocalPreview,
   setRendererCanvas,
+  switchToPresentationView,
+  switchFromPresentationView,
   togglePip,
-  toggleSpeakerView,
 }: PropsType): JSX.Element | null => {
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
@@ -88,11 +90,11 @@ export const CallingPip = ({
     offsetY: PIP_TOP_MARGIN,
   });
 
-  useActivateSpeakerViewOnPresenting(
-    activeCall.remoteParticipants,
-    activeCall.isInSpeakerView,
-    toggleSpeakerView
-  );
+  useActivateSpeakerViewOnPresenting({
+    remoteParticipants: activeCall.remoteParticipants,
+    switchToPresentationView,
+    switchFromPresentationView,
+  });
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
