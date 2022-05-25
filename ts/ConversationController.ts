@@ -44,13 +44,16 @@ export function start(): void {
   // This class is entirely designed to keep the app title, badge and tray icon updated.
   //   In the future it could listen to redux changes and do its updates there.
   const inboxCollection = new (window.Backbone.Collection.extend({
+    hasQueueEmptied: false,
+
     initialize() {
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
 
       const debouncedUpdateUnreadCount = debounce(
         this.updateUnreadCount.bind(this),
-        1000
+        1000,
+        { leading: true, maxWait: 1000, trailing: true }
       );
 
       this.on(
@@ -65,6 +68,10 @@ export function start(): void {
         model.startMuteTimer();
       });
     },
+    onEmpty() {
+      this.hasQueueEmptied = true;
+      this.updateUnreadCount();
+    },
     addActive(model: ConversationModel) {
       if (model.get('active_at')) {
         this.add(model);
@@ -73,6 +80,10 @@ export function start(): void {
       }
     },
     updateUnreadCount() {
+      if (!this.hasQueueEmptied) {
+        return;
+      }
+
       const canCountMutedConversations =
         window.storage.get('badge-count-muted-conversations') || false;
 

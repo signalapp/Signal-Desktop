@@ -486,10 +486,10 @@ type BoundsType = {
 };
 
 function isVisible(window: BoundsType, bounds: BoundsType) {
-  const boundsX = get(bounds, 'x') || 0;
-  const boundsY = get(bounds, 'y') || 0;
-  const boundsWidth = get(bounds, 'width') || DEFAULT_WIDTH;
-  const boundsHeight = get(bounds, 'height') || DEFAULT_HEIGHT;
+  const boundsX = bounds?.x || 0;
+  const boundsY = bounds?.y || 0;
+  const boundsWidth = bounds?.width || DEFAULT_WIDTH;
+  const boundsHeight = bounds?.height || DEFAULT_HEIGHT;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
   const rightSideClearOfLeftBound =

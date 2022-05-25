@@ -2287,6 +2287,7 @@ export async function startApp(): Promise<void> {
     ]);
     log.info('onEmpty: All outstanding database requests complete');
     window.readyForUpdates();
+    window.getInboxCollection().onEmpty();
 
     // Start listeners here, after we get through our queue.
     RotateSignedPreKeyListener.init(window.Whisper.events, newVersion);
@@ -2305,11 +2306,12 @@ export async function startApp(): Promise<void> {
 
     window.reduxActions.app.initialLoadComplete();
 
+    const processedCount = messageReceiver?.getAndResetProcessedCount() || 0;
     window.logAppLoadedEvent?.({
-      processedCount: messageReceiver && messageReceiver.getProcessedCount(),
+      processedCount,
     });
     if (messageReceiver) {
-      log.info('App loaded - messages:', messageReceiver.getProcessedCount());
+      log.info('App loaded - messages:', processedCount);
     }
 
     window.Signal.Util.setBatchingStrategy(false);

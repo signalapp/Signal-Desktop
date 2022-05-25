@@ -251,8 +251,10 @@ export default class MessageReceiver
     });
   }
 
-  public getProcessedCount(): number {
-    return this.processedCount;
+  public getAndResetProcessedCount(): number {
+    const count = this.processedCount;
+    this.processedCount = 0;
+    return count;
   }
 
   public handleRequest(request: IncomingWebSocketRequest): void {
