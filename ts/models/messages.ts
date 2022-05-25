@@ -2883,6 +2883,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isGroupStoryReply =
         isGroup(conversation.attributes) && message.get('storyId');
 
+      const keepMutedChatsArchived =
+        window.storage.get('keepMutedChatsArchived') ?? false;
+      const keepThisConversationArchived =
+        keepMutedChatsArchived && conversation.isMuted();
+
       if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
         const markReadAt = Math.min(
           Date.now(),
@@ -2922,7 +2927,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.pendingMarkRead ?? Date.now(),
           markReadAt
         );
-      } else if (isFirstRun && !isGroupStoryReply) {
+      } else if (
+        isFirstRun &&
+        !isGroupStoryReply &&
+        !keepThisConversationArchived
+      ) {
         conversation.set({
           isArchived: false,
         });

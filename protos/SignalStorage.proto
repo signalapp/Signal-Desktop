@@ -145,4 +145,5 @@ message AccountRecord {
   optional bytes                  subscriberId                 = 21;
   optional string                 subscriberCurrencyCode       = 22;
   optional bool                   displayBadgesOnProfile       = 23;
+  optional bool                   keepMutedChatsArchived       = 25;
 }

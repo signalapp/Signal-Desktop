@@ -315,9 +315,14 @@ export function toAccountRecord(
   if (typeof subscriberCurrencyCode === 'string') {
     accountRecord.subscriberCurrencyCode = subscriberCurrencyCode;
   }
-  accountRecord.displayBadgesOnProfile = Boolean(
-    window.storage.get('displayBadgesOnProfile')
-  );
+  const displayBadgesOnProfile = window.storage.get('displayBadgesOnProfile');
+  if (displayBadgesOnProfile !== undefined) {
+    accountRecord.displayBadgesOnProfile = displayBadgesOnProfile;
+  }
+  const keepMutedChatsArchived = window.storage.get('keepMutedChatsArchived');
+  if (keepMutedChatsArchived !== undefined) {
+    accountRecord.keepMutedChatsArchived = keepMutedChatsArchived;
+  }
 
   applyUnknownFields(accountRecord, conversation);
 
@@ -933,6 +938,7 @@ export async function mergeAccountRecord(
     subscriberId,
     subscriberCurrencyCode,
     displayBadgesOnProfile,
+    keepMutedChatsArchived,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1124,6 +1130,7 @@ export async function mergeAccountRecord(
     window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
   }
   window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
+  window.storage.put('keepMutedChatsArchived', Boolean(keepMutedChatsArchived));
 
   const ourID = window.ConversationController.getOurConversationId();
 

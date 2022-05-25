@@ -140,6 +140,7 @@ export type StorageAccessType = {
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
+  keepMutedChatsArchived: boolean;
   hasAllStoriesMuted: boolean;
 
   // Deprecated
