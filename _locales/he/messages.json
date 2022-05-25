@@ -2757,6 +2757,102 @@
         "message": "הודעה זו נמחקה.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
+    "message--giftBadge--unopened": {
+        "message": "הצג הודעה זו בנייד כדי לפתוח אותה",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "שי",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "בדוק את הטלפון שלך כדי לפתוח שי",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "בדוק את הטלפון שלך כדי להציג את השי שלך",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "קיבלת שי",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "מימשת תג שי",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "שלחת תג שי",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "תג שי",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "שי",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "$days$ ימים נותרו",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "$hours$ שעות נותרו",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "$minutes$ דקות נותרו",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "דקה 1 נותרה",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "פג",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "הצג",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "מומש",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "תודה על התמיכה שלך!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "נתת תג כשי אל $name$. כשהוא/היא יסכים/תסכים, תינתן לו/לה בחירה להראות או להסתיר את התג שלו/שלה.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
+    },
     "stickers--toast--InstallFailed": {
         "message": "חבילת מדבקות לא יכלה להיות מותקנת",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -3178,6 +3274,30 @@
     "Keyboard--toggle-video": {
         "message": "עורר וידאו מופעל וכבוי",
         "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--accept-video-call": {
+        "message": "קבל שיחה עם וידאו",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "קבל שיחה עם שמע",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "התחל שיחת שמע",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "התחל שיחת וידאו",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "דחה שיחה",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "סיים שיחה",
+        "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
         "message": "סגור חלון קופץ",
@@ -4108,10 +4228,6 @@
     "GroupV2--cannot-send": {
         "message": "אתה לא יכול לשלוח הודעות אל הקבוצה הזאת.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
-    },
-    "GroupV2--add--missing-capability": {
-        "message": "אנשים אלו אינם יכולים להתווסף אל הקבוצה עד שהם ישדרגו את Signal.",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
         "message": "רק מנהלנים של הקבוצה יכולים להתחיל שיחה.",
@@ -7039,13 +7155,29 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "השהה",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "נגן",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "השב",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "הקלד תשובה…",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "השב אל קבוצה",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "השתק",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "בטל השתקה",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "אין תשובות עדין",
@@ -7098,6 +7230,32 @@
     "TextAttachment__preview__link": {
         "message": "בקר בקישור",
         "description": "Title for the link preview tooltip"
+    },
+    "Quote__story": {
+        "message": "סיפור",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "הגיב/ה אל סיפור מאת $name$",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "הגיב/ה אל הסיפור שלך",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "הגיב/ה אל סיפור",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "לא זמין יותר",
+        "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {
         "message": "מה חדש",

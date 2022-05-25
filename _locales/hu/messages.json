@@ -480,7 +480,7 @@
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... a teljes naplóhoz kattints a Mentés gombra",
+        "message": "... a teljes napló megtekintéséhez kattints a Mentés gombra",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -836,11 +836,11 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Felhasználó keresése",
+        "message": "Keresés felhasználónév alapján",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
-        "message": "Telefonszám keresése",
+        "message": "Keresés telefonszám alapján",
         "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "A Signal Desktop frissítése nem sikerült. Telepítsd az új verziót manuálisan a $url$ weboldalról, majd lépj kapcsolatba velünk a tapasztalt problémával kapcsolatban: $support$.",
+        "message": "A Signal frissítése nem sikerült. Telepítsd az új verziót manuálisan a $url$ weboldalról, majd lépj kapcsolatba velünk, és oszd meg tapasztalataidat: $support$",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "Sikertelen: \"$phoneNumber$\" nem tartozik felhasználóhoz.",
+        "message": "Felhasználó nem található: \"$phoneNumber$\" nincs regisztrálva a Signalra.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "Sikertelen: \"$phoneNumber$\" szám található.",
+        "message": "Felhasználó nem található: \"$phoneNumber$\" nem egy érvényes szám.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2756,6 +2756,102 @@
     "message--deletedForEveryone": {
         "message": "Ez az üzenet ki lett törölve.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
+    "message--giftBadge--unopened": {
+        "message": "A megtekintéshez nyisd meg ezt az üzenetet mobilon",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "Ajándék",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "Használd telefonodat az ajándék megnyitásához",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "Használd telefonodat az ajándék megtekintéséhez",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "Ajándékot kaptál",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "Beváltottál egy ajándék kitűzőt",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "Elküldtél egy ajándék kitűzőt",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "Ajándék kitűző",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "Ajándék",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "$days$ nap van hátra",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "$hours$ óra van hátra",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "$minutes$ perc van hátra",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "1 perc van hátra",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "Lejárt",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "Megtekintés",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "Beváltva",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "Köszönjük a támogatásodat!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "Kitűzőt ajándékoztál $name$ részére. Amikor elfogadja, lehetősége lesz kitűzni vagy elrejteni azt.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
     },
     "stickers--toast--InstallFailed": {
         "message": "A matricacsomagot nem sikerült telepíteni",
@@ -3178,6 +3274,30 @@
     "Keyboard--toggle-video": {
         "message": "Videó ki- és bekapcsolása",
         "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--accept-video-call": {
+        "message": "Hívás elfogadása képpel",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "Hívás elfogadása hanggal",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "Hanghívás indítása",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "Videóhívás indítása",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "Hívás elutasítása",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "Hívás befejezése",
+        "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
         "message": "Felugró ablak bezárása",
@@ -4108,10 +4228,6 @@
     "GroupV2--cannot-send": {
         "message": "Nem küldhetsz üzenetet ebbe csoportba.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
-    },
-    "GroupV2--add--missing-capability": {
-        "message": "Ezek a személyek nem adhatóak a csoporthoz, amíg nem frissítik a Signalt.",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
         "message": "Csak adminok indíthatnak hívást a csoportban.",
@@ -6822,11 +6938,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Kicsomagolási hiba. Kérlek futtasd a telepítőt újra!",
+        "message": "Hiba történt a kitömörítés során. Kérlek futtasd a telepítőt újra!",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "A régi alkalmazás állományait nem sikerült törölni. Kérlek futtasd a telepítőt újra!",
+        "message": "Nem sikerült eltávolítani a régi alkalmazás állományait. Kérlek futtasd a telepítőt újra!",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7039,16 +7155,32 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "Szünet",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "Lejátszás",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "Válasz",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "Küldj egy választ...",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "Válasz a csoportnak",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "Némítás",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "Némítás feloldása",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "Még nem érkeztek reakciók",
+        "message": "Még nem érkeztek válaszok",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
@@ -7099,6 +7231,32 @@
         "message": "Hivatkozás megnyitása",
         "description": "Title for the link preview tooltip"
     },
+    "Quote__story": {
+        "message": "Történet",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "Reagált $name$ történetére",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "Reagált a történetedre",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "Reagált egy történetre",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "Már nem elérhető",
+        "description": "Label for when a story is not found"
+    },
     "WhatsNew__modal-title": {
         "message": "Újdonságok",
         "description": "Title for the whats new modal"
@@ -7108,7 +7266,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.40--1": {
-        "message": "Hibajavítások. Orvosoltunk egy problémát, amikor a menüelemekre kattintás nem minden esetben működött.",
+        "message": "Orvosoltunk egy problémát, amikor a menüelemekre kattintás nem minden esetben működött.",
         "description": "Release notes for v5.40"
     },
     "WhatsNew__v5.40--2": {

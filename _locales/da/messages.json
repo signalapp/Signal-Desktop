@@ -378,7 +378,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Du markerede dit sikkerhedsnummer med $name$ som bekræftet fra en anden enhed",
+        "message": "Du markerede dit sikkerhedsnummer med $name$ som bekræftet på en anden enhed",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Du markerede dit sikkerhedsnummer med $name$ som ikke bekræftet fra en anden enhed.",
+        "message": "Du markerede dit sikkerhedsnummer med $name$ som ikke bekræftet på en anden enhed.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -2757,6 +2757,102 @@
         "message": "Beskeden blev slettet",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
+    "message--giftBadge--unopened": {
+        "message": "Se denne besked på mobilen for at åbne den",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "Gave",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "Tjek din telefon for at åbne gave",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "Tjek din telefon for at se din gave",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "Du modtog en gave",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "Du indløste et gaveemblem",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "Du sendte et gaveemblem",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "Gaveemblem",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "Gave",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "$days$ dage tilbage",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "$hours$ timer tilbage",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "$minutes$ minutter tilbage",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "1 minut tilbage",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "Udløbet",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "Vis",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "Indløst",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "Tak for din støtte!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "Du har givet et emblem til $name$. Når de accepterer, får de mulighed for at vælge at vise eller skjule deres emblem.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
+    },
     "stickers--toast--InstallFailed": {
         "message": "Klistermærkepakke kunne ikke installeres",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -3178,6 +3274,30 @@
     "Keyboard--toggle-video": {
         "message": "Slå video til og fra",
         "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--accept-video-call": {
+        "message": "Acceptér opkald med video",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "Acceptér opkald med lyd",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "Start lydopkald",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "Start videoopkald",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "Afvis opkald",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "Afslut opkald",
+        "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
         "message": "Luk pop op-vindue",
@@ -4108,10 +4228,6 @@
     "GroupV2--cannot-send": {
         "message": "Du kan ikke sende beskeder til den gruppe.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
-    },
-    "GroupV2--add--missing-capability": {
-        "message": "Disse personer kan ikke tilføjes gruppen før de opgraderer Signal.",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
         "message": "Kun gruppens administratorer kan starte et opkald.",
@@ -7039,13 +7155,29 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "Pause",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "Spil",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "Besvar",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "Indtast et svar...",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "Svar gruppe",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "Ignorer",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "Slå notifikationer til",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Ingen svar endnu",
@@ -7098,6 +7230,32 @@
     "TextAttachment__preview__link": {
         "message": "Besøg link",
         "description": "Title for the link preview tooltip"
+    },
+    "Quote__story": {
+        "message": "Historie",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "Reagerede på en historie fra $name$",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "Reagerede på din historie",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "Reagerede på en historie",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "Ikke længere tilgængelig",
+        "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {
         "message": "Nyheder",

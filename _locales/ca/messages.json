@@ -2757,6 +2757,102 @@
         "message": "Aquest missatge s'ha suprimit.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
+    "message--giftBadge--unopened": {
+        "message": "Mostra aquest missatge al mòbil per obrir-lo",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "Regal",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "Mireu el teu telèfon per obrir el regal",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "Mireu telèfon per veure el regal",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "Heu rebut un regal.",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "Heu bescanviat una insígnia de regal.",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "Heu enviat una insígnia de regal",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "Insígnia de regal",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "Regal",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "$days$ dies restants",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "$hours$ hores restants",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "$minutes$ minuts restants",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "Falta 1 minut",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "Ha vençut",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "Vista",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "Bescanviat",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "Gràcies pel vostre suport!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "Heu regalat una insígnia a $name$. Quan l'accepti, tindrà l'opció de mostrar-la o amagar-la.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
+    },
     "stickers--toast--InstallFailed": {
         "message": "No s'ha pogut instal·lar el paquet d'adhesius.",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -3178,6 +3274,30 @@
     "Keyboard--toggle-video": {
         "message": "Activa / desactiva el vídeo",
         "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--accept-video-call": {
+        "message": "Accepta la trucada amb vídeo",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "Accepta la trucada amb àudio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "Inicia una trucada d'àudio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "Inicia una trucada de vídeo",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "Rebutja la trucada",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "Penja",
+        "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
         "message": "Tanca la finestra emergent",
@@ -4108,10 +4228,6 @@
     "GroupV2--cannot-send": {
         "message": "No podeu enviar missatges a aquest grup.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
-    },
-    "GroupV2--add--missing-capability": {
-        "message": "Aquestes persones no es poden afegir al grup fins que no actualitzin el Signal.",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
         "message": "Només els administradors del grup poden iniciar una trucada.",
@@ -7039,13 +7155,29 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "Pausa",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "Reprodueix",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "Respon",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "Escriviu una resposta...",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "Respon al grup",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "Silenciats",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "No silenciats",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Encara no té respostes",
@@ -7098,6 +7230,32 @@
     "TextAttachment__preview__link": {
         "message": "Obre l'enllaç",
         "description": "Title for the link preview tooltip"
+    },
+    "Quote__story": {
+        "message": "Història",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "Ha reaccionat a una història de$name$",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "Ha reaccionat a la vostra història",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "Ha reaccionat a una història.",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "Ja no està disponible",
+        "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {
         "message": "Què hi ha de nou",

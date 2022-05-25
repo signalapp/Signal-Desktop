@@ -2757,6 +2757,102 @@
         "message": "Acest mesaj a fost șters.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
+    "message--giftBadge--unopened": {
+        "message": "Vizualizează acest mesaj pe mobil pentru a-l deschide",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "Cadou",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "Verifică telefonul pentru a deschide cadoul",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "Verifică telefonul pentru a vedea cadoul",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "Ai primit un cadou",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "Ai răscumpărat o insignă cadou",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "Ai trimis o insignă cadou",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "Insignă cadou",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "Cadou",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "Au mai rămas $days$ zile",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "Au mai rămas $hours$ ore",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "Au mai rămas $minutes$ minute",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "A mai rămas 1 minut",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "Expirat",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "Vizualizare",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "Revendicat",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "Îți mulțumim pentru sprijin!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "Ai dat cadou o insignă lui $name$. Când vor accepta, vor avea opțiunea de a afișa sau ascunde insigna.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
+    },
     "stickers--toast--InstallFailed": {
         "message": "Pachetul cu autocolante nu a putut fi instalat",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -3178,6 +3274,30 @@
     "Keyboard--toggle-video": {
         "message": "Comutare video activat și dezactivat",
         "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--accept-video-call": {
+        "message": "Acceptă apelul cu video",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "Acceptă apelul cu audio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "Începe un apel audio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "Începe un apel video",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "Respinge apelul",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "Închide apelul",
+        "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
         "message": "Închide fereastra",
@@ -4108,10 +4228,6 @@
     "GroupV2--cannot-send": {
         "message": "Nu poți trimite mesaje acelui grup.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
-    },
-    "GroupV2--add--missing-capability": {
-        "message": "Aceste persoane nu pot fi adăugate la grup până nu actualizează Signal.",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
         "message": "Numai administratorii grupului pot iniția un apel.",
@@ -7039,13 +7155,29 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "Pauză",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "Redare",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "Răspunde",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "Scrie un răspuns...",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "Răspunde grupului",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "Mut",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "Microfon",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Niciun răspuns încă",
@@ -7098,6 +7230,32 @@
     "TextAttachment__preview__link": {
         "message": "Vezi linkul",
         "description": "Title for the link preview tooltip"
+    },
+    "Quote__story": {
+        "message": "Poveste",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "A reacționat la povestea lui $name$",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "A reacționat la povestea ta",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "A reacționat la poveste",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "Nu mai este disponibilă",
+        "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {
         "message": "Ce este nou",

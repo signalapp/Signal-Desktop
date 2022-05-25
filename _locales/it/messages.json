@@ -2757,6 +2757,102 @@
         "message": "Questo messaggio è stato eliminato.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
+    "message--giftBadge--unopened": {
+        "message": "Visualizza questo messaggio sul cellulare per aprirlo",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--label": {
+        "message": "Regalo",
+        "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--toast--incoming": {
+        "message": "Controlla il telefono per aprire il regalo",
+        "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    },
+    "message--giftBadge--unopened--toast--outgoing": {
+        "message": "Controlla il tuo telefono per vedere il tuo regalo",
+        "description": "Shown when you've clicked on an outgoing gift badge"
+    },
+    "message--giftBadge--preview--unopened": {
+        "message": "Hai ricevuto un regalo",
+        "description": "Shown to label the gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--redeemed": {
+        "message": "Hai riscattato un badge regalo",
+        "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    },
+    "message--giftBadge--preview--sent": {
+        "message": "Hai inviato un badge regalo",
+        "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    },
+    "message--giftBadge": {
+        "message": "Badge regalo",
+        "description": "Shown to label the gift badge you've redeemed on another device"
+    },
+    "quote--giftBadge": {
+        "message": "Regalo",
+        "description": "Shown to label a gift badge you've replied to"
+    },
+    "message--giftBadge--remaining--days": {
+        "message": "$days$ giorni rimanenti",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
+        "placeholders": {
+            "days": {
+                "content": "$1",
+                "example": "58"
+            }
+        }
+    },
+    "message--giftBadge--remaining--hours": {
+        "message": "$hours$ ore rimanenti",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "23"
+            }
+        }
+    },
+    "message--giftBadge--remaining--minutes": {
+        "message": "$minutes$ minuti rimanenti",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "45"
+            }
+        }
+    },
+    "message--giftBadge--remaining--one-minute": {
+        "message": "1 minuto rimanente",
+        "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    },
+    "message--giftBadge--expired": {
+        "message": "Scaduto",
+        "description": "Shows that a gift badge is expired"
+    },
+    "message--giftBadge--view": {
+        "message": "Mostra",
+        "description": "Shown when you've sent a gift badge to someone then opened it"
+    },
+    "message--giftBadge--redeemed": {
+        "message": "Riscattato",
+        "description": "Shown when you've redeemed the gift badge on another device"
+    },
+    "modal--giftBadge--title": {
+        "message": "Grazie per il tuo supporto!",
+        "description": "The title of the outgoing gift badge detail dialog"
+    },
+    "modal--giftBadge--description": {
+        "message": "Hai regalato un badge a $name$. Quando accetterà, gli verrà data la possibilità di scegliere se mostrare o nascondere il suo badge.",
+        "description": "The description of the outgoing gift badge detail dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Paige Hall"
+            }
+        }
+    },
     "stickers--toast--InstallFailed": {
         "message": "Il pacchetto di adesivi potrebbe non essere installato",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -3178,6 +3274,30 @@
     "Keyboard--toggle-video": {
         "message": "Attiva e disattiva il video",
         "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--accept-video-call": {
+        "message": "Accetta la chiamata con il video",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--accept-audio-call": {
+        "message": "Accetta la chiamata con l'audio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-audio-call": {
+        "message": "Inizia chiamata audio",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--start-video-call": {
+        "message": "Inizia videochiamata",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--decline-call": {
+        "message": "Rifiuta la chiamata",
+        "description": "Shown in the calling keyboard shortcuts guide"
+    },
+    "Keyboard--hang-up": {
+        "message": "Termina chiamata",
+        "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
         "message": "Chiudi popup",
@@ -4108,10 +4228,6 @@
     "GroupV2--cannot-send": {
         "message": "Non puoi inviare messaggi a quel gruppo.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
-    },
-    "GroupV2--add--missing-capability": {
-        "message": "Queste persone non possono essere aggiunte al gruppo finché non aggiornano Signal.",
-        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
         "message": "Solo gli amministratori del gruppo possono iniziare una chiamata.",
@@ -7039,13 +7155,29 @@
             }
         }
     },
+    "StoryViewer__pause": {
+        "message": "Pausa",
+        "description": "Aria label for pausing a story"
+    },
+    "StoryViewer__play": {
+        "message": "Vedi",
+        "description": "Aria label for playing a story"
+    },
     "StoryViewer__reply": {
         "message": "Rispondi",
         "description": "Button label to reply to a story"
     },
-    "StoryViewsNRepliesModal__placeholder": {
-        "message": "Scrivi una risposta...",
-        "description": "Placeholder text for the story reply modal"
+    "StoryViewer__reply-group": {
+        "message": "Rispondi al gruppo",
+        "description": "Button label to reply to a group story"
+    },
+    "StoryViewer__mute": {
+        "message": "Silenzia",
+        "description": "Aria label for muting stories"
+    },
+    "StoryViewer__unmute": {
+        "message": "Non silenziare",
+        "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Ancora nessuna risposta",
@@ -7098,6 +7230,32 @@
     "TextAttachment__preview__link": {
         "message": "Visita link",
         "description": "Title for the link preview tooltip"
+    },
+    "Quote__story": {
+        "message": "Storia",
+        "description": "Title for replies to stories"
+    },
+    "Quote__story-reaction": {
+        "message": "Ha reagito a una storia da $name$",
+        "description": "Label for when a person reacts to a story",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Charlie"
+            }
+        }
+    },
+    "Quote__story-reaction--yours": {
+        "message": "Ha reagito alla tua storia",
+        "description": "Label for when a person reacts to your story"
+    },
+    "Quote__story-reaction--single": {
+        "message": "Ha reagito alla storia",
+        "description": "Used whenever we can't find a user's first name"
+    },
+    "Quote__story-unavailable": {
+        "message": "Non più disponibile",
+        "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {
         "message": "Cosa c'è di nuovo",
