@@ -770,7 +770,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (giftBadge) {
       const emoji = '🎁';
 
-      if (isIncoming(this.attributes)) {
+      if (isOutgoing(this.attributes)) {
         return {
           emoji,
           text: window.i18n('message--giftBadge--preview--sent'),
