@@ -25,14 +25,5 @@
     @include timeline-floating-header-node;
     margin-top: 12px;
     padding: 6px;
-
-    &--visible {
-      opacity: 1;
-    }
-
-    &--hidden {
-      opacity: 0;
-      transition: opacity 0.25s ease-out 0.3s;
-    }
   }
 }
