@@ -557,15 +557,6 @@ export type WhisperType = {
   events: Backbone.Events;
   activeConfirmationView: WhatIsThis;
 
-  Database: {
-    open: () => Promise<IDBDatabase>;
-    handleDOMException: (
-      context: string,
-      error: DOMException | null,
-      reject: Function
-    ) => void;
-  };
-
   ExpiringMessagesListener: {
     init: (events: Backbone.Events) => void;
     update: () => void;

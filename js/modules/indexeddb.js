@@ -1,8 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global window, Whisper, clearTimeout, setTimeout */
+/* global window, clearTimeout, setTimeout */
 
+const LEGACY_DATABASE_ID = 'signal';
 const MESSAGE_MINIMUM_VERSION = 7;
 
 module.exports = {
@@ -16,8 +17,7 @@ async function doesDatabaseExist() {
     'Checking for the existence of IndexedDB data...'
   );
   return new Promise((resolve, reject) => {
-    const { id } = Whisper.Database;
-    const req = window.indexedDB.open(id);
+    const req = window.indexedDB.open(LEGACY_DATABASE_ID);
 
     let existed = true;
 
@@ -47,7 +47,7 @@ async function doesDatabaseExist() {
     req.onupgradeneeded = () => {
       if (req.result.version === 1) {
         existed = false;
-        window.indexedDB.deleteDatabase(id);
+        window.indexedDB.deleteDatabase(LEGACY_DATABASE_ID);
       }
     };
   });
@@ -55,7 +55,7 @@ async function doesDatabaseExist() {
 
 function removeDatabase() {
   window.SignalContext.log.info(
-    `Deleting IndexedDB database '${Whisper.Database.id}'`
+    `Deleting IndexedDB database '${LEGACY_DATABASE_ID}'`
   );
-  window.indexedDB.deleteDatabase(Whisper.Database.id);
+  window.indexedDB.deleteDatabase(LEGACY_DATABASE_ID);
 }
