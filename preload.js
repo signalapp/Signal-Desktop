@@ -477,9 +477,6 @@ try {
   require('./ts/SignalProtocolStore');
   require('./ts/background');
 
-  // Pulling these in separately since they access filesystem, electron
-  window.Signal.Debug = require('./js/modules/debug');
-
   window.addEventListener('contextmenu', e => {
     const editable = e.target.closest(
       'textarea, input, [contenteditable="true"]'
