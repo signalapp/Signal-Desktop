@@ -5065,21 +5065,27 @@ export async function applyNewAvatar(
       const data = await decryptGroupAvatar(newAvatar, result.secretParams);
       const hash = computeHash(data);
 
-      if (result.avatar && result.avatar.path && result.avatar.hash !== hash) {
-        await window.Signal.Migrations.deleteAttachmentData(result.avatar.path);
-        result.avatar = undefined;
-      }
-
-      if (!result.avatar) {
-        const path = await window.Signal.Migrations.writeNewAttachmentData(
-          data
+      if (result.avatar?.hash === hash) {
+        log.info(
+          `applyNewAvatar/${logId}: Hash is the same, but url was different. Saving new url.`
         );
         result.avatar = {
+          ...result.avatar,
           url: newAvatar,
-          path,
-          hash,
         };
+        return;
       }
+
+      if (result.avatar) {
+        await window.Signal.Migrations.deleteAttachmentData(result.avatar.path);
+      }
+
+      const path = await window.Signal.Migrations.writeNewAttachmentData(data);
+      result.avatar = {
+        url: newAvatar,
+        path,
+        hash,
+      };
     }
   } catch (error) {
     log.warn(
