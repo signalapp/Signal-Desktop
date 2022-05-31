@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // The idea with this file is to make it webpackable for the style guide
@@ -16,7 +16,6 @@ const GroupChange = require('../../ts/groupChange');
 const IndexedDB = require('./indexeddb');
 const OS = require('../../ts/OS');
 const Stickers = require('../../ts/types/Stickers');
-const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
 
@@ -431,7 +430,6 @@ exports.setup = (options = {}) => {
     Migrations,
     OS,
     RemoteConfig,
-    Settings,
     Services,
     State,
     Stickers,
