@@ -351,10 +351,22 @@ describe('state/selectors/messages', () => {
       ...overrides,
     });
 
-    it('returns undefined for incoming messages', () => {
+    it('returns undefined for incoming messages with no errors', () => {
       const message = createMessage({ type: 'incoming' });
 
       assert.isUndefined(getMessagePropStatus(message, ourConversationId));
+    });
+
+    it('returns "error" for incoming messages with errors', () => {
+      const message = createMessage({
+        type: 'incoming',
+        errors: [new Error('something went wrong')],
+      });
+
+      assert.strictEqual(
+        getMessagePropStatus(message, ourConversationId),
+        'error'
+      );
     });
 
     it('returns "paused" for messages with challenges', () => {

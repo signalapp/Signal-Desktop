@@ -7,12 +7,12 @@ import { noop } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from 'ringrtc';
 import type {
+  ActiveCallStateType,
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
-import { isInSpeakerView } from '../state/selectors/calling';
 import { Avatar } from './Avatar';
 import { CallingHeader } from './CallingHeader';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
@@ -25,6 +25,7 @@ import type {
 } from '../types/Calling';
 import {
   CallMode,
+  CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
@@ -75,6 +76,15 @@ type DirectCallHeaderMessagePropsType = {
   i18n: LocalizerType;
   callState: CallState;
   joinedAt?: number;
+};
+
+export const isInSpeakerView = (
+  call: Pick<ActiveCallStateType, 'viewMode'> | undefined
+): boolean => {
+  return Boolean(
+    call?.viewMode === CallViewMode.Presentation ||
+      call?.viewMode === CallViewMode.Speaker
+  );
 };
 
 function DirectCallHeaderMessage({
