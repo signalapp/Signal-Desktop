@@ -50,6 +50,7 @@ import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
 import { getContact } from './messages/helpers';
+import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
@@ -493,7 +494,6 @@ export async function startApp(): Promise<void> {
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
-  const { MessageDataMigrator } = window.Signal.Workflow;
   const { removeDatabase: removeIndexedDB, doesDatabaseExist } =
     window.Signal.IndexedDB;
   const { Message } = window.Signal.Types;
@@ -827,8 +827,7 @@ export async function startApp(): Promise<void> {
       const NUM_MESSAGES_PER_BATCH = 1;
 
       if (!isMigrationWithIndexComplete) {
-        const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessageCollection: window.Whisper.MessageCollection,
+        const batchWithIndex = await migrateMessageData({
           numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
           upgradeMessageSchema,
           getMessagesNeedingUpgrade:

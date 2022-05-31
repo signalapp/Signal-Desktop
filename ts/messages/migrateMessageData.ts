@@ -1,29 +1,49 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// Ensures that messages in database are at the right schema.
+import { isFunction, isNumber } from 'lodash';
+import * as Message from '../../js/modules/types/message';
+import type { MessageAttributesType } from '../model-types.d';
+import type { UUIDStringType } from '../types/UUID';
 
-/* global window */
-
-const { isFunction, isNumber } = require('lodash');
-
-const Message = require('./types/message');
-
-exports.processNext = async ({
-  BackboneMessageCollection,
+/**
+ * Ensures that messages in database are at the right schema.
+ */
+export async function migrateMessageData({
   numMessagesPerBatch,
   upgradeMessageSchema,
   getMessagesNeedingUpgrade,
   saveMessage,
   maxVersion = Message.CURRENT_SCHEMA_VERSION,
-} = {}) => {
-  if (!isFunction(BackboneMessageCollection)) {
-    throw new TypeError(
-      "'BackboneMessageCollection' (Whisper.MessageCollection)" +
-        ' constructor is required'
-    );
-  }
-
+}: Readonly<{
+  numMessagesPerBatch: number;
+  upgradeMessageSchema: (
+    message: MessageAttributesType,
+    options: { maxVersion: number }
+  ) => Promise<MessageAttributesType>;
+  getMessagesNeedingUpgrade: (
+    limit: number,
+    options: { maxVersion: number }
+  ) => Promise<Array<MessageAttributesType>>;
+  saveMessage: (
+    data: MessageAttributesType,
+    options: { ourUuid: UUIDStringType }
+  ) => Promise<string>;
+  maxVersion?: number;
+}>): Promise<
+  | {
+      done: true;
+      numProcessed: 0;
+    }
+  | {
+      done: boolean;
+      numProcessed: number;
+      fetchDuration: number;
+      upgradeDuration: number;
+      saveDuration: number;
+      totalDuration: number;
+    }
+> {
   if (!isNumber(numMessagesPerBatch)) {
     throw new TypeError("'numMessagesPerBatch' is required");
   }
@@ -39,10 +59,7 @@ exports.processNext = async ({
   try {
     messagesRequiringSchemaUpgrade = await getMessagesNeedingUpgrade(
       numMessagesPerBatch,
-      {
-        maxVersion,
-        MessageCollection: BackboneMessageCollection,
-      }
+      { maxVersion }
     );
   } catch (error) {
     window.SignalContext.log.error(
@@ -85,4 +102,4 @@ exports.processNext = async ({
     saveDuration,
     totalDuration,
   };
-};
+}

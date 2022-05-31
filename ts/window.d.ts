@@ -401,9 +401,6 @@ declare global {
         WhatsNewLink: typeof WhatsNewLink;
       };
       OS: typeof OS;
-      Workflow: {
-        MessageDataMigrator: WhatIsThis;
-      };
       IndexedDB: {
         removeDatabase: WhatIsThis;
         doesDatabaseExist: WhatIsThis;

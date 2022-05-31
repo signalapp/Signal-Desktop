@@ -129,9 +129,6 @@ const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
 // Views
 const Initialization = require('./views/initialization');
 
-// Workflow
-const MessageDataMigrator = require('./messages_data_migrator');
-
 // Processes / Services
 const {
   initializeGroupCredentialFetcher,
@@ -412,10 +409,6 @@ exports.setup = (options = {}) => {
     Initialization,
   };
 
-  const Workflow = {
-    MessageDataMigrator,
-  };
-
   return {
     Backbone,
     Components,
@@ -436,6 +429,5 @@ exports.setup = (options = {}) => {
     Types,
     Util,
     Views,
-    Workflow,
   };
 };
