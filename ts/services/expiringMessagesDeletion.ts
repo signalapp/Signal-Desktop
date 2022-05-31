@@ -1,34 +1,38 @@
-// Copyright 2016-2021 Signal Messenger, LLC
+// Copyright 2016-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global
-  _,
-  MessageController,
-  Whisper
-*/
+import { debounce } from 'lodash';
+import type { MessageModel } from '../models/messages';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 
-// eslint-disable-next-line func-names
-(function () {
-  window.Whisper = window.Whisper || {};
+class ExpiringMessagesDeletionService {
+  public update: typeof this.checkExpiringMessages;
 
-  async function destroyExpiredMessages() {
+  private timeout?: ReturnType<typeof setTimeout>;
+
+  constructor() {
+    this.update = debounce(this.checkExpiringMessages, 1000);
+  }
+
+  private async destroyExpiredMessages() {
     try {
       window.SignalContext.log.info(
         'destroyExpiredMessages: Loading messages...'
       );
-      const messages = await window.Signal.Data.getExpiredMessages({
-        MessageCollection: Whisper.MessageCollection,
-      });
+      const messages = await window.Signal.Data.getExpiredMessages();
       window.SignalContext.log.info(
         `destroyExpiredMessages: found ${messages.length} messages to expire`
       );
 
-      const messageIds = [];
-      const inMemoryMessages = [];
-      const messageCleanup = [];
+      const messageIds: Array<string> = [];
+      const inMemoryMessages: Array<MessageModel> = [];
+      const messageCleanup: Array<Promise<void>> = [];
 
       messages.forEach(dbMessage => {
-        const message = MessageController.register(dbMessage.id, dbMessage);
+        const message = window.MessageController.register(
+          dbMessage.id,
+          dbMessage
+        );
         messageIds.push(message.id);
         inMemoryMessages.push(message);
         messageCleanup.push(message.cleanup());
@@ -59,11 +63,10 @@
     }
 
     window.SignalContext.log.info('destroyExpiredMessages: complete');
-    checkExpiringMessages();
+    this.update();
   }
 
-  let timeout;
-  async function checkExpiringMessages() {
+  private async checkExpiringMessages() {
     window.SignalContext.log.info(
       'checkExpiringMessages: checking for expiring messages'
     );
@@ -94,19 +97,10 @@
       ).toISOString()}; waiting ${wait} ms before clearing`
     );
 
-    clearTimeout(timeout);
-    timeout = setTimeout(destroyExpiredMessages, wait);
+    clearTimeoutIfNecessary(this.timeout);
+    this.timeout = setTimeout(this.destroyExpiredMessages.bind(this), wait);
   }
-  const debouncedCheckExpiringMessages = _.debounce(
-    checkExpiringMessages,
-    1000
-  );
+}
 
-  Whisper.ExpiringMessagesListener = {
-    init(events) {
-      checkExpiringMessages();
-      events.on('timetravel', debouncedCheckExpiringMessages);
-    },
-    update: debouncedCheckExpiringMessages,
-  };
-})();
+export const expiringMessagesDeletionService =
+  new ExpiringMessagesDeletionService();

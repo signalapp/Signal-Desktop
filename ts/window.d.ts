@@ -556,16 +556,6 @@ export type WhisperType = {
   events: Backbone.Events;
   activeConfirmationView: WhatIsThis;
 
-  ExpiringMessagesListener: {
-    init: (events: Backbone.Events) => void;
-    update: () => void;
-  };
-  TapToViewMessagesListener: {
-    nextCheck: null | number;
-    init: (events: Backbone.Events) => void;
-    update: () => void;
-  };
-
   // Backbone views
 
   // Modernized

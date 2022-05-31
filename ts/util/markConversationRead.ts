@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
@@ -8,6 +8,8 @@ import { hasErrors } from '../state/selectors/message';
 import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
+import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
+import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import { isGroup } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
@@ -137,8 +139,8 @@ export async function markConversationRead(
     );
   }
 
-  window.Whisper.ExpiringMessagesListener.update();
-  window.Whisper.TapToViewMessagesListener.update();
+  expiringMessagesDeletionService.update();
+  tapToViewMessagesDeletionService.update();
 
   return true;
 }

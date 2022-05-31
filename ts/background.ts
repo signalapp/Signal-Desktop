@@ -39,6 +39,8 @@ import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { IdleDetector } from './IdleDetector';
+import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
+import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService';
 import { getStoriesForRedux, loadStories } from './services/storyLoader';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
@@ -1731,8 +1733,12 @@ export async function startApp(): Promise<void> {
       window.Whisper.events.trigger('timetravel');
     });
 
-    window.Whisper.ExpiringMessagesListener.init(window.Whisper.events);
-    window.Whisper.TapToViewMessagesListener.init(window.Whisper.events);
+    expiringMessagesDeletionService.update();
+    tapToViewMessagesDeletionService.update();
+    window.Whisper.events.on('timetravel', () => {
+      expiringMessagesDeletionService.update();
+      tapToViewMessagesDeletionService.update();
+    });
 
     const isCoreDataValid = Boolean(
       window.textsecure.storage.user.getUuid() &&

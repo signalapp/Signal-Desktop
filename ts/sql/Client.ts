@@ -27,6 +27,8 @@ import {
 } from 'lodash';
 
 import { deleteExternalFiles } from '../types/Conversation';
+import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
+import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
@@ -1090,8 +1092,8 @@ async function saveMessage(
     jobToInsert: options.jobToInsert && formatJobForInsert(options.jobToInsert),
   });
 
-  window.Whisper.ExpiringMessagesListener.update();
-  window.Whisper.TapToViewMessagesListener.update();
+  expiringMessagesDeletionService.update();
+  tapToViewMessagesDeletionService.update();
 
   return id;
 }
@@ -1105,8 +1107,8 @@ async function saveMessages(
     options
   );
 
-  window.Whisper.ExpiringMessagesListener.update();
-  window.Whisper.TapToViewMessagesListener.update();
+  expiringMessagesDeletionService.update();
+  tapToViewMessagesDeletionService.update();
 }
 
 async function removeMessage(id: string) {
