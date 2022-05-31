@@ -20,7 +20,7 @@ import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
 import type { LookupConversationWithoutUuidActionsType } from '../../../../util/lookupConversationWithoutUuid';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
-import { filterAndSortConversationsByTitle } from '../../../../util/filterAndSortConversations';
+import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../../state/selectors/badges';
 import type {
@@ -114,13 +114,13 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   const canContinue = Boolean(selectedContacts.length);
 
   const [filteredContacts, setFilteredContacts] = useState(
-    filterAndSortConversationsByTitle(candidateContacts, '', regionCode)
+    filterAndSortConversationsByRecent(candidateContacts, '', regionCode)
   );
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredContacts(
-        filterAndSortConversationsByTitle(
+        filterAndSortConversationsByRecent(
           candidateContacts,
           normalizedSearchTerm,
           regionCode
