@@ -1,16 +1,27 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 import { Readable } from 'stream';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
+import { once } from 'events';
 
 import { getStreamWithTimeout } from '../../util/getStreamWithTimeout';
 
 describe('getStreamWithTimeout', () => {
   let sandbox: sinon.SinonSandbox;
   let clock: sinon.SinonFakeTimers;
+
+  // This helps tests preserve ordering.
+  const pushAndWait = (
+    stream: Readable,
+    chunk: string | null
+  ): Promise<unknown> => {
+    const promise = once(stream, chunk === null ? 'end' : 'data');
+    stream.push(chunk);
+    return promise;
+  };
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -55,11 +66,11 @@ describe('getStreamWithTimeout', () => {
     });
 
     await clock.tickAsync(500);
-    stream.push('hello ');
+    await pushAndWait(stream, 'hello ');
     await clock.tickAsync(500);
-    stream.push('world');
+    await pushAndWait(stream, 'world');
     await clock.tickAsync(500);
-    stream.push(null);
+    await pushAndWait(stream, null);
     await clock.nextAsync();
 
     assert.strictEqual(Buffer.from(await data).toString(), 'hello world');
@@ -79,9 +90,9 @@ describe('getStreamWithTimeout', () => {
     });
 
     await clock.tickAsync(500);
-    stream.push('hello ');
+    await pushAndWait(stream, 'hello ');
     await clock.tickAsync(500);
-    stream.push('world');
+    await pushAndWait(stream, 'world');
 
     const promise = assert.isRejected(
       data,
