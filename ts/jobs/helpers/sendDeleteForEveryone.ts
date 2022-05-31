@@ -23,7 +23,7 @@ import type {
   ConversationQueueJobBundle,
   DeleteForEveryoneJobData,
 } from '../conversationJobQueue';
-import { getUntrustedConversationIds } from './getUntrustedConversationIds';
+import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
@@ -79,14 +79,14 @@ export async function sendDeleteForEveryone(
     ? getRecipients(deletedForEveryoneSendStatus)
     : recipientsFromJob;
 
-  const untrustedConversationIds = getUntrustedConversationIds(recipients);
-  if (untrustedConversationIds.length) {
+  const untrustedUuids = getUntrustedConversationUuids(recipients);
+  if (untrustedUuids.length) {
     window.reduxActions.conversations.conversationStoppedByMissingVerification({
       conversationId: conversation.id,
-      untrustedConversationIds,
+      untrustedUuids,
     });
     throw new Error(
-      `Delete for everyone blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Failing this attempt.`
+      `Delete for everyone blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
     );
   }
 

@@ -798,28 +798,28 @@ describe('both/state/ducks/conversations', () => {
           getEmptyState(),
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedConversationIds: ['convo 1'],
+            untrustedUuids: ['convo 1'],
           })
         );
         const second = reducer(
           first,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedConversationIds: ['convo 2'],
+            untrustedUuids: ['convo 2'],
           })
         );
         const third = reducer(
           second,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedConversationIds: ['convo 1', 'convo 3'],
+            untrustedUuids: ['convo 1', 'convo 3'],
           })
         );
 
         assert.deepStrictEqual(third.verificationDataByConversation, {
           'convo A': {
             type: ConversationVerificationState.PendingVerification,
-            conversationsNeedingVerification: ['convo 1', 'convo 2', 'convo 3'],
+            uuidsNeedingVerification: ['convo 1', 'convo 2', 'convo 3'],
           },
         });
       });
@@ -838,14 +838,14 @@ describe('both/state/ducks/conversations', () => {
           state,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedConversationIds: ['convo 1', 'convo 2'],
+            untrustedUuids: ['convo 1', 'convo 2'],
           })
         );
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
           'convo A': {
             type: ConversationVerificationState.PendingVerification,
-            conversationsNeedingVerification: ['convo 1', 'convo 2'],
+            uuidsNeedingVerification: ['convo 1', 'convo 2'],
           },
         });
       });
@@ -877,7 +877,7 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             'convo A': {
               type: ConversationVerificationState.PendingVerification,
-              conversationsNeedingVerification: ['convo 1', 'convo 2'],
+              uuidsNeedingVerification: ['convo 1', 'convo 2'],
             },
           },
         };
@@ -971,7 +971,7 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             'convo A': {
               type: ConversationVerificationState.PendingVerification,
-              conversationsNeedingVerification: ['convo 1', 'convo 2'],
+              uuidsNeedingVerification: ['convo 1', 'convo 2'],
             },
           },
         };

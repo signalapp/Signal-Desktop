@@ -330,7 +330,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         }
       }
     } catch (error: unknown) {
-      const untrustedConversationIds: Array<string> = [];
+      const untrustedUuids: Array<string> = [];
 
       const processError = (toProcess: unknown) => {
         if (toProcess instanceof OutgoingIdentityKeyError) {
@@ -339,7 +339,14 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
             'private'
           );
           strictAssert(failedConversation, 'Conversation should be created');
-          untrustedConversationIds.push(failedConversation.id);
+          const uuid = failedConversation.get('uuid');
+          if (!uuid) {
+            log.error(
+              `failedConversation: Conversation ${failedConversation.idForLogging()} missing UUID!`
+            );
+            return;
+          }
+          untrustedUuids.push(uuid);
         } else if (toProcess instanceof SendMessageChallengeError) {
           window.Signal.challengeHandler.register(
             {
@@ -358,14 +365,14 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         (error.errors || []).forEach(processError);
       }
 
-      if (untrustedConversationIds.length) {
+      if (untrustedUuids.length) {
         log.error(
-          `Send failed because ${untrustedConversationIds.length} conversation(s) were untrusted. Adding to verification list.`
+          `Send failed because ${untrustedUuids.length} conversation(s) were untrusted. Adding to verification list.`
         );
         window.reduxActions.conversations.conversationStoppedByMissingVerification(
           {
             conversationId: conversation.id,
-            untrustedConversationIds,
+            untrustedUuids,
           }
         );
       }

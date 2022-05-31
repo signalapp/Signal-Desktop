@@ -44,9 +44,14 @@ export async function sendDirectExpirationTimerUpdate(
   }
 
   if (conversation.isUntrusted()) {
+    const uuid = conversation
+      .getCheckedUuid(
+        'Expiration timer send blocked: untrusted and missing uuid!'
+      )
+      .toString();
     window.reduxActions.conversations.conversationStoppedByMissingVerification({
       conversationId: conversation.id,
-      untrustedConversationIds: [conversation.id],
+      untrustedUuids: [uuid],
     });
     throw new Error(
       'Expiration timer send blocked because conversation is untrusted. Failing this attempt.'

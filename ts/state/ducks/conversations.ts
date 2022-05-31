@@ -56,7 +56,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
 import { writeUsername } from '../../services/writeUsername';
 import {
-  getConversationIdsStoppingSend,
+  getConversationUuidsStoppingSend,
   getConversationIdsStoppedForVerification,
   getMe,
   getUsernameSaveState,
@@ -280,7 +280,7 @@ type ComposerGroupCreationState = {
 export type ConversationVerificationData =
   | {
       type: ConversationVerificationState.PendingVerification;
-      conversationsNeedingVerification: ReadonlyArray<string>;
+      uuidsNeedingVerification: ReadonlyArray<string>;
     }
   | {
       type: ConversationVerificationState.VerificationCancelled;
@@ -535,7 +535,7 @@ type ConversationStoppedByMissingVerificationActionType = {
   type: typeof CONVERSATION_STOPPED_BY_MISSING_VERIFICATION;
   payload: {
     conversationId: string;
-    untrustedConversationIds: ReadonlyArray<string>;
+    untrustedUuids: ReadonlyArray<string>;
   };
 };
 export type MessageChangedActionType = {
@@ -1280,19 +1280,22 @@ function verifyConversationsStoppingSend(): ThunkAction<
 > {
   return async (dispatch, getState) => {
     const state = getState();
-    const conversationIdsStoppingSend = getConversationIdsStoppingSend(state);
+    const uuidsStoppingSend = getConversationUuidsStoppingSend(state);
     const conversationIdsBlocked =
       getConversationIdsStoppedForVerification(state);
     log.info(
       `verifyConversationsStoppingSend: Starting with ${conversationIdsBlocked.length} blocked ` +
-        `conversations and ${conversationIdsStoppingSend.length} conversations to verify.`
+        `conversations and ${uuidsStoppingSend.length} conversations to verify.`
     );
 
     // Mark conversations as approved/verified as appropriate
     const promises: Array<Promise<unknown>> = [];
-    conversationIdsStoppingSend.forEach(async conversationId => {
-      const conversation = window.ConversationController.get(conversationId);
+    uuidsStoppingSend.forEach(async uuid => {
+      const conversation = window.ConversationController.get(uuid);
       if (!conversation) {
+        log.warn(
+          `verifyConversationsStoppingSend: Cannot verify missing converastion for uuid ${uuid}`
+        );
         return;
       }
 
@@ -1512,19 +1515,17 @@ function selectMessage(
 
 function conversationStoppedByMissingVerification(payload: {
   conversationId: string;
-  untrustedConversationIds: ReadonlyArray<string>;
+  untrustedUuids: ReadonlyArray<string>;
 }): ConversationStoppedByMissingVerificationActionType {
   // Fetching profiles to ensure that we have their latest identity key in storage
   const profileFetchQueue = new PQueue({
     concurrency: 3,
   });
-  payload.untrustedConversationIds.forEach(untrustedConversationId => {
-    const conversation = window.ConversationController.get(
-      untrustedConversationId
-    );
+  payload.untrustedUuids.forEach(uuid => {
+    const conversation = window.ConversationController.get(uuid);
     if (!conversation) {
       log.error(
-        `conversationStoppedByMissingVerification: conversationId ${untrustedConversationId} not found!`
+        `conversationStoppedByMissingVerification: uuid ${uuid} not found!`
       );
       return;
     }
@@ -2440,7 +2441,7 @@ export function reducer(
     };
   }
   if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
-    const { conversationId, untrustedConversationIds } = action.payload;
+    const { conversationId, untrustedUuids } = action.payload;
 
     const { verificationDataByConversation } = state;
     const existingPendingState = getOwn(
@@ -2459,16 +2460,16 @@ export function reducer(
           ...verificationDataByConversation,
           [conversationId]: {
             type: ConversationVerificationState.PendingVerification as const,
-            conversationsNeedingVerification: untrustedConversationIds,
+            uuidsNeedingVerification: untrustedUuids,
           },
         },
       };
     }
 
-    const conversationsNeedingVerification: ReadonlyArray<string> = Array.from(
+    const uuidsNeedingVerification: ReadonlyArray<string> = Array.from(
       new Set([
-        ...existingPendingState.conversationsNeedingVerification,
-        ...untrustedConversationIds,
+        ...existingPendingState.uuidsNeedingVerification,
+        ...untrustedUuids,
       ])
     );
 
@@ -2478,7 +2479,7 @@ export function reducer(
         ...verificationDataByConversation,
         [conversationId]: {
           type: ConversationVerificationState.PendingVerification as const,
-          conversationsNeedingVerification,
+          uuidsNeedingVerification,
         },
       },
     };

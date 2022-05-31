@@ -108,21 +108,22 @@ export async function sendNormalMessage(
     const {
       allRecipientIdentifiers,
       recipientIdentifiersWithoutMe,
-      untrustedConversationIds,
+      untrustedUuids,
     } = getMessageRecipients({
+      log,
       message,
       conversation,
     });
 
-    if (untrustedConversationIds.length) {
+    if (untrustedUuids.length) {
       window.reduxActions.conversations.conversationStoppedByMissingVerification(
         {
           conversationId: conversation.id,
-          untrustedConversationIds,
+          untrustedUuids,
         }
       );
       throw new Error(
-        `Message ${messageId} sending blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Failing this attempt.`
+        `Message ${messageId} sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
       );
     }
 
@@ -326,19 +327,21 @@ export async function sendNormalMessage(
 }
 
 function getMessageRecipients({
+  log,
   conversation,
   message,
 }: Readonly<{
+  log: LoggerType;
   conversation: ConversationModel;
   message: MessageModel;
 }>): {
   allRecipientIdentifiers: Array<string>;
   recipientIdentifiersWithoutMe: Array<string>;
-  untrustedConversationIds: Array<string>;
+  untrustedUuids: Array<string>;
 } {
   const allRecipientIdentifiers: Array<string> = [];
   const recipientIdentifiersWithoutMe: Array<string> = [];
-  const untrustedConversationIds: Array<string> = [];
+  const untrustedUuids: Array<string> = [];
 
   const currentConversationRecipients = conversation.getMemberConversationIds();
 
@@ -365,7 +368,14 @@ function getMessageRecipients({
       }
 
       if (recipient.isUntrusted()) {
-        untrustedConversationIds.push(recipientConversationId);
+        const uuid = recipient.get('uuid');
+        if (!uuid) {
+          log.error(
+            `sendNormalMessage/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing UUID.`
+          );
+          return;
+        }
+        untrustedUuids.push(uuid);
         return;
       }
       if (recipient.isUnregistered()) {
@@ -387,7 +397,7 @@ function getMessageRecipients({
   return {
     allRecipientIdentifiers,
     recipientIdentifiersWithoutMe,
-    untrustedConversationIds,
+    untrustedUuids,
   };
 }
 

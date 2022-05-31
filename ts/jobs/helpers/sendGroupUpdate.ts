@@ -19,7 +19,7 @@ import type {
   GroupUpdateJobData,
   ConversationQueueJobBundle,
 } from '../conversationJobQueue';
-import { getUntrustedConversationIds } from './getUntrustedConversationIds';
+import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because receivers
@@ -53,14 +53,14 @@ export async function sendGroupUpdate(
 
   const { groupChangeBase64, recipients, revision } = data;
 
-  const untrustedConversationIds = getUntrustedConversationIds(recipients);
-  if (untrustedConversationIds.length) {
+  const untrustedUuids = getUntrustedConversationUuids(recipients);
+  if (untrustedUuids.length) {
     window.reduxActions.conversations.conversationStoppedByMissingVerification({
       conversationId: conversation.id,
-      untrustedConversationIds,
+      untrustedUuids,
     });
     throw new Error(
-      `Group update blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Failing this attempt.`
+      `Group update blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
     );
   }
 
