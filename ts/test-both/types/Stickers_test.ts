@@ -1,9 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Signal */
-
-const { Stickers } = Signal;
+import { assert } from 'chai';
+import * as Stickers from '../../types/Stickers';
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {
