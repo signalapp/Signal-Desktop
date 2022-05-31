@@ -1,15 +1,24 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global i18n */
+import { assert } from 'chai';
+import type { LocalizerType } from '../../types/Util';
+import { setupI18n } from '../../util/setupI18n';
+import * as enMessages from '../../../_locales/en/messages.json';
 
-describe('i18n', () => {
+describe('setupI18n', () => {
+  let i18n: LocalizerType;
+
+  beforeEach(() => {
+    i18n = setupI18n('en', enMessages);
+  });
+
   describe('i18n', () => {
     it('returns empty string for unknown string', () => {
       assert.strictEqual(i18n('random'), '');
     });
     it('returns message for given string', () => {
-      assert.equal(i18n('reportIssue'), ['Contact Support']);
+      assert.strictEqual(i18n('reportIssue'), 'Contact Support');
     });
     it('returns message with single substitution', () => {
       const actual = i18n('migratingToSQLCipher', ['45/200']);
