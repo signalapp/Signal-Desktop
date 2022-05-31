@@ -9,6 +9,7 @@ import { WEEK } from './durations';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
+const LEFT_GROUP_PENALTY = 1;
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
@@ -41,8 +42,6 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
     },
   ],
 };
-
-const collator = new Intl.Collator();
 
 const cachedIndices = new WeakMap<
   ReadonlyArray<ConversationType>,
@@ -119,15 +118,19 @@ export function filterAndSortConversationsByRecent(
     return searchConversations(conversations, searchTerm, regionCode)
       .slice()
       .sort((a, b) => {
-        const { activeAt: aActiveAt = 0 } = a.item;
-        const { activeAt: bActiveAt = 0 } = b.item;
+        const { activeAt: aActiveAt = 0, left: aLeft = false } = a.item;
+        const { activeAt: bActiveAt = 0, left: bLeft = false } = b.item;
 
         // See: https://fusejs.io/api/options.html#includescore
         // 0 score is a perfect match, 1 - complete mismatch
         const aScore =
-          (now - aActiveAt) * ACTIVE_AT_SCORE_FACTOR + (a.score ?? 0);
+          (now - aActiveAt) * ACTIVE_AT_SCORE_FACTOR +
+          (a.score ?? 0) +
+          (aLeft ? LEFT_GROUP_PENALTY : 0);
         const bScore =
-          (now - bActiveAt) * ACTIVE_AT_SCORE_FACTOR + (b.score ?? 0);
+          (now - bActiveAt) * ACTIVE_AT_SCORE_FACTOR +
+          (b.score ?? 0) +
+          (bLeft ? LEFT_GROUP_PENALTY : 0);
 
         return aScore - bScore;
       })
@@ -141,34 +144,4 @@ export function filterAndSortConversationsByRecent(
 
     return a.activeAt && !b.activeAt ? -1 : 1;
   });
-}
-
-export function filterAndSortConversationsByTitle(
-  conversations: ReadonlyArray<ConversationType>,
-  searchTerm: string,
-  regionCode: string | undefined
-): Array<ConversationType> {
-  if (searchTerm.length) {
-    return searchConversations(conversations, searchTerm, regionCode)
-      .slice()
-      .sort((a, b) => {
-        return (a.score ?? 0) - (b.score ?? 0);
-      })
-      .map(result => result.item);
-  }
-
-  return conversations.concat().sort((a, b) => {
-    const aHasName = hasName(a);
-    const bHasName = hasName(b);
-
-    if (aHasName === bHasName) {
-      return collator.compare(a.title, b.title);
-    }
-
-    return aHasName && !bHasName ? -1 : 1;
-  });
-}
-
-function hasName(contact: Readonly<ConversationType>): boolean {
-  return Boolean(contact.name || contact.profileName);
 }
