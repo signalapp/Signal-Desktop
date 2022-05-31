@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-$(document).ready(() => {
+{
   let className: string;
   if (window.Signal.OS.isWindows()) {
     className = 'os-windows';
@@ -13,5 +13,5 @@ $(document).ready(() => {
     throw new Error('Unexpected operating system; not applying ');
   }
 
-  $(document.body).addClass(className);
-});
+  document.body.classList.add(className);
+}

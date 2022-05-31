@@ -7929,44 +7929,12 @@
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "ts/manage_full_screen_class.ts",
-    "line": "$(document).ready(() => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-01-21T23:06:13.270Z",
-    "reasonDetail": "Doesn't manipulate the DOM."
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/manage_full_screen_class.ts",
-    "line": "    $(document.body).toggleClass('full-screen', isFullScreen);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-01-21T23:06:13.270Z",
-    "reasonDetail": "Manipulates a trusted class."
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "ts/quill/signal-clipboard/index.ts",
     "line": "  return div.innerHTML;",
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-06T17:43:07.381Z",
     "reasonDetail": "used for figuring out clipboard contents"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/set_os_class.ts",
-    "line": "  $(document.body).addClass(className);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-01-21T23:06:13.270Z",
-    "reasonDetail": "Adds a trusted CSS class."
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/set_os_class.ts",
-    "line": "$(document).ready(() => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-01-21T23:06:13.270Z",
-    "reasonDetail": "Doesn't manipulate the DOM."
   },
   {
     "rule": "jQuery-load(",

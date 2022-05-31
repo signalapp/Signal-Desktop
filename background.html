@@ -38,6 +38,43 @@
       type="text/css"
     />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+    <link
+      rel="preload"
+      href="fonts/inter-v3.10/Inter-BoldItalic.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="fonts/inter-v3.10/Inter-Bold.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="fonts/inter-v3.10/Inter-SemiBoldItalic.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="fonts/inter-v3.10/Inter-Italic.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="fonts/inter-v3.10/Inter-SemiBold.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="fonts/inter-v3.10/Inter-Regular.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link rel="preload" href="images/signal-logo.svg" as="image" />
 
     <!--
     When making changes to these templates, be sure to update test/index.html as well
@@ -90,6 +127,23 @@
         {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
       </div>
     </script>
+  </head>
+  <body class="overflow-hidden">
+    <div id="app-container">
+      <div class="app-loading-screen">
+        <div class="module-title-bar-drag-area"></div>
+
+        <div class="content">
+          <div class="module-splash-screen__logo module-img--150"></div>
+          <div class="container">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <div class="message"></div>
+        </div>
+      </div>
+    </div>
 
     <script type="text/javascript" src="js/components.js"></script>
     <script type="text/javascript" src="ts/set_os_class.js"></script>
@@ -99,7 +153,6 @@
     ></script>
     <script type="text/javascript" src="ts/backboneJquery.js"></script>
     <script type="text/javascript" src="js/reliable_trigger.js"></script>
-    <script type="text/javascript" src="js/database.js"></script>
 
     <script
       type="text/javascript"
@@ -121,25 +174,6 @@
       type="text/javascript"
       src="ts/shims/showConfirmationDialog.js"
     ></script>
-
-    <script type="text/javascript" src="js/wall_clock_listener.js"></script>
-  </head>
-  <body class="overflow-hidden">
-    <div id="app-container">
-      <div class="app-loading-screen">
-        <div class="module-title-bar-drag-area"></div>
-
-        <div class="content">
-          <div class="module-splash-screen__logo module-img--150"></div>
-          <div class="container">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-          <div class="message"></div>
-        </div>
-      </div>
-    </div>
 
     <!--
     Note: this inline script cannot be changed without also changing the hash in
