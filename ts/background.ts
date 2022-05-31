@@ -55,6 +55,7 @@ import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { notificationService } from './services/notifications';
 import { areWeASubscriberService } from './services/areWeASubscriber';
+import { startTimeTravelDetector } from './util/startTimeTravelDetector';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
@@ -1726,7 +1727,10 @@ export async function startApp(): Promise<void> {
     window.setAutoHideMenuBar(hideMenuBar);
     window.setMenuBarVisibility(!hideMenuBar);
 
-    window.Whisper.WallClockListener.init(window.Whisper.events);
+    startTimeTravelDetector(() => {
+      window.Whisper.events.trigger('timetravel');
+    });
+
     window.Whisper.ExpiringMessagesListener.init(window.Whisper.events);
     window.Whisper.TapToViewMessagesListener.init(window.Whisper.events);
 

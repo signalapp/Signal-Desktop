@@ -550,7 +550,6 @@ export type WhisperType = {
   MessageCollection: typeof MessageModelCollectionType;
 
   GroupMemberConversation: WhatIsThis;
-  WallClockListener: WhatIsThis;
 
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<Receipt>;
