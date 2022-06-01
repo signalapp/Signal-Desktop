@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
@@ -31,6 +31,7 @@ import { UUID, UUIDKind } from '../types/UUID';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assert, strictAssert } from '../util/assert';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
@@ -689,8 +690,7 @@ export default class AccountManager extends EventTarget {
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));
 
-    const regionCode =
-      window.libphonenumber.util.getRegionCodeForNumber(number);
+    const regionCode = getRegionCodeForNumber(number);
     await storage.put('regionCode', regionCode);
     await storage.protocol.hydrateCaches();
   }

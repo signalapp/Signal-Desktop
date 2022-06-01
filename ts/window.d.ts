@@ -213,21 +213,6 @@ declare global {
     isFullScreen: () => boolean;
     initialTheme?: ThemeType;
     libphonenumber: {
-      util: {
-        getRegionCodeForNumber: (number: string) => string;
-        parseNumber: (
-          e164: string,
-          defaultRegionCode?: string
-        ) =>
-          | { isValidNumber: false; error: unknown }
-          | {
-              isValidNumber: true;
-              regionCode: string | undefined;
-              countryCode: string;
-              nationalNumber: string;
-              e164: string;
-            };
-      };
       parse: (number: string) => string;
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;

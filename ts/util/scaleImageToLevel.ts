@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import loadImage from 'blueimp-load-image';
@@ -7,6 +7,7 @@ import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG } from '../types/MIME';
 import { canvasToBlob } from './canvasToBlob';
 import { getValue } from '../RemoteConfig';
+import { parseNumber } from './libphonenumberUtil';
 
 enum MediaQualityLevels {
   One = 1,
@@ -67,18 +68,22 @@ function getMediaQualityLevel(): MediaQualityLevels {
   if (!values) {
     return DEFAULT_LEVEL;
   }
-  const countryValues = parseCountryValues(values);
+
   const e164 = window.textsecure.storage.user.getNumber();
   if (!e164) {
     return DEFAULT_LEVEL;
   }
-  const parsedPhoneNumber = window.libphonenumber.util.parseNumber(e164);
 
+  const parsedPhoneNumber = parseNumber(e164);
   if (!parsedPhoneNumber.isValidNumber) {
     return DEFAULT_LEVEL;
   }
 
-  const level = countryValues.get(parsedPhoneNumber.countryCode);
+  const countryValues = parseCountryValues(values);
+
+  const level = parsedPhoneNumber.countryCode
+    ? countryValues.get(parsedPhoneNumber.countryCode)
+    : undefined;
   if (level) {
     return level;
   }

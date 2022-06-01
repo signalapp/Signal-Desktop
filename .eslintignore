@@ -19,7 +19,6 @@ sticker-creator/dist/**
 # Third-party files
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-js/libphonenumber-util.js
 
 # TypeScript generated files
 app/**/*.js

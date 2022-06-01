@@ -19,6 +19,10 @@ import type {
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
+import {
+  getRegionCodeForNumber,
+  parseNumber,
+} from '../util/libphonenumberUtil';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
@@ -3406,7 +3410,7 @@ export class ConversationModel extends window.Backbone
       if (!regionCode) {
         throw new Error('No region code');
       }
-      const number = window.libphonenumber.util.parseNumber(
+      const number = parseNumber(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.get('e164')!,
         regionCode
@@ -5017,8 +5021,7 @@ export class ConversationModel extends window.Backbone
     const number = this.get('e164')!;
     try {
       const parsedNumber = window.libphonenumber.parse(number);
-      const regionCode =
-        window.libphonenumber.getRegionCodeForNumber(parsedNumber);
+      const regionCode = getRegionCodeForNumber(parsedNumber);
       if (regionCode === window.storage.get('regionCode')) {
         return window.libphonenumber.format(
           parsedNumber,

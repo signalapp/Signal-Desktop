@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ChangeEvent } from 'react';
@@ -7,6 +7,7 @@ import type { Plugin } from 'intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 
 import { strictAssert } from '../util/assert';
+import { parseNumber } from '../util/libphonenumberUtil';
 import { getChallengeURL } from '../challenge';
 
 const PhoneInput = ({
@@ -42,10 +43,7 @@ const PhoneInput = ({
 
       const regionCode = plugin.getSelectedCountryData().iso2;
 
-      const parsedNumber = window.libphonenumber.util.parseNumber(
-        number,
-        regionCode
-      );
+      const parsedNumber = parseNumber(number, regionCode);
 
       setIsValid(parsedNumber.isValidNumber);
       onValidation(parsedNumber.isValidNumber);
