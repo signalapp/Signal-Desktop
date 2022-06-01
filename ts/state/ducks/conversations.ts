@@ -1293,6 +1293,9 @@ function verifyConversationsStoppingSend(): ThunkAction<
     conversationIdsStoppingSend.forEach(async conversationId => {
       const conversation = window.ConversationController.get(conversationId);
       if (!conversation) {
+        log.warn(
+          `verifyConversationsStoppingSend: Cannot verify missing conversation for conversationId ${conversationId}`
+        );
         return;
       }
 

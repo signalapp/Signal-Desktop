@@ -1027,20 +1027,15 @@ export const getConversationIdsStoppingSend = createSelector(
 );
 
 export const getConversationsStoppingSend = createSelector(
-  getConversationByIdSelector,
+  getConversationSelector,
   getConversationIdsStoppingSend,
   (
-    conversationSelector: (id: string) => undefined | ConversationType,
+    conversationSelector: GetConversationByIdType,
     conversationIds: ReadonlyArray<string>
   ): Array<ConversationType> => {
-    const conversations = conversationIds
-      .map(conversationId => conversationSelector(conversationId))
-      .filter(isNotNil);
-    if (conversationIds.length !== conversations.length) {
-      log.warn(
-        `getConversationsStoppingSend: Started with ${conversationIds.length} items, ended up with ${conversations.length}.`
-      );
-    }
+    const conversations = conversationIds.map(conversationId =>
+      conversationSelector(conversationId)
+    );
     return sortByTitle(conversations);
   }
 );
