@@ -1,45 +1,22 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Backbone */
+import { assert } from 'chai';
+import { Model } from 'backbone';
 
-'use strict';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('ReliableTrigger', () => {
+describe('reliable trigger', () => {
   describe('trigger', () => {
-    let Model;
-    let model;
-
-    before(() => {
-      ({ Model } = Backbone);
-    });
+    let model: Model;
 
     beforeEach(() => {
       model = new Model();
     });
 
     it('returns successfully if this._events is falsey', () => {
-      model._events = null;
+      (model as any)._events = null;
       model.trigger('click');
-    });
-    it('handles map of events to trigger', () => {
-      let a = 0;
-      let b = 0;
-
-      model.on('a', arg => {
-        a = arg;
-      });
-      model.on('b', arg => {
-        b = arg;
-      });
-
-      model.trigger({
-        a: 1,
-        b: 2,
-      });
-
-      assert.strictEqual(a, 1);
-      assert.strictEqual(b, 2);
     });
     it('handles space-separated list of events to trigger', () => {
       let a = false;
@@ -112,7 +89,7 @@ describe('ReliableTrigger', () => {
       assert.strictEqual(called, true);
     });
     it('calls clients with 1 arg', () => {
-      let args;
+      let args: Array<unknown> = [];
       model.on('event', (...eventArgs) => {
         args = eventArgs;
       });
@@ -122,7 +99,7 @@ describe('ReliableTrigger', () => {
       assert.strictEqual(args[0], 1);
     });
     it('calls clients with 2 args', () => {
-      let args;
+      let args: Array<unknown> = [];
       model.on('event', (...eventArgs) => {
         args = eventArgs;
       });
@@ -133,7 +110,7 @@ describe('ReliableTrigger', () => {
       assert.strictEqual(args[1], 2);
     });
     it('calls clients with 3 args', () => {
-      let args;
+      let args: Array<unknown> = [];
       model.on('event', (...eventArgs) => {
         args = eventArgs;
       });
@@ -145,7 +122,7 @@ describe('ReliableTrigger', () => {
       assert.strictEqual(args[2], 3);
     });
     it('calls clients with 4+ args', () => {
-      let args;
+      let args: Array<unknown> = [];
       model.on('event', (...eventArgs) => {
         args = eventArgs;
       });
