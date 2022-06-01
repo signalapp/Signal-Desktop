@@ -929,6 +929,10 @@
         "message": "Yn Llwytho i Lawr",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Llwytho'r Neges Lawn i Lawr",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Llwytho Atodiad i Lawr",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Mae'r gwelliannau'n cynnwys datrysiad i broblem a fyddai weithiau'n ei gwneud hi'n anodd clicio ar ddewislenni.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Mae dangosyddion sain deinamig mewn grŵp yn eich cynorthwyo i weld os ydych yn sibrwd, gwaedu neu'n iawn.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Diolch i'n cyfranwyr cod agored $dsanders11$ ac $yusufsahinhamza$ am gyfrannu at y gwelliannau hyn.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Bydd grwpiau rydych wedi gofyn i gael ymuno â nhw drwy eich ffôn (drwy ddolen gwahoddiad) nawr yn cael eu dangos yn Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Cysylltiad Wi-Fi gwan? Dim problem, gallwch nawr geisio llwytho i lawr atodiadau eto.",
+        "description": "Release notes for v5.45"
     }
 }

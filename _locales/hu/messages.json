@@ -929,6 +929,10 @@
         "message": "Letöltés",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Teljes üzenet letöltése",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Csatolmány letöltése",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Orvosoltunk egy problémát, amikor a menüelemekre kattintás nem minden esetben működött.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "A csoporthívásokban megjelenő dinamikus hangerő indikátorok segítenek megállapítani, hogy épp suttogsz, üvöltesz, vagy pont jó a hangerőd.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Köszönjük a nyílt forrású hozzájárulásokat $dsanders11$ és $yusufsahinhamza$ felhasználóknak, akik közreműködtek számos hiba javításában.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Azok a csoportok, ahová telefonról kérted felvételedet (csoporthivatkozás használatával) mostantól megjelennek a Desktopban is.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Szakadozik a Wi-Fi? Nem gond, mostantól újraindíthatod a csatolmányok letöltését.",
+        "description": "Release notes for v5.45"
     }
 }

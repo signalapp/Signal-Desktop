@@ -929,6 +929,10 @@
         "message": "Завантаження",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Завантажити повідомлення повністю",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Завантажити вкладення",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Виправлення помилок, зокрема помилки, яка інколи призводила до важкостей з клацанням на меню.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Динамічні індикатори у групових викликах допоможуть вам зрозуміти коли ви шепочете, галасуєте або нормально розмовляєте.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Дякуємо нашим внескодавцям спільноти відкритого вихідного коду — $dsanders11$ та $yusufsahinhamza$ — за їхній внесок у ці покращення. ",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Групи, запит до яких ви надіслали з телефону (використав посилання-запрошення), відтепер показуватимуться у версії для комп'ютера.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Користуєтесь мінливим Wi-Fi підключенням? Жодних проблем, відтепер ви можете перезапускати завантаження додатків.",
+        "description": "Release notes for v5.45"
     }
 }

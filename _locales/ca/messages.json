@@ -929,6 +929,10 @@
         "message": "Es baixa",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Descarrega el missatge complet",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Baixa l'adjunt",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Correccions d'errors, inclosa una solució a un problema que de vegades dificultava fer clic als menús.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Els indicadors d'àudio dinàmics de les trucades de grup us ajuden a veure si esteu xiuxiuejant, cridant o esteu bé.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Gràcies als nostres col·laboradors de codi obert $dsanders11$ i $yusufsahinhamza$ per contribuir a aquestes millores.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Els grups als quals heu sol·licitat afegir-vos des del telèfon (a través d'un enllaç d'invitació) es mostraran ara a l'escriptori.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Teniu una connexió Wi-Fi irregular? No és cap problema, ara podeu tornar a provar de baixar els fitxers adjunts.",
+        "description": "Release notes for v5.45"
     }
 }

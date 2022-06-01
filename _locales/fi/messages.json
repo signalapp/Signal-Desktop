@@ -929,6 +929,10 @@
         "message": "Ladataan",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Lataa koko viesti",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Lataa liite",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Virheenkorjauksia, mukaan lukien sen virheen korjaaminen joka teki joskus valikoiden klikkaamisesta hankalaa.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynaamiset ääni-indikaattorit ryhmäpuheluissa auttavat nyt sinua näkemään kuiskaatko, huudatko vai puhutko sopivalla äänenvoimakkuudella.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Kiitos vapaaehtoisille osallistujillemme $dsanders11$ ja $yusufsahinhamza$ heidän panoksestaan näihin parannuksiin.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Näet nyt myös työpöytäversiossa ryhmät, joihin olet pyytänyt liittymistä puhelimellasi.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Onko sinulla pykivä verkkoyhteys? Ei hätää, voit nyt käskyttää Signalin yrittämään liitteiden lataamista uudelleen.",
+        "description": "Release notes for v5.45"
     }
 }

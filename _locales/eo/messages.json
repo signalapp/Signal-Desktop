@@ -929,6 +929,10 @@
         "message": "Elŝutado",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Elŝuti la tutan mesaĝon",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Elŝuti kunsendaĵon",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Tiu versio enhavas kelkajn optimumaĵojn kaj riparetojn, por ke Signal plu funkciu bone.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Riparoj korektas problemon kun menuoj malfacile alklakeblaj.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Aŭd-indikiloj en grupalvoko helpas al vi vidi, se vi murmuras, krias aŭ parolas normale.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Dankon al niaj malfermit-kodaj kontribuantoj $dsanders11$ kaj $yusufsahinhamza$ pro tiuj plibonigoj.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "La grupoj, kiujn vi petis anigi ĉe via telefono (pere de invitoligilo), montriĝos en Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Ĉu vi havas nestabilan retkonekton? Tio ne plus estas problemo, vin povas nun reprovi elŝuti la kunsendaĵojn.",
+        "description": "Release notes for v5.45"
     }
 }

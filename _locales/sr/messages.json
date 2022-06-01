@@ -929,6 +929,10 @@
         "message": "Преузимам",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Преузети целу поруку",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Преузми прилог",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -2794,7 +2798,7 @@
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$ days remaining",
+        "message": "Остало $days$ дана",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -7265,22 +7269,16 @@
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Хвала нашим сарадницима отвореног кода $dsanders11$ и $yusufsahinhamza$ за допринос овим побољшањима.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
+        "description": "Release notes for v5.45"
     }
 }

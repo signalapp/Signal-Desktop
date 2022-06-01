@@ -929,6 +929,10 @@
         "message": "下載中…",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "下載完整的訊息",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "下載附件",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "錯誤修復，包括修復有時難以點擊選單的問題。",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "群組通話中的動態音訊指示器可幫助你查看你是在竊竊私語、大喊大叫還是恰到好處。",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "感謝我們的開源貢獻者$dsanders11$ 及 $yusufsahinhamza$為這些改進做出了貢獻。",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "你透過手機請求加入的群組（透過邀請連結）現在將顯示在電腦上。",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "有個不穩定的 Wi-Fi 訊號連接？ 這不是問題，你現在可以重試下載附件。",
+        "description": "Release notes for v5.45"
     }
 }

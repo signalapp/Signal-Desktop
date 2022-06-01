@@ -929,6 +929,10 @@
         "message": "Wird heruntergeladen",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Ganze Nachricht herunterladen",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Anhang herunterladen",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -2758,7 +2762,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened": {
-        "message": "Schaue dir diese Nachricht auf deinem Mobilgerät an, um diese zu öffnen",
+        "message": "Schau dir diese Nachricht auf deinem Mobilgerät an, um sie zu öffnen",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--label": {
@@ -2770,7 +2774,7 @@
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Nutze dein Mobilgerät, um dieses Geschenk anzusehen",
+        "message": "Nutze dein Mobilgerät, um dein Geschenk anzusehen",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -3296,7 +3300,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
-        "message": "Auflegen",
+        "message": "Anruf beenden",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
@@ -7265,22 +7269,16 @@
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Fehlerkorrekturen einschließlich der Behebung eines Problems, das es manchmal schwierig machte, auf Menüs zu klicken.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamische Audioindikatoren in Gruppenanrufen helfen dir dabei festzustellen, ob du gerade flüsterst, schreist oder genau richtig bist.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Vielen Dank an unsere Mitwirkenden am Open-Source-Projekt $dsanders11$ und $yusufsahinhamza$, die zu diesen Verbesserungen beigetragen haben.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Gruppen, für die du eine Beitrittsanfrage von deinem Telefon (via eines Einladungslinks) gestellt hast, werden nun auch auf dem PC angezeigt.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Du hast eine lückenhafte WLAN-Verbindung? Kein Problem, du kannst ab jetzt versuchen, Anhänge erneut herunterzuladen.",
+        "description": "Release notes for v5.45"
     }
 }

@@ -929,6 +929,10 @@
         "message": "מוריד",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "הורד הודעה מלאה",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "הורד צרופה",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "תיקוני תקלים כולל תיקון אל סוגייה שהקשתה לפעמים ללחוץ על תפריטים.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "מחווני שמע דינאמיים בשיחות קבוצתיות עוזרות לך לראות אם אתה לוחש, צורח, או פשוט צודק.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "תודה אל תורמי הקוד הפתוח שלנו $dsanders11$ וכן $yusufsahinhamza$ על תרומה אל השיפורים האלו.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "קבוצות שביקשת להצטרף אליהן מהטלפון שלך (באמצעות קישור הזמנה) יופיעו על שולחן עבודה.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "יש לך חיבור Wi-Fi בלתי יציב? אין בעיה, אתה יכול לנסות מחדש עכשיו להוריד צרופות.",
+        "description": "Release notes for v5.45"
     }
 }

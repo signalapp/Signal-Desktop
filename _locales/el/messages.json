@@ -929,6 +929,10 @@
         "message": "Κατεβαίνει",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Λήψη ολόκληρου του μηνύματος",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Λήψη συνημμένου",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -2758,7 +2762,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened": {
-        "message": "View this message on mobile to open it",
+        "message": "Δες αυτό το μήνυμα στο κινητό για να το ανοίξεις",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--label": {
@@ -2766,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Check your phone to open gift",
+        "message": "Δες το τηλέφωνό σου για να ανοίξεις το δώρο",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Check your phone to view your gift",
+        "message": "Δες το τηλέφωνό σου για να δεις το δώρο",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2778,15 +2782,15 @@
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "Εξαργύρωσες ένα δώρο έμβλημα",
+        "message": "Εξαργύρωσες ένα έμβλημα δώρο",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "You sent a gift badge",
+        "message": "Έστειλες ένα έμβλημα δώρο",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Gift Badge",
+        "message": "Έμβλημα δώρο",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
@@ -2794,7 +2798,7 @@
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$ days remaining",
+        "message": "Απομένουν $days$ ημέρες",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -2804,7 +2808,7 @@
         }
     },
     "message--giftBadge--remaining--hours": {
-        "message": "$hours$ hours remaining",
+        "message": "Απομένουν $hours$ ώρες",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
         "placeholders": {
             "hours": {
@@ -2814,7 +2818,7 @@
         }
     },
     "message--giftBadge--remaining--minutes": {
-        "message": "$minutes$ minutes remaining",
+        "message": "Απομένουν $minutes$ λεπτά",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
         "placeholders": {
             "minutes": {
@@ -2824,11 +2828,11 @@
         }
     },
     "message--giftBadge--remaining--one-minute": {
-        "message": "1 minute remaining",
+        "message": "Απομένει 1 λεπτό",
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "Έληξε",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2844,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
+        "message": "Έκανες δώρο ένα έμβλημα στον/στην $name$. Όταν το αποδεχτεί, θα έχει την επιλογή να το εμφανίσει ή να το αποκρύψει.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3276,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Accept call with video",
+        "message": "Αποδοχή κλήσης με βίντεο",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Accept call with audio",
+        "message": "Αποδοχή κλήσης με ήχο",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -7168,7 +7172,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "Reply to Group",
+        "message": "Απάντηση στην ομάδα",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
@@ -7236,7 +7240,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Reacted to a story from $name$",
+        "message": "Αντέδρασε σε ιστορία του/της $name$",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7265,22 +7269,16 @@
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Διορθώσεις σφαλμάτων, συμπεριλαμβανομένης της διόρθωσης ενός προβλήματος που έκανε δύσκολο το κλικ στα μενού.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Οι δυναμικές ενδείξεις ήχου στις ομαδικές κλήσεις βοηθούν να δεις αν μιλάς πολύ χαμηλόφωνα, φωνάζοντας, ή σε καλή στάθμη.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Ευχαριστούμε τους συνεισφέροντες στον ανοιχτού κώδικα, $dsanders11$ και $yusufsahinhamza$, για τη συνεισφορά τους στις βελτιώσεις αυτές.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Οι ομάδες στις οποίες ζήτησες να μπεις από το τηλέφωνό σου (μέσω ενός συνδέσμου πρόσκλησης) θα εμφανίζονται πλέον στο Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Ασταθής σύνδεση Wi-Fi; Κανένα πρόβλημα, μπορείς πλέον να ξαναδοκιμάσεις τη λήψη συνημμένων.",
+        "description": "Release notes for v5.45"
     }
 }
