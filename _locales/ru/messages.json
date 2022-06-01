@@ -929,6 +929,10 @@
         "message": "Скачивание",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Скачать полное сообщение",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Загрузить вложение",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Исправления ошибок, включающие исправление проблемы, из-за которой было иногда сложно нажимать на меню.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Динамические индикаторы аудио в групповых звонках помогают вам понять, шепчите вы, кричите или говорите в самый раз.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Благодарим наших разработчиков открытого исходного кода $dsanders11$ и $yusufsahinhamza$ за помощь в этих улучшениях.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Группы, в которых вы отправили запрос на присоединение со своего телефона (с помощью ссылки на группу) теперь показываются в Signal Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Плохое соединение Wi-Fi? Не проблема, теперь вы можете заново пробовать скачивать вложения.",
+        "description": "Release notes for v5.45"
     }
 }

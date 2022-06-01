@@ -929,6 +929,10 @@
         "message": "Endirilir",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Tam mesajı endir",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Qoşmanı endir",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bəzən menyuya klikləməni çətinləşdirən problemin həlli də daxil olmaqla bir çox xətalar aradan qaldırılıb.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Qrup zənglərindəki dinamik səs göstəriciləri fısıldamanı, qışqırmanı görməyinizə kömək edir.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Bu təkmilləşdirməyə töhfə verən açıq mənbə töhfəçilərimiz $dsanders11$ və $yusufsahinhamza$-ya təşəkkürlər.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Telefonunuzdan (dəvət bağlantısı vasitəsilə) qoşulmaq üçün göndərdiyiniz tələblər artıq Masaüstündə görünəcək.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Wi-Fi bağlantınız zəifdir? Problem deyil, artıq qoşmaları yenidən endirməyə çalışa bilərsiniz.",
+        "description": "Release notes for v5.45"
     }
 }

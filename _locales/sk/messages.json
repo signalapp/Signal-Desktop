@@ -929,6 +929,10 @@
         "message": "Sťahujem",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Stiahnite si celú správu",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Stiahnuť prílohu",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Opravy chýb vrátane opravy problému, ktorý niekedy sťažoval klikanie na ponuky.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamické zvukové indikátory v skupinových hovoroch vám pomôžu zistiť, či šepkáte, kričíte alebo je akurát.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Ďakujeme našim open source prispievateľom $dsanders11$ a $yusufsahinhamza$ za to, že prispeli k týmto zlepšeniam.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Skupiny, o ktoré ste požiadali zo svojho telefónu (prostredníctvom odkazu na pozvánku), sa teraz zobrazia na pracovnej ploche.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Máte poruchové pripojenie Wi-Fi? Nie je problém, teraz môžete znova skúsiť stiahnuť prílohy.",
+        "description": "Release notes for v5.45"
     }
 }

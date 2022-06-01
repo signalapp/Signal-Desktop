@@ -929,6 +929,10 @@
         "message": "Descargando",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Descargar mensaje completo",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Descargar archivo adjunto",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Reparación de fallos incluyendo uno que hacía casi imposible hacer clic en menús.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Indicador dinámico de audio en llamadas de grupo para comprobar quién susurra, grita o habla normalmente.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Gracias a nuestr@s colaborador@s $dsanders11$ y $yusufsahinhamza$ por contribuir con estas mejoras.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Ahora, los grupos a los que has solicitado unirte desde tu celular/móvil (vía enlace) se mostrarán en la aplicación de escritorio.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "¿Usas una conexión Wifi con problemas? No te preocupes: Ahora puedes reintentar la descarga de adjuntos.",
+        "description": "Release notes for v5.45"
     }
 }

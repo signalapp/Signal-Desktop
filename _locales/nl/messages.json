@@ -564,7 +564,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "Alle media",
+        "message": "Alle media uit dit gesprek",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -929,6 +929,10 @@
         "message": "Wordt gedownload",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Volledig bericht downloaden",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Bijlage downloaden",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -1126,7 +1130,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Afwijzen",
+        "message": "Wissen",
         "description": ""
     },
     "accept": {
@@ -1586,11 +1590,11 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__pre-call-info--empty-group": {
-        "message": "Er is niemand behalve jij in dit gesprek",
+        "message": "Er is niemand in de groepsoproep. Klik op ‘Oproep beginnen’ om een oproep te beginnen.",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__pre-call-info--1-person-in-call": {
-        "message": "$first$ is aanwezig in deze oproep",
+        "message": "$first$ is aanwezig in de oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1600,11 +1604,11 @@
         }
     },
     "calling__pre-call-info--another-device-in-call": {
-        "message": "Een van je andere apparaten neemt deel aan deze oproep",
+        "message": "Een van je andere apparaten neemt deel aan deze oproep. Klik op ‘Aan oproep deelnemen’ om ook vanaf dit apparaat deel te nemen.",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
-        "message": "$first$ en $second$ zijn aanwezig in deze oproep",
+        "message": "$first$ en $second$ zijn aanwezig in deze oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1618,7 +1622,7 @@
         }
     },
     "calling__pre-call-info--3-people-in-call": {
-        "message": "$first$, $second$ en $third$ zijn aanwezig in deze oproep",
+        "message": "$first$, $second$ en $third$ zijn aanwezig in deze oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1636,7 +1640,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": ",$first$ $second$ en $others$ anderen zijn aanwezig in deze oproep",
+        "message": "$first$, $second$ en $others$ anderen zijn aanwezig in deze oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1664,7 +1668,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal belt $first$ en $second$",
+        "message": "Als je doorgaat zul je $first$ en $second$ bellen",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1682,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal belt $first$, $second$ en $third$",
+        "message": "Als je doorgaat zul je $first$, $second$ en $third$ bellen",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1700,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal belt $first$, $second$ en nog $others$ anderen",
+        "message": "Als je doorgaat zul je $first$, $second$ en nog $others$ anderen bellen",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1714,7 +1718,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ zal een melding krijgen",
+        "message": "Als je doorgaat zal $person$ een melding krijgen",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1724,7 +1728,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ en $second$ zullen een melding krijgen",
+        "message": "Als je doorgaat zullen $first$ en $second$ een melding krijgen",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1738,7 +1742,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$ en $third$ zullen een melding krijgen",
+        "message": "Als je doorgaat zullen $first$, $second$ en $third$ een melding krijgen",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1756,7 +1760,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$ en $others$ anderen zullen een melding krijgen",
+        "message": "Als je doorgaat zullen $first$, $second$ en $others$ anderen een melding krijgen",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1774,7 +1778,7 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "Er is niemand behalve jij in dit gesprek",
+        "message": "Er is niemand behalve jij in deze oproep",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
@@ -1900,11 +1904,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Toestemming geven om de microfoon te gebruiken",
+        "message": "Ik geef Signal toestemming om mijn microfoon te gebruiken",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Toestemming geven om de camera te gebruiken",
+        "message": "Ik geef Signal toestemming om mijn camera te gebruiken",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1924,11 +1928,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimaliseer naar systeemvak in plaats van taakbalk",
+        "message": "Minimaliseer naar het systeemvak in plaats van de taakbalk",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Houd Signal geminimaliseerd naar systeemvak wanneer het wordt gestart",
+        "message": "Houd Signal geminimaliseerd naar het systeemvak wanneer het wordt gestart",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -2262,7 +2266,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Meldingsgeluid afspelen",
+        "message": "Bij nieuwe meldingen geluid afspelen",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -3140,7 +3144,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "‘Alle media’-scherm weergeven",
+        "message": "‘Alle media uit dit gesprek’-scherm weergeven",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -5650,7 +5654,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Gedempte gesprekken meetellen in badge-getal",
+        "message": "Berichten in gedempte gesprekken meetellen in het aantal ongelezen berichten",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -7172,7 +7176,7 @@
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
-        "message": "Micro­foon dempen",
+        "message": "Meldingen dempen",
         "description": "Aria label for muting stories"
     },
     "StoryViewer__unmute": {
@@ -7265,22 +7269,16 @@
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Foutoplossingen, waaronder een oplossing voor een fout waarbij het soms moeilijk was op op menuknoppen te klikken.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Door audioniveau-indicatoren in groepsoproepen kun je zien wie degene is die fluistert en wie er schreeuwt.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Dank aan $dsanders11$ en $yusufsahinhamza$ voor hun hulp bij het schrijven van code voor deze verbeteringen.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Vanaf nu kun je de ook op Signal-desktop de groepen zien waarvoor je vanaf je telefoon hebt verzocht om lid te worden (via een groepsverwijzing). ",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Heb je een slechte wifi-verbinding? Geen probleem, want vanaf nu kun je het downloaden van bijlagen opnieuw proberen.",
+        "description": "Release notes for v5.45"
     }
 }

@@ -929,6 +929,10 @@
         "message": "Pobieranie",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Pobierz pełną wiadomość.",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Pobierz załącznik",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Poprawki błędów, w tym problemu powodującego czasem trudności z kliknięciem menu.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamiczne wskaźniki audio w rozmowach grupowych pomogą Ci sprawdzić czy szepczesz, krzyczysz, czy mówisz odpowiednio głośno.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Dziękujemy $dsanders11$ i $yusufsahinhamza$ za przyczynienie się do powstania tych poprawek.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Teraz w aplikacji Desktop będą widoczne grupy, o dołączenie do których poprosiłeś z telefonu (przez link do grupy).",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Kiepskie połączenie Wi-Fi? Nie ma problemu! Teraz możesz ponowić pobieranie załączników.",
+        "description": "Release notes for v5.45"
     }
 }

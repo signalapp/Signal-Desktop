@@ -929,6 +929,10 @@
         "message": "Caricamento in corso",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Scarica messaggio completo",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Scarica allegato",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Correzioni di bug, inclusa la correzione di un problema che a volte rendeva difficile cliccare sui menu. ",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Gli indicatori audio dinamici nelle chiamate di gruppo aiutano a capire se si sta sussurrando, urlando o se va tutto bene.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Grazie ai nostri collaboratori open source $dsanders11$ e $yusufsahinhamza$ per aver contribuito a questi miglioramenti.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "I gruppi a cui si è chiesto di partecipare dal telefono (tramite un link di invito) vengono ora visualizzati su Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "La connessione Wi-Fi è irregolare? Non è un problema, ora è possibile riprovare a scaricare gli allegati.",
+        "description": "Release notes for v5.45"
     }
 }

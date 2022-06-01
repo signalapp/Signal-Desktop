@@ -929,6 +929,10 @@
         "message": "İndiriliyor",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Tüm İletiyi İndir",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Eklentiyi İndir",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bazen menülere tıklamayı zorlaştıran bir soruna yönelik düzeltme de dahil olmak üzere hata düzeltmeleri içerir.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Grup aramalarındaki dinamik sesli göstergeler, fısıldaşıp konuşmadığınızı, bağırıp çağırmadığınızı veya tam olarak haklı olup olmadığınızı görmenize yardımcı olur.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Bu iyileştirmelere katkıda bulundukları için açık kaynak katılımcılarımız $dsanders11$ ve $yusufsahinhamza$'ya teşekkür ederiz.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Telefonunuzdan (davet bağlantısı aracılığıyla) katılmayı talep ettiğiniz gruplar artık Masaüstünde gösterilecek.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Kesintili bir Wi-Fi bağlantınız mı var? Sorun değil, artık ekleri indirmeyi yeniden deneyebilirsiniz.",
+        "description": "Release notes for v5.45"
     }
 }

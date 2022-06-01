@@ -929,6 +929,10 @@
         "message": "ダウンロードしています",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "全文をダウンロード",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "添付ファイルをダウンロード",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -1074,7 +1078,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Signalをアップデートできませんでした。$url$から手動でインストールしてください。またこの問題を、$support$までお知らせください。",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -7265,22 +7269,16 @@
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "メニューがクリックしにくくなることがあるバグを修正しました。",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "グループ通話時のダイナミックオーディオインジケーターが登場！自分の声の大きさを確認できます。",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "コントリビューターである、$dsanders11$ と、 $yusufsahinhamza$、ありがとうございます！",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "自分が招待リンクを使ってスマートフォンから参加申請したグループが、デスクトップアプリにも表示されるようになりました。",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "添付ファイルのダウンロードを再試行できるようになりました。",
+        "description": "Release notes for v5.45"
     }
 }

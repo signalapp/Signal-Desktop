@@ -929,6 +929,10 @@
         "message": "A descarregar",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Download da mensagem inteira",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "Descarregar anexo",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -7265,22 +7269,16 @@
         "message": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Correção de erros incluindo uma correção para um problema que algumas vezes tornava difícil clicar em menus.",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Os indicadores de áudio dinâmicos em chamadas em grupo ajudam-no a ver se você está a sussurrar, a gritar ou apenas correto.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Agradecemos aos nossos colaboradores de código aberto $dsanders11$ e $yusufsahinhamza$ por contribuírem para estas melhorias.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Os grupos que solicitou entrar a partir do seu telemóvel (através de um link de convite) agora aparecerão na área de trabalho.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Tem uma ligação Wi-Fi irregular? Não há problema, agora você pode tentar novamente fazer o download dos anexos.",
+        "description": "Release notes for v5.45"
     }
 }
