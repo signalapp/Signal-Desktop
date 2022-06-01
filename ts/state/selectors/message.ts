@@ -1371,7 +1371,7 @@ export function getMessagePropStatus(
   >,
   ourConversationId: string | undefined
 ): LastMessageStatus | undefined {
-  if (isIncoming(message)) {
+  if (!isOutgoing(message)) {
     return hasErrors(message) ? 'error' : undefined;
   }
 
