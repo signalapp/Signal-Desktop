@@ -1581,6 +1581,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.set({
         // This is the same as a normal send()
         expirationStartTimestamp: Date.now(),
+        errors: [],
       });
       const result = await this.sendSyncMessage();
       this.set({

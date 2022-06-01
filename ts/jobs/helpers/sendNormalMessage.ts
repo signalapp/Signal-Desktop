@@ -108,6 +108,7 @@ export async function sendNormalMessage(
     const {
       allRecipientIdentifiers,
       recipientIdentifiersWithoutMe,
+      sentRecipientIdentifiers,
       untrustedConversationIds,
     } = getMessageRecipients({
       message,
@@ -150,9 +151,13 @@ export async function sendNormalMessage(
     let messageSendPromise: Promise<CallbackResultType | void>;
 
     if (recipientIdentifiersWithoutMe.length === 0) {
-      if (!isMe(conversation.attributes) && !isGroup(conversation.attributes)) {
+      if (
+        !isMe(conversation.attributes) &&
+        !isGroup(conversation.attributes) &&
+        sentRecipientIdentifiers.length === 0
+      ) {
         log.info(
-          'No recipients, but we are not sending to ourselves or to group. Failing job.'
+          'No recipients; not sending to ourselves or to group, and no successful sends. Failing job.'
         );
         markMessageFailed(message, [new Error('No valid recipients')]);
         return;
@@ -334,20 +339,18 @@ function getMessageRecipients({
 }>): {
   allRecipientIdentifiers: Array<string>;
   recipientIdentifiersWithoutMe: Array<string>;
+  sentRecipientIdentifiers: Array<string>;
   untrustedConversationIds: Array<string>;
 } {
   const allRecipientIdentifiers: Array<string> = [];
   const recipientIdentifiersWithoutMe: Array<string> = [];
   const untrustedConversationIds: Array<string> = [];
+  const sentRecipientIdentifiers: Array<string> = [];
 
   const currentConversationRecipients = conversation.getMemberConversationIds();
 
   Object.entries(message.get('sendStateByConversationId') || {}).forEach(
     ([recipientConversationId, sendState]) => {
-      if (isSent(sendState.status)) {
-        return;
-      }
-
       const recipient = window.ConversationController.get(
         recipientConversationId
       );
@@ -377,6 +380,11 @@ function getMessageRecipients({
         return;
       }
 
+      if (isSent(sendState.status)) {
+        sentRecipientIdentifiers.push(recipientIdentifier);
+        return;
+      }
+
       allRecipientIdentifiers.push(recipientIdentifier);
       if (!isRecipientMe) {
         recipientIdentifiersWithoutMe.push(recipientIdentifier);
@@ -387,6 +395,7 @@ function getMessageRecipients({
   return {
     allRecipientIdentifiers,
     recipientIdentifiersWithoutMe,
+    sentRecipientIdentifiers,
     untrustedConversationIds,
   };
 }
