@@ -383,7 +383,6 @@ declare global {
         WhatsNewLink: typeof WhatsNewLink;
       };
       OS: typeof OS;
-      Views: WhatIsThis;
       State: {
         createStore: typeof createStore;
         Roots: {

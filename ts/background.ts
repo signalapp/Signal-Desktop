@@ -39,6 +39,7 @@ import { assert, strictAssert } from './util/assert';
 import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
+import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService';
@@ -502,7 +503,6 @@ export async function startApp(): Promise<void> {
     deleteAttachmentData,
     doesAttachmentExist,
   } = window.Signal.Migrations;
-  const { Views } = window.Signal;
 
   log.info('background page reloaded');
   log.info('environment:', window.getEnvironment());
@@ -546,7 +546,10 @@ export async function startApp(): Promise<void> {
     return accountManager;
   };
 
-  const cancelInitializationMessage = Views.Initialization.setMessage();
+  const cancelInitializationMessage = setAppLoadingScreenMessage(
+    undefined,
+    window.i18n
+  );
 
   const version = await window.Signal.Data.getItemById('version');
   if (!version) {
@@ -792,7 +795,10 @@ export async function startApp(): Promise<void> {
       }
     }
 
-    Views.Initialization.setMessage(window.i18n('optimizingApplication'));
+    setAppLoadingScreenMessage(
+      window.i18n('optimizingApplication'),
+      window.i18n
+    );
 
     if (newVersion) {
       // We've received reports that this update can take longer than two minutes, so we
@@ -816,7 +822,7 @@ export async function startApp(): Promise<void> {
       log.error('SQL failed to initialize', err && err.stack ? err.stack : err);
     }
 
-    Views.Initialization.setMessage(window.i18n('loading'));
+    setAppLoadingScreenMessage(window.i18n('loading'), window.i18n);
 
     let isMigrationWithIndexComplete = false;
     log.info(

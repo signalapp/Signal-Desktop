@@ -125,9 +125,6 @@ const { UUID } = require('../../ts/types/UUID');
 const { Address } = require('../../ts/types/Address');
 const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
 
-// Views
-const Initialization = require('./views/initialization');
-
 // Processes / Services
 const {
   initializeGroupCredentialFetcher,
@@ -404,10 +401,6 @@ exports.setup = (options = {}) => {
     QualifiedAddress,
   };
 
-  const Views = {
-    Initialization,
-  };
-
   return {
     Backbone,
     Components,
@@ -426,6 +419,5 @@ exports.setup = (options = {}) => {
     Stickers,
     Types,
     Util,
-    Views,
   };
 };

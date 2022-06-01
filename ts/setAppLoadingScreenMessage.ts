@@ -1,15 +1,13 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env browser */
-
-/* global i18n: false */
+import type { LocalizerType } from './types/Util';
 
 const DISPLAY_THRESHOLD = 3000; // milliseconds
 const SELECTOR = '.app-loading-screen .message';
 
-let timeout;
-let targetString;
+let timeout: null | ReturnType<typeof setTimeout>;
+let targetString: string;
 let didTimeout = false;
 
 const clear = () => {
@@ -19,8 +17,11 @@ const clear = () => {
   }
 };
 
-const setMessage = loadingText => {
-  const message = document.querySelector(SELECTOR);
+export function setAppLoadingScreenMessage(
+  loadingText: undefined | string,
+  i18n: LocalizerType
+): () => void {
+  const message = document.querySelector<HTMLElement>(SELECTOR);
   if (!message) {
     return clear;
   }
@@ -35,7 +36,7 @@ const setMessage = loadingText => {
 
   timeout = setTimeout(() => {
     didTimeout = true;
-    const innerMessage = document.querySelector(SELECTOR);
+    const innerMessage = document.querySelector<HTMLElement>(SELECTOR);
     if (!innerMessage) {
       return;
     }
@@ -43,8 +44,4 @@ const setMessage = loadingText => {
   }, DISPLAY_THRESHOLD);
 
   return clear;
-};
-
-module.exports = {
-  setMessage,
-};
+}
