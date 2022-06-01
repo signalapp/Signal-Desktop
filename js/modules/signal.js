@@ -13,7 +13,6 @@ const Data = require('../../ts/sql/Client').default;
 const EmojiLib = require('../../ts/components/emoji/lib');
 const Groups = require('../../ts/groups');
 const GroupChange = require('../../ts/groupChange');
-const IndexedDB = require('./indexeddb');
 const OS = require('../../ts/OS');
 const Stickers = require('../../ts/types/Stickers');
 const RemoteConfig = require('../../ts/RemoteConfig');
@@ -419,7 +418,6 @@ exports.setup = (options = {}) => {
     EmojiLib,
     Groups,
     GroupChange,
-    IndexedDB,
     Migrations,
     OS,
     RemoteConfig,

@@ -1,18 +1,9 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global window, clearTimeout, setTimeout */
-
 const LEGACY_DATABASE_ID = 'signal';
-const MESSAGE_MINIMUM_VERSION = 7;
 
-module.exports = {
-  doesDatabaseExist,
-  MESSAGE_MINIMUM_VERSION,
-  removeDatabase,
-};
-
-async function doesDatabaseExist() {
+export async function doesDatabaseExist(): Promise<boolean> {
   window.SignalContext.log.info(
     'Checking for the existence of IndexedDB data...'
   );
@@ -21,7 +12,7 @@ async function doesDatabaseExist() {
 
     let existed = true;
 
-    let timer = setTimeout(() => {
+    let timer: undefined | ReturnType<typeof setTimeout> = setTimeout(() => {
       window.SignalContext.log.warn(
         'doesDatabaseExist: Timed out attempting to check IndexedDB status'
       );
@@ -53,7 +44,7 @@ async function doesDatabaseExist() {
   });
 }
 
-function removeDatabase() {
+export function removeDatabase(): void {
   window.SignalContext.log.info(
     `Deleting IndexedDB database '${LEGACY_DATABASE_ID}'`
   );

@@ -398,10 +398,6 @@ declare global {
         WhatsNewLink: typeof WhatsNewLink;
       };
       OS: typeof OS;
-      IndexedDB: {
-        removeDatabase: WhatIsThis;
-        doesDatabaseExist: WhatIsThis;
-      };
       Views: WhatIsThis;
       State: {
         createStore: typeof createStore;

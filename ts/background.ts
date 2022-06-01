@@ -24,6 +24,7 @@ import type {
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
+import * as indexedDb from './indexeddb';
 import type { WhatIsThis } from './window.d';
 import type { Receipt } from './types/Receipt';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
@@ -494,8 +495,6 @@ export async function startApp(): Promise<void> {
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
-  const { removeDatabase: removeIndexedDB, doesDatabaseExist } =
-    window.Signal.IndexedDB;
   const { Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
@@ -551,7 +550,7 @@ export async function startApp(): Promise<void> {
 
   const version = await window.Signal.Data.getItemById('version');
   if (!version) {
-    const isIndexedDBPresent = await doesDatabaseExist();
+    const isIndexedDBPresent = await indexedDb.doesDatabaseExist();
     if (isIndexedDBPresent) {
       log.info('Found IndexedDB database.');
       try {
@@ -582,7 +581,7 @@ export async function startApp(): Promise<void> {
         log.info('Deleting IndexedDB file...');
 
         await Promise.all([
-          removeIndexedDB(),
+          indexedDb.removeDatabase(),
           window.Signal.Data.removeAll(),
           window.Signal.Data.removeIndexedDBFiles(),
         ]);
