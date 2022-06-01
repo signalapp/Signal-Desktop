@@ -8,12 +8,20 @@ export function getConversationUnreadCountForAppBadge(
   conversation: Readonly<
     Pick<
       ConversationAttributesType,
-      'isArchived' | 'markedUnread' | 'muteExpiresAt' | 'unreadCount'
+      | 'active_at'
+      | 'isArchived'
+      | 'markedUnread'
+      | 'muteExpiresAt'
+      | 'unreadCount'
     >
   >,
   canCountMutedConversations: boolean
 ): number {
   const { isArchived, markedUnread, unreadCount } = conversation;
+
+  if (!conversation.active_at) {
+    return 0;
+  }
 
   if (isArchived) {
     return 0;

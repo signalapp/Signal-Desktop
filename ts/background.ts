@@ -2307,7 +2307,7 @@ export async function startApp(): Promise<void> {
     ]);
     log.info('onEmpty: All outstanding database requests complete');
     window.readyForUpdates();
-    window.getInboxCollection().onEmpty();
+    window.ConversationController.onEmpty();
 
     // Start listeners here, after we get through our queue.
     RotateSignedPreKeyListener.init(window.Whisper.events, newVersion);

@@ -13,10 +13,25 @@ describe('getConversationUnreadCountForAppBadge', () => {
 
   it('returns 0 if the conversation is archived', () => {
     const archivedConversations = [
-      { isArchived: true, markedUnread: false, unreadCount: 0 },
-      { isArchived: true, markedUnread: false, unreadCount: 123 },
-      { isArchived: true, markedUnread: true, unreadCount: 0 },
-      { isArchived: true, markedUnread: true },
+      {
+        active_at: Date.now(),
+        isArchived: true,
+        markedUnread: false,
+        unreadCount: 0,
+      },
+      {
+        active_at: Date.now(),
+        isArchived: true,
+        markedUnread: false,
+        unreadCount: 123,
+      },
+      {
+        active_at: Date.now(),
+        isArchived: true,
+        markedUnread: true,
+        unreadCount: 0,
+      },
+      { active_at: Date.now(), isArchived: true, markedUnread: true },
     ];
     for (const conversation of archivedConversations) {
       assert.strictEqual(getCount(conversation, true), 0);
@@ -26,10 +41,29 @@ describe('getConversationUnreadCountForAppBadge', () => {
 
   it("returns 0 if the conversation is muted and the user doesn't want to include those in the result", () => {
     const mutedConversations = [
-      { muteExpiresAt: mutedTimestamp(), markedUnread: false, unreadCount: 0 },
-      { muteExpiresAt: mutedTimestamp(), markedUnread: false, unreadCount: 9 },
-      { muteExpiresAt: mutedTimestamp(), markedUnread: true, unreadCount: 0 },
-      { muteExpiresAt: mutedTimestamp(), markedUnread: true },
+      {
+        active_at: Date.now(),
+        muteExpiresAt: mutedTimestamp(),
+        markedUnread: false,
+        unreadCount: 0,
+      },
+      {
+        active_at: Date.now(),
+        muteExpiresAt: mutedTimestamp(),
+        markedUnread: false,
+        unreadCount: 9,
+      },
+      {
+        active_at: Date.now(),
+        muteExpiresAt: mutedTimestamp(),
+        markedUnread: true,
+        unreadCount: 0,
+      },
+      {
+        active_at: Date.now(),
+        muteExpiresAt: mutedTimestamp(),
+        markedUnread: true,
+      },
     ];
     for (const conversation of mutedConversations) {
       assert.strictEqual(getCount(conversation, false), 0);
@@ -38,14 +72,20 @@ describe('getConversationUnreadCountForAppBadge', () => {
 
   it('returns the unread count if nonzero (and not archived)', () => {
     const conversationsWithUnreadCount = [
-      { unreadCount: 9, markedUnread: false },
-      { unreadCount: 9, markedUnread: true },
+      { active_at: Date.now(), unreadCount: 9, markedUnread: false },
+      { active_at: Date.now(), unreadCount: 9, markedUnread: true },
       {
+        active_at: Date.now(),
         unreadCount: 9,
         markedUnread: false,
         muteExpiresAt: oldMutedTimestamp(),
       },
-      { unreadCount: 9, markedUnread: false, isArchived: false },
+      {
+        active_at: Date.now(),
+        unreadCount: 9,
+        markedUnread: false,
+        isArchived: false,
+      },
     ];
     for (const conversation of conversationsWithUnreadCount) {
       assert.strictEqual(getCount(conversation, false), 9);
@@ -53,6 +93,7 @@ describe('getConversationUnreadCountForAppBadge', () => {
     }
 
     const mutedWithUnreads = {
+      active_at: Date.now(),
       unreadCount: 123,
       markedUnread: false,
       muteExpiresAt: mutedTimestamp(),
@@ -62,10 +103,15 @@ describe('getConversationUnreadCountForAppBadge', () => {
 
   it('returns 1 if the conversation is marked unread', () => {
     const conversationsMarkedUnread = [
-      { markedUnread: true },
-      { markedUnread: true, unreadCount: 0 },
-      { markedUnread: true, muteExpiresAt: oldMutedTimestamp() },
+      { active_at: Date.now(), markedUnread: true },
+      { active_at: Date.now(), markedUnread: true, unreadCount: 0 },
       {
+        active_at: Date.now(),
+        markedUnread: true,
+        muteExpiresAt: oldMutedTimestamp(),
+      },
+      {
+        active_at: Date.now(),
         markedUnread: true,
         muteExpiresAt: oldMutedTimestamp(),
         isArchived: false,
@@ -77,8 +123,17 @@ describe('getConversationUnreadCountForAppBadge', () => {
     }
 
     const mutedConversationsMarkedUnread = [
-      { markedUnread: true, muteExpiresAt: mutedTimestamp() },
-      { markedUnread: true, muteExpiresAt: mutedTimestamp(), unreadCount: 0 },
+      {
+        active_at: Date.now(),
+        markedUnread: true,
+        muteExpiresAt: mutedTimestamp(),
+      },
+      {
+        active_at: Date.now(),
+        markedUnread: true,
+        muteExpiresAt: mutedTimestamp(),
+        unreadCount: 0,
+      },
     ];
     for (const conversation of mutedConversationsMarkedUnread) {
       assert.strictEqual(getCount(conversation, true), 1);
@@ -87,10 +142,35 @@ describe('getConversationUnreadCountForAppBadge', () => {
 
   it('returns 0 if the conversation is read', () => {
     const readConversations = [
-      { markedUnread: false },
-      { markedUnread: false, unreadCount: 0 },
-      { markedUnread: false, mutedTimestamp: mutedTimestamp() },
-      { markedUnread: false, mutedTimestamp: oldMutedTimestamp() },
+      { active_at: Date.now(), markedUnread: false },
+      { active_at: Date.now(), markedUnread: false, unreadCount: 0 },
+      {
+        active_at: Date.now(),
+        markedUnread: false,
+        mutedTimestamp: mutedTimestamp(),
+      },
+      {
+        active_at: Date.now(),
+        markedUnread: false,
+        mutedTimestamp: oldMutedTimestamp(),
+      },
+    ];
+    for (const conversation of readConversations) {
+      assert.strictEqual(getCount(conversation, false), 0);
+      assert.strictEqual(getCount(conversation, true), 0);
+    }
+  });
+
+  it('returns 0 if the conversation has falsey active_at', () => {
+    const readConversations = [
+      { active_at: undefined, markedUnread: false, unreadCount: 2 },
+      { active_at: null, markedUnread: true, unreadCount: 0 },
+      {
+        active_at: 0,
+        unreadCount: 2,
+        markedUnread: false,
+        mutedTimestamp: oldMutedTimestamp(),
+      },
     ];
     for (const conversation of readConversations) {
       assert.strictEqual(getCount(conversation, false), 0);

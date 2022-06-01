@@ -195,9 +195,6 @@ declare global {
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getHostName: () => string;
-    getInboxCollection: () => ConversationModelCollectionType & {
-      onEmpty: () => void;
-    };
     getInteractionMode: () => 'mouse' | 'keyboard';
     getLocale: () => ElectronLocaleType;
     getMediaCameraPermissions: () => Promise<boolean>;
