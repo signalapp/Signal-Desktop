@@ -12,6 +12,7 @@ import { ToastDebugLogError } from './ToastDebugLogError';
 import { ToastLinkCopied } from './ToastLinkCopied';
 import { ToastLoadingFullLogs } from './ToastLoadingFullLogs';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { createSupportUrl } from '../util/createSupportUrl';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 enum LoadState {
@@ -126,6 +127,13 @@ export const DebugLogWindow = ({
       setToastType(ToastType.Copied);
     };
 
+    const supportURL = createSupportUrl({
+      locale: i18n.getLocale(),
+      query: {
+        debugLog: publicLogURL,
+      },
+    });
+
     return (
       <div className="DebugLogWindow">
         <div>
@@ -144,11 +152,7 @@ export const DebugLogWindow = ({
         </div>
         <div className="DebugLogWindow__footer">
           <Button
-            onClick={() => {
-              openLinkInWebBrowser(
-                'https://support.signal.org/hc/requests/new'
-              );
-            }}
+            onClick={() => openLinkInWebBrowser(supportURL)}
             variant={ButtonVariant.Secondary}
           >
             {i18n('reportIssue')}
