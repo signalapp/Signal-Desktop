@@ -412,18 +412,31 @@ export async function sendToGroupViaSenderKey(options: {
         newToMemberUuids.length
       } members: ${JSON.stringify(newToMemberUuids)}`
     );
-    await handleMessageSend(
-      window.textsecure.messaging.sendSenderKeyDistributionMessage(
-        {
-          contentHint: ContentHint.RESENDABLE,
-          distributionId,
-          groupId,
-          identifiers: newToMemberUuids,
-        },
-        sendOptions ? { ...sendOptions, online: false } : undefined
-      ),
-      { messageIds: [], sendType: 'senderKeyDistributionMessage' }
-    );
+    try {
+      await handleMessageSend(
+        window.textsecure.messaging.sendSenderKeyDistributionMessage(
+          {
+            contentHint: ContentHint.RESENDABLE,
+            distributionId,
+            groupId,
+            identifiers: newToMemberUuids,
+          },
+          sendOptions ? { ...sendOptions, online: false } : undefined
+        ),
+        { messageIds: [], sendType: 'senderKeyDistributionMessage' }
+      );
+    } catch (error) {
+      // If we partially fail to send the sender key distribution message (SKDM), we don't
+      //   want the successful SKDM sends to be considered an overall success.
+      if (error instanceof SendMessageProtoError) {
+        throw new SendMessageProtoError({
+          ...error,
+          sendIsNotFinal: true,
+        });
+      }
+
+      throw error;
+    }
 
     // Update memberDevices with new devices
     const updatedMemberDevices = [...memberDevices, ...newToMemberDevices];

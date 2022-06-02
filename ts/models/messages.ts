@@ -1401,7 +1401,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ...(this.get('sendStateByConversationId') || {}),
     };
 
+    const sendIsNotFinal =
+      'sendIsNotFinal' in result.value && result.value.sendIsNotFinal;
+    const sendIsFinal = !sendIsNotFinal;
+
+    // Capture successful sends
     const successfulIdentifiers: Array<string> =
+      sendIsFinal &&
       'successfulIdentifiers' in result.value &&
       Array.isArray(result.value.successfulIdentifiers)
         ? result.value.successfulIdentifiers
@@ -1435,9 +1441,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     });
 
+    // Integrate sends via sealed sender
     const previousUnidentifiedDeliveries =
       this.get('unidentifiedDeliveries') || [];
     const newUnidentifiedDeliveries =
+      sendIsFinal &&
       'unidentifiedDeliveries' in result.value &&
       Array.isArray(result.value.unidentifiedDeliveries)
         ? result.value.unidentifiedDeliveries
@@ -1445,6 +1453,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const promises: Array<Promise<unknown>> = [];
 
+    // Process errors
     let errors: Array<CustomError>;
     if (result.value instanceof SendMessageProtoError && result.value.errors) {
       ({ errors } = result.value);
@@ -1467,7 +1476,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         window.ConversationController.get(error.identifier) ||
         window.ConversationController.get(error.number);
 
-      if (conversation && !saveErrors) {
+      if (conversation && !saveErrors && sendIsFinal) {
         const previousSendState = getOwn(
           sendStateByConversationId,
           conversation.id
