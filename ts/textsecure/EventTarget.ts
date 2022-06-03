@@ -1,11 +1,10 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable @typescript-eslint/ban-types */
 
 /*
  * Implements EventTarget

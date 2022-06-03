@@ -217,4 +217,6 @@ module.exports = {
   ],
 
   rules,
+
+  reportUnusedDisableDirectives: true,
 };

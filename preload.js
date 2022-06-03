@@ -3,7 +3,7 @@
 
 /* global Whisper, window */
 
-/* eslint-disable global-require, no-inner-declarations */
+/* eslint-disable global-require */
 
 const preloadStartTime = Date.now();
 let preloadEndTime = 0;

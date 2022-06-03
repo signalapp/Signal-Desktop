@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-bitwise */
-/* eslint-disable camelcase */
 
 import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
@@ -1723,7 +1722,6 @@ export default class MessageReceiver
     }
 
     let p: Promise<void> = Promise.resolve();
-    // eslint-disable-next-line no-bitwise
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
       if (destinationUuid) {
         p = this.handleEndSession(new UUID(destinationUuid));
@@ -1886,7 +1884,6 @@ export default class MessageReceiver
     }
 
     let p: Promise<void> = Promise.resolve();
-    // eslint-disable-next-line no-bitwise
     const destination = envelope.sourceUuid;
     if (!destination) {
       throw new Error(

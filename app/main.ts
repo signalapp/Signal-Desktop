@@ -165,10 +165,6 @@ function showWindow() {
   }
 }
 
-// This code runs before the 'ready' event fires, so we don't have our logging
-//   infrastructure in place yet. So we use console.log directly.
-/* eslint-disable no-console */
-
 if (!process.mas) {
   console.log('making app single instance');
   const gotLock = app.requestSingleInstanceLock();
@@ -1614,7 +1610,6 @@ app.on('ready', async () => {
     return;
   }
 
-  // eslint-disable-next-line more/no-then
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
 
   try {

@@ -158,7 +158,6 @@ import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
 
-/* eslint-disable camelcase */
 /* eslint-disable more/no-then */
 
 type PropsForMessageDetail = Pick<

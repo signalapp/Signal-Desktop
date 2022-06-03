@@ -7,8 +7,6 @@ import { notarize } from 'electron-notarize';
 
 import * as packageJson from '../../package.json';
 
-/* eslint-disable no-console */
-
 export async function afterAllArtifactBuild({
   platformToTargets,
   artifactPaths,

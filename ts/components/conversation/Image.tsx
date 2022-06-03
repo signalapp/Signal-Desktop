@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -187,7 +187,6 @@ export class Image extends React.Component<Props> {
 
     const overlay = canClick ? (
       // Not sure what this button does.
-      // eslint-disable-next-line jsx-a11y/control-has-associated-label
       <button
         type="button"
         className={classNames('module-image__border-overlay', {

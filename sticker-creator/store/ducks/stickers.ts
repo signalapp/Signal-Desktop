@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-param-reassign */
@@ -12,7 +12,6 @@ import { clamp, find, isNumber, pull, remove, take, uniq } from 'lodash';
 import type { SortEnd } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import arrayMove from 'array-move';
-// eslint-disable-next-line import/no-cycle
 import type { AppState } from '../reducer';
 import type {
   PackMetaData,

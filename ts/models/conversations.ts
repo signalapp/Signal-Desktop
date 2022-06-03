@@ -1,7 +1,6 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable camelcase */
 import { compact, isNumber, throttle, debounce } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';

@@ -1,7 +1,6 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable guard-for-in */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable more/no-then */
 /* eslint-disable no-param-reassign */
@@ -161,7 +160,6 @@ export default class OutgoingMessage {
     if (message instanceof Proto.DataMessage) {
       const content = new Proto.Content();
       content.dataMessage = message;
-      // eslint-disable-next-line no-param-reassign
       this.message = content;
     } else {
       this.message = message;
@@ -610,7 +608,6 @@ export default class OutgoingMessage {
           });
         }
         if (error?.message?.includes('untrusted identity for address')) {
-          // eslint-disable-next-line no-param-reassign
           error.timestamp = this.timestamp;
           log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',

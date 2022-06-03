@@ -393,56 +393,46 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
               />
               {candidateConversations.length ? (
                 <Measure bounds>
-                  {({ contentRect, measureRef }: MeasuredComponentProps) => {
-                    // We disable this ESLint rule because we're capturing a bubbled
-                    // keydown event. See [this note in the jsx-a11y docs][0].
-                    //
-                    // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/c275964f52c35775208bd00cb612c6f82e42e34f/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
-                    /* eslint-disable jsx-a11y/no-static-element-interactions */
-                    return (
-                      <div
-                        className="module-ForwardMessageModal__list-wrapper"
-                        ref={measureRef}
-                      >
-                        <ConversationList
-                          dimensions={contentRect.bounds}
-                          getPreferredBadge={getPreferredBadge}
-                          getRow={getRow}
-                          i18n={i18n}
-                          onClickArchiveButton={shouldNeverBeCalled}
-                          onClickContactCheckbox={(
-                            conversationId: string,
-                            disabledReason:
-                              | undefined
-                              | ContactCheckboxDisabledReason
-                          ) => {
-                            if (
-                              disabledReason !==
-                              ContactCheckboxDisabledReason.MaximumContactsSelected
-                            ) {
-                              toggleSelectedConversation(conversationId);
-                            }
-                          }}
-                          lookupConversationWithoutUuid={
-                            asyncShouldNeverBeCalled
+                  {({ contentRect, measureRef }: MeasuredComponentProps) => (
+                    <div
+                      className="module-ForwardMessageModal__list-wrapper"
+                      ref={measureRef}
+                    >
+                      <ConversationList
+                        dimensions={contentRect.bounds}
+                        getPreferredBadge={getPreferredBadge}
+                        getRow={getRow}
+                        i18n={i18n}
+                        onClickArchiveButton={shouldNeverBeCalled}
+                        onClickContactCheckbox={(
+                          conversationId: string,
+                          disabledReason:
+                            | undefined
+                            | ContactCheckboxDisabledReason
+                        ) => {
+                          if (
+                            disabledReason !==
+                            ContactCheckboxDisabledReason.MaximumContactsSelected
+                          ) {
+                            toggleSelectedConversation(conversationId);
                           }
-                          showConversation={shouldNeverBeCalled}
-                          showUserNotFoundModal={shouldNeverBeCalled}
-                          setIsFetchingUUID={shouldNeverBeCalled}
-                          onSelectConversation={shouldNeverBeCalled}
-                          renderMessageSearchResult={() => {
-                            shouldNeverBeCalled();
-                            return <div />;
-                          }}
-                          rowCount={rowCount}
-                          shouldRecomputeRowHeights={false}
-                          showChooseGroupMembers={shouldNeverBeCalled}
-                          theme={theme}
-                        />
-                      </div>
-                    );
-                    /* eslint-enable jsx-a11y/no-static-element-interactions */
-                  }}
+                        }}
+                        lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                        showConversation={shouldNeverBeCalled}
+                        showUserNotFoundModal={shouldNeverBeCalled}
+                        setIsFetchingUUID={shouldNeverBeCalled}
+                        onSelectConversation={shouldNeverBeCalled}
+                        renderMessageSearchResult={() => {
+                          shouldNeverBeCalled();
+                          return <div />;
+                        }}
+                        rowCount={rowCount}
+                        shouldRecomputeRowHeights={false}
+                        showChooseGroupMembers={shouldNeverBeCalled}
+                        theme={theme}
+                      />
+                    </div>
+                  )}
                 </Measure>
               ) : (
                 <div className="module-ForwardMessageModal__no-candidate-contacts">

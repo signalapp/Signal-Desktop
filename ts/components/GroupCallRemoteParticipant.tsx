@@ -213,9 +213,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     let avatarSize: number;
 
-    // TypeScript isn't smart enough to know that `isInPip` by itself disambiguates the
-    //   types, so we have to use `props.isInPip` instead.
-    // eslint-disable-next-line react/destructuring-assignment
     if (props.isInPip) {
       containerStyles = canvasStyles;
       avatarSize = AvatarSize.FIFTY_TWO;

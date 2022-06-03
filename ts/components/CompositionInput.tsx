@@ -244,7 +244,6 @@ export function CompositionInput(props: Props): React.ReactElement {
   };
 
   if (inputApi) {
-    // eslint-disable-next-line no-param-reassign
     inputApi.current = {
       focus,
       insertEmoji,

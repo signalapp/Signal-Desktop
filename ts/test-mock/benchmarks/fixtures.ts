@@ -1,6 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop, no-console */
+/* eslint-disable no-console */
 
 import createDebug from 'debug';
 import fs from 'fs/promises';

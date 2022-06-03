@@ -210,11 +210,8 @@ type MediaType = {
     attachments: Array<AttachmentType>;
     conversationId: string;
     id: string;
-    // eslint-disable-next-line camelcase
     received_at: number;
-    // eslint-disable-next-line camelcase
     received_at_ms: number;
-    // eslint-disable-next-line camelcase
     sent_at: number;
   };
 };
@@ -1805,7 +1802,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     let conversation: undefined | ConversationModel;
 
     if (!id && isDirectConversation(this.model.attributes)) {
-      // eslint-disable-next-line prefer-destructuring
       conversation = this.model;
     } else {
       conversation = window.ConversationController.get(id);

@@ -1,7 +1,6 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable more/no-then */
 /* eslint-disable max-classes-per-file */
 
 import type { KeyPairType } from './Types.d';

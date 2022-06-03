@@ -271,7 +271,6 @@ export async function startApp(): Promise<void> {
       serverTrustRoot: window.getServerTrustRoot(),
     });
 
-    // eslint-disable-next-line no-inner-declarations
     function queuedEventListener<Args extends Array<unknown>>(
       handler: (...args: Args) => Promise<void> | void,
       track = true

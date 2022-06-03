@@ -527,11 +527,6 @@ export const LeftPane: React.FC<PropsType> = ({
 
   const widthBreakpoint = getConversationListWidthBreakpoint(width);
 
-  // We disable this lint rule because we're trying to capture bubbled events. See [the
-  //   lint rule's docs][0].
-  //
-  // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/645900a0e296ca7053dbf6cd9e12cc85849de2d5/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
-  /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
     <div
       className={classNames(

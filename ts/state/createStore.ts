@@ -16,7 +16,7 @@ import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax, @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line no-restricted-syntax
   interface Console {
     _log: Console['log'];
   }

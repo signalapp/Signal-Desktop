@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { has } from 'lodash';
@@ -12,8 +12,6 @@ import { has } from 'lodash';
  *
  * See the tests for the specifics of how this works.
  */
-// We want this to work with any object, so we allow `object` here.
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function assignWithNoUnnecessaryAllocation<T extends object>(
   obj: Readonly<T>,
   source: Readonly<Partial<T>>

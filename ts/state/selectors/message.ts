@@ -779,7 +779,6 @@ export function getPropsForBubble(
   message: MessageWithUIFieldsType,
   options: GetPropsForBubbleOptions
 ): TimelineItemType {
-  // eslint-disable-next-line camelcase
   const { received_at_ms: receivedAt, timestamp: messageTimestamp } = message;
   const timestamp = receivedAt || messageTimestamp;
 

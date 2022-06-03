@@ -1,7 +1,6 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-nested-ternary */
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
 
@@ -805,7 +804,6 @@ export default class MessageSender {
             return;
           }
 
-          // eslint-disable-next-line no-param-reassign
           itemAvatar.attachmentPointer = await this.makeAttachmentPointer(
             attachment
           );

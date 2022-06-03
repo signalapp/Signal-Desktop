@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
@@ -23,8 +23,7 @@ type FSAttrType = {
 let xattr: FSAttrType | undefined;
 
 try {
-  // eslint-disable-next-line max-len
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies
   xattr = require('fs-xattr');
 } catch (e) {
   window.SignalContext.log?.info('x-attr dependency did not load successfully');

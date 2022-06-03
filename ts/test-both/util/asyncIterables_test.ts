@@ -1,7 +1,5 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable no-await-in-loop */
 
 import { assert } from 'chai';
 

@@ -48,8 +48,6 @@ const searchResultKeys: Array<
   'conversationResults' | 'contactResults' | 'messageResults'
 > = ['conversationResults', 'contactResults', 'messageResults'];
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType> {
   private readonly conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
 

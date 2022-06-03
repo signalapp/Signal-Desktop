@@ -5,7 +5,6 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import AbortController from 'abort-controller';
