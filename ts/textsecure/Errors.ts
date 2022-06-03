@@ -204,6 +204,8 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
 
   public readonly recipients?: Record<string, Array<number>>;
 
+  public readonly sendIsNotFinal?: boolean;
+
   constructor({
     successfulIdentifiers,
     failoverIdentifiers,
@@ -214,6 +216,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
     contentProto,
     timestamp,
     recipients,
+    sendIsNotFinal,
   }: CallbackResultType) {
     super(`SendMessageProtoError: ${SendMessageProtoError.getMessage(errors)}`);
 
@@ -226,6 +229,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
     this.contentProto = contentProto;
     this.timestamp = timestamp;
     this.recipients = recipients;
+    this.sendIsNotFinal = sendIsNotFinal;
   }
 
   protected static getMessage(errors: CallbackResultType['errors']): string {
