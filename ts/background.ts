@@ -134,6 +134,7 @@ import type { UUID } from './types/UUID';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
+import { ReactWrapperView } from './views/ReactWrapperView';
 import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { ToastConversationArchived } from './components/ToastConversationArchived';
@@ -1114,7 +1115,7 @@ export async function startApp(): Promise<void> {
 
     window.showKeyboardShortcuts = () => {
       if (!shortcutGuideView) {
-        shortcutGuideView = new window.Whisper.ReactWrapperView({
+        shortcutGuideView = new ReactWrapperView({
           className: 'shortcut-guide-wrapper',
           JSX: window.Signal.State.Roots.createShortcutGuideModal(
             window.reduxStore,

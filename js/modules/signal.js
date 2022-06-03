@@ -27,22 +27,13 @@ const {
   ConfirmationDialog,
 } = require('../../ts/components/ConfirmationDialog');
 const {
-  ContactDetail,
-} = require('../../ts/components/conversation/ContactDetail');
-const {
   ContactModal,
 } = require('../../ts/components/conversation/ContactModal');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
-const { ErrorModal } = require('../../ts/components/ErrorModal');
-const { Lightbox } = require('../../ts/components/Lightbox');
-const {
-  MediaGallery,
-} = require('../../ts/components/conversation/media-gallery/MediaGallery');
 const {
   MessageDetail,
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
-const { ProgressModal } = require('../../ts/components/ProgressModal');
 const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
@@ -52,7 +43,6 @@ const {
 const {
   SystemTraySettingsCheckboxes,
 } = require('../../ts/components/conversation/SystemTraySettingsCheckboxes');
-const { WhatsNewLink } = require('../../ts/components/WhatsNewLink');
 
 // State
 const {
@@ -320,19 +310,13 @@ exports.setup = (options = {}) => {
     AttachmentList,
     ChatColorPicker,
     ConfirmationDialog,
-    ContactDetail,
     ContactModal,
     Emojify,
-    ErrorModal,
-    Lightbox,
-    MediaGallery,
     MessageDetail,
     Quote,
-    ProgressModal,
     StagedLinkPreview,
     DisappearingTimeDialog,
     SystemTraySettingsCheckboxes,
-    WhatsNewLink,
   };
 
   const Roots = {

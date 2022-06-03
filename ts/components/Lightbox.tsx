@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -16,7 +16,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import type { ConversationType } from '../state/ducks/conversations';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import type { LocalizerType } from '../types/Util';
-import type { MediaItemType, MessageAttributesType } from '../types/MediaItem';
+import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
 import { formatDuration } from '../util/formatDuration';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import * as log from '../logging/log';
@@ -31,7 +31,7 @@ export type PropsType = {
   onForward?: (messageId: string) => void;
   onSave?: (options: {
     attachment: AttachmentType;
-    message: MessageAttributesType;
+    message: MediaItemMessageType;
     index: number;
   }) => void;
   selectedIndex?: number;
@@ -676,7 +676,7 @@ function LightboxHeader({
 }: {
   getConversation: (id: string) => ConversationType;
   i18n: LocalizerType;
-  message: MessageAttributesType;
+  message: MediaItemMessageType;
 }): JSX.Element {
   const conversation = getConversation(message.conversationId);
 

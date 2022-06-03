@@ -3,6 +3,9 @@
 
 /* eslint-disable camelcase */
 
+import type * as Backbone from 'backbone';
+import type { ComponentProps } from 'react';
+import * as React from 'react';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
@@ -23,10 +26,7 @@ import type {
   QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import type {
-  MediaItemType,
-  MessageAttributesType as MediaItemMessageType,
-} from '../types/MediaItem';
+import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
 import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
@@ -43,6 +43,7 @@ import {
 } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import * as Bytes from '../Bytes';
+import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
   canReply,
   getAttachmentsForMessage,
@@ -55,6 +56,9 @@ import {
   getMessagesByConversation,
 } from '../state/selectors/conversations';
 import { getActiveCallState } from '../state/selectors/calling';
+import { getTheme } from '../state/selectors/user';
+import { ReactWrapperView } from './ReactWrapperView';
+import { Lightbox } from '../components/Lightbox';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import type {
@@ -65,7 +69,6 @@ import type {
 import * as LinkPreview from '../types/LinkPreview';
 import * as VisualAttachment from '../types/VisualAttachment';
 import * as log from '../logging/log';
-import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
 import { AttachmentToastType } from '../types/AttachmentToastType';
@@ -116,18 +119,20 @@ import { RecordingState } from '../state/ducks/audioRecorder';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
+import { ContactDetail } from '../components/conversation/ContactDetail';
+import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
+import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 
 type AttachmentOptions = {
   messageId: string;
   attachment: AttachmentType;
 };
 
+type PanelType = { view: Backbone.View; headerTitle?: string };
+
 const FIVE_MINUTES = 1000 * 60 * 5;
 const LINK_PREVIEW_TIMEOUT = 60 * 1000;
 
-window.Whisper = window.Whisper || {};
-
-const { Whisper } = window;
 const { Message } = window.Signal.Types;
 
 const {
@@ -247,14 +252,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // Sub-views
   private contactModalView?: Backbone.View;
-  private conversationView?: BasicReactWrapperViewClass;
+  private conversationView?: Backbone.View;
   private forwardMessageModal?: Backbone.View;
-  private lightboxView?: BasicReactWrapperViewClass;
+  private lightboxView?: ReactWrapperView;
   private migrationDialog?: Backbone.View;
   private stickerPreviewModalView?: Backbone.View;
 
   // Panel support
-  private panels: Array<AnyViewClass> = [];
+  private panels: Array<PanelType> = [];
   private previousFocus?: HTMLElement;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -676,7 +681,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       timelineProps,
     });
 
-    this.conversationView = new Whisper.ReactWrapperView({ JSX });
+    this.conversationView = new ReactWrapperView({ JSX });
     this.$('.ConversationView__template').append(this.conversationView.el);
   }
 
@@ -988,7 +993,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       (item: GroupV2PendingMemberType) => item.uuid
     );
 
-    this.migrationDialog = new Whisper.ReactWrapperView({
+    this.migrationDialog = new ReactWrapperView({
       className: 'group-v1-migration-wrapper',
       JSX: window.Signal.State.Roots.createGroupV1MigrationModal(
         window.reduxStore,
@@ -1106,7 +1111,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (this.panels && this.panels.length) {
       for (let i = 0, max = this.panels.length; i < max; i += 1) {
         const panel = this.panels[i];
-        panel.remove();
+        panel.view.remove();
       }
       window.reduxActions.conversations.setSelectedConversationPanelDepth(0);
     }
@@ -1334,7 +1339,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     };
 
-    this.forwardMessageModal = new Whisper.ReactWrapperView({
+    this.forwardMessageModal = new ReactWrapperView({
       JSX: window.Signal.State.Roots.createForwardMessageModal(
         window.reduxStore,
         {
@@ -1623,20 +1628,24 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ).filter(isNotNil);
 
       // Unlike visual media, only one non-image attachment is supported
-      const documents = rawDocuments
-        .filter(message =>
-          Boolean(message.attachments && message.attachments.length)
-        )
-        .map(message => {
-          const attachments = message.attachments || [];
-          const attachment = attachments[0];
-          return {
-            contentType: attachment.contentType,
-            index: 0,
-            attachment,
-            message,
-          };
+      const documents: Array<MediaItemType> = [];
+      rawDocuments.forEach(message => {
+        const attachments = message.attachments || [];
+        const attachment = attachments[0];
+        if (!attachment) {
+          return;
+        }
+
+        documents.push({
+          contentType: attachment.contentType,
+          index: 0,
+          attachment,
+          // We do this cast because we know there attachments (see the checks above).
+          message: message as MessageAttributesType & {
+            attachments: Array<AttachmentType>;
+          },
         });
+      });
 
       const saveAttachment = async ({
         attachment,
@@ -1666,11 +1675,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         message,
         attachment,
         type,
-      }: {
-        message: MessageAttributesType;
-        attachment: AttachmentType;
-        type: 'documents' | 'media';
-      }) => {
+      }: ItemClickEvent) => {
         switch (type) {
           case 'documents': {
             saveAttachment({ message, attachment });
@@ -1719,20 +1724,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     });
 
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel',
-      Component: window.Signal.Components.MediaGallery,
+      // We present an empty panel briefly, while we wait for props to load.
+      JSX: <></>,
       onClose: () => {
         unsubscribe();
       },
     });
-    view.headerTitle = window.i18n('allMedia');
+    const headerTitle = window.i18n('allMedia');
 
     const update = async () => {
-      view.update(await getProps());
+      const props = await getProps();
+      view.update(<MediaGallery i18n={window.i18n} {...props} />);
     };
 
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
 
     update();
   }
@@ -1758,7 +1765,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   showGV1Members(): void {
-    const { contactCollection } = this.model;
+    const { contactCollection, id } = this.model;
 
     const memberships =
       contactCollection?.map((conversation: ConversationModel) => {
@@ -1768,19 +1775,29 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         };
       }) || [];
 
-    const view = new Whisper.ReactWrapperView({
+    const reduxState = window.reduxStore.getState();
+    const getPreferredBadge = getPreferredBadgeSelector(reduxState);
+    const theme = getTheme(reduxState);
+
+    const view = new ReactWrapperView({
       className: 'group-member-list panel',
-      Component: ConversationDetailsMembershipList,
-      props: {
-        canAddNewMembers: false,
-        i18n: window.i18n,
-        maxShownMemberCount: 32,
-        memberships,
-        showContactModal: this.showContactModal.bind(this),
-      },
+      JSX: (
+        <ConversationDetailsMembershipList
+          canAddNewMembers={false}
+          conversationId={id}
+          i18n={window.i18n}
+          getPreferredBadge={getPreferredBadge}
+          maxShownMemberCount={32}
+          memberships={memberships}
+          showContactModal={contactId => {
+            this.showContactModal(contactId);
+          }}
+          theme={theme}
+        />
+      ),
     });
 
-    this.listenBack(view);
+    this.addPanel({ view });
     view.render();
   }
 
@@ -1913,14 +1930,18 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(message, 'expired', closeLightbox);
     this.listenTo(message, 'change', () => {
       if (this.lightboxView) {
-        this.lightboxView.update(getProps());
+        this.lightboxView.update(<Lightbox {...getProps()} />);
       }
     });
 
-    const getProps = () => {
+    const getProps = (): ComponentProps<typeof Lightbox> => {
       const { path, contentType } = tempAttachment;
 
       return {
+        close: () => {
+          this.lightboxView?.remove();
+        },
+        i18n: window.i18n,
         media: [
           {
             attachment: tempAttachment,
@@ -1928,7 +1949,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             contentType,
             index: 0,
             message: {
-              attachments: message.get('attachments'),
+              attachments: message.get('attachments') || [],
               id: message.get('id'),
               conversationId: message.get('conversationId'),
               received_at: message.get('received_at'),
@@ -1946,10 +1967,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.lightboxView = undefined;
     }
 
-    this.lightboxView = new Whisper.ReactWrapperView({
+    this.lightboxView = new ReactWrapperView({
       className: 'lightbox-wrapper',
-      Component: window.Signal.Components.Lightbox,
-      props: getProps(),
+      JSX: <Lightbox {...getProps()} />,
       onClose: closeLightbox,
     });
 
@@ -2025,7 +2045,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       },
     };
 
-    this.stickerPreviewModalView = new Whisper.ReactWrapperView({
+    this.stickerPreviewModalView = new ReactWrapperView({
       className: 'sticker-preview-modal-wrapper',
       JSX: window.Signal.State.Roots.createStickerPreviewModal(
         window.reduxStore,
@@ -2074,16 +2094,25 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.lightboxView = undefined;
     }
 
-    this.lightboxView = new Whisper.ReactWrapperView({
+    this.lightboxView = new ReactWrapperView({
       className: 'lightbox-wrapper',
-      Component: window.Signal.Components.Lightbox,
-      props: {
-        getConversation: getConversationSelector(window.reduxStore.getState()),
-        media,
-        onForward: this.showForwardMessageModal.bind(this),
-        onSave,
-        selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
-      },
+      JSX: (
+        <Lightbox
+          close={() => {
+            this.lightboxView?.remove();
+          }}
+          i18n={window.i18n}
+          getConversation={getConversationSelector(
+            window.reduxStore.getState()
+          )}
+          media={media}
+          onForward={messageId => {
+            this.showForwardMessageModal(messageId);
+          }}
+          onSave={onSave}
+          selectedIndex={selectedIndex >= 0 ? selectedIndex : 0}
+        />
+      ),
       onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
     });
 
@@ -2177,7 +2206,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   showGroupLinkManagement(): void {
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupLinkManagement(
         window.reduxStore,
@@ -2191,14 +2220,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-    view.headerTitle = window.i18n('ConversationDetails--group-link');
+    const headerTitle = window.i18n('ConversationDetails--group-link');
 
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
     view.render();
   }
 
   showGroupV2Permissions(): void {
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupV2Permissions(
         window.reduxStore,
@@ -2212,14 +2241,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-    view.headerTitle = window.i18n('permissions');
+    const headerTitle = window.i18n('permissions');
 
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
     view.render();
   }
 
   showPendingInvites(): void {
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
         conversationId: this.model.id,
@@ -2232,14 +2261,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         },
       }),
     });
-    view.headerTitle = window.i18n('ConversationDetails--requests-and-invites');
+    const headerTitle = window.i18n(
+      'ConversationDetails--requests-and-invites'
+    );
 
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
     view.render();
   }
 
   showConversationNotificationsSettings(): void {
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createConversationNotificationsSettings(
         window.reduxStore,
@@ -2251,23 +2282,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-    view.headerTitle = window.i18n('ConversationDetails--notifications');
+    const headerTitle = window.i18n('ConversationDetails--notifications');
 
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
     view.render();
   }
 
   showChatColorEditor(): void {
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createChatColorPicker(window.reduxStore, {
         conversationId: this.model.get('id'),
       }),
     });
+    const headerTitle = window.i18n('ChatColorPicker__menu-title');
 
-    view.headerTitle = window.i18n('ChatColorPicker__menu-title');
-
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
     view.render();
   }
 
@@ -2331,16 +2361,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.onOutgoingVideoCallInConversation.bind(this),
     };
 
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'conversation-details-pane panel',
       JSX: window.Signal.State.Roots.createConversationDetails(
         window.reduxStore,
         props
       ),
     });
-    view.headerTitle = '';
+    const headerTitle = '';
 
-    this.listenBack(view);
+    this.addPanel({ view, headerTitle });
     view.render();
   }
 
@@ -2366,7 +2396,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.resetPanel();
     };
 
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: 'panel message-detail-wrapper',
       JSX: window.Signal.State.Roots.createMessageDetail(
         window.reduxStore,
@@ -2386,12 +2416,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(message, 'expired', onClose);
     // We could listen to all involved contacts, but we'll call that overkill
 
-    this.listenBack(view);
+    this.addPanel({ view });
     view.render();
   }
 
   showStickerManager(): void {
-    const view = new Whisper.ReactWrapperView({
+    const view = new ReactWrapperView({
       className: ['sticker-manager-wrapper', 'panel'].join(' '),
       JSX: window.Signal.State.Roots.createStickerManager(window.reduxStore),
       onClose: () => {
@@ -2399,7 +2429,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       },
     });
 
-    this.listenBack(view);
+    this.addPanel({ view });
     view.render();
   }
 
@@ -2413,27 +2443,29 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       uuid: UUIDStringType;
     };
   }): void {
-    const view = new Whisper.ReactWrapperView({
-      Component: window.Signal.Components.ContactDetail,
+    const view = new ReactWrapperView({
       className: 'contact-detail-pane panel',
-      props: {
-        contact,
-        hasSignalAccount: Boolean(signalAccount),
-        onSendMessage: () => {
-          if (signalAccount) {
-            this.startConversation(
-              signalAccount.phoneNumber,
-              signalAccount.uuid
-            );
-          }
-        },
-      },
+      JSX: (
+        <ContactDetail
+          i18n={window.i18n}
+          contact={contact}
+          hasSignalAccount={Boolean(signalAccount)}
+          onSendMessage={() => {
+            if (signalAccount) {
+              this.startConversation(
+                signalAccount.phoneNumber,
+                signalAccount.uuid
+              );
+            }
+          }}
+        />
+      ),
       onClose: () => {
         this.resetPanel();
       },
     });
 
-    this.listenBack(view);
+    this.addPanel({ view });
   }
 
   startConversation(e164: string, uuid: UUIDStringType): void {
@@ -2460,24 +2492,24 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
   }
 
-  listenBack(view: AnyViewClass): void {
+  addPanel(panel: PanelType): void {
     this.panels = this.panels || [];
 
     if (this.panels.length === 0) {
       this.previousFocus = document.activeElement as HTMLElement;
     }
 
-    this.panels.unshift(view);
-    view.$el.insertAfter(this.$('.panel').last());
-    view.$el.one('animationend', () => {
-      view.$el.addClass('panel--static');
+    this.panels.unshift(panel);
+    panel.view.$el.insertAfter(this.$('.panel').last());
+    panel.view.$el.one('animationend', () => {
+      panel.view.$el.addClass('panel--static');
     });
 
     window.reduxActions.conversations.setSelectedConversationPanelDepth(
       this.panels.length
     );
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
-      view.headerTitle
+      panel.headerTitle
     );
   }
   resetPanel(): void {
@@ -2485,7 +2517,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    const view = this.panels.shift();
+    const panel = this.panels.shift();
 
     if (
       this.panels.length === 0 &&
@@ -2497,12 +2529,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     if (this.panels.length > 0) {
-      this.panels[0].$el.fadeIn(250);
+      this.panels[0].view.$el.fadeIn(250);
     }
 
-    if (view) {
-      view.$el.addClass('panel--remove').one('transitionend', () => {
-        view.remove();
+    if (panel) {
+      panel.view.$el.addClass('panel--remove').one('transitionend', () => {
+        panel.view.remove();
 
         if (this.panels.length === 0) {
           // Make sure poppers are positioned properly

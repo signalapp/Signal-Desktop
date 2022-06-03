@@ -1,6 +1,10 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as React from 'react';
+import { ReactWrapperView } from '../views/ReactWrapperView';
+import { ErrorModal } from '../components/ErrorModal';
+import { ProgressModal } from '../components/ProgressModal';
 import * as log from '../logging/log';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
@@ -26,9 +30,9 @@ export async function longRunningTaskWrapper<T>({
 
     // Note: this component uses a portal to render itself into the top-level DOM. No
     //   need to attach it to the DOM here.
-    progressView = new window.Whisper.ReactWrapperView({
+    progressView = new ReactWrapperView({
       className: 'progress-modal-wrapper',
-      Component: window.Signal.Components.ProgressModal,
+      JSX: <ProgressModal i18n={window.i18n} />,
     });
     spinnerStart = Date.now();
   }, TWO_SECONDS);
@@ -73,14 +77,16 @@ export async function longRunningTaskWrapper<T>({
 
       // Note: this component uses a portal to render itself into the top-level DOM. No
       //   need to attach it to the DOM here.
-      const errorView: Backbone.View = new window.Whisper.ReactWrapperView({
+      const errorView: Backbone.View = new ReactWrapperView({
         className: 'error-modal-wrapper',
-        Component: window.Signal.Components.ErrorModal,
-        props: {
-          onClose: (): void => {
-            errorView.remove();
-          },
-        },
+        JSX: (
+          <ErrorModal
+            i18n={window.i18n}
+            onClose={() => {
+              errorView.remove();
+            }}
+          />
+        ),
       });
     }
 

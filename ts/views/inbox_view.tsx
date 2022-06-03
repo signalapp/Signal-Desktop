@@ -1,11 +1,14 @@
-// Copyright 2014-2021 Signal Messenger, LLC
+// Copyright 2014-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as React from 'react';
 import * as Backbone from 'backbone';
 import * as log from '../logging/log';
 import type { ConversationModel } from '../models/conversations';
+import { ReactWrapperView } from './ReactWrapperView';
 import { showToast } from '../util/showToast';
 import { strictAssert } from '../util/assert';
+import { WhatsNewLink } from '../components/WhatsNewLink';
 import { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 
 window.Whisper = window.Whisper || {};
@@ -163,12 +166,13 @@ Whisper.InboxView = Whisper.View.extend({
       return;
     }
     const { showWhatsNewModal } = window.reduxActions.globalModals;
-    this.whatsNewLink = new Whisper.ReactWrapperView({
-      Component: window.Signal.Components.WhatsNewLink,
-      props: {
-        i18n: window.i18n,
-        showWhatsNewModal,
-      },
+    this.whatsNewLink = new ReactWrapperView({
+      JSX: (
+        <WhatsNewLink
+          i18n={window.i18n}
+          showWhatsNewModal={showWhatsNewModal}
+        />
+      ),
     });
     this.$('.whats-new-placeholder').append(this.whatsNewLink.el);
   },
@@ -176,7 +180,7 @@ Whisper.InboxView = Whisper.View.extend({
     if (this.leftPaneView) {
       return;
     }
-    this.leftPaneView = new Whisper.ReactWrapperView({
+    this.leftPaneView = new ReactWrapperView({
       className: 'left-pane-wrapper',
       JSX: window.Signal.State.Roots.createLeftPane(window.reduxStore),
     });

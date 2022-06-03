@@ -1,6 +1,7 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as React from 'react';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -23,6 +24,8 @@ import type { PreJoinConversationType } from '../state/ducks/conversations';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { showToast } from '../util/showToast';
+import { ReactWrapperView } from '../views/ReactWrapperView';
+import { ErrorModal } from '../components/ErrorModal';
 import { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
 import { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
 import { HTTPError } from '../textsecure/Errors';
@@ -373,14 +376,13 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog: Backbone.View | undefined =
-    new window.Whisper.ReactWrapperView({
-      className: 'group-v2-join-dialog-wrapper',
-      JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
-        join,
-        onClose: closeDialog,
-      }),
-    });
+  let groupV2InfoDialog: Backbone.View | undefined = new ReactWrapperView({
+    className: 'group-v2-join-dialog-wrapper',
+    JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
+      join,
+      onClose: closeDialog,
+    }),
+  });
 
   // We declare a new function here so we can await but not block
   const fetchAvatar = async () => {
@@ -427,15 +429,17 @@ export async function joinViaLink(hash: string): Promise<void> {
 }
 
 function showErrorDialog(description: string, title: string) {
-  const errorView = new window.Whisper.ReactWrapperView({
+  const errorView = new ReactWrapperView({
     className: 'error-modal-wrapper',
-    Component: window.Signal.Components.ErrorModal,
-    props: {
-      title,
-      description,
-      onClose: () => {
-        errorView.remove();
-      },
-    },
+    JSX: (
+      <ErrorModal
+        i18n={window.i18n}
+        title={title}
+        description={description}
+        onClose={() => {
+          errorView.remove();
+        }}
+      />
+    ),
   });
 }

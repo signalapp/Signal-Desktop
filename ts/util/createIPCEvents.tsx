@@ -1,8 +1,9 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
+import * as React from 'react';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
@@ -14,6 +15,9 @@ import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import * as Stickers from '../types/Stickers';
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { parseSystemTraySetting } from '../types/SystemTraySetting';
+
+import { ReactWrapperView } from '../views/ReactWrapperView';
+import { ErrorModal } from '../components/ErrorModal';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
@@ -406,7 +410,7 @@ export function createIPCEvents(
           },
         };
 
-        const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
+        const stickerPreviewModalView = new ReactWrapperView({
           className: 'sticker-preview-modal-wrapper',
           JSX: window.Signal.State.Roots.createStickerPreviewModal(
             window.reduxStore,
@@ -419,14 +423,16 @@ export function createIPCEvents(
           'showStickerPack: Ran into an error!',
           error && error.stack ? error.stack : error
         );
-        const errorView = new window.Whisper.ReactWrapperView({
+        const errorView = new ReactWrapperView({
           className: 'error-modal-wrapper',
-          Component: window.Signal.Components.ErrorModal,
-          props: {
-            onClose: () => {
-              errorView.remove();
-            },
-          },
+          JSX: (
+            <ErrorModal
+              i18n={window.i18n}
+              onClose={() => {
+                errorView.remove();
+              }}
+            />
+          ),
         });
       }
     },
@@ -447,16 +453,18 @@ export function createIPCEvents(
           'showGroupViaLink: Ran into an error!',
           error && error.stack ? error.stack : error
         );
-        const errorView = new window.Whisper.ReactWrapperView({
+        const errorView = new ReactWrapperView({
           className: 'error-modal-wrapper',
-          Component: window.Signal.Components.ErrorModal,
-          props: {
-            title: window.i18n('GroupV2--join--general-join-failure--title'),
-            description: window.i18n('GroupV2--join--general-join-failure'),
-            onClose: () => {
-              errorView.remove();
-            },
-          },
+          JSX: (
+            <ErrorModal
+              i18n={window.i18n}
+              title={window.i18n('GroupV2--join--general-join-failure--title')}
+              description={window.i18n('GroupV2--join--general-join-failure')}
+              onClose={() => {
+                errorView.remove();
+              }}
+            />
+          ),
         });
       }
       window.isShowingModal = false;
@@ -513,14 +521,16 @@ export function createIPCEvents(
 }
 
 function showUnknownSgnlLinkModal(): void {
-  const errorView = new window.Whisper.ReactWrapperView({
+  const errorView = new ReactWrapperView({
     className: 'error-modal-wrapper',
-    Component: window.Signal.Components.ErrorModal,
-    props: {
-      description: window.i18n('unknown-sgnl-link'),
-      onClose: () => {
-        errorView.remove();
-      },
-    },
+    JSX: (
+      <ErrorModal
+        i18n={window.i18n}
+        description={window.i18n('unknown-sgnl-link')}
+        onClose={() => {
+          errorView.remove();
+        }}
+      />
+    ),
   });
 }

@@ -74,17 +74,11 @@ import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
 import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
-import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
-import { ErrorModal } from './components/ErrorModal';
-import { Lightbox } from './components/Lightbox';
-import { MediaGallery } from './components/conversation/media-gallery/MediaGallery';
 import { MessageDetail } from './components/conversation/MessageDetail';
-import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
-import { WhatsNewLink } from './components/WhatsNewLink';
 import { DownloadedAttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
@@ -370,17 +364,11 @@ declare global {
         AttachmentList: typeof AttachmentList;
         ChatColorPicker: typeof ChatColorPicker;
         ConfirmationDialog: typeof ConfirmationDialog;
-        ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
         DisappearingTimeDialog: typeof DisappearingTimeDialog;
-        ErrorModal: typeof ErrorModal;
-        Lightbox: typeof Lightbox;
-        MediaGallery: typeof MediaGallery;
         MessageDetail: typeof MessageDetail;
-        ProgressModal: typeof ProgressModal;
         Quote: typeof Quote;
         StagedLinkPreview: typeof StagedLinkPreview;
-        WhatsNewLink: typeof WhatsNewLink;
       };
       OS: typeof OS;
       State: {
@@ -506,17 +494,6 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export class AnyViewClass extends window.Backbone.View<any> {
-  public headerTitle?: string;
-  static show(view: typeof AnyViewClass, element: Element): void;
-
-  constructor(options?: any);
-}
-
-export class BasicReactWrapperViewClass extends AnyViewClass {
-  public update(options: any): void;
-}
-
 export type WhisperType = {
   Conversation: typeof ConversationModel;
   ConversationCollection: typeof ConversationModelCollectionType;
@@ -530,18 +507,11 @@ export type WhisperType = {
 
   // Backbone views
 
-  // Modernized
   ConversationView: typeof ConversationView;
 
   // Note: we can no longer use 'View.extend' once we've moved to Typescript's preferred
   //   'extend View' syntax. Thus, we'll need to typescriptify most of it at once.
 
-  ClearDataView: typeof AnyViewClass;
-  ConversationLoadingScreen: typeof AnyViewClass;
-  GroupMemberList: typeof AnyViewClass;
-  InboxView: typeof AnyViewClass;
-  KeyVerificationPanelView: typeof AnyViewClass;
-  ReactWrapperView: typeof BasicReactWrapperViewClass;
-  SafetyNumberChangeDialogView: typeof AnyViewClass;
-  View: typeof AnyViewClass;
+  InboxView: typeof Backbone.View;
+  View: typeof Backbone.View;
 };

@@ -7967,7 +7967,7 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.ts",
+    "path": "ts/util/createIPCEvents.tsx",
     "line": "      if ($('.dark-overlay').length) {",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
@@ -7975,7 +7975,7 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.ts",
+    "path": "ts/util/createIPCEvents.tsx",
     "line": "      $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
@@ -7983,7 +7983,7 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.ts",
+    "path": "ts/util/createIPCEvents.tsx",
     "line": "      $('.dark-overlay').on('click', () => $('.dark-overlay').remove());",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
@@ -7991,7 +7991,7 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.ts",
+    "path": "ts/util/createIPCEvents.tsx",
     "line": "    removeDarkOverlay: () => $('.dark-overlay').remove(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
@@ -7999,7 +7999,7 @@
   },
   {
     "rule": "jQuery-prepend(",
-    "path": "ts/util/createIPCEvents.ts",
+    "path": "ts/util/createIPCEvents.tsx",
     "line": "      $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
@@ -8021,84 +8021,84 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "  template: () => $('#app-loading-screen').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "      this.$('.message').text(message);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "  template: () => $('#two-column').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "      el: this.$('.conversation-stack'),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "    this.$('.no-conversation-open').toggle(!isAnyConversationOpen);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-08T17:40:22.770Z"
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "    this.$('.left-pane-placeholder').replaceWith(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-08T17:40:22.770Z"
   },
   {
     "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-22T20:58:48.103Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-22T20:58:48.103Z"
   },
   {
     "rule": "jQuery-appendTo(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "      view.$el.appendTo(this.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-html(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "  template: () => $('#app-loading-screen').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-html(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "  template: () => $('#two-column').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "jQuery-prependTo(",
-    "path": "ts/views/inbox_view.ts",
+    "path": "ts/views/inbox_view.tsx",
     "line": "      this.appLoadingScreen.$el.prependTo(this.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
