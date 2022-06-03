@@ -2101,13 +2101,15 @@ async function getUnreadByConversationAndMarkRead({
         expirationStartTimestamp = $expirationStartTimestamp,
         json = json_patch(json, $jsonPatch)
       WHERE
+        conversationId = $conversationId AND
+        (${_storyIdPredicate(storyId, isGroup)}) AND
+        isStory IS 0 AND
+        type IS 'incoming' AND
         (
           expirationStartTimestamp IS NULL OR
           expirationStartTimestamp > $expirationStartTimestamp
         ) AND
         expireTimer > 0 AND
-        conversationId = $conversationId AND
-        (${_storyIdPredicate(storyId, isGroup)}) AND
         received_at <= $newestUnreadAt;
       `
     ).run({

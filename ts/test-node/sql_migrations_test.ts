@@ -2286,4 +2286,42 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion59', () => {
+    it('updates index to make query efficient', () => {
+      updateToVersion(47);
+
+      const items = db
+        .prepare(
+          `
+        EXPLAIN QUERY PLAN
+        UPDATE messages
+        INDEXED BY expiring_message_by_conversation_and_received_at
+        SET
+          expirationStartTimestamp = 342342,
+          json = json_patch(json, '{ "something": true }')
+        WHERE
+          conversationId = 'conversationId' AND
+          storyId IS NULL AND
+          isStory IS 0 AND
+          type IS 'incoming' AND
+          (
+            expirationStartTimestamp IS NULL OR
+            expirationStartTimestamp > 23423423
+          ) AND
+          expireTimer > 0 AND
+          received_at <= 234234;
+        `
+        )
+        .all();
+      const detail = items.map(item => item.detail).join('\n');
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX expiring_message_by_conversation_and_received_at (expirationStartTimestamp=? AND expireTimer>?)'
+      );
+    });
+  });
 });
