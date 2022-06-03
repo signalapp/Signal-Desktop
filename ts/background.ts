@@ -173,6 +173,8 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
+  window.textsecure.storage.protocol = new window.SignalProtocolStore();
+
   if (window.initialTheme === ThemeType.light) {
     document.body.classList.add('light-theme');
   }
