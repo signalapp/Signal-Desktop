@@ -523,8 +523,6 @@ export type WhisperType = {
   Message: typeof MessageModel;
   MessageCollection: typeof MessageModelCollectionType;
 
-  GroupMemberConversation: WhatIsThis;
-
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<Receipt>;
   events: Backbone.Events;
