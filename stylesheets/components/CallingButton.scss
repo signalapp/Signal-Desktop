@@ -182,7 +182,6 @@
     @include font-subtitle;
     margin-top: 8px;
     text-align: center;
-    text-transform: lowercase;
     color: $color-white;
     @include calling-text-shadow;
     user-select: none;
