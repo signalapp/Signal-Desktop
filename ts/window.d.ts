@@ -503,7 +503,6 @@ export type WhisperType = {
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<Receipt>;
   events: Backbone.Events;
-  activeConfirmationView: WhatIsThis;
 
   // Backbone views
 

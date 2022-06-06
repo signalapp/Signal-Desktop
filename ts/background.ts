@@ -1301,15 +1301,6 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      // Close window.Backbone-based confirmation dialog
-      if (window.Whisper.activeConfirmationView && key === 'Escape') {
-        window.Whisper.activeConfirmationView.remove();
-        window.Whisper.activeConfirmationView = null;
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
       // Send Escape to active conversation so it can close panels
       if (conversation && key === 'Escape') {
         conversation.trigger('escape-pressed');
