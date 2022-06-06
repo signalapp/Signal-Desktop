@@ -12,6 +12,7 @@ import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearc
 describe('LeftPaneSearchHelper', () => {
   const fakeMessage = () => ({
     id: uuid(),
+    type: 'outgoing',
     conversationId: uuid(),
   });
 

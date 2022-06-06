@@ -38,6 +38,7 @@ export type LeftPaneSearchPropsType = {
   messageResults: MaybeLoadedSearchResultsType<{
     id: string;
     conversationId: string;
+    type: string;
   }>;
   searchConversationName?: string;
   primarySendsSms: boolean;
@@ -61,6 +62,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   private readonly messageResults: MaybeLoadedSearchResultsType<{
     id: string;
     conversationId: string;
+    type: string;
   }>;
 
   private readonly searchConversationName?: string;
@@ -319,9 +321,8 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       }
       if (pointer < list.results.length) {
         const result = list.results[pointer];
-        return 'conversationId' in result
-          ? // it is a message result
-            {
+        return result.type === 'incoming' || result.type === 'outgoing' // message
+          ? {
               conversationId: result.conversationId,
               messageId: result.id,
             }
