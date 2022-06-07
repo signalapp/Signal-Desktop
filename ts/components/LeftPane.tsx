@@ -39,6 +39,7 @@ import {
   getWidthFromPreferredWidth,
 } from '../util/leftPaneWidth';
 import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
+import type { OpenConversationInternalType } from '../state/ducks/conversations';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
@@ -99,11 +100,7 @@ export type PropsType = {
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
   createGroup: () => void;
-  openConversationInternal: (_: {
-    conversationId: string;
-    messageId?: string;
-    switchToAssociatedView?: boolean;
-  }) => void;
+  openConversationInternal: OpenConversationInternalType;
   savePreferredLeftPaneWidth: (_: number) => void;
   searchInConversation: (conversationId: string) => unknown;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
@@ -332,7 +329,8 @@ export const LeftPane: React.FC<PropsType> = ({
           };
 
       const numericIndex = keyboardKeyToNumericIndex(event.key);
-      if (commandOrCtrl && isNumber(numericIndex)) {
+      const openedByNumber = commandOrCtrl && isNumber(numericIndex);
+      if (openedByNumber) {
         conversationToOpen =
           helper.getConversationAndMessageAtIndex(numericIndex);
       } else {
@@ -366,6 +364,9 @@ export const LeftPane: React.FC<PropsType> = ({
       if (conversationToOpen) {
         const { conversationId, messageId } = conversationToOpen;
         openConversationInternal({ conversationId, messageId });
+        if (openedByNumber) {
+          clearSearch();
+        }
         event.preventDefault();
         event.stopPropagation();
       }
@@ -391,6 +392,7 @@ export const LeftPane: React.FC<PropsType> = ({
     showInbox,
     startComposing,
     startSearch,
+    clearSearch,
   ]);
 
   const requiresFullWidth = helper.requiresFullWidth();
@@ -553,6 +555,7 @@ export const LeftPane: React.FC<PropsType> = ({
           setComposeSearchTerm(event.target.value);
         },
         updateSearchTerm,
+        openConversationInternal,
       })}
       <div className="module-left-pane__dialogs">
         {renderExpiredBuildDialog({

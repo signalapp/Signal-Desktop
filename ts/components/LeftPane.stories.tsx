@@ -478,8 +478,8 @@ export const SearchAllResults = (): JSX.Element => (
         messageResults: {
           isLoading: false,
           results: [
-            { id: 'msg1', conversationId: 'foo' },
-            { id: 'msg2', conversationId: 'bar' },
+            { id: 'msg1', type: 'outgoing', conversationId: 'foo' },
+            { id: 'msg2', type: 'incoming', conversationId: 'bar' },
           ],
         },
         primarySendsSms: false,

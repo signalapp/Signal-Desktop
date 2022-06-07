@@ -347,6 +347,12 @@ export type ConversationsStateType = {
   messagesByConversation: MessagesByConversationType;
 };
 
+export type OpenConversationInternalType = (_: {
+  conversationId: string;
+  messageId?: string;
+  switchToAssociatedView?: boolean;
+}) => void;
+
 // Helpers
 
 export const getConversationCallMode = (
