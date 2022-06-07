@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastFileSaved } from './ToastFileSaved';
 
@@ -17,6 +16,14 @@ const defaultProps = {
   onOpenFile: action('onOpenFile'),
 };
 
-const story = storiesOf('Components/ToastFileSaved', module);
+export default {
+  title: 'Components/ToastFileSaved',
+};
 
-story.add('ToastFileSaved', () => <ToastFileSaved {...defaultProps} />);
+export const _ToastFileSaved = (): JSX.Element => (
+  <ToastFileSaved {...defaultProps} />
+);
+
+_ToastFileSaved.story = {
+  name: 'ToastFileSaved',
+};

@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { v4 as uuid } from 'uuid';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { AttachmentType } from '../types/Attachment';
@@ -21,7 +20,9 @@ import * as durations from '../util/durations';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Stories', module);
+export default {
+  title: 'Components/Stories',
+};
 
 function createStory({
   attachment,
@@ -126,6 +127,7 @@ const getDefaultProps = (): PropsType => ({
   toggleStoriesView: action('toggleStoriesView'),
 });
 
-story.add('Blank', () => <Stories {...getDefaultProps()} stories={[]} />);
-
-story.add('Many', () => <Stories {...getDefaultProps()} />);
+export const Blank = (): JSX.Element => (
+  <Stories {...getDefaultProps()} stories={[]} />
+);
+export const Many = (): JSX.Element => <Stories {...getDefaultProps()} />;

@@ -5,7 +5,6 @@ import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
 import { times } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { sleep } from '../../../util/sleep';
@@ -24,10 +23,9 @@ import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helper
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/AddGroupMembersModal',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/AddGroupMembersModal',
+};
 
 const allCandidateContacts = times(50, () => getDefaultConversation());
 let allCandidateContactsLookup = makeLookup(allCandidateContacts, 'id');
@@ -89,19 +87,29 @@ const createProps = (
   ...overrideProps,
 });
 
-story.add('Default', () => <AddGroupMembersModal {...createProps()} />);
+export const Default = (): JSX.Element => (
+  <AddGroupMembersModal {...createProps()} />
+);
 
-story.add('Only 3 contacts', () => (
+export const Only3Contacts = (): JSX.Element => (
   <AddGroupMembersModal
     {...createProps({}, allCandidateContacts.slice(0, 3))}
   />
-));
+);
 
-story.add('No candidate contacts', () => (
+Only3Contacts.story = {
+  name: 'Only 3 contacts',
+};
+
+export const NoCandidateContacts = (): JSX.Element => (
   <AddGroupMembersModal {...createProps({}, [])} />
-));
+);
 
-story.add('Everyone already added', () => (
+NoCandidateContacts.story = {
+  name: 'No candidate contacts',
+};
+
+export const EveryoneAlreadyAdded = (): JSX.Element => (
   <AddGroupMembersModal
     {...createProps({
       conversationIdsAlreadyInGroup: new Set(
@@ -109,9 +117,13 @@ story.add('Everyone already added', () => (
       ),
     })}
   />
-));
+);
 
-story.add('Request fails after 1 second', () => {
+EveryoneAlreadyAdded.story = {
+  name: 'Everyone already added',
+};
+
+export const RequestFailsAfter1Second = (): JSX.Element => {
   const Wrapper = () => {
     const [requestState, setRequestState] = useState(RequestState.Inactive);
 
@@ -133,4 +145,8 @@ story.add('Request fails after 1 second', () => {
   };
 
   return <Wrapper />;
-});
+};
+
+RequestFailsAfter1Second.story = {
+  name: 'Request fails after 1 second',
+};

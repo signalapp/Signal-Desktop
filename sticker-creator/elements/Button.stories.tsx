@@ -2,14 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 
 import { StoryRow } from './StoryRow';
 import { Button } from './Button';
 
-storiesOf('Sticker Creator/elements', module).add('Button', () => {
+export default {
+  title: 'Sticker Creator/elements',
+};
+
+export const _Button = (): JSX.Element => {
   const onClick = action('onClick');
   const child = text('text', 'foo bar');
 
@@ -55,4 +58,4 @@ storiesOf('Sticker Creator/elements', module).add('Button', () => {
       </StoryRow>
     </>
   );
-});
+};

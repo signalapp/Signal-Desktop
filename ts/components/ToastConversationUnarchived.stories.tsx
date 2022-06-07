@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastConversationUnarchived } from './ToastConversationUnarchived';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastConversationUnarchived', module);
+export default {
+  title: 'Components/ToastConversationUnarchived',
+};
 
-story.add('ToastConversationUnarchived', () => (
+export const _ToastConversationUnarchived = (): JSX.Element => (
   <ToastConversationUnarchived {...defaultProps} />
-));
+);
+
+_ToastConversationUnarchived.story = {
+  name: 'ToastConversationUnarchived',
+};

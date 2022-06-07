@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastMaxAttachments } from './ToastMaxAttachments';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastMaxAttachments', module);
+export default {
+  title: 'Components/ToastMaxAttachments',
+};
 
-story.add('ToastMaxAttachments', () => (
+export const _ToastMaxAttachments = (): JSX.Element => (
   <ToastMaxAttachments {...defaultProps} />
-));
+);
+
+_ToastMaxAttachments.story = {
+  name: 'ToastMaxAttachments',
+};

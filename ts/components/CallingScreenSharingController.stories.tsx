@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './CallingScreenSharingController';
@@ -20,13 +19,15 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   presentedSourceName: overrideProps.presentedSourceName || 'Application',
 });
 
-const story = storiesOf('Components/CallingScreenSharingController', module);
+export default {
+  title: 'Components/CallingScreenSharingController',
+};
 
-story.add('Controller', () => {
+export const Controller = (): JSX.Element => {
   return <CallingScreenSharingController {...createProps()} />;
-});
+};
 
-story.add('Really long app name', () => {
+export const ReallyLongAppName = (): JSX.Element => {
   return (
     <CallingScreenSharingController
       {...createProps({
@@ -35,4 +36,8 @@ story.add('Really long app name', () => {
       })}
     />
   );
-});
+};
+
+ReallyLongAppName.story = {
+  name: 'Really long app name',
+};

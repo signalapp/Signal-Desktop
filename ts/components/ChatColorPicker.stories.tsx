@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { select } from '@storybook/addon-knobs';
 
@@ -13,7 +12,9 @@ import { ChatColorPicker } from './ChatColorPicker';
 import { ConversationColors } from '../types/Colors';
 import { setupI18n } from '../util/setupI18n';
 
-const story = storiesOf('Components/ChatColorPicker', module);
+export default {
+  title: 'Components/ChatColorPicker',
+};
 
 const i18n = setupI18n('en', enMessages);
 
@@ -40,7 +41,9 @@ const createProps = (): PropsType => ({
   ),
 });
 
-story.add('Default', () => <ChatColorPicker {...createProps()} />);
+export const Default = (): JSX.Element => (
+  <ChatColorPicker {...createProps()} />
+);
 
 const CUSTOM_COLORS = {
   abc: {
@@ -59,7 +62,7 @@ const CUSTOM_COLORS = {
   },
 };
 
-story.add('Custom Colors', () => (
+export const CustomColors = (): JSX.Element => (
   <ChatColorPicker
     {...createProps()}
     customColors={CUSTOM_COLORS}
@@ -69,4 +72,4 @@ story.add('Custom Colors', () => (
       value: SAMPLE_CUSTOM_COLOR,
     }}
   />
-));
+);

@@ -272,6 +272,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/@storybook/.+',
     '^node_modules/cosmiconfig/.+',
     '^node_modules/create-emotion/.+',
+    '^node_modules/fork-ts-checker-webpack-plugin/.+',
     '^node_modules/gzip-size/.+',
     '^node_modules/markdown-to-jsx/.+',
     '^node_modules/mini-css-extract-plugin/.+',
@@ -284,6 +285,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/simplebar/.+',
     '^node_modules/store2/.+',
     '^node_modules/telejson/.+',
+    '^node_modules/watchpack-chokidar2/.+',
 
     // Used by Webpack
     '^node_modules/css-select/.+', // Used by html-webpack-plugin

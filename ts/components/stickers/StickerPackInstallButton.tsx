@@ -1,6 +1,7 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ButtonHTMLAttributes } from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../../types/Util';
@@ -11,7 +12,7 @@ export type OwnProps = {
   readonly blue?: boolean;
 };
 
-export type Props = OwnProps & React.HTMLProps<HTMLButtonElement>;
+export type Props = OwnProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const StickerPackInstallButton = React.forwardRef<
   HTMLButtonElement,

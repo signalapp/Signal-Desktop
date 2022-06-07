@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { v4 as uuid } from 'uuid';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './StoryImage';
@@ -18,7 +17,9 @@ import { VIDEO_MP4 } from '../types/MIME';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/StoryImage', module);
+export default {
+  title: 'Components/StoryImage',
+};
 
 function getDefaultProps(): PropsType {
   return {
@@ -33,34 +34,56 @@ function getDefaultProps(): PropsType {
   };
 }
 
-story.add('Good story', () => <StoryImage {...getDefaultProps()} />);
+export const GoodStory = (): JSX.Element => (
+  <StoryImage {...getDefaultProps()} />
+);
 
-story.add('Good story (thumbnail)', () => (
+GoodStory.story = {
+  name: 'Good story',
+};
+
+export const GoodStoryThumbnail = (): JSX.Element => (
   <StoryImage {...getDefaultProps()} isThumbnail />
-));
+);
 
-story.add('Not downloaded', () => (
+GoodStoryThumbnail.story = {
+  name: 'Good story (thumbnail)',
+};
+
+export const NotDownloaded = (): JSX.Element => (
   <StoryImage {...getDefaultProps()} attachment={fakeAttachment()} />
-));
+);
 
-story.add('Not downloaded (thumbnail)', () => (
+NotDownloaded.story = {
+  name: 'Not downloaded',
+};
+
+export const NotDownloadedThumbnail = (): JSX.Element => (
   <StoryImage
     {...getDefaultProps()}
     attachment={fakeAttachment()}
     isThumbnail
   />
-));
+);
 
-story.add('Pending download', () => (
+NotDownloadedThumbnail.story = {
+  name: 'Not downloaded (thumbnail)',
+};
+
+export const PendingDownload = (): JSX.Element => (
   <StoryImage
     {...getDefaultProps()}
     attachment={fakeAttachment({
       pending: true,
     })}
   />
-));
+);
 
-story.add('Pending download (thumbnail)', () => (
+PendingDownload.story = {
+  name: 'Pending download',
+};
+
+export const PendingDownloadThumbnail = (): JSX.Element => (
   <StoryImage
     {...getDefaultProps()}
     attachment={fakeAttachment({
@@ -68,18 +91,22 @@ story.add('Pending download (thumbnail)', () => (
     })}
     isThumbnail
   />
-));
+);
 
-story.add('Broken Image', () => (
+PendingDownloadThumbnail.story = {
+  name: 'Pending download (thumbnail)',
+};
+
+export const BrokenImage = (): JSX.Element => (
   <StoryImage
     {...getDefaultProps()}
     attachment={fakeAttachment({
       url: '/this/path/does/not/exist.jpg',
     })}
   />
-));
+);
 
-story.add('Broken Image (thumbnail)', () => (
+export const BrokenImageThumbnail = (): JSX.Element => (
   <StoryImage
     {...getDefaultProps()}
     attachment={fakeAttachment({
@@ -87,9 +114,13 @@ story.add('Broken Image (thumbnail)', () => (
     })}
     isThumbnail
   />
-));
+);
 
-story.add('Video', () => (
+BrokenImageThumbnail.story = {
+  name: 'Broken Image (thumbnail)',
+};
+
+export const Video = (): JSX.Element => (
   <StoryImage
     {...getDefaultProps()}
     attachment={fakeAttachment({
@@ -97,4 +128,4 @@ story.add('Video', () => (
       url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
     })}
   />
-));
+);

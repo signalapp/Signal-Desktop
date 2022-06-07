@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -21,11 +20,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onDone: action('onDone'),
 });
 
-const story = storiesOf('Components/AvatarTextEditor', module);
+export default {
+  title: 'Components/AvatarTextEditor',
+};
 
-story.add('Empty', () => <AvatarTextEditor {...createProps()} />);
+export const Empty = (): JSX.Element => <AvatarTextEditor {...createProps()} />;
 
-story.add('with Data', () => (
+export const WithData = (): JSX.Element => (
   <AvatarTextEditor
     {...createProps({
       avatarData: {
@@ -35,9 +36,13 @@ story.add('with Data', () => (
       },
     })}
   />
-));
+);
 
-story.add('with wide characters', () => (
+WithData.story = {
+  name: 'with Data',
+};
+
+export const WithWideCharacters = (): JSX.Element => (
   <AvatarTextEditor
     {...createProps({
       avatarData: {
@@ -47,4 +52,8 @@ story.add('with wide characters', () => (
       },
     })}
   />
-));
+);
+
+WithWideCharacters.story = {
+  name: 'with wide characters',
+};

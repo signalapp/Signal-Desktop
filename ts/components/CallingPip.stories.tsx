@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -77,14 +76,16 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   togglePip: action('toggle-pip'),
 });
 
-const story = storiesOf('Components/CallingPip', module);
+export default {
+  title: 'Components/CallingPip',
+};
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const props = createProps({});
   return <CallingPip {...props} />;
-});
+};
 
-story.add('Contact (with avatar and no video)', () => {
+export const ContactWithAvatarAndNoVideo = (): JSX.Element => {
   const props = createProps({
     activeCall: {
       ...defaultCall,
@@ -98,9 +99,13 @@ story.add('Contact (with avatar and no video)', () => {
     },
   });
   return <CallingPip {...props} />;
-});
+};
 
-story.add('Contact (no color)', () => {
+ContactWithAvatarAndNoVideo.story = {
+  name: 'Contact (with avatar and no video)',
+};
+
+export const ContactNoColor = (): JSX.Element => {
   const props = createProps({
     activeCall: {
       ...defaultCall,
@@ -111,9 +116,13 @@ story.add('Contact (no color)', () => {
     },
   });
   return <CallingPip {...props} />;
-});
+};
 
-story.add('Group Call', () => {
+ContactNoColor.story = {
+  name: 'Contact (no color)',
+};
+
+export const GroupCall = (): JSX.Element => {
   const props = createProps({
     activeCall: {
       ...getCommonActiveCallData(),
@@ -130,4 +139,4 @@ story.add('Group Call', () => {
     },
   });
   return <CallingPip {...props} />;
-});
+};

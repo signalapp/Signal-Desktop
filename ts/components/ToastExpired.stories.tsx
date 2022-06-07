@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastExpired } from './ToastExpired';
 
@@ -16,6 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastExpired', module);
+export default {
+  title: 'Components/ToastExpired',
+};
 
-story.add('ToastExpired', () => <ToastExpired {...defaultProps} />);
+export const _ToastExpired = (): JSX.Element => (
+  <ToastExpired {...defaultProps} />
+);
+
+_ToastExpired.story = {
+  name: 'ToastExpired',
+};

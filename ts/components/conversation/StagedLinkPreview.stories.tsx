@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { date, text, withKnobs } from '@storybook/addon-knobs';
+import { date, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import type { AttachmentType } from '../../types/Attachment';
@@ -20,10 +19,9 @@ const LONG_DESCRIPTION =
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/StagedLinkPreview', module);
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
+export default {
+  title: 'Components/Conversation/StagedLinkPreview',
+};
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
@@ -56,17 +54,17 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onClose: action('onClose'),
 });
 
-story.add('Loading', () => {
+export const Loading = (): JSX.Element => {
   const props = createProps({ domain: '' });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('No Image', () => {
+export const NoImage = (): JSX.Element => {
   return <StagedLinkPreview {...createProps()} />;
-});
+};
 
-story.add('Image', () => {
+export const Image = (): JSX.Element => {
   const props = createProps({
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
@@ -75,9 +73,9 @@ story.add('Image', () => {
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('Image, No Title Or Description', () => {
+export const ImageNoTitleOrDescription = (): JSX.Element => {
   const props = createProps({
     title: '',
     description: '',
@@ -89,26 +87,38 @@ story.add('Image, No Title Or Description', () => {
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('No Image, Long Title With Description', () => {
+ImageNoTitleOrDescription.story = {
+  name: 'Image, No Title Or Description',
+};
+
+export const NoImageLongTitleWithDescription = (): JSX.Element => {
   const props = createProps({
     title: LONG_TITLE,
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('No Image, Long Title Without Description', () => {
+NoImageLongTitleWithDescription.story = {
+  name: 'No Image, Long Title With Description',
+};
+
+export const NoImageLongTitleWithoutDescription = (): JSX.Element => {
   const props = createProps({
     title: LONG_TITLE,
     description: '',
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('Image, Long Title Without Description', () => {
+NoImageLongTitleWithoutDescription.story = {
+  name: 'No Image, Long Title Without Description',
+};
+
+export const ImageLongTitleWithoutDescription = (): JSX.Element => {
   const props = createProps({
     title: LONG_TITLE,
     image: createAttachment({
@@ -118,9 +128,13 @@ story.add('Image, Long Title Without Description', () => {
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('Image, Long Title And Description', () => {
+ImageLongTitleWithoutDescription.story = {
+  name: 'Image, Long Title Without Description',
+};
+
+export const ImageLongTitleAndDescription = (): JSX.Element => {
   const props = createProps({
     title: LONG_TITLE,
     description: LONG_DESCRIPTION,
@@ -131,9 +145,13 @@ story.add('Image, Long Title And Description', () => {
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
 
-story.add('Everything: image, title, description, and date', () => {
+ImageLongTitleAndDescription.story = {
+  name: 'Image, Long Title And Description',
+};
+
+export const EverythingImageTitleDescriptionAndDate = (): JSX.Element => {
   const props = createProps({
     title: LONG_TITLE,
     description: LONG_DESCRIPTION,
@@ -145,4 +163,8 @@ story.add('Everything: image, title, description, and date', () => {
   });
 
   return <StagedLinkPreview {...props} />;
-});
+};
+
+EverythingImageTitleDescriptionAndDate.story = {
+  name: 'Everything: image, title, description, and date',
+};

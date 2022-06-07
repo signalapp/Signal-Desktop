@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './MediaEditor';
@@ -13,7 +12,9 @@ import { Stickers, installedPacks } from '../test-both/helpers/getStickerPacks';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/MediaEditor', module);
+export default {
+  title: 'Components/MediaEditor',
+};
 
 const IMAGE_1 = '/fixtures/nathan-anderson-316188-unsplash.jpg';
 const IMAGE_2 = '/fixtures/tina-rolf-269345-unsplash.jpg';
@@ -31,16 +32,18 @@ const getDefaultProps = (): PropsType => ({
   recentStickers: [Stickers.wide, Stickers.tall, Stickers.abe],
 });
 
-story.add('Extra Large', () => <MediaEditor {...getDefaultProps()} />);
+export const ExtraLarge = (): JSX.Element => (
+  <MediaEditor {...getDefaultProps()} />
+);
 
-story.add('Large', () => (
+export const Large = (): JSX.Element => (
   <MediaEditor {...getDefaultProps()} imageSrc={IMAGE_1} />
-));
+);
 
-story.add('Smol', () => (
+export const Smol = (): JSX.Element => (
   <MediaEditor {...getDefaultProps()} imageSrc={IMAGE_3} />
-));
+);
 
-story.add('Portrait', () => (
+export const Portrait = (): JSX.Element => (
   <MediaEditor {...getDefaultProps()} imageSrc={IMAGE_4} />
-));
+);

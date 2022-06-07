@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -17,7 +16,9 @@ import {
 
 const i18n = setupI18n('en', enMessages);
 
-const book = storiesOf('Components/Stickers/StickerPreviewModal', module);
+export default {
+  title: 'Components/Stickers/StickerPreviewModal',
+};
 
 const abeSticker = {
   id: -1,
@@ -38,7 +39,7 @@ const tallSticker = {
   packId: 'tall',
 };
 
-book.add('Full', () => {
+export const Full = (): JSX.Element => {
   const title = text('title', 'Foo');
   const author = text('author', 'Foo McBarrington');
 
@@ -71,9 +72,9 @@ book.add('Full', () => {
       pack={pack}
     />
   );
-});
+};
 
-book.add('Just four stickers', () => {
+export const JustFourStickers = (): JSX.Element => {
   const title = text('title', 'Foo');
   const author = text('author', 'Foo McBarrington');
 
@@ -100,9 +101,13 @@ book.add('Just four stickers', () => {
       pack={pack}
     />
   );
-});
+};
 
-book.add('Initial download', () => {
+JustFourStickers.story = {
+  name: 'Just four stickers',
+};
+
+export const InitialDownload = (): JSX.Element => {
   return (
     <StickerPreviewModal
       onClose={action('onClose')}
@@ -114,9 +119,13 @@ book.add('Initial download', () => {
       pack={{} as any}
     />
   );
-});
+};
 
-book.add('Pack deleted', () => {
+InitialDownload.story = {
+  name: 'Initial download',
+};
+
+export const PackDeleted = (): JSX.Element => {
   return (
     <StickerPreviewModal
       onClose={action('onClose')}
@@ -127,4 +136,8 @@ book.add('Pack deleted', () => {
       pack={undefined}
     />
   );
-});
+};
+
+PackDeleted.story = {
+  name: 'Pack deleted',
+};

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -20,10 +19,9 @@ import { MediaGallery } from './MediaGallery';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/MediaGallery/MediaGallery',
-  module
-);
+export default {
+  title: 'Components/Conversation/MediaGallery/MediaGallery',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
@@ -32,39 +30,39 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   media: overrideProps.media || [],
 });
 
-story.add('Populated', () => {
+export const Populated = (): JSX.Element => {
   const documents = createRandomDocuments(now, days(1)).slice(0, 1);
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 
   return <MediaGallery {...props} />;
-});
+};
 
-story.add('No Documents', () => {
+export const NoDocuments = (): JSX.Element => {
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ media });
 
   return <MediaGallery {...props} />;
-});
+};
 
-story.add('No Media', () => {
+export const NoMedia = (): JSX.Element => {
   const documents = createPreparedMediaItems(createRandomDocuments);
   const props = createProps({ documents });
 
   return <MediaGallery {...props} />;
-});
+};
 
-story.add('One Each', () => {
+export const OneEach = (): JSX.Element => {
   const media = createRandomMedia(now, days(1)).slice(0, 1);
   const documents = createRandomDocuments(now, days(1)).slice(0, 1);
 
   const props = createProps({ documents, media });
 
   return <MediaGallery {...props} />;
-});
+};
 
-story.add('Empty', () => {
+export const Empty = (): JSX.Element => {
   const props = createProps();
 
   return <MediaGallery {...props} />;
-});
+};

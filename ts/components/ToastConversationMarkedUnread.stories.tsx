@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastConversationMarkedUnread } from './ToastConversationMarkedUnread';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastConversationMarkedUnread', module);
+export default {
+  title: 'Components/ToastConversationMarkedUnread',
+};
 
-story.add('ToastConversationMarkedUnread', () => (
+export const _ToastConversationMarkedUnread = (): JSX.Element => (
   <ToastConversationMarkedUnread {...defaultProps} />
-));
+);
+
+_ToastConversationMarkedUnread.story = {
+  name: 'ToastConversationMarkedUnread',
+};

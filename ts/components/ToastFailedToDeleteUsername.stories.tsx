@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastFailedToDeleteUsername } from './ToastFailedToDeleteUsername';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastFailedToDeleteUsername', module);
+export default {
+  title: 'Components/ToastFailedToDeleteUsername',
+};
 
-story.add('ToastFailedToDeleteUsername', () => (
+export const _ToastFailedToDeleteUsername = (): JSX.Element => (
   <ToastFailedToDeleteUsername {...defaultProps} />
-));
+);
+
+_ToastFailedToDeleteUsername.story = {
+  name: 'ToastFailedToDeleteUsername',
+};

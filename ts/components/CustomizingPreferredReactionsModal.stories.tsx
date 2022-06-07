@@ -4,7 +4,6 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -12,10 +11,10 @@ import enMessages from '../../_locales/en/messages.json';
 import { CustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 
 const i18n = setupI18n('en', enMessages);
-const story = storiesOf(
-  'Components/CustomizingPreferredReactionsModal',
-  module
-);
+
+export default {
+  title: 'Components/CustomizingPreferredReactionsModal',
+};
 
 const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
   {
@@ -38,21 +37,29 @@ const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
     skinTone: 4,
   };
 
-story.add('Default', () => (
+export const Default = (): JSX.Element => (
   <CustomizingPreferredReactionsModal {...defaultProps} />
-));
+);
 
-story.add('Draft emoji selected', () => (
+export const DraftEmojiSelected = (): JSX.Element => (
   <CustomizingPreferredReactionsModal
     {...defaultProps}
     selectedDraftEmojiIndex={4}
   />
-));
+);
 
-story.add('Saving', () => (
+DraftEmojiSelected.story = {
+  name: 'Draft emoji selected',
+};
+
+export const Saving = (): JSX.Element => (
   <CustomizingPreferredReactionsModal {...defaultProps} isSaving />
-));
+);
 
-story.add('Had error', () => (
+export const HadError = (): JSX.Element => (
   <CustomizingPreferredReactionsModal {...defaultProps} hadSaveError />
-));
+);
+
+HadError.story = {
+  name: 'Had error',
+};

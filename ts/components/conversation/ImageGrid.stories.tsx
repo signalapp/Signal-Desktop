@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './ImageGrid';
 import { ImageGrid } from './ImageGrid';
@@ -24,7 +23,9 @@ import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/ImageGrid', module);
+export default {
+  title: 'Components/Conversation/ImageGrid',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments || [
@@ -54,13 +55,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-story.add('One Image', () => {
+export const OneImage = (): JSX.Element => {
   const props = createProps();
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('Two Images', () => {
+export const TwoImages = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -81,39 +82,9 @@ story.add('Two Images', () => {
   });
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('Three Images', () => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        height: 1200,
-        url: pngUrl,
-        width: 800,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        height: 1200,
-        url: pngUrl,
-        width: 800,
-      }),
-    ],
-  });
-
-  return <ImageGrid {...props} />;
-});
-
-story.add('Four Images', () => {
+export const ThreeImages = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -137,20 +108,13 @@ story.add('Four Images', () => {
         url: pngUrl,
         width: 800,
       }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
     ],
   });
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('Five Images', () => {
+export const FourImages = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -181,20 +145,13 @@ story.add('Five Images', () => {
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
       }),
-      fakeAttachment({
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        height: 1200,
-        url: pngUrl,
-        width: 800,
-      }),
     ],
   });
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('6+ Images', () => {
+export const FiveImages = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -232,6 +189,50 @@ story.add('6+ Images', () => {
         url: pngUrl,
         width: 800,
       }),
+    ],
+  });
+
+  return <ImageGrid {...props} />;
+};
+
+export const _6Images = (): JSX.Element => {
+  const props = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+      }),
       fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
@@ -250,8 +251,13 @@ story.add('6+ Images', () => {
   });
 
   return <ImageGrid {...props} />;
-});
-story.add('Mixed Content Types', () => {
+};
+
+_6Images.story = {
+  name: '6+ Images',
+};
+
+export const MixedContentTypes = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -289,9 +295,9 @@ story.add('Mixed Content Types', () => {
   });
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('Sticker', () => {
+export const Sticker = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -307,21 +313,25 @@ story.add('Sticker', () => {
   });
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('Content Above and Below', () => {
+export const ContentAboveAndBelow = (): JSX.Element => {
   const props = createProps({
     withContentAbove: true,
     withContentBelow: true,
   });
 
   return <ImageGrid {...props} />;
-});
+};
 
-story.add('Bottom Overlay', () => {
+ContentAboveAndBelow.story = {
+  name: 'Content Above and Below',
+};
+
+export const BottomOverlay = (): JSX.Element => {
   const props = createProps({
     bottomOverlay: true,
   });
 
   return <ImageGrid {...props} />;
-});
+};

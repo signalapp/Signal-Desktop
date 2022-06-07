@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './StoryViewsNRepliesModal';
@@ -16,7 +15,9 @@ import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/StoryViewsNRepliesModal', module);
+export default {
+  title: 'Components/StoryViewsNRepliesModal',
+};
 
 function getDefaultProps(): PropsType {
   return {
@@ -100,23 +101,35 @@ function getViewsAndReplies() {
   };
 }
 
-story.add('Can reply', () => (
+export const CanReply = (): JSX.Element => (
   <StoryViewsNRepliesModal {...getDefaultProps()} />
-));
+);
 
-story.add('Views only', () => (
+CanReply.story = {
+  name: 'Can reply',
+};
+
+export const ViewsOnly = (): JSX.Element => (
   <StoryViewsNRepliesModal
     {...getDefaultProps()}
     isMyStory
     views={getViewsAndReplies().views}
   />
-));
+);
 
-story.add('In a group (no replies)', () => (
+ViewsOnly.story = {
+  name: 'Views only',
+};
+
+export const InAGroupNoReplies = (): JSX.Element => (
   <StoryViewsNRepliesModal {...getDefaultProps()} isGroupStory />
-));
+);
 
-story.add('In a group', () => {
+InAGroupNoReplies.story = {
+  name: 'In a group (no replies)',
+};
+
+export const InAGroup = (): JSX.Element => {
   const { views, replies } = getViewsAndReplies();
 
   return (
@@ -127,4 +140,8 @@ story.add('In a group', () => {
       views={views}
     />
   );
-});
+};
+
+InAGroup.story = {
+  name: 'In a group',
+};

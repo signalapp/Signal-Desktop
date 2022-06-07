@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastBlocked } from './ToastBlocked';
 
@@ -16,6 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastBlocked', module);
+export default {
+  title: 'Components/ToastBlocked',
+};
 
-story.add('ToastBlocked', () => <ToastBlocked {...defaultProps} />);
+export const _ToastBlocked = (): JSX.Element => (
+  <ToastBlocked {...defaultProps} />
+);
+
+_ToastBlocked.story = {
+  name: 'ToastBlocked',
+};

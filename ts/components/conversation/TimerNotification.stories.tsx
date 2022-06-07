@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import * as moment from 'moment';
-import { storiesOf } from '@storybook/react';
 import { boolean, number, select, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -13,7 +12,9 @@ import { TimerNotification } from './TimerNotification';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/TimerNotification', module);
+export default {
+  title: 'Components/Conversation/TimerNotification',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
@@ -40,7 +41,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       }),
 });
 
-story.add('Set By Other', () => {
+export const SetByOther = (): JSX.Element => {
   const props = createProps({
     expireTimer: moment.duration(1, 'hour').asSeconds(),
     type: 'fromOther',
@@ -54,9 +55,9 @@ story.add('Set By Other', () => {
       <TimerNotification {...props} disabled />
     </>
   );
-});
+};
 
-story.add('Set By Other (with a long name)', () => {
+export const SetByOtherWithALongName = (): JSX.Element => {
   const longName = '🦴🧩📴'.repeat(50);
 
   const props = createProps({
@@ -72,9 +73,13 @@ story.add('Set By Other (with a long name)', () => {
       <TimerNotification {...props} disabled />
     </>
   );
-});
+};
 
-story.add('Set By You', () => {
+SetByOtherWithALongName.story = {
+  name: 'Set By Other (with a long name)',
+};
+
+export const SetByYou = (): JSX.Element => {
   const props = createProps({
     expireTimer: moment.duration(1, 'hour').asSeconds(),
     type: 'fromMe',
@@ -88,9 +93,9 @@ story.add('Set By You', () => {
       <TimerNotification {...props} disabled />
     </>
   );
-});
+};
 
-story.add('Set By Sync', () => {
+export const SetBySync = (): JSX.Element => {
   const props = createProps({
     expireTimer: moment.duration(1, 'hour').asSeconds(),
     type: 'fromSync',
@@ -104,4 +109,4 @@ story.add('Set By Sync', () => {
       <TimerNotification {...props} disabled />
     </>
   );
-});
+};

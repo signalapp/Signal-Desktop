@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -15,10 +14,9 @@ import { StagedGenericAttachment } from './StagedGenericAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/StagedGenericAttachment',
-  module
-);
+export default {
+  title: 'Components/Conversation/StagedGenericAttachment',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachment: overrideProps.attachment || ({} as AttachmentType),
@@ -37,7 +35,7 @@ const createAttachment = (
   size: 14243,
 });
 
-story.add('Text File', () => {
+export const TextFile = (): JSX.Element => {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.txt',
@@ -45,9 +43,9 @@ story.add('Text File', () => {
   const props = createProps({ attachment });
 
   return <StagedGenericAttachment {...props} />;
-});
+};
 
-story.add('Long Name', () => {
+export const LongName = (): JSX.Element => {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'this-is-my-very-important-manifesto-you-must-read-it.txt',
@@ -55,9 +53,9 @@ story.add('Long Name', () => {
   const props = createProps({ attachment });
 
   return <StagedGenericAttachment {...props} />;
-});
+};
 
-story.add('Long Extension', () => {
+export const LongExtension = (): JSX.Element => {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.reallylongtxt',
@@ -65,4 +63,4 @@ story.add('Long Extension', () => {
   const props = createProps({ attachment });
 
   return <StagedGenericAttachment {...props} />;
-});
+};

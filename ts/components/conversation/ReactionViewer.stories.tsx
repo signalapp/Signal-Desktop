@@ -4,7 +4,6 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
@@ -15,7 +14,9 @@ import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/ReactionViewer', module);
+export default {
+  title: 'Components/Conversation/ReactionViewer',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getPreferredBadge: () => undefined,
@@ -27,7 +28,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: ThemeType.light,
 });
 
-story.add('All Reactions', () => {
+export const AllReactions = (): JSX.Element => {
   const props = createProps({
     reactions: [
       {
@@ -125,9 +126,9 @@ story.add('All Reactions', () => {
     ],
   });
   return <ReactionViewer {...props} />;
-});
+};
 
-story.add('Picked Reaction', () => {
+export const PickedReaction = (): JSX.Element => {
   const props = createProps({
     pickedReaction: '❤️',
     reactions: [
@@ -154,9 +155,9 @@ story.add('Picked Reaction', () => {
     ],
   });
   return <ReactionViewer {...props} />;
-});
+};
 
-story.add('Picked Missing Reaction', () => {
+export const PickedMissingReaction = (): JSX.Element => {
   const props = createProps({
     pickedReaction: '😡',
     reactions: [
@@ -183,7 +184,7 @@ story.add('Picked Missing Reaction', () => {
     ],
   });
   return <ReactionViewer {...props} />;
-});
+};
 
 const skinTones = [
   '\u{1F3FB}',
@@ -209,7 +210,7 @@ const createReaction = (
   timestamp,
 });
 
-story.add('Reaction Skin Tones', () => {
+export const ReactionSkinTones = (): JSX.Element => {
   const props = createProps({
     pickedReaction: '😡',
     reactions: [
@@ -222,4 +223,4 @@ story.add('Reaction Skin Tones', () => {
     ],
   });
   return <ReactionViewer {...props} />;
-});
+};

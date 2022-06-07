@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { boolean } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -12,10 +11,9 @@ import { VerificationNotification } from './VerificationNotification';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/VerificationNotification',
-  module
-);
+export default {
+  title: 'Components/Conversation/VerificationNotification',
+};
 
 const contact = { title: 'Mr. Fire' };
 
@@ -26,31 +24,47 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contact: overrideProps.contact || contact,
 });
 
-story.add('Mark as Verified', () => {
+export const MarkAsVerified = (): JSX.Element => {
   const props = createProps({ type: 'markVerified' });
 
   return <VerificationNotification {...props} />;
-});
+};
 
-story.add('Mark as Not Verified', () => {
+MarkAsVerified.story = {
+  name: 'Mark as Verified',
+};
+
+export const MarkAsNotVerified = (): JSX.Element => {
   const props = createProps({ type: 'markNotVerified' });
 
   return <VerificationNotification {...props} />;
-});
+};
 
-story.add('Mark as Verified Remotely', () => {
+MarkAsNotVerified.story = {
+  name: 'Mark as Not Verified',
+};
+
+export const MarkAsVerifiedRemotely = (): JSX.Element => {
   const props = createProps({ type: 'markVerified', isLocal: false });
 
   return <VerificationNotification {...props} />;
-});
+};
 
-story.add('Mark as Not Verified Remotely', () => {
+MarkAsVerifiedRemotely.story = {
+  name: 'Mark as Verified Remotely',
+};
+
+export const MarkAsNotVerifiedRemotely = (): JSX.Element => {
   const props = createProps({ type: 'markNotVerified', isLocal: false });
 
   return <VerificationNotification {...props} />;
-});
+};
 
-story.add('Long name', () => {
+MarkAsNotVerifiedRemotely.story = {
+  name: 'Mark as Not Verified Remotely',
+};
+
+export const LongName = (): JSX.Element => {
   const longName = '🎆🍬🏈'.repeat(50);
 
   const props = createProps({
@@ -59,4 +73,8 @@ story.add('Long name', () => {
   });
 
   return <VerificationNotification {...props} />;
-});
+};
+
+LongName.story = {
+  name: 'Long name',
+};

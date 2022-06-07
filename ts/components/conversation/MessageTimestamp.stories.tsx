@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean, date, select, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -12,7 +11,9 @@ import { MessageTimestamp } from './MessageTimestamp';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/MessageTimestamp', module);
+export default {
+  title: 'Components/Conversation/MessageTimestamp',
+};
 
 const { now } = Date;
 const seconds = (n: number) => n * 1000;
@@ -76,14 +77,14 @@ const createTable = (overrideProps: Partial<Props> = {}) => (
   </table>
 );
 
-story.add('Normal', () => {
+export const Normal = (): JSX.Element => {
   return createTable();
-});
+};
 
-story.add('Knobs', () => {
+export const Knobs = (): JSX.Element => {
   const props = createProps({
     timestamp: date('timestamp', new Date()),
   });
 
   return <MessageTimestamp {...props} />;
-});
+};

@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DecoratorFunction } from '@storybook/addons';
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -20,21 +20,24 @@ import {
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Stickers/StickerButton', module);
-
-story.addDecorator(storyFn => (
-  <div
-    style={{
-      height: '500px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-end',
-      alignItems: 'flex-end',
-    }}
-  >
-    {storyFn()}
-  </div>
-));
+export default {
+  title: 'Components/Stickers/StickerButton',
+  decorators: [
+    storyFn => (
+      <div
+        style={{
+          height: '500px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+        }}
+      >
+        {storyFn()}
+      </div>
+    ),
+  ] as Array<DecoratorFunction<JSX.Element>>,
+};
 
 const receivedPacks = [
   createPack({ id: 'received-pack-1', status: 'downloaded' }, sticker1),
@@ -82,46 +85,46 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showPickerHint: boolean('showPickerHint', false),
 });
 
-story.add('Only Installed', () => {
+export const OnlyInstalled = (): JSX.Element => {
   const props = createProps({ installedPacks });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('Only Received', () => {
+export const OnlyReceived = (): JSX.Element => {
   const props = createProps({ receivedPacks });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('Only Known', () => {
+export const OnlyKnown = (): JSX.Element => {
   const props = createProps({ knownPacks });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('Only Blessed', () => {
+export const OnlyBlessed = (): JSX.Element => {
   const props = createProps({ blessedPacks });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('No Packs', () => {
+export const NoPacks = (): JSX.Element => {
   const props = createProps();
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('Installed Pack Tooltip', () => {
+export const InstalledPackTooltip = (): JSX.Element => {
   const props = createProps({
     installedPacks,
     installedPack: installedPacks[0],
   });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('Installed Pack Tooltip (Wide)', () => {
+export const InstalledPackTooltipWide = (): JSX.Element => {
   const installedPack = createPack({ id: 'installed-pack-wide' }, wideSticker);
 
   const props = createProps({
@@ -130,9 +133,13 @@ story.add('Installed Pack Tooltip (Wide)', () => {
   });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('Installed Pack Tooltip (Tall)', () => {
+InstalledPackTooltipWide.story = {
+  name: 'Installed Pack Tooltip (Wide)',
+};
+
+export const InstalledPackTooltipTall = (): JSX.Element => {
   const installedPack = createPack({ id: 'installed-pack-tall' }, tallSticker);
 
   const props = createProps({
@@ -141,13 +148,17 @@ story.add('Installed Pack Tooltip (Tall)', () => {
   });
 
   return <StickerButton {...props} />;
-});
+};
 
-story.add('New Install Tooltip', () => {
+InstalledPackTooltipTall.story = {
+  name: 'Installed Pack Tooltip (Tall)',
+};
+
+export const NewInstallTooltip = (): JSX.Element => {
   const props = createProps({
     installedPacks,
     showIntroduction: true,
   });
 
   return <StickerButton {...props} />;
-});
+};

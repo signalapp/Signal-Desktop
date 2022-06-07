@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { select } from '@storybook/addon-knobs';
 
@@ -29,17 +28,19 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onClose: action('onClose'),
 });
 
-const story = storiesOf('Components/AvatarLightbox', module);
+export default {
+  title: 'Components/AvatarLightbox',
+};
 
-story.add('Group', () => (
+export const Group = (): JSX.Element => (
   <AvatarLightbox
     {...createProps({
       isGroup: true,
     })}
   />
-));
+);
 
-story.add('Person', () => {
+export const Person = (): JSX.Element => {
   const conversation = getDefaultConversation();
   return (
     <AvatarLightbox
@@ -49,12 +50,12 @@ story.add('Person', () => {
       })}
     />
   );
-});
+};
 
-story.add('Photo', () => (
+export const Photo = (): JSX.Element => (
   <AvatarLightbox
     {...createProps({
       avatarPath: '/fixtures/kitten-1-64-64.jpg',
     })}
   />
-));
+);

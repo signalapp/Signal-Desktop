@@ -4,7 +4,6 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import type { AttachmentDraftType } from '../../types/Attachment';
 import type { Props } from './AttachmentList';
@@ -23,7 +22,9 @@ import { fakeDraftAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/AttachmentList', module);
+export default {
+  title: 'Components/Conversation/AttachmentList',
+};
 
 const createProps = (
   overrideProps: Partial<Props<AttachmentDraftType>> = {}
@@ -36,7 +37,7 @@ const createProps = (
   onCloseAttachment: action('onCloseAttachment'),
 });
 
-story.add('One File', () => {
+export const OneFile = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -47,9 +48,9 @@ story.add('One File', () => {
     ],
   });
   return <AttachmentList {...props} />;
-});
+};
 
-story.add('Multiple Visual Attachments', () => {
+export const MultipleVisualAttachments = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -72,9 +73,9 @@ story.add('Multiple Visual Attachments', () => {
   });
 
   return <AttachmentList {...props} />;
-});
+};
 
-story.add('Multiple with Non-Visual Types', () => {
+export const MultipleWithNonVisualTypes = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -107,10 +108,14 @@ story.add('Multiple with Non-Visual Types', () => {
   });
 
   return <AttachmentList {...props} />;
-});
+};
 
-story.add('Empty List', () => {
+MultipleWithNonVisualTypes.story = {
+  name: 'Multiple with Non-Visual Types',
+};
+
+export const EmptyList = (): JSX.Element => {
   const props = createProps();
 
   return <AttachmentList {...props} />;
-});
+};

@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
-
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 import { TextAttachment } from './TextAttachment';
@@ -17,9 +15,11 @@ const getDefaultProps = (): PropsType => ({
   textAttachment: {},
 });
 
-const story = storiesOf('Components/TextAttachment', module);
+export default {
+  title: 'Components/TextAttachment',
+};
 
-story.add('Solid bg + text bg', () => (
+export const SolidBgTextBg = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -30,9 +30,13 @@ story.add('Solid bg + text bg', () => (
       textStyle: 1,
     }}
   />
-));
+);
 
-story.add('Gradient', () => (
+SolidBgTextBg.story = {
+  name: 'Solid bg + text bg',
+};
+
+export const Gradient = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -47,9 +51,9 @@ story.add('Gradient', () => (
       textStyle: 1,
     }}
   />
-));
+);
 
-story.add('Text with line breaks (condensed font)', () => (
+export const TextWithLineBreaksCondensedFont = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -64,9 +68,13 @@ story.add('Text with line breaks (condensed font)', () => (
       textStyle: 5,
     }}
   />
-));
+);
 
-story.add('Text with line breaks + Autowrap (serif font)', () => (
+TextWithLineBreaksCondensedFont.story = {
+  name: 'Text with line breaks (condensed font)',
+};
+
+export const TextWithLineBreaksAutowrapSerifFont = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -77,9 +85,13 @@ story.add('Text with line breaks + Autowrap (serif font)', () => (
       textStyle: 3,
     }}
   />
-));
+);
 
-story.add('Autowrap text', () => (
+TextWithLineBreaksAutowrapSerifFont.story = {
+  name: 'Text with line breaks + Autowrap (serif font)',
+};
+
+export const AutowrapText = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -94,9 +106,13 @@ story.add('Autowrap text', () => (
       textStyle: 1,
     }}
   />
-));
+);
 
-story.add('Romeo & Juliet', () => (
+AutowrapText.story = {
+  name: 'Autowrap text',
+};
+
+export const RomeoJuliet = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -111,9 +127,13 @@ story.add('Romeo & Juliet', () => (
       textStyle: 4,
     }}
   />
-));
+);
 
-story.add('Overflow newline numbers', () => (
+RomeoJuliet.story = {
+  name: 'Romeo & Juliet',
+};
+
+export const OverflowNewlineNumbers = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -128,9 +148,13 @@ story.add('Overflow newline numbers', () => (
       textStyle: 1,
     }}
   />
-));
+);
 
-story.add('Character wrap (bold)', () => (
+OverflowNewlineNumbers.story = {
+  name: 'Overflow newline numbers',
+};
+
+export const CharacterWrapBold = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -141,9 +165,13 @@ story.add('Character wrap (bold)', () => (
       textStyle: 2,
     }}
   />
-));
+);
 
-story.add('Mix of newlines, overflow, autowrap', () => (
+CharacterWrapBold.story = {
+  name: 'Character wrap (bold)',
+};
+
+export const MixOfNewlinesOverflowAutowrap = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -154,9 +182,13 @@ story.add('Mix of newlines, overflow, autowrap', () => (
       textStyle: 1,
     }}
   />
-));
+);
 
-story.add('Link preview', () => (
+MixOfNewlinesOverflowAutowrap.story = {
+  name: 'Mix of newlines, overflow, autowrap',
+};
+
+export const LinkPreview = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -167,9 +199,13 @@ story.add('Link preview', () => (
       },
     }}
   />
-));
+);
 
-story.add('Link preview (thumbnail)', () => (
+LinkPreview.story = {
+  name: 'Link preview',
+};
+
+export const LinkPreviewThumbnail = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     isThumbnail
@@ -181,9 +217,13 @@ story.add('Link preview (thumbnail)', () => (
       },
     }}
   />
-));
+);
 
-story.add('Link preview (long title)', () => (
+LinkPreviewThumbnail.story = {
+  name: 'Link preview (thumbnail)',
+};
+
+export const LinkPreviewLongTitle = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -197,9 +237,13 @@ story.add('Link preview (long title)', () => (
       textForegroundColor: 4294704123,
     }}
   />
-));
+);
 
-story.add('Link preview (just url)', () => (
+LinkPreviewLongTitle.story = {
+  name: 'Link preview (long title)',
+};
+
+export const LinkPreviewJustUrl = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -209,9 +253,13 @@ story.add('Link preview (just url)', () => (
       },
     }}
   />
-));
+);
 
-story.add('Link preview (just url + text)', () => (
+LinkPreviewJustUrl.story = {
+  name: 'Link preview (just url)',
+};
+
+export const LinkPreviewJustUrlText = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -222,9 +270,13 @@ story.add('Link preview (just url + text)', () => (
       text: 'Check this out!',
     }}
   />
-));
+);
 
-story.add('Link preview (really long domain)', () => (
+LinkPreviewJustUrlText.story = {
+  name: 'Link preview (just url + text)',
+};
+
+export const LinkPreviewReallyLongDomain = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -234,9 +286,13 @@ story.add('Link preview (really long domain)', () => (
       },
     }}
   />
-));
+);
 
-story.add('Link Preview w/ R&J', () => (
+LinkPreviewReallyLongDomain.story = {
+  name: 'Link preview (really long domain)',
+};
+
+export const LinkPreviewWRJ = (): JSX.Element => (
   <TextAttachment
     {...getDefaultProps()}
     textAttachment={{
@@ -255,4 +311,8 @@ story.add('Link Preview w/ R&J', () => (
       },
     }}
   />
-));
+);
+
+LinkPreviewWRJ.story = {
+  name: 'Link Preview w/ R&J',
+};

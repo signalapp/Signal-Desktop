@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -32,35 +31,43 @@ const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
   />
 );
 
-storiesOf('Components/Conversation/ReactionPicker', module)
-  .add('Base', () => {
-    return (
-      <ReactionPicker
-        i18n={i18n}
-        onPick={action('onPick')}
-        onSetSkinTone={action('onSetSkinTone')}
-        openCustomizePreferredReactionsModal={action(
-          'openCustomizePreferredReactionsModal'
-        )}
-        preferredReactionEmoji={preferredReactionEmoji}
-        renderEmojiPicker={renderEmojiPicker}
-      />
-    );
-  })
-  .add('Selected Reaction', () => {
-    return ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'].map(e => (
-      <div key={e} style={{ height: '100px' }}>
-        <ReactionPicker
-          i18n={i18n}
-          selected={e}
-          onPick={action('onPick')}
-          onSetSkinTone={action('onSetSkinTone')}
-          openCustomizePreferredReactionsModal={action(
-            'openCustomizePreferredReactionsModal'
-          )}
-          preferredReactionEmoji={preferredReactionEmoji}
-          renderEmojiPicker={renderEmojiPicker}
-        />
-      </div>
-    ));
-  });
+export default {
+  title: 'Components/Conversation/ReactionPicker',
+};
+
+export const Base = (): JSX.Element => {
+  return (
+    <ReactionPicker
+      i18n={i18n}
+      onPick={action('onPick')}
+      onSetSkinTone={action('onSetSkinTone')}
+      openCustomizePreferredReactionsModal={action(
+        'openCustomizePreferredReactionsModal'
+      )}
+      preferredReactionEmoji={preferredReactionEmoji}
+      renderEmojiPicker={renderEmojiPicker}
+    />
+  );
+};
+
+export const SelectedReaction = (): JSX.Element => {
+  return (
+    <>
+      {['❤️', '👍', '👎', '😂', '😮', '😢', '😡'].map(e => (
+        <div key={e} style={{ height: '100px' }}>
+          <ReactionPicker
+            i18n={i18n}
+            selected={e}
+            onPick={action('onPick')}
+            onSetSkinTone={action('onSetSkinTone')}
+            openCustomizePreferredReactionsModal={action(
+              'openCustomizePreferredReactionsModal'
+            )}
+            preferredReactionEmoji={preferredReactionEmoji}
+            renderEmojiPicker={renderEmojiPicker}
+          />
+        </div>
+      ))}
+    </>
+  );
+};

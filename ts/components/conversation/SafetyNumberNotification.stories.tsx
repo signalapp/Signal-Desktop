@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
@@ -25,12 +24,11 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showIdentity: action('showIdentity'),
 });
 
-const stories = storiesOf(
-  'Components/Conversation/SafetyNumberNotification',
-  module
-);
+export default {
+  title: 'Components/Conversation/SafetyNumberNotification',
+};
 
-stories.add('Group Conversation', () => {
+export const GroupConversation = (): JSX.Element => {
   const props = createProps({
     isGroup: true,
     contact: createContact({
@@ -39,9 +37,9 @@ stories.add('Group Conversation', () => {
   });
 
   return <SafetyNumberNotification {...props} />;
-});
+};
 
-stories.add('Direct Conversation', () => {
+export const DirectConversation = (): JSX.Element => {
   const props = createProps({
     isGroup: false,
     contact: createContact({
@@ -50,9 +48,9 @@ stories.add('Direct Conversation', () => {
   });
 
   return <SafetyNumberNotification {...props} />;
-});
+};
 
-stories.add('Long name in group', () => {
+export const LongNameInGroup = (): JSX.Element => {
   const props = createProps({
     isGroup: true,
     contact: createContact({
@@ -61,4 +59,8 @@ stories.add('Long name in group', () => {
   });
 
   return <SafetyNumberNotification {...props} />;
-});
+};
+
+LongNameInGroup.story = {
+  name: 'Long name in group',
+};

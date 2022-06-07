@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastCannotMixImageAndNonImageAttachments } from './ToastCannotMixImageAndNonImageAttachments';
 
@@ -16,11 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf(
-  'Components/ToastCannotMixImageAndNonImageAttachments',
-  module
+export default {
+  title: 'Components/ToastCannotMixImageAndNonImageAttachments',
+};
+
+export const _ToastCannotMixImageAndNonImageAttachments = (): JSX.Element => (
+  <ToastCannotMixImageAndNonImageAttachments {...defaultProps} />
 );
 
-story.add('ToastCannotMixImageAndNonImageAttachments', () => (
-  <ToastCannotMixImageAndNonImageAttachments {...defaultProps} />
-));
+_ToastCannotMixImageAndNonImageAttachments.story = {
+  name: 'ToastCannotMixImageAndNonImageAttachments',
+};

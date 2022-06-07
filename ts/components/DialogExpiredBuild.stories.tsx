@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean, select } from '@storybook/addon-knobs';
 
 import { DialogExpiredBuild } from './DialogExpiredBuild';
@@ -13,26 +12,29 @@ import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContaine
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf('Components/DialogExpiredBuild', module).add(
-  'DialogExpiredBuild',
-  () => {
-    const containerWidthBreakpoint = select(
-      'containerWidthBreakpoint',
-      WidthBreakpoint,
-      WidthBreakpoint.Wide
-    );
-    const hasExpired = boolean('hasExpired', true);
+export default {
+  title: 'Components/DialogExpiredBuild',
+};
 
-    return (
-      <FakeLeftPaneContainer
+export const _DialogExpiredBuild = (): JSX.Element => {
+  const containerWidthBreakpoint = select(
+    'containerWidthBreakpoint',
+    WidthBreakpoint,
+    WidthBreakpoint.Wide
+  );
+  const hasExpired = boolean('hasExpired', true);
+
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogExpiredBuild
         containerWidthBreakpoint={containerWidthBreakpoint}
-      >
-        <DialogExpiredBuild
-          containerWidthBreakpoint={containerWidthBreakpoint}
-          hasExpired={hasExpired}
-          i18n={i18n}
-        />
-      </FakeLeftPaneContainer>
-    );
-  }
-);
+        hasExpired={hasExpired}
+        i18n={i18n}
+      />
+    </FakeLeftPaneContainer>
+  );
+};
+
+_DialogExpiredBuild.story = {
+  name: 'DialogExpiredBuild',
+};

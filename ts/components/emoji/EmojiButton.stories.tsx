@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -13,7 +12,11 @@ import { EmojiButton } from './EmojiButton';
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf('Components/Emoji/EmojiButton', module).add('Base', () => {
+export default {
+  title: 'Components/Emoji/EmojiButton',
+};
+
+export const Base = (): JSX.Element => {
   return (
     <div
       style={{
@@ -65,4 +68,4 @@ storiesOf('Components/Emoji/EmojiButton', module).add('Base', () => {
       />
     </div>
   );
-});
+};

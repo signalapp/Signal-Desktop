@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -22,11 +21,15 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onClose: action('onClick'),
 });
 
-storiesOf('Components/ErrorModal', module).add('Normal', () => {
-  return <ErrorModal {...createProps()} />;
-});
+export default {
+  title: 'Components/ErrorModal',
+};
 
-storiesOf('Components/ErrorModal', module).add('Custom Strings', () => {
+export const Normal = (): JSX.Element => {
+  return <ErrorModal {...createProps()} />;
+};
+
+export const CustomStrings = (): JSX.Element => {
   return (
     <ErrorModal
       {...createProps({
@@ -36,4 +39,4 @@ storiesOf('Components/ErrorModal', module).add('Custom Strings', () => {
       })}
     />
   );
-});
+};

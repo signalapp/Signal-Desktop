@@ -2,21 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { boolean, date, number, text, withKnobs } from '@storybook/addon-knobs';
+import { boolean, date, number, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { DocumentListItem } from './DocumentListItem';
 
-const story = storiesOf(
-  'Components/Conversation/MediaGallery/DocumentListItem',
-  module
-);
+export default {
+  title: 'Components/Conversation/MediaGallery/DocumentListItem',
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
-
-story.add('Single', () => (
+export const Single = (): JSX.Element => (
   <DocumentListItem
     timestamp={date('timestamp', new Date())}
     fileName={text('fileName', 'meow.jpg')}
@@ -24,9 +19,9 @@ story.add('Single', () => (
     shouldShowSeparator={boolean('shouldShowSeparator', false)}
     onClick={action('onClick')}
   />
-));
+);
 
-story.add('Multiple', () => {
+export const Multiple = (): JSX.Element => {
   const items = [
     {
       fileName: 'meow.jpg',
@@ -46,11 +41,15 @@ story.add('Multiple', () => {
     },
   ];
 
-  return items.map(item => (
-    <DocumentListItem
-      key={item.fileName}
-      onClick={action('onClick')}
-      {...item}
-    />
-  ));
-});
+  return (
+    <>
+      {items.map(item => (
+        <DocumentListItem
+          key={item.fileName}
+          onClick={action('onClick')}
+          {...item}
+        />
+      ))}
+    </>
+  );
+};

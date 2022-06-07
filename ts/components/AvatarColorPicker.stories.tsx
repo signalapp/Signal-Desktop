@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -20,14 +19,18 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   selectedColor: overrideProps.selectedColor,
 });
 
-const story = storiesOf('Components/AvatarColorPicker', module);
+export default {
+  title: 'Components/AvatarColorPicker',
+};
 
-story.add('Default', () => <AvatarColorPicker {...createProps()} />);
+export const Default = (): JSX.Element => (
+  <AvatarColorPicker {...createProps()} />
+);
 
-story.add('Selected', () => (
+export const Selected = (): JSX.Element => (
   <AvatarColorPicker
     {...createProps({
       selectedColor: AvatarColors[7],
     })}
   />
-));
+);

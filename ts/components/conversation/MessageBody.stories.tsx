@@ -4,7 +4,6 @@
 import * as React from 'react';
 
 import { boolean, text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './MessageBody';
 import { MessageBody } from './MessageBody';
@@ -13,7 +12,9 @@ import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/MessageBody', module);
+export default {
+  title: 'Components/Conversation/MessageBody',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
@@ -30,24 +31,24 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   },
 });
 
-story.add('Links Enabled', () => {
+export const LinksEnabled = (): JSX.Element => {
   const props = createProps({
     text: 'Check out https://www.signal.org',
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Links Disabled', () => {
+export const LinksDisabled = (): JSX.Element => {
   const props = createProps({
     disableLinks: true,
     text: 'Check out https://www.signal.org',
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Emoji Size Based On Count', () => {
+export const EmojiSizeBasedOnCount = (): JSX.Element => {
   const props = createProps();
 
   return (
@@ -63,34 +64,38 @@ story.add('Emoji Size Based On Count', () => {
       <MessageBody {...props} text="😹😹😹😹😹😹😹😹😹" />
     </>
   );
-});
+};
 
-story.add('Jumbomoji Enabled', () => {
+export const JumbomojiEnabled = (): JSX.Element => {
   const props = createProps({
     text: '😹',
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Jumbomoji Disabled', () => {
+export const JumbomojiDisabled = (): JSX.Element => {
   const props = createProps({
     disableJumbomoji: true,
     text: '😹',
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Jumbomoji Disabled by Text', () => {
+export const JumbomojiDisabledByText = (): JSX.Element => {
   const props = createProps({
     text: 'not a jumbo kitty 😹',
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Text Pending', () => {
+JumbomojiDisabledByText.story = {
+  name: 'Jumbomoji Disabled by Text',
+};
+
+export const TextPending = (): JSX.Element => {
   const props = createProps({
     text: 'Check out https://www.signal.org',
     textAttachment: {
@@ -99,9 +104,9 @@ story.add('Text Pending', () => {
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('@Mention', () => {
+export const Mention = (): JSX.Element => {
   const props = createProps({
     bodyRanges: [
       {
@@ -115,9 +120,13 @@ story.add('@Mention', () => {
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Multiple @Mentions', () => {
+Mention.story = {
+  name: '@Mention',
+};
+
+export const MultipleMentions = (): JSX.Element => {
   const props = createProps({
     // These are intentionally in a mixed order to test how we deal with that
     bodyRanges: [
@@ -144,9 +153,13 @@ story.add('Multiple @Mentions', () => {
   });
 
   return <MessageBody {...props} />;
-});
+};
 
-story.add('Complex MessageBody', () => {
+MultipleMentions.story = {
+  name: 'Multiple @Mentions',
+};
+
+export const ComplexMessageBody = (): JSX.Element => {
   const props = createProps({
     bodyRanges: [
       // These are intentionally in a mixed order to test how we deal with that
@@ -174,4 +187,8 @@ story.add('Complex MessageBody', () => {
   });
 
   return <MessageBody {...props} />;
-});
+};
+
+ComplexMessageBody.story = {
+  name: 'Complex MessageBody',
+};

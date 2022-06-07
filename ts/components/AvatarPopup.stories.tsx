@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, text } from '@storybook/addon-knobs';
 
@@ -59,52 +58,58 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   title: text('title', overrideProps.title || ''),
 });
 
-const stories = storiesOf('Components/Avatar Popup', module);
+export default {
+  title: 'Components/Avatar Popup',
+};
 
-stories.add('Avatar Only', () => {
+export const AvatarOnly = (): JSX.Element => {
   const props = useProps();
 
   return <AvatarPopup {...props} />;
-});
+};
 
-stories.add('Has badge', () => {
+export const HasBadge = (): JSX.Element => {
   const props = useProps({
     badge: getFakeBadge(),
     title: 'Janet Yellen',
   });
 
   return <AvatarPopup {...props} />;
-});
+};
 
-stories.add('Title', () => {
+HasBadge.story = {
+  name: 'Has badge',
+};
+
+export const Title = (): JSX.Element => {
   const props = useProps({
     title: 'My Great Title',
   });
 
   return <AvatarPopup {...props} />;
-});
+};
 
-stories.add('Profile Name', () => {
+export const ProfileName = (): JSX.Element => {
   const props = useProps({
     profileName: 'Sam Neill',
   });
 
   return <AvatarPopup {...props} />;
-});
+};
 
-stories.add('Phone Number', () => {
+export const PhoneNumber = (): JSX.Element => {
   const props = useProps({
     profileName: 'Sam Neill',
     phoneNumber: '(555) 867-5309',
   });
 
   return <AvatarPopup {...props} />;
-});
+};
 
-stories.add('Update Available', () => {
+export const UpdateAvailable = (): JSX.Element => {
   const props = useProps({
     hasPendingUpdate: true,
   });
 
   return <AvatarPopup {...props} />;
-});
+};

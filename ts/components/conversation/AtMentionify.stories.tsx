@@ -5,12 +5,13 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { select, text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './AtMentionify';
 import { AtMentionify } from './AtMentionify';
 
-const story = storiesOf('Components/Conversation/AtMentionify', module);
+export default {
+  title: 'Components/Conversation/AtMentionify',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
@@ -23,15 +24,19 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-story.add('No @mentions', () => {
+export const NoMentions = (): JSX.Element => {
   const props = createProps({
     text: 'Hello World',
   });
 
   return <AtMentionify {...props} />;
-});
+};
 
-story.add('Multiple @Mentions', () => {
+NoMentions.story = {
+  name: 'No @mentions',
+};
+
+export const MultipleMentions = (): JSX.Element => {
   const bodyRanges = [
     {
       start: 4,
@@ -59,9 +64,13 @@ story.add('Multiple @Mentions', () => {
   });
 
   return <AtMentionify {...props} />;
-});
+};
 
-story.add('Complex @mentions', () => {
+MultipleMentions.story = {
+  name: 'Multiple @Mentions',
+};
+
+export const ComplexMentions = (): JSX.Element => {
   const bodyRanges = [
     {
       start: 80,
@@ -92,4 +101,8 @@ story.add('Complex @mentions', () => {
   });
 
   return <AtMentionify {...props} />;
-});
+};
+
+ComplexMentions.story = {
+  name: 'Complex @mentions',
+};

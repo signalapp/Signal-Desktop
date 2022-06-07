@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './GroupV2PendingApprovalActions';
@@ -17,11 +16,10 @@ const createProps = (): GroupV2PendingApprovalActionsPropsType => ({
   onCancelJoinRequest: action('onCancelJoinRequest'),
 });
 
-const stories = storiesOf(
-  'Components/Conversation/GroupV2PendingApprovalActions',
-  module
-);
+export default {
+  title: 'Components/Conversation/GroupV2PendingApprovalActions',
+};
 
-stories.add('Default', () => {
+export const Default = (): JSX.Element => {
   return <GroupV2PendingApprovalActions {...createProps()} />;
-});
+};

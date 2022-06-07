@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { Button, ButtonSize, ButtonVariant } from './Button';
 
-const story = storiesOf('Components/Button', module);
+export default {
+  title: 'Components/Button',
+};
 
-story.add('Kitchen sink', () => (
+export const KitchenSink = (): JSX.Element => (
   <>
     {Object.values(ButtonVariant).map(variant => (
       <React.Fragment key={variant}>
@@ -35,18 +36,30 @@ story.add('Kitchen sink', () => (
       </React.Fragment>
     ))}
   </>
-));
+);
 
-story.add('aria-label', () => (
+KitchenSink.story = {
+  name: 'Kitchen sink',
+};
+
+export const AriaLabel = (): JSX.Element => (
   <Button
     aria-label="hello"
     className="module-ForwardMessageModal__header--back"
     onClick={action('onClick')}
   />
-));
+);
 
-story.add('Custom styles', () => (
+AriaLabel.story = {
+  name: 'aria-label',
+};
+
+export const CustomStyles = (): JSX.Element => (
   <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
     Hello world
   </Button>
-));
+);
+
+CustomStyles.story = {
+  name: 'Custom styles',
+};

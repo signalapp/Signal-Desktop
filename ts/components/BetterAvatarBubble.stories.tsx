@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
@@ -24,27 +23,29 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   style: overrideProps.style,
 });
 
-const story = storiesOf('Components/BetterAvatarBubble', module);
+export default {
+  title: 'Components/BetterAvatarBubble',
+};
 
-story.add('Children', () => (
+export const Children = (): JSX.Element => (
   <BetterAvatarBubble
     {...createProps({
       children: <div>HI</div>,
       color: AvatarColors[8],
     })}
   />
-));
+);
 
-story.add('Selected', () => (
+export const Selected = (): JSX.Element => (
   <BetterAvatarBubble
     {...createProps({
       color: AvatarColors[1],
       isSelected: true,
     })}
   />
-));
+);
 
-story.add('Style', () => (
+export const Style = (): JSX.Element => (
   <BetterAvatarBubble
     {...createProps({
       style: {
@@ -54,4 +55,4 @@ story.add('Style', () => (
       color: AvatarColors[2],
     })}
   />
-));
+);

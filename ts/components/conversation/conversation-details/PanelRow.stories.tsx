@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
@@ -11,10 +10,9 @@ import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import type { Props } from './PanelRow';
 import { PanelRow } from './PanelRow';
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/PanelRow',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/PanelRow',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   icon: boolean('with icon', overrideProps.icon !== undefined) ? (
@@ -35,15 +33,15 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     : undefined,
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps({
     label: 'this is a panel row',
   });
 
   return <PanelRow {...props} />;
-});
+};
 
-story.add('Simple', () => {
+export const Simple = (): JSX.Element => {
   const props = createProps({
     label: 'this is a panel row',
     icon: 'with icon',
@@ -51,9 +49,9 @@ story.add('Simple', () => {
   });
 
   return <PanelRow {...props} />;
-});
+};
 
-story.add('Full', () => {
+export const Full = (): JSX.Element => {
   const props = createProps({
     label: 'this is a panel row',
     icon: 'with icon',
@@ -63,9 +61,9 @@ story.add('Full', () => {
   });
 
   return <PanelRow {...props} />;
-});
+};
 
-story.add('Button', () => {
+export const Button = (): JSX.Element => {
   const props = createProps({
     label: 'this is a panel row',
     icon: 'with icon',
@@ -74,4 +72,4 @@ story.add('Button', () => {
   });
 
   return <PanelRow {...props} />;
-});
+};

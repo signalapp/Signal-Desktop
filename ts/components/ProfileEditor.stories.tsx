@@ -3,7 +3,6 @@
 
 import React, { useState } from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { text, boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -20,7 +19,9 @@ import { UsernameSaveState } from '../state/ducks/conversationsEnums';
 
 const i18n = setupI18n('en', enMessages);
 
-const stories = storiesOf('Components/ProfileEditor', module);
+export default {
+  title: 'Components/ProfileEditor',
+};
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   aboutEmoji: overrideProps.aboutEmoji,
@@ -56,7 +57,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
 });
 
-stories.add('Full Set', () => {
+export const FullSet = (): JSX.Element => {
   const [skinTone, setSkinTone] = useState(0);
 
   return (
@@ -71,43 +72,59 @@ stories.add('Full Set', () => {
       })}
     />
   );
-});
+};
 
-stories.add('with Full Name', () => (
+export const WithFullName = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       familyName: getLastName(),
     })}
   />
-));
+);
 
-stories.add('with Custom About', () => (
+WithFullName.story = {
+  name: 'with Full Name',
+};
+
+export const WithCustomAbout = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       aboutEmoji: '🙏',
       aboutText: 'Live. Laugh. Love',
     })}
   />
-));
+);
 
-stories.add('with Username flag enabled', () => (
+WithCustomAbout.story = {
+  name: 'with Custom About',
+};
+
+export const WithUsernameFlagEnabled = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       isUsernameFlagEnabled: true,
     })}
   />
-));
+);
 
-stories.add('with Username flag enabled and username', () => (
+WithUsernameFlagEnabled.story = {
+  name: 'with Username flag enabled',
+};
+
+export const WithUsernameFlagEnabledAndUsername = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       isUsernameFlagEnabled: true,
       username: 'unicorn55',
     })}
   />
-));
+);
 
-stories.add('Username editing, saving', () => (
+WithUsernameFlagEnabledAndUsername.story = {
+  name: 'with Username flag enabled and username',
+};
+
+export const UsernameEditingSaving = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       isUsernameFlagEnabled: true,
@@ -115,9 +132,13 @@ stories.add('Username editing, saving', () => (
       username: 'unicorn55',
     })}
   />
-));
+);
 
-stories.add('Username editing, username taken', () => (
+UsernameEditingSaving.story = {
+  name: 'Username editing, saving',
+};
+
+export const UsernameEditingUsernameTaken = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       isUsernameFlagEnabled: true,
@@ -125,9 +146,13 @@ stories.add('Username editing, username taken', () => (
       username: 'unicorn55',
     })}
   />
-));
+);
 
-stories.add('Username editing, username malformed', () => (
+UsernameEditingUsernameTaken.story = {
+  name: 'Username editing, username taken',
+};
+
+export const UsernameEditingUsernameMalformed = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       isUsernameFlagEnabled: true,
@@ -135,9 +160,13 @@ stories.add('Username editing, username malformed', () => (
       username: 'unicorn55',
     })}
   />
-));
+);
 
-stories.add('Username editing, general error', () => (
+UsernameEditingUsernameMalformed.story = {
+  name: 'Username editing, username malformed',
+};
+
+export const UsernameEditingGeneralError = (): JSX.Element => (
   <ProfileEditor
     {...createProps({
       isUsernameFlagEnabled: true,
@@ -145,4 +174,8 @@ stories.add('Username editing, general error', () => (
       username: 'unicorn55',
     })}
   />
-));
+);
+
+UsernameEditingGeneralError.story = {
+  name: 'Username editing, general error',
+};

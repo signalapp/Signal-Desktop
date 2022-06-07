@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -29,9 +28,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
 });
 
-const story = storiesOf('Components/CallingButton', module);
+export default {
+  title: 'Components/CallingButton',
+};
 
-story.add('Kitchen Sink', () => {
+export const KitchenSink = (): JSX.Element => {
   return (
     <>
       {Object.keys(CallingButtonType).map(buttonType => (
@@ -42,67 +43,71 @@ story.add('Kitchen Sink', () => {
       ))}
     </>
   );
-});
+};
 
-story.add('Audio On', () => {
+export const AudioOn = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.AUDIO_ON,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Audio Off', () => {
+export const AudioOff = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.AUDIO_OFF,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Audio Disabled', () => {
+export const AudioDisabled = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.AUDIO_DISABLED,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Video On', () => {
+export const VideoOn = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_ON,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Video Off', () => {
+export const VideoOff = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_OFF,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Video Disabled', () => {
+export const VideoDisabled = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_DISABLED,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Tooltip right', () => {
+export const TooltipRight = (): JSX.Element => {
   const props = createProps({
     tooltipDirection: TooltipPlacement.Right,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Presenting On', () => {
+TooltipRight.story = {
+  name: 'Tooltip right',
+};
+
+export const PresentingOn = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.PRESENTING_ON,
   });
   return <CallingButton {...props} />;
-});
+};
 
-story.add('Presenting Off', () => {
+export const PresentingOff = (): JSX.Element => {
   const props = createProps({
     buttonType: CallingButtonType.PRESENTING_OFF,
   });
   return <CallingButton {...props} />;
-});
+};

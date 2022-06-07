@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -23,16 +22,18 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationId: 'fake-conversation-id',
 });
 
-const stories = storiesOf('Components/Conversation/ScrollDownButton', module);
+export default {
+  title: 'Components/Conversation/ScrollDownButton',
+};
 
-stories.add('No New Messages', () => {
+export const NoNewMessages = (): JSX.Element => {
   const props = createProps();
 
   return <ScrollDownButton {...props} />;
-});
+};
 
-stories.add('New Messages', () => {
+export const NewMessages = (): JSX.Element => {
   const props = createProps({ withNewMessages: true });
 
   return <ScrollDownButton {...props} />;
-});
+};

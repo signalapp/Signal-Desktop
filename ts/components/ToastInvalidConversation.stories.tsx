@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastInvalidConversation } from './ToastInvalidConversation';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastInvalidConversation', module);
+export default {
+  title: 'Components/ToastInvalidConversation',
+};
 
-story.add('ToastInvalidConversation', () => (
+export const _ToastInvalidConversation = (): JSX.Element => (
   <ToastInvalidConversation {...defaultProps} />
-));
+);
+
+_ToastInvalidConversation.story = {
+  name: 'ToastInvalidConversation',
+};

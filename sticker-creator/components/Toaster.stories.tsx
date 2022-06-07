@@ -3,13 +3,16 @@
 
 import * as React from 'react';
 import { debounce, dropRight } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { text as textKnob } from '@storybook/addon-knobs';
 
 import { StoryRow } from '../elements/StoryRow';
 import { Toaster } from './Toaster';
 
-storiesOf('Sticker Creator/components', module).add('Toaster', () => {
+export default {
+  title: 'Sticker Creator/components',
+};
+
+export const _Toaster = (): JSX.Element => {
   const inputText = textKnob('Slices', ['error 1', 'error 2'].join('|'));
   const initialState = React.useMemo(() => inputText.split('|'), [inputText]);
   const [state, setState] = React.useState(initialState);
@@ -33,4 +36,4 @@ storiesOf('Sticker Creator/components', module).add('Toaster', () => {
       />
     </StoryRow>
   );
-});
+};

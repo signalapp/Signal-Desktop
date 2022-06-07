@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { text, withKnobs } from '@storybook/addon-knobs';
+import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -17,13 +16,9 @@ import { MediaGridItem } from './MediaGridItem';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/MediaGallery/MediaGridItem',
-  module
-);
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
+export default {
+  title: 'Components/Conversation/MediaGallery/MediaGridItem',
+};
 
 const createProps = (
   overrideProps: Partial<Props> & { mediaItem: MediaItemType }
@@ -55,7 +50,7 @@ const createMediaItem = (
   },
 });
 
-story.add('Image', () => {
+export const Image = (): JSX.Element => {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/fixtures/kitten-1-64-64.jpg',
     contentType: stringToMIMEType('image/jpeg'),
@@ -66,9 +61,9 @@ story.add('Image', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
 
-story.add('Video', () => {
+export const Video = (): JSX.Element => {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/fixtures/kitten-2-64-64.jpg',
     contentType: stringToMIMEType('video/mp4'),
@@ -79,9 +74,9 @@ story.add('Video', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
 
-story.add('Missing Image', () => {
+export const MissingImage = (): JSX.Element => {
   const mediaItem = createMediaItem({
     contentType: stringToMIMEType('image/jpeg'),
   });
@@ -91,9 +86,9 @@ story.add('Missing Image', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
 
-story.add('Missing Video', () => {
+export const MissingVideo = (): JSX.Element => {
   const mediaItem = createMediaItem({
     contentType: stringToMIMEType('video/mp4'),
   });
@@ -103,9 +98,9 @@ story.add('Missing Video', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
 
-story.add('Broken Image', () => {
+export const BrokenImage = (): JSX.Element => {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/missing-fixtures/nope.jpg',
     contentType: stringToMIMEType('image/jpeg'),
@@ -116,9 +111,9 @@ story.add('Broken Image', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
 
-story.add('Broken Video', () => {
+export const BrokenVideo = (): JSX.Element => {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/missing-fixtures/nope.mp4',
     contentType: stringToMIMEType('video/mp4'),
@@ -129,9 +124,9 @@ story.add('Broken Video', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
 
-story.add('Other ContentType', () => {
+export const OtherContentType = (): JSX.Element => {
   const mediaItem = createMediaItem({
     contentType: stringToMIMEType('application/text'),
   });
@@ -141,4 +136,8 @@ story.add('Other ContentType', () => {
   });
 
   return <MediaGridItem {...props} />;
-});
+};
+
+OtherContentType.story = {
+  name: 'Other ContentType',
+};

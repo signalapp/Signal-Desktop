@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -38,23 +37,31 @@ const permutations = [
   },
 ];
 
-storiesOf('Components/DialogRelink', module)
-  .add('Knobs Playground', () => {
-    const isRegistrationDone = boolean('isRegistrationDone', false);
+export default {
+  title: 'Components/DialogRelink',
+};
 
-    return (
-      <DialogRelink {...defaultProps} isRegistrationDone={isRegistrationDone} />
-    );
-  })
-  .add('Iterations', () => {
-    return permutations.map(({ props, title }) => (
-      <>
-        <h3>{title}</h3>
-        <FakeLeftPaneContainer
-          containerWidthBreakpoint={props.containerWidthBreakpoint}
-        >
-          <DialogRelink {...defaultProps} {...props} />
-        </FakeLeftPaneContainer>
-      </>
-    ));
-  });
+export const KnobsPlayground = (): JSX.Element => {
+  const isRegistrationDone = boolean('isRegistrationDone', false);
+
+  return (
+    <DialogRelink {...defaultProps} isRegistrationDone={isRegistrationDone} />
+  );
+};
+
+export const Iterations = (): JSX.Element => {
+  return (
+    <>
+      {permutations.map(({ props, title }) => (
+        <>
+          <h3>{title}</h3>
+          <FakeLeftPaneContainer
+            containerWidthBreakpoint={props.containerWidthBreakpoint}
+          >
+            <DialogRelink {...defaultProps} {...props} />
+          </FakeLeftPaneContainer>
+        </>
+      ))}
+    </>
+  );
+};

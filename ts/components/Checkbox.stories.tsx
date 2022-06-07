@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import type { PropsType } from './Checkbox';
 import { Checkbox } from './Checkbox';
@@ -15,14 +14,19 @@ const createProps = (): PropsType => ({
   onChange: action('onChange'),
 });
 
-const story = storiesOf('Components/Checkbox', module);
+export default {
+  title: 'Components/Checkbox',
+};
 
-story.add('Normal', () => <Checkbox {...createProps()} />);
+export const Normal = (): JSX.Element => <Checkbox {...createProps()} />;
+export const Checked = (): JSX.Element => (
+  <Checkbox {...createProps()} checked />
+);
 
-story.add('Checked', () => <Checkbox {...createProps()} checked />);
-
-story.add('Description', () => (
+export const Description = (): JSX.Element => (
   <Checkbox {...createProps()} description="This is a checkbox" />
-));
+);
 
-story.add('Disabled', () => <Checkbox {...createProps()} disabled />);
+export const Disabled = (): JSX.Element => (
+  <Checkbox {...createProps()} disabled />
+);

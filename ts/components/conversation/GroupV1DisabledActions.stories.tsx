@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType as GroupV1DisabledActionsPropsType } from './GroupV1DisabledActions';
@@ -17,11 +16,10 @@ const createProps = (): GroupV1DisabledActionsPropsType => ({
   onStartGroupMigration: action('onStartGroupMigration'),
 });
 
-const stories = storiesOf(
-  'Components/Conversation/GroupV1DisabledActions',
-  module
-);
+export default {
+  title: 'Components/Conversation/GroupV1DisabledActions',
+};
 
-stories.add('Default', () => {
+export const Default = (): JSX.Element => {
   return <GroupV1DisabledActions {...createProps()} />;
-});
+};

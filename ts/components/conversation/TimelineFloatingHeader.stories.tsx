@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { isBoolean } from 'lodash';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -26,16 +25,18 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   timestamp: overrideProps.timestamp || Date.now(),
 });
 
-const stories = storiesOf('Components/TimelineFloatingHeader', module);
+export default {
+  title: 'Components/TimelineFloatingHeader',
+};
 
-stories.add('Visible', () => {
+export const Visible = (): JSX.Element => {
   return <TimelineFloatingHeader {...createProps({ visible: true })} />;
-});
+};
 
-stories.add('Loading', () => {
+export const Loading = (): JSX.Element => {
   return (
     <TimelineFloatingHeader
       {...createProps({ visible: true, isLoading: true })}
     />
   );
-});
+};

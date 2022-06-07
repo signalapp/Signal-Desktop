@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { text, withKnobs } from '@storybook/addon-knobs';
+import { text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -12,11 +11,9 @@ import { MessageBodyHighlight } from './MessageBodyHighlight';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/MessageBodyHighlight', module);
-
-// Storybook types are incorrect
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
+export default {
+  title: 'Components/MessageBodyHighlight',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges || [],
@@ -24,31 +21,31 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps({
     text: 'This is before <<left>>Inside<<right>> This is after.',
   });
 
   return <MessageBodyHighlight {...props} />;
-});
+};
 
-story.add('No Replacement', () => {
+export const NoReplacement = (): JSX.Element => {
   const props = createProps({
     text: 'All\nplain\ntext 🔥 http://somewhere.com',
   });
 
   return <MessageBodyHighlight {...props} />;
-});
+};
 
-story.add('Two Replacements', () => {
+export const TwoReplacements = (): JSX.Element => {
   const props = createProps({
     text: 'Begin <<left>>Inside #1<<right>> This is between the two <<left>>Inside #2<<right>> End.',
   });
 
   return <MessageBodyHighlight {...props} />;
-});
+};
 
-story.add('Two Replacements with an @mention', () => {
+export const TwoReplacementsWithAnMention = (): JSX.Element => {
   const props = createProps({
     bodyRanges: [
       {
@@ -62,20 +59,28 @@ story.add('Two Replacements with an @mention', () => {
   });
 
   return <MessageBodyHighlight {...props} />;
-});
+};
 
-story.add('Emoji + Newlines + URLs', () => {
+TwoReplacementsWithAnMention.story = {
+  name: 'Two Replacements with an @mention',
+};
+
+export const EmojiNewlinesUrLs = (): JSX.Element => {
   const props = createProps({
     text: '\nhttp://somewhere.com\n\n🔥 Before -- <<left>>A 🔥 inside<<right>> -- After 🔥',
   });
 
   return <MessageBodyHighlight {...props} />;
-});
+};
 
-story.add('No Jumbomoji', () => {
+EmojiNewlinesUrLs.story = {
+  name: 'Emoji + Newlines + URLs',
+};
+
+export const NoJumbomoji = (): JSX.Element => {
   const props = createProps({
     text: '🔥',
   });
 
   return <MessageBodyHighlight {...props} />;
-});
+};

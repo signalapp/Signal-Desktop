@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { times } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { UUID } from '../../../types/UUID';
@@ -19,10 +18,9 @@ import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeCont
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/PendingInvites',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/PendingInvites',
+};
 
 const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
   i === 0
@@ -74,14 +72,18 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = useProps();
 
   return <PendingInvites {...props} />;
-});
+};
 
-story.add('With badges', () => {
+export const WithBadges = (): JSX.Element => {
   const props = useProps({ getPreferredBadge: () => getFakeBadge() });
 
   return <PendingInvites {...props} />;
-});
+};
+
+WithBadges.story = {
+  name: 'With badges',
+};

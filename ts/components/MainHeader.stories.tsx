@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -14,7 +13,9 @@ import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/MainHeader', module);
+export default {
+  title: 'Components/MainHeader',
+};
 
 const requiredText = (name: string, value: string | undefined) =>
   text(name, value || '');
@@ -41,36 +42,36 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   toggleStoriesView: action('toggleStoriesView'),
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps({});
 
   return <MainHeader {...props} />;
-});
+};
 
-story.add('Name', () => {
+export const Name = (): JSX.Element => {
   const props = createProps({
     name: 'John Smith',
     title: 'John Smith',
   });
 
   return <MainHeader {...props} />;
-});
+};
 
-story.add('Phone Number', () => {
+export const PhoneNumber = (): JSX.Element => {
   const props = createProps({
     name: 'John Smith',
     phoneNumber: '+15553004000',
   });
 
   return <MainHeader {...props} />;
-});
+};
 
-story.add('Update Available', () => {
+export const UpdateAvailable = (): JSX.Element => {
   const props = createProps({ hasPendingUpdate: true });
 
   return <MainHeader {...props} />;
-});
+};
 
-story.add('Stories', () => (
+export const Stories = (): JSX.Element => (
   <MainHeader {...createProps({})} areStoriesEnabled />
-));
+);

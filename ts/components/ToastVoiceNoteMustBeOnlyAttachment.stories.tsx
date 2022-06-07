@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastVoiceNoteMustBeOnlyAttachment } from './ToastVoiceNoteMustBeOnlyAttachment';
 
@@ -16,11 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf(
-  'Components/ToastVoiceNoteMustBeOnlyAttachment',
-  module
+export default {
+  title: 'Components/ToastVoiceNoteMustBeOnlyAttachment',
+};
+
+export const _ToastVoiceNoteMustBeOnlyAttachment = (): JSX.Element => (
+  <ToastVoiceNoteMustBeOnlyAttachment {...defaultProps} />
 );
 
-story.add('ToastVoiceNoteMustBeOnlyAttachment', () => (
-  <ToastVoiceNoteMustBeOnlyAttachment {...defaultProps} />
-));
+_ToastVoiceNoteMustBeOnlyAttachment.story = {
+  name: 'ToastVoiceNoteMustBeOnlyAttachment',
+};

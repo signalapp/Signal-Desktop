@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { isBoolean } from 'lodash';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
@@ -57,13 +56,19 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: ThemeType.light,
 });
 
-const stories = storiesOf('Components/GroupV1MigrationDialog', module);
+export default {
+  title: 'Components/GroupV1MigrationDialog',
+};
 
-stories.add('Not yet migrated, basic', () => {
+export const NotYetMigratedBasic = (): JSX.Element => {
   return <GroupV1MigrationDialog {...createProps()} />;
-});
+};
 
-stories.add('Migrated, basic', () => {
+NotYetMigratedBasic.story = {
+  name: 'Not yet migrated, basic',
+};
+
+export const MigratedBasic = (): JSX.Element => {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -71,9 +76,13 @@ stories.add('Migrated, basic', () => {
       })}
     />
   );
-});
+};
 
-stories.add('Migrated, you are invited', () => {
+MigratedBasic.story = {
+  name: 'Migrated, basic',
+};
+
+export const MigratedYouAreInvited = (): JSX.Element => {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -82,20 +91,29 @@ stories.add('Migrated, you are invited', () => {
       })}
     />
   );
-});
+};
 
-stories.add('Not yet migrated, multiple dropped and invited members', () => {
-  return (
-    <GroupV1MigrationDialog
-      {...createProps({
-        droppedMembers: [contact3, contact1, contact2],
-        invitedMembers: [contact2, contact3, contact1],
-      })}
-    />
-  );
-});
+MigratedYouAreInvited.story = {
+  name: 'Migrated, you are invited',
+};
 
-stories.add('Not yet migrated, no members', () => {
+export const NotYetMigratedMultipleDroppedAndInvitedMembers =
+  (): JSX.Element => {
+    return (
+      <GroupV1MigrationDialog
+        {...createProps({
+          droppedMembers: [contact3, contact1, contact2],
+          invitedMembers: [contact2, contact3, contact1],
+        })}
+      />
+    );
+  };
+
+NotYetMigratedMultipleDroppedAndInvitedMembers.story = {
+  name: 'Not yet migrated, multiple dropped and invited members',
+};
+
+export const NotYetMigratedNoMembers = (): JSX.Element => {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -104,9 +122,13 @@ stories.add('Not yet migrated, no members', () => {
       })}
     />
   );
-});
+};
 
-stories.add('Not yet migrated, just dropped member', () => {
+NotYetMigratedNoMembers.story = {
+  name: 'Not yet migrated, no members',
+};
+
+export const NotYetMigratedJustDroppedMember = (): JSX.Element => {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -114,4 +136,8 @@ stories.add('Not yet migrated, just dropped member', () => {
       })}
     />
   );
-});
+};
+
+NotYetMigratedJustDroppedMember.story = {
+  name: 'Not yet migrated, just dropped member',
+};

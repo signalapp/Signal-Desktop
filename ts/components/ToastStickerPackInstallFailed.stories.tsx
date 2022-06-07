@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastStickerPackInstallFailed } from './ToastStickerPackInstallFailed';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastStickerPackInstallFailed', module);
+export default {
+  title: 'Components/ToastStickerPackInstallFailed',
+};
 
-story.add('ToastStickerPackInstallFailed', () => (
+export const _ToastStickerPackInstallFailed = (): JSX.Element => (
   <ToastStickerPackInstallFailed {...defaultProps} />
-));
+);
+
+_ToastStickerPackInstallFailed.story = {
+  name: 'ToastStickerPackInstallFailed',
+};

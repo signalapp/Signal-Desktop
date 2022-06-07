@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -13,7 +12,9 @@ import { UnsupportedMessage } from './UnsupportedMessage';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/UnsupportedMessage', module);
+export default {
+  title: 'Components/Conversation/UnsupportedMessage',
+};
 
 const createContact = (props: Partial<ContactType> = {}): ContactType => ({
   id: '',
@@ -28,7 +29,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   downloadNewVersion: action('downloadNewVersion'),
 });
 
-story.add('From Someone', () => {
+export const FromSomeone = (): JSX.Element => {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -37,9 +38,9 @@ story.add('From Someone', () => {
   const props = createProps({ contact });
 
   return <UnsupportedMessage {...props} />;
-});
+};
 
-story.add('After Upgrade', () => {
+export const AfterUpgrade = (): JSX.Element => {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -48,9 +49,9 @@ story.add('After Upgrade', () => {
   const props = createProps({ contact, canProcessNow: true });
 
   return <UnsupportedMessage {...props} />;
-});
+};
 
-story.add('From Yourself', () => {
+export const FromYourself = (): JSX.Element => {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -60,9 +61,9 @@ story.add('From Yourself', () => {
   const props = createProps({ contact });
 
   return <UnsupportedMessage {...props} />;
-});
+};
 
-story.add('From Yourself After Upgrade', () => {
+export const FromYourselfAfterUpgrade = (): JSX.Element => {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -72,4 +73,4 @@ story.add('From Yourself After Upgrade', () => {
   const props = createProps({ contact, canProcessNow: true });
 
   return <UnsupportedMessage {...props} />;
-});
+};

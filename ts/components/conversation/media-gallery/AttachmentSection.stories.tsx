@@ -4,8 +4,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { select, text, withKnobs } from '@storybook/addon-knobs';
+import { select, text } from '@storybook/addon-knobs';
 import { random, range, sample, sortBy } from 'lodash';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -18,13 +17,9 @@ import { AttachmentSection } from './AttachmentSection';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/MediaGallery/AttachmentSection',
-  module
-);
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
+export default {
+  title: 'Components/Conversation/MediaGallery/AttachmentSection',
+};
 
 export const now = Date.now();
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -113,16 +108,16 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   mediaItems: overrideProps.mediaItems || [],
 });
 
-story.add('Documents', () => {
+export const Documents = () => {
   const mediaItems = createRandomDocuments(now, days(1));
   const props = createProps({ mediaItems, type: 'documents' });
 
   return <AttachmentSection {...props} />;
-});
+};
 
-story.add('Media', () => {
+export const Media = () => {
   const mediaItems = createRandomMedia(now, days(1));
   const props = createProps({ mediaItems, type: 'media' });
 
   return <AttachmentSection {...props} />;
-});
+};

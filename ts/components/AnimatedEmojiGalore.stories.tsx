@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './AnimatedEmojiGalore';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 
-const story = storiesOf('Components/AnimatedEmojiGalore', module);
+export default {
+  title: 'Components/AnimatedEmojiGalore',
+};
 
 function getDefaultProps(): PropsType {
   return {
@@ -17,4 +18,6 @@ function getDefaultProps(): PropsType {
   };
 }
 
-story.add('Hearts', () => <AnimatedEmojiGalore {...getDefaultProps()} />);
+export const Hearts = (): JSX.Element => (
+  <AnimatedEmojiGalore {...getDefaultProps()} />
+);

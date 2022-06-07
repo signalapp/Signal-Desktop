@@ -133,6 +133,62 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/source-map/dist/source-map.umd.js",
+    "line": "        append(sources, resolvedSources);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/source-map/dist/source-map.umd.js",
+    "line": "        append(sourcesContent, map.sourcesContent || fillSourcesContent(resolvedSources.length));",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/source-map/dist/source-map.umd.js",
+    "line": "        append(names, map.names);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/source-map/dist/source-map.umd.js",
+    "line": "    function append(arr, other) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/trace-mapping/dist/trace-mapping.umd.js",
+    "line": "        append(sources, resolvedSources);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/trace-mapping/dist/trace-mapping.umd.js",
+    "line": "        append(names, map.names);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/trace-mapping/dist/trace-mapping.umd.js",
+    "line": "            append(sourcesContent, contents);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@jridgewell/trace-mapping/dist/trace-mapping.umd.js",
+    "line": "    function append(arr, other) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/@malept/flatpak-bundler/node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -152,6 +208,89 @@
     "line": "function load() {",
     "reasonCategory": "falseMatch",
     "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/@babel/plugin-syntax-object-rest-spread/node_modules/@babel/core/lib/vendor/import-meta-resolve.js",
+    "line": "    load(arr) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
+    "line": "        load(exts, x, loadAsFilePackage);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
+    "line": "        function load(exts, x, loadPackage) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
+    "line": "                    if (r) return load(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
+    "line": "                load(exts.slice(1), x, pkg);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/source-map/dist/source-map.debug.js",
+    "line": "\t      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/source-map/dist/source-map.js",
+    "line": "\t      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/source-map/dist/source-map.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/@mdx-js/mdx/node_modules/source-map/lib/source-node.js",
+    "line": "      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -338,6 +477,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.dev.js",
+    "line": "  const isMounted = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
     "line": "  const committed = React.useRef();",
     "reasonCategory": "usageTrusted",
@@ -349,6 +495,20 @@
     "line": "  const prevRef = React.useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
+    "line": "  const isMounted = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.esm.js",
+    "line": "  const isMounted = useRef(false);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
   },
   {
     "rule": "React-useRef",
@@ -588,14 +748,6 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/acorn/dist/acorn.js",
-    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "node_modules/agent-base/node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -643,6 +795,20 @@
   },
   {
     "rule": "jQuery-wrap(",
+    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
     "path": "node_modules/asar/node_modules/commander/index.js",
     "line": "          desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
     "reasonCategory": "falseMatch",
@@ -665,16 +831,16 @@
   {
     "rule": "jQuery-insertAfter(",
     "path": "node_modules/ast-types/lib/path.js",
-    "line": "    Pp.insertAfter = function insertAfter(node) {",
+    "line": "    Pp.insertAfter = function insertAfter() {",
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2022-06-01T22:57:44.591Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/ast-types/lib/path.js",
-    "line": "    Pp.insertBefore = function insertBefore(node) {",
+    "line": "    Pp.insertBefore = function insertBefore() {",
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2022-06-01T22:57:44.591Z"
   },
   {
     "rule": "jQuery-insertAfter(",
@@ -945,6 +1111,12 @@
     "reasonDetail": "Part of backbone's browser history API"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/big-integer/BigInteger.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/bl/BufferList.js",
     "line": "    this.append(buf)",
@@ -1000,6 +1172,48 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/c8/lib/report.js",
+    "line": "        await converter.load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/c8/node_modules/istanbul-reports/lib/html/annotator.js",
+    "line": "            text.wrap(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/c8/node_modules/istanbul-reports/lib/html/annotator.js",
+    "line": "            text.wrap(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/c8/node_modules/istanbul-reports/lib/html/annotator.js",
+    "line": "                        text.wrap(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/c8/node_modules/istanbul-reports/lib/html/insertion-text.js",
+    "line": "    wrap(startPos, startText, endPos, endText, consumeBlanks) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/c8/node_modules/istanbul-reports/lib/html/insertion-text.js",
+    "line": "        this.wrap(0, startText, this.originalLength(), endText);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/cacheable-lookup/source/index.js",
     "line": "\t\t].map(promise => wrap(promise)));",
@@ -1035,186 +1249,25 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
-    "line": "function insertAfter(context, newNode) {",
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cpy/node_modules/path-type/node_modules/pify/index.js",
+    "line": "\t\t\t\tif (opts.multiArgs) {",
     "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
-    "line": "function insertBefore(context, newNode) {",
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cpy/node_modules/path-type/node_modules/pify/index.js",
+    "line": "\t\t\t\tif (opts.multiArgs) {",
     "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "      after(type, path);",
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cpy/node_modules/pify/index.js",
+    "line": "\t\tif (options.multiArgs) {",
     "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "        after(unionType, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "      before(type, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "        before(unionType, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
-    "line": "function insertAfter(context, newNode) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
-    "line": "function insertBefore(context, newNode) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "      after(type, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "        after(unionType, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "      before(type, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "        before(unionType, path);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
-    "line": "  function after(type, path) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
-    "line": "  function before(type, path) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
-    "line": "  function after(type, path) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
-    "line": "  function before(type, path) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/acorn/dist/acorn.js",
-    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/eslint-scope/lib/index.js",
-    "line": " * @param {boolean} [providedOptions.ignoreEval=false]- whether to check 'eval()' calls",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
-    "line": "         * Moreover, if 'eval()' is used in a scope, it might introduce new",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
-    "line": "         * Whether this is a scope that contains an 'eval()' invocation.",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/EvalDevToolModuleTemplatePlugin.js",
-    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/EvalSourceMapDevToolModuleTemplatePlugin.js",
-    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
-    "line": "\t\t\treturn $require$(request);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
-    "line": "\t\t\t\t$require$(moduleId);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/Template.js",
-    "line": "const PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\\-^°]+/g;",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/optimize/ModuleConcatenationPlugin.js",
-    "line": "\t\t\t\t\t\tparser.state.module.buildMeta.moduleConcatenationBailout = \"eval()\";",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-04-05T20:48:36.065Z"
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-load(",
@@ -1302,6 +1355,62 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/dom-helpers/cjs/insertAfter.js",
+    "line": "function insertAfter(node, refNode) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/dom-helpers/cjs/insertAfter.js",
+    "line": "      refNode.parentNode.insertBefore(node, refNode.nextSibling);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/dom-helpers/cjs/prepend.js",
+    "line": "      parent.insertBefore(node, parent.firstElementChild);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/dom-helpers/cjs/prepend.js",
+    "line": "function prepend(node, parent) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/dom-helpers/esm/insertAfter.js",
+    "line": "export default function insertAfter(node, refNode) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/dom-helpers/esm/insertAfter.js",
+    "line": "      refNode.parentNode.insertBefore(node, refNode.nextSibling);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/dom-helpers/esm/prepend.js",
+    "line": "      parent.insertBefore(node, parent.firstElementChild);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/dom-helpers/esm/prepend.js",
+    "line": "export default function prepend(node, parent) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/duplexer3/index.js",
     "line": "    readable = (new stream.Readable(options)).wrap(readable);",
@@ -1335,6 +1444,60 @@
     "line": "function load() {",
     "reasonCategory": "falseMatch",
     "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/element-resize-detector/dist/element-resize-detector.js",
+    "line": "            div.innerHTML = \"<!--[if gt IE \" + (++v) + \"]><i></i><![endif]-->\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/element-resize-detector/dist/element-resize-detector.js",
+    "line": "            styleElement.innerHTML = style;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/element-resize-detector/dist/element-resize-detector.js",
+    "line": "        document.body.insertBefore(container, document.body.firstChild);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/element-resize-detector/dist/element-resize-detector.min.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/element-resize-detector/dist/element-resize-detector.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/element-resize-detector/src/browser-detector.js",
+    "line": "            div.innerHTML = \"<!--[if gt IE \" + (++v) + \"]><i></i><![endif]-->\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/element-resize-detector/src/detection-strategy/scroll.js",
+    "line": "            styleElement.innerHTML = style;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/element-resize-detector/src/detection-strategy/scroll.js",
+    "line": "        document.body.insertBefore(container, document.body.firstChild);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
   },
   {
     "rule": "jQuery-append(",
@@ -1485,6 +1648,13 @@
     "path": "node_modules/envinfo/dist/envinfo.js",
     "reasonCategory": "falseMatch",
     "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/espree/node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "React-ref",
@@ -1758,6 +1928,27 @@
     "updated": "2021-10-06T15:40:12.124Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/hast-util-raw/index.js",
+    "line": "function wrap(tree, file) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/history/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/history/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/history/umd/history.min.js",
     "reasonCategory": "falseMatch",
@@ -1928,80 +2119,10 @@
   },
   {
     "rule": "DOM-document.write(",
-    "path": "node_modules/is-function/browser-test.js",
-    "line": "        iframe.contentWindow.document.write([",
-    "reasonCategory": "testCode",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "DOM-document.write(",
     "path": "node_modules/is-function/test.js",
     "line": "        iframe.contentWindow.document.write([",
     "reasonCategory": "testCode",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/headers.js",
-    "line": "\t\t\t\tself.append(prop, item.toString());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:40.409Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t\t\t\tthis.append(headerName, value);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t\t\t\tthis.append(key, value);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\tappend(name, value) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t\t\tthis.headers.append('Content-Type', contentType);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t\t\t\t\theaders.append(name, val);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
-    "line": "\t\t\t\t\theaders.append(name, res.headers[name]);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2022-06-01T22:57:44.591Z"
   },
   {
     "rule": "jQuery-load(",
@@ -3710,6 +3831,20 @@
     "updated": "2020-01-06T20:40:04.973Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/levn/lib/parse-string.js",
     "line": "  function not$(x){ return !x; }",
@@ -4484,6 +4619,76 @@
     "reasonDetail": "node-gyp dependency"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/footer.js",
+    "line": "    wrap(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/blockquote.js",
+    "line": "  return h(node, 'blockquote', wrap(all(h, node), true))",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/html.js",
+    "line": "function html(h, node) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/list.js",
+    "line": "  return h(node, name, props, wrap(items, true))",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/root.js",
+    "line": "  return h.augment(node, u('root', wrap(all(h, node))))",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/table.js",
+    "line": "    result[index] = h(rows[index], 'tr', wrap(out, true))",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/table.js",
+    "line": "    wrap(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/table.js",
+    "line": "      [h(result[0].position, 'thead', wrap([result[0]], true))].concat(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/handlers/table.js",
+    "line": "              wrap(result.slice(1), true)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mdast-util-to-hast/lib/wrap.js",
+    "line": "function wrap(nodes, loose) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/micro/node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
@@ -4701,6 +4906,48 @@
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
     "reasonCategory": "falseMatch",
     "updated": "2020-09-14T16:19:54.461Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\t\tmultiArgs: false,",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tmultiArgs: false,",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\terror = options.multiArgs ? args : args[0];",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/p-event/index.js",
+    "line": "\t\tconst value = options.multiArgs ? args : args[0];",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5069,9 +5316,44 @@
   {
     "rule": "jQuery-append(",
     "path": "node_modules/parse-json/index.js",
-    "line": "\tfileName: errorEx.append('in %s')",
+    "line": "\tfileName: errorEx.append('in %s'),",
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/parse-json/index.js",
+    "line": "\tcodeFrame: errorEx.append('\\n\\n%s\\n')",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/parse5/lib/parser/index.js",
+    "line": "    p.openElements.insertAfter(furthestBlock, newElement);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parse5/lib/parser/index.js",
+    "line": "            this.treeAdapter.insertBefore(location.parent, element, location.beforeElement);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/parse5/lib/parser/open-element-stack.js",
+    "line": "    insertAfter(referenceElement, newElement) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/parse5/lib/tree-adapters/default.js",
+    "line": "        insertBefore(parentNode, createTextNode(text), referenceNode);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-append(",
@@ -5123,22 +5405,46 @@
     "updated": "2021-03-09T20:56:35.403Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/popper.js/dist/esm/popper.min.js",
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/prompts/dist/elements/autocomplete.js",
+    "line": "        desc = '\\n' + wrap(v.description, {",
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/popper.js/dist/popper.min.js",
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/prompts/dist/elements/multiselect.js",
+    "line": "          desc = '\\n' + wrap(v.description, {",
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/popper.js/dist/umd/popper.min.js",
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/prompts/dist/elements/select.js",
+    "line": "              desc = '\\n' + wrap(v.description, {",
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/prompts/lib/elements/autocomplete.js",
+    "line": "        desc = '\\n' + wrap(v.description, { margin: 3, width: this.out.columns })",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/prompts/lib/elements/multiselect.js",
+    "line": "          desc = '\\n' + wrap(v.description, { margin: prefix.length, width: this.out.columns });",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/prompts/lib/elements/select.js",
+    "line": "              desc = '\\n' + wrap(v.description, { margin: 3, width: this.out.columns });",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "eval",
@@ -6426,6 +6732,294 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/react-blurhash/docs/demo.1d83eeb63aeb90e0cf0e.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-colorful/dist/index.esmodule.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-colorful/dist/index.esmodule.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-colorful/dist/index.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-colorful/dist/index.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-colorful/dist/index.module.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/react-colorful/dist/index.umd.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-colorful/dist/index.umd.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-inspector/dist/cjs/react-inspector.js",
+    "line": "    return regenerator.wrap(function objectIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-inspector/dist/cjs/react-inspector.js",
+    "line": "  return regenerator.wrap(function domIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/cjs/react-inspector.js",
+    "line": "    function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/cjs/react-inspector.js",
+    "line": "      var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/cjs/react-inspector.js",
+    "line": "    return regenerator.wrap(function objectIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/cjs/react-inspector.js",
+    "line": "  return regenerator.wrap(function domIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-inspector/dist/es/react-inspector.js",
+    "line": "    return regenerator.wrap(function objectIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-inspector/dist/es/react-inspector.js",
+    "line": "  return regenerator.wrap(function domIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/es/react-inspector.js",
+    "line": "    function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/es/react-inspector.js",
+    "line": "      var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/es/react-inspector.js",
+    "line": "    return regenerator.wrap(function objectIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/es/react-inspector.js",
+    "line": "  return regenerator.wrap(function domIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "function createRef() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "var useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};var useMemo=function(a,b){return Z().useMemo(a,b)};var useReducer=function(a,b,c){return Z().useReducer(a,b,c)};var useRef=function(a){return Z().useRef(a)};var useState=function(a){return Z().useState(a)};var version=\"16.14.0\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "function useRef(initialValue) {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "  return dispatcher.useRef(initialValue);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "    return regenerator.wrap(function objectIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "  return regenerator.wrap(function domIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "    return regenerator.wrap(function objectIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/dist/umd/react-inspector.js",
+    "line": "  return regenerator.wrap(function domIterator$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-inspector/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/react-quill/dist/react-quill.js",
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-13T18:36:57.012Z",
@@ -6484,11 +7078,139 @@
     "reasonDetail": "necessary for react-quill"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/read-pkg-up/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.development.js",
+    "line": "            insertAfterPath.insertAfter(t.expressionStatement(t.assignmentExpression('=', handle, targetExpr)));",
     "reasonCategory": "falseMatch",
-    "updated": "2021-12-07T23:11:11.870Z"
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.development.js",
+    "line": "          insertAfterPath.insertAfter(t.expressionStatement(t.callExpression(sigCallID, createArgumentsForSignature(id, signature, insertAfterPath.scope))));",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.development.js",
+    "line": "            insertAfterPath.insertAfter(t.expressionStatement(t.callExpression(sigCallID, createArgumentsForSignature(path.parent.id, signature, insertAfterPath.scope)))); // Result: let Foo = () => {}; __signature(Foo, ...);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.development.js",
+    "line": "            insertAfterPath.insertAfter(t.expressionStatement(t.assignmentExpression('=', handle, declPath.node.id))); // Result: let Foo = () => {}; _c1 = Foo;",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.production.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.production.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.production.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/react-refresh/cjs/react-refresh-babel.production.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/react-sizeme/dist/react-sizeme.js",
+    "line": "          var found = this.element && ReactDOM__default['default'].findDOMNode(this.element);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/react-sizeme/dist/react-sizeme.min.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-syntax-highlighter/dist/cjs/async-languages/create-language-async-loader.js",
+    "line": "      return _regenerator[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-syntax-highlighter/dist/cjs/async-languages/create-language-async-loader.js",
+    "line": "      return _regenerator[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-syntax-highlighter/dist/cjs/async-syntax-highlighter.js",
+    "line": "          return _regenerator[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-syntax-highlighter/dist/cjs/async-syntax-highlighter.js",
+    "line": "          return _regenerator[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-syntax-highlighter/dist/esm/async-languages/create-language-async-loader.js",
+    "line": "      return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-syntax-highlighter/dist/esm/async-languages/create-language-async-loader.js",
+    "line": "      return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/react-syntax-highlighter/dist/esm/async-syntax-highlighter.js",
+    "line": "          return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-syntax-highlighter/dist/esm/async-syntax-highlighter.js",
+    "line": "          return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/redux/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/redux/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6510,6 +7232,194 @@
     "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/remark-footnotes/index.js",
+    "line": "    before(inlineMethods, 'reference', 'inlineNote')",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/remark-footnotes/index.js",
+    "line": "  before(blockMethods, 'definition', 'footnoteDefinition')",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/remark-footnotes/index.js",
+    "line": "  before(inlineMethods, 'reference', 'footnoteCall')",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/remark-footnotes/index.js",
+    "line": "function before(list, before, value) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/remark-mdx/index.js",
+    "line": "  blocks.html = wrap(block)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/remark-mdx/index.js",
+    "line": "  inlines.html = wrap(inlines.html, inlineJsx)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/remark-mdx/index.js",
+    "line": "  function wrap(original, customTokenizer) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-proposal-object-rest-spread/lib/index.js",
+    "line": "          insertionPath.insertAfter(_core.types.variableDeclarator(argument, callExpression));",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-proposal-object-rest-spread/lib/index.js",
+    "line": "        path.insertAfter(_core.types.exportNamedDeclaration(null, specifiers));",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-proposal-object-rest-spread/lib/index.js",
+    "line": "          statementPath.insertAfter(_core.types.variableDeclaration(statementPath.node.kind || \"var\", objectPatterns));",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-proposal-object-rest-spread/lib/index.js",
+    "line": "            originalPath.insertBefore(_core.types.variableDeclarator(initRef, originalPath.node.init));",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-proposal-object-rest-spread/lib/index.js",
+    "line": "          insertionPath.insertBefore(impureComputedPropertyDeclarators);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-proposal-object-rest-spread/lib/index.js",
+    "line": "          insertionPath.insertBefore(impureObjRefComputedDeclarators);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-syntax-object-rest-spread/node_modules/@babel/core/lib/vendor/import-meta-resolve.js",
+    "line": "    load(arr) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-transform-parameters/lib/rest.js",
+    "line": "    target.insertBefore(loop);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/@babel/plugin-transform-parameters/node_modules/@babel/core/lib/vendor/import-meta-resolve.js",
+    "line": "    load(arr) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
+    "line": "        load(exts, x, loadAsFilePackage);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
+    "line": "        function load(exts, x, loadPackage) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
+    "line": "                    if (r) return load(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
+    "line": "                load(exts.slice(1), x, pkg);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/remark-mdx/node_modules/source-map/dist/source-map.debug.js",
+    "line": "\t      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/remark-mdx/node_modules/source-map/dist/source-map.js",
+    "line": "\t      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/remark-mdx/node_modules/source-map/dist/source-map.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/remark-mdx/node_modules/source-map/lib/source-node.js",
+    "line": "      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -6882,6 +7792,13 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/test-exclude/node_modules/parse-json/index.js",
+    "line": "\tfileName: errorEx.append('in %s')",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-04T00:50:49.405Z"
+  },
+  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/test-exclude/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -7078,6 +7995,27 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "node_modules/webpack-virtual-modules/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/webpack-virtual-modules/node_modules/debug/src/common.js",
+    "line": "  createDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/webpack-virtual-modules/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-01T22:57:44.591Z"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "node_modules/websocket/node_modules/debug/src/browser.js",
     "line": "function load() {",
     "reasonCategory": "falseMatch",
@@ -7105,41 +8043,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-10-21T00:36:11.618Z",
     "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/whatwg-fetch/fetch.js",
-    "line": "        this.append(name, value)",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/whatwg-fetch/fetch.js",
-    "line": "        this.append(header[0], header[1])",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/whatwg-fetch/fetch.js",
-    "line": "        this.append(name, headers[name])",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/whatwg-fetch/fetch.js",
-    "line": "        form.append(decodeURIComponent(name), decodeURIComponent(value))",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/whatwg-fetch/fetch.js",
-    "line": "        headers.append(key, value)",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "eval",

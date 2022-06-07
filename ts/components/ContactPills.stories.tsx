@@ -4,7 +4,6 @@
 import React from 'react';
 import { times } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../util/setupI18n';
@@ -17,7 +16,9 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Contact Pills', module);
+export default {
+  title: 'Components/Contact Pills',
+};
 
 type ContactType = Omit<ContactPillPropsType, 'i18n' | 'onClickRemove'>;
 
@@ -49,23 +50,35 @@ const contactPillProps = (
   onClickRemove: action('onClickRemove'),
 });
 
-story.add('Empty list', () => <ContactPills />);
+export const EmptyList = (): JSX.Element => <ContactPills />;
 
-story.add('One contact', () => (
+EmptyList.story = {
+  name: 'Empty list',
+};
+
+export const OneContact = (): JSX.Element => (
   <ContactPills>
     <ContactPill {...contactPillProps()} />
   </ContactPills>
-));
+);
 
-story.add('Three contacts', () => (
+OneContact.story = {
+  name: 'One contact',
+};
+
+export const ThreeContacts = (): JSX.Element => (
   <ContactPills>
     <ContactPill {...contactPillProps(contacts[0])} />
     <ContactPill {...contactPillProps(contacts[1])} />
     <ContactPill {...contactPillProps(contacts[2])} />
   </ContactPills>
-));
+);
 
-story.add('Four contacts, one with a long name', () => (
+ThreeContacts.story = {
+  name: 'Three contacts',
+};
+
+export const FourContactsOneWithALongName = (): JSX.Element => (
   <ContactPills>
     <ContactPill {...contactPillProps(contacts[0])} />
     <ContactPill
@@ -78,12 +91,20 @@ story.add('Four contacts, one with a long name', () => (
     <ContactPill {...contactPillProps(contacts[2])} />
     <ContactPill {...contactPillProps(contacts[3])} />
   </ContactPills>
-));
+);
 
-story.add('Fifty contacts', () => (
+FourContactsOneWithALongName.story = {
+  name: 'Four contacts, one with a long name',
+};
+
+export const FiftyContacts = (): JSX.Element => (
   <ContactPills>
     {contacts.map(contact => (
       <ContactPill key={contact.id} {...contactPillProps(contact)} />
     ))}
   </ContactPills>
-));
+);
+
+FiftyContacts.story = {
+  name: 'Fifty contacts',
+};

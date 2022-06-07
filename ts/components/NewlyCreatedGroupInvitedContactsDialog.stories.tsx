@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvitedContactsDialog';
@@ -20,12 +19,11 @@ const conversations: Array<ConversationType> = [
   getDefaultConversation({ title: 'Marc Barraca' }),
 ];
 
-const story = storiesOf(
-  'Components/NewlyCreatedGroupInvitedContactsDialog',
-  module
-);
+export default {
+  title: 'Components/NewlyCreatedGroupInvitedContactsDialog',
+};
 
-story.add('One contact', () => (
+export const OneContact = (): JSX.Element => (
   <NewlyCreatedGroupInvitedContactsDialog
     contacts={[conversations[0]]}
     getPreferredBadge={() => undefined}
@@ -33,9 +31,13 @@ story.add('One contact', () => (
     onClose={action('onClose')}
     theme={ThemeType.light}
   />
-));
+);
 
-story.add('Two contacts', () => (
+OneContact.story = {
+  name: 'One contact',
+};
+
+export const TwoContacts = (): JSX.Element => (
   <NewlyCreatedGroupInvitedContactsDialog
     contacts={conversations}
     getPreferredBadge={() => undefined}
@@ -43,4 +45,8 @@ story.add('Two contacts', () => (
     onClose={action('onClose')}
     theme={ThemeType.light}
   />
-));
+);
+
+TwoContacts.story = {
+  name: 'Two contacts',
+};

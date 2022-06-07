@@ -5,7 +5,6 @@ import React from 'react';
 import { chunk } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import type { PropsType } from './AvatarPreview';
 import { AvatarPreview } from './AvatarPreview';
@@ -36,27 +35,37 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   style: overrideProps.style,
 });
 
-const story = storiesOf('Components/AvatarPreview', module);
+export default {
+  title: 'Components/AvatarPreview',
+};
 
-story.add('No state (personal)', () => (
+export const NoStatePersonal = (): JSX.Element => (
   <AvatarPreview
     {...createProps({
       avatarColor: AvatarColors[0],
       conversationTitle: 'Just Testing',
     })}
   />
-));
+);
 
-story.add('No state (group)', () => (
+NoStatePersonal.story = {
+  name: 'No state (personal)',
+};
+
+export const NoStateGroup = (): JSX.Element => (
   <AvatarPreview
     {...createProps({
       avatarColor: AvatarColors[1],
       isGroup: true,
     })}
   />
-));
+);
 
-story.add('No state (group) + upload me', () => (
+NoStateGroup.story = {
+  name: 'No state (group)',
+};
+
+export const NoStateGroupUploadMe = (): JSX.Element => (
   <AvatarPreview
     {...createProps({
       avatarColor: AvatarColors[1],
@@ -64,32 +73,52 @@ story.add('No state (group) + upload me', () => (
       isGroup: true,
     })}
   />
-));
+);
 
-story.add('value', () => (
+NoStateGroupUploadMe.story = {
+  name: 'No state (group) + upload me',
+};
+
+export const Value = (): JSX.Element => (
   <AvatarPreview {...createProps({ avatarValue: TEST_IMAGE })} />
-));
+);
 
-story.add('path', () => (
+Value.story = {
+  name: 'value',
+};
+
+export const Path = (): JSX.Element => (
   <AvatarPreview
     {...createProps({ avatarPath: '/fixtures/kitten-3-64-64.jpg' })}
   />
-));
+);
 
-story.add('value & path', () => (
+Path.story = {
+  name: 'path',
+};
+
+export const ValuePath = (): JSX.Element => (
   <AvatarPreview
     {...createProps({
       avatarPath: '/fixtures/kitten-3-64-64.jpg',
       avatarValue: TEST_IMAGE,
     })}
   />
-));
+);
 
-story.add('style', () => (
+ValuePath.story = {
+  name: 'value & path',
+};
+
+export const Style = (): JSX.Element => (
   <AvatarPreview
     {...createProps({
       avatarValue: TEST_IMAGE,
       style: { height: 100, width: 100 },
     })}
   />
-));
+);
+
+Style.story = {
+  name: 'style',
+};

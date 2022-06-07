@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../util/setupI18n';
@@ -15,25 +14,35 @@ import {
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/AddGroupMemberErrorDialog', module);
+export default {
+  title: 'Components/AddGroupMemberErrorDialog',
+};
 
 const defaultProps = {
   i18n,
   onClose: action('onClose'),
 };
 
-story.add('Maximum group size', () => (
+export const _MaximumGroupSize = (): JSX.Element => (
   <AddGroupMemberErrorDialog
     {...defaultProps}
     mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
     maximumNumberOfContacts={123}
   />
-));
+);
 
-story.add('Maximum recommended group size', () => (
+_MaximumGroupSize.story = {
+  name: 'Maximum group size',
+};
+
+export const MaximumRecommendedGroupSize = (): JSX.Element => (
   <AddGroupMemberErrorDialog
     {...defaultProps}
     mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
     recommendedMaximumNumberOfContacts={123}
   />
-));
+);
+
+MaximumRecommendedGroupSize.story = {
+  name: 'Maximum recommended group size',
+};

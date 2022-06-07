@@ -6,7 +6,6 @@ import { isString } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
@@ -30,7 +29,9 @@ import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/Quote', module);
+export default {
+  title: 'Components/Conversation/Quote',
+};
 
 const defaultMessageProps: MessagesProps = {
   author: getDefaultConversation({
@@ -171,41 +172,57 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-story.add('Outgoing by Another Author', () => {
+export const OutgoingByAnotherAuthor = (): JSX.Element => {
   const props = createProps({
     authorTitle: 'Terrence Malick',
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Outgoing by Me', () => {
+OutgoingByAnotherAuthor.story = {
+  name: 'Outgoing by Another Author',
+};
+
+export const OutgoingByMe = (): JSX.Element => {
   const props = createProps({
     isFromMe: true,
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Incoming by Another Author', () => {
+OutgoingByMe.story = {
+  name: 'Outgoing by Me',
+};
+
+export const IncomingByAnotherAuthor = (): JSX.Element => {
   const props = createProps({
     authorTitle: 'Terrence Malick',
     isIncoming: true,
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Incoming by Me', () => {
+IncomingByAnotherAuthor.story = {
+  name: 'Incoming by Another Author',
+};
+
+export const IncomingByMe = (): JSX.Element => {
   const props = createProps({
     isFromMe: true,
     isIncoming: true,
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Incoming/Outgoing Colors', () => {
+IncomingByMe.story = {
+  name: 'Incoming by Me',
+};
+
+export const IncomingOutgoingColors = (): JSX.Element => {
   const props = createProps({});
   return (
     <>
@@ -214,9 +231,13 @@ story.add('Incoming/Outgoing Colors', () => {
       )}
     </>
   );
-});
+};
 
-story.add('Image Only', () => {
+IncomingOutgoingColors.story = {
+  name: 'Incoming/Outgoing Colors',
+};
+
+export const ImageOnly = (): JSX.Element => {
   const props = createProps({
     text: '',
     rawAttachment: {
@@ -234,8 +255,9 @@ story.add('Image Only', () => {
   });
 
   return <Quote {...props} />;
-});
-story.add('Image Attachment', () => {
+};
+
+export const ImageAttachment = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: IMAGE_PNG,
@@ -252,9 +274,9 @@ story.add('Image Attachment', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Image Attachment w/o Thumbnail', () => {
+export const ImageAttachmentWOThumbnail = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: IMAGE_PNG,
@@ -264,9 +286,13 @@ story.add('Image Attachment w/o Thumbnail', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Image Tap-to-View', () => {
+ImageAttachmentWOThumbnail.story = {
+  name: 'Image Attachment w/o Thumbnail',
+};
+
+export const ImageTapToView = (): JSX.Element => {
   const props = createProps({
     text: '',
     isViewOnce: true,
@@ -278,9 +304,13 @@ story.add('Image Tap-to-View', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Video Only', () => {
+ImageTapToView.story = {
+  name: 'Image Tap-to-View',
+};
+
+export const VideoOnly = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: VIDEO_MP4,
@@ -299,9 +329,9 @@ story.add('Video Only', () => {
   props.text = undefined as any;
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Video Attachment', () => {
+export const VideoAttachment = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: VIDEO_MP4,
@@ -318,9 +348,9 @@ story.add('Video Attachment', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Video Attachment w/o Thumbnail', () => {
+export const VideoAttachmentWOThumbnail = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: VIDEO_MP4,
@@ -330,9 +360,13 @@ story.add('Video Attachment w/o Thumbnail', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Video Tap-to-View', () => {
+VideoAttachmentWOThumbnail.story = {
+  name: 'Video Attachment w/o Thumbnail',
+};
+
+export const VideoTapToView = (): JSX.Element => {
   const props = createProps({
     text: '',
     isViewOnce: true,
@@ -344,18 +378,22 @@ story.add('Video Tap-to-View', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Gift Badge', () => {
+VideoTapToView.story = {
+  name: 'Video Tap-to-View',
+};
+
+export const GiftBadge = (): JSX.Element => {
   const props = createProps({
     text: "Some text which shouldn't be rendered",
     isGiftBadge: true,
   });
 
   return renderInMessage(props);
-});
+};
 
-story.add('Audio Only', () => {
+export const AudioOnly = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: AUDIO_MP3,
@@ -367,9 +405,9 @@ story.add('Audio Only', () => {
   props.text = undefined as any;
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Audio Attachment', () => {
+export const AudioAttachment = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: AUDIO_MP3,
@@ -379,9 +417,9 @@ story.add('Audio Attachment', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Voice Message Only', () => {
+export const VoiceMessageOnly = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: AUDIO_MP3,
@@ -393,9 +431,9 @@ story.add('Voice Message Only', () => {
   props.text = undefined as any;
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Voice Message Attachment', () => {
+export const VoiceMessageAttachment = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: AUDIO_MP3,
@@ -405,9 +443,9 @@ story.add('Voice Message Attachment', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Other File Only', () => {
+export const OtherFileOnly = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: stringToMIMEType('application/json'),
@@ -419,9 +457,9 @@ story.add('Other File Only', () => {
   props.text = undefined as any;
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Media Tap-to-View', () => {
+export const MediaTapToView = (): JSX.Element => {
   const props = createProps({
     text: '',
     isViewOnce: true,
@@ -433,9 +471,13 @@ story.add('Media Tap-to-View', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Other File Attachment', () => {
+MediaTapToView.story = {
+  name: 'Media Tap-to-View',
+};
+
+export const OtherFileAttachment = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: stringToMIMEType('application/json'),
@@ -445,9 +487,9 @@ story.add('Other File Attachment', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Long message attachment (should be hidden)', () => {
+export const LongMessageAttachmentShouldBeHidden = (): JSX.Element => {
   const props = createProps({
     rawAttachment: {
       contentType: LONG_MESSAGE,
@@ -457,50 +499,66 @@ story.add('Long message attachment (should be hidden)', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('No Close Button', () => {
+LongMessageAttachmentShouldBeHidden.story = {
+  name: 'Long message attachment (should be hidden)',
+};
+
+export const NoCloseButton = (): JSX.Element => {
   const props = createProps();
   props.onClose = undefined;
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Message Not Found', () => {
+export const MessageNotFound = (): JSX.Element => {
   const props = createProps({
     referencedMessageNotFound: true,
   });
 
   return renderInMessage(props);
-});
+};
 
-story.add('Missing Text & Attachment', () => {
+export const MissingTextAttachment = (): JSX.Element => {
   const props = createProps();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;
-});
+};
 
-story.add('@mention + outgoing + another author', () => {
+MissingTextAttachment.story = {
+  name: 'Missing Text & Attachment',
+};
+
+export const MentionOutgoingAnotherAuthor = (): JSX.Element => {
   const props = createProps({
     authorTitle: 'Tony Stark',
     text: '@Captain America Lunch later?',
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('@mention + outgoing + me', () => {
+MentionOutgoingAnotherAuthor.story = {
+  name: '@mention + outgoing + another author',
+};
+
+export const MentionOutgoingMe = (): JSX.Element => {
   const props = createProps({
     isFromMe: true,
     text: '@Captain America Lunch later?',
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('@mention + incoming + another author', () => {
+MentionOutgoingMe.story = {
+  name: '@mention + outgoing + me',
+};
+
+export const MentionIncomingAnotherAuthor = (): JSX.Element => {
   const props = createProps({
     authorTitle: 'Captain America',
     isIncoming: true,
@@ -508,9 +566,13 @@ story.add('@mention + incoming + another author', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('@mention + incoming + me', () => {
+MentionIncomingAnotherAuthor.story = {
+  name: '@mention + incoming + another author',
+};
+
+export const MentionIncomingMe = (): JSX.Element => {
   const props = createProps({
     isFromMe: true,
     isIncoming: true,
@@ -518,9 +580,13 @@ story.add('@mention + incoming + me', () => {
   });
 
   return <Quote {...props} />;
-});
+};
 
-story.add('Custom Color', () => (
+MentionIncomingMe.story = {
+  name: '@mention + incoming + me',
+};
+
+export const CustomColor = (): JSX.Element => (
   <>
     <Quote
       {...createProps({ isIncoming: true, text: 'Solid + Gradient' })}
@@ -537,9 +603,9 @@ story.add('Custom Color', () => (
       }}
     />
   </>
-));
+);
 
-story.add('isStoryReply', () => {
+export const IsStoryReply = (): JSX.Element => {
   const props = createProps({
     text: 'Wow!',
   });
@@ -558,9 +624,13 @@ story.add('isStoryReply', () => {
       }}
     />
   );
-});
+};
 
-story.add('isStoryReply emoji', () => {
+IsStoryReply.story = {
+  name: 'isStoryReply',
+};
+
+export const IsStoryReplyEmoji = (): JSX.Element => {
   const props = createProps();
 
   return (
@@ -585,4 +655,8 @@ story.add('isStoryReply emoji', () => {
       reactionEmoji="🏋️"
     />
   );
-});
+};
+
+IsStoryReplyEmoji.story = {
+  name: 'isStoryReply emoji',
+};

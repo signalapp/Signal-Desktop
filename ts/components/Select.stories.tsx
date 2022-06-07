@@ -3,13 +3,14 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import { Select } from './Select';
 
-const story = storiesOf('Components/Select', module);
+export default {
+  title: 'Components/Select',
+};
 
-story.add('Normal', () => {
+export const Normal = (): JSX.Element => {
   const [value, setValue] = useState(0);
 
   const onChange = action('onChange');
@@ -28,9 +29,9 @@ story.add('Normal', () => {
       }}
     />
   );
-});
+};
 
-story.add('With disabled options', () => (
+export const WithDisabledOptions = (): JSX.Element => (
   <Select
     options={[
       { value: 'a', text: 'Apples' },
@@ -41,4 +42,8 @@ story.add('With disabled options', () => (
     onChange={action('onChange')}
     value="c"
   />
-));
+);
+
+WithDisabledOptions.story = {
+  name: 'With disabled options',
+};

@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -22,9 +21,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onClose: action('onClose'),
 });
 
-const story = storiesOf('Components/AvatarIconEditor', module);
+export default {
+  title: 'Components/AvatarIconEditor',
+};
 
-story.add('Personal Icon', () => (
+export const PersonalIcon = (): JSX.Element => (
   <AvatarIconEditor
     {...createProps({
       avatarData: createAvatarData({
@@ -33,9 +34,9 @@ story.add('Personal Icon', () => (
       }),
     })}
   />
-));
+);
 
-story.add('Group Icon', () => (
+export const GroupIcon = (): JSX.Element => (
   <AvatarIconEditor
     {...createProps({
       avatarData: createAvatarData({
@@ -44,4 +45,4 @@ story.add('Group Icon', () => (
       }),
     })}
   />
-));
+);

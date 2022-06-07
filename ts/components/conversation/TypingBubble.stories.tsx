@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { select, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -15,7 +14,9 @@ import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/TypingBubble', module);
+export default {
+  title: 'Components/Conversation/TypingBubble',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: true,
@@ -39,23 +40,27 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: ThemeType.light,
 });
 
-story.add('Direct', () => {
+export const Direct = (): JSX.Element => {
   const props = createProps();
 
   return <TypingBubble {...props} />;
-});
+};
 
-story.add('Group', () => {
+export const Group = (): JSX.Element => {
   const props = createProps({ conversationType: 'group' });
 
   return <TypingBubble {...props} />;
-});
+};
 
-story.add('Group (with badge)', () => {
+export const GroupWithBadge = (): JSX.Element => {
   const props = createProps({
     badge: getFakeBadge(),
     conversationType: 'group',
   });
 
   return <TypingBubble {...props} />;
-});
+};
+
+GroupWithBadge.story = {
+  name: 'Group (with badge)',
+};

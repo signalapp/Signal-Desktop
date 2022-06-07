@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './MessageBodyReadMore';
 import { MessageBodyReadMore } from './MessageBodyReadMore';
@@ -14,7 +13,9 @@ import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/MessageBodyReadMore', module);
+export default {
+  title: 'Components/Conversation/MessageBodyReadMore',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
@@ -42,31 +43,47 @@ function MessageBodyReadMoreTest({
   );
 }
 
-story.add('Long text + 100 more', () => (
+export const LongText100More = (): JSX.Element => (
   <MessageBodyReadMoreTest
     text={`${'test '.repeat(160)}${'extra '.repeat(10)}`}
   />
-));
+);
 
-story.add('Lots of cake with some cherries on top', () => (
+LongText100More.story = {
+  name: 'Long text + 100 more',
+};
+
+export const LotsOfCakeWithSomeCherriesOnTop = (): JSX.Element => (
   <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
-));
+);
 
-story.add('Leafy not buffered', () => (
+LotsOfCakeWithSomeCherriesOnTop.story = {
+  name: 'Lots of cake with some cherries on top',
+};
+
+export const LeafyNotBuffered = (): JSX.Element => (
   <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />
-));
+);
 
-story.add('Links', () => (
+LeafyNotBuffered.story = {
+  name: 'Leafy not buffered',
+};
+
+export const Links = (): JSX.Element => (
   <MessageBodyReadMoreTest
     text={`${'test '.repeat(176)}https://www.signal.org`}
   />
-));
+);
 
-story.add('Excessive amounts of cake', () => (
+export const ExcessiveAmountsOfCake = (): JSX.Element => (
   <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />
-));
+);
 
-story.add('Long text', () => (
+ExcessiveAmountsOfCake.story = {
+  name: 'Excessive amounts of cake',
+};
+
+export const LongText = (): JSX.Element => (
   <MessageBodyReadMoreTest
     text={`
       SCENE I. Rome. A street.
@@ -167,4 +184,8 @@ story.add('Long text', () => (
       And keep us all in servile fearfulness.
       `}
   />
-));
+);
+
+LongText.story = {
+  name: 'Long text',
+};

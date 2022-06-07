@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
@@ -11,10 +10,9 @@ import type { Props } from './PanelSection';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/PanelSection',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/PanelSection',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   title: text('label', overrideProps.title || ''),
@@ -26,24 +24,24 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ) : null,
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps({
     title: 'panel section header',
   });
 
   return <PanelSection {...props} />;
-});
+};
 
-story.add('Centered', () => {
+export const Centered = (): JSX.Element => {
   const props = createProps({
     title: 'this is a panel row',
     centerTitle: true,
   });
 
   return <PanelSection {...props} />;
-});
+};
 
-story.add('With Actions', () => {
+export const WithActions = (): JSX.Element => {
   const props = createProps({
     title: 'this is a panel row',
     actions: (
@@ -54,9 +52,9 @@ story.add('With Actions', () => {
   });
 
   return <PanelSection {...props} />;
-});
+};
 
-story.add('With Content', () => {
+export const WithContent = (): JSX.Element => {
   const props = createProps({
     title: 'this is a panel row',
   });
@@ -69,4 +67,4 @@ story.add('With Content', () => {
       <PanelRow label="this is panel row four" />
     </PanelSection>
   );
-});
+};

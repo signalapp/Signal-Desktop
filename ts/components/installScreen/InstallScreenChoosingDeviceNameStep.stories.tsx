@@ -3,7 +3,6 @@
 
 import React, { useState } from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -13,12 +12,11 @@ import { InstallScreenChoosingDeviceNameStep } from './InstallScreenChoosingDevi
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/InstallScreen/InstallScreenChoosingDeviceNameStep',
-  module
-);
+export default {
+  title: 'Components/InstallScreen/InstallScreenChoosingDeviceNameStep',
+};
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const Wrapper = () => {
     const [deviceName, setDeviceName] = useState<string>('Default value');
 
@@ -33,4 +31,4 @@ story.add('Default', () => {
   };
 
   return <Wrapper />;
-});
+};

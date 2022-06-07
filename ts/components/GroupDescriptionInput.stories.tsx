@@ -3,8 +3,6 @@
 
 import React, { useState } from 'react';
 
-import { storiesOf } from '@storybook/react';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -12,7 +10,9 @@ import { GroupDescriptionInput } from './GroupDescriptionInput';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/GroupDescriptionInput', module);
+export default {
+  title: 'Components/GroupDescriptionInput',
+};
 
 const Wrapper = ({
   disabled,
@@ -33,12 +33,12 @@ const Wrapper = ({
   );
 };
 
-story.add('Default', () => <Wrapper />);
+export const Default = (): JSX.Element => <Wrapper />;
 
-story.add('Disabled', () => (
+export const Disabled = (): JSX.Element => (
   <>
     <Wrapper disabled />
     <br />
     <Wrapper disabled startingValue="Has a value" />
   </>
-));
+);

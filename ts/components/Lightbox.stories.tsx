@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 
@@ -24,7 +23,9 @@ import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Lightbox', module);
+export default {
+  title: 'Components/Lightbox',
+};
 
 type OverridePropsMediaItemType = Partial<MediaItemType> & { caption?: string };
 
@@ -62,7 +63,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
 });
 
-story.add('Multimedia', () => {
+export const Multimedia = (): JSX.Element => {
   const props = createProps({
     media: [
       {
@@ -119,9 +120,9 @@ story.add('Multimedia', () => {
   });
 
   return <Lightbox {...props} />;
-});
+};
 
-story.add('Missing Media', () => {
+export const MissingMedia = (): JSX.Element => {
   const props = createProps({
     media: [
       {
@@ -146,9 +147,9 @@ story.add('Missing Media', () => {
   });
 
   return <Lightbox {...props} />;
-});
+};
 
-story.add('Single Image', () => (
+export const SingleImage = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -158,9 +159,9 @@ story.add('Single Image', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Image with Caption (normal image)', () => (
+export const ImageWithCaptionNormalImage = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -172,9 +173,13 @@ story.add('Image with Caption (normal image)', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Image with Caption (all-white image)', () => (
+ImageWithCaptionNormalImage.story = {
+  name: 'Image with Caption (normal image)',
+};
+
+export const ImageWithCaptionAllWhiteImage = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -186,9 +191,13 @@ story.add('Image with Caption (all-white image)', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Single Video', () => (
+ImageWithCaptionAllWhiteImage.story = {
+  name: 'Image with Caption (all-white image)',
+};
+
+export const SingleVideo = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -199,9 +208,9 @@ story.add('Single Video', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Single Video w/caption', () => (
+export const SingleVideoWCaption = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -214,9 +223,13 @@ story.add('Single Video w/caption', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Unsupported Image Type', () => (
+SingleVideoWCaption.story = {
+  name: 'Single Video w/caption',
+};
+
+export const UnsupportedImageType = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -227,9 +240,9 @@ story.add('Unsupported Image Type', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Unsupported Video Type', () => (
+export const UnsupportedVideoType = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -240,9 +253,9 @@ story.add('Unsupported Video Type', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Unsupported Content', () => (
+export const UnsupportedContent = (): JSX.Element => (
   <Lightbox
     {...createProps({
       media: [
@@ -253,9 +266,9 @@ story.add('Unsupported Content', () => (
       ],
     })}
   />
-));
+);
 
-story.add('Custom children', () => (
+export const CustomChildren = (): JSX.Element => (
   <Lightbox {...createProps({})} media={[]}>
     <div
       style={{
@@ -268,13 +281,17 @@ story.add('Custom children', () => (
       I am middle child
     </div>
   </Lightbox>
-));
+);
 
-story.add('Forwarding', () => (
+CustomChildren.story = {
+  name: 'Custom children',
+};
+
+export const Forwarding = (): JSX.Element => (
   <Lightbox {...createProps({})} onForward={action('onForward')} />
-));
+);
 
-story.add('Conversation Header', () => (
+export const ConversationHeader = (): JSX.Element => (
   <Lightbox
     {...createProps({})}
     getConversation={() => ({
@@ -296,9 +313,9 @@ story.add('Conversation Header', () => (
       }),
     ]}
   />
-));
+);
 
-story.add('View Once Video', () => (
+export const ViewOnceVideo = (): JSX.Element => (
   <Lightbox
     {...createProps({
       isViewOnce: true,
@@ -311,4 +328,4 @@ story.add('View Once Video', () => (
     })}
     isViewOnce
   />
-));
+);

@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import { pngUrl } from '../../storybook/Fixtures';
 import type { Props } from './Image';
@@ -20,7 +19,9 @@ import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/Image', module);
+export default {
+  title: 'Components/Conversation/Image',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   alt: text('alt', overrideProps.alt || ''),
@@ -65,17 +66,21 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
   tabIndex: number('tabIndex', overrideProps.tabIndex || 0),
   theme: text('theme', overrideProps.theme || 'light') as ThemeType,
-  url: text('url', 'url' in overrideProps ? overrideProps.url || null : pngUrl),
+  url: text('url', 'url' in overrideProps ? overrideProps.url || '' : pngUrl),
   width: number('width', overrideProps.width || 100),
 });
 
-story.add('URL with Height/Width', () => {
+export const UrlWithHeightWidth = (): JSX.Element => {
   const props = createProps();
 
   return <Image {...props} />;
-});
+};
 
-story.add('Caption', () => {
+UrlWithHeightWidth.story = {
+  name: 'URL with Height/Width',
+};
+
+export const Caption = (): JSX.Element => {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -86,25 +91,25 @@ story.add('Caption', () => {
   };
 
   return <Image {...props} />;
-});
+};
 
-story.add('Play Icon', () => {
+export const PlayIcon = (): JSX.Element => {
   const props = createProps({
     playIconOverlay: true,
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Close Button', () => {
+export const CloseButton = (): JSX.Element => {
   const props = createProps({
     closeButton: true,
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('No Border or Background', () => {
+export const NoBorderOrBackground = (): JSX.Element => {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -121,18 +126,34 @@ story.add('No Border or Background', () => {
       <Image {...props} />
     </div>
   );
-});
+};
 
-story.add('Pending', () => {
-  const props = createProps();
-  props.attachment.pending = true;
+NoBorderOrBackground.story = {
+  name: 'No Border or Background',
+};
+
+export const Pending = (): JSX.Element => {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      url: pngUrl,
+      pending: true,
+    }),
+  });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Pending w/blurhash', () => {
-  const props = createProps();
-  props.attachment.pending = true;
+export const PendingWBlurhash = (): JSX.Element => {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      url: pngUrl,
+      pending: true,
+    }),
+  });
 
   return (
     <Image
@@ -142,9 +163,13 @@ story.add('Pending w/blurhash', () => {
       height={400}
     />
   );
-});
+};
 
-story.add('Curved Corners', () => {
+PendingWBlurhash.story = {
+  name: 'Pending w/blurhash',
+};
+
+export const CurvedCorners = (): JSX.Element => {
   const props = createProps({
     curveBottomLeft: CurveType.Normal,
     curveBottomRight: CurveType.Normal,
@@ -153,17 +178,17 @@ story.add('Curved Corners', () => {
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Small Curve Top Left', () => {
+export const SmallCurveTopLeft = (): JSX.Element => {
   const props = createProps({
     curveTopLeft: CurveType.Small,
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Soft Corners', () => {
+export const SoftCorners = (): JSX.Element => {
   const props = createProps({
     curveBottomLeft: CurveType.Tiny,
     curveBottomRight: CurveType.Tiny,
@@ -172,26 +197,30 @@ story.add('Soft Corners', () => {
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Bottom Overlay', () => {
+export const BottomOverlay = (): JSX.Element => {
   const props = createProps({
     bottomOverlay: true,
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Full Overlay with Text', () => {
+export const FullOverlayWithText = (): JSX.Element => {
   const props = createProps({
     darkOverlay: true,
     overlayText: 'Honk!',
   });
 
   return <Image {...props} />;
-});
+};
 
-story.add('Blurhash', () => {
+FullOverlayWithText.story = {
+  name: 'Full Overlay with Text',
+};
+
+export const Blurhash = (): JSX.Element => {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -199,9 +228,9 @@ story.add('Blurhash', () => {
   };
 
   return <Image {...props} />;
-});
+};
 
-story.add('undefined blurHash', () => {
+export const UndefinedBlurHash = (): JSX.Element => {
   const Wrapper = () => {
     const theme = React.useContext(StorybookThemeContext);
     const props = createProps({
@@ -214,9 +243,13 @@ story.add('undefined blurHash', () => {
   };
 
   return <Wrapper />;
-});
+};
 
-story.add('Missing Image', () => {
+UndefinedBlurHash.story = {
+  name: 'undefined blurHash',
+};
+
+export const MissingImage = (): JSX.Element => {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -225,4 +258,4 @@ story.add('Missing Image', () => {
   };
 
   return <Image {...props} />;
-});
+};

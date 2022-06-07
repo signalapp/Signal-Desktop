@@ -2,14 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { StoryRow } from './StoryRow';
 import { ConfirmDialog } from './ConfirmDialog';
 
-storiesOf('Sticker Creator/elements', module).add('ConfirmDialog', () => {
+export default {
+  title: 'Sticker Creator/elements',
+};
+
+export const _ConfirmDialog = (): JSX.Element => {
   const title = text('title', 'Foo bar banana baz?');
   const child = text(
     'text',
@@ -29,4 +32,8 @@ storiesOf('Sticker Creator/elements', module).add('ConfirmDialog', () => {
       </ConfirmDialog>
     </StoryRow>
   );
-});
+};
+
+_ConfirmDialog.story = {
+  name: 'ConfirmDialog',
+};

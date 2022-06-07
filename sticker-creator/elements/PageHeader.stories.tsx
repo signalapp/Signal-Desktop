@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 
 import { StoryRow } from './StoryRow';
 import { PageHeader } from './PageHeader';
 
-storiesOf('Sticker Creator/elements', module).add('PageHeader', () => {
+export default {
+  title: 'Sticker Creator/elements',
+};
+
+export const _PageHeader = (): JSX.Element => {
   const child = text('text', 'foo bar');
 
   return (
@@ -16,4 +19,8 @@ storiesOf('Sticker Creator/elements', module).add('PageHeader', () => {
       <PageHeader>{child}</PageHeader>
     </StoryRow>
   );
-});
+};
+
+_PageHeader.story = {
+  name: 'PageHeader',
+};

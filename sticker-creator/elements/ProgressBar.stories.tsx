@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { number } from '@storybook/addon-knobs';
 
 import { StoryRow } from './StoryRow';
 import { ProgressBar } from './ProgressBar';
 
-storiesOf('Sticker Creator/elements', module).add('ProgressBar', () => {
+export default {
+  title: 'Sticker Creator/elements',
+};
+
+export const _ProgressBar = (): JSX.Element => {
   const count = number('count', 5);
   const total = number('total', 10);
 
@@ -17,4 +20,8 @@ storiesOf('Sticker Creator/elements', module).add('ProgressBar', () => {
       <ProgressBar count={count} total={total} />
     </StoryRow>
   );
-});
+};
+
+_ProgressBar.story = {
+  name: 'ProgressBar',
+};

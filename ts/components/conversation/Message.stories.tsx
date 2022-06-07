@@ -6,7 +6,6 @@ import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, select, text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
@@ -58,7 +57,9 @@ function getJoyReaction() {
   };
 }
 
-const story = storiesOf('Components/Conversation/Message', module);
+export default {
+  title: 'Components/Conversation/Message',
+};
 
 const renderEmojiPicker: Props['renderEmojiPicker'] = ({
   onClose,
@@ -222,16 +223,19 @@ const createTimelineItem = (data: undefined | Props) =>
     timestamp: data.timestamp,
   };
 
-const renderMany = (propsArray: ReadonlyArray<Props>) =>
-  propsArray.map((message, index) => (
-    <Message
-      key={message.text}
-      {...message}
-      shouldCollapseAbove={Boolean(propsArray[index - 1])}
-      item={createTimelineItem(message)}
-      shouldCollapseBelow={Boolean(propsArray[index + 1])}
-    />
-  ));
+const renderMany = (propsArray: ReadonlyArray<Props>) => (
+  <>
+    {propsArray.map((message, index) => (
+      <Message
+        key={message.text}
+        {...message}
+        shouldCollapseAbove={Boolean(propsArray[index - 1])}
+        item={createTimelineItem(message)}
+        shouldCollapseBelow={Boolean(propsArray[index + 1])}
+      />
+    ))}
+  </>
+);
 
 const renderThree = (props: Props) => renderMany([props, props, props]);
 
@@ -258,24 +262,28 @@ const renderSingleBothDirections = (props: Props) => (
   </>
 );
 
-story.add('Plain Message', () => {
+export const PlainMessage = (): JSX.Element => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Plain RTL Message', () => {
+export const PlainRtlMessage = (): JSX.Element => {
   const props = createProps({
     text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
     textDirection: TextDirection.RightToLeft,
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Emoji Messages', () => (
+PlainRtlMessage.story = {
+  name: 'Plain RTL Message',
+};
+
+export const EmojiMessages = (): JSX.Element => (
   <>
     <Message {...createProps({ text: '😀' })} />
     <br />
@@ -370,9 +378,9 @@ story.add('Emoji Messages', () => (
       })}
     />
   </>
-));
+);
 
-story.add('Delivered', () => {
+export const Delivered = (): JSX.Element => {
   const props = createProps({
     direction: 'outgoing',
     status: 'delivered',
@@ -380,9 +388,9 @@ story.add('Delivered', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Read', () => {
+export const _Read = (): JSX.Element => {
   const props = createProps({
     direction: 'outgoing',
     status: 'read',
@@ -390,9 +398,9 @@ story.add('Read', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Sending', () => {
+export const Sending = (): JSX.Element => {
   const props = createProps({
     direction: 'outgoing',
     status: 'sending',
@@ -400,9 +408,9 @@ story.add('Sending', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Expiring', () => {
+export const Expiring = (): JSX.Element => {
   const props = createProps({
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
@@ -410,9 +418,9 @@ story.add('Expiring', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Will expire but still sending', () => {
+export const WillExpireButStillSending = (): JSX.Element => {
   const props = createProps({
     status: 'sending',
     expirationLength: 30 * 1000,
@@ -420,9 +428,13 @@ story.add('Will expire but still sending', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Pending', () => {
+WillExpireButStillSending.story = {
+  name: 'Will expire but still sending',
+};
+
+export const Pending = (): JSX.Element => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
     textAttachment: {
@@ -433,9 +445,9 @@ story.add('Pending', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Long body can be downloaded', () => {
+export const LongBodyCanBeDownloaded = (): JSX.Element => {
   const props = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
     textAttachment: {
@@ -449,27 +461,31 @@ story.add('Long body can be downloaded', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Recent', () => {
+LongBodyCanBeDownloaded.story = {
+  name: 'Long body can be downloaded',
+};
+
+export const Recent = (): JSX.Element => {
   const props = createProps({
     text: 'Hello there from a pal!',
     timestamp: Date.now() - 30 * 60 * 1000,
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Older', () => {
+export const Older = (): JSX.Element => {
   const props = createProps({
     text: 'Hello there from a pal!',
     timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Reactions (wider message)', () => {
+export const ReactionsWiderMessage = (): JSX.Element => {
   const props = createProps({
     text: 'Hello there from a pal!',
     timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
@@ -549,11 +565,15 @@ story.add('Reactions (wider message)', () => {
   });
 
   return renderSingleBothDirections(props);
-});
+};
+
+ReactionsWiderMessage.story = {
+  name: 'Reactions (wider message)',
+};
 
 const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
 
-story.add('Reactions (short message)', () => {
+export const ReactionsShortMessage = (): JSX.Element => {
   const props = createProps({
     text: 'h',
     timestamp: Date.now(),
@@ -624,9 +644,13 @@ story.add('Reactions (short message)', () => {
   });
 
   return renderSingleBothDirections(props);
-});
+};
 
-story.add('Avatar in Group', () => {
+ReactionsShortMessage.story = {
+  name: 'Reactions (short message)',
+};
+
+export const AvatarInGroup = (): JSX.Element => {
   const props = createProps({
     author: getDefaultConversation({ avatarPath: pngUrl }),
     conversationType: 'group',
@@ -635,9 +659,13 @@ story.add('Avatar in Group', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Badge in Group', () => {
+AvatarInGroup.story = {
+  name: 'Avatar in Group',
+};
+
+export const BadgeInGroup = (): JSX.Element => {
   const props = createProps({
     conversationType: 'group',
     getPreferredBadge: () => getFakeBadge(),
@@ -646,9 +674,13 @@ story.add('Badge in Group', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Sticker', () => {
+BadgeInGroup.story = {
+  name: 'Badge in Group',
+};
+
+export const Sticker = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -664,9 +696,9 @@ story.add('Sticker', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Deleted', () => {
+export const Deleted = (): JSX.Element => {
   const propsSent = createProps({
     conversationType: 'direct',
     deletedForEveryone: true,
@@ -684,9 +716,9 @@ story.add('Deleted', () => {
       {renderBothDirections(propsSending)}
     </>
   );
-});
+};
 
-story.add('Deleted with expireTimer', () => {
+export const DeletedWithExpireTimer = (): JSX.Element => {
   const props = createProps({
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
@@ -697,9 +729,13 @@ story.add('Deleted with expireTimer', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Deleted with error', () => {
+DeletedWithExpireTimer.story = {
+  name: 'Deleted with expireTimer',
+};
+
+export const DeletedWithError = (): JSX.Element => {
   const propsPartialError = createProps({
     timestamp: Date.now() - 60 * 1000,
     canDeleteForEveryone: true,
@@ -723,9 +759,13 @@ story.add('Deleted with error', () => {
       {renderThree(propsError)}
     </>
   );
-});
+};
 
-story.add('Can delete for everyone', () => {
+DeletedWithError.story = {
+  name: 'Deleted with error',
+};
+
+export const CanDeleteForEveryone = (): JSX.Element => {
   const props = createProps({
     status: 'read',
     text: 'I hope you get this.',
@@ -734,9 +774,13 @@ story.add('Can delete for everyone', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Error', () => {
+CanDeleteForEveryone.story = {
+  name: 'Can delete for everyone',
+};
+
+export const Error = (): JSX.Element => {
   const props = createProps({
     status: 'error',
     canRetry: true,
@@ -744,27 +788,27 @@ story.add('Error', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Paused', () => {
+export const Paused = (): JSX.Element => {
   const props = createProps({
     status: 'paused',
     text: 'I am up to a challenge',
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Partial Send', () => {
+export const PartialSend = (): JSX.Element => {
   const props = createProps({
     status: 'partial-sent',
     text: 'I hope you get this.',
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview', () => {
+export const LinkPreview = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -789,9 +833,9 @@ story.add('Link Preview', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview with Small Image', () => {
+export const LinkPreviewWithSmallImage = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -816,9 +860,13 @@ story.add('Link Preview with Small Image', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview without Image', () => {
+LinkPreviewWithSmallImage.story = {
+  name: 'Link Preview with Small Image',
+};
+
+export const LinkPreviewWithoutImage = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -836,9 +884,13 @@ story.add('Link Preview without Image', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview with no description', () => {
+LinkPreviewWithoutImage.story = {
+  name: 'Link Preview without Image',
+};
+
+export const LinkPreviewWithNoDescription = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -854,9 +906,13 @@ story.add('Link Preview with no description', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview with long description', () => {
+LinkPreviewWithNoDescription.story = {
+  name: 'Link Preview with no description',
+};
+
+export const LinkPreviewWithLongDescription = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -877,9 +933,13 @@ story.add('Link Preview with long description', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview with small image, long description', () => {
+LinkPreviewWithLongDescription.story = {
+  name: 'Link Preview with long description',
+};
+
+export const LinkPreviewWithSmallImageLongDescription = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -907,9 +967,13 @@ story.add('Link Preview with small image, long description', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview with no date', () => {
+LinkPreviewWithSmallImageLongDescription.story = {
+  name: 'Link Preview with small image, long description',
+};
+
+export const LinkPreviewWithNoDate = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -933,9 +997,13 @@ story.add('Link Preview with no date', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Link Preview with too new a date', () => {
+LinkPreviewWithNoDate.story = {
+  name: 'Link Preview with no date',
+};
+
+export const LinkPreviewWithTooNewADate = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -960,9 +1028,13 @@ story.add('Link Preview with too new a date', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Image', () => {
+LinkPreviewWithTooNewADate.story = {
+  name: 'Link Preview with too new a date',
+};
+
+export const Image = (): JSX.Element => {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -994,56 +1066,147 @@ story.add('Image', () => {
       {renderBothDirections(lightImageProps)}
     </>
   );
-});
+};
 
-for (let i = 2; i <= 5; i += 1) {
-  story.add(`Multiple Images x${i}`, () => {
-    const props = createProps({
-      attachments: [
-        fakeAttachment({
-          url: pngUrl,
-          fileName: 'the-sax.png',
-          contentType: IMAGE_PNG,
-          height: 240,
-          width: 320,
-        }),
-        fakeAttachment({
-          url: pngUrl,
-          fileName: 'the-sax.png',
-          contentType: IMAGE_PNG,
-          height: 240,
-          width: 320,
-        }),
-        fakeAttachment({
-          url: pngUrl,
-          fileName: 'the-sax.png',
-          contentType: IMAGE_PNG,
-          height: 240,
-          width: 320,
-        }),
-        fakeAttachment({
-          url: pngUrl,
-          fileName: 'the-sax.png',
-          contentType: IMAGE_PNG,
-          height: 240,
-          width: 320,
-        }),
-        fakeAttachment({
-          url: pngUrl,
-          fileName: 'the-sax.png',
-          contentType: IMAGE_PNG,
-          height: 240,
-          width: 320,
-        }),
-      ].slice(0, i),
-      status: 'sent',
-    });
-
-    return renderBothDirections(props);
+export const MultipleImages2 = (): JSX.Element => {
+  const props = createProps({
+    attachments: [
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    status: 'sent',
   });
-}
 
-story.add('Image with Caption', () => {
+  return renderBothDirections(props);
+};
+
+export const MultipleImages3 = (): JSX.Element => {
+  const props = createProps({
+    attachments: [
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+};
+
+export const MultipleImages4 = (): JSX.Element => {
+  const props = createProps({
+    attachments: [
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+};
+
+export const MultipleImages5 = (): JSX.Element => {
+  const props = createProps({
+    attachments: [
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+      fakeAttachment({
+        url: pngUrl,
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+};
+
+export const ImageWithCaption = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1059,9 +1222,13 @@ story.add('Image with Caption', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('GIF', () => {
+ImageWithCaption.story = {
+  name: 'Image with Caption',
+};
+
+export const Gif = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1077,9 +1244,13 @@ story.add('GIF', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('GIF in a group', () => {
+Gif.story = {
+  name: 'GIF',
+};
+
+export const GifInAGroup = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1096,9 +1267,13 @@ story.add('GIF in a group', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Not Downloaded GIF', () => {
+GifInAGroup.story = {
+  name: 'GIF in a group',
+};
+
+export const NotDownloadedGif = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1115,9 +1290,13 @@ story.add('Not Downloaded GIF', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Pending GIF', () => {
+NotDownloadedGif.story = {
+  name: 'Not Downloaded GIF',
+};
+
+export const PendingGif = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1135,9 +1314,13 @@ story.add('Pending GIF', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Audio', () => {
+PendingGif.story = {
+  name: 'Pending GIF',
+};
+
+export const _Audio = (): JSX.Element => {
   const Wrapper = () => {
     const [isPlayed, setIsPlayed] = React.useState(false);
 
@@ -1180,9 +1363,9 @@ story.add('Audio', () => {
   };
 
   return <Wrapper />;
-});
+};
 
-story.add('Long Audio', () => {
+export const LongAudio = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1195,9 +1378,9 @@ story.add('Long Audio', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Audio with Caption', () => {
+export const AudioWithCaption = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1211,9 +1394,13 @@ story.add('Audio with Caption', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Audio with Not Downloaded Attachment', () => {
+AudioWithCaption.story = {
+  name: 'Audio with Caption',
+};
+
+export const AudioWithNotDownloadedAttachment = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1225,9 +1412,13 @@ story.add('Audio with Not Downloaded Attachment', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Audio with Pending Attachment', () => {
+AudioWithNotDownloadedAttachment.story = {
+  name: 'Audio with Not Downloaded Attachment',
+};
+
+export const AudioWithPendingAttachment = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1240,9 +1431,13 @@ story.add('Audio with Pending Attachment', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Other File Type', () => {
+AudioWithPendingAttachment.story = {
+  name: 'Audio with Pending Attachment',
+};
+
+export const OtherFileType = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1256,9 +1451,9 @@ story.add('Other File Type', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Other File Type with Caption', () => {
+export const OtherFileTypeWithCaption = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1273,9 +1468,13 @@ story.add('Other File Type with Caption', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Other File Type with Long Filename', () => {
+OtherFileTypeWithCaption.story = {
+  name: 'Other File Type with Caption',
+};
+
+export const OtherFileTypeWithLongFilename = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1291,9 +1490,13 @@ story.add('Other File Type with Long Filename', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('TapToView Image', () => {
+OtherFileTypeWithLongFilename.story = {
+  name: 'Other File Type with Long Filename',
+};
+
+export const TapToViewImage = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1309,9 +1512,13 @@ story.add('TapToView Image', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('TapToView Video', () => {
+TapToViewImage.story = {
+  name: 'TapToView Image',
+};
+
+export const TapToViewVideo = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1327,9 +1534,13 @@ story.add('TapToView Video', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('TapToView GIF', () => {
+TapToViewVideo.story = {
+  name: 'TapToView Video',
+};
+
+export const TapToViewGif = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1346,9 +1557,13 @@ story.add('TapToView GIF', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('TapToView Expired', () => {
+TapToViewGif.story = {
+  name: 'TapToView GIF',
+};
+
+export const TapToViewExpired = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1365,9 +1580,13 @@ story.add('TapToView Expired', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('TapToView Error', () => {
+TapToViewExpired.story = {
+  name: 'TapToView Expired',
+};
+
+export const TapToViewError = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1384,9 +1603,13 @@ story.add('TapToView Error', () => {
   });
 
   return renderThree(props);
-});
+};
 
-story.add('Dangerous File Type', () => {
+TapToViewError.story = {
+  name: 'TapToView Error',
+};
+
+export const DangerousFileType = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1401,9 +1624,9 @@ story.add('Dangerous File Type', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Colors', () => {
+export const Colors = (): JSX.Element => {
   return (
     <>
       {ConversationColors.map(color => (
@@ -1418,9 +1641,9 @@ story.add('Colors', () => {
       ))}
     </>
   );
-});
+};
 
-story.add('@Mentions', () => {
+export const Mentions = (): JSX.Element => {
   const props = createProps({
     bodyRanges: [
       {
@@ -1434,9 +1657,13 @@ story.add('@Mentions', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('All the context menus', () => {
+Mentions.story = {
+  name: '@Mentions',
+};
+
+export const AllTheContextMenus = (): JSX.Element => {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1454,9 +1681,13 @@ story.add('All the context menus', () => {
   });
 
   return <Message {...props} direction="outgoing" />;
-});
+};
 
-story.add('Not approved, with link preview', () => {
+AllTheContextMenus.story = {
+  name: 'All the context menus',
+};
+
+export const NotApprovedWithLinkPreview = (): JSX.Element => {
   const props = createProps({
     previews: [
       {
@@ -1482,9 +1713,13 @@ story.add('Not approved, with link preview', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('Custom Color', () => (
+NotApprovedWithLinkPreview.story = {
+  name: 'Not approved, with link preview',
+};
+
+export const CustomColor = (): JSX.Element => (
   <>
     {renderThree({
       ...createProps({ text: 'Solid.' }),
@@ -1504,9 +1739,9 @@ story.add('Custom Color', () => (
       },
     })}
   </>
-));
+);
 
-story.add('Collapsing text-only DMs', () => {
+export const CollapsingTextOnlyDMs = (): JSX.Element => {
   const them = getDefaultConversation();
   const me = getDefaultConversation({ isMe: true });
 
@@ -1544,9 +1779,13 @@ story.add('Collapsing text-only DMs', () => {
       text: 'Six',
     }),
   ]);
-});
+};
 
-story.add('Collapsing text-only group messages', () => {
+CollapsingTextOnlyDMs.story = {
+  name: 'Collapsing text-only DMs',
+};
+
+export const CollapsingTextOnlyGroupMessages = (): JSX.Element => {
   const author = getDefaultConversation();
 
   return renderMany([
@@ -1568,9 +1807,13 @@ story.add('Collapsing text-only group messages', () => {
       text: 'Three',
     }),
   ]);
-});
+};
 
-story.add('Story reply', () => {
+CollapsingTextOnlyGroupMessages.story = {
+  name: 'Collapsing text-only group messages',
+};
+
+export const StoryReply = (): JSX.Element => {
   const conversation = getDefaultConversation();
 
   return renderThree({
@@ -1586,9 +1829,13 @@ story.add('Story reply', () => {
       text: 'Photo',
     },
   });
-});
+};
 
-story.add('Story reply (yours)', () => {
+StoryReply.story = {
+  name: 'Story reply',
+};
+
+export const StoryReplyYours = (): JSX.Element => {
   const conversation = getDefaultConversation();
 
   return renderThree({
@@ -1604,9 +1851,13 @@ story.add('Story reply (yours)', () => {
       text: 'Photo',
     },
   });
-});
+};
 
-story.add('Story reply (emoji)', () => {
+StoryReplyYours.story = {
+  name: 'Story reply (yours)',
+};
+
+export const StoryReplyEmoji = (): JSX.Element => {
   const conversation = getDefaultConversation();
 
   return renderThree({
@@ -1623,7 +1874,11 @@ story.add('Story reply (emoji)', () => {
       text: 'Photo',
     },
   });
-});
+};
+
+StoryReplyEmoji.story = {
+  name: 'Story reply (emoji)',
+};
 
 const fullContact = {
   avatar: {
@@ -1655,14 +1910,18 @@ const fullContact = {
   ],
 };
 
-story.add('EmbeddedContact: Full Contact', () => {
+export const EmbeddedContactFullContact = (): JSX.Element => {
   const props = createProps({
     contact: fullContact,
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: with Send Message', () => {
+EmbeddedContactFullContact.story = {
+  name: 'EmbeddedContact: Full Contact',
+};
+
+export const EmbeddedContactWithSendMessage = (): JSX.Element => {
   const props = createProps({
     contact: {
       ...fullContact,
@@ -1672,9 +1931,13 @@ story.add('EmbeddedContact: with Send Message', () => {
     direction: 'incoming',
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: Only Email', () => {
+EmbeddedContactWithSendMessage.story = {
+  name: 'EmbeddedContact: with Send Message',
+};
+
+export const EmbeddedContactOnlyEmail = (): JSX.Element => {
   const props = createProps({
     contact: {
       email: fullContact.email,
@@ -1682,9 +1945,13 @@ story.add('EmbeddedContact: Only Email', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: Given Name', () => {
+EmbeddedContactOnlyEmail.story = {
+  name: 'EmbeddedContact: Only Email',
+};
+
+export const EmbeddedContactGivenName = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -1694,9 +1961,13 @@ story.add('EmbeddedContact: Given Name', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: Organization', () => {
+EmbeddedContactGivenName.story = {
+  name: 'EmbeddedContact: Given Name',
+};
+
+export const EmbeddedContactOrganization = (): JSX.Element => {
   const props = createProps({
     contact: {
       organization: 'Company 5',
@@ -1704,9 +1975,13 @@ story.add('EmbeddedContact: Organization', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: Given + Family Name', () => {
+EmbeddedContactOrganization.story = {
+  name: 'EmbeddedContact: Organization',
+};
+
+export const EmbeddedContactGivenFamilyName = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -1717,9 +1992,13 @@ story.add('EmbeddedContact: Given + Family Name', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: Family Name', () => {
+EmbeddedContactGivenFamilyName.story = {
+  name: 'EmbeddedContact: Given + Family Name',
+};
+
+export const EmbeddedContactFamilyName = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -1729,9 +2008,13 @@ story.add('EmbeddedContact: Family Name', () => {
   });
 
   return renderBothDirections(props);
-});
+};
 
-story.add('EmbeddedContact: Loading Avatar', () => {
+EmbeddedContactFamilyName.story = {
+  name: 'EmbeddedContact: Family Name',
+};
+
+export const EmbeddedContactLoadingAvatar = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -1747,9 +2030,13 @@ story.add('EmbeddedContact: Loading Avatar', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('Gift Badge: Unopened', () => {
+EmbeddedContactLoadingAvatar.story = {
+  name: 'EmbeddedContact: Loading Avatar',
+};
+
+export const GiftBadgeUnopened = (): JSX.Element => {
   const props = createProps({
     giftBadge: {
       id: 'GIFT',
@@ -1759,7 +2046,11 @@ story.add('Gift Badge: Unopened', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
+
+GiftBadgeUnopened.story = {
+  name: 'Gift Badge: Unopened',
+};
 
 const getPreferredBadge = () => ({
   category: BadgeCategory.Donor,
@@ -1776,7 +2067,7 @@ const getPreferredBadge = () => ({
   name: 'heart',
 });
 
-story.add('Gift Badge: Redeemed (30 days)', () => {
+export const GiftBadgeRedeemed30Days = (): JSX.Element => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
@@ -1787,9 +2078,13 @@ story.add('Gift Badge: Redeemed (30 days)', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('Gift Badge: Redeemed (24 hours)', () => {
+GiftBadgeRedeemed30Days.story = {
+  name: 'Gift Badge: Redeemed (30 days)',
+};
+
+export const GiftBadgeRedeemed24Hours = (): JSX.Element => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
@@ -1800,9 +2095,13 @@ story.add('Gift Badge: Redeemed (24 hours)', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('Gift Badge: Opened (60 minutes)', () => {
+GiftBadgeRedeemed24Hours.story = {
+  name: 'Gift Badge: Redeemed (24 hours)',
+};
+
+export const GiftBadgeOpened60Minutes = (): JSX.Element => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
@@ -1813,9 +2112,13 @@ story.add('Gift Badge: Opened (60 minutes)', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('Gift Badge: Redeemed (1 minute)', () => {
+GiftBadgeOpened60Minutes.story = {
+  name: 'Gift Badge: Opened (60 minutes)',
+};
+
+export const GiftBadgeRedeemed1Minute = (): JSX.Element => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
@@ -1826,9 +2129,13 @@ story.add('Gift Badge: Redeemed (1 minute)', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('Gift Badge: Opened (expired)', () => {
+GiftBadgeRedeemed1Minute.story = {
+  name: 'Gift Badge: Redeemed (1 minute)',
+};
+
+export const GiftBadgeOpenedExpired = (): JSX.Element => {
   const props = createProps({
     getPreferredBadge,
     giftBadge: {
@@ -1839,9 +2146,13 @@ story.add('Gift Badge: Opened (expired)', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
 
-story.add('Gift Badge: Missing Badge', () => {
+GiftBadgeOpenedExpired.story = {
+  name: 'Gift Badge: Opened (expired)',
+};
+
+export const GiftBadgeMissingBadge = (): JSX.Element => {
   const props = createProps({
     getPreferredBadge: () => undefined,
     giftBadge: {
@@ -1852,4 +2163,8 @@ story.add('Gift Badge: Missing Badge', () => {
     },
   });
   return renderBothDirections(props);
-});
+};
+
+GiftBadgeMissingBadge.story = {
+  name: 'Gift Badge: Missing Badge',
+};

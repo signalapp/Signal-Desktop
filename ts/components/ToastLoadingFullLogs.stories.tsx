@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastLoadingFullLogs } from './ToastLoadingFullLogs';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastLoadingFullLogs', module);
+export default {
+  title: 'Components/ToastLoadingFullLogs',
+};
 
-story.add('ToastLoadingFullLogs', () => (
+export const _ToastLoadingFullLogs = (): JSX.Element => (
   <ToastLoadingFullLogs {...defaultProps} />
-));
+);
+
+_ToastLoadingFullLogs.story = {
+  name: 'ToastLoadingFullLogs',
+};

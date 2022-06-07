@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastCaptchaSolved } from './ToastCaptchaSolved';
 
@@ -16,6 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastCaptchaSolved', module);
+export default {
+  title: 'Components/ToastCaptchaSolved',
+};
 
-story.add('ToastCaptchaSolved', () => <ToastCaptchaSolved {...defaultProps} />);
+export const _ToastCaptchaSolved = (): JSX.Element => (
+  <ToastCaptchaSolved {...defaultProps} />
+);
+
+_ToastCaptchaSolved.story = {
+  name: 'ToastCaptchaSolved',
+};

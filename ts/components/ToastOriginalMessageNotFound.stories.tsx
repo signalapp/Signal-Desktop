@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastOriginalMessageNotFound } from './ToastOriginalMessageNotFound';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastOriginalMessageNotFound', module);
+export default {
+  title: 'Components/ToastOriginalMessageNotFound',
+};
 
-story.add('ToastOriginalMessageNotFound', () => (
+export const _ToastOriginalMessageNotFound = (): JSX.Element => (
   <ToastOriginalMessageNotFound {...defaultProps} />
-));
+);
+
+_ToastOriginalMessageNotFound.story = {
+  name: 'ToastOriginalMessageNotFound',
+};

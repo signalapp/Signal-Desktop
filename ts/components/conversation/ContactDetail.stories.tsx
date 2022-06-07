@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './ContactDetail';
 import { ContactDetail } from './ContactDetail';
@@ -18,7 +17,9 @@ import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/ContactDetail', module);
+export default {
+  title: 'Components/Conversation/ContactDetail',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contact: overrideProps.contact || {},
@@ -133,15 +134,15 @@ const fullContact = {
   ],
 };
 
-story.add('Fully Filled Out', () => {
+export const FullyFilledOut = (): JSX.Element => {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Only Email', () => {
+export const OnlyEmail = (): JSX.Element => {
   const props = createProps({
     contact: {
       email: [
@@ -155,9 +156,9 @@ story.add('Only Email', () => {
   });
 
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Given Name', () => {
+export const GivenName = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -168,9 +169,9 @@ story.add('Given Name', () => {
   });
 
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Organization', () => {
+export const Organization = (): JSX.Element => {
   const props = createProps({
     contact: {
       organization: 'Company 5',
@@ -179,9 +180,9 @@ story.add('Organization', () => {
   });
 
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Given + Family Name', () => {
+export const GivenFamilyName = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -193,9 +194,13 @@ story.add('Given + Family Name', () => {
   });
 
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Family Name', () => {
+GivenFamilyName.story = {
+  name: 'Given + Family Name',
+};
+
+export const FamilyName = (): JSX.Element => {
   const props = createProps({
     contact: {
       name: {
@@ -206,9 +211,9 @@ story.add('Family Name', () => {
   });
 
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Loading Avatar', () => {
+export const LoadingAvatar = (): JSX.Element => {
   const props = createProps({
     contact: {
       avatar: {
@@ -222,18 +227,26 @@ story.add('Loading Avatar', () => {
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Empty with Account', () => {
+export const EmptyWithAccount = (): JSX.Element => {
   const props = createProps({
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
-});
+};
 
-story.add('Empty without Account', () => {
+EmptyWithAccount.story = {
+  name: 'Empty with Account',
+};
+
+export const EmptyWithoutAccount = (): JSX.Element => {
   const props = createProps({
     hasSignalAccount: false,
   });
   return <ContactDetail {...props} />;
-});
+};
+
+EmptyWithoutAccount.story = {
+  name: 'Empty without Account',
+};

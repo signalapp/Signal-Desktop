@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import 'react-quill/dist/quill.core.css';
 import { boolean, select } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
@@ -17,7 +16,9 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/CompositionInput', module);
+export default {
+  title: 'Components/CompositionInput',
+};
 
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
@@ -48,37 +49,37 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: React.useContext(StorybookThemeContext),
 });
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const props = useProps();
 
   return <CompositionInput {...props} />;
-});
+};
 
-story.add('Large', () => {
+export const Large = (): JSX.Element => {
   const props = useProps({
     large: true,
   });
 
   return <CompositionInput {...props} />;
-});
+};
 
-story.add('Disabled', () => {
+export const Disabled = (): JSX.Element => {
   const props = useProps({
     disabled: true,
   });
 
   return <CompositionInput {...props} />;
-});
+};
 
-story.add('Starting Text', () => {
+export const StartingText = (): JSX.Element => {
   const props = useProps({
     draftText: "here's some starting text",
   });
 
   return <CompositionInput {...props} />;
-});
+};
 
-story.add('Multiline Text', () => {
+export const MultilineText = (): JSX.Element => {
   const props = useProps({
     draftText: `here's some starting text
 and more on another line
@@ -92,9 +93,9 @@ and we're done`,
   });
 
   return <CompositionInput {...props} />;
-});
+};
 
-story.add('Emojis', () => {
+export const Emojis = (): JSX.Element => {
   const props = useProps({
     draftText: `⁣😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐
@@ -104,9 +105,9 @@ story.add('Emojis', () => {
   });
 
   return <CompositionInput {...props} />;
-});
+};
 
-story.add('Mentions', () => {
+export const Mentions = (): JSX.Element => {
   const props = useProps({
     sortedGroupMembers: [
       getDefaultConversation({
@@ -128,4 +129,4 @@ story.add('Mentions', () => {
   });
 
   return <CompositionInput {...props} />;
-});
+};

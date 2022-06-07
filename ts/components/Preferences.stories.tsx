@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './Preferences';
@@ -159,18 +158,26 @@ const createProps = (): PropsType => ({
   i18n,
 });
 
-const story = storiesOf('Components/Preferences', module);
+export default {
+  title: 'Components/Preferences',
+};
 
-story.add('Preferences', () => <Preferences {...createProps()} />);
+export const _Preferences = (): JSX.Element => (
+  <Preferences {...createProps()} />
+);
 
-story.add('Blocked 1', () => (
+export const Blocked1 = (): JSX.Element => (
   <Preferences {...createProps()} blockedCount={1} />
-));
+);
 
-story.add('Blocked Many', () => (
+export const BlockedMany = (): JSX.Element => (
   <Preferences {...createProps()} blockedCount={55} />
-));
+);
 
-story.add('Custom universalExpireTimer', () => (
+export const CustomUniversalExpireTimer = (): JSX.Element => (
   <Preferences {...createProps()} universalExpireTimer={9000} />
-));
+);
+
+CustomUniversalExpireTimer.story = {
+  name: 'Custom universalExpireTimer',
+};

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './StoryViewer';
@@ -14,7 +13,9 @@ import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/StoryViewer', module);
+export default {
+  title: 'Components/StoryViewer',
+};
 
 function getDefaultProps(): PropsType {
   const sender = getDefaultConversation();
@@ -56,9 +57,15 @@ function getDefaultProps(): PropsType {
   };
 }
 
-story.add("Someone's story", () => <StoryViewer {...getDefaultProps()} />);
+export const SomeonesStory = (): JSX.Element => (
+  <StoryViewer {...getDefaultProps()} />
+);
 
-story.add('Wide story', () => (
+SomeonesStory.story = {
+  name: "Someone's story",
+};
+
+export const WideStory = (): JSX.Element => (
   <StoryViewer
     {...getDefaultProps()}
     stories={[
@@ -74,9 +81,13 @@ story.add('Wide story', () => (
       },
     ]}
   />
-));
+);
 
-story.add('In a group', () => (
+WideStory.story = {
+  name: 'Wide story',
+};
+
+export const InAGroup = (): JSX.Element => (
   <StoryViewer
     {...getDefaultProps()}
     group={getDefaultConversation({
@@ -85,9 +96,13 @@ story.add('In a group', () => (
       type: 'group',
     })}
   />
-));
+);
 
-story.add('Multi story', () => {
+InAGroup.story = {
+  name: 'In a group',
+};
+
+export const MultiStory = (): JSX.Element => {
   const sender = getDefaultConversation();
   return (
     <StoryViewer
@@ -115,9 +130,13 @@ story.add('Multi story', () => {
       ]}
     />
   );
-});
+};
 
-story.add('Caption', () => (
+MultiStory.story = {
+  name: 'Multi story',
+};
+
+export const Caption = (): JSX.Element => (
   <StoryViewer
     {...getDefaultProps()}
     group={getDefaultConversation({
@@ -150,9 +169,9 @@ story.add('Caption', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Long Caption', () => (
+export const LongCaption = (): JSX.Element => (
   <StoryViewer
     {...getDefaultProps()}
     hasAllStoriesMuted
@@ -171,4 +190,4 @@ story.add('Long Caption', () => (
       },
     ]}
   />
-));
+);

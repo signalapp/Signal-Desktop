@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './CallingSelectPresentingSourcesModal';
@@ -54,11 +53,10 @@ const createProps = (): PropsType => ({
   setPresenting: action('set-presenting'),
 });
 
-const story = storiesOf(
-  'Components/CallingSelectPresentingSourcesModal',
-  module
-);
+export default {
+  title: 'Components/CallingSelectPresentingSourcesModal',
+};
 
-story.add('Modal', () => {
+export const Modal = (): JSX.Element => {
   return <CallingSelectPresentingSourcesModal {...createProps()} />;
-});
+};

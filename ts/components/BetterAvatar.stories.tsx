@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
@@ -27,9 +26,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   size: 80,
 });
 
-const story = storiesOf('Components/BetterAvatar', module);
+export default {
+  title: 'Components/BetterAvatar',
+};
 
-story.add('Text', () => (
+export const Text = (): JSX.Element => (
   <BetterAvatar
     {...createProps({
       avatarData: createAvatarData({
@@ -38,9 +39,9 @@ story.add('Text', () => (
       }),
     })}
   />
-));
+);
 
-story.add('Personal Icon', () => (
+export const PersonalIcon = (): JSX.Element => (
   <BetterAvatar
     {...createProps({
       avatarData: createAvatarData({
@@ -49,9 +50,9 @@ story.add('Personal Icon', () => (
       }),
     })}
   />
-));
+);
 
-story.add('Group Icon', () => (
+export const GroupIcon = (): JSX.Element => (
   <BetterAvatar
     {...createProps({
       avatarData: createAvatarData({
@@ -60,4 +61,4 @@ story.add('Group Icon', () => (
       }),
     })}
   />
-));
+);

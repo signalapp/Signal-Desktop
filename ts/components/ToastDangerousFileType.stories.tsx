@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastDangerousFileType } from './ToastDangerousFileType';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastDangerousFileType', module);
+export default {
+  title: 'Components/ToastDangerousFileType',
+};
 
-story.add('ToastDangerousFileType', () => (
+export const _ToastDangerousFileType = (): JSX.Element => (
   <ToastDangerousFileType {...defaultProps} />
-));
+);
+
+_ToastDangerousFileType.story = {
+  name: 'ToastDangerousFileType',
+};

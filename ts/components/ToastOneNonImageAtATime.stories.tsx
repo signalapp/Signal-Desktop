@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastOneNonImageAtATime } from './ToastOneNonImageAtATime';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastOneNonImageAtATime', module);
+export default {
+  title: 'Components/ToastOneNonImageAtATime',
+};
 
-story.add('ToastOneNonImageAtATime', () => (
+export const _ToastOneNonImageAtATime = (): JSX.Element => (
   <ToastOneNonImageAtATime {...defaultProps} />
-));
+);
+
+_ToastOneNonImageAtATime.story = {
+  name: 'ToastOneNonImageAtATime',
+};

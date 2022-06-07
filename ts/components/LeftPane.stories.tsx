@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { select } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { PropsType } from './LeftPane';
 import { LeftPane, LeftPaneMode } from './LeftPane';
@@ -25,7 +24,9 @@ import {
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/LeftPane', module);
+export default {
+  title: 'Components/LeftPane',
+};
 
 const defaultConversations: Array<ConversationType> = [
   getDefaultConversation({
@@ -200,9 +201,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
   };
 };
 
-// Inbox stories
-
-story.add('Inbox: no conversations', () => (
+export const InboxNoConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -215,9 +214,13 @@ story.add('Inbox: no conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: only pinned conversations', () => (
+InboxNoConversations.story = {
+  name: 'Inbox: no conversations',
+};
+
+export const InboxOnlyPinnedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -230,9 +233,13 @@ story.add('Inbox: only pinned conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: only non-pinned conversations', () => (
+InboxOnlyPinnedConversations.story = {
+  name: 'Inbox: only pinned conversations',
+};
+
+export const InboxOnlyNonPinnedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -245,9 +252,13 @@ story.add('Inbox: only non-pinned conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: only archived conversations', () => (
+InboxOnlyNonPinnedConversations.story = {
+  name: 'Inbox: only non-pinned conversations',
+};
+
+export const InboxOnlyArchivedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -260,9 +271,13 @@ story.add('Inbox: only archived conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: pinned and archived conversations', () => (
+InboxOnlyArchivedConversations.story = {
+  name: 'Inbox: only archived conversations',
+};
+
+export const InboxPinnedAndArchivedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -275,9 +290,13 @@ story.add('Inbox: pinned and archived conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: non-pinned and archived conversations', () => (
+InboxPinnedAndArchivedConversations.story = {
+  name: 'Inbox: pinned and archived conversations',
+};
+
+export const InboxNonPinnedAndArchivedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -290,9 +309,13 @@ story.add('Inbox: non-pinned and archived conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: pinned and non-pinned conversations', () => (
+InboxNonPinnedAndArchivedConversations.story = {
+  name: 'Inbox: non-pinned and archived conversations',
+};
+
+export const InboxPinnedAndNonPinnedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -305,15 +328,21 @@ story.add('Inbox: pinned and non-pinned conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Inbox: pinned, non-pinned, and archived conversations', () => (
+InboxPinnedAndNonPinnedConversations.story = {
+  name: 'Inbox: pinned and non-pinned conversations',
+};
+
+export const InboxPinnedNonPinnedAndArchivedConversations = (): JSX.Element => (
   <LeftPane {...useProps()} />
-));
+);
 
-// Search stories
+InboxPinnedNonPinnedAndArchivedConversations.story = {
+  name: 'Inbox: pinned, non-pinned, and archived conversations',
+};
 
-story.add('Search: no results when searching everywhere', () => (
+export const SearchNoResultsWhenSearchingEverywhere = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -326,9 +355,13 @@ story.add('Search: no results when searching everywhere', () => (
       },
     })}
   />
-));
+);
 
-story.add('Search: no results when searching everywhere (SMS)', () => (
+SearchNoResultsWhenSearchingEverywhere.story = {
+  name: 'Search: no results when searching everywhere',
+};
+
+export const SearchNoResultsWhenSearchingEverywhereSms = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -341,9 +374,13 @@ story.add('Search: no results when searching everywhere (SMS)', () => (
       },
     })}
   />
-));
+);
 
-story.add('Search: no results when searching in a conversation', () => (
+SearchNoResultsWhenSearchingEverywhereSms.story = {
+  name: 'Search: no results when searching everywhere (SMS)',
+};
+
+export const SearchNoResultsWhenSearchingInAConversation = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -357,9 +394,13 @@ story.add('Search: no results when searching in a conversation', () => (
       },
     })}
   />
-));
+);
 
-story.add('Search: all results loading', () => (
+SearchNoResultsWhenSearchingInAConversation.story = {
+  name: 'Search: no results when searching in a conversation',
+};
+
+export const SearchAllResultsLoading = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -372,9 +413,13 @@ story.add('Search: all results loading', () => (
       },
     })}
   />
-));
+);
 
-story.add('Search: some results loading', () => (
+SearchAllResultsLoading.story = {
+  name: 'Search: all results loading',
+};
+
+export const SearchSomeResultsLoading = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -390,27 +435,36 @@ story.add('Search: some results loading', () => (
       },
     })}
   />
-));
+);
 
-story.add('Search: has conversations and contacts, but not messages', () => (
-  <LeftPane
-    {...useProps({
-      modeSpecificProps: {
-        ...defaultSearchProps,
-        mode: LeftPaneMode.Search,
-        conversationResults: {
-          isLoading: false,
-          results: defaultConversations,
+SearchSomeResultsLoading.story = {
+  name: 'Search: some results loading',
+};
+
+export const SearchHasConversationsAndContactsButNotMessages =
+  (): JSX.Element => (
+    <LeftPane
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          mode: LeftPaneMode.Search,
+          conversationResults: {
+            isLoading: false,
+            results: defaultConversations,
+          },
+          contactResults: { isLoading: false, results: defaultConversations },
+          messageResults: { isLoading: false, results: [] },
+          primarySendsSms: false,
         },
-        contactResults: { isLoading: false, results: defaultConversations },
-        messageResults: { isLoading: false, results: [] },
-        primarySendsSms: false,
-      },
-    })}
-  />
-));
+      })}
+    />
+  );
 
-story.add('Search: all results', () => (
+SearchHasConversationsAndContactsButNotMessages.story = {
+  name: 'Search: has conversations and contacts, but not messages',
+};
+
+export const SearchAllResults = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -432,11 +486,13 @@ story.add('Search: all results', () => (
       },
     })}
   />
-));
+);
 
-// Archived stories
+SearchAllResults.story = {
+  name: 'Search: all results',
+};
 
-story.add('Archive: no archived conversations', () => (
+export const ArchiveNoArchivedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -448,9 +504,13 @@ story.add('Archive: no archived conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Archive: archived conversations', () => (
+ArchiveNoArchivedConversations.story = {
+  name: 'Archive: no archived conversations',
+};
+
+export const ArchiveArchivedConversations = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -462,9 +522,13 @@ story.add('Archive: archived conversations', () => (
       },
     })}
   />
-));
+);
 
-story.add('Archive: searching a conversation', () => (
+ArchiveArchivedConversations.story = {
+  name: 'Archive: archived conversations',
+};
+
+export const ArchiveSearchingAConversation = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -476,11 +540,13 @@ story.add('Archive: searching a conversation', () => (
       },
     })}
   />
-));
+);
 
-// Compose stories
+ArchiveSearchingAConversation.story = {
+  name: 'Archive: searching a conversation',
+};
 
-story.add('Compose: no results', () => (
+export const ComposeNoResults = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -494,9 +560,13 @@ story.add('Compose: no results', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: some contacts, no search term', () => (
+ComposeNoResults.story = {
+  name: 'Compose: no results',
+};
+
+export const ComposeSomeContactsNoSearchTerm = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -510,9 +580,13 @@ story.add('Compose: some contacts, no search term', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: some contacts, with a search term', () => (
+ComposeSomeContactsNoSearchTerm.story = {
+  name: 'Compose: some contacts, no search term',
+};
+
+export const ComposeSomeContactsWithASearchTerm = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -526,9 +600,13 @@ story.add('Compose: some contacts, with a search term', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: some groups, no search term', () => (
+ComposeSomeContactsWithASearchTerm.story = {
+  name: 'Compose: some contacts, with a search term',
+};
+
+export const ComposeSomeGroupsNoSearchTerm = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -542,9 +620,13 @@ story.add('Compose: some groups, no search term', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: some groups, with search term', () => (
+ComposeSomeGroupsNoSearchTerm.story = {
+  name: 'Compose: some groups, no search term',
+};
+
+export const ComposeSomeGroupsWithSearchTerm = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -558,9 +640,13 @@ story.add('Compose: some groups, with search term', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: search is valid username', () => (
+ComposeSomeGroupsWithSearchTerm.story = {
+  name: 'Compose: some groups, with search term',
+};
+
+export const ComposeSearchIsValidUsername = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -574,9 +660,13 @@ story.add('Compose: search is valid username', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: search is valid username, fetching username', () => (
+ComposeSearchIsValidUsername.story = {
+  name: 'Compose: search is valid username',
+};
+
+export const ComposeSearchIsValidUsernameFetchingUsername = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -592,25 +682,34 @@ story.add('Compose: search is valid username, fetching username', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: search is valid username, but flag is not enabled', () => (
-  <LeftPane
-    {...useProps({
-      modeSpecificProps: {
-        mode: LeftPaneMode.Compose,
-        composeContacts: [],
-        composeGroups: [],
-        isUsernamesEnabled: false,
-        uuidFetchState: {},
-        regionCode: 'US',
-        searchTerm: 'someone',
-      },
-    })}
-  />
-));
+ComposeSearchIsValidUsernameFetchingUsername.story = {
+  name: 'Compose: search is valid username, fetching username',
+};
 
-story.add('Compose: search is partial phone number', () => (
+export const ComposeSearchIsValidUsernameButFlagIsNotEnabled =
+  (): JSX.Element => (
+    <LeftPane
+      {...useProps({
+        modeSpecificProps: {
+          mode: LeftPaneMode.Compose,
+          composeContacts: [],
+          composeGroups: [],
+          isUsernamesEnabled: false,
+          uuidFetchState: {},
+          regionCode: 'US',
+          searchTerm: 'someone',
+        },
+      })}
+    />
+  );
+
+ComposeSearchIsValidUsernameButFlagIsNotEnabled.story = {
+  name: 'Compose: search is valid username, but flag is not enabled',
+};
+
+export const ComposeSearchIsPartialPhoneNumber = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -624,9 +723,13 @@ story.add('Compose: search is partial phone number', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: search is valid phone number', () => (
+ComposeSearchIsPartialPhoneNumber.story = {
+  name: 'Compose: search is partial phone number',
+};
+
+export const ComposeSearchIsValidPhoneNumber = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -640,11 +743,14 @@ story.add('Compose: search is valid phone number', () => (
       },
     })}
   />
-));
+);
 
-story.add(
-  'Compose: search is valid phone number, fetching phone number',
-  () => (
+ComposeSearchIsValidPhoneNumber.story = {
+  name: 'Compose: search is valid phone number',
+};
+
+export const ComposeSearchIsValidPhoneNumberFetchingPhoneNumber =
+  (): JSX.Element => (
     <LeftPane
       {...useProps({
         modeSpecificProps: {
@@ -660,10 +766,13 @@ story.add(
         },
       })}
     />
-  )
-);
+  );
 
-story.add('Compose: all kinds of results, no search term', () => (
+ComposeSearchIsValidPhoneNumberFetchingPhoneNumber.story = {
+  name: 'Compose: search is valid phone number, fetching phone number',
+};
+
+export const ComposeAllKindsOfResultsNoSearchTerm = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -677,9 +786,13 @@ story.add('Compose: all kinds of results, no search term', () => (
       },
     })}
   />
-));
+);
 
-story.add('Compose: all kinds of results, with a search term', () => (
+ComposeAllKindsOfResultsNoSearchTerm.story = {
+  name: 'Compose: all kinds of results, no search term',
+};
+
+export const ComposeAllKindsOfResultsWithASearchTerm = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -693,11 +806,13 @@ story.add('Compose: all kinds of results, with a search term', () => (
       },
     })}
   />
-));
+);
 
-// Captcha flow
+ComposeAllKindsOfResultsWithASearchTerm.story = {
+  name: 'Compose: all kinds of results, with a search term',
+};
 
-story.add('Captcha dialog: required', () => (
+export const CaptchaDialogRequired = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -712,9 +827,13 @@ story.add('Captcha dialog: required', () => (
       challengeStatus: 'required',
     })}
   />
-));
+);
 
-story.add('Captcha dialog: pending', () => (
+CaptchaDialogRequired.story = {
+  name: 'Captcha dialog: required',
+};
+
+export const CaptchaDialogPending = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -729,11 +848,13 @@ story.add('Captcha dialog: pending', () => (
       challengeStatus: 'pending',
     })}
   />
-));
+);
 
-// Crash report flow
+CaptchaDialogPending.story = {
+  name: 'Captcha dialog: pending',
+};
 
-story.add('Crash report dialog', () => (
+export const _CrashReportDialog = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -748,11 +869,13 @@ story.add('Crash report dialog', () => (
       crashReportCount: 42,
     })}
   />
-));
+);
 
-// Choose Group Members
+_CrashReportDialog.story = {
+  name: 'Crash report dialog',
+};
 
-story.add('Choose Group Members: Partial phone number', () => (
+export const ChooseGroupMembersPartialPhoneNumber = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -767,9 +890,13 @@ story.add('Choose Group Members: Partial phone number', () => (
       },
     })}
   />
-));
+);
 
-story.add('Choose Group Members: Valid phone number', () => (
+ChooseGroupMembersPartialPhoneNumber.story = {
+  name: 'Choose Group Members: Partial phone number',
+};
+
+export const ChooseGroupMembersValidPhoneNumber = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -784,11 +911,13 @@ story.add('Choose Group Members: Valid phone number', () => (
       },
     })}
   />
-));
+);
 
-// Set group metadata
+ChooseGroupMembersValidPhoneNumber.story = {
+  name: 'Choose Group Members: Valid phone number',
+};
 
-story.add('Group Metadata: No Timer', () => (
+export const GroupMetadataNoTimer = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -804,9 +933,13 @@ story.add('Group Metadata: No Timer', () => (
       },
     })}
   />
-));
+);
 
-story.add('Group Metadata: Regular Timer', () => (
+GroupMetadataNoTimer.story = {
+  name: 'Group Metadata: No Timer',
+};
+
+export const GroupMetadataRegularTimer = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -822,9 +955,13 @@ story.add('Group Metadata: Regular Timer', () => (
       },
     })}
   />
-));
+);
 
-story.add('Group Metadata: Custom Timer', () => (
+GroupMetadataRegularTimer.story = {
+  name: 'Group Metadata: Regular Timer',
+};
+
+export const GroupMetadataCustomTimer = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -840,9 +977,13 @@ story.add('Group Metadata: Custom Timer', () => (
       },
     })}
   />
-));
+);
 
-story.add('Searching Conversation', () => (
+GroupMetadataCustomTimer.story = {
+  name: 'Group Metadata: Custom Timer',
+};
+
+export const SearchingConversation = (): JSX.Element => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
@@ -857,4 +998,4 @@ story.add('Searching Conversation', () => (
       },
     })}
   />
-));
+);

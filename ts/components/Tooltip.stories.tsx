@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 
 import type { PropsType } from './Tooltip';
@@ -16,7 +15,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: overrideProps.theme,
 });
 
-const story = storiesOf('Components/Tooltip', module);
+export default {
+  title: 'Components/Tooltip',
+};
 
 const Trigger = (
   <span
@@ -32,7 +33,7 @@ const Trigger = (
   </span>
 );
 
-story.add('Top', () => (
+export const _Top = (): JSX.Element => (
   <Tooltip
     {...createProps({
       direction: TooltipPlacement.Top,
@@ -40,9 +41,9 @@ story.add('Top', () => (
   >
     {Trigger}
   </Tooltip>
-));
+);
 
-story.add('Right', () => (
+export const _Right = (): JSX.Element => (
   <Tooltip
     {...createProps({
       direction: TooltipPlacement.Right,
@@ -50,9 +51,9 @@ story.add('Right', () => (
   >
     {Trigger}
   </Tooltip>
-));
+);
 
-story.add('Bottom', () => (
+export const _Bottom = (): JSX.Element => (
   <Tooltip
     {...createProps({
       direction: TooltipPlacement.Bottom,
@@ -60,9 +61,9 @@ story.add('Bottom', () => (
   >
     {Trigger}
   </Tooltip>
-));
+);
 
-story.add('Left', () => (
+export const _Left = (): JSX.Element => (
   <Tooltip
     {...createProps({
       direction: TooltipPlacement.Left,
@@ -70,9 +71,9 @@ story.add('Left', () => (
   >
     {Trigger}
   </Tooltip>
-));
+);
 
-story.add('Sticky', () => (
+export const Sticky = (): JSX.Element => (
   <Tooltip
     {...createProps({
       sticky: true,
@@ -80,9 +81,9 @@ story.add('Sticky', () => (
   >
     {Trigger}
   </Tooltip>
-));
+);
 
-story.add('With Applied Popper Modifiers', () => {
+export const WithAppliedPopperModifiers = (): JSX.Element => {
   return (
     <Tooltip
       {...createProps({
@@ -100,9 +101,9 @@ story.add('With Applied Popper Modifiers', () => {
       {Trigger}
     </Tooltip>
   );
-});
+};
 
-story.add('Dark Theme', () => (
+export const DarkTheme = (): JSX.Element => (
   <Tooltip
     {...createProps({
       sticky: true,
@@ -111,4 +112,4 @@ story.add('Dark Theme', () => (
   >
     {Trigger}
   </Tooltip>
-));
+);

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { isBoolean } from 'lodash';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -39,52 +38,78 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: ThemeType.light,
 });
 
-const stories = storiesOf('Components/Conversation/GroupV1Migration', module);
+export default {
+  title: 'Components/Conversation/GroupV1Migration',
+};
 
-stories.add('You were invited', () => (
+export const YouWereInvited = (): JSX.Element => (
   <GroupV1Migration
     {...createProps({
       areWeInvited: true,
     })}
   />
-));
+);
 
-stories.add('Single dropped and single invited member', () => (
+YouWereInvited.story = {
+  name: 'You were invited',
+};
+
+export const SingleDroppedAndSingleInvitedMember = (): JSX.Element => (
   <GroupV1Migration {...createProps()} />
-));
+);
 
-stories.add('Multiple dropped and invited members', () => (
+SingleDroppedAndSingleInvitedMember.story = {
+  name: 'Single dropped and single invited member',
+};
+
+export const MultipleDroppedAndInvitedMembers = (): JSX.Element => (
   <GroupV1Migration
     {...createProps({
       invitedMembers: [contact1, contact2],
       droppedMembers: [contact1, contact2],
     })}
   />
-));
+);
 
-stories.add('Just invited members', () => (
+MultipleDroppedAndInvitedMembers.story = {
+  name: 'Multiple dropped and invited members',
+};
+
+export const JustInvitedMembers = (): JSX.Element => (
   <GroupV1Migration
     {...createProps({
       invitedMembers: [contact1, contact1, contact2, contact2],
       droppedMembers: [],
     })}
   />
-));
+);
 
-stories.add('Just dropped members', () => (
+JustInvitedMembers.story = {
+  name: 'Just invited members',
+};
+
+export const JustDroppedMembers = (): JSX.Element => (
   <GroupV1Migration
     {...createProps({
       invitedMembers: [],
       droppedMembers: [contact1, contact1, contact2, contact2],
     })}
   />
-));
+);
 
-stories.add('No dropped or invited members', () => (
+JustDroppedMembers.story = {
+  name: 'Just dropped members',
+};
+
+export const NoDroppedOrInvitedMembers = (): JSX.Element => (
   <GroupV1Migration
     {...createProps({
       invitedMembers: [],
       droppedMembers: [],
     })}
   />
-));
+);
+
+NoDroppedOrInvitedMembers.story = {
+  name: 'No dropped or invited members',
+};

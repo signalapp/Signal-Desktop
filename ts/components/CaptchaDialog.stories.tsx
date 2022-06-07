@@ -4,18 +4,19 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import { CaptchaDialog } from './CaptchaDialog';
 import { Button } from './Button';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
-const story = storiesOf('Components/CaptchaDialog', module);
+export default {
+  title: 'Components/CaptchaDialog',
+};
 
 const i18n = setupI18n('en', enMessages);
 
-story.add('CaptchaDialog', () => {
+export const _CaptchaDialog = (): JSX.Element => {
   const [isSkipped, setIsSkipped] = useState(false);
 
   if (isSkipped) {
@@ -30,4 +31,8 @@ story.add('CaptchaDialog', () => {
       onSkip={() => setIsSkipped(true)}
     />
   );
-});
+};
+
+_CaptchaDialog.story = {
+  name: 'CaptchaDialog',
+};

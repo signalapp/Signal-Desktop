@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -11,14 +10,15 @@ import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotifica
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf(
-  'Components/Conversation/ChatSessionRefreshedNotification',
-  module
-).add('Default', () => {
+export default {
+  title: 'Components/Conversation/ChatSessionRefreshedNotification',
+};
+
+export const Default = (): JSX.Element => {
   return (
     <ChatSessionRefreshedNotification
       contactSupport={action('contactSupport')}
       i18n={i18n}
     />
   );
-});
+};

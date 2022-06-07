@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -19,6 +18,10 @@ const createProps = (): PropsType => ({
   onDiscard: action('onDiscard'),
 });
 
-const story = storiesOf('Components/ConfirmDiscardDialog', module);
+export default {
+  title: 'Components/ConfirmDiscardDialog',
+};
 
-story.add('Default', () => <ConfirmDiscardDialog {...createProps()} />);
+export const Default = (): JSX.Element => (
+  <ConfirmDiscardDialog {...createProps()} />
+);

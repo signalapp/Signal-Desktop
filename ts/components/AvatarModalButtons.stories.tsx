@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
@@ -20,14 +19,26 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onSave: action('onSave'),
 });
 
-const story = storiesOf('Components/AvatarModalButtons', module);
+export default {
+  title: 'Components/AvatarModalButtons',
+};
 
-story.add('Has changes', () => (
+export const HasChanges = (): JSX.Element => (
   <AvatarModalButtons
     {...createProps({
       hasChanges: true,
     })}
   />
-));
+);
 
-story.add('No changes', () => <AvatarModalButtons {...createProps()} />);
+HasChanges.story = {
+  name: 'Has changes',
+};
+
+export const NoChanges = (): JSX.Element => (
+  <AvatarModalButtons {...createProps()} />
+);
+
+NoChanges.story = {
+  name: 'No changes',
+};

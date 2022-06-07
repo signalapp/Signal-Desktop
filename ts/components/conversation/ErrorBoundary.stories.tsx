@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -11,16 +10,22 @@ import { ErrorBoundary } from './ErrorBoundary';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/ErrorBoundary', module);
+export default {
+  title: 'Components/Conversation/ErrorBoundary',
+};
 
 const Fail: React.FC<Record<string, never>> = () => {
   throw new Error('Failed');
 };
 
-story.add('Error state', () => {
+export const ErrorState = (): JSX.Element => {
   return (
     <ErrorBoundary i18n={i18n} showDebugLog={action('showDebugLog')}>
       <Fail />
     </ErrorBoundary>
   );
-});
+};
+
+ErrorState.story = {
+  name: 'Error state',
+};

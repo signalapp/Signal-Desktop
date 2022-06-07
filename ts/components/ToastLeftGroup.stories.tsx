@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastLeftGroup } from './ToastLeftGroup';
 
@@ -16,6 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastLeftGroup', module);
+export default {
+  title: 'Components/ToastLeftGroup',
+};
 
-story.add('ToastLeftGroup', () => <ToastLeftGroup {...defaultProps} />);
+export const _ToastLeftGroup = (): JSX.Element => (
+  <ToastLeftGroup {...defaultProps} />
+);
+
+_ToastLeftGroup.story = {
+  name: 'ToastLeftGroup',
+};

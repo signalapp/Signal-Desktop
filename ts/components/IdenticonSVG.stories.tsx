@@ -3,19 +3,25 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
-
 import { IdenticonSVG } from './IdenticonSVG';
 import { AvatarColorMap } from '../types/Colors';
 
-const story = storiesOf('Components/IdenticonSVG', module);
+export default {
+  title: 'Components/IdenticonSVG',
+};
 
-AvatarColorMap.forEach((value, key) =>
-  story.add(key, () => (
-    <IdenticonSVG
-      backgroundColor={value.bg}
-      content="HI"
-      foregroundColor={value.fg}
-    />
-  ))
-);
+export const AllColors = (): JSX.Element => {
+  const stories: Array<JSX.Element> = [];
+
+  AvatarColorMap.forEach(value =>
+    stories.push(
+      <IdenticonSVG
+        backgroundColor={value.bg}
+        content="HI"
+        foregroundColor={value.fg}
+      />
+    )
+  );
+
+  return <>{stories}</>;
+};

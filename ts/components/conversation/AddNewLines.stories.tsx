@@ -4,50 +4,64 @@
 import * as React from 'react';
 
 import { text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { Props } from './AddNewLines';
 import { AddNewLines } from './AddNewLines';
 
-const story = storiesOf('Components/Conversation/AddNewLines', module);
+export default {
+  title: 'Components/Conversation/AddNewLines',
+};
+
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderNonNewLine: overrideProps.renderNonNewLine,
   text: text('text', overrideProps.text || ''),
 });
 
-story.add('All newlines', () => {
+export const AllNewlines = (): JSX.Element => {
   const props = createProps({
     text: '\n\n\n',
   });
 
   return <AddNewLines {...props} />;
-});
+};
 
-story.add('Starting/Ending with Newlines', () => {
+AllNewlines.story = {
+  name: 'All newlines',
+};
+
+export const StartingEndingWithNewlines = (): JSX.Element => {
   const props = createProps({
     text: '\nSome text\n',
   });
 
   return <AddNewLines {...props} />;
-});
+};
 
-story.add('Newlines in the Middle', () => {
+StartingEndingWithNewlines.story = {
+  name: 'Starting/Ending with Newlines',
+};
+
+export const NewlinesInTheMiddle = (): JSX.Element => {
   const props = createProps({
     text: 'Some\ntext',
   });
 
   return <AddNewLines {...props} />;
-});
+};
 
-story.add('No Newlines', () => {
+NewlinesInTheMiddle.story = {
+  name: 'Newlines in the Middle',
+};
+
+export const NoNewlines = (): JSX.Element => {
   const props = createProps({
     text: 'Some text',
   });
 
   return <AddNewLines {...props} />;
-});
+};
 
-story.add('Custom Render Function', () => {
+export const CustomRenderFunction = (): JSX.Element => {
   const props = createProps({
     text: 'Some text',
     renderNonNewLine: ({ text: theText, key }) => (
@@ -58,4 +72,4 @@ story.add('Custom Render Function', () => {
   });
 
   return <AddNewLines {...props} />;
-});
+};

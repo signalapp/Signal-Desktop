@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { isBoolean } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 
@@ -21,10 +20,10 @@ import { ConversationDetailsMembershipList } from './ConversationDetailsMembersh
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationDetailsMembershipList',
-  module
-);
+export default {
+  title:
+    'Components/Conversation/ConversationDetails/ConversationDetailsMembershipList',
+};
 
 const createMemberships = (
   numberOfMemberships = 10
@@ -54,56 +53,68 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   theme: ThemeType.light,
 });
 
-story.add('Few', () => {
+export const Few = (): JSX.Element => {
   const memberships = createMemberships(3);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
 
-story.add('Limit', () => {
+export const Limit = (): JSX.Element => {
   const memberships = createMemberships(5);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
 
-story.add('Limit +1', () => {
+export const Limit1 = (): JSX.Element => {
   const memberships = createMemberships(6);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
 
-story.add('Limit +2', () => {
+Limit1.story = {
+  name: 'Limit +1',
+};
+
+export const Limit2 = (): JSX.Element => {
   const memberships = createMemberships(7);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
 
-story.add('Many', () => {
+Limit2.story = {
+  name: 'Limit +2',
+};
+
+export const Many = (): JSX.Element => {
   const memberships = createMemberships(100);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
 
-story.add('None', () => {
+export const None = (): JSX.Element => {
   const props = createProps({ memberships: [] });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
 
-story.add('Can add new members', () => {
+export const CanAddNewMembers = (): JSX.Element => {
   const memberships = createMemberships(10);
 
   const props = createProps({ canAddNewMembers: true, memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-});
+};
+
+CanAddNewMembers.story = {
+  name: 'Can add new members',
+};

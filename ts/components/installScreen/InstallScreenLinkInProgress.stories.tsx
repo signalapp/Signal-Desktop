@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
-
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
@@ -12,9 +10,10 @@ import { InstallScreenLinkInProgressStep } from './InstallScreenLinkInProgressSt
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/InstallScreen/InstallScreenLinkInProgressStep',
-  module
-);
+export default {
+  title: 'Components/InstallScreen/InstallScreenLinkInProgressStep',
+};
 
-story.add('Default', () => <InstallScreenLinkInProgressStep i18n={i18n} />);
+export const Default = (): JSX.Element => (
+  <InstallScreenLinkInProgressStep i18n={i18n} />
+);

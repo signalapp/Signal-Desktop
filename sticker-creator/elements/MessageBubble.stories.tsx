@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { number, text } from '@storybook/addon-knobs';
 
 import { StoryRow } from './StoryRow';
 import { MessageBubble } from './MessageBubble';
 
-storiesOf('Sticker Creator/elements', module).add('MessageBubble', () => {
+export default {
+  title: 'Sticker Creator/elements',
+};
+
+export const _MessageBubble = (): JSX.Element => {
   const child = text('text', 'Foo bar banana baz');
   const minutesAgo = number('minutesAgo', 3);
 
@@ -17,4 +20,8 @@ storiesOf('Sticker Creator/elements', module).add('MessageBubble', () => {
       <MessageBubble minutesAgo={minutesAgo}>{child}</MessageBubble>
     </StoryRow>
   );
-});
+};
+
+_MessageBubble.story = {
+  name: 'MessageBubble',
+};

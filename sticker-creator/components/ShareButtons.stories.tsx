@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 
 import { StoryRow } from '../elements/StoryRow';
 import { ShareButtons } from './ShareButtons';
 
-storiesOf('Sticker Creator/components', module).add('ShareButtons', () => {
+export default {
+  title: 'Sticker Creator/components',
+};
+
+export const _ShareButtons = (): JSX.Element => {
   const value = text('value', 'https://signal.org');
 
   return (
@@ -16,4 +19,8 @@ storiesOf('Sticker Creator/components', module).add('ShareButtons', () => {
       <ShareButtons value={value} />
     </StoryRow>
   );
-});
+};
+
+_ShareButtons.story = {
+  name: 'ShareButtons',
+};

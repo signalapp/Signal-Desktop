@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -15,10 +14,9 @@ import { getDefaultConversation } from '../../../test-both/helpers/getDefaultCon
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/GroupV2Permissions',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/GroupV2Permissions',
+};
 
 const conversation: ConversationType = getDefaultConversation({
   id: '',
@@ -42,13 +40,13 @@ const createProps = (): PropsType => ({
   setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps();
 
   return <GroupV2Permissions {...props} />;
-});
+};
 
-story.add('Not admin', () => (
+export const NotAdmin = (): JSX.Element => (
   <GroupV2Permissions
     {...createProps()}
     conversation={getDefaultConversation({
@@ -56,9 +54,13 @@ story.add('Not admin', () => (
       areWeAdmin: false,
     })}
   />
-));
+);
 
-story.add('Admin but not announcement ready', () => (
+NotAdmin.story = {
+  name: 'Not admin',
+};
+
+export const AdminButNotAnnouncementReady = (): JSX.Element => (
   <GroupV2Permissions
     {...createProps()}
     conversation={getDefaultConversation({
@@ -66,9 +68,13 @@ story.add('Admin but not announcement ready', () => (
       areWeAdmin: true,
     })}
   />
-));
+);
 
-story.add('Admin, not announcement ready, but it was on', () => (
+AdminButNotAnnouncementReady.story = {
+  name: 'Admin but not announcement ready',
+};
+
+export const AdminNotAnnouncementReadyButItWasOn = (): JSX.Element => (
   <GroupV2Permissions
     {...createProps()}
     conversation={getDefaultConversation({
@@ -77,4 +83,8 @@ story.add('Admin, not announcement ready, but it was on', () => (
       areWeAdmin: true,
     })}
   />
-));
+);
+
+AdminNotAnnouncementReadyButItWasOn.story = {
+  name: 'Admin, not announcement ready, but it was on',
+};

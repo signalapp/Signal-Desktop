@@ -1,26 +1,22 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Meta, Story } from '@storybook/react';
 import * as React from 'react';
 import { isBoolean } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
-import { boolean, select, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import type { Props } from './Avatar';
-import { Avatar, AvatarBlur, AvatarStoryRing } from './Avatar';
+import { Avatar, AvatarBlur, AvatarSize, AvatarStoryRing } from './Avatar';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
-
-const story = storiesOf('Components/Avatar', module);
 
 const colorMap: Record<string, AvatarColorType> = AvatarColors.reduce(
   (m, color) => ({
@@ -35,224 +31,240 @@ const conversationTypeMap: Record<string, Props['conversationType']> = {
   group: 'group',
 };
 
+export default {
+  title: 'Components/Avatar',
+  component: Avatar,
+  argTypes: {
+    badge: {
+      control: false,
+    },
+    blur: {
+      control: { type: 'radio' },
+      defaultValue: AvatarBlur.NoBlur,
+      options: {
+        NoBlur: AvatarBlur.NoBlur,
+        BlurPicture: AvatarBlur.BlurPicture,
+        BlurPictureWithClickToView: AvatarBlur.BlurPictureWithClickToView,
+      },
+    },
+    color: {
+      defaultValue: AvatarColors[0],
+      options: colorMap,
+    },
+    conversationType: {
+      control: { type: 'radio' },
+      options: conversationTypeMap,
+    },
+    size: {
+      control: false,
+    },
+    storyRing: {
+      control: { type: 'radio' },
+      options: [undefined, ...Object.values(AvatarStoryRing)],
+    },
+    theme: {
+      control: { type: 'radio' },
+      defaultValue: ThemeType.light,
+      options: ThemeType,
+    },
+  },
+} as Meta;
+
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: isBoolean(overrideProps.acceptedMessageRequest)
     ? overrideProps.acceptedMessageRequest
     : true,
-  avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
+  avatarPath: overrideProps.avatarPath || '',
   badge: overrideProps.badge,
-  blur: overrideProps.blur,
-  color: select('color', colorMap, overrideProps.color || AvatarColors[0]),
-  conversationType: select(
-    'conversationType',
-    conversationTypeMap,
-    overrideProps.conversationType || 'direct'
-  ),
+  blur: overrideProps.blur || AvatarBlur.NoBlur,
+  color: overrideProps.color || AvatarColors[0],
+  conversationType: overrideProps.conversationType || 'direct',
   i18n,
   isMe: false,
-  loading: boolean('loading', overrideProps.loading || false),
-  name: text('name', overrideProps.name || ''),
-  noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
+  loading: Boolean(overrideProps.loading),
+  name: overrideProps.name || '',
+  noteToSelf: Boolean(overrideProps.noteToSelf),
   onClick: action('onClick'),
   onClickBadge: action('onClickBadge'),
-  phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
-  searchResult: boolean(
-    'searchResult',
-    typeof overrideProps.searchResult === 'boolean'
-      ? overrideProps.searchResult
-      : false
-  ),
+  phoneNumber: overrideProps.phoneNumber || '',
+  searchResult: Boolean(overrideProps.searchResult),
   sharedGroupNames: [],
   size: 80,
   title: overrideProps.title || '',
   theme: overrideProps.theme || ThemeType.light,
 });
 
-const sizes: Array<Props['size']> = [112, 96, 80, 52, 32, 28];
+const sizes = Object.values(AvatarSize).filter(
+  x => typeof x === 'number'
+) as Array<AvatarSize>;
 
-story.add('Avatar', () => {
-  const props = createProps({
-    avatarPath: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
-  });
+const Template: Story<Props> = args => (
+  <>
+    {sizes.map(size => (
+      <Avatar key={size} {...args} size={size} />
+    ))}
+  </>
+);
 
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+const TemplateSingle: Story<Props> = args => (
+  <Avatar {...args} size={AvatarSize.ONE_HUNDRED_TWELVE} />
+);
+
+export const Default = Template.bind({});
+Default.args = createProps({
+  avatarPath: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
+});
+Default.story = {
+  name: 'Avatar',
+};
+
+export const WithBadge = Template.bind({});
+WithBadge.args = createProps({
+  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  badge: getFakeBadge(),
+});
+WithBadge.story = {
+  name: 'With badge',
+};
+
+export const WideImage = Template.bind({});
+WideImage.args = createProps({
+  avatarPath: '/fixtures/wide.jpg',
+});
+WideImage.story = {
+  name: 'Wide image',
+};
+
+export const OneWordName = Template.bind({});
+OneWordName.args = createProps({
+  title: 'John',
+});
+OneWordName.story = {
+  name: 'One-word Name',
+};
+
+export const TwoWordName = Template.bind({});
+TwoWordName.args = createProps({
+  title: 'John Smith',
+});
+TwoWordName.story = {
+  name: 'Two-word Name',
+};
+
+export const WideInitials = Template.bind({});
+WideInitials.args = createProps({
+  title: 'Walter White',
+});
+WideInitials.story = {
+  name: 'Wide initials',
+};
+
+export const ThreeWordName = Template.bind({});
+ThreeWordName.args = createProps({
+  title: 'Walter H. White',
+});
+ThreeWordName.story = {
+  name: 'Three-word name',
+};
+
+export const NoteToSelf = Template.bind({});
+NoteToSelf.args = createProps({
+  noteToSelf: true,
+});
+NoteToSelf.story = {
+  name: 'Note to Self',
+};
+
+export const ContactIcon = Template.bind({});
+ContactIcon.args = createProps();
+
+export const GroupIcon = Template.bind({});
+GroupIcon.args = createProps({
+  conversationType: 'group',
 });
 
-story.add('With badge', () => {
-  const Wrapper = () => {
-    const theme = React.useContext(StorybookThemeContext);
-    const props = createProps({
-      avatarPath: '/fixtures/kitten-3-64-64.jpg',
-      badge: getFakeBadge(),
-      theme,
-    });
-
-    return (
-      <>
-        {sizes.map(size => (
-          <Avatar key={size} {...props} size={size} />
-        ))}
-      </>
-    );
-  };
-
-  return <Wrapper />;
+export const SearchIcon = Template.bind({});
+SearchIcon.args = createProps({
+  searchResult: true,
 });
 
-story.add('Wide image', () => {
-  const props = createProps({
-    avatarPath: '/fixtures/wide.jpg',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('One-word Name', () => {
-  const props = createProps({
-    title: 'John',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Two-word Name', () => {
-  const props = createProps({
-    title: 'John Smith',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Wide initials', () => {
-  const props = createProps({
-    title: 'Walter White',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Three-word name', () => {
-  const props = createProps({
-    title: 'Walter H. White',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Note to Self', () => {
-  const props = createProps({
-    noteToSelf: true,
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Contact Icon', () => {
+export const Colors = (): JSX.Element => {
   const props = createProps();
 
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+  return (
+    <>
+      {AvatarColors.map(color => (
+        <Avatar key={color} {...props} color={color} />
+      ))}
+    </>
+  );
+};
+
+export const BrokenColor = Template.bind({});
+BrokenColor.args = createProps({
+  color: 'nope' as AvatarColorType,
 });
 
-story.add('Group Icon', () => {
-  const props = createProps({
-    conversationType: 'group',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+export const BrokenAvatar = Template.bind({});
+BrokenAvatar.args = createProps({
+  avatarPath: 'badimage.png',
 });
 
-story.add('Search Icon', () => {
-  const props = createProps({
-    searchResult: true,
-  });
+export const BrokenAvatarForGroup = Template.bind({});
+BrokenAvatarForGroup.args = createProps({
+  avatarPath: 'badimage.png',
+  conversationType: 'group',
+});
+BrokenAvatarForGroup.story = {
+  name: 'Broken Avatar for Group',
+};
 
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+export const Loading = Template.bind({});
+Loading.args = createProps({
+  loading: true,
 });
 
-story.add('Colors', () => {
-  const props = createProps();
-
-  return AvatarColors.map(color => (
-    <Avatar key={color} {...props} color={color} />
-  ));
+export const BlurredBasedOnProps = TemplateSingle.bind({});
+BlurredBasedOnProps.args = createProps({
+  acceptedMessageRequest: false,
+  avatarPath: '/fixtures/kitten-3-64-64.jpg',
 });
+BlurredBasedOnProps.story = {
+  name: 'Blurred based on props',
+};
 
-story.add('Broken Color', () => {
-  const props = createProps({
-    color: 'nope' as AvatarColorType,
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+export const ForceBlurred = TemplateSingle.bind({});
+ForceBlurred.args = createProps({
+  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  blur: AvatarBlur.BlurPicture,
 });
+ForceBlurred.story = {
+  name: 'Force-blurred',
+};
 
-story.add('Broken Avatar', () => {
-  const props = createProps({
-    avatarPath: 'badimage.png',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+export const BlurredWithClickToView = TemplateSingle.bind({});
+BlurredWithClickToView.args = createProps({
+  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  blur: AvatarBlur.BlurPictureWithClickToView,
 });
+BlurredWithClickToView.story = {
+  name: 'Blurred with "click to view"',
+};
 
-story.add('Broken Avatar for Group', () => {
-  const props = createProps({
-    avatarPath: 'badimage.png',
-    conversationType: 'group',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+export const StoryUnread = TemplateSingle.bind({});
+StoryUnread.args = createProps({
+  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  storyRing: AvatarStoryRing.Unread,
 });
+StoryUnread.story = {
+  name: 'Story: unread',
+};
 
-story.add('Loading', () => {
-  const props = createProps({
-    loading: true,
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+export const StoryRead = TemplateSingle.bind({});
+StoryRead.args = createProps({
+  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  storyRing: AvatarStoryRing.Read,
 });
-
-story.add('Blurred based on props', () => {
-  const props = createProps({
-    acceptedMessageRequest: false,
-    avatarPath: '/fixtures/kitten-3-64-64.jpg',
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Force-blurred', () => {
-  const props = createProps({
-    avatarPath: '/fixtures/kitten-3-64-64.jpg',
-    blur: AvatarBlur.BlurPicture,
-  });
-
-  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
-});
-
-story.add('Blurred with "click to view"', () => {
-  const props = createProps({
-    avatarPath: '/fixtures/kitten-3-64-64.jpg',
-    blur: AvatarBlur.BlurPictureWithClickToView,
-  });
-
-  return <Avatar {...props} size={112} />;
-});
-
-story.add('Story: unread', () => (
-  <Avatar
-    {...createProps({
-      avatarPath: '/fixtures/kitten-3-64-64.jpg',
-    })}
-    storyRing={AvatarStoryRing.Unread}
-    size={112}
-  />
-));
-
-story.add('Story: read', () => (
-  <Avatar
-    {...createProps({
-      avatarPath: '/fixtures/kitten-3-64-64.jpg',
-    })}
-    storyRing={AvatarStoryRing.Read}
-    size={112}
-  />
-));
+StoryRead.story = {
+  name: 'Story: read',
+};

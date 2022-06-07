@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -30,7 +29,9 @@ import { TextDirection } from './Message';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/Timeline', module);
+export default {
+  title: 'Components/Conversation/Timeline',
+};
 
 // eslint-disable-next-line
 const noop = () => {};
@@ -563,78 +564,98 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...actions(),
 });
 
-story.add('Oldest and Newest', () => {
+export const OldestAndNewest = (): JSX.Element => {
   const props = useProps();
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('With active message request', () => {
+OldestAndNewest.story = {
+  name: 'Oldest and Newest',
+};
+
+export const WithActiveMessageRequest = (): JSX.Element => {
   const props = useProps({
     isIncomingMessageRequest: true,
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Without Newest Message', () => {
+WithActiveMessageRequest.story = {
+  name: 'With active message request',
+};
+
+export const WithoutNewestMessage = (): JSX.Element => {
   const props = useProps({
     haveNewest: false,
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Without newest message, active message request', () => {
+export const WithoutNewestMessageActiveMessageRequest = (): JSX.Element => {
   const props = useProps({
     haveOldest: false,
     isIncomingMessageRequest: true,
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Without Oldest Message', () => {
+WithoutNewestMessageActiveMessageRequest.story = {
+  name: 'Without newest message, active message request',
+};
+
+export const WithoutOldestMessage = (): JSX.Element => {
   const props = useProps({
     haveOldest: false,
     scrollToIndex: -1,
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Empty (just hero)', () => {
+export const EmptyJustHero = (): JSX.Element => {
   const props = useProps({
     items: [],
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Last Seen', () => {
+EmptyJustHero.story = {
+  name: 'Empty (just hero)',
+};
+
+export const LastSeen = (): JSX.Element => {
   const props = useProps({
     oldestUnseenIndex: 13,
     totalUnseen: 2,
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Target Index to Top', () => {
+export const TargetIndexToTop = (): JSX.Element => {
   const props = useProps({
     scrollToIndex: 0,
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('Typing Indicator', () => {
+TargetIndexToTop.story = {
+  name: 'Target Index to Top',
+};
+
+export const TypingIndicator = (): JSX.Element => {
   const props = useProps({ isSomeoneTyping: true });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('With invited contacts for a newly-created group', () => {
+export const WithInvitedContactsForANewlyCreatedGroup = (): JSX.Element => {
   const props = useProps({
     invitedContactsForNewlyCreatedGroup: [
       getDefaultConversation({
@@ -649,9 +670,13 @@ story.add('With invited contacts for a newly-created group', () => {
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('With "same name in direct conversation" warning', () => {
+WithInvitedContactsForANewlyCreatedGroup.story = {
+  name: 'With invited contacts for a newly-created group',
+};
+
+export const WithSameNameInDirectConversationWarning = (): JSX.Element => {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.DirectConversationWithSameTitle,
@@ -661,9 +686,13 @@ story.add('With "same name in direct conversation" warning', () => {
   });
 
   return <Timeline {...props} />;
-});
+};
 
-story.add('With "same name in group conversation" warning', () => {
+WithSameNameInDirectConversationWarning.story = {
+  name: 'With "same name in direct conversation" warning',
+};
+
+export const WithSameNameInGroupConversationWarning = (): JSX.Element => {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
@@ -677,4 +706,8 @@ story.add('With "same name in group conversation" warning', () => {
   });
 
   return <Timeline {...props} />;
-});
+};
+
+WithSameNameInGroupConversationWarning.story = {
+  name: 'With "same name in group conversation" warning',
+};

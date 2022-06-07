@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -13,7 +12,9 @@ import { createPack, sticker1, sticker2 } from './StickerPicker.stories';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Stickers/StickerManager', module);
+export default {
+  title: 'Components/Stickers/StickerManager',
+};
 
 const receivedPacks = [
   createPack({ id: 'received-pack-1', status: 'downloaded' }, sticker1),
@@ -52,32 +53,36 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   uninstallStickerPack: action('uninstallStickerPack'),
 });
 
-story.add('Full', () => {
+export const Full = (): JSX.Element => {
   const props = createProps({ installedPacks, receivedPacks, blessedPacks });
 
   return <StickerManager {...props} />;
-});
+};
 
-story.add('Installed Packs', () => {
+export const InstalledPacks = (): JSX.Element => {
   const props = createProps({ installedPacks });
 
   return <StickerManager {...props} />;
-});
+};
 
-story.add('Received Packs', () => {
+export const ReceivedPacks = (): JSX.Element => {
   const props = createProps({ receivedPacks });
 
   return <StickerManager {...props} />;
-});
+};
 
-story.add('Installed + Known Packs', () => {
+export const InstalledKnownPacks = (): JSX.Element => {
   const props = createProps({ installedPacks, knownPacks });
 
   return <StickerManager {...props} />;
-});
+};
 
-story.add('Empty', () => {
+InstalledKnownPacks.story = {
+  name: 'Installed + Known Packs',
+};
+
+export const Empty = (): JSX.Element => {
   const props = createProps();
 
   return <StickerManager {...props} />;
-});
+};

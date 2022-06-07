@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -11,20 +10,22 @@ import { TypingAnimation } from './TypingAnimation';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/TypingAnimation', module);
+export default {
+  title: 'Components/Conversation/TypingAnimation',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   color: overrideProps.color || '',
 });
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const props = createProps();
 
   return <TypingAnimation {...props} />;
-});
+};
 
-story.add('Light', () => {
+export const Light = (): JSX.Element => {
   const props = createProps({
     color: 'light',
   });
@@ -34,4 +35,4 @@ story.add('Light', () => {
       <TypingAnimation {...props} />
     </div>
   );
-});
+};

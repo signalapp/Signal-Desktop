@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -12,7 +11,9 @@ import type { PropsType } from './MediaQualitySelector';
 import { MediaQualitySelector } from './MediaQualitySelector';
 import { setupI18n } from '../util/setupI18n';
 
-const story = storiesOf('Components/MediaQualitySelector', module);
+export default {
+  title: 'Components/MediaQualitySelector',
+};
 
 const i18n = setupI18n('en', enMessages);
 
@@ -22,14 +23,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onSelectQuality: action('onSelectQuality'),
 });
 
-story.add('Standard Quality', () => (
+export const StandardQuality = (): JSX.Element => (
   <MediaQualitySelector {...createProps()} />
-));
+);
 
-story.add('High Quality', () => (
+export const HighQuality = (): JSX.Element => (
   <MediaQualitySelector
     {...createProps({
       isHighQuality: true,
     })}
   />
-));
+);

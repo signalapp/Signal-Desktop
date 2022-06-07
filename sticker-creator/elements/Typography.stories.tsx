@@ -4,13 +4,16 @@
 /* eslint-disable no-script-url, jsx-a11y/anchor-is-valid */
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 
 import { StoryRow } from './StoryRow';
 import { H1, H2, Text } from './Typography';
 
-storiesOf('Sticker Creator/elements', module).add('Typography', () => {
+export default {
+  title: 'Sticker Creator/elements',
+};
+
+export const Typography = (): JSX.Element => {
   const child = text('text', 'foo bar');
 
   return (
@@ -36,4 +39,4 @@ storiesOf('Sticker Creator/elements', module).add('Typography', () => {
       </StoryRow>
     </>
   );
-});
+};

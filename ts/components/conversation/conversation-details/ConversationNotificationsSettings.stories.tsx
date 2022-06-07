@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -12,10 +11,10 @@ import { ConversationNotificationsSettings } from './ConversationNotificationsSe
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationNotificationsSettings',
-  module
-);
+export default {
+  title:
+    'Components/Conversation/ConversationDetails/ConversationNotificationsSettings',
+};
 
 const getCommonProps = () => ({
   muteExpiresAt: undefined,
@@ -26,20 +25,32 @@ const getCommonProps = () => ({
   setMuteExpiration: action('setMuteExpiration'),
 });
 
-story.add('Group conversation, all default', () => (
+export const GroupConversationAllDefault = (): JSX.Element => (
   <ConversationNotificationsSettings {...getCommonProps()} />
-));
+);
 
-story.add('Group conversation, muted', () => (
+GroupConversationAllDefault.story = {
+  name: 'Group conversation, all default',
+};
+
+export const GroupConversationMuted = (): JSX.Element => (
   <ConversationNotificationsSettings
     {...getCommonProps()}
     muteExpiresAt={Date.UTC(2099, 5, 9)}
   />
-));
+);
 
-story.add('Group conversation, @mentions muted', () => (
+GroupConversationMuted.story = {
+  name: 'Group conversation, muted',
+};
+
+export const GroupConversationMentionsMuted = (): JSX.Element => (
   <ConversationNotificationsSettings
     {...getCommonProps()}
     dontNotifyForMentionsIfMuted
   />
-));
+);
+
+GroupConversationMentionsMuted.story = {
+  name: 'Group conversation, @mentions muted',
+};

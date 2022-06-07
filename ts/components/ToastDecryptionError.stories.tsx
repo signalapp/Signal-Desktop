@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastDecryptionError } from './ToastDecryptionError';
 
@@ -19,8 +18,14 @@ const defaultProps = {
   onShowDebugLog: action('onShowDebugLog'),
 };
 
-const story = storiesOf('Components/ToastDecryptionError', module);
+export default {
+  title: 'Components/ToastDecryptionError',
+};
 
-story.add('ToastDecryptionError', () => (
+export const _ToastDecryptionError = (): JSX.Element => (
   <ToastDecryptionError {...defaultProps} />
-));
+);
+
+_ToastDecryptionError.story = {
+  name: 'ToastDecryptionError',
+};

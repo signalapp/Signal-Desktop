@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -28,18 +27,22 @@ const getBaseProps = (
   onAccept: action('accept'),
 });
 
-storiesOf('Components/Conversation/MandatoryProfileSharingActions', module)
-  .add('Direct', () => {
-    return (
-      <div style={{ width: '480px' }}>
-        <MandatoryProfileSharingActions {...getBaseProps()} />
-      </div>
-    );
-  })
-  .add('Group', () => {
-    return (
-      <div style={{ width: '480px' }}>
-        <MandatoryProfileSharingActions {...getBaseProps(true)} />
-      </div>
-    );
-  });
+export default {
+  title: 'Components/Conversation/MandatoryProfileSharingActions',
+};
+
+export const Direct = (): JSX.Element => {
+  return (
+    <div style={{ width: '480px' }}>
+      <MandatoryProfileSharingActions {...getBaseProps()} />
+    </div>
+  );
+};
+
+export const Group = (): JSX.Element => {
+  return (
+    <div style={{ width: '480px' }}>
+      <MandatoryProfileSharingActions {...getBaseProps(true)} />
+    </div>
+  );
+};

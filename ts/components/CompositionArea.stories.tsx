@@ -1,9 +1,9 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DecoratorFunction } from '@storybook/addons';
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select } from '@storybook/addon-knobs';
 
@@ -21,10 +21,13 @@ import { ConversationColors } from '../types/Colors';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/CompositionArea', module);
-
-// necessary for the add attachment button to render properly
-story.addDecorator(storyFn => <div className="file-input">{storyFn()}</div>);
+export default {
+  title: 'Components/CompositionArea',
+  decorators: [
+    // necessary for the add attachment button to render properly
+    storyFn => <div className="file-input">{storyFn()}</div>,
+  ] as Array<DecoratorFunction<JSX.Element>>,
+};
 
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
@@ -115,55 +118,63 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   isFetchingUUID: overrideProps.isFetchingUUID || false,
 });
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const props = useProps();
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('Starting Text', () => {
+export const StartingText = (): JSX.Element => {
   const props = useProps({
     draftText: "here's some starting text",
   });
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('Sticker Button', () => {
+export const StickerButton = (): JSX.Element => {
   const props = useProps({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     knownPacks: [{} as any],
   });
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('Message Request', () => {
+export const MessageRequest = (): JSX.Element => {
   const props = useProps({
     messageRequestsEnabled: true,
   });
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('SMS-only fetching UUID', () => {
+export const SmsOnlyFetchingUuid = (): JSX.Element => {
   const props = useProps({
     isSMSOnly: true,
     isFetchingUUID: true,
   });
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('SMS-only', () => {
+SmsOnlyFetchingUuid.story = {
+  name: 'SMS-only fetching UUID',
+};
+
+export const SmsOnly = (): JSX.Element => {
   const props = useProps({
     isSMSOnly: true,
   });
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('Attachments', () => {
+SmsOnly.story = {
+  name: 'SMS-only',
+};
+
+export const Attachments = (): JSX.Element => {
   const props = useProps({
     draftAttachments: [
       fakeDraftAttachment({
@@ -174,18 +185,22 @@ story.add('Attachments', () => {
   });
 
   return <CompositionArea {...props} />;
-});
+};
 
-story.add('Announcements Only group', () => (
+export const AnnouncementsOnlyGroup = (): JSX.Element => (
   <CompositionArea
     {...useProps({
       announcementsOnly: true,
       areWeAdmin: false,
     })}
   />
-));
+);
 
-story.add('Quote', () => (
+AnnouncementsOnlyGroup.story = {
+  name: 'Announcements Only group',
+};
+
+export const Quote = (): JSX.Element => (
   <CompositionArea
     {...useProps({
       quotedMessageProps: {
@@ -199,4 +214,4 @@ story.add('Quote', () => (
       },
     })}
   />
-));
+);

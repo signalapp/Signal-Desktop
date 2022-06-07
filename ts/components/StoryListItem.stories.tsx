@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './StoryListItem';
@@ -17,7 +16,9 @@ import {
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/StoryListItem', module);
+export default {
+  title: 'Components/StoryListItem',
+};
 
 function getDefaultProps(): PropsType {
   return {
@@ -34,7 +35,7 @@ function getDefaultProps(): PropsType {
   };
 }
 
-story.add('My Story', () => (
+export const MyStory = (): JSX.Element => (
   <StoryListItem
     {...getDefaultProps()}
     story={{
@@ -43,9 +44,9 @@ story.add('My Story', () => (
       timestamp: Date.now(),
     }}
   />
-));
+);
 
-story.add('My Story (many)', () => (
+export const MyStoryMany = (): JSX.Element => (
   <StoryListItem
     {...getDefaultProps()}
     story={{
@@ -60,9 +61,13 @@ story.add('My Story (many)', () => (
     }}
     hasMultiple
   />
-));
+);
 
-story.add("Someone's story", () => (
+MyStoryMany.story = {
+  name: 'My Story (many)',
+};
+
+export const SomeonesStory = (): JSX.Element => (
   <StoryListItem
     {...getDefaultProps()}
     group={getDefaultConversation({ title: 'Sports Group' })}
@@ -77,4 +82,8 @@ story.add("Someone's story", () => (
       timestamp: Date.now(),
     }}
   />
-));
+);
+
+SomeonesStory.story = {
+  name: "Someone's story",
+};

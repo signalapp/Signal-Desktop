@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import type { PropsType } from './ContactModal';
@@ -18,7 +17,9 @@ import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/ContactModal', module);
+export default {
+  title: 'Components/Conversation/ContactModal',
+};
 
 const defaultContact: ConversationType = getDefaultConversation({
   id: 'abcdef',
@@ -53,22 +54,30 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
 });
 
-story.add('As non-admin', () => {
+export const AsNonAdmin = (): JSX.Element => {
   const props = createProps({
     areWeAdmin: false,
   });
 
   return <ContactModal {...props} />;
-});
+};
 
-story.add('As admin', () => {
+AsNonAdmin.story = {
+  name: 'As non-admin',
+};
+
+export const AsAdmin = (): JSX.Element => {
   const props = createProps({
     areWeAdmin: true,
   });
   return <ContactModal {...props} />;
-});
+};
 
-story.add('As admin with no group link', () => {
+AsAdmin.story = {
+  name: 'As admin',
+};
+
+export const AsAdminWithNoGroupLink = (): JSX.Element => {
   const props = createProps({
     areWeAdmin: true,
     conversation: {
@@ -77,17 +86,25 @@ story.add('As admin with no group link', () => {
     },
   });
   return <ContactModal {...props} />;
-});
+};
 
-story.add('As admin, viewing non-member of group', () => {
+AsAdminWithNoGroupLink.story = {
+  name: 'As admin with no group link',
+};
+
+export const AsAdminViewingNonMemberOfGroup = (): JSX.Element => {
   const props = createProps({
     isMember: false,
   });
 
   return <ContactModal {...props} />;
-});
+};
 
-story.add('Without phone number', () => {
+AsAdminViewingNonMemberOfGroup.story = {
+  name: 'As admin, viewing non-member of group',
+};
+
+export const WithoutPhoneNumber = (): JSX.Element => {
   const props = createProps({
     contact: {
       ...defaultContact,
@@ -96,9 +113,13 @@ story.add('Without phone number', () => {
   });
 
   return <ContactModal {...props} />;
-});
+};
 
-story.add('Viewing self', () => {
+WithoutPhoneNumber.story = {
+  name: 'Without phone number',
+};
+
+export const ViewingSelf = (): JSX.Element => {
   const props = createProps({
     contact: {
       ...defaultContact,
@@ -107,12 +128,20 @@ story.add('Viewing self', () => {
   });
 
   return <ContactModal {...props} />;
-});
+};
 
-story.add('With badges', () => {
+ViewingSelf.story = {
+  name: 'Viewing self',
+};
+
+export const WithBadges = (): JSX.Element => {
   const props = createProps({
     badges: getFakeBadges(2),
   });
 
   return <ContactModal {...props} />;
-});
+};
+
+WithBadges.story = {
+  name: 'With badges',
+};

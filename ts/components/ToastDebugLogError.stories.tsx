@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastDebugLogError } from './ToastDebugLogError';
 
@@ -16,6 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastDebugLogError', module);
+export default {
+  title: 'Components/ToastDebugLogError',
+};
 
-story.add('ToastDebugLogError', () => <ToastDebugLogError {...defaultProps} />);
+export const _ToastDebugLogError = (): JSX.Element => (
+  <ToastDebugLogError {...defaultProps} />
+);
+
+_ToastDebugLogError.story = {
+  name: 'ToastDebugLogError',
+};

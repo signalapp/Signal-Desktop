@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -41,17 +40,23 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
 });
 
-const story = storiesOf('Components/OutgoingGiftBadgeModal', module);
+export default {
+  title: 'Components/OutgoingGiftBadgeModal',
+};
 
-story.add('Normal', () => {
+export const Normal = (): JSX.Element => {
   return <OutgoingGiftBadgeModal {...createProps()} />;
-});
+};
 
-story.add('Missing badge', () => {
+export const MissingBadge = (): JSX.Element => {
   const props = {
     ...createProps(),
     getPreferredBadge: () => undefined,
   };
 
   return <OutgoingGiftBadgeModal {...props} />;
-});
+};
+
+MissingBadge.story = {
+  name: 'Missing badge',
+};

@@ -3,16 +3,14 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { Props } from './ConversationDetailsIcon';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationDetailIcon',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/ConversationDetailIcon',
+};
 
 const createProps = (overrideProps: Partial<Props>): Props => ({
   ariaLabel: overrideProps.ariaLabel || '',
@@ -20,15 +18,19 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   onClick: overrideProps.onClick,
 });
 
-story.add('All', () => {
+export const All = (): JSX.Element => {
   const icons = Object.values(IconType);
 
-  return icons.map(icon => (
-    <ConversationDetailsIcon {...createProps({ icon })} />
-  ));
-});
+  return (
+    <>
+      {icons.map(icon => (
+        <ConversationDetailsIcon {...createProps({ icon })} />
+      ))}
+    </>
+  );
+};
 
-story.add('Clickable Icons', () => {
+export const ClickableIcons = (): JSX.Element => {
   const icons = [
     IconType.timer,
     IconType.trash,
@@ -40,7 +42,11 @@ story.add('Clickable Icons', () => {
 
   const onClick = action('onClick');
 
-  return icons.map(icon => (
-    <ConversationDetailsIcon {...createProps({ icon, onClick })} />
-  ));
-});
+  return (
+    <>
+      {icons.map(icon => (
+        <ConversationDetailsIcon {...createProps({ icon, onClick })} />
+      ))}
+    </>
+  );
+};

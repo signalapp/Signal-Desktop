@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -79,21 +78,32 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ],
 });
 
-const story = storiesOf('Components/AvatarEditor', module);
+export default {
+  title: 'Components/AvatarEditor',
+};
 
-story.add('No Avatar (group)', () => (
+export const NoAvatarGroup = (): JSX.Element => (
   <AvatarEditor
     {...createProps({ isGroup: true, userAvatarData: getDefaultAvatars(true) })}
   />
-));
-story.add('No Avatar (me)', () => (
-  <AvatarEditor {...createProps({ userAvatarData: getDefaultAvatars() })} />
-));
+);
 
-story.add('Has Avatar', () => (
+NoAvatarGroup.story = {
+  name: 'No Avatar (group)',
+};
+
+export const NoAvatarMe = (): JSX.Element => (
+  <AvatarEditor {...createProps({ userAvatarData: getDefaultAvatars() })} />
+);
+
+NoAvatarMe.story = {
+  name: 'No Avatar (me)',
+};
+
+export const HasAvatar = (): JSX.Element => (
   <AvatarEditor
     {...createProps({
       avatarPath: '/fixtures/kitten-3-64-64.jpg',
     })}
   />
-));
+);

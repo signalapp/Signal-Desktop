@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { memoize, noop } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 
 import type { PropsType } from './GroupCallRemoteParticipant';
@@ -64,9 +63,11 @@ const createProps = (
   ...overrideProps,
 });
 
-const story = storiesOf('Components/GroupCallRemoteParticipant', module);
+export default {
+  title: 'Components/GroupCallRemoteParticipant',
+};
 
-story.add('Default', () => (
+export const Default = (): JSX.Element => (
   <GroupCallRemoteParticipant
     {...createProps({
       isInPip: false,
@@ -76,9 +77,9 @@ story.add('Default', () => (
       width: 120,
     })}
   />
-));
+);
 
-story.add('Speaking', () => (
+export const Speaking = (): JSX.Element => (
   <GroupCallRemoteParticipant
     {...createProps(
       {
@@ -92,17 +93,21 @@ story.add('Speaking', () => (
       { hasRemoteAudio: true }
     )}
   />
-));
+);
 
-story.add('isInPip', () => (
+export const IsInPip = (): JSX.Element => (
   <GroupCallRemoteParticipant
     {...createProps({
       isInPip: true,
     })}
   />
-));
+);
 
-story.add('Blocked', () => (
+IsInPip.story = {
+  name: 'isInPip',
+};
+
+export const Blocked = (): JSX.Element => (
   <GroupCallRemoteParticipant
     {...createProps(
       {
@@ -115,4 +120,4 @@ story.add('Blocked', () => (
       { isBlocked: true }
     )}
   />
-));
+);

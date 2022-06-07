@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
@@ -20,10 +19,9 @@ import { ThemeType } from '../../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationDetails',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/ConversationDetails',
+};
 
 const conversation: ConversationType = getDefaultConversation({
   id: '',
@@ -122,19 +120,23 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   },
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps();
 
   return <ConversationDetails {...props} />;
-});
+};
 
-story.add('as Admin', () => {
+export const AsAdmin = (): JSX.Element => {
   const props = createProps();
 
   return <ConversationDetails {...props} isAdmin />;
-});
+};
 
-story.add('as last admin', () => {
+AsAdmin.story = {
+  name: 'as Admin',
+};
+
+export const AsLastAdmin = (): JSX.Element => {
   const props = createProps();
 
   return (
@@ -149,9 +151,13 @@ story.add('as last admin', () => {
       }))}
     />
   );
-});
+};
 
-story.add('as only admin', () => {
+AsLastAdmin.story = {
+  name: 'as last admin',
+};
+
+export const AsOnlyAdmin = (): JSX.Element => {
   const props = createProps();
 
   return (
@@ -168,26 +174,38 @@ story.add('as only admin', () => {
       ]}
     />
   );
-});
+};
 
-story.add('Group Editable', () => {
+AsOnlyAdmin.story = {
+  name: 'as only admin',
+};
+
+export const GroupEditable = (): JSX.Element => {
   const props = createProps();
 
   return <ConversationDetails {...props} canEditGroupInfo />;
-});
+};
 
-story.add('Group Editable with custom disappearing timeout', () => {
+export const GroupEditableWithCustomDisappearingTimeout = (): JSX.Element => {
   const props = createProps(false, 3 * 24 * 60 * 60);
 
   return <ConversationDetails {...props} canEditGroupInfo />;
-});
+};
 
-story.add('Group Links On', () => {
+GroupEditableWithCustomDisappearingTimeout.story = {
+  name: 'Group Editable with custom disappearing timeout',
+};
+
+export const GroupLinksOn = (): JSX.Element => {
   const props = createProps(true);
 
   return <ConversationDetails {...props} isAdmin />;
-});
+};
 
-story.add('1:1', () => (
+export const _11 = (): JSX.Element => (
   <ConversationDetails {...createProps()} isGroup={false} />
-));
+);
+
+_11.story = {
+  name: '1:1',
+};

@@ -3,14 +3,16 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { InContactsIcon } from './InContactsIcon';
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf('Components/InContactsIcon', module).add('Default', () => {
+export default {
+  title: 'Components/InContactsIcon',
+};
+
+export const Default = (): JSX.Element => {
   return <InContactsIcon i18n={i18n} />;
-});
+};

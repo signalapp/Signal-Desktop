@@ -3,13 +3,14 @@
 
 import React, { useState } from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './Slider';
 import { Slider } from './Slider';
 
-const story = storiesOf('Components/Slider', module);
+export default {
+  title: 'Components/Slider',
+};
 
 const createProps = (): PropsType => ({
   label: 'Slider Handle',
@@ -17,9 +18,9 @@ const createProps = (): PropsType => ({
   value: 30,
 });
 
-story.add('Default', () => <Slider {...createProps()} />);
+export const Default = (): JSX.Element => <Slider {...createProps()} />;
 
-story.add('Draggable Test', () => {
+export const DraggableTest = (): JSX.Element => {
   function StatefulSliderController(props: PropsType): JSX.Element {
     const [value, setValue] = useState(30);
 
@@ -27,4 +28,4 @@ story.add('Draggable Test', () => {
   }
 
   return <StatefulSliderController {...createProps()} />;
-});
+};

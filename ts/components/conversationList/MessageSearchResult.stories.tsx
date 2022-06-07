@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { boolean, text, withKnobs } from '@storybook/addon-knobs';
+import { boolean, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -16,11 +15,10 @@ import { MessageSearchResult } from './MessageSearchResult';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
-const story = storiesOf('Components/MessageSearchResult', module);
 
-// Storybook types are incorrect
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
+export default {
+  title: 'Components/MessageSearchResult',
+};
 
 const someone = getDefaultConversation({
   title: 'Some Person',
@@ -63,16 +61,16 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: React.useContext(StorybookThemeContext),
 });
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const props = useProps({
     from: someone,
     to: me,
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('Sender has a badge', () => {
+export const SenderHasABadge = (): JSX.Element => {
   const props = useProps({
     from: { ...someone, badges: [{ id: 'sender badge' }] },
     to: me,
@@ -86,9 +84,13 @@ story.add('Sender has a badge', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('Selected', () => {
+SenderHasABadge.story = {
+  name: 'Sender has a badge',
+};
+
+export const Selected = (): JSX.Element => {
   const props = useProps({
     from: someone,
     to: me,
@@ -96,18 +98,18 @@ story.add('Selected', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('From You', () => {
+export const FromYou = (): JSX.Element => {
   const props = useProps({
     from: me,
     to: someone,
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('Searching in Conversation', () => {
+export const SearchingInConversation = (): JSX.Element => {
   const props = useProps({
     from: me,
     to: someone,
@@ -115,59 +117,88 @@ story.add('Searching in Conversation', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('From You to Yourself', () => {
+SearchingInConversation.story = {
+  name: 'Searching in Conversation',
+};
+
+export const FromYouToYourself = (): JSX.Element => {
   const props = useProps({
     from: me,
     to: me,
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('From You to Group', () => {
+FromYouToYourself.story = {
+  name: 'From You to Yourself',
+};
+
+export const FromYouToGroup = (): JSX.Element => {
   const props = useProps({
     from: me,
     to: group,
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('From Someone to Group', () => {
+FromYouToGroup.story = {
+  name: 'From You to Group',
+};
+
+export const FromSomeoneToGroup = (): JSX.Element => {
   const props = useProps({
     from: someone,
     to: group,
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('Long Search Result', () => {
+FromSomeoneToGroup.story = {
+  name: 'From Someone to Group',
+};
+
+export const LongSearchResult = (): JSX.Element => {
   const snippets = [
     'This is a really <<left>>detail<<right>>ed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
     "Okay, here are the <<left>>detail<<right>>s:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
   ];
 
-  return snippets.map(snippet => {
-    const props = useProps({
-      from: someone,
-      to: me,
-      snippet,
-    });
-
-    return <MessageSearchResult key={snippet.length} {...props} />;
+  const props1 = useProps({
+    from: someone,
+    to: me,
+    snippet: snippets[0],
   });
-});
 
-story.add('Empty (should be invalid)', () => {
+  const props2 = useProps({
+    from: someone,
+    to: me,
+    snippet: snippets[1],
+  });
+
+  return (
+    <>
+      <MessageSearchResult {...props1} />
+      <MessageSearchResult {...props2} />
+    </>
+  );
+};
+
+export const EmptyShouldBeInvalid = (): JSX.Element => {
   const props = useProps();
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('@mention', () => {
+EmptyShouldBeInvalid.story = {
+  name: 'Empty (should be invalid)',
+};
+
+export const Mention = (): JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
@@ -191,9 +222,13 @@ story.add('@mention', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('@mention regexp', () => {
+Mention.story = {
+  name: '@mention',
+};
+
+export const MentionRegexp = (): JSX.Element => {
   const props = useProps({
     body: '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
     bodyRanges: [
@@ -211,9 +246,13 @@ story.add('@mention regexp', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('@mention no-matches', () => {
+MentionRegexp.story = {
+  name: '@mention regexp',
+};
+
+export const MentionNoMatches = (): JSX.Element => {
   const props = useProps({
     body: '\uFFFC hello',
     bodyRanges: [
@@ -230,9 +269,13 @@ story.add('@mention no-matches', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('@mention no-matches', () => {
+MentionNoMatches.story = {
+  name: '@mention no-matches',
+};
+
+export const _MentionNoMatches = (): JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
@@ -256,9 +299,13 @@ story.add('@mention no-matches', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
 
-story.add('Double @mention', () => {
+_MentionNoMatches.story = {
+  name: '@mention no-matches',
+};
+
+export const DoubleMention = (): JSX.Element => {
   const props = useProps({
     body: 'Hey \uFFFC \uFFFC test',
     bodyRanges: [
@@ -281,4 +328,8 @@ story.add('Double @mention', () => {
   });
 
   return <MessageSearchResult {...props} />;
-});
+};
+
+DoubleMention.story = {
+  name: 'Double @mention',
+};

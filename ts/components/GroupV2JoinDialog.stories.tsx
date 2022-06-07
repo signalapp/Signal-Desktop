@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean, number, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -27,13 +26,15 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
 });
 
-const stories = storiesOf('Components/GroupV2JoinDialog', module);
+export default {
+  title: 'Components/GroupV2JoinDialog',
+};
 
-stories.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   return <GroupV2JoinDialog {...createProps()} />;
-});
+};
 
-stories.add('Approval required', () => {
+export const ApprovalRequired = (): JSX.Element => {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -42,9 +43,13 @@ stories.add('Approval required', () => {
       })}
     />
   );
-});
+};
 
-stories.add('With avatar', () => {
+ApprovalRequired.story = {
+  name: 'Approval required',
+};
+
+export const WithAvatar = (): JSX.Element => {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -55,9 +60,13 @@ stories.add('With avatar', () => {
       })}
     />
   );
-});
+};
 
-stories.add('With one member', () => {
+WithAvatar.story = {
+  name: 'With avatar',
+};
+
+export const WithOneMember = (): JSX.Element => {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -66,9 +75,13 @@ stories.add('With one member', () => {
       })}
     />
   );
-});
+};
 
-stories.add('Avatar loading state', () => {
+WithOneMember.story = {
+  name: 'With one member',
+};
+
+export const AvatarLoadingState = (): JSX.Element => {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -79,9 +92,13 @@ stories.add('Avatar loading state', () => {
       })}
     />
   );
-});
+};
 
-stories.add('Full', () => {
+AvatarLoadingState.story = {
+  name: 'Avatar loading state',
+};
+
+export const Full = (): JSX.Element => {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -94,4 +111,4 @@ stories.add('Full', () => {
       })}
     />
   );
-});
+};

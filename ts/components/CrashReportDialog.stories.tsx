@@ -3,18 +3,19 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import { CrashReportDialog } from './CrashReportDialog';
 import { setupI18n } from '../util/setupI18n';
 import { sleep } from '../util/sleep';
 import enMessages from '../../_locales/en/messages.json';
 
-const story = storiesOf('Components/CrashReportDialog', module);
+export default {
+  title: 'Components/CrashReportDialog',
+};
 
 const i18n = setupI18n('en', enMessages);
 
-story.add('CrashReportDialog', () => {
+export const _CrashReportDialog = (): JSX.Element => {
   const [isPending, setIsPending] = useState(false);
 
   return (
@@ -30,4 +31,8 @@ story.add('CrashReportDialog', () => {
       eraseCrashReports={action('eraseCrashReports')}
     />
   );
-});
+};
+
+_CrashReportDialog.story = {
+  name: 'CrashReportDialog',
+};

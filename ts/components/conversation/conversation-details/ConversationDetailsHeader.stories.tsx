@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { number, text } from '@storybook/addon-knobs';
 
@@ -19,10 +18,10 @@ import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationDetailsHeader',
-  module
-);
+export default {
+  title:
+    'Components/Conversation/ConversationDetails/ConversationDetailsHeader',
+};
 
 const createConversation = (): ConversationType =>
   getDefaultConversation({
@@ -55,28 +54,45 @@ const Wrapper = (overrideProps: Partial<Props>) => {
   );
 };
 
-story.add('Basic', () => <Wrapper />);
+export const Basic = (): JSX.Element => <Wrapper />;
+export const Editable = (): JSX.Element => <Wrapper canEdit />;
 
-story.add('Editable', () => <Wrapper canEdit />);
-
-story.add('Basic no-description', () => (
+export const BasicNoDescription = (): JSX.Element => (
   <Wrapper
     conversation={getDefaultConversation({
       title: 'My Group',
       type: 'group',
     })}
   />
-));
+);
 
-story.add('Editable no-description', () => (
+BasicNoDescription.story = {
+  name: 'Basic no-description',
+};
+
+export const EditableNoDescription = (): JSX.Element => (
   <Wrapper
     conversation={getDefaultConversation({
       title: 'My Group',
       type: 'group',
     })}
   />
-));
+);
 
-story.add('1:1', () => <Wrapper isGroup={false} badges={getFakeBadges(3)} />);
+EditableNoDescription.story = {
+  name: 'Editable no-description',
+};
 
-story.add('Note to self', () => <Wrapper isMe />);
+export const _11 = (): JSX.Element => (
+  <Wrapper isGroup={false} badges={getFakeBadges(3)} />
+);
+
+_11.story = {
+  name: '1:1',
+};
+
+export const NoteToSelf = (): JSX.Element => <Wrapper isMe />;
+
+NoteToSelf.story = {
+  name: 'Note to self',
+};

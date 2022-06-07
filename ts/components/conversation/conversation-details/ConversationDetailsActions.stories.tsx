@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { isBoolean } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -14,10 +13,10 @@ import { ConversationDetailsActions } from './ConversationDetailsActions';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationDetailsActions',
-  module
-);
+export default {
+  title:
+    'Components/Conversation/ConversationDetails/ConversationDetailsActions',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   cannotLeaveBecauseYouAreLastAdmin: isBoolean(
@@ -35,28 +34,44 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isGroup: true,
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const props = createProps();
 
   return <ConversationDetailsActions {...props} />;
-});
+};
 
-story.add('Left the group', () => {
+export const LeftTheGroup = (): JSX.Element => {
   const props = createProps({ left: true });
 
   return <ConversationDetailsActions {...props} />;
-});
+};
 
-story.add('Cannot leave because you are the last admin', () => {
+LeftTheGroup.story = {
+  name: 'Left the group',
+};
+
+export const CannotLeaveBecauseYouAreTheLastAdmin = (): JSX.Element => {
   const props = createProps({ cannotLeaveBecauseYouAreLastAdmin: true });
 
   return <ConversationDetailsActions {...props} />;
-});
+};
 
-story.add('1:1', () => (
+CannotLeaveBecauseYouAreTheLastAdmin.story = {
+  name: 'Cannot leave because you are the last admin',
+};
+
+export const _11 = (): JSX.Element => (
   <ConversationDetailsActions {...createProps()} isGroup={false} />
-));
+);
 
-story.add('1:1 Blocked', () => (
+_11.story = {
+  name: '1:1',
+};
+
+export const _11Blocked = (): JSX.Element => (
   <ConversationDetailsActions {...createProps()} isGroup={false} isBlocked />
-));
+);
+
+_11Blocked.story = {
+  name: '1:1 Blocked',
+};

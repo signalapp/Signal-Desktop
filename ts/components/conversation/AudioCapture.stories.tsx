@@ -4,7 +4,6 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 
 import {
@@ -18,7 +17,9 @@ import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/AudioCapture', module);
+export default {
+  title: 'Components/Conversation/AudioCapture',
+};
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   cancelRecording: action('cancelRecording'),
@@ -37,11 +38,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   startRecording: action('startRecording'),
 });
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   return <AudioCapture {...createProps()} />;
-});
+};
 
-story.add('Initializing', () => {
+export const _Initializing = (): JSX.Element => {
   return (
     <AudioCapture
       {...createProps({
@@ -49,9 +50,9 @@ story.add('Initializing', () => {
       })}
     />
   );
-});
+};
 
-story.add('Recording', () => {
+export const _Recording = (): JSX.Element => {
   return (
     <AudioCapture
       {...createProps({
@@ -59,9 +60,9 @@ story.add('Recording', () => {
       })}
     />
   );
-});
+};
 
-story.add('Voice Limit', () => {
+export const VoiceLimit = (): JSX.Element => {
   return (
     <AudioCapture
       {...createProps({
@@ -70,9 +71,9 @@ story.add('Voice Limit', () => {
       })}
     />
   );
-});
+};
 
-story.add('Switched Apps', () => {
+export const SwitchedApps = (): JSX.Element => {
   return (
     <AudioCapture
       {...createProps({
@@ -81,4 +82,4 @@ story.add('Switched Apps', () => {
       })}
     />
   );
-});
+};

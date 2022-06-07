@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastTapToViewExpiredIncoming } from './ToastTapToViewExpiredIncoming';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastTapToViewExpiredIncoming', module);
+export default {
+  title: 'Components/ToastTapToViewExpiredIncoming',
+};
 
-story.add('ToastTapToViewExpiredIncoming', () => (
+export const _ToastTapToViewExpiredIncoming = (): JSX.Element => (
   <ToastTapToViewExpiredIncoming {...defaultProps} />
-));
+);
+
+_ToastTapToViewExpiredIncoming.story = {
+  name: 'ToastTapToViewExpiredIncoming',
+};

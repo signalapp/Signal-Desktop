@@ -4,7 +4,6 @@
 import type { FC } from 'react';
 import React from 'react';
 import { memoize, times } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -32,7 +31,9 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   }),
 }));
 
-const story = storiesOf('Components/GroupCallOverflowArea', module);
+export default {
+  title: 'Components/GroupCallOverflowArea',
+};
 
 const defaultProps = {
   getFrameBuffer: memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE)),
@@ -55,31 +56,43 @@ const Container: FC = ({ children }) => (
   </div>
 );
 
-story.add('No overflowed participants', () => (
+export const NoOverflowedParticipants = (): JSX.Element => (
   <Container>
     <GroupCallOverflowArea {...defaultProps} overflowedParticipants={[]} />
   </Container>
-));
+);
 
-story.add('One overflowed participant', () => (
+NoOverflowedParticipants.story = {
+  name: 'No overflowed participants',
+};
+
+export const OneOverflowedParticipant = (): JSX.Element => (
   <Container>
     <GroupCallOverflowArea
       {...defaultProps}
       overflowedParticipants={allRemoteParticipants.slice(0, 1)}
     />
   </Container>
-));
+);
 
-story.add('Three overflowed participants', () => (
+OneOverflowedParticipant.story = {
+  name: 'One overflowed participant',
+};
+
+export const ThreeOverflowedParticipants = (): JSX.Element => (
   <Container>
     <GroupCallOverflowArea
       {...defaultProps}
       overflowedParticipants={allRemoteParticipants.slice(0, 3)}
     />
   </Container>
-));
+);
 
-story.add('Many overflowed participants', () => (
+ThreeOverflowedParticipants.story = {
+  name: 'Three overflowed participants',
+};
+
+export const ManyOverflowedParticipants = (): JSX.Element => (
   <Container>
     <GroupCallOverflowArea
       {...defaultProps}
@@ -94,4 +107,8 @@ story.add('Many overflowed participants', () => (
       )}
     />
   </Container>
-));
+);
+
+ManyOverflowedParticipants.story = {
+  name: 'Many overflowed participants',
+};

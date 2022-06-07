@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { PropsType } from './SafetyNumberViewer';
 import { SafetyNumberViewer } from './SafetyNumberViewer';
@@ -61,13 +60,15 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onClose: action('onClose'),
 });
 
-const story = storiesOf('Components/SafetyNumberViewer', module);
+export default {
+  title: 'Components/SafetyNumberViewer',
+};
 
-story.add('Safety Number', () => {
+export const SafetyNumber = (): JSX.Element => {
   return <SafetyNumberViewer {...createProps({})} />;
-});
+};
 
-story.add('Safety Number (not verified)', () => {
+export const SafetyNumberNotVerified = (): JSX.Element => {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -78,9 +79,13 @@ story.add('Safety Number (not verified)', () => {
       })}
     />
   );
-});
+};
 
-story.add('Verification Disabled', () => {
+SafetyNumberNotVerified.story = {
+  name: 'Safety Number (not verified)',
+};
+
+export const VerificationDisabled = (): JSX.Element => {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -88,9 +93,9 @@ story.add('Verification Disabled', () => {
       })}
     />
   );
-});
+};
 
-story.add('Safety Number (dialog close)', () => {
+export const SafetyNumberDialogClose = (): JSX.Element => {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -98,9 +103,13 @@ story.add('Safety Number (dialog close)', () => {
       })}
     />
   );
-});
+};
 
-story.add('Just Profile and Number', () => {
+SafetyNumberDialogClose.story = {
+  name: 'Safety Number (dialog close)',
+};
+
+export const JustProfileAndNumber = (): JSX.Element => {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -108,9 +117,13 @@ story.add('Just Profile and Number', () => {
       })}
     />
   );
-});
+};
 
-story.add('Just Number', () => {
+JustProfileAndNumber.story = {
+  name: 'Just Profile and Number',
+};
+
+export const JustNumber = (): JSX.Element => {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -118,9 +131,9 @@ story.add('Just Number', () => {
       })}
     />
   );
-});
+};
 
-story.add('No Phone Number (cannot verify)', () => {
+export const NoPhoneNumberCannotVerify = (): JSX.Element => {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -128,4 +141,8 @@ story.add('No Phone Number (cannot verify)', () => {
       })}
     />
   );
-});
+};
+
+NoPhoneNumberCannotVerify.story = {
+  name: 'No Phone Number (cannot verify)',
+};

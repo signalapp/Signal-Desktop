@@ -4,7 +4,6 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -14,10 +13,10 @@ import { RequestState } from './util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/EditConversationAttributesModal',
-  module
-);
+export default {
+  title:
+    'Components/Conversation/ConversationDetails/EditConversationAttributesModal',
+};
 
 type PropsType = ComponentProps<typeof EditConversationAttributesModal>;
 
@@ -37,32 +36,52 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-story.add('No avatar, empty title', () => (
+export const NoAvatarEmptyTitle = (): JSX.Element => (
   <EditConversationAttributesModal {...createProps({ title: '' })} />
-));
+);
 
-story.add('Avatar and title', () => (
+NoAvatarEmptyTitle.story = {
+  name: 'No avatar, empty title',
+};
+
+export const AvatarAndTitle = (): JSX.Element => (
   <EditConversationAttributesModal
     {...createProps({
       avatarPath: '/fixtures/kitten-3-64-64.jpg',
     })}
   />
-));
+);
 
-story.add('Initially focusing description', () => (
+AvatarAndTitle.story = {
+  name: 'Avatar and title',
+};
+
+export const InitiallyFocusingDescription = (): JSX.Element => (
   <EditConversationAttributesModal
     {...createProps({ title: 'Has title', initiallyFocusDescription: true })}
   />
-));
+);
 
-story.add('Request active', () => (
+InitiallyFocusingDescription.story = {
+  name: 'Initially focusing description',
+};
+
+export const RequestActive = (): JSX.Element => (
   <EditConversationAttributesModal
     {...createProps({ requestState: RequestState.Active })}
   />
-));
+);
 
-story.add('Has error', () => (
+RequestActive.story = {
+  name: 'Request active',
+};
+
+export const HasError = (): JSX.Element => (
   <EditConversationAttributesModal
     {...createProps({ requestState: RequestState.InactiveWithError })}
   />
-));
+);
+
+HasError.story = {
+  name: 'Has error',
+};

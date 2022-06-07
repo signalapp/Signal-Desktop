@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useEffect } from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 
 import { CallingAudioIndicator } from './CallingAudioIndicator';
 import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants';
 
-const story = storiesOf('Components/CallingAudioIndicator', module);
+export default {
+  title: 'Components/CallingAudioIndicator',
+};
 
-story.add('Extreme', () => {
+export const Extreme = (): JSX.Element => {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {
@@ -29,9 +30,9 @@ story.add('Extreme', () => {
       audioLevel={audioLevel}
     />
   );
-});
+};
 
-story.add('Random', () => {
+export const Random = (): JSX.Element => {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {
@@ -50,4 +51,4 @@ story.add('Random', () => {
       audioLevel={audioLevel}
     />
   );
-});
+};

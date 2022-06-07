@@ -3,7 +3,6 @@
 
 import React, { useState } from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -14,7 +13,9 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const stories = storiesOf('Components/Input', module);
+export default {
+  title: 'Components/Input',
+};
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   disabled: Boolean(overrideProps.disabled),
@@ -40,42 +41,58 @@ function Controller(props: PropsType): JSX.Element {
   return <Input {...props} onChange={setValue} value={value} />;
 }
 
-stories.add('Simple', () => <Controller {...createProps()} />);
+export const Simple = (): JSX.Element => <Controller {...createProps()} />;
 
-stories.add('hasClearButton', () => (
+export const HasClearButton = (): JSX.Element => (
   <Controller
     {...createProps({
       hasClearButton: true,
     })}
   />
-));
+);
 
-stories.add('character count', () => (
+HasClearButton.story = {
+  name: 'hasClearButton',
+};
+
+export const CharacterCount = (): JSX.Element => (
   <Controller
     {...createProps({
       maxLengthCount: 10,
     })}
   />
-));
+);
 
-stories.add('character count (customizable show)', () => (
+CharacterCount.story = {
+  name: 'character count',
+};
+
+export const CharacterCountCustomizableShow = (): JSX.Element => (
   <Controller
     {...createProps({
       maxLengthCount: 64,
       whenToShowRemainingCount: 32,
     })}
   />
-));
+);
 
-stories.add('expandable', () => (
+CharacterCountCustomizableShow.story = {
+  name: 'character count (customizable show)',
+};
+
+export const Expandable = (): JSX.Element => (
   <Controller
     {...createProps({
       expandable: true,
     })}
   />
-));
+);
 
-stories.add('expandable w/count', () => (
+Expandable.story = {
+  name: 'expandable',
+};
+
+export const ExpandableWCount = (): JSX.Element => (
   <Controller
     {...createProps({
       expandable: true,
@@ -84,20 +101,32 @@ stories.add('expandable w/count', () => (
       whenToShowRemainingCount: 0,
     })}
   />
-));
+);
 
-stories.add('disabled', () => (
+ExpandableWCount.story = {
+  name: 'expandable w/count',
+};
+
+export const Disabled = (): JSX.Element => (
   <Controller
     {...createProps({
       disabled: true,
     })}
   />
-));
+);
 
-stories.add('spellcheck disabled', () => (
+Disabled.story = {
+  name: 'disabled',
+};
+
+export const SpellcheckDisabled = (): JSX.Element => (
   <Controller
     {...createProps({
       disableSpellcheck: true,
     })}
   />
-));
+);
+
+SpellcheckDisabled.story = {
+  name: 'spellcheck disabled',
+};

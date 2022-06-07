@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
 
 import type { PropsData as MessageDataPropsType } from './Message';
 import { TextDirection } from './Message';
@@ -21,7 +20,9 @@ import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/MessageDetail', module);
+export default {
+  title: 'Components/Conversation/MessageDetail',
+};
 
 const defaultMessage: MessageDataPropsType = {
   author: getDefaultConversation({
@@ -104,7 +105,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   startConversation: action('startConversation'),
 });
 
-story.add('Delivered Incoming', () => {
+export const DeliveredIncoming = (): JSX.Element => {
   const props = createProps({
     contacts: [
       {
@@ -119,9 +120,9 @@ story.add('Delivered Incoming', () => {
     ],
   });
   return <MessageDetail {...props} />;
-});
+};
 
-story.add('Delivered Outgoing', () => {
+export const DeliveredOutgoing = (): JSX.Element => {
   const props = createProps({
     message: {
       ...defaultMessage,
@@ -130,9 +131,9 @@ story.add('Delivered Outgoing', () => {
     },
   });
   return <MessageDetail {...props} />;
-});
+};
 
-story.add('Message Statuses', () => {
+export const MessageStatuses = (): JSX.Element => {
   const props = createProps({
     contacts: [
       {
@@ -183,9 +184,9 @@ story.add('Message Statuses', () => {
     },
   });
   return <MessageDetail {...props} />;
-});
+};
 
-story.add('Not Delivered', () => {
+export const NotDelivered = (): JSX.Element => {
   const props = createProps({
     message: {
       ...defaultMessage,
@@ -197,9 +198,9 @@ story.add('Not Delivered', () => {
   props.receivedAt = undefined as any;
 
   return <MessageDetail {...props} />;
-});
+};
 
-story.add('No Contacts', () => {
+export const NoContacts = (): JSX.Element => {
   const props = createProps({
     contacts: [],
     message: {
@@ -209,9 +210,9 @@ story.add('No Contacts', () => {
     },
   });
   return <MessageDetail {...props} />;
-});
+};
 
-story.add('All Errors', () => {
+export const AllErrors = (): JSX.Element => {
   const props = createProps({
     errors: [
       {
@@ -256,4 +257,4 @@ story.add('All Errors', () => {
     ],
   });
   return <MessageDetail {...props} />;
-});
+};

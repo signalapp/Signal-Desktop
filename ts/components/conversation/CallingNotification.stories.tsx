@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -13,7 +12,9 @@ import type { CallingNotificationType } from '../../util/callingNotification';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Conversation/CallingNotification', module);
+export default {
+  title: 'Components/Conversation/CallingNotification',
+};
 
 const getCommonProps = () => ({
   conversationId: 'fake-conversation-id',
@@ -25,30 +26,115 @@ const getCommonProps = () => ({
   startCallingLobby: action('startCallingLobby'),
 });
 
-[false, true].forEach(wasIncoming => {
-  [false, true].forEach(wasVideoCall => {
-    [false, true].forEach(wasDeclined => {
-      const direction = wasIncoming ? 'incoming' : 'outgoing';
-      const type = wasVideoCall ? 'video' : 'audio';
-      const acceptance = wasDeclined ? 'declined' : 'accepted';
-      const storyName = `Direct call: ${direction} ${type} call, ${acceptance}`;
+/*
+<CallingNotification
+  {...getCommonProps()}
+  acceptedTime={wasDeclined ? undefined : 1618894800000}
+  callMode={CallMode.Direct}
+  endedTime={1618894800000}
+  wasDeclined={wasDeclined}
+  wasIncoming={wasIncoming}
+  wasVideoCall={wasVideoCall}
+/>
+ */
 
-      story.add(storyName, () => (
-        <CallingNotification
-          {...getCommonProps()}
-          acceptedTime={wasDeclined ? undefined : 1618894800000}
-          callMode={CallMode.Direct}
-          endedTime={1618894800000}
-          wasDeclined={wasDeclined}
-          wasIncoming={wasIncoming}
-          wasVideoCall={wasVideoCall}
-        />
-      ));
-    });
-  });
-});
+export const AcceptedIncomingAudioCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={1618894800000}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined={false}
+    wasIncoming
+    wasVideoCall={false}
+  />
+);
 
-story.add('Two incoming direct calls back-to-back', () => {
+export const AcceptedIncomingVideoCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={1618894800000}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined={false}
+    wasIncoming
+    wasVideoCall
+  />
+);
+
+export const DeclinedIncomingAudioCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={undefined}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined
+    wasIncoming
+    wasVideoCall={false}
+  />
+);
+
+export const DeclinedIncomingVideoCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={undefined}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined
+    wasIncoming
+    wasVideoCall
+  />
+);
+
+export const AcceptedOutgoingAudioCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={1618894800000}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined={false}
+    wasIncoming={false}
+    wasVideoCall={false}
+  />
+);
+
+export const AcceptedOutgoingVideoCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={1618894800000}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined={false}
+    wasIncoming={false}
+    wasVideoCall
+  />
+);
+
+export const DeclinedOutgoingAudioCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={undefined}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined
+    wasIncoming={false}
+    wasVideoCall={false}
+  />
+);
+
+export const DeclinedOutgoingVideoCall = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    acceptedTime={undefined}
+    callMode={CallMode.Direct}
+    endedTime={1618894800000}
+    wasDeclined
+    wasIncoming={false}
+    wasVideoCall
+  />
+);
+
+export const TwoIncomingDirectCallsBackToBack = (): JSX.Element => {
   const call1: CallingNotificationType = {
     callMode: CallMode.Direct,
     wasIncoming: true,
@@ -75,9 +161,13 @@ story.add('Two incoming direct calls back-to-back', () => {
       <CallingNotification {...getCommonProps()} {...call2} />
     </>
   );
-});
+};
 
-story.add('Two outgoing direct calls back-to-back', () => {
+TwoIncomingDirectCallsBackToBack.story = {
+  name: 'Two incoming direct calls back-to-back',
+};
+
+export const TwoOutgoingDirectCallsBackToBack = (): JSX.Element => {
   const call1: CallingNotificationType = {
     callMode: CallMode.Direct,
     wasIncoming: false,
@@ -104,37 +194,49 @@ story.add('Two outgoing direct calls back-to-back', () => {
       <CallingNotification {...getCommonProps()} {...call2} />
     </>
   );
-});
+};
 
-[
-  undefined,
-  { isMe: false, title: 'Alice' },
-  { isMe: true, title: 'Alicia' },
-].forEach(creator => {
-  let startedBy: string;
-  if (!creator) {
-    startedBy = 'with unknown creator';
-  } else if (creator.isMe) {
-    startedBy = 'started by you';
-  } else {
-    startedBy = 'started by someone else';
-  }
-  const storyName = `Group call: active, ${startedBy}`;
+TwoOutgoingDirectCallsBackToBack.story = {
+  name: 'Two outgoing direct calls back-to-back',
+};
 
-  story.add(storyName, () => (
-    <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      creator={creator}
-      deviceCount={15}
-      ended={false}
-      maxDevices={16}
-      startedTime={1618894800000}
-    />
-  ));
-});
+export const GroupCallByUnknown = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    callMode={CallMode.Group}
+    creator={undefined}
+    deviceCount={15}
+    ended={false}
+    maxDevices={16}
+    startedTime={1618894800000}
+  />
+);
 
-story.add('Group call: started by someone with a long name', () => {
+export const GroupCallByYou = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    callMode={CallMode.Group}
+    creator={{ isMe: true, title: 'Alicia' }}
+    deviceCount={15}
+    ended={false}
+    maxDevices={16}
+    startedTime={1618894800000}
+  />
+);
+
+export const GroupCallBySomeone = (): JSX.Element => (
+  <CallingNotification
+    {...getCommonProps()}
+    callMode={CallMode.Group}
+    creator={{ isMe: false, title: 'Alicia' }}
+    deviceCount={15}
+    ended={false}
+    maxDevices={16}
+    startedTime={1618894800000}
+  />
+);
+
+export const GroupCallStartedBySomeoneWithALongName = (): JSX.Element => {
   const longName = '😤🪐🦆'.repeat(50);
 
   return (
@@ -151,9 +253,13 @@ story.add('Group call: started by someone with a long name', () => {
       startedTime={1618894800000}
     />
   );
-});
+};
 
-story.add('Group call: active, call full', () => (
+GroupCallStartedBySomeoneWithALongName.story = {
+  name: 'Group call: started by someone with a long name',
+};
+
+export const GroupCallActiveCallFull = (): JSX.Element => (
   <CallingNotification
     {...getCommonProps()}
     callMode={CallMode.Group}
@@ -162,9 +268,13 @@ story.add('Group call: active, call full', () => (
     maxDevices={16}
     startedTime={1618894800000}
   />
-));
+);
 
-story.add('Group call: ended', () => (
+GroupCallActiveCallFull.story = {
+  name: 'Group call: active, call full',
+};
+
+export const GroupCallEnded = (): JSX.Element => (
   <CallingNotification
     {...getCommonProps()}
     callMode={CallMode.Group}
@@ -173,4 +283,8 @@ story.add('Group call: ended', () => (
     maxDevices={16}
     startedTime={1618894800000}
   />
-));
+);
+
+GroupCallEnded.story = {
+  name: 'Group call: ended',
+};

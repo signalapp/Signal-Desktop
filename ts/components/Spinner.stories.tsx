@@ -3,12 +3,13 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { select, text } from '@storybook/addon-knobs';
 import type { Props } from './Spinner';
 import { Spinner, SpinnerDirections, SpinnerSvgSizes } from './Spinner';
 
-const story = storiesOf('Components/Spinner', module);
+export default {
+  title: 'Components/Spinner',
+};
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   size: text('size', overrideProps.size || ''),
@@ -24,24 +25,36 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-story.add('Normal', () => {
+export const Normal = (): JSX.Element => {
   const props = createProps();
 
   return <Spinner {...props} />;
-});
+};
 
-story.add('SVG Sizes', () => {
+export const SvgSizes = (): JSX.Element => {
   const props = createProps();
 
-  return SpinnerSvgSizes.map(svgSize => (
-    <Spinner key={svgSize} {...props} svgSize={svgSize} />
-  ));
-});
+  return (
+    <>
+      {SpinnerSvgSizes.map(svgSize => (
+        <Spinner key={svgSize} {...props} svgSize={svgSize} />
+      ))}
+    </>
+  );
+};
 
-story.add('Directions', () => {
+SvgSizes.story = {
+  name: 'SVG Sizes',
+};
+
+export const Directions = (): JSX.Element => {
   const props = createProps();
 
-  return SpinnerDirections.map(direction => (
-    <Spinner key={direction} {...props} direction={direction} />
-  ));
-});
+  return (
+    <>
+      {SpinnerDirections.map(direction => (
+        <Spinner key={direction} {...props} direction={direction} />
+      ))}
+    </>
+  );
+};

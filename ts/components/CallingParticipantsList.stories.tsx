@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { sample } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './CallingParticipantsList';
@@ -44,14 +43,20 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   participants: overrideProps.participants || [],
 });
 
-const story = storiesOf('Components/CallingParticipantsList', module);
+export default {
+  title: 'Components/CallingParticipantsList',
+};
 
-story.add('No one', () => {
+export const NoOne = (): JSX.Element => {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
-});
+};
 
-story.add('Solo Call', () => {
+NoOne.story = {
+  name: 'No one',
+};
+
+export const SoloCall = (): JSX.Element => {
   const props = createProps({
     participants: [
       createParticipant({
@@ -60,9 +65,9 @@ story.add('Solo Call', () => {
     ],
   });
   return <CallingParticipantsList {...props} />;
-});
+};
 
-story.add('Many Participants', () => {
+export const ManyParticipants = (): JSX.Element => {
   const props = createProps({
     participants: [
       createParticipant({
@@ -90,13 +95,13 @@ story.add('Many Participants', () => {
     ],
   });
   return <CallingParticipantsList {...props} />;
-});
+};
 
-story.add('Overflow', () => {
+export const Overflow = (): JSX.Element => {
   const props = createProps({
     participants: Array(50)
       .fill(null)
       .map(() => createParticipant({ title: 'Kirby' })),
   });
   return <CallingParticipantsList {...props} />;
-});
+};

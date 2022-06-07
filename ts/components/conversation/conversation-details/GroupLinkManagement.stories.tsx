@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -16,10 +15,9 @@ import { getDefaultConversation } from '../../../test-both/helpers/getDefaultCon
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/GroupLinkManagement',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/GroupLinkManagement',
+};
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
@@ -58,40 +56,60 @@ const createProps = (
   ),
 });
 
-story.add('Off (Admin)', () => {
+export const OffAdmin = (): JSX.Element => {
   const props = createProps(undefined, true);
 
   return <GroupLinkManagement {...props} />;
-});
+};
 
-story.add('On (Admin)', () => {
+OffAdmin.story = {
+  name: 'Off (Admin)',
+};
+
+export const OnAdmin = (): JSX.Element => {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY),
     true
   );
 
   return <GroupLinkManagement {...props} />;
-});
+};
 
-story.add('On (Admin + Admin Approval Needed)', () => {
+OnAdmin.story = {
+  name: 'On (Admin)',
+};
+
+export const OnAdminAdminApprovalNeeded = (): JSX.Element => {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ADMINISTRATOR),
     true
   );
 
   return <GroupLinkManagement {...props} />;
-});
+};
 
-story.add('On (Non-admin)', () => {
+OnAdminAdminApprovalNeeded.story = {
+  name: 'On (Admin + Admin Approval Needed)',
+};
+
+export const OnNonAdmin = (): JSX.Element => {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY)
   );
 
   return <GroupLinkManagement {...props} />;
-});
+};
 
-story.add('Off (Non-admin) - user cannot get here', () => {
+OnNonAdmin.story = {
+  name: 'On (Non-admin)',
+};
+
+export const OffNonAdminUserCannotGetHere = (): JSX.Element => {
   const props = createProps(undefined, false);
 
   return <GroupLinkManagement {...props} />;
-});
+};
+
+OffNonAdminUserCannotGetHere.story = {
+  name: 'Off (Non-admin) - user cannot get here',
+};

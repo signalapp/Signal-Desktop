@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { sample } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -15,7 +14,9 @@ import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/Stickers/StickerPicker', module);
+export default {
+  title: 'Components/Stickers/StickerPicker',
+};
 
 export const sticker1: StickerType = {
   id: 1,
@@ -115,31 +116,31 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-story.add('Full', () => {
+export const Full = (): JSX.Element => {
   const props = createProps({ packs, recentStickers });
 
   return <StickerPicker {...props} />;
-});
+};
 
-story.add('Picker Hint', () => {
+export const PickerHint = (): JSX.Element => {
   const props = createProps({ packs, recentStickers, showPickerHint: true });
 
   return <StickerPicker {...props} />;
-});
+};
 
-story.add('No Recent Stickers', () => {
+export const NoRecentStickers = (): JSX.Element => {
   const props = createProps({ packs });
 
   return <StickerPicker {...props} />;
-});
+};
 
-story.add('Empty', () => {
+export const Empty = (): JSX.Element => {
   const props = createProps();
 
   return <StickerPicker {...props} />;
-});
+};
 
-story.add('Pending Download', () => {
+export const PendingDownload = (): JSX.Element => {
   const pack = createPack(
     { status: 'pending', stickers: [abeSticker] },
     abeSticker
@@ -147,9 +148,9 @@ story.add('Pending Download', () => {
   const props = createProps({ packs: [pack] });
 
   return <StickerPicker {...props} />;
-});
+};
 
-story.add('Error', () => {
+export const Error = (): JSX.Element => {
   const pack = createPack(
     { status: 'error', stickers: [abeSticker] },
     abeSticker
@@ -157,11 +158,11 @@ story.add('Error', () => {
   const props = createProps({ packs: [pack] });
 
   return <StickerPicker {...props} />;
-});
+};
 
-story.add('No Cover', () => {
+export const NoCover = (): JSX.Element => {
   const pack = createPack({ status: 'error', stickers: [abeSticker] });
   const props = createProps({ packs: [pack] });
 
   return <StickerPicker {...props} />;
-});
+};

@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 
@@ -30,7 +29,9 @@ const createAttachment = (
   size: 3433,
 });
 
-const story = storiesOf('Components/ForwardMessageModal', module);
+export default {
+  title: 'Components/ForwardMessageModal',
+};
 
 const i18n = setupI18n('en', enMessages);
 
@@ -64,23 +65,35 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   regionCode: 'US',
 });
 
-story.add('Modal', () => {
+export const Modal = (): JSX.Element => {
   return <ForwardMessageModal {...useProps()} />;
-});
+};
 
-story.add('with text', () => {
+export const WithText = (): JSX.Element => {
   return <ForwardMessageModal {...useProps({ messageBody: 'sup' })} />;
-});
+};
 
-story.add('a sticker', () => {
+WithText.story = {
+  name: 'with text',
+};
+
+export const ASticker = (): JSX.Element => {
   return <ForwardMessageModal {...useProps({ isSticker: true })} />;
-});
+};
 
-story.add('with a contact', () => {
+ASticker.story = {
+  name: 'a sticker',
+};
+
+export const WithAContact = (): JSX.Element => {
   return <ForwardMessageModal {...useProps({ hasContact: true })} />;
-});
+};
 
-story.add('link preview', () => {
+WithAContact.story = {
+  name: 'with a contact',
+};
+
+export const LinkPreview = (): JSX.Element => {
   return (
     <ForwardMessageModal
       {...useProps({
@@ -100,9 +113,13 @@ story.add('link preview', () => {
       })}
     />
   );
-});
+};
 
-story.add('media attachments', () => {
+LinkPreview.story = {
+  name: 'link preview',
+};
+
+export const MediaAttachments = (): JSX.Element => {
   return (
     <ForwardMessageModal
       {...useProps({
@@ -126,9 +143,13 @@ story.add('media attachments', () => {
       })}
     />
   );
-});
+};
 
-story.add('announcement only groups non-admin', () => (
+MediaAttachments.story = {
+  name: 'media attachments',
+};
+
+export const AnnouncementOnlyGroupsNonAdmin = (): JSX.Element => (
   <ForwardMessageModal
     {...useProps()}
     candidateConversations={[
@@ -138,4 +159,8 @@ story.add('announcement only groups non-admin', () => (
       }),
     ]}
   />
-));
+);
+
+AnnouncementOnlyGroupsNonAdmin.story = {
+  name: 'announcement only groups non-admin',
+};

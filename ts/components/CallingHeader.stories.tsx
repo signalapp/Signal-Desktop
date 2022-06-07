@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -31,29 +30,35 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   toggleSettings: () => action('toggle-settings'),
 });
 
-const story = storiesOf('Components/CallingHeader', module);
+export default {
+  title: 'Components/CallingHeader',
+};
 
-story.add('Default', () => <CallingHeader {...createProps()} />);
+export const Default = (): JSX.Element => <CallingHeader {...createProps()} />;
 
-story.add('Lobby style', () => (
+export const LobbyStyle = (): JSX.Element => (
   <CallingHeader
     {...createProps()}
     title={undefined}
     togglePip={undefined}
     onCancel={action('onClose')}
   />
-));
+);
 
-story.add('With Participants', () => (
+LobbyStyle.story = {
+  name: 'Lobby style',
+};
+
+export const WithParticipants = (): JSX.Element => (
   <CallingHeader
     {...createProps({
       isGroupCall: true,
       participantCount: 10,
     })}
   />
-));
+);
 
-story.add('With Participants (shown)', () => (
+export const WithParticipantsShown = (): JSX.Element => (
   <CallingHeader
     {...createProps({
       isGroupCall: true,
@@ -61,22 +66,30 @@ story.add('With Participants (shown)', () => (
       showParticipantsList: true,
     })}
   />
-));
+);
 
-story.add('Long Title', () => (
+WithParticipantsShown.story = {
+  name: 'With Participants (shown)',
+};
+
+export const LongTitle = (): JSX.Element => (
   <CallingHeader
     {...createProps({
       title:
         'What do I got to, what do I got to do to wake you up? To shake you up, to break the structure up?',
     })}
   />
-));
+);
 
-story.add('Title with message', () => (
+export const TitleWithMessage = (): JSX.Element => (
   <CallingHeader
     {...createProps({
       title: 'Hello world',
       message: 'Goodbye earth',
     })}
   />
-));
+);
+
+TitleWithMessage.story = {
+  name: 'Title with message',
+};

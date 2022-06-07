@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './DebugLogWindow';
@@ -28,6 +27,14 @@ const createProps = (): PropsType => ({
   },
 });
 
-const story = storiesOf('Components/DebugLogWindow', module);
+export default {
+  title: 'Components/DebugLogWindow',
+};
 
-story.add('DebugLogWindow', () => <DebugLogWindow {...createProps()} />);
+export const _DebugLogWindow = (): JSX.Element => (
+  <DebugLogWindow {...createProps()} />
+);
+
+_DebugLogWindow.story = {
+  name: 'DebugLogWindow',
+};

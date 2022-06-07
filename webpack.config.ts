@@ -94,12 +94,6 @@ const stickerCreatorConfig: Configuration = {
       },
     }),
   ],
-  devServer: {
-    port: 6380,
-    historyApiFallback: {
-      rewrites: [{ from: /./, to: '/sticker-creator/dist/index.html' }],
-    },
-  },
 };
 
 export default [stickerCreatorConfig];

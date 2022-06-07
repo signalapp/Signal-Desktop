@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -13,10 +12,9 @@ import { InstallScreenErrorStep, InstallError } from './InstallScreenErrorStep';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/InstallScreen/InstallScreenErrorStep',
-  module
-);
+export default {
+  title: 'Components/InstallScreen/InstallScreenErrorStep',
+};
 
 const defaultProps = {
   i18n,
@@ -24,28 +22,48 @@ const defaultProps = {
   tryAgain: action('tryAgain'),
 };
 
-story.add('Too many devices', () => (
+export const _TooManyDevices = (): JSX.Element => (
   <InstallScreenErrorStep
     {...defaultProps}
     error={InstallError.TooManyDevices}
   />
-));
+);
 
-story.add('Too old', () => (
+_TooManyDevices.story = {
+  name: 'Too many devices',
+};
+
+export const _TooOld = (): JSX.Element => (
   <InstallScreenErrorStep {...defaultProps} error={InstallError.TooOld} />
-));
+);
 
-story.add('Too old', () => (
+_TooOld.story = {
+  name: 'Too old',
+};
+
+export const __TooOld = (): JSX.Element => (
   <InstallScreenErrorStep {...defaultProps} error={InstallError.TooOld} />
-));
+);
 
-story.add('Connection failed', () => (
+__TooOld.story = {
+  name: 'Too old',
+};
+
+export const _ConnectionFailed = (): JSX.Element => (
   <InstallScreenErrorStep
     {...defaultProps}
     error={InstallError.ConnectionFailed}
   />
-));
+);
 
-story.add('Unknown error', () => (
+_ConnectionFailed.story = {
+  name: 'Connection failed',
+};
+
+export const _UnknownError = (): JSX.Element => (
   <InstallScreenErrorStep {...defaultProps} error={InstallError.UnknownError} />
-));
+);
+
+_UnknownError.story = {
+  name: 'Unknown error',
+};

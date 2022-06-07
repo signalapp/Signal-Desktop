@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -27,32 +26,46 @@ const getBaseProps = (isGroup = false): MessageRequestActionsProps => ({
   onAccept: action('accept'),
 });
 
-storiesOf('Components/Conversation/MessageRequestActions', module)
-  .add('Direct', () => {
-    return (
-      <div style={{ width: '480px' }}>
-        <MessageRequestActions {...getBaseProps()} />
-      </div>
-    );
-  })
-  .add('Direct (Blocked)', () => {
-    return (
-      <div style={{ width: '480px' }}>
-        <MessageRequestActions {...getBaseProps()} isBlocked />
-      </div>
-    );
-  })
-  .add('Group', () => {
-    return (
-      <div style={{ width: '480px' }}>
-        <MessageRequestActions {...getBaseProps(true)} />
-      </div>
-    );
-  })
-  .add('Group (Blocked)', () => {
-    return (
-      <div style={{ width: '480px' }}>
-        <MessageRequestActions {...getBaseProps(true)} isBlocked />
-      </div>
-    );
-  });
+export default {
+  title: 'Components/Conversation/MessageRequestActions',
+};
+
+export const Direct = (): JSX.Element => {
+  return (
+    <div style={{ width: '480px' }}>
+      <MessageRequestActions {...getBaseProps()} />
+    </div>
+  );
+};
+
+export const DirectBlocked = (): JSX.Element => {
+  return (
+    <div style={{ width: '480px' }}>
+      <MessageRequestActions {...getBaseProps()} isBlocked />
+    </div>
+  );
+};
+
+DirectBlocked.story = {
+  name: 'Direct (Blocked)',
+};
+
+export const Group = (): JSX.Element => {
+  return (
+    <div style={{ width: '480px' }}>
+      <MessageRequestActions {...getBaseProps(true)} />
+    </div>
+  );
+};
+
+export const GroupBlocked = (): JSX.Element => {
+  return (
+    <div style={{ width: '480px' }}>
+      <MessageRequestActions {...getBaseProps(true)} isBlocked />
+    </div>
+  );
+};
+
+GroupBlocked.story = {
+  name: 'Group (Blocked)',
+};

@@ -4,7 +4,6 @@
 import React, { useContext } from 'react';
 import { times, omit } from 'lodash';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, date, select, text } from '@storybook/addon-knobs';
 
@@ -24,7 +23,9 @@ import { makeFakeLookupConversationWithoutUuid } from '../test-both/helpers/fake
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/ConversationList', module);
+export default {
+  title: 'Components/ConversationList',
+};
 
 const defaultConversations: Array<ConversationListItemPropsType> = [
   getDefaultConversation({
@@ -96,13 +97,17 @@ const Wrapper = ({
   );
 };
 
-story.add('Archive button', () => (
+export const _ArchiveButton = (): JSX.Element => (
   <Wrapper
     rows={[{ type: RowType.ArchiveButton, archivedConversationsCount: 123 }]}
   />
-));
+);
 
-story.add('Contact: note to self', () => (
+_ArchiveButton.story = {
+  name: 'Archive button',
+};
+
+export const ContactNoteToSelf = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -115,15 +120,23 @@ story.add('Contact: note to self', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Contact: direct', () => (
+ContactNoteToSelf.story = {
+  name: 'Contact: note to self',
+};
+
+export const ContactDirect = (): JSX.Element => (
   <Wrapper
     rows={[{ type: RowType.Contact, contact: defaultConversations[0] }]}
   />
-));
+);
 
-story.add('Contact: direct with short about', () => (
+ContactDirect.story = {
+  name: 'Contact: direct',
+};
+
+export const ContactDirectWithShortAbout = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -132,9 +145,13 @@ story.add('Contact: direct with short about', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Contact: direct with long about', () => (
+ContactDirectWithShortAbout.story = {
+  name: 'Contact: direct with short about',
+};
+
+export const ContactDirectWithLongAbout = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -147,9 +164,13 @@ story.add('Contact: direct with long about', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Contact: group', () => (
+ContactDirectWithLongAbout.story = {
+  name: 'Contact: direct with long about',
+};
+
+export const ContactGroup = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -158,9 +179,13 @@ story.add('Contact: group', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Contact checkboxes', () => (
+ContactGroup.story = {
+  name: 'Contact: group',
+};
+
+export const ContactCheckboxes = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -183,9 +208,13 @@ story.add('Contact checkboxes', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Contact checkboxes: disabled', () => (
+ContactCheckboxes.story = {
+  name: 'Contact checkboxes',
+};
+
+export const ContactCheckboxesDisabled = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -208,278 +237,351 @@ story.add('Contact checkboxes: disabled', () => (
       },
     ]}
   />
-));
+);
 
-{
-  const createConversation = (
-    overrideProps: Partial<ConversationListItemPropsType> = {}
-  ): ConversationListItemPropsType => ({
-    ...overrideProps,
-    acceptedMessageRequest: boolean(
-      'acceptedMessageRequest',
-      overrideProps.acceptedMessageRequest !== undefined
-        ? overrideProps.acceptedMessageRequest
-        : true
+ContactCheckboxesDisabled.story = {
+  name: 'Contact checkboxes: disabled',
+};
+
+const createConversation = (
+  overrideProps: Partial<ConversationListItemPropsType> = {}
+): ConversationListItemPropsType => ({
+  ...overrideProps,
+  acceptedMessageRequest: boolean(
+    'acceptedMessageRequest',
+    overrideProps.acceptedMessageRequest !== undefined
+      ? overrideProps.acceptedMessageRequest
+      : true
+  ),
+  badges: [],
+  isMe: boolean('isMe', overrideProps.isMe || false),
+  avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
+  id: overrideProps.id || '',
+  isSelected: boolean('isSelected', overrideProps.isSelected || false),
+  title: text('title', overrideProps.title || 'Some Person'),
+  name: overrideProps.name || 'Some Person',
+  type: overrideProps.type || 'direct',
+  markedUnread: boolean('markedUnread', overrideProps.markedUnread || false),
+  lastMessage: overrideProps.lastMessage || {
+    text: text('lastMessage.text', 'Hi there!'),
+    status: select(
+      'status',
+      MessageStatuses.reduce((m, s) => ({ ...m, [s]: s }), {}),
+      'read'
     ),
-    badges: [],
-    isMe: boolean('isMe', overrideProps.isMe || false),
-    avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
-    id: overrideProps.id || '',
-    isSelected: boolean('isSelected', overrideProps.isSelected || false),
-    title: text('title', overrideProps.title || 'Some Person'),
-    name: overrideProps.name || 'Some Person',
-    type: overrideProps.type || 'direct',
-    markedUnread: boolean('markedUnread', overrideProps.markedUnread || false),
-    lastMessage: overrideProps.lastMessage || {
-      text: text('lastMessage.text', 'Hi there!'),
-      status: select(
-        'status',
-        MessageStatuses.reduce((m, s) => ({ ...m, [s]: s }), {}),
-        'read'
-      ),
+    deletedForEveryone: false,
+  },
+  lastUpdated: date(
+    'lastUpdated',
+    new Date(overrideProps.lastUpdated || Date.now() - 5 * 60 * 1000)
+  ),
+  sharedGroupNames: [],
+});
+
+const renderConversation = (
+  overrideProps: Partial<ConversationListItemPropsType> = {}
+) => (
+  <Wrapper
+    rows={[
+      {
+        type: RowType.Conversation,
+        conversation: createConversation(overrideProps),
+      },
+    ]}
+  />
+);
+
+export const ConversationName = (): JSX.Element => renderConversation();
+
+ConversationName.story = {
+  name: 'Conversation: name',
+};
+
+export const ConversationNameAndAvatar = (): JSX.Element =>
+  renderConversation({
+    avatarPath: '/fixtures/kitten-1-64-64.jpg',
+  });
+
+ConversationNameAndAvatar.story = {
+  name: 'Conversation: name and avatar',
+};
+
+export const ConversationWithYourself = (): JSX.Element =>
+  renderConversation({
+    lastMessage: {
+      text: 'Just a second',
+      status: 'read',
       deletedForEveryone: false,
     },
-    lastUpdated: date(
-      'lastUpdated',
-      new Date(overrideProps.lastUpdated || Date.now() - 5 * 60 * 1000)
-    ),
-    sharedGroupNames: [],
+    name: 'Myself',
+    title: 'Myself',
+    isMe: true,
   });
 
-  const renderConversation = (
-    overrideProps: Partial<ConversationListItemPropsType> = {}
-  ) => (
-    <Wrapper
-      rows={[
-        {
-          type: RowType.Conversation,
-          conversation: createConversation(overrideProps),
+ConversationWithYourself.story = {
+  name: 'Conversation: with yourself',
+};
+
+export const ConversationsMessageStatuses = (): JSX.Element => (
+  <Wrapper
+    rows={MessageStatuses.map(status => ({
+      type: RowType.Conversation,
+      conversation: createConversation({
+        lastMessage: { text: status, status, deletedForEveryone: false },
+      }),
+    }))}
+  />
+);
+
+ConversationsMessageStatuses.story = {
+  name: 'Conversations: Message Statuses',
+};
+
+export const ConversationTypingStatus = (): JSX.Element =>
+  renderConversation({
+    typingContactId: UUID.generate().toString(),
+  });
+
+ConversationTypingStatus.story = {
+  name: 'Conversation: Typing Status',
+};
+
+export const ConversationWithDraft = (): JSX.Element =>
+  renderConversation({
+    shouldShowDraft: true,
+    draftPreview: "I'm in the middle of typing this...",
+  });
+
+ConversationWithDraft.story = {
+  name: 'Conversation: With draft',
+};
+
+export const ConversationDeletedForEveryone = (): JSX.Element =>
+  renderConversation({
+    lastMessage: { deletedForEveryone: true },
+  });
+
+ConversationDeletedForEveryone.story = {
+  name: 'Conversation: Deleted for everyone',
+};
+
+export const ConversationMessageRequest = (): JSX.Element =>
+  renderConversation({
+    acceptedMessageRequest: false,
+    lastMessage: {
+      text: 'A Message',
+      status: 'delivered',
+      deletedForEveryone: false,
+    },
+  });
+
+ConversationMessageRequest.story = {
+  name: 'Conversation: Message Request',
+};
+
+export const ConversationsUnreadCount = (): JSX.Element => (
+  <Wrapper
+    rows={[4, 10, 34, 250].map(unreadCount => ({
+      type: RowType.Conversation,
+      conversation: createConversation({
+        lastMessage: {
+          text: 'Hey there!',
+          status: 'delivered',
+          deletedForEveryone: false,
         },
-      ]}
-    />
-  );
+        unreadCount,
+      }),
+    }))}
+  />
+);
 
-  story.add('Conversation: name', () => renderConversation());
+ConversationsUnreadCount.story = {
+  name: 'Conversations: unread count',
+};
 
-  story.add('Conversation: name and avatar', () =>
-    renderConversation({
-      avatarPath: '/fixtures/kitten-1-64-64.jpg',
-    })
-  );
+export const ConversationMarkedUnread = (): JSX.Element =>
+  renderConversation({ markedUnread: true });
 
-  story.add('Conversation: with yourself', () =>
-    renderConversation({
-      lastMessage: {
-        text: 'Just a second',
-        status: 'read',
-        deletedForEveryone: false,
-      },
-      name: 'Myself',
-      title: 'Myself',
-      isMe: true,
-    })
-  );
+ConversationMarkedUnread.story = {
+  name: 'Conversation: marked unread',
+};
 
-  story.add('Conversations: Message Statuses', () => (
-    <Wrapper
-      rows={MessageStatuses.map(status => ({
-        type: RowType.Conversation,
-        conversation: createConversation({
-          lastMessage: { text: status, status, deletedForEveryone: false },
-        }),
-      }))}
-    />
-  ));
-
-  story.add('Conversation: Typing Status', () =>
-    renderConversation({
-      typingContactId: UUID.generate().toString(),
-    })
-  );
-
-  story.add('Conversation: With draft', () =>
-    renderConversation({
-      shouldShowDraft: true,
-      draftPreview: "I'm in the middle of typing this...",
-    })
-  );
-
-  story.add('Conversation: Deleted for everyone', () =>
-    renderConversation({
-      lastMessage: { deletedForEveryone: true },
-    })
-  );
-
-  story.add('Conversation: Message Request', () =>
-    renderConversation({
-      acceptedMessageRequest: false,
-      lastMessage: {
-        text: 'A Message',
-        status: 'delivered',
-        deletedForEveryone: false,
-      },
-    })
-  );
-
-  story.add('Conversations: unread count', () => (
-    <Wrapper
-      rows={[4, 10, 34, 250].map(unreadCount => ({
-        type: RowType.Conversation,
-        conversation: createConversation({
-          lastMessage: {
-            text: 'Hey there!',
-            status: 'delivered',
-            deletedForEveryone: false,
-          },
-          unreadCount,
-        }),
-      }))}
-    />
-  ));
-
-  story.add('Conversation: marked unread', () =>
-    renderConversation({ markedUnread: true })
-  );
-
-  story.add('Conversation: Selected', () =>
-    renderConversation({
-      lastMessage: {
-        text: 'Hey there!',
-        status: 'read',
-        deletedForEveryone: false,
-      },
-      isSelected: true,
-    })
-  );
-
-  story.add('Conversation: Emoji in Message', () =>
-    renderConversation({
-      lastMessage: {
-        text: '🔥',
-        status: 'read',
-        deletedForEveryone: false,
-      },
-    })
-  );
-
-  story.add('Conversation: Link in Message', () =>
-    renderConversation({
-      lastMessage: {
-        text: 'Download at http://signal.org',
-        status: 'read',
-        deletedForEveryone: false,
-      },
-    })
-  );
-
-  story.add('Conversation: long name', () => {
-    const name =
-      'Long contact name. Esquire. The third. And stuff. And more! And more!';
-
-    return renderConversation({
-      name,
-      title: name,
-    });
+export const ConversationSelected = (): JSX.Element =>
+  renderConversation({
+    lastMessage: {
+      text: 'Hey there!',
+      status: 'read',
+      deletedForEveryone: false,
+    },
+    isSelected: true,
   });
 
-  story.add('Conversation: Long Message', () => {
-    const messages = [
-      "Long line. This is a really really really long line. Really really long. Because that's just how it is",
-      `Many lines. This is a many-line message.
+ConversationSelected.story = {
+  name: 'Conversation: Selected',
+};
+
+export const ConversationEmojiInMessage = (): JSX.Element =>
+  renderConversation({
+    lastMessage: {
+      text: '🔥',
+      status: 'read',
+      deletedForEveryone: false,
+    },
+  });
+
+ConversationEmojiInMessage.story = {
+  name: 'Conversation: Emoji in Message',
+};
+
+export const ConversationLinkInMessage = (): JSX.Element =>
+  renderConversation({
+    lastMessage: {
+      text: 'Download at http://signal.org',
+      status: 'read',
+      deletedForEveryone: false,
+    },
+  });
+
+ConversationLinkInMessage.story = {
+  name: 'Conversation: Link in Message',
+};
+
+export const ConversationLongName = (): JSX.Element => {
+  const name =
+    'Long contact name. Esquire. The third. And stuff. And more! And more!';
+
+  return renderConversation({
+    name,
+    title: name,
+  });
+};
+
+ConversationLongName.story = {
+  name: 'Conversation: long name',
+};
+
+export const ConversationLongMessage = (): JSX.Element => {
+  const messages = [
+    "Long line. This is a really really really long line. Really really long. Because that's just how it is",
+    `Many lines. This is a many-line message.
 Line 2 is really exciting but it shouldn't be seen.
 Line three is even better.
 Line 4, well.`,
-    ];
+  ];
 
-    return (
-      <Wrapper
-        rows={messages.map(messageText => ({
-          type: RowType.Conversation,
-          conversation: createConversation({
-            lastMessage: {
-              text: messageText,
-              status: 'read',
-              deletedForEveryone: false,
-            },
-          }),
-        }))}
-      />
-    );
-  });
-
-  story.add('Conversations: Various Times', () => {
-    const pairs: Array<[number, string]> = [
-      [Date.now() - 5 * 60 * 60 * 1000, 'Five hours ago'],
-      [Date.now() - 24 * 60 * 60 * 1000, 'One day ago'],
-      [Date.now() - 7 * 24 * 60 * 60 * 1000, 'One week ago'],
-      [Date.now() - 365 * 24 * 60 * 60 * 1000, 'One year ago'],
-    ];
-
-    return (
-      <Wrapper
-        rows={pairs.map(([lastUpdated, messageText]) => ({
-          type: RowType.Conversation,
-          conversation: createConversation({
-            lastUpdated,
-            lastMessage: {
-              text: messageText,
-              status: 'read',
-              deletedForEveryone: false,
-            },
-          }),
-        }))}
-      />
-    );
-  });
-
-  story.add('Conversation: Missing Date', () => {
-    const row = {
-      type: RowType.Conversation as const,
-      conversation: omit(createConversation(), 'lastUpdated'),
-    };
-
-    return <Wrapper rows={[row]} />;
-  });
-
-  story.add('Conversation: Missing Message', () => {
-    const row = {
-      type: RowType.Conversation as const,
-      conversation: omit(createConversation(), 'lastMessage'),
-    };
-
-    return <Wrapper rows={[row]} />;
-  });
-
-  story.add('Conversation: Missing Text', () =>
-    renderConversation({
-      lastMessage: {
-        text: '',
-        status: 'sent',
-        deletedForEveryone: false,
-      },
-    })
+  return (
+    <Wrapper
+      rows={messages.map(messageText => ({
+        type: RowType.Conversation,
+        conversation: createConversation({
+          lastMessage: {
+            text: messageText,
+            status: 'read',
+            deletedForEveryone: false,
+          },
+        }),
+      }))}
+    />
   );
+};
 
-  story.add('Conversation: Muted Conversation', () =>
-    renderConversation({
-      muteExpiresAt: Date.now() + 1000 * 60 * 60,
-    })
+ConversationLongMessage.story = {
+  name: 'Conversation: Long Message',
+};
+
+export const ConversationsVariousTimes = (): JSX.Element => {
+  const pairs: Array<[number, string]> = [
+    [Date.now() - 5 * 60 * 60 * 1000, 'Five hours ago'],
+    [Date.now() - 24 * 60 * 60 * 1000, 'One day ago'],
+    [Date.now() - 7 * 24 * 60 * 60 * 1000, 'One week ago'],
+    [Date.now() - 365 * 24 * 60 * 60 * 1000, 'One year ago'],
+  ];
+
+  return (
+    <Wrapper
+      rows={pairs.map(([lastUpdated, messageText]) => ({
+        type: RowType.Conversation,
+        conversation: createConversation({
+          lastUpdated,
+          lastMessage: {
+            text: messageText,
+            status: 'read',
+            deletedForEveryone: false,
+          },
+        }),
+      }))}
+    />
   );
+};
 
-  story.add('Conversation: At Mention', () =>
-    renderConversation({
-      title: 'The Rebellion',
-      type: 'group',
-      lastMessage: {
-        text: '@Leia Organa I know',
-        status: 'read',
-        deletedForEveryone: false,
-      },
-    })
-  );
-}
+ConversationsVariousTimes.story = {
+  name: 'Conversations: Various Times',
+};
 
-story.add('Headers', () => (
+export const ConversationMissingDate = (): JSX.Element => {
+  const row = {
+    type: RowType.Conversation as const,
+    conversation: omit(createConversation(), 'lastUpdated'),
+  };
+
+  return <Wrapper rows={[row]} />;
+};
+
+ConversationMissingDate.story = {
+  name: 'Conversation: Missing Date',
+};
+
+export const ConversationMissingMessage = (): JSX.Element => {
+  const row = {
+    type: RowType.Conversation as const,
+    conversation: omit(createConversation(), 'lastMessage'),
+  };
+
+  return <Wrapper rows={[row]} />;
+};
+
+ConversationMissingMessage.story = {
+  name: 'Conversation: Missing Message',
+};
+
+export const ConversationMissingText = (): JSX.Element =>
+  renderConversation({
+    lastMessage: {
+      text: '',
+      status: 'sent',
+      deletedForEveryone: false,
+    },
+  });
+
+ConversationMissingText.story = {
+  name: 'Conversation: Missing Text',
+};
+
+export const ConversationMutedConversation = (): JSX.Element =>
+  renderConversation({
+    muteExpiresAt: Date.now() + 1000 * 60 * 60,
+  });
+
+ConversationMutedConversation.story = {
+  name: 'Conversation: Muted Conversation',
+};
+
+export const ConversationAtMention = (): JSX.Element =>
+  renderConversation({
+    title: 'The Rebellion',
+    type: 'group',
+    lastMessage: {
+      text: '@Leia Organa I know',
+      status: 'read',
+      deletedForEveryone: false,
+    },
+  });
+
+ConversationAtMention.story = {
+  name: 'Conversation: At Mention',
+};
+
+export const Headers = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -500,9 +602,9 @@ story.add('Headers', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Find by phone number', () => (
+export const FindByPhoneNumber = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -538,9 +640,13 @@ story.add('Find by phone number', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Find by username', () => (
+FindByPhoneNumber.story = {
+  name: 'Find by phone number',
+};
+
+export const FindByUsername = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -559,9 +665,13 @@ story.add('Find by username', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Search results loading skeleton', () => (
+FindByUsername.story = {
+  name: 'Find by username',
+};
+
+export const SearchResultsLoadingSkeleton = (): JSX.Element => (
   <Wrapper
     scrollable={false}
     rows={[
@@ -571,9 +681,13 @@ story.add('Search results loading skeleton', () => (
       })),
     ]}
   />
-));
+);
 
-story.add('Kitchen sink', () => (
+SearchResultsLoadingSkeleton.story = {
+  name: 'Search results loading skeleton',
+};
+
+export const KitchenSink = (): JSX.Element => (
   <Wrapper
     rows={[
       {
@@ -638,4 +752,8 @@ story.add('Kitchen sink', () => (
       },
     ]}
   />
-));
+);
+
+KitchenSink.story = {
+  name: 'Kitchen sink',
+};

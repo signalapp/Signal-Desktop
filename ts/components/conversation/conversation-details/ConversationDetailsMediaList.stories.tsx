@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -20,10 +19,9 @@ import { getDefaultConversation } from '../../../test-both/helpers/getDefaultCon
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf(
-  'Components/Conversation/ConversationDetails/ConversationMediaList',
-  module
-);
+export default {
+  title: 'Components/Conversation/ConversationDetails/ConversationMediaList',
+};
 
 const createProps = (mediaItems?: Array<MediaItemType>): Props => ({
   conversation: getDefaultConversation({
@@ -35,9 +33,9 @@ const createProps = (mediaItems?: Array<MediaItemType>): Props => ({
   showLightboxForMedia: action('showLightboxForMedia'),
 });
 
-story.add('Basic', () => {
+export const Basic = (): JSX.Element => {
   const mediaItems = createPreparedMediaItems(createRandomMedia);
   const props = createProps(mediaItems);
 
   return <ConversationDetailsMediaList {...props} />;
-});
+};

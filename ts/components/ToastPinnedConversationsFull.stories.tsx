@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastPinnedConversationsFull } from './ToastPinnedConversationsFull';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastPinnedConversationsFull', module);
+export default {
+  title: 'Components/ToastPinnedConversationsFull',
+};
 
-story.add('ToastPinnedConversationsFull', () => (
+export const _ToastPinnedConversationsFull = (): JSX.Element => (
   <ToastPinnedConversationsFull {...defaultProps} />
-));
+);
+
+_ToastPinnedConversationsFull.story = {
+  name: 'ToastPinnedConversationsFull',
+};

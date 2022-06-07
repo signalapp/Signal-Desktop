@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastFileSize } from './ToastFileSize';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastFileSize', module);
+export default {
+  title: 'Components/ToastFileSize',
+};
 
-story.add('ToastFileSize', () => (
+export const _ToastFileSize = (): JSX.Element => (
   <ToastFileSize {...defaultProps} limit={100} units="MB" />
-));
+);
+
+_ToastFileSize.story = {
+  name: 'ToastFileSize',
+};

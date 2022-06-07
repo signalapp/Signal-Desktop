@@ -3,7 +3,6 @@
 
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../util/setupI18n';
@@ -15,7 +14,9 @@ import { BadgeDialog } from './BadgeDialog';
 
 const i18n = setupI18n('en', enMessages);
 
-const story = storiesOf('Components/BadgeDialog', module);
+export default {
+  title: 'Components/BadgeDialog',
+};
 
 const defaultProps: ComponentProps<typeof BadgeDialog> = {
   areWeASubscriber: false,
@@ -26,15 +27,23 @@ const defaultProps: ComponentProps<typeof BadgeDialog> = {
   title: 'Alice Levine',
 };
 
-story.add('No badges (closed immediately)', () => (
+export const NoBadgesClosedImmediately = (): JSX.Element => (
   <BadgeDialog {...defaultProps} badges={[]} />
-));
+);
 
-story.add('One badge', () => (
+NoBadgesClosedImmediately.story = {
+  name: 'No badges (closed immediately)',
+};
+
+export const OneBadge = (): JSX.Element => (
   <BadgeDialog {...defaultProps} badges={getFakeBadges(1)} />
-));
+);
 
-story.add('Badge with no image (should be impossible)', () => (
+OneBadge.story = {
+  name: 'One badge',
+};
+
+export const BadgeWithNoImageShouldBeImpossible = (): JSX.Element => (
   <BadgeDialog
     {...defaultProps}
     badges={[
@@ -44,9 +53,13 @@ story.add('Badge with no image (should be impossible)', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Badge with pending image', () => (
+BadgeWithNoImageShouldBeImpossible.story = {
+  name: 'Badge with no image (should be impossible)',
+};
+
+export const BadgeWithPendingImage = (): JSX.Element => (
   <BadgeDialog
     {...defaultProps}
     badges={[
@@ -61,9 +74,13 @@ story.add('Badge with pending image', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Badge with only one, low-detail image', () => (
+BadgeWithPendingImage.story = {
+  name: 'Badge with pending image',
+};
+
+export const BadgeWithOnlyOneLowDetailImage = (): JSX.Element => (
   <BadgeDialog
     {...defaultProps}
     badges={[
@@ -87,16 +104,32 @@ story.add('Badge with only one, low-detail image', () => (
       },
     ]}
   />
-));
+);
 
-story.add('Five badges', () => (
+BadgeWithOnlyOneLowDetailImage.story = {
+  name: 'Badge with only one, low-detail image',
+};
+
+export const FiveBadges = (): JSX.Element => (
   <BadgeDialog {...defaultProps} badges={getFakeBadges(5)} />
-));
+);
 
-story.add('Many badges', () => (
+FiveBadges.story = {
+  name: 'Five badges',
+};
+
+export const ManyBadges = (): JSX.Element => (
   <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />
-));
+);
 
-story.add('Many badges, user is a subscriber', () => (
+ManyBadges.story = {
+  name: 'Many badges',
+};
+
+export const ManyBadgesUserIsASubscriber = (): JSX.Element => (
   <BadgeDialog {...defaultProps} areWeASubscriber badges={getFakeBadges(50)} />
-));
+);
+
+ManyBadgesUserIsASubscriber.story = {
+  name: 'Many badges, user is a subscriber',
+};

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastAlreadyRequestedToJoin } from './ToastAlreadyRequestedToJoin';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastAlreadyRequestedToJoin', module);
+export default {
+  title: 'Components/ToastAlreadyRequestedToJoin',
+};
 
-story.add('ToastAlreadyRequestedToJoin', () => (
+export const _ToastAlreadyRequestedToJoin = (): JSX.Element => (
   <ToastAlreadyRequestedToJoin {...defaultProps} />
-));
+);
+
+_ToastAlreadyRequestedToJoin.story = {
+  name: 'ToastAlreadyRequestedToJoin',
+};

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ToastGroupLinkCopied } from './ToastGroupLinkCopied';
 
@@ -16,8 +15,14 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-const story = storiesOf('Components/ToastGroupLinkCopied', module);
+export default {
+  title: 'Components/ToastGroupLinkCopied',
+};
 
-story.add('ToastGroupLinkCopied', () => (
+export const _ToastGroupLinkCopied = (): JSX.Element => (
   <ToastGroupLinkCopied {...defaultProps} />
-));
+);
+
+_ToastGroupLinkCopied.story = {
+  name: 'ToastGroupLinkCopied',
+};

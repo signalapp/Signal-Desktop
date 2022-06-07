@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -90,21 +89,27 @@ const fakePeekedParticipant = (conversationProps: Partial<ConversationType>) =>
     ...conversationProps,
   });
 
-const story = storiesOf('Components/CallingLobby', module);
+export default {
+  title: 'Components/CallingLobby',
+};
 
-story.add('Default', () => {
+export const Default = (): JSX.Element => {
   const props = createProps();
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('No Camera, no avatar', () => {
+export const NoCameraNoAvatar = (): JSX.Element => {
   const props = createProps({
     availableCameras: [],
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('No Camera, local avatar', () => {
+NoCameraNoAvatar.story = {
+  name: 'No Camera, no avatar',
+};
+
+export const NoCameraLocalAvatar = (): JSX.Element => {
   const props = createProps({
     availableCameras: [],
     me: getDefaultConversation({
@@ -115,36 +120,52 @@ story.add('No Camera, local avatar', () => {
     }),
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Local Video', () => {
+NoCameraLocalAvatar.story = {
+  name: 'No Camera, local avatar',
+};
+
+export const LocalVideo = (): JSX.Element => {
   const props = createProps({
     hasLocalVideo: true,
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Initially muted', () => {
+export const InitiallyMuted = (): JSX.Element => {
   const props = createProps({
     hasLocalAudio: false,
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - 0 peeked participants', () => {
+InitiallyMuted.story = {
+  name: 'Initially muted',
+};
+
+export const GroupCall0PeekedParticipants = (): JSX.Element => {
   const props = createProps({ isGroupCall: true, peekedParticipants: [] });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - 1 peeked participant', () => {
+GroupCall0PeekedParticipants.story = {
+  name: 'Group Call - 0 peeked participants',
+};
+
+export const GroupCall1PeekedParticipant = (): JSX.Element => {
   const props = createProps({
     isGroupCall: true,
     peekedParticipants: [{ title: 'Sam' }].map(fakePeekedParticipant),
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - 1 peeked participant (self)', () => {
+GroupCall1PeekedParticipant.story = {
+  name: 'Group Call - 1 peeked participant',
+};
+
+export const GroupCall1PeekedParticipantSelf = (): JSX.Element => {
   const uuid = UUID.generate().toString();
   const props = createProps({
     isGroupCall: true,
@@ -155,9 +176,13 @@ story.add('Group Call - 1 peeked participant (self)', () => {
     peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - 4 peeked participants', () => {
+GroupCall1PeekedParticipantSelf.story = {
+  name: 'Group Call - 1 peeked participant (self)',
+};
+
+export const GroupCall4PeekedParticipants = (): JSX.Element => {
   const props = createProps({
     isGroupCall: true,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
@@ -165,9 +190,13 @@ story.add('Group Call - 4 peeked participants', () => {
     ),
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - 4 peeked participants (participants list)', () => {
+GroupCall4PeekedParticipants.story = {
+  name: 'Group Call - 4 peeked participants',
+};
+
+export const GroupCall4PeekedParticipantsParticipantsList = (): JSX.Element => {
   const props = createProps({
     isGroupCall: true,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
@@ -176,9 +205,13 @@ story.add('Group Call - 4 peeked participants (participants list)', () => {
     showParticipantsList: true,
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - call full', () => {
+GroupCall4PeekedParticipantsParticipantsList.story = {
+  name: 'Group Call - 4 peeked participants (participants list)',
+};
+
+export const GroupCallCallFull = (): JSX.Element => {
   const props = createProps({
     isGroupCall: true,
     isCallFull: true,
@@ -187,12 +220,20 @@ story.add('Group Call - call full', () => {
     ),
   });
   return <CallingLobby {...props} />;
-});
+};
 
-story.add('Group Call - 0 peeked participants, big group', () => {
+GroupCallCallFull.story = {
+  name: 'Group Call - call full',
+};
+
+export const GroupCall0PeekedParticipantsBigGroup = (): JSX.Element => {
   const props = createProps({
     isGroupCall: true,
     groupMembers: times(100, () => getDefaultConversation()),
   });
   return <CallingLobby {...props} />;
-});
+};
+
+GroupCall0PeekedParticipantsBigGroup.story = {
+  name: 'Group Call - 0 peeked participants, big group',
+};

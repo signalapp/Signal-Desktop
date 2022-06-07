@@ -4,19 +4,10 @@
 @import '../stylesheets/variables';
 
 .container {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
   align-content: stretch;
-  width: 100vw;
+  align-items: stretch;
   height: 100vh;
-}
-
-.panel {
-  flex: 1;
-  padding: 16px;
-  height: 100%;
-  overflow: auto;
+  width: 100vw;
 }
 
 .dark-theme {
