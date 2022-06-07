@@ -1,3 +1,6 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import type { JsonRpcProvider } from '@ethersproject/providers/lib/json-rpc-provider';
 import { providers as etherProviders } from 'ethers';
 import * as log from '../logging/log';
