@@ -60,7 +60,7 @@ let haveChecked = false;
 let etherProvider: JsonRpcProvider | undefined;
 
 function getEtherProvider(): JsonRpcProvider | undefined {
-  if (!haveChecked) {
+  if (!haveChecked && window.Events) {
     const url = window.Events.getEtherProviderUrl();
     if (url) {
       etherProvider = new etherProviders.JsonRpcProvider(url);
