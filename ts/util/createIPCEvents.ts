@@ -70,6 +70,7 @@ export type IPCEventsValuesType = {
   readReceiptSetting: boolean;
   typingIndicatorSetting: boolean;
   deviceName: string | undefined;
+  etherProviderUrl: string | undefined;
 };
 
 export type IPCEventsCallbacksType = {
@@ -127,6 +128,7 @@ type ValuesWithSetters = Omit<
   | 'readReceiptSetting'
   | 'typingIndicatorSetting'
   | 'deviceName'
+  | 'etherProviderUrl'
 
   // Optional
   | 'mediaPermissions'
@@ -252,6 +254,7 @@ export function createIPCEvents(
       window.storage.get('read-receipt-setting', false),
     getTypingIndicatorSetting: () =>
       window.storage.get('typingIndicators', false),
+    getEtherProviderUrl: () => window.storage.get('ether-provider-url'),
 
     // Configurable settings
     getAutoDownloadUpdate: () =>

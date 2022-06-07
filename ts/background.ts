@@ -221,6 +221,13 @@ export async function startApp(): Promise<void> {
       server,
     });
 
+    const etherProviderUrl = window.getEtherProviderUrl();
+    if (etherProviderUrl) {
+      window.storage.put('ether-provider-url', etherProviderUrl);
+    } else {
+      window.storage.remove('ether-provider-url');
+    }
+
     challengeHandler = new ChallengeHandler({
       storage: window.storage,
 

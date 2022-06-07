@@ -13,6 +13,10 @@ import { HTTPError } from '../textsecure/Errors';
 import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
+import {
+  canTranslateNameToPhoneNumber,
+  translateNameToPhoneNumber,
+} from './chainHelper';
 
 export type LookupConversationWithoutUuidActionsType = Readonly<{
   lookupConversationWithoutUuid: typeof lookupConversationWithoutUuid;
@@ -63,6 +67,21 @@ export async function lookupConversationWithoutUuid(
   setIsFetchingUUID(identifier, true);
 
   try {
+    if (
+      options.type === 'e164' &&
+      canTranslateNameToPhoneNumber(options.e164)
+    ) {
+      const phoneNumber = await translateNameToPhoneNumber(options.e164);
+      if (phoneNumber) {
+        // eslint-disable-next-line no-param-reassign
+        options = <LookupConversationWithoutUuidOptionsType>{
+          type: 'e164',
+          e164: phoneNumber,
+          phoneNumber,
+        };
+      }
+    }
+
     let conversationId: string | undefined;
     if (options.type === 'e164') {
       const serverLookup = await window.textsecure.messaging.getUuidsForE164s([

@@ -101,6 +101,7 @@
     "emoji-datasource-apple": "14.0.0",
     "emoji-regex": "10.1.0",
     "encoding": "0.1.13",
+    "ethers": "^5.6.8",
     "fabric": "4.6.0",
     "fast-glob": "3.2.1",
     "filesize": "3.6.1",

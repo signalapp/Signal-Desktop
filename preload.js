@@ -79,6 +79,7 @@ try {
   window.setAutoLaunch = value => {
     return ipc.invoke('set-auto-launch', value);
   };
+  window.getEtherProviderUrl = () => config.etherProviderUrl;
 
   window.isBeforeVersion = (toCheck, baseVersion) => {
     try {

@@ -15,6 +15,7 @@ import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import { missingCaseError } from '../../util/missingCaseError';
 import { getUsernameFromSearch } from '../../types/Username';
+import { canTranslateNameToPhoneNumber } from '../../util/chainHelper';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import {
   isFetchingByUsername,
@@ -65,6 +66,13 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.composeGroups = composeGroups;
     this.searchTerm = searchTerm;
     this.phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
+    if (!this.phoneNumber && canTranslateNameToPhoneNumber(searchTerm)) {
+      this.phoneNumber = {
+        isValid: true,
+        userInput: searchTerm,
+        e164: searchTerm,
+      };
+    }
     if (this.phoneNumber) {
       const { phoneNumber } = this;
       this.isPhoneNumberVisible = this.composeContacts.every(

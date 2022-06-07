@@ -56,6 +56,7 @@ export type StorageAccessType = {
   'blocked-uuids': Array<string>;
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
+  'ether-provider-url': string;
   'hide-menu-bar': boolean;
   'system-tray-setting': SystemTraySetting;
   'incoming-call-notification': boolean;

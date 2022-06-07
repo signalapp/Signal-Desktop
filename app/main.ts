@@ -664,6 +664,7 @@ async function createWindow() {
   const moreKeys = {
     isFullScreen: String(Boolean(mainWindow.isFullScreen())),
     resolvedTheme: await getResolvedThemeSetting(),
+    etherProviderUrl: ephemeralConfig.get('ether-provider-url'),
   };
 
   if (getEnvironment() === Environment.Test) {
