@@ -61,7 +61,12 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public showAvatarPopup = (): void => {
+  public showAvatarPopup = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
     const popperRoot = document.createElement('div');
     document.body.appendChild(popperRoot);
 

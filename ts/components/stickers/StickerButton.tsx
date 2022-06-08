@@ -67,27 +67,33 @@ export const StickerButton = React.memo(
       null
     );
 
-    const handleClickButton = React.useCallback(() => {
-      // Clear tooltip state
-      clearInstalledStickerPack();
-      clearShowIntroduction();
+    const handleClickButton = React.useCallback(
+      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-      // Handle button click
-      if (installedPacks.length === 0) {
-        onClickAddPack?.();
-      } else if (popperRoot) {
-        setOpen(false);
-      } else {
-        setOpen(true);
-      }
-    }, [
-      clearInstalledStickerPack,
-      clearShowIntroduction,
-      installedPacks,
-      onClickAddPack,
-      popperRoot,
-      setOpen,
-    ]);
+        // Clear tooltip state
+        clearInstalledStickerPack();
+        clearShowIntroduction();
+
+        // Handle button click
+        if (installedPacks.length === 0) {
+          onClickAddPack?.();
+        } else if (popperRoot) {
+          setOpen(false);
+        } else {
+          setOpen(true);
+        }
+      },
+      [
+        clearInstalledStickerPack,
+        clearShowIntroduction,
+        installedPacks,
+        onClickAddPack,
+        popperRoot,
+        setOpen,
+      ]
+    );
 
     const handlePickSticker = React.useCallback(
       (packId: string, stickerId: number, url: string) => {

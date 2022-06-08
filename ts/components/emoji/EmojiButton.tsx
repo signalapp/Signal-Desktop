@@ -44,13 +44,18 @@ export const EmojiButton = React.memo(
       null
     );
 
-    const handleClickButton = React.useCallback(() => {
-      if (popperRoot) {
-        setOpen(false);
-      } else {
-        setOpen(true);
-      }
-    }, [popperRoot, setOpen]);
+    const handleClickButton = React.useCallback(
+      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (popperRoot) {
+          setOpen(false);
+        } else {
+          setOpen(true);
+        }
+      },
+      [popperRoot, setOpen]
+    );
 
     const handleClose = React.useCallback(() => {
       setOpen(false);
