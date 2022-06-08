@@ -5,9 +5,10 @@ import { assert } from 'chai';
 import { stub } from 'sinon';
 import type { MenuItemConstructorOptions } from 'electron';
 
-import type { MenuListType, MenuOptionsType } from '../../../app/menu';
+import type { CreateTemplateOptionsType } from '../../../app/menu';
 import { createTemplate } from '../../../app/menu';
 import { load as loadLocale } from '../../../app/locale';
+import type { MenuListType } from '../../types/menu';
 
 const forceUpdate = stub();
 const openContactUs = stub();
@@ -53,13 +54,11 @@ const getExpectedEditMenu = (
   ],
 });
 
-const getExpectedViewMenu = (
-  zoomModifier: 'Command' | 'Control'
-): MenuItemConstructorOptions => ({
+const getExpectedViewMenu = (): MenuItemConstructorOptions => ({
   label: '&View',
   submenu: [
     { label: 'Actual Size', role: 'resetZoom' },
-    { accelerator: `${zoomModifier}+=`, label: 'Zoom In', role: 'zoomIn' },
+    { accelerator: 'CmdOrCtrl+=', label: 'Zoom In', role: 'zoomIn' },
     { label: 'Zoom Out', role: 'zoomOut' },
     { type: 'separator' },
     { label: 'Toggle Full Screen', role: 'togglefullscreen' },
@@ -127,7 +126,7 @@ const EXPECTED_MACOS: MenuListType = [
     ],
   },
   getExpectedEditMenu(true),
-  getExpectedViewMenu('Command'),
+  getExpectedViewMenu(),
   {
     label: '&Window',
     role: 'window',
@@ -157,7 +156,7 @@ const EXPECTED_WINDOWS: MenuListType = [
     ],
   },
   getExpectedEditMenu(false),
-  getExpectedViewMenu('Control'),
+  getExpectedViewMenu(),
   {
     label: '&Window',
     role: 'window',
@@ -226,7 +225,7 @@ describe('createTemplate', () => {
   PLATFORMS.forEach(({ label, platform, expectedDefault }) => {
     describe(label, () => {
       it('should return the correct template without setup options', () => {
-        const options: MenuOptionsType = {
+        const options: CreateTemplateOptionsType = {
           development: false,
           devTools: true,
           includeSetup: false,
@@ -240,7 +239,7 @@ describe('createTemplate', () => {
       });
 
       it('should return correct template with setup options', () => {
-        const options: MenuOptionsType = {
+        const options: CreateTemplateOptionsType = {
           development: false,
           devTools: true,
           includeSetup: true,

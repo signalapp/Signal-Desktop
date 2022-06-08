@@ -156,6 +156,9 @@ const createProps = (): PropsType => ({
   onZoomFactorChange: action('onZoomFactorChange'),
 
   i18n,
+
+  executeMenuRole: action('executeMenuRole'),
+  platform: 'win32',
 });
 
 export default {

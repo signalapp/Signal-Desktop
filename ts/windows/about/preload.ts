@@ -3,7 +3,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge } from 'electron';
 
 import { SignalContext } from '../context';
 import { About } from '../../components/About';
@@ -29,10 +29,12 @@ contextBridge.exposeInMainWorld('SignalContext', {
 
     ReactDOM.render(
       React.createElement(About, {
-        closeAbout: () => ipcRenderer.send('close-about'),
+        closeAbout: () => SignalContext.executeMenuRole('close'),
         environment: `${environmentText.join(' - ')}${platform}`,
         i18n: SignalContext.i18n,
         version: SignalContext.getVersion(),
+        platform: process.platform,
+        executeMenuRole: SignalContext.executeMenuRole,
       }),
       document.getElementById('app')
     );

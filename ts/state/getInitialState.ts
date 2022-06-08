@@ -25,14 +25,20 @@ import type { StateType } from './reducer';
 import type { BadgesStateType } from './ducks/badges';
 import type { StoryDataType } from './ducks/stories';
 import { getInitialState as stickers } from '../types/Stickers';
+import type { MenuOptionsType } from '../types/menu';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
+import type { MainWindowStatsType } from '../windows/context';
 
 export function getInitialState({
   badges,
   stories,
+  mainWindowStats,
+  menuOptions,
 }: {
   badges: BadgesStateType;
   stories: Array<StoryDataType>;
+  mainWindowStats: MainWindowStatsType;
+  menuOptions: MenuOptionsType;
 }): StateType {
   const items = window.storage.getItemsState();
 
@@ -108,9 +114,13 @@ export function getInitialState({
       ourUuid,
       platform: window.platform,
       i18n: window.i18n,
+      localeMessages: window.SignalContext.localeMessages,
       interactionMode: window.getInteractionMode(),
       theme,
       version: window.getVersion(),
+      isMainWindowMaximized: mainWindowStats.isMaximized,
+      isMainWindowFullScreen: mainWindowStats.isFullScreen,
+      menuOptions,
     },
   };
 }

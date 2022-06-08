@@ -25,6 +25,8 @@ const createProps = (): PropsType => ({
     await sleep(5000);
     return 'https://picsum.photos/1800/900';
   },
+  executeMenuRole: action('executeMenuRole'),
+  platform: 'win32',
 });
 
 export default {

@@ -26,8 +26,8 @@ import * as Bytes from './Bytes';
 import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
 import type { WhatIsThis } from './window.d';
+import type { MenuOptionsType } from './types/menu';
 import type { Receipt } from './types/Receipt';
-import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ThemeType } from './types/Util';
@@ -141,6 +141,7 @@ import { ToastConversationArchived } from './components/ToastConversationArchive
 import { ToastConversationUnarchived } from './components/ToastConversationUnarchived';
 import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
+import type { MainWindowStatsType } from './windows/context';
 import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
 import { updateOurUsername } from './util/updateOurUsername';
 import { ReactionSource } from './reactions/ReactionSource';
@@ -452,7 +453,7 @@ export async function startApp(): Promise<void> {
       },
     });
 
-  if (getTitleBarVisibility() === TitleBarVisibility.Hidden) {
+  if (window.platform === 'darwin') {
     window.addEventListener('dblclick', (event: Event) => {
       const target = event.target as HTMLElement;
       if (isWindowDragElement(target)) {
@@ -930,6 +931,19 @@ export async function startApp(): Promise<void> {
       }
     }, FIVE_MINUTES);
 
+    let mainWindowStats = {
+      isMaximized: false,
+      isFullScreen: false,
+    };
+
+    let menuOptions = {
+      development: false,
+      devTools: false,
+      includeSetup: false,
+      isProduction: true,
+      platform: 'unknown',
+    };
+
     try {
       await Promise.all([
         window.ConversationController.load(),
@@ -938,6 +952,12 @@ export async function startApp(): Promise<void> {
         loadInitialBadgesState(),
         loadStories(),
         window.textsecure.storage.protocol.hydrateCaches(),
+        (async () => {
+          mainWindowStats = await window.SignalContext.getMainWindowStats();
+        })(),
+        (async () => {
+          menuOptions = await window.SignalContext.getMenuOptions();
+        })(),
       ]);
       await window.ConversationController.checkForConflicts();
     } catch (error) {
@@ -946,7 +966,7 @@ export async function startApp(): Promise<void> {
         error && error.stack ? error.stack : error
       );
     } finally {
-      initializeRedux();
+      initializeRedux({ mainWindowStats, menuOptions });
       start();
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
@@ -964,12 +984,20 @@ export async function startApp(): Promise<void> {
     }
   });
 
-  function initializeRedux() {
+  function initializeRedux({
+    mainWindowStats,
+    menuOptions,
+  }: {
+    mainWindowStats: MainWindowStatsType;
+    menuOptions: MenuOptionsType;
+  }) {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = window.getConversations();
     const initialState = getInitialState({
       badges: initialBadgesState,
       stories: getStoriesForRedux(),
+      mainWindowStats,
+      menuOptions,
     });
 
     const store = window.Signal.State.createStore(initialState);
@@ -1108,6 +1136,26 @@ export async function startApp(): Promise<void> {
         log.info('background: reconnecting websocket on user change');
         enqueueReconnectToWebSocket();
       }
+    });
+
+    window.Whisper.events.on(
+      'setWindowStats',
+      ({
+        isFullScreen,
+        isMaximized,
+      }: {
+        isFullScreen: boolean;
+        isMaximized: boolean;
+      }) => {
+        window.reduxActions.user.userChanged({
+          isMainWindowMaximized: isMaximized,
+          isMainWindowFullScreen: isFullScreen,
+        });
+      }
+    );
+
+    window.Whisper.events.on('setMenuOptions', (options: MenuOptionsType) => {
+      window.reduxActions.user.userChanged({ menuOptions: options });
     });
 
     let shortcutGuideView: WhatIsThis | null = null;

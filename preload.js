@@ -233,6 +233,20 @@ try {
     Whisper.events.trigger('powerMonitorLockScreen');
   });
 
+  ipc.on('window:set-window-stats', (_event, stats) => {
+    if (!Whisper.events) {
+      return;
+    }
+    Whisper.events.trigger('setWindowStats', stats);
+  });
+
+  ipc.on('window:set-menu-options', (_event, options) => {
+    if (!Whisper.events) {
+      return;
+    }
+    Whisper.events.trigger('setMenuOptions', options);
+  });
+
   window.sendChallengeRequest = request =>
     ipc.send('challenge:request', request);
 

@@ -27,6 +27,7 @@ export type SystemThemeHolder = { systemTheme: SystemThemeType };
 export type NativeThemeType = {
   getSystemTheme: () => SystemThemeType;
   subscribe: (fn: Callback) => void;
+  unsubscribe: (fn: Callback) => void;
   update: () => SystemThemeType;
 };
 
@@ -50,6 +51,14 @@ export function createNativeThemeListener(
     subscribers.push(fn);
   }
 
+  function unsubscribe(fn: Callback): void {
+    const index = subscribers.indexOf(fn);
+
+    if (index !== -1) {
+      subscribers.splice(index, 1);
+    }
+  }
+
   ipc.on(
     'native-theme:changed',
     (_event: unknown, change: NativeThemeState) => {
@@ -67,6 +76,7 @@ export function createNativeThemeListener(
   return {
     getSystemTheme: () => systemTheme,
     subscribe,
+    unsubscribe,
     update,
   };
 }

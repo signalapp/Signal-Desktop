@@ -23,7 +23,9 @@ contextBridge.exposeInMainWorld('SignalContext', {
 
     ReactDOM.render(
       React.createElement(DebugLogWindow, {
-        closeWindow: () => ipcRenderer.send('close-debug-log'),
+        platform: process.platform,
+        executeMenuRole: SignalContext.executeMenuRole,
+        closeWindow: () => SignalContext.executeMenuRole('close'),
         downloadLog: (logText: string) =>
           ipcRenderer.send('show-debug-log-save-dialog', logText),
         i18n: SignalContext.i18n,

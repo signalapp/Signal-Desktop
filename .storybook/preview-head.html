@@ -3,6 +3,11 @@
 
 <!-- prettier-ignore -->
 <link rel="stylesheet" href="../stylesheets/manifest.css" />
+<link
+  href="../node_modules/@indutny/frameless-titlebar/dist/styles.css"
+  rel="stylesheet"
+  type="text/css"
+/>
 <script>
   window.SignalWindow = window.SignalWindow || {};
   window.SignalWindow.log = {
@@ -12,5 +17,18 @@
     info: console.info.bind(console),
     debug: console.debug.bind(console),
     trace: console.trace.bind(console),
+  };
+  window.SignalContext = {
+    nativeThemeListener: {
+      getSystemValue: async () => 'light',
+      subscribe: () => {},
+      unsubscribe: () => {},
+    },
+    Settings: {
+      themeSetting: {
+        getValue: async () => 'light',
+      },
+      waitForChange: () => {},
+    },
   };
 </script>

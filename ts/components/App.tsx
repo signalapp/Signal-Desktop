@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps } from 'react';
@@ -11,11 +11,16 @@ import { Inbox } from './Inbox';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
+import type { LocaleMessagesType } from '../types/I18N';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import type { MenuOptionsType, MenuActionType } from '../types/menu';
+import { TitleBarContainer } from './TitleBarContainer';
+import type { ExecuteMenuRoleType } from './TitleBarContainer';
 
 type PropsType = {
   appView: AppViewType;
+  localeMessages: LocaleMessagesType;
   openInbox: () => void;
   registerSingleDevice: (number: string, code: string) => Promise<void>;
   renderCallManager: () => JSX.Element;
@@ -28,6 +33,14 @@ type PropsType = {
     token: string
   ) => Promise<void>;
   theme: ThemeType;
+  isMaximized: boolean;
+  isFullScreen: boolean;
+  menuOptions: MenuOptionsType;
+  platform: string;
+
+  executeMenuRole: ExecuteMenuRoleType;
+  executeMenuAction: (action: MenuActionType) => void;
+  titleBarDoubleClick: () => void;
 } & ComponentProps<typeof Inbox>;
 
 export const App = ({
@@ -39,6 +52,11 @@ export const App = ({
   i18n,
   isCustomizingPreferredReactions,
   isShowingStoriesView,
+  isMaximized,
+  isFullScreen,
+  menuOptions,
+  platform,
+  localeMessages,
   renderCallManager,
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
@@ -49,6 +67,9 @@ export const App = ({
   registerSingleDevice,
   theme,
   verifyConversationsStoppingSend,
+  executeMenuAction,
+  executeMenuRole,
+  titleBarDoubleClick,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -113,17 +134,31 @@ export const App = ({
   }, [prefersReducedMotion]);
 
   return (
-    <div
-      className={classNames({
-        App: true,
-        'light-theme': theme === ThemeType.light,
-        'dark-theme': theme === ThemeType.dark,
-      })}
+    <TitleBarContainer
+      title="Signal"
+      theme={theme}
+      isMaximized={isMaximized}
+      isFullScreen={isFullScreen}
+      platform={platform}
+      hasMenu
+      localeMessages={localeMessages}
+      menuOptions={menuOptions}
+      executeMenuRole={executeMenuRole}
+      executeMenuAction={executeMenuAction}
+      titleBarDoubleClick={titleBarDoubleClick}
     >
-      {renderGlobalModalContainer()}
-      {renderCallManager()}
-      {isShowingStoriesView && renderStories()}
-      {contents}
-    </div>
+      <div
+        className={classNames({
+          App: true,
+          'light-theme': theme === ThemeType.light,
+          'dark-theme': theme === ThemeType.dark,
+        })}
+      >
+        {renderGlobalModalContainer()}
+        {renderCallManager()}
+        {isShowingStoriesView && renderStories()}
+        {contents}
+      </div>
+    </TitleBarContainer>
   );
 };

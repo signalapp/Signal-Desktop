@@ -10,10 +10,13 @@ import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import { ToastDebugLogError } from './ToastDebugLogError';
 import { ToastLinkCopied } from './ToastLinkCopied';
+import { TitleBarContainer } from './TitleBarContainer';
+import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import { ToastLoadingFullLogs } from './ToastLoadingFullLogs';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { createSupportUrl } from '../util/createSupportUrl';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { useTheme } from '../hooks/useTheme';
 
 enum LoadState {
   NotStarted,
@@ -28,6 +31,8 @@ export type PropsType = {
   i18n: LocalizerType;
   fetchLogs: () => Promise<string>;
   uploadLogs: (logs: string) => Promise<string>;
+  platform: string;
+  executeMenuRole: ExecuteMenuRoleType;
 };
 
 enum ToastType {
@@ -42,12 +47,16 @@ export const DebugLogWindow = ({
   i18n,
   fetchLogs,
   uploadLogs,
+  platform,
+  executeMenuRole,
 }: PropsType): JSX.Element => {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
   const [publicLogURL, setPublicLogURL] = useState<string | undefined>();
   const [textAreaValue, setTextAreaValue] = useState<string>(i18n('loading'));
   const [toastType, setToastType] = useState<ToastType | undefined>();
+
+  const theme = useTheme();
 
   useEscapeHandling(closeWindow);
 
@@ -135,32 +144,41 @@ export const DebugLogWindow = ({
     });
 
     return (
-      <div className="DebugLogWindow">
-        <div>
-          <div className="DebugLogWindow__title">{i18n('debugLogSuccess')}</div>
-          <p className="DebugLogWindow__subtitle">
-            {i18n('debugLogSuccessNextSteps')}
-          </p>
+      <TitleBarContainer
+        platform={platform}
+        theme={theme}
+        executeMenuRole={executeMenuRole}
+        title={i18n('debugLog')}
+      >
+        <div className="DebugLogWindow">
+          <div>
+            <div className="DebugLogWindow__title">
+              {i18n('debugLogSuccess')}
+            </div>
+            <p className="DebugLogWindow__subtitle">
+              {i18n('debugLogSuccessNextSteps')}
+            </p>
+          </div>
+          <div className="DebugLogWindow__container">
+            <input
+              className="DebugLogWindow__link"
+              readOnly
+              type="text"
+              value={publicLogURL}
+            />
+          </div>
+          <div className="DebugLogWindow__footer">
+            <Button
+              onClick={() => openLinkInWebBrowser(supportURL)}
+              variant={ButtonVariant.Secondary}
+            >
+              {i18n('reportIssue')}
+            </Button>
+            <Button onClick={copyLog}>{i18n('debugLogCopy')}</Button>
+          </div>
+          {toastElement}
         </div>
-        <div className="DebugLogWindow__container">
-          <input
-            className="DebugLogWindow__link"
-            readOnly
-            type="text"
-            value={publicLogURL}
-          />
-        </div>
-        <div className="DebugLogWindow__footer">
-          <Button
-            onClick={() => openLinkInWebBrowser(supportURL)}
-            variant={ButtonVariant.Secondary}
-          >
-            {i18n('reportIssue')}
-          </Button>
-          <Button onClick={copyLog}>{i18n('debugLogCopy')}</Button>
-        </div>
-        {toastElement}
-      </div>
+      </TitleBarContainer>
     );
   }
 
@@ -170,43 +188,50 @@ export const DebugLogWindow = ({
     loadState === LoadState.Started || loadState === LoadState.Submitting;
 
   return (
-    <div className="DebugLogWindow">
-      <div>
-        <div className="DebugLogWindow__title">{i18n('submitDebugLog')}</div>
-        <p className="DebugLogWindow__subtitle">
-          {i18n('debugLogExplanation')}
-        </p>
+    <TitleBarContainer
+      platform={platform}
+      theme={theme}
+      executeMenuRole={executeMenuRole}
+      title={i18n('debugLog')}
+    >
+      <div className="DebugLogWindow">
+        <div>
+          <div className="DebugLogWindow__title">{i18n('submitDebugLog')}</div>
+          <p className="DebugLogWindow__subtitle">
+            {i18n('debugLogExplanation')}
+          </p>
+        </div>
+        <div className="DebugLogWindow__container">
+          {isLoading ? (
+            <Spinner svgSize="normal" />
+          ) : (
+            <textarea
+              className="DebugLogWindow__textarea"
+              readOnly
+              rows={5}
+              spellCheck={false}
+              value={textAreaValue}
+            />
+          )}
+        </div>
+        <div className="DebugLogWindow__footer">
+          <Button
+            disabled={!canSave}
+            onClick={() => {
+              if (logText) {
+                downloadLog(logText);
+              }
+            }}
+            variant={ButtonVariant.Secondary}
+          >
+            {i18n('debugLogSave')}
+          </Button>
+          <Button disabled={!canSubmit} onClick={handleSubmit}>
+            {i18n('submit')}
+          </Button>
+        </div>
+        {toastElement}
       </div>
-      <div className="DebugLogWindow__container">
-        {isLoading ? (
-          <Spinner svgSize="normal" />
-        ) : (
-          <textarea
-            className="DebugLogWindow__textarea"
-            readOnly
-            rows={5}
-            spellCheck={false}
-            value={textAreaValue}
-          />
-        )}
-      </div>
-      <div className="DebugLogWindow__footer">
-        <Button
-          disabled={!canSave}
-          onClick={() => {
-            if (logText) {
-              downloadLog(logText);
-            }
-          }}
-          variant={ButtonVariant.Secondary}
-        >
-          {i18n('debugLogSave')}
-        </Button>
-        <Button disabled={!canSubmit} onClick={handleSubmit}>
-          {i18n('submit')}
-        </Button>
-      </div>
-      {toastElement}
-    </div>
+    </TitleBarContainer>
   );
 };

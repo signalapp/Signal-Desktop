@@ -3,7 +3,9 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import type { MenuItemConstructorOptions } from 'electron';
 
+import type { MenuActionType } from '../../types/menu';
 import { App } from '../../components/App';
 import { SmartCallManager } from './CallManager';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
@@ -12,7 +14,15 @@ import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { SmartStories } from './Stories';
 import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getIntl, getTheme } from '../selectors/user';
+import {
+  getIntl,
+  getLocaleMessages,
+  getTheme,
+  getIsMainWindowMaximized,
+  getIsMainWindowFullScreen,
+  getMenuOptions,
+  getPlatform,
+} from '../selectors/user';
 import { shouldShowStoriesView } from '../selectors/stories';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
@@ -25,7 +35,12 @@ const mapStateToProps = (state: StateType) => {
     conversationsStoppingSend: getConversationsStoppingSend(state),
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
+    localeMessages: getLocaleMessages(state),
     isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
+    isMaximized: getIsMainWindowMaximized(state),
+    isFullScreen: getIsMainWindowFullScreen(state),
+    menuOptions: getMenuOptions(state),
+    platform: getPlatform(state),
     renderCallManager: () => <SmartCallManager />,
     renderCustomizingPreferredReactionsModal: () => (
       <SmartCustomizingPreferredReactionsModal />
@@ -53,6 +68,16 @@ const mapStateToProps = (state: StateType) => {
       return window.getAccountManager().registerSingleDevice(number, code);
     },
     theme: getTheme(state),
+
+    executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {
+      window.SignalContext.executeMenuRole(role);
+    },
+    executeMenuAction: (action: MenuActionType): void => {
+      window.SignalContext.executeMenuAction(action);
+    },
+    titleBarDoubleClick: (): void => {
+      window.titleBarDoubleClick();
+    },
   };
 };
 

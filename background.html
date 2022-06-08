@@ -23,7 +23,7 @@
             img-src 'self' blob: data:;
             media-src 'self' blob:;
             object-src 'none';
-            script-src 'self' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
+            script-src 'self' 'sha256-Qu05oqDmBO5fZacm7tr/oerJcqsW0G/XqP4PRCziovc=' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
             style-src 'self' 'unsafe-inline';"
     />
     <title>Signal</title>
@@ -78,6 +78,11 @@
     />
     <link
       href="node_modules/react-quill/dist/quill.core.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="node_modules/@indutny/frameless-titlebar/dist/styles.css"
       rel="stylesheet"
       type="text/css"
     />
@@ -152,6 +157,12 @@
       </div>
     </div>
 
+    <script type="text/javascript">
+      document
+        .querySelector('.app-loading-screen')
+        .addEventListener('dblclick', () => window.showDebugLog());
+    </script>
+
     <script type="text/javascript" src="js/components.js"></script>
     <script type="text/javascript" src="ts/set_os_class.js"></script>
     <script
@@ -162,13 +173,6 @@
     <script
       type="text/javascript"
       src="ts/backbone/reliable_trigger.js"
-    ></script>
-
-    <script type="text/javascript" src="js/libphonenumber-util.js"></script>
-    <script type="text/javascript" src="js/expiring_messages.js"></script>
-    <script
-      type="text/javascript"
-      src="js/expiring_tap_to_view_messages.js"
     ></script>
 
     <script

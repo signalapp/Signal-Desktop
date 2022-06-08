@@ -2,11 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
+import type { MenuItemConstructorOptions } from 'electron';
 import url from 'url';
 import type { ParsedUrlQuery } from 'querystring';
+import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { IPCEventsValuesType } from '../util/createIPCEvents';
 import type { LocalizerType } from '../types/Util';
 import type { LoggerType } from '../types/Logging';
+import type { LocaleMessagesType } from '../types/I18N';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
 import type { SettingType } from '../util/preload';
 import { Bytes } from '../context/Bytes';
@@ -37,6 +40,11 @@ strictAssert(Boolean(window.SignalContext), 'context must be defined');
 
 initializeLogging();
 
+export type MainWindowStatsType = Readonly<{
+  isMaximized: boolean;
+  isFullScreen: boolean;
+}>;
+
 export type SignalContextType = {
   bytes: Bytes;
   crypto: Crypto;
@@ -55,8 +63,13 @@ export type SignalContextType = {
   getVersion: () => string;
   getPath: (name: 'userData' | 'home') => string;
   i18n: LocalizerType;
+  localeMessages: LocaleMessagesType;
   log: LoggerType;
   renderWindow?: () => void;
+  executeMenuRole: (role: MenuItemConstructorOptions['role']) => Promise<void>;
+  getMainWindowStats: () => Promise<MainWindowStatsType>;
+  getMenuOptions: () => Promise<MenuOptionsType>;
+  executeMenuAction: (action: MenuActionType) => Promise<void>;
 };
 
 export const SignalContext: SignalContextType = {
@@ -76,12 +89,27 @@ export const SignalContext: SignalContextType = {
     return String(config[`${name}Path`]);
   },
   i18n: setupI18n(locale, localeMessages),
+  localeMessages,
   log: window.SignalContext.log,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   setIsCallActive(isCallActive: boolean): void {
     ipcRenderer.send('set-is-call-active', isCallActive);
   },
   timers: new Timers(),
+  async executeMenuRole(
+    role: MenuItemConstructorOptions['role']
+  ): Promise<void> {
+    await ipcRenderer.invoke('executeMenuRole', role);
+  },
+  async getMainWindowStats(): Promise<MainWindowStatsType> {
+    return ipcRenderer.invoke('getMainWindowStats');
+  },
+  async getMenuOptions(): Promise<MenuOptionsType> {
+    return ipcRenderer.invoke('getMenuOptions');
+  },
+  async executeMenuAction(action: MenuActionType): Promise<void> {
+    return ipcRenderer.invoke('executeMenuAction', action);
+  },
 };
 
 window.SignalContext = SignalContext;

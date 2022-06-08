@@ -247,7 +247,7 @@ const renderPreferences = async () => {
 
     // Actions and other props
     addCustomColor: ipcAddCustomColor,
-    closeSettings: () => ipcRenderer.send('close-settings'),
+    closeSettings: () => SignalContext.executeMenuRole('close'),
     doDeleteAllData: () => ipcRenderer.send('delete-all-data'),
     doneRendering,
     editCustomColor: ipcEditCustomColor,
@@ -337,6 +337,9 @@ const renderPreferences = async () => {
     onZoomFactorChange: settingZoomFactor.setValue,
 
     i18n: SignalContext.i18n,
+
+    platform: process.platform,
+    executeMenuRole: SignalContext.executeMenuRole,
   };
 
   function reRender<Value>(f: (value: Value) => Promise<Value>) {

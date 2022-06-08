@@ -5,6 +5,10 @@
   height: 100%;
   position: relative;
 
+  // TitleBar support
+  display: flex;
+  flex-direction: column;
+
   &.light-theme {
     background-color: $color-white;
     color: $color-gray-90;

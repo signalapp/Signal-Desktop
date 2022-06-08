@@ -27,6 +27,14 @@ body {
     --draggable-app-region: drag;
   }
 
+  --window-height: 100vh;
+  --titlebar-height: 0px;
+
+  &.os-windows:not(.full-screen) {
+    --titlebar-height: 28px;
+    --window-height: calc(100vh - var(--titlebar-height));
+  }
+
   &.light-theme {
     background-color: $color-white;
     color: $color-gray-90;
@@ -235,6 +243,9 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
+
+  /* There is no titlebar during loading screen on Windows */
+  -webkit-app-region: drag;
 
   /* Note: background-color is intentionally transparent until body has the
    *       theme class.

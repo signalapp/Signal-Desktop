@@ -254,7 +254,7 @@ const getThemeSetting = createSetting('themeSetting');
 
 async function resolveTheme() {
   const theme = (await getThemeSetting.getValue()) || 'system';
-  if (process.platform === 'darwin' && theme === 'system') {
+  if (theme === 'system') {
     return SignalContext.nativeThemeListener.getSystemTheme();
   }
   return theme;

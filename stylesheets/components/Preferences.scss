@@ -120,7 +120,7 @@
   }
 
   &__settings-pane {
-    height: 100vh;
+    height: var(--window-height);
     overflow: overlay;
     width: 100%;
 

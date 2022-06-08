@@ -4,7 +4,7 @@
 .facade {
   background: rgba(0, 0, 0, 0.33);
   width: 100vw;
-  height: 100vh;
+  height: var(--window-height);
   display: flex;
   justify-content: center;
   align-items: center;

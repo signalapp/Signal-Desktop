@@ -3,6 +3,7 @@
 
 import type { BrowserWindow } from 'electron';
 import { ipcMain as ipc, session } from 'electron';
+import { EventEmitter } from 'events';
 
 import { userConfig } from '../../app/user_config';
 import { ephemeralConfig } from '../../app/ephemeral_config';
@@ -25,7 +26,7 @@ type ResponseQueueEntry = Readonly<{
   reject(error: Error): void;
 }>;
 
-export class SettingsChannel {
+export class SettingsChannel extends EventEmitter {
   private mainWindow?: BrowserWindow;
 
   private readonly responseQueue = new Map<number, ResponseQueueEntry>();
@@ -229,7 +230,7 @@ export class SettingsChannel {
       return;
     }
 
-    ipc.handle(`settings:set:${name}`, (_event, value) => {
+    ipc.handle(`settings:set:${name}`, async (_event, value) => {
       if (isEphemeral) {
         const ephemeralName = EPHEMERAL_NAME_MAP.get(name);
         strictAssert(
@@ -239,7 +240,9 @@ export class SettingsChannel {
         ephemeralConfig.set(ephemeralName, value);
       }
 
-      return this.setSettingInMainWindow(name, value);
+      await this.setSettingInMainWindow(name, value);
+
+      this.emit(`change:${name}`, value);
     });
   }
 }

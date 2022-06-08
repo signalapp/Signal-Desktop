@@ -8,7 +8,7 @@
     left: 0;
     position: absolute;
     right: 0;
-    top: 0;
+    top: var(--titlebar-height);
     z-index: $z-index-popup;
   }
 

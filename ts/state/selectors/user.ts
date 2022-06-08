@@ -5,6 +5,8 @@ import { createSelector } from 'reselect';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { UUIDStringType } from '../../types/UUID';
+import type { LocaleMessagesType } from '../../types/I18N';
+import type { MenuOptionsType } from '../../types/menu';
 
 import type { StateType } from '../reducer';
 import type { UserStateType } from '../ducks/user';
@@ -41,6 +43,11 @@ export const getUserUuid = createSelector(
 export const getIntl = createSelector(
   getUser,
   (state: UserStateType): LocalizerType => state.i18n
+);
+
+export const getLocaleMessages = createSelector(
+  getUser,
+  (state: UserStateType): LocaleMessagesType => state.localeMessages
 );
 
 export const getInteractionMode = createSelector(
@@ -81,3 +88,18 @@ const getVersion = createSelector(
 export const getIsAlpha = createSelector(getVersion, isAlpha);
 
 export const getIsBeta = createSelector(getVersion, isBeta);
+
+export const getIsMainWindowMaximized = createSelector(
+  getUser,
+  (state: UserStateType): boolean => state.isMainWindowMaximized
+);
+
+export const getIsMainWindowFullScreen = createSelector(
+  getUser,
+  (state: UserStateType): boolean => state.isMainWindowFullScreen
+);
+
+export const getMenuOptions = createSelector(
+  getUser,
+  (state: UserStateType): MenuOptionsType => state.menuOptions
+);

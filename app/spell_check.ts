@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import { maybeParseUrl } from '../ts/util/url';
 import type { LocaleType } from './locale';
 
-import type { MenuListType } from './menu';
+import type { MenuListType } from '../ts/types/menu';
 
 export function getLanguages(
   userLocale: string,

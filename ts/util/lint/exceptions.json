@@ -133,6 +133,160 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
+    "rule": "React-createRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    .map(() => createRef());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const ref = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const ref = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const activeMenus = useRef((_a = menu === null || menu === void 0 ? void 0 : menu.length) !== null && _a !== void 0 ? _a : 0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const savedCallback = useRef(onClickAway);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const menuRef = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const scrollRef = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    myRef = myRef !== null && myRef !== void 0 ? myRef : useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const overflowRef = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const menuBar = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.es.js",
+    "line": "    const ref = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    .map(() => React.createRef());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const ref = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const activeMenus = React.useRef((_a = menu === null || menu === void 0 ? void 0 : menu.length) !== null && _a !== void 0 ? _a : 0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const savedCallback = React.useRef(onClickAway);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const menuRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const scrollRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    myRef = myRef !== null && myRef !== void 0 ? myRef : React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const overflowRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const menuBar = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@indutny/frameless-titlebar/dist/index.js",
+    "line": "    const ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-06T22:58:37.359Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/@jridgewell/source-map/dist/source-map.umd.js",
     "line": "        append(sources, resolvedSources);",

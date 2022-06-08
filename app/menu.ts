@@ -1,40 +1,19 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isString } from 'lodash';
-import type { MenuItemConstructorOptions } from 'electron';
 
 import type { LocaleMessagesType } from '../ts/types/I18N';
+import type {
+  MenuListType,
+  MenuOptionsType,
+  MenuActionsType,
+} from '../ts/types/menu';
 
-export type MenuListType = Array<MenuItemConstructorOptions>;
-
-export type MenuOptionsType = {
-  // options
-  development: boolean;
-  devTools: boolean;
-  includeSetup: boolean;
-  isProduction: boolean;
-  platform: string;
-
-  // actions
-  forceUpdate: () => unknown;
-  openContactUs: () => unknown;
-  openForums: () => unknown;
-  openJoinTheBeta: () => unknown;
-  openReleaseNotes: () => unknown;
-  openSupportPage: () => unknown;
-  setupAsNewDevice: () => unknown;
-  setupAsStandalone: () => unknown;
-  showAbout: () => unknown;
-  showDebugLog: () => unknown;
-  showKeyboardShortcuts: () => unknown;
-  showSettings: () => unknown;
-  showStickerCreator: () => unknown;
-  showWindow: () => unknown;
-};
+export type CreateTemplateOptionsType = MenuOptionsType & MenuActionsType;
 
 export const createTemplate = (
-  options: MenuOptionsType,
+  options: CreateTemplateOptionsType,
   messages: LocaleMessagesType
 ): MenuListType => {
   if (!isString(options.platform)) {
@@ -131,7 +110,7 @@ export const createTemplate = (
           label: messages.viewMenuResetZoom.message,
         },
         {
-          accelerator: platform === 'darwin' ? 'Command+=' : 'Control+=',
+          accelerator: 'CmdOrCtrl+=',
           role: 'zoomIn',
           label: messages.viewMenuZoomIn.message,
         },
@@ -265,7 +244,7 @@ export const createTemplate = (
 function updateForMac(
   template: MenuListType,
   messages: LocaleMessagesType,
-  options: MenuOptionsType
+  options: CreateTemplateOptionsType
 ): MenuListType {
   const { showAbout, showSettings, showWindow } = options;
 

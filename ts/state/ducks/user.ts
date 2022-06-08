@@ -5,8 +5,10 @@ import { trigger } from '../../shims/events';
 
 import type { NoopActionType } from './noop';
 import type { LocalizerType } from '../../types/Util';
+import type { LocaleMessagesType } from '../../types/I18N';
 import { ThemeType } from '../../types/Util';
 import type { UUIDStringType } from '../../types/UUID';
+import type { MenuOptionsType } from '../../types/menu';
 
 // State
 
@@ -21,7 +23,11 @@ export type UserStateType = {
   platform: string;
   regionCode: string | undefined;
   i18n: LocalizerType;
+  localeMessages: LocaleMessagesType;
   interactionMode: 'mouse' | 'keyboard';
+  isMainWindowMaximized: boolean;
+  isMainWindowFullScreen: boolean;
+  menuOptions: MenuOptionsType;
   theme: ThemeType;
   version: string;
 };
@@ -38,6 +44,9 @@ type UserChangedActionType = {
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
     theme?: ThemeType;
+    isMainWindowMaximized?: boolean;
+    isMainWindowFullScreen?: boolean;
+    menuOptions?: MenuOptionsType;
   };
 };
 
@@ -58,6 +67,9 @@ function userChanged(attributes: {
   ourUuid?: UUIDStringType;
   regionCode?: string;
   theme?: ThemeType;
+  isMainWindowMaximized?: boolean;
+  isMainWindowFullScreen?: boolean;
+  menuOptions?: MenuOptionsType;
 }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
@@ -88,6 +100,15 @@ export function getEmptyState(): UserStateType {
     regionCode: 'missing',
     platform: 'missing',
     interactionMode: 'mouse',
+    isMainWindowMaximized: false,
+    isMainWindowFullScreen: false,
+    menuOptions: {
+      development: false,
+      devTools: false,
+      includeSetup: false,
+      isProduction: true,
+      platform: 'unknown',
+    },
     theme: ThemeType.light,
     i18n: Object.assign(
       () => {
@@ -99,6 +120,7 @@ export function getEmptyState(): UserStateType {
         },
       }
     ),
+    localeMessages: {},
     version: '0.0.0',
   };
 }

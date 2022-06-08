@@ -103,8 +103,19 @@ export const ModalHost = React.memo(
           useFocusTrap ? (
             <FocusTrap
               focusTrapOptions={{
-                // This is alright because the overlay covers the entire screen
-                allowOutsideClick: false,
+                allowOutsideClick: ({ target }) => {
+                  if (!target || !(target instanceof HTMLElement)) {
+                    return false;
+                  }
+
+                  const titleBar = document.querySelector(
+                    '.TitleBarContainer__title'
+                  );
+                  if (titleBar?.contains(target)) {
+                    return true;
+                  }
+                  return false;
+                },
               }}
             >
               {modalContent}

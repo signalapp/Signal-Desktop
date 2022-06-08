@@ -13,9 +13,10 @@ contextBridge.exposeInMainWorld('SignalContext', SignalContext);
 function renderScreenSharingController(presentedSourceName: string): void {
   ReactDOM.render(
     React.createElement(CallingScreenSharingController, {
+      platform: process.platform,
+      executeMenuRole: SignalContext.executeMenuRole,
       i18n: SignalContext.i18n,
-      onCloseController: () =>
-        ipcRenderer.send('close-screen-share-controller'),
+      onCloseController: () => SignalContext.executeMenuRole('close'),
       onStopSharing: () => ipcRenderer.send('stop-screen-share'),
       presentedSourceName,
     }),

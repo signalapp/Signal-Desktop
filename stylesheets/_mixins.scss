@@ -672,7 +672,7 @@
 @mixin install-screen {
   align-items: center;
   display: flex;
-  height: 100vh;
+  height: var(--window-height);
   justify-content: center;
   line-height: 30px;
   user-select: none;

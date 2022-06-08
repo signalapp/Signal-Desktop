@@ -3741,7 +3741,7 @@ button.module-image__border-overlay:focus {
     background-color: $calling-background-color;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: var(--window-height);
     justify-content: center;
     position: absolute;
     width: 100%;
@@ -3855,7 +3855,7 @@ button.module-image__border-overlay:focus {
 
   &__remote-video-disabled {
     background-color: $color-gray-95;
-    height: 100vh;
+    height: var(--window-height);
     width: 100%;
     display: flex;
     align-items: center;
@@ -4292,7 +4292,7 @@ button.module-image__border-overlay:focus {
 
   &__overlay {
     display: flex;
-    height: 100vh;
+    height: var(--window-height);
     justify-content: flex-end;
     left: 0;
     position: absolute;
@@ -4415,7 +4415,7 @@ button.module-image__border-overlay:focus {
   color: $color-gray-05;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: var(--window-height);
   justify-content: center;
   position: relative;
   width: 100%;
@@ -5983,7 +5983,7 @@ button.module-image__border-overlay:focus {
     left: 0;
     top: 0;
     width: 100vw;
-    height: 100vh;
+    height: var(--window-height);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7281,7 +7281,7 @@ button.module-image__border-overlay:focus {
   border-radius: 4px;
   padding: 16px;
 
-  max-height: calc(100vh - 40px);
+  max-height: calc(var(--window-height) - 40px);
   max-width: 1150px;
   margin-left: auto;
   margin-right: auto;
@@ -7626,7 +7626,7 @@ button.module-image__border-overlay:focus {
 
 .module-modal-host__overlay {
   background: $color-black-alpha-40;
-  height: 100vh;
+  height: var(--window-height);
   left: 0;
   position: absolute;
   top: 0;
@@ -7637,7 +7637,7 @@ button.module-image__border-overlay:focus {
 .module-modal-host__overlay-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: var(--window-height);
   justify-content: center;
   left: 0;
   overflow: hidden;
@@ -7784,7 +7784,7 @@ button.module-image__border-overlay:focus {
   left: 0;
   top: 0;
   width: 100vw;
-  height: 100vh;
+  height: var(--window-height);
   display: flex;
   justify-content: center;
   align-items: center;
