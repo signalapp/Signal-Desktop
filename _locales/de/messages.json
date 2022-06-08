@@ -218,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Diese Unterhaltungen sind archiviert und erscheinen nur dann im Eingang, wenn neue Nachrichten eingehen.",
+        "message": "Diese Unterhaltungen sind archiviert und erscheinen nur dann wieder im Eingang, wenn für sie neue Nachrichten eingehen.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
@@ -234,7 +234,7 @@
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "Rückgängig",
+        "message": "Dearchivieren",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -1538,7 +1538,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Stumm​schalten",
+        "message": "Stumm​­schalten",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -3128,7 +3128,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Unterhaltung in Eingang verschieben",
+        "message": "Unterhaltung dearchivieren",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
