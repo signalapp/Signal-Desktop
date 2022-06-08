@@ -876,7 +876,7 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typ-animatie voor dit gesprek",
+        "message": "Animatie welke aangeeft dat iemand in dit gesprek aan het typen is",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
@@ -1964,7 +1964,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Verbinding wordt verbroken en alle gegevens worden gewist",
+        "message": "Aan het ontkoppelen en alle gegevens aan het wissen",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
@@ -3144,7 +3144,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "‘Alle media uit dit gesprek’-scherm weergeven",
+        "message": "Alle media uit dit gesprek weergeven",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -5558,7 +5558,7 @@
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ niet toegevoegd worden aan de nieuwe-stijl groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "message": "$contact$ kon niet toegevoegd worden aan de nieuwe-stijl groep en heeft daarom een uitnodiging gekregen om opnieuw lid te worden.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5762,7 +5762,7 @@
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Groep blokkeren en verlaten",
+        "message": "Groep blokkeren",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {

@@ -930,7 +930,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadFullMessage": {
-        "message": "Download Full Message",
+        "message": "Sækja öll skilaboðin",
         "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
@@ -2762,7 +2762,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened": {
-        "message": "View this message on mobile to open it",
+        "message": "Skoðaðu þessi skilaboð á farsíma til að opna þau",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--label": {
@@ -2770,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Check your phone to open gift",
+        "message": "Athugaðu farsímann þinn til að opna gjöf",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Check your phone to view your gift",
+        "message": "Athugaðu farsímann þinn til að skoða gjöfina þína",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -3280,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Accept call with video",
+        "message": "Samþykkja símtal með myndmerki",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Accept call with audio",
+        "message": "Samþykkja símtal með hljóði",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -7270,11 +7270,11 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.45--1": {
-        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "message": "Gagnvirkir vísar í hópsamtölum gera þér kleift að sja hvort þú sért að hvísla, kalla eða tala eðlilega.",
         "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.45--2": {
-        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "message": "Hópar sem þú hefur beðið um inngöngu í á símanum þínum (með boðstengli) virtast núna í borðtölvuforritinu.",
         "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.45--3": {

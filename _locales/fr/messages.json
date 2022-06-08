@@ -7172,7 +7172,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "Reply to Group",
+        "message": "Répondre au groupe",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {

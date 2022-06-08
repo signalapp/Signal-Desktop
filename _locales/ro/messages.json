@@ -7270,15 +7270,15 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.45--1": {
-        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "message": "Am adăugat indicatori audio în apelurile de grup pentru a te ajuta să vezi dacă vorbești prea încet, prea tare sau perfect.",
         "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.45--2": {
-        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "message": "Grupurile către care ai trimis cerere de înscriere de pe telefon (folosind linkul grupului) vor apărea acum și în Desktop.",
         "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.45--3": {
-        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
+        "message": "Ai o conexiune Wi-Fi instabilă? Acum nu mai este o problemă, deoarece acum vei putea încerca din nou descărcarea atașamentelor.",
         "description": "Release notes for v5.45"
     }
 }
