@@ -27,6 +27,7 @@ import { createSetting } from '../util/preload';
 import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 import { waitForSettingsChange } from './waitForSettingsChange';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
+import { isWindows, isLinux, isMacOS } from '../OS';
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
@@ -56,6 +57,11 @@ export type SignalContextType = {
     themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
     waitForChange: () => Promise<void>;
   };
+  OS: {
+    isWindows: typeof isWindows;
+    isLinux: typeof isLinux;
+    isMacOS: typeof isMacOS;
+  };
   config: ParsedUrlQuery;
   getAppInstance: () => string | undefined;
   getEnvironment: () => string;
@@ -76,6 +82,11 @@ export const SignalContext: SignalContextType = {
   Settings: {
     themeSetting: createSetting('themeSetting', { setter: false }),
     waitForChange: waitForSettingsChange,
+  },
+  OS: {
+    isWindows,
+    isLinux,
+    isMacOS,
   },
   bytes: new Bytes(),
   config,
