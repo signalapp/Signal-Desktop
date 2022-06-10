@@ -148,7 +148,6 @@ export const DebugLogWindow = ({
         platform={platform}
         theme={theme}
         executeMenuRole={executeMenuRole}
-        title={i18n('debugLog')}
       >
         <div className="DebugLogWindow">
           <div>
@@ -192,7 +191,6 @@ export const DebugLogWindow = ({
       platform={platform}
       theme={theme}
       executeMenuRole={executeMenuRole}
-      title={i18n('debugLog')}
     >
       <div className="DebugLogWindow">
         <div>

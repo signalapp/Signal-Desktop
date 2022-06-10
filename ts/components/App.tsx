@@ -135,7 +135,6 @@ export const App = ({
 
   return (
     <TitleBarContainer
-      title="Signal"
       theme={theme}
       isMaximized={isMaximized}
       isFullScreen={isFullScreen}

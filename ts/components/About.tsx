@@ -35,7 +35,6 @@ export const About = ({
       platform={platform}
       theme={theme}
       executeMenuRole={executeMenuRole}
-      title={i18n('aboutSignalDesktop')}
     >
       <div className="About">
         <div className="module-splash-screen">

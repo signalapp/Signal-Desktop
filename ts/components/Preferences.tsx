@@ -1029,7 +1029,6 @@ export const Preferences = ({
       platform={platform}
       theme={theme}
       executeMenuRole={executeMenuRole}
-      title={i18n('signalDesktopPreferences')}
     >
       <div className="Preferences">
         <div className="Preferences__page-selector">

@@ -24,7 +24,6 @@ export type ExecuteMenuRoleType = (
 ) => void;
 
 export type PropsType = Readonly<{
-  title: string;
   theme: ThemeType;
   isMaximized?: boolean;
   isFullScreen?: boolean;
@@ -106,7 +105,6 @@ function convertMenu(
 
 export const TitleBarContainer = (props: PropsType): JSX.Element => {
   const {
-    title,
     theme,
     isMaximized,
     isFullScreen,
@@ -170,7 +168,6 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
       <TitleBar
         className="TitleBarContainer__title"
         platform={platform}
-        title={title}
         iconSrc="images/icon_32.png"
         theme={titleBarTheme}
         maximized={isMaximized}
