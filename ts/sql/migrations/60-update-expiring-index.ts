@@ -5,12 +5,13 @@ import type { Database } from 'better-sqlite3';
 
 import type { LoggerType } from '../../types/Logging';
 
-export default function updateToSchemaVersion59(
+// TODO: DESKTOP-3694
+export default function updateToSchemaVersion60(
   currentVersion: number,
   db: Database,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 59) {
+  if (currentVersion >= 60) {
     return;
   }
 
@@ -23,17 +24,17 @@ export default function updateToSchemaVersion59(
         ON messages
         (
           conversationId,
-          storyId
+          storyId,
           expirationStartTimestamp,
           expireTimer,
-          received_at,
+          received_at
         )
         WHERE isStory IS 0 AND type IS 'incoming';
       `
     );
 
-    db.pragma('user_version = 59');
+    db.pragma('user_version = 60');
   })();
 
-  logger.info('updateToSchemaVersion59: success!');
+  logger.info('updateToSchemaVersion60: success!');
 }

@@ -3254,7 +3254,7 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
         `
           SELECT *
           FROM unprocessed
-          ORDER BY timestamp ASC;
+          ORDER BY receivedAtCounter ASC;
         `
       )
       .all();
