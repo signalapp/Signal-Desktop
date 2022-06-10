@@ -2287,9 +2287,9 @@ describe('SQL migrations test', () => {
     });
   });
 
-  describe('updateToSchemaVersion59', () => {
+  describe('updateToSchemaVersion60', () => {
     it('updates index to make query efficient', () => {
-      updateToVersion(47);
+      updateToVersion(60);
 
       const items = db
         .prepare(
@@ -2320,7 +2320,9 @@ describe('SQL migrations test', () => {
       assert.notInclude(detail, 'SCAN');
       assert.include(
         detail,
-        'SEARCH messages USING INDEX expiring_message_by_conversation_and_received_at (expirationStartTimestamp=? AND expireTimer>?)'
+        'SEARCH messages USING INDEX ' +
+          'expiring_message_by_conversation_and_received_at ' +
+          '(conversationId=? AND storyId=?)'
       );
     });
   });

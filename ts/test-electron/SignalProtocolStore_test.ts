@@ -1658,7 +1658,7 @@ describe('SignalProtocolStore', () => {
           id: '0-dropped',
           envelope: 'old envelope',
           timestamp: NOW - 2 * durations.MONTH,
-          receivedAtCounter: 0,
+          receivedAtCounter: -1,
           version: 2,
           attempts: 0,
         }),
@@ -1666,7 +1666,7 @@ describe('SignalProtocolStore', () => {
           id: '2-two',
           envelope: 'second',
           timestamp: NOW + 2,
-          receivedAtCounter: 0,
+          receivedAtCounter: 1,
           version: 2,
           attempts: 0,
         }),
@@ -1674,7 +1674,7 @@ describe('SignalProtocolStore', () => {
           id: '3-three',
           envelope: 'third',
           timestamp: NOW + 3,
-          receivedAtCounter: 0,
+          receivedAtCounter: 2,
           version: 2,
           attempts: 0,
         }),
@@ -1691,7 +1691,8 @@ describe('SignalProtocolStore', () => {
       const items = await store.getAllUnprocessedAndIncrementAttempts();
       assert.strictEqual(items.length, 3);
 
-      // they are in the proper order because the collection comparator is 'timestamp'
+      // they are in the proper order because the collection comparator is
+      // 'receivedAtCounter'
       assert.strictEqual(items[0].envelope, 'first');
       assert.strictEqual(items[1].envelope, 'second');
       assert.strictEqual(items[2].envelope, 'third');
