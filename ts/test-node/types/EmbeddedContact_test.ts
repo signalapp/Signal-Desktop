@@ -270,7 +270,7 @@ describe('Contact', () => {
       const result = await upgradeVersion(message.contact[0], {
         message,
         logger,
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
       });
       assert.deepEqual(result, message.contact[0]);
@@ -311,7 +311,7 @@ describe('Contact', () => {
       };
       const result = await upgradeVersion(message.contact[0], {
         message,
-        regionCode: 'US',
+        getRegionCode: () => 'US',
         logger,
         writeNewAttachmentData,
       });
@@ -355,7 +355,7 @@ describe('Contact', () => {
         ],
       };
       const result = await upgradeVersion(message.contact[0], {
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
         message,
         logger,
@@ -440,7 +440,7 @@ describe('Contact', () => {
       };
 
       const result = await upgradeVersion(message.contact[0], {
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
         message,
         logger,
@@ -487,7 +487,7 @@ describe('Contact', () => {
         ],
       };
       const result = await upgradeVersion(message.contact[0], {
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
         message,
         logger,
@@ -534,7 +534,7 @@ describe('Contact', () => {
         ],
       };
       const result = await upgradeVersion(message.contact[0], {
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
         message,
         logger,
@@ -577,7 +577,7 @@ describe('Contact', () => {
         },
       };
       const result = await upgradeVersion(message.contact[0], {
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
         message,
         logger,
@@ -606,7 +606,7 @@ describe('Contact', () => {
         ],
       };
       const result = await upgradeVersion(message.contact[0], {
-        regionCode: '1',
+        getRegionCode: () => '1',
         writeNewAttachmentData,
         message,
         logger,

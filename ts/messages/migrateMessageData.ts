@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isFunction, isNumber } from 'lodash';
-import * as Message from '../../js/modules/types/message';
+import { CURRENT_SCHEMA_VERSION } from '../types/Message2';
 import type { MessageAttributesType } from '../model-types.d';
 import type { UUIDStringType } from '../types/UUID';
 
@@ -14,7 +14,7 @@ export async function migrateMessageData({
   upgradeMessageSchema,
   getMessagesNeedingUpgrade,
   saveMessage,
-  maxVersion = Message.CURRENT_SCHEMA_VERSION,
+  maxVersion = CURRENT_SCHEMA_VERSION,
 }: Readonly<{
   numMessagesPerBatch: number;
   upgradeMessageSchema: (

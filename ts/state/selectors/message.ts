@@ -1491,7 +1491,7 @@ export function getPropsForAttachment(
     url: path
       ? window.Signal.Migrations.getAbsoluteAttachmentPath(path)
       : undefined,
-    screenshot: screenshot
+    screenshot: screenshot?.path
       ? {
           ...screenshot,
           url: window.Signal.Migrations.getAbsoluteAttachmentPath(
@@ -1499,7 +1499,7 @@ export function getPropsForAttachment(
           ),
         }
       : undefined,
-    thumbnail: thumbnail
+    thumbnail: thumbnail?.path
       ? {
           ...thumbnail,
           url: window.Signal.Migrations.getAbsoluteAttachmentPath(

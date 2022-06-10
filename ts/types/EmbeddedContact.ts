@@ -191,12 +191,12 @@ export function parseAndWriteAvatar(
     contact: EmbeddedContactType,
     context: {
       message: MessageAttributesType;
-      regionCode: string;
+      getRegionCode: () => string | undefined;
       logger: Pick<LoggerType, 'error'>;
       writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
     }
   ): Promise<EmbeddedContactType> => {
-    const { message, regionCode, logger } = context;
+    const { message, getRegionCode, logger } = context;
     const { avatar } = contact;
 
     const contactWithUpdatedAvatar =
@@ -212,7 +212,7 @@ export function parseAndWriteAvatar(
 
     // eliminates empty numbers, emails, and addresses; adds type if not provided
     const parsedContact = parseContact(contactWithUpdatedAvatar, {
-      regionCode,
+      regionCode: getRegionCode(),
     });
 
     const error = _validate(parsedContact, {
@@ -231,7 +231,7 @@ export function parseAndWriteAvatar(
 
 function parseContact(
   contact: EmbeddedContactType,
-  { regionCode }: { regionCode: string }
+  { regionCode }: { regionCode: string | undefined }
 ): EmbeddedContactType {
   const boundParsePhone = (phoneNumber: Phone): Phone | undefined =>
     parsePhoneItem(phoneNumber, { regionCode });
@@ -294,7 +294,7 @@ export function _validate(
 
 function parsePhoneItem(
   item: Phone,
-  { regionCode }: { regionCode: string }
+  { regionCode }: { regionCode: string | undefined }
 ): Phone | undefined {
   if (!item.value) {
     return undefined;

@@ -110,7 +110,7 @@ const searchSelectors = require('../../ts/state/selectors/search');
 // Types
 const AttachmentType = require('../../ts/types/Attachment');
 const VisualAttachment = require('../../ts/types/VisualAttachment');
-const MessageType = require('./types/message');
+const MessageType = require('../../ts/types/Message2');
 const { UUID } = require('../../ts/types/UUID');
 const { Address } = require('../../ts/types/Address');
 const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
@@ -281,6 +281,8 @@ function initializeMigrations({
         makeVideoScreenshot,
         logger,
         maxVersion,
+        getAbsoluteStickerPath,
+        writeNewStickerData,
       });
     },
     writeMessageAttachments: MessageType.createAttachmentDataWriter({

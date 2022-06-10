@@ -1,30 +1,97 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { assert } = require('chai');
-const sinon = require('sinon');
+import { assert } from 'chai';
+import * as sinon from 'sinon';
 
-const Message = require('../../../js/modules/types/message');
-const { SignalService } = require('../../../ts/protobuf');
-const Bytes = require('../../../ts/Bytes');
+import * as Message from '../../types/Message2';
+import { SignalService } from '../../protobuf';
+import * as Bytes from '../../Bytes';
+import * as MIME from '../../types/MIME';
+
+import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type {
+  MessageAttributesType,
+  StickerMessageType,
+} from '../../model-types.d';
+import type { AttachmentType } from '../../types/Attachment';
+import type { LoggerType } from '../../types/Logging';
 
 describe('Message', () => {
-  const logger = {
+  const logger: LoggerType = {
     warn: () => null,
     error: () => null,
+    fatal: () => null,
+    info: () => null,
+    debug: () => null,
+    trace: () => null,
   };
+
+  function getDefaultMessage(
+    props?: Partial<MessageAttributesType>
+  ): MessageAttributesType {
+    return {
+      id: 'some-id',
+      type: 'incoming',
+      sent_at: 45,
+      received_at: 45,
+      timestamp: 45,
+      conversationId: 'some-conversation-id',
+      ...props,
+    };
+  }
+
+  function getDefaultContext(
+    props?: Partial<Message.ContextType>
+  ): Message.ContextType {
+    return {
+      getAbsoluteAttachmentPath: (_path: string) =>
+        'fake-absolute-attachment-path',
+      getAbsoluteStickerPath: (_path: string) => 'fake-absolute-sticker-path',
+      getImageDimensions: async (_params: {
+        objectUrl: string;
+        logger: LoggerType;
+      }) => ({
+        width: 10,
+        height: 20,
+      }),
+      getRegionCode: () => 'region-code',
+      logger,
+      makeImageThumbnail: async (_params: {
+        size: number;
+        objectUrl: string;
+        contentType: MIME.MIMEType;
+        logger: LoggerType;
+      }) => new Blob(),
+      makeObjectUrl: (
+        _data: Uint8Array | ArrayBuffer,
+        _contentType: MIME.MIMEType
+      ) => 'fake-object-url',
+      makeVideoScreenshot: async (_params: {
+        objectUrl: string;
+        contentType: MIME.MIMEType;
+        logger: LoggerType;
+      }) => new Blob(),
+      revokeObjectUrl: (_objectUrl: string) => undefined,
+      writeNewAttachmentData: async (_data: Uint8Array) =>
+        'fake-attachment-path',
+      writeNewStickerData: async (_sticker: StickerMessageType) =>
+        'fake-sticker-path',
+      ...props,
+    };
+  }
+  const writeExistingAttachmentData = () => Promise.resolve();
 
   describe('createAttachmentDataWriter', () => {
     it('should ignore messages that didn’t go through attachment migration', async () => {
-      const input = {
+      const input = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 2,
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 2,
-      };
-      const writeExistingAttachmentData = () => {};
+      });
 
       const actual = await Message.createAttachmentDataWriter({
         writeExistingAttachmentData,
@@ -34,17 +101,16 @@ describe('Message', () => {
     });
 
     it('should ignore messages without attachments', async () => {
-      const input = {
+      const input = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [],
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [],
-      };
-      const writeExistingAttachmentData = () => {};
+      });
 
       const actual = await Message.createAttachmentDataWriter({
         writeExistingAttachmentData,
@@ -54,32 +120,39 @@ describe('Message', () => {
     });
 
     it('should write attachments to file system on original path', async () => {
-      const input = {
+      const input = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [
           {
+            contentType: MIME.IMAGE_GIF,
+            size: 3534,
             path: 'ab/abcdefghi',
             data: Bytes.fromString('It’s easy if you try'),
           },
         ],
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [
           {
+            contentType: MIME.IMAGE_GIF,
+            size: 3534,
             path: 'ab/abcdefghi',
           },
         ],
         contact: [],
         preview: [],
-      };
+      });
 
-      const writeExistingAttachmentData = attachment => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const writeExistingAttachmentData = async (
+        attachment: Pick<AttachmentType, 'data' | 'path'>
+      ) => {
         assert.equal(attachment.path, 'ab/abcdefghi');
         assert.strictEqual(
-          Bytes.toString(attachment.data),
+          Bytes.toString(attachment.data || new Uint8Array()),
           'It’s easy if you try'
         );
       };
@@ -92,11 +165,15 @@ describe('Message', () => {
     });
 
     it('should process quote attachment thumbnails', async () => {
-      const input = {
+      const input = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [],
         quote: {
+          id: 3523,
+          isViewOnce: false,
+          messageId: 'some-message-id',
+          referencedMessageNotFound: false,
           attachments: [
             {
               thumbnail: {
@@ -106,12 +183,16 @@ describe('Message', () => {
             },
           ],
         },
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [],
         quote: {
+          id: 3523,
+          isViewOnce: false,
+          messageId: 'some-message-id',
+          referencedMessageNotFound: false,
           attachments: [
             {
               thumbnail: {
@@ -122,12 +203,15 @@ describe('Message', () => {
         },
         contact: [],
         preview: [],
-      };
+      });
 
-      const writeExistingAttachmentData = attachment => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const writeExistingAttachmentData = async (
+        attachment: Pick<AttachmentType, 'data' | 'path'>
+      ) => {
         assert.equal(attachment.path, 'ab/abcdefghi');
         assert.strictEqual(
-          Bytes.toString(attachment.data),
+          Bytes.toString(attachment.data || new Uint8Array()),
           'It’s easy if you try'
         );
       };
@@ -140,45 +224,52 @@ describe('Message', () => {
     });
 
     it('should process contact avatars', async () => {
-      const input = {
+      const input = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [],
         contact: [
           {
-            name: 'john',
+            name: { givenName: 'john' },
             avatar: {
               isProfile: false,
               avatar: {
+                contentType: MIME.IMAGE_PNG,
+                size: 47,
                 path: 'ab/abcdefghi',
                 data: Bytes.fromString('It’s easy if you try'),
               },
             },
           },
         ],
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
         attachments: [],
         contact: [
           {
-            name: 'john',
+            name: { givenName: 'john' },
             avatar: {
               isProfile: false,
               avatar: {
+                contentType: MIME.IMAGE_PNG,
+                size: 47,
                 path: 'ab/abcdefghi',
               },
             },
           },
         ],
         preview: [],
-      };
+      });
 
-      const writeExistingAttachmentData = attachment => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const writeExistingAttachmentData = async (
+        attachment: Pick<AttachmentType, 'data' | 'path'>
+      ) => {
         assert.equal(attachment.path, 'ab/abcdefghi');
         assert.strictEqual(
-          Bytes.toString(attachment.data),
+          Bytes.toString(attachment.data || new Uint8Array()),
           'It’s easy if you try'
         );
       };
@@ -193,14 +284,14 @@ describe('Message', () => {
 
   describe('initializeSchemaVersion', () => {
     it('should ignore messages with previously inherited schema', () => {
-      const input = {
+      const input = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 2,
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'Imagine there is no heaven…',
         schemaVersion: 2,
-      };
+      });
 
       const actual = Message.initializeSchemaVersion({
         message: input,
@@ -211,15 +302,15 @@ describe('Message', () => {
 
     context('for message without attachments', () => {
       it('should initialize schema version to zero', () => {
-        const input = {
+        const input = getDefaultMessage({
           body: 'Imagine there is no heaven…',
           attachments: [],
-        };
-        const expected = {
+        });
+        const expected = getDefaultMessage({
           body: 'Imagine there is no heaven…',
           attachments: [],
           schemaVersion: 0,
-        };
+        });
 
         const actual = Message.initializeSchemaVersion({
           message: input,
@@ -231,26 +322,28 @@ describe('Message', () => {
 
     context('for message with attachments', () => {
       it('should inherit existing attachment schema version', () => {
-        const input = {
+        const input = getDefaultMessage({
           body: 'Imagine there is no heaven…',
           attachments: [
             {
-              contentType: 'image/jpeg',
+              contentType: MIME.IMAGE_JPEG,
+              size: 45,
               fileName: 'lennon.jpg',
               schemaVersion: 7,
             },
           ],
-        };
-        const expected = {
+        });
+        const expected = getDefaultMessage({
           body: 'Imagine there is no heaven…',
           attachments: [
             {
-              contentType: 'image/jpeg',
+              contentType: MIME.IMAGE_JPEG,
+              size: 45,
               fileName: 'lennon.jpg',
             },
           ],
           schemaVersion: 7,
-        };
+        });
 
         const actual = Message.initializeSchemaVersion({
           message: input,
@@ -263,10 +356,10 @@ describe('Message', () => {
 
   describe('upgradeSchema', () => {
     it('should upgrade an unversioned message to the latest version', async () => {
-      const input = {
+      const input = getDefaultMessage({
         attachments: [
           {
-            contentType: 'audio/aac',
+            contentType: MIME.AUDIO_AAC,
             flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
             data: Bytes.fromString('It’s easy if you try'),
             fileName: 'test\u202Dfig.exe',
@@ -274,11 +367,11 @@ describe('Message', () => {
           },
         ],
         schemaVersion: 0,
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         attachments: [
           {
-            contentType: 'audio/aac',
+            contentType: MIME.AUDIO_AAC,
             flags: 1,
             path: 'abc/abcdefg',
             fileName: 'test\uFFFDfig.exe',
@@ -290,10 +383,10 @@ describe('Message', () => {
         hasFileAttachments: undefined,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
         contact: [],
-      };
+      });
 
       const expectedAttachmentData = 'It’s easy if you try';
-      const context = {
+      const context = getDefaultContext({
         writeNewAttachmentData: async attachmentData => {
           assert.strictEqual(
             Bytes.toString(attachmentData),
@@ -301,58 +394,46 @@ describe('Message', () => {
           );
           return 'abc/abcdefg';
         },
-        getRegionCode: () => 'US',
-        getAbsoluteAttachmentPath: () => 'some/path/on/disk',
-        makeObjectUrl: () => 'blob://FAKE',
-        revokeObjectUrl: () => null,
-        getImageDimensions: () => ({ height: 10, width: 15 }),
-        makeImageThumbnail: () => new Blob(),
-        makeVideoScreenshot: () => new Blob(),
-        logger: {
-          warn: () => null,
-          error: () => null,
-        },
-      };
+      });
       const actual = await Message.upgradeSchema(input, context);
       assert.deepEqual(actual, expected);
     });
 
     context('with multiple upgrade steps', () => {
       it('should return last valid message when any upgrade step fails', async () => {
-        const input = {
+        const input = getDefaultMessage({
           attachments: [
             {
-              contentType: 'application/json',
-              data: null,
+              contentType: MIME.APPLICATION_JSON,
               fileName: 'test\u202Dfig.exe',
               size: 1111,
             },
           ],
+          body: 'start',
           schemaVersion: 0,
-        };
-        const expected = {
+        });
+        const expected = getDefaultMessage({
           attachments: [
             {
-              contentType: 'application/json',
-              data: null,
+              contentType: MIME.APPLICATION_JSON,
               fileName: 'test\u202Dfig.exe',
               size: 1111,
             },
           ],
-          hasUpgradedToVersion1: true,
+          body: 'start +1',
           schemaVersion: 1,
-        };
+        });
 
-        const v1 = async message => ({
+        const v1 = async (message: MessageAttributesType) => ({
           ...message,
-          hasUpgradedToVersion1: true,
+          body: `${message.body} +1`,
         });
         const v2 = async () => {
           throw new Error('boom');
         };
-        const v3 = async message => ({
+        const v3 = async (message: MessageAttributesType) => ({
           ...message,
-          hasUpgradedToVersion3: true,
+          body: `${message.body} +3`,
         });
 
         const toVersion1 = Message._withSchemaVersion({
@@ -368,8 +449,8 @@ describe('Message', () => {
           upgrade: v3,
         });
 
-        const context = { logger };
-        const upgradeSchema = async message =>
+        const context = getDefaultContext({ logger });
+        const upgradeSchema = async (message: MessageAttributesType) =>
           toVersion3(
             await toVersion2(await toVersion1(message, context), context),
             context
@@ -380,42 +461,40 @@ describe('Message', () => {
       });
 
       it('should skip out-of-order upgrade steps', async () => {
-        const input = {
+        const input = getDefaultMessage({
           attachments: [
             {
-              contentType: 'application/json',
-              data: null,
+              contentType: MIME.APPLICATION_JSON,
               fileName: 'test\u202Dfig.exe',
               size: 1111,
             },
           ],
+          body: 'start',
           schemaVersion: 0,
-        };
-        const expected = {
+        });
+        const expected = getDefaultMessage({
           attachments: [
             {
-              contentType: 'application/json',
-              data: null,
+              contentType: MIME.APPLICATION_JSON,
               fileName: 'test\u202Dfig.exe',
               size: 1111,
             },
           ],
+          body: 'start +1 +2',
           schemaVersion: 2,
-          hasUpgradedToVersion1: true,
-          hasUpgradedToVersion2: true,
-        };
+        });
 
-        const v1 = async attachment => ({
-          ...attachment,
-          hasUpgradedToVersion1: true,
+        const v1 = async (message: MessageAttributesType) => ({
+          ...message,
+          body: `${message.body} +1`,
         });
-        const v2 = async attachment => ({
-          ...attachment,
-          hasUpgradedToVersion2: true,
+        const v2 = async (message: MessageAttributesType) => ({
+          ...message,
+          body: `${message.body} +2`,
         });
-        const v3 = async attachment => ({
-          ...attachment,
-          hasUpgradedToVersion3: true,
+        const v3 = async (message: MessageAttributesType) => ({
+          ...message,
+          body: `${message.body} +3`,
         });
 
         const toVersion1 = Message._withSchemaVersion({
@@ -431,15 +510,13 @@ describe('Message', () => {
           upgrade: v3,
         });
 
-        const context = { logger };
-        // NOTE: We upgrade to 3 before 2, i.e. the pipeline should abort:
-        const upgradeSchema = async attachment =>
-          toVersion2(
-            await toVersion3(await toVersion1(attachment, context), context),
-            context
-          );
+        const context = getDefaultContext({ logger });
+        const atVersion1 = await toVersion1(input, context);
 
-        const actual = await upgradeSchema(input);
+        // Note: this will fail to apply and log, since it's jumping two versions up
+        const atVersion3 = await toVersion3(atVersion1, context);
+
+        const actual = await toVersion2(atVersion3, context);
         assert.deepEqual(actual, expected);
       });
     });
@@ -447,37 +524,49 @@ describe('Message', () => {
 
   describe('_withSchemaVersion', () => {
     it('should require a version number', () => {
-      const toVersionX = () => {};
+      const toVersionX = () => null;
       assert.throws(
         () =>
-          Message._withSchemaVersion({ schemaVersion: toVersionX, upgrade: 2 }),
+          Message._withSchemaVersion({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            schemaVersion: toVersionX as any,
+            upgrade: () => Promise.resolve(getDefaultMessage()),
+          }),
         '_withSchemaVersion: schemaVersion is invalid'
       );
     });
 
     it('should require an upgrade function', () => {
       assert.throws(
-        () => Message._withSchemaVersion({ schemaVersion: 2, upgrade: 3 }),
+        () =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          Message._withSchemaVersion({ schemaVersion: 2, upgrade: 3 as any }),
         '_withSchemaVersion: upgrade must be a function'
       );
     });
 
     it('should skip upgrading if message has already been upgraded', async () => {
-      const upgrade = async message => ({ ...message, foo: true });
+      const upgrade = async (message: MessageAttributesType) => ({
+        ...message,
+        foo: true,
+      });
       const upgradeWithVersion = Message._withSchemaVersion({
         schemaVersion: 3,
         upgrade,
       });
 
-      const input = {
+      const input = getDefaultMessage({
         id: 'guid-guid-guid-guid',
         schemaVersion: 4,
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         id: 'guid-guid-guid-guid',
         schemaVersion: 4,
-      };
-      const actual = await upgradeWithVersion(input, { logger });
+      });
+      const actual = await upgradeWithVersion(
+        input,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(actual, expected);
     });
 
@@ -490,15 +579,18 @@ describe('Message', () => {
         upgrade,
       });
 
-      const input = {
+      const input = getDefaultMessage({
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
-      };
-      const actual = await upgradeWithVersion(input, { logger });
+      });
+      const actual = await upgradeWithVersion(
+        input,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(actual, expected);
     });
 
@@ -506,18 +598,22 @@ describe('Message', () => {
       const upgrade = async () => null;
       const upgradeWithVersion = Message._withSchemaVersion({
         schemaVersion: 3,
-        upgrade,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        upgrade: upgrade as any,
       });
 
-      const input = {
+      const input = getDefaultMessage({
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
-      };
-      const actual = await upgradeWithVersion(input, { logger });
+      });
+      const actual = await upgradeWithVersion(
+        input,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(actual, expected);
     });
   });
@@ -529,10 +625,10 @@ describe('Message', () => {
         .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
-      };
-      const result = await upgradeVersion(message);
+      });
+      const result = await upgradeVersion(message, getDefaultContext());
       assert.deepEqual(result, message);
     });
 
@@ -542,20 +638,32 @@ describe('Message', () => {
         .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
-        },
-      };
-      const expected = {
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+      });
+      const expected = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
           attachments: [],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const result = await upgradeVersion(message, { logger });
+      });
+      const result = await upgradeVersion(
+        message,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -565,14 +673,21 @@ describe('Message', () => {
         .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
           attachments: [],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const result = await upgradeVersion(message, { logger });
+      });
+      const result = await upgradeVersion(
+        message,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(result, message);
     });
 
@@ -582,7 +697,7 @@ describe('Message', () => {
         .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
@@ -592,9 +707,16 @@ describe('Message', () => {
               contentType: 'text/plain',
             },
           ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const result = await upgradeVersion(message, { logger });
+      });
+      const result = await upgradeVersion(
+        message,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(result, message);
     });
 
@@ -604,7 +726,7 @@ describe('Message', () => {
         .returns({ fileName: 'processed!' });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
@@ -617,9 +739,13 @@ describe('Message', () => {
               },
             },
           ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
@@ -632,9 +758,16 @@ describe('Message', () => {
               },
             },
           ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const result = await upgradeVersion(message, { logger });
+      });
+      const result = await upgradeVersion(
+        message,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(result, expected);
     });
 
@@ -644,7 +777,7 @@ describe('Message', () => {
       });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
@@ -655,9 +788,13 @@ describe('Message', () => {
               },
             },
           ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'hey there!',
         quote: {
           text: 'hey!',
@@ -668,9 +805,16 @@ describe('Message', () => {
               },
             },
           ],
+          id: 34233,
+          isViewOnce: false,
+          messageId: 'message-id',
+          referencedMessageNotFound: false,
         },
-      };
-      const result = await upgradeVersion(message, { logger });
+      });
+      const result = await upgradeVersion(
+        message,
+        getDefaultContext({ logger })
+      );
       assert.deepEqual(result, expected);
     });
   });
@@ -682,22 +826,23 @@ describe('Message', () => {
         .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapContact(upgradeContact);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'hey there!',
         contact: [],
-      };
-      const result = await upgradeVersion(message);
+      });
+      const result = await upgradeVersion(message, getDefaultContext());
       assert.deepEqual(result, expected);
     });
 
     it('handles one contact', async () => {
-      const upgradeContact = contact => Promise.resolve(contact);
+      const upgradeContact = (contact: EmbeddedContactType) =>
+        Promise.resolve(contact);
       const upgradeVersion = Message._mapContact(upgradeContact);
 
-      const message = {
+      const message = getDefaultMessage({
         body: 'hey there!',
         contact: [
           {
@@ -706,8 +851,8 @@ describe('Message', () => {
             },
           },
         ],
-      };
-      const expected = {
+      });
+      const expected = getDefaultMessage({
         body: 'hey there!',
         contact: [
           {
@@ -716,8 +861,8 @@ describe('Message', () => {
             },
           },
         ],
-      };
-      const result = await upgradeVersion(message);
+      });
+      const result = await upgradeVersion(message, getDefaultContext());
       assert.deepEqual(result, expected);
     });
   });

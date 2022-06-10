@@ -1598,7 +1598,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
               return {
                 path: attachment.path,
                 objectURL: getAbsoluteAttachmentPath(attachment.path),
-                thumbnailObjectUrl: thumbnail
+                thumbnailObjectUrl: thumbnail?.path
                   ? getAbsoluteAttachmentPath(thumbnail.path)
                   : undefined,
                 contentType: attachment.contentType,
@@ -2566,7 +2566,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
               return {
                 objectURL: getAbsoluteAttachmentPath(attachment.path || ''),
-                thumbnailObjectUrl: thumbnail
+                thumbnailObjectUrl: thumbnail?.path
                   ? getAbsoluteAttachmentPath(thumbnail.path)
                   : '',
                 contentType: attachment.contentType,

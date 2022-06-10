@@ -3,6 +3,6 @@
 
 import { isNumber } from 'lodash';
 
-export const isValid = (value: unknown): boolean => {
+export const isValid = (value: unknown): value is number => {
   return Boolean(isNumber(value) && value >= 0);
 };

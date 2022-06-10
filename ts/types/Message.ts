@@ -75,13 +75,13 @@ export type ProfileChangeNotificationMessage = Readonly<
     ExpirationTimerUpdate
 >;
 
-type SharedMessageProperties = Readonly<{
+export type SharedMessageProperties = Readonly<{
   conversationId: string;
   sent_at: number;
   timestamp: number;
 }>;
 
-type ExpirationTimerUpdate = Partial<
+export type ExpirationTimerUpdate = Partial<
   Readonly<{
     expirationTimerUpdate: Readonly<{
       expireTimer: number;
@@ -91,7 +91,7 @@ type ExpirationTimerUpdate = Partial<
   }>
 >;
 
-type MessageSchemaVersion5 = Partial<
+export type MessageSchemaVersion5 = Partial<
   Readonly<{
     hasAttachments: IndexableBoolean;
     hasVisualMediaAttachments: IndexablePresence;
@@ -99,7 +99,7 @@ type MessageSchemaVersion5 = Partial<
   }>
 >;
 
-type MessageSchemaVersion6 = Partial<
+export type MessageSchemaVersion6 = Partial<
   Readonly<{
     contact: Array<EmbeddedContactType>;
   }>

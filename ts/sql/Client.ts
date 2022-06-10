@@ -30,7 +30,7 @@ import { deleteExternalFiles } from '../types/Conversation';
 import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import * as Bytes from '../Bytes';
-import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
+import { CURRENT_SCHEMA_VERSION } from '../types/Message2';
 import { createBatcher } from '../util/batcher';
 import { assert, strictAssert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';

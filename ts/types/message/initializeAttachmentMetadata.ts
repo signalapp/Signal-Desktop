@@ -3,19 +3,20 @@
 
 import * as Attachment from '../Attachment';
 import * as IndexedDB from '../IndexedDB';
-import type { Message, UserMessage } from '../Message';
+
+import type { MessageAttributesType } from '../../model-types.d';
 
 const hasAttachment =
   (predicate: (value: Attachment.AttachmentType) => boolean) =>
-  (message: UserMessage): IndexedDB.IndexablePresence =>
-    IndexedDB.toIndexablePresence(message.attachments.some(predicate));
+  (message: MessageAttributesType): IndexedDB.IndexablePresence =>
+    IndexedDB.toIndexablePresence((message.attachments || []).some(predicate));
 
 const hasFileAttachment = hasAttachment(Attachment.isFile);
 const hasVisualMediaAttachment = hasAttachment(Attachment.isVisualMedia);
 
 export const initializeAttachmentMetadata = async (
-  message: Message
-): Promise<Message> => {
+  message: MessageAttributesType
+): Promise<MessageAttributesType> => {
   if (message.type === 'verified-change') {
     return message;
   }
@@ -26,7 +27,7 @@ export const initializeAttachmentMetadata = async (
     return message;
   }
 
-  const attachments = message.attachments.filter(
+  const attachments = (message.attachments || []).filter(
     (attachment: Attachment.AttachmentType) =>
       attachment.contentType !== 'text/x-signal-plain'
   );

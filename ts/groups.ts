@@ -62,7 +62,7 @@ import type {
   GroupLogResponseType,
 } from './textsecure/WebAPI';
 import type MessageSender from './textsecure/SendMessage';
-import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
+import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2';
 import type { ConversationModel } from './models/conversations';
 import { getGroupSizeHardLimit } from './groups/limits';
 import {

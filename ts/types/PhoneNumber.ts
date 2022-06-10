@@ -51,7 +51,7 @@ export const format = memoizee(_format, {
 export function parse(
   phoneNumber: string,
   options: {
-    regionCode: string;
+    regionCode: string | undefined;
   }
 ): string {
   const { regionCode } = options;

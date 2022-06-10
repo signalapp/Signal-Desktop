@@ -61,8 +61,14 @@ export type GroupMigrationType = {
   droppedMemberIds: Array<string>;
   invitedMembers: Array<GroupV2PendingMemberType>;
 };
+export type PreviewType = {
+  domain: string;
+  image: AttachmentType;
+  title: string;
+  url: string;
+};
 
-export type PreviewMessageType = Array<WhatIsThis>;
+export type PreviewMessageType = Array<PreviewType>;
 
 export type QuotedMessageType = {
   attachments: Array<typeof window.WhatIsThis>;
@@ -90,6 +96,9 @@ export type StickerMessageType = {
   stickerId: number;
   packKey: string;
   data?: AttachmentType;
+  path?: string;
+  width?: number;
+  height?: number;
 };
 
 export type RetryOptions = Readonly<{
@@ -129,9 +138,9 @@ export type MessageAttributesType = {
   expireTimer?: number;
   groupMigration?: GroupMigrationType;
   group_update?: GroupV1Update;
-  hasAttachments?: boolean;
-  hasFileAttachments?: boolean;
-  hasVisualMediaAttachments?: boolean;
+  hasAttachments?: boolean | 0 | 1;
+  hasFileAttachments?: boolean | 0 | 1;
+  hasVisualMediaAttachments?: boolean | 0 | 1;
   isErased?: boolean;
   isTapToViewInvalid?: boolean;
   isViewOnce?: boolean;
