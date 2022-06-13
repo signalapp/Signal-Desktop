@@ -8,21 +8,23 @@
   justify-content: center;
   align-items: center;
   background: none;
-  padding: 0 5px;
 
   &__microphone {
     height: 32px;
     width: 32px;
     text-align: center;
-    opacity: 0.5;
     background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     padding: 0;
     border: none;
 
-    &:focus,
-    &:hover {
-      opacity: 1;
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-ultramarine;
+      }
     }
 
     outline: none;
@@ -41,7 +43,7 @@
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/mic-solid-24.svg',
+          '../images/icons/v2/mic-outline-24.svg',
           $color-gray-15
         );
       }

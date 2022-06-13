@@ -380,22 +380,24 @@ export const CompositionArea = ({
   );
 
   const micButtonFragment = shouldShowMicrophone ? (
-    <AudioCapture
-      cancelRecording={cancelRecording}
-      completeRecording={completeRecording}
-      conversationId={conversationId}
-      draftAttachments={draftAttachments}
-      errorDialogAudioRecorderType={errorDialogAudioRecorderType}
-      errorRecording={errorRecording}
-      i18n={i18n}
-      recordingState={recordingState}
-      onSendAudioRecording={(
-        voiceNoteAttachment: InMemoryAttachmentDraftType
-      ) => {
-        onSendMessage({ voiceNoteAttachment });
-      }}
-      startRecording={startRecording}
-    />
+    <div className="CompositionArea__button-cell">
+      <AudioCapture
+        cancelRecording={cancelRecording}
+        completeRecording={completeRecording}
+        conversationId={conversationId}
+        draftAttachments={draftAttachments}
+        errorDialogAudioRecorderType={errorDialogAudioRecorderType}
+        errorRecording={errorRecording}
+        i18n={i18n}
+        recordingState={recordingState}
+        onSendAudioRecording={(
+          voiceNoteAttachment: InMemoryAttachmentDraftType
+        ) => {
+          onSendMessage({ voiceNoteAttachment });
+        }}
+        startRecording={startRecording}
+      />
+    </div>
   ) : null;
 
   const isRecording = recordingState === RecordingState.Recording;
@@ -412,19 +414,17 @@ export const CompositionArea = ({
     );
 
   const sendButtonFragment = (
-    <div
-      className={classNames(
-        'CompositionArea__button-cell',
-        large ? 'CompositionArea__button-cell--large-right' : null
-      )}
-    >
-      <button
-        type="button"
-        className="CompositionArea__send-button"
-        onClick={handleForceSend}
-        aria-label={i18n('sendMessageToContact')}
-      />
-    </div>
+    <>
+      <div className="CompositionArea__placeholder" />
+      <div className="CompositionArea__button-cell">
+        <button
+          type="button"
+          className="CompositionArea__send-button"
+          onClick={handleForceSend}
+          aria-label={i18n('sendMessageToContact')}
+        />
+      </div>
+    </>
   );
 
   const stickerButtonPlacement = large ? 'top-start' : 'top-end';
@@ -664,7 +664,12 @@ export const CompositionArea = ({
         )}
       >
         {!large ? leftHandSideButtonsFragment : null}
-        <div className="CompositionArea__input">
+        <div
+          className={classNames(
+            'CompositionArea__input',
+            large ? 'CompositionArea__input--padded' : null
+          )}
+        >
           <CompositionInput
             clearQuotedMessage={clearQuotedMessage}
             disabled={disabled}

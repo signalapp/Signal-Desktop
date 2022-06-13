@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
-  withNewMessages: boolean;
+  unreadCount?: number;
   conversationId: string;
 
   scrollDown: (conversationId: string) => void;
@@ -17,26 +16,35 @@ export type Props = {
 
 export const ScrollDownButton = ({
   conversationId,
-  withNewMessages,
+  unreadCount,
   i18n,
   scrollDown,
 }: Props): JSX.Element => {
-  const altText = withNewMessages ? i18n('messagesBelow') : i18n('scrollDown');
+  const altText = unreadCount ? i18n('messagesBelow') : i18n('scrollDown');
+
+  let badgeText: string | undefined;
+  if (unreadCount) {
+    if (unreadCount < 100) {
+      badgeText = unreadCount.toString();
+    } else {
+      badgeText = '99+';
+    }
+  }
 
   return (
-    <div className="module-scroll-down">
+    <div className="ScrollDownButton">
       <button
         type="button"
-        className={classNames(
-          'module-scroll-down__button',
-          withNewMessages ? 'module-scroll-down__button--new-messages' : null
-        )}
+        className="ScrollDownButton__button"
         onClick={() => {
           scrollDown(conversationId);
         }}
         title={altText}
       >
-        <div className="module-scroll-down__icon" />
+        {badgeText ? (
+          <div className="ScrollDownButton__button__badge">{badgeText}</div>
+        ) : null}
+        <div className="ScrollDownButton__button__icon" />
       </button>
     </div>
   );

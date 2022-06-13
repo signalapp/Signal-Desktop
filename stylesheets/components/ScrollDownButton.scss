@@ -1,0 +1,68 @@
+// Copyright 2018-2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ScrollDownButton {
+  z-index: $z-index-scroll-down-button;
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+
+  &__button {
+    position: relative;
+
+    height: 36px;
+    width: 36px;
+
+    display: flex;
+    border-radius: 18px;
+    border: none;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0px 0px 2px $color-black-alpha-20,
+      0px 2px 6px $color-black-alpha-12;
+
+    @include light-theme {
+      background-color: $color-white;
+    }
+    @include dark-theme {
+      background-color: $color-gray-75;
+    }
+
+    &__icon {
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-down-20.svg',
+          $color-gray-75
+        );
+      }
+
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-down-20.svg',
+          $color-gray-15
+        );
+      }
+
+      height: 20px;
+      width: 20px;
+    }
+
+    &__badge {
+      position: absolute;
+      top: -8px;
+      height: 16px;
+      min-width: 16px;
+      border-radius: 8px;
+      padding: 1px 4px;
+      background-color: $color-ultramarine;
+      color: $color-white;
+
+      font-size: 10px;
+      line-height: 14px;
+
+      box-shadow: 0px 1px 4px $color-black-alpha-24;
+    }
+  }
+}

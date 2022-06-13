@@ -185,7 +185,8 @@
 
     -webkit-app-region: no-drag;
     @include button-reset;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     border-radius: 4px;
     border: 2px solid transparent;
     display: flex;
@@ -240,56 +241,49 @@
       }
     }
 
-    @mixin normal-button($light-icon, $dark-icon) {
+    @mixin normal-button($icon, $size) {
       &::before {
         content: '';
         display: block;
-        flex-grow: 1;
+        width: $size;
+        height: $size;
+
         @include light-theme {
-          @include color-svg($light-icon, $color-gray-75);
+          @include color-svg($icon, $color-gray-75);
           &:hover,
           &:active,
           &:focus {
-            @include color-svg($light-icon, $color-gray-90);
+            @include color-svg($icon, $color-gray-90);
           }
         }
         @include dark-theme {
-          @include color-svg($dark-icon, $color-gray-15);
+          @include color-svg($icon, $color-gray-15);
           &:hover,
           &:active,
           &:focus {
-            @include color-svg($dark-icon, $color-gray-02);
+            @include color-svg($icon, $color-gray-02);
           }
         }
       }
     }
 
     &--video {
-      @include normal-button(
-        '../images/icons/v2/video-outline-24.svg',
-        '../images/icons/v2/video-solid-24.svg'
-      );
+      @include normal-button('../images/icons/v2/video-outline-24.svg', 24px);
     }
 
     &--audio {
       @include normal-button(
         '../images/icons/v2/phone-right-outline-24.svg',
-        '../images/icons/v2/phone-right-solid-24.svg'
+        24px
       );
     }
 
     &--search {
-      @include normal-button(
-        '../images/icons/v2/search-24.svg',
-        '../images/icons/v2/search-24.svg'
-      );
+      @include normal-button('../images/icons/v2/search-24.svg', 24px);
     }
 
     &--more {
-      @include normal-button(
-        '../images/icons/v2/chevron-down-24.svg',
-        '../images/icons/v2/chevron-down-24.svg'
-      );
+      @include normal-button('../images/icons/v2/chevron-down-20.svg', 20px);
     }
 
     &--join-call {

@@ -3950,7 +3950,7 @@ button.module-image__border-overlay:focus {
         &__button {
           &::before {
             @include color-svg(
-              '../images/icons/v2/arrow-down-24.svg',
+              '../images/icons/v2/chevron-down-24.svg',
               $color-white
             );
 
@@ -6181,15 +6181,14 @@ button.module-image__border-overlay:focus {
   background: none;
   width: 32px;
   height: 32px;
-  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
 
-  &:focus,
-  &:hover {
-    opacity: 1;
+  @include keyboard-mode {
+    &:focus {
+      outline: 1px solid $color-ultramarine;
+    }
   }
 
   outline: none;
@@ -6209,7 +6208,7 @@ button.module-image__border-overlay:focus {
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/sticker-solid-24.svg',
+        '../images/icons/v2/sticker-outline-24.svg',
         $color-gray-15
       );
     }
@@ -6686,15 +6685,14 @@ button.module-image__border-overlay:focus {
   background: none;
   width: 32px;
   height: 32px;
-  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
 
-  &:focus,
-  &:hover {
-    opacity: 1;
+  @include keyboard-mode {
+    &:focus {
+      outline: 1px solid $color-ultramarine;
+    }
   }
 
   outline: none;
@@ -6714,7 +6712,7 @@ button.module-image__border-overlay:focus {
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/emoji-smiley-solid-24.svg',
+        '../images/icons/v2/emoji-smiley-outline-24.svg',
         $color-gray-15
       );
     }
@@ -6796,6 +6794,7 @@ button.module-image__border-overlay:focus {
       padding: 0;
       text-align: start;
       white-space: break-spaces;
+      line-height: inherit;
 
       &--loaded {
         caret-color: auto;
@@ -6830,7 +6829,6 @@ button.module-image__border-overlay:focus {
   }
 
   &__input {
-    border: none;
     border-radius: 18px;
     overflow: hidden;
     word-break: break-word;
@@ -6838,28 +6836,34 @@ button.module-image__border-overlay:focus {
     // Override Quill styles
     .ql-container {
       @include font-body-1;
+      line-height: 21px;
+      font-size: 15px;
     }
 
     .ql-blank::before {
-      color: $color-gray-45;
+      @include light-theme() {
+        color: $color-gray-45;
+      }
+
+      @include dark-theme() {
+        color: $color-gray-25;
+      }
     }
 
     @include light-theme() {
       // Same as background color
-      border: 1px solid $color-white;
       background-color: $color-gray-05;
       color: $color-gray-90;
     }
 
     @include dark-theme() {
       // Same as background color
-      border: 1px solid $color-gray-95;
       background-color: $color-gray-75;
       color: $color-gray-05;
     }
 
     &__scroller {
-      padding: 7px 12px;
+      padding: 5px 11px 6px 11px;
       min-height: 32px;
       max-height: 80px;
       overflow: auto;
@@ -6885,11 +6889,11 @@ button.module-image__border-overlay:focus {
 
     &:focus-within {
       @include light-theme() {
-        border: 1px solid $color-ultramarine;
+        outline: 1px solid $color-ultramarine;
       }
 
       @include dark-theme() {
-        border: 1px solid $color-ultramarine;
+        outline: 1px solid $color-ultramarine;
       }
     }
   }
@@ -6998,57 +7002,6 @@ button.module-image__border-overlay:focus {
   @include dark-theme {
     color: $color-gray-05;
   }
-}
-
-// Module: Scroll Down Button
-
-.module-scroll-down {
-  z-index: $z-index-scroll-down-button;
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-}
-
-.module-scroll-down__button {
-  height: 44px;
-  width: 44px;
-  border-radius: 22px;
-  text-align: center;
-  border: none;
-  outline: none;
-
-  @include light-theme {
-    background-color: $color-gray-25;
-    &:hover {
-      background-color: $color-gray-45;
-    }
-
-    box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
-  }
-  @include dark-theme {
-    background-color: $color-gray-45;
-    &:hover {
-      background-color: $color-gray-25;
-    }
-
-    box-shadow: 0px 3px 5px 0px $color-white-alpha-20;
-  }
-}
-
-.module-scroll-down__button--new-messages {
-  background-color: $color-ultramarine;
-
-  &:hover {
-    background-color: $color-ultramarine-dark;
-  }
-}
-
-.module-scroll-down__icon {
-  @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
-  height: 36px;
-  width: 36px;
-  margin-left: -3px;
-  margin-top: -1px;
 }
 
 // Module: Avatar Popup

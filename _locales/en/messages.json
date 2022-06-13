@@ -1163,7 +1163,7 @@
     "description": "Label for the time a message was received"
   },
   "sendMessage": {
-    "message": "Send a message",
+    "message": "Message",
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {

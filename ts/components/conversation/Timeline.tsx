@@ -1185,7 +1185,7 @@ export class Timeline extends React.Component<
               {shouldShowScrollDownButton ? (
                 <ScrollDownButton
                   conversationId={id}
-                  withNewMessages={areUnreadBelowCurrentPosition}
+                  unreadCount={areUnreadBelowCurrentPosition ? unreadCount : 0}
                   scrollDown={this.onClickScrollDownButton}
                   i18n={i18n}
                 />

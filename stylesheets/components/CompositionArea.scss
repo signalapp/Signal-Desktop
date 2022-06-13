@@ -16,6 +16,8 @@
   &__row {
     display: flex;
     flex-direction: row;
+    align-items: center;
+
     &--center {
       justify-content: center;
     }
@@ -31,28 +33,22 @@
   }
 
   &__button-cell {
-    margin-top: 2px;
+    margin: 0 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
     height: 100%;
     flex-shrink: 0;
-    &--mic-active {
-      width: 150px;
+
+    &:first-child {
+      margin-left: 12px;
     }
-    &--large-right {
-      margin-left: auto;
-      margin-right: 4px;
-    }
-    &--large-right-mic-active {
-      margin-left: auto;
+
+    &:last-child {
       margin-right: 12px;
     }
   }
   &__send-button {
-    width: 32px;
-    height: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,6 +65,11 @@
   }
   &__input {
     flex-grow: 1;
+    margin: 0 6px;
+
+    &--large {
+      margin: 0;
+    }
   }
   $comp-area: &;
   &__toggle-large {
@@ -76,7 +77,7 @@
     height: 24px;
     position: absolute;
     left: calc(50% - 24px);
-    top: -18px;
+    top: -19px;
     border-radius: 12px 12px 0 0;
     pointer-events: none;
 
@@ -188,13 +189,16 @@
     width: 32px;
     height: 32px;
     padding: 0;
-    opacity: 0.5;
     border: none;
     background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &:focus,
-    &:hover {
-      opacity: 1;
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-ultramarine;
+      }
     }
 
     outline: none;
