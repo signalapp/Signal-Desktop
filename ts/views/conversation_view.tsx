@@ -101,7 +101,6 @@ import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpir
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
 import { autoScale } from '../util/handleImageAttachment';
-import { copyGroupLink } from '../util/copyGroupLink';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { markAllAsApproved } from '../util/markAllAsApproved';
 import { markAllAsVerifiedDefault } from '../util/markAllAsVerifiedDefault';
@@ -2207,12 +2206,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       JSX: window.Signal.State.Roots.createGroupLinkManagement(
         window.reduxStore,
         {
-          changeHasGroupLink: this.changeHasGroupLink.bind(this),
           conversationId: this.model.id,
-          copyGroupLink,
-          generateNewGroupLink: this.generateNewGroupLink.bind(this),
-          setAccessControlAddFromInviteLinkSetting:
-            this.setAccessControlAddFromInviteLinkSetting.bind(this),
         }
       ),
     });
@@ -2603,42 +2597,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     await this.longRunningTaskWrapper({
       name: 'updateExpirationTimer',
       task: async () => model.updateExpirationTimer(valueToSet),
-    });
-  }
-
-  async changeHasGroupLink(value: boolean): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    await this.longRunningTaskWrapper({
-      name: 'toggleGroupLink',
-      task: async () => model.toggleGroupLink(value),
-    });
-  }
-
-  async generateNewGroupLink(): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    window.showConfirmationDialog({
-      confirmStyle: 'negative',
-      message: window.i18n('GroupLinkManagement--confirm-reset'),
-      okText: window.i18n('GroupLinkManagement--reset'),
-      resolve: async () => {
-        await this.longRunningTaskWrapper({
-          name: 'refreshGroupLink',
-          task: async () => model.refreshGroupLink(),
-        });
-      },
-    });
-  }
-
-  async setAccessControlAddFromInviteLinkSetting(
-    value: boolean
-  ): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    await this.longRunningTaskWrapper({
-      name: 'updateAccessControlAddFromInviteLink',
-      task: async () => model.updateAccessControlAddFromInviteLink(value),
     });
   }
 

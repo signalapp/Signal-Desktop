@@ -801,6 +801,7 @@ export type ConversationActionType =
 
 export const actions = {
   cancelConversationVerification,
+  changeHasGroupLink,
   clearCancelledConversationVerification,
   clearGroupCreationError,
   clearInvitedUuidsForNewlyCreatedGroup,
@@ -823,6 +824,7 @@ export const actions = {
   deleteAvatarFromDisk,
   discardMessages,
   doubleCheckMissingQuoteReference,
+  generateNewGroupLink,
   messageChanged,
   messageDeleted,
   messageExpanded,
@@ -844,6 +846,7 @@ export const actions = {
   saveUsername,
   scrollToMessage,
   selectMessage,
+  setAccessControlAddFromInviteLinkSetting,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
   setComposeGroupName,
@@ -943,6 +946,74 @@ function deleteAvatarFromDisk(
         conversationId,
         avatars,
       },
+    });
+  };
+}
+
+function changeHasGroupLink(
+  conversationId: string,
+  value: boolean
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      name: 'toggleGroupLink',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.toggleGroupLink(value),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function generateNewGroupLink(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      name: 'refreshGroupLink',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.refreshGroupLink(),
+    });
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function setAccessControlAddFromInviteLinkSetting(
+  conversationId: string,
+  value: boolean
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      idForLogging: conversation.idForLogging(),
+      name: 'updateAccessControlAddFromInviteLink',
+      task: async () =>
+        conversation.updateAccessControlAddFromInviteLink(value),
+    });
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
     });
   };
 }

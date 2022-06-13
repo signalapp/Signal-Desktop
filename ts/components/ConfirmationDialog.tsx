@@ -18,18 +18,18 @@ export type ActionSpec = {
 };
 
 export type OwnProps = Readonly<{
-  moduleClassName?: string;
   actions?: Array<ActionSpec>;
+  cancelButtonVariant?: ButtonVariant;
   cancelText?: string;
   children?: React.ReactNode;
+  hasXButton?: boolean;
   i18n: LocalizerType;
+  moduleClassName?: string;
   onCancel?: () => unknown;
   onClose: () => unknown;
-  title?: string | React.ReactNode;
-  theme?: Theme;
-  hasXButton?: boolean;
-  cancelButtonVariant?: ButtonVariant;
   onTopOfEverything?: boolean;
+  theme?: Theme;
+  title?: string | React.ReactNode;
 }>;
 
 export type Props = OwnProps;

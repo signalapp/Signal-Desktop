@@ -1,35 +1,42 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import { SignalService as Proto } from '../../../protobuf';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
+
+import { ConfirmationDialog } from '../../ConfirmationDialog';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
+import { SignalService as Proto } from '../../../protobuf';
 
+import { copyGroupLink } from '../../../util/copyGroupLink';
 import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus';
 import { useUniqueId } from '../../../hooks/useUniqueId';
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
-export type PropsType = {
-  changeHasGroupLink: (value: boolean) => void;
+export type PropsDataType = {
   conversation?: ConversationType;
-  copyGroupLink: (groupLink: string) => void;
-  generateNewGroupLink: () => void;
   i18n: LocalizerType;
   isAdmin: boolean;
-  setAccessControlAddFromInviteLinkSetting: (value: boolean) => void;
+};
+
+export type PropsType = PropsDataType & {
+  changeHasGroupLink: (conversationId: string, value: boolean) => unknown;
+  generateNewGroupLink: (conversationId: string) => unknown;
+  setAccessControlAddFromInviteLinkSetting: (
+    conversationId: string,
+    value: boolean
+  ) => unknown;
 };
 
 export const GroupLinkManagement: React.ComponentType<PropsType> = ({
   changeHasGroupLink,
   conversation,
-  copyGroupLink,
   generateNewGroupLink,
   i18n,
   isAdmin,
@@ -44,9 +51,11 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
 
   const [focusRef] = useDelayedRestoreFocus();
 
-  const createEventHandler = (handleEvent: (x: boolean) => void) => {
+  const createEventHandler = (
+    handleEvent: (id: string, x: boolean) => unknown
+  ) => {
     return (value: string) => {
-      handleEvent(value === 'true');
+      handleEvent(conversation.id, value === 'true');
     };
   };
 
@@ -60,8 +69,29 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
       AccessControlEnum.UNSATISFIABLE;
   const groupLinkInfo = hasGroupLink ? conversation.groupLink : '';
 
+  const [hasGenerateNewLinkDialog, setHasGenerateNewLinkDialog] =
+    useState(false);
+
   return (
     <>
+      {hasGenerateNewLinkDialog && (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: () => {
+                generateNewGroupLink(conversation.id);
+              },
+              style: 'negative',
+              text: i18n('GroupLinkManagement--reset'),
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => {
+            setHasGenerateNewLinkDialog(false);
+          }}
+          title={i18n('GroupLinkManagement--confirm-reset')}
+        />
+      )}
       <PanelSection>
         <PanelRow
           info={groupLinkInfo}
@@ -120,7 +150,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                   />
                 }
                 label={i18n('GroupLinkManagement--reset')}
-                onClick={generateNewGroupLink}
+                onClick={() => setHasGenerateNewLinkDialog(true)}
               />
             ) : null}
           </PanelSection>

@@ -47,7 +47,6 @@ const createProps = (
 ): PropsType => ({
   changeHasGroupLink: action('changeHasGroupLink'),
   conversation: conversation || getConversation(),
-  copyGroupLink: action('copyGroupLink'),
   generateNewGroupLink: action('generateNewGroupLink'),
   i18n,
   isAdmin,

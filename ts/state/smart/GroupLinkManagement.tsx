@@ -3,24 +3,21 @@
 
 import { connect } from 'react-redux';
 
+import type { PropsDataType } from '../../components/conversation/conversation-details/GroupLinkManagement';
 import type { StateType } from '../reducer';
-import type { PropsType } from '../../components/conversation/conversation-details/GroupLinkManagement';
 import { GroupLinkManagement } from '../../components/conversation/conversation-details/GroupLinkManagement';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
+import { mapDispatchToProps } from '../actions';
 
 export type SmartGroupLinkManagementProps = {
-  changeHasGroupLink: (value: boolean) => void;
   conversationId: string;
-  copyGroupLink: (groupLink: string) => void;
-  generateNewGroupLink: () => void;
-  setAccessControlAddFromInviteLinkSetting: (value: boolean) => void;
 };
 
 const mapStateToProps = (
   state: StateType,
   props: SmartGroupLinkManagementProps
-): PropsType => {
+): PropsDataType => {
   const conversation = getConversationSelector(state)(props.conversationId);
   const isAdmin = Boolean(conversation?.areWeAdmin);
 
@@ -32,6 +29,6 @@ const mapStateToProps = (
   };
 };
 
-const smart = connect(mapStateToProps);
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const SmartGroupLinkManagement = smart(GroupLinkManagement);
