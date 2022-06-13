@@ -4,6 +4,7 @@
 import { compact, isNumber, throttle, debounce } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
+import { v4 as generateGuid } from 'uuid';
 
 import type {
   ConversationAttributesType,
@@ -2590,7 +2591,7 @@ export class ConversationModel extends window.Backbone
     });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { VERIFIED, UNVERIFIED } = this.verifiedEnum!;
+    const { VERIFIED, DEFAULT } = this.verifiedEnum!;
 
     if (!isDirectConversation(this.attributes)) {
       throw new Error(
@@ -2641,7 +2642,7 @@ export class ConversationModel extends window.Backbone
     const didVerifiedChange = beginningVerified !== verified;
     const isExplicitUserAction = !options.viaStorageServiceSync;
     const shouldShowFromStorageSync =
-      options.viaStorageServiceSync && verified !== UNVERIFIED;
+      options.viaStorageServiceSync && verified !== DEFAULT;
     if (
       // The message came from an explicit verification in a client (not
       // storage service sync)
@@ -3011,11 +3012,8 @@ export class ConversationModel extends window.Backbone
   async addVerifiedChange(
     verifiedChangeId: string,
     verified: boolean,
-    providedOptions: Record<string, unknown>
+    options: { local?: boolean } = { local: true }
   ): Promise<void> {
-    const options = providedOptions || {};
-    window._.defaults(options, { local: true });
-
     if (isMe(this.attributes)) {
       log.info('refusing to add verified change advisory for our own number');
       return;
@@ -3030,30 +3028,30 @@ export class ConversationModel extends window.Backbone
       lastMessage
     );
 
+    const shouldBeUnseen = !options.local && !verified;
     const timestamp = Date.now();
-    const message = {
+    const message: MessageAttributesType = {
+      id: generateGuid(),
       conversationId: this.id,
-      local: options.local,
-      readStatus: ReadStatus.Unread,
+      local: Boolean(options.local),
+      readStatus: shouldBeUnseen ? ReadStatus.Unread : ReadStatus.Read,
       received_at_ms: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),
-      seenStatus: SeenStatus.Unseen,
+      seenStatus: shouldBeUnseen ? SeenStatus.Unseen : SeenStatus.Unseen,
       sent_at: lastMessage,
+      timestamp,
       type: 'verified-change',
       verified,
       verifiedChanged: verifiedChangeId,
-      // TODO: DESKTOP-722
-    } as unknown as MessageAttributesType;
+    };
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    await window.Signal.Data.saveMessage(message, {
       ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      forceSave: true,
     });
     const model = window.MessageController.register(
-      id,
-      new window.Whisper.Message({
-        ...message,
-        id,
-      })
+      message.id,
+      new window.Whisper.Message(message)
     );
 
     this.trigger('newmessage', model);

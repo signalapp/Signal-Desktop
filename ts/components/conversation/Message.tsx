@@ -1147,7 +1147,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     const withContentAbove =
       Boolean(quote) ||
-      (conversationType === 'group' && direction === 'incoming');
+      (!shouldCollapseAbove &&
+        conversationType === 'group' &&
+        direction === 'incoming');
 
     const previewHasImage = isImageAttachment(first.image);
     const isFullSizeImage = shouldUseFullSizeLinkPreviewImage(first);

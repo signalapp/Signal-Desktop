@@ -6,6 +6,7 @@ import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, select, text } from '@storybook/addon-knobs';
+import type { Meta, Story } from '@storybook/react';
 
 import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
@@ -44,6 +45,47 @@ import { BadgeCategory } from '../../badges/BadgeCategory';
 
 const i18n = setupI18n('en', enMessages);
 
+const quoteOptions = {
+  none: undefined,
+  basic: {
+    conversationColor: ConversationColors[2],
+    text: 'The quoted message',
+    isFromMe: false,
+    sentAt: Date.now(),
+    authorId: 'some-id',
+    authorTitle: 'Someone',
+    referencedMessageNotFound: false,
+    isViewOnce: false,
+    isGiftBadge: false,
+  },
+};
+
+export default {
+  title: 'Components/Conversation/Message',
+  argTypes: {
+    conversationType: {
+      control: 'select',
+      defaultValue: 'direct',
+      options: ['direct', 'group'],
+    },
+    quote: {
+      control: 'select',
+      defaultValue: undefined,
+      mapping: quoteOptions,
+      options: Object.keys(quoteOptions),
+    },
+  },
+} as Meta;
+
+const Template: Story<Partial<Props>> = args => {
+  return renderBothDirections({
+    ...createProps(),
+    conversationType: 'direct',
+    quote: undefined,
+    ...args,
+  });
+};
+
 function getJoyReaction() {
   return {
     emoji: '😂',
@@ -56,10 +98,6 @@ function getJoyReaction() {
     timestamp: Date.now() - 10,
   };
 }
-
-export default {
-  title: 'Components/Conversation/Message',
-};
 
 const renderEmojiPicker: Props['renderEmojiPicker'] = ({
   onClose,
@@ -169,6 +207,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   openGiftBadge: action('openGiftBadge'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],
+  quote: overrideProps.quote || undefined,
   reactions: overrideProps.reactions,
   reactToMessage: action('reactToMessage'),
   readStatus:
@@ -249,36 +288,17 @@ const renderBothDirections = (props: Props) => (
     })}
   </>
 );
-const renderSingleBothDirections = (props: Props) => (
-  <>
-    <Message {...props} />
-    <Message
-      {...{
-        ...props,
-        author: { ...props.author, id: getDefaultConversation().id },
-        direction: 'outgoing',
-      }}
-    />
-  </>
-);
 
-export const PlainMessage = (): JSX.Element => {
-  const props = createProps({
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
-  return renderBothDirections(props);
+export const PlainMessage = Template.bind({});
+PlainMessage.args = {
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
 };
 
-export const PlainRtlMessage = (): JSX.Element => {
-  const props = createProps({
-    text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
-    textDirection: TextDirection.RightToLeft,
-  });
-
-  return renderBothDirections(props);
+export const PlainRtlMessage = Template.bind({});
+PlainRtlMessage.args = {
+  text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
+  textDirection: TextDirection.RightToLeft,
 };
-
 PlainRtlMessage.story = {
   name: 'Plain RTL Message',
 };
@@ -380,322 +400,272 @@ export const EmojiMessages = (): JSX.Element => (
   </>
 );
 
-export const Delivered = (): JSX.Element => {
-  const props = createProps({
-    direction: 'outgoing',
-    status: 'delivered',
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
-  return renderThree(props);
+export const Delivered = Template.bind({});
+Delivered.args = {
+  status: 'delivered',
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
 };
 
-export const _Read = (): JSX.Element => {
-  const props = createProps({
-    direction: 'outgoing',
-    status: 'read',
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
-  return renderThree(props);
+export const Read = Template.bind({});
+Read.args = {
+  status: 'read',
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
 };
 
-export const Sending = (): JSX.Element => {
-  const props = createProps({
-    direction: 'outgoing',
-    status: 'sending',
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
-  return renderThree(props);
+export const Sending = Template.bind({});
+Sending.args = {
+  status: 'sending',
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
 };
 
-export const Expiring = (): JSX.Element => {
-  const props = createProps({
-    expirationLength: 30 * 1000,
-    expirationTimestamp: Date.now() + 30 * 1000,
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
-  return renderBothDirections(props);
+export const Expiring = Template.bind({});
+Expiring.args = {
+  expirationLength: 30 * 1000,
+  expirationTimestamp: Date.now() + 30 * 1000,
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
 };
 
-export const WillExpireButStillSending = (): JSX.Element => {
-  const props = createProps({
-    status: 'sending',
-    expirationLength: 30 * 1000,
-    text: 'We always show the timer if a message has an expiration length, even if unread or still sending.',
-  });
-
-  return renderBothDirections(props);
+export const WillExpireButStillSending = Template.bind({});
+WillExpireButStillSending.args = {
+  status: 'sending',
+  expirationLength: 30 * 1000,
+  text: 'We always show the timer if a message has an expiration length, even if unread or still sending.',
 };
-
 WillExpireButStillSending.story = {
   name: 'Will expire but still sending',
 };
 
-export const Pending = (): JSX.Element => {
-  const props = createProps({
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-    textAttachment: {
-      contentType: LONG_MESSAGE,
-      size: 123,
-      pending: true,
-    },
-  });
-
-  return renderBothDirections(props);
+export const Pending = Template.bind({});
+Pending.args = {
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+  textAttachment: {
+    contentType: LONG_MESSAGE,
+    size: 123,
+    pending: true,
+  },
 };
 
-export const LongBodyCanBeDownloaded = (): JSX.Element => {
-  const props = createProps({
-    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-    textAttachment: {
-      contentType: LONG_MESSAGE,
-      size: 123,
-      pending: false,
-      error: true,
-      digest: 'abc',
-      key: 'def',
-    },
-  });
-
-  return renderBothDirections(props);
+export const LongBodyCanBeDownloaded = Template.bind({});
+LongBodyCanBeDownloaded.args = {
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+  textAttachment: {
+    contentType: LONG_MESSAGE,
+    size: 123,
+    pending: false,
+    error: true,
+    digest: 'abc',
+    key: 'def',
+  },
 };
-
 LongBodyCanBeDownloaded.story = {
   name: 'Long body can be downloaded',
 };
 
-export const Recent = (): JSX.Element => {
-  const props = createProps({
-    text: 'Hello there from a pal!',
-    timestamp: Date.now() - 30 * 60 * 1000,
-  });
-
-  return renderBothDirections(props);
+export const Recent = Template.bind({});
+Recent.args = {
+  text: 'Hello there from a pal!',
+  timestamp: Date.now() - 30 * 60 * 1000,
 };
 
-export const Older = (): JSX.Element => {
-  const props = createProps({
-    text: 'Hello there from a pal!',
-    timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
-  });
-
-  return renderBothDirections(props);
+export const Older = Template.bind({});
+Older.args = {
+  text: 'Hello there from a pal!',
+  timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
 };
 
-export const ReactionsWiderMessage = (): JSX.Element => {
-  const props = createProps({
-    text: 'Hello there from a pal!',
-    timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
-    reactions: [
-      {
-        emoji: '👍',
-        from: getDefaultConversation({
-          isMe: true,
-          id: '+14155552672',
-          phoneNumber: '+14155552672',
-          name: 'Me',
-          title: 'Me',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
-        emoji: '👍',
-        from: getDefaultConversation({
-          id: '+14155552672',
-          phoneNumber: '+14155552672',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
-        emoji: '👍',
-        from: getDefaultConversation({
-          id: '+14155552673',
-          phoneNumber: '+14155552673',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
-        emoji: '😂',
-        from: getDefaultConversation({
-          id: '+14155552674',
-          phoneNumber: '+14155552674',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
-        emoji: '😡',
-        from: getDefaultConversation({
-          id: '+14155552677',
-          phoneNumber: '+14155552677',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
-        emoji: '👎',
-        from: getDefaultConversation({
-          id: '+14155552678',
-          phoneNumber: '+14155552678',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
-        emoji: '❤️',
-        from: getDefaultConversation({
-          id: '+14155552679',
-          phoneNumber: '+14155552679',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-    ],
-  });
-
-  return renderSingleBothDirections(props);
+export const ReactionsWiderMessage = Template.bind({});
+ReactionsWiderMessage.args = {
+  text: 'Hello there from a pal!',
+  timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
+  reactions: [
+    {
+      emoji: '👍',
+      from: getDefaultConversation({
+        isMe: true,
+        id: '+14155552672',
+        phoneNumber: '+14155552672',
+        name: 'Me',
+        title: 'Me',
+      }),
+      timestamp: Date.now() - 10,
+    },
+    {
+      emoji: '👍',
+      from: getDefaultConversation({
+        id: '+14155552672',
+        phoneNumber: '+14155552672',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now() - 10,
+    },
+    {
+      emoji: '👍',
+      from: getDefaultConversation({
+        id: '+14155552673',
+        phoneNumber: '+14155552673',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now() - 10,
+    },
+    {
+      emoji: '😂',
+      from: getDefaultConversation({
+        id: '+14155552674',
+        phoneNumber: '+14155552674',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now() - 10,
+    },
+    {
+      emoji: '😡',
+      from: getDefaultConversation({
+        id: '+14155552677',
+        phoneNumber: '+14155552677',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now() - 10,
+    },
+    {
+      emoji: '👎',
+      from: getDefaultConversation({
+        id: '+14155552678',
+        phoneNumber: '+14155552678',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now() - 10,
+    },
+    {
+      emoji: '❤️',
+      from: getDefaultConversation({
+        id: '+14155552679',
+        phoneNumber: '+14155552679',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now() - 10,
+    },
+  ],
 };
-
 ReactionsWiderMessage.story = {
   name: 'Reactions (wider message)',
 };
 
 const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
 
-export const ReactionsShortMessage = (): JSX.Element => {
-  const props = createProps({
-    text: 'h',
-    timestamp: Date.now(),
-    reactions: [
-      ...joyReactions,
-      {
-        emoji: '👍',
-        from: getDefaultConversation({
-          isMe: true,
-          id: '+14155552672',
-          phoneNumber: '+14155552672',
-          name: 'Me',
-          title: 'Me',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '👍',
-        from: getDefaultConversation({
-          id: '+14155552672',
-          phoneNumber: '+14155552672',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '👍',
-        from: getDefaultConversation({
-          id: '+14155552673',
-          phoneNumber: '+14155552673',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '😡',
-        from: getDefaultConversation({
-          id: '+14155552677',
-          phoneNumber: '+14155552677',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '👎',
-        from: getDefaultConversation({
-          id: '+14155552678',
-          phoneNumber: '+14155552678',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '❤️',
-        from: getDefaultConversation({
-          id: '+14155552679',
-          phoneNumber: '+14155552679',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-    ],
-  });
-
-  return renderSingleBothDirections(props);
+export const ReactionsShortMessage = Template.bind({});
+ReactionsShortMessage.args = {
+  text: 'h',
+  timestamp: Date.now(),
+  reactions: [
+    ...joyReactions,
+    {
+      emoji: '👍',
+      from: getDefaultConversation({
+        isMe: true,
+        id: '+14155552672',
+        phoneNumber: '+14155552672',
+        name: 'Me',
+        title: 'Me',
+      }),
+      timestamp: Date.now(),
+    },
+    {
+      emoji: '👍',
+      from: getDefaultConversation({
+        id: '+14155552672',
+        phoneNumber: '+14155552672',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now(),
+    },
+    {
+      emoji: '👍',
+      from: getDefaultConversation({
+        id: '+14155552673',
+        phoneNumber: '+14155552673',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now(),
+    },
+    {
+      emoji: '😡',
+      from: getDefaultConversation({
+        id: '+14155552677',
+        phoneNumber: '+14155552677',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now(),
+    },
+    {
+      emoji: '👎',
+      from: getDefaultConversation({
+        id: '+14155552678',
+        phoneNumber: '+14155552678',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now(),
+    },
+    {
+      emoji: '❤️',
+      from: getDefaultConversation({
+        id: '+14155552679',
+        phoneNumber: '+14155552679',
+        name: 'Amelia Briggs',
+        title: 'Amelia',
+      }),
+      timestamp: Date.now(),
+    },
+  ],
 };
 
 ReactionsShortMessage.story = {
   name: 'Reactions (short message)',
 };
 
-export const AvatarInGroup = (): JSX.Element => {
-  const props = createProps({
-    author: getDefaultConversation({ avatarPath: pngUrl }),
-    conversationType: 'group',
-    status: 'sent',
-    text: 'Hello it is me, the saxophone.',
-  });
-
-  return renderThree(props);
+export const AvatarInGroup = Template.bind({});
+AvatarInGroup.args = {
+  author: getDefaultConversation({ avatarPath: pngUrl }),
+  conversationType: 'group',
+  status: 'sent',
+  text: 'Hello it is me, the saxophone.',
 };
-
 AvatarInGroup.story = {
   name: 'Avatar in Group',
 };
 
-export const BadgeInGroup = (): JSX.Element => {
-  const props = createProps({
-    conversationType: 'group',
-    getPreferredBadge: () => getFakeBadge(),
-    status: 'sent',
-    text: 'Hello it is me, the saxophone.',
-  });
-
-  return renderThree(props);
+export const BadgeInGroup = Template.bind({});
+BadgeInGroup.args = {
+  conversationType: 'group',
+  getPreferredBadge: () => getFakeBadge(),
+  status: 'sent',
+  text: 'Hello it is me, the saxophone.',
 };
-
 BadgeInGroup.story = {
   name: 'Badge in Group',
 };
 
-export const Sticker = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: '/fixtures/512x515-thumbs-up-lincoln.webp',
-        fileName: '512x515-thumbs-up-lincoln.webp',
-        contentType: IMAGE_WEBP,
-        width: 128,
-        height: 128,
-      }),
-    ],
-    isSticker: true,
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const Sticker = Template.bind({});
+Sticker.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+      fileName: '512x515-thumbs-up-lincoln.webp',
+      contentType: IMAGE_WEBP,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  isSticker: true,
+  status: 'sent',
 };
 
 export const Deleted = (): JSX.Element => {
@@ -718,19 +688,15 @@ export const Deleted = (): JSX.Element => {
   );
 };
 
-export const DeletedWithExpireTimer = (): JSX.Element => {
-  const props = createProps({
-    timestamp: Date.now() - 60 * 1000,
-    conversationType: 'group',
-    deletedForEveryone: true,
-    expirationLength: 5 * 60 * 1000,
-    expirationTimestamp: Date.now() + 3 * 60 * 1000,
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const DeletedWithExpireTimer = Template.bind({});
+DeletedWithExpireTimer.args = {
+  timestamp: Date.now() - 60 * 1000,
+  conversationType: 'group',
+  deletedForEveryone: true,
+  expirationLength: 5 * 60 * 1000,
+  expirationTimestamp: Date.now() + 3 * 60 * 1000,
+  status: 'sent',
 };
-
 DeletedWithExpireTimer.story = {
   name: 'Deleted with expireTimer',
 };
@@ -760,276 +726,274 @@ export const DeletedWithError = (): JSX.Element => {
     </>
   );
 };
-
 DeletedWithError.story = {
   name: 'Deleted with error',
 };
 
-export const CanDeleteForEveryone = (): JSX.Element => {
-  const props = createProps({
-    status: 'read',
-    text: 'I hope you get this.',
-    canDeleteForEveryone: true,
-    direction: 'outgoing',
-  });
-
-  return renderThree(props);
+export const CanDeleteForEveryone = Template.bind({});
+CanDeleteForEveryone.args = {
+  status: 'read',
+  text: 'I hope you get this.',
+  canDeleteForEveryone: true,
+  direction: 'outgoing',
 };
-
 CanDeleteForEveryone.story = {
   name: 'Can delete for everyone',
 };
 
-export const Error = (): JSX.Element => {
-  const props = createProps({
-    status: 'error',
-    canRetry: true,
-    text: 'I hope you get this.',
-  });
-
-  return renderBothDirections(props);
+export const Error = Template.bind({});
+Error.args = {
+  status: 'error',
+  canRetry: true,
+  text: 'I hope you get this.',
 };
 
-export const Paused = (): JSX.Element => {
-  const props = createProps({
-    status: 'paused',
-    text: 'I am up to a challenge',
-  });
-
-  return renderBothDirections(props);
+export const Paused = Template.bind({});
+Paused.args = {
+  status: 'paused',
+  text: 'I am up to a challenge',
 };
 
-export const PartialSend = (): JSX.Element => {
-  const props = createProps({
-    status: 'partial-sent',
-    text: 'I hope you get this.',
-  });
-
-  return renderBothDirections(props);
+export const PartialSend = Template.bind({});
+PartialSend.args = {
+  status: 'partial-sent',
+  text: 'I hope you get this.',
 };
 
-export const LinkPreview = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 240,
-          url: pngUrl,
-          width: 320,
-        }),
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: new Date(2020, 2, 10).valueOf(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewInGroup = Template.bind({});
+LinkPreviewInGroup.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+  conversationType: 'group',
+};
+LinkPreviewInGroup.story = {
+  name: 'Link Preview in Group',
 };
 
-export const LinkPreviewWithSmallImage = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 50,
-          url: pngUrl,
-          width: 50,
-        }),
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: new Date(2020, 2, 10).valueOf(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithQuote = Template.bind({});
+LinkPreviewWithQuote.args = {
+  quote: {
+    conversationColor: ConversationColors[2],
+    text: 'The quoted message',
+    isFromMe: false,
+    sentAt: Date.now(),
+    authorId: 'some-id',
+    authorTitle: 'Someone',
+    referencedMessageNotFound: false,
+    isViewOnce: false,
+    isGiftBadge: false,
+  },
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+  conversationType: 'group',
+};
+LinkPreviewWithQuote.story = {
+  name: 'Link Preview with Quote',
 };
 
+export const LinkPreviewWithSmallImage = Template.bind({});
+LinkPreviewWithSmallImage.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 50,
+        url: pngUrl,
+        width: 50,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+};
 LinkPreviewWithSmallImage.story = {
   name: 'Link Preview with Small Image',
 };
 
-export const LinkPreviewWithoutImage = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: new Date(2020, 2, 10).valueOf(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithoutImage = Template.bind({});
+LinkPreviewWithoutImage.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
 };
-
 LinkPreviewWithoutImage.story = {
   name: 'Link Preview without Image',
 };
 
-export const LinkPreviewWithNoDescription = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        isStickerPack: false,
-        title: 'Signal',
-        url: 'https://www.signal.org',
-        date: Date.now(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithNoDescription = Template.bind({});
+LinkPreviewWithNoDescription.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      isStickerPack: false,
+      title: 'Signal',
+      url: 'https://www.signal.org',
+      date: Date.now(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
 };
-
 LinkPreviewWithNoDescription.story = {
   name: 'Link Preview with no description',
 };
 
-export const LinkPreviewWithLongDescription = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        isStickerPack: false,
-        title: 'Signal',
-        description: Array(10)
-          .fill(
-            'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.'
-          )
-          .join(' '),
-        url: 'https://www.signal.org',
-        date: Date.now(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithLongDescription = Template.bind({});
+LinkPreviewWithLongDescription.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      isStickerPack: false,
+      title: 'Signal',
+      description: Array(10)
+        .fill(
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.'
+        )
+        .join(' '),
+      url: 'https://www.signal.org',
+      date: Date.now(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
 };
-
 LinkPreviewWithLongDescription.story = {
   name: 'Link Preview with long description',
 };
 
-export const LinkPreviewWithSmallImageLongDescription = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 50,
-          url: pngUrl,
-          width: 50,
-        }),
-        isStickerPack: false,
-        title: 'Signal',
-        description: Array(10)
-          .fill(
-            'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.'
-          )
-          .join(' '),
-        url: 'https://www.signal.org',
-        date: Date.now(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithSmallImageLongDescription = Template.bind({});
+LinkPreviewWithSmallImageLongDescription.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 50,
+        url: pngUrl,
+        width: 50,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description: Array(10)
+        .fill(
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.'
+        )
+        .join(' '),
+      url: 'https://www.signal.org',
+      date: Date.now(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
 };
-
 LinkPreviewWithSmallImageLongDescription.story = {
   name: 'Link Preview with small image, long description',
 };
 
-export const LinkPreviewWithNoDate = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 240,
-          url: pngUrl,
-          width: 320,
-        }),
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithNoDate = Template.bind({});
+LinkPreviewWithNoDate.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
 };
-
 LinkPreviewWithNoDate.story = {
   name: 'Link Preview with no date',
 };
 
-export const LinkPreviewWithTooNewADate = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 240,
-          url: pngUrl,
-          width: 320,
-        }),
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: Date.now() + 3000000000,
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-  });
-
-  return renderBothDirections(props);
+export const LinkPreviewWithTooNewADate = Template.bind({});
+LinkPreviewWithTooNewADate.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: Date.now() + 3000000000,
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
 };
-
 LinkPreviewWithTooNewADate.story = {
   name: 'Link Preview with too new a date',
 };
@@ -1068,254 +1032,222 @@ export const Image = (): JSX.Element => {
   );
 };
 
-export const MultipleImages2 = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const MultipleImages2 = Template.bind({});
+MultipleImages2.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  status: 'sent',
 };
 
-export const MultipleImages3 = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const MultipleImages3 = Template.bind({});
+MultipleImages3.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  status: 'sent',
 };
 
-export const MultipleImages4 = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const MultipleImages4 = Template.bind({});
+MultipleImages4.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  status: 'sent',
 };
 
-export const MultipleImages5 = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-      fakeAttachment({
-        url: pngUrl,
-        fileName: 'the-sax.png',
-        contentType: IMAGE_PNG,
-        height: 240,
-        width: 320,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const MultipleImages5 = Template.bind({});
+MultipleImages5.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  status: 'sent',
 };
 
-export const ImageWithCaption = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      }),
-    ],
-    status: 'sent',
-    text: 'This is my home.',
-  });
-
-  return renderBothDirections(props);
+export const ImageWithCaption = Template.bind({});
+ImageWithCaption.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+      fileName: 'tina-rolf-269345-unsplash.jpg',
+      contentType: IMAGE_JPEG,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  status: 'sent',
+  text: 'This is my home.',
 };
-
 ImageWithCaption.story = {
   name: 'Image with Caption',
 };
 
-export const Gif = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: VIDEO_MP4,
-        flags: SignalService.AttachmentPointer.Flags.GIF,
-        fileName: 'cat-gif.mp4',
-        url: '/fixtures/cat-gif.mp4',
-        width: 400,
-        height: 332,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const Gif = Template.bind({});
+Gif.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      url: '/fixtures/cat-gif.mp4',
+      width: 400,
+      height: 332,
+    }),
+  ],
+  status: 'sent',
 };
-
 Gif.story = {
   name: 'GIF',
 };
 
-export const GifInAGroup = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: VIDEO_MP4,
-        flags: SignalService.AttachmentPointer.Flags.GIF,
-        fileName: 'cat-gif.mp4',
-        url: '/fixtures/cat-gif.mp4',
-        width: 400,
-        height: 332,
-      }),
-    ],
-    conversationType: 'group',
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const GifInAGroup = Template.bind({});
+GifInAGroup.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      url: '/fixtures/cat-gif.mp4',
+      width: 400,
+      height: 332,
+    }),
+  ],
+  conversationType: 'group',
+  status: 'sent',
 };
-
 GifInAGroup.story = {
   name: 'GIF in a group',
 };
 
-export const NotDownloadedGif = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: VIDEO_MP4,
-        flags: SignalService.AttachmentPointer.Flags.GIF,
-        fileName: 'cat-gif.mp4',
-        fileSize: '188.61 KB',
-        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        width: 400,
-        height: 332,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const NotDownloadedGif = Template.bind({});
+NotDownloadedGif.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      fileSize: '188.61 KB',
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      width: 400,
+      height: 332,
+    }),
+  ],
+  status: 'sent',
 };
-
 NotDownloadedGif.story = {
   name: 'Not Downloaded GIF',
 };
 
-export const PendingGif = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        pending: true,
-        contentType: VIDEO_MP4,
-        flags: SignalService.AttachmentPointer.Flags.GIF,
-        fileName: 'cat-gif.mp4',
-        fileSize: '188.61 KB',
-        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        width: 400,
-        height: 332,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const PendingGif = Template.bind({});
+PendingGif.args = {
+  attachments: [
+    fakeAttachment({
+      pending: true,
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      fileSize: '188.61 KB',
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      width: 400,
+      height: 332,
+    }),
+  ],
+  status: 'sent',
 };
-
 PendingGif.story = {
   name: 'Pending GIF',
 };
@@ -1365,265 +1297,216 @@ export const _Audio = (): JSX.Element => {
   return <Wrapper />;
 };
 
-export const LongAudio = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: AUDIO_MP3,
-        fileName: 'long-audio.mp3',
-        url: '/fixtures/long-audio.mp3',
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const LongAudio = Template.bind({});
+LongAudio.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: AUDIO_MP3,
+      fileName: 'long-audio.mp3',
+      url: '/fixtures/long-audio.mp3',
+    }),
+  ],
+  status: 'sent',
 };
 
-export const AudioWithCaption = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: AUDIO_MP3,
-        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-      }),
-    ],
-    status: 'sent',
-    text: 'This is what I sound like.',
-  });
-
-  return renderBothDirections(props);
+export const AudioWithCaption = Template.bind({});
+AudioWithCaption.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: AUDIO_MP3,
+      fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+      url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+    }),
+  ],
+  status: 'sent',
+  text: 'This is what I sound like.',
 };
-
 AudioWithCaption.story = {
   name: 'Audio with Caption',
 };
 
-export const AudioWithNotDownloadedAttachment = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: AUDIO_MP3,
-        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const AudioWithNotDownloadedAttachment = Template.bind({});
+AudioWithNotDownloadedAttachment.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: AUDIO_MP3,
+      fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+    }),
+  ],
+  status: 'sent',
 };
-
 AudioWithNotDownloadedAttachment.story = {
   name: 'Audio with Not Downloaded Attachment',
 };
 
-export const AudioWithPendingAttachment = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: AUDIO_MP3,
-        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        pending: true,
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const AudioWithPendingAttachment = Template.bind({});
+AudioWithPendingAttachment.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: AUDIO_MP3,
+      fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+      pending: true,
+    }),
+  ],
+  status: 'sent',
 };
-
 AudioWithPendingAttachment.story = {
   name: 'Audio with Pending Attachment',
 };
 
-export const OtherFileType = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: stringToMIMEType('text/plain'),
-        fileName: 'my-resume.txt',
-        url: 'my-resume.txt',
-        fileSize: '10MB',
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const OtherFileType = Template.bind({});
+OtherFileType.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: stringToMIMEType('text/plain'),
+      fileName: 'my-resume.txt',
+      url: 'my-resume.txt',
+      fileSize: '10MB',
+    }),
+  ],
+  status: 'sent',
 };
 
-export const OtherFileTypeWithCaption = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: stringToMIMEType('text/plain'),
-        fileName: 'my-resume.txt',
-        url: 'my-resume.txt',
-        fileSize: '10MB',
-      }),
-    ],
-    status: 'sent',
-    text: 'This is what I have done.',
-  });
-
-  return renderBothDirections(props);
+export const OtherFileTypeWithCaption = Template.bind({});
+OtherFileTypeWithCaption.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: stringToMIMEType('text/plain'),
+      fileName: 'my-resume.txt',
+      url: 'my-resume.txt',
+      fileSize: '10MB',
+    }),
+  ],
+  status: 'sent',
+  text: 'This is what I have done.',
 };
-
 OtherFileTypeWithCaption.story = {
   name: 'Other File Type with Caption',
 };
 
-export const OtherFileTypeWithLongFilename = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: stringToMIMEType('text/plain'),
-        fileName:
-          'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
-        url: 'a2/a2334324darewer4234',
-        fileSize: '10MB',
-      }),
-    ],
-    status: 'sent',
-    text: 'This is what I have done.',
-  });
-
-  return renderBothDirections(props);
+export const OtherFileTypeWithLongFilename = Template.bind({});
+OtherFileTypeWithLongFilename.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: stringToMIMEType('text/plain'),
+      fileName:
+        'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
+      url: 'a2/a2334324darewer4234',
+      fileSize: '10MB',
+    }),
+  ],
+  status: 'sent',
+  text: 'This is what I have done.',
 };
-
 OtherFileTypeWithLongFilename.story = {
   name: 'Other File Type with Long Filename',
 };
 
-export const TapToViewImage = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      }),
-    ],
-    isTapToView: true,
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const TapToViewImage = Template.bind({});
+TapToViewImage.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+      fileName: 'tina-rolf-269345-unsplash.jpg',
+      contentType: IMAGE_JPEG,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  isTapToView: true,
+  status: 'sent',
 };
-
 TapToViewImage.story = {
   name: 'TapToView Image',
 };
 
-export const TapToViewVideo = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: VIDEO_MP4,
-        fileName: 'pixabay-Soap-Bubble-7141.mp4',
-        height: 128,
-        url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-        width: 128,
-      }),
-    ],
-    isTapToView: true,
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const TapToViewVideo = Template.bind({});
+TapToViewVideo.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      fileName: 'pixabay-Soap-Bubble-7141.mp4',
+      height: 128,
+      url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+      width: 128,
+    }),
+  ],
+  isTapToView: true,
+  status: 'sent',
 };
-
 TapToViewVideo.story = {
   name: 'TapToView Video',
 };
 
-export const TapToViewGif = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: VIDEO_MP4,
-        flags: SignalService.AttachmentPointer.Flags.GIF,
-        fileName: 'cat-gif.mp4',
-        url: '/fixtures/cat-gif.mp4',
-        width: 400,
-        height: 332,
-      }),
-    ],
-    isTapToView: true,
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const TapToViewGif = Template.bind({});
+TapToViewGif.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      url: '/fixtures/cat-gif.mp4',
+      width: 400,
+      height: 332,
+    }),
+  ],
+  isTapToView: true,
+  status: 'sent',
 };
-
 TapToViewGif.story = {
   name: 'TapToView GIF',
 };
 
-export const TapToViewExpired = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      }),
-    ],
-    isTapToView: true,
-    isTapToViewExpired: true,
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const TapToViewExpired = Template.bind({});
+TapToViewExpired.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+      fileName: 'tina-rolf-269345-unsplash.jpg',
+      contentType: IMAGE_JPEG,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  isTapToView: true,
+  isTapToViewExpired: true,
+  status: 'sent',
 };
-
 TapToViewExpired.story = {
   name: 'TapToView Expired',
 };
 
-export const TapToViewError = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      }),
-    ],
-    isTapToView: true,
-    isTapToViewError: true,
-    status: 'sent',
-  });
-
-  return renderThree(props);
+export const TapToViewError = Template.bind({});
+TapToViewError.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+      fileName: 'tina-rolf-269345-unsplash.jpg',
+      contentType: IMAGE_JPEG,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  isTapToView: true,
+  isTapToViewError: true,
+  status: 'sent',
 };
-
 TapToViewError.story = {
   name: 'TapToView Error',
 };
 
-export const DangerousFileType = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: stringToMIMEType(
-          'application/vnd.microsoft.portable-executable'
-        ),
-        fileName: 'terrible.exe',
-        url: 'terrible.exe',
-      }),
-    ],
-    status: 'sent',
-  });
-
-  return renderBothDirections(props);
+export const DangerousFileType = Template.bind({});
+DangerousFileType.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: stringToMIMEType(
+        'application/vnd.microsoft.portable-executable'
+      ),
+      fileName: 'terrible.exe',
+      url: 'terrible.exe',
+    }),
+  ],
+  status: 'sent',
 };
 
 export const Colors = (): JSX.Element => {
@@ -1643,22 +1526,18 @@ export const Colors = (): JSX.Element => {
   );
 };
 
-export const Mentions = (): JSX.Element => {
-  const props = createProps({
-    bodyRanges: [
-      {
-        start: 0,
-        length: 1,
-        mentionUuid: 'zap',
-        replacementText: 'Zapp Brannigan',
-      },
-    ],
-    text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
-  });
-
-  return renderBothDirections(props);
+export const Mentions = Template.bind({});
+Mentions.args = {
+  bodyRanges: [
+    {
+      start: 0,
+      length: 1,
+      mentionUuid: 'zap',
+      replacementText: 'Zapp Brannigan',
+    },
+  ],
+  text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
 };
-
 Mentions.story = {
   name: '@Mentions',
 };
@@ -1682,39 +1561,34 @@ export const AllTheContextMenus = (): JSX.Element => {
 
   return <Message {...props} direction="outgoing" />;
 };
-
 AllTheContextMenus.story = {
   name: 'All the context menus',
 };
 
-export const NotApprovedWithLinkPreview = (): JSX.Element => {
-  const props = createProps({
-    previews: [
-      {
-        domain: 'signal.org',
-        image: fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'the-sax.png',
-          height: 240,
-          url: pngUrl,
-          width: 320,
-        }),
-        isStickerPack: false,
-        title: 'Signal',
-        description:
-          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-        url: 'https://www.signal.org',
-        date: new Date(2020, 2, 10).valueOf(),
-      },
-    ],
-    status: 'sent',
-    text: 'Be sure to look at https://www.signal.org',
-    isMessageRequestAccepted: false,
-  });
-
-  return renderBothDirections(props);
+export const NotApprovedWithLinkPreview = Template.bind({});
+NotApprovedWithLinkPreview.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+      isStickerPack: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+  isMessageRequestAccepted: false,
 };
-
 NotApprovedWithLinkPreview.story = {
   name: 'Not approved, with link preview',
 };
@@ -1910,144 +1784,112 @@ const fullContact = {
   ],
 };
 
-export const EmbeddedContactFullContact = (): JSX.Element => {
-  const props = createProps({
-    contact: fullContact,
-  });
-  return renderBothDirections(props);
+export const EmbeddedContactFullContact = Template.bind({});
+EmbeddedContactFullContact.args = {
+  contact: fullContact,
 };
-
 EmbeddedContactFullContact.story = {
   name: 'EmbeddedContact: Full Contact',
 };
 
-export const EmbeddedContactWithSendMessage = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      ...fullContact,
-      firstNumber: fullContact.number[0].value,
-      uuid: UUID.generate().toString(),
-    },
-    direction: 'incoming',
-  });
-  return renderBothDirections(props);
+export const EmbeddedContactWithSendMessage = Template.bind({});
+EmbeddedContactWithSendMessage.args = {
+  contact: {
+    ...fullContact,
+    firstNumber: fullContact.number[0].value,
+    uuid: UUID.generate().toString(),
+  },
+  direction: 'incoming',
 };
-
 EmbeddedContactWithSendMessage.story = {
   name: 'EmbeddedContact: with Send Message',
 };
 
-export const EmbeddedContactOnlyEmail = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      email: fullContact.email,
-    },
-  });
-
-  return renderBothDirections(props);
+export const EmbeddedContactOnlyEmail = Template.bind({});
+EmbeddedContactOnlyEmail.args = {
+  contact: {
+    email: fullContact.email,
+  },
 };
-
 EmbeddedContactOnlyEmail.story = {
   name: 'EmbeddedContact: Only Email',
 };
 
-export const EmbeddedContactGivenName = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      name: {
-        givenName: 'Jerry',
-      },
+export const EmbeddedContactGivenName = Template.bind({});
+EmbeddedContactGivenName.args = {
+  contact: {
+    name: {
+      givenName: 'Jerry',
     },
-  });
-
-  return renderBothDirections(props);
+  },
 };
-
 EmbeddedContactGivenName.story = {
   name: 'EmbeddedContact: Given Name',
 };
 
-export const EmbeddedContactOrganization = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      organization: 'Company 5',
-    },
-  });
-
-  return renderBothDirections(props);
+export const EmbeddedContactOrganization = Template.bind({});
+EmbeddedContactOrganization.args = {
+  contact: {
+    organization: 'Company 5',
+  },
 };
-
 EmbeddedContactOrganization.story = {
   name: 'EmbeddedContact: Organization',
 };
 
-export const EmbeddedContactGivenFamilyName = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      name: {
-        givenName: 'Jerry',
-        familyName: 'FamilyName',
-      },
+export const EmbeddedContactGivenFamilyName = Template.bind({});
+EmbeddedContactGivenFamilyName.args = {
+  contact: {
+    name: {
+      givenName: 'Jerry',
+      familyName: 'FamilyName',
     },
-  });
-
-  return renderBothDirections(props);
+  },
 };
-
 EmbeddedContactGivenFamilyName.story = {
   name: 'EmbeddedContact: Given + Family Name',
 };
 
-export const EmbeddedContactFamilyName = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      name: {
-        familyName: 'FamilyName',
-      },
+export const EmbeddedContactFamilyName = Template.bind({});
+EmbeddedContactFamilyName.args = {
+  contact: {
+    name: {
+      familyName: 'FamilyName',
     },
-  });
-
-  return renderBothDirections(props);
+  },
 };
-
 EmbeddedContactFamilyName.story = {
   name: 'EmbeddedContact: Family Name',
 };
 
-export const EmbeddedContactLoadingAvatar = (): JSX.Element => {
-  const props = createProps({
-    contact: {
-      name: {
-        displayName: 'Jerry Jordan',
-      },
-      avatar: {
-        avatar: fakeAttachment({
-          pending: true,
-          contentType: IMAGE_GIF,
-        }),
-        isProfile: true,
-      },
+export const EmbeddedContactLoadingAvatar = Template.bind({});
+EmbeddedContactLoadingAvatar.args = {
+  contact: {
+    name: {
+      displayName: 'Jerry Jordan',
     },
-  });
-  return renderBothDirections(props);
+    avatar: {
+      avatar: fakeAttachment({
+        pending: true,
+        contentType: IMAGE_GIF,
+      }),
+      isProfile: true,
+    },
+  },
 };
-
 EmbeddedContactLoadingAvatar.story = {
   name: 'EmbeddedContact: Loading Avatar',
 };
 
-export const GiftBadgeUnopened = (): JSX.Element => {
-  const props = createProps({
-    giftBadge: {
-      id: 'GIFT',
-      expiration: Date.now() + DAY * 30,
-      level: 3,
-      state: GiftBadgeStates.Unopened,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeUnopened = Template.bind({});
+GiftBadgeUnopened.args = {
+  giftBadge: {
+    id: 'GIFT',
+    expiration: Date.now() + DAY * 30,
+    level: 3,
+    state: GiftBadgeStates.Unopened,
+  },
 };
-
 GiftBadgeUnopened.story = {
   name: 'Gift Badge: Unopened',
 };
@@ -2067,104 +1909,86 @@ const getPreferredBadge = () => ({
   name: 'heart',
 });
 
-export const GiftBadgeRedeemed30Days = (): JSX.Element => {
-  const props = createProps({
-    getPreferredBadge,
-    giftBadge: {
-      expiration: Date.now() + DAY * 30 + SECOND,
-      id: 'GIFT',
-      level: 3,
-      state: GiftBadgeStates.Redeemed,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeRedeemed30Days = Template.bind({});
+GiftBadgeRedeemed30Days.args = {
+  getPreferredBadge,
+  giftBadge: {
+    expiration: Date.now() + DAY * 30 + SECOND,
+    id: 'GIFT',
+    level: 3,
+    state: GiftBadgeStates.Redeemed,
+  },
 };
-
 GiftBadgeRedeemed30Days.story = {
   name: 'Gift Badge: Redeemed (30 days)',
 };
 
-export const GiftBadgeRedeemed24Hours = (): JSX.Element => {
-  const props = createProps({
-    getPreferredBadge,
-    giftBadge: {
-      expiration: Date.now() + DAY + SECOND,
-      id: 'GIFT',
-      level: 3,
-      state: GiftBadgeStates.Redeemed,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeRedeemed24Hours = Template.bind({});
+GiftBadgeRedeemed24Hours.args = {
+  getPreferredBadge,
+  giftBadge: {
+    expiration: Date.now() + DAY + SECOND,
+    id: 'GIFT',
+    level: 3,
+    state: GiftBadgeStates.Redeemed,
+  },
 };
-
 GiftBadgeRedeemed24Hours.story = {
   name: 'Gift Badge: Redeemed (24 hours)',
 };
 
-export const GiftBadgeOpened60Minutes = (): JSX.Element => {
-  const props = createProps({
-    getPreferredBadge,
-    giftBadge: {
-      expiration: Date.now() + HOUR + SECOND,
-      id: 'GIFT',
-      level: 3,
-      state: GiftBadgeStates.Opened,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeOpened60Minutes = Template.bind({});
+GiftBadgeOpened60Minutes.args = {
+  getPreferredBadge,
+  giftBadge: {
+    expiration: Date.now() + HOUR + SECOND,
+    id: 'GIFT',
+    level: 3,
+    state: GiftBadgeStates.Opened,
+  },
 };
-
 GiftBadgeOpened60Minutes.story = {
   name: 'Gift Badge: Opened (60 minutes)',
 };
 
-export const GiftBadgeRedeemed1Minute = (): JSX.Element => {
-  const props = createProps({
-    getPreferredBadge,
-    giftBadge: {
-      expiration: Date.now() + MINUTE + SECOND,
-      id: 'GIFT',
-      level: 3,
-      state: GiftBadgeStates.Redeemed,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeRedeemed1Minute = Template.bind({});
+GiftBadgeRedeemed1Minute.args = {
+  getPreferredBadge,
+  giftBadge: {
+    expiration: Date.now() + MINUTE + SECOND,
+    id: 'GIFT',
+    level: 3,
+    state: GiftBadgeStates.Redeemed,
+  },
 };
-
 GiftBadgeRedeemed1Minute.story = {
   name: 'Gift Badge: Redeemed (1 minute)',
 };
 
-export const GiftBadgeOpenedExpired = (): JSX.Element => {
-  const props = createProps({
-    getPreferredBadge,
-    giftBadge: {
-      expiration: Date.now(),
-      id: 'GIFT',
-      level: 3,
-      state: GiftBadgeStates.Opened,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeOpenedExpired = Template.bind({});
+GiftBadgeOpenedExpired.args = {
+  getPreferredBadge,
+  giftBadge: {
+    expiration: Date.now(),
+    id: 'GIFT',
+    level: 3,
+    state: GiftBadgeStates.Opened,
+  },
 };
-
 GiftBadgeOpenedExpired.story = {
   name: 'Gift Badge: Opened (expired)',
 };
 
-export const GiftBadgeMissingBadge = (): JSX.Element => {
-  const props = createProps({
-    getPreferredBadge: () => undefined,
-    giftBadge: {
-      expiration: Date.now() + MINUTE + SECOND,
-      id: 'MISSING',
-      level: 3,
-      state: GiftBadgeStates.Redeemed,
-    },
-  });
-  return renderBothDirections(props);
+export const GiftBadgeMissingBadge = Template.bind({});
+GiftBadgeMissingBadge.args = {
+  getPreferredBadge: () => undefined,
+  giftBadge: {
+    expiration: Date.now() + MINUTE + SECOND,
+    id: 'MISSING',
+    level: 3,
+    state: GiftBadgeStates.Redeemed,
+  },
 };
-
 GiftBadgeMissingBadge.story = {
   name: 'Gift Badge: Missing Badge',
 };
