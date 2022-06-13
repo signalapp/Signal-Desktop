@@ -38,6 +38,7 @@ import type {
   StickerType,
 } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
+import MessageSender from '../textsecure/SendMessage';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
@@ -1249,7 +1250,9 @@ export class ConversationModel extends window.Backbone
   }
 
   async sendTypingMessage(isTyping: boolean): Promise<void> {
-    if (!window.textsecure.messaging) {
+    const { messaging } = window.textsecure;
+
+    if (!messaging) {
       return;
     }
 
@@ -1298,8 +1301,7 @@ export class ConversationModel extends window.Backbone
         `sendTypingMessage(${this.idForLogging()}): sending ${content.isTyping}`
       );
 
-      const contentMessage =
-        window.textsecure.messaging.getTypingContentMessage(content);
+      const contentMessage = messaging.getTypingContentMessage(content);
 
       const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
@@ -1309,7 +1311,7 @@ export class ConversationModel extends window.Backbone
       };
       if (isDirectConversation(this.attributes)) {
         await handleMessageSend(
-          window.textsecure.messaging.sendMessageProtoAndWait({
+          messaging.sendMessageProtoAndWait({
             timestamp,
             recipients: groupMembers,
             proto: contentMessage,
@@ -2504,7 +2506,7 @@ export class ConversationModel extends window.Backbone
 
     try {
       await singleProtoJobQueue.add(
-        window.textsecure.messaging.getMessageRequestResponseSync({
+        MessageSender.getMessageRequestResponseSync({
           threadE164: this.get('e164'),
           threadUuid: this.get('uuid'),
           groupId,
@@ -2696,12 +2698,7 @@ export class ConversationModel extends window.Backbone
 
     try {
       await singleProtoJobQueue.add(
-        window.textsecure.messaging.getVerificationSync(
-          e164,
-          uuid.toString(),
-          state,
-          key
-        )
+        MessageSender.getVerificationSync(e164, uuid.toString(), state, key)
       );
     } catch (error) {
       log.error(
@@ -3987,15 +3984,11 @@ export class ConversationModel extends window.Backbone
       'desktop.mandatoryProfileSharing'
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const destination = this.getSendTarget()!;
-    const recipients = this.getRecipients();
-
     await this.maybeApplyUniversalTimer();
 
     const expireTimer = this.get('expireTimer');
 
-    const recipientMaybeConversations = map(recipients, identifier =>
+    const recipientMaybeConversations = map(this.getRecipients(), identifier =>
       window.ConversationController.get(identifier)
     );
     const recipientConversations = filter(
@@ -4020,7 +4013,8 @@ export class ConversationModel extends window.Backbone
     }
 
     // Here we move attachments to disk
-    const messageWithSchema = await upgradeMessageSchema({
+    const attributes = await upgradeMessageSchema({
+      id: UUID.generate().toString(),
       timestamp: now,
       type: 'outgoing',
       body,
@@ -4033,7 +4027,6 @@ export class ConversationModel extends window.Backbone
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
       expireTimer,
-      recipients,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
       sticker,
@@ -4048,14 +4041,6 @@ export class ConversationModel extends window.Backbone
       ),
       storyId,
     });
-
-    if (isDirectConversation(this.attributes)) {
-      messageWithSchema.destination = destination;
-    }
-    const attributes: MessageAttributesType = {
-      ...messageWithSchema,
-      id: UUID.generate().toString(),
-    };
 
     const model = new window.Whisper.Message(attributes);
     const message = window.MessageController.register(model.id, model);
@@ -4588,6 +4573,11 @@ export class ConversationModel extends window.Backbone
 
   // Deprecated: only applies to GroupV1
   async leaveGroup(): Promise<void> {
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('leaveGroup: Cannot leave v1 group when offline!');
+    }
+
     if (!isGroupV1(this.attributes)) {
       throw new Error(
         `leaveGroup: Group ${this.idForLogging()} is not GroupV1!`
@@ -4628,11 +4618,7 @@ export class ConversationModel extends window.Backbone
     const options = await getSendOptions(this.attributes);
     message.send(
       handleMessageSend(
-        window.textsecure.messaging.leaveGroup(
-          groupId,
-          groupIdentifiers,
-          options
-        ),
+        messaging.leaveGroup(groupId, groupIdentifiers, options),
         { messageIds: [], sendType: 'legacyGroupChange' }
       )
     );
@@ -4797,7 +4783,11 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('setProfileAvatar: Cannot fetch avatar when offline!');
+    }
+    const avatar = await messaging.getAvatar(avatarPath);
 
     // decrypt
     const decrypted = decryptProfile(avatar, decryptionKey);
@@ -5017,17 +5007,17 @@ export class ConversationModel extends window.Backbone
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const number = this.get('e164')!;
     try {
-      const parsedNumber = window.libphonenumber.parse(number);
-      const regionCode = getRegionCodeForNumber(parsedNumber);
+      const parsedNumber = window.libphonenumberInstance.parse(number);
+      const regionCode = getRegionCodeForNumber(number);
       if (regionCode === window.storage.get('regionCode')) {
-        return window.libphonenumber.format(
+        return window.libphonenumberInstance.format(
           parsedNumber,
-          window.libphonenumber.PhoneNumberFormat.NATIONAL
+          window.libphonenumberFormat.NATIONAL
         );
       }
-      return window.libphonenumber.format(
+      return window.libphonenumberInstance.format(
         parsedNumber,
-        window.libphonenumber.PhoneNumberFormat.INTERNATIONAL
+        window.libphonenumberFormat.INTERNATIONAL
       );
     } catch (e) {
       return number;

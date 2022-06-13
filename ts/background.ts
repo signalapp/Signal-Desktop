@@ -149,6 +149,8 @@ import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
 import { conversationJobQueue } from './jobs/conversationJobQueue';
 import { SeenStatus } from './MessageSeenStatus';
+import MessageSender from './textsecure/SendMessage';
+import type AccountManager from './textsecure/AccountManager';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -237,7 +239,11 @@ export async function startApp(): Promise<void> {
       },
 
       async sendChallengeResponse(data) {
-        await window.textsecure.messaging.sendChallengeResponse(data);
+        const { messaging } = window.textsecure;
+        if (!messaging) {
+          throw new Error('sendChallengeResponse: messaging is not available!');
+        }
+        await messaging.sendChallengeResponse(data);
       },
 
       onChallengeFailed() {
@@ -532,10 +538,13 @@ export async function startApp(): Promise<void> {
     }
     return server.getSocketStatus();
   };
-  let accountManager: typeof window.textsecure.AccountManager;
+  let accountManager: AccountManager;
   window.getAccountManager = () => {
     if (accountManager) {
       return accountManager;
+    }
+    if (!server) {
+      throw new Error('getAccountManager: server is not available!');
     }
 
     accountManager = new window.textsecure.AccountManager(server);
@@ -1675,9 +1684,7 @@ export async function startApp(): Promise<void> {
     }
 
     try {
-      await singleProtoJobQueue.add(
-        window.textsecure.messaging.getRequestKeySyncMessage()
-      );
+      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
     } catch (error) {
       log.error(
         'runStorageService: Failed to queue sync message',
@@ -1875,7 +1882,6 @@ export async function startApp(): Promise<void> {
     strictAssert(messageReceiver, 'MessageReceiver not initialized');
 
     const syncRequest = new window.textsecure.SyncRequest(
-      window.textsecure.messaging,
       messageReceiver,
       timeoutMillis
     );
@@ -2173,7 +2179,6 @@ export async function startApp(): Promise<void> {
       }
 
       if (firstRun === true && deviceId !== 1) {
-        const { messaging } = window.textsecure;
         const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
         if (
           !hasThemeSetting &&
@@ -2214,11 +2219,13 @@ export async function startApp(): Promise<void> {
         try {
           await Promise.all([
             singleProtoJobQueue.add(
-              messaging.getRequestConfigurationSyncMessage()
+              MessageSender.getRequestConfigurationSyncMessage()
             ),
-            singleProtoJobQueue.add(messaging.getRequestBlockSyncMessage()),
-            singleProtoJobQueue.add(messaging.getRequestGroupSyncMessage()),
-            singleProtoJobQueue.add(messaging.getRequestContactSyncMessage()),
+            singleProtoJobQueue.add(MessageSender.getRequestBlockSyncMessage()),
+            singleProtoJobQueue.add(MessageSender.getRequestGroupSyncMessage()),
+            singleProtoJobQueue.add(
+              MessageSender.getRequestContactSyncMessage()
+            ),
             runStorageService(),
           ]);
         } catch (error) {
@@ -2270,7 +2277,7 @@ export async function startApp(): Promise<void> {
           log.info('firstRun: requesting stickers', operations.length);
           try {
             await singleProtoJobQueue.add(
-              messaging.getStickerPackSync(operations)
+              MessageSender.getStickerPackSync(operations)
             );
           } catch (error) {
             log.error(
@@ -2345,7 +2352,7 @@ export async function startApp(): Promise<void> {
   window.waitForEmptyEventQueue = waitForEmptyEventQueue;
 
   async function onEmpty() {
-    const { storage, messaging } = window.textsecure;
+    const { storage } = window.textsecure;
 
     await Promise.all([
       window.waitForAllBatchers(),
@@ -2454,7 +2461,7 @@ export async function startApp(): Promise<void> {
     if (!pniIdentity) {
       log.info('Requesting PNI identity sync');
       await singleProtoJobQueue.add(
-        messaging.getRequestPniIdentitySyncMessage()
+        MessageSender.getRequestPniIdentitySyncMessage()
       );
     }
   }

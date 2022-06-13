@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
+
 import * as styles from './Typography.scss';
 
 export type Props = {
   children: React.ReactNode;
 };
 
-export type HeadingProps = React.HTMLProps<HTMLHeadingElement>;
-export type ParagraphProps = React.HTMLProps<HTMLParagraphElement> & {
+export type HeadingProps = React.HTMLAttributes<HTMLHeadingElement>;
+export type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & {
   center?: boolean;
   wide?: boolean;
   secondary?: boolean;
 };
-export type SpanProps = React.HTMLProps<HTMLSpanElement>;
+export type SpanProps = React.HTMLAttributes<HTMLSpanElement>;
 
 export const H1 = React.memo(
   ({ children, className, ...rest }: Props & HeadingProps) => (

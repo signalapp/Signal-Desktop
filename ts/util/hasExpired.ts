@@ -10,12 +10,10 @@ const NINETY_ONE_DAYS = 91 * ONE_DAY_MS;
 const THIRTY_ONE_DAYS = 31 * ONE_DAY_MS;
 
 export function hasExpired(): boolean {
-  const { getExpiration } = window;
-
   let buildExpiration = 0;
 
   try {
-    buildExpiration = parseInt(getExpiration(), 10);
+    buildExpiration = window.getExpiration();
     if (buildExpiration) {
       log.info('Build expires: ', new Date(buildExpiration).toISOString());
     }

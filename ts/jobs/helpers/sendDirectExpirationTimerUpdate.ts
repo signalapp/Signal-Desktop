@@ -24,6 +24,7 @@ export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
   {
     isFinalAttempt,
+    messaging,
     shouldContinue,
     timeRemaining,
     timestamp,
@@ -75,7 +76,7 @@ export async function sendDirectExpirationTimerUpdate(
 
   const sendType = 'expirationTimerUpdate';
   const flags = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-  const proto = await window.textsecure.messaging.getContentMessage({
+  const proto = await messaging.getContentMessage({
     expireTimer,
     flags,
     profileKey,
@@ -95,7 +96,7 @@ export async function sendDirectExpirationTimerUpdate(
   try {
     if (isMe(conversation.attributes)) {
       await handleMessageSend(
-        window.textsecure.messaging.sendSyncMessage({
+        messaging.sendSyncMessage({
           encodedDataMessage: Proto.DataMessage.encode(
             proto.dataMessage
           ).finish(),

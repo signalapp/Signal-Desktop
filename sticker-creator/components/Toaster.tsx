@@ -5,7 +5,7 @@ import * as React from 'react';
 import { last, noop } from 'lodash';
 import { Toast } from '../elements/Toast';
 
-export type Props = React.HTMLProps<HTMLDivElement> & {
+export type Props = React.HTMLAttributes<HTMLDivElement> & {
   loaf: Array<{ id: number; text: string }>;
   onDismiss: () => unknown;
 };

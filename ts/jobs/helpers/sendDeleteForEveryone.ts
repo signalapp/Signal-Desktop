@@ -39,6 +39,7 @@ export async function sendDeleteForEveryone(
   conversation: ConversationModel,
   {
     isFinalAttempt,
+    messaging,
     shouldContinue,
     timestamp,
     timeRemaining,
@@ -108,7 +109,7 @@ export async function sendDeleteForEveryone(
 
       try {
         if (isMe(conversation.attributes)) {
-          const proto = await window.textsecure.messaging.getContentMessage({
+          const proto = await messaging.getContentMessage({
             deletedForEveryoneTimestamp: targetTimestamp,
             profileKey,
             recipients: conversation.getRecipients(),
@@ -120,7 +121,7 @@ export async function sendDeleteForEveryone(
           );
 
           await handleMessageSend(
-            window.textsecure.messaging.sendSyncMessage({
+            messaging.sendSyncMessage({
               encodedDataMessage: Proto.DataMessage.encode(
                 proto.dataMessage
               ).finish(),

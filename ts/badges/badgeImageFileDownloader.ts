@@ -88,7 +88,14 @@ function getUrlsToDownload(): Array<string> {
 async function downloadBadgeImageFile(url: string): Promise<string> {
   await waitForOnline(navigator, window, { timeout: 1 * MINUTE });
 
-  const imageFileData = await window.textsecure.server.getBadgeImageFile(url);
+  const { server } = window.textsecure;
+  if (!server) {
+    throw new Error(
+      'downloadBadgeImageFile: window.textsecure.server is not available!'
+    );
+  }
+
+  const imageFileData = await server.getBadgeImageFile(url);
   const localPath = await window.Signal.Migrations.writeNewBadgeImageFileData(
     imageFileData
   );

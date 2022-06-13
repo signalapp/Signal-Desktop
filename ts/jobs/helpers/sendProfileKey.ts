@@ -64,6 +64,7 @@ export async function sendProfileKey(
   conversation: ConversationModel,
   {
     isFinalAttempt,
+    messaging,
     shouldContinue,
     timestamp,
     timeRemaining,
@@ -123,13 +124,13 @@ export async function sendProfileKey(
       return;
     }
 
-    const proto = await window.textsecure.messaging.getContentMessage({
+    const proto = await messaging.getContentMessage({
       flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
       profileKey,
       recipients: conversation.getRecipients(),
       timestamp,
     });
-    sendPromise = window.textsecure.messaging.sendIndividualProto({
+    sendPromise = messaging.sendIndividualProto({
       contentHint,
       identifier: conversation.getSendTarget(),
       options: sendOptions,

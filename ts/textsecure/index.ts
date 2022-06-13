@@ -12,7 +12,25 @@ import { Storage } from './Storage';
 import * as WebAPI from './WebAPI';
 import WebSocketResource from './WebsocketResources';
 
-export const textsecure = {
+export type TextSecureType = {
+  utils: typeof utils;
+  storage: Storage;
+
+  AccountManager: typeof AccountManager;
+  ContactBuffer: typeof ContactBuffer;
+  EventTarget: typeof EventTarget;
+  GroupBuffer: typeof GroupBuffer;
+  MessageReceiver: typeof MessageReceiver;
+  MessageSender: typeof MessageSender;
+  SyncRequest: typeof SyncRequest;
+  WebAPI: typeof WebAPI;
+  WebSocketResource: typeof WebSocketResource;
+
+  server?: WebAPI.WebAPIType;
+  messaging?: MessageSender;
+};
+
+export const textsecure: TextSecureType = {
   utils,
   storage: new Storage(),
 
@@ -26,5 +44,3 @@ export const textsecure = {
   WebAPI,
   WebSocketResource,
 };
-
-export default textsecure;

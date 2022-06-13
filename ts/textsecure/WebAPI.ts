@@ -52,10 +52,6 @@ import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
-import type {
-  StorageServiceCallOptionsType,
-  StorageServiceCredentials,
-} from '../textsecure.d';
 import { SocketManager } from './SocketManager';
 import type { CDSResponseType } from './CDSSocketManager';
 import { CDSSocketManager } from './CDSSocketManager';
@@ -64,7 +60,12 @@ import { SignalService as Proto } from '../protobuf';
 
 import { HTTPError } from './Errors';
 import type MessageSender from './SendMessage';
-import type { WebAPICredentials, IRequestHandler } from './Types.d';
+import type {
+  WebAPICredentials,
+  IRequestHandler,
+  StorageServiceCallOptionsType,
+  StorageServiceCredentials,
+} from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 import { maybeParseUrl } from '../util/url';
@@ -601,16 +602,16 @@ type InitializeOptionsType = {
   directoryUrl?: string;
   directoryEnclaveId?: string;
   directoryTrustAnchor?: string;
-  directoryV2Url: string;
-  directoryV2PublicKey: string;
-  directoryV2CodeHashes: ReadonlyArray<string>;
+  directoryV2Url?: string;
+  directoryV2PublicKey?: string;
+  directoryV2CodeHashes?: ReadonlyArray<string>;
   cdnUrlObject: {
     readonly '0': string;
     readonly [propName: string]: string;
   };
   certificateAuthority: string;
   contentProxyUrl: string;
-  proxyUrl: string;
+  proxyUrl: string | undefined;
   version: string;
 };
 
@@ -1018,6 +1019,13 @@ export type ProxiedRequestOptionsType = {
   end?: number;
 };
 
+export type TopLevelType = {
+  multiRecipient200ResponseSchema: typeof multiRecipient200ResponseSchema;
+  multiRecipient409ResponseSchema: typeof multiRecipient409ResponseSchema;
+  multiRecipient410ResponseSchema: typeof multiRecipient410ResponseSchema;
+  initialize: (options: InitializeOptionsType) => WebAPIConnectType;
+};
+
 // We first set up the data that won't change during this session of the app
 export function initialize({
   url,
@@ -1138,8 +1146,15 @@ export function initialize({
       socketManager.authenticate({ username, password });
     }
 
+    const cdsUrl = directoryV2Url || directoryUrl;
+    if (!cdsUrl) {
+      throw new Error('No CDS url available!');
+    }
+    if (!directoryV2PublicKey || !directoryV2CodeHashes?.length) {
+      throw new Error('No CDS public key or code hashes available');
+    }
     const cdsSocketManager = new CDSSocketManager({
-      url: directoryV2Url,
+      url: cdsUrl,
       publicKey: directoryV2PublicKey,
       codeHashes: directoryV2CodeHashes,
       certificateAuthority,

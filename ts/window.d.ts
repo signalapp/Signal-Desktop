@@ -3,19 +3,21 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
+import type { Cancelable } from 'lodash';
 import { Store } from 'redux';
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
-import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
+import { assert } from 'chai';
+
 import { imageToBlurHash } from './util/imageToBlurHash';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
 } from './model-types.d';
-import { TextSecureType } from './textsecure.d';
+import { textsecure } from './textsecure';
 import { Storage } from './textsecure/Storage';
 import {
   ChallengeHandler,
@@ -28,7 +30,7 @@ import * as Crypto from './Crypto';
 import * as Curve from './Curve';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
-import { getEnvironment } from './environment';
+import { Environment, getEnvironment } from './environment';
 import { LocalizerType, ThemeType } from './types/Util';
 import type { Receipt } from './types/Receipt';
 import { ConversationController } from './ConversationController';
@@ -65,9 +67,8 @@ import * as stickersDuck from './state/ducks/stickers';
 import * as conversationsSelectors from './state/selectors/conversations';
 import * as searchSelectors from './state/selectors/search';
 import AccountManager from './textsecure/AccountManager';
-import { ContactWithHydratedAvatar } from './textsecure/SendMessage';
 import Data from './sql/Client';
-import { PhoneNumberFormat } from 'google-libphonenumber';
+import { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { BatcherType } from './util/batcher';
@@ -79,8 +80,6 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
-import { DownloadedAttachmentType } from './types/Attachment';
-import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
 import { SocketStatus } from './types/SocketStatus';
@@ -95,7 +94,9 @@ import { CI } from './CI';
 import { IPCEventsType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
 import type { SignalContextType } from './windows/context';
-import type { EmbeddedContactType } from './types/EmbeddedContact';
+import type * as Message2 from './types/Message2';
+import type { initializeMigrations } from './signal';
+import { RendererConfigType } from './types/RendererConfig';
 
 export { Long } from 'long';
 
@@ -135,11 +136,104 @@ export declare class WebAudioRecorderClass {
   worker: Worker;
 }
 
+export type SignalCoreType = {
+  Backbone: any;
+  Crypto: typeof Crypto;
+  Curve: typeof Curve;
+  Data: typeof Data;
+  Groups: typeof Groups;
+  RemoteConfig: typeof RemoteConfig;
+  Services: {
+    calling: CallingClass;
+    enableStorageService: () => void;
+    eraseAllStorageServiceState: (options?: {
+      keepUnknownFields?: boolean | undefined;
+    }) => Promise<void>;
+    initializeGroupCredentialFetcher: () => Promise<void>;
+    initializeNetworkObserver: (network: ReduxActions['network']) => void;
+    initializeUpdateListener: (updates: ReduxActions['updates']) => void;
+    retryPlaceholders?: Util.RetryPlaceholders;
+    lightSessionResetQueue?: PQueue;
+    runStorageServiceSyncJob: (() => void) & Cancelable;
+    storageServiceUploadJob: (() => void) & Cancelable;
+  };
+  Migrations: ReturnType<typeof initializeMigrations>;
+  Types: {
+    Message: typeof Message2;
+    UUID: typeof UUID;
+    Address: typeof Address;
+    QualifiedAddress: typeof QualifiedAddress;
+  };
+  Util: typeof Util;
+  Components: {
+    AttachmentList: typeof AttachmentList;
+    ChatColorPicker: typeof ChatColorPicker;
+    ConfirmationDialog: typeof ConfirmationDialog;
+    ContactModal: typeof ContactModal;
+    DisappearingTimeDialog: typeof DisappearingTimeDialog;
+    MessageDetail: typeof MessageDetail;
+    Quote: typeof Quote;
+    StagedLinkPreview: typeof StagedLinkPreview;
+  };
+  OS: typeof OS;
+  State: {
+    createStore: typeof createStore;
+    Roots: {
+      createApp: typeof createApp;
+      createChatColorPicker: typeof createChatColorPicker;
+      createConversationDetails: typeof createConversationDetails;
+      createForwardMessageModal: typeof createForwardMessageModal;
+      createGroupLinkManagement: typeof createGroupLinkManagement;
+      createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
+      createGroupV2JoinModal: typeof createGroupV2JoinModal;
+      createGroupV2Permissions: typeof createGroupV2Permissions;
+      createLeftPane: typeof createLeftPane;
+      createMessageDetail: typeof createMessageDetail;
+      createConversationNotificationsSettings: typeof createConversationNotificationsSettings;
+      createPendingInvites: typeof createPendingInvites;
+      createSafetyNumberViewer: typeof createSafetyNumberViewer;
+      createShortcutGuideModal: typeof createShortcutGuideModal;
+      createStickerManager: typeof createStickerManager;
+      createStickerPreviewModal: typeof createStickerPreviewModal;
+    };
+    Ducks: {
+      app: typeof appDuck;
+      calling: typeof callingDuck;
+      conversations: typeof conversationsDuck;
+      emojis: typeof emojisDuck;
+      expiration: typeof expirationDuck;
+      items: typeof itemsDuck;
+      linkPreviews: typeof linkPreviewsDuck;
+      network: typeof networkDuck;
+      updates: typeof updatesDuck;
+      user: typeof userDuck;
+      search: typeof searchDuck;
+      stickers: typeof stickersDuck;
+    };
+    Selectors: {
+      conversations: typeof conversationsSelectors;
+      search: typeof searchSelectors;
+    };
+  };
+  conversationControllerStart: () => void;
+  challengeHandler?: ChallengeHandler;
+};
+
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
   interface Window {
+    // Used in Sticker Creator to create proper paths to emoji images
+    ROOT_PATH?: string;
+    // Used for sticker creator localization
+    localeMessages: { [key: string]: { message: string } };
+
+    // Note: used in background.html, and not type-checked
     startApp: () => void;
+
+    preloadStartTime: number;
+    preloadEndTime: number;
+    preloadConnectTime: number;
 
     removeSetupMenuItems: () => unknown;
     showPermissionsPopup: (
@@ -151,7 +245,6 @@ declare global {
     _: typeof Underscore;
     $: typeof jQuery;
 
-    moment: typeof moment;
     imageToBlurHash: typeof imageToBlurHash;
     loadImage: any;
     isBehindProxy: () => boolean;
@@ -174,6 +267,8 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
+    baseDraftPath: string;
+    closeAbout: () => void;
     crashReports: {
       getCount: () => Promise<number>;
       upload: () => Promise<void>;
@@ -183,14 +278,15 @@ declare global {
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;
+    getAppInstance: () => string | undefined;
     getBuiltInImages: () => Promise<Array<string>>;
     getConversations: () => ConversationModelCollectionType;
     getBuildCreation: () => number;
     getEnvironment: typeof getEnvironment;
-    getExpiration: () => string;
+    getExpiration: () => number;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
-    getLocale: () => ElectronLocaleType;
+    getLocale: () => string;
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getServerPublicParams: () => string;
@@ -206,11 +302,12 @@ declare global {
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
     initialTheme?: ThemeType;
-    libphonenumber: {
-      parse: (number: string) => string;
-      getRegionCodeForNumber: (number: string) => string;
-      format: (number: string, format: PhoneNumberFormat) => string;
+    libphonenumberInstance: {
+      parse: (number: string) => PhoneNumber;
+      getRegionCodeForNumber: (number: PhoneNumber) => string | undefined;
+      format: (number: PhoneNumber, format: PhoneNumberFormat) => string;
     };
+    libphonenumberFormat: typeof PhoneNumberFormat;
     nodeSetImmediate: typeof setImmediate;
     onFullScreenChange: (fullScreen: boolean) => void;
     platform: string;
@@ -233,7 +330,7 @@ declare global {
     showKeyboardShortcuts: () => void;
     storage: Storage;
     systemTheme: WhatIsThis;
-    textsecure: TextSecureType;
+    textsecure: typeof textsecure;
     titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
@@ -243,180 +340,7 @@ declare global {
     Accessibility: {
       reducedMotionSetting: boolean;
     };
-    Signal: {
-      Backbone: any;
-      Crypto: typeof Crypto;
-      Curve: typeof Curve;
-      Data: typeof Data;
-      Groups: typeof Groups;
-      RemoteConfig: typeof RemoteConfig;
-      Services: {
-        calling: CallingClass;
-        enableStorageService: () => boolean;
-        eraseAllStorageServiceState: (options?: {
-          keepUnknownFields?: boolean;
-        }) => Promise<void>;
-        initializeGroupCredentialFetcher: () => void;
-        initializeNetworkObserver: (network: ReduxActions['network']) => void;
-        initializeUpdateListener: (updates: ReduxActions['updates']) => void;
-        retryPlaceholders?: Util.RetryPlaceholders;
-        lightSessionResetQueue?: PQueue;
-        runStorageServiceSyncJob: () => Promise<void>;
-        storageServiceUploadJob: () => void;
-      };
-      Migrations: {
-        readTempData: (path: string) => Promise<Uint8Array>;
-        deleteAttachmentData: (path: string) => Promise<void>;
-        doesAttachmentExist: (path: string) => Promise<boolean>;
-        writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
-        deleteExternalMessageFiles: (attributes: unknown) => Promise<void>;
-        getAbsoluteAttachmentPath: (path: string) => string;
-        loadAttachmentData: <T extends { path?: string }>(
-          attachment: T
-        ) => Promise<
-          T & {
-            data: Uint8Array;
-            size: number;
-          }
-        >;
-        loadQuoteData: (quote: unknown) => WhatIsThis;
-        loadContactData: (
-          contact?: Array<EmbeddedContactType>
-        ) => Promise<Array<ContactWithHydratedAvatar> | undefined>;
-        loadPreviewData: (preview: unknown) => WhatIsThis;
-        loadStickerData: (sticker: unknown) => WhatIsThis;
-        readStickerData: (path: string) => Promise<Uint8Array>;
-        deleteSticker: (path: string) => Promise<void>;
-        getAbsoluteStickerPath: (path: string) => string;
-        processNewEphemeralSticker: (stickerData: Uint8Array) => {
-          path: string;
-          width: number;
-          height: number;
-        };
-        processNewSticker: (stickerData: Uint8Array) => {
-          path: string;
-          width: number;
-          height: number;
-        };
-        copyIntoAttachmentsDirectory: (
-          path: string
-        ) => Promise<{ path: string; size: number }>;
-        upgradeMessageSchema: (attributes: unknown) => WhatIsThis;
-        processNewAttachment: (
-          attachment: DownloadedAttachmentType
-        ) => Promise<DownloadedAttachmentType>;
-
-        copyIntoTempDirectory: (
-          path: string
-        ) => Promise<{ path: string; size: number }>;
-        deleteDraftFile: (path: string) => Promise<void>;
-        deleteTempFile: (path: string) => Promise<void>;
-        getAbsoluteDraftPath: any;
-        getAbsoluteTempPath: any;
-        openFileInFolder: any;
-        readAttachmentData: (path: string) => Promise<Uint8Array>;
-        readDraftData: (path: string) => Promise<Uint8Array>;
-        saveAttachmentToDisk: (options: {
-          data: Uint8Array;
-          name: string;
-        }) => Promise<null | { fullPath: string; name: string }>;
-        writeNewDraftData: (data: Uint8Array) => Promise<string>;
-        deleteAvatar: (path: string) => Promise<void>;
-        getAbsoluteAvatarPath: (src: string) => string;
-        writeNewAvatarData: (data: Uint8Array) => Promise<string>;
-        getAbsoluteBadgeImageFilePath: (path: string) => string;
-        writeNewBadgeImageFileData: (data: Uint8Array) => Promise<string>;
-      };
-      Types: {
-        Message: {
-          CURRENT_SCHEMA_VERSION: number;
-          VERSION_NEEDED_FOR_DISPLAY: number;
-          GROUP: 'group';
-          PRIVATE: 'private';
-
-          initializeSchemaVersion: (version: {
-            message: unknown;
-            logger: unknown;
-          }) => unknown & {
-            schemaVersion: number;
-          };
-          hasExpiration: (json: string) => boolean;
-        };
-        Sticker: {
-          emoji: string;
-          packId: string;
-          packKey: string;
-          stickerId: number;
-          data: {
-            pending: boolean;
-            path: string;
-          };
-          width: number;
-          height: number;
-          path: string;
-        };
-        UUID: typeof UUID;
-        Address: typeof Address;
-        QualifiedAddress: typeof QualifiedAddress;
-      };
-      Util: typeof Util;
-      Components: {
-        AttachmentList: typeof AttachmentList;
-        ChatColorPicker: typeof ChatColorPicker;
-        ConfirmationDialog: typeof ConfirmationDialog;
-        ContactModal: typeof ContactModal;
-        DisappearingTimeDialog: typeof DisappearingTimeDialog;
-        MessageDetail: typeof MessageDetail;
-        Quote: typeof Quote;
-        StagedLinkPreview: typeof StagedLinkPreview;
-      };
-      OS: typeof OS;
-      State: {
-        createStore: typeof createStore;
-        Roots: {
-          createApp: typeof createApp;
-          createChatColorPicker: typeof createChatColorPicker;
-          createConversationDetails: typeof createConversationDetails;
-          createForwardMessageModal: typeof createForwardMessageModal;
-          createGroupLinkManagement: typeof createGroupLinkManagement;
-          createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
-          createGroupV2JoinModal: typeof createGroupV2JoinModal;
-          createGroupV2Permissions: typeof createGroupV2Permissions;
-          createLeftPane: typeof createLeftPane;
-          createMessageDetail: typeof createMessageDetail;
-          createConversationNotificationsSettings: typeof createConversationNotificationsSettings;
-          createPendingInvites: typeof createPendingInvites;
-          createSafetyNumberViewer: typeof createSafetyNumberViewer;
-          createShortcutGuideModal: typeof createShortcutGuideModal;
-          createStickerManager: typeof createStickerManager;
-          createStickerPreviewModal: typeof createStickerPreviewModal;
-        };
-        Ducks: {
-          app: typeof appDuck;
-          calling: typeof callingDuck;
-          conversations: typeof conversationsDuck;
-          emojis: typeof emojisDuck;
-          expiration: typeof expirationDuck;
-          items: typeof itemsDuck;
-          linkPreviews: typeof linkPreviewsDuck;
-          network: typeof networkDuck;
-          updates: typeof updatesDuck;
-          user: typeof userDuck;
-          search: typeof searchDuck;
-          stickers: typeof stickersDuck;
-        };
-        Selectors: {
-          conversations: typeof conversationsSelectors;
-          search: typeof searchSelectors;
-        };
-      };
-      conversationControllerStart: WhatIsThis;
-      Emojis: {
-        getInitialState: () => WhatIsThis;
-        load: () => void;
-      };
-      challengeHandler: ChallengeHandler;
-    };
+    Signal: SignalCoreType;
 
     ConversationController: ConversationController;
     Events: IPCEventsType;
@@ -445,6 +369,14 @@ declare global {
 
     // Context Isolation
     SignalContext: SignalContextType;
+
+    // Test only
+    assert: typeof assert;
+    // Used in test/index.html, and therefore not type-checked!
+    testUtilities: {
+      onComplete: (data: any) => void;
+      prepareTests: () => void;
+    };
   }
 
   // We want to extend `Error`, so we need an interface.
@@ -453,6 +385,9 @@ declare global {
     originalError?: Event;
     reason?: any;
     stackForLog?: string;
+
+    // Used in sticker creator to attach messages to errors
+    errorMessageI18nKey?: string;
   }
 
   // We want to extend `Element`'s properties, so we need an interface.

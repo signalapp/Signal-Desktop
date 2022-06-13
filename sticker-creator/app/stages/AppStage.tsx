@@ -1,7 +1,7 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React from 'react';
 import * as styles from './AppStage.scss';
 import { history } from '../../util/history';
 import { Button } from '../../elements/Button';
@@ -49,11 +49,15 @@ export const AppStage: React.ComponentType<Props> = props => {
   const i18n = useI18n();
 
   const handleNext = React.useCallback(() => {
-    history.push(next);
+    if (next) {
+      history.push(next);
+    }
   }, [next]);
 
   const handlePrev = React.useCallback(() => {
-    history.push(prev);
+    if (prev) {
+      history.push(prev);
+    }
   }, [prev]);
 
   const addMoreCount = stickersDuck.useAddMoreCount();
@@ -71,7 +75,9 @@ export const AppStage: React.ComponentType<Props> = props => {
         ) : null}
         {addMoreCount > 0 ? (
           <Text secondary>
-            {i18n('StickerCreator--DropStage--addMore', [addMoreCount])}
+            {i18n('StickerCreator--DropStage--addMore', [
+              addMoreCount.toString(),
+            ])}
           </Text>
         ) : null}
         {next || onNext ? (

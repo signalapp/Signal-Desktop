@@ -94,6 +94,14 @@ export const StickerFrame = React.memo(
 
     const handlePickEmoji = React.useCallback(
       (emoji: EmojiPickDataType) => {
+        if (!id) {
+          return;
+        }
+        if (!onPickEmoji) {
+          throw new Error(
+            'StickerFrame/handlePickEmoji: onPickEmoji was not provided!'
+          );
+        }
         onPickEmoji({ id, emoji });
         setEmojiPickerOpen(false);
       },
@@ -101,6 +109,14 @@ export const StickerFrame = React.memo(
     );
 
     const handleRemove = React.useCallback(() => {
+      if (!id) {
+        return;
+      }
+      if (!onRemove) {
+        throw new Error(
+          'StickerFrame/handleRemove: onRemove was not provided!'
+        );
+      }
       onRemove(id);
     }, [onRemove, id]);
 
@@ -238,7 +254,7 @@ export const StickerFrame = React.memo(
                       </button>
                     )}
                   </PopperReference>
-                  {emojiPickerOpen && emojiPopperRoot
+                  {emojiPickerOpen && onSetSkinTone && emojiPopperRoot
                     ? createPortal(
                         <Popper placement="bottom-start">
                           {({ ref, style }) => (

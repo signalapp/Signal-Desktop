@@ -33,6 +33,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { explodePromise } from '../util/explodePromise';
 import type { Job } from './Job';
 import type { ParsedJob } from './types';
+import type SendMessage from '../textsecure/SendMessage';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -118,10 +119,11 @@ export type ConversationQueueJobData = z.infer<
 
 export type ConversationQueueJobBundle = {
   isFinalAttempt: boolean;
+  log: LoggerType;
+  messaging: SendMessage;
   shouldContinue: boolean;
   timeRemaining: number;
   timestamp: number;
-  log: LoggerType;
 };
 
 const MAX_RETRY_TIME = durations.DAY;
@@ -143,6 +145,10 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     insert?: (job: ParsedJob<ConversationQueueJobData>) => Promise<void>
   ): Promise<Job<ConversationQueueJobData>> {
     const { conversationId } = data;
+    strictAssert(
+      window.Signal.challengeHandler,
+      'conversationJobQueue.add: Missing challengeHandler!'
+    );
     window.Signal.challengeHandler.maybeSolve(conversationId);
 
     return super.add(data, insert);
@@ -232,7 +238,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         break;
       }
 
-      if (window.Signal.challengeHandler.isRegistered(conversationId)) {
+      if (window.Signal.challengeHandler?.isRegistered(conversationId)) {
         log.info(
           'captcha challenge is pending for this conversation; waiting at most 5m...'
         );
@@ -290,7 +296,13 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       throw missingCaseError(verificationData);
     }
 
-    const jobBundle = {
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('messaging interface is not available!');
+    }
+
+    const jobBundle: ConversationQueueJobBundle = {
+      messaging,
       isFinalAttempt,
       shouldContinue,
       timeRemaining,
@@ -348,7 +360,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           }
           untrustedUuids.push(uuid);
         } else if (toProcess instanceof SendMessageChallengeError) {
-          window.Signal.challengeHandler.register(
+          window.Signal.challengeHandler?.register(
             {
               conversationId,
               createdAt: Date.now(),

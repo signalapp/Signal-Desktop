@@ -10,9 +10,9 @@ import type { AudioDevice } from 'ringrtc';
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
   ZoomFactorType,
-  ThemeSettingType,
   NotificationSettingType,
 } from '../types/Storage.d';
+import type { ThemeSettingType } from '../types/StorageUIKeys';
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';

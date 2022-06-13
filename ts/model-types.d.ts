@@ -28,6 +28,10 @@ import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
 import { SeenStatus } from './MessageSeenStatus';
 import { GiftBadgeStates } from './components/conversation/Message';
+import { LinkPreviewType } from './types/message/LinkPreviews';
+
+import type { StickerType } from './types/Stickers';
+import { MIMEType } from './types/MIME';
 
 export type WhatIsThis = any;
 
@@ -61,17 +65,15 @@ export type GroupMigrationType = {
   droppedMemberIds: Array<string>;
   invitedMembers: Array<GroupV2PendingMemberType>;
 };
-export type PreviewType = {
-  domain: string;
-  image: AttachmentType;
-  title: string;
-  url: string;
+
+export type QuotedAttachment = {
+  contentType: MIMEType;
+  fileName?: string;
+  thumbnail?: AttachmentType;
 };
 
-export type PreviewMessageType = Array<PreviewType>;
-
 export type QuotedMessageType = {
-  attachments: Array<typeof window.WhatIsThis>;
+  attachments: Array<WhatIsThis /* QuotedAttachment */>;
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
   //   new messages, but old messages might have this attribute.
   author?: string;
@@ -89,16 +91,6 @@ type StoryReplyContextType = {
   attachment?: AttachmentType;
   authorUuid?: string;
   messageId: string;
-};
-
-export type StickerMessageType = {
-  packId: string;
-  stickerId: number;
-  packKey: string;
-  data?: AttachmentType;
-  path?: string;
-  width?: number;
-  height?: number;
 };
 
 export type RetryOptions = Readonly<{
@@ -182,8 +174,8 @@ export type MessageAttributesType = {
     | 'verified-change';
   body?: string;
   attachments?: Array<AttachmentType>;
-  preview?: PreviewMessageType;
-  sticker?: StickerMessageType;
+  preview?: Array<LinkPreviewType>;
+  sticker?: StickerType;
   sent_at: number;
   unidentifiedDeliveries?: Array<string>;
   contact?: Array<EmbeddedContactType>;

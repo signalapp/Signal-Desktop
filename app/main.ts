@@ -42,12 +42,14 @@ import { createSupportUrl } from '../ts/util/createSupportUrl';
 import { missingCaseError } from '../ts/util/missingCaseError';
 import { strictAssert } from '../ts/util/assert';
 import { consoleLogger } from '../ts/util/consoleLogger';
-import type { ThemeSettingType } from '../ts/types/Storage.d';
+import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
 
 import './startup_config';
 
 import type { ConfigType } from './config';
+import type { RendererConfigType } from '../ts/types/RendererConfig';
+import { rendererConfigSchema } from '../ts/types/RendererConfig';
 import config from './config';
 import {
   Environment,
@@ -349,25 +351,29 @@ function getLocale(): LocaleType {
   return locale;
 }
 
-function prepareFileUrl(
+type PrepareUrlOptions = { forCalling?: boolean; forCamera?: boolean };
+
+async function prepareFileUrl(
   pathSegments: ReadonlyArray<string>,
-  moreKeys?: undefined | Record<string, unknown>
-): string {
+  options: PrepareUrlOptions = {}
+): Promise<string> {
   const filePath = join(...pathSegments);
   const fileUrl = pathToFileURL(filePath);
-  return prepareUrl(fileUrl, moreKeys);
+  return prepareUrl(fileUrl, options);
 }
 
-function prepareUrl(
+async function prepareUrl(
   url: URL,
-  moreKeys?: undefined | Record<string, unknown>
-): string {
-  return setUrlSearchParams(url, {
+  { forCalling, forCamera }: PrepareUrlOptions = {}
+): Promise<string> {
+  const theme = await getResolvedThemeSetting();
+
+  const urlParams: RendererConfigType = {
     name: packageJson.productName,
-    locale: locale ? locale.name : undefined,
+    locale: getLocale().name,
     version: app.getVersion(),
-    buildCreation: config.get<number | undefined>('buildCreation'),
-    buildExpiration: config.get<number | undefined>('buildExpiration'),
+    buildCreation: config.get<number>('buildCreation'),
+    buildExpiration: config.get<number>('buildExpiration'),
     serverUrl: config.get<string>('serverUrl'),
     storageUrl: config.get<string>('storageUrl'),
     updatesUrl: config.get<string>('updatesUrl'),
@@ -377,29 +383,52 @@ function prepareUrl(
       config.get<string | null>('directoryEnclaveId') || undefined,
     directoryTrustAnchor:
       config.get<string | null>('directoryTrustAnchor') || undefined,
-    directoryV2Url: config.get<string>('directoryV2Url'),
-    directoryV2PublicKey: config.get<string>('directoryV2PublicKey'),
-    directoryV2CodeHashes: config.get<string>('directoryV2CodeHashes'),
+    directoryV2Url: config.get<string | null>('directoryV2Url') || undefined,
+    directoryV2PublicKey:
+      config.get<string | null>('directoryV2PublicKey') || undefined,
+    directoryV2CodeHashes:
+      config.get<Array<string> | null>('directoryV2CodeHashes') || undefined,
     cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
     cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
     certificateAuthority: config.get<string>('certificateAuthority'),
-    environment: enableCI ? 'production' : getEnvironment(),
-    enableCI: enableCI ? 'true' : '',
-    node_version: process.versions.node,
+    environment: enableCI ? Environment.Production : getEnvironment(),
+    enableCI,
+    nodeVersion: process.versions.node,
     hostname: os.hostname(),
-    appInstance: process.env.NODE_APP_INSTANCE,
-    proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
+    appInstance: process.env.NODE_APP_INSTANCE || undefined,
+    proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
     contentProxyUrl: config.get<string>('contentProxyUrl'),
     sfuUrl: config.get('sfuUrl'),
-    reducedMotionSetting: animationSettings.prefersReducedMotion ? 'true' : '',
+    reducedMotionSetting: animationSettings.prefersReducedMotion,
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
+    theme,
     appStartInitialSpellcheckSetting,
     userDataPath: app.getPath('userData'),
     homePath: app.getPath('home'),
     crashDumpsPath: app.getPath('crashDumps'),
-    ...moreKeys,
-  }).href;
+
+    // Only used by the main window
+    isMainWindowFullScreen: Boolean(mainWindow?.isFullScreen()),
+
+    // Only for tests
+    argv: JSON.stringify(process.argv),
+
+    // Only for permission popup window
+    forCalling: Boolean(forCalling),
+    forCamera: Boolean(forCamera),
+  };
+
+  const parsed = rendererConfigSchema.safeParse(urlParams);
+  if (!parsed.success) {
+    throw new Error(
+      `prepareUrl: Failed to parse renderer config ${JSON.stringify(
+        parsed.error.flatten()
+      )}`
+    );
+  }
+
+  return setUrlSearchParams(url, { config: JSON.stringify(parsed.data) }).href;
 }
 
 async function handleUrl(event: Electron.Event, rawTarget: string) {
@@ -607,7 +636,9 @@ async function createWindow() {
       contextIsolation: false,
       preload: join(
         __dirname,
-        usePreloadBundle ? '../preload.bundle.js' : '../preload.js'
+        usePreloadBundle
+          ? '../preload.bundle.js'
+          : '../ts/windows/main/preload.js'
       ),
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: isThrottlingEnabled,
@@ -738,22 +769,10 @@ async function createWindow() {
   // This is a fallback in case we drop an event for some reason.
   setInterval(setWindowFocus, 10000);
 
-  const moreKeys = {
-    isFullScreen: String(Boolean(mainWindow.isFullScreen())),
-    resolvedTheme: await getResolvedThemeSetting(),
-  };
-
   if (getEnvironment() === Environment.Test) {
-    mainWindow.loadURL(
-      prepareFileUrl([__dirname, '../test/index.html'], {
-        ...moreKeys,
-        argv: JSON.stringify(process.argv),
-      })
-    );
+    mainWindow.loadURL(await prepareFileUrl([__dirname, '../test/index.html']));
   } else {
-    mainWindow.loadURL(
-      prepareFileUrl([__dirname, '../background.html'], moreKeys)
-    );
+    mainWindow.loadURL(await prepareFileUrl([__dirname, '../background.html']));
   }
 
   if (!enableCI && config.get<boolean>('openDevTools')) {
@@ -1039,7 +1058,7 @@ function setupAsStandalone() {
 }
 
 let screenShareWindow: BrowserWindow | undefined;
-function showScreenShareWindow(sourceName: string) {
+async function showScreenShareWindow(sourceName: string) {
   if (screenShareWindow) {
     screenShareWindow.showInactive();
     return;
@@ -1078,7 +1097,9 @@ function showScreenShareWindow(sourceName: string) {
 
   handleCommonWindowEvents(screenShareWindow);
 
-  screenShareWindow.loadURL(prepareFileUrl([__dirname, '../screenShare.html']));
+  screenShareWindow.loadURL(
+    await prepareFileUrl([__dirname, '../screenShare.html'])
+  );
 
   screenShareWindow.on('closed', () => {
     screenShareWindow = undefined;
@@ -1128,7 +1149,7 @@ async function showAbout() {
 
   handleCommonWindowEvents(aboutWindow, titleBarOverlay);
 
-  aboutWindow.loadURL(prepareFileUrl([__dirname, '../about.html']));
+  aboutWindow.loadURL(await prepareFileUrl([__dirname, '../about.html']));
 
   aboutWindow.on('closed', () => {
     aboutWindow = undefined;
@@ -1175,7 +1196,7 @@ async function showSettingsWindow() {
 
   handleCommonWindowEvents(settingsWindow, titleBarOverlay);
 
-  settingsWindow.loadURL(prepareFileUrl([__dirname, '../settings.html']));
+  settingsWindow.loadURL(await prepareFileUrl([__dirname, '../settings.html']));
 
   settingsWindow.on('closed', () => {
     settingsWindow = undefined;
@@ -1254,7 +1275,7 @@ async function showStickerCreator() {
       )
     : prepareFileUrl([__dirname, '../sticker-creator/dist/index.html']);
 
-  stickerCreatorWindow.loadURL(appUrl);
+  stickerCreatorWindow.loadURL(await appUrl);
 
   stickerCreatorWindow.on('closed', () => {
     stickerCreatorWindow = undefined;
@@ -1283,7 +1304,6 @@ async function showDebugLogWindow() {
 
   const titleBarOverlay = await getTitleBarOverlay();
 
-  const theme = await getThemeSetting();
   const options = {
     width: 700,
     height: 500,
@@ -1315,7 +1335,7 @@ async function showDebugLogWindow() {
   handleCommonWindowEvents(debugLogWindow, titleBarOverlay);
 
   debugLogWindow.loadURL(
-    prepareFileUrl([__dirname, '../debug_log.html'], { theme })
+    await prepareFileUrl([__dirname, '../debug_log.html'])
   );
 
   debugLogWindow.on('closed', () => {
@@ -1346,7 +1366,6 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       return;
     }
 
-    const theme = await getThemeSetting();
     const size = mainWindow.getSize();
     const options = {
       width: Math.min(400, size[0]),
@@ -1374,8 +1393,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
     handleCommonWindowEvents(permissionsPopupWindow);
 
     permissionsPopupWindow.loadURL(
-      prepareFileUrl([__dirname, '../permissions_popup.html'], {
-        theme,
+      await prepareFileUrl([__dirname, '../permissions_popup.html'], {
         forCalling,
         forCamera,
       })
@@ -1629,7 +1647,7 @@ app.on('ready', async () => {
   const backgroundColor = await getBackgroundColor({ ephemeralOnly: true });
 
   // eslint-disable-next-line more/no-then
-  Promise.race([sqlInitPromise, timeout]).then(maybeTimeout => {
+  Promise.race([sqlInitPromise, timeout]).then(async maybeTimeout => {
     if (maybeTimeout !== 'timeout') {
       return;
     }
@@ -1665,7 +1683,7 @@ app.on('ready', async () => {
       loadingWindow = undefined;
     });
 
-    loadingWindow.loadURL(prepareFileUrl([__dirname, '../loading.html']));
+    loadingWindow.loadURL(await prepareFileUrl([__dirname, '../loading.html']));
   });
 
   try {

@@ -10,10 +10,7 @@ import * as Bytes from '../../Bytes';
 import * as MIME from '../../types/MIME';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
-import type {
-  MessageAttributesType,
-  StickerMessageType,
-} from '../../model-types.d';
+import type { MessageAttributesType } from '../../model-types.d';
 import type { AttachmentType } from '../../types/Attachment';
 import type { LoggerType } from '../../types/Logging';
 
@@ -75,12 +72,11 @@ describe('Message', () => {
       revokeObjectUrl: (_objectUrl: string) => undefined,
       writeNewAttachmentData: async (_data: Uint8Array) =>
         'fake-attachment-path',
-      writeNewStickerData: async (_sticker: StickerMessageType) =>
-        'fake-sticker-path',
+      writeNewStickerData: async (_data: Uint8Array) => 'fake-sticker-path',
       ...props,
     };
   }
-  const writeExistingAttachmentData = () => Promise.resolve();
+  const writeExistingAttachmentData = () => Promise.resolve('path');
 
   describe('createAttachmentDataWriter', () => {
     it('should ignore messages that didn’t go through attachment migration', async () => {
@@ -155,6 +151,7 @@ describe('Message', () => {
           Bytes.toString(attachment.data || new Uint8Array()),
           'It’s easy if you try'
         );
+        return 'path';
       };
 
       const actual = await Message.createAttachmentDataWriter({
@@ -214,6 +211,7 @@ describe('Message', () => {
           Bytes.toString(attachment.data || new Uint8Array()),
           'It’s easy if you try'
         );
+        return 'path';
       };
 
       const actual = await Message.createAttachmentDataWriter({
@@ -272,6 +270,7 @@ describe('Message', () => {
           Bytes.toString(attachment.data || new Uint8Array()),
           'It’s easy if you try'
         );
+        return 'path';
       };
 
       const actual = await Message.createAttachmentDataWriter({
@@ -279,6 +278,7 @@ describe('Message', () => {
         logger,
       })(input);
       assert.deepEqual(actual, expected);
+      return 'path';
     });
   });
 

@@ -127,7 +127,7 @@ export const createWriterForNew = (
 
 export const createWriterForExisting = (
   root: string
-): ((options: { data: Uint8Array; path: string }) => Promise<string>) => {
+): ((options: { data?: Uint8Array; path?: string }) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
@@ -136,15 +136,15 @@ export const createWriterForExisting = (
     data: bytes,
     path: relativePath,
   }: {
-    data: Uint8Array;
-    path: string;
+    data?: Uint8Array;
+    path?: string;
   }): Promise<string> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a path");
     }
 
-    if (!isTypedArray(bytes)) {
-      throw new TypeError("'arrayBuffer' must be an array buffer");
+    if (!bytes) {
+      throw new TypeError("'data' must be a Uint8Array");
     }
 
     const buffer = Buffer.from(bytes);

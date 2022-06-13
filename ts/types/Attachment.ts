@@ -83,6 +83,10 @@ export type AttachmentType = {
   key?: string;
 };
 
+export type AttachmentWithHydratedData = AttachmentType & {
+  data: Uint8Array;
+};
+
 export enum TextAttachmentStyleType {
   DEFAULT = 0,
   REGULAR = 1,
@@ -379,19 +383,21 @@ export function hasData(attachment: AttachmentType): boolean {
 
 export function loadData(
   readAttachmentData: (path: string) => Promise<Uint8Array>
-): (attachment?: AttachmentType) => Promise<AttachmentType> {
+): (attachment: AttachmentType) => Promise<AttachmentWithHydratedData> {
   if (!is.function_(readAttachmentData)) {
     throw new TypeError("'readAttachmentData' must be a function");
   }
 
-  return async (attachment?: AttachmentType): Promise<AttachmentType> => {
+  return async (
+    attachment: AttachmentType
+  ): Promise<AttachmentWithHydratedData> => {
     if (!isValid(attachment)) {
       throw new TypeError("'attachment' is not valid");
     }
 
     const isAlreadyLoaded = Boolean(attachment.data);
     if (isAlreadyLoaded) {
-      return attachment;
+      return attachment as AttachmentWithHydratedData;
     }
 
     if (!is.string(attachment.path)) {

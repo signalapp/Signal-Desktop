@@ -3288,16 +3288,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return this.getGroupPreview(url, abortSignal);
     }
 
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('messaging is not available!');
+    }
+
     // This is already checked elsewhere, but we want to be extra-careful.
     if (!LinkPreview.shouldPreviewHref(url)) {
       return null;
     }
 
-    const linkPreviewMetadata =
-      await window.textsecure.messaging.fetchLinkPreviewMetadata(
-        url,
-        abortSignal
-      );
+    const linkPreviewMetadata = await messaging.fetchLinkPreviewMetadata(
+      url,
+      abortSignal
+    );
     if (!linkPreviewMetadata || abortSignal.aborted) {
       return null;
     }
@@ -3307,11 +3311,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
       let objectUrl: void | string;
       try {
-        const fullSizeImage =
-          await window.textsecure.messaging.fetchLinkPreviewImage(
-            imageHref,
-            abortSignal
-          );
+        const fullSizeImage = await messaging.fetchLinkPreviewImage(
+          imageHref,
+          abortSignal
+        );
         if (abortSignal.aborted) {
           return null;
         }

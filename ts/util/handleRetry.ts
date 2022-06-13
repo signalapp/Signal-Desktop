@@ -32,6 +32,7 @@ import type {
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import MessageSender from '../textsecure/SendMessage';
 
 const RETRY_LIMIT = 5;
 
@@ -125,6 +126,11 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 
   log.info(`onRetryRequest/${logId}: Resending message`);
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error(`onRetryRequest/${logId}: messaging is not available!`);
+  }
+
   const { contentHint, messageIds, proto, timestamp } = sentProto;
 
   const { contentProto, groupId } = await maybeAddSenderKeyDistributionMessage({
@@ -141,7 +147,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     'private'
   );
   const sendOptions = await getSendOptions(recipientConversation.attributes);
-  const promise = window.textsecure.messaging.sendMessageProtoAndWait({
+  const promise = messaging.sendMessageProtoAndWait({
     timestamp,
     recipients: [requesterUuid],
     proto: new Proto.Content(contentProto),
@@ -263,6 +269,13 @@ async function sendDistributionMessageOrNullMessage(
   let sentDistributionMessage = false;
   log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error(
+      `sendDistributionMessageOrNullMessage/${logId}: messaging is not available!`
+    );
+  }
+
   const conversation = window.ConversationController.getOrCreate(
     requesterUuid,
     'private'
@@ -286,7 +299,7 @@ async function sendDistributionMessageOrNullMessage(
 
       try {
         await handleMessageSend(
-          window.textsecure.messaging.sendSenderKeyDistributionMessage(
+          messaging.sendSenderKeyDistributionMessage(
             {
               contentHint: ContentHint.RESENDABLE,
               distributionId,
@@ -322,11 +335,11 @@ async function sendDistributionMessageOrNullMessage(
 
     // Enqueue a null message using the newly-created session
     try {
-      const nullMessage = window.textsecure.messaging.getNullMessage({
+      const nullMessage = MessageSender.getNullMessage({
         uuid: requesterUuid,
       });
       await handleMessageSend(
-        window.textsecure.messaging.sendIndividualProto({
+        messaging.sendIndividualProto({
           ...nullMessage,
           options: sendOptions,
           proto: Proto.Content.decode(
@@ -397,6 +410,13 @@ async function maybeAddSenderKeyDistributionMessage({
     requestGroupId,
   });
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error(
+      `maybeAddSenderKeyDistributionMessage/${logId}: messaging is not available!`
+    );
+  }
+
   if (!conversation) {
     log.warn(
       `maybeAddSenderKeyDistributionMessage/${logId}: Unable to find conversation`
@@ -421,7 +441,7 @@ async function maybeAddSenderKeyDistributionMessage({
   const senderKeyInfo = conversation.get('senderKeyInfo');
   if (senderKeyInfo && senderKeyInfo.distributionId) {
     const protoWithDistributionMessage =
-      await window.textsecure.messaging.getSenderKeyDistributionMessage(
+      await messaging.getSenderKeyDistributionMessage(
         senderKeyInfo.distributionId,
         { throwIfNotInDatabase: true, timestamp }
       );
@@ -463,6 +483,11 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
     groupId: groupId ? `groupv2(${groupId})` : undefined,
   });
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error(`requestResend/${logId}: messaging is not available!`);
+  }
+
   // 1. Find the target conversation
 
   const group = groupId
@@ -495,7 +520,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
     const plaintext = PlaintextContent.from(message);
     const options = await getSendOptions(conversation.attributes);
     const result = await handleMessageSend(
-      window.textsecure.messaging.sendRetryRequest({
+      messaging.sendRetryRequest({
         plaintext,
         options,
         groupId,

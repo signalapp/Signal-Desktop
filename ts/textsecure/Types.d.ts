@@ -6,6 +6,7 @@ import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { UUID } from '../types/UUID';
 import type { TextAttachmentType } from '../types/Attachment';
 import { GiftBadgeStates } from '../components/conversation/Message';
+import { MIMEType } from '../types/MIME';
 
 export {
   IdentityKeyType,
@@ -97,9 +98,9 @@ export type ProcessedAttachment = {
   cdnId?: string;
   cdnKey?: string;
   digest?: string;
-  contentType?: string;
+  contentType: MIMEType;
   key?: string;
-  size?: number;
+  size: number;
   fileName?: string;
   flags?: number;
   width?: number;

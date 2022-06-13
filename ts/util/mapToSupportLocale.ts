@@ -74,9 +74,7 @@ export type ElectronLocaleType =
   | 'zh_CN'
   | 'zh_TW';
 
-export function mapToSupportLocale(
-  ourLocale: ElectronLocaleType
-): SupportLocaleType {
+export function mapToSupportLocale(ourLocale: string): SupportLocaleType {
   if (ourLocale === 'ar') {
     return ourLocale;
   }

@@ -5,7 +5,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import * as styles from './Toast.scss';
 
-export type Props = React.HTMLProps<HTMLButtonElement> & {
+export type Props = React.HTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
 };
 

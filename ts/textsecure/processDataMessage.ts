@@ -26,6 +26,7 @@ import type {
 } from './Types.d';
 import { WarnOnlyError } from './Errors';
 import { GiftBadgeStates } from '../components/conversation/Message';
+import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -47,12 +48,21 @@ export function processAttachment(
   const { cdnId } = attachment;
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
+  const { contentType, digest, key, size } = attachment;
+  if (!size) {
+    throw new Error('Missing size on incoming attachment!');
+  }
+
   return {
     ...shallowDropNull(attachment),
 
     cdnId: hasCdnId ? String(cdnId) : undefined,
-    key: attachment.key ? Bytes.toBase64(attachment.key) : undefined,
-    digest: attachment.digest ? Bytes.toBase64(attachment.digest) : undefined,
+    contentType: contentType
+      ? stringToMIMEType(contentType)
+      : APPLICATION_OCTET_STREAM,
+    digest: digest ? Bytes.toBase64(digest) : undefined,
+    key: key ? Bytes.toBase64(key) : undefined,
+    size,
   };
 }
 

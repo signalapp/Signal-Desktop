@@ -49,6 +49,7 @@ import type {
   RemoteRecord,
   UnknownRecord,
 } from '../types/StorageService.d';
+import MessageSender from '../textsecure/SendMessage';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -604,9 +605,7 @@ async function uploadManifest(
   backOff.reset();
 
   try {
-    await singleProtoJobQueue.add(
-      window.textsecure.messaging.getFetchManifestSyncMessage()
-    );
+    await singleProtoJobQueue.add(MessageSender.getFetchManifestSyncMessage());
   } catch (error) {
     log.error(
       `storageService.upload(${version}): Failed to queue sync message`,
@@ -630,10 +629,6 @@ async function stopStorageServiceSync(reason: Error) {
   await sleep(backOff.getAndIncrement());
   log.info('storageService.stopStorageServiceSync: requesting new keys');
   setTimeout(async () => {
-    if (!window.textsecure.messaging) {
-      throw new Error('storageService.stopStorageServiceSync: We are offline!');
-    }
-
     if (window.ConversationController.areWePrimaryDevice()) {
       log.warn(
         'stopStorageServiceSync: We are primary device; not sending key sync request'
@@ -641,9 +636,7 @@ async function stopStorageServiceSync(reason: Error) {
       return;
     }
     try {
-      await singleProtoJobQueue.add(
-        window.textsecure.messaging.getRequestKeySyncMessage()
-      );
+      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
     } catch (error) {
       log.error(
         'storageService.stopStorageServiceSync: Failed to queue sync message',
@@ -974,6 +967,11 @@ async function processRemoteRecords(
   if (!storageKeyBase64) {
     throw new Error('No storage key');
   }
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging is not available');
+  }
+
   const storageKey = Bytes.fromBase64(storageKeyBase64);
 
   log.info(
@@ -993,13 +991,12 @@ async function processRemoteRecords(
         const readOperation = new Proto.ReadOperation();
         readOperation.readKey = batch.map(Bytes.fromBase64);
 
-        const storageItemsBuffer =
-          await window.textsecure.messaging.getStorageRecords(
-            Proto.ReadOperation.encode(readOperation).finish(),
-            {
-              credentials,
-            }
-          );
+        const storageItemsBuffer = await messaging.getStorageRecords(
+          Proto.ReadOperation.encode(readOperation).finish(),
+          {
+            credentials,
+          }
+        );
 
         return Proto.StorageItems.decode(storageItemsBuffer).items ?? [];
       },
@@ -1403,9 +1400,7 @@ async function upload(fromSync = false): Promise<void> {
     }
 
     try {
-      await singleProtoJobQueue.add(
-        window.textsecure.messaging.getRequestKeySyncMessage()
-      );
+      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
     } catch (error) {
       log.error(
         'storageService.upload: Failed to queue sync message',

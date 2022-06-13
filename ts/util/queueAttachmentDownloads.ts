@@ -2,14 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { partition } from 'lodash';
-import type { AttachmentType } from '../types/Attachment';
-import type { EmbeddedContactType } from '../types/EmbeddedContact';
-import type {
-  MessageAttributesType,
-  PreviewMessageType,
-  QuotedMessageType,
-  StickerMessageType,
-} from '../model-types.d';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as log from '../logging/log';
 import { isLongMessage } from '../types/MIME';
@@ -21,13 +13,22 @@ import {
 } from '../types/Stickers';
 import dataInterface from '../sql/Client';
 
+import type { AttachmentType } from '../types/Attachment';
+import type { EmbeddedContactType } from '../types/EmbeddedContact';
+import type {
+  MessageAttributesType,
+  QuotedMessageType,
+} from '../model-types.d';
+import type { StickerType } from '../types/Stickers';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+
 type ReturnType = {
   bodyAttachment?: AttachmentType;
   attachments: Array<AttachmentType>;
-  preview: PreviewMessageType;
+  preview: Array<LinkPreviewType>;
   contact: Array<EmbeddedContactType>;
   quote?: QuotedMessageType;
-  sticker?: StickerMessageType;
+  sticker?: StickerType;
 };
 
 // Receive logic

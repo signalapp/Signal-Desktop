@@ -12,11 +12,17 @@ import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { strictAssert } from '../util/assert';
 import { isWhitespace } from '../util/whitespaceStringUtil';
 import type { AvatarUpdateType } from '../types/Avatar';
+import MessageSender from '../textsecure/SendMessage';
 
 export async function writeProfile(
   conversation: ConversationType,
   avatar: AvatarUpdateType
 ): Promise<void> {
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging is not available!');
+  }
+
   // Before we write anything we request the user's profile so that we can
   // have an up-to-date paymentAddress to be able to include it when we write
   const model = window.ConversationController.get(conversation.id);
@@ -44,9 +50,7 @@ export async function writeProfile(
     conversation,
     avatar
   );
-  const avatarRequestHeaders = await window.textsecure.messaging.putProfile(
-    profileData
-  );
+  const avatarRequestHeaders = await messaging.putProfile(profileData);
 
   // Upload the avatar if provided
   // delete existing files on disk if avatar has been removed
@@ -64,7 +68,7 @@ export async function writeProfile(
     log.info('writeProfile: not updating avatar');
   } else if (avatarRequestHeaders && encryptedAvatarData && newAvatar) {
     log.info('writeProfile: uploading new avatar');
-    const avatarUrl = await window.textsecure.messaging.uploadAvatar(
+    const avatarUrl = await messaging.uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
     );
@@ -109,7 +113,7 @@ export async function writeProfile(
 
   try {
     await singleProtoJobQueue.add(
-      window.textsecure.messaging.getFetchLocalProfileSyncMessage()
+      MessageSender.getFetchLocalProfileSyncMessage()
     );
   } catch (error) {
     log.error(

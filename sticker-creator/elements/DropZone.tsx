@@ -3,9 +3,11 @@
 
 import * as React from 'react';
 import type { FileWithPath } from 'react-dropzone';
+
 import * as styles from './DropZone.scss';
 import { useI18n } from '../util/i18n';
 import { useStickerDropzone } from '../util/useStickerDropzone';
+import { isNotNil } from '../../ts/util/isNotNil';
 
 export type Props = {
   readonly inner?: boolean;
@@ -32,7 +34,7 @@ export const DropZone: React.ComponentType<Props> = props => {
 
   const handleDrop = React.useCallback(
     (files: ReadonlyArray<FileWithPath>) => {
-      onDrop(files.map(({ path }) => path));
+      onDrop(files.map(({ path }) => path).filter(isNotNil));
     },
     [onDrop]
   );

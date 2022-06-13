@@ -129,6 +129,10 @@ export const StandaloneRegistration = ({
       }
 
       document.location.href = getChallengeURL();
+      if (!window.Signal.challengeHandler) {
+        setError('Captcha handler is not ready!');
+        return;
+      }
       const token = await window.Signal.challengeHandler.requestCaptcha();
 
       try {

@@ -199,6 +199,7 @@ export type UnprocessedType = {
   attempts: number;
   envelope?: string;
 
+  messageAgeSec?: number;
   source?: string;
   sourceUuid?: string;
   sourceDevice?: number;

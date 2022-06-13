@@ -25,8 +25,7 @@ contextBridge.exposeInMainWorld(
 contextBridge.exposeInMainWorld('SignalContext', {
   ...SignalContext,
   renderWindow: () => {
-    const forCalling = SignalContext.config.forCalling === 'true';
-    const forCamera = SignalContext.config.forCamera === 'true';
+    const { forCalling, forCamera } = SignalContext.config;
 
     let message;
     if (forCalling) {

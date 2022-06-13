@@ -12,12 +12,12 @@ import { maybeParseUrl } from '../util/url';
 import * as Bytes from '../Bytes';
 import * as Errors from './errors';
 import { deriveStickerPackKey, decryptAttachment } from '../Crypto';
-import type { MIMEType } from './MIME';
 import { IMAGE_WEBP } from './MIME';
+import type { MIMEType } from './MIME';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
-import type { AttachmentType } from './Attachment';
+import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
 import type {
-  StickerType,
+  StickerType as StickerFromDBType,
   StickerPackType,
   StickerPackStatusType,
 } from '../sql/Interface';
@@ -25,6 +25,20 @@ import Data from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StickersStateType } from '../state/ducks/stickers';
+
+export type StickerType = {
+  packId: string;
+  stickerId: number;
+  packKey: string;
+  emoji?: string;
+  data?: AttachmentType;
+  path?: string;
+  width?: number;
+  height?: number;
+};
+export type StickerWithHydratedData = StickerType & {
+  data: AttachmentWithHydratedData;
+};
 
 export type RecentStickerType = Readonly<{
   stickerId: number;
@@ -300,11 +314,16 @@ async function downloadSticker(
   packKey: string,
   proto: Proto.StickerPack.ISticker,
   { ephemeral }: { ephemeral?: boolean } = {}
-): Promise<Omit<StickerType, 'isCoverOnly'>> {
+): Promise<Omit<StickerFromDBType, 'isCoverOnly'>> {
   const { id, emoji } = proto;
   strictAssert(id !== undefined && id !== null, "Sticker id can't be null");
 
-  const ciphertext = await window.textsecure.messaging.getSticker(packId, id);
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging is not available!');
+  }
+
+  const ciphertext = await messaging.getSticker(packId, id);
   const plaintext = decryptSticker(packKey, ciphertext);
 
   const sticker = ephemeral
@@ -401,9 +420,12 @@ export async function downloadEphemeralPack(
     };
     stickerPackAdded(placeholder);
 
-    const ciphertext = await window.textsecure.messaging.getStickerPackManifest(
-      packId
-    );
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('messaging is not available!');
+    }
+
+    const ciphertext = await messaging.getStickerPackManifest(packId);
     const plaintext = decryptSticker(packKey, ciphertext);
     const proto = Proto.StickerPack.decode(plaintext);
     const firstStickerProto = proto.stickers ? proto.stickers[0] : null;
@@ -599,9 +621,12 @@ async function doDownloadStickerPack(
     };
     stickerPackAdded(placeholder);
 
-    const ciphertext = await window.textsecure.messaging.getStickerPackManifest(
-      packId
-    );
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('messaging is not available!');
+    }
+
+    const ciphertext = await messaging.getStickerPackManifest(packId);
     const plaintext = decryptSticker(packKey, ciphertext);
     const proto = Proto.StickerPack.decode(plaintext);
     const firstStickerProto = proto.stickers ? proto.stickers[0] : undefined;
@@ -776,7 +801,7 @@ export function getStickerPackStatus(
 export function getSticker(
   packId: string,
   stickerId: number
-): StickerType | undefined {
+): StickerFromDBType | undefined {
   const pack = getStickerPack(packId);
 
   if (!pack || !pack.stickers) {
@@ -803,9 +828,7 @@ export async function copyStickerToAttachments(
   const { path, size } =
     await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
 
-  const { data } = await window.Signal.Migrations.loadAttachmentData({
-    path,
-  });
+  const data = await window.Signal.Migrations.readAttachmentData(path);
 
   let contentType: MIMEType;
   const sniffedMimeType = sniffImageMimeType(data);

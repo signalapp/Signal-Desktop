@@ -12,6 +12,11 @@ export async function downloadAttachment(
 ): Promise<DownloadedAttachmentType | null> {
   let migratedAttachment: AttachmentType;
 
+  const { server } = window.textsecure;
+  if (!server) {
+    throw new Error('window.textsecure.server is not available!');
+  }
+
   const { id: legacyId } = attachmentData;
   if (legacyId === undefined) {
     migratedAttachment = attachmentData;
@@ -24,10 +29,7 @@ export async function downloadAttachment(
 
   let downloaded;
   try {
-    downloaded = await doDownloadAttachment(
-      window.textsecure.server,
-      migratedAttachment
-    );
+    downloaded = await doDownloadAttachment(server, migratedAttachment);
   } catch (error) {
     // Attachments on the server expire after 30 days, then start returning 404
     if (error && error.code === 404) {

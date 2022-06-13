@@ -36,6 +36,7 @@ export async function sendNormalMessage(
   conversation: ConversationModel,
   {
     isFinalAttempt,
+    messaging,
     shouldContinue,
     timeRemaining,
     log,
@@ -166,7 +167,7 @@ export async function sendNormalMessage(
 
       // We're sending to Note to Self or a 'lonely group' with just us in it
       log.info('sending sync message only');
-      const dataMessage = await window.textsecure.messaging.getDataMessage({
+      const dataMessage = await messaging.getDataMessage({
         attachments,
         body,
         contact,
@@ -261,7 +262,7 @@ export async function sendNormalMessage(
         }
 
         log.info('sending direct message');
-        innerPromise = window.textsecure.messaging.sendMessageToIdentifier({
+        innerPromise = messaging.sendMessageToIdentifier({
           attachments,
           contact,
           contentHint: ContentHint.RESENDABLE,

@@ -167,30 +167,16 @@ module.exports = {
 
   overrides: [
     {
-      files: ['ts/**/*.ts', 'ts/**/*.tsx', 'app/**/*.ts'],
+      files: [
+        'ts/**/*.ts',
+        'ts/**/*.tsx',
+        'app/**/*.ts',
+        'sticker-creator/**/*.ts',
+        'sticker-creator/**/*.tsx',
+      ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: 'tsconfig.json',
-        ecmaFeatures: {
-          jsx: true,
-        },
-        ecmaVersion: 2018,
-        sourceType: 'module',
-      },
-      plugins: ['@typescript-eslint'],
-      extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-        'airbnb-typescript-prettier',
-      ],
-      rules: typescriptRules,
-    },
-    {
-      files: ['sticker-creator/**/*.ts', 'sticker-creator/**/*.tsx'],
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: './sticker-creator/tsconfig.json',
         ecmaFeatures: {
           jsx: true,
         },

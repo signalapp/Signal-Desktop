@@ -12,19 +12,15 @@ import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig';
 import type { SystemTraySetting } from './SystemTraySetting';
-import type {
-  ExtendedStorageID,
-  RemoteRecord,
-  UnknownRecord,
-} from './StorageService';
+import type { ExtendedStorageID, UnknownRecord } from './StorageService';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
 import type {
-  KeyPairType,
   SessionResetsType,
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
-import { UUIDStringType } from './UUID';
+import type { ThemeSettingType } from './StorageUIKeys';
+
 import { RegisteredChallengeType } from '../challenge';
 
 export type SerializedCertificateType = {
@@ -33,8 +29,6 @@ export type SerializedCertificateType = {
 };
 
 export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
-
-export type ThemeSettingType = 'system' | 'light' | 'dark';
 
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 

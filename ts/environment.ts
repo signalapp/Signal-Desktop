@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { z } from 'zod';
+
 import { makeEnumParser } from './util/enum';
 
 // Many places rely on this enum being a string.
@@ -10,6 +12,8 @@ export enum Environment {
   Staging = 'staging',
   Test = 'test',
 }
+
+export const environmentSchema = z.nativeEnum(Environment);
 
 let environment: undefined | Environment;
 

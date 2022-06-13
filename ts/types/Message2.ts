@@ -4,7 +4,7 @@
 import { isFunction, isObject, isString, omit } from 'lodash';
 
 import * as Contact from './EmbeddedContact';
-import type { AttachmentType } from './Attachment';
+import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
 import {
   autoOrientJPEG,
   captureDimensionsAndScreenshot,
@@ -24,11 +24,10 @@ import type { EmbeddedContactType } from './EmbeddedContact';
 
 import type {
   MessageAttributesType,
-  PreviewMessageType,
-  PreviewType,
   QuotedMessageType,
-  StickerMessageType,
 } from '../model-types.d';
+import type { LinkPreviewType } from './message/LinkPreviews';
+import type { StickerType, StickerWithHydratedData } from './Stickers';
 
 export { hasExpiration } from './Message';
 
@@ -45,7 +44,7 @@ export type ContextType = {
     width: number;
     height: number;
   }>;
-  getRegionCode: () => string;
+  getRegionCode: () => string | undefined;
   logger: LoggerType;
   makeImageThumbnail: (params: {
     size: number;
@@ -65,12 +64,12 @@ export type ContextType = {
   maxVersion?: number;
   revokeObjectUrl: (objectUrl: string) => void;
   writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
-  writeNewStickerData: (sticker: StickerMessageType) => Promise<string>;
+  writeNewStickerData: (data: Uint8Array) => Promise<string>;
 };
 
 type WriteExistingAttachmentDataType = (
   attachment: Pick<AttachmentType, 'data' | 'path'>
-) => Promise<void>;
+) => Promise<string>;
 
 export type ContextWithMessageType = ContextType & {
   message: MessageAttributesType;
@@ -343,7 +342,7 @@ export const _mapPreviewAttachments =
       );
     }
 
-    const upgradeWithContext = async (preview: PreviewType) => {
+    const upgradeWithContext = async (preview: LinkPreviewType) => {
       const { image } = preview;
       if (!image) {
         return preview;
@@ -544,7 +543,17 @@ export const processNewAttachment = async (
     makeImageThumbnail,
     makeVideoScreenshot,
     logger,
-  }: ContextType
+  }: Pick<
+    ContextType,
+    | 'writeNewAttachmentData'
+    | 'getAbsoluteAttachmentPath'
+    | 'makeObjectUrl'
+    | 'revokeObjectUrl'
+    | 'getImageDimensions'
+    | 'makeImageThumbnail'
+    | 'makeVideoScreenshot'
+    | 'logger'
+  >
 ): Promise<AttachmentType> => {
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('context.writeNewAttachmentData is required');
@@ -595,13 +604,19 @@ export const processNewAttachment = async (
 };
 
 export const processNewSticker = async (
-  stickerData: StickerMessageType,
+  stickerData: Uint8Array,
   {
     writeNewStickerData,
     getAbsoluteStickerPath,
     getImageDimensions,
     logger,
-  }: ContextType
+  }: Pick<
+    ContextType,
+    | 'writeNewStickerData'
+    | 'getAbsoluteStickerPath'
+    | 'getImageDimensions'
+    | 'logger'
+  >
 ): Promise<{ path: string; width: number; height: number }> => {
   if (!isFunction(writeNewStickerData)) {
     throw new TypeError('context.writeNewStickerData is required');
@@ -633,7 +648,7 @@ export const processNewSticker = async (
 
 type LoadAttachmentType = (
   attachment: AttachmentType
-) => Promise<AttachmentType>;
+) => Promise<AttachmentWithHydratedData>;
 
 export const createAttachmentLoader = (
   loadAttachmentData: LoadAttachmentType
@@ -694,16 +709,16 @@ export const loadContactData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
   contact: Array<EmbeddedContactType> | undefined
-) => Promise<Array<EmbeddedContactType> | null>) => {
+) => Promise<Array<EmbeddedContactType> | undefined>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadContactData: loadAttachmentData is required');
   }
 
   return async (
     contact: Array<EmbeddedContactType> | undefined
-  ): Promise<Array<EmbeddedContactType> | null> => {
+  ): Promise<Array<EmbeddedContactType> | undefined> => {
     if (!contact) {
-      return null;
+      return undefined;
     }
 
     return Promise.all(
@@ -736,12 +751,14 @@ export const loadContactData = (
 
 export const loadPreviewData = (
   loadAttachmentData: LoadAttachmentType
-): ((preview: PreviewMessageType) => Promise<PreviewMessageType>) => {
+): ((
+  preview: Array<LinkPreviewType> | undefined
+) => Promise<Array<LinkPreviewType>>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadPreviewData: loadAttachmentData is required');
   }
 
-  return async (preview: PreviewMessageType) => {
+  return async (preview: Array<LinkPreviewType> | undefined) => {
     if (!preview || !preview.length) {
       return [];
     }
@@ -763,14 +780,16 @@ export const loadPreviewData = (
 
 export const loadStickerData = (
   loadAttachmentData: LoadAttachmentType
-): ((sticker: StickerMessageType) => Promise<StickerMessageType | null>) => {
+): ((
+  sticker: StickerType | undefined
+) => Promise<StickerWithHydratedData | undefined>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadStickerData: loadAttachmentData is required');
   }
 
-  return async (sticker: StickerMessageType) => {
+  return async (sticker: StickerType | undefined) => {
     if (!sticker || !sticker.data) {
-      return null;
+      return undefined;
     }
 
     return {
@@ -966,8 +985,8 @@ export const createAttachmentDataWriter = ({
     };
 
     const writePreviewImage = async (
-      item: PreviewType
-    ): Promise<PreviewType> => {
+      item: LinkPreviewType
+    ): Promise<LinkPreviewType> => {
       const { image } = item;
       if (!image) {
         return omit(item, ['image']);

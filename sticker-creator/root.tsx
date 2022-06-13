@@ -10,20 +10,12 @@ import { history } from './util/history';
 import { store } from './store';
 import { I18n } from './util/i18n';
 
-declare global {
-  // We want to extend `window` here.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Window {
-    localeMessages: { [key: string]: { message: string } };
-  }
-}
-
-const { localeMessages } = window;
+const { localeMessages, SignalContext } = window;
 
 const ColdRoot = () => (
   <ReduxProvider store={store}>
     <Router history={history}>
-      <I18n messages={localeMessages}>
+      <I18n messages={localeMessages} locale={SignalContext.config.locale}>
         <App />
       </I18n>
     </Router>

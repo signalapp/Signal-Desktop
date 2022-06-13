@@ -45,6 +45,11 @@ export async function sendReceipts({
       throw missingCaseError(type);
   }
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging is not available!');
+  }
+
   if (requiresUserSetting && !window.storage.get('read-receipt-setting')) {
     log.info('requires user setting. Not sending these receipts');
     return;
@@ -119,7 +124,7 @@ export async function sendReceipts({
           const messageIds = batch.map(receipt => receipt.messageId);
 
           await handleMessageSend(
-            window.textsecure.messaging[methodName]({
+            messaging[methodName]({
               senderE164: sender.get('e164'),
               senderUuid: sender.get('uuid'),
               timestamps,

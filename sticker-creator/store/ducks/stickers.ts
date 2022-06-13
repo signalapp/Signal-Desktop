@@ -8,7 +8,16 @@ import type { Draft } from 'redux-ts-utils';
 import { createAction, handleAction, reduceReducers } from 'redux-ts-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { clamp, find, isNumber, pull, remove, take, uniq } from 'lodash';
+import {
+  clamp,
+  find,
+  isNumber,
+  isString,
+  pull,
+  remove,
+  take,
+  uniq,
+} from 'lodash';
 import type { SortEnd } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import arrayMove from 'array-move';
@@ -20,6 +29,7 @@ import type {
 } from '../../util/preload';
 import type { EmojiPickDataType } from '../../../ts/components/emoji/EmojiPicker';
 import { convertShortName } from '../../../ts/components/emoji/lib';
+import { isNotNil } from '../../../ts/util/isNotNil';
 
 export const initializeStickers = createAction<Array<string>>(
   'stickers/initializeStickers'
@@ -39,7 +49,7 @@ export const setPackMeta = createAction<PackMetaData>('stickers/setPackMeta');
 
 export const addToast = createAction<{
   key: string;
-  subs?: Array<number | string>;
+  subs?: Array<string>;
 }>('stickers/addToast');
 export const dismissToast = createAction<void>('stickers/dismissToast');
 
@@ -57,7 +67,7 @@ type StateStickerData = {
 
 type StateToastData = {
   key: string;
-  subs?: Array<number | string>;
+  subs?: Array<string>;
 };
 
 export type State = {
@@ -149,14 +159,21 @@ export const reducer = reduceReducers<State>(
               return oldToast;
             }
 
-            const newToast = { key, subs: [0] };
+            const newToast = { key, subs: ['0'] };
             state.toasts.push(newToast);
 
             return newToast;
           })();
 
-          if (toast.subs && isNumber(toast.subs[0])) {
-            toast.subs[0] = (toast.subs[0] || 0) + 1;
+          const previousSub = toast?.subs?.[0];
+          if (toast && isString(previousSub)) {
+            const previousCount = parseInt(previousSub, 10);
+            const newCount = Number.isFinite(previousCount)
+              ? previousCount + 1
+              : 1;
+
+            toast.subs = toast.subs || [];
+            toast.subs[0] = newCount.toString();
           }
         }
       }
@@ -276,7 +293,7 @@ export const useAddMoreCount = (): number =>
 
 const selectOrderedData = createSelector(
   ({ stickers }: AppState) => stickers.order,
-  ({ stickers }) => stickers.data,
+  ({ stickers }: AppState) => stickers.data,
   (order, data) =>
     order.map(id => ({
       ...data[id],
@@ -290,8 +307,10 @@ const selectOrderedData = createSelector(
 export const useSelectOrderedData = (): Array<StickerData> =>
   useSelector(selectOrderedData);
 
-const selectOrderedImagePaths = createSelector(selectOrderedData, data =>
-  data.map(({ imageData }) => imageData.src)
+const selectOrderedImagePaths = createSelector(
+  selectOrderedData,
+  (data: Array<StickerData>) =>
+    data.map(({ imageData }) => imageData?.src).filter(isNotNil)
 );
 
 export const useOrderedImagePaths = (): Array<string> =>

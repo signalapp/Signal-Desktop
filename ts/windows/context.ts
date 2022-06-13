@@ -3,8 +3,7 @@
 
 import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
-import url from 'url';
-import type { ParsedUrlQuery } from 'querystring';
+
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { IPCEventsValuesType } from '../util/createIPCEvents';
 import type { LocalizerType } from '../types/Util';
@@ -12,6 +11,8 @@ import type { LoggerType } from '../types/Logging';
 import type { LocaleMessagesType } from '../types/I18N';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
 import type { SettingType } from '../util/preload';
+import type { RendererConfigType } from '../types/RendererConfig';
+
 import { Bytes } from '../context/Bytes';
 import { Crypto } from '../context/Crypto';
 import { Timers } from '../context/Timers';
@@ -29,7 +30,11 @@ import { waitForSettingsChange } from './waitForSettingsChange';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { isWindows, isLinux, isMacOS } from '../OS';
 
-const config = url.parse(window.location.toString(), true).query;
+const params = new URLSearchParams(document.location.search);
+const configParam = params.get('config');
+strictAssert(typeof configParam === 'string', 'config is not a string');
+const config = JSON.parse(configParam);
+
 const { locale } = config;
 strictAssert(locale, 'locale could not be parsed from config');
 strictAssert(typeof locale === 'string', 'locale is not a string');
@@ -62,7 +67,7 @@ export type SignalContextType = {
     isLinux: typeof isLinux;
     isMacOS: typeof isMacOS;
   };
-  config: ParsedUrlQuery;
+  config: RendererConfigType;
   getAppInstance: () => string | undefined;
   getEnvironment: () => string;
   getNodeVersion: () => string;
@@ -94,7 +99,7 @@ export const SignalContext: SignalContextType = {
   getAppInstance: (): string | undefined =>
     config.appInstance ? String(config.appInstance) : undefined,
   getEnvironment,
-  getNodeVersion: (): string => String(config.node_version),
+  getNodeVersion: (): string => String(config.nodeVersion),
   getVersion: (): string => String(config.version),
   getPath: (name: 'userData' | 'home'): string => {
     return String(config[`${name}Path`]);

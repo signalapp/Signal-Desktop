@@ -62,12 +62,15 @@ export async function lookupConversationWithoutUuid(
   const { showUserNotFoundModal, setIsFetchingUUID } = options;
   setIsFetchingUUID(identifier, true);
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging is not available!');
+  }
+
   try {
     let conversationId: string | undefined;
     if (options.type === 'e164') {
-      const serverLookup = await window.textsecure.messaging.getUuidsForE164s([
-        options.e164,
-      ]);
+      const serverLookup = await messaging.getUuidsForE164s([options.e164]);
 
       if (serverLookup[options.e164]) {
         conversationId = window.ConversationController.ensureContactIds({
@@ -131,10 +134,13 @@ async function checkForUsername(
     return undefined;
   }
 
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging is not available!');
+  }
+
   try {
-    const profile = await window.textsecure.messaging.getProfileForUsername(
-      username
-    );
+    const profile = await messaging.getProfileForUsername(username);
 
     if (!profile.uuid) {
       log.error("checkForUsername: Returned profile didn't include a uuid");

@@ -55,7 +55,6 @@ import * as Errors from '../types/errors';
 import { isEnabled } from '../RemoteConfig';
 
 import { SignalService as Proto } from '../protobuf';
-import type { UnprocessedType } from '../textsecure.d';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 
 import createTaskWithTimeout from './TaskWithTimeout';
@@ -81,6 +80,7 @@ import type {
   ProcessedSent,
   ProcessedEnvelope,
   IRequestHandler,
+  UnprocessedType,
 } from './Types.d';
 import {
   EmptyEvent,
@@ -114,6 +114,7 @@ import * as log from '../logging/log';
 import * as durations from '../util/durations';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -1800,8 +1801,14 @@ export default class MessageReceiver
     }
 
     if (msg.textAttachment) {
+      const { text } = msg.textAttachment;
+      if (!text) {
+        throw new Error('Text attachments must have text!');
+      }
+
       attachments.push({
-        size: msg.textAttachment.text?.length,
+        size: text.length,
+        contentType: APPLICATION_OCTET_STREAM,
         textAttachment: msg.textAttachment,
         blurHash: generateBlurHash(
           (msg.textAttachment.color ||

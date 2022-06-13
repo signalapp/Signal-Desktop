@@ -253,7 +253,7 @@ const renderPreferences = async () => {
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,
     initialSpellCheckSetting:
-      SignalContext.config.appStartInitialSpellcheckSetting === 'true',
+      SignalContext.config.appStartInitialSpellcheckSetting,
     makeSyncRequest: ipcMakeSyncRequest,
     removeCustomColor: ipcRemoveCustomColor,
     removeCustomColorOnConversations: ipcRemoveCustomColorOnConversations,

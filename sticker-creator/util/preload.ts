@@ -19,7 +19,9 @@ export type StickerImageData = {
   meta: Metadata;
 };
 
-type ProcessStickerImageFn = (path: string) => Promise<StickerImageData>;
+type ProcessStickerImageFn = (
+  path: string | undefined
+) => Promise<StickerImageData>;
 
 export type StickerData = { imageData?: StickerImageData; emoji?: string };
 export type PackMetaData = { packId: string; key: string };
@@ -27,7 +29,7 @@ export type PackMetaData = { packId: string; key: string };
 export type EncryptAndUploadFn = (
   manifest: { title: string; author: string },
   stickers: Array<StickerData>,
-  cover: StickerImageData,
+  cover: StickerImageData | undefined,
   onProgress?: () => unknown
 ) => Promise<PackMetaData>;
 

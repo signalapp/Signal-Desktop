@@ -52,6 +52,7 @@ import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import * as Errors from './types/errors';
+import MessageSender from './textsecure/SendMessage';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -1386,7 +1387,7 @@ export class SignalProtocolStore extends EventsMixin {
 
       // Enqueue a null message with newly-created session
       await singleProtoJobQueue.add(
-        window.textsecure.messaging.getNullMessage({
+        MessageSender.getNullMessage({
           uuid: uuid.toString(),
         })
       );

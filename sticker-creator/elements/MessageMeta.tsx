@@ -34,7 +34,9 @@ export const MessageMeta = React.memo((props: Props) => {
           <path d="M6.003 1H6a5.06 5.06 0 00-.5.025V.02A6.08 6.08 0 016 0h.003A6 6 0 0112 6h-1a5 5 0 00-4.997-5zM3.443.572l.502.87a5.06 5.06 0 00-.866.5l-.502-.87a6.08 6.08 0 01.866-.5z" />
         </g>
       </svg>
-      <div className={itemClass}>{i18n('minutesAgo', [props.minutesAgo])}</div>
+      <div className={itemClass}>
+        {i18n('minutesAgo', [props.minutesAgo.toString()])}
+      </div>
       <svg width={18} height={12} className={itemClass}>
         <defs>
           <path

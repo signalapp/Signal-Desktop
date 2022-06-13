@@ -83,32 +83,11 @@
     </script>
     <script type="text/javascript" src="test.js"></script>
 
-    <script type="text/javascript" src="../js/database.js" data-cover></script>
-
-    <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
-    <script
-      type="text/javascript"
-      src="../js/expiring_messages.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
-      src="../js/expiring_tap_to_view_messages.js"
-      data-cover
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="../js/views/react_wrapper_view.js"
-    ></script>
-
-    <script type="text/javascript" src="views/whisper_view_test.js"></script>
-
     <script type="text/javascript">
       window.Signal.conversationControllerStart();
 
-      window.test.prepareTests();
-      delete window.test.prepareTests;
+      window.testUtilities.prepareTests();
+      delete window.testUtilities.prepareTests;
 
       !(function () {
         const passed = [];
@@ -126,7 +105,9 @@
               });
             });
 
-            runner.on('end', () => window.test.onComplete({ passed, failed }));
+            runner.on('end', () =>
+              window.testUtilities.onComplete({ passed, failed })
+            );
           }
         }
 

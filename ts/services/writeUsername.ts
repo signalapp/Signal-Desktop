@@ -6,6 +6,7 @@ import dataInterface from '../sql/Client';
 import { updateOurUsername } from '../util/updateOurUsername';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
+import MessageSender from '../textsecure/SendMessage';
 
 export async function writeUsername({
   username,
@@ -14,6 +15,11 @@ export async function writeUsername({
   username: string | undefined;
   previousUsername: string | undefined;
 }): Promise<void> {
+  const { messaging } = window.textsecure;
+  if (!messaging) {
+    throw new Error('messaging interface is not available!');
+  }
+
   const me = window.ConversationController.getOurConversationOrThrow();
   await updateOurUsername();
 
@@ -22,9 +28,9 @@ export async function writeUsername({
   }
 
   if (username) {
-    await window.textsecure.messaging.putUsername(username);
+    await messaging.putUsername(username);
   } else {
-    await window.textsecure.messaging.deleteUsername();
+    await messaging.deleteUsername();
   }
 
   // Update backbone, update DB, then tell linked devices about profile update
@@ -36,7 +42,7 @@ export async function writeUsername({
 
   try {
     await singleProtoJobQueue.add(
-      window.textsecure.messaging.getFetchLocalProfileSyncMessage()
+      MessageSender.getFetchLocalProfileSyncMessage()
     );
   } catch (error) {
     log.error(

@@ -205,7 +205,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (_.isObject(attributes)) {
       this.set(
         TypedMessage.initializeSchemaVersion({
-          message: attributes,
+          message: attributes as MessageAttributesType,
           logger: log,
         })
       );
@@ -1638,6 +1638,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('sendSyncMessage: messaging not available!');
+    }
+
     this.syncPromise = this.syncPromise || Promise.resolve();
     const next = async () => {
       const dataMessage = this.get('dataMessage');
@@ -1677,7 +1682,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
 
       return handleMessageSend(
-        window.textsecure.messaging.sendSyncMessage({
+        messaging.sendSyncMessage({
           encodedDataMessage: dataMessage,
           timestamp: this.get('sent_at'),
           destination: conv.get('e164'),
@@ -2347,6 +2352,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ]);
 
       const withQuoteReference = {
+        ...message.attributes,
         ...initialMessage,
         quote,
         storyId: storyQuote?.id,
@@ -2410,12 +2416,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           };
 
           // GroupV1
-          if (!hasGroupV2Prop && dataMessage.group) {
+          if (!hasGroupV2Prop && initialMessage.group) {
             const pendingGroupUpdate: GroupV1Update = {};
 
             const memberConversations: Array<ConversationModel> =
               await Promise.all(
-                dataMessage.group.membersE164.map((e164: string) =>
+                initialMessage.group.membersE164.map((e164: string) =>
                   window.ConversationController.getOrCreateAndWait(
                     e164,
                     'private'
@@ -2426,20 +2432,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             attributes = {
               ...attributes,
               type: 'group',
-              groupId: dataMessage.group.id,
+              groupId: initialMessage.group.id,
             };
-            if (dataMessage.group.type === GROUP_TYPES.UPDATE) {
+            if (initialMessage.group.type === GROUP_TYPES.UPDATE) {
               attributes = {
                 ...attributes,
-                name: dataMessage.group.name,
+                name: initialMessage.group.name,
                 members: _.union(members, conversation.get('members')),
               };
 
-              if (dataMessage.group.name !== conversation.get('name')) {
-                pendingGroupUpdate.name = dataMessage.group.name;
+              if (initialMessage.group.name !== conversation.get('name')) {
+                pendingGroupUpdate.name = initialMessage.group.name;
               }
 
-              const avatarAttachment = dataMessage.group.avatar;
+              const avatarAttachment = initialMessage.group.avatar;
 
               let downloadedAvatar;
               let hash;
@@ -2520,7 +2526,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 attributes.left = false;
                 conversation.set({ addedBy: getContactId(message.attributes) });
               }
-            } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
+            } else if (initialMessage.group.type === GROUP_TYPES.QUIT) {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               const sender = window.ConversationController.get(senderId)!;
               const inGroup = Boolean(
@@ -2584,7 +2590,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 expirationTimerUpdate: {
                   source,
                   sourceUuid,
-                  expireTimer: dataMessage.expireTimer,
+                  expireTimer: initialMessage.expireTimer,
                 },
               });
               conversation.set({ expireTimer: dataMessage.expireTimer });
@@ -2626,8 +2632,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             }
           }
 
-          if (dataMessage.profileKey) {
-            const { profileKey } = dataMessage;
+          if (initialMessage.profileKey) {
+            const { profileKey } = initialMessage;
             if (
               source === window.textsecure.storage.user.getNumber() ||
               sourceUuid ===
@@ -2700,10 +2706,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             navigator.languages,
             window.getLocale()
           );
-          const response =
-            await window.textsecure.messaging.server.getBoostBadgesFromServer(
-              userLanguages
-            );
+          const { messaging } = window.textsecure;
+          if (!messaging) {
+            throw new Error('handleDataMessage: messaging is not available');
+          }
+          const response = await messaging.server.getBoostBadgesFromServer(
+            userLanguages
+          );
           const boostBadgesByLevel = parseBoostBadgeListFromServer(
             response,
             updatesUrl

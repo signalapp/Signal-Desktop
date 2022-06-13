@@ -8,6 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { StoryRow } from '../elements/StoryRow';
 import { StickerFrame } from './StickerFrame';
 
+import type { EmojiPickDataType } from '../../ts/components/emoji/EmojiPicker';
+
 export default {
   title: 'Sticker Creator/components',
 };
@@ -15,11 +17,13 @@ export default {
 export const _StickerFrame = (): JSX.Element => {
   const image = text('image url', '/fixtures/512x515-thumbs-up-lincoln.webp');
   const showGuide = boolean('show guide', true);
-  const mode = select('mode', [null, 'removable', 'pick-emoji', 'add'], null);
+  const mode = select('mode', ['removable', 'pick-emoji', 'add'], 'add');
   const onRemove = action('onRemove');
   const onDrop = action('onDrop');
   const [skinTone, setSkinTone] = React.useState(0);
-  const [emoji, setEmoji] = React.useState(undefined);
+  const [emoji, setEmoji] = React.useState<EmojiPickDataType | undefined>(
+    undefined
+  );
 
   return (
     <StoryRow top>

@@ -16,8 +16,10 @@ import { useI18n } from '../util/i18n';
 
 const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
 
+type SmartStickerFrameProps = Omit<StickerFrameProps, 'id'> & { id: string };
+
 const SmartStickerFrame = SortableElement(
-  ({ id, showGuide, mode }: StickerFrameProps) => {
+  ({ id, showGuide, mode }: SmartStickerFrameProps) => {
     const data = stickersDuck.useStickerData(id);
     const actions = stickersDuck.useStickerActions();
     const image = data.imageData ? data.imageData.src : undefined;

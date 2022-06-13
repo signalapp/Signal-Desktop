@@ -85,7 +85,7 @@ export const MetaStage: React.ComponentType = () => {
           <Text>{i18n('StickerCreator--MetaStage--Field--cover--help')}</Text>
           <div className={styles.coverContainer}>
             <div {...getRootProps()} className={coverFrameClass}>
-              {cover.src ? (
+              {cover?.src ? (
                 <img
                   className={styles.coverImage}
                   src={cover.src}

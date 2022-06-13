@@ -103,9 +103,14 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       syncMessage: isSyncMessage,
     });
 
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      throw new Error('messaging is not available!');
+    }
+
     try {
       await handleMessageSend(
-        window.textsecure.messaging.sendIndividualProto({
+        messaging.sendIndividualProto({
           contentHint,
           identifier,
           options,

@@ -1,11 +1,12 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-import * as classnames from 'classnames';
+import React from 'react';
+import classnames from 'classnames';
+
 import * as styles from './Button.scss';
 
-export type Props = React.HTMLProps<HTMLButtonElement> & {
+export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   pill?: boolean;
   primary?: boolean;
 };

@@ -23,12 +23,14 @@ export type RenderTextCallbackType = (options: {
   key: number;
 }) => JSX.Element | string;
 
-export type ReplacementValuesType = {
-  [key: string]: string | number | undefined;
-};
+export type ReplacementValuesType =
+  | Array<string>
+  | {
+      [key: string]: string | number | undefined;
+    };
 
 export type LocalizerType = {
-  (key: string, values?: Array<string> | ReplacementValuesType): string;
+  (key: string, values?: ReplacementValuesType): string;
   getLocale(): string;
 };
 

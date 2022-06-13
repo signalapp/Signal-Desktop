@@ -40,6 +40,7 @@ export async function sendReaction(
   conversation: ConversationModel,
   {
     isFinalAttempt,
+    messaging,
     shouldContinue,
     timeRemaining,
     log,
@@ -169,7 +170,7 @@ export async function sendReaction(
 
     if (recipientIdentifiersWithoutMe.length === 0) {
       log.info('sending sync reaction message only');
-      const dataMessage = await window.textsecure.messaging.getDataMessage({
+      const dataMessage = await messaging.getDataMessage({
         attachments: [],
         expireTimer,
         groupV2: conversation.getGroupV2Info({
@@ -217,7 +218,7 @@ export async function sendReaction(
         }
 
         log.info('sending direct reaction message');
-        promise = window.textsecure.messaging.sendMessageToIdentifier({
+        promise = messaging.sendMessageToIdentifier({
           identifier: recipientIdentifiersWithoutMe[0],
           messageText: undefined,
           attachments: [],

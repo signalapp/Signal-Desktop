@@ -27,7 +27,7 @@ process.env.NODE_CONFIG_DIR = join(__dirname, '..', 'config');
 if (getEnvironment() === Environment.Production) {
   // harden production config against the local env
   process.env.NODE_CONFIG = '';
-  process.env.NODE_CONFIG_STRICT_MODE = 'true';
+  process.env.NODE_CONFIG_STRICT_MODE = '';
   process.env.HOSTNAME = '';
   process.env.NODE_APP_INSTANCE = '';
   process.env.ALLOW_CONFIG_MUTATIONS = '';

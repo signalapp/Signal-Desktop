@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
+
 import * as styles from './ProgressBar.scss';
 
-export type Props = Pick<React.HTMLProps<HTMLDivElement>, 'className'> & {
+export type Props = Pick<React.HTMLAttributes<HTMLDivElement>, 'className'> & {
   readonly count: number;
   readonly total: number;
 };

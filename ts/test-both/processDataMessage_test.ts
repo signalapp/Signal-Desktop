@@ -10,6 +10,7 @@ import {
 } from '../textsecure/processDataMessage';
 import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
+import { IMAGE_GIF } from '../types/MIME';
 
 const FLAGS = Proto.DataMessage.Flags;
 
@@ -19,12 +20,16 @@ const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
   cdnId: Long.fromNumber(123),
   key: new Uint8Array([1, 2, 3]),
   digest: new Uint8Array([4, 5, 6]),
+  contentType: IMAGE_GIF,
+  size: 34,
 };
 
 const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   cdnId: '123',
   key: 'AQID',
   digest: 'BAUG',
+  contentType: IMAGE_GIF,
+  size: 34,
 };
 
 const GROUP_ID = new Uint8Array([0x68, 0x65, 0x79]);
@@ -118,7 +123,6 @@ describe('processDataMessage', () => {
         id: GROUP_ID,
         name: 'should be deleted',
         membersE164: ['should be deleted'],
-        avatar: {},
         type: Proto.GroupContext.Type.DELIVER,
       },
     });

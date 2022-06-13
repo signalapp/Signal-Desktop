@@ -28,6 +28,10 @@ describe('license comments', () => {
         [firstLine, secondLine] = await readFirstLines(file, 2);
       }
 
+      if (!firstLine || !secondLine) {
+        throw new Error(`file ${file}: was missing a first or second line!`);
+      }
+
       const { groups = {} } =
         firstLine.match(
           /Copyright (?<startYearWithDash>\d{4}-)?(?<endYearString>\d{4}) Signal Messenger, LLC/
