@@ -270,13 +270,13 @@ export const CompositionArea = ({
 
   const handleSubmit = useCallback(
     (message: string, mentions: Array<BodyRangeType>, timestamp: number) => {
-      setLarge(false);
       onSendMessage({
         draftAttachments,
         mentions,
         message,
         timestamp,
       });
+      setLarge(false);
     },
     [draftAttachments, onSendMessage, setLarge]
   );

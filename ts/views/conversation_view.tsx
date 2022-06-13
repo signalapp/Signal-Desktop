@@ -2929,8 +2929,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.sendStart = Date.now();
 
     try {
-      const contacts = await this.getUntrustedContacts(options);
       this.disableMessageField();
+      const contacts = await this.getUntrustedContacts(options);
 
       if (contacts && contacts.length) {
         const sendAnyway = await this.showSendAnywayDialog(contacts.models);
