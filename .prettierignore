@@ -3,6 +3,7 @@
 
 # Generated files
 app/**/*.js
+sticker-creator/**/*.js
 config/local-*.json
 config/local.json
 dist/**

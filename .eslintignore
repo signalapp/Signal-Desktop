@@ -24,7 +24,6 @@ js/WebAudioRecorderMp3.js
 app/**/*.js
 ts/**/*.js
 sticker-creator/**/*.js
-!sticker-creator/preload.js
 
 **/*.d.ts
 .eslintrc.js

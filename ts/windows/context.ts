@@ -129,3 +129,4 @@ export const SignalContext: SignalContextType = {
 };
 
 window.SignalContext = SignalContext;
+window.i18n = SignalContext.i18n;

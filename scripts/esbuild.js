@@ -68,7 +68,7 @@ esbuild.build({
   format: 'cjs',
   mainFields: ['browser', 'main'],
   entryPoints: glob
-    .sync('{app,ts}/**/*.{ts,tsx}', {
+    .sync('{app,ts,sticker-creator}/**/*.{ts,tsx}', {
       nodir: true,
       root: ROOT_DIR,
     })

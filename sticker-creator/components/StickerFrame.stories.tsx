@@ -44,5 +44,35 @@ export const _StickerFrame = (): JSX.Element => {
 };
 
 _StickerFrame.story = {
-  name: 'StickerFrame',
+  name: 'StickerFrame, add sticker',
+};
+
+export const EmojiSelectMode = (): JSX.Element => {
+  const image = text('image url', '/fixtures/512x515-thumbs-up-lincoln.webp');
+  const setSkinTone = action('setSkinTone');
+  const onRemove = action('onRemove');
+  const onDrop = action('onDrop');
+  const [emoji, setEmoji] = React.useState<EmojiPickDataType | undefined>(
+    undefined
+  );
+
+  return (
+    <StoryRow top>
+      <StickerFrame
+        id="1337"
+        emojiData={emoji}
+        image={image}
+        mode="pick-emoji"
+        onRemove={onRemove}
+        skinTone={0}
+        onSetSkinTone={setSkinTone}
+        onPickEmoji={e => setEmoji(e.emoji)}
+        onDrop={onDrop}
+      />
+    </StoryRow>
+  );
+};
+
+EmojiSelectMode.story = {
+  name: 'StickerFrame, emoji select mode',
 };

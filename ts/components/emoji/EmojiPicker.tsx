@@ -34,7 +34,7 @@ export type OwnProps = {
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
   readonly doSend?: () => unknown;
   readonly skinTone?: number;
-  readonly onSetSkinTone: (tone: number) => unknown;
+  readonly onSetSkinTone?: (tone: number) => unknown;
   readonly recentEmojis?: Array<string>;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
@@ -406,26 +406,28 @@ export const EmojiPicker = React.memo(
                   type="button"
                 />
               )}
-              <div className="module-emoji-picker__footer__skin-tones">
-                {[0, 1, 2, 3, 4, 5].map(tone => (
-                  <button
-                    type="button"
-                    key={tone}
-                    data-tone={tone}
-                    onClick={handlePickTone}
-                    title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
-                    className={classNames(
-                      'module-emoji-picker__button',
-                      'module-emoji-picker__button--footer',
-                      selectedTone === tone
-                        ? 'module-emoji-picker__button--selected'
-                        : null
-                    )}
-                  >
-                    <Emoji shortName="hand" skinTone={tone} size={20} />
-                  </button>
-                ))}
-              </div>
+              {onSetSkinTone ? (
+                <div className="module-emoji-picker__footer__skin-tones">
+                  {[0, 1, 2, 3, 4, 5].map(tone => (
+                    <button
+                      type="button"
+                      key={tone}
+                      data-tone={tone}
+                      onClick={handlePickTone}
+                      title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
+                      className={classNames(
+                        'module-emoji-picker__button',
+                        'module-emoji-picker__button--footer',
+                        selectedTone === tone
+                          ? 'module-emoji-picker__button--selected'
+                          : null
+                      )}
+                    >
+                      <Emoji shortName="hand" skinTone={tone} size={20} />
+                    </button>
+                  ))}
+                </div>
+              ) : null}
               {Boolean(onClickSettings) && (
                 <div className="module-emoji-picker__footer__settings-spacer" />
               )}

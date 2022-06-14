@@ -155,6 +155,7 @@ export const StickerFrame = React.memo(
 
         return () => {
           removeRoot(root);
+          setEmojiPopperRoot(null);
           document.removeEventListener('click', handleOutsideClick);
         };
       }
@@ -254,7 +255,7 @@ export const StickerFrame = React.memo(
                       </button>
                     )}
                   </PopperReference>
-                  {emojiPickerOpen && onSetSkinTone && emojiPopperRoot
+                  {emojiPickerOpen && emojiPopperRoot
                     ? createPortal(
                         <Popper placement="bottom-start">
                           {({ ref, style }) => (

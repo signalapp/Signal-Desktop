@@ -37,6 +37,7 @@ sticker-creator/**/*.js
 
 # Sticker Creator
 sticker-creator/dist/*
+sticker-creator/**/*.js
 
 # Editors
 /.idea
