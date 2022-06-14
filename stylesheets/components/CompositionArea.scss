@@ -29,6 +29,7 @@
     }
     &--column {
       flex-direction: column;
+      align-items: stretch;
     }
   }
 
@@ -73,11 +74,16 @@
   }
   $comp-area: &;
   &__toggle-large {
-    width: 48px;
-    height: 24px;
+    $width: 48px;
+    $height: 24px;
+
+    width: $width;
+    height: $height;
     position: absolute;
-    left: calc(50% - 24px);
-    top: -19px;
+    left: calc(50% - $width / 2);
+
+    // 6px coming from padding-top, 1px from outline
+    top: calc(0px - $height / 2 - 6px - 1px);
     border-radius: 12px 12px 0 0;
     pointer-events: none;
 
