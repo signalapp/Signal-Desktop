@@ -17,6 +17,8 @@
     justify-content: center;
     outline: none;
     width: 52px;
+    margin-left: 6px;
+    margin-right: 6px;
 
     @mixin calling-button-icon($icon, $background-color, $icon-color) {
       background-color: $background-color;
@@ -154,9 +156,9 @@
   &__container {
     display: inline-flex;
     flex-direction: column;
-    margin-left: 12px;
-    margin-right: 12px;
-    max-width: 52px;
+    margin-left: 6px;
+    margin-right: 6px;
+    max-width: 64px;
 
     transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
     @media (prefers-reduced-motion) {
