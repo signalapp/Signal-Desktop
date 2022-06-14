@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const fs = require('fs');
@@ -10,7 +10,7 @@ const { isAlpha } = require('../ts/util/version');
 const { version } = packageJson;
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
-//   side-by-side installation of production and alpha builds. Electron-Builder uses
+//   side-by-side installation of production and staging builds. Electron-Builder uses
 //   top-level data from package.json for many things, like the executable name, the
 //   debian package name, the install directory under /opt on linux, etc. We tried
 //   adding the ${channel} macro to these values, but Electron-Builder didn't like that.
@@ -20,32 +20,35 @@ if (!isAlpha(version)) {
   process.exit(1);
 }
 
-console.log('prepare_alpha_build: updating package.json');
+console.log('prepare_staging_build: updating package.json');
 
 // -------
 
+const VERSION_PATH = 'version';
+const STAGING_VERSION = version.replace('alpha', 'staging');
+
 const NAME_PATH = 'name';
 const PRODUCTION_NAME = 'signal-desktop';
-const ALPHA_NAME = 'signal-desktop-alpha';
+const STAGING_NAME = 'signal-desktop-staging';
 
 const PRODUCT_NAME_PATH = 'productName';
 const PRODUCTION_PRODUCT_NAME = 'Signal';
-const ALPHA_PRODUCT_NAME = 'Signal Alpha';
+const STAGING_PRODUCT_NAME = 'Signal Staging';
 
 const APP_ID_PATH = 'build.appId';
 const PRODUCTION_APP_ID = 'org.whispersystems.signal-desktop';
-const ALPHA_APP_ID = 'org.whispersystems.signal-desktop-alpha';
+const STAGING_APP_ID = 'org.whispersystems.signal-desktop-staging';
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.StartupWMClass';
 const PRODUCTION_STARTUP_WM_CLASS = 'Signal';
-const ALPHA_STARTUP_WM_CLASS = 'Signal Alpha';
+const STAGING_STARTUP_WM_CLASS = 'Signal Staging';
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
 //   https://github.com/signalapp/Signal-Desktop/issues/3602
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
-const ALPHA_DESKTOP_NAME = 'signalalpha.desktop';
+const STAGING_DESKTOP_NAME = 'signalstaging.desktop';
 
 // -------
 
@@ -66,12 +69,21 @@ checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
 
 // -------
 
-_.set(packageJson, NAME_PATH, ALPHA_NAME);
-_.set(packageJson, PRODUCT_NAME_PATH, ALPHA_PRODUCT_NAME);
-_.set(packageJson, APP_ID_PATH, ALPHA_APP_ID);
-_.set(packageJson, STARTUP_WM_CLASS_PATH, ALPHA_STARTUP_WM_CLASS);
-_.set(packageJson, DESKTOP_NAME_PATH, ALPHA_DESKTOP_NAME);
+_.set(packageJson, VERSION_PATH, STAGING_VERSION);
+_.set(packageJson, NAME_PATH, STAGING_NAME);
+_.set(packageJson, PRODUCT_NAME_PATH, STAGING_PRODUCT_NAME);
+_.set(packageJson, APP_ID_PATH, STAGING_APP_ID);
+_.set(packageJson, STARTUP_WM_CLASS_PATH, STAGING_STARTUP_WM_CLASS);
+_.set(packageJson, DESKTOP_NAME_PATH, STAGING_DESKTOP_NAME);
 
 // -------
 
 fs.writeFileSync('./package.json', JSON.stringify(packageJson, null, '  '));
+
+const productionJson = {
+  updatesEnabled: true,
+};
+fs.writeFileSync(
+  './config/production.json',
+  JSON.stringify(productionJson, null, '  ')
+);

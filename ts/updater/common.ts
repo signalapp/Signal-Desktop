@@ -28,7 +28,7 @@ import * as durations from '../util/durations';
 import { getTempPath, getUpdateCachePath } from '../util/attachments';
 import { DialogType } from '../types/Dialogs';
 import * as Errors from '../types/errors';
-import { isAlpha, isBeta } from '../util/version';
+import { isAlpha, isBeta, isStaging } from '../util/version';
 import { strictAssert } from '../util/assert';
 
 import * as packageJson from '../../package.json';
@@ -754,6 +754,9 @@ export function getUpdatesFileName(): string {
 function getChannel(): string {
   const { version } = packageJson;
 
+  if (isStaging(version)) {
+    return 'staging';
+  }
   if (isAlpha(version)) {
     return 'alpha';
   }

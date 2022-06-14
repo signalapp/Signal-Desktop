@@ -10,6 +10,7 @@ import {
   isAlpha,
   isBeta,
   isProduction,
+  isStaging,
 } from '../../util/version';
 
 describe('version utilities', () => {
@@ -44,6 +45,7 @@ describe('version utilities', () => {
   describe('isAlpha', () => {
     it('returns false for non-alpha version strings', () => {
       assert.isFalse(isAlpha('1.2.3'));
+      assert.isFalse(isAlpha('1.2.3-staging.1'));
       assert.isFalse(isAlpha('1.2.3-beta'));
       assert.isFalse(isAlpha('1.2.3-beta.1'));
       assert.isFalse(isAlpha('1.2.3-rc.1'));
@@ -52,6 +54,22 @@ describe('version utilities', () => {
     it('returns true for Alpha version strings', () => {
       assert.isTrue(isAlpha('1.2.3-alpha'));
       assert.isTrue(isAlpha('1.2.3-alpha.1'));
+    });
+  });
+
+  describe('isStaging', () => {
+    it('returns false for non-staging version strings', () => {
+      assert.isFalse(isStaging('1.2.3'));
+      assert.isFalse(isStaging('1.2.3-alpha.1'));
+      assert.isFalse(isStaging('1.2.3-beta'));
+      assert.isFalse(isStaging('1.2.3-beta.1'));
+      assert.isFalse(isStaging('1.2.3-rc.1'));
+    });
+
+    it('returns true for Staging version strings', () => {
+      assert.isTrue(isStaging('1.2.3-staging'));
+      assert.isTrue(isStaging('1.2.3-staging.1'));
+      assert.isTrue(isStaging('1.2.3-staging.1232.23-adsfs'));
     });
   });
 

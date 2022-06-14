@@ -20,6 +20,9 @@ export const isBeta = (version: string): boolean =>
 export const isAlpha = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'alpha';
 
+export const isStaging = (version: string): boolean =>
+  semver.parse(version)?.prerelease[0] === 'staging';
+
 export const generateAlphaVersion = (options: {
   currentVersion: string;
   shortSha: string;
