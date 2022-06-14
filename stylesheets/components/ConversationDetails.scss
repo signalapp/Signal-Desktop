@@ -123,6 +123,9 @@
   &__block-group {
     color: $color-accent-red;
   }
+  &__unblock-group {
+    color: $color-accent-blue;
+  }
 
   &__tabs {
     display: flex;
@@ -412,6 +415,12 @@
         &::after {
           -webkit-mask: url(../images/icons/v2/block-24.svg) no-repeat center;
           background-color: $color-accent-red;
+        }
+      }
+      &--unblock {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/block-24.svg) no-repeat center;
+          background-color: $color-accent-blue;
         }
       }
 

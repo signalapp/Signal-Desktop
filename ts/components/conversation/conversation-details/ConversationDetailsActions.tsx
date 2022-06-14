@@ -38,6 +38,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
 }) => {
   const [confirmLeave, gLeave] = useState<boolean>(false);
   const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
+  const [confirmGroupUnblock, gGroupUnblock] = useState<boolean>(false);
   const [confirmDirectBlock, gDirectBlock] = useState<boolean>(false);
   const [confirmDirectUnblock, gDirectUnblock] = useState<boolean>(false);
 
@@ -82,7 +83,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
   }
 
   let blockNode: ReactNode;
-  if (isGroup) {
+  if (isGroup && !isBlocked) {
     blockNode = (
       <PanelRow
         disabled={cannotLeaveBecauseYouAreLastAdmin}
@@ -100,6 +101,23 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
         }
       />
     );
+  } else if (isGroup && isBlocked) {
+    blockNode = (
+      <PanelRow
+        onClick={() => gGroupUnblock(true)}
+        icon={
+          <ConversationDetailsIcon
+            ariaLabel={i18n('ConversationDetailsActions--unblock-group')}
+            icon={IconType.unblock}
+          />
+        }
+        label={
+          <div className="ConversationDetails__unblock-group">
+            {i18n('ConversationDetailsActions--unblock-group')}
+          </div>
+        }
+      />
+    );
   } else {
     const label = isBlocked
       ? i18n('MessageRequests--unblock')
@@ -108,9 +126,22 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
       <PanelRow
         onClick={() => (isBlocked ? gDirectUnblock(true) : gDirectBlock(true))}
         icon={
-          <ConversationDetailsIcon ariaLabel={label} icon={IconType.block} />
+          <ConversationDetailsIcon
+            ariaLabel={label}
+            icon={isBlocked ? IconType.unblock : IconType.block}
+          />
         }
-        label={<div className="ConversationDetails__block-group">{label}</div>}
+        label={
+          <div
+            className={
+              isBlocked
+                ? 'ConversationDetails__unblock-group'
+                : 'ConversationDetails__block-group'
+            }
+          >
+            {label}
+          </div>
+        }
       />
     );
   }
@@ -134,7 +165,6 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
         {leaveGroupNode}
         {blockNode}
       </PanelSection>
-
       {confirmLeave && (
         <ConfirmationDialog
           actions={[
@@ -174,6 +204,26 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
           {i18n('ConversationDetailsActions--block-group-modal-content')}
         </ConfirmationDialog>
       )}
+      {confirmGroupUnblock && (
+        <ConfirmationDialog
+          actions={[
+            {
+              text: i18n(
+                'ConversationDetailsActions--unblock-group-modal-confirm'
+              ),
+              action: onUnblock,
+              style: 'affirmative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => gGroupUnblock(false)}
+          title={i18n('ConversationDetailsActions--unblock-group-modal-title', [
+            conversationTitle,
+          ])}
+        >
+          {i18n('ConversationDetailsActions--unblock-group-modal-content')}
+        </ConfirmationDialog>
+      )}
 
       {confirmDirectBlock && (
         <ConfirmationDialog
@@ -193,7 +243,6 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
           {i18n('MessageRequests--block-direct-confirm-body')}
         </ConfirmationDialog>
       )}
-
       {confirmDirectUnblock && (
         <ConfirmationDialog
           actions={[

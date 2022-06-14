@@ -30,7 +30,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onLeave: action('onLeave'),
   onUnblock: action('onUnblock'),
   i18n,
-  isBlocked: false,
+  isBlocked: isBoolean(overrideProps.isBlocked),
   isGroup: true,
 });
 
@@ -48,6 +48,20 @@ export const LeftTheGroup = (): JSX.Element => {
 
 LeftTheGroup.story = {
   name: 'Left the group',
+};
+
+export const BlockedAndLeftTheGroup = (): JSX.Element => {
+  const props = createProps({
+    left: true,
+    isBlocked: true,
+    conversationTitle: '😸 Cat Snaps',
+  });
+
+  return <ConversationDetailsActions {...props} />;
+};
+
+BlockedAndLeftTheGroup.story = {
+  name: 'Blocked and left the group',
 };
 
 export const CannotLeaveBecauseYouAreTheLastAdmin = (): JSX.Element => {

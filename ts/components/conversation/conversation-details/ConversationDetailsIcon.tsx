@@ -9,6 +9,7 @@ import { bemGenerator } from './util';
 
 export enum IconType {
   'block' = 'block',
+  'unblock' = 'unblock',
   'color' = 'color',
   'down' = 'down',
   'invites' = 'invites',
