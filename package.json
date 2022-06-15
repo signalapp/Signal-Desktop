@@ -441,6 +441,7 @@
       "build/icons",
       "node_modules/**",
       "sticker-creator/preload.js",
+      "sticker-creator/window/*.js",
       "sticker-creator/dist/**",
       "!node_modules/emoji-datasource/emoji_pretty.json",
       "!node_modules/emoji-datasource/**/*.png",
