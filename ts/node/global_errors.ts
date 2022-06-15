@@ -6,7 +6,7 @@ import { ConsoleCustom } from './logging'; // checked - only node
 
 // We use hard-coded strings until we're able to update these strings from the locale.
 let quitText = 'Quit';
-let copyErrorAndQuitText = 'Copy error and quit';
+let copyErrorAndQuitText = 'Copy error to clipboard';
 
 async function handleError(prefix: string, error: any) {
   if ((console as ConsoleCustom)._error) {
@@ -17,21 +17,21 @@ async function handleError(prefix: string, error: any) {
   if (app.isReady()) {
     // title field is not shown on macOS, so we don't use it
     const button = await dialog.showMessageBox({
-      buttons: [quitText, copyErrorAndQuitText],
+      buttons: [copyErrorAndQuitText, quitText],
       defaultId: 0,
       detail: redactAll(error.stack),
       message: prefix,
       noLink: true,
       type: 'error',
     });
-    if (button.response === 1) {
+    if (button.response === 0) {
       clipboard.writeText(`${prefix}\n\n${redactAll(error.stack)}`);
+    } else if (button.response === 1) {
+      app.exit(1);
     }
   } else {
     dialog.showErrorBox(prefix, error.stack);
   }
-
-  app.exit(1);
 }
 
 export const updateLocale = (messages: LocaleMessagesType) => {
