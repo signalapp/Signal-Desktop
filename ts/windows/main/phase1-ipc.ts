@@ -109,16 +109,17 @@ window.isAfterVersion = (toCheck, baseVersion) => {
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+let preloadConnectTime = 0;
 window.logAuthenticatedConnect = () => {
-  if (window.preloadConnectTime === 0) {
-    window.preloadConnectTime = Date.now();
+  if (preloadConnectTime === 0) {
+    preloadConnectTime = Date.now();
   }
 };
 
 window.logAppLoadedEvent = ({ processedCount }) =>
   ipc.send('signal-app-loaded', {
     preloadTime: window.preloadEndTime - window.preloadStartTime,
-    connectTime: window.preloadConnectTime - window.preloadEndTime,
+    connectTime: preloadConnectTime - window.preloadEndTime,
     processedCount,
   });
 

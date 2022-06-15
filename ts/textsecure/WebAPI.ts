@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-bitwise */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,16 +11,12 @@ import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
-import pProps from 'p-props';
 import type { Dictionary } from 'lodash';
-import { compact, escapeRegExp, isNumber, mapValues, zipObject } from 'lodash';
-import { createVerify } from 'crypto';
-import { pki } from 'node-forge';
+import { escapeRegExp, isNumber } from 'lodash';
 import is from '@sindresorhus/is';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
-import Long from 'long';
 import type { Readable } from 'stream';
 
 import { assert, strictAssert } from '../util/assert';
@@ -40,21 +35,17 @@ import { isPackIdValid, redactPackId } from '../types/Stickers';
 import type { UUID, UUIDStringType } from '../types/UUID';
 import { isValidUuid, UUIDKind } from '../types/UUID';
 import * as Bytes from '../Bytes';
-import {
-  constantTimeEqual,
-  decryptAesGcm,
-  deriveSecrets,
-  encryptCdsDiscoveryRequest,
-  getRandomValue,
-  splitUuids,
-} from '../Crypto';
-import { calculateAgreement, generateKeyPair } from '../Curve';
+import { getRandomValue } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
 import { SocketManager } from './SocketManager';
-import type { CDSResponseType } from './CDSSocketManager';
-import { CDSSocketManager } from './CDSSocketManager';
+import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
+import type { CDSBase } from './cds/CDSBase';
+import { LegacyCDS } from './cds/LegacyCDS';
+import type { LegacyCDSPutAttestationResponseType } from './cds/LegacyCDS';
+import { CDSH } from './cds/CDSH';
+import { CDSI } from './cds/CDSI';
 import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
 
@@ -74,43 +65,6 @@ import { maybeParseUrl } from '../util/url';
 //   web request fails, because it will force it to text. But it is very useful for
 //   debugging failed requests.
 const DEBUG = false;
-
-type SgxConstantsType = {
-  SGX_FLAGS_INITTED: Long;
-  SGX_FLAGS_DEBUG: Long;
-  SGX_FLAGS_MODE64BIT: Long;
-  SGX_FLAGS_PROVISION_KEY: Long;
-  SGX_FLAGS_EINITTOKEN_KEY: Long;
-  SGX_FLAGS_RESERVED: Long;
-  SGX_XFRM_LEGACY: Long;
-  SGX_XFRM_AVX: Long;
-  SGX_XFRM_RESERVED: Long;
-};
-
-let sgxConstantCache: SgxConstantsType | null = null;
-
-function makeLong(value: string): Long {
-  return Long.fromString(value);
-}
-function getSgxConstants() {
-  if (sgxConstantCache) {
-    return sgxConstantCache;
-  }
-
-  sgxConstantCache = {
-    SGX_FLAGS_INITTED: makeLong('x0000000000000001L'),
-    SGX_FLAGS_DEBUG: makeLong('x0000000000000002L'),
-    SGX_FLAGS_MODE64BIT: makeLong('x0000000000000004L'),
-    SGX_FLAGS_PROVISION_KEY: makeLong('x0000000000000004L'),
-    SGX_FLAGS_EINITTOKEN_KEY: makeLong('x0000000000000004L'),
-    SGX_FLAGS_RESERVED: makeLong('xFFFFFFFFFFFFFFC8L'),
-    SGX_XFRM_LEGACY: makeLong('x0000000000000003L'),
-    SGX_XFRM_AVX: makeLong('x0000000000000006L'),
-    SGX_XFRM_RESERVED: makeLong('xFFFFFFFFFFFFFFF8L'),
-  };
-
-  return sgxConstantCache;
-}
 
 function _createRedactor(
   ...toReplace: ReadonlyArray<string | undefined>
@@ -211,8 +165,8 @@ type PromiseAjaxOptionsType = {
     }
 );
 
-type JSONWithDetailsType = {
-  data: unknown;
+type JSONWithDetailsType<Data = unknown> = {
+  data: Data;
   contentType: string | null;
   response: Response;
 };
@@ -594,17 +548,46 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'storageToken',
 ]);
 
+type DirectoryV1OptionsType = Readonly<{
+  directoryVersion: 1;
+  directoryUrl: string;
+  directoryEnclaveId: string;
+  directoryTrustAnchor: string;
+}>;
+
+type DirectoryV2OptionsType = Readonly<{
+  directoryVersion: 2;
+  directoryV2Url: string;
+  directoryV2PublicKey: string;
+  directoryV2CodeHashes: ReadonlyArray<string>;
+}>;
+
+type DirectoryV3OptionsType = Readonly<{
+  directoryVersion: 3;
+  directoryV3Url: string;
+  directoryV3MRENCLAVE: string;
+  directoryV3Root: string;
+}>;
+
+type OptionalDirectoryFieldsType = {
+  directoryUrl?: unknown;
+  directoryEnclaveId?: unknown;
+  directoryTrustAnchor?: unknown;
+  directoryV2Url?: unknown;
+  directoryV2PublicKey?: unknown;
+  directoryV2CodeHashes?: unknown;
+  directoryV3Url?: unknown;
+  directoryV3MRENCLAVE?: unknown;
+  directoryV3Root?: unknown;
+};
+
+type DirectoryOptionsType = OptionalDirectoryFieldsType &
+  (DirectoryV1OptionsType | DirectoryV2OptionsType | DirectoryV3OptionsType);
+
 type InitializeOptionsType = {
   url: string;
   storageUrl: string;
   updatesUrl: string;
-  directoryVersion: number;
-  directoryUrl?: string;
-  directoryEnclaveId?: string;
-  directoryTrustAnchor?: string;
-  directoryV2Url?: string;
-  directoryV2PublicKey?: string;
-  directoryV2CodeHashes?: ReadonlyArray<string>;
   cdnUrlObject: {
     readonly '0': string;
     readonly [propName: string]: string;
@@ -613,6 +596,7 @@ type InitializeOptionsType = {
   contentProxyUrl: string;
   proxyUrl: string | undefined;
   version: string;
+  directoryConfig: DirectoryOptionsType;
 };
 
 export type MessageType = Readonly<{
@@ -1031,13 +1015,7 @@ export function initialize({
   url,
   storageUrl,
   updatesUrl,
-  directoryVersion,
-  directoryUrl,
-  directoryEnclaveId,
-  directoryTrustAnchor,
-  directoryV2Url,
-  directoryV2PublicKey,
-  directoryV2CodeHashes,
+  directoryConfig,
   cdnUrlObject,
   certificateAuthority,
   contentProxyUrl,
@@ -1052,36 +1030,6 @@ export function initialize({
   }
   if (!is.string(updatesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl');
-  }
-  if (directoryVersion === 1) {
-    if (!is.string(directoryEnclaveId)) {
-      throw new Error('WebAPI.initialize: Invalid directory enclave id');
-    }
-    if (!is.string(directoryTrustAnchor)) {
-      throw new Error('WebAPI.initialize: Invalid directory trust anchor');
-    }
-    if (!is.string(directoryUrl)) {
-      throw new Error('WebAPI.initialize: Invalid directory url');
-    }
-  } else {
-    if (directoryEnclaveId) {
-      throw new Error('WebAPI.initialize: Invalid directory enclave id');
-    }
-    if (directoryTrustAnchor) {
-      throw new Error('WebAPI.initialize: Invalid directory trust anchor');
-    }
-    if (directoryUrl) {
-      throw new Error('WebAPI.initialize: Invalid directory url');
-    }
-  }
-  if (!is.string(directoryV2Url)) {
-    throw new Error('WebAPI.initialize: Invalid directory V2 url');
-  }
-  if (!is.string(directoryV2PublicKey)) {
-    throw new Error('WebAPI.initialize: Invalid directory V2 public key');
-  }
-  if (!is.array(directoryV2CodeHashes)) {
-    throw new Error('WebAPI.initialize: Invalid directory V2 code hash');
   }
   if (!is.object(cdnUrlObject)) {
     throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
@@ -1146,21 +1094,128 @@ export function initialize({
       socketManager.authenticate({ username, password });
     }
 
-    const cdsUrl = directoryV2Url || directoryUrl;
-    if (!cdsUrl) {
-      throw new Error('No CDS url available!');
+    let cds: CDSBase;
+    if (directoryConfig.directoryVersion === 1) {
+      const { directoryUrl, directoryEnclaveId, directoryTrustAnchor } =
+        directoryConfig;
+
+      cds = new LegacyCDS({
+        logger: log,
+        directoryEnclaveId,
+        directoryTrustAnchor,
+        proxyUrl,
+
+        async putAttestation(auth, publicKey) {
+          const data = JSON.stringify({
+            clientPublic: Bytes.toBase64(publicKey),
+          });
+          const result = (await _outerAjax(null, {
+            certificateAuthority,
+            type: 'PUT',
+            contentType: 'application/json; charset=utf-8',
+            host: directoryUrl,
+            path: `${URL_CALLS.attestation}/${directoryEnclaveId}`,
+            user: auth.username,
+            password: auth.password,
+            responseType: 'jsonwithdetails',
+            data,
+            timeout: 30000,
+            version,
+          })) as JSONWithDetailsType<LegacyCDSPutAttestationResponseType>;
+
+          const { response, data: responseBody } = result;
+
+          const cookie = response.headers.get('set-cookie') ?? undefined;
+
+          return { cookie, responseBody };
+        },
+
+        async fetchDiscoveryData(auth, data, cookie) {
+          const response = (await _outerAjax(null, {
+            certificateAuthority,
+            type: 'PUT',
+            headers: cookie
+              ? {
+                  cookie,
+                }
+              : undefined,
+            contentType: 'application/json; charset=utf-8',
+            host: directoryUrl,
+            path: `${URL_CALLS.discovery}/${directoryEnclaveId}`,
+            user: auth.username,
+            password: auth.password,
+            responseType: 'json',
+            timeout: 30000,
+            data: JSON.stringify(data),
+            version,
+          })) as {
+            requestId: string;
+            iv: string;
+            data: string;
+            mac: string;
+          };
+
+          return {
+            requestId: Bytes.fromBase64(response.requestId),
+            iv: Bytes.fromBase64(response.iv),
+            data: Bytes.fromBase64(response.data),
+            mac: Bytes.fromBase64(response.mac),
+          };
+        },
+
+        async getAuth() {
+          return (await _ajax({
+            call: 'directoryAuth',
+            httpType: 'GET',
+            responseType: 'json',
+          })) as CDSAuthType;
+        },
+      });
+    } else if (directoryConfig.directoryVersion === 2) {
+      const { directoryV2Url, directoryV2PublicKey, directoryV2CodeHashes } =
+        directoryConfig;
+
+      cds = new CDSH({
+        logger: log,
+        proxyUrl,
+
+        url: directoryV2Url,
+        publicKey: directoryV2PublicKey,
+        codeHashes: directoryV2CodeHashes,
+        certificateAuthority,
+        version,
+
+        async getAuth() {
+          return (await _ajax({
+            call: 'directoryAuthV2',
+            httpType: 'GET',
+            responseType: 'json',
+          })) as CDSAuthType;
+        },
+      });
+    } else if (directoryConfig.directoryVersion === 3) {
+      const { directoryV3Url, directoryV3MRENCLAVE, directoryV3Root } =
+        directoryConfig;
+
+      cds = new CDSI({
+        logger: log,
+        proxyUrl,
+
+        url: directoryV3Url,
+        mrenclave: directoryV3MRENCLAVE,
+        root: directoryV3Root,
+        certificateAuthority,
+        version,
+
+        async getAuth() {
+          return (await _ajax({
+            call: 'directoryAuthV2',
+            httpType: 'GET',
+            responseType: 'json',
+          })) as CDSAuthType;
+        },
+      });
     }
-    if (!directoryV2PublicKey || !directoryV2CodeHashes?.length) {
-      throw new Error('No CDS public key or code hashes available');
-    }
-    const cdsSocketManager = new CDSSocketManager({
-      url: cdsUrl,
-      publicKey: directoryV2PublicKey,
-      codeHashes: directoryV2CodeHashes,
-      certificateAuthority,
-      version,
-      proxyUrl,
-    });
 
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
@@ -2778,444 +2833,18 @@ export function initialize({
       return socketManager.getProvisioningResource(handler);
     }
 
-    async function getDirectoryAuth(): Promise<{
-      username: string;
-      password: string;
-    }> {
-      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
-      return (await _ajax({
-        call: 'directoryAuth',
-        httpType: 'GET',
-        responseType: 'json',
-      })) as { username: string; password: string };
-    }
-
-    async function getDirectoryAuthV2(): Promise<{
-      username: string;
-      password: string;
-    }> {
-      return (await _ajax({
-        call: 'directoryAuthV2',
-        httpType: 'GET',
-        responseType: 'json',
-      })) as { username: string; password: string };
-    }
-
-    function validateAttestationQuote({
-      serverStaticPublic,
-      quote: quoteBytes,
-    }: {
-      serverStaticPublic: Uint8Array;
-      quote: Uint8Array;
-    }) {
-      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
-      strictAssert(directoryEnclaveId, 'Legacy CDS needs directoryEnclaveId');
-
-      const SGX_CONSTANTS = getSgxConstants();
-      const quote = Buffer.from(quoteBytes);
-
-      const quoteVersion = quote.readInt16LE(0) & 0xffff;
-      if (quoteVersion < 0 || quoteVersion > 2) {
-        throw new Error(`Unknown version ${quoteVersion}`);
-      }
-
-      const miscSelect = quote.slice(64, 64 + 4);
-      if (!miscSelect.every(byte => byte === 0)) {
-        throw new Error('Quote miscSelect invalid!');
-      }
-
-      const reserved1 = quote.slice(68, 68 + 28);
-      if (!reserved1.every(byte => byte === 0)) {
-        throw new Error('Quote reserved1 invalid!');
-      }
-
-      const flags = Long.fromBytesLE(
-        Array.from(quote.slice(96, 96 + 8).values())
-      );
-      if (
-        flags.and(SGX_CONSTANTS.SGX_FLAGS_RESERVED).notEquals(0) ||
-        flags.and(SGX_CONSTANTS.SGX_FLAGS_INITTED).equals(0) ||
-        flags.and(SGX_CONSTANTS.SGX_FLAGS_MODE64BIT).equals(0)
-      ) {
-        throw new Error(`Quote flags invalid ${flags.toString()}`);
-      }
-
-      const xfrm = Long.fromBytesLE(
-        Array.from(quote.slice(104, 104 + 8).values())
-      );
-      if (xfrm.and(SGX_CONSTANTS.SGX_XFRM_RESERVED).notEquals(0)) {
-        throw new Error(`Quote xfrm invalid ${xfrm}`);
-      }
-
-      const mrenclave = quote.slice(112, 112 + 32);
-      const enclaveIdBytes = Bytes.fromHex(directoryEnclaveId);
-      if (mrenclave.compare(enclaveIdBytes) !== 0) {
-        throw new Error('Quote mrenclave invalid!');
-      }
-
-      const reserved2 = quote.slice(144, 144 + 32);
-      if (!reserved2.every(byte => byte === 0)) {
-        throw new Error('Quote reserved2 invalid!');
-      }
-
-      const reportData = quote.slice(368, 368 + 64);
-      const serverStaticPublicBytes = serverStaticPublic;
-      if (
-        !reportData.every((byte, index) => {
-          if (index >= 32) {
-            return byte === 0;
-          }
-          return byte === serverStaticPublicBytes[index];
-        })
-      ) {
-        throw new Error('Quote report_data invalid!');
-      }
-
-      const reserved3 = quote.slice(208, 208 + 96);
-      if (!reserved3.every(byte => byte === 0)) {
-        throw new Error('Quote reserved3 invalid!');
-      }
-
-      const reserved4 = quote.slice(308, 308 + 60);
-      if (!reserved4.every(byte => byte === 0)) {
-        throw new Error('Quote reserved4 invalid!');
-      }
-
-      const signatureLength = quote.readInt32LE(432) >>> 0;
-      if (signatureLength !== quote.byteLength - 436) {
-        throw new Error(`Bad signatureLength ${signatureLength}`);
-      }
-
-      // const signature = quote.slice(436, 436 + signatureLength);
-    }
-
-    function validateAttestationSignatureBody(
-      signatureBody: {
-        timestamp: string;
-        version: number;
-        isvEnclaveQuoteBody: string;
-        isvEnclaveQuoteStatus: string;
-      },
-      encodedQuote: string
-    ) {
-      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
-
-      // Parse timestamp as UTC
-      const { timestamp } = signatureBody;
-      const utcTimestamp = timestamp.endsWith('Z')
-        ? timestamp
-        : `${timestamp}Z`;
-      const signatureTime = new Date(utcTimestamp).getTime();
-
-      const now = Date.now();
-      if (signatureBody.version !== 3) {
-        throw new Error('Attestation signature invalid version!');
-      }
-      if (!encodedQuote.startsWith(signatureBody.isvEnclaveQuoteBody)) {
-        throw new Error('Attestion signature mismatches quote!');
-      }
-      if (signatureBody.isvEnclaveQuoteStatus !== 'OK') {
-        throw new Error('Attestation signature status not "OK"!');
-      }
-      if (signatureTime < now - 24 * 60 * 60 * 1000) {
-        throw new Error('Attestation signature timestamp older than 24 hours!');
-      }
-    }
-
-    async function validateAttestationSignature(
-      signature: Uint8Array,
-      signatureBody: string,
-      certificates: string
-    ) {
-      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
-      strictAssert(
-        directoryTrustAnchor,
-        'Legacy CDS needs directoryTrustAnchor'
-      );
-
-      const CERT_PREFIX = '-----BEGIN CERTIFICATE-----';
-      const pem = compact(
-        certificates.split(CERT_PREFIX).map(match => {
-          if (!match) {
-            return null;
-          }
-
-          return `${CERT_PREFIX}${match}`;
-        })
-      );
-      if (pem.length < 2) {
-        throw new Error(
-          `validateAttestationSignature: Expect two or more entries; got ${pem.length}`
-        );
-      }
-
-      const verify = createVerify('RSA-SHA256');
-      verify.update(Buffer.from(Bytes.fromString(signatureBody)));
-      const isValid = verify.verify(pem[0], Buffer.from(signature));
-      if (!isValid) {
-        throw new Error('Validation of signature across signatureBody failed!');
-      }
-
-      const caStore = pki.createCaStore([directoryTrustAnchor]);
-      const chain = compact(pem.map(cert => pki.certificateFromPem(cert)));
-      const isChainValid = pki.verifyCertificateChain(caStore, chain);
-      if (!isChainValid) {
-        throw new Error('Validation of certificate chain failed!');
-      }
-
-      const leafCert = chain[0];
-      const fieldCN = leafCert.subject.getField('CN');
-      if (
-        !fieldCN ||
-        fieldCN.value !== 'Intel SGX Attestation Report Signing'
-      ) {
-        throw new Error('Leaf cert CN field had unexpected value');
-      }
-      const fieldO = leafCert.subject.getField('O');
-      if (!fieldO || fieldO.value !== 'Intel Corporation') {
-        throw new Error('Leaf cert O field had unexpected value');
-      }
-      const fieldL = leafCert.subject.getField('L');
-      if (!fieldL || fieldL.value !== 'Santa Clara') {
-        throw new Error('Leaf cert L field had unexpected value');
-      }
-      const fieldST = leafCert.subject.getField('ST');
-      if (!fieldST || fieldST.value !== 'CA') {
-        throw new Error('Leaf cert ST field had unexpected value');
-      }
-      const fieldC = leafCert.subject.getField('C');
-      if (!fieldC || fieldC.value !== 'US') {
-        throw new Error('Leaf cert C field had unexpected value');
-      }
-    }
-
-    async function putRemoteAttestation(auth: {
-      username: string;
-      password: string;
-    }) {
-      strictAssert(directoryVersion === 1, 'Legacy CDS should not be used');
-
-      const keyPair = generateKeyPair();
-      const { privKey, pubKey } = keyPair;
-      // Remove first "key type" byte from public key
-      const slicedPubKey = pubKey.slice(1);
-      const pubKeyBase64 = Bytes.toBase64(slicedPubKey);
-      // Do request
-      const data = JSON.stringify({ clientPublic: pubKeyBase64 });
-      const result: JSONWithDetailsType = (await _outerAjax(null, {
-        certificateAuthority,
-        type: 'PUT',
-        contentType: 'application/json; charset=utf-8',
-        host: directoryUrl,
-        path: `${URL_CALLS.attestation}/${directoryEnclaveId}`,
-        user: auth.username,
-        password: auth.password,
-        responseType: 'jsonwithdetails',
-        data,
-        timeout: 30000,
-        version,
-      })) as JSONWithDetailsType;
-
-      const { data: responseBody, response } = result as {
-        data: {
-          attestations: Record<
-            string,
-            {
-              ciphertext: string;
-              iv: string;
-              quote: string;
-              serverEphemeralPublic: string;
-              serverStaticPublic: string;
-              signature: string;
-              signatureBody: string;
-              tag: string;
-              certificates: string;
-            }
-          >;
-        };
-        response: Response;
-      };
-
-      const attestationsLength = Object.keys(responseBody.attestations).length;
-      if (attestationsLength > 3) {
-        throw new Error(
-          'Got more than three attestations from the Contact Discovery Service'
-        );
-      }
-      if (attestationsLength < 1) {
-        throw new Error(
-          'Got no attestations from the Contact Discovery Service'
-        );
-      }
-
-      const cookie = response.headers.get('set-cookie');
-
-      // Decode response
-      return {
-        cookie,
-        attestations: await pProps(
-          responseBody.attestations,
-          async attestation => {
-            const decoded = {
-              ...attestation,
-              ciphertext: Bytes.fromBase64(attestation.ciphertext),
-              iv: Bytes.fromBase64(attestation.iv),
-              quote: Bytes.fromBase64(attestation.quote),
-              serverEphemeralPublic: Bytes.fromBase64(
-                attestation.serverEphemeralPublic
-              ),
-              serverStaticPublic: Bytes.fromBase64(
-                attestation.serverStaticPublic
-              ),
-              signature: Bytes.fromBase64(attestation.signature),
-              tag: Bytes.fromBase64(attestation.tag),
-            };
-
-            // Validate response
-            validateAttestationQuote(decoded);
-            validateAttestationSignatureBody(
-              JSON.parse(decoded.signatureBody),
-              attestation.quote
-            );
-            await validateAttestationSignature(
-              decoded.signature,
-              decoded.signatureBody,
-              decoded.certificates
-            );
-
-            // Derive key
-            const ephemeralToEphemeral = calculateAgreement(
-              decoded.serverEphemeralPublic,
-              privKey
-            );
-            const ephemeralToStatic = calculateAgreement(
-              decoded.serverStaticPublic,
-              privKey
-            );
-            const masterSecret = Bytes.concatenate([
-              ephemeralToEphemeral,
-              ephemeralToStatic,
-            ]);
-            const publicKeys = Bytes.concatenate([
-              slicedPubKey,
-              decoded.serverEphemeralPublic,
-              decoded.serverStaticPublic,
-            ]);
-            const [clientKey, serverKey] = deriveSecrets(
-              masterSecret,
-              publicKeys,
-              new Uint8Array(0)
-            );
-
-            // Decrypt ciphertext into requestId
-            const requestId = decryptAesGcm(
-              serverKey,
-              decoded.iv,
-              Bytes.concatenate([decoded.ciphertext, decoded.tag])
-            );
-
-            return {
-              clientKey,
-              serverKey,
-              requestId,
-            };
-          }
-        ),
-      };
-    }
-
-    async function getLegacyUuidsForE164s(
-      e164s: ReadonlyArray<string>
-    ): Promise<Dictionary<UUIDStringType | null>> {
-      const directoryAuth = await getDirectoryAuth();
-      const attestationResult = await putRemoteAttestation(directoryAuth);
-
-      // Encrypt data for discovery
-      const data = await encryptCdsDiscoveryRequest(
-        attestationResult.attestations,
-        e164s
-      );
-      const { cookie } = attestationResult;
-
-      // Send discovery request
-      const discoveryResponse = (await _outerAjax(null, {
-        certificateAuthority,
-        type: 'PUT',
-        headers: cookie
-          ? {
-              cookie,
-            }
-          : undefined,
-        contentType: 'application/json; charset=utf-8',
-        host: directoryUrl,
-        path: `${URL_CALLS.discovery}/${directoryEnclaveId}`,
-        user: directoryAuth.username,
-        password: directoryAuth.password,
-        responseType: 'json',
-        timeout: 30000,
-        data: JSON.stringify(data),
-        version,
-      })) as {
-        requestId: string;
-        iv: string;
-        data: string;
-        mac: string;
-      };
-
-      // Decode discovery request response
-      const decodedDiscoveryResponse = mapValues(discoveryResponse, value => {
-        return Bytes.fromBase64(value);
-      }) as unknown as {
-        [K in keyof typeof discoveryResponse]: Uint8Array;
-      };
-
-      const returnedAttestation = Object.values(
-        attestationResult.attestations
-      ).find(at =>
-        constantTimeEqual(at.requestId, decodedDiscoveryResponse.requestId)
-      );
-      if (!returnedAttestation) {
-        throw new Error('No known attestations returned from CDS');
-      }
-
-      // Decrypt discovery response
-      const decryptedDiscoveryData = decryptAesGcm(
-        returnedAttestation.serverKey,
-        decodedDiscoveryResponse.iv,
-        Bytes.concatenate([
-          decodedDiscoveryResponse.data,
-          decodedDiscoveryResponse.mac,
-        ])
-      );
-
-      // Process and return result
-      const uuids = splitUuids(decryptedDiscoveryData);
-
-      if (uuids.length !== e164s.length) {
-        throw new Error(
-          'Returned set of UUIDs did not match returned set of e164s!'
-        );
-      }
-
-      return zipObject(e164s, uuids);
-    }
-
     async function getUuidsForE164s(
       e164s: ReadonlyArray<string>
     ): Promise<Dictionary<UUIDStringType | null>> {
-      if (directoryVersion === 1) {
-        return getLegacyUuidsForE164s(e164s);
-      }
-
-      const auth = await getDirectoryAuthV2();
-
-      const dictionary = await cdsSocketManager.request({
-        version: 1,
-        auth,
+      const map = await cds.request({
         e164s,
       });
 
-      return mapValues(dictionary, value => value.aci ?? null);
+      const result: Dictionary<UUIDStringType | null> = {};
+      for (const [key, value] of map) {
+        result[key] = value.pni ?? value.aci ?? null;
+      }
+      return result;
     }
 
     async function getUuidsForE164sV2({
@@ -3223,11 +2852,7 @@ export function initialize({
       acis,
       accessKeys,
     }: GetUuidsForE164sV2OptionsType): Promise<CDSResponseType> {
-      const auth = await getDirectoryAuthV2();
-
-      return cdsSocketManager.request({
-        version: 2,
-        auth,
+      return cds.request({
         e164s,
         acis,
         accessKeys,

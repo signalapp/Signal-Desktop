@@ -48,7 +48,7 @@ import type {
   SendLogCallbackType,
 } from './OutgoingMessage';
 import OutgoingMessage from './OutgoingMessage';
-import type { CDSResponseType } from './CDSSocketManager';
+import type { CDSResponseType } from './cds/Types.d';
 import * as Bytes from '../Bytes';
 import { getRandomBytes, getZeroes, encryptAttachment } from '../Crypto';
 import {

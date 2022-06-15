@@ -49,7 +49,10 @@ import './startup_config';
 
 import type { ConfigType } from './config';
 import type { RendererConfigType } from '../ts/types/RendererConfig';
-import { rendererConfigSchema } from '../ts/types/RendererConfig';
+import {
+  directoryConfigSchema,
+  rendererConfigSchema,
+} from '../ts/types/RendererConfig';
 import config from './config';
 import {
   Environment,
@@ -368,15 +371,7 @@ async function prepareUrl(
 ): Promise<string> {
   const theme = await getResolvedThemeSetting();
 
-  const urlParams: RendererConfigType = {
-    name: packageJson.productName,
-    locale: getLocale().name,
-    version: app.getVersion(),
-    buildCreation: config.get<number>('buildCreation'),
-    buildExpiration: config.get<number>('buildExpiration'),
-    serverUrl: config.get<string>('serverUrl'),
-    storageUrl: config.get<string>('storageUrl'),
-    updatesUrl: config.get<string>('updatesUrl'),
+  const directoryConfig = directoryConfigSchema.safeParse({
     directoryVersion: config.get<number | undefined>('directoryVersion') || 1,
     directoryUrl: config.get<string | null>('directoryUrl') || undefined,
     directoryEnclaveId:
@@ -388,6 +383,28 @@ async function prepareUrl(
       config.get<string | null>('directoryV2PublicKey') || undefined,
     directoryV2CodeHashes:
       config.get<Array<string> | null>('directoryV2CodeHashes') || undefined,
+    directoryV3Url: config.get<string | null>('directoryV3Url') || undefined,
+    directoryV3MRENCLAVE:
+      config.get<string | null>('directoryV3MRENCLAVE') || undefined,
+    directoryV3Root: config.get<string | null>('directoryV3Root') || undefined,
+  });
+  if (!directoryConfig.success) {
+    throw new Error(
+      `prepareUrl: Failed to parse renderer directory config ${JSON.stringify(
+        directoryConfig.error.flatten()
+      )}`
+    );
+  }
+
+  const urlParams: RendererConfigType = {
+    name: packageJson.productName,
+    locale: getLocale().name,
+    version: app.getVersion(),
+    buildCreation: config.get<number>('buildCreation'),
+    buildExpiration: config.get<number>('buildExpiration'),
+    serverUrl: config.get<string>('serverUrl'),
+    storageUrl: config.get<string>('storageUrl'),
+    updatesUrl: config.get<string>('updatesUrl'),
     cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
     cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
     certificateAuthority: config.get<string>('certificateAuthority'),
@@ -407,6 +424,8 @@ async function prepareUrl(
     userDataPath: app.getPath('userData'),
     homePath: app.getPath('home'),
     crashDumpsPath: app.getPath('crashDumps'),
+
+    directoryConfig: directoryConfig.data,
 
     // Only used by the main window
     isMainWindowFullScreen: Boolean(mainWindow?.isFullScreen()),

@@ -11,10 +11,54 @@ export type ConfigRequiredStringType = z.infer<
   typeof configRequiredStringSchema
 >;
 
+const configOptionalUnknownSchema = configRequiredStringSchema.or(z.unknown());
+
 const configOptionalStringSchema = configRequiredStringSchema.or(z.undefined());
 export type configOptionalStringType = z.infer<
   typeof configOptionalStringSchema
 >;
+
+const directoryV1ConfigSchema = z.object({
+  directoryVersion: z.literal(1),
+  directoryEnclaveId: configRequiredStringSchema,
+  directoryTrustAnchor: configRequiredStringSchema,
+  directoryUrl: configRequiredStringSchema,
+});
+
+const directoryV2ConfigSchema = z.object({
+  directoryVersion: z.literal(2),
+  directoryV2CodeHashes: z.array(z.string().nonempty()),
+  directoryV2PublicKey: configRequiredStringSchema,
+  directoryV2Url: configRequiredStringSchema,
+});
+
+const directoryV3ConfigSchema = z.object({
+  directoryVersion: z.literal(3),
+  directoryV3Url: configRequiredStringSchema,
+  directoryV3MRENCLAVE: configRequiredStringSchema,
+  directoryV3Root: configRequiredStringSchema,
+});
+
+export const directoryConfigSchema = z
+  .object({
+    // Unknown defaults
+    directoryEnclaveId: configOptionalUnknownSchema,
+    directoryTrustAnchor: configOptionalUnknownSchema,
+    directoryUrl: configOptionalUnknownSchema,
+    directoryV2CodeHashes: configOptionalUnknownSchema,
+    directoryV2PublicKey: configOptionalUnknownSchema,
+    directoryV2Url: configOptionalUnknownSchema,
+    directoryV3Url: configOptionalUnknownSchema,
+    directoryV3MRENCLAVE: configOptionalUnknownSchema,
+    directoryV3Root: configOptionalUnknownSchema,
+  })
+  .and(
+    directoryV1ConfigSchema
+      .or(directoryV2ConfigSchema)
+      .or(directoryV3ConfigSchema)
+  );
+
+export type DirectoryConfigType = z.infer<typeof directoryConfigSchema>;
 
 export const rendererConfigSchema = z.object({
   appInstance: configOptionalStringSchema,
@@ -26,13 +70,6 @@ export const rendererConfigSchema = z.object({
   certificateAuthority: configRequiredStringSchema,
   contentProxyUrl: configRequiredStringSchema,
   crashDumpsPath: configRequiredStringSchema,
-  directoryEnclaveId: configOptionalStringSchema,
-  directoryTrustAnchor: configOptionalStringSchema,
-  directoryUrl: configOptionalStringSchema,
-  directoryV2CodeHashes: z.array(z.string().nonempty()).or(z.undefined()),
-  directoryV2PublicKey: configOptionalStringSchema,
-  directoryV2Url: configOptionalStringSchema,
-  directoryVersion: z.number(),
   enableCI: z.boolean(),
   environment: environmentSchema,
   homePath: configRequiredStringSchema,
@@ -51,6 +88,7 @@ export const rendererConfigSchema = z.object({
   updatesUrl: configRequiredStringSchema,
   userDataPath: configRequiredStringSchema,
   version: configRequiredStringSchema,
+  directoryConfig: directoryConfigSchema,
 
   // Only used by main window
   isMainWindowFullScreen: z.boolean(),

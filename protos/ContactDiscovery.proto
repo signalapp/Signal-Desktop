@@ -21,6 +21,10 @@ message CDSClientRequest {
   // the request's prev_e164s, only counting new_e164s.  If not set, then
   // rate limiting considers both prev_e164s' and new_e164s' size.
   optional bytes token = 6;
+
+  // After receiving a new token from the server, send back a message just
+  // containing a token_ack.
+  optional bool token_ack = 7;
 }
 
 message CDSClientResponse {

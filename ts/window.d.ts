@@ -233,7 +233,6 @@ declare global {
 
     preloadStartTime: number;
     preloadEndTime: number;
-    preloadConnectTime: number;
 
     removeSetupMenuItems: () => unknown;
     showPermissionsPopup: (
