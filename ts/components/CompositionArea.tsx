@@ -618,6 +618,7 @@ export const CompositionArea = ({
         {quotedMessageProps && (
           <div className="quote-wrapper">
             <Quote
+              isCompose
               {...quotedMessageProps}
               i18n={i18n}
               onClick={onClickQuotedMessage}

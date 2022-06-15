@@ -8688,6 +8688,22 @@
     "updated": "2021-10-11T21:21:08.188Z"
   },
   {
+    "rule": "React-createRef",
+    "path": "ts/components/MainHeader.tsx",
+    "line": "  public containerRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-14T22:04:43.988Z",
+    "reasonDetail": "Handling outside click"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/MediaQualitySelector.tsx",
+    "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-14T22:04:43.988Z",
+    "reasonDetail": "Handling outside click"
+  },
+  {
     "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
     "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
@@ -8901,11 +8917,27 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/emoji/EmojiButton.tsx",
+    "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-14T22:04:43.988Z",
+    "reasonDetail": "Handling outside click"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/installScreen/InstallScreenChoosingDeviceNameStep.tsx",
     "line": "  const hasFocusedRef = useRef<boolean>(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-12-06T23:07:28.947Z",
     "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/stickers/StickerButton.tsx",
+    "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-14T22:04:43.988Z",
+    "reasonDetail": "Handling outside click"
   },
   {
     "rule": "React-useRef",

@@ -10,6 +10,7 @@ import { Emoji } from './Emoji';
 import type { Props as EmojiPickerProps } from './EmojiPicker';
 import { EmojiPicker } from './EmojiPicker';
 import type { LocalizerType } from '../../types/Util';
+import { useRefMerger } from '../../hooks/useRefMerger';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 
 export type OwnProps = {
@@ -43,19 +44,16 @@ export const EmojiButton = React.memo(
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const refMerger = useRefMerger();
 
-    const handleClickButton = React.useCallback(
-      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (popperRoot) {
-          setOpen(false);
-        } else {
-          setOpen(true);
-        }
-      },
-      [popperRoot, setOpen]
-    );
+    const handleClickButton = React.useCallback(() => {
+      if (popperRoot) {
+        setOpen(false);
+      } else {
+        setOpen(true);
+      }
+    }, [popperRoot, setOpen]);
 
     const handleClose = React.useCallback(() => {
       setOpen(false);
@@ -71,7 +69,10 @@ export const EmojiButton = React.memo(
         setPopperRoot(root);
         document.body.appendChild(root);
         const handleOutsideClick = (event: MouseEvent) => {
-          if (!root.contains(event.target as Node)) {
+          if (
+            !root.contains(event.target as Node) &&
+            event.target !== buttonRef.current
+          ) {
             handleClose();
             event.stopPropagation();
             event.preventDefault();
@@ -124,7 +125,7 @@ export const EmojiButton = React.memo(
           {({ ref }) => (
             <button
               type="button"
-              ref={ref}
+              ref={refMerger(buttonRef, ref)}
               onClick={handleClickButton}
               className={classNames(className, {
                 'module-emoji-button__button': true,

@@ -40,6 +40,8 @@ type StateType = {
 };
 
 export class MainHeader extends React.Component<PropsType, StateType> {
+  public containerRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   constructor(props: PropsType) {
     super(props);
 
@@ -55,18 +57,14 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     if (
       showingAvatarPopup &&
       popperRoot &&
-      !popperRoot.contains(target as Node)
+      !popperRoot.contains(target as Node) &&
+      !this.containerRef.current?.contains(target as Node)
     ) {
       this.hideAvatarPopup();
     }
   };
 
-  public showAvatarPopup = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    event.preventDefault();
-    event.stopPropagation();
-
+  public showAvatarPopup = (): void => {
     const popperRoot = document.createElement('div');
     document.body.appendChild(popperRoot);
 
@@ -142,7 +140,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
         <Manager>
           <Reference>
             {({ ref }) => (
-              <div className="module-main-header__avatar--container">
+              <div
+                className="module-main-header__avatar--container"
+                ref={this.containerRef}
+              >
                 <Avatar
                   acceptedMessageRequest
                   avatarPath={avatarPath}

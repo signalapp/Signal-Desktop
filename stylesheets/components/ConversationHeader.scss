@@ -272,10 +272,7 @@
     }
 
     &--audio {
-      @include normal-button(
-        '../images/icons/v2/phone-right-outline-24.svg',
-        24px
-      );
+      @include normal-button('../images/icons/v2/phone-outline-24.svg', 24px);
     }
 
     &--search {

@@ -31,6 +31,7 @@ export type Props = {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming?: boolean;
+  isCompose?: boolean;
   isStoryReply?: boolean;
   moduleClassName?: string;
   onClick?: () => void;
@@ -505,6 +506,7 @@ export class Quote extends React.Component<Props, State> {
     const {
       conversationColor,
       customColor,
+      isCompose,
       isIncoming,
       onClick,
       rawAttachment,
@@ -516,6 +518,16 @@ export class Quote extends React.Component<Props, State> {
       return null;
     }
 
+    let directionClassName: string;
+    if (isCompose) {
+      directionClassName = this.getClassName('--compose');
+    } else if (isIncoming) {
+      directionClassName = this.getClassName('--incoming');
+    } else {
+      directionClassName = this.getClassName('--outgoing');
+    }
+    const colorClassName = `${directionClassName}-${conversationColor}`;
+
     return (
       <div className={this.getClassName('__container')}>
         <button
@@ -524,12 +536,8 @@ export class Quote extends React.Component<Props, State> {
           onKeyDown={this.handleKeyDown}
           className={classNames(
             this.getClassName(''),
-            isIncoming
-              ? this.getClassName('--incoming')
-              : this.getClassName('--outgoing'),
-            isIncoming
-              ? this.getClassName(`--incoming-${conversationColor}`)
-              : this.getClassName(`--outgoing-${conversationColor}`),
+            directionClassName,
+            colorClassName,
             !onClick && this.getClassName('--no-click'),
             referencedMessageNotFound &&
               this.getClassName('--with-reference-warning')

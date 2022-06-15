@@ -3,11 +3,13 @@
 
 .module-quote {
   &__container {
-    margin: {
-      left: -6px;
-      right: -6px;
-      top: 3px;
-      bottom: 5px;
+    .module-message & {
+      margin: {
+        left: -6px;
+        right: -6px;
+        top: 3px;
+        bottom: 5px;
+      }
     }
   }
 
@@ -91,17 +93,30 @@
       border-left-color: $color-white;
     }
   }
+
+  .module-quote--compose-#{$color} {
+    background-color: scale-color($value, $lightness: 60%);
+    border-left-color: $value;
+
+    @include dark-theme {
+      background-color: scale-color($value, $lightness: -40%);
+      border-left-color: $color-white;
+    }
+  }
 }
 
+.module-quote--compose-custom,
 .module-quote--incoming-custom,
 .module-quote--outgoing-custom {
   background-attachment: fixed;
 }
 
 @each $color, $value in $conversation-colors-gradient {
+  .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color} {
     border-left-color: map-get($value, 'start');
   }
+  .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color},
   .module-quote--outgoing-#{$color} {
     background-attachment: fixed;

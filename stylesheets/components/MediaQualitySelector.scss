@@ -16,17 +16,19 @@
   &__button {
     @include button-reset();
     align-items: center;
-    border-radius: 16px;
+    border-radius: 4px;
     display: flex;
     height: 32px;
     justify-content: center;
-    opacity: 0.5;
     width: 32px;
 
-    &:focus,
-    &:hover {
-      opacity: 1;
+    @include keyboard-mode {
+      &:focus {
+        outline: 2px solid $color-ultramarine;
+      }
     }
+
+    outline: none;
 
     &::after {
       content: '';

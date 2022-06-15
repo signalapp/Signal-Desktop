@@ -12,6 +12,7 @@
   &__microphone {
     height: 32px;
     width: 32px;
+    border-radius: 4px;
     text-align: center;
     background: none;
     display: flex;
@@ -23,7 +24,7 @@
 
     @include keyboard-mode {
       &:focus {
-        outline: 1px solid $color-ultramarine;
+        outline: 2px solid $color-ultramarine;
       }
     }
 

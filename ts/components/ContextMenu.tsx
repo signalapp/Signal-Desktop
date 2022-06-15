@@ -188,7 +188,6 @@ export function ContextMenu<T>({
     }
   };
 
-  // We use regular MouseEvent below, and this one uses React.MouseEvent
   const handleClick = (ev: KeyboardEvent | React.MouseEvent) => {
     setMenuShowing(true);
     ev.stopPropagation();

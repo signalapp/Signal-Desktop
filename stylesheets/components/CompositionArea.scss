@@ -4,7 +4,7 @@
 .CompositionArea {
   position: relative;
   min-height: 42px;
-  padding-top: 6px;
+  padding: 10px 0 10px 0;
 
   &__placeholder {
     flex-grow: 1;
@@ -16,7 +16,7 @@
   &__row {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: end;
 
     &--center {
       justify-content: center;
@@ -25,7 +25,7 @@
       padding: 0 12px;
     }
     &--control-row {
-      margin-top: 8px;
+      margin-top: 12px;
     }
     &--column {
       flex-direction: column;
@@ -82,8 +82,8 @@
     position: absolute;
     left: calc(50% - $width / 2);
 
-    // 6px coming from padding-top, 1px from outline
-    top: calc(0px - $height / 2 - 6px - 1px);
+    // 6px coming from padding-top of .module-composition-input__input__scroller
+    top: calc(0px - $height / 2 - 6px);
     border-radius: 12px 12px 0 0;
     pointer-events: none;
 
@@ -194,6 +194,7 @@
   &__attach-file {
     width: 32px;
     height: 32px;
+    border-radius: 4px;
     padding: 0;
     border: none;
     background: transparent;
@@ -203,7 +204,7 @@
 
     @include keyboard-mode {
       &:focus {
-        outline: 1px solid $color-ultramarine;
+        outline: 2px solid $color-ultramarine;
       }
     }
 

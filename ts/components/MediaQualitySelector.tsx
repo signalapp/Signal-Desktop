@@ -8,6 +8,7 @@ import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { LocalizerType } from '../types/Util';
+import { useRefMerger } from '../hooks/useRefMerger';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -26,11 +27,11 @@ export const MediaQualitySelector = ({
     undefined
   );
 
-  // We use regular MouseEvent below, and this one uses React.MouseEvent
-  const handleClick = (ev: KeyboardEvent | React.MouseEvent) => {
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+  const refMerger = useRefMerger();
+
+  const handleClick = () => {
     setMenuShowing(true);
-    ev.stopPropagation();
-    ev.preventDefault();
   };
 
   const handleKeyDown = (ev: KeyboardEvent) => {
@@ -66,7 +67,10 @@ export const MediaQualitySelector = ({
       setPopperRoot(root);
       document.body.appendChild(root);
       const handleOutsideClick = (event: MouseEvent) => {
-        if (!root.contains(event.target as Node)) {
+        if (
+          !root.contains(event.target as Node) &&
+          event.target !== buttonRef.current
+        ) {
           handleClose();
           event.stopPropagation();
           event.preventDefault();
@@ -97,7 +101,7 @@ export const MediaQualitySelector = ({
             })}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            ref={ref}
+            ref={refMerger(buttonRef, ref)}
             type="button"
           />
         )}
