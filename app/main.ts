@@ -1552,9 +1552,9 @@ function getAppLocale(): string {
 // Signal doesn't really use media keys so we set this switch here to unblock
 // them so that other apps can use them if they need to.
 app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling');
-if (OS.isLinux()) {
-  app.commandLine.appendSwitch('password-store', 'basic');
-}
+
+// If we don't set this, Desktop will ask for access to keychain/keyring on startup
+app.commandLine.appendSwitch('password-store', 'basic');
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
