@@ -37,6 +37,7 @@ type PropsType = {
   isFullScreen: boolean;
   menuOptions: MenuOptionsType;
   platform: string;
+  isWindows11: boolean;
 
   executeMenuRole: ExecuteMenuRoleType;
   executeMenuAction: (action: MenuActionType) => void;
@@ -54,6 +55,7 @@ export const App = ({
   isShowingStoriesView,
   isMaximized,
   isFullScreen,
+  isWindows11,
   menuOptions,
   platform,
   localeMessages,
@@ -139,6 +141,7 @@ export const App = ({
       isMaximized={isMaximized}
       isFullScreen={isFullScreen}
       platform={platform}
+      isWindows11={isWindows11}
       hasMenu
       localeMessages={localeMessages}
       menuOptions={menuOptions}

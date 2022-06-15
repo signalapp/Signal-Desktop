@@ -80,6 +80,6 @@ esbuild.build({
 esbuild.build({
   ...bundleDefaults,
   mainFields: ['browser', 'main'],
-  entryPoints: [path.join(ROOT_DIR, 'ts/windows/main/preload.ts')],
+  entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.ts')],
   outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
 });

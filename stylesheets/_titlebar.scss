@@ -1,0 +1,30 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+body {
+  // These should match the logic in `ts/types/Settings.ts`'s `getTitleBarVisibility`.
+  //
+  // It'd be great if we could use the `:fullscreen` selector here, but that does not seem
+  //   to work with Electron, at least on macOS.
+  --title-bar-drag-area-height: 0px; // Needs to have a unit to work with `calc()`.
+  --draggable-app-region: initial;
+  &.os-macos:not(.full-screen) {
+    --title-bar-drag-area-height: 28px;
+    --draggable-app-region: drag;
+  }
+
+  --window-height: 100vh;
+  --titlebar-height: 0px;
+
+  &.os-windows:not(.full-screen) {
+    --titlebar-height: 28px;
+
+    // Account for border eating one pixel out of the titlebar and making it
+    // look unbalanced
+    &.os-windows-11 {
+      --titlebar-height: calc(28px + 1px);
+    }
+
+    --window-height: calc(100vh - var(--titlebar-height));
+  }
+}

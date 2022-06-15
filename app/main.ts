@@ -626,7 +626,7 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
 
     // Should match stylesheets/components/TitleBarContainer.scss minus the
     // border
-    height: 28 - 1,
+    height: (OS.isWindows11() ? 29 : 28) - 1,
   };
 }
 
@@ -1261,7 +1261,8 @@ async function showStickerCreator() {
 
   const { x = 0, y = 0 } = windowConfig || {};
 
-  // TODO: DESKTOP-3670
+  const titleBarOverlay = await getTitleBarOverlay();
+
   const options = {
     x: x + 100,
     y: y + 100,
@@ -1269,6 +1270,8 @@ async function showStickerCreator() {
     minWidth: 800,
     height: 650,
     title: getLocale().i18n('signalDesktopStickerCreator'),
+    titleBarStyle: nonMainTitleBarStyle,
+    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1286,7 +1289,7 @@ async function showStickerCreator() {
   stickerCreatorWindow = new BrowserWindow(options);
   setupSpellChecker(stickerCreatorWindow, getLocale());
 
-  handleCommonWindowEvents(stickerCreatorWindow);
+  handleCommonWindowEvents(stickerCreatorWindow, titleBarOverlay);
 
   const appUrl = process.env.SIGNAL_ENABLE_HTTP
     ? prepareUrl(

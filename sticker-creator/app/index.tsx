@@ -11,31 +11,53 @@ import { ShareStage } from './stages/ShareStage';
 import * as styles from './index.scss';
 import { PageHeader } from '../elements/PageHeader';
 import { useI18n } from '../util/i18n';
+import { TitleBarContainer } from '../../ts/components/TitleBarContainer';
+import type { ExecuteMenuRoleType } from '../../ts/components/TitleBarContainer';
+import { useTheme } from '../../ts/hooks/useTheme';
 
-export const App: React.ComponentType = () => {
+export type AppPropsType = Readonly<{
+  platform: string;
+  executeMenuRole: ExecuteMenuRoleType;
+  isWindows11: boolean;
+}>;
+
+export const App = ({
+  platform,
+  executeMenuRole,
+  isWindows11,
+}: AppPropsType): JSX.Element => {
   const i18n = useI18n();
+  const theme = useTheme();
 
   return (
-    <div className={styles.container}>
-      <PageHeader>{i18n('StickerCreator--title')}</PageHeader>
-      <Switch>
-        <Route path="/drop">
-          <DropStage />
-        </Route>
-        <Route path="/add-emojis">
-          <EmojiStage />
-        </Route>
-        <Route path="/add-meta">
-          <MetaStage />
-        </Route>
-        <Route path="/upload">
-          <UploadStage />
-        </Route>
-        <Route path="/share">
-          <ShareStage />
-        </Route>
-        <Redirect to="/drop" />
-      </Switch>
-    </div>
+    <TitleBarContainer
+      iconSrc="../../images/icon_32.png"
+      platform={platform}
+      isWindows11={isWindows11}
+      theme={theme}
+      executeMenuRole={executeMenuRole}
+    >
+      <div className={styles.container}>
+        <PageHeader>{i18n('StickerCreator--title')}</PageHeader>
+        <Switch>
+          <Route path="/drop">
+            <DropStage />
+          </Route>
+          <Route path="/add-emojis">
+            <EmojiStage />
+          </Route>
+          <Route path="/add-meta">
+            <MetaStage />
+          </Route>
+          <Route path="/upload">
+            <UploadStage />
+          </Route>
+          <Route path="/share">
+            <ShareStage />
+          </Route>
+          <Redirect to="/drop" />
+        </Switch>
+      </div>
+    </TitleBarContainer>
   );
 };

@@ -27,6 +27,7 @@ const createProps = (): PropsType => ({
   },
   executeMenuRole: action('executeMenuRole'),
   platform: 'win32',
+  isWindows11: false,
 });
 
 export default {

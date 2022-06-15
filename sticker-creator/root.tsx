@@ -16,7 +16,11 @@ const ColdRoot = () => (
   <ReduxProvider store={store}>
     <Router history={history}>
       <I18n messages={localeMessages} locale={SignalContext.config.locale}>
-        <App />
+        <App
+          executeMenuRole={SignalContext.executeMenuRole}
+          platform={SignalContext.OS.platform}
+          isWindows11={SignalContext.OS.isWindows11()}
+        />
       </I18n>
     </Router>
   </ReduxProvider>

@@ -41,6 +41,7 @@ const mapStateToProps = (state: StateType) => {
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
     platform: getPlatform(state),
+    isWindows11: window.SignalContext.OS.isWindows11(),
     renderCallManager: () => <SmartCallManager />,
     renderCustomizingPreferredReactionsModal: () => (
       <SmartCustomizingPreferredReactionsModal />

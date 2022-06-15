@@ -28,7 +28,7 @@ import { createSetting } from '../util/preload';
 import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 import { waitForSettingsChange } from './waitForSettingsChange';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
-import { isWindows, isLinux, isMacOS } from '../OS';
+import { isWindows, isWindows11, isLinux, isMacOS } from '../OS';
 
 const params = new URLSearchParams(document.location.search);
 const configParam = params.get('config');
@@ -63,7 +63,9 @@ export type SignalContextType = {
     waitForChange: () => Promise<void>;
   };
   OS: {
+    platform: string;
     isWindows: typeof isWindows;
+    isWindows11: typeof isWindows11;
     isLinux: typeof isLinux;
     isMacOS: typeof isMacOS;
   };
@@ -89,7 +91,9 @@ export const SignalContext: SignalContextType = {
     waitForChange: waitForSettingsChange,
   },
   OS: {
+    platform: process.platform,
     isWindows,
+    isWindows11,
     isLinux,
     isMacOS,
   },

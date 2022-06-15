@@ -27,12 +27,18 @@ export type PropsType = Readonly<{
   theme: ThemeType;
   isMaximized?: boolean;
   isFullScreen?: boolean;
+  isWindows11: boolean;
   platform: string;
   executeMenuRole: ExecuteMenuRoleType;
   titleBarDoubleClick?: () => void;
   children: ReactNode;
+
+  // Needs to be overriden in sticker-creator
+  iconSrc?: string;
 }> &
   (MenuPropsType | { hasMenu?: false });
+
+const TITLEBAR_HEIGHT = 28;
 
 // Windows only
 const ROLE_TO_ACCELERATOR = new Map<
@@ -108,11 +114,13 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     theme,
     isMaximized,
     isFullScreen,
+    isWindows11,
     executeMenuRole,
     titleBarDoubleClick,
     children,
-    platform,
     hasMenu,
+    platform,
+    iconSrc = 'images/icon_32.png',
   } = props;
 
   if (platform !== 'win32' || isFullScreen) {
@@ -151,6 +159,8 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
 
   const titleBarTheme = {
     bar: {
+      // See stylesheets/_global.scss
+      height: isWindows11 ? TITLEBAR_HEIGHT + 1 : TITLEBAR_HEIGHT,
       palette:
         theme === ThemeType.light ? ('light' as const) : ('dark' as const),
     },
@@ -168,7 +178,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
       <TitleBar
         className="TitleBarContainer__title"
         platform={platform}
-        iconSrc="images/icon_32.png"
+        iconSrc={iconSrc}
         theme={titleBarTheme}
         maximized={isMaximized}
         menu={maybeMenu}

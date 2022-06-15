@@ -103,6 +103,7 @@ export type PropsType = {
     }
   ) => unknown;
   platform: string;
+  isWindows11: boolean;
   executeMenuRole: ExecuteMenuRoleType;
 
   // Limited support features
@@ -229,6 +230,7 @@ export const Preferences = ({
   isNotificationAttentionSupported,
   isSyncSupported,
   isSystemTraySupported,
+  isWindows11,
   lastSyncTime,
   makeSyncRequest,
   notificationContent,
@@ -1027,6 +1029,7 @@ export const Preferences = ({
   return (
     <TitleBarContainer
       platform={platform}
+      isWindows11={isWindows11}
       theme={theme}
       executeMenuRole={executeMenuRole}
     >

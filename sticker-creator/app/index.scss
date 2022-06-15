@@ -6,8 +6,8 @@
 
 .container {
   display: grid;
-  height: 100vh;
-  grid-template-rows: 47px calc(100vh - 47px - 68px) 68px;
+  height: var(--window-height);
+  grid-template-rows: 47px calc(var(--window-height) - 47px - 68px) 68px;
 
   @include light-theme() {
     background-color: $color-white;
