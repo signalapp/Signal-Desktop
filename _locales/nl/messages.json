@@ -468,15 +468,15 @@
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Er is iets mis gegaan bij het uploaden. Suur alsjeblieft een e-mail naar support@signal.org en voeg aan die e-mail je foutopsporingslog toe als een tekstbestand.",
+        "message": "Er is iets mis gegaan bij het uploaden. Stuur alsjeblieft een e-mail naar support@signal.org en voeg aan die e-mail je foutopsporingslog toe als een tekstbestand.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Foutopsporingslog succesvol geupload",
+        "message": "Foutopsporingslog succesvol geüpload",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Neem nu contact op met ondersteuning en kopiëer de URL hieronder om die samen met een omschrijving van je probleem en een omschrijving van de stappen om het probleem te veroorzaken in te dienen.",
+        "message": "Neem nu contact op met ondersteuning en kopieer de URL hieronder om die samen met een omschrijving van je probleem en een omschrijving van de stappen om het probleem te veroorzaken in te dienen.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -876,7 +876,7 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typ-animatie voor dit gesprek",
+        "message": "Iemand in dit gesprek is aan het typen",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
@@ -1782,11 +1782,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "1 persoon in dit gesprek",
+        "message": "1 persoon in deze oproep",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "$people$ personen in dit gesprek aanwezig",
+        "message": "$people$ personen in deze oproep aanwezig",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1822,7 +1822,7 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Klik hier om wanneer je klaar bent met je scherm laten zien terug te gaan naar de oproep.",
+        "message": "Klik hier wanneer je klaar bent met je scherm laten zien om terug te gaan naar de oproep.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1904,11 +1904,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Ik geef Signal toestemming om mijn microfoon te gebruiken",
+        "message": "Ik geef de Signal-app toestemming om mijn microfoon te gebruiken",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Ik geef Signal toestemming om mijn camera te gebruiken",
+        "message": "Ik geef de Signal-app toestemming om mijn camera te gebruiken",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1964,11 +1964,11 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Verbinding wordt verbroken en alle gegevens worden gewist",
+        "message": "Aan het ontkoppelen en alle gegevens aan het wissen",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Je hebt nog overbodige gegevens op je apparaat van een Signal-desktop installatie van voor oktober 2018. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je gesprekjen worden gewist van Signal-desktop en zal je met een schone installatie beginnen.",
+        "message": "Je hebt nog overbodige gegevens op je apparaat van een Signal-desktop installatie van voor oktober 2018. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je gesprekken worden gewist van Signal-desktop en zal je met een schone installatie beginnen.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -2370,7 +2370,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Je kunt in dit gesprek notities voor jezelf achterlaten. Als je gebruik maakt van gekoppelde apparaten dan zullen notities worden gesynchroniseerd.",
+        "message": "Je kunt in dit speciale gesprek notities voor jezelf achterlaten. Je kunt notities toevoegen en teruglezen vanaf al je gekoppelde apparaten, want noties die zijn verzonden na het moment van koppelen worden gesynchroniseerd.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -3024,7 +3024,7 @@
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
-        "message": "Je hebt een bericht ontvangen van $contact$ die niet kan worden verwerkt of niet kan worden weeggegeven omdat het gebruik maakt van een nieuwe functie van Signal.",
+        "message": "Je hebt een bericht ontvangen van $contact$ die niet kan worden verwerkt of niet kan worden weergegeven omdat het gebruik maakt van een nieuwe functie van Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3034,7 +3034,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Je kunt $contact$ vragen om dit bericht opnieuw te verzenden nudat je een actuele versie van Signal gebruikt.",
+        "message": "Nu je een actuele versie van Signal gebruikt kun je $contact$ vragen om dit bericht opnieuw te verzenden .",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3048,7 +3048,7 @@
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Toekomstige berichten zoals dit bericht zullen worden gesynchroniseerd nudat je een actuele versie van Signal gebruikt.",
+        "message": "Nu je een actuele versie van Signal gebruikt zullen toekomstige berichten die vergelijkbaar zijn met deze worden gesynchroniseerd.",
         "description": ""
     },
     "Message--update-signal": {
@@ -3144,7 +3144,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "‘Alle media uit dit gesprek’-scherm weergeven",
+        "message": "Alle media uit dit gesprek weergeven",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -3914,7 +3914,7 @@
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Onbeantwoord videogesprek",
+        "message": "Onbeantwoorde video-oproep",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
@@ -5558,7 +5558,7 @@
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ niet toegevoegd worden aan de nieuwe-stijl groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "message": "$contact$ kon niet toegevoegd worden aan de nieuwe-stijl groep en heeft daarom een uitnodiging gekregen om opnieuw lid te worden.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5718,11 +5718,11 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik dit niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
+        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik verlopende berichten niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "Indien ingeschakeld zal elk nieuwe bericht dat in dit gesprek verzonden of ontvangen wordt voor iedere deelnemer aan het gesprek gewist worden nadat de ingestelde tijd verlopen is. De tijd gaat voor iedere deelnemer pas lopen vanaf het moment dat hij of zij het bericht heeft gezien.  – Gebruik verlopende berichten niet ter beveiliging, want Signal kan niet garanderen dat een bericht op het apparaat van een ander daadwerkelijk wordt gewist.",
+        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik verlopende berichten niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5762,7 +5762,7 @@
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Groep blokkeren en verlaten",
+        "message": "Groep blokkeren",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -6518,7 +6518,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Stel in dat berichten in alle nieuwe gesprekken die jij zelf begint een bepaalde tijd nadat ze gezien zijn voor zowel jou als je gesprekspartner vanzelf worden gewist.",
+        "message": "Hiermee stel je voor alle toekomstige gesprekken die jij zelf begint in dat berichten voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik verlopende berichten niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -6616,7 +6616,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Gebruikersnamen mogen alleen uit de karakters a-z, 0-9 en _ bestaan.",
+        "message": "Gebruikersnamen mogen alleen uit de karakters a-Z, 0-9 en _ bestaan.",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6684,7 +6684,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Signal-profielen worden eind-tot-eind-versleuteld uitgewisseld. Je profielinformatie is alleen zichtbaar voor personen die zijn opgeslagen in jouw contactenlijst, personen naar wie je zelf een nieuw gesprek initieert, personen van wie je een gespreksverzoek aanvaard en alle leden van een groep waarvan jij lid bent. $learnMore$",
+        "message": "In Signal worden profielen, net als berichten en oproepen, eind-tot-eind-versleuteld uitgewisseld. Je profielnaam, -foto en -omschrijving zijn alleen zichtbaar voor personen die zijn opgeslagen in jouw contactenlijst, personen naar wie je zelf een nieuw gesprek initieert, personen van wie je een gespreksverzoek aanvaard en alle leden van groepen waarvan jij lid bent. Niemand anders kan jouw profiel zien, zelfs Signal niet. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6796,7 +6796,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Meest recent geimporteerd op $date$ om $time$",
+        "message": "Meest recent geïmporteerd op $date$ om $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {

@@ -806,7 +806,7 @@
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
-        "message": "Δεν βρέθηκαν αποτελέσματα για \"$searchTerm$\" στο  $conversationName$",
+        "message": "Δε βρέθηκαν αποτελέσματα για \"$searchTerm$\" στο $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -1092,7 +1092,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Το Signal Desktop μάλλον βρίσκεται σε καραντίνα του macOS, και δεν θα μπορέσει να αναβαθμιστεί αυτόματα. Παρακαλώ προσπάθησε να μετακινήσεις το  $app$ στο  $folder$ με το Finder.",
+        "message": "Το Signal Desktop μάλλον βρίσκεται σε καραντίνα του macOS, και δεν θα μπορέσει να αναβαθμιστεί αυτόματα. Παρακαλώ προσπάθησε να μετακινήσεις το $app$ στο $folder$ με το Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -2018,7 +2018,7 @@
         }
     },
     "notificationReaction": {
-        "message": "Ο/Η $sender$ αντέδρασε με  $emoji$ στο μήνυμά σας",
+        "message": "Ο/Η $sender$ αντέδρασε με $emoji$ στο μήνυμά σας",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2032,7 +2032,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "Ο/Η $sender$ αντέδρασε με  $emoji$ στο:  $message$",
+        "message": "Ο/Η $sender$ αντέδρασε με $emoji$ στο: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2894,7 +2894,7 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Ίσως να μη μπορέσεις  να επανεγκαταστήσεις αυτό το πακέτο αυτοκολλήτων αν δεν έχεις πια το αρχικό μήνυμα.",
+        "message": "Ίσως να μη μπορέσεις να επανεγκαταστήσεις αυτό το πακέτο αυτοκολλήτων αν δεν έχεις πια το αρχικό μήνυμα.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
@@ -3404,7 +3404,7 @@
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Προσθήκη  $count$ ή περισσότερων",
+        "message": "Προσθήκη $count$ ή περισσότερων",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -3458,7 +3458,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "Ανέβηκαν τα $count$ από τα  $total$",
+        "message": "Ανέβηκαν τα $count$ από τα $total$",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3480,7 +3480,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Χρησιμοποίησε το hashtag  $hashtag$ για να βοηθήσεις άλλους χρήστες και χρήστριες να βρούν συνδέσμους πακέτων αυτοκολλήτων που θέλεις να είναι δημοσίως προσβάσιμα.",
+        "message": "Χρησιμοποίησε το hashtag $hashtag$ για να βοηθήσεις άλλους χρήστες και χρήστριες να βρούν συνδέσμους πακέτων αυτοκολλήτων που θέλεις να είναι δημοσίως προσβάσιμα.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3544,7 +3544,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Σφάλμα κατά το ανέβασμα των αυτοκολλήτων:  $message$",
+        "message": "Σφάλμα κατά το ανέβασμα των αυτοκολλήτων: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {

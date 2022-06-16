@@ -52,7 +52,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "تنظیمات",
+        "message": "ترجیحات",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
@@ -76,11 +76,11 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "لغو",
+        "message": "واگرد",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "انجام دوباره",
+        "message": "بازانجام",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -108,7 +108,7 @@
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "صحبت را آغاز کنید",
+        "message": "آغاز صحبت",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
@@ -928,6 +928,10 @@
     "downloading": {
         "message": "در حال دانلود",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
+    },
+    "downloadFullMessage": {
+        "message": "Download Full Message",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
         "message": "دانلود ضمیمه",
@@ -7265,22 +7269,16 @@
         "message": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
+        "description": "Release notes for v5.45"
     }
 }
