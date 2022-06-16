@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "Você deu um selo para $name$. Quando será aceito, a pessoa terá a opção de mostrar ou esconder este selo.",
+        "message": "Você deu um selo para $name$. Quando for aceito, a pessoa terá a opção de mostrar ou esconder este selo.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -6932,7 +6932,7 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ está funcionando.\nClique no OK para fechar.\nSe não fechar, tente fechá-lo manualmente.",
+        "message": "$appName$ está aberto.\nClique em OK para fechá-lo.\nSe não fechar, tente fechá-lo manualmente.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6942,11 +6942,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Falha ao descompactar os arquivos. Por favor, tente iniciar o instalador novamente.",
+        "message": "Falha ao extrair os arquivos de instalação. Por favor, inicie o instalador novamente.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Falha ao desinstalar os arquivos do aplicativo antigo. Por favor, tente iniciar o instalador novamente.",
+        "message": "Falha ao desinstalar os arquivos do aplicativo antigo. Por favor, inicie o instalador novamente.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7164,7 +7164,7 @@
         "description": "Aria label for pausing a story"
     },
     "StoryViewer__play": {
-        "message": "Tocar",
+        "message": "Reproduzir",
         "description": "Aria label for playing a story"
     },
     "StoryViewer__reply": {
