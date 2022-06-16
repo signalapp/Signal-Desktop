@@ -7281,5 +7281,9 @@
   "WhatsNew__v5.45--3": {
     "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
     "description": "Release notes for v5.45"
+  },
+  "WhatsNew__v5.47--1": {
+    "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+    "description": "Release notes for v5.47"
   }
 }
