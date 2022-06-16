@@ -31,6 +31,7 @@ import {
   getUserConversationId,
 } from '../selectors/user';
 import { strictAssert } from '../../util/assert';
+import { SELECTED_CONVERSATION_CHANGED } from './conversations';
 
 const {
   searchMessages: dataSearchMessages,
@@ -431,7 +432,7 @@ export function reducer(
     return getEmptyState();
   }
 
-  if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
+  if (action.type === SELECTED_CONVERSATION_CHANGED) {
     const { payload } = action;
     const { id, messageId } = payload;
     const { searchConversationId } = state;

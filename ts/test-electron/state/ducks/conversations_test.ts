@@ -15,13 +15,14 @@ import {
 import type {
   CancelVerificationDataByConversationActionType,
   ConversationMessageType,
-  ConversationsStateType,
   ConversationType,
+  ConversationsStateType,
   MessageType,
-  SwitchToAssociatedViewActionType,
+  SelectedConversationChangedActionType,
   ToggleConversationInChooseMembersActionType,
 } from '../../../state/ducks/conversations';
 import {
+  SELECTED_CONVERSATION_CHANGED,
   actions,
   cancelConversationVerification,
   clearCancelledConversationVerification,
@@ -56,7 +57,6 @@ const {
   createGroup,
   discardMessages,
   messageChanged,
-  openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
   resetAllChatColors,
@@ -68,6 +68,7 @@ const {
   setPreJoinConversation,
   showArchivedConversations,
   showChooseGroupMembers,
+  showConversation,
   showInbox,
   startComposing,
   startSettingGroupMetadata,
@@ -341,82 +342,40 @@ describe('both/state/ducks/conversations', () => {
       };
     }
 
-    describe('openConversationInternal', () => {
-      it("returns a thunk that triggers a 'showConversation' event when passed a conversation ID", () => {
-        const dispatch = sinon.spy();
+    describe('showConversation', () => {
+      it('selects a conversation id', () => {
+        const state = {
+          ...getEmptyState(),
+        };
+        const action = showConversation({ conversationId: 'abc123' });
+        const nextState = reducer(state, action);
 
-        openConversationInternal({ conversationId: 'abc123' })(
-          dispatch,
-          getEmptyRootState,
-          null
-        );
-
-        sinon.assert.calledOnce(
-          window.Whisper.events.trigger as sinon.SinonSpy
-        );
-        sinon.assert.calledWith(
-          window.Whisper.events.trigger as sinon.SinonSpy,
-          'showConversation',
-          'abc123',
-          undefined
-        );
+        assert.equal(nextState.selectedConversationId, 'abc123');
+        assert.isUndefined(nextState.selectedMessage);
       });
 
-      it("returns a thunk that triggers a 'showConversation' event when passed a conversation ID and message ID", () => {
-        const dispatch = sinon.spy();
-
-        openConversationInternal({
+      it('selects a conversation and a message', () => {
+        const state = {
+          ...getEmptyState(),
+        };
+        const action = showConversation({
           conversationId: 'abc123',
           messageId: 'xyz987',
-        })(dispatch, getEmptyRootState, null);
-
-        sinon.assert.calledOnce(
-          window.Whisper.events.trigger as sinon.SinonSpy
-        );
-        sinon.assert.calledWith(
-          window.Whisper.events.trigger as sinon.SinonSpy,
-          'showConversation',
-          'abc123',
-          'xyz987'
-        );
-      });
-
-      it("returns a thunk that doesn't dispatch any actions by default", () => {
-        const dispatch = sinon.spy();
-
-        openConversationInternal({ conversationId: 'abc123' })(
-          dispatch,
-          getEmptyRootState,
-          null
-        );
-
-        sinon.assert.notCalled(dispatch);
-      });
-
-      it('dispatches a SWITCH_TO_ASSOCIATED_VIEW action if called with a flag', () => {
-        const dispatch = sinon.spy();
-
-        openConversationInternal({
-          conversationId: 'abc123',
-          switchToAssociatedView: true,
-        })(dispatch, getEmptyRootState, null);
-
-        sinon.assert.calledWith(dispatch, {
-          type: 'SWITCH_TO_ASSOCIATED_VIEW',
-          payload: { conversationId: 'abc123' },
         });
+        const nextState = reducer(state, action);
+
+        assert.equal(nextState.selectedConversationId, 'abc123');
+        assert.equal(nextState.selectedMessage, 'xyz987');
       });
 
-      describe('SWITCH_TO_ASSOCIATED_VIEW', () => {
-        let action: SwitchToAssociatedViewActionType;
+      describe('showConversation switchToAssociatedView=true', () => {
+        let action: SelectedConversationChangedActionType;
 
         beforeEach(() => {
-          const dispatch = sinon.spy();
-          openConversationInternal({
+          action = showConversation({
             conversationId: 'fake-conversation-id',
             switchToAssociatedView: true,
-          })(dispatch, getEmptyRootState, null);
-          [action] = dispatch.getCall(0).args;
+          });
         });
 
         it('shows the inbox if the conversation is not archived', () => {
@@ -450,13 +409,6 @@ describe('both/state/ducks/conversations', () => {
 
           assert.isUndefined(result.composer);
           assert.isTrue(result.showArchived);
-        });
-
-        it('does nothing if the conversation is not found', () => {
-          const state = getEmptyState();
-          const result = reducer(state, action);
-
-          assert.strictEqual(result, state);
         });
       });
     });
@@ -769,26 +721,23 @@ describe('both/state/ducks/conversations', () => {
           null
         );
 
-        sinon.assert.calledWith(
-          window.Whisper.events.trigger as sinon.SinonSpy,
-          'showConversation',
-          '9876',
-          undefined
-        );
-
         sinon.assert.calledWith(dispatch, {
           type: 'CREATE_GROUP_FULFILLED',
           payload: { invitedUuids: [abc] },
         });
 
+        sinon.assert.calledWith(dispatch, {
+          type: SELECTED_CONVERSATION_CHANGED,
+          payload: {
+            id: '9876',
+            messageId: undefined,
+            switchToAssociatedView: true,
+          },
+        });
+
         const fulfilledAction = dispatch.getCall(1).args[0];
         const result = reducer(conversationsState, fulfilledAction);
         assert.deepEqual(result.invitedUuidsForNewlyCreatedGroup, [abc]);
-
-        sinon.assert.calledWith(dispatch, {
-          type: 'SWITCH_TO_ASSOCIATED_VIEW',
-          payload: { conversationId: '9876' },
-        });
       });
     });
 

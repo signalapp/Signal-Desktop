@@ -8301,22 +8301,6 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "ts/backbone/views/Lightbox.ts",
-    "line": "  container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-17T20:50:40.689Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "ts/backbone/views/Lightbox.ts",
-    "line": "  container.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-17T20:50:40.689Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
     "rule": "jQuery-html(",
     "path": "ts/backbone/views/whisper_view.ts",
     "line": "      this.$el.html(window.Mustache.render(template, attrs));",
@@ -8598,16 +8582,16 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/Inbox.tsx",
-    "line": "  const hostRef = useRef<HTMLDivElement | null>(null);",
+    "line": "  const conversationMountRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2022-06-15T01:24:12.761Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/Inbox.tsx",
-    "line": "  const viewRef = useRef<InboxViewType | undefined>(undefined);",
+    "line": "  const conversationViewRef = useRef<ConversationView | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2022-06-15T01:24:12.761Z"
   },
   {
     "rule": "React-useRef",
@@ -9120,90 +9104,6 @@
     "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
     "reasonCategory": "falseMatch",
     "updated": "2021-09-17T21:51:57.475Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "  template: () => $('#app-loading-screen').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "      this.$('.message').text(message);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "  template: () => $('#two-column').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "      el: this.$('.conversation-stack'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "    this.$('.no-conversation-open').toggle(!isAnyConversationOpen);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-10-08T17:40:22.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "    this.$('.left-pane-placeholder').replaceWith(this.leftPaneView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-10-08T17:40:22.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-10-22T20:58:48.103Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-10-22T20:58:48.103Z"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "      view.$el.appendTo(this.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "  template: () => $('#app-loading-screen').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "  template: () => $('#two-column').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-prependTo(",
-    "path": "ts/views/inbox_view.tsx",
-    "line": "      this.appLoadingScreen.$el.prependTo(this.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
   },
   {
     "rule": "DOM-innerHTML",

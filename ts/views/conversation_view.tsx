@@ -58,7 +58,7 @@ import {
 import { getActiveCallState } from '../state/selectors/calling';
 import { getTheme } from '../state/selectors/user';
 import { ReactWrapperView } from './ReactWrapperView';
-import { Lightbox } from '../components/Lightbox';
+import type { Lightbox } from '../components/Lightbox';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import type {
@@ -121,6 +121,11 @@ import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
 import { ContactDetail } from '../components/conversation/ContactDetail';
 import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
+import {
+  closeLightbox,
+  isLightboxOpen,
+  showLightbox,
+} from '../util/showLightbox';
 
 type AttachmentOptions = {
   messageId: string;
@@ -1905,28 +1910,23 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     await message.markViewOnceMessageViewed();
 
-    const closeLightbox = async () => {
+    this.listenTo(message, 'expired', async () => {
       log.info('displayTapToViewMessage: attempting to close lightbox');
 
-      if (!this.lightboxView) {
+      // This isn't really a bullet-proof check because the lightbox could
+      // be open while we're viewing a regular media message
+      if (!isLightboxOpen()) {
         log.info('displayTapToViewMessage: lightbox was already closed');
         return;
       }
 
-      const { lightboxView } = this;
-      this.lightboxView = undefined;
-
       this.stopListening(message);
-      window.Signal.Backbone.Views.Lightbox.hide();
-      lightboxView.remove();
+      closeLightbox();
 
       await deleteTempFile(tempPath);
-    };
-    this.listenTo(message, 'expired', closeLightbox);
+    });
     this.listenTo(message, 'change', () => {
-      if (this.lightboxView) {
-        this.lightboxView.update(<Lightbox {...getProps()} />);
-      }
+      showLightbox(getProps());
     });
 
     const getProps = (): ComponentProps<typeof Lightbox> => {
@@ -1934,7 +1934,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       return {
         close: () => {
-          this.lightboxView?.remove();
+          closeLightbox();
         },
         i18n: window.i18n,
         media: [
@@ -1957,18 +1957,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       };
     };
 
-    if (this.lightboxView) {
-      this.lightboxView.remove();
-      this.lightboxView = undefined;
-    }
-
-    this.lightboxView = new ReactWrapperView({
-      className: 'lightbox-wrapper',
-      JSX: <Lightbox {...getProps()} />,
-      onClose: closeLightbox,
-    });
-
-    window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+    showLightbox(getProps());
 
     log.info('displayTapToViewMessage: showed lightbox');
   }
@@ -2084,34 +2073,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         mediaItem.attachment.path === selectedMediaItem.attachment.path
     );
 
-    if (this.lightboxView) {
-      this.lightboxView.remove();
-      this.lightboxView = undefined;
-    }
-
-    this.lightboxView = new ReactWrapperView({
-      className: 'lightbox-wrapper',
-      JSX: (
-        <Lightbox
-          close={() => {
-            this.lightboxView?.remove();
-          }}
-          i18n={window.i18n}
-          getConversation={getConversationSelector(
-            window.reduxStore.getState()
-          )}
-          media={media}
-          onForward={messageId => {
-            this.showForwardMessageModal(messageId);
-          }}
-          onSave={onSave}
-          selectedIndex={selectedIndex >= 0 ? selectedIndex : 0}
-        />
-      ),
-      onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
+    showLightbox({
+      close: closeLightbox,
+      i18n: window.i18n,
+      getConversation: getConversationSelector(window.reduxStore.getState()),
+      media,
+      onForward: messageId => {
+        this.showForwardMessageModal(messageId);
+      },
+      onSave,
+      selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
     });
-
-    window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
   }
 
   showLightbox({

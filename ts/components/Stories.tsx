@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import type { ConversationStoryType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
 import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/StoryViewer';
+import type { ShowConversationType } from '../state/ducks/conversations';
 import { StoriesPane } from './StoriesPane';
 import { Theme, themeClassName } from '../util/theme';
 import { getWidthFromPreferredWidth } from '../util/leftPaneWidth';
@@ -16,9 +17,9 @@ export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
   preferredWidthFromStorage: number;
-  openConversationInternal: (_: { conversationId: string }) => unknown;
-  renderStoryViewer: (props: SmartStoryViewerPropsType) => JSX.Element;
   queueStoryDownload: (storyId: string) => unknown;
+  renderStoryViewer: (props: SmartStoryViewerPropsType) => JSX.Element;
+  showConversation: ShowConversationType;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
@@ -27,10 +28,10 @@ export type PropsType = {
 export const Stories = ({
   hiddenStories,
   i18n,
-  openConversationInternal,
   preferredWidthFromStorage,
   queueStoryDownload,
   renderStoryViewer,
+  showConversation,
   stories,
   toggleHideStories,
   toggleStoriesView,
@@ -119,8 +120,8 @@ export const Stories = ({
               });
               setConversationIdToView(clickedIdToView);
             }}
-            openConversationInternal={openConversationInternal}
             queueStoryDownload={queueStoryDownload}
+            showConversation={showConversation}
             stories={stories}
             toggleHideStories={toggleHideStories}
             toggleStoriesView={toggleStoriesView}

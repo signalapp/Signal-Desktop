@@ -53,7 +53,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   to: overrideProps.to as PropsType['to'],
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   isSelected: boolean('isSelected', overrideProps.isSelected || false),
-  openConversationInternal: action('openConversationInternal'),
+  showConversation: action('showConversation'),
   isSearchingInConversation: boolean(
     'isSearchingInConversation',
     overrideProps.isSearchingInConversation || false

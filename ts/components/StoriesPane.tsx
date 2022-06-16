@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { isNotNil } from '../util/isNotNil';
 import type { ConversationStoryType, StoryViewType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
+import type { ShowConversationType } from '../state/ducks/conversations';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
 
@@ -53,8 +54,8 @@ export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
   onStoryClicked: (conversationId: string) => unknown;
-  openConversationInternal: (_: { conversationId: string }) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
+  showConversation: ShowConversationType;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
@@ -64,8 +65,8 @@ export const StoriesPane = ({
   hiddenStories,
   i18n,
   onStoryClicked,
-  openConversationInternal,
   queueStoryDownload,
+  showConversation,
   stories,
   toggleHideStories,
   toggleStoriesView,
@@ -121,7 +122,7 @@ export const StoriesPane = ({
             }}
             onHideStory={toggleHideStories}
             onGoToConversation={conversationId => {
-              openConversationInternal({ conversationId });
+              showConversation({ conversationId });
               toggleStoriesView();
             }}
             queueStoryDownload={queueStoryDownload}
@@ -150,7 +151,7 @@ export const StoriesPane = ({
                   }}
                   onHideStory={toggleHideStories}
                   onGoToConversation={conversationId => {
-                    openConversationInternal({ conversationId });
+                    showConversation({ conversationId });
                     toggleStoriesView();
                   }}
                   queueStoryDownload={queueStoryDownload}

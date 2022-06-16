@@ -4,8 +4,11 @@
 import { assert } from 'chai';
 
 import { actions } from '../../../state/ducks/audioPlayer';
-import type { SwitchToAssociatedViewActionType } from '../../../state/ducks/conversations';
-import { actions as conversationsActions } from '../../../state/ducks/conversations';
+import type { SelectedConversationChangedActionType } from '../../../state/ducks/conversations';
+import {
+  SELECTED_CONVERSATION_CHANGED,
+  actions as conversationsActions,
+} from '../../../state/ducks/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 
 import type { StateType } from '../../../state/reducer';
@@ -51,9 +54,9 @@ describe('both/state/ducks/audioPlayer', () => {
   it('resets activeAudioID when changing the conversation', () => {
     const state = getInitializedState();
 
-    const updated = rootReducer(state, <SwitchToAssociatedViewActionType>{
-      type: 'SWITCH_TO_ASSOCIATED_VIEW',
-      payload: { conversationId: 'any' },
+    const updated = rootReducer(state, <SelectedConversationChangedActionType>{
+      type: SELECTED_CONVERSATION_CHANGED,
+      payload: { id: 'any' },
     });
 
     assert.strictEqual(updated.audioPlayer.activeAudioID, undefined);

@@ -9,6 +9,7 @@ import { BaseConversationListItem } from './BaseConversationListItem';
 import type { LocalizerType } from '../../types/Util';
 import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import type { ShowConversationType } from '../../state/ducks/conversations';
 
 type PropsData = {
   username: string;
@@ -17,7 +18,7 @@ type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  showConversation: (conversationId: string) => void;
+  showConversation: ShowConversationType;
 } & LookupConversationWithoutUuidActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
@@ -44,7 +45,7 @@ export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
     });
 
     if (conversationId !== undefined) {
-      showConversation(conversationId);
+      showConversation({ conversationId });
     }
   }, [
     username,

@@ -8,6 +8,5 @@ import '../../models/conversations';
 
 import '../../backbone/views/whisper_view';
 import '../../views/conversation_view';
-import '../../views/inbox_view';
 import '../../SignalProtocolStore';
 import '../../background';

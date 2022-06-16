@@ -124,7 +124,6 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     getPreferredBadge: () => undefined,
     i18n,
     preferredWidthFromStorage: 320,
-    openConversationInternal: action('openConversationInternal'),
     regionCode: 'US',
     challengeStatus: select(
       'challengeStatus',
@@ -148,7 +147,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
         getPreferredBadge={() => undefined}
         i18n={i18n}
         id={id}
-        openConversationInternal={action('openConversationInternal')}
+        showConversation={action('showConversation')}
         sentAt={1587358800000}
         snippet="Lorem <<left>>ipsum<<right>> wow"
         theme={ThemeType.light}

@@ -16,6 +16,7 @@ import { ScrollBehavior } from '../types/Util';
 import { getConversationListWidthBreakpoint } from './_util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
+import type { ShowConversationType } from '../state/ducks/conversations';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
 import { ConversationListItem } from './conversationList/ConversationListItem';
@@ -154,7 +155,7 @@ export type PropsType = {
   onSelectConversation: (conversationId: string, messageId?: string) => void;
   renderMessageSearchResult: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
-  showConversation: (conversationId: string) => void;
+  showConversation: ShowConversationType;
 } & LookupConversationWithoutUuidActionsType;
 
 const NORMAL_ROW_HEIGHT = 76;

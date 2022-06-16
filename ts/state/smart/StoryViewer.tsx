@@ -41,8 +41,7 @@ export function SmartStoryViewer({
   const storiesActions = useStoriesActions();
   const { onSetSkinTone, toggleHasAllStoriesMuted } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
-  const { openConversationInternal, toggleHideStories } =
-    useConversationsActions();
+  const { showConversation, toggleHideStories } = useConversationsActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -74,7 +73,7 @@ export function SmartStoryViewer({
       onClose={onClose}
       onHideStory={toggleHideStories}
       onGoToConversation={senderId => {
-        openConversationInternal({ conversationId: senderId });
+        showConversation({ conversationId: senderId });
         storiesActions.toggleStoriesView();
       }}
       onNextUserStories={onNextUserStories}

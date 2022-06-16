@@ -39,7 +39,7 @@ import {
   getWidthFromPreferredWidth,
 } from '../util/leftPaneWidth';
 import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
-import type { OpenConversationInternalType } from '../state/ducks/conversations';
+import type { ShowConversationType } from '../state/ducks/conversations';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
@@ -99,25 +99,25 @@ export type PropsType = {
   clearSearch: () => void;
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
-  createGroup: () => void;
-  openConversationInternal: OpenConversationInternalType;
-  savePreferredLeftPaneWidth: (_: number) => void;
-  searchInConversation: (conversationId: string) => unknown;
-  setComposeSearchTerm: (composeSearchTerm: string) => void;
-  setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
-  setComposeGroupName: (_: string) => void;
-  setComposeGroupExpireTimer: (_: number) => void;
-  showArchivedConversations: () => void;
-  showInbox: () => void;
-  startComposing: () => void;
-  startSearch: () => unknown;
-  showChooseGroupMembers: () => void;
-  startSettingGroupMetadata: () => void;
-  toggleConversationInChooseMembers: (conversationId: string) => void;
   composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
+  createGroup: () => void;
+  savePreferredLeftPaneWidth: (_: number) => void;
+  searchInConversation: (conversationId: string) => unknown;
+  setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
+  setComposeGroupExpireTimer: (_: number) => void;
+  setComposeGroupName: (_: string) => void;
+  setComposeSearchTerm: (composeSearchTerm: string) => void;
+  showArchivedConversations: () => void;
+  showChooseGroupMembers: () => void;
+  showConversation: ShowConversationType;
+  showInbox: () => void;
+  startComposing: () => void;
+  startSearch: () => unknown;
+  startSettingGroupMetadata: () => void;
   toggleComposeEditingAvatar: () => unknown;
+  toggleConversationInChooseMembers: (conversationId: string) => void;
   updateSearchTerm: (_: string) => void;
 
   // Render Props
@@ -137,8 +137,6 @@ export type PropsType = {
   ) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
-
-  showConversation: (conversationId: string) => void;
 } & LookupConversationWithoutUuidActionsType;
 
 export const LeftPane: React.FC<PropsType> = ({
@@ -156,7 +154,6 @@ export const LeftPane: React.FC<PropsType> = ({
   getPreferredBadge,
   i18n,
   modeSpecificProps,
-  openConversationInternal,
   preferredWidthFromStorage,
   renderCaptchaDialog,
   renderCrashReportDialog,
@@ -363,7 +360,7 @@ export const LeftPane: React.FC<PropsType> = ({
 
       if (conversationToOpen) {
         const { conversationId, messageId } = conversationToOpen;
-        openConversationInternal({ conversationId, messageId });
+        showConversation({ conversationId, messageId });
         if (openedByNumber) {
           clearSearch();
         }
@@ -383,16 +380,16 @@ export const LeftPane: React.FC<PropsType> = ({
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [
+    clearSearch,
     helper,
-    openConversationInternal,
     searchInConversation,
     selectedConversationId,
     selectedMessageId,
     showChooseGroupMembers,
+    showConversation,
     showInbox,
     startComposing,
     startSearch,
-    clearSearch,
   ]);
 
   const requiresFullWidth = helper.requiresFullWidth();
@@ -488,13 +485,13 @@ export const LeftPane: React.FC<PropsType> = ({
 
   const onSelectConversation = useCallback(
     (conversationId: string, messageId?: string) => {
-      openConversationInternal({
+      showConversation({
         conversationId,
         messageId,
         switchToAssociatedView: true,
       });
     },
-    [openConversationInternal]
+    [showConversation]
   );
 
   const previousSelectedConversationId = usePrevious(
@@ -555,7 +552,7 @@ export const LeftPane: React.FC<PropsType> = ({
           setComposeSearchTerm(event.target.value);
         },
         updateSearchTerm,
-        openConversationInternal,
+        showConversation,
       })}
       <div className="module-left-pane__dialogs">
         {renderExpiredBuildDialog({

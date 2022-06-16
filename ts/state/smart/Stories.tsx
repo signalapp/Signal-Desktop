@@ -33,8 +33,7 @@ function renderStoryViewer({
 
 export function SmartStories(): JSX.Element | null {
   const storiesActions = useStoriesActions();
-  const { openConversationInternal, toggleHideStories } =
-    useConversationsActions();
+  const { showConversation, toggleHideStories } = useConversationsActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
@@ -56,9 +55,9 @@ export function SmartStories(): JSX.Element | null {
     <Stories
       hiddenStories={hiddenStories}
       i18n={i18n}
-      openConversationInternal={openConversationInternal}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryViewer={renderStoryViewer}
+      showConversation={showConversation}
       stories={stories}
       toggleHideStories={toggleHideStories}
       {...storiesActions}

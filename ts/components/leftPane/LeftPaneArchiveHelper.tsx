@@ -14,7 +14,7 @@ import type { PropsData as ConversationListItemPropsType } from '../conversation
 import type { LocalizerType } from '../../types/Util';
 import type {
   ConversationType,
-  OpenConversationInternalType,
+  ShowConversationType,
 } from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper';
@@ -84,13 +84,13 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     clearSearch,
     i18n,
     updateSearchTerm,
-    openConversationInternal,
+    showConversation,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
     i18n: LocalizerType;
     updateSearchTerm: (searchTerm: string) => unknown;
-    openConversationInternal: OpenConversationInternalType;
+    showConversation: ShowConversationType;
   }>): ReactChild | null {
     if (!this.searchConversation) {
       return null;
@@ -103,9 +103,9 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
         i18n={i18n}
         searchConversation={this.searchConversation}
         searchTerm={this.searchTerm}
+        showConversation={showConversation}
         startSearchCounter={this.startSearchCounter}
         updateSearchTerm={updateSearchTerm}
-        openConversationInternal={openConversationInternal}
       />
     );
   }

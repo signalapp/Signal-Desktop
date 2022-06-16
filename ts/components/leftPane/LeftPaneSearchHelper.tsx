@@ -13,7 +13,7 @@ import type { PropsData as ConversationListItemPropsType } from '../conversation
 import { handleKeydownForSearch } from './handleKeydownForSearch';
 import type {
   ConversationType,
-  OpenConversationInternalType,
+  ShowConversationType,
 } from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
@@ -104,14 +104,14 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     clearConversationSearch,
     clearSearch,
     i18n,
+    showConversation,
     updateSearchTerm,
-    openConversationInternal,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
     i18n: LocalizerType;
+    showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
-    openConversationInternal: OpenConversationInternalType;
   }>): ReactChild {
     return (
       <LeftPaneSearchInput
@@ -119,12 +119,12 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         clearSearch={clearSearch}
         disabled={this.searchDisabled}
         i18n={i18n}
+        onEnterKeyDown={this.onEnterKeyDown}
         searchConversation={this.searchConversation}
         searchTerm={this.searchTerm}
+        showConversation={showConversation}
         startSearchCounter={this.startSearchCounter}
         updateSearchTerm={updateSearchTerm}
-        openConversationInternal={openConversationInternal}
-        onEnterKeyDown={this.onEnterKeyDown}
       />
     );
   }
@@ -361,13 +361,13 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
   private onEnterKeyDown(
     clearSearch: () => unknown,
-    openConversationInternal: OpenConversationInternalType
+    showConversation: ShowConversationType
   ): void {
     const conversation = this.getConversationAndMessageAtIndex(0);
     if (!conversation) {
       return;
     }
-    openConversationInternal(conversation);
+    showConversation(conversation);
     clearSearch();
   }
 }

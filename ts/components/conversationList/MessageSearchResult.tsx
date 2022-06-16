@@ -15,7 +15,10 @@ import type {
   ThemeType,
 } from '../../types/Util';
 import { BaseConversationListItem } from './BaseConversationListItem';
-import type { ConversationType } from '../../state/ducks/conversations';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 
 export type PropsDataType = {
@@ -58,10 +61,7 @@ export type PropsDataType = {
 type PropsHousekeepingType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  openConversationInternal: (_: {
-    conversationId: string;
-    messageId?: string;
-  }) => void;
+  showConversation: ShowConversationType;
   theme: ThemeType;
 };
 
@@ -147,15 +147,15 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     getPreferredBadge,
     i18n,
     id,
-    openConversationInternal,
     sentAt,
+    showConversation,
     snippet,
     theme,
     to,
   }) {
     const onClickItem = useCallback(() => {
-      openConversationInternal({ conversationId, messageId: id });
-    }, [openConversationInternal, conversationId, id]);
+      showConversation({ conversationId, messageId: id });
+    }, [showConversation, conversationId, id]);
 
     if (!from || !to) {
       return <div />;

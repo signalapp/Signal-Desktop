@@ -10,6 +10,7 @@ import { App } from '../../components/App';
 import { SmartCallManager } from './CallManager';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
+import { SmartLeftPane } from './LeftPane';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { SmartStories } from './Stories';
 import type { StateType } from '../reducer';
@@ -47,6 +48,7 @@ const mapStateToProps = (state: StateType) => {
       <SmartCustomizingPreferredReactionsModal />
     ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
+    renderLeftPane: () => <SmartLeftPane />,
     renderSafetyNumber: (props: SafetyNumberProps) => (
       <SmartSafetyNumberViewer {...props} />
     ),
@@ -68,6 +70,8 @@ const mapStateToProps = (state: StateType) => {
     registerSingleDevice: (number: string, code: string): Promise<void> => {
       return window.getAccountManager().registerSingleDevice(number, code);
     },
+    selectedConversationId: state.conversations.selectedConversationId,
+    selectedMessage: state.conversations.selectedMessage,
     theme: getTheme(state),
 
     executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {

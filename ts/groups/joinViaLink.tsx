@@ -74,7 +74,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
-    window.reduxActions.conversations.openConversationInternal({
+    window.reduxActions.conversations.showConversation({
       conversationId: existingConversation.id,
     });
     showToast(ToastAlreadyGroupMember);
@@ -166,7 +166,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     // We're waiting for the left pane to re-sort before we navigate to that conversation
     await sleep(200);
 
-    window.reduxActions.conversations.openConversationInternal({
+    window.reduxActions.conversations.showConversation({
       conversationId: existingConversation.id,
     });
 
@@ -253,7 +253,7 @@ export async function joinViaLink(hash: string): Promise<void> {
             log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`
             );
-            window.reduxActions.conversations.openConversationInternal({
+            window.reduxActions.conversations.showConversation({
               conversationId: targetConversation.id,
             });
             return;
@@ -347,7 +347,7 @@ export async function joinViaLink(hash: string): Promise<void> {
               );
             }
 
-            window.reduxActions.conversations.openConversationInternal({
+            window.reduxActions.conversations.showConversation({
               conversationId: targetConversation.id,
             });
           } catch (error) {

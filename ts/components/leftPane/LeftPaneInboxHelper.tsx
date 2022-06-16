@@ -9,7 +9,7 @@ import { Intl } from '../Intl';
 import type { ToFindType } from './LeftPaneHelper';
 import type {
   ConversationType,
-  OpenConversationInternalType,
+  ShowConversationType,
 } from '../../state/ducks/conversations';
 import { LeftPaneHelper } from './LeftPaneHelper';
 import { getConversationInDirection } from './getConversationInDirection';
@@ -85,14 +85,14 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     clearConversationSearch,
     clearSearch,
     i18n,
+    showConversation,
     updateSearchTerm,
-    openConversationInternal,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
     i18n: LocalizerType;
+    showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
-    openConversationInternal: OpenConversationInternalType;
   }>): ReactChild {
     return (
       <LeftPaneSearchInput
@@ -102,9 +102,9 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
         i18n={i18n}
         searchConversation={this.searchConversation}
         searchTerm={this.searchTerm}
+        showConversation={showConversation}
         startSearchCounter={this.startSearchCounter}
         updateSearchTerm={updateSearchTerm}
-        openConversationInternal={openConversationInternal}
       />
     );
   }

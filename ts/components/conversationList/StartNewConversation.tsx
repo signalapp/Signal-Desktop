@@ -11,6 +11,7 @@ import { BaseConversationListItem } from './BaseConversationListItem';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
 import type { LocalizerType } from '../../types/Util';
+import type { ShowConversationType } from '../../state/ducks/conversations';
 import { AvatarColors } from '../../types/Colors';
 
 type PropsData = {
@@ -20,7 +21,7 @@ type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  showConversation: (conversationId: string) => void;
+  showConversation: ShowConversationType;
 } & LookupConversationWithoutUuidActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
@@ -55,7 +56,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       });
 
       if (conversationId !== undefined) {
-        showConversation(conversationId);
+        showConversation({ conversationId });
       }
     }, [
       showConversation,

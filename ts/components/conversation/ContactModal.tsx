@@ -9,7 +9,10 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { About } from './About';
 import { Avatar } from '../Avatar';
 import { AvatarLightbox } from '../AvatarLightbox';
-import type { ConversationType } from '../../state/ducks/conversations';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../../state/ducks/conversations';
 import { Modal } from '../Modal';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { BadgeDialog } from '../BadgeDialog';
@@ -32,14 +35,8 @@ export type PropsDataType = {
 
 type PropsActionType = {
   hideContactModal: () => void;
-  openConversationInternal: (
-    options: Readonly<{
-      conversationId: string;
-      messageId?: string;
-      switchToAssociatedView?: boolean;
-    }>
-  ) => void;
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
+  showConversation: ShowConversationType;
   toggleAdmin: (conversationId: string, contactId: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   updateConversationModelSharedGroups: (conversationId: string) => void;
@@ -69,8 +66,8 @@ export const ContactModal = ({
   i18n,
   isAdmin,
   isMember,
-  openConversationInternal,
   removeMemberFromGroup,
+  showConversation,
   theme,
   toggleAdmin,
   toggleSafetyNumberModal,
@@ -205,7 +202,7 @@ export const ContactModal = ({
                 className="ContactModal__button ContactModal__send-message"
                 onClick={() => {
                   hideContactModal();
-                  openConversationInternal({ conversationId: contact.id });
+                  showConversation({ conversationId: contact.id });
                 }}
               >
                 <div className="ContactModal__bubble-icon">

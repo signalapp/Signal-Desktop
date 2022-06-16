@@ -4,10 +4,11 @@
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type {
-  SwitchToAssociatedViewActionType,
   MessageDeletedActionType,
   MessageChangedActionType,
+  SelectedConversationChangedActionType,
 } from './conversations';
+import { SELECTED_CONVERSATION_CHANGED } from './conversations';
 
 // State
 
@@ -59,9 +60,9 @@ export function reducer(
   state: Readonly<AudioPlayerStateType> = getEmptyState(),
   action: Readonly<
     | AudioPlayerActionType
-    | SwitchToAssociatedViewActionType
     | MessageDeletedActionType
     | MessageChangedActionType
+    | SelectedConversationChangedActionType
   >
 ): AudioPlayerStateType {
   if (action.type === 'audioPlayer/SET_ACTIVE_AUDIO_ID') {
@@ -75,7 +76,7 @@ export function reducer(
   }
 
   // Reset activeAudioID on conversation change.
-  if (action.type === 'SWITCH_TO_ASSOCIATED_VIEW') {
+  if (action.type === SELECTED_CONVERSATION_CHANGED) {
     return {
       ...state,
       activeAudioID: undefined,

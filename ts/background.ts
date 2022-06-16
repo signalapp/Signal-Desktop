@@ -1508,6 +1508,10 @@ export async function startApp(): Promise<void> {
         (key === 'c' || key === 'C')
       ) {
         conversation.trigger('unload', 'keyboard shortcut close');
+        window.reduxActions.conversations.showConversation({
+          conversationId: undefined,
+          messageId: undefined,
+        });
         event.preventDefault();
         event.stopPropagation();
         return;

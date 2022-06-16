@@ -4,7 +4,7 @@
 import React, { useEffect, useRef } from 'react';
 import type {
   ConversationType,
-  OpenConversationInternalType,
+  ShowConversationType,
 } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { Avatar, AvatarSize } from './Avatar';
@@ -20,10 +20,10 @@ type PropsType = {
   searchTerm: string;
   startSearchCounter: number;
   updateSearchTerm: (searchTerm: string) => void;
-  openConversationInternal: OpenConversationInternalType;
+  showConversation: ShowConversationType;
   onEnterKeyDown?: (
     clearSearch: () => void,
-    openConversationInternal: OpenConversationInternalType
+    showConversation: ShowConversationType
   ) => void;
 };
 
@@ -36,7 +36,7 @@ export const LeftPaneSearchInput = ({
   searchTerm,
   startSearchCounter,
   updateSearchTerm,
-  openConversationInternal,
+  showConversation,
   onEnterKeyDown,
 }: PropsType): JSX.Element => {
   const inputRef = useRef<null | HTMLInputElement>(null);
@@ -103,7 +103,7 @@ export const LeftPaneSearchInput = ({
       }}
       onKeyDown={event => {
         if (onEnterKeyDown && event.key === 'Enter') {
-          onEnterKeyDown(clearSearch, openConversationInternal);
+          onEnterKeyDown(clearSearch, showConversation);
           event.preventDefault();
           event.stopPropagation();
         }

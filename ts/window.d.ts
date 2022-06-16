@@ -44,7 +44,6 @@ import { createGroupLinkManagement } from './state/roots/createGroupLinkManageme
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
-import { createLeftPane } from './state/roots/createLeftPane';
 import { createMessageDetail } from './state/roots/createMessageDetail';
 import { createConversationNotificationsSettings } from './state/roots/createConversationNotificationsSettings';
 import { createPendingInvites } from './state/roots/createPendingInvites';
@@ -137,7 +136,6 @@ export declare class WebAudioRecorderClass {
 }
 
 export type SignalCoreType = {
-  Backbone: any;
   Crypto: typeof Crypto;
   Curve: typeof Curve;
   Data: typeof Data;
@@ -187,7 +185,6 @@ export type SignalCoreType = {
       createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
       createGroupV2JoinModal: typeof createGroupV2JoinModal;
       createGroupV2Permissions: typeof createGroupV2Permissions;
-      createLeftPane: typeof createLeftPane;
       createMessageDetail: typeof createMessageDetail;
       createConversationNotificationsSettings: typeof createConversationNotificationsSettings;
       createPendingInvites: typeof createPendingInvites;

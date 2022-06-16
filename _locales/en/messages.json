@@ -862,9 +862,6 @@
     "message": "what's new",
     "description": "Clickable link that displays the latest release notes"
   },
-  "selectAContact": {
-    "message": "Select a contact or group to start chatting."
-  },
   "typingAlt": {
     "message": "Typing animation for this conversation",
     "description": "Used as the 'title' attribute for the typing animation"

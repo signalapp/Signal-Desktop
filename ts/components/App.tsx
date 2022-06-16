@@ -48,30 +48,35 @@ export const App = ({
   appView,
   cancelConversationVerification,
   conversationsStoppingSend,
-  hasInitialLoadCompleted,
+  executeMenuAction,
+  executeMenuRole,
   getPreferredBadge,
+  hasInitialLoadCompleted,
   i18n,
   isCustomizingPreferredReactions,
-  isShowingStoriesView,
-  isMaximized,
   isFullScreen,
+  isMaximized,
+  isShowingStoriesView,
   isWindows11,
-  menuOptions,
-  platform,
   localeMessages,
+  menuOptions,
+  openInbox,
+  platform,
+  registerSingleDevice,
   renderCallManager,
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
+  renderLeftPane,
   renderSafetyNumber,
-  openInbox,
   renderStories,
   requestVerification,
-  registerSingleDevice,
+  selectedConversationId,
+  selectedMessage,
+  showConversation,
+  showWhatsNewModal,
   theme,
-  verifyConversationsStoppingSend,
-  executeMenuAction,
-  executeMenuRole,
   titleBarDoubleClick,
+  verifyConversationsStoppingSend,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -101,7 +106,12 @@ export const App = ({
         renderCustomizingPreferredReactionsModal={
           renderCustomizingPreferredReactionsModal
         }
+        renderLeftPane={renderLeftPane}
         renderSafetyNumber={renderSafetyNumber}
+        selectedConversationId={selectedConversationId}
+        selectedMessage={selectedMessage}
+        showConversation={showConversation}
+        showWhatsNewModal={showWhatsNewModal}
         theme={theme}
         verifyConversationsStoppingSend={verifyConversationsStoppingSend}
       />

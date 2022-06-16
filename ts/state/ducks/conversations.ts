@@ -22,7 +22,6 @@ import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assert, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
-import { trigger } from '../../shims/events';
 import type { ToggleProfileEditorErrorActionType } from './globalModals';
 import { TOGGLE_PROFILE_EDITOR_ERROR } from './globalModals';
 import { isRecord } from '../../util/isRecord';
@@ -347,12 +346,6 @@ export type ConversationsStateType = {
   messagesByConversation: MessagesByConversationType;
 };
 
-export type OpenConversationInternalType = (_: {
-  conversationId: string;
-  messageId?: string;
-  switchToAssociatedView?: boolean;
-}) => void;
-
 // Helpers
 
 export const getConversationCallMode = (
@@ -399,6 +392,8 @@ const CONVERSATION_STOPPED_BY_MISSING_VERIFICATION =
 const DISCARD_MESSAGES = 'conversations/DISCARD_MESSAGES';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 const UPDATE_USERNAME_SAVE_STATE = 'conversations/UPDATE_USERNAME_SAVE_STATE';
+export const SELECTED_CONVERSATION_CHANGED =
+  'conversations/SELECTED_CONVERSATION_CHANGED';
 
 export type CancelVerificationDataByConversationActionType = {
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -642,10 +637,11 @@ export type ClearUnreadMetricsActionType = {
   };
 };
 export type SelectedConversationChangedActionType = {
-  type: 'SELECTED_CONVERSATION_CHANGED';
+  type: typeof SELECTED_CONVERSATION_CHANGED;
   payload: {
-    id: string;
+    id?: string;
     messageId?: string;
+    switchToAssociatedView?: boolean;
   };
 };
 type ReviewGroupMemberNameCollisionActionType = {
@@ -709,10 +705,6 @@ type ShowChooseGroupMembersActionType = {
 };
 type StartSettingGroupMetadataActionType = {
   type: 'START_SETTING_GROUP_METADATA';
-};
-export type SwitchToAssociatedViewActionType = {
-  type: 'SWITCH_TO_ASSOCIATED_VIEW';
-  payload: { conversationId: string };
 };
 export type ToggleConversationInChooseMembersActionType = {
   type: 'TOGGLE_CONVERSATION_IN_CHOOSE_MEMBERS';
@@ -792,7 +784,6 @@ export type ConversationActionType =
   | ShowInboxActionType
   | StartComposingActionType
   | StartSettingGroupMetadataActionType
-  | SwitchToAssociatedViewActionType
   | ToggleConversationInChooseMembersActionType
   | ToggleComposeEditingAvatarActionType
   | UpdateUsernameSaveStateActionType;
@@ -831,8 +822,6 @@ export const actions = {
   messagesAdded,
   messagesReset,
   myProfileChanged,
-  openConversationExternal,
-  openConversationInternal,
   removeAllConversations,
   removeCustomColorOnConversations,
   removeMemberFromGroup,
@@ -1527,9 +1516,9 @@ function createGroup(
   | CreateGroupPendingActionType
   | CreateGroupFulfilledActionType
   | CreateGroupRejectedActionType
-  | SwitchToAssociatedViewActionType
+  | SelectedConversationChangedActionType
 > {
-  return async (dispatch, getState, ...args) => {
+  return async (dispatch, getState) => {
     const { composer } = getState().conversations;
     if (
       composer?.step !== ComposerStep.SetGroupMetadata ||
@@ -1559,10 +1548,12 @@ function createGroup(
           ),
         },
       });
-      openConversationInternal({
-        conversationId: conversation.id,
-        switchToAssociatedView: true,
-      })(dispatch, getState, ...args);
+      dispatch(
+        showConversation({
+          conversationId: conversation.id,
+          switchToAssociatedView: true,
+        })
+      );
     } catch (err) {
       log.error('Failed to create group', err && err.stack ? err.stack : err);
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
@@ -1924,48 +1915,6 @@ function toggleConversationInChooseMembers(
   };
 }
 
-// Note: we need two actions here to simplify. Operations outside of the left pane can
-//   trigger an 'openConversation' so we go through Whisper.events for all
-//   conversation selection. Internal just triggers the Whisper.event, and External
-//   makes the changes to the store.
-function openConversationInternal({
-  conversationId,
-  messageId,
-  switchToAssociatedView,
-}: Readonly<{
-  conversationId: string;
-  messageId?: string;
-  switchToAssociatedView?: boolean;
-}>): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  SwitchToAssociatedViewActionType
-> {
-  return dispatch => {
-    trigger('showConversation', conversationId, messageId);
-
-    if (switchToAssociatedView) {
-      dispatch({
-        type: 'SWITCH_TO_ASSOCIATED_VIEW',
-        payload: { conversationId },
-      });
-    }
-  };
-}
-function openConversationExternal(
-  id: string,
-  messageId?: string
-): SelectedConversationChangedActionType {
-  return {
-    type: 'SELECTED_CONVERSATION_CHANGED',
-    payload: {
-      id,
-      messageId,
-    },
-  };
-}
-
 function toggleHideStories(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
@@ -2039,12 +1988,26 @@ function showInbox(): ShowInboxActionType {
     payload: null,
   };
 }
-function showConversation(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, ShowInboxActionType> {
-  return dispatch => {
-    trigger('showConversation', conversationId);
-    dispatch(showInbox());
+
+type ShowConversationArgsType = {
+  conversationId?: string;
+  messageId?: string;
+  switchToAssociatedView?: boolean;
+};
+export type ShowConversationType = (_: ShowConversationArgsType) => unknown;
+
+function showConversation({
+  conversationId,
+  messageId,
+  switchToAssociatedView,
+}: ShowConversationArgsType): SelectedConversationChangedActionType {
+  return {
+    type: SELECTED_CONVERSATION_CHANGED,
+    payload: {
+      id: conversationId,
+      messageId,
+      switchToAssociatedView,
+    },
   };
 }
 function showArchivedConversations(): ShowArchivedConversationsActionType {
@@ -2475,7 +2438,7 @@ export function reducer(
     };
   }
   if (action.type === 'CREATE_GROUP_FULFILLED') {
-    // We don't do much here and instead rely on `openConversationInternal` to do most of
+    // We don't do much here and instead rely on `showConversation` to do most of
     //   the work.
     return {
       ...state,
@@ -3065,14 +3028,31 @@ export function reducer(
       },
     };
   }
-  if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
+  if (action.type === SELECTED_CONVERSATION_CHANGED) {
     const { payload } = action;
-    const { id } = payload;
+    const { id, messageId, switchToAssociatedView } = payload;
 
-    return {
+    const nextState = {
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId: id,
     };
+
+    if (messageId) {
+      nextState.selectedMessage = messageId;
+    }
+
+    if (switchToAssociatedView && id) {
+      const conversation = getOwn(state.conversationLookup, id);
+      if (!conversation) {
+        return nextState;
+      }
+      return {
+        ...omit(nextState, 'composer'),
+        showArchived: Boolean(conversation.isArchived),
+      };
+    }
+
+    return nextState;
   }
   if (action.type === 'SHOW_INBOX') {
     return {
@@ -3430,20 +3410,6 @@ export function reducer(
         assert(false, 'Replacing an avatar at this step is a no-op');
         return state;
     }
-  }
-
-  if (action.type === 'SWITCH_TO_ASSOCIATED_VIEW') {
-    const conversation = getOwn(
-      state.conversationLookup,
-      action.payload.conversationId
-    );
-    if (!conversation) {
-      return state;
-    }
-    return {
-      ...omit(state, 'composer'),
-      showArchived: Boolean(conversation.isArchived),
-    };
   }
 
   if (action.type === 'TOGGLE_CONVERSATION_IN_CHOOSE_MEMBERS') {

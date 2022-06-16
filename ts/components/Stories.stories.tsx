@@ -81,10 +81,10 @@ function getAttachmentWithThumbnail(url: string): AttachmentType {
 const getDefaultProps = (): PropsType => ({
   hiddenStories: [],
   i18n,
-  openConversationInternal: action('openConversationInternal'),
   preferredWidthFromStorage: 380,
   queueStoryDownload: action('queueStoryDownload'),
   renderStoryViewer: () => <div />,
+  showConversation: action('showConversation'),
   stories: [
     createStory({
       attachment: getAttachmentWithThumbnail(
