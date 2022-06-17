@@ -171,12 +171,6 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
         opacity: 0,
       },
     },
-
-    // Zoom support
-    enableOverflow: false,
-    scalingFunction(value: string) {
-      return `calc(${value} * var(--zoom-factor))`;
-    },
   };
 
   return (
