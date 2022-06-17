@@ -18,10 +18,14 @@ import {
 } from '../AddGroupMemberErrorDialog';
 import { Button } from '../Button';
 import type { LocalizerType } from '../../types/Util';
+import { getUsernameFromSearch } from '../../types/Username';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
-import { isFetchingByE164 } from '../../util/uuidFetchState';
+import {
+  isFetchingByUsername,
+  isFetchingByE164,
+} from '../../util/uuidFetchState';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -32,6 +36,7 @@ export type LeftPaneChooseGroupMembersPropsType = {
   candidateContacts: ReadonlyArray<ConversationType>;
   isShowingRecommendedGroupSizeModal: boolean;
   isShowingMaximumGroupSizeModal: boolean;
+  isUsernamesEnabled: boolean;
   searchTerm: string;
   regionCode: string | undefined;
   selectedContacts: Array<ConversationType>;
@@ -42,6 +47,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
   private readonly isPhoneNumberChecked: boolean;
 
+  private readonly isUsernameChecked: boolean;
+
   private readonly isShowingMaximumGroupSizeModal: boolean;
 
   private readonly isShowingRecommendedGroupSizeModal: boolean;
@@ -49,6 +56,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   private readonly searchTerm: string;
 
   private readonly phoneNumber: ParsedE164Type | undefined;
+
+  private readonly username: string | undefined;
 
   private readonly selectedContacts: Array<ConversationType>;
 
@@ -60,6 +69,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     candidateContacts,
     isShowingMaximumGroupSizeModal,
     isShowingRecommendedGroupSizeModal,
+    isUsernamesEnabled,
     searchTerm,
     regionCode,
     selectedContacts,
@@ -89,6 +99,22 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       }
     } else {
       this.isPhoneNumberChecked = false;
+    }
+    if (!this.phoneNumber && isUsernamesEnabled) {
+      const username = getUsernameFromSearch(searchTerm);
+      const isVisible = this.candidateContacts.every(
+        contact => contact.username !== username
+      );
+
+      if (isVisible) {
+        this.username = username;
+      }
+
+      this.isUsernameChecked = selectedContacts.some(
+        contact => contact.username === this.username
+      );
+    } else {
+      this.isUsernameChecked = false;
     }
     this.selectedContacts = selectedContacts;
 
@@ -246,6 +272,11 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       rowCount += 2;
     }
 
+    // Header + Username
+    if (this.username) {
+      rowCount += 2;
+    }
+
     // Header + Contacts
     if (this.candidateContacts.length) {
       rowCount += 1 + this.candidateContacts.length;
@@ -260,7 +291,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }
 
   getRow(actualRowIndex: number): undefined | Row {
-    if (!this.candidateContacts.length && !this.phoneNumber) {
+    if (!this.candidateContacts.length && !this.phoneNumber && !this.username) {
       return undefined;
     }
 
@@ -317,6 +348,24 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
             this.phoneNumber.e164
           ),
           phoneNumber: this.phoneNumber,
+        };
+      }
+      virtualRowIndex -= 2;
+    }
+
+    if (this.username) {
+      if (virtualRowIndex === 0) {
+        return {
+          type: RowType.Header,
+          i18nKey: 'findByUsernameHeader',
+        };
+      }
+      if (virtualRowIndex === 1) {
+        return {
+          type: RowType.UsernameCheckbox,
+          isChecked: this.isUsernameChecked,
+          isFetching: isFetchingByUsername(this.uuidFetchState, this.username),
+          username: this.username,
         };
       }
       virtualRowIndex -= 2;

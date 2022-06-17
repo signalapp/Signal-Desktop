@@ -1626,7 +1626,7 @@ export function initialize({
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: `username/${usernameToFetch}`,
+        urlParameters: `/username/${usernameToFetch}`,
         responseType: 'json',
         redactUrl: _createRedactor(usernameToFetch),
       })) as ProfileType;

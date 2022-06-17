@@ -156,6 +156,7 @@ const getModeSpecificProps = (
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
+        isUsernamesEnabled: getUsernamesEnabled(state),
         uuidFetchState: getComposerUUIDFetchState(state),
       };
     case ComposerStep.SetGroupMetadata:

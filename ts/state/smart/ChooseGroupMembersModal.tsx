@@ -12,6 +12,7 @@ import type { StatePropsType } from '../../components/conversation/conversation-
 import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal';
 
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
+import { getUsernamesEnabled } from '../selectors/items';
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
@@ -55,6 +56,7 @@ const mapStateToProps = (
     theme: getTheme(state),
     selectedContacts,
     lookupConversationWithoutUuid,
+    isUsernamesEnabled: getUsernamesEnabled(state),
   };
 };
 

@@ -43,13 +43,15 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
   private readonly uuidFetchState: UUIDFetchStateType;
 
-  private readonly isUsernamesEnabled: boolean;
-
   private readonly searchTerm: string;
 
   private readonly phoneNumber: ParsedE164Type | undefined;
 
   private readonly isPhoneNumberVisible: boolean;
+
+  private readonly username: string | undefined;
+
+  private readonly isUsernameVisible: boolean;
 
   constructor({
     composeContacts,
@@ -74,7 +76,18 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       this.isPhoneNumberVisible = false;
     }
     this.uuidFetchState = uuidFetchState;
-    this.isUsernamesEnabled = isUsernamesEnabled;
+
+    if (isUsernamesEnabled && !this.phoneNumber) {
+      this.username = getUsernameFromSearch(this.searchTerm);
+      this.isUsernameVisible =
+        isUsernamesEnabled &&
+        Boolean(this.username) &&
+        this.composeContacts.every(
+          contact => contact.username !== this.username
+        );
+    } else {
+      this.isUsernameVisible = false;
+    }
   }
 
   override getHeaderContents({
@@ -148,7 +161,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     if (this.hasGroupsHeader()) {
       result += 1;
     }
-    if (this.getUsernameFromSearch()) {
+    if (this.isUsernameVisible) {
       result += 2;
     }
     if (this.isPhoneNumberVisible) {
@@ -218,8 +231,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       virtualRowIndex -= this.composeGroups.length;
     }
 
-    const username = this.getUsernameFromSearch();
-    if (username) {
+    if (this.username && this.isUsernameVisible) {
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
@@ -232,10 +244,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.UsernameSearchResult,
-          username,
+          username: this.username,
           isFetchingUsername: isFetchingByUsername(
             this.uuidFetchState,
-            username
+            this.username
           ),
         };
 
@@ -295,7 +307,8 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       currHeaderIndices.top !== prevHeaderIndices.top ||
       currHeaderIndices.contact !== prevHeaderIndices.contact ||
       currHeaderIndices.group !== prevHeaderIndices.group ||
-      currHeaderIndices.username !== prevHeaderIndices.username
+      currHeaderIndices.username !== prevHeaderIndices.username ||
+      currHeaderIndices.phoneNumber !== prevHeaderIndices.phoneNumber
     );
   }
 
@@ -318,31 +331,17 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     return Boolean(this.composeGroups.length);
   }
 
-  private getUsernameFromSearch(): string | undefined {
-    if (!this.isUsernamesEnabled) {
-      return undefined;
-    }
-
-    if (this.phoneNumber) {
-      return undefined;
-    }
-
-    if (this.searchTerm) {
-      return getUsernameFromSearch(this.searchTerm);
-    }
-
-    return undefined;
-  }
-
   private getHeaderIndices(): {
     top?: number;
     contact?: number;
     group?: number;
+    phoneNumber?: number;
     username?: number;
   } {
     let top: number | undefined;
     let contact: number | undefined;
     let group: number | undefined;
+    let phoneNumber: number | undefined;
     let username: number | undefined;
 
     let rowCount = 0;
@@ -359,7 +358,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       group = rowCount;
       rowCount += this.composeContacts.length;
     }
-    if (this.getUsernameFromSearch()) {
+    if (this.phoneNumber) {
+      phoneNumber = rowCount;
+    }
+    if (this.username) {
       username = rowCount;
     }
 
@@ -367,6 +369,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       top,
       contact,
       group,
+      phoneNumber,
       username,
     };
   }

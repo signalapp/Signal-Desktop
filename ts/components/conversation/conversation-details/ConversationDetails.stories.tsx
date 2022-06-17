@@ -110,6 +110,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
         i18n={i18n}
         lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
         showUserNotFoundModal={action('showUserNotFoundModal')}
+        isUsernamesEnabled
       />
     );
   },

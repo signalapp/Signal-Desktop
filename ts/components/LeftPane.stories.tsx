@@ -883,6 +883,7 @@ export const ChooseGroupMembersPartialPhoneNumber = (): JSX.Element => (
         candidateContacts: [],
         isShowingRecommendedGroupSizeModal: false,
         isShowingMaximumGroupSizeModal: false,
+        isUsernamesEnabled: true,
         searchTerm: '+1(212) 555',
         regionCode: 'US',
         selectedContacts: [],
@@ -904,6 +905,7 @@ export const ChooseGroupMembersValidPhoneNumber = (): JSX.Element => (
         candidateContacts: [],
         isShowingRecommendedGroupSizeModal: false,
         isShowingMaximumGroupSizeModal: false,
+        isUsernamesEnabled: true,
         searchTerm: '+1(212) 555 5454',
         regionCode: 'US',
         selectedContacts: [],
@@ -914,6 +916,28 @@ export const ChooseGroupMembersValidPhoneNumber = (): JSX.Element => (
 
 ChooseGroupMembersValidPhoneNumber.story = {
   name: 'Choose Group Members: Valid phone number',
+};
+
+export const ChooseGroupMembersUsername = (): JSX.Element => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.ChooseGroupMembers,
+        uuidFetchState: {},
+        candidateContacts: [],
+        isShowingRecommendedGroupSizeModal: false,
+        isShowingMaximumGroupSizeModal: false,
+        isUsernamesEnabled: true,
+        searchTerm: '@signal',
+        regionCode: 'US',
+        selectedContacts: [],
+      },
+    })}
+  />
+);
+
+ChooseGroupMembersUsername.story = {
+  name: 'Choose Group Members: username',
 };
 
 export const GroupMetadataNoTimer = (): JSX.Element => (

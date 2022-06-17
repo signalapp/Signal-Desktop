@@ -14,6 +14,7 @@ import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
+import { getUsernameFromSearch } from '../../../../types/Username';
 import { assert } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
@@ -27,7 +28,10 @@ import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
 } from '../../../../util/uuidFetchState';
-import { isFetchingByE164 } from '../../../../util/uuidFetchState';
+import {
+  isFetchingByE164,
+  isFetchingByUsername,
+} from '../../../../util/uuidFetchState';
 import { ModalHost } from '../../../ModalHost';
 import { ContactPills } from '../../../ContactPills';
 import { ContactPill } from '../../../ContactPill';
@@ -53,6 +57,7 @@ export type StatePropsType = {
   removeSelectedContact: (_: string) => void;
   setSearchTerm: (_: string) => void;
   toggleSelectedContact: (conversationId: string) => void;
+  isUsernamesEnabled: boolean;
 } & Pick<
   LookupConversationWithoutUuidActionsType,
   'lookupConversationWithoutUuid'
@@ -83,6 +88,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   toggleSelectedContact,
   lookupConversationWithoutUuid,
   showUserNotFoundModal,
+  isUsernamesEnabled,
 }) => {
   const [focusRef] = useRestoreFocus();
 
@@ -98,6 +104,21 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   const isPhoneNumberVisible =
     phoneNumber &&
     candidateContacts.every(contact => contact.e164 !== phoneNumber.e164);
+
+  let username: string | undefined;
+  let isUsernameChecked = false;
+  let isUsernameVisible = false;
+  if (!phoneNumber && isUsernamesEnabled) {
+    username = getUsernameFromSearch(searchTerm);
+
+    isUsernameChecked = selectedContacts.some(
+      contact => contact.username === username
+    );
+
+    isUsernameVisible = candidateContacts.every(
+      contact => contact.username !== username
+    );
+  }
 
   const inputRef = useRef<null | HTMLInputElement>(null);
 
@@ -157,19 +178,24 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   if (filteredContacts.length) {
     rowCount += filteredContacts.length;
   }
-  if (isPhoneNumberVisible) {
+  if (isPhoneNumberVisible || isUsernameVisible) {
     // "Contacts" header
     if (filteredContacts.length) {
       rowCount += 1;
     }
 
     // "Find by phone number" + phone number
+    // or
+    // "Find by username" + username
     rowCount += 2;
   }
   const getRow = (index: number): undefined | Row => {
     let virtualIndex = index;
 
-    if (isPhoneNumberVisible && filteredContacts.length) {
+    if (
+      (isPhoneNumberVisible || isUsernameVisible) &&
+      filteredContacts.length
+    ) {
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
@@ -216,6 +242,24 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
           isChecked: isPhoneNumberChecked,
           isFetching: isFetchingByE164(uuidFetchState, phoneNumber.e164),
           phoneNumber,
+        };
+      }
+      virtualIndex -= 2;
+    }
+
+    if (username) {
+      if (virtualIndex === 0) {
+        return {
+          type: RowType.Header,
+          i18nKey: 'findByUsernameHeader',
+        };
+      }
+      if (virtualIndex === 1) {
+        return {
+          type: RowType.UsernameCheckbox,
+          isChecked: isUsernameChecked,
+          isFetching: isFetchingByUsername(uuidFetchState, username),
+          username,
         };
       }
       virtualIndex -= 2;

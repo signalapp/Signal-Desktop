@@ -17,6 +17,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     candidateContacts: [],
     isShowingRecommendedGroupSizeModal: false,
     isShowingMaximumGroupSizeModal: false,
+    isUsernamesEnabled: true,
     searchTerm: '',
     regionCode: 'US',
     selectedContacts: [],
@@ -62,6 +63,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           candidateContacts: [],
           searchTerm: 'foo bar',
           selectedContacts: [getDefaultConversation()],
+          isUsernamesEnabled: false,
         }).getRowCount(),
         0
       );
@@ -107,6 +109,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           candidateContacts: [],
           searchTerm: 'foo bar',
           selectedContacts: [getDefaultConversation()],
+          isUsernamesEnabled: false,
         }).getRow(0)
       );
     });
@@ -120,6 +123,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         ...defaults,
         candidateContacts,
         searchTerm: 'foo bar',
+        isUsernamesEnabled: false,
         selectedContacts: [candidateContacts[1]],
       });
 
@@ -163,6 +167,52 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         isChecked: true,
         disabledReason: undefined,
       });
+    });
+
+    it('returns a header, then the phone number, then a blank space if there are contacts', () => {
+      const helper = new LeftPaneChooseGroupMembersHelper({
+        ...defaults,
+        candidateContacts: [],
+        searchTerm: '212 555',
+        selectedContacts: [],
+      });
+
+      assert.deepEqual(helper.getRow(0), {
+        type: RowType.Header,
+        i18nKey: 'findByPhoneNumberHeader',
+      });
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.PhoneNumberCheckbox,
+        phoneNumber: {
+          isValid: false,
+          userInput: '212 555',
+          e164: '+1212555',
+        },
+        isChecked: false,
+        isFetching: false,
+      });
+      assert.deepEqual(helper.getRow(2), { type: RowType.Blank });
+    });
+
+    it('returns a header, then the username, then a blank space if there are contacts', () => {
+      const helper = new LeftPaneChooseGroupMembersHelper({
+        ...defaults,
+        candidateContacts: [],
+        searchTerm: 'signal',
+        selectedContacts: [],
+      });
+
+      assert.deepEqual(helper.getRow(0), {
+        type: RowType.Header,
+        i18nKey: 'findByUsernameHeader',
+      });
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.UsernameCheckbox,
+        username: 'signal',
+        isChecked: false,
+        isFetching: false,
+      });
+      assert.deepEqual(helper.getRow(2), { type: RowType.Blank });
     });
   });
 });

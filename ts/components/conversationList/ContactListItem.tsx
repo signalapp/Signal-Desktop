@@ -30,6 +30,7 @@ export type ContactListItemConversationType = Pick<
   | 'title'
   | 'type'
   | 'unblurredAvatarPath'
+  | 'username'
   | 'e164'
 >;
 

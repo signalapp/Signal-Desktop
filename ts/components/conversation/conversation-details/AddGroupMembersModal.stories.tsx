@@ -68,6 +68,7 @@ const createProps = (
         i18n={i18n}
         lookupConversationWithoutUuid={lookupConversationWithoutUuid}
         showUserNotFoundModal={action('showUserNotFoundModal')}
+        isUsernamesEnabled
       />
     );
   },
