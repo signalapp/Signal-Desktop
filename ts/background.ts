@@ -700,16 +700,7 @@ export async function startApp(): Promise<void> {
       },
     });
 
-    const zoomFactor = window.Events.getZoomFactor();
-    webFrame.setZoomFactor(zoomFactor);
-    document.body.style.setProperty('--zoom-factor', zoomFactor.toString());
-
-    window.addEventListener('resize', () => {
-      document.body.style.setProperty(
-        '--zoom-factor',
-        webFrame.getZoomFactor().toString()
-      );
-    });
+    webFrame.setZoomFactor(window.Events.getZoomFactor());
 
     // How long since we were last running?
     const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
