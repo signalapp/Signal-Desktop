@@ -77,7 +77,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@indutny/frameless-titlebar": "2.2.0",
+    "@indutny/frameless-titlebar": "2.3.0-rc.1",
     "@popperjs/core": "2.9.2",
     "@react-spring/web": "9.4.5",
     "@signalapp/libsignal-client": "0.17.0",
