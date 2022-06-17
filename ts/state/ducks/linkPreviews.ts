@@ -1,23 +1,34 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ThunkAction } from 'redux-thunk';
+
+import type { NoopActionType } from './noop';
+import type { StateType as RootStateType } from '../reducer';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
+import { maybeGrabLinkPreview } from '../../services/LinkPreview';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
 export type LinkPreviewsStateType = {
   readonly linkPreview?: LinkPreviewType;
+  readonly source?: LinkPreviewSourceType;
 };
 
 // Actions
 
-const ADD_PREVIEW = 'linkPreviews/ADD_PREVIEW';
+export const ADD_PREVIEW = 'linkPreviews/ADD_PREVIEW';
 export const REMOVE_PREVIEW = 'linkPreviews/REMOVE_PREVIEW';
 
-type AddLinkPreviewActionType = {
+export type AddLinkPreviewActionType = {
   type: 'linkPreviews/ADD_PREVIEW';
-  payload: LinkPreviewType;
+  payload: {
+    linkPreview: LinkPreviewType;
+    source: LinkPreviewSourceType;
+  };
 };
 
 export type RemoveLinkPreviewActionType = {
@@ -30,15 +41,30 @@ type LinkPreviewsActionType =
 
 // Action Creators
 
-export const actions = {
-  addLinkPreview,
-  removeLinkPreview,
-};
+function debouncedMaybeGrabLinkPreview(
+  message: string,
+  source: LinkPreviewSourceType
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    maybeGrabLinkPreview(message, source);
 
-function addLinkPreview(payload: LinkPreviewType): AddLinkPreviewActionType {
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function addLinkPreview(
+  linkPreview: LinkPreviewType,
+  source: LinkPreviewSourceType
+): AddLinkPreviewActionType {
   return {
     type: ADD_PREVIEW,
-    payload,
+    payload: {
+      linkPreview,
+      source,
+    },
   };
 }
 
@@ -47,6 +73,15 @@ function removeLinkPreview(): RemoveLinkPreviewActionType {
     type: REMOVE_PREVIEW,
   };
 }
+
+export const actions = {
+  addLinkPreview,
+  debouncedMaybeGrabLinkPreview,
+  removeLinkPreview,
+};
+
+export const useLinkPreviewActions = (): typeof actions =>
+  useBoundActions(actions);
 
 // Reducer
 
@@ -64,13 +99,15 @@ export function reducer(
     const { payload } = action;
 
     return {
-      linkPreview: payload,
+      linkPreview: payload.linkPreview,
+      source: payload.source,
     };
   }
 
   if (action.type === REMOVE_PREVIEW) {
     return assignWithNoUnnecessaryAllocation(state, {
       linkPreview: undefined,
+      source: undefined,
     });
   }
 

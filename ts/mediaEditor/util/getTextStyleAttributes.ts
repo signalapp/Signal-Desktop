@@ -26,13 +26,13 @@ export function getTextStyleAttributes(
       return { fill: color, strokeWidth: 0, textBackgroundColor: '' };
     case TextStyle.Highlight:
       return {
-        fill: hueSliderValue <= 5 ? '#000' : '#fff',
+        fill: hueSliderValue >= 95 ? '#000' : '#fff',
         strokeWidth: 0,
         textBackgroundColor: color,
       };
     case TextStyle.Outline:
       return {
-        fill: hueSliderValue <= 5 ? '#000' : '#fff',
+        fill: hueSliderValue >= 95 ? '#000' : '#fff',
         stroke: color,
         strokeWidth: 2,
         textBackgroundColor: '',

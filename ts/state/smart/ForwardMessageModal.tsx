@@ -2,19 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
-import type { DataPropsType } from '../../components/ForwardMessageModal';
-import { ForwardMessageModal } from '../../components/ForwardMessageModal';
-import type { StateType } from '../reducer';
-import type { BodyRangeType } from '../../types/Util';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getAllComposableConversations } from '../selectors/conversations';
-import { getLinkPreview } from '../selectors/linkPreviews';
-import { getIntl, getTheme, getRegionCode } from '../selectors/user';
-import { getEmojiSkinTone } from '../selectors/items';
-import { selectRecentEmojis } from '../selectors/emojis';
 import type { AttachmentType } from '../../types/Attachment';
+import type { BodyRangeType } from '../../types/Util';
+import type { DataPropsType } from '../../components/ForwardMessageModal';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { StateType } from '../reducer';
+import { ForwardMessageModal } from '../../components/ForwardMessageModal';
+import { LinkPreviewSourceType } from '../../types/LinkPreview';
+import { getAllComposableConversations } from '../selectors/conversations';
+import { getEmojiSkinTone } from '../selectors/items';
+import { getIntl, getTheme, getRegionCode } from '../selectors/user';
+import { getLinkPreview } from '../selectors/linkPreviews';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import { mapDispatchToProps } from '../actions';
+import { selectRecentEmojis } from '../selectors/emojis';
 
 export type SmartForwardMessageModalProps = {
   attachments?: Array<AttachmentType>;
@@ -54,7 +55,7 @@ const mapStateToProps = (
   const candidateConversations = getAllComposableConversations(state);
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = getEmojiSkinTone(state);
-  const linkPreview = getLinkPreview(state);
+  const linkPreviewForSource = getLinkPreview(state);
 
   return {
     attachments,
@@ -64,7 +65,9 @@ const mapStateToProps = (
     hasContact,
     i18n: getIntl(state),
     isSticker,
-    linkPreview,
+    linkPreview: linkPreviewForSource(
+      LinkPreviewSourceType.ForwardMessageModal
+    ),
     messageBody,
     onClose,
     onEditorStateChange,

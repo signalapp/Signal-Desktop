@@ -108,7 +108,7 @@ export type ProcessedAttachment = {
   caption?: string;
   blurHash?: string;
   cdnNumber?: number;
-  textAttachment?: TextAttachmentType;
+  textAttachment?: Omit<TextAttachmentType, 'preview'>;
 };
 
 export type ProcessedGroupContext = {

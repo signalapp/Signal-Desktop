@@ -1,16 +1,16 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Meta, Story } from '@storybook/react';
 import * as React from 'react';
-import { date, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import type { AttachmentType } from '../../types/Attachment';
-import { stringToMIMEType } from '../../types/MIME';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './StagedLinkPreview';
+import enMessages from '../../../_locales/en/messages.json';
 import { StagedLinkPreview } from './StagedLinkPreview';
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { setupI18n } from '../../util/setupI18n';
+import { IMAGE_JPEG } from '../../types/MIME';
 
 const LONG_TITLE =
   "This is a super-sweet site. And it's got some really amazing content in store for you if you just click that link. Can you click that link for me?";
@@ -21,150 +21,109 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/StagedLinkPreview',
-};
+  component: StagedLinkPreview,
+} as Meta;
 
-const createAttachment = (
-  props: Partial<AttachmentType> = {}
-): AttachmentType => ({
-  contentType: stringToMIMEType(
-    text('attachment contentType', props.contentType || '')
-  ),
-  fileName: text('attachment fileName', props.fileName || ''),
-  url: text('attachment url', props.url || ''),
-  size: 24325,
-});
-
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  title: text(
-    'title',
-    typeof overrideProps.title === 'string'
-      ? overrideProps.title
-      : 'This is a super-sweet site'
-  ),
-  description: text(
-    'description',
-    typeof overrideProps.description === 'string'
-      ? overrideProps.description
-      : 'This is a description'
-  ),
-  date: date('date', new Date(overrideProps.date || 0)),
-  domain: text('domain', overrideProps.domain || 'signal.org'),
-  image: overrideProps.image,
+const getDefaultProps = (): Props => ({
+  date: Date.now(),
+  description: 'This is a description',
+  domain: 'signal.org',
   i18n,
   onClose: action('onClose'),
+  title: 'This is a super-sweet site',
+  url: 'https://www.signal.org',
 });
 
-export const Loading = (): JSX.Element => {
-  const props = createProps({ domain: '' });
+const Template: Story<Props> = args => <StagedLinkPreview {...args} />;
 
-  return <StagedLinkPreview {...props} />;
+export const Loading = Template.bind({});
+Loading.args = {
+  ...getDefaultProps(),
+  domain: '',
 };
 
-export const NoImage = (): JSX.Element => {
-  return <StagedLinkPreview {...createProps()} />;
+export const NoImage = Template.bind({});
+
+export const Image = Template.bind({});
+Image.args = {
+  ...getDefaultProps(),
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
 };
 
-export const Image = (): JSX.Element => {
-  const props = createProps({
-    image: createAttachment({
-      url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: stringToMIMEType('image/jpeg'),
-    }),
-  });
-
-  return <StagedLinkPreview {...props} />;
+export const ImageNoTitleOrDescription = Template.bind({});
+ImageNoTitleOrDescription.args = {
+  ...getDefaultProps(),
+  title: '',
+  description: '',
+  domain: 'instagram.com',
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
 };
-
-export const ImageNoTitleOrDescription = (): JSX.Element => {
-  const props = createProps({
-    title: '',
-    description: '',
-    domain: 'instagram.com',
-    image: createAttachment({
-      url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: stringToMIMEType('image/jpeg'),
-    }),
-  });
-
-  return <StagedLinkPreview {...props} />;
-};
-
 ImageNoTitleOrDescription.story = {
   name: 'Image, No Title Or Description',
 };
 
-export const NoImageLongTitleWithDescription = (): JSX.Element => {
-  const props = createProps({
-    title: LONG_TITLE,
-  });
-
-  return <StagedLinkPreview {...props} />;
+export const NoImageLongTitleWithDescription = Template.bind({});
+NoImageLongTitleWithDescription.args = {
+  ...getDefaultProps(),
+  title: LONG_TITLE,
 };
-
 NoImageLongTitleWithDescription.story = {
   name: 'No Image, Long Title With Description',
 };
 
-export const NoImageLongTitleWithoutDescription = (): JSX.Element => {
-  const props = createProps({
-    title: LONG_TITLE,
-    description: '',
-  });
-
-  return <StagedLinkPreview {...props} />;
+export const NoImageLongTitleWithoutDescription = Template.bind({});
+NoImageLongTitleWithoutDescription.args = {
+  ...getDefaultProps(),
+  title: LONG_TITLE,
+  description: '',
 };
-
 NoImageLongTitleWithoutDescription.story = {
   name: 'No Image, Long Title Without Description',
 };
 
-export const ImageLongTitleWithoutDescription = (): JSX.Element => {
-  const props = createProps({
-    title: LONG_TITLE,
-    image: createAttachment({
-      url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: stringToMIMEType('image/jpeg'),
-    }),
-  });
-
-  return <StagedLinkPreview {...props} />;
+export const ImageLongTitleWithoutDescription = Template.bind({});
+ImageLongTitleWithoutDescription.args = {
+  ...getDefaultProps(),
+  title: LONG_TITLE,
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
 };
-
 ImageLongTitleWithoutDescription.story = {
   name: 'Image, Long Title Without Description',
 };
 
-export const ImageLongTitleAndDescription = (): JSX.Element => {
-  const props = createProps({
-    title: LONG_TITLE,
-    description: LONG_DESCRIPTION,
-    image: createAttachment({
-      url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: stringToMIMEType('image/jpeg'),
-    }),
-  });
-
-  return <StagedLinkPreview {...props} />;
+export const ImageLongTitleAndDescription = Template.bind({});
+ImageLongTitleAndDescription.args = {
+  ...getDefaultProps(),
+  title: LONG_TITLE,
+  description: LONG_DESCRIPTION,
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
 };
-
 ImageLongTitleAndDescription.story = {
   name: 'Image, Long Title And Description',
 };
 
-export const EverythingImageTitleDescriptionAndDate = (): JSX.Element => {
-  const props = createProps({
-    title: LONG_TITLE,
-    description: LONG_DESCRIPTION,
-    date: Date.now(),
-    image: createAttachment({
-      url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: stringToMIMEType('image/jpeg'),
-    }),
-  });
-
-  return <StagedLinkPreview {...props} />;
+export const EverythingImageTitleDescriptionAndDate = Template.bind({});
+EverythingImageTitleDescriptionAndDate.args = {
+  ...getDefaultProps(),
+  title: LONG_TITLE,
+  description: LONG_DESCRIPTION,
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
 };
-
 EverythingImageTitleDescriptionAndDate.story = {
   name: 'Everything: image, title, description, and date',
 };

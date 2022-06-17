@@ -1,7 +1,7 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent } from 'react';
+import type { CSSProperties, KeyboardEvent } from 'react';
 import type { Options } from '@popperjs/core';
 import FocusTrap from 'focus-trap-react';
 import React, { useEffect, useState } from 'react';
@@ -35,6 +35,7 @@ export type ContextMenuPropsType<T> = {
 
 export type PropsType<T> = {
   readonly buttonClassName?: string;
+  readonly buttonStyle?: CSSProperties;
   readonly i18n: LocalizerType;
 } & Pick<
   ContextMenuPropsType<T>,
@@ -139,6 +140,7 @@ export function ContextMenuPopper<T>({
 
 export function ContextMenu<T>({
   buttonClassName,
+  buttonStyle,
   i18n,
   menuOptions,
   popperOptions,
@@ -208,24 +210,27 @@ export function ContextMenu<T>({
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         ref={setReferenceElement}
+        style={buttonStyle}
         type="button"
       />
-      <FocusTrap
-        focusTrapOptions={{
-          allowOutsideClick: true,
-        }}
-      >
-        <ContextMenuPopper
-          focusedIndex={focusedIndex}
-          isMenuShowing={menuShowing}
-          menuOptions={menuOptions}
-          onClose={() => setMenuShowing(false)}
-          popperOptions={popperOptions}
-          referenceElement={referenceElement}
-          title={title}
-          value={value}
-        />
-      </FocusTrap>
+      {menuShowing && (
+        <FocusTrap
+          focusTrapOptions={{
+            allowOutsideClick: true,
+          }}
+        >
+          <ContextMenuPopper
+            focusedIndex={focusedIndex}
+            isMenuShowing={menuShowing}
+            menuOptions={menuOptions}
+            onClose={() => setMenuShowing(false)}
+            popperOptions={popperOptions}
+            referenceElement={referenceElement}
+            title={title}
+            value={value}
+          />
+        </FocusTrap>
+      )}
     </div>
   );
 }

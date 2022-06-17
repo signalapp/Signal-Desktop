@@ -1806,6 +1806,7 @@ export default class MessageReceiver
         throw new Error('Text attachments must have text!');
       }
 
+      // TODO DESKTOP-3714 we should download the story link preview image
       attachments.push({
         size: text.length,
         contentType: APPLICATION_OCTET_STREAM,

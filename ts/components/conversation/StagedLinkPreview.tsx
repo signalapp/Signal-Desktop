@@ -8,84 +8,86 @@ import { unescape } from 'lodash';
 import { CurveType, Image } from './Image';
 import { LinkPreviewDate } from './LinkPreviewDate';
 
-import type { AttachmentType } from '../../types/Attachment';
-import { isImageAttachment } from '../../types/Attachment';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { LocalizerType } from '../../types/Util';
+import { getClassNamesFor } from '../../util/getClassNamesFor';
+import { isImageAttachment } from '../../types/Attachment';
 
-export type Props = {
-  title?: string;
-  description?: null | string;
-  date?: null | number;
-  domain?: string;
-  image?: AttachmentType;
-
+export type Props = LinkPreviewType & {
   i18n: LocalizerType;
+  moduleClassName?: string;
   onClose?: () => void;
 };
 
 export const StagedLinkPreview: React.FC<Props> = ({
-  onClose,
-  i18n,
-  title,
-  description,
-  image,
   date,
+  description,
   domain,
+  i18n,
+  image,
+  moduleClassName,
+  onClose,
+  title,
 }: Props) => {
   const isImage = isImageAttachment(image);
   const isLoaded = Boolean(domain);
 
+  const getClassName = getClassNamesFor(
+    'module-staged-link-preview',
+    moduleClassName
+  );
+
   return (
     <div
       className={classNames(
-        'module-staged-link-preview',
-        !isLoaded ? 'module-staged-link-preview--is-loading' : null
+        getClassName(''),
+        !isLoaded ? getClassName('--is-loading') : null
       )}
     >
       {!isLoaded ? (
-        <div className="module-staged-link-preview__loading">
+        <div className={getClassName('__loading')}>
           {i18n('loadingPreview')}
         </div>
       ) : null}
       {isLoaded && image && isImage && domain ? (
-        <div className="module-staged-link-preview__icon-container">
+        <div className={getClassName('__icon-container')}>
           <Image
             alt={i18n('stagedPreviewThumbnail', [domain])}
+            attachment={image}
             curveBottomLeft={CurveType.Tiny}
             curveBottomRight={CurveType.Tiny}
-            curveTopRight={CurveType.Tiny}
             curveTopLeft={CurveType.Tiny}
+            curveTopRight={CurveType.Tiny}
             height={72}
-            width={72}
-            url={image.url}
-            attachment={image}
             i18n={i18n}
+            url={image.url}
+            width={72}
           />
         </div>
       ) : null}
+      {isLoaded && !image && <div className={getClassName('__no-image')} />}
       {isLoaded ? (
-        <div className="module-staged-link-preview__content">
-          <div className="module-staged-link-preview__title">{title}</div>
+        <div className={getClassName('__content')}>
+          <div className={getClassName('__title')}>{title}</div>
           {description && (
-            <div className="module-staged-link-preview__description">
+            <div className={getClassName('__description')}>
               {unescape(description)}
             </div>
           )}
-          <div className="module-staged-link-preview__footer">
-            <div className="module-staged-link-preview__location">{domain}</div>
-            <LinkPreviewDate
-              date={date}
-              className="module-message__link-preview__date"
-            />
+          <div className={getClassName('__footer')}>
+            <div className={getClassName('__location')}>{domain}</div>
+            <LinkPreviewDate date={date} className={getClassName('__date')} />
           </div>
         </div>
       ) : null}
-      <button
-        type="button"
-        className="module-staged-link-preview__close-button"
-        onClick={onClose}
-        aria-label={i18n('close')}
-      />
+      {onClose && (
+        <button
+          aria-label={i18n('close')}
+          className={getClassName('__close-button')}
+          onClick={onClose}
+          type="button"
+        />
+      )}
     </div>
   );
 };

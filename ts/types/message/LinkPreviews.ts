@@ -4,9 +4,9 @@
 import type { AttachmentType } from '../Attachment';
 
 export type LinkPreviewType = {
-  title: string;
+  title?: string;
   description?: string;
-  domain: string;
+  domain?: string;
   url: string;
   isStickerPack?: boolean;
   image?: Readonly<AttachmentType>;

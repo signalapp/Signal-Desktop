@@ -35,6 +35,26 @@
       -webkit-line-clamp: 13;
       display: -webkit-box;
       overflow: hidden;
+      user-select: none;
+    }
+
+    &__textarea {
+      background: inherit;
+      border: none;
+      padding: 0;
+      resize: none;
+      text-align: center;
+      width: 100%;
+
+      &:disabled {
+        color: inherit;
+        cursor: inherit;
+      }
+
+      &:focus {
+        border: none;
+        outline: none;
+      }
     }
   }
 
@@ -50,56 +70,40 @@
     margin-right: 72px;
     padding: 34px;
 
-    &--large {
+    .TextAttachment__preview-container--large & {
       height: 192px;
     }
 
-    &__image {
-      align-items: center;
-      background-color: $color-white;
-      border-radius: 14px;
-      display: flex;
-      flex-direction: row;
-      height: 74px;
-      justify-content: center;
-      margin-right: 32px;
-      width: 74px;
-
-      .TextAttachment__preview--large & {
+    &__no-image {
+      .TextAttachment__preview-container--large & {
         height: 144px;
         width: 144px;
       }
+    }
 
-      &::after {
-        @include color-svg('../images/icons/v2/link-24.svg', $color-black);
-        content: '';
-        height: 44px;
-        width: 44px;
+    &__content {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin: 0;
+      max-width: 422px;
+
+      .TextAttachment__preview-container--large & {
+        max-width: 352px;
       }
     }
 
     &__title {
-      align-items: flex-start;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
       color: $color-gray-05;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      max-width: 422px;
-
-      .TextAttachment__preview--large & {
-        max-width: 352px;
-      }
-
-      &__container {
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        display: -webkit-box;
-        font: bold 30px Inter;
-        overflow: hidden;
-      }
+      display: -webkit-box;
+      font: bold 30px Inter;
+      overflow: hidden;
     }
 
-    &__url {
+    &__location {
       color: $color-white;
       font: bold 30px Inter;
       max-width: 422px;
@@ -107,7 +111,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      .TextAttachment__preview--large & {
+      .TextAttachment__preview-container--large & {
         color: $color-white-alpha-60;
         font: 24px Inter;
         max-width: 352px;

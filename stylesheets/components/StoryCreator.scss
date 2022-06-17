@@ -1,0 +1,319 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoryCreator {
+  $tools-height: 44px;
+
+  @mixin svg($icon) {
+    @include color-svg('../images/icons/v2/#{$icon}', $color-white);
+  }
+
+  background: $color-gray-95;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  user-select: none;
+  width: 100vw;
+  z-index: $z-index-popup-overlay;
+
+  &__container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    overflow: hidden;
+    padding-bottom: 0;
+    padding: 22px 60px;
+    position: relative;
+  }
+
+  &__input {
+    background: transparent;
+    border: none;
+    color: transparent;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    user-select: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__controls {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 596px;
+  }
+
+  &__control {
+    @include button-reset;
+    align-items: center;
+    border-radius: 32px;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    margin: 0 15px;
+    opacity: 1;
+    width: 32px;
+
+    &::after {
+      content: ' ';
+      height: 24px;
+      width: 24px;
+    }
+
+    &--link::after {
+      @include color-svg('../images/icons/v2/link-24.svg', $color-white);
+    }
+
+    &--text::after {
+      @include color-svg('../images/icons/v2/text-24.svg', $color-white);
+    }
+
+    &--bg {
+      @include rounded-corners;
+      border: 1.5px solid $color-white;
+      display: block;
+      height: 24px;
+      padding: 2.5px;
+      width: 24px;
+      &::after {
+        display: none;
+      }
+
+      &--selected {
+        border-width: 4px;
+        padding: 0;
+      }
+    }
+
+    &--selected {
+      background-color: $color-white;
+
+      &::after {
+        background-color: $color-black;
+      }
+    }
+
+    &:hover {
+      background-color: $color-gray-80;
+
+      &::after {
+        background-color: $color-white;
+      }
+    }
+  }
+
+  &__toolbar {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 22px;
+    width: 100%;
+
+    &--buttons {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    &--space {
+      height: $tools-height;
+      margin-bottom: 22px;
+    }
+  }
+
+  &__tools {
+    align-items: center;
+    background-color: $color-gray-90;
+    border-radius: 10px;
+    color: $color-white;
+    display: flex;
+    height: $tools-height;
+    justify-content: center;
+    margin-bottom: 22px;
+    padding: 14px 12px;
+
+    &__tool {
+      margin-right: 14px;
+    }
+
+    &__button {
+      @mixin icon($icon) {
+        @include svg($icon);
+        opacity: 1;
+        height: 20px;
+        width: 20px;
+        border-radius: 0;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      @include button-reset;
+      margin: 0 8px;
+      padding: 8px;
+
+      &--bg {
+        @include icon('text-effect-on-24.svg');
+      }
+      &--bg-inverse {
+        @include icon('text-effect-on-24.svg');
+      }
+      &--bg-none {
+        @include icon('text-effect-off-24.svg');
+      }
+      &--font-regular {
+        @include icon('font-regular.svg');
+      }
+      &--font-bold {
+        @include icon('font-bold.svg');
+      }
+      &--font-serif {
+        @include icon('font-serif.svg');
+      }
+      &--font-script {
+        @include icon('font-script.svg');
+      }
+      &--font-condensed {
+        @include icon('font-condensed.svg');
+      }
+    }
+  }
+
+  &__icon {
+    &--font-regular {
+      @include svg('font-regular.svg');
+    }
+    &--font-bold {
+      @include svg('font-bold.svg');
+    }
+    &--font-serif {
+      @include svg('font-serif.svg');
+    }
+    &--font-script {
+      @include svg('font-script.svg');
+    }
+    &--font-condensed {
+      @include svg('font-condensed.svg');
+    }
+  }
+
+  &__bg {
+    @include button-reset;
+    @include rounded-corners;
+
+    border: 2px solid transparent;
+    height: 24px;
+    margin: 4px;
+    width: 24px;
+
+    &--selected {
+      border: 2px solid $color-white;
+    }
+  }
+
+  &__popper {
+    background: $color-gray-80;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    padding: 8px;
+    width: 144px;
+
+    &__arrow {
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 14px solid $color-gray-80;
+      bottom: -14px;
+      height: 0;
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%);
+      width: 0;
+    }
+  }
+
+  &__link-preview-input-popper {
+    display: flex;
+    flex-direction: column;
+    height: 256px;
+    padding: 16px;
+    width: 360px;
+  }
+
+  &__link-preview-input__container {
+    margin-top: 0;
+  }
+
+  &__link-preview-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+  }
+
+  &__link-preview-button {
+    margin-top: 18px;
+    margin-bottom: 8px;
+  }
+
+  &__link-preview {
+    background: $color-black-alpha-40;
+    border-radius: 16px;
+    display: flex;
+    padding: 14px;
+    width: 100%;
+
+    &__image {
+      border-radius: 8px;
+      height: 76px;
+      width: 76px;
+    }
+
+    &__meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 14px;
+    }
+
+    &__title {
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      @include font-body-1-bold;
+      color: $color-white;
+      display: -webkit-box;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    &__location {
+      @include font-subtitle;
+      color: $color-white-alpha-60;
+    }
+  }
+
+  &__link-preview-empty {
+    align-items: center;
+    color: $color-gray-45;
+    display: flex;
+    flex-direction: column;
+
+    &__icon {
+      @include color-svg('../images/icons/v2/link-24.svg', $color-gray-45);
+      height: 24px;
+      width: 24px;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationStoryType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
+import type { PropsType as SmartStoryCreatorPropsType } from '../state/smart/StoryCreator';
 import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/StoryViewer';
 import type { ShowConversationType } from '../state/ducks/conversations';
 import { StoriesPane } from './StoriesPane';
@@ -18,6 +19,7 @@ export type PropsType = {
   i18n: LocalizerType;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
+  renderStoryCreator: (props: SmartStoryCreatorPropsType) => JSX.Element;
   renderStoryViewer: (props: SmartStoryViewerPropsType) => JSX.Element;
   showConversation: ShowConversationType;
   stories: Array<ConversationStoryType>;
@@ -30,6 +32,7 @@ export const Stories = ({
   i18n,
   preferredWidthFromStorage,
   queueStoryDownload,
+  renderStoryCreator,
   renderStoryViewer,
   showConversation,
   stories,
@@ -96,8 +99,14 @@ export const Stories = ({
     setConversationIdToView(prevStory.conversationId);
   }, [conversationIdToView, stories]);
 
+  const [isShowingStoryCreator, setIsShowingStoryCreator] = useState(false);
+
   return (
     <div className={classNames('Stories', themeClassName(Theme.Dark))}>
+      {isShowingStoryCreator &&
+        renderStoryCreator({
+          onClose: () => setIsShowingStoryCreator(false),
+        })}
       {conversationIdToView &&
         renderStoryViewer({
           conversationId: conversationIdToView,
@@ -110,6 +119,7 @@ export const Stories = ({
           <StoriesPane
             hiddenStories={hiddenStories}
             i18n={i18n}
+            onAddStory={() => setIsShowingStoryCreator(true)}
             onStoryClicked={clickedIdToView => {
               const storyIndex = stories.findIndex(
                 x => x.conversationId === clickedIdToView

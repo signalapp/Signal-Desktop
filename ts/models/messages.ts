@@ -157,6 +157,7 @@ import { SeenStatus } from '../MessageSeenStatus';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
+import { downloadAttachment } from '../util/downloadAttachment';
 
 /* eslint-disable more/no-then */
 
@@ -2451,10 +2452,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               let hash;
               if (avatarAttachment) {
                 try {
-                  downloadedAvatar =
-                    await window.Signal.Util.downloadAttachment(
-                      avatarAttachment
-                    );
+                  downloadedAvatar = await downloadAttachment(avatarAttachment);
 
                   if (downloadedAvatar) {
                     const loadedAttachment =

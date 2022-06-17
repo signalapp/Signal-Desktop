@@ -156,6 +156,7 @@
     "react-redux": "7.2.8",
     "react-router-dom": "5.0.1",
     "react-sortable-hoc": "2.0.0",
+    "react-textarea-autosize": "8.3.4",
     "react-virtualized": "9.22.3",
     "read-last-lines": "1.8.0",
     "redux": "4.1.2",

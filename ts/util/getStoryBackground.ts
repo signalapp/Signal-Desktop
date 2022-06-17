@@ -4,7 +4,8 @@
 import type { AttachmentType, TextAttachmentType } from '../types/Attachment';
 
 const COLOR_BLACK_ALPHA_90 = 'rgba(0, 0, 0, 0.9)';
-const COLOR_WHITE_INT = 4294704123;
+export const COLOR_BLACK_INT = 4278190080;
+export const COLOR_WHITE_INT = 4294704123;
 
 export function getHexFromNumber(color: number): string {
   return `#${color.toString(16).slice(2)}`;
@@ -13,11 +14,11 @@ export function getHexFromNumber(color: number): string {
 export function getBackgroundColor({
   color,
   gradient,
-}: TextAttachmentType): string {
+}: Pick<TextAttachmentType, 'color' | 'gradient'>): string {
   if (gradient) {
     return `linear-gradient(${gradient.angle}deg, ${getHexFromNumber(
       gradient.startColor || COLOR_WHITE_INT
-    )}, ${getHexFromNumber(gradient.endColor || COLOR_WHITE_INT)})`;
+    )}, ${getHexFromNumber(gradient.endColor || COLOR_WHITE_INT)}) border-box`;
   }
 
   return getHexFromNumber(color || COLOR_WHITE_INT);

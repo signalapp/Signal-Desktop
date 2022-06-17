@@ -6,12 +6,21 @@ import { createSelector } from 'reselect';
 import { assert } from '../../util/assert';
 import { getDomain } from '../../types/LinkPreview';
 
+import type { LinkPreviewSourceType } from '../../types/LinkPreview';
 import type { StateType } from '../reducer';
 
 export const getLinkPreview = createSelector(
-  ({ linkPreviews }: StateType) => linkPreviews.linkPreview,
-  linkPreview => {
-    if (linkPreview) {
+  ({ linkPreviews }: StateType) => linkPreviews,
+  ({ linkPreview, source }) => {
+    return (fromSource: LinkPreviewSourceType) => {
+      if (!linkPreview) {
+        return;
+      }
+
+      if (source !== fromSource) {
+        return;
+      }
+
       const domain = getDomain(linkPreview.url);
       assert(domain !== undefined, "Domain of linkPreview can't be undefined");
 
@@ -20,8 +29,6 @@ export const getLinkPreview = createSelector(
         domain,
         isLoaded: true,
       };
-    }
-
-    return undefined;
+    };
   }
 );

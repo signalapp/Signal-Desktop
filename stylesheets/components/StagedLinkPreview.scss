@@ -1,0 +1,146 @@
+// Copyright 2021-2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-staged-link-preview {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  min-height: 65px;
+
+  &__no-image {
+    align-items: center;
+    background-color: $color-white;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    height: 74px;
+    justify-content: center;
+    margin-right: 32px;
+    width: 74px;
+
+    &::after {
+      @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+      content: '';
+      height: 44px;
+      width: 44px;
+    }
+  }
+}
+
+.module-staged-link-preview--is-loading {
+  align-items: center;
+}
+.module-staged-link-preview__loading {
+  text-align: center;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-staged-link-preview__icon-container {
+  margin-right: 8px;
+}
+.module-staged-link-preview__content {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+.module-staged-link-preview__title {
+  @include font-body-1-bold;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.module-staged-link-preview__description {
+  @include font-body-1;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.module-staged-link-preview__footer {
+  @include font-body-2;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+
+  > *:not(:first-child) {
+    display: flex;
+
+    &:before {
+      content: '•';
+      font-size: 50%;
+      margin-left: 0.2rem;
+      margin-right: 0.2rem;
+    }
+  }
+}
+.module-staged-link-preview__location {
+  @include font-body-2;
+
+  text-transform: lowercase;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+.module-staged-link-preview__close-button {
+  @include button-reset;
+
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  height: 16px;
+  width: 16px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-ultramarine);
+    }
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
+  @include dark-keyboard-mode {
+    &:focus {
+      @include color-svg(
+        '../images/icons/v2/x-24.svg',
+        $color-ultramarine-light
+      );
+    }
+  }
+}

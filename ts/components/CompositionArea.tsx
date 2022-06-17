@@ -41,7 +41,7 @@ import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import type { LinkPreviewWithDomain } from '../types/LinkPreview';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
 
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { MediaQualitySelector } from './MediaQualitySelector';
@@ -102,7 +102,7 @@ export type OwnProps = Readonly<{
   isSMSOnly?: boolean;
   left?: boolean;
   linkPreviewLoading: boolean;
-  linkPreviewResult?: LinkPreviewWithDomain;
+  linkPreviewResult?: LinkPreviewType;
   messageRequestsEnabled?: boolean;
   onClearAttachments(): unknown;
   onClickQuotedMessage(): unknown;
@@ -631,10 +631,10 @@ export const CompositionArea = ({
             />
           </div>
         )}
-        {linkPreviewLoading && (
+        {linkPreviewLoading && linkPreviewResult && (
           <div className="preview-wrapper">
             <StagedLinkPreview
-              {...(linkPreviewResult || {})}
+              {...linkPreviewResult}
               i18n={i18n}
               onClose={onCloseLinkPreview}
             />

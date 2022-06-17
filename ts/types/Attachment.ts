@@ -102,8 +102,9 @@ export type TextAttachmentType = {
   textForegroundColor?: number | null;
   textBackgroundColor?: number | null;
   preview?: {
-    url?: string | null;
+    image?: AttachmentType;
     title?: string | null;
+    url?: string | null;
   } | null;
   gradient?: {
     startColor?: number | null;

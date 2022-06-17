@@ -4,12 +4,13 @@
 import Fuse from 'fuse.js';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { isNotNil } from '../util/isNotNil';
+
 import type { ConversationStoryType, StoryViewType } from './StoryListItem';
 import type { LocalizerType } from '../types/Util';
 import type { ShowConversationType } from '../state/ducks/conversations';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
+import { isNotNil } from '../util/isNotNil';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (obj, path) => {
@@ -53,6 +54,7 @@ function getNewestStory(story: ConversationStoryType): StoryViewType {
 export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
+  onAddStory: () => unknown;
   onStoryClicked: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
@@ -64,6 +66,7 @@ export type PropsType = {
 export const StoriesPane = ({
   hiddenStories,
   i18n,
+  onAddStory,
   onStoryClicked,
   queueStoryDownload,
   showConversation,
@@ -97,6 +100,12 @@ export const StoriesPane = ({
         <div className="Stories__pane__header--title">
           {i18n('Stories__title')}
         </div>
+        <button
+          aria-label={i18n('Stories__add')}
+          className="Stories__pane__header--camera"
+          onClick={onAddStory}
+          type="button"
+        />
       </div>
       <SearchInput
         i18n={i18n}

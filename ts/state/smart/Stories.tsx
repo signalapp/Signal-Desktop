@@ -6,7 +6,9 @@ import { useSelector } from 'react-redux';
 
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
+import type { PropsType as SmartStoryCreatorPropsType } from './StoryCreator';
 import type { PropsType as SmartStoryViewerPropsType } from './StoryViewer';
+import { SmartStoryCreator } from './StoryCreator';
 import { SmartStoryViewer } from './StoryViewer';
 import { Stories } from '../../components/Stories';
 import { getIntl } from '../selectors/user';
@@ -14,6 +16,12 @@ import { getPreferredLeftPaneWidth } from '../selectors/items';
 import { getStories } from '../selectors/stories';
 import { useStoriesActions } from '../ducks/stories';
 import { useConversationsActions } from '../ducks/conversations';
+
+function renderStoryCreator({
+  onClose,
+}: SmartStoryCreatorPropsType): JSX.Element {
+  return <SmartStoryCreator onClose={onClose} />;
+}
 
 function renderStoryViewer({
   conversationId,
@@ -56,6 +64,7 @@ export function SmartStories(): JSX.Element | null {
       hiddenStories={hiddenStories}
       i18n={i18n}
       preferredWidthFromStorage={preferredWidthFromStorage}
+      renderStoryCreator={renderStoryCreator}
       renderStoryViewer={renderStoryViewer}
       showConversation={showConversation}
       stories={stories}

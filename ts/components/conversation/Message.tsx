@@ -1192,7 +1192,10 @@ export class Message extends React.PureComponent<Props, State> {
           />
         ) : null}
         <div className="module-message__link-preview__content">
-          {first.image && previewHasImage && !isFullSizeImage ? (
+          {first.image &&
+          first.domain &&
+          previewHasImage &&
+          !isFullSizeImage ? (
             <div className="module-message__link-preview__icon_container">
               <Image
                 noBorder

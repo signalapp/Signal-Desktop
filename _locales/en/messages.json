@@ -7229,6 +7229,58 @@
     "message": "Error displaying image",
     "description": "aria-label for image errors"
   },
+  "StoryCreator__text-bg": {
+    "message": "Toggle text background color",
+    "description": "Button label"
+  },
+  "StoryCreator__story-bg": {
+    "message": "Change story background color",
+    "description": "Button label"
+  },
+  "StoryCreator__next": {
+    "message": "Next",
+    "description": "Button label text to advance to next step of story creation"
+  },
+  "StoryCreator__add-link": {
+    "message": "Add link",
+    "description": "Button label to apply the link preview to story"
+  },
+  "StoryCreator__input-placeholder": {
+    "message": "Add text",
+    "description": "Placeholder to add text"
+  },
+  "StoryCreator__text--regular": {
+    "message": "Regular",
+    "description": "Label for font"
+  },
+  "StoryCreator__text--bold": {
+    "message": "Bold",
+    "description": "Label for font"
+  },
+  "StoryCreator__text--serif": {
+    "message": "Serif",
+    "description": "Label for font"
+  },
+  "StoryCreator__text--script": {
+    "message": "Script",
+    "description": "Label for font"
+  },
+  "StoryCreator__text--condensed": {
+    "message": "Condensed",
+    "description": "Label for font"
+  },
+  "StoryCreator__link-preview-placeholder": {
+    "message": "Type or paste a URL",
+    "description": "Placeholder for the URL input for link previews"
+  },
+  "StoryCreator__link-preview-empty": {
+    "message": "Add a link for viewers of your story",
+    "description": "Empty state for the link preview"
+  },
+  "TextAttachment__placeholder": {
+    "message": "Add text",
+    "description": "Placeholder for the add text input"
+  },
   "TextAttachment__preview__link": {
     "message": "Visit link",
     "description": "Title for the link preview tooltip"

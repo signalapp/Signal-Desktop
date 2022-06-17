@@ -912,7 +912,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/agent-base/node_modules/debug/src/common.js",
     "line": "\tcreateDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2022-02-11T21:58:24.827Z"
   },
   {
@@ -7352,6 +7352,125 @@
     "updated": "2022-06-04T00:50:49.405Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js",
+    "line": "  var libRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js",
+    "line": "  var heightRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js",
+    "line": "  var measurementsCacheRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js",
+    "line": "  var libRef = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js",
+    "line": "  var heightRef = useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js",
+    "line": "  var measurementsCacheRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.dev.js",
+    "line": "  var libRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.dev.js",
+    "line": "  var heightRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.dev.js",
+    "line": "  var measurementsCacheRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.prod.js",
+    "line": "  var libRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.prod.js",
+    "line": "  var heightRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.prod.js",
+    "line": "  var measurementsCacheRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.esm.js",
+    "line": "  var libRef = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.esm.js",
+    "line": "  var heightRef = useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.esm.js",
+    "line": "  var measurementsCacheRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-textarea-autosize/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/react-textarea-autosize/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/redux/node_modules/regenerator-runtime/runtime.js",
     "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
@@ -8109,6 +8228,41 @@
     "reasonDetail": "isn't jquery"
   },
   {
+    "rule": "React-useRef",
+    "path": "node_modules/use-composed-ref/dist/use-composed-ref.cjs.js",
+    "line": "  var prevUserRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/use-composed-ref/dist/use-composed-ref.esm.js",
+    "line": "  var prevUserRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/use-latest/dist/use-latest.cjs.dev.js",
+    "line": "  var ref = React__namespace.useRef(value);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/use-latest/dist/use-latest.cjs.prod.js",
+    "line": "  var ref = React__namespace.useRef(value);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/use-latest/dist/use-latest.esm.js",
+    "line": "  var ref = React.useRef(value);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/vm2/lib/nodevm.js",
     "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
@@ -8753,6 +8907,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryCreator.tsx",
+    "line": "  const textEditorRef = useRef<HTMLInputElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/StoryImage.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -8778,6 +8939,13 @@
     "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-04-06T00:59:17.194Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/TextAttachment.tsx",
+    "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
   },
   {
     "rule": "React-useRef",

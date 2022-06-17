@@ -322,13 +322,14 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
               {linkPreview ? (
                 <div className="module-ForwardMessageModal--link-preview">
                   <StagedLinkPreview
-                    date={linkPreview.date || null}
+                    date={linkPreview.date}
                     description={linkPreview.description || ''}
                     domain={linkPreview.url}
                     i18n={i18n}
                     image={linkPreview.image}
                     onClose={() => removeLinkPreview()}
                     title={linkPreview.title}
+                    url={linkPreview.url}
                   />
                 </div>
               ) : null}

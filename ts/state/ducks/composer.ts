@@ -11,23 +11,30 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../../types/Attachment';
 import type { MessageAttributesType } from '../../model-types.d';
-import type { LinkPreviewWithDomain } from '../../types/LinkPreview';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
-import type { RemoveLinkPreviewActionType } from './linkPreviews';
-import { REMOVE_PREVIEW as REMOVE_LINK_PREVIEW } from './linkPreviews';
+import type {
+  AddLinkPreviewActionType,
+  RemoveLinkPreviewActionType,
+} from './linkPreviews';
+import {
+  ADD_PREVIEW as ADD_LINK_PREVIEW,
+  REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
+} from './linkPreviews';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { deleteDraftAttachment } from '../../util/deleteDraftAttachment';
 import { replaceIndex } from '../../util/replaceIndex';
 import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
 import type { HandleAttachmentsProcessingArgsType } from '../../util/handleAttachmentsProcessing';
 import { handleAttachmentsProcessing } from '../../util/handleAttachmentsProcessing';
+import { LinkPreviewSourceType } from '../../types/LinkPreview';
 
 // State
 
 export type ComposerStateType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   linkPreviewLoading: boolean;
-  linkPreviewResult?: LinkPreviewWithDomain;
+  linkPreviewResult?: LinkPreviewType;
   quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
   shouldSendHighQualityAttachments: boolean;
 };
@@ -38,7 +45,6 @@ const ADD_PENDING_ATTACHMENT = 'composer/ADD_PENDING_ATTACHMENT';
 const REPLACE_ATTACHMENTS = 'composer/REPLACE_ATTACHMENTS';
 const RESET_COMPOSER = 'composer/RESET_COMPOSER';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
-const SET_LINK_PREVIEW_RESULT = 'composer/SET_LINK_PREVIEW_RESULT';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
 
 type AddPendingAttachmentActionType = {
@@ -60,26 +66,18 @@ type SetHighQualitySettingActionType = {
   payload: boolean;
 };
 
-type SetLinkPreviewResultActionType = {
-  type: typeof SET_LINK_PREVIEW_RESULT;
-  payload: {
-    isLoading: boolean;
-    linkPreview?: LinkPreviewWithDomain;
-  };
-};
-
 type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
 };
 
 type ComposerActionType =
+  | AddLinkPreviewActionType
   | AddPendingAttachmentActionType
   | RemoveLinkPreviewActionType
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
   | SetHighQualitySettingActionType
-  | SetLinkPreviewResultActionType
   | SetQuotedMessageActionType;
 
 // Action Creators
@@ -91,7 +89,6 @@ export const actions = {
   removeAttachment,
   replaceAttachments,
   resetComposer,
-  setLinkPreviewResult,
   setMediaQualitySetting,
   setQuotedMessage,
 };
@@ -266,19 +263,6 @@ function resetComposer(): ResetComposerActionType {
   };
 }
 
-function setLinkPreviewResult(
-  isLoading: boolean,
-  linkPreview?: LinkPreviewWithDomain
-): SetLinkPreviewResultActionType {
-  return {
-    type: SET_LINK_PREVIEW_RESULT,
-    payload: {
-      isLoading,
-      linkPreview,
-    },
-  };
-}
-
 function setMediaQualitySetting(
   payload: boolean
 ): SetHighQualitySettingActionType {
@@ -340,10 +324,14 @@ export function reducer(
     };
   }
 
-  if (action.type === SET_LINK_PREVIEW_RESULT) {
+  if (action.type === ADD_LINK_PREVIEW) {
+    if (action.payload.source !== LinkPreviewSourceType.Composer) {
+      return state;
+    }
+
     return {
       ...state,
-      linkPreviewLoading: action.payload.isLoading,
+      linkPreviewLoading: true,
       linkPreviewResult: action.payload.linkPreview,
     };
   }

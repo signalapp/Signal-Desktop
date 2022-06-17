@@ -26,6 +26,12 @@ export type LinkPreviewWithDomain = {
   domain: string;
 } & LinkPreviewResult;
 
+export enum LinkPreviewSourceType {
+  Composer,
+  ForwardMessageModal,
+  StoryCreator,
+}
+
 const linkify = LinkifyIt();
 
 export function shouldPreviewHref(href: string): boolean {

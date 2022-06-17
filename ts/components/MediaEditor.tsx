@@ -564,7 +564,7 @@ export const MediaEditor = ({
         <Slider
           handleStyle={{ backgroundColor: getHSL(sliderValue) }}
           label={i18n('CustomColorEditor__hue')}
-          moduleClassName="MediaEditor__hue-slider MediaEditor__tools__tool"
+          moduleClassName="HueSlider MediaEditor__tools__tool"
           onChange={setSliderValue}
           value={sliderValue}
         />
@@ -623,7 +623,7 @@ export const MediaEditor = ({
         <Slider
           handleStyle={{ backgroundColor: getHSL(sliderValue) }}
           label={i18n('CustomColorEditor__hue')}
-          moduleClassName="MediaEditor__tools__tool MediaEditor__hue-slider"
+          moduleClassName="HueSlider MediaEditor__tools__tool"
           onChange={setSliderValue}
           value={sliderValue}
         />

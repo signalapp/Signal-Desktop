@@ -6,18 +6,15 @@
 import type * as Backbone from 'backbone';
 import type { ComponentProps } from 'react';
 import * as React from 'react';
-import { debounce, flatten, omit, throttle } from 'lodash';
+import { debounce, flatten, throttle } from 'lodash';
 import { render } from 'mustache';
 
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
-import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
 import type { BodyRangeType, BodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
-import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
-import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import type { ConversationModel } from '../models/conversations';
 import type {
   GroupV2PendingMemberType,
@@ -31,7 +28,6 @@ import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
-import { maybeParseUrl } from '../util/url';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
@@ -42,7 +38,6 @@ import {
   isGroupV1,
 } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
-import * as Bytes from '../Bytes';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
   canReply,
@@ -61,13 +56,6 @@ import { ReactWrapperView } from './ReactWrapperView';
 import type { Lightbox } from '../components/Lightbox';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
-import type {
-  LinkPreviewResult,
-  LinkPreviewImage,
-  LinkPreviewWithDomain,
-} from '../types/LinkPreview';
-import * as LinkPreview from '../types/LinkPreview';
-import * as VisualAttachment from '../types/VisualAttachment';
 import * as log from '../logging/log';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
@@ -100,13 +88,10 @@ import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpir
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
-import { autoScale } from '../util/handleImageAttachment';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { markAllAsApproved } from '../util/markAllAsApproved';
 import { markAllAsVerifiedDefault } from '../util/markAllAsVerifiedDefault';
 import { retryMessageSend } from '../util/retryMessageSend';
-import { dropNull } from '../util/dropNull';
-import { fileToBytes } from '../util/fileToBytes';
 import { isNotNil } from '../util/isNotNil';
 import { markViewed } from '../services/MessageUpdater';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
@@ -122,6 +107,15 @@ import { ContactDetail } from '../components/conversation/ContactDetail';
 import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
+  getLinkPreviewForSend,
+  hasLinkPreviewLoaded,
+  maybeGrabLinkPreview,
+  removeLinkPreview,
+  resetLinkPreview,
+  suspendLinkPreviews,
+} from '../services/LinkPreview';
+import { LinkPreviewSourceType } from '../types/LinkPreview';
+import {
   closeLightbox,
   isLightboxOpen,
   showLightbox,
@@ -135,7 +129,6 @@ type AttachmentOptions = {
 type PanelType = { view: Backbone.View; headerTitle?: string };
 
 const FIVE_MINUTES = 1000 * 60 * 5;
-const LINK_PREVIEW_TIMEOUT = 60 * 1000;
 
 const { Message } = window.Signal.Types;
 
@@ -223,11 +216,6 @@ type MediaType = {
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
 export class ConversationView extends window.Backbone.View<ConversationModel> {
-  // Debounced functions
-  private debouncedMaybeGrabLinkPreview: (
-    message: string,
-    caretLocation?: number
-  ) => void;
   private debouncedSaveDraft: (
     messageText: string,
     bodyRanges: Array<BodyRangeType>
@@ -243,13 +231,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   // Quotes
   private quote?: QuotedMessageType;
   private quotedMessage?: MessageModel;
-
-  // Previews
-  private currentlyMatchedLink?: string;
-  private disableLinkPreviews?: boolean;
-  private excludedPreviewUrls: Array<string> = [];
-  private linkPreviewAbortController?: AbortController;
-  private preview?: Array<LinkPreviewResult>;
 
   // Sub-views
   private contactModalView?: Backbone.View;
@@ -275,10 +256,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.model.throttledGetProfiles ||
       throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
 
-    this.debouncedMaybeGrabLinkPreview = debounce(
-      this.maybeGrabLinkPreview.bind(this),
-      200
-    );
     this.debouncedSaveDraft = debounce(this.saveDraft.bind(this), 200);
 
     // Events on Conversation model
@@ -312,7 +289,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.downloadAttachmentWrapper
     );
     this.listenTo(this.model, 'delete-message', this.deleteMessage);
-    this.listenTo(this.model, 'remove-link-review', this.removeLinkPreview);
+    this.listenTo(this.model, 'remove-link-review', removeLinkPreview);
     this.listenTo(
       this.model,
       'remove-all-draft-attachments',
@@ -647,8 +624,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       handleClickQuotedMessage: (id: string) => this.scrollToMessage(id),
 
       onCloseLinkPreview: () => {
-        this.disableLinkPreviews = true;
-        this.removeLinkPreview();
+        suspendLinkPreviews();
+        removeLinkPreview();
       },
 
       openConversation: this.openConversation.bind(this),
@@ -1017,7 +994,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const isRecording =
       state.audioRecorder.recordingState === RecordingState.Recording;
 
-    if (this.preview || isRecording) {
+    if (hasLinkPreviewLoaded() || isRecording) {
       return;
     }
 
@@ -1117,8 +1094,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       window.reduxActions.conversations.setSelectedConversationPanelDepth(0);
     }
 
-    this.removeLinkPreview();
-    this.disableLinkPreviews = true;
+    removeLinkPreview();
+    suspendLinkPreviews();
 
     this.remove();
   }
@@ -1245,7 +1222,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       draftAttachments
     );
     if (this.hasFiles({ includePending: true })) {
-      this.removeLinkPreview();
+      removeLinkPreview();
     }
   }
 
@@ -1354,7 +1331,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
               this.forwardMessageModal.remove();
               this.forwardMessageModal = undefined;
             }
-            this.resetLinkPreview();
+            resetLinkPreview();
           },
           onEditorStateChange: (
             messageText: string,
@@ -1362,7 +1339,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             caretLocation?: number
           ) => {
             if (!attachments.length) {
-              this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
+              maybeGrabLinkPreview(
+                messageText,
+                LinkPreviewSourceType.ForwardMessageModal,
+                caretLocation
+              );
             }
           },
           onTextTooLong: () => showToast(ToastMessageBodyTooLong),
@@ -1531,7 +1512,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
 
     // Cancel any link still pending, even if it didn't make it into the message
-    this.resetLinkPreview();
+    resetLinkPreview();
 
     return true;
   }
@@ -2920,7 +2901,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           body: message,
           attachments,
           quote: this.quote,
-          preview: this.getLinkPreviewForSend(message),
+          preview: getLinkPreviewForSend(message),
           mentions,
         },
         {
@@ -2930,7 +2911,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             this.compositionApi.current?.reset();
             model.setMarkedUnread(false);
             this.setQuoteMessage(null);
-            this.resetLinkPreview();
+            resetLinkPreview();
             this.clearAttachments();
             window.reduxActions.composer.resetComposer();
           },
@@ -2953,7 +2934,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   ): void {
     this.maybeBumpTyping(messageText);
     this.debouncedSaveDraft(messageText, bodyRanges);
-    this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
+
+    // If we have attachments, don't add link preview
+    if (!this.hasFiles({ includePending: true })) {
+      maybeGrabLinkPreview(
+        messageText,
+        LinkPreviewSourceType.Composer,
+        caretLocation
+      );
+    }
   }
 
   async saveDraft(
@@ -2995,511 +2984,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       });
       await this.saveModel();
     }
-  }
-
-  maybeGrabLinkPreview(message: string, caretLocation?: number): void {
-    // Don't generate link previews if user has turned them off
-    if (!window.Events.getLinkPreviewSetting()) {
-      return;
-    }
-    // Do nothing if we're offline
-    if (!window.textsecure.messaging) {
-      return;
-    }
-    // If we have attachments, don't add link preview
-    if (this.hasFiles({ includePending: true })) {
-      return;
-    }
-    // If we're behind a user-configured proxy, we don't support link previews
-    if (window.isBehindProxy()) {
-      return;
-    }
-
-    if (!message) {
-      this.resetLinkPreview();
-      return;
-    }
-    if (this.disableLinkPreviews) {
-      return;
-    }
-
-    const links = LinkPreview.findLinks(message, caretLocation);
-    const { currentlyMatchedLink } = this;
-    if (currentlyMatchedLink && links.includes(currentlyMatchedLink)) {
-      return;
-    }
-
-    this.currentlyMatchedLink = undefined;
-    this.excludedPreviewUrls = this.excludedPreviewUrls || [];
-
-    const link = links.find(
-      item =>
-        LinkPreview.shouldPreviewHref(item) &&
-        !this.excludedPreviewUrls.includes(item)
-    );
-    if (!link) {
-      this.removeLinkPreview();
-      return;
-    }
-
-    this.addLinkPreview(link);
-  }
-
-  resetLinkPreview(): void {
-    this.disableLinkPreviews = false;
-    this.excludedPreviewUrls = [];
-    this.removeLinkPreview();
-  }
-
-  removeLinkPreview(): void {
-    (this.preview || []).forEach((item: LinkPreviewResult) => {
-      if (item.url) {
-        URL.revokeObjectURL(item.url);
-      }
-    });
-    this.preview = undefined;
-    this.currentlyMatchedLink = undefined;
-    this.linkPreviewAbortController?.abort();
-    this.linkPreviewAbortController = undefined;
-
-    window.reduxActions.linkPreviews.removeLinkPreview();
-  }
-
-  async getStickerPackPreview(
-    url: string,
-    abortSignal: Readonly<AbortSignal>
-  ): Promise<null | LinkPreviewResult> {
-    const isPackDownloaded = (
-      pack?: StickerPackDBType
-    ): pack is StickerPackDBType => {
-      if (!pack) {
-        return false;
-      }
-
-      return pack.status === 'downloaded' || pack.status === 'installed';
-    };
-    const isPackValid = (
-      pack?: StickerPackDBType
-    ): pack is StickerPackDBType => {
-      if (!pack) {
-        return false;
-      }
-      return (
-        pack.status === 'ephemeral' ||
-        pack.status === 'downloaded' ||
-        pack.status === 'installed'
-      );
-    };
-
-    const dataFromLink = Stickers.getDataFromLink(url);
-    if (!dataFromLink) {
-      return null;
-    }
-    const { id, key } = dataFromLink;
-
-    try {
-      const keyBytes = Bytes.fromHex(key);
-      const keyBase64 = Bytes.toBase64(keyBytes);
-
-      const existing = Stickers.getStickerPack(id);
-      if (!isPackDownloaded(existing)) {
-        await Stickers.downloadEphemeralPack(id, keyBase64);
-      }
-
-      if (abortSignal.aborted) {
-        return null;
-      }
-
-      const pack = Stickers.getStickerPack(id);
-
-      if (!isPackValid(pack)) {
-        return null;
-      }
-      if (pack.key !== keyBase64) {
-        return null;
-      }
-
-      const { title, coverStickerId } = pack;
-      const sticker = pack.stickers[coverStickerId];
-      const data =
-        pack.status === 'ephemeral'
-          ? await window.Signal.Migrations.readTempData(sticker.path)
-          : await window.Signal.Migrations.readStickerData(sticker.path);
-
-      if (abortSignal.aborted) {
-        return null;
-      }
-
-      let contentType: MIMEType;
-      const sniffedMimeType = sniffImageMimeType(data);
-      if (sniffedMimeType) {
-        contentType = sniffedMimeType;
-      } else {
-        log.warn(
-          'getStickerPackPreview: Unable to sniff sticker MIME type; falling back to WebP'
-        );
-        contentType = IMAGE_WEBP;
-      }
-
-      return {
-        date: null,
-        description: null,
-        image: {
-          ...sticker,
-          data,
-          size: data.byteLength,
-          contentType,
-        },
-        title,
-        url,
-      };
-    } catch (error) {
-      log.error(
-        'getStickerPackPreview error:',
-        error && error.stack ? error.stack : error
-      );
-      return null;
-    } finally {
-      if (id) {
-        await Stickers.removeEphemeralPack(id);
-      }
-    }
-  }
-
-  async getGroupPreview(
-    url: string,
-    abortSignal: Readonly<AbortSignal>
-  ): Promise<null | LinkPreviewResult> {
-    const urlObject = maybeParseUrl(url);
-    if (!urlObject) {
-      return null;
-    }
-
-    const { hash } = urlObject;
-    if (!hash) {
-      return null;
-    }
-    const groupData = hash.slice(1);
-
-    const { inviteLinkPassword, masterKey } =
-      window.Signal.Groups.parseGroupLink(groupData);
-
-    const fields = window.Signal.Groups.deriveGroupFields(
-      Bytes.fromBase64(masterKey)
-    );
-    const id = Bytes.toBase64(fields.id);
-    const logId = `groupv2(${id})`;
-    const secretParams = Bytes.toBase64(fields.secretParams);
-
-    log.info(`getGroupPreview/${logId}: Fetching pre-join state`);
-    const result = await window.Signal.Groups.getPreJoinGroupInfo(
-      inviteLinkPassword,
-      masterKey
-    );
-
-    if (abortSignal.aborted) {
-      return null;
-    }
-
-    const title =
-      window.Signal.Groups.decryptGroupTitle(result.title, secretParams) ||
-      window.i18n('unknownGroup');
-    const description =
-      result.memberCount === 1 || result.memberCount === undefined
-        ? window.i18n('GroupV2--join--member-count--single')
-        : window.i18n('GroupV2--join--member-count--multiple', {
-            count: result.memberCount.toString(),
-          });
-    let image: undefined | LinkPreviewImage;
-
-    if (result.avatar) {
-      try {
-        const data = await window.Signal.Groups.decryptGroupAvatar(
-          result.avatar,
-          secretParams
-        );
-        image = {
-          data,
-          size: data.byteLength,
-          contentType: IMAGE_JPEG,
-          blurHash: await window.imageToBlurHash(
-            new Blob([data], {
-              type: IMAGE_JPEG,
-            })
-          ),
-        };
-      } catch (error) {
-        const errorString = error && error.stack ? error.stack : error;
-        log.error(
-          `getGroupPreview/${logId}: Failed to fetch avatar ${errorString}`
-        );
-      }
-    }
-
-    if (abortSignal.aborted) {
-      return null;
-    }
-
-    return {
-      date: null,
-      description,
-      image,
-      title,
-      url,
-    };
-  }
-
-  async getPreview(
-    url: string,
-    abortSignal: Readonly<AbortSignal>
-  ): Promise<null | LinkPreviewResult> {
-    if (LinkPreview.isStickerPack(url)) {
-      return this.getStickerPackPreview(url, abortSignal);
-    }
-    if (LinkPreview.isGroupLink(url)) {
-      return this.getGroupPreview(url, abortSignal);
-    }
-
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('messaging is not available!');
-    }
-
-    // This is already checked elsewhere, but we want to be extra-careful.
-    if (!LinkPreview.shouldPreviewHref(url)) {
-      return null;
-    }
-
-    const linkPreviewMetadata = await messaging.fetchLinkPreviewMetadata(
-      url,
-      abortSignal
-    );
-    if (!linkPreviewMetadata || abortSignal.aborted) {
-      return null;
-    }
-    const { title, imageHref, description, date } = linkPreviewMetadata;
-
-    let image;
-    if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
-      let objectUrl: void | string;
-      try {
-        const fullSizeImage = await messaging.fetchLinkPreviewImage(
-          imageHref,
-          abortSignal
-        );
-        if (abortSignal.aborted) {
-          return null;
-        }
-        if (!fullSizeImage) {
-          throw new Error('Failed to fetch link preview image');
-        }
-
-        // Ensure that this file is either small enough or is resized to meet our
-        //   requirements for attachments
-        const withBlob = await autoScale({
-          contentType: fullSizeImage.contentType,
-          file: new Blob([fullSizeImage.data], {
-            type: fullSizeImage.contentType,
-          }),
-          fileName: title,
-        });
-
-        const data = await fileToBytes(withBlob.file);
-        objectUrl = URL.createObjectURL(withBlob.file);
-
-        const blurHash = await window.imageToBlurHash(withBlob.file);
-
-        const dimensions = await VisualAttachment.getImageDimensions({
-          objectUrl,
-          logger: log,
-        });
-
-        image = {
-          data,
-          size: data.byteLength,
-          ...dimensions,
-          contentType: stringToMIMEType(withBlob.file.type),
-          blurHash,
-        };
-      } catch (error) {
-        // We still want to show the preview if we failed to get an image
-        log.error(
-          'getPreview failed to get image for link preview:',
-          error.message
-        );
-      } finally {
-        if (objectUrl) {
-          URL.revokeObjectURL(objectUrl);
-        }
-      }
-    }
-
-    if (abortSignal.aborted) {
-      return null;
-    }
-
-    return {
-      date: date || null,
-      description: description || null,
-      image,
-      title,
-      url,
-    };
-  }
-
-  async addLinkPreview(url: string): Promise<void> {
-    if (this.currentlyMatchedLink === url) {
-      log.warn(
-        'addLinkPreview should not be called with the same URL like this'
-      );
-      return;
-    }
-
-    (this.preview || []).forEach((item: LinkPreviewResult) => {
-      if (item.url) {
-        URL.revokeObjectURL(item.url);
-      }
-    });
-    window.reduxActions.linkPreviews.removeLinkPreview();
-    this.preview = undefined;
-
-    // Cancel other in-flight link preview requests.
-    if (this.linkPreviewAbortController) {
-      log.info(
-        'addLinkPreview: canceling another in-flight link preview request'
-      );
-      this.linkPreviewAbortController.abort();
-    }
-
-    const thisRequestAbortController = new AbortController();
-    this.linkPreviewAbortController = thisRequestAbortController;
-
-    const timeout = setTimeout(() => {
-      thisRequestAbortController.abort();
-    }, LINK_PREVIEW_TIMEOUT);
-
-    this.currentlyMatchedLink = url;
-    this.renderLinkPreview();
-
-    try {
-      const result = await this.getPreview(
-        url,
-        thisRequestAbortController.signal
-      );
-
-      if (!result) {
-        log.info(
-          'addLinkPreview: failed to load preview (not necessarily a problem)'
-        );
-
-        // This helps us disambiguate between two kinds of failure:
-        //
-        // 1. We failed to fetch the preview because of (1) a network failure (2) an
-        //    invalid response (3) a timeout
-        // 2. We failed to fetch the preview because we aborted the request because the
-        //    user changed the link (e.g., by continuing to type the URL)
-        const failedToFetch = this.currentlyMatchedLink === url;
-        if (failedToFetch) {
-          this.excludedPreviewUrls.push(url);
-          this.removeLinkPreview();
-        }
-        return;
-      }
-
-      if (result.image && result.image.data) {
-        const blob = new Blob([result.image.data], {
-          type: result.image.contentType,
-        });
-        result.image.url = URL.createObjectURL(blob);
-      } else if (!result.title) {
-        // A link preview isn't worth showing unless we have either a title or an image
-        this.removeLinkPreview();
-        return;
-      }
-
-      window.reduxActions.linkPreviews.addLinkPreview({
-        ...result,
-        description: dropNull(result.description),
-        date: dropNull(result.date),
-        domain: LinkPreview.getDomain(result.url),
-        isStickerPack: LinkPreview.isStickerPack(result.url),
-      });
-      this.preview = [result];
-      this.renderLinkPreview();
-    } catch (error) {
-      log.error(
-        'Problem loading link preview, disabling.',
-        error && error.stack ? error.stack : error
-      );
-      this.disableLinkPreviews = true;
-      this.removeLinkPreview();
-    } finally {
-      clearTimeout(timeout);
-    }
-  }
-
-  renderLinkPreview(): void {
-    if (this.forwardMessageModal) {
-      return;
-    }
-    window.reduxActions.composer.setLinkPreviewResult(
-      Boolean(this.currentlyMatchedLink),
-      this.getLinkPreviewWithDomain()
-    );
-  }
-
-  getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
-    // Don't generate link previews if user has turned them off
-    if (!window.storage.get('linkPreviews', false)) {
-      return [];
-    }
-
-    if (!this.preview) {
-      return [];
-    }
-
-    const urlsInMessage = new Set<string>(LinkPreview.findLinks(message));
-
-    return (
-      this.preview
-        // This bullet-proofs against sending link previews for URLs that are no longer in
-        //   the message. This can happen if you have a link preview, then quickly delete
-        //   the link and send the message.
-        .filter(({ url }: Readonly<{ url: string }>) => urlsInMessage.has(url))
-        .map((item: LinkPreviewResult) => {
-          if (item.image) {
-            // We eliminate the ObjectURL here, unneeded for send or save
-            return {
-              ...item,
-              image: omit(item.image, 'url'),
-              description: dropNull(item.description),
-              date: dropNull(item.date),
-              domain: LinkPreview.getDomain(item.url),
-              isStickerPack: LinkPreview.isStickerPack(item.url),
-            };
-          }
-
-          return {
-            ...item,
-            description: dropNull(item.description),
-            date: dropNull(item.date),
-            domain: LinkPreview.getDomain(item.url),
-            isStickerPack: LinkPreview.isStickerPack(item.url),
-          };
-        })
-    );
-  }
-
-  getLinkPreviewWithDomain(): LinkPreviewWithDomain | undefined {
-    if (!this.preview || !this.preview.length) {
-      return undefined;
-    }
-
-    const [preview] = this.preview;
-    return {
-      ...preview,
-      domain: LinkPreview.getDomain(preview.url),
-    };
   }
 
   // Called whenever the user changes the message composition field. But only

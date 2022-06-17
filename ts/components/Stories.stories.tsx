@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Meta, Story } from '@storybook/react';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
@@ -22,7 +23,8 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Stories',
-};
+  component: Stories,
+} as Meta;
 
 function createStory({
   attachment,
@@ -83,6 +85,7 @@ const getDefaultProps = (): PropsType => ({
   i18n,
   preferredWidthFromStorage: 380,
   queueStoryDownload: action('queueStoryDownload'),
+  renderStoryCreator: () => <div />,
   renderStoryViewer: () => <div />,
   showConversation: action('showConversation'),
   stories: [
@@ -127,7 +130,13 @@ const getDefaultProps = (): PropsType => ({
   toggleStoriesView: action('toggleStoriesView'),
 });
 
-export const Blank = (): JSX.Element => (
-  <Stories {...getDefaultProps()} stories={[]} />
-);
-export const Many = (): JSX.Element => <Stories {...getDefaultProps()} />;
+const Template: Story<PropsType> = args => <Stories {...args} />;
+
+export const Blank = Template.bind({});
+Blank.args = {
+  ...getDefaultProps(),
+  stories: [],
+};
+
+export const Many = Template.bind({});
+Many.args = getDefaultProps();

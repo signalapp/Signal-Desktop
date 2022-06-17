@@ -26,7 +26,7 @@ describe('both/state/ducks/linkPreviews', () => {
     it('updates linkPreview', () => {
       const state = getEmptyState();
       const linkPreview = getMockLinkPreview();
-      const nextState = reducer(state, addLinkPreview(linkPreview));
+      const nextState = reducer(state, addLinkPreview(linkPreview, 0));
 
       assert.strictEqual(nextState.linkPreview, linkPreview);
     });

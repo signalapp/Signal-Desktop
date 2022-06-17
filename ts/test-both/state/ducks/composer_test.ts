@@ -117,35 +117,6 @@ describe('both/state/ducks/composer', () => {
     });
   });
 
-  describe('setLinkPreviewResult', () => {
-    it('sets loading state when loading', () => {
-      const { setLinkPreviewResult } = actions;
-      const state = getEmptyState();
-      const nextState = reducer(state, setLinkPreviewResult(true));
-
-      assert.isTrue(nextState.linkPreviewLoading);
-    });
-
-    it('sets the link preview result', () => {
-      const { setLinkPreviewResult } = actions;
-      const state = getEmptyState();
-      const nextState = reducer(
-        state,
-        setLinkPreviewResult(false, {
-          domain: 'https://www.signal.org/',
-          title: 'Signal >> Careers',
-          url: 'https://www.signal.org/workworkwork',
-          description:
-            'Join an organization that empowers users by making private communication simple.',
-          date: null,
-        })
-      );
-
-      assert.isFalse(nextState.linkPreviewLoading);
-      assert.equal(nextState.linkPreviewResult?.title, 'Signal >> Careers');
-    });
-  });
-
   describe('setMediaQualitySetting', () => {
     it('toggles the media quality setting', () => {
       const { setMediaQualitySetting } = actions;
