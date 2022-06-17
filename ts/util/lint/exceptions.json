@@ -5777,12 +5777,6 @@
     "reasonDetail": "Hard-coded string"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/protobufjs/dist/protobuf.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.min.js",
     "reasonCategory": "falseMatch",
@@ -7699,13 +7693,6 @@
     "line": "    head.insertBefore(base, head.firstChild)",
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:45:07.878Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/sharp/lib/libvips.js",
-    "line": "    const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && eval $(brew --env) && echo $PKG_CONFIG_LIBDIR', spawnSyncOptions).stdout || '';",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",

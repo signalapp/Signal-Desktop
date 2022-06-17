@@ -4762,7 +4762,7 @@ async function applyGroupChange({
   if (actions.modifyTitle) {
     const { title } = actions.modifyTitle;
     if (title && title.content === 'title') {
-      result.name = title.title;
+      result.name = dropNull(title.title);
     } else {
       log.warn(
         `applyGroupChange/${logId}: Clearing group title due to missing data.`
@@ -4786,8 +4786,9 @@ async function applyGroupChange({
       disappearingMessagesTimer &&
       disappearingMessagesTimer.content === 'disappearingMessagesDuration'
     ) {
-      result.expireTimer =
-        disappearingMessagesTimer.disappearingMessagesDuration;
+      result.expireTimer = dropNull(
+        disappearingMessagesTimer.disappearingMessagesDuration
+      );
     } else {
       log.warn(
         `applyGroupChange/${logId}: Clearing group expireTimer due to missing data.`
@@ -4959,7 +4960,7 @@ async function applyGroupChange({
   if (actions.modifyDescription) {
     const { descriptionBytes } = actions.modifyDescription;
     if (descriptionBytes && descriptionBytes.content === 'descriptionText') {
-      result.description = descriptionBytes.descriptionText;
+      result.description = dropNull(descriptionBytes.descriptionText);
     } else {
       log.warn(
         `applyGroupChange/${logId}: Clearing group description due to missing data.`
@@ -5039,7 +5040,12 @@ export async function decryptGroupAvatar(
     );
   }
 
-  return blob.avatar;
+  const avatar = dropNull(blob.avatar);
+  if (!avatar) {
+    throw new Error('decryptGroupAvatar: Returned blob had no avatar set!');
+  }
+
+  return avatar;
 }
 
 // Ovewriting result.avatar as part of functionality
@@ -5123,7 +5129,7 @@ async function applyGroupState({
   // Note: During decryption, title becomes a GroupAttributeBlob
   const { title } = groupState;
   if (title && title.content === 'title') {
-    result.name = title.title;
+    result.name = dropNull(title.title);
   } else {
     result.name = undefined;
   }
@@ -5138,7 +5144,9 @@ async function applyGroupState({
     disappearingMessagesTimer &&
     disappearingMessagesTimer.content === 'disappearingMessagesDuration'
   ) {
-    result.expireTimer = disappearingMessagesTimer.disappearingMessagesDuration;
+    result.expireTimer = dropNull(
+      disappearingMessagesTimer.disappearingMessagesDuration
+    );
   } else {
     result.expireTimer = undefined;
   }
@@ -5268,7 +5276,7 @@ async function applyGroupState({
   // descriptionBytes
   const { descriptionBytes } = groupState;
   if (descriptionBytes && descriptionBytes.content === 'descriptionText') {
-    result.description = descriptionBytes.descriptionText;
+    result.description = dropNull(descriptionBytes.descriptionText);
   } else {
     result.description = undefined;
   }
@@ -5970,7 +5978,7 @@ export function decryptGroupTitle(
   );
 
   if (blob && blob.content === 'title') {
-    return blob.title;
+    return dropNull(blob.title);
   }
 
   return undefined;
@@ -5990,7 +5998,7 @@ export function decryptGroupDescription(
   );
 
   if (blob && blob.content === 'descriptionText') {
-    return blob.descriptionText;
+    return dropNull(blob.descriptionText);
   }
 
   return undefined;
