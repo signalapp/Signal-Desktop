@@ -42,7 +42,7 @@ jobs:
 
   macos:
     needs: lint
-    runs-on: macos-11.0
+    runs-on: macos-11
     if: github.ref == 'refs/heads/development' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     timeout-minutes: 30
 
