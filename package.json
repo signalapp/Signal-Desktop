@@ -166,7 +166,7 @@
     "redux-ts-utils": "3.2.2",
     "reselect": "4.1.2",
     "rimraf": "2.6.2",
-    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#ebd88d19b7a520f5887e5bed529db9fa5631d07e",
+    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#af944ae043fd2210bce496208554f561326c83c6",
     "rotating-file-stream": "2.1.5",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
