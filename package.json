@@ -57,7 +57,7 @@
     "sedtoAppImage": "sed -i 's/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/\"target\": \"AppImage\"/g' package.json",
     "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/g' package.json",
     "sass": "rimraf 'dist' && parcel build --target sass --no-autoinstall",
-    "sass:watch": "parcel watch --target sass",
+    "sass:watch": "rimraf 'dist' && parcel watch --target sass",
     "parcel-util-worker": "rimraf ts/webworker/workers/util.worker.js && parcel build --target util-worker --no-autoinstall --no-cache"
   },
   "dependencies": {
