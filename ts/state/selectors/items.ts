@@ -118,3 +118,8 @@ export const getPreferredReactionEmoji = createSelector(
       skinTone
     )
 );
+
+export const getHideMenuBar = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state['hide-menu-bar'])
+);

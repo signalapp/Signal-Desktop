@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import TitleBar from '@indutny/frameless-titlebar';
 import type { MenuItem } from '@indutny/frameless-titlebar';
@@ -28,6 +28,7 @@ export type PropsType = Readonly<{
   isMaximized?: boolean;
   isFullScreen?: boolean;
   isWindows11: boolean;
+  hideMenuBar?: boolean;
   platform: string;
   executeMenuRole: ExecuteMenuRoleType;
   titleBarDoubleClick?: () => void;
@@ -115,6 +116,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     isMaximized,
     isFullScreen,
     isWindows11,
+    hideMenuBar,
     executeMenuRole,
     titleBarDoubleClick,
     children,
@@ -122,6 +124,81 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     platform,
     iconSrc = 'images/icon_32.png',
   } = props;
+
+  const titleBarTheme = useMemo(
+    () => ({
+      bar: {
+        // See stylesheets/_global.scss
+        height: isWindows11 ? TITLEBAR_HEIGHT + 1 : TITLEBAR_HEIGHT,
+        palette:
+          theme === ThemeType.light ? ('light' as const) : ('dark' as const),
+        ...(theme === ThemeType.dark
+          ? {
+              // $color-gray-05
+              color: '#e9e9e9',
+              // $color-gray-80
+              background: '#2e2e2e',
+              // $color-gray-95
+              borderBottom: '1px solid #121212',
+              //
+              button: {
+                active: {
+                  // $color-gray-05
+                  color: '#e9e9e9',
+                  // $color-gray-75
+                  background: '#3b3b3b',
+                },
+                hover: {
+                  // $color-gray-05
+                  color: '#e9e9e9',
+                  // $color-gray-75
+                  background: '#3b3b3b',
+                },
+              },
+            }
+          : {}),
+      },
+
+      // Hide overlay
+      menu: {
+        overlay: {
+          opacity: 0,
+        },
+        autoHide: hideMenuBar,
+
+        ...(theme === ThemeType.dark
+          ? {
+              separator: {
+                // $color-gray-95
+                color: '#5e5e5e',
+              },
+              accelerator: {
+                // $color-gray-25
+                color: '#b9b9b9',
+              },
+              list: {
+                // $color-gray-75
+                background: '#3b3b3b',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.12)',
+                borderRadius: '0px 0px 6px 6px',
+              },
+            }
+          : {
+              list: {
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.12)',
+                borderRadius: '0px 0px 6px 6px',
+              },
+            }),
+      },
+
+      // Zoom support
+      enableOverflow: false,
+      scalingFunction(value: string) {
+        return `calc(${value} * var(--zoom-factor))`;
+      },
+    }),
+    [theme, isWindows11, hideMenuBar]
+  );
 
   if (platform !== 'win32' || isFullScreen) {
     return <>{children}</>;
@@ -156,22 +233,6 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
 
     maybeMenu = convertMenu(menuTemplate, executeMenuRole);
   }
-
-  const titleBarTheme = {
-    bar: {
-      // See stylesheets/_global.scss
-      height: isWindows11 ? TITLEBAR_HEIGHT + 1 : TITLEBAR_HEIGHT,
-      palette:
-        theme === ThemeType.light ? ('light' as const) : ('dark' as const),
-    },
-
-    // Hide overlay
-    menu: {
-      overlay: {
-        opacity: 0,
-      },
-    },
-  };
 
   return (
     <div className="TitleBarContainer">

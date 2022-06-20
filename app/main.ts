@@ -624,8 +624,10 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
     color = '#e8e8e8';
     symbolColor = '#1b1b1b';
   } else if (theme === 'dark') {
-    color = '#24292e';
-    symbolColor = '#fff';
+    // $color-gray-80
+    color = '#2e2e2e';
+    // $color-gray-05
+    symbolColor = '#e9e9e9';
   } else {
     throw missingCaseError(theme);
   }
