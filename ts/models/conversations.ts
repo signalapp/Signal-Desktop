@@ -971,6 +971,8 @@ export class ConversationModel extends window.Backbone
       if (!viaStorageServiceSync) {
         this.captureChange('unblock');
       }
+
+      this.fetchLatestGroupV2Data({ force: true });
     }
 
     return unblocked;
