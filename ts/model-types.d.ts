@@ -205,6 +205,9 @@ export type MessageAttributesType = {
   //   background, when we were still in IndexedDB, before attachments had gone to disk
   // We set this so that the idle message upgrade process doesn't pick this message up
   schemaVersion?: number;
+  // migrateMessageData will increment this field on every failure and give up
+  // when the value is too high.
+  schemaMigrationAttempts?: number;
   // This should always be set for new messages, but older messages may not have them. We
   //   may not have these for outbound messages, either, as we have not needed them.
   serverGuid?: string;
