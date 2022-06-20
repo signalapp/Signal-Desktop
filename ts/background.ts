@@ -850,7 +850,8 @@ export async function startApp(): Promise<void> {
       `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
-      const NUM_MESSAGES_PER_BATCH = 1;
+      const NUM_MESSAGES_PER_BATCH = 100;
+      const BATCH_DELAY = 5 * durations.SECOND;
 
       if (!isMigrationWithIndexComplete) {
         const batchWithIndex = await migrateMessageData({
@@ -858,15 +859,22 @@ export async function startApp(): Promise<void> {
           upgradeMessageSchema,
           getMessagesNeedingUpgrade:
             window.Signal.Data.getMessagesNeedingUpgrade,
-          saveMessage: window.Signal.Data.saveMessage,
+          saveMessages: window.Signal.Data.saveMessages,
         });
         log.info('Upgrade message schema (with index):', batchWithIndex);
         isMigrationWithIndexComplete = batchWithIndex.done;
       }
 
+      idleDetector.stop();
+
       if (isMigrationWithIndexComplete) {
         log.info('Background migration complete. Stopping idle detector.');
-        idleDetector.stop();
+      } else {
+        log.info('Background migration not complete. Pausing idle detector.');
+
+        setTimeout(() => {
+          idleDetector.start();
+        }, BATCH_DELAY);
       }
     });
 

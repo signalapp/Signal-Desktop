@@ -4387,22 +4387,31 @@ async function removeAllConfiguration(
   })();
 }
 
+const MAX_MESSAGE_MIGRATION_ATTEMPTS = 5;
+
 async function getMessagesNeedingUpgrade(
   limit: number,
   { maxVersion }: { maxVersion: number }
 ): Promise<Array<MessageType>> {
   const db = getInstance();
+
   const rows: JSONRows = db
     .prepare<Query>(
       `
       SELECT json
       FROM messages
-      WHERE schemaVersion IS NULL OR schemaVersion < $maxVersion
+      WHERE
+        (schemaVersion IS NULL OR schemaVersion < $maxVersion) AND
+        IFNULL(
+          json_extract(json, '$.schemaMigrationAttempts'),
+          0
+        ) < $maxAttempts
       LIMIT $limit;
       `
     )
     .all({
       maxVersion,
+      maxAttempts: MAX_MESSAGE_MIGRATION_ATTEMPTS,
       limit,
     });
 

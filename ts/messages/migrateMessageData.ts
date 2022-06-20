@@ -2,9 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isFunction, isNumber } from 'lodash';
+import pMap from 'p-map';
+
 import { CURRENT_SCHEMA_VERSION } from '../types/Message2';
+import { isNotNil } from '../util/isNotNil';
 import type { MessageAttributesType } from '../model-types.d';
 import type { UUIDStringType } from '../types/UUID';
+import * as Errors from '../types/errors';
+
+const MAX_CONCURRENCY = 5;
 
 /**
  * Ensures that messages in database are at the right schema.
@@ -13,7 +19,7 @@ export async function migrateMessageData({
   numMessagesPerBatch,
   upgradeMessageSchema,
   getMessagesNeedingUpgrade,
-  saveMessage,
+  saveMessages,
   maxVersion = CURRENT_SCHEMA_VERSION,
 }: Readonly<{
   numMessagesPerBatch: number;
@@ -25,10 +31,10 @@ export async function migrateMessageData({
     limit: number,
     options: { maxVersion: number }
   ) => Promise<Array<MessageAttributesType>>;
-  saveMessage: (
-    data: MessageAttributesType,
+  saveMessages: (
+    data: ReadonlyArray<MessageAttributesType>,
     options: { ourUuid: UUIDStringType }
-  ) => Promise<string>;
+  ) => Promise<void>;
   maxVersion?: number;
 }>): Promise<
   | {
@@ -63,8 +69,8 @@ export async function migrateMessageData({
     );
   } catch (error) {
     window.SignalContext.log.error(
-      'processNext error:',
-      error && error.stack ? error.stack : error
+      'migrateMessageData.getMessagesNeedingUpgrade error:',
+      Errors.toLogFormat(error)
     );
     return {
       done: true,
@@ -74,20 +80,41 @@ export async function migrateMessageData({
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
-  const upgradedMessages = await Promise.all(
-    messagesRequiringSchemaUpgrade.map(message =>
-      upgradeMessageSchema(message, { maxVersion })
+  const failedMessages = new Array<MessageAttributesType>();
+  const upgradedMessages = (
+    await pMap(
+      messagesRequiringSchemaUpgrade,
+      async message => {
+        try {
+          return await upgradeMessageSchema(message, { maxVersion });
+        } catch (error) {
+          window.SignalContext.log.error(
+            'migrateMessageData.upgradeMessageSchema error:',
+            Errors.toLogFormat(error)
+          );
+          failedMessages.push(message);
+          return undefined;
+        }
+      },
+      { concurrency: MAX_CONCURRENCY }
     )
-  );
+  ).filter(isNotNil);
   const upgradeDuration = Date.now() - upgradeStartTime;
 
   const saveStartTime = Date.now();
-  await Promise.all(
-    upgradedMessages.map(message =>
-      saveMessage(message, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-      })
-    )
+
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+  await saveMessages(
+    [
+      ...upgradedMessages,
+
+      // Increment migration attempts
+      ...failedMessages.map(message => ({
+        ...message,
+        schemaMigrationAttempts: (message.schemaMigrationAttempts ?? 0) + 1,
+      })),
+    ],
+    { ourUuid }
   );
   const saveDuration = Date.now() - saveStartTime;
 
