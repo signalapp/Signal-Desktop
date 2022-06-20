@@ -24,6 +24,7 @@ import {
   getPlatform,
 } from '../selectors/user';
 import { shouldShowStoriesView } from '../selectors/stories';
+import { getHideMenuBar } from '../selectors/items';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
@@ -42,6 +43,7 @@ const mapStateToProps = (state: StateType) => {
     menuOptions: getMenuOptions(state),
     platform: getPlatform(state),
     isWindows11: window.SignalContext.OS.isWindows11(),
+    hideMenuBar: getHideMenuBar(state),
     renderCallManager: () => <SmartCallManager />,
     renderCustomizingPreferredReactionsModal: () => (
       <SmartCustomizingPreferredReactionsModal />

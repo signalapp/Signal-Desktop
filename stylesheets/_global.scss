@@ -225,8 +225,10 @@ $loading-height: 16px;
   top: 0;
   bottom: 0;
 
-  /* There is no titlebar during loading screen on Windows */
-  -webkit-app-region: drag;
+  &--without-titlebar {
+    /* There is no titlebar during loading screen on Windows */
+    -webkit-app-region: drag;
+  }
 
   /* Note: background-color is intentionally transparent until body has the
    *       theme class.

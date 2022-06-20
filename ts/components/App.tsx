@@ -38,6 +38,7 @@ type PropsType = {
   menuOptions: MenuOptionsType;
   platform: string;
   isWindows11: boolean;
+  hideMenuBar: boolean;
 
   executeMenuRole: ExecuteMenuRoleType;
   executeMenuAction: (action: MenuActionType) => void;
@@ -50,6 +51,7 @@ export const App = ({
   conversationsStoppingSend,
   hasInitialLoadCompleted,
   getPreferredBadge,
+  hideMenuBar,
   i18n,
   isCustomizingPreferredReactions,
   isShowingStoriesView,
@@ -142,12 +144,13 @@ export const App = ({
       isFullScreen={isFullScreen}
       platform={platform}
       isWindows11={isWindows11}
+      executeMenuRole={executeMenuRole}
+      titleBarDoubleClick={titleBarDoubleClick}
       hasMenu
+      hideMenuBar={hideMenuBar}
       localeMessages={localeMessages}
       menuOptions={menuOptions}
-      executeMenuRole={executeMenuRole}
       executeMenuAction={executeMenuAction}
-      titleBarDoubleClick={titleBarDoubleClick}
     >
       <div
         className={classNames({
