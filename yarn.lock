@@ -6870,10 +6870,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@19.0.4:
-  version "19.0.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-19.0.4.tgz#a88d5e542868c4abd7704228ec62c553605605a0"
-  integrity sha512-roRYr1VNAWIhjD9n8qZdmhROtrzsFpuZEXrjWAw+GqPbZlrUInmvFCviRDC2Lt+VBsTNRpTfPpfzXSlLL4reEw==
+electron@19.0.5:
+  version "19.0.5"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-19.0.5.tgz#852042c3f598cf2b3874cbcccc0308002c2b3fe9"
+  integrity sha512-gC4kPr/Mf7QbeE5NAo1AC4Zg/SXLnW0ttlyzhVdyB2aErBspWh231UhHLJUlOdaVNqitdbnppdaXjoZHsR5QzQ==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
