@@ -1870,7 +1870,9 @@ export async function createGroupV2({
   conversation.trigger('newmessage', model);
 
   if (expireTimer) {
-    await conversation.updateExpirationTimer(expireTimer);
+    await conversation.updateExpirationTimer(expireTimer, {
+      reason: 'createGroupV2',
+    });
   }
 
   return conversation;

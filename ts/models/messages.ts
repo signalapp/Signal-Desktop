@@ -2611,21 +2611,27 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 if (
                   dataMessage.expireTimer !== conversation.get('expireTimer')
                 ) {
-                  conversation.updateExpirationTimer(
-                    dataMessage.expireTimer,
+                  conversation.updateExpirationTimer(dataMessage.expireTimer, {
                     source,
-                    message,
-                    {
-                      fromGroupUpdate: isGroupUpdate(message.attributes),
-                    }
-                  );
+                    receivedAt: message.get('received_at'),
+                    receivedAtMS: message.get('received_at_ms'),
+                    sentAt: message.get('sent_at'),
+                    fromGroupUpdate: isGroupUpdate(message.attributes),
+                    reason: `handleDataMessage(${this.idForLogging()})`,
+                  });
                 }
               } else if (
                 conversation.get('expireTimer') &&
                 // We only turn off timers if it's not a group update
                 !isGroupUpdate(message.attributes)
               ) {
-                conversation.updateExpirationTimer(undefined, source, message);
+                conversation.updateExpirationTimer(undefined, {
+                  source,
+                  receivedAt: message.get('received_at'),
+                  receivedAtMS: message.get('received_at_ms'),
+                  sentAt: message.get('sent_at'),
+                  reason: `handleDataMessage(${this.idForLogging()})`,
+                });
               }
             }
           }

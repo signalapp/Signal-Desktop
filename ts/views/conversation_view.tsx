@@ -2552,7 +2552,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     await this.longRunningTaskWrapper({
       name: 'updateExpirationTimer',
-      task: async () => model.updateExpirationTimer(valueToSet),
+      task: async () =>
+        model.updateExpirationTimer(valueToSet, {
+          reason: 'setDisappearingMessages',
+        }),
     });
   }
 

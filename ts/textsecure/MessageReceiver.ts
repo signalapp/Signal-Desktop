@@ -2723,7 +2723,10 @@ export default class MessageReceiver
     const contactBuffer = new ContactBuffer(attachmentPointer.data);
     let contactDetails = contactBuffer.next();
     while (contactDetails !== undefined) {
-      const contactEvent = new ContactEvent(contactDetails);
+      const contactEvent = new ContactEvent(
+        contactDetails,
+        envelope.receivedAtCounter
+      );
       results.push(this.dispatchAndWait(contactEvent));
 
       contactDetails = contactBuffer.next();
@@ -2767,10 +2770,13 @@ export default class MessageReceiver
         continue;
       }
 
-      const ev = new GroupEvent({
-        ...groupDetails,
-        id: Bytes.toBinary(id),
-      });
+      const ev = new GroupEvent(
+        {
+          ...groupDetails,
+          id: Bytes.toBinary(id),
+        },
+        envelope.receivedAtCounter
+      );
       const promise = this.dispatchAndWait(ev).catch(e => {
         log.error('error processing group', e);
       });

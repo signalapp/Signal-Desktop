@@ -73,7 +73,10 @@ export class ErrorEvent extends Event {
 }
 
 export class ContactEvent extends Event {
-  constructor(public readonly contactDetails: ModifiedContactDetails) {
+  constructor(
+    public readonly contactDetails: ModifiedContactDetails,
+    public readonly receivedAtCounter: number
+  ) {
     super('contact');
   }
 }
@@ -90,7 +93,10 @@ export type GroupEventData = Omit<ModifiedGroupDetails, 'id'> &
   }>;
 
 export class GroupEvent extends Event {
-  constructor(public readonly groupDetails: GroupEventData) {
+  constructor(
+    public readonly groupDetails: GroupEventData,
+    public readonly receivedAtCounter: number
+  ) {
     super('group');
   }
 }
