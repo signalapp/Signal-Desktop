@@ -267,7 +267,7 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "debug": "4.3.3",
-    "electron": "19.0.4",
+    "electron": "19.0.5",
     "electron-builder": "23.0.8",
     "electron-mocha": "11.0.2",
     "electron-notarize": "1.2.1",
