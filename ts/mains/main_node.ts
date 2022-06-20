@@ -689,6 +689,7 @@ async function saveDebugLog(_event: any, logText: any) {
     if (result === undefined || outputPath === undefined || outputPath === '') {
       throw Error("User clicked Save button but didn't create a file");
     }
+    // tslint:disable: non-literal-fs-path
     fs.writeFile(outputPath, logText, err => {
       if (err) {
         throw Error(`${err}`);
@@ -696,9 +697,9 @@ async function saveDebugLog(_event: any, logText: any) {
       console.info(`Saved log - ${outputPath}`);
     });
   } catch (err) {
-    console.error(`Error saving debug log`, err);
+    console.error('Error saving debug log', err);
   }
-};
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
