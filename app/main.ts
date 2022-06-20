@@ -396,6 +396,16 @@ async function prepareUrl(
     );
   }
 
+  let hostname: string;
+
+  try {
+    // os.hostname() doesn't work on Windows 7 anymore
+    // See: https://github.com/electron/electron/issues/34404
+    hostname = os.hostname();
+  } catch {
+    hostname = 'Desktop';
+  }
+
   const urlParams: RendererConfigType = {
     name: packageJson.productName,
     locale: getLocale().name,
@@ -411,7 +421,7 @@ async function prepareUrl(
     environment: enableCI ? Environment.Production : getEnvironment(),
     enableCI,
     nodeVersion: process.versions.node,
-    hostname: os.hostname(),
+    hostname,
     appInstance: process.env.NODE_APP_INSTANCE || undefined,
     proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
     contentProxyUrl: config.get<string>('contentProxyUrl'),
