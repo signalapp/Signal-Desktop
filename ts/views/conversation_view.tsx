@@ -1264,8 +1264,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     const loadAndUpdate = async () => {
-      await this.model.loadNewestMessages(undefined, undefined);
-      await this.model.updateLastMessage();
+      Promise.all([
+        this.model.loadNewestMessages(undefined, undefined),
+        this.model.updateLastMessage(),
+        this.model.updateUnread(),
+      ]);
     };
 
     loadAndUpdate();
