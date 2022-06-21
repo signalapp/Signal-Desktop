@@ -1378,10 +1378,10 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@indutny/frameless-titlebar@2.3.0-rc.4":
-  version "2.3.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@indutny/frameless-titlebar/-/frameless-titlebar-2.3.0-rc.4.tgz#1d70427e12047e655231e0c1eabf962ce1fda54d"
-  integrity sha512-c4UOLJE/3Poimqtfk0MsSw8/2lqGl7ssfzH0Ufz2nEeTfedTujBQGr2YkkbxxvAYRDGz5vrHQPbFpYXB93Zv5g==
+"@indutny/frameless-titlebar@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@indutny/frameless-titlebar/-/frameless-titlebar-2.3.0.tgz#79a99bb62b5a5cba562e1ea87a5259600e479caf"
+  integrity sha512-m87TCUcmdsiaV3fDGBBYdiTYiW0PzMVqjvmfymN/56Op3us70pizSR94QHr+Z3DPkW4GgrGU2XMeJYZnAI2NkQ==
   dependencies:
     classnames "^2.2.6"
     deepmerge "^4.2.2"
