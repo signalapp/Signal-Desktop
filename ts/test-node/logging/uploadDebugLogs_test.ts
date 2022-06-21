@@ -18,7 +18,7 @@ describe('upload', () => {
   beforeEach(function beforeEach() {
     this.sandbox = sinon.createSandbox();
 
-    this.sandbox.stub(process, 'platform').get(() => 'linux');
+    this.sandbox.stub(process, 'platform').get(() => 'freebsd');
 
     this.fakeGet = this.sandbox.stub(got, 'get');
     this.fakePost = this.sandbox.stub(got, 'post');
@@ -48,7 +48,7 @@ describe('upload', () => {
     sinon.assert.calledOnce(this.fakeGet);
     sinon.assert.calledWith(this.fakeGet, 'https://debuglogs.org/', {
       responseType: 'json',
-      headers: { 'User-Agent': 'Signal-Desktop/1.2.3 Linux' },
+      headers: { 'User-Agent': 'Signal-Desktop/1.2.3' },
       timeout: { request: durations.MINUTE },
     });
 
@@ -56,7 +56,7 @@ describe('upload', () => {
 
     sinon.assert.calledOnce(this.fakePost);
     sinon.assert.calledWith(this.fakePost, 'https://example.com/fake-upload', {
-      headers: { 'User-Agent': 'Signal-Desktop/1.2.3 Linux' },
+      headers: { 'User-Agent': 'Signal-Desktop/1.2.3' },
       timeout: { request: durations.MINUTE },
       body: sinon.match((value: unknown) => {
         if (!(value instanceof FormData)) {

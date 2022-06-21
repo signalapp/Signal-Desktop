@@ -17,21 +17,30 @@ describe('getUserAgent', () => {
 
   it('returns the right User-Agent on Windows', function test() {
     this.sandbox.stub(process, 'platform').get(() => 'win32');
-    assert.strictEqual(getUserAgent('1.2.3'), 'Signal-Desktop/1.2.3 Windows');
+    assert.strictEqual(
+      getUserAgent('1.2.3', '10.0.22000'),
+      'Signal-Desktop/1.2.3 Windows 10.0.22000'
+    );
   });
 
   it('returns the right User-Agent on macOS', function test() {
     this.sandbox.stub(process, 'platform').get(() => 'darwin');
-    assert.strictEqual(getUserAgent('1.2.3'), 'Signal-Desktop/1.2.3 macOS');
+    assert.strictEqual(
+      getUserAgent('1.2.3', '21.5.0'),
+      'Signal-Desktop/1.2.3 macOS 21.5.0'
+    );
   });
 
   it('returns the right User-Agent on Linux', function test() {
     this.sandbox.stub(process, 'platform').get(() => 'linux');
-    assert.strictEqual(getUserAgent('1.2.3'), 'Signal-Desktop/1.2.3 Linux');
+    assert.strictEqual(
+      getUserAgent('1.2.3', '20.04'),
+      'Signal-Desktop/1.2.3 Linux 20.04'
+    );
   });
 
   it('omits the platform on unsupported platforms', function test() {
     this.sandbox.stub(process, 'platform').get(() => 'freebsd');
-    assert.strictEqual(getUserAgent('1.2.3'), 'Signal-Desktop/1.2.3');
+    assert.strictEqual(getUserAgent('1.2.3', '13.1'), 'Signal-Desktop/1.2.3');
   });
 });
