@@ -105,8 +105,8 @@ export const CallingPip = ({
       if (positionState.mode === PositionMode.BeingDragged) {
         setPositionState(oldState => ({
           ...oldState,
-          mouseX: ev.screenX,
-          mouseY: ev.screenY,
+          mouseX: ev.clientX,
+          mouseY: ev.clientY,
         }));
       }
     },
@@ -252,13 +252,13 @@ export const CallingPip = ({
           return;
         }
         const rect = node.getBoundingClientRect();
-        const dragOffsetX = ev.screenX - rect.left;
-        const dragOffsetY = ev.screenY - rect.top;
+        const dragOffsetX = ev.clientX - rect.left;
+        const dragOffsetY = ev.clientY - rect.top;
 
         setPositionState({
           mode: PositionMode.BeingDragged,
-          mouseX: ev.screenX,
-          mouseY: ev.screenY,
+          mouseX: ev.clientX,
+          mouseY: ev.clientY,
           dragOffsetX,
           dragOffsetY,
         });
@@ -269,7 +269,7 @@ export const CallingPip = ({
           positionState.mode === PositionMode.BeingDragged
             ? '-webkit-grabbing'
             : '-webkit-grab',
-        transform: `translate3d(${translateX}px,${translateY}px, 0)`,
+        transform: `translate3d(${translateX}px,calc(${translateY}px - var(--titlebar-height)), 0)`,
         transition:
           positionState.mode === PositionMode.BeingDragged
             ? 'none'
