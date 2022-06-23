@@ -1,6 +1,9 @@
 // Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// This has to be the first import because it patches "os" module
+import '../ts/util/patchWindows7Hostname';
+
 import { join, normalize } from 'path';
 import { pathToFileURL } from 'url';
 import * as os from 'os';
@@ -396,16 +399,6 @@ async function prepareUrl(
     );
   }
 
-  let hostname: string;
-
-  try {
-    // os.hostname() doesn't work on Windows 7 anymore
-    // See: https://github.com/electron/electron/issues/34404
-    hostname = os.hostname();
-  } catch {
-    hostname = 'Desktop';
-  }
-
   const urlParams: RendererConfigType = {
     name: packageJson.productName,
     locale: getLocale().name,
@@ -421,7 +414,7 @@ async function prepareUrl(
     environment: enableCI ? Environment.Production : getEnvironment(),
     enableCI,
     nodeVersion: process.versions.node,
-    hostname,
+    hostname: os.hostname(),
     appInstance: process.env.NODE_APP_INSTANCE || undefined,
     proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
     contentProxyUrl: config.get<string>('contentProxyUrl'),
