@@ -47,7 +47,7 @@
     "format": "pprettier --write '**/*.{ts,tsx,d.ts,js,json,html,scss,md,yml,yaml}' '!node_modules/**'",
     "transpile": "run-p check:types build:esbuild",
     "check:types": "tsc --noEmit",
-    "clean-transpile-once": "rimraf app/**/*.js app/*.js ts/**/*.js ts/*.js tsconfig.tsbuildinfo",
+    "clean-transpile-once": "rimraf app/**/*.js app/*.js sticker-creator/**/*.js sticker-creator/*.js ts/**/*.js ts/*.js tsconfig.tsbuildinfo",
     "clean-transpile": "yarn run clean-transpile-once && yarn run clean-transpile-once",
     "open-coverage": "open coverage/lcov-report/index.html",
     "ready": "npm-run-all --print-label clean-transpile generate --parallel lint lint-deps test-node test-electron",
