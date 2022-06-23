@@ -23,6 +23,12 @@
     & button {
       font-family: inherit;
     }
+
+    // Shift titlebar down 1px on Windows 11 because otherwise window border
+    // will cover it.
+    &--extra-padding {
+      padding-top: 1px;
+    }
   }
 
   &__content {

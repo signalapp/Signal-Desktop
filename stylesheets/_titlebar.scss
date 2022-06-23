@@ -21,13 +21,6 @@ body {
 
   &.os-windows:not(.full-screen) {
     --titlebar-height: calc(28px / var(--zoom-factor));
-
-    // Account for border eating one pixel out of the titlebar and making it
-    // look unbalanced
-    &.os-windows-11 {
-      --titlebar-height: calc((28px + 1px) / var(--zoom-factor));
-    }
-
     --window-height: calc(100vh - var(--titlebar-height));
   }
 }
