@@ -1908,24 +1908,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     await message.markViewOnceMessageViewed();
 
-    const closeLightbox = async () => {
-      log.info('displayTapToViewMessage: attempting to close lightbox');
+    const close = (): void => {
+      try {
+        this.stopListening(message);
 
-      if (!this.lightboxView) {
-        log.info('displayTapToViewMessage: lightbox was already closed');
-        return;
+        const { lightboxView } = this;
+        if (lightboxView) {
+          this.lightboxView = undefined;
+          window.Signal.Backbone.Views.Lightbox.hide();
+          lightboxView.remove();
+        }
+      } finally {
+        deleteTempFile(tempPath);
       }
-
-      const { lightboxView } = this;
-      this.lightboxView = undefined;
-
-      this.stopListening(message);
-      window.Signal.Backbone.Views.Lightbox.hide();
-      lightboxView.remove();
-
-      await deleteTempFile(tempPath);
     };
-    this.listenTo(message, 'expired', closeLightbox);
+
+    this.listenTo(message, 'expired', close);
     this.listenTo(message, 'change', () => {
       if (this.lightboxView) {
         this.lightboxView.update(<Lightbox {...getProps()} />);
@@ -1936,9 +1934,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const { path, contentType } = tempAttachment;
 
       return {
-        close: () => {
-          this.lightboxView?.remove();
-        },
+        close,
         i18n: window.i18n,
         media: [
           {
@@ -1968,7 +1964,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.lightboxView = new ReactWrapperView({
       className: 'lightbox-wrapper',
       JSX: <Lightbox {...getProps()} />,
-      onClose: closeLightbox,
+      onClose: close,
     });
 
     window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);

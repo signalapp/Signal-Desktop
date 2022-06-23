@@ -21,6 +21,9 @@ async function eraseTapToViewMessages() {
           message.idForLogging()
         );
 
+        // We do this to update the UI, if this message is being displayed somewhere
+        message.trigger('expired');
+
         await message.eraseContents();
       })
     );

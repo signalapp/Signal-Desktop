@@ -52,6 +52,10 @@ class ExpiringMessagesDeletionService {
         });
 
         const conversation = message.getConversation();
+
+        // We do this to update the UI, if this message is being displayed somewhere
+        message.trigger('expired');
+
         if (conversation) {
           // An expired message only counts as decrementing the message count, not
           // the sent message count
