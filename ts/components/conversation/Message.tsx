@@ -1281,7 +1281,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge.state === GiftBadgeStates.Unopened) {
-      const description = i18n('message--giftBadge--unopened');
+      const description = i18n(`message--giftBadge--unopened--${direction}`);
       const isRTL = getDirection(description) === 'rtl';
       const { metadataWidth } = this.state;
 
