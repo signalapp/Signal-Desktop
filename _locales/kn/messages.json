@@ -929,6 +929,10 @@
         "message": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Download Full Message",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -1178,7 +1182,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "ಒಂದು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ",
+        "message": "ಸಂದೇಶ",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -2386,7 +2390,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "ಸ್ಟೋರೀಸ್",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -5761,6 +5765,10 @@
         "message": "ಗುಂಪನ್ನು ನಿರ್ಬಂಧಿಸಿ",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--unblock-group": {
+        "message": "ಗುಂಪನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಿ",
+        "description": "This is a button to unblock a group"
+    },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
         "message": "ನೀವು ತೊರೆಯುವ ಮೊದಲು, ಈ ಗುಂಪಿಗೆ ಹೊಸ ಅಡ್ಮಿನ್ ಆರಿಸಿ.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
@@ -5776,6 +5784,16 @@
     "ConversationDetailsActions--leave-group-modal-confirm": {
         "message": "ತೊರೆಯಿರಿ ",
         "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-title": {
+        "message": "Unblock the \"$groupName$\" Group?",
+        "description": "This is the modal title for confirming unblock of a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
     },
     "ConversationDetailsActions--block-group-modal-title": {
         "message": "\"$groupName$\" ಬ್ಲಾಕ್ ಮಾಡಿ ಗ್ರೂಪ್ ತೊರೆಯುವುದೇ?",
@@ -5794,6 +5812,14 @@
     "ConversationDetailsActions--block-group-modal-confirm": {
         "message": "ನಿರ್ಬಂಧಿಸಿ",
         "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-content": {
+        "message": "Your contacts will be able add you to this group.",
+        "description": "This is the modal content for confirming unblock of a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-confirm": {
+        "message": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ",
+        "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
         "message": "$number$ ಸದಸ್ಯರು",
@@ -7058,7 +7084,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "ನನ್ನ ಸ್ಟೋರೀಸ್",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -7118,11 +7144,11 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "ಸ್ಟೋರೀಸ್",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "ನನ್ನ ಸ್ಟೋರೀಸ್",
         "description": "Label for your stories"
     },
     "Stories__add": {
@@ -7265,22 +7291,20 @@
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.47--1": {
+        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "description": "Release notes for v5.47"
     }
 }

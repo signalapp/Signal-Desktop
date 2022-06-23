@@ -929,6 +929,10 @@
         "message": "डाऊनलोड करत आहे",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Download Full Message",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "संलग्न डाऊनलोड करा",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -1178,7 +1182,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "एक संदेश पाठवा",
+        "message": "संदेश",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -2828,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "कालबाह्य झालेे",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -5761,6 +5765,10 @@
         "message": "गट अवरोधित करा",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--unblock-group": {
+        "message": "गट अनवरोधित करा",
+        "description": "This is a button to unblock a group"
+    },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
         "message": "आपण सोडण्यापूर्वी, आपण या गटासाठी कमीत कमी एक नवीन प्रशासक निवडणे आवश्यक आहे.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
@@ -5776,6 +5784,16 @@
     "ConversationDetailsActions--leave-group-modal-confirm": {
         "message": "सोडा",
         "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-title": {
+        "message": "Unblock the \"$groupName$\" Group?",
+        "description": "This is the modal title for confirming unblock of a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
     },
     "ConversationDetailsActions--block-group-modal-title": {
         "message": "\"$groupName$\" गट ब्लॉक करायचा आणि सोडायचा?",
@@ -5794,6 +5812,14 @@
     "ConversationDetailsActions--block-group-modal-confirm": {
         "message": "अवरोधित करा",
         "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-content": {
+        "message": "Your contacts will be able add you to this group.",
+        "description": "This is the modal content for confirming unblock of a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-confirm": {
+        "message": "अनब्लॉक करा",
+        "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
         "message": "$number$सदस्य",
@@ -7130,7 +7156,7 @@
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "लपवलेल्या स्टोरीज",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
@@ -7184,7 +7210,7 @@
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "दृश्ये",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
@@ -7208,7 +7234,7 @@
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "स्टोरी लपवा",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
@@ -7246,7 +7272,7 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "Reacted to your story",
+        "message": "आपल्या स्टोरीवर प्रतिक्रिया दिली ",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
@@ -7265,22 +7291,20 @@
         "message": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.47--1": {
+        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "description": "Release notes for v5.47"
     }
 }

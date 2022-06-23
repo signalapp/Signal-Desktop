@@ -1182,7 +1182,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "メッセージ送信",
+        "message": "メッセージ",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -5765,6 +5765,10 @@
         "message": "グループをブロック",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--unblock-group": {
+        "message": "グループのブロックを解除",
+        "description": "This is a button to unblock a group"
+    },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
         "message": "グループから抜ける前に、新しい管理者を1人以上選択する必要があります。",
         "description": "Shown if, before leaving a group, you need to choose an admin"
@@ -5780,6 +5784,16 @@
     "ConversationDetailsActions--leave-group-modal-confirm": {
         "message": "抜ける",
         "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-title": {
+        "message": "Unblock the \"$groupName$\" Group?",
+        "description": "This is the modal title for confirming unblock of a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
     },
     "ConversationDetailsActions--block-group-modal-title": {
         "message": "「$groupName$」グループを抜けてブロックしますか？",
@@ -5798,6 +5812,14 @@
     "ConversationDetailsActions--block-group-modal-confirm": {
         "message": "ブロックする",
         "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-content": {
+        "message": "Your contacts will be able add you to this group.",
+        "description": "This is the modal content for confirming unblock of a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-confirm": {
+        "message": "ブロックを解除",
+        "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
         "message": "メンバー $number$人",
@@ -7280,5 +7302,9 @@
     "WhatsNew__v5.45--3": {
         "message": "添付ファイルのダウンロードを再試行できるようになりました。",
         "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.47--1": {
+        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "description": "Release notes for v5.47"
     }
 }

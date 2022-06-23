@@ -144,7 +144,7 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Vaihda kokoruututila",
+        "message": "Vaihda koko näytön tila",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
@@ -242,7 +242,7 @@
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Irrota keskustelu",
+        "message": "Poista keskustelun kiinnitys",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
@@ -266,7 +266,7 @@
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Valitse kansio jonne tiedot on tallennettu",
+        "message": "Valitse kansio, jonne tiedot on tallennettu",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
@@ -358,7 +358,7 @@
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Merkitsit turvanumerosi yhteystiedon $name$ kanssa varmennetuksi",
+        "message": "Merkitsit turvanumerosi käyttäjän $name$ kanssa varmennetuksi",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Merkitsit turvanumerosi yhteystiedon $name$ kanssa varmentamattomaksi",
+        "message": "Merkitsit turvanumerosi käyttäjän $name$ kanssa varmentamattomaksi",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -378,7 +378,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Merkitsit turvanumerosi yhteystiedon $name$ kanssa varmennetuksi toisessa laitteessa",
+        "message": "Merkitsit turvanumerosi käyttäjän $name$ kanssa varmennetuksi toisessa laitteessa",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Merkitsit turvanumerosi yhteystiedon $name$ kanssa varmentamattomaksi toisessa laitteessa",
+        "message": "Merkitsit turvanumerosi käyttäjän $name$ kanssa varmentamattomaksi toisessa laitteessa",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -398,11 +398,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Turvanumerosi on vaihtunut usean tämän ryhmän jäsenen kanssa sen jälkeen kun olet viimeksi varmentanut ne. Napauttamalla ryhmän jäsentä näet tämän turvanumeron.",
+        "message": "Turvanumerosi ovat vaihtuneet usean tämän ryhmän jäsenen kanssa sen jälkeen kun olet viimeksi varmentanut ne. Napauttamalla ryhmän jäsentä näet uuden turvanumeron.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Turvanumero jota yrität varmentaa on vaihtunut. Yritä varmentaa uusi turvanumerosi yhteystiedon $name1$ kanssa. Muista, että tämä muutos voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name2$ on yksinkertaisesti uudelleenasentanut Signalin.",
+        "message": "Turvanumero, jota yrität varmentaa on vaihtunut. Yritä varmentaa uusi turvanumerosi yhteystiedon $name1$ kanssa. Muista, että tämä muutos voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name2$ on asentanut Signalin uudelleen.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -416,7 +416,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Seuraavat henkilöt ovat saattaneet uudelleenasentaa tai vaihtaneet laitteita. Varmenna turvanumerosi heidän kanssaan yksityisyyden takaamiseksi.",
+        "message": "Seuraavat henkilöt ovat saattaneet asentaa sovelluksen uudelleen tai vaihtaa laitetta. Varmenna turvanumerosi heidän kanssaan yksityisyyden takaamiseksi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
@@ -424,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Turvanumerosi yhteystiedon $name1$ kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name2$ on yksinkertaisesti uudelleenasentanut Signalin. Saatat haluta varmentaa turvanumerosi tämän yhteystiedon kanssa.",
+        "message": "Turvanumerosi käyttäjän $name1$ kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name2$ on asentanut Signalin uudelleen. Suosittelemme varmentamaan turvanumerosi tämän käyttäjän kanssa uudelleen.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -438,11 +438,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Lähetä joka tapauksessa",
+        "message": "Lähetä silti",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "Soita joka tapauksessa",
+        "message": "Soita silti",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
@@ -450,7 +450,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Turvanumerosi yhteystiedon $name$ kanssa on vaihtunut eikä se ole enää varmennettu. Näytä napsauttamalla.",
+        "message": "Turvanumerosi käyttäjän $name$ kanssa on vaihtunut eikä se ole enää varmennettu. Näytä napsauttamalla.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -460,23 +460,23 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Turvanumerosi on vaihtunut usean tämän ryhmän jäsenen kanssa eivätkä ne ole enää varmennettuja. Näytä napsauttamalla.",
+        "message": "Turvanumerosi ovat vaihtuneet usean tämän ryhmän jäsenen kanssa eivätkä ne ole enää varmennettuja. Näytä napsauttamalla.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Lokisi lähtetetään 30 päivän ajaksi verkkoon ja sille määritetään yksityinen URL-osoite. Voit tallentaa sen ensin myös paikallisesti.",
+        "message": "Kun napsautat Lähetä, lokitiedosto lähetetään 30 päivän ajaksi verkkoon ja sille määritetään yksityinen URL-osoite. Voit tallentaa sen ensin myös paikallisesti.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Jotain meni pieleen lähettämisessä! Lähetä sähköpostia support@signal.org ja liitä siihen loki tekstitiedostona.",
+        "message": "Jotain meni pieleen tiedostoa lähetettäessä! Lähetä sähköpostia osoitteeseen support@signal.org ja liitä loki siihen tekstitiedostona.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Debuggausloki lähetetty",
+        "message": "Vianetsintäloki lähetetty",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Vianselvitysloki on lähetetty. Ottaessasi yhteyttä tukeen, kopioi ja liitä alla oleva URL-osoite ongelmakuvauksen ja sen toistoon vaadittavien tehtävien mukaan.",
+        "message": "Vianetsintäloki on lähetetty. Ottaessasi yhteyttä tukeen, kopioi ja liitä mukaan alla oleva URL-osoite, kuvaus ongelmasta, sekä  vaiheet, joiden seurauksena ongelma ilmenee.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -512,15 +512,15 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Merkitse varmennetuksi",
+        "message": "Merkitse vahvistetuksi",
         "description": ""
     },
     "unverify": {
-        "message": "Merkitse varmentamattomaksi",
+        "message": "Merkitse vahvistamattomaksi",
         "description": ""
     },
     "isVerified": {
-        "message": "Olet varmentanut turvanumerosi yhteystiedon $name$ kanssa.",
+        "message": "Olet vahvistanut turvanumerosi yhteystiedon $name$ kanssa.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -530,7 +530,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Et ole varmentanut turvanumeroasi yhteystiedon $name$ kanssa.",
+        "message": "Et ole vahvistanut turvanumeroasi yhteystiedon $name$ kanssa.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -540,7 +540,7 @@
         }
     },
     "verified": {
-        "message": "Varmennettu",
+        "message": "Vahvistettu",
         "description": ""
     },
     "newIdentity": {
@@ -548,7 +548,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Turvanumerosi tämän yhteystiedon kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että yhteystietosi on yksinkertaisesti uudelleenasentanut Signalin. Saatat haluta varmentaa alla näkyvän turvanumeron.",
+        "message": "Turvanumerosi tämän yhteystiedon kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että hän on asentanut Signalin uudelleen. Suosittelemme vahvistamaan turvanumerosi uudelleen.",
         "description": ""
     },
     "incomingError": {
@@ -646,7 +646,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Työpöytä törmäsi salauksen purkuvirheeseen lähteestä $name$, laitteelta $deviceId$",
+        "message": "Salauksen purkuvirhe lähteestä $name$, laitteelta $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -684,7 +684,7 @@
         "description": ""
     },
     "disconnected": {
-        "message": "Ei yhteyttä",
+        "message": "Yhteys katkaistu",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
@@ -708,11 +708,11 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "Virheenkorjausloki",
+        "message": "Vianetsintäloki",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Virheenkorjausloki",
+        "message": "Vianetsintäloki",
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
@@ -728,19 +728,19 @@
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "Julkaisutiedot",
+        "message": "Siirry julkaisutietoihin",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Keskustelupalsta",
+        "message": "Siirry keskustelupalstalle",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Tukisivusto",
+        "message": "Siirry tukisivustolle",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Liity beetaan",
+        "message": "Liity beeta-ohjelmaan",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -748,7 +748,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Tarrapakettiluoja",
+        "message": "Tarrapaketin luonti",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -756,7 +756,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Jaa näyttö",
+        "message": "Näytön jakaminen",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -788,7 +788,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Etsi keskustelusta",
+        "message": "Hae keskustelusta",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -836,7 +836,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Etsi käyttäjänimellä",
+        "message": "Etsi käyttäjätunnuksella",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
@@ -922,7 +922,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "Postilokero",
+        "message": "postilokero",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -978,19 +978,19 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Ääniviestin maksimipituus on yksi tunti. Tallentaminen katkeaa jos vaihdat toiseen sovellukseen.",
+        "message": "Ääniviestin maksimipituus on yksi tunti. Tallentaminen katkeaa, jos vaihdat toiseen sovellukseen.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Ääniviestissä on oltava vain yksi liite.",
+        "message": "Ääniviestissä voi olla vain yksi liite.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "Ääniviestin äänityksessä tapahtui virhe.",
+        "message": "Ääniviestin tallennuksessa tapahtui virhe.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Liite talletettu.",
+        "message": "Liite tallennettu.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
@@ -1002,7 +1002,7 @@
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "Vastaus: $name$",
+        "message": "Vastaus käyttäjälle $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -1032,7 +1032,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Äänitiedosto",
+        "message": "Ääni",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -1078,7 +1078,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Päivitys ei onnistunut. Asenna päivitys käsin osoitteesta $url$. Sitten ilmoita $support$ ongelmasta.",
+        "message": "Päivitys ei onnistunut. Asenna päivitys käsin osoitteesta $url$. Sitten $support$ ongelmasta.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -1138,7 +1138,7 @@
         "description": ""
     },
     "forward": {
-        "message": "Välittäminen",
+        "message": "Välitä",
         "description": ""
     },
     "done": {
@@ -1166,11 +1166,11 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Vastaanottajat",
+        "message": "Vastaanottaja(t)",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "vastaanottaja",
+        "message": ", vastaanottaja(t)",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
@@ -1182,7 +1182,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Lähetä viesti",
+        "message": "Viesti",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -1202,7 +1202,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Vertaa yllä olevia lukuja $name$kanssa varmistaaksesi päästä päähän -salauksen turvallisuus.",
+        "message": "Vertaa yllä olevia lukuja $name$ kanssa varmistaaksesi päästä päähän -salauksen turvallisuus.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1228,7 +1228,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Lähetä uudelleen",
+        "message": "Yritä lähettää uudelleen",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
@@ -1268,7 +1268,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signalin sisältö salataan päästä päähän, mutta ajoittain keskustelu voidaan joutua päivittämään. Se ei vaikuta tietoturvaan, mutta tämän yhteyshenkilön viimeisin viesti ei välttämättä näy, ja voit pyytää häntä lähettämään sen uudelleen.",
+        "message": "Signalin sisältö salataan päästä päähän. Tästä syystä keskustelu täytyy joskus päivittää. Tämä ei vaikuta tietoturvaan. Tämän yhteyshenkilön viimeisin viesti ei välttämättä näy. Voit pyytää häntä lähettämään sen uudelleen.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1298,7 +1298,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": " Kohteen$sender$viestiä, tarraa, reaktiota, lukukuittia tai mediaa ei voitu toimittaa sinulle. Se on ehkä yrittetty lähettää sinulle suoraan tai ryhmässä.",
+        "message": "Kohteen $sender$ viestiä, tarraa, reaktiota, lukukuittausta tai mediaa ei voitu toimittaa sinulle. Se on ehkä yritetty lähettää sinulle suoraan tai ryhmässä.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1308,7 +1308,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "Kohteen $sender$viestiä, tarraa, reaktiota, lukukuittia tai mediaa ei voitu toimittaa sinulle. Se on ehkä yrittetty lähettää sinulle tässä keskustelussa.",
+        "message": "Kohteen $sender$ viestiä, tarraa, reaktiota, lukukuittausta tai mediaa ei voitu toimittaa sinulle tässä keskustelussa.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1356,7 +1356,7 @@
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
-        "message": "Tiedoston ikoni",
+        "message": "Tiedoston kuvake",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1364,7 +1364,7 @@
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Yksityisyys on mahdollista. Signal tekee siitä helppoa.",
+        "message": "Yksityisyys on mahdollista jokaiselle. Signal tekee siitä helppoa.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkedDevices": {
@@ -1450,7 +1450,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Viimeistele puhelinyhteys",
+        "message": "Viimeistele yhdistäminen puhelimeen",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1458,7 +1458,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Huomio: keskusteluhistoriaa ei synkronoida tälle laitteelle",
+        "message": "Huomaa: keskusteluhistoriaa ei synkronoida tälle laitteelle",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1658,7 +1658,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal ottaa yhteyden $person$",
+        "message": "Signal soittaa käyttäjälle $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1668,7 +1668,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal soittaa $first$ ja $second$",
+        "message": "Signal soittaa käyttäjille $first$ ja $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1682,7 +1682,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal soittaa $first$, $second$, ja $third$",
+        "message": "Signal soittaa käyttäjille $first$, $second$ ja $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1700,7 +1700,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal soittaa $first$, $second$, ja $others$ muulle",
+        "message": "Signal soittaa käyttäjille $first$, $second$ ja $others$ muulle",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1718,7 +1718,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ ilmoitetaan",
+        "message": "Käyttäjälle $person$ ilmoitetaan",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1728,7 +1728,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ ja $second$ ilmoitetaan",
+        "message": "Käyttäjille $first$ ja $second$ ilmoitetaan",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1742,7 +1742,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, ja $third$ ilmoitetaan",
+        "message": "Käyttäjille $first$, $second$ ja $third$ ilmoitetaan",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1760,7 +1760,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, ja $others$ muuta ilmoitetaan",
+        "message": "Käyttäjille $first$, $second$ ja $others$ muulle ilmoitetaan",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1806,15 +1806,15 @@
         }
     },
     "calling__block-info": {
-        "message": "Et saa heidän ääntä tai videota eivätkä he saa sinun.",
+        "message": "Et voi enää käydä ääni- tai videoviestinvaihtoa henkilön kanssa.",
         "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Selaa ylöspäin",
+        "message": "Vieritä ylöspäin",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Selaa alaspäin",
+        "message": "Vieritä alaspäin",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
@@ -1840,7 +1840,7 @@
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "Lopetit jakamisen",
+        "message": "Lopetit esittämisen",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
@@ -1880,7 +1880,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "Valitse oikealla Signaali -valintaruutu. Jos Signaali ei näy luettelossa, lisää se napsauttamalla +.",
+        "message": "Valitse Signal-valintaruutu oikealla. Jos Signal ei näy luettelossa, lisää se napsauttamalla +.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1956,7 +1956,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Olet tuhoamassa tämän ohjelman kaikki käyttäjätiedot, mukaanlukien kaikki yhteystiedot ja viestit. Voit aina yhdistää mobiililaitteesi uudelleen, mutta se ei palauta jo tuhottuja viestejä.",
+        "message": "Olet tuhoamassa tämän ohjelman kaikki käyttäjätiedot, mukaan lukien kaikki yhteystiedot ja viestit. Voit aina yhdistää mobiililaitteesi uudelleen, mutta se ei palauta jo tuhottuja viestejä.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1984,7 +1984,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Kokonaan pois päältä",
+        "message": "Kytke ilmoitukset pois päältä",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -5765,6 +5765,10 @@
         "message": "Estä ryhmä",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--unblock-group": {
+        "message": "Poista ryhmän esto",
+        "description": "This is a button to unblock a group"
+    },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
         "message": "Ennen kuin lähdet, sinun on valittava vähintään yksi uusi ylläpitäjä tälle ryhmälle.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
@@ -5780,6 +5784,16 @@
     "ConversationDetailsActions--leave-group-modal-confirm": {
         "message": "Poistu",
         "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-title": {
+        "message": "Poistetaanko ryhmän $groupName$ esto?",
+        "description": "This is the modal title for confirming unblock of a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
     },
     "ConversationDetailsActions--block-group-modal-title": {
         "message": "Estetäänkö ja poistutaanko ryhmästä \"$groupName$\"?",
@@ -5798,6 +5812,14 @@
     "ConversationDetailsActions--block-group-modal-confirm": {
         "message": "Estä",
         "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-content": {
+        "message": "Yhteystietosi voivat lisätä sinut takaisin tähän ryhmään.",
+        "description": "This is the modal content for confirming unblock of a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-confirm": {
+        "message": "Poista esto",
+        "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
         "message": "$number$ jäsentä",
@@ -7280,5 +7302,9 @@
     "WhatsNew__v5.45--3": {
         "message": "Onko sinulla pykivä verkkoyhteys? Ei hätää, voit nyt käskyttää Signalin yrittämään liitteiden lataamista uudelleen.",
         "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.47--1": {
+        "message": "Olemme tuoneet uuden otsikkopalkin Windowsin tumman tilan käyttäjille.",
+        "description": "Release notes for v5.47"
     }
 }

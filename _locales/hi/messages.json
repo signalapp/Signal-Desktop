@@ -16,7 +16,7 @@
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
-        "message": "अनजान समूह",
+        "message": "अंजान ग्रुप",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "सारा डाटा हटाएँ और फिर से शुरु करें।",
+        "message": "सारा डेटा हटाएँ और रीस्टार्ट करें।",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -52,7 +52,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "पसंदगी...",
+        "message": "प्राथमिकताएँ...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
@@ -60,11 +60,11 @@
         "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
-        "message": "छुपा दें",
+        "message": "छिपाएँ",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "अन्य को छुपा दें",
+        "message": "अन्य को छिपाएँ",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -76,23 +76,23 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "पूर्ववत",
+        "message": "अनडू करें",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "रीडू",
+        "message": "रीडू करें",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "कट",
+        "message": "कट करें",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "कॉपी",
+        "message": "कॉपी करें",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "पेस्ट",
+        "message": "पेस्ट करें",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
@@ -100,11 +100,11 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "हटाना",
+        "message": "डिलीट करें",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "सब चुन लें",
+        "message": "सभी चुनें",
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -120,15 +120,15 @@
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "मिनिमाइज़",
+        "message": "मिनिमाइज़ करें",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "बङा करें",
+        "message": "ज़ूम करें",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "सब आगे ले आयें",
+        "message": "सब आगे ले आएँ",
         "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
@@ -136,7 +136,7 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "बङा करें",
+        "message": "बड़ा करें",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
@@ -266,7 +266,7 @@
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "डेटा के लिए लक्ष्य निर्देशिका चुनें",
+        "message": "एक्सपोर्ट किए गए डेटा वाली डायरेक्ट्री चुनें",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
@@ -929,6 +929,10 @@
         "message": "डाउनलोड कर रहा हैं",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
+    "downloadFullMessage": {
+        "message": "Download Full Message",
+        "description": "Shown in the message bubble while a long message attachment is not downloaded"
+    },
     "downloadAttachment": {
         "message": "अटैचमेंट डाउनलोड करें",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -1178,7 +1182,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "एक मेसेज भेजें",
+        "message": "मेसेज",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -2386,7 +2390,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "स्टोरीज़",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -5761,6 +5765,10 @@
         "message": "समूह को ब्लाॅक करें",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--unblock-group": {
+        "message": "समूह को अनब्लॉक करें",
+        "description": "This is a button to unblock a group"
+    },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
         "message": "इससे पहले कि आप छोड़ें, आपको इस ग्रुप के लिए कम से कम एक नया एडमिन चुनना होगा।",
         "description": "Shown if, before leaving a group, you need to choose an admin"
@@ -5776,6 +5784,16 @@
     "ConversationDetailsActions--leave-group-modal-confirm": {
         "message": "छोङें",
         "description": "This is the modal button to confirm leaving a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-title": {
+        "message": "Unblock the \"$groupName$\" Group?",
+        "description": "This is the modal title for confirming unblock of a group",
+        "placeholders": {
+            "groupName": {
+                "content": "$1",
+                "example": "Our Conversation"
+            }
+        }
     },
     "ConversationDetailsActions--block-group-modal-title": {
         "message": "क्या आप \"$groupName$\" ग्रुप को ब्लॉक करके छोङना चाहते हैं?",
@@ -5794,6 +5812,14 @@
     "ConversationDetailsActions--block-group-modal-confirm": {
         "message": "ब्लॉक",
         "description": "This is the modal button to confirm blocking a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-content": {
+        "message": "Your contacts will be able add you to this group.",
+        "description": "This is the modal content for confirming unblock of a group"
+    },
+    "ConversationDetailsActions--unblock-group-modal-confirm": {
+        "message": "अनब्लॉक करें",
+        "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
         "message": "$number$ मेंबर्स",
@@ -7058,7 +7084,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "मेरी स्टोरीज़",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -7118,11 +7144,11 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "स्टोरीज़",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "मेरी स्टोरीज़",
         "description": "Label for your stories"
     },
     "Stories__add": {
@@ -7265,22 +7291,20 @@
         "message": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.40--1": {
-        "message": "Bug fixes including a fix to an issue that would sometimes make it difficult to click on menus. ",
-        "description": "Release notes for v5.40"
+    "WhatsNew__v5.45--1": {
+        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
+        "description": "Release notes for v5.45"
     },
-    "WhatsNew__v5.40--2": {
-        "message": "Thanks to our open source contributors $dsanders11$ and $yusufsahinhamza$ for contributing to these improvements.",
-        "description": "Release notes for v5.40",
-        "placeholders": {
-            "dsanders11": {
-                "content": "$1",
-                "example": "dsanders11"
-            },
-            "yusufsahinhamza": {
-                "content": "$2",
-                "example": "yusufsahinhamza"
-            }
-        }
+    "WhatsNew__v5.45--2": {
+        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.45--3": {
+        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
+        "description": "Release notes for v5.45"
+    },
+    "WhatsNew__v5.47--1": {
+        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "description": "Release notes for v5.47"
     }
 }
