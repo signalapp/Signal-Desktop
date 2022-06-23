@@ -5588,11 +5588,11 @@
     "description": "Generic next label"
   },
   "BadgeDialog__become-a-sustainer-button": {
-    "message": "Become a Sustainer",
+    "message": "Donate to Signal",
     "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
   },
   "BadgeSustainerInstructions__header": {
-    "message": "Become a Sustainer",
+    "message": "Donate to Signal",
     "description": "In the instructions for becoming a sustainer. The heading."
   },
   "BadgeSustainerInstructions__subheader": {
@@ -5608,7 +5608,7 @@
     "description": "In the instructions for becoming a sustainer. Second instruction."
   },
   "BadgeSustainerInstructions__instructions__3": {
-    "message": "Tap on \"Become a Sustainer\" and subscribe",
+    "message": "Tap on \"Donate to Signal\" and subscribe",
     "description": "In the instructions for becoming a sustainer. Third instruction."
   },
   "CompositionArea--expand": {
