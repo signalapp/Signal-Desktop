@@ -1023,6 +1023,8 @@ $message-padding-horizontal: 12px;
   @include font-body-1-italic;
 }
 .module-message__text--delete-for-everyone {
+  user-select: none;
+
   @include light-theme {
     color: $color-gray-90;
   }
