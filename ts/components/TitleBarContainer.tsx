@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import TitleBar from '@indutny/frameless-titlebar';
 import type { MenuItem } from '@indutny/frameless-titlebar';
 import type { MenuItemConstructorOptions } from 'electron';
+import classNames from 'classnames';
 
 import { createTemplate } from '../../app/menu';
 import { ThemeType } from '../types/Util';
@@ -129,7 +130,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     () => ({
       bar: {
         // See stylesheets/_global.scss
-        height: isWindows11 ? TITLEBAR_HEIGHT + 1 : TITLEBAR_HEIGHT,
+        height: TITLEBAR_HEIGHT,
         palette:
           theme === ThemeType.light ? ('light' as const) : ('dark' as const),
         ...(theme === ThemeType.dark
@@ -197,7 +198,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
         return `calc(${value} * var(--zoom-factor))`;
       },
     }),
-    [theme, isWindows11, hideMenuBar]
+    [theme, hideMenuBar]
   );
 
   if (platform !== 'win32' || isFullScreen) {
@@ -237,7 +238,14 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
   return (
     <div className="TitleBarContainer">
       <TitleBar
-        className="TitleBarContainer__title"
+        className={classNames(
+          'TitleBarContainer__title',
+
+          // Add a pixel of padding on non-maximized Windows 11 titlebar.
+          isWindows11 && !isMaximized
+            ? 'TitleBarContainer__title--extra-padding'
+            : null
+        )}
         platform={platform}
         iconSrc={iconSrc}
         theme={titleBarTheme}

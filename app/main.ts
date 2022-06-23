@@ -636,9 +636,8 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
     color,
     symbolColor,
 
-    // Should match stylesheets/components/TitleBarContainer.scss minus the
-    // border
-    height: (OS.isWindows11() ? 29 : 28) - 1,
+    // Should match stylesheets/components/TitleBarContainer.scss
+    height: 28,
   };
 }
 
