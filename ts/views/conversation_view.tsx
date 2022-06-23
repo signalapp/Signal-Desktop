@@ -115,11 +115,7 @@ import {
   suspendLinkPreviews,
 } from '../services/LinkPreview';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
-import {
-  closeLightbox,
-  isLightboxOpen,
-  showLightbox,
-} from '../util/showLightbox';
+import { closeLightbox, showLightbox } from '../util/showLightbox';
 
 type AttachmentOptions = {
   messageId: string;
@@ -1894,21 +1890,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     await message.markViewOnceMessageViewed();
 
-    this.listenTo(message, 'expired', async () => {
-      log.info('displayTapToViewMessage: attempting to close lightbox');
-
-      // This isn't really a bullet-proof check because the lightbox could
-      // be open while we're viewing a regular media message
-      if (!isLightboxOpen()) {
-        log.info('displayTapToViewMessage: lightbox was already closed');
-        return;
+    const close = (): void => {
+      try {
+        this.stopListening(message);
+        closeLightbox();
+      } finally {
+        deleteTempFile(tempPath);
       }
+    };
 
-      this.stopListening(message);
-      closeLightbox();
-
-      await deleteTempFile(tempPath);
-    });
+    this.listenTo(message, 'expired', close);
     this.listenTo(message, 'change', () => {
       showLightbox(getProps());
     });
@@ -1917,9 +1908,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const { path, contentType } = tempAttachment;
 
       return {
-        close: () => {
-          closeLightbox();
-        },
+        close,
         i18n: window.i18n,
         media: [
           {
