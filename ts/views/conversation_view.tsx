@@ -509,7 +509,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       learnMoreAboutDeliveryIssue,
       loadNewerMessages: this.model.loadNewerMessages.bind(this.model),
       loadNewestMessages: this.model.loadNewestMessages.bind(this.model),
-      loadAndScroll: this.model.loadAndScroll.bind(this.model),
       loadOlderMessages: this.model.loadOlderMessages.bind(this.model),
       markMessageRead,
       onBlock: createMessageRequestResponseHandler(

@@ -359,7 +359,6 @@ const actions = () => ({
   ),
   setIsNearBottom: action('setIsNearBottom'),
   learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
-  loadAndScroll: action('loadAndScroll'),
   loadOlderMessages: action('loadOlderMessages'),
   loadNewerMessages: action('loadNewerMessages'),
   loadNewestMessages: action('loadNewestMessages'),

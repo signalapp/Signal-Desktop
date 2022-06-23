@@ -71,7 +71,6 @@ export type TimelinePropsType = ExternalProps &
     | 'downloadNewVersion'
     | 'kickOffAttachmentDownload'
     | 'learnMoreAboutDeliveryIssue'
-    | 'loadAndScroll'
     | 'loadNewerMessages'
     | 'loadNewestMessages'
     | 'loadOlderMessages'

@@ -161,7 +161,6 @@ export type PropsActionsType = {
   ) => void;
 
   learnMoreAboutDeliveryIssue: () => unknown;
-  loadAndScroll: (messageId: string) => unknown;
   loadOlderMessages: (messageId: string) => unknown;
   loadNewerMessages: (messageId: string) => unknown;
   loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
@@ -220,7 +219,6 @@ const getActions = createSelector(
       'reviewGroupMemberNameCollision',
       'reviewMessageRequestNameCollision',
       'learnMoreAboutDeliveryIssue',
-      'loadAndScroll',
       'loadOlderMessages',
       'loadNewerMessages',
       'loadNewestMessages',

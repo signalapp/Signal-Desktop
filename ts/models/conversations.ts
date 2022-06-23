@@ -1370,10 +1370,6 @@ export class ConversationModel extends window.Backbone
     this.debouncedUpdateLastMessage!();
   }
 
-  addIncomingMessage(message: MessageModel): void {
-    this.addSingleMessage(message);
-  }
-
   // New messages might arrive while we're in the middle of a bulk fetch from the
   //   database. We'll wait until that is done before moving forward.
   async addSingleMessage(

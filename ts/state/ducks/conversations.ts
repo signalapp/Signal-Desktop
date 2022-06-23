@@ -1726,6 +1726,14 @@ function messagesReset({
   scrollToMessageId,
   unboundedFetch,
 }: MessageResetOptionsType): MessagesResetActionType {
+  for (const message of messages) {
+    strictAssert(
+      message.conversationId === conversationId,
+      `messagesReset(${conversationId}): invalid message conversationId ` +
+        `${message.conversationId}`
+    );
+  }
+
   return {
     type: 'MESSAGES_RESET',
     payload: {
@@ -2625,8 +2633,12 @@ export function reducer(
 
     return {
       ...state,
-      selectedMessage: scrollToMessageId,
-      selectedMessageCounter: state.selectedMessageCounter + 1,
+      ...(state.selectedConversationId === conversationId
+        ? {
+            selectedMessage: scrollToMessageId,
+            selectedMessageCounter: state.selectedMessageCounter + 1,
+          }
+        : {}),
       messagesLookup: {
         ...messagesLookup,
         ...lookup,
@@ -3035,11 +3047,8 @@ export function reducer(
     const nextState = {
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId: id,
+      selectedMessage: messageId,
     };
-
-    if (messageId) {
-      nextState.selectedMessage = messageId;
-    }
 
     if (switchToAssociatedView && id) {
       const conversation = getOwn(state.conversationLookup, id);
