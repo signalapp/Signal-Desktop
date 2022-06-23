@@ -4,6 +4,7 @@
 import { pick } from 'lodash';
 import type { MessageAttributesType } from '../model-types.d';
 import type { StoryDataType } from '../state/ducks/stories';
+import * as durations from '../util/durations';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { getAttachmentsForMessage } from '../state/selectors/message';
@@ -65,13 +66,24 @@ export function getStoriesForRedux(): Array<StoryDataType> {
 async function repairUnexpiredStories(): Promise<void> {
   strictAssert(storyData, 'Could not load stories');
 
+  const DAY_AS_SECONDS = durations.DAY / 1000;
+
   const storiesWithExpiry = storyData
-    .filter(story => !story.expirationStartTimestamp)
+    .filter(
+      story =>
+        !story.expirationStartTimestamp ||
+        !story.expireTimer ||
+        story.expireTimer > DAY_AS_SECONDS
+    )
     .map(story => ({
       ...story,
       expirationStartTimestamp: Math.min(
         story.serverTimestamp || story.timestamp,
         Date.now()
+      ),
+      expireTimer: Math.min(
+        Math.floor((story.timestamp + durations.DAY - Date.now()) / 1000),
+        DAY_AS_SECONDS
       ),
     }));
 
