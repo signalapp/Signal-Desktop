@@ -2716,9 +2716,13 @@
     "message": "This message was deleted.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "message--giftBadge--unopened": {
+  "message--giftBadge--unopened--incoming": {
     "message": "View this message on mobile to open it",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "message--giftBadge--unopened--outgoing": {
+    "message": "Tap this message on mobile to view your gift",
+    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
   },
   "message--giftBadge--unopened--label": {
     "message": "Gift",
