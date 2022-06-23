@@ -2766,7 +2766,7 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "cadeau",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
@@ -2778,11 +2778,11 @@
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "Vous avez reçu un cadeau",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "Vous avez utilisé un macaron cadeau",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2794,7 +2794,7 @@
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "cadeau",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
@@ -2840,7 +2840,7 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "Échangé",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {

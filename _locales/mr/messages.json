@@ -2832,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "कालबाह्य झालेे",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -7156,7 +7156,7 @@
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "लपवलेल्या स्टोरीज",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
@@ -7210,7 +7210,7 @@
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "दृश्ये",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
@@ -7234,7 +7234,7 @@
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "स्टोरी लपवा",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
@@ -7272,7 +7272,7 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "Reacted to your story",
+        "message": "आपल्या स्टोरीवर प्रतिक्रिया दिली ",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {

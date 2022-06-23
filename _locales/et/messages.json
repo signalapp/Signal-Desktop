@@ -2390,7 +2390,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "Lood",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -7144,7 +7144,7 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "Lood",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
