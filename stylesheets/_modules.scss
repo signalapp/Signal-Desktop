@@ -7483,7 +7483,7 @@ button.module-image__border-overlay:focus {
   $loading-screen-modal-overlay: $z-index-on-top-of-everything + 1;
 
   .module-modal-host__overlay,
-  .module-modal-host__container {
+  .module-modal-host__overlay-container {
     z-index: $loading-screen-modal-overlay;
   }
 }
