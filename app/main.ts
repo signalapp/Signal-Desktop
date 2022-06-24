@@ -630,7 +630,7 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
     symbolColor,
 
     // Should match stylesheets/components/TitleBarContainer.scss
-    height: 28,
+    height: 28 - 1,
   };
 }
 
