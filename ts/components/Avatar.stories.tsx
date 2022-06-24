@@ -4,6 +4,8 @@
 import type { Meta, Story } from '@storybook/react';
 import * as React from 'react';
 import { isBoolean } from 'lodash';
+import { expect } from '@storybook/jest';
+import { within, userEvent } from '@storybook/testing-library';
 
 import { action } from '@storybook/addon-actions';
 
@@ -55,6 +57,7 @@ export default {
       control: { type: 'radio' },
       options: conversationTypeMap,
     },
+    onClick: { action: true },
     size: {
       control: false,
     },
@@ -114,6 +117,12 @@ export const Default = Template.bind({});
 Default.args = createProps({
   avatarPath: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
 });
+Default.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement);
+  const [avatar] = canvas.getAllByRole('button');
+  await userEvent.click(avatar);
+  await expect(args.onClick).toHaveBeenCalled();
+};
 Default.story = {
   name: 'Avatar',
 };

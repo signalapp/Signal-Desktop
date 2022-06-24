@@ -77,6 +77,25 @@
     "line": "  Module['load'] = function load(f) {"
   },
   {
+    "rule": "React-useRef",
+    "path": "node_modules/@design-systems/utils/dist/cjs/utils/focus-lock.js",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@design-systems/utils/dist/esm/utils/focus-lock.js",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@design-systems/utils/src/utils/focus-lock.tsx",
+    "line": "  const trap = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
     "line": "    function append(array, elements) {",
@@ -868,6 +887,373 @@
     "reasonDetail": "Test code. Also a false match."
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "  if (!element || !('innerHTML' in element)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "  if (!element.innerHTML) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "  console.log(\"Open this URL in your browser\\n\\n\" + getPlaygroundUrl(element.innerHTML));",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "  if (!('outerHTML' in dom)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "      return _regeneratorRuntime__default[\"default\"].wrap(function _callee2$(_context2) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "                return _regeneratorRuntime__default[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "    return _regeneratorRuntime__default[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "      return _regeneratorRuntime__default[\"default\"].wrap(function _callee2$(_context2) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "                return _regeneratorRuntime__default[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
+    "line": "    return _regeneratorRuntime__default[\"default\"].wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "  if (!element || !('innerHTML' in element)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "  if (!element.innerHTML) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "  console.log(\"Open this URL in your browser\\n\\n\" + getPlaygroundUrl(element.innerHTML));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "  if (!('outerHTML' in dom)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "      return _regeneratorRuntime.wrap(function _callee2$(_context2) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "                return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "    return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "      return _regeneratorRuntime.wrap(function _callee2$(_context2) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "                return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
+    "line": "    return _regeneratorRuntime.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "    if (!element || !('innerHTML' in element)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "    if (!element.innerHTML) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "    console.log(\"Open this URL in your browser\\n\\n\" + getPlaygroundUrl(element.innerHTML));",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "    if (!('outerHTML' in dom)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "    return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "        return regenerator.wrap(function _callee2$(_context2) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "                  return regenerator.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "      return regenerator.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "      function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "        var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "        return regenerator.wrap(function _callee2$(_context2) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "                  return regenerator.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
+    "line": "      return regenerator.wrap(function _callee$(_context) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/pretty-dom.js",
+    "line": "  if (!('outerHTML' in dom)) {",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/dom/dist/pretty-dom.js",
+    "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? `${debugContent.slice(0, maxLength)}...` : debugContent;",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/screen.js",
+    "line": "  if (!element || !('innerHTML' in element)) {",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/screen.js",
+    "line": "  if (!element.innerHTML) {",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/dom/dist/screen.js",
+    "line": "  console.log(`Open this URL in your browser\\n\\n${getPlaygroundUrl(element.innerHTML)}`);",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/jest-dom/dist/to-be-empty-dom-element.js",
+    "line": "      return [this.utils.matcherHint(`${this.isNot ? '.not' : ''}.toBeEmptyDOMElement`, 'element', ''), '', 'Received:', `  ${this.utils.printReceived(element.innerHTML)}`].join('\\n');",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/jest-dom/dist/to-be-empty.js",
+    "line": "    pass: element.innerHTML === '',",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/jest-dom/dist/to-be-empty.js",
+    "line": "      return [this.utils.matcherHint(`${this.isNot ? '.not' : ''}.toBeEmpty`, 'element', ''), '', 'Received:', `  ${this.utils.printReceived(element.innerHTML)}`].join('\\n');",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/jest-dom/dist/to-contain-html.js",
+    "line": "  div.innerHTML = htmlText;",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/jest-dom/dist/to-contain-html.js",
+    "line": "  return div.innerHTML;",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/@testing-library/jest-dom/dist/to-contain-html.js",
+    "line": "    pass: container.outerHTML.includes(getNormalizedHtml(container, htmlText)),",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/jest-dom/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@testing-library/jest-dom/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@testing-library/user-event/dist/select-options.js",
+    "line": "      const matchingOption = allOptions.find(o => o.value === val || o.innerHTML === val);",
+    "reasonCategory": "testCode",
+    "updated": "2022-06-23T23:21:04.555Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/@yarnpkg/lockfile/index.js",
     "reasonCategory": "falseMatch",
@@ -945,20 +1331,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2022-04-08T07:10:10.677Z",
     "reasonDetail": "node-gyp dependency"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
-    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
-    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "jQuery-wrap(",

@@ -13,5 +13,11 @@ module.exports = {
     '@storybook/addon-measure',
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',
+
+    // This must be imported last.
+    '@storybook/addon-interactions',
+
+    // Deprecated! Please remove when all uses have been migrated to controls.
+    '@storybook/addon-knobs',
   ],
 };
