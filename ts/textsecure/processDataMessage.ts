@@ -3,6 +3,7 @@
 
 import Long from 'long';
 import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
+import { isNumber } from 'lodash';
 
 import { assert, strictAssert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
@@ -50,7 +51,7 @@ export function processAttachment(
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
   const { contentType, digest, key, size } = attachment;
-  if (!size) {
+  if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
   }
 
