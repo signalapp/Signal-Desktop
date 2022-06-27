@@ -15,18 +15,16 @@ export function getLanguages(
   userLocale: string,
   availableLocales: ReadonlyArray<string>
 ): Array<string> {
-  const baseLocale = userLocale.split('-')[0];
-  // Attempt to find the exact locale
-  const candidateLocales = uniq([userLocale, baseLocale]).filter(l =>
+  // First attempt to find the exact locale
+  const candidateLocales = uniq([userLocale, userLocale]).filter(l =>
     availableLocales.includes(l)
   );
-
   if (candidateLocales.length > 0) {
     return candidateLocales;
   }
 
-  // If no languages were found then just return all locales that start with the
-  // base
+  // If no languages were found then return all locales that start with the base
+  const baseLocale = userLocale.split('-')[0];
   return uniq(availableLocales.filter(l => l.startsWith(baseLocale)));
 }
 
