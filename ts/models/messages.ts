@@ -226,15 +226,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    const sendStateByConversationId = migrateLegacySendAttributes(
-      this.attributes,
-      window.ConversationController.get.bind(window.ConversationController),
-      window.ConversationController.getOurConversationIdOrThrow()
-    );
-    if (sendStateByConversationId) {
-      this.set('sendStateByConversationId', sendStateByConversationId, {
-        silent: true,
-      });
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+    if (ourConversationId) {
+      const sendStateByConversationId = migrateLegacySendAttributes(
+        this.attributes,
+        window.ConversationController.get.bind(window.ConversationController),
+        ourConversationId
+      );
+      if (sendStateByConversationId) {
+        this.set('sendStateByConversationId', sendStateByConversationId, {
+          silent: true,
+        });
+      }
     }
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
