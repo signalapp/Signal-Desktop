@@ -3138,6 +3138,7 @@ export class ConversationModel extends window.Backbone
       (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
 
     if (alreadyHasMessage) {
+      this.updateLastMessage();
       return false;
     }
 
