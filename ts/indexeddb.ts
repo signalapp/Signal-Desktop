@@ -44,9 +44,23 @@ export async function doesDatabaseExist(): Promise<boolean> {
   });
 }
 
-export function removeDatabase(): void {
-  window.SignalContext.log.info(
-    `Deleting IndexedDB database '${LEGACY_DATABASE_ID}'`
-  );
-  window.indexedDB.deleteDatabase(LEGACY_DATABASE_ID);
+export function removeDatabase(): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    window.SignalContext.log.info(
+      `removeDatabase: Deleting IndexedDB database '${LEGACY_DATABASE_ID}'`
+    );
+    const request = window.indexedDB.deleteDatabase(LEGACY_DATABASE_ID);
+    request.onerror = () => {
+      window.SignalContext.log.error(
+        'removeDatabase: Error deleting database.'
+      );
+      reject(new Error('Error deleting database'));
+    };
+    request.onsuccess = () => {
+      window.SignalContext.log.info(
+        'removeDatabase: Database deleted successfully'
+      );
+      resolve();
+    };
+  });
 }

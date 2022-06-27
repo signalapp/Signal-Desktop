@@ -22,7 +22,7 @@ import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
 import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
-import { SECOND } from './util/durations';
+import { MINUTE, SECOND } from './util/durations';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -863,7 +863,7 @@ export class ConversationController {
       }
       const queue = new PQueue({
         concurrency: 3,
-        timeout: 1000 * 60 * 2,
+        timeout: MINUTE * 30,
         throwOnTimeout: true,
       });
       queue.addAll(

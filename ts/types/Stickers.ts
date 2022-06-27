@@ -25,6 +25,7 @@ import Data from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StickersStateType } from '../state/ducks/stickers';
+import { MINUTE } from '../util/durations';
 
 export type StickerType = {
   packId: string;
@@ -101,7 +102,7 @@ const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
 
 let initialState: StickersStateType | undefined;
 let packsToDownload: DownloadMap | undefined;
-const downloadQueue = new Queue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+const downloadQueue = new Queue({ concurrency: 1, timeout: MINUTE * 30 });
 
 export async function load(): Promise<void> {
   const [packs, recentStickers] = await Promise.all([

@@ -89,6 +89,7 @@ import type {
 } from './Interface';
 import Server from './Server';
 import { isCorruptionError } from './errors';
+import { MINUTE } from '../util/durations';
 
 // We listen to a lot of events on ipc, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -1407,7 +1408,7 @@ async function removeAllMessagesInConversation(
     log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    const queue = new window.PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+    const queue = new window.PQueue({ concurrency: 3, timeout: MINUTE * 30 });
     queue.addAll(
       messages.map(
         (message: MessageType) => async () => cleanupMessage(message)

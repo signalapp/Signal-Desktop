@@ -428,7 +428,7 @@ export async function startApp(): Promise<void> {
 
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
-    timeout: 1000 * 60 * 2,
+    timeout: durations.MINUTE * 30,
   });
 
   const profileKeyResponseQueue = new window.PQueue();
@@ -446,7 +446,7 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
-    timeout: 1000 * 60 * 2,
+    timeout: durations.MINUTE * 30,
   });
   window.Whisper.deliveryReceiptQueue.pause();
   window.Whisper.deliveryReceiptBatcher =

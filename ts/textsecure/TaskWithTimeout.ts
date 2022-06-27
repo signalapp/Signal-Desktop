@@ -36,7 +36,7 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
   id: string,
   options: { timeout?: number } = {}
 ): (...args: Args) => Promise<T> {
-  const timeout = options.timeout || 2 * durations.MINUTE;
+  const timeout = options.timeout || 30 * durations.MINUTE;
 
   const timeoutError = new Error(`${id || ''} task did not complete in time.`);
 

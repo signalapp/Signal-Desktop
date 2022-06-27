@@ -22,6 +22,7 @@ import PQueue from 'p-queue';
 import is from '@sindresorhus/is';
 import { getOwn } from '../../util/getOwn';
 import * as log from '../../logging/log';
+import { MINUTE } from '../../util/durations';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -102,7 +103,7 @@ const makeImagePath = (src: string) => {
 
 const imageQueue = new PQueue({
   concurrency: 10,
-  timeout: 1000 * 60 * 2,
+  timeout: MINUTE * 30,
   throwOnTimeout: true,
 });
 const images = new Set();

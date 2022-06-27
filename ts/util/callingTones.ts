@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
+import { MINUTE } from './durations';
 import { Sound } from './Sound';
 
 const ringtoneEventQueue = new PQueue({
   concurrency: 1,
-  timeout: 1000 * 60 * 2,
+  timeout: MINUTE * 30,
   throwOnTimeout: true,
 });
 
