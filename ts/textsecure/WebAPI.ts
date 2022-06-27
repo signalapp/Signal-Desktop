@@ -2292,7 +2292,7 @@ export function initialize({
       // Upload stickers
       const queue = new PQueue({
         concurrency: 3,
-        timeout: 1000 * 60 * 2,
+        timeout: durations.MINUTE * 30,
         throwOnTimeout: true,
       });
       await Promise.all(

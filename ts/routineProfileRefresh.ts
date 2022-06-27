@@ -13,6 +13,7 @@ import { isOlderThan } from './util/timestamp';
 import type { ConversationModel } from './models/conversations';
 import type { StorageInterface } from './types/Storage.d';
 import { getProfile } from './util/getProfile';
+import { MINUTE } from './util/durations';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = 30 * 24 * 60 * 60 * 1000;
@@ -77,7 +78,7 @@ export async function routineProfileRefresh({
 
   const refreshQueue = new PQueue({
     concurrency: 5,
-    timeout: 1000 * 60 * 2,
+    timeout: MINUTE * 30,
     throwOnTimeout: true,
   });
   for (const conversation of conversationsToRefresh) {

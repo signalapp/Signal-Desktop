@@ -59,6 +59,7 @@ import { SignalService as Proto } from '../protobuf';
 import { strictAssert } from './assert';
 import * as log from '../logging/log';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
+import { MINUTE } from './durations';
 
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
 const ERROR_STALE_DEVICES = 410;
@@ -814,7 +815,7 @@ export async function _waitForAll<T>({
 }): Promise<Array<T>> {
   const queue = new PQueue({
     concurrency: maxConcurrency,
-    timeout: 2 * 60 * 1000,
+    timeout: MINUTE * 30,
     throwOnTimeout: true,
   });
   return queue.addAll(tasks);

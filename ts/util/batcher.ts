@@ -7,6 +7,7 @@ import { sleep } from './sleep';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
+import { MINUTE } from './durations';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -56,7 +57,7 @@ export function createBatcher<ItemType>(
   let items: Array<ItemType> = [];
   const queue = new PQueue({
     concurrency: 1,
-    timeout: 1000 * 60 * 2,
+    timeout: MINUTE * 30,
     throwOnTimeout: true,
   });
 

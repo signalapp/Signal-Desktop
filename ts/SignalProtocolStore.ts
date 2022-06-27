@@ -53,6 +53,7 @@ import * as log from './logging/log';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import * as Errors from './types/errors';
 import MessageSender from './textsecure/SendMessage';
+import { MINUTE } from './util/durations';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -533,7 +534,7 @@ export class SignalProtocolStore extends EventsMixin {
   private _createSenderKeyQueue(): PQueue {
     return new PQueue({
       concurrency: 1,
-      timeout: 1000 * 60 * 2,
+      timeout: MINUTE * 30,
       throwOnTimeout: true,
     });
   }
@@ -702,7 +703,7 @@ export class SignalProtocolStore extends EventsMixin {
   private _createSessionQueue(): PQueue {
     return new PQueue({
       concurrency: 1,
-      timeout: 1000 * 60 * 2,
+      timeout: MINUTE * 30,
       throwOnTimeout: true,
     });
   }

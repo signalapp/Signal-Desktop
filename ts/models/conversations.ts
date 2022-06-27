@@ -1384,7 +1384,7 @@ export class ConversationModel extends window.Backbone
     if (!this.newMessageQueue) {
       this.newMessageQueue = new window.PQueue({
         concurrency: 1,
-        timeout: 1000 * 60 * 2,
+        timeout: durations.MINUTE * 30,
       });
     }
 

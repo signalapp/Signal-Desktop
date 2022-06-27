@@ -13,8 +13,9 @@ import type { Props as DropZoneProps } from '../elements/DropZone';
 import { DropZone } from '../elements/DropZone';
 import { processStickerImage } from '../util/preload';
 import { useI18n } from '../util/i18n';
+import { MINUTE } from '../../ts/util/durations';
 
-const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
 
 type SmartStickerFrameProps = Omit<StickerFrameProps, 'id'> & { id: string };
 
