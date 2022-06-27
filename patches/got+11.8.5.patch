@@ -1,0 +1,44 @@
+diff --git a/node_modules/got/dist/source/as-promise/index.js b/node_modules/got/dist/source/as-promise/index.js
+index b4026d3..a473860 100644
+--- a/node_modules/got/dist/source/as-promise/index.js
++++ b/node_modules/got/dist/source/as-promise/index.js
+@@ -33,6 +33,7 @@ function asPromise(normalizedOptions) {
+     const promise = new PCancelable((resolve, reject, onCancel) => {
+         const makeRequest = (retryCount) => {
+             const request = new core_1.default(undefined, normalizedOptions);
++            let isResolved = false;
+             request.retryCount = retryCount;
+             request._noPipe = true;
+             onCancel(() => request.destroy());
+@@ -114,6 +115,7 @@ function asPromise(normalizedOptions) {
+                     return;
+                 }
+                 globalResponse = response;
++                isResolved = true;
+                 if (!is_response_ok_1.isResponseOk(response)) {
+                     request._beforeError(new types_1.HTTPError(response));
+                     return;
+@@ -127,9 +129,11 @@ function asPromise(normalizedOptions) {
+                 const { options } = request;
+                 if (error instanceof types_1.HTTPError && !options.throwHttpErrors) {
+                     const { response } = error;
++                    isResolved = true;
+                     resolve(request.options.resolveBodyOnly ? response.body : response);
+                     return;
+                 }
++                isResolved = true;
+                 reject(error);
+             };
+             request.once('error', onError);
+@@ -140,7 +144,10 @@ function asPromise(normalizedOptions) {
+                     onError(error);
+                     return;
+                 }
+-                makeRequest(newRetryCount);
++
++                if (!isResolved) {
++                    makeRequest(newRetryCount);
++                }
+             });
+             proxy_events_1.default(request, emitter, proxiedRequestEvents);
+         };
