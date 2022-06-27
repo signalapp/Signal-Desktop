@@ -10,7 +10,6 @@ describe('SpellCheck', () => {
     it('works with locale and base available', () => {
       assert.deepEqual(getLanguages('en-US', ['en-US', 'en-CA', 'en']), [
         'en-US',
-        'en',
       ]);
     });
 
@@ -22,7 +21,7 @@ describe('SpellCheck', () => {
     });
 
     it('works with only base locale available', () => {
-      assert.deepEqual(getLanguages('en-US', ['en', 'en-CA']), ['en']);
+      assert.deepEqual(getLanguages('en-US', ['en', 'en-CA']), ['en', 'en-CA']);
     });
 
     it('works with only full locale available', () => {
