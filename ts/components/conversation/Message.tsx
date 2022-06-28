@@ -1626,7 +1626,11 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <button
         type="button"
-        onClick={() => startConversation(firstNumber, uuid)}
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          startConversation(firstNumber, uuid);
+        }}
         className={classNames(
           'module-message__send-message-button',
           noBottomLeftCurve &&
@@ -2662,7 +2666,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       kickOffAttachmentDownload,
-      openConversation,
+      startConversation,
       openGiftBadge,
       showContactDetail,
       showVisualAttachment,
@@ -2773,13 +2777,15 @@ export class Message extends React.PureComponent<Props, State> {
       event.stopPropagation();
 
       this.audioButtonRef.current.click();
+      return;
     }
 
     if (contact && contact.firstNumber && contact.uuid) {
-      openConversation(contact.firstNumber);
+      startConversation(contact.firstNumber, contact.uuid);
 
       event.preventDefault();
       event.stopPropagation();
+      return;
     }
 
     if (contact) {
