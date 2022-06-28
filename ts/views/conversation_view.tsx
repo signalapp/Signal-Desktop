@@ -1289,7 +1289,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (!message) {
       throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
     }
-    const attachments = getAttachmentsForMessage(message.attributes);
+
+    // We need to give it a fresh object because it's memoized by the root object!
+    const rawAttachments = getAttachmentsForMessage({ ...message.attributes });
+    const attachments = rawAttachments.filter(attachment =>
+      Boolean(attachment.url)
+    );
 
     const doForwardMessage = async (
       conversationIds: Array<string>,
