@@ -3497,7 +3497,7 @@ export class ConversationModel extends window.Backbone
   getUuid(): UUID | undefined {
     try {
       const value = this.get('uuid');
-      return value && new UUID(value);
+      return value ? new UUID(value) : undefined;
     } catch (err) {
       log.warn(
         `getUuid(): failed to obtain conversation(${this.id}) uuid due to`,

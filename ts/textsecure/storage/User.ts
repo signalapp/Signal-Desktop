@@ -71,7 +71,7 @@ export class User {
       `Unsupported uuid kind: ${uuidKind}`
     );
     const uuid = this.storage.get('uuid_id');
-    if (uuid === undefined) return undefined;
+    if (!uuid) return undefined;
     return new UUID(Helpers.unencodeNumber(uuid.toLowerCase())[0]);
   }
 
