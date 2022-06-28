@@ -54,7 +54,7 @@ function checkForAccount(
 
     const conversation = window.ConversationController.get(phoneNumber);
     if (conversation && conversation.get('uuid')) {
-      log.error(`checkForAccount: found ${phoneNumber} in existing contacts`);
+      log.info(`checkForAccount: found ${phoneNumber} in existing contacts`);
       const uuid = conversation.get('uuid');
 
       dispatch({
@@ -81,7 +81,7 @@ function checkForAccount(
 
     let uuid: UUIDStringType | undefined;
 
-    log.error(`checkForAccount: looking ${phoneNumber} up on server`);
+    log.info(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
       const uuidLookup = await window.textsecure.messaging.getUuidsForE164s([
         phoneNumber,

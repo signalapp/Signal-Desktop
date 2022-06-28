@@ -564,8 +564,10 @@ export class Timeline extends React.Component<
   public override componentDidMount(): void {
     const containerEl = this.containerRef.current;
     const messagesEl = this.messagesRef.current;
+    const { isConversationSelected } = this.props;
     strictAssert(
-      containerEl && messagesEl,
+      // We don't render anything unless the conversation is selected
+      (containerEl && messagesEl) || !isConversationSelected,
       '<Timeline> mounted without some refs'
     );
 
