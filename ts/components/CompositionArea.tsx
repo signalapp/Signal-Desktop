@@ -359,6 +359,7 @@ export const CompositionArea = ({
       <div className="CompositionArea__button-cell">
         <EmojiButton
           i18n={i18n}
+          closeOnPick
           doSend={handleForceSend}
           onPickEmoji={insertEmoji}
           onClose={focusInput}
