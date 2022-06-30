@@ -20,3 +20,13 @@ export function markReadyForShutdown(): void {
 export function readyForShutdown(): boolean {
   return isReadyForShutdown;
 }
+
+let hasRequestedShutdown = false;
+
+export function markRequestedShutdown(): void {
+  hasRequestedShutdown = true;
+}
+
+export function requestedShutdown(): boolean {
+  return hasRequestedShutdown;
+}

@@ -774,7 +774,9 @@ async function createWindow() {
     // so if we need to recreate the window, we have the most recent settings
     windowConfig = newWindowConfig;
 
-    debouncedSaveStats();
+    if (!windowState.requestedShutdown()) {
+      debouncedSaveStats();
+    }
   }
 
   mainWindow.on('resize', captureWindowStats);
@@ -856,6 +858,7 @@ async function createWindow() {
       return;
     }
 
+    windowState.markRequestedShutdown();
     await requestShutdown();
     windowState.markReadyForShutdown();
 
