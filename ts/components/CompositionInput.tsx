@@ -127,6 +127,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   const quillRef = React.useRef<Quill>();
   const scrollerRef = React.useRef<HTMLDivElement>(null);
   const propsRef = React.useRef<Props>(props);
+  const canSendRef = React.useRef<boolean>(false);
   const memberRepositoryRef = React.useRef<MemberRepository>(
     new MemberRepository()
   );
@@ -206,6 +207,7 @@ export function CompositionInput(props: Props): React.ReactElement {
       return;
     }
 
+    canSendRef.current = true;
     quill.setText('');
 
     const historyModule = quill.getModule('history');
@@ -235,11 +237,19 @@ export function CompositionInput(props: Props): React.ReactElement {
       return;
     }
 
+    if (!canSendRef.current) {
+      log.warn(
+        'CompositionInput: Not submitting message - cannot send right now'
+      );
+      return;
+    }
+
     const [text, mentions] = getTextAndMentions();
 
     log.info(
       `CompositionInput: Submitting message ${timestamp} with ${mentions.length} mentions`
     );
+    canSendRef.current = false;
     onSubmit(text, mentions, timestamp);
   };
 
@@ -256,6 +266,10 @@ export function CompositionInput(props: Props): React.ReactElement {
   React.useEffect(() => {
     propsRef.current = props;
   }, [props]);
+
+  React.useEffect(() => {
+    canSendRef.current = !disabled;
+  }, [disabled]);
 
   const onShortKeyEnter = (): boolean => {
     submit();

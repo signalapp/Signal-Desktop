@@ -9015,6 +9015,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const canSendRef = React.useRef<boolean>(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-25T00:06:19.860Z",
+    "reasonDetail": "Not used for DOM manipulation"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ContactPills.tsx",
     "line": "  const elRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
