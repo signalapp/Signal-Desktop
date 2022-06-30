@@ -54,6 +54,19 @@ function _getError(reason: unknown): Error {
 }
 
 export const addHandler = (): void => {
+  app.on('render-process-gone', (_event, _webContents, details) => {
+    const { reason, exitCode } = details;
+
+    if (reason === 'clean-exit') {
+      return;
+    }
+
+    handleError(
+      'Render process is gone',
+      new Error(`Reason: ${reason}, Exit Code: ${exitCode}`)
+    );
+  });
+
   process.on('uncaughtException', (reason: unknown) => {
     handleError('Unhandled Error', _getError(reason));
   });
