@@ -380,9 +380,9 @@ export class Linkify extends React.Component<Props> {
         count += 1;
         if (SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url)) {
           results.push(
-            <a key={count} href={url}>
+            <bdi><a key={count} href={url}>
               {originalText}
-            </a>
+            </a></bdi>
           );
         } else {
           results.push(renderNonLink({ text: originalText, key: count }));
