@@ -100,6 +100,7 @@ export type SentProtoType = {
   contentHint: number;
   proto: Uint8Array;
   timestamp: number;
+  urgent: boolean;
 };
 export type SentProtoWithMessageIdsType = SentProtoType & {
   messageIds: Array<string>;

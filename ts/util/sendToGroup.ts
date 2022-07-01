@@ -98,6 +98,7 @@ export async function sendToGroup({
   sendOptions,
   sendTarget,
   sendType,
+  urgent,
 }: {
   abortSignal?: AbortSignal;
   contentHint: number;
@@ -107,6 +108,7 @@ export async function sendToGroup({
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
+  urgent: boolean;
 }): Promise<CallbackResultType> {
   strictAssert(
     window.textsecure.messaging,
@@ -139,6 +141,7 @@ export async function sendToGroup({
     sendTarget,
     sendType,
     timestamp,
+    urgent,
   });
 }
 
@@ -153,6 +156,7 @@ export async function sendContentMessageToGroup({
   sendTarget,
   sendType,
   timestamp,
+  urgent,
 }: {
   contentHint: number;
   contentMessage: Proto.Content;
@@ -164,6 +168,7 @@ export async function sendContentMessageToGroup({
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
   timestamp: number;
+  urgent: boolean;
 }): Promise<CallbackResultType> {
   const logId = sendTarget.idForLogging();
   strictAssert(
@@ -194,6 +199,7 @@ export async function sendContentMessageToGroup({
         sendTarget,
         sendType,
         timestamp,
+        urgent,
       });
     } catch (error: unknown) {
       if (!(error instanceof Error)) {
@@ -217,6 +223,7 @@ export async function sendContentMessageToGroup({
     proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
     sendType,
     timestamp,
+    urgent,
   });
   const groupId = sendTarget.isGroupV2() ? sendTarget.getGroupId() : undefined;
   return window.textsecure.messaging.sendGroupProto({
@@ -227,6 +234,7 @@ export async function sendContentMessageToGroup({
     recipients,
     sendLogCallback,
     timestamp,
+    urgent,
   });
 }
 
@@ -244,6 +252,7 @@ export async function sendToGroupViaSenderKey(options: {
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
   timestamp: number;
+  urgent: boolean;
 }): Promise<CallbackResultType> {
   const {
     contentHint,
@@ -257,6 +266,7 @@ export async function sendToGroupViaSenderKey(options: {
     sendTarget,
     sendType,
     timestamp,
+    urgent,
   } = options;
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
@@ -421,6 +431,7 @@ export async function sendToGroupViaSenderKey(options: {
             distributionId,
             groupId,
             identifiers: newToMemberUuids,
+            urgent,
           },
           sendOptions ? { ...sendOptions, online: false } : undefined
         ),
@@ -495,11 +506,11 @@ export async function sendToGroupViaSenderKey(options: {
     });
     const accessKeys = getXorOfAccessKeys(devicesForSenderKey);
 
-    const result = await window.textsecure.messaging.sendWithSenderKey(
+    const result = await window.textsecure.messaging.server.sendWithSenderKey(
       messageBuffer,
       accessKeys,
       timestamp,
-      online
+      { online, urgent }
     );
 
     const parsed = multiRecipient200ResponseSchema.safeParse(result);
@@ -531,6 +542,7 @@ export async function sendToGroupViaSenderKey(options: {
           contentHint,
           proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
           timestamp,
+          urgent,
         },
         {
           recipients: senderKeyRecipientsWithDevices,
@@ -598,6 +610,7 @@ export async function sendToGroupViaSenderKey(options: {
       timestamp,
       contentProto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
       recipients: senderKeyRecipientsWithDevices,
+      urgent,
     };
   }
 
@@ -648,6 +661,7 @@ export async function sendToGroupViaSenderKey(options: {
       recipients: normalSendRecipients,
       sendLogCallback,
       timestamp,
+      urgent,
     });
 
     return mergeSendResult({

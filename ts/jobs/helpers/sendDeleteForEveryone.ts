@@ -130,6 +130,7 @@ export async function sendDeleteForEveryone(
               expirationStartTimestamp: null,
               options: sendOptions,
               timestamp,
+              urgent: false,
             }),
             { messageIds, sendType }
           );
@@ -186,6 +187,7 @@ export async function sendDeleteForEveryone(
                 groupId: undefined,
                 profileKey,
                 options: sendOptions,
+                urgent: true,
               }),
             sendType,
             timestamp,
@@ -223,6 +225,7 @@ export async function sendDeleteForEveryone(
                 sendOptions,
                 sendTarget: conversation.toSenderKeyTarget(),
                 sendType: 'deleteForEveryone',
+                urgent: true,
               }),
             sendType,
             timestamp,

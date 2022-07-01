@@ -110,6 +110,7 @@ export async function sendGroupUpdate(
               sendOptions,
               sendTarget: conversation.toSenderKeyTarget(),
               sendType,
+              urgent: false,
             }),
           sendType,
           timestamp,

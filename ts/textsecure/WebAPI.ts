@@ -916,20 +916,22 @@ export type WebAPIType = {
     destination: string,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
-    online?: boolean
+    options: { online?: boolean; urgent?: boolean }
   ) => Promise<void>;
   sendMessagesUnauth: (
     destination: string,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
-    online?: boolean,
-    options?: { accessKey?: string }
+    options: { accessKey?: string; online?: boolean; urgent?: boolean }
   ) => Promise<void>;
   sendWithSenderKey: (
     payload: Uint8Array,
     accessKeys: Uint8Array,
     timestamp: number,
-    online?: boolean
+    options: {
+      online?: boolean;
+      urgent?: boolean;
+    }
   ) => Promise<MultiRecipient200ResponseType>;
   setSignedPreKey: (
     signedPreKey: SignedPreKeyType,
@@ -2078,15 +2080,18 @@ export function initialize({
       destination: string,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
-      online?: boolean,
-      { accessKey }: { accessKey?: string } = {}
+      {
+        accessKey,
+        online,
+        urgent = true,
+      }: { accessKey?: string; online?: boolean; urgent?: boolean }
     ) {
-      let jsonData;
-      if (online) {
-        jsonData = { messages, timestamp, online: true };
-      } else {
-        jsonData = { messages, timestamp };
-      }
+      const jsonData = {
+        messages,
+        timestamp,
+        online: Boolean(online),
+        urgent,
+      };
 
       await _ajax({
         call: 'messages',
@@ -2103,14 +2108,14 @@ export function initialize({
       destination: string,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
-      online?: boolean
+      { online, urgent = true }: { online?: boolean; urgent?: boolean }
     ) {
-      let jsonData;
-      if (online) {
-        jsonData = { messages, timestamp, online: true };
-      } else {
-        jsonData = { messages, timestamp };
-      }
+      const jsonData = {
+        messages,
+        timestamp,
+        online: Boolean(online),
+        urgent,
+      };
 
       await _ajax({
         call: 'messages',
@@ -2121,18 +2126,31 @@ export function initialize({
       });
     }
 
+    function booleanToString(value: boolean | undefined): string {
+      return value ? 'true' : 'false';
+    }
+
     async function sendWithSenderKey(
       data: Uint8Array,
       accessKeys: Uint8Array,
       timestamp: number,
-      online?: boolean
+      {
+        online,
+        urgent = true,
+      }: {
+        online?: boolean;
+        urgent?: boolean;
+      }
     ): Promise<MultiRecipient200ResponseType> {
+      const onlineParam = `&online=${booleanToString(online)}`;
+      const urgentParam = `&urgent=${booleanToString(urgent)}`;
+
       const response = await _ajax({
         call: 'multiRecipient',
         httpType: 'PUT',
         contentType: 'application/vnd.signal-messenger.mrm',
         data,
-        urlParameters: `?ts=${timestamp}&online=${online ? 'true' : 'false'}`,
+        urlParameters: `?ts=${timestamp}${onlineParam}${urgentParam}`,
         responseType: 'json',
         unauthenticated: true,
         accessKey: Bytes.toBase64(accessKeys),

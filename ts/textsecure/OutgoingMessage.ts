@@ -132,6 +132,8 @@ export default class OutgoingMessage {
 
   contentHint: number;
 
+  urgent: boolean;
+
   recipients: Record<string, Array<number>>;
 
   sendLogCallback?: SendLogCallbackType;
@@ -146,6 +148,7 @@ export default class OutgoingMessage {
     sendLogCallback,
     server,
     timestamp,
+    urgent,
   }: {
     callback: (result: CallbackResultType) => void;
     contentHint: number;
@@ -156,6 +159,7 @@ export default class OutgoingMessage {
     sendLogCallback?: SendLogCallbackType;
     server: WebAPIType;
     timestamp: number;
+    urgent: boolean;
   }) {
     if (message instanceof Proto.DataMessage) {
       const content = new Proto.Content();
@@ -171,6 +175,7 @@ export default class OutgoingMessage {
     this.contentHint = contentHint;
     this.groupId = groupId;
     this.callback = callback;
+    this.urgent = urgent;
 
     this.identifiersCompleted = 0;
     this.errors = [];
@@ -189,7 +194,7 @@ export default class OutgoingMessage {
     if (this.identifiersCompleted >= this.identifiers.length) {
       const proto = this.message;
       const contentProto = this.getContentProtoBytes();
-      const { timestamp, contentHint, recipients } = this;
+      const { timestamp, contentHint, recipients, urgent } = this;
       let dataMessage: Uint8Array | undefined;
 
       if (proto instanceof Proto.Content && proto.dataMessage) {
@@ -209,6 +214,7 @@ export default class OutgoingMessage {
         recipients,
         contentProto,
         timestamp,
+        urgent,
       });
     }
   }
@@ -299,16 +305,13 @@ export default class OutgoingMessage {
         identifier,
         jsonData,
         timestamp,
-        this.online,
-        { accessKey }
+        { accessKey, online: this.online, urgent: this.urgent }
       );
     } else {
-      promise = this.server.sendMessages(
-        identifier,
-        jsonData,
-        timestamp,
-        this.online
-      );
+      promise = this.server.sendMessages(identifier, jsonData, timestamp, {
+        online: this.online,
+        urgent: this.urgent,
+      });
     }
 
     return promise.catch(e => {

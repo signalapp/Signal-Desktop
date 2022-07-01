@@ -820,14 +820,19 @@ async function insertSentProto(
       INSERT INTO sendLogPayloads (
         contentHint,
         proto,
-        timestamp
+        timestamp,
+        urgent
       ) VALUES (
         $contentHint,
         $proto,
-        $timestamp
+        $timestamp,
+        $urgent
       );
       `
-    ).run(proto);
+    ).run({
+      ...proto,
+      urgent: proto.urgent ? 1 : 0,
+    });
     const id = parseIntOrThrow(
       info.lastInsertRowid,
       'insertSentProto/lastInsertRowid'
@@ -1082,6 +1087,7 @@ async function getSentProtoByRecipient({
   const { messageIds } = row;
   return {
     ...row,
+    urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
     messageIds: messageIds ? messageIds.split(',') : [],
   };
 }
@@ -1093,7 +1099,10 @@ async function getAllSentProtos(): Promise<Array<SentProtoType>> {
   const db = getInstance();
   const rows = prepare<EmptyQuery>(db, 'SELECT * FROM sendLogPayloads;').all();
 
-  return rows;
+  return rows.map(row => ({
+    ...row,
+    urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+  }));
 }
 async function _getAllSentProtoRecipients(): Promise<
   Array<SentRecipientsDBType>

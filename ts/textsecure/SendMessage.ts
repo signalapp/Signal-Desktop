@@ -31,7 +31,6 @@ import type {
   GetProfileUnauthOptionsType,
   GroupCredentialsType,
   GroupLogResponseType,
-  MultiRecipient200ResponseType,
   ProfileRequestDataType,
   ProxiedRequestOptionsType,
   UploadAvatarHeadersType,
@@ -150,6 +149,7 @@ export const singleProtoJobDataSchema = z.object({
   messageIds: z.array(z.string()).optional(),
   protoBase64: z.string(),
   type: sendTypesEnum,
+  urgent: z.boolean().optional(),
 });
 
 export type SingleProtoJobData = z.infer<typeof singleProtoJobDataSchema>;
@@ -1006,11 +1006,13 @@ export default class MessageSender {
     contentHint,
     groupId,
     options,
+    urgent,
   }: Readonly<{
     messageOptions: MessageOptionsType;
     contentHint: number;
     groupId: string | undefined;
     options?: SendOptionsType;
+    urgent: boolean;
   }>): Promise<CallbackResultType> {
     const message = await this.getHydratedMessage(messageOptions);
 
@@ -1029,6 +1031,7 @@ export default class MessageSender {
         proto: message.toProto(),
         recipients: message.recipients || [],
         timestamp: message.timestamp,
+        urgent,
       });
     });
   }
@@ -1042,6 +1045,7 @@ export default class MessageSender {
     recipients,
     sendLogCallback,
     timestamp,
+    urgent,
   }: Readonly<{
     callback: (result: CallbackResultType) => void;
     contentHint: number;
@@ -1051,6 +1055,7 @@ export default class MessageSender {
     recipients: ReadonlyArray<string>;
     sendLogCallback?: SendLogCallbackType;
     timestamp: number;
+    urgent: boolean;
   }>): void {
     const rejections = window.textsecure.storage.get(
       'signedKeyRotationRejected',
@@ -1070,6 +1075,7 @@ export default class MessageSender {
       sendLogCallback,
       server: this.server,
       timestamp,
+      urgent,
     });
 
     recipients.forEach(identifier => {
@@ -1086,6 +1092,7 @@ export default class MessageSender {
     contentHint,
     groupId,
     options,
+    urgent,
   }: Readonly<{
     timestamp: number;
     recipients: Array<string>;
@@ -1093,6 +1100,7 @@ export default class MessageSender {
     contentHint: number;
     groupId: string | undefined;
     options?: SendOptionsType;
+    urgent: boolean;
   }>): Promise<CallbackResultType> {
     return new Promise((resolve, reject) => {
       const callback = (result: CallbackResultType) => {
@@ -1111,6 +1119,7 @@ export default class MessageSender {
         proto,
         recipients,
         timestamp,
+        urgent,
       });
     });
   }
@@ -1122,6 +1131,7 @@ export default class MessageSender {
     options,
     proto,
     timestamp,
+    urgent,
   }: Readonly<{
     contentHint: number;
     groupId?: string;
@@ -1129,6 +1139,7 @@ export default class MessageSender {
     options?: SendOptionsType;
     proto: Proto.DataMessage | Proto.Content | PlaintextContent;
     timestamp: number;
+    urgent: boolean;
   }>): Promise<CallbackResultType> {
     assert(identifier, "Identifier can't be undefined");
     return new Promise((resolve, reject) => {
@@ -1147,6 +1158,7 @@ export default class MessageSender {
         proto,
         recipients: [identifier],
         timestamp,
+        urgent,
       });
     });
   }
@@ -1170,6 +1182,7 @@ export default class MessageSender {
     sticker,
     storyContext,
     timestamp,
+    urgent,
   }: Readonly<{
     attachments: ReadonlyArray<AttachmentType> | undefined;
     contact?: Array<ContactWithHydratedAvatar>;
@@ -1187,6 +1200,7 @@ export default class MessageSender {
     sticker?: StickerType;
     storyContext?: StoryContextType;
     timestamp: number;
+    urgent: boolean;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
       messageOptions: {
@@ -1207,6 +1221,7 @@ export default class MessageSender {
       contentHint,
       groupId,
       options,
+      urgent,
     });
   }
 
@@ -1223,6 +1238,7 @@ export default class MessageSender {
     conversationIdsSentTo = [],
     conversationIdsWithSealedSender = new Set(),
     isUpdate,
+    urgent,
     options,
   }: Readonly<{
     encodedDataMessage: Uint8Array;
@@ -1233,6 +1249,7 @@ export default class MessageSender {
     conversationIdsSentTo?: Iterable<string>;
     conversationIdsWithSealedSender?: Set<string>;
     isUpdate?: boolean;
+    urgent: boolean;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
@@ -1295,6 +1312,7 @@ export default class MessageSender {
       timestamp,
       contentHint: ContentHint.RESENDABLE,
       options,
+      urgent,
     });
   }
 
@@ -1318,6 +1336,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'blockSyncRequest',
+      urgent: false,
     };
   }
 
@@ -1341,6 +1360,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'configurationSyncRequest',
+      urgent: false,
     };
   }
 
@@ -1364,6 +1384,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'groupSyncRequest',
+      urgent: false,
     };
   }
 
@@ -1387,6 +1408,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'contactSyncRequest',
+      urgent: true,
     };
   }
 
@@ -1410,6 +1432,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'pniIdentitySyncRequest',
+      urgent: true,
     };
   }
 
@@ -1434,6 +1457,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'fetchLatestManifestSync',
+      urgent: false,
     };
   }
 
@@ -1458,6 +1482,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'fetchLocalProfileSync',
+      urgent: false,
     };
   }
 
@@ -1482,6 +1507,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'keySyncRequest',
+      urgent: true,
     };
   }
 
@@ -1516,6 +1542,7 @@ export default class MessageSender {
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
       options,
+      urgent: true,
     });
   }
 
@@ -1548,6 +1575,7 @@ export default class MessageSender {
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
       options,
+      urgent: false,
     });
   }
 
@@ -1593,6 +1621,7 @@ export default class MessageSender {
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
       options,
+      urgent: false,
     });
   }
 
@@ -1634,6 +1663,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'messageRequestSync',
+      urgent: false,
     };
   }
 
@@ -1674,6 +1704,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'stickerPackSync',
+      urgent: false,
     };
   }
 
@@ -1718,6 +1749,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'verificationSync',
+      urgent: false,
     };
   }
 
@@ -1743,6 +1775,7 @@ export default class MessageSender {
       contentHint: ContentHint.DEFAULT,
       groupId: undefined,
       options,
+      urgent: true,
     });
   }
 
@@ -1824,6 +1857,7 @@ export default class MessageSender {
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
       options,
+      urgent: false,
     });
   }
 
@@ -1858,6 +1892,7 @@ export default class MessageSender {
         Proto.Content.encode(contentMessage).finish()
       ),
       type: 'nullMessage',
+      urgent: false,
     };
   }
 
@@ -1881,6 +1916,7 @@ export default class MessageSender {
       contentHint: ContentHint.DEFAULT,
       groupId,
       options,
+      urgent: false,
     });
   }
 
@@ -1895,12 +1931,14 @@ export default class MessageSender {
     proto,
     sendType,
     timestamp,
+    urgent,
   }: Readonly<{
     contentHint: number;
     messageId?: string;
     proto: Buffer;
     sendType: SendTypesType;
     timestamp: number;
+    urgent: boolean;
   }>): SendLogCallbackType {
     let initialSavePromise: Promise<number>;
 
@@ -1933,9 +1971,10 @@ export default class MessageSender {
       if (!initialSavePromise) {
         initialSavePromise = window.Signal.Data.insertSentProto(
           {
-            timestamp,
-            proto,
             contentHint,
+            proto,
+            timestamp,
+            urgent,
           },
           {
             recipients: { [recipientUuid]: deviceIds },
@@ -1963,6 +2002,7 @@ export default class MessageSender {
     recipients,
     sendLogCallback,
     timestamp = Date.now(),
+    urgent,
   }: Readonly<{
     contentHint: number;
     groupId: string | undefined;
@@ -1971,6 +2011,7 @@ export default class MessageSender {
     recipients: ReadonlyArray<string>;
     sendLogCallback?: SendLogCallbackType;
     timestamp: number;
+    urgent: boolean;
   }>): Promise<CallbackResultType> {
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid()?.toString();
@@ -1987,6 +2028,8 @@ export default class MessageSender {
         failoverIdentifiers: [],
         successfulIdentifiers: [],
         unidentifiedDeliveries: [],
+        contentHint,
+        urgent,
       });
     }
 
@@ -2008,6 +2051,7 @@ export default class MessageSender {
         recipients: identifiers,
         sendLogCallback,
         timestamp,
+        urgent,
       });
     });
   }
@@ -2078,12 +2122,14 @@ export default class MessageSender {
       groupId,
       identifiers,
       throwIfNotInDatabase,
+      urgent,
     }: Readonly<{
       contentHint: number;
       distributionId: string;
       groupId: string | undefined;
       identifiers: ReadonlyArray<string>;
       throwIfNotInDatabase?: boolean;
+      urgent: boolean;
     }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
@@ -2103,6 +2149,7 @@ export default class MessageSender {
             proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
             sendType: 'senderKeyDistributionMessage',
             timestamp,
+            urgent,
           })
         : undefined;
 
@@ -2114,6 +2161,7 @@ export default class MessageSender {
       recipients: identifiers,
       sendLogCallback,
       timestamp,
+      urgent,
     });
   }
 
@@ -2144,6 +2192,7 @@ export default class MessageSender {
             proto: Buffer.from(Proto.Content.encode(proto).finish()),
             sendType: 'legacyGroupChange',
             timestamp,
+            urgent: false,
           })
         : undefined;
 
@@ -2155,10 +2204,14 @@ export default class MessageSender {
       recipients: groupIdentifiers,
       sendLogCallback,
       timestamp,
+      urgent: false,
     });
   }
 
   // Simple pass-throughs
+
+  // Note: instead of updating these functions, or adding new ones, remove these and go
+  //   directly to window.textsecure.messaging.server.<function>
 
   async getProfile(
     uuid: UUID,
@@ -2260,15 +2313,6 @@ export default class MessageSender {
     inviteLinkBase64?: string
   ): Promise<Proto.IGroupChange> {
     return this.server.modifyGroup(changes, options, inviteLinkBase64);
-  }
-
-  async sendWithSenderKey(
-    data: Readonly<Uint8Array>,
-    accessKeys: Readonly<Uint8Array>,
-    timestamp: number,
-    online?: boolean
-  ): Promise<MultiRecipient200ResponseType> {
-    return this.server.sendWithSenderKey(data, accessKeys, timestamp, online);
   }
 
   async fetchLinkPreviewMetadata(

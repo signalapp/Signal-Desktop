@@ -5,7 +5,7 @@ import {
   DecryptionErrorMessage,
   PlaintextContent,
 } from '@signalapp/libsignal-client';
-import { isNumber } from 'lodash';
+import { isBoolean, isNumber } from 'lodash';
 
 import * as Bytes from '../Bytes';
 import { isProduction } from './version';
@@ -131,7 +131,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     throw new Error(`onRetryRequest/${logId}: messaging is not available!`);
   }
 
-  const { contentHint, messageIds, proto, timestamp } = sentProto;
+  const { contentHint, messageIds, proto, timestamp, urgent } = sentProto;
 
   const { contentProto, groupId } = await maybeAddSenderKeyDistributionMessage({
     contentProto: Proto.Content.decode(proto),
@@ -148,12 +148,13 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   );
   const sendOptions = await getSendOptions(recipientConversation.attributes);
   const promise = messaging.sendMessageProtoAndWait({
-    timestamp,
-    recipients: [requesterUuid],
-    proto: new Proto.Content(contentProto),
     contentHint,
     groupId,
     options: sendOptions,
+    proto: new Proto.Content(contentProto),
+    recipients: [requesterUuid],
+    timestamp,
+    urgent,
   });
 
   await handleMessageSend(promise, {
@@ -306,6 +307,7 @@ async function sendDistributionMessageOrNullMessage(
               groupId,
               identifiers: [requesterUuid],
               throwIfNotInDatabase: true,
+              urgent: false,
             },
             sendOptions
           ),
@@ -346,6 +348,7 @@ async function sendDistributionMessageOrNullMessage(
             Bytes.fromBase64(nullMessage.protoBase64)
           ),
           timestamp: Date.now(),
+          urgent: isBoolean(nullMessage.urgent) ? nullMessage.urgent : true,
         }),
         { messageIds: [], sendType: nullMessage.type }
       );

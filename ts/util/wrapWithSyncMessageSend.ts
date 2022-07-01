@@ -89,6 +89,7 @@ export async function wrapWithSyncMessageSend({
           expirationStartTimestamp: null,
           options,
           timestamp,
+          urgent: false,
         }),
         { messageIds, sendType: sendType === 'message' ? 'sentSync' : sendType }
       );

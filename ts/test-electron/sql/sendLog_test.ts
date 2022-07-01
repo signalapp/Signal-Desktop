@@ -39,6 +39,7 @@ describe('sql/sendLog', () => {
       contentHint: 1,
       proto: bytes,
       timestamp,
+      urgent: false,
     };
     await insertSentProto(proto, {
       messageIds: [getUuid()],
@@ -54,6 +55,7 @@ describe('sql/sendLog', () => {
     assert.strictEqual(actual.contentHint, proto.contentHint);
     assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
     assert.strictEqual(actual.timestamp, proto.timestamp);
+    assert.strictEqual(actual.urgent, proto.urgent);
 
     await removeAllSentProtos();
 
@@ -71,6 +73,7 @@ describe('sql/sendLog', () => {
       contentHint: 1,
       proto: bytes,
       timestamp,
+      urgent: true,
     };
     await insertSentProto(proto, {
       messageIds: [getUuid(), getUuid()],
@@ -80,7 +83,15 @@ describe('sql/sendLog', () => {
       },
     });
 
-    assert.lengthOf(await getAllSentProtos(), 1);
+    const allProtos = await getAllSentProtos();
+    assert.lengthOf(allProtos, 1);
+    const actual = allProtos[0];
+
+    assert.strictEqual(actual.contentHint, proto.contentHint);
+    assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
+    assert.strictEqual(actual.timestamp, proto.timestamp);
+    assert.strictEqual(actual.urgent, proto.urgent);
+
     assert.lengthOf(await _getAllSentProtoMessageIds(), 2);
     assert.lengthOf(await _getAllSentProtoRecipients(), 3);
 
@@ -115,6 +126,7 @@ describe('sql/sendLog', () => {
       contentHint: 1,
       proto: bytes,
       timestamp,
+      urgent: false,
     };
     await insertSentProto(proto, {
       messageIds: [id],
@@ -146,11 +158,13 @@ describe('sql/sendLog', () => {
         contentHint: 7,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       const proto2 = {
         contentHint: 9,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: false,
       };
 
       assert.lengthOf(await getAllSentProtos(), 0);
@@ -180,6 +194,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
 
       assert.lengthOf(await getAllSentProtos(), 0);
@@ -218,16 +233,19 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp: timestamp + 10,
+        urgent: true,
       };
       const proto2 = {
         contentHint: 2,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       const proto3 = {
         contentHint: 0,
         proto: getRandomBytes(128),
         timestamp: timestamp - 15,
+        urgent: true,
       };
       await insertSentProto(proto1, {
         messageIds: [getUuid()],
@@ -279,16 +297,19 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       const proto2 = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp: timestamp - 10,
+        urgent: true,
       };
       const proto3 = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp: timestamp - 20,
+        urgent: true,
       };
       await insertSentProto(proto1, {
         messageIds: [messageId, getUuid()],
@@ -332,6 +353,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -363,6 +385,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -412,6 +435,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -457,6 +481,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds,
@@ -492,6 +517,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [],
@@ -527,6 +553,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -555,6 +582,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -584,6 +612,7 @@ describe('sql/sendLog', () => {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
+        urgent: true,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],

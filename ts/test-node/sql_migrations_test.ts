@@ -2326,4 +2326,35 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion62', () => {
+    it('adds new urgent field to sendLogPayloads', () => {
+      updateToVersion(62);
+
+      const timestamp = Date.now();
+      db.exec(
+        `
+        INSERT INTO sendLogPayloads
+          (contentHint, timestamp, proto, urgent)
+          VALUES
+          (1, ${timestamp}, X'0123456789ABCDEF', 1);
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM sendLogPayloads;').pluck().get(),
+        1,
+        'starting total'
+      );
+
+      const payload = db
+        .prepare('SELECT * FROM sendLogPayloads LIMIT 1;')
+        .get();
+
+      assert.strictEqual(payload.contentHint, 1);
+      assert.strictEqual(payload.timestamp, timestamp);
+      assert.strictEqual(payload.proto.length, 8);
+      assert.strictEqual(payload.urgent, 1);
+    });
+  });
 });

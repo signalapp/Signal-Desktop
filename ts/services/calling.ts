@@ -998,6 +998,7 @@ export class CallingClass {
             sendOptions,
             sendTarget: conversation.toSenderKeyTarget(),
             sendType: 'callingMessage',
+            urgent: false,
           })
         ),
       sendType: 'callingMessage',
@@ -1621,6 +1622,7 @@ export class CallingClass {
           sendTarget: conversation.toSenderKeyTarget(),
           sendType: 'callingMessage',
           timestamp,
+          urgent: false,
         }),
         { messageIds: [], sendType: 'callingMessage' }
       )

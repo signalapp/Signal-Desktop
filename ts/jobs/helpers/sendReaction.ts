@@ -239,6 +239,7 @@ export async function sendReaction(
                 timestamp: message.get('sent_at'),
               }
             : undefined,
+          urgent: true,
         });
       } else {
         log.info('sending group reaction message');
@@ -280,6 +281,7 @@ export async function sendReaction(
               sendOptions,
               sendTarget: conversation.toSenderKeyTarget(),
               sendType: 'reaction',
+              urgent: true,
             });
           }
         );

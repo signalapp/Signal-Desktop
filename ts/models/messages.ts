@@ -1698,6 +1698,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           conversationIdsWithSealedSender,
           isUpdate,
           options: sendOptions,
+          urgent: false,
         }),
         // Note: in some situations, for doNotSave messages, the message has no
         //   id, so we provide an empty array here.

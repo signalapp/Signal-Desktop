@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
+import { isBoolean } from 'lodash';
 
 import * as Bytes from '../Bytes';
 import type { LoggerType } from '../types/Logging';
@@ -67,6 +68,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       messageIds = [],
       protoBase64,
       type,
+      urgent,
     } = data;
     log.info(
       `starting ${type} send to ${identifier} with timestamp ${timestamp}`
@@ -116,6 +118,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
           options,
           proto,
           timestamp,
+          urgent: isBoolean(urgent) ? urgent : true,
         }),
         { messageIds, sendType: type }
       );

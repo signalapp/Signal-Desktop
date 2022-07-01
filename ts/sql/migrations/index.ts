@@ -37,6 +37,7 @@ import updateToSchemaVersion58 from './58-update-unread';
 import updateToSchemaVersion59 from './59-unprocessed-received-at-counter-index';
 import updateToSchemaVersion60 from './60-update-expiring-index';
 import updateToSchemaVersion61 from './61-distribution-list-storage';
+import updateToSchemaVersion62 from './62-add-urgent-to-send-log';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1937,6 +1938,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion59,
   updateToSchemaVersion60,
   updateToSchemaVersion61,
+  updateToSchemaVersion62,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

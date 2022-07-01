@@ -263,6 +263,7 @@ export interface CallbackResultType {
   contentProto?: Uint8Array;
   timestamp?: number;
   recipients?: Record<string, Array<number>>;
+  urgent?: boolean;
 }
 
 export interface IRequestHandler {

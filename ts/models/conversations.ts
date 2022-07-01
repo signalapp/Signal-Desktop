@@ -1313,12 +1313,13 @@ export class ConversationModel extends window.Backbone
       if (isDirectConversation(this.attributes)) {
         await handleMessageSend(
           messaging.sendMessageProtoAndWait({
-            timestamp,
-            recipients: groupMembers,
-            proto: contentMessage,
             contentHint: ContentHint.IMPLICIT,
             groupId: undefined,
             options: sendOptions,
+            proto: contentMessage,
+            recipients: groupMembers,
+            timestamp,
+            urgent: false,
           }),
           { messageIds: [], sendType: 'typing' }
         );
@@ -1334,6 +1335,7 @@ export class ConversationModel extends window.Backbone
             sendTarget: this.toSenderKeyTarget(),
             sendType: 'typing',
             timestamp,
+            urgent: false,
           }),
           { messageIds: [], sendType: 'typing' }
         );

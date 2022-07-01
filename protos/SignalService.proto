@@ -26,13 +26,16 @@ message Envelope {
   optional string source          = 2;
   optional string sourceUuid      = 11;
   optional uint32 sourceDevice    = 7;
+  optional string destinationUuid = 13;
   // reserved                          3; // formerly optional string relay = 3;
   optional uint64 timestamp       = 5;
   // reserved                          6; // formerly optional bytes legacyMessage = 6;
   optional bytes  content         = 8; // Contains an encrypted Content
   optional string serverGuid      = 9;
   optional uint64 serverTimestamp = 10;
-  optional string destinationUuid = 13;
+  optional bool ephemeral = 12; // indicates that the message should not be persisted if the recipient is offline
+  optional bool urgent = 14 [default=true];  // indicates that the content is considered timely by the sender; defaults to true so senders have to opt-out to say something isn't time critical
+  // next: 15
 }
 
 message Content {

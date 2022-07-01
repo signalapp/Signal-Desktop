@@ -136,6 +136,7 @@ export async function sendProfileKey(
       options: sendOptions,
       proto,
       timestamp,
+      urgent: false,
     });
   } else {
     if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
@@ -160,6 +161,7 @@ export async function sendProfileKey(
       sendOptions,
       sendTarget: conversation.toSenderKeyTarget(),
       sendType,
+      urgent: false,
     });
   }
 

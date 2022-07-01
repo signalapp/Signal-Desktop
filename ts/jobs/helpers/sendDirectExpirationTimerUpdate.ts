@@ -105,6 +105,7 @@ export async function sendDirectExpirationTimerUpdate(
           expirationStartTimestamp: null,
           options: sendOptions,
           timestamp,
+          urgent: false,
         }),
         { messageIds: [], sendType }
       );
@@ -139,6 +140,7 @@ export async function sendDirectExpirationTimerUpdate(
             options: sendOptions,
             proto,
             timestamp,
+            urgent: false,
           }),
         sendType,
         timestamp,

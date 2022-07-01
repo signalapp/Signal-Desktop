@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { isNumber } from 'lodash';
+import { isBoolean, isNumber } from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
@@ -17,38 +17,49 @@ import { SEALED_SENDER } from '../types/SealedSender';
 const { insertSentProto, updateConversation } = dataInterface;
 
 export const sendTypesEnum = z.enum([
-  'blockSyncRequest',
-  'pniIdentitySyncRequest',
-  'callingMessage', // excluded from send log
-  'configurationSyncRequest',
-  'contactSyncRequest',
-  'deleteForEveryone',
-  'deliveryReceipt',
-  'expirationTimerUpdate',
-  'fetchLatestManifestSync',
-  'fetchLocalProfileSync',
-  'groupChange',
-  'groupSyncRequest',
-  'keySyncRequest',
-  'legacyGroupChange',
+  // Core user interactions, default urgent
   'message',
-  'messageRequestSync',
+  'callingMessage', // excluded from send log; only call-initiation messages are urgent
+  'deleteForEveryone',
+  'expirationTimerUpdate', // non-urgent
+  'groupChange', // non-urgent
+  'reaction',
+  'typing', // excluded from send log; non-urgent
+
+  // Responding to incoming messages, all non-urgent
+  'deliveryReceipt',
+  'readReceipt',
+  'viewedReceipt',
+
+  // Encryption housekeeping, default non-urgent
   'nullMessage',
   'profileKeyUpdate',
-  'reaction',
-  'readReceipt',
-  'readSync',
-  'resendFromLog', // excluded from send log
-  'resetSession',
+  'resendFromLog', // excluded from send log, only urgent if original message was urgent
   'retryRequest', // excluded from send log
-  'senderKeyDistributionMessage',
+  'senderKeyDistributionMessage', // only urgent if associated message is
+
+  // Sync messages sent during link, default non-urgent
+  'blockSyncRequest',
+  'configurationSyncRequest',
+  'contactSyncRequest', // urgent because it blocks the link process
+  'groupSyncRequest',
+  'keySyncRequest', // urgent because it blocks the link process
+  'pniIdentitySyncRequest', // urgent because we need our PNI to be fully functional
+
+  // Syncs, default non-urgent
+  'fetchLatestManifestSync',
+  'fetchLocalProfileSync',
+  'messageRequestSync',
+  'readSync', // urgent
   'sentSync',
   'stickerPackSync',
-  'typing', // excluded from send log
   'verificationSync',
   'viewOnceSync',
   'viewSync',
-  'viewedReceipt',
+
+  // No longer used, all non-urgent
+  'legacyGroupChange',
+  'resetSession',
 ]);
 
 export type SendTypesType = z.infer<typeof sendTypesEnum>;
@@ -216,7 +227,7 @@ async function maybeSaveToSendLog(
     sendType: SendTypesType;
   }
 ): Promise<void> {
-  const { contentHint, contentProto, recipients, timestamp } = result;
+  const { contentHint, contentProto, recipients, timestamp, urgent } = result;
 
   if (!shouldSaveProto(sendType)) {
     return;
@@ -247,6 +258,7 @@ async function maybeSaveToSendLog(
       timestamp,
       proto: Buffer.from(contentProto),
       contentHint,
+      urgent: isBoolean(urgent) ? urgent : true,
     },
     {
       messageIds,

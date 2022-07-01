@@ -232,6 +232,7 @@ export async function sendNormalMessage(
               sendOptions,
               sendTarget: conversation.toSenderKeyTarget(),
               sendType: 'message',
+              urgent: true,
             })
         );
       } else {
@@ -279,6 +280,7 @@ export async function sendNormalMessage(
           sticker,
           storyContext,
           timestamp: messageTimestamp,
+          urgent: true,
         });
       }
 
