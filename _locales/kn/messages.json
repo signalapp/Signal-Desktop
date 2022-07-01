@@ -871,10 +871,6 @@
         "message": "what's new",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "ಸಂವಾದ ಪ್ರಾರಂಭಿಸಲು ಸಂಪರ್ಕ ಅಥವಾ ಗುಂಪುನ್ನು ಆಯ್ಕೆಮಾಡಿಕೊಳ್ಳಿ.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "ಈ ಸಂಭಾಷಣೆಗೆ ಟೈಪಿಂಗ್‌ ಆನಿಮೇಶನ್‌",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "View this message on mobile to open it",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Gift",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Signal ಗೆ ದಾನ ಮಾಡಿ",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Signal ಗೆ ದಾನ ಮಾಡಿ",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "\"Signal ಗೆ ದೇಣಿಗೆ ನೀಡಿ\" ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಚಂದಾದಾರರಾಗಿ",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "\"$groupName$\" ಗ್ರೂಪ್ ಅನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವುದೇ?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "ಈ ಗ್ರೂಪ್‌ಗೆ ನಿಮ್ಮನ್ನು ಸೇರಿಸಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Error displaying image",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "ಟಾಗಲ್ ಟೆಕ್ಸ್ಟ್‌ನ ಹಿನ್ನೆಲೆ ಬಣ್ಣ",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "ಸ್ಟೋರಿಯ ಹಿನ್ನೆಲೆ ಬಣ್ಣ ಬದಲಾಯಿಸಿ",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "ಮುಂದೆ",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "ಲಿಂಕ್ ಸೇರಿಸಿ",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Add text",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Regular",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "ದಪ್ಪ",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "ಸೆರಿಫ್",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "ಲಿಪಿ",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "ಕುಗ್ಗಿಸಿದ ಗಾತ್ರ",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Type or paste a URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯ ವೀಕ್ಷಕರಿಗಾಗಿ ಒಂದು ಲಿಂಕ್ ಸೇರಿಸಿ",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Add text",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Visit link",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "ವಿಂಡೋಸ್‌ನಲ್ಲಿನ ಎಲ್ಲಾ ಡಾರ್ಕ್ ಮೋಡ್ ಮಂದಿಗಾಗಿ, ನಿಮ್ಮ ಸ್ಟೈಲ್‌ಗೆ ಸಾಟಿಯಾಗುವ ಹೊಚ್ಚಹೊಸ ಟೈಟಲ್‌ಬಾರ್ ಅನ್ನು ನಾವು ಪಡೆದಿದ್ದೇವೆ.",
         "description": "Release notes for v5.47"
     }
 }

@@ -871,10 +871,6 @@
         "message": "有什麼更新",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "選擇一個聯絡人或群組開始聊天。",
-        "description": ""
-    },
     "typingAlt": {
         "message": "本次對話中輸入動畫",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "這則訊息已被刪除",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "在手機上查看此訊息以開啟",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "在行動裝置上點選此訊息，即可查看禮物",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "禮品",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "成為定期贊助人",
+        "message": "贊助 Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "成為定期贊助人",
+        "message": "贊助 Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "點擊“成為定期贊助人”並訂閱",
+        "message": "點選「捐款給 Signal」並定期贊助我們",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "要解鎖「$groupName$」群組嗎？",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "你的聯絡人將可把你新增至此群組。",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "顯示影像錯誤",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "切換文字背景顏色",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "變更限動背景顏色",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "下一步",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "新增連結",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "新增文字",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "一般",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "粗體",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "手寫風",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "窄體",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "輸入或貼上 URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "為大家新增你的限動連結",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "新增文字",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "訪問連結",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "群組通話中的動態音訊指示器可幫助你查看你是在竊竊私語、大喊大叫還是恰到好處。",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "你透過手機請求加入的群組（透過邀請連結）現在將顯示在電腦上。",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "有個不穩定的 Wi-Fi 訊號連接？ 這不是問題，你現在可以重試下載附件。",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "若你是 Windows 使用者且愛用深色模式，我們這次新推出的標題欄絕對很適合你。",
         "description": "Release notes for v5.47"
     }
 }

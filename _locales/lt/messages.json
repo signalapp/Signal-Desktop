@@ -871,10 +871,6 @@
         "message": "kas naujo",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Pasirinkite adresatą ar grupę, kad pradėtumėte pokalbį.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Rašymo animacija šiam pokalbiui",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Ši žinutė buvo ištrinta.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Norėdami peržiūrėti šią žinutę, atverkite ją mobiliajame įrenginyje",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Tap this message on mobile to view your gift",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Dovana",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Tapti rėmėju",
+        "message": "Paaukokite Signal programėlei",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Tapkite rėmėju",
+        "message": "Paaukokite Signal programėlei",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Spustelėkite ant „Tapti rėmėju“ ir prenumeruokite",
+        "message": "Tap on \"Donate to Signal\" and subscribe",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -7253,6 +7253,58 @@
         "message": "Klaida atvaizduojant paveikslą",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Toggle text background color",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Change story background color",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Kitas",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Add link",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Pridėti tekstą",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Įprastas",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Bold",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Įrašykite ar įdėkite URL adresą",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Add a link for viewers of your story",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Pridėti tekstą",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Aplankyti tinklalapį",
         "description": "Title for the link preview tooltip"
@@ -7290,18 +7342,6 @@
     "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.45--1": {
-        "message": "Dinaminiai garso indikatoriai grupės skambučiuose padeda jums matyti, ar šnabždate, šaukiate, ar kalbate įprastai.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Dabar, grupės, prie kurių pateikėte prašymą prisijungti naudodamiesi telefonu (per pakvietimo nuorodą), bus rodomos darbalaukio programoje.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Naudojatės prastu belaidžiu ryšiu? Ne problema, dabar, galite pakartotinai bandyti atsisiųsti priedus.",
-        "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.47--1": {
         "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",

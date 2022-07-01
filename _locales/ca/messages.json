@@ -871,10 +871,6 @@
         "message": "les novetats",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Seleccioneu un contacte o grup per a començar la conversa.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Animació d'escriptura per a aquesta conversa",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Aquest missatge s'ha suprimit.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Mostra aquest missatge al mòbil per obrir-lo",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Toca sobre aquest missatge des del mòbil per veure el teu regal",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Regal",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Sigueu-ne un sostenidor",
+        "message": "Feu una donació a Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Sigueu-ne un sostenidor",
+        "message": "Feu una donació a Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Toqueu \"Sigueu-ne un sostenidor\" i subscriviu-vos-hi.",
+        "message": "Toca sobre \"Fer donació a Signal\" per a subscriure't",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Vols desbloquejar el grup \"$groupName$\"?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Els teus contactes podran afegir-te a aquest grup.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Error en mostrar la imatge",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Canviar el color de fons del text",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Canviar el color de fons de la teva història",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Següent",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Afegir enllaç",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Afegiu-hi text",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Regular",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Negreta",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Cal·ligrafia",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensada",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Escriviu o enganxeu-hi un URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Afegeix un enllaç per a les visualitzacions de la teva història",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Afegiu-hi text",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Obre l'enllaç",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Els indicadors d'àudio dinàmics de les trucades de grup us ajuden a veure si esteu xiuxiuejant, cridant o esteu bé.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Els grups als quals heu sol·licitat afegir-vos des del telèfon (a través d'un enllaç d'invitació) es mostraran ara a l'escriptori.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Teniu una connexió Wi-Fi irregular? No és cap problema, ara podeu tornar a provar de baixar els fitxers adjunts.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Els fans del mode fosc que feu servir Windows teniu una nova barra de capçalera que encaixa amb el vostre estil.",
         "description": "Release notes for v5.47"
     }
 }

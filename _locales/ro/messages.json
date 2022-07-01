@@ -871,10 +871,6 @@
         "message": "ce este nou",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Alege un contact sau un grup pentru a discuta.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Animații de tastare pentru conversația curentă",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Acest mesaj a fost șters.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Vizualizează acest mesaj pe mobil pentru a-l deschide",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Atinge acest mesaj pe mobil ca să-ți vezi cadoul",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Cadou",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Fii un Susținător",
+        "message": "Donează pentru Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Fii un Susținător",
+        "message": "Donează pentru Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Atinge \"Fii un susținător\" și abonează-te",
+        "message": "Atinge „Donează către Signal” și abonează-te",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Deblochezi grupul „$groupName$”?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Persoanele tale de contact vor putea să te adauge în acest grup.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Eroare la afișarea imaginii",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Schimbă culoarea de fundal a textului",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Schimbă culoarea de fundal a poveștii",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Următorul",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Adaugă linkul",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Adăugare text",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normal",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Aldin",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Tastează sau lipește un URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Adaugă un link pentru cei care-ți văd povestea",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Adăugare text",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Vezi linkul",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Am adăugat indicatori audio în apelurile de grup pentru a te ajuta să vezi dacă vorbești prea încet, prea tare sau perfect.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Grupurile către care ai trimis cerere de înscriere de pe telefon (folosind linkul grupului) vor apărea acum și în Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Ai o conexiune Wi-Fi instabilă? Acum nu mai este o problemă, deoarece acum vei putea încerca din nou descărcarea atașamentelor.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Pentru toți iubitorii de dark mode pe Windows, avem o nouă bară de titlu care să se potrivească cu stilul vostru.",
         "description": "Release notes for v5.47"
     }
 }

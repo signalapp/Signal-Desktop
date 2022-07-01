@@ -871,10 +871,6 @@
         "message": "更新情報",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "チャットを始めるには連絡先かグループを選択してください",
-        "description": ""
-    },
     "typingAlt": {
         "message": "このチャットで入力中の状態を示すアニメーション",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "このメッセージは削除されました。",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "View this message on mobile to open it",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "モバイルでこのメッセージをタップするとギフトが表示されます",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "ギフト",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "サポーターになる",
+        "message": "Signalへの寄付",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "サポーターになってください",
+        "message": "Signalへの寄付",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "「サポーターになる」をタップして登録します",
+        "message": "「シグナルに寄付する」をタップして申し込む",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "$groupName$グループのブロックを解除しますか？",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "連絡先からこのグループに追加することができます。",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "画像表示のエラー",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "テキストの背景色を切り替えます",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "ストーリーの背景色を変更します",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "次へ",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "リンクを追加します",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "テキストを追加",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "標準",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "太字",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "セリフ ",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "スクリプト",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "コンデンス",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "URLを入力するか貼り付けてください",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "ストーリーを見る人のためのリンクを追加します",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "テキストを追加",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "表示する",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "グループ通話時のダイナミックオーディオインジケーターが登場！自分の声の大きさを確認できます。",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "自分が招待リンクを使ってスマートフォンから参加申請したグループが、デスクトップアプリにも表示されるようになりました。",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "添付ファイルのダウンロードを再試行できるようになりました。",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Windowsのダークモードをお使いのすべての方々のために、あなたのスタイルに合った新しいタイトルバーをご用意しました。",
         "description": "Release notes for v5.47"
     }
 }

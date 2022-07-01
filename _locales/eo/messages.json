@@ -871,10 +871,6 @@
         "message": "tiun, kiu estas nova",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Elektu kontakton aŭ grupon por ekparoli.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Tajp-indikiloj por tiu interparolo",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Tiu ĉi mesaĝo forviŝiĝis.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Vidi tiun mesaĝon ĉe poŝtelefono por malfermi ĝin",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Tap this message on mobile to view your gift",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Donaco",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Iĝi donacanto",
+        "message": "Donaci al Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Iĝi donacanto",
+        "message": "Donaci al Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tuŝetu „Iĝi donacanto“, kaj ekabonu",
+        "message": "Tap on \"Donate to Signal\" and subscribe",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -7253,6 +7253,58 @@
         "message": "Eraro dum montro de la bildo",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Toggle text background color",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Change story background color",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Sekva",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Add link",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Aldoni tekston",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Norma",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Bold",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Entajpi aŭ alglui retadreson",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Add a link for viewers of your story",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Aldoni tekston",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Aliri la ligilon",
         "description": "Title for the link preview tooltip"
@@ -7290,18 +7342,6 @@
     "WhatsNew__bugfixes": {
         "message": "Tiu versio enhavas kelkajn optimumaĵojn kaj riparetojn, por ke Signal plu funkciu bone.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.45--1": {
-        "message": "Aŭd-indikiloj en grupalvoko helpas al vi vidi, se vi murmuras, krias aŭ parolas normale.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "La grupoj, kiujn vi petis anigi ĉe via telefono (pere de invitoligilo), montriĝos en Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Ĉu vi havas nestabilan retkonekton? Tio ne plus estas problemo, vin povas nun reprovi elŝuti la kunsendaĵojn.",
-        "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.47--1": {
         "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
