@@ -871,10 +871,6 @@
         "message": "Beth sy'n newydd",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Dewiswch gyswllt neu grŵp i ddechrau sgwrsio.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Teipiwch animeiddiad ar gyfer y sgwrs hon",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Cafodd y neges hon ei dileu.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Gweld y neges hon ar ffôn symudol i'w hagor",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Tap this message on mobile to view your gift",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Rhodd",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Dod yn Gefnogwr",
+        "message": "Cyfrannu at Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Dod yn Gefnogwr",
+        "message": "Cyfrannu at Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tapiwch ar \"Dod yn Gefnogwr\" a thanysgrifio",
+        "message": "Tap on \"Donate to Signal\" and subscribe",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -7253,6 +7253,58 @@
         "message": "Gwall wrth ddangos delwedd",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Toggle text background color",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Change story background color",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Nesaf",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Add link",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Ychwanegu testun",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Arferol",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Bold",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Teipio neu gludo URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Add a link for viewers of your story",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Ychwanegu testun",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Ymweld â'r ddolen",
         "description": "Title for the link preview tooltip"
@@ -7290,18 +7342,6 @@
     "WhatsNew__bugfixes": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
         "description": "Release notes for releases that only include bug fixes"
-    },
-    "WhatsNew__v5.45--1": {
-        "message": "Mae dangosyddion sain deinamig mewn grŵp yn eich cynorthwyo i weld os ydych yn sibrwd, gwaedu neu'n iawn.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Bydd grwpiau rydych wedi gofyn i gael ymuno â nhw drwy eich ffôn (drwy ddolen gwahoddiad) nawr yn cael eu dangos yn Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Cysylltiad Wi-Fi gwan? Dim problem, gallwch nawr geisio llwytho i lawr atodiadau eto.",
-        "description": "Release notes for v5.45"
     },
     "WhatsNew__v5.47--1": {
         "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",

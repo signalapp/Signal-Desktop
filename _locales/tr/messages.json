@@ -871,10 +871,6 @@
         "message": "nelerin yeni",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Konuşmaya başlamak için bir kişi veya grup seçin.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Bu konuşma için yazma animasyonu",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Bu ileti silindi.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Açmak için bu mesajı mobil cihazınızda görüntüleyin",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Hediyeni görüntülemek için mobil cihazında bu mesaja dokun",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Hediye",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Destekçi Ol",
+        "message": "Signal'e Bağış Yap",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Destekçi Ol",
+        "message": "Signal'e Bağış Yap",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "\"Destekçi Ol\"a dokun ve abone ol",
+        "message": "\"Signal'a Bağış Yap\"a dokun ve abone ol",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "\"$groupName$\" Grubu'nun engeli kaldırılsın mı?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Kişilerin seni bu gruba ekleyebilir.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Resim görüntülenirken hata",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Metnin arka plan rengini değiştir",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Hikayenin arka plan rengini değiştir",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "İleri",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Link ekle",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Metin ekle",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normal",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Kalın",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "El yazısı",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Dar",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Yaz veya bir URL yapıştır",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Hikayeni izleyenler için bir bağlantı ekle",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Metin ekle",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Bağlantıyı ziyaret et",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Grup aramalarındaki dinamik sesli göstergeler, fısıldaşıp konuşmadığınızı, bağırıp çağırmadığınızı veya tam olarak haklı olup olmadığınızı görmenize yardımcı olur.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Telefonunuzdan (davet bağlantısı aracılığıyla) katılmayı talep ettiğiniz gruplar artık Masaüstünde gösterilecek.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Kesintili bir Wi-Fi bağlantınız mı var? Sorun değil, artık ekleri indirmeyi yeniden deneyebilirsiniz.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Windows karanlık mod severlerin tarzına uygun, yeni bir başlık çubuğumuz var.",
         "description": "Release notes for v5.47"
     }
 }

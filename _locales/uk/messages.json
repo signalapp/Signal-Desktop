@@ -871,10 +871,6 @@
         "message": "що нового",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Оберіть контакт чи групу щоб почати спілкування.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Анімація набору тексту для цієї розмови",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Це повідомлення було видалено.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Переглянути це повідомлення на мобільному пристрої для відкриття подарунку",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Щоб переглянути подарунок, торкніться цього повідомлення на мобільному пристрої",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Подарунок",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Стати підтримувачем",
+        "message": "Підтримати Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Стати підтримувачем",
+        "message": "Підтримати Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Натисніть на «Стати підтримувачем» та підпишіться",
+        "message": "Натисніть на «Підтримати Signal» і активуйте передплату",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Розблокувати групу «$groupName$»?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Ваші контакти зможуть додавати вас до цієї групи.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Помилка показування зображення",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Змінити колір для фону тексту",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Змінити колір для фону сторі",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Далі",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Додати посилання",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Додати текст",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Звичайний",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Жирний",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Із зарубками",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Рукописний",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Ущільнений",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Надрукувати або вставити URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Додайте посилання для глядачів вашої сторі",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Додати текст",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Перейти за посиланням",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Динамічні індикатори у групових викликах допоможуть вам зрозуміти коли ви шепочете, галасуєте або нормально розмовляєте.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Групи, запит до яких ви надіслали з телефону (використав посилання-запрошення), відтепер показуватимуться у версії для комп'ютера.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Користуєтесь мінливим Wi-Fi підключенням? Жодних проблем, відтепер ви можете перезапускати завантаження додатків.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Спеціально для всіх прихильників темного режиму для Windows — ми додаємо новий рядок заголовка у вашому улюбленому стилі.",
         "description": "Release notes for v5.47"
     }
 }

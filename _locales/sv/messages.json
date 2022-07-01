@@ -871,10 +871,6 @@
         "message": "vad som är nytt",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Välj en kontakt eller grupp för att börja chatta.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Skrivanimation för den här konversationen",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -930,7 +926,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadFullMessage": {
-        "message": "Download Full Message",
+        "message": "Ladda ner hela meddelandet",
         "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
@@ -2761,44 +2757,48 @@
         "message": "Det här meddelandet togs bort.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
-        "message": "View this message on mobile to open it",
+    "message--giftBadge--unopened--incoming": {
+        "message": "Visa det här meddelandet på mobilen för att öppna det",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Tryck på det här meddelandet på mobilen för att se din gåva",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "Gåva",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Check your phone to open gift",
+        "message": "Kolla din telefon för att öppna gåvan",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Check your phone to view your gift",
+        "message": "Kolla din telefon för att se din gåva",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "Du har fått en gåva",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "Du har löst in ett gåvomärke",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "You sent a gift badge",
+        "message": "Du har skickat ett gåvomärke",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Gift Badge",
+        "message": "Gåvomärke",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "Gåva",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$ days remaining",
+        "message": "$days$ dagar kvar",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -2808,7 +2808,7 @@
         }
     },
     "message--giftBadge--remaining--hours": {
-        "message": "$hours$ hours remaining",
+        "message": "$hours$ timmar kvar",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
         "placeholders": {
             "hours": {
@@ -2818,7 +2818,7 @@
         }
     },
     "message--giftBadge--remaining--minutes": {
-        "message": "$minutes$ minutes remaining",
+        "message": "$minutes$ minuter kvar",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
         "placeholders": {
             "minutes": {
@@ -2828,11 +2828,11 @@
         }
     },
     "message--giftBadge--remaining--one-minute": {
-        "message": "1 minute remaining",
+        "message": "1 minut kvar",
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "Utgånget",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2840,7 +2840,7 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "Inlöst",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
+        "message": "Du har gett ett märke till $name$. När de accepterar får de ett val att visa eller dölja sitt märke.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3280,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Accept call with video",
+        "message": "Acceptera videosamtal",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Accept call with audio",
+        "message": "Acceptera ljudsamtal",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Bli en upprätthållare",
+        "message": "Donera till Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Bli en upprätthållare",
+        "message": "Donera till Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tryck på \"Bli en underhållare\" och abonnera",
+        "message": "Tryck på \"Donera till Signal\" och prenumerera",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Avblockera \"$groupName$\"-gruppen?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Dina kontakter kommer att kunna lägga till dig i den här gruppen.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7194,7 +7194,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "Reply to Group",
+        "message": "Svara gruppen",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
@@ -7253,6 +7253,58 @@
         "message": "Det gick inte att visa bilden",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Växla textbakgrundsfärg",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Ändra bakgrundsfärg för story",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Nästa",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Lägg till länk",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Lägg till text",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normal",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Bold",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Skriv eller klistra in en webbadress",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Lägg till en länk för de som ser din story",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Lägg till text",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Besök länk",
         "description": "Title for the link preview tooltip"
@@ -7262,7 +7314,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Reacted to a story from $name$",
+        "message": "Reagera på en story från $name$",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7291,20 +7343,8 @@
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "För alla de som kör med mörkt läge på Windows har vi en ny titelrad som matchar din stil.",
         "description": "Release notes for v5.47"
     }
 }

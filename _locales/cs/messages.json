@@ -871,10 +871,6 @@
         "message": "co je nového",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Vyberte si kontakt nebo skupinu a začněte si povídat.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Animace psaní pro tuto konverzaci.",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Tato zpráva byla smazána.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Pro otevření této zprávy si ji zobrazte na mobilu",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Klepněte na tuhle zprávu na mobilním telefonu a zobrazte si svůj dárek",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Dárek",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Staňte se podporovatelem",
+        "message": "Podpořte Signal finančně",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Staňte se podporovatelem",
+        "message": "Podpořte Signal finančně",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Klepněte na \"Stát se podporovatelem\" a přihlaste se k odběru",
+        "message": "Klepněte na „Podpořit Signal finančně“ a přihlaste se k odběru",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Odblokovat skupinu „$groupName$“?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Vaše kontakty vás budou moct přidat do této skupiny.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Chyba při zobrazování obrázku",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Přepnout barvu pozadí textu",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Změnit barvu pozadí příběhu",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Další",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Přidat odkaz",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Přidat text",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normální",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Tučně",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Patka",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Písmo",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Zhuštěné",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Napište nebo vložte URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Přidejte odkaz pro sledující vašeho příběhu",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Přidat text",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Navštívit odkaz",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Dynamické indikátory zvuku ve skupinových hovorech vám pomohou zjistit, zda šeptáte, křičíte nebo mluvíte tak akorát.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Skupiny, ke kterým jste se chtěli připojit z telefonu (prostřednictvím odkazu s pozvánkou), se nyní zobrazí v aplikaci pro počítače.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Máte poruchové připojení Wi-Fi? Žádný problém, nyní můžete stahování příloh zkusit znovu.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Pro všechny, kdo ve Windows upřednostňují tmavý režim, máme novou hlavní lištu, která vám bude ladit.",
         "description": "Release notes for v5.47"
     }
 }

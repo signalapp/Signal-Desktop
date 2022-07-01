@@ -871,10 +871,6 @@
         "message": "Újdonságok",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Válassz ki egy kontaktot vagy csoportot a beszélgetés elkezdéséhez!",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Gépelési animáció ehhez a beszélgetéshez",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Ez az üzenet ki lett törölve.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "A megtekintéshez nyisd meg ezt az üzenetet mobilon",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Az ajándék megtekintéséhez koppints erre az üzenetre a mobilodon",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Ajándék",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Válj Fenntartóvá!",
+        "message": "Adomány a Signal számára",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Válj Fenntartóvá!",
+        "message": "Adomány a Signal számára",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Kattints a \"Válj Fenntartóvá!\" menüpontra, és iratkozz fel!",
+        "message": "Koppints az „Adományozás a Signalnak” lehetőségre, és iratkozz fel",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Feloldod a(z) „$groupName$” csoport letiltását?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "A névjegyeid hozzá fognak tudni adni ehhez a csoporthoz.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Hiba a kép megjelenítésekor",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Szöveg háttérszínének módosítása",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Történet háttérszínének módosítása",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Tovább",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Hivatkozás hozzáadása",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Szöveg hozzáadása",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normál",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Félkövér",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Gépelj vagy másolj be egy URL-t",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Adj hozzá egy hivatkozást a történeted nézőinek",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Szöveg hozzáadása",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Hivatkozás megnyitása",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "A csoporthívásokban megjelenő dinamikus hangerő indikátorok segítenek megállapítani, hogy épp suttogsz, üvöltesz, vagy pont jó a hangerőd.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Azok a csoportok, ahová telefonról kérted felvételedet (csoporthivatkozás használatával) mostantól megjelennek a Desktopban is.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Szakadozik a Wi-Fi? Nem gond, mostantól újraindíthatod a csatolmányok letöltését.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "A Windows sötét módját kedvelő felhasználóink számára új címsort kínálunk, amely megfelel a stílusuknak.",
         "description": "Release notes for v5.47"
     }
 }

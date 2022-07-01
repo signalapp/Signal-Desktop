@@ -20,7 +20,7 @@
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Λάθος στη βάση δεδομένων",
+        "message": "Σφάλμα στη βάση δεδομένων",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
@@ -870,10 +870,6 @@
     "viewReleaseNotes": {
         "message": "τι είναι καινούργιο",
         "description": "Clickable link that displays the latest release notes"
-    },
-    "selectAContact": {
-        "message": "Διάλεξε μια επαφή ή μια ομάδα για να αρχίσεις να μιλάς.",
-        "description": ""
     },
     "typingAlt": {
         "message": "Κινούμενη εικόνα που δείχνει πληκτρολόγηση για αυτή τη συζήτηση",
@@ -2761,9 +2757,13 @@
         "message": "Αυτο το μήνυμα διαγράφτηκε.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Δες αυτό το μήνυμα στο κινητό για να το ανοίξεις",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Πάτα αυτό το μήνυμα σε κινητό για να δεις το δώρο σου",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Δώρο",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Γίνε υποστηρικτής/τρια",
+        "message": "Κάνε μια δωρεά στο Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Γίνε υποστηρικτής/τρια",
+        "message": "Κάνε μια δωρεά στο Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Πάτα στο \"Γίνε υποστηρικτής/τρια\" και κάνε συνδρομή",
+        "message": "Πάτα την επιλογή \"Υποστήριξε το Signal\" και κάνε συνδρομή",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Κατάργηση αποκλεισμού της ομάδας \"$groupName$\";",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Οι επαφές σου θα μπορούν να σε προσθέσουν σε αυτήν την ομάδα.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Σφάλμα κατά τη προβολή αυτής της εικόνας",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Εναλλαγή χρώματος φόντου κειμένου",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Αλλαγή χρώματος φόντου ιστορίας",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Επόμενο",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Προσθήκη συνδέσμου",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Προσθήκη κειμένου",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Κανονικό",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Bold",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Πληκτρολόγησε ή επικόλλησε ένα URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Πρόσθεσε σύνδεσμο για τα άτομα που βλέπουν την ιστορία σου",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Προσθήκη κειμένου",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Επίσκεψη συνδέσμου",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Οι δυναμικές ενδείξεις ήχου στις ομαδικές κλήσεις βοηθούν να δεις αν μιλάς πολύ χαμηλόφωνα, φωνάζοντας, ή σε καλή στάθμη.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Οι ομάδες στις οποίες ζήτησες να μπεις από το τηλέφωνό σου (μέσω ενός συνδέσμου πρόσκλησης) θα εμφανίζονται πλέον στο Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Ασταθής σύνδεση Wi-Fi; Κανένα πρόβλημα, μπορείς πλέον να ξαναδοκιμάσεις τη λήψη συνημμένων.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Για τα άτομα που χρησιμοποιούν το σκούρο θέμα στα Windows, έχουμε μια νέα γραμμή τίτλου που θα ταιριάξει με το στιλ σας.",
         "description": "Release notes for v5.47"
     }
 }

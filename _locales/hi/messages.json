@@ -871,10 +871,6 @@
         "message": "नया क्या है",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "चेटिंग की शुरुआत करने के लिए कॉंटॅक्ट या ग्रूप चुने ",
-        "description": ""
-    },
     "typingAlt": {
         "message": "इस वार्तालाप के लिये टाइपिंग एनीमेशन",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "यह मेसेज हटा दिया गया है।",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "View this message on mobile to open it",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "मोबाइल पर इस संदेश को टैप करके अपना गिफ़्ट देखें",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Gift",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "एक सस्टेनर बनें",
+        "message": "Signal  को दान करें",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "एक सस्टेनर बनें",
+        "message": "Signal  को दान करें",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "\"एक सस्टेनर बनें\" पर टैप करें और सब्सक्राइब करें",
+        "message": "\"Signal को दान दें\" पर टैप करके सब्सक्राइब करें",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "\"$groupName$\" ग्रुप को अनब्लॉक करना है?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "आपके संपर्क आपको इस ग्रुप में जोड़ सकेंगे।",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Error displaying image",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "टेक्स्ट की पृष्ठभूमि का रंग टॉगल करें",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "स्टोरी की पृष्ठभूमि का रंग बदलें",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "अगला",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "लिंक जोड़ें",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "टेक्स्ट शामिल करें",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "नियमित",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "बोल्ड",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "स्क्रिप्ट",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensed",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Type or paste a URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "अपनी स्टोरी के व्यूअर्स के लिए कोई लिंक जोड़ें ",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "टेक्स्ट शामिल करें",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Visit link",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Dynamic audio indicators in group calls help you see if you're whispering, yelling, or just right.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Groups you’ve requested to join from your phone (via an invite link) will now show up on Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Got a spotty Wi-Fi connection? Not a problem, you can now retry downloading attachments.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Windows पर डार्क मोड पसंद करनेवाले सभी लोगों के लिए हमारे पास एक नया टाइटल बार है जो आपकी स्टाइल को मैच करता है।",
         "description": "Release notes for v5.47"
     }
 }

@@ -871,10 +871,6 @@
         "message": "nyheder",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Vælg en kontakt eller gruppe for at starte en samtale.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Skrive-animation for denne samtale",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Beskeden blev slettet",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Se denne besked på mobilen for at åbne den",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Tryk på denne besked på mobilen for at se din gave",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Gave",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Bliv bidragsyder",
+        "message": "Donér til Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Bliv bidragsyder",
+        "message": "Donér til Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tryk på \"Bliv bidragsyder\" og abonnér",
+        "message": "Tryk på \"Donér til Signal\", og abonnér",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Fjern blokeringen fra gruppen \"$groupName$\"?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Dine kontakter vil kunne føje dig til denne gruppe.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Fejl ved visning af billede",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Skift baggrundsfarve til teksten",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Ændr baggrundsfarve til historien",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Næste",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Tilføj link",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Tilføj tekst",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normal",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Fed skrift",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Script",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Smal",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Indtast eller indsæt en URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Tilføj et link til læsere af din historie",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Tilføj tekst",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Besøg link",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Dynamiske lydindikatorer i gruppeopkald hjælper dig med at se, om du hvisker, råber eller er lige tilpas.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Grupper, som du har anmodet om at deltage i fra din telefon (via et invitationslink), vises nu på Desktop.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "Har du en ustabil Wi-Fi-forbindelse? Det er ikke noget problem, da du nu kan prøve at hente vedhæftede filer igen.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Til alle jer med mørk tilstand i Windows, så har vi en ny titellinje, der passer til jeres stil.",
         "description": "Release notes for v5.47"
     }
 }

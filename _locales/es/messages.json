@@ -871,10 +871,6 @@
         "message": "las novedades",
         "description": "Clickable link that displays the latest release notes"
     },
-    "selectAContact": {
-        "message": "Selecciona una persona o un grupo para empezar a chatear.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Animación de tecleo para este chat",
         "description": "Used as the 'title' attribute for the typing animation"
@@ -2761,9 +2757,13 @@
         "message": "Mensaje eliminado.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
-    "message--giftBadge--unopened": {
+    "message--giftBadge--unopened--incoming": {
         "message": "Abre este mensaje en tu celular/móvil para verlo",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    },
+    "message--giftBadge--unopened--outgoing": {
+        "message": "Toca sobre este mensaje desde tu teléfono para ver tu regalo",
+        "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
         "message": "Regalo",
@@ -5610,11 +5610,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Sostén Signal",
+        "message": "Dona a Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Sostén Signal",
+        "message": "Dona a Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Toca sobre «Sostén Signal» y suscríbete",
+        "message": "Toca sobre \"Hacer donación a Signal\" para suscribirte",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "¿Quieres desbloquear el grupo \"$groupName$\"?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Tus contactos podrán añadirte a este grupo.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7253,6 +7253,58 @@
         "message": "Fallo al mostrar la imagen",
         "description": "aria-label for image errors"
     },
+    "StoryCreator__text-bg": {
+        "message": "Cambiar el color de fondo del texto",
+        "description": "Button label"
+    },
+    "StoryCreator__story-bg": {
+        "message": "Cambiar el color de fondo de tu historia",
+        "description": "Button label"
+    },
+    "StoryCreator__next": {
+        "message": "Siguiente",
+        "description": "Button label text to advance to next step of story creation"
+    },
+    "StoryCreator__add-link": {
+        "message": "Añadir enlace",
+        "description": "Button label to apply the link preview to story"
+    },
+    "StoryCreator__input-placeholder": {
+        "message": "Añadir texto",
+        "description": "Placeholder to add text"
+    },
+    "StoryCreator__text--regular": {
+        "message": "Normal",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--bold": {
+        "message": "Negrita",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--serif": {
+        "message": "Serif",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--script": {
+        "message": "Caligrafía",
+        "description": "Label for font"
+    },
+    "StoryCreator__text--condensed": {
+        "message": "Condensada",
+        "description": "Label for font"
+    },
+    "StoryCreator__link-preview-placeholder": {
+        "message": "Escribe o añade una URL",
+        "description": "Placeholder for the URL input for link previews"
+    },
+    "StoryCreator__link-preview-empty": {
+        "message": "Añade un enlace para las visualizaciones de tu historia",
+        "description": "Empty state for the link preview"
+    },
+    "TextAttachment__placeholder": {
+        "message": "Añadir texto",
+        "description": "Placeholder for the add text input"
+    },
     "TextAttachment__preview__link": {
         "message": "Visitar enlace",
         "description": "Title for the link preview tooltip"
@@ -7291,20 +7343,8 @@
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.45--1": {
-        "message": "Indicador dinámico de audio en llamadas de grupo para comprobar quién susurra, grita o habla normalmente.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--2": {
-        "message": "Ahora, los grupos a los que has solicitado unirte desde tu celular/móvil (vía enlace) se mostrarán en la aplicación de escritorio.",
-        "description": "Release notes for v5.45"
-    },
-    "WhatsNew__v5.45--3": {
-        "message": "¿Usas una conexión Wifi con problemas? No te preocupes: Ahora puedes reintentar la descarga de adjuntos.",
-        "description": "Release notes for v5.45"
-    },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Los fans del modo oscuro que usáis Windows tenéis una nueva barra de cabecera que encaja con vuestro estilo.",
         "description": "Release notes for v5.47"
     }
 }
