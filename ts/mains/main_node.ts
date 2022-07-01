@@ -13,6 +13,7 @@ import {
 } from 'electron';
 
 import path, { join } from 'path';
+import { platform as osPlatform } from 'process';
 import url from 'url';
 import os from 'os';
 import fs from 'fs';
@@ -291,8 +292,11 @@ async function createWindow() {
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
     },
+    // only set icon for Linux, the executable one will be used by default for other platforms
+    icon:
+      (osPlatform === 'linux' && path.join(getAppRootPath(), 'images/session/session_icon.png')) ||
+      undefined,
     ...picked,
-    // don't setup icon, the executable one will be used by default
   };
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < minWidth) {
