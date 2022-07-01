@@ -1365,9 +1365,6 @@ export class ConversationModel extends window.Backbone
     }
 
     this.addSingleMessage(message);
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.debouncedUpdateLastMessage!();
   }
 
   // New messages might arrive while we're in the middle of a bulk fetch from the
@@ -1378,6 +1375,9 @@ export class ConversationModel extends window.Backbone
   ): Promise<void> {
     await this.beforeAddSingleMessage();
     this.doAddSingleMessage(message, { isJustSent });
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.debouncedUpdateLastMessage!();
   }
 
   private async beforeAddSingleMessage(): Promise<void> {
@@ -4541,6 +4541,9 @@ export class ConversationModel extends window.Backbone
     //   to be above the message that initiated that change, hence the subtraction.
     const sentAt = (providedSentAt || receivedAtMS) - 1;
 
+    const isNoteToSelf = isMe(this.attributes);
+    const shouldBeRead = isNoteToSelf || isInitialSync;
+
     const model = new window.Whisper.Message({
       conversationId: this.id,
       expirationTimerUpdate: {
@@ -4550,10 +4553,10 @@ export class ConversationModel extends window.Backbone
         fromGroupUpdate,
       },
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      readStatus: isInitialSync ? ReadStatus.Read : ReadStatus.Unread,
+      readStatus: shouldBeRead ? ReadStatus.Read : ReadStatus.Unread,
       received_at_ms: receivedAtMS,
       received_at: receivedAt ?? window.Signal.Util.incrementMessageCounter(),
-      seenStatus: isInitialSync ? SeenStatus.Seen : SeenStatus.Unseen,
+      seenStatus: shouldBeRead ? SeenStatus.Seen : SeenStatus.Unseen,
       sent_at: sentAt,
       type: 'timer-notification',
       // TODO: DESKTOP-722
