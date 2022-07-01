@@ -47,9 +47,8 @@ export const StoryImage = ({
   storyId,
 }: PropsType): JSX.Element | null => {
   const shouldDownloadAttachment =
-    !isDownloaded(attachment) &&
-    !isDownloading(attachment) &&
-    !hasNotResolved(attachment);
+    (!isDownloaded(attachment) && !isDownloading(attachment)) ||
+    hasNotResolved(attachment);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
