@@ -107,9 +107,7 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
-import { DeleteModel } from '../messageModifiers/Deletes';
 import type { ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
@@ -124,6 +122,8 @@ import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { TimelineMessageLoadingState } from '../util/timelineUtil';
 import { SeenStatus } from '../MessageSeenStatus';
 import { getConversationIdForLogging } from '../util/idForLogging';
+import { getSendTarget } from '../util/getSendTarget';
+import { getRecipients } from '../util/getRecipients';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -148,7 +148,6 @@ const {
   getNewerMessagesByConversation,
 } = window.Signal.Data;
 
-const THREE_HOURS = durations.HOUR * 3;
 const FIVE_MINUTES = durations.MINUTE * 5;
 
 const JOB_REPORTING_THRESHOLD_MS = 25;
@@ -248,7 +247,7 @@ export class ConversationModel extends window.Backbone
   // This is one of the few times that we want to collapse our uuid/e164 pair down into
   //   just one bit of data. If we have a UUID, we'll send using it.
   getSendTarget(): string | undefined {
-    return this.get('uuid') || this.get('e164');
+    return getSendTarget(this.attributes);
   }
 
   getContactCollection(): Backbone.Collection<ConversationModel> {
@@ -3615,55 +3614,15 @@ export class ConversationModel extends window.Backbone
     includePendingMembers?: boolean;
     extraConversationsForSend?: Array<string>;
   } = {}): Array<string> {
-    if (isDirectConversation(this.attributes)) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return [this.getSendTarget()!];
-    }
-
-    const members = this.getMembers({ includePendingMembers });
-
-    // There are cases where we need to send to someone we just removed from the group, to
-    //   let them know that we removed them. In that case, we need to send to more than
-    //   are currently in the group.
-    const extraConversations = extraConversationsForSend
-      ? extraConversationsForSend
-          .map(id => window.ConversationController.get(id))
-          .filter(isNotNil)
-      : [];
-
-    const unique = extraConversations.length
-      ? window._.unique([...members, ...extraConversations])
-      : members;
-
-    // Eliminate ourself
-    return window._.compact(
-      unique.map(member =>
-        isMe(member.attributes) ? null : member.getSendTarget()
-      )
-    );
+    return getRecipients(this.attributes, {
+      includePendingMembers,
+      extraConversationsForSend,
+    });
   }
 
   // Members is all people in the group
   getMemberConversationIds(): Set<string> {
     return new Set(map(this.getMembers(), conversation => conversation.id));
-  }
-
-  // Recipients includes only the people we'll actually send to for this conversation
-  getRecipientConversationIds(): Set<string> {
-    const recipients = this.getRecipients();
-    const conversationIds = recipients.map(identifier => {
-      const conversation = window.ConversationController.getOrCreate(
-        identifier,
-        'private'
-      );
-      strictAssert(
-        conversation,
-        'getRecipientConversationIds should have created conversation!'
-      );
-      return conversation.id;
-    });
-
-    return new Set(conversationIds);
   }
 
   async getQuoteAttachment(
@@ -3846,65 +3805,6 @@ export class ConversationModel extends window.Backbone
       sticker,
     });
     window.reduxActions.stickers.useSticker(packId, stickerId);
-  }
-
-  async sendDeleteForEveryoneMessage(options: {
-    id: string;
-    timestamp: number;
-  }): Promise<void> {
-    const { timestamp: targetTimestamp, id: messageId } = options;
-    const message = await getMessageById(messageId);
-    if (!message) {
-      throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
-    }
-    const messageModel = window.MessageController.register(messageId, message);
-
-    const timestamp = Date.now();
-    if (timestamp - targetTimestamp > THREE_HOURS) {
-      throw new Error('Cannot send DOE for a message older than three hours');
-    }
-
-    messageModel.set({
-      deletedForEveryoneSendStatus: zipObject(
-        this.getRecipientConversationIds(),
-        repeat(false)
-      ),
-    });
-
-    try {
-      const jobData: ConversationQueueJobData = {
-        type: conversationQueueJobEnum.enum.DeleteForEveryone,
-        conversationId: this.id,
-        messageId,
-        recipients: this.getRecipients(),
-        revision: this.get('revision'),
-        targetTimestamp,
-      };
-      await conversationJobQueue.add(jobData, async jobToInsert => {
-        log.info(
-          `sendDeleteForEveryoneMessage: saving message ${this.idForLogging()} and job ${
-            jobToInsert.id
-          }`
-        );
-        await window.Signal.Data.saveMessage(messageModel.attributes, {
-          jobToInsert,
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-        });
-      });
-    } catch (error) {
-      log.error(
-        'sendDeleteForEveryoneMessage: Failed to queue delete for everyone',
-        Errors.toLogFormat(error)
-      );
-      throw error;
-    }
-
-    const deleteModel = new DeleteModel({
-      targetSentTimestamp: targetTimestamp,
-      serverTimestamp: Date.now(),
-      fromId: window.ConversationController.getOurConversationIdOrThrow(),
-    });
-    await window.Signal.Util.deleteForEveryone(messageModel, deleteModel);
   }
 
   async sendProfileKeyUpdate(): Promise<void> {

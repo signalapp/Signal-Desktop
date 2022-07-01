@@ -69,6 +69,7 @@ export const isFailed = (status: SendStatus): boolean =>
  * The timestamp may be undefined if reading old data, which did not store a timestamp.
  */
 export type SendState = Readonly<{
+  isAllowedToReplyToStory?: boolean;
   status:
     | SendStatus.Pending
     | SendStatus.Failed

@@ -3,9 +3,8 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { AttachmentType } from '../types/Attachment';
 import type { LocalizerType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
+import type { ConversationStoryType, StoryViewType } from '../types/Stories';
 import { Avatar, AvatarSize, AvatarStoryRing } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenuPopper } from './ContextMenu';
@@ -13,53 +12,7 @@ import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { getAvatarColor } from '../types/Colors';
 
-export type ConversationStoryType = {
-  conversationId: string;
-  group?: Pick<
-    ConversationType,
-    | 'acceptedMessageRequest'
-    | 'avatarPath'
-    | 'color'
-    | 'id'
-    | 'name'
-    | 'profileName'
-    | 'sharedGroupNames'
-    | 'title'
-  >;
-  hasMultiple?: boolean;
-  isHidden?: boolean;
-  searchNames?: string; // This is just here to satisfy Fuse's types
-  stories: Array<StoryViewType>;
-};
-
-export type StoryViewType = {
-  attachment?: AttachmentType;
-  canReply?: boolean;
-  hasReplies?: boolean;
-  hasRepliesFromSelf?: boolean;
-  isHidden?: boolean;
-  isUnread?: boolean;
-  messageId: string;
-  sender: Pick<
-    ConversationType,
-    | 'acceptedMessageRequest'
-    | 'avatarPath'
-    | 'color'
-    | 'firstName'
-    | 'id'
-    | 'isMe'
-    | 'name'
-    | 'profileName'
-    | 'sharedGroupNames'
-    | 'title'
-  >;
-  timestamp: number;
-};
-
-export type PropsType = Pick<
-  ConversationStoryType,
-  'group' | 'hasMultiple' | 'isHidden'
-> & {
+export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   i18n: LocalizerType;
   onClick: () => unknown;
   onGoToConversation: (conversationId: string) => unknown;
@@ -70,7 +23,6 @@ export type PropsType = Pick<
 
 export const StoryListItem = ({
   group,
-  hasMultiple,
   i18n,
   isHidden,
   onClick,
@@ -129,9 +81,7 @@ export const StoryListItem = ({
           ev.preventDefault();
           ev.stopPropagation();
 
-          if (!isMe) {
-            setIsShowingContextMenu(true);
-          }
+          setIsShowingContextMenu(true);
         }}
         ref={setReferenceElement}
         tabIndex={0}
@@ -153,49 +103,25 @@ export const StoryListItem = ({
           title={title}
         />
         <div className="StoryListItem__info">
-          {isMe ? (
-            <>
-              <div className="StoryListItem__info--title">
-                {i18n('Stories__mine')}
-              </div>
-              {!attachment && (
-                <div className="StoryListItem__info--timestamp">
-                  {i18n('Stories__add')}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              <div className="StoryListItem__info--title">
-                {group
-                  ? i18n('Stories__from-to-group', {
-                      name: title,
-                      group: group.title,
-                    })
-                  : title}
-              </div>
-              <MessageTimestamp
-                i18n={i18n}
-                module="StoryListItem__info--timestamp"
-                timestamp={timestamp}
-              />
-            </>
-          )}
+          <>
+            <div className="StoryListItem__info--title">
+              {group
+                ? i18n('Stories__from-to-group', {
+                    name: title,
+                    group: group.title,
+                  })
+                : title}
+            </div>
+            <MessageTimestamp
+              i18n={i18n}
+              module="StoryListItem__info--timestamp"
+              timestamp={timestamp}
+            />
+          </>
           {repliesElement}
         </div>
 
-        <div
-          className={classNames('StoryListItem__previews', {
-            'StoryListItem__previews--multiple': hasMultiple,
-          })}
-        >
-          {!attachment && isMe && (
-            <div
-              aria-label={i18n('Stories__add')}
-              className="StoryListItem__previews--add StoryListItem__previews--image"
-            />
-          )}
-          {hasMultiple && <div className="StoryListItem__previews--more" />}
+        <div className="StoryListItem__previews">
           <StoryImage
             attachment={attachment}
             i18n={i18n}

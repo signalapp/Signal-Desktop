@@ -16,14 +16,14 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
-import type { ReplyStateType } from '../types/Stories';
-import type { StoryViewType } from './StoryListItem';
+import type { ReplyStateType, StoryViewType } from '../types/Stories';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenuPopper } from './ContextMenu';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
+import { SendStatus } from '../messages/MessageSendState';
 import { StoryImage } from './StoryImage';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { Theme } from '../util/theme';
@@ -56,8 +56,8 @@ export type PropsType = {
   onClose: () => unknown;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
-  onNextUserStories: () => unknown;
-  onPrevUserStories: () => unknown;
+  onNextUserStories?: () => unknown;
+  onPrevUserStories?: () => unknown;
   onSetSkinTone: (tone: number) => unknown;
   onTextTooLong: () => unknown;
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
@@ -76,7 +76,6 @@ export type PropsType = {
   skinTone?: number;
   stories: Array<StoryViewType>;
   toggleHasAllStoriesMuted: () => unknown;
-  views?: Array<string>;
 };
 
 const CAPTION_BUFFER = 20;
@@ -116,7 +115,6 @@ export const StoryViewer = ({
   skinTone,
   stories,
   toggleHasAllStoriesMuted,
-  views,
 }: PropsType): JSX.Element => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
@@ -128,7 +126,8 @@ export const StoryViewer = ({
 
   const visibleStory = stories[currentStoryIndex];
 
-  const { attachment, canReply, isHidden, messageId, timestamp } = visibleStory;
+  const { attachment, canReply, isHidden, messageId, sendState, timestamp } =
+    visibleStory;
   const {
     acceptedMessageRequest,
     avatarPath,
@@ -202,7 +201,7 @@ export const StoryViewer = ({
       setCurrentStoryIndex(currentStoryIndex + 1);
     } else {
       setCurrentStoryIndex(0);
-      onNextUserStories();
+      onNextUserStories?.();
     }
   }, [currentStoryIndex, onNextUserStories, stories.length]);
 
@@ -210,7 +209,7 @@ export const StoryViewer = ({
   // for the prior user's stories.
   const showPrevStory = useCallback(() => {
     if (currentStoryIndex === 0) {
-      onPrevUserStories();
+      onPrevUserStories?.();
     } else {
       setCurrentStoryIndex(currentStoryIndex - 1);
     }
@@ -378,9 +377,13 @@ export const StoryViewer = ({
 
   const replies =
     replyState && replyState.messageId === messageId ? replyState.replies : [];
-
-  const viewCount = (views || []).length;
+  const views = sendState
+    ? sendState.filter(({ status }) => status === SendStatus.Viewed)
+    : [];
   const replyCount = replies.length;
+  const viewCount = views.length;
+
+  const shouldShowContextMenu = !sendState;
 
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
@@ -390,18 +393,20 @@ export const StoryViewer = ({
           style={{ background: getStoryBackground(attachment) }}
         />
         <div className="StoryViewer__content">
-          <button
-            aria-label={i18n('back')}
-            className={classNames(
-              'StoryViewer__arrow StoryViewer__arrow--left',
-              {
-                'StoryViewer__arrow--visible': arrowToShow === Arrow.Left,
-              }
-            )}
-            onClick={showPrevStory}
-            onMouseMove={() => setArrowToShow(Arrow.Left)}
-            type="button"
-          />
+          {onPrevUserStories && (
+            <button
+              aria-label={i18n('back')}
+              className={classNames(
+                'StoryViewer__arrow StoryViewer__arrow--left',
+                {
+                  'StoryViewer__arrow--visible': arrowToShow === Arrow.Left,
+                }
+              )}
+              onClick={showPrevStory}
+              onMouseMove={() => setArrowToShow(Arrow.Left)}
+              type="button"
+            />
+          )}
           <div className="StoryViewer__protection StoryViewer__protection--top" />
           <div className="StoryViewer__container">
             <StoryImage
@@ -532,13 +537,15 @@ export const StoryViewer = ({
                   onClick={toggleHasAllStoriesMuted}
                   type="button"
                 />
-                <button
-                  aria-label={i18n('MyStories__more')}
-                  className="StoryViewer__more"
-                  onClick={() => setIsShowingContextMenu(true)}
-                  ref={setReferenceElement}
-                  type="button"
-                />
+                {shouldShowContextMenu && (
+                  <button
+                    aria-label={i18n('MyStories__more')}
+                    className="StoryViewer__more"
+                    onClick={() => setIsShowingContextMenu(true)}
+                    ref={setReferenceElement}
+                    type="button"
+                  />
+                )}
               </div>
             </div>
             <div className="StoryViewer__progress">
@@ -619,18 +626,20 @@ export const StoryViewer = ({
               )}
             </div>
           </div>
-          <button
-            aria-label={i18n('forward')}
-            className={classNames(
-              'StoryViewer__arrow StoryViewer__arrow--right',
-              {
-                'StoryViewer__arrow--visible': arrowToShow === Arrow.Right,
-              }
-            )}
-            onClick={showNextStory}
-            onMouseMove={() => setArrowToShow(Arrow.Right)}
-            type="button"
-          />
+          {onNextUserStories && (
+            <button
+              aria-label={i18n('forward')}
+              className={classNames(
+                'StoryViewer__arrow StoryViewer__arrow--right',
+                {
+                  'StoryViewer__arrow--visible': arrowToShow === Arrow.Right,
+                }
+              )}
+              onClick={showNextStory}
+              onMouseMove={() => setArrowToShow(Arrow.Right)}
+              type="button"
+            />
+          )}
           <div className="StoryViewer__protection StoryViewer__protection--bottom" />
           <button
             aria-label={i18n('close')}
@@ -696,7 +705,7 @@ export const StoryViewer = ({
             replies={replies}
             skinTone={skinTone}
             storyPreviewAttachment={attachment}
-            views={[]}
+            views={views}
           />
         )}
         {hasConfirmHideStory && (

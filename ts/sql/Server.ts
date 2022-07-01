@@ -287,6 +287,7 @@ const dataInterface: ServerInterface = {
   getStoryDistributionWithMembers,
   modifyStoryDistribution,
   modifyStoryDistributionMembers,
+  modifyStoryDistributionWithMembers,
   deleteStoryDistribution,
 
   _getAllStoryReads,
@@ -4026,8 +4027,19 @@ async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
 
 type StoryDistributionForDatabase = Readonly<
   {
+    allowsReplies: 0 | 1;
+    deletedAtTimestamp: number | null;
+    isBlockList: 0 | 1;
     senderKeyInfoJson: string | null;
-  } & Omit<StoryDistributionType, 'senderKeyInfo'>
+    storageNeedsSync: 0 | 1;
+  } & Omit<
+    StoryDistributionType,
+    | 'allowsReplies'
+    | 'deletedAtTimestamp'
+    | 'isBlockList'
+    | 'senderKeyInfo'
+    | 'storageNeedsSync'
+  >
 >;
 
 function hydrateStoryDistribution(
@@ -4035,9 +4047,14 @@ function hydrateStoryDistribution(
 ): StoryDistributionType {
   return {
     ...omit(fromDatabase, 'senderKeyInfoJson'),
+    allowsReplies: Boolean(fromDatabase.allowsReplies),
+    deletedAtTimestamp: fromDatabase.deletedAtTimestamp || undefined,
+    isBlockList: Boolean(fromDatabase.isBlockList),
     senderKeyInfo: fromDatabase.senderKeyInfoJson
       ? JSON.parse(fromDatabase.senderKeyInfoJson)
       : undefined,
+    storageNeedsSync: Boolean(fromDatabase.storageNeedsSync),
+    storageUnknownFields: fromDatabase.storageUnknownFields || undefined,
   };
 }
 function freezeStoryDistribution(
@@ -4045,9 +4062,14 @@ function freezeStoryDistribution(
 ): StoryDistributionForDatabase {
   return {
     ...omit(story, 'senderKeyInfo'),
+    allowsReplies: story.allowsReplies ? 1 : 0,
+    deletedAtTimestamp: story.deletedAtTimestamp || null,
+    isBlockList: story.isBlockList ? 1 : 0,
     senderKeyInfoJson: story.senderKeyInfo
       ? JSON.stringify(story.senderKeyInfo)
       : null,
+    storageNeedsSync: story.storageNeedsSync ? 1 : 0,
+    storageUnknownFields: story.storageUnknownFields || null,
   };
 }
 
@@ -4087,15 +4109,25 @@ async function createNewStoryDistribution(
       INSERT INTO storyDistributions(
         id,
         name,
-        avatarUrlPath,
-        avatarKey,
-        senderKeyInfoJson
+        deletedAtTimestamp,
+        allowsReplies,
+        isBlockList,
+        senderKeyInfoJson,
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync
       ) VALUES (
         $id,
         $name,
-        $avatarUrlPath,
-        $avatarKey,
-        $senderKeyInfoJson
+        $deletedAtTimestamp,
+        $allowsReplies,
+        $isBlockList,
+        $senderKeyInfoJson,
+        $storageID,
+        $storageVersion,
+        $storageUnknownFields,
+        $storageNeedsSync
       );
       `
     ).run(payload);
@@ -4163,23 +4195,90 @@ async function getStoryDistributionWithMembers(
     members: members.map(({ uuid }) => uuid),
   };
 }
-async function modifyStoryDistribution(
-  distribution: StoryDistributionType
-): Promise<void> {
-  const payload = freezeStoryDistribution(distribution);
-  const db = getInstance();
+function modifyStoryDistributionSync(
+  db: Database,
+  payload: StoryDistributionForDatabase
+): void {
   prepare(
     db,
     `
     UPDATE storyDistributions
     SET
       name = $name,
-      avatarUrlPath = $avatarUrlPath,
-      avatarKey = $avatarKey,
-      senderKeyInfoJson = $senderKeyInfoJson
+      deletedAtTimestamp = $deletedAtTimestamp,
+      allowsReplies = $allowsReplies,
+      isBlockList = $isBlockList,
+      senderKeyInfoJson = $senderKeyInfoJson,
+      storageID = $storageID,
+      storageVersion = $storageVersion,
+      storageUnknownFields = $storageUnknownFields,
+      storageNeedsSync = $storageNeedsSync
     WHERE id = $id
     `
   ).run(payload);
+}
+function modifyStoryDistributionMembersSync(
+  db: Database,
+  listId: string,
+  {
+    toAdd,
+    toRemove,
+  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+) {
+  const memberInsertStatement = prepare(
+    db,
+    `
+    INSERT OR REPLACE INTO storyDistributionMembers (
+      listId,
+      uuid
+    ) VALUES (
+      $listId,
+      $uuid
+    );
+    `
+  );
+
+  for (const uuid of toAdd) {
+    memberInsertStatement.run({
+      listId,
+      uuid,
+    });
+  }
+
+  batchMultiVarQuery(db, toRemove, (uuids: Array<UUIDStringType>) => {
+    db.prepare<ArrayQuery>(
+      `
+      DELETE FROM storyDistributionMembers
+      WHERE listId = ? AND uuid IN ( ${uuids.map(() => '?').join(', ')} );
+      `
+    ).run([listId, ...uuids]);
+  });
+}
+async function modifyStoryDistributionWithMembers(
+  distribution: StoryDistributionType,
+  {
+    toAdd,
+    toRemove,
+  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+): Promise<void> {
+  const payload = freezeStoryDistribution(distribution);
+  const db = getInstance();
+
+  if (toAdd.length || toRemove.length) {
+    db.transaction(() => {
+      modifyStoryDistributionSync(db, payload);
+      modifyStoryDistributionMembersSync(db, payload.id, { toAdd, toRemove });
+    })();
+  } else {
+    modifyStoryDistributionSync(db, payload);
+  }
+}
+async function modifyStoryDistribution(
+  distribution: StoryDistributionType
+): Promise<void> {
+  const payload = freezeStoryDistribution(distribution);
+  const db = getInstance();
+  modifyStoryDistributionSync(db, payload);
 }
 async function modifyStoryDistributionMembers(
   listId: string,
@@ -4191,34 +4290,7 @@ async function modifyStoryDistributionMembers(
   const db = getInstance();
 
   db.transaction(() => {
-    const memberInsertStatement = prepare(
-      db,
-      `
-      INSERT OR REPLACE INTO storyDistributionMembers (
-        listId,
-        uuid
-      ) VALUES (
-        $listId,
-        $uuid
-      );
-      `
-    );
-
-    for (const uuid of toAdd) {
-      memberInsertStatement.run({
-        listId,
-        uuid,
-      });
-    }
-
-    batchMultiVarQuery(db, toRemove, (uuids: Array<UUIDStringType>) => {
-      db.prepare<ArrayQuery>(
-        `
-        DELETE FROM storyDistributionMembers
-        WHERE listId = ? AND uuid IN ( ${uuids.map(() => '?').join(', ')} );
-        `
-      ).run([listId, ...uuids]);
-    });
+    modifyStoryDistributionMembersSync(db, listId, { toAdd, toRemove });
   })();
 }
 async function deleteStoryDistribution(id: UUIDStringType): Promise<void> {

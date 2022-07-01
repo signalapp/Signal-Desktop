@@ -4,7 +4,7 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
-import { deriveMasterKeyFromGroupV1 } from '../Crypto';
+import { bytesToUuid, deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import {
   deriveGroupFields,
@@ -39,6 +39,10 @@ import { isValidUuid, UUID, UUIDKind } from '../types/UUID';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import type { UUIDStringType } from '../types/UUID';
+import { MY_STORIES_ID } from '../types/Stories';
+import type { StoryDistributionWithMembersType } from '../sql/Interface';
+import dataInterface from '../sql/Client';
 
 type RecordClass =
   | Proto.IAccountRecord
@@ -372,6 +376,35 @@ export function toGroupV2Record(
   applyUnknownFields(groupV2Record, conversation);
 
   return groupV2Record;
+}
+
+export function toStoryDistributionListRecord(
+  storyDistributionList: StoryDistributionWithMembersType
+): Proto.StoryDistributionListRecord {
+  const storyDistributionListRecord = new Proto.StoryDistributionListRecord();
+
+  storyDistributionListRecord.identifier = Bytes.fromBinary(
+    storyDistributionList.id
+  );
+  storyDistributionListRecord.name = storyDistributionList.name;
+  storyDistributionListRecord.deletedAtTimestamp = getSafeLongFromTimestamp(
+    storyDistributionList.deletedAtTimestamp
+  );
+  storyDistributionListRecord.allowsReplies = Boolean(
+    storyDistributionList.allowsReplies
+  );
+  storyDistributionListRecord.isBlockList = Boolean(
+    storyDistributionList.isBlockList
+  );
+  storyDistributionListRecord.recipientUuids = storyDistributionList.members;
+
+  if (storyDistributionList.storageUnknownFields) {
+    storyDistributionListRecord.__unknownFields = [
+      storyDistributionList.storageUnknownFields,
+    ];
+  }
+
+  return storyDistributionListRecord;
 }
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV1Record;
@@ -1185,5 +1218,129 @@ export async function mergeAccountRecord(
     oldStorageID,
     oldStorageVersion,
     details,
+  };
+}
+
+export async function mergeStoryDistributionListRecord(
+  storageID: string,
+  storageVersion: number,
+  storyDistributionListRecord: Proto.IStoryDistributionListRecord
+): Promise<MergeResultType> {
+  if (!storyDistributionListRecord.identifier) {
+    throw new Error(`No storyDistributionList identifier for ${storageID}`);
+  }
+
+  const details: Array<string> = [];
+
+  const listId =
+    storyDistributionListRecord.name === MY_STORIES_ID
+      ? MY_STORIES_ID
+      : bytesToUuid(storyDistributionListRecord.identifier);
+
+  if (!listId) {
+    throw new Error('Could not parse distribution list id');
+  }
+
+  const localStoryDistributionList =
+    await dataInterface.getStoryDistributionWithMembers(listId);
+
+  const remoteListMembers: Array<UUIDStringType> = (
+    storyDistributionListRecord.recipientUuids || []
+  ).map(UUID.fromString);
+
+  if (storyDistributionListRecord.__unknownFields) {
+    details.push('adding unknown fields');
+  }
+
+  const storyDistribution: StoryDistributionWithMembersType = {
+    id: listId,
+    name: String(storyDistributionListRecord.name),
+    deletedAtTimestamp: getTimestampFromLong(
+      storyDistributionListRecord.deletedAtTimestamp
+    ),
+    allowsReplies: Boolean(storyDistributionListRecord.allowsReplies),
+    isBlockList: Boolean(storyDistributionListRecord.isBlockList),
+    members: remoteListMembers,
+    senderKeyInfo: localStoryDistributionList?.senderKeyInfo,
+
+    storageID,
+    storageVersion,
+    storageUnknownFields: storyDistributionListRecord.__unknownFields
+      ? Bytes.concatenate(storyDistributionListRecord.__unknownFields)
+      : null,
+    storageNeedsSync: Boolean(localStoryDistributionList?.storageNeedsSync),
+  };
+
+  if (!localStoryDistributionList) {
+    await dataInterface.createNewStoryDistribution(storyDistribution);
+    window.reduxActions.storyDistributionLists.createDistributionList({
+      allowsReplies: Boolean(storyDistribution.allowsReplies),
+      id: storyDistribution.id,
+      isBlockList: Boolean(storyDistribution.isBlockList),
+      name: storyDistribution.name,
+    });
+
+    return {
+      details,
+      hasConflict: false,
+    };
+  }
+
+  const oldStorageID = localStoryDistributionList.storageID;
+  const oldStorageVersion = localStoryDistributionList.storageVersion;
+
+  const needsToClearUnknownFields =
+    !storyDistributionListRecord.__unknownFields &&
+    localStoryDistributionList.storageUnknownFields;
+
+  if (needsToClearUnknownFields) {
+    details.push('clearing unknown fields');
+  }
+
+  const { hasConflict, details: conflictDetails } = doRecordsConflict(
+    toStoryDistributionListRecord(storyDistribution),
+    storyDistributionListRecord
+  );
+
+  const needsUpdate = needsToClearUnknownFields || hasConflict;
+
+  const localMembersListSet = new Set(localStoryDistributionList.members);
+  const toAdd: Array<UUIDStringType> = remoteListMembers.filter(
+    uuid => !localMembersListSet.has(uuid)
+  );
+
+  const remoteMemberListSet = new Set(remoteListMembers);
+  const toRemove: Array<UUIDStringType> =
+    localStoryDistributionList.members.filter(
+      uuid => !remoteMemberListSet.has(uuid)
+    );
+
+  if (!needsUpdate) {
+    return {
+      details: [...details, ...conflictDetails],
+      hasConflict,
+      oldStorageID,
+      oldStorageVersion,
+    };
+  }
+
+  if (needsUpdate) {
+    await dataInterface.modifyStoryDistributionWithMembers(storyDistribution, {
+      toAdd,
+      toRemove,
+    });
+    window.reduxActions.storyDistributionLists.modifyDistributionList({
+      allowsReplies: Boolean(storyDistribution.allowsReplies),
+      id: storyDistribution.id,
+      isBlockList: Boolean(storyDistribution.isBlockList),
+      name: storyDistribution.name,
+    });
+  }
+
+  return {
+    details: [...details, ...conflictDetails],
+    hasConflict,
+    oldStorageID,
+    oldStorageVersion,
   };
 }

@@ -219,6 +219,7 @@ export type ProcessedDataMessage = {
   groupCallUpdate?: ProcessedGroupCallUpdate;
   storyContext?: ProcessedStoryContext;
   giftBadge?: ProcessedGiftBadge;
+  canReplyToStory?: boolean;
 };
 
 export type ProcessedUnidentifiedDeliveryStatus = Omit<
@@ -226,6 +227,7 @@ export type ProcessedUnidentifiedDeliveryStatus = Omit<
   'destinationUuid'
 > & {
   destinationUuid?: string;
+  isAllowedToReplyToStory?: boolean;
 };
 
 export type ProcessedSent = Omit<

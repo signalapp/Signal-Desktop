@@ -4,19 +4,33 @@
 import FocusTrap from 'focus-trap-react';
 import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
-import type { ConversationStoryType } from './StoryListItem';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../state/ducks/conversations';
+import type {
+  ConversationStoryType,
+  MyStoryType,
+  StoryViewType,
+} from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PropsType as SmartStoryCreatorPropsType } from '../state/smart/StoryCreator';
 import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/StoryViewer';
-import type { ShowConversationType } from '../state/ducks/conversations';
+import * as log from '../logging/log';
+import { MyStories } from './MyStories';
 import { StoriesPane } from './StoriesPane';
 import { Theme, themeClassName } from '../util/theme';
 import { getWidthFromPreferredWidth } from '../util/leftPaneWidth';
-import * as log from '../logging/log';
 
 export type PropsType = {
+  deleteStoryForEveryone: (story: StoryViewType) => unknown;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
+  me: ConversationType;
+  myStories: Array<MyStoryType>;
+  onForwardStory: (storyId: string) => unknown;
+  onSaveStory: (story: StoryViewType) => unknown;
+  ourConversationId: string;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: (props: SmartStoryCreatorPropsType) => JSX.Element;
@@ -28,8 +42,14 @@ export type PropsType = {
 };
 
 export const Stories = ({
+  deleteStoryForEveryone,
   hiddenStories,
   i18n,
+  me,
+  myStories,
+  onForwardStory,
+  onSaveStory,
+  ourConversationId,
   preferredWidthFromStorage,
   queueStoryDownload,
   renderStoryCreator,
@@ -100,6 +120,7 @@ export const Stories = ({
   }, [conversationIdToView, stories]);
 
   const [isShowingStoryCreator, setIsShowingStoryCreator] = useState(false);
+  const [isMyStories, setIsMyStories] = useState(false);
 
   return (
     <div className={classNames('Stories', themeClassName(Theme.Dark))}>
@@ -116,26 +137,49 @@ export const Stories = ({
         })}
       <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
         <div className="Stories__pane" style={{ width }}>
-          <StoriesPane
-            hiddenStories={hiddenStories}
-            i18n={i18n}
-            onAddStory={() => setIsShowingStoryCreator(true)}
-            onStoryClicked={clickedIdToView => {
-              const storyIndex = stories.findIndex(
-                x => x.conversationId === clickedIdToView
-              );
-              log.info('stories.onStoryClicked', {
-                storyIndex,
-                length: stories.length,
-              });
-              setConversationIdToView(clickedIdToView);
-            }}
-            queueStoryDownload={queueStoryDownload}
-            showConversation={showConversation}
-            stories={stories}
-            toggleHideStories={toggleHideStories}
-            toggleStoriesView={toggleStoriesView}
-          />
+          {isMyStories && myStories.length ? (
+            <MyStories
+              i18n={i18n}
+              myStories={myStories}
+              onBack={() => setIsMyStories(false)}
+              onDelete={deleteStoryForEveryone}
+              onForward={onForwardStory}
+              onSave={onSaveStory}
+              ourConversationId={ourConversationId}
+              queueStoryDownload={queueStoryDownload}
+              renderStoryViewer={renderStoryViewer}
+            />
+          ) : (
+            <StoriesPane
+              hiddenStories={hiddenStories}
+              i18n={i18n}
+              me={me}
+              myStories={myStories}
+              onAddStory={() => setIsShowingStoryCreator(true)}
+              onMyStoriesClicked={() => {
+                if (myStories.length) {
+                  setIsMyStories(true);
+                } else {
+                  setIsShowingStoryCreator(true);
+                }
+              }}
+              onStoryClicked={clickedIdToView => {
+                const storyIndex = stories.findIndex(
+                  x => x.conversationId === clickedIdToView
+                );
+                log.info('stories.onStoryClicked[StoriesPane]', {
+                  storyIndex,
+                  length: stories.length,
+                });
+                setConversationIdToView(clickedIdToView);
+              }}
+              queueStoryDownload={queueStoryDownload}
+              showConversation={showConversation}
+              stories={stories}
+              toggleHideStories={toggleHideStories}
+              toggleStoriesView={toggleStoriesView}
+            />
+          )}
         </div>
       </FocusTrap>
       <div className="Stories__placeholder">

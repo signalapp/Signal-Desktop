@@ -4,6 +4,7 @@
 import React from 'react';
 import type {
   ContactModalStateType,
+  ForwardMessagePropsType,
   UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType } from '../types/Util';
@@ -18,6 +19,9 @@ type PropsType = {
   // ContactModal
   contactModalState?: ContactModalStateType;
   renderContactModal: () => JSX.Element;
+  // ForwardMessageModal
+  forwardMessageProps?: ForwardMessagePropsType;
+  renderForwardMessageModal: () => JSX.Element;
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
@@ -37,6 +41,9 @@ export const GlobalModalContainer = ({
   // ContactModal
   contactModalState,
   renderContactModal,
+  // ForwardMessageModal
+  forwardMessageProps,
+  renderForwardMessageModal,
   // ProfileEditor
   isProfileEditorVisible,
   renderProfileEditor,
@@ -92,6 +99,10 @@ export const GlobalModalContainer = ({
 
   if (isWhatsNewVisible) {
     return <WhatsNewModal hideWhatsNewModal={hideWhatsNewModal} i18n={i18n} />;
+  }
+
+  if (forwardMessageProps) {
+    return renderForwardMessageModal();
   }
 
   return null;

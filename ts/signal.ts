@@ -28,7 +28,6 @@ import { SystemTraySettingsCheckboxes } from './components/conversation/SystemTr
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createApp } from './state/roots/createApp';
-import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
@@ -417,7 +416,6 @@ export const setup = (options: {
     createApp,
     createChatColorPicker,
     createConversationDetails,
-    createForwardMessageModal,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
     createGroupV2JoinModal,

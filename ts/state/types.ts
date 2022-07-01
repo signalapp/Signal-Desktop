@@ -20,6 +20,7 @@ import type { actions as safetyNumber } from './ducks/safetyNumber';
 import type { actions as search } from './ducks/search';
 import type { actions as stickers } from './ducks/stickers';
 import type { actions as stories } from './ducks/stories';
+import type { actions as storyDistributionLists } from './ducks/storyDistributionLists';
 import type { actions as updates } from './ducks/updates';
 import type { actions as user } from './ducks/user';
 
@@ -43,6 +44,7 @@ export type ReduxActions = {
   search: typeof search;
   stickers: typeof stickers;
   stories: typeof stories;
+  storyDistributionLists: typeof storyDistributionLists;
   updates: typeof updates;
   user: typeof user;
 };

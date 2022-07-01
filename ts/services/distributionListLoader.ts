@@ -1,0 +1,28 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import dataInterface from '../sql/Client';
+import type { StoryDistributionWithMembersType } from '../sql/Interface';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
+import { strictAssert } from '../util/assert';
+
+let distributionLists: Array<StoryDistributionWithMembersType> | undefined;
+
+export async function loadDistributionLists(): Promise<void> {
+  distributionLists = await dataInterface.getAllStoryDistributionsWithMembers();
+}
+
+export function getDistributionListsForRedux(): Array<StoryDistributionListDataType> {
+  strictAssert(distributionLists, 'distributionLists has not been loaded');
+
+  const lists = distributionLists.map(list => ({
+    allowsReplies: Boolean(list.allowsReplies),
+    id: list.id,
+    isBlockList: Boolean(list.isBlockList),
+    name: list.name,
+  }));
+
+  distributionLists = undefined;
+
+  return lists;
+}

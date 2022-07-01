@@ -6,13 +6,11 @@ import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import type { AttachmentType } from '../types/Attachment';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
-import type { ContactNameColorType } from '../types/Colors';
-import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { InputApi } from './CompositionInput';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
-import type { ReplyType } from '../types/Stories';
+import type { ReplyType, StorySendStateType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { CompositionInput } from './CompositionInput';
 import { ContactName } from './conversation/ContactName';
@@ -28,21 +26,6 @@ import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryReplyText } from '../util/getStoryReplyText';
-
-type ViewType = Pick<
-  ConversationType,
-  | 'acceptedMessageRequest'
-  | 'avatarPath'
-  | 'color'
-  | 'isMe'
-  | 'name'
-  | 'profileName'
-  | 'sharedGroupNames'
-  | 'title'
-> & {
-  contactNameColor?: ContactNameColorType;
-  timestamp: number;
-};
 
 enum Tab {
   Replies = 'Replies',
@@ -71,7 +54,7 @@ export type PropsType = {
   replies: Array<ReplyType>;
   skinTone?: number;
   storyPreviewAttachment?: AttachmentType;
-  views: Array<ViewType>;
+  views: Array<StorySendStateType>;
 };
 
 export const StoryViewsNRepliesModal = ({
@@ -328,34 +311,33 @@ export const StoryViewsNRepliesModal = ({
   const viewsElement = views.length ? (
     <div className="StoryViewsNRepliesModal__views">
       {views.map(view => (
-        <div className="StoryViewsNRepliesModal__view" key={view.timestamp}>
+        <div className="StoryViewsNRepliesModal__view" key={view.recipient.id}>
           <div>
             <Avatar
-              acceptedMessageRequest={view.acceptedMessageRequest}
-              avatarPath={view.avatarPath}
+              acceptedMessageRequest={view.recipient.acceptedMessageRequest}
+              avatarPath={view.recipient.avatarPath}
               badge={undefined}
-              color={getAvatarColor(view.color)}
+              color={getAvatarColor(view.recipient.color)}
               conversationType="direct"
               i18n={i18n}
-              isMe={Boolean(view.isMe)}
-              name={view.name}
-              profileName={view.profileName}
-              sharedGroupNames={view.sharedGroupNames || []}
+              isMe={Boolean(view.recipient.isMe)}
+              name={view.recipient.name}
+              profileName={view.recipient.profileName}
+              sharedGroupNames={view.recipient.sharedGroupNames || []}
               size={AvatarSize.TWENTY_EIGHT}
-              title={view.title}
+              title={view.recipient.title}
             />
             <span className="StoryViewsNRepliesModal__view--name">
-              <ContactName
-                contactNameColor={view.contactNameColor}
-                title={view.title}
-              />
+              <ContactName title={view.recipient.title} />
             </span>
           </div>
-          <MessageTimestamp
-            i18n={i18n}
-            module="StoryViewsNRepliesModal__view--timestamp"
-            timestamp={view.timestamp}
-          />
+          {view.updatedAt && (
+            <MessageTimestamp
+              i18n={i18n}
+              module="StoryViewsNRepliesModal__view--timestamp"
+              timestamp={view.updatedAt}
+            />
+          )}
         </div>
       ))}
     </div>

@@ -1788,7 +1788,8 @@ export default class MessageReceiver
 
   private async handleStoryMessage(
     envelope: UnsealedEnvelope,
-    msg: Proto.IStoryMessage
+    msg: Proto.IStoryMessage,
+    sentMessage?: ProcessedSent
   ): Promise<void> {
     const logId = this.getEnvelopeId(envelope);
     log.info('MessageReceiver.handleStoryMessage', logId);
@@ -1846,6 +1847,68 @@ export default class MessageReceiver
       return;
     }
 
+    const message = {
+      attachments,
+      canReplyToStory: Boolean(msg.allowsReplies),
+      expireTimer,
+      flags: 0,
+      groupV2,
+      isStory: true,
+      isViewOnce: false,
+      timestamp: envelope.timestamp,
+    };
+
+    if (sentMessage) {
+      const { storyMessageRecipients } = sentMessage;
+      const recipients = storyMessageRecipients ?? [];
+
+      const isAllowedToReply = new Map<string, boolean>();
+      const distributionListToSentUuid = new Map<string, Set<string>>();
+
+      recipients.forEach(recipient => {
+        const { destinationUuid } = recipient;
+        if (!destinationUuid) {
+          return;
+        }
+
+        recipient.distributionListIds?.forEach(listId => {
+          const sentUuids: Set<string> =
+            distributionListToSentUuid.get(listId) || new Set();
+          sentUuids.add(destinationUuid);
+          distributionListToSentUuid.set(listId, sentUuids);
+        });
+
+        isAllowedToReply.set(
+          destinationUuid,
+          Boolean(recipient.isAllowedToReply)
+        );
+      });
+
+      distributionListToSentUuid.forEach((sentToUuids, listId) => {
+        const ev = new SentEvent(
+          {
+            destinationUuid: dropNull(sentMessage.destinationUuid),
+            timestamp: envelope.timestamp,
+            serverTimestamp: envelope.serverTimestamp,
+            unidentifiedStatus: Array.from(sentToUuids).map(
+              destinationUuid => ({
+                destinationUuid,
+                isAllowedToReplyToStory: isAllowedToReply.get(destinationUuid),
+              })
+            ),
+            message,
+            isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
+            receivedAtCounter: envelope.receivedAtCounter,
+            receivedAtDate: envelope.receivedAtDate,
+            storyDistributionListId: listId,
+          },
+          this.removeFromCache.bind(this, envelope)
+        );
+        this.dispatchAndWait(ev);
+      });
+      return;
+    }
+
     const ev = new MessageEvent(
       {
         source: envelope.source,
@@ -1857,15 +1920,7 @@ export default class MessageReceiver
         unidentifiedDeliveryReceived: Boolean(
           envelope.unidentifiedDeliveryReceived
         ),
-        message: {
-          attachments,
-          expireTimer,
-          flags: 0,
-          groupV2,
-          isStory: true,
-          isViewOnce: false,
-          timestamp: envelope.timestamp,
-        },
+        message,
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
       },
@@ -2414,6 +2469,15 @@ export default class MessageReceiver
     }
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
+
+      if (sentMessage.storyMessage) {
+        this.handleStoryMessage(
+          envelope,
+          sentMessage.storyMessage,
+          sentMessage
+        );
+        return;
+      }
 
       if (!sentMessage || !sentMessage.message) {
         throw new Error(

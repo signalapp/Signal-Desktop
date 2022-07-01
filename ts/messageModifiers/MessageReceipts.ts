@@ -133,12 +133,92 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     return receipts;
   }
 
-  async onReceipt(receipt: MessageReceiptModel): Promise<void> {
-    const type = receipt.get('type');
+  private async updateMessageSendState(
+    receipt: MessageReceiptModel,
+    message: MessageModel
+  ): Promise<void> {
     const messageSentAt = receipt.get('messageSentAt');
     const receiptTimestamp = receipt.get('receiptTimestamp');
     const sourceConversationId = receipt.get('sourceConversationId');
+    const type = receipt.get('type');
+
+    const oldSendStateByConversationId =
+      message.get('sendStateByConversationId') || {};
+    const oldSendState = getOwn(
+      oldSendStateByConversationId,
+      sourceConversationId
+    ) ?? { status: SendStatus.Sent, updatedAt: undefined };
+
+    let sendActionType: SendActionType;
+    switch (type) {
+      case MessageReceiptType.Delivery:
+        sendActionType = SendActionType.GotDeliveryReceipt;
+        break;
+      case MessageReceiptType.Read:
+        sendActionType = SendActionType.GotReadReceipt;
+        break;
+      case MessageReceiptType.View:
+        sendActionType = SendActionType.GotViewedReceipt;
+        break;
+      default:
+        throw missingCaseError(type);
+    }
+
+    const newSendState = sendStateReducer(oldSendState, {
+      type: sendActionType,
+      updatedAt: receiptTimestamp,
+    });
+
+    // The send state may not change. For example, this can happen if we get a read
+    //   receipt before a delivery receipt.
+    if (!isEqual(oldSendState, newSendState)) {
+      message.set('sendStateByConversationId', {
+        ...oldSendStateByConversationId,
+        [sourceConversationId]: newSendState,
+      });
+
+      window.Signal.Util.queueUpdateMessage(message.attributes);
+
+      // notify frontend listeners
+      const conversation = window.ConversationController.get(
+        message.get('conversationId')
+      );
+      const updateLeftPane = conversation
+        ? conversation.debouncedUpdateLastMessage
+        : undefined;
+      if (updateLeftPane) {
+        updateLeftPane();
+      }
+    }
+
+    if (
+      (type === MessageReceiptType.Delivery &&
+        wasDeliveredWithSealedSender(sourceConversationId, message)) ||
+      type === MessageReceiptType.Read
+    ) {
+      const recipient = window.ConversationController.get(sourceConversationId);
+      const recipientUuid = recipient?.get('uuid');
+      const deviceId = receipt.get('sourceDevice');
+
+      if (recipientUuid && deviceId) {
+        await deleteSentProtoBatcher.add({
+          timestamp: messageSentAt,
+          recipientUuid,
+          deviceId,
+        });
+      } else {
+        log.warn(
+          `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
+        );
+      }
+    }
+  }
+
+  async onReceipt(receipt: MessageReceiptModel): Promise<void> {
+    const messageSentAt = receipt.get('messageSentAt');
+    const sourceConversationId = receipt.get('sourceConversationId');
     const sourceUuid = receipt.get('sourceUuid');
+    const type = receipt.get('type');
 
     try {
       const messages = await window.Signal.Data.getMessagesBySentAt(
@@ -150,86 +230,36 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         sourceUuid,
         messages
       );
-      if (!message) {
-        log.info(
-          'No message for receipt',
-          type,
-          sourceConversationId,
-          messageSentAt
+
+      if (message) {
+        await this.updateMessageSendState(receipt, message);
+      } else {
+        // We didn't find any messages but maybe it's a story sent message
+        const targetMessages = messages.filter(
+          item =>
+            item.storyDistributionListId &&
+            item.sendStateByConversationId &&
+            !item.deletedForEveryone &&
+            Boolean(item.sendStateByConversationId[sourceConversationId])
         );
-        return;
-      }
 
-      const oldSendStateByConversationId =
-        message.get('sendStateByConversationId') || {};
-      const oldSendState = getOwn(
-        oldSendStateByConversationId,
-        sourceConversationId
-      ) ?? { status: SendStatus.Sent, updatedAt: undefined };
-
-      let sendActionType: SendActionType;
-      switch (type) {
-        case MessageReceiptType.Delivery:
-          sendActionType = SendActionType.GotDeliveryReceipt;
-          break;
-        case MessageReceiptType.Read:
-          sendActionType = SendActionType.GotReadReceipt;
-          break;
-        case MessageReceiptType.View:
-          sendActionType = SendActionType.GotViewedReceipt;
-          break;
-        default:
-          throw missingCaseError(type);
-      }
-
-      const newSendState = sendStateReducer(oldSendState, {
-        type: sendActionType,
-        updatedAt: receiptTimestamp,
-      });
-
-      // The send state may not change. For example, this can happen if we get a read
-      //   receipt before a delivery receipt.
-      if (!isEqual(oldSendState, newSendState)) {
-        message.set('sendStateByConversationId', {
-          ...oldSendStateByConversationId,
-          [sourceConversationId]: newSendState,
-        });
-
-        window.Signal.Util.queueUpdateMessage(message.attributes);
-
-        // notify frontend listeners
-        const conversation = window.ConversationController.get(
-          message.get('conversationId')
-        );
-        const updateLeftPane = conversation
-          ? conversation.debouncedUpdateLastMessage
-          : undefined;
-        if (updateLeftPane) {
-          updateLeftPane();
-        }
-      }
-
-      if (
-        (type === MessageReceiptType.Delivery &&
-          wasDeliveredWithSealedSender(sourceConversationId, message)) ||
-        type === MessageReceiptType.Read
-      ) {
-        const recipient =
-          window.ConversationController.get(sourceConversationId);
-        const recipientUuid = recipient?.get('uuid');
-        const deviceId = receipt.get('sourceDevice');
-
-        if (recipientUuid && deviceId) {
-          await deleteSentProtoBatcher.add({
-            timestamp: messageSentAt,
-            recipientUuid,
-            deviceId,
-          });
-        } else {
-          log.warn(
-            `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
+        // Nope, no target message was found
+        if (!targetMessages.length) {
+          log.info(
+            'No message for receipt',
+            type,
+            sourceConversationId,
+            messageSentAt
           );
+          return;
         }
+
+        await Promise.all(
+          targetMessages.map(msg => {
+            const model = window.MessageController.register(msg.id, msg);
+            return this.updateMessageSendState(receipt, model);
+          })
+        );
       }
 
       this.remove(receipt);

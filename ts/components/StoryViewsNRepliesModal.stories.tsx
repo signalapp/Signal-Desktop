@@ -8,6 +8,7 @@ import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
 import { IMAGE_JPEG } from '../types/MIME';
+import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
@@ -56,24 +57,29 @@ function getViewsAndReplies() {
 
   const views = [
     {
-      ...p1,
-      timestamp: Date.now() - 20 * durations.MINUTE,
+      recipient: p1,
+      status: SendStatus.Viewed,
+      updatedAt: Date.now() - 20 * durations.MINUTE,
     },
     {
-      ...p2,
-      timestamp: Date.now() - 25 * durations.MINUTE,
+      recipient: p2,
+      status: SendStatus.Viewed,
+      updatedAt: Date.now() - 25 * durations.MINUTE,
     },
     {
-      ...p3,
-      timestamp: Date.now() - 15 * durations.MINUTE,
+      recipient: p3,
+      status: SendStatus.Viewed,
+      updatedAt: Date.now() - 15 * durations.MINUTE,
     },
     {
-      ...p4,
-      timestamp: Date.now() - 5 * durations.MINUTE,
+      recipient: p4,
+      status: SendStatus.Viewed,
+      updatedAt: Date.now() - 5 * durations.MINUTE,
     },
     {
-      ...p5,
-      timestamp: Date.now() - 30 * durations.MINUTE,
+      recipient: p5,
+      status: SendStatus.Viewed,
+      updatedAt: Date.now() - 30 * durations.MINUTE,
     },
   ];
 

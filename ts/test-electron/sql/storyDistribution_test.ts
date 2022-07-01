@@ -4,7 +4,6 @@
 import { assert } from 'chai';
 
 import dataInterface from '../../sql/Client';
-import { getRandomBytes } from '../../Crypto';
 import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
 
@@ -19,6 +18,7 @@ const {
   getAllStoryDistributionsWithMembers,
   modifyStoryDistribution,
   modifyStoryDistributionMembers,
+  modifyStoryDistributionWithMembers,
 } = dataInterface;
 
 function getUuid(): UUIDStringType {
@@ -34,14 +34,19 @@ describe('sql/storyDistribution', () => {
     const list: StoryDistributionWithMembersType = {
       id: getUuid(),
       name: 'My Story',
-      avatarUrlPath: getUuid(),
-      avatarKey: getRandomBytes(128),
+      allowsReplies: true,
+      isBlockList: false,
       members: [getUuid(), getUuid()],
       senderKeyInfo: {
         createdAtDate: Date.now(),
         distributionId: getUuid(),
         memberDevices: [],
       },
+      storageID: getUuid(),
+      storageVersion: 1,
+      storageNeedsSync: false,
+      storageUnknownFields: undefined,
+      deletedAtTimestamp: undefined,
     };
 
     await createNewStoryDistribution(list);
@@ -66,14 +71,19 @@ describe('sql/storyDistribution', () => {
     const list: StoryDistributionWithMembersType = {
       id: getUuid(),
       name: 'My Story',
-      avatarUrlPath: getUuid(),
-      avatarKey: getRandomBytes(128),
+      allowsReplies: true,
+      isBlockList: false,
       members: [UUID_1, UUID_2],
       senderKeyInfo: {
         createdAtDate: Date.now(),
         distributionId: getUuid(),
         memberDevices: [],
       },
+      storageID: getUuid(),
+      storageVersion: 1,
+      storageNeedsSync: false,
+      storageUnknownFields: undefined,
+      deletedAtTimestamp: undefined,
     };
 
     await createNewStoryDistribution(list);
@@ -84,8 +94,6 @@ describe('sql/storyDistribution', () => {
     const updated = {
       ...list,
       name: 'Updated story',
-      avatarKey: getRandomBytes(128),
-      avatarUrlPath: getUuid(),
       senderKeyInfo: {
         createdAtDate: Date.now() + 10,
         distributionId: getUuid(),
@@ -117,14 +125,19 @@ describe('sql/storyDistribution', () => {
     const list: StoryDistributionWithMembersType = {
       id: getUuid(),
       name: 'My Story',
-      avatarUrlPath: getUuid(),
-      avatarKey: getRandomBytes(128),
+      allowsReplies: true,
+      isBlockList: false,
       members: [UUID_1, UUID_2],
       senderKeyInfo: {
         createdAtDate: Date.now(),
         distributionId: getUuid(),
         memberDevices: [],
       },
+      storageID: getUuid(),
+      storageVersion: 1,
+      storageNeedsSync: false,
+      storageUnknownFields: undefined,
+      deletedAtTimestamp: undefined,
     };
 
     await createNewStoryDistribution(list);
@@ -148,20 +161,69 @@ describe('sql/storyDistribution', () => {
     });
   });
 
+  it('adds and removes with modifyStoryDistributionWithMembers', async () => {
+    const UUID_1 = getUuid();
+    const UUID_2 = getUuid();
+    const UUID_3 = getUuid();
+    const UUID_4 = getUuid();
+    const list: StoryDistributionWithMembersType = {
+      id: getUuid(),
+      name: 'My Story',
+      allowsReplies: true,
+      isBlockList: false,
+      members: [UUID_1, UUID_2],
+      senderKeyInfo: {
+        createdAtDate: Date.now(),
+        distributionId: getUuid(),
+        memberDevices: [],
+      },
+      storageID: getUuid(),
+      storageVersion: 1,
+      storageNeedsSync: false,
+      storageUnknownFields: undefined,
+      deletedAtTimestamp: undefined,
+    };
+
+    await createNewStoryDistribution(list);
+
+    assert.lengthOf(await _getAllStoryDistributions(), 1);
+    assert.lengthOf(await _getAllStoryDistributionMembers(), 2);
+
+    await modifyStoryDistributionWithMembers(list, {
+      toAdd: [UUID_3, UUID_4],
+      toRemove: [UUID_1],
+    });
+
+    assert.lengthOf(await _getAllStoryDistributions(), 1);
+    assert.lengthOf(await _getAllStoryDistributionMembers(), 3);
+
+    const allHydratedLists = await getAllStoryDistributionsWithMembers();
+    assert.lengthOf(allHydratedLists, 1);
+    assert.deepEqual(allHydratedLists[0], {
+      ...list,
+      members: [UUID_2, UUID_3, UUID_4],
+    });
+  });
+
   it('eliminates duplicates without complaint in createNewStoryDistribution', async () => {
     const UUID_1 = getUuid();
     const UUID_2 = getUuid();
     const list: StoryDistributionWithMembersType = {
       id: getUuid(),
       name: 'My Story',
-      avatarUrlPath: getUuid(),
-      avatarKey: getRandomBytes(128),
+      allowsReplies: true,
+      isBlockList: false,
       members: [UUID_1, UUID_1, UUID_2],
       senderKeyInfo: {
         createdAtDate: Date.now(),
         distributionId: getUuid(),
         memberDevices: [],
       },
+      storageID: getUuid(),
+      storageVersion: 1,
+      storageNeedsSync: false,
+      storageUnknownFields: undefined,
+      deletedAtTimestamp: undefined,
     };
 
     await createNewStoryDistribution(list);

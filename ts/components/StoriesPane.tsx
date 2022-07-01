@@ -5,9 +5,17 @@ import Fuse from 'fuse.js';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import type { ConversationStoryType, StoryViewType } from './StoryListItem';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../state/ducks/conversations';
+import type {
+  ConversationStoryType,
+  MyStoryType,
+  StoryViewType,
+} from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
-import type { ShowConversationType } from '../state/ducks/conversations';
+import { MyStoriesButton } from './MyStoriesButton';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
 import { isNotNil } from '../util/isNotNil';
@@ -47,14 +55,19 @@ function search(
     .map(result => result.item);
 }
 
-function getNewestStory(story: ConversationStoryType): StoryViewType {
+function getNewestStory(
+  story: ConversationStoryType | MyStoryType
+): StoryViewType {
   return story.stories[story.stories.length - 1];
 }
 
 export type PropsType = {
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
+  me: ConversationType;
+  myStories: Array<MyStoryType>;
   onAddStory: () => unknown;
+  onMyStoriesClicked: () => unknown;
   onStoryClicked: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
@@ -66,7 +79,10 @@ export type PropsType = {
 export const StoriesPane = ({
   hiddenStories,
   i18n,
+  me,
+  myStories,
   onAddStory,
+  onMyStoriesClicked,
   onStoryClicked,
   queueStoryDownload,
   showConversation,
@@ -115,6 +131,16 @@ export const StoriesPane = ({
         }}
         placeholder={i18n('search')}
         value={searchTerm}
+      />
+      <MyStoriesButton
+        hasMultiple={myStories.length ? myStories[0].stories.length > 1 : false}
+        i18n={i18n}
+        me={me}
+        newestStory={
+          myStories.length ? getNewestStory(myStories[0]) : undefined
+        }
+        onClick={onMyStoriesClicked}
+        queueStoryDownload={queueStoryDownload}
       />
       <div
         className={classNames('Stories__pane__list', {

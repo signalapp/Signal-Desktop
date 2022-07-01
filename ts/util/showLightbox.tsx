@@ -12,10 +12,6 @@ import { Lightbox } from '../components/Lightbox';
 
 let lightboxMountNode: HTMLElement | undefined;
 
-export function isLightboxOpen(): boolean {
-  return Boolean(lightboxMountNode);
-}
-
 export function closeLightbox(): void {
   if (!lightboxMountNode) {
     return;

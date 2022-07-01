@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import type { GetStoriesByConversationIdType } from '../selectors/stories';
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
+import type { StoryViewType } from '../../types/Stories';
 import { StoryViewer } from '../../components/StoryViewer';
 import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
 import {
@@ -28,8 +29,9 @@ import { useStoriesActions } from '../ducks/stories';
 export type PropsType = {
   conversationId: string;
   onClose: () => unknown;
-  onNextUserStories: () => unknown;
-  onPrevUserStories: () => unknown;
+  onNextUserStories?: () => unknown;
+  onPrevUserStories?: () => unknown;
+  storyToView?: StoryViewType;
 };
 
 export function SmartStoryViewer({
@@ -37,6 +39,7 @@ export function SmartStoryViewer({
   onClose,
   onNextUserStories,
   onPrevUserStories,
+  storyToView,
 }: PropsType): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { onSetSkinTone, toggleHasAllStoriesMuted } = useItemsActions();
@@ -54,7 +57,9 @@ export function SmartStoryViewer({
     GetStoriesByConversationIdType
   >(getStoriesSelector);
 
-  const { group, stories } = getStoriesByConversationId(conversationId);
+  const { group, stories } = storyToView
+    ? { group: undefined, stories: [storyToView] }
+    : getStoriesByConversationId(conversationId);
 
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);

@@ -17,6 +17,7 @@ import { getEmptyState as preferredReactions } from './ducks/preferredReactions'
 import { getEmptyState as safetyNumber } from './ducks/safetyNumber';
 import { getEmptyState as search } from './ducks/search';
 import { getEmptyState as getStoriesEmptyState } from './ducks/stories';
+import { getEmptyState as getStoryDistributionListsEmptyState } from './ducks/storyDistributionLists';
 import { getEmptyState as updates } from './ducks/updates';
 import { getEmptyState as user } from './ducks/user';
 
@@ -24,6 +25,7 @@ import type { StateType } from './reducer';
 
 import type { BadgesStateType } from './ducks/badges';
 import type { StoryDataType } from './ducks/stories';
+import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
 import { getInitialState as stickers } from '../types/Stickers';
 import type { MenuOptionsType } from '../types/menu';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
@@ -32,11 +34,13 @@ import type { MainWindowStatsType } from '../windows/context';
 export function getInitialState({
   badges,
   stories,
+  storyDistributionLists,
   mainWindowStats,
   menuOptions,
 }: {
   badges: BadgesStateType;
   stories: Array<StoryDataType>;
+  storyDistributionLists: Array<StoryDistributionListDataType>;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
 }): StateType {
@@ -100,6 +104,10 @@ export function getInitialState({
     stories: {
       ...getStoriesEmptyState(),
       stories,
+    },
+    storyDistributionLists: {
+      ...getStoryDistributionListsEmptyState(),
+      distributionLists: storyDistributionLists || [],
     },
     updates: updates(),
     user: {

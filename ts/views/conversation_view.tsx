@@ -11,7 +11,6 @@ import { render } from 'mustache';
 
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
-import * as Attachment from '../types/Attachment';
 import * as Stickers from '../types/Stickers';
 import type { BodyRangeType, BodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
@@ -22,7 +21,6 @@ import type {
   ConversationModelCollectionType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
 import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
@@ -41,7 +39,6 @@ import { findAndFormatContact } from '../util/findAndFormatContact';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
   canReply,
-  getAttachmentsForMessage,
   isIncoming,
   isOutgoing,
   isTapToView,
@@ -73,7 +70,6 @@ import { ToastConversationUnarchived } from '../components/ToastConversationUnar
 import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
 import { ToastExpired } from '../components/ToastExpired';
-import { ToastFileSaved } from '../components/ToastFileSaved';
 import { ToastFileSize } from '../components/ToastFileSize';
 import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
 import { ToastLeftGroup } from '../components/ToastLeftGroup';
@@ -116,6 +112,8 @@ import {
 } from '../services/LinkPreview';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { closeLightbox, showLightbox } from '../util/showLightbox';
+import { saveAttachment } from '../util/saveAttachment';
+import { sendDeleteForEveryoneMessage } from '../util/sendDeleteForEveryoneMessage';
 
 type AttachmentOptions = {
   messageId: string;
@@ -133,13 +131,6 @@ const {
   deleteTempFile,
   getAbsoluteAttachmentPath,
   getAbsoluteTempPath,
-  loadAttachmentData,
-  loadContactData,
-  loadPreviewData,
-  loadStickerData,
-  openFileInFolder,
-  readAttachmentData,
-  saveAttachmentToDisk,
   upgradeMessageSchema,
 } = window.Signal.Migrations;
 
@@ -231,7 +222,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   // Sub-views
   private contactModalView?: Backbone.View;
   private conversationView?: Backbone.View;
-  private forwardMessageModal?: Backbone.View;
   private lightboxView?: ReactWrapperView;
   private migrationDialog?: Backbone.View;
   private stickerPreviewModalView?: Backbone.View;
@@ -1285,239 +1275,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async showForwardMessageModal(messageId: string): Promise<void> {
-    const message = await getMessageById(messageId);
-    if (!message) {
-      throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
-    }
-
-    // We need to give it a fresh object because it's memoized by the root object!
-    const rawAttachments = getAttachmentsForMessage({ ...message.attributes });
-    const attachments = rawAttachments.filter(attachment =>
-      Boolean(attachment.url)
-    );
-
-    const doForwardMessage = async (
-      conversationIds: Array<string>,
-      messageBody?: string,
-      includedAttachments?: Array<AttachmentType>,
-      linkPreview?: LinkPreviewType
-    ) => {
-      try {
-        const didForwardSuccessfully = await this.maybeForwardMessage(
-          message,
-          conversationIds,
-          messageBody,
-          includedAttachments,
-          linkPreview
-        );
-
-        if (didForwardSuccessfully && this.forwardMessageModal) {
-          this.forwardMessageModal.remove();
-          this.forwardMessageModal = undefined;
-        }
-      } catch (err) {
-        log.warn('doForwardMessage', err && err.stack ? err.stack : err);
-      }
-    };
-
-    this.forwardMessageModal = new ReactWrapperView({
-      JSX: window.Signal.State.Roots.createForwardMessageModal(
-        window.reduxStore,
-        {
-          attachments,
-          doForwardMessage,
-          hasContact: Boolean(message.get('contact')?.length),
-          isSticker: Boolean(message.get('sticker')),
-          messageBody: message.getRawText(),
-          onClose: () => {
-            if (this.forwardMessageModal) {
-              this.forwardMessageModal.remove();
-              this.forwardMessageModal = undefined;
-            }
-            resetLinkPreview();
-          },
-          onEditorStateChange: (
-            messageText: string,
-            _: Array<BodyRangeType>,
-            caretLocation?: number
-          ) => {
-            if (!attachments.length) {
-              maybeGrabLinkPreview(
-                messageText,
-                LinkPreviewSourceType.ForwardMessageModal,
-                caretLocation
-              );
-            }
-          },
-          onTextTooLong: () => showToast(ToastMessageBodyTooLong),
-        }
-      ),
-    });
-    this.forwardMessageModal.render();
-  }
-
-  async maybeForwardMessage(
-    message: MessageModel,
-    conversationIds: Array<string>,
-    messageBody?: string,
-    attachments?: Array<AttachmentType>,
-    linkPreview?: LinkPreviewType
-  ): Promise<boolean> {
-    log.info(`maybeForwardMessage/${message.idForLogging()}: Starting...`);
-    const attachmentLookup = new Set();
-    if (attachments) {
-      attachments.forEach(attachment => {
-        attachmentLookup.add(
-          `${attachment.fileName}/${attachment.contentType}`
-        );
-      });
-    }
-
-    const conversations = conversationIds.map(id =>
-      window.ConversationController.get(id)
-    );
-
-    const cannotSend = conversations.some(
-      conversation =>
-        conversation?.get('announcementsOnly') && !conversation.areWeAdmin()
-    );
-    if (cannotSend) {
-      throw new Error('Cannot send to group');
-    }
-
-    // Verify that all contacts that we're forwarding
-    // to are verified and trusted
-    const unverifiedContacts: Array<ConversationModel> = [];
-    const untrustedContacts: Array<ConversationModel> = [];
-    await Promise.all(
-      conversations.map(async conversation => {
-        if (conversation) {
-          await conversation.updateVerified();
-          const unverifieds = conversation.getUnverified();
-          if (unverifieds.length) {
-            unverifieds.forEach(unverifiedConversation =>
-              unverifiedContacts.push(unverifiedConversation)
-            );
-          }
-
-          const untrusted = conversation.getUntrusted();
-          if (untrusted.length) {
-            untrusted.forEach(untrustedConversation =>
-              untrustedContacts.push(untrustedConversation)
-            );
-          }
-        }
-      })
-    );
-
-    // If there are any unverified or untrusted contacts, show the
-    // SendAnywayDialog and if we're fine with sending then mark all as
-    // verified and trusted and continue the send.
-    const iffyConversations = [...unverifiedContacts, ...untrustedContacts];
-    if (iffyConversations.length) {
-      const forwardMessageModal = document.querySelector<HTMLElement>(
-        '.module-ForwardMessageModal'
-      );
-      if (forwardMessageModal) {
-        forwardMessageModal.style.display = 'none';
-      }
-      const sendAnyway = await this.showSendAnywayDialog(iffyConversations);
-
-      if (!sendAnyway) {
-        if (forwardMessageModal) {
-          forwardMessageModal.style.display = 'block';
-        }
-        return false;
-      }
-
-      let verifyPromise: Promise<void> | undefined;
-      let approvePromise: Promise<void> | undefined;
-      if (unverifiedContacts.length) {
-        verifyPromise = markAllAsVerifiedDefault(unverifiedContacts);
-      }
-      if (untrustedContacts.length) {
-        approvePromise = markAllAsApproved(untrustedContacts);
-      }
-      await Promise.all([verifyPromise, approvePromise]);
-    }
-
-    const sendMessageOptions = { dontClearDraft: true };
-    const baseTimestamp = Date.now();
-
-    // Actually send the message
-    // load any sticker data, attachments, or link previews that we need to
-    // send along with the message and do the send to each conversation.
-    await Promise.all(
-      conversations.map(async (conversation, offset) => {
-        const timestamp = baseTimestamp + offset;
-        if (conversation) {
-          const sticker = message.get('sticker');
-          const contact = message.get('contact');
-
-          if (sticker) {
-            const stickerWithData = await loadStickerData(sticker);
-            const stickerNoPath = stickerWithData
-              ? {
-                  ...stickerWithData,
-                  data: {
-                    ...stickerWithData.data,
-                    path: undefined,
-                  },
-                }
-              : undefined;
-
-            conversation.enqueueMessageForSend(
-              {
-                body: undefined,
-                attachments: [],
-                sticker: stickerNoPath,
-              },
-              { ...sendMessageOptions, timestamp }
-            );
-          } else if (contact?.length) {
-            const contactWithHydratedAvatar = await loadContactData(contact);
-            conversation.enqueueMessageForSend(
-              {
-                body: undefined,
-                attachments: [],
-                contact: contactWithHydratedAvatar,
-              },
-              { ...sendMessageOptions, timestamp }
-            );
-          } else {
-            const preview = linkPreview
-              ? await loadPreviewData([linkPreview])
-              : [];
-            const attachmentsWithData = await Promise.all(
-              (attachments || []).map(async item => ({
-                ...(await loadAttachmentData(item)),
-                path: undefined,
-              }))
-            );
-            const attachmentsToSend = attachmentsWithData.filter(
-              (attachment: Partial<AttachmentType>) =>
-                attachmentLookup.has(
-                  `${attachment.fileName}/${attachment.contentType}`
-                )
-            );
-
-            conversation.enqueueMessageForSend(
-              {
-                body: messageBody || undefined,
-                attachments: attachmentsToSend,
-                preview,
-              },
-              { ...sendMessageOptions, timestamp }
-            );
-          }
-        }
-      })
-    );
-
-    // Cancel any link still pending, even if it didn't make it into the message
-    resetLinkPreview();
-
-    return true;
+    window.reduxActions.globalModals.toggleForwardMessageModal(messageId);
   }
 
   showAllMedia(): void {
@@ -1632,30 +1390,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
       });
 
-      const saveAttachment = async ({
-        attachment,
-        message,
-      }: {
-        attachment: AttachmentType;
-        message: Pick<MessageAttributesType, 'sent_at'>;
-      }) => {
-        const timestamp = message.sent_at;
-        const fullPath = await Attachment.save({
-          attachment,
-          readAttachmentData,
-          saveAttachmentToDisk,
-          timestamp,
-        });
-
-        if (fullPath) {
-          showToast(ToastFileSaved, {
-            onOpenFile: () => {
-              openFileInFolder(fullPath);
-            },
-          });
-        }
-      };
-
       const onItemClick = async ({
         message,
         attachment,
@@ -1663,7 +1397,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }: ItemClickEvent) => {
         switch (type) {
           case 'documents': {
-            saveAttachment({ message, attachment });
+            saveAttachment(attachment, message.sent_at);
             break;
           }
 
@@ -1842,20 +1576,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    const fullPath = await Attachment.save({
-      attachment,
-      readAttachmentData,
-      saveAttachmentToDisk,
-      timestamp,
-    });
-
-    if (fullPath) {
-      showToast(ToastFileSaved, {
-        onOpenFile: () => {
-          openFileInFolder(fullPath);
-        },
-      });
-    }
+    return saveAttachment(attachment, timestamp);
   }
 
   async displayTapToViewMessage(messageId: string): Promise<void> {
@@ -1975,7 +1696,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       okText: window.i18n('delete'),
       resolve: async () => {
         try {
-          await this.model.sendDeleteForEveryoneMessage({
+          await sendDeleteForEveryoneMessage(this.model.attributes, {
             id: message.id,
             timestamp: message.get('sent_at'),
           });
@@ -2028,21 +1749,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       message: MediaItemMessageType;
       index: number;
     }) => {
-      const fullPath = await Attachment.save({
-        attachment,
-        index: index + 1,
-        readAttachmentData,
-        saveAttachmentToDisk,
-        timestamp: message.sent_at,
-      });
-
-      if (fullPath) {
-        showToast(ToastFileSaved, {
-          onOpenFile: () => {
-            openFileInFolder(fullPath);
-          },
-        });
-      }
+      return saveAttachment(attachment, message.sent_at, index + 1);
     };
 
     const selectedIndex = media.findIndex(

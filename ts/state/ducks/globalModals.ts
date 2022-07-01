@@ -1,10 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ThunkAction } from 'redux-thunk';
+import type { StateType as RootStateType } from '../reducer';
+import type { PropsForMessage } from '../selectors/message';
+import { getMessageById } from '../../messages/getMessageById';
+import { getMessagePropsSelector } from '../selectors/message';
+import { useBoundActions } from '../../hooks/useBoundActions';
+
 // State
+
+export type ForwardMessagePropsType = Omit<PropsForMessage, 'renderingContext'>;
 
 export type GlobalModalsStateType = {
   readonly contactModalState?: ContactModalStateType;
+  readonly forwardMessageProps?: ForwardMessagePropsType;
   readonly isProfileEditorVisible: boolean;
   readonly isWhatsNewVisible: boolean;
   readonly profileEditorHasError: boolean;
@@ -16,10 +26,12 @@ export type GlobalModalsStateType = {
 
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
-const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
-const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
-const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
+const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
+const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
+const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
+const TOGGLE_FORWARD_MESSAGE_MODAL =
+  'globalModals/TOGGLE_FORWARD_MESSAGE_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
@@ -66,6 +78,11 @@ export type ShowUserNotFoundModalActionType = {
   payload: UserNotFoundModalStateType;
 };
 
+type ToggleForwardMessageModalActionType = {
+  type: typeof TOGGLE_FORWARD_MESSAGE_MODAL;
+  payload: ForwardMessagePropsType | undefined;
+};
+
 type ToggleProfileEditorActionType = {
   type: typeof TOGGLE_PROFILE_EDITOR;
 };
@@ -86,6 +103,7 @@ export type GlobalModalsActionType =
   | ShowWhatsNewModalActionType
   | HideUserNotFoundModalActionType
   | ShowUserNotFoundModalActionType
+  | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType;
@@ -99,10 +117,14 @@ export const actions = {
   showWhatsNewModal,
   hideUserNotFoundModal,
   showUserNotFoundModal,
+  toggleForwardMessageModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
 };
+
+export const useGlobalModalActions = (): typeof actions =>
+  useBoundActions(actions);
 
 function hideContactModal(): HideContactModalActionType {
   return {
@@ -147,6 +169,41 @@ function showUserNotFoundModal(
   return {
     type: SHOW_UUID_NOT_FOUND_MODAL,
     payload,
+  };
+}
+
+function toggleForwardMessageModal(
+  messageId?: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ToggleForwardMessageModalActionType
+> {
+  return async (dispatch, getState) => {
+    if (!messageId) {
+      dispatch({
+        type: TOGGLE_FORWARD_MESSAGE_MODAL,
+        payload: undefined,
+      });
+      return;
+    }
+
+    const message = await getMessageById(messageId);
+
+    if (!message) {
+      throw new Error(
+        `toggleForwardMessageModal: no message found for ${messageId}`
+      );
+    }
+
+    const messagePropsSelector = getMessagePropsSelector(getState());
+    const messageProps = messagePropsSelector(message.attributes);
+
+    dispatch({
+      type: TOGGLE_FORWARD_MESSAGE_MODAL,
+      payload: messageProps,
+    });
   };
 }
 
@@ -243,6 +300,13 @@ export function reducer(
     return {
       ...state,
       safetyNumberModalContactId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_FORWARD_MESSAGE_MODAL) {
+    return {
+      ...state,
+      forwardMessageProps: action.payload,
     };
   }
 

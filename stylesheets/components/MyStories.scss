@@ -25,15 +25,7 @@
 
     &__preview {
       @include button-reset;
-
-      align-items: center;
-      background-color: $color-gray-60;
-      background-size: cover;
-      border-radius: 8px;
-      height: 72px;
       margin-right: 12px;
-      overflow: hidden;
-      width: 46px;
     }
 
     &__timestamp {

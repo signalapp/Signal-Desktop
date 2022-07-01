@@ -6,8 +6,9 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import type { StateType } from '../reducer';
-import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartContactModal } from './ContactModal';
+import { SmartForwardMessageModal } from './ForwardMessageModal';
+import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
 
 import { getIntl } from '../selectors/user';
@@ -20,6 +21,10 @@ function renderContactModal(): JSX.Element {
   return <SmartContactModal />;
 }
 
+function renderForwardMessageModal(): JSX.Element {
+  return <SmartForwardMessageModal />;
+}
+
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
 
@@ -27,6 +32,7 @@ const mapStateToProps = (state: StateType) => {
     ...state.globalModals,
     i18n,
     renderContactModal,
+    renderForwardMessageModal,
     renderProfileEditor,
     renderSafetyNumber: () => (
       <SmartSafetyNumberModal

@@ -39,7 +39,6 @@ import { createStore } from './state/createStore';
 import { createApp } from './state/roots/createApp';
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createConversationDetails } from './state/roots/createConversationDetails';
-import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
@@ -180,7 +179,6 @@ export type SignalCoreType = {
       createApp: typeof createApp;
       createChatColorPicker: typeof createChatColorPicker;
       createConversationDetails: typeof createConversationDetails;
-      createForwardMessageModal: typeof createForwardMessageModal;
       createGroupLinkManagement: typeof createGroupLinkManagement;
       createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
       createGroupV2JoinModal: typeof createGroupV2JoinModal;

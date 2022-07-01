@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
-import { pick } from 'lodash';
+import { isEqual, pick } from 'lodash';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
 import type { MessageAttributesType } from '../../model-types.d';
@@ -12,10 +12,11 @@ import type {
 } from './conversations';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
-import type { StoryViewType } from '../../components/StoryListItem';
+import type { StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
+import { DAY } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
 import { UUID } from '../../types/UUID';
@@ -24,6 +25,7 @@ import { getMessageById } from '../../messages/getMessageById';
 import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { replaceIndex } from '../../util/replaceIndex';
+import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import { showToast } from '../../util/showToast';
 import {
   hasNotResolved,
@@ -41,6 +43,7 @@ export type StoryDataType = {
   messageId: string;
 } & Pick<
   MessageAttributesType,
+  | 'canReplyToStory'
   | 'conversationId'
   | 'deletedForEveryone'
   | 'reactions'
@@ -48,6 +51,7 @@ export type StoryDataType = {
   | 'sendStateByConversationId'
   | 'source'
   | 'sourceUuid'
+  | 'storyDistributionListId'
   | 'timestamp'
   | 'type'
 >;
@@ -65,12 +69,18 @@ export type StoriesStateType = {
 
 // Actions
 
+const DOE_STORY = 'stories/DOE';
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
 const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
+
+type DOEStoryActionType = {
+  type: typeof DOE_STORY;
+  payload: string;
+};
 
 type LoadStoryRepliesActionType = {
   type: typeof LOAD_STORY_REPLIES;
@@ -108,6 +118,7 @@ type ToggleViewActionType = {
 };
 
 export type StoriesActionType =
+  | DOEStoryActionType
   | LoadStoryRepliesActionType
   | MarkStoryReadActionType
   | MessageChangedActionType
@@ -120,6 +131,7 @@ export type StoriesActionType =
 // Action Creators
 
 export const actions = {
+  deleteStoryForEveryone,
   loadStoryReplies,
   markStoryRead,
   queueStoryDownload,
@@ -130,6 +142,56 @@ export const actions = {
 };
 
 export const useStoriesActions = (): typeof actions => useBoundActions(actions);
+
+function deleteStoryForEveryone(
+  story: StoryViewType
+): ThunkAction<void, RootStateType, unknown, DOEStoryActionType> {
+  return (dispatch, getState) => {
+    if (!story.sendState) {
+      return;
+    }
+
+    const conversationIds = new Set(
+      story.sendState.map(({ recipient }) => recipient.id)
+    );
+
+    // Find stories that were sent to other distribution lists so that we don't
+    // send a DOE request to the members of those lists.
+    const { stories } = getState().stories;
+    stories.forEach(item => {
+      if (item.timestamp !== story.timestamp) {
+        return;
+      }
+
+      if (!item.sendStateByConversationId) {
+        return;
+      }
+
+      Object.keys(item.sendStateByConversationId).forEach(conversationId => {
+        conversationIds.delete(conversationId);
+      });
+    });
+
+    conversationIds.forEach(cid => {
+      const conversation = window.ConversationController.get(cid);
+
+      if (!conversation) {
+        return;
+      }
+
+      sendDeleteForEveryoneMessage(conversation.attributes, {
+        deleteForEveryoneDuration: DAY,
+        id: story.messageId,
+        timestamp: story.timestamp,
+      });
+    });
+
+    dispatch({
+      type: DOE_STORY,
+      payload: story.messageId,
+    });
+  };
+}
 
 function loadStoryReplies(
   conversationId: string,
@@ -200,7 +262,7 @@ function markStoryRead(
     await dataInterface.addNewStoryRead({
       authorId: message.attributes.sourceUuid,
       conversationId: message.attributes.conversationId,
-      storyId: new UUID(messageId).toString(),
+      storyId: UUID.fromString(messageId),
       storyReadDate,
     });
 
@@ -219,16 +281,15 @@ function queueStoryDownload(
   unknown,
   NoopActionType | ResolveAttachmentUrlActionType
 > {
-  return async dispatch => {
-    const story = await getMessageById(storyId);
+  return async (dispatch, getState) => {
+    const { stories } = getState().stories;
+    const story = stories.find(item => item.messageId === storyId);
 
     if (!story) {
       return;
     }
 
-    const storyAttributes: MessageAttributesType = story.attributes;
-    const { attachments } = storyAttributes;
-    const attachment = attachments && attachments[0];
+    const { attachment } = story;
 
     if (!attachment) {
       log.warn('queueStoryDownload: No attachment found for story', {
@@ -264,11 +325,15 @@ function queueStoryDownload(
       return;
     }
 
-    // We want to ensure that we re-hydrate the story reply context with the
-    // completed attachment download.
-    story.set({ storyReplyContext: undefined });
+    const message = await getMessageById(storyId);
 
-    await queueAttachmentDownloads(story.attributes);
+    if (message) {
+      // We want to ensure that we re-hydrate the story reply context with the
+      // completed attachment download.
+      message.set({ storyReplyContext: undefined });
+
+      await queueAttachmentDownloads(message.attributes);
+    }
 
     dispatch({
       type: 'NOOP',
@@ -390,6 +455,7 @@ export function reducer(
   if (action.type === STORY_CHANGED) {
     const newStory = pick(action.payload, [
       'attachment',
+      'canReplyToStory',
       'conversationId',
       'deletedForEveryone',
       'messageId',
@@ -398,6 +464,7 @@ export function reducer(
       'sendStateByConversationId',
       'source',
       'sourceUuid',
+      'storyDistributionListId',
       'timestamp',
       'type',
     ]);
@@ -416,10 +483,18 @@ export function reducer(
       const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
       const reactionsChanged =
         prevStory.reactions?.length !== newStory.reactions?.length;
+      const hasBeenDeleted =
+        !prevStory.deletedForEveryone && newStory.deletedForEveryone;
+      const hasSendStateChanged = !isEqual(
+        prevStory.sendStateByConversationId,
+        newStory.sendStateByConversationId
+      );
 
       const shouldReplace =
         isDownloadingAttachment ||
         hasAttachmentDownloaded ||
+        hasBeenDeleted ||
+        hasSendStateChanged ||
         readStatusChanged ||
         reactionsChanged;
       if (!shouldReplace) {
@@ -549,6 +624,24 @@ export function reducer(
         storyIndex,
         storyWithResolvedAttachment
       ),
+    };
+  }
+
+  if (action.type === DOE_STORY) {
+    const prevStoryIndex = state.stories.findIndex(
+      existingStory => existingStory.messageId === action.payload
+    );
+
+    if (prevStoryIndex < 0) {
+      return state;
+    }
+
+    return {
+      ...state,
+      stories: replaceIndex(state.stories, prevStoryIndex, {
+        ...state.stories[prevStoryIndex],
+        deletedForEveryone: true,
+      }),
     };
   }
 

@@ -11,11 +11,14 @@ import type { PropsType as SmartStoryViewerPropsType } from './StoryViewer';
 import { SmartStoryCreator } from './StoryCreator';
 import { SmartStoryViewer } from './StoryViewer';
 import { Stories } from '../../components/Stories';
-import { getIntl } from '../selectors/user';
+import { getMe } from '../selectors/conversations';
+import { getIntl, getUserConversationId } from '../selectors/user';
 import { getPreferredLeftPaneWidth } from '../selectors/items';
 import { getStories } from '../selectors/stories';
-import { useStoriesActions } from '../ducks/stories';
+import { saveAttachment } from '../../util/saveAttachment';
 import { useConversationsActions } from '../ducks/conversations';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { useStoriesActions } from '../ducks/stories';
 
 function renderStoryCreator({
   onClose,
@@ -28,6 +31,7 @@ function renderStoryViewer({
   onClose,
   onNextUserStories,
   onPrevUserStories,
+  storyToView,
 }: SmartStoryViewerPropsType): JSX.Element {
   return (
     <SmartStoryViewer
@@ -35,6 +39,7 @@ function renderStoryViewer({
       onClose={onClose}
       onNextUserStories={onNextUserStories}
       onPrevUserStories={onPrevUserStories}
+      storyToView={storyToView}
     />
   );
 }
@@ -42,6 +47,7 @@ function renderStoryViewer({
 export function SmartStories(): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { showConversation, toggleHideStories } = useConversationsActions();
+  const { toggleForwardMessageModal } = useGlobalModalActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
@@ -53,7 +59,10 @@ export function SmartStories(): JSX.Element | null {
     getPreferredLeftPaneWidth
   );
 
-  const { hiddenStories, stories } = useSelector(getStories);
+  const { hiddenStories, myStories, stories } = useSelector(getStories);
+
+  const ourConversationId = useSelector(getUserConversationId);
+  const me = useSelector(getMe);
 
   if (!isShowingStoriesView) {
     return null;
@@ -63,6 +72,17 @@ export function SmartStories(): JSX.Element | null {
     <Stories
       hiddenStories={hiddenStories}
       i18n={i18n}
+      me={me}
+      myStories={myStories}
+      onForwardStory={storyId => {
+        toggleForwardMessageModal(storyId);
+      }}
+      onSaveStory={story => {
+        if (story.attachment) {
+          saveAttachment(story.attachment, story.timestamp);
+        }
+      }}
+      ourConversationId={String(ourConversationId)}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
       renderStoryViewer={renderStoryViewer}

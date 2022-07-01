@@ -193,6 +193,7 @@ export type SentEventData = Readonly<{
   receivedAtCounter: number;
   receivedAtDate: number;
   expirationStartTimestamp?: number;
+  storyDistributionListId?: string;
 }>;
 
 export class SentEvent extends ConfirmableEvent {

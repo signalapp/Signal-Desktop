@@ -44,6 +44,10 @@ import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService';
 import { getStoriesForRedux, loadStories } from './services/storyLoader';
+import {
+  getDistributionListsForRedux,
+  loadDistributionLists,
+} from './services/distributionListLoader';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
@@ -977,6 +981,7 @@ export async function startApp(): Promise<void> {
         loadRecentEmojis(),
         loadInitialBadgesState(),
         loadStories(),
+        loadDistributionLists(),
         window.textsecure.storage.protocol.hydrateCaches(),
         (async () => {
           mainWindowStats = await window.SignalContext.getMainWindowStats();
@@ -1021,9 +1026,10 @@ export async function startApp(): Promise<void> {
     const convoCollection = window.getConversations();
     const initialState = getInitialState({
       badges: initialBadgesState,
-      stories: getStoriesForRedux(),
       mainWindowStats,
       menuOptions,
+      stories: getStoriesForRedux(),
+      storyDistributionLists: getDistributionListsForRedux(),
     });
 
     const store = window.Signal.State.createStore(initialState);
@@ -1072,6 +1078,10 @@ export async function startApp(): Promise<void> {
       search: bindActionCreators(actionCreators.search, store.dispatch),
       stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
       stories: bindActionCreators(actionCreators.stories, store.dispatch),
+      storyDistributionLists: bindActionCreators(
+        actionCreators.storyDistributionLists,
+        store.dispatch
+      ),
       updates: bindActionCreators(actionCreators.updates, store.dispatch),
       user: bindActionCreators(actionCreators.user, store.dispatch),
     };
@@ -3091,7 +3101,7 @@ export async function startApp(): Promise<void> {
       unidentifiedStatus.reduce(
         (
           result: SendStateByConversationId,
-          { destinationUuid, destination }
+          { destinationUuid, destination, isAllowedToReplyToStory }
         ) => {
           const conversationId = window.ConversationController.ensureContactIds(
             {
@@ -3106,6 +3116,7 @@ export async function startApp(): Promise<void> {
           return {
             ...result,
             [conversationId]: {
+              isAllowedToReplyToStory,
               status: SendStatus.Sent,
               updatedAt: timestamp,
             },
@@ -3130,6 +3141,9 @@ export async function startApp(): Promise<void> {
     }
 
     return new window.Whisper.Message({
+      canReplyToStory: data.message.isStory
+        ? data.message.canReplyToStory
+        : undefined,
       conversationId: descriptor.id,
       expirationStartTimestamp: Math.min(
         data.expirationStartTimestamp || timestamp,
@@ -3146,7 +3160,8 @@ export async function startApp(): Promise<void> {
       sourceDevice: data.device,
       sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
       timestamp,
-      type: 'outgoing',
+      type: data.message.isStory ? 'story' : 'outgoing',
+      storyDistributionListId: data.storyDistributionListId,
       unidentifiedDeliveries,
     } as Partial<MessageAttributesType> as WhatIsThis);
   }
@@ -3384,20 +3399,23 @@ export async function startApp(): Promise<void> {
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
     return new window.Whisper.Message({
-      source: data.source,
-      sourceUuid: data.sourceUuid,
-      sourceDevice: data.sourceDevice,
+      canReplyToStory: data.message.isStory
+        ? data.message.canReplyToStory
+        : undefined,
+      conversationId: descriptor.id,
+      readStatus: ReadStatus.Unread,
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
+      seenStatus: SeenStatus.Unseen,
       sent_at: data.timestamp,
       serverGuid: data.serverGuid,
       serverTimestamp: data.serverTimestamp,
-      received_at: data.receivedAtCounter,
-      received_at_ms: data.receivedAtDate,
-      conversationId: descriptor.id,
-      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
-      type: data.message.isStory ? 'story' : 'incoming',
-      readStatus: ReadStatus.Unread,
-      seenStatus: SeenStatus.Unseen,
+      source: data.source,
+      sourceDevice: data.sourceDevice,
+      sourceUuid: data.sourceUuid,
       timestamp: data.timestamp,
+      type: data.message.isStory ? 'story' : 'incoming',
+      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
     } as Partial<MessageAttributesType> as WhatIsThis);
   }
 

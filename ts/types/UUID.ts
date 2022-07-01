@@ -77,4 +77,8 @@ export class UUID {
     }
     return new UUID(`${padded}-0000-4000-8000-${'0'.repeat(12)}`);
   }
+
+  public static fromString(value: string): UUIDStringType {
+    return new UUID(value).toString();
+  }
 }

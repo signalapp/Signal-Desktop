@@ -21,23 +21,25 @@ export async function loadStories(): Promise<void> {
 export function getStoryDataFromMessageAttributes(
   message: MessageAttributesType
 ): StoryDataType | undefined {
-  const { attachments } = message;
+  const { attachments, deletedForEveryone } = message;
   const unresolvedAttachment = attachments ? attachments[0] : undefined;
-  if (!unresolvedAttachment) {
+  if (!unresolvedAttachment && !deletedForEveryone) {
     log.warn(
       `getStoryDataFromMessageAttributes: ${message.id} does not have an attachment`
     );
     return;
   }
 
-  const [attachment] = unresolvedAttachment.path
-    ? getAttachmentsForMessage(message)
-    : [unresolvedAttachment];
+  const [attachment] =
+    unresolvedAttachment && unresolvedAttachment.path
+      ? getAttachmentsForMessage(message)
+      : [unresolvedAttachment];
 
   return {
     attachment,
     messageId: message.id,
     ...pick(message, [
+      'canReplyToStory',
       'conversationId',
       'deletedForEveryone',
       'reactions',
@@ -45,6 +47,7 @@ export function getStoryDataFromMessageAttributes(
       'sendStateByConversationId',
       'source',
       'sourceUuid',
+      'storyDistributionListId',
       'timestamp',
       'type',
     ]),

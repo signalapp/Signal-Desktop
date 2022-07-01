@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { identity, isEqual, isNumber, isObject, map, omit, pick } from 'lodash';
-import { createSelectorCreator } from 'reselect';
+import { createSelector, createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
 import getDirection from 'direction';
 
@@ -50,6 +50,20 @@ import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 
+import { getAccountSelector } from './accounts';
+import {
+  getContactNameColorSelector,
+  getConversationSelector,
+  getSelectedMessage,
+  isMissingRequiredProfileSharing,
+} from './conversations';
+import {
+  getRegionCode,
+  getUserConversationId,
+  getUserNumber,
+  getUserUuid,
+} from './user';
+
 import type {
   ConversationType,
   MessageWithUIFieldsType,
@@ -61,7 +75,6 @@ import type {
   GetConversationByIdType,
   ContactNameColorSelectorType,
 } from './conversations';
-import { isMissingRequiredProfileSharing } from './conversations';
 import {
   SendStatus,
   isDelivered,
@@ -91,7 +104,7 @@ type FormattedContact = Partial<ConversationType> &
     | 'type'
     | 'unblurredAvatarPath'
   >;
-type PropsForMessage = Omit<PropsData, 'interactionMode'>;
+export type PropsForMessage = Omit<PropsData, 'interactionMode'>;
 type PropsForUnsupportedMessage = {
   canProcessNow: boolean;
   contact: FormattedContact;
@@ -759,6 +772,44 @@ export const getPropsForMessage: (
       ...shallowProps,
     };
   }
+);
+
+// This is getPropsForMessage but wrapped in reselect's createSelector so that
+// we can derive all of the selector dependencies that getPropsForMessage
+// requires and you won't have to pass them in. For use within a smart/connected
+// component that has access to selectors.
+export const getMessagePropsSelector = createSelector(
+  getConversationSelector,
+  getUserConversationId,
+  getUserUuid,
+  getUserNumber,
+  getRegionCode,
+  getAccountSelector,
+  getContactNameColorSelector,
+  getSelectedMessage,
+  (
+      conversationSelector,
+      ourConversationId,
+      ourUuid,
+      ourNumber,
+      regionCode,
+      accountSelector,
+      contactNameColorSelector,
+      selectedMessage
+    ) =>
+    (message: MessageWithUIFieldsType) => {
+      return getPropsForMessage(message, {
+        accountSelector,
+        contactNameColorSelector,
+        conversationSelector,
+        ourConversationId,
+        ourNumber,
+        ourUuid,
+        regionCode,
+        selectedMessageCounter: selectedMessage?.counter,
+        selectedMessageId: selectedMessage?.id,
+      });
+    }
 );
 
 export const getBubblePropsForMessage = createSelectorCreator(memoizeByRoot)(
@@ -1535,7 +1586,10 @@ function processQuoteAttachment(
 function canReplyOrReact(
   message: Pick<
     MessageWithUIFieldsType,
-    'deletedForEveryone' | 'sendStateByConversationId' | 'type'
+    | 'canReplyToStory'
+    | 'deletedForEveryone'
+    | 'sendStateByConversationId'
+    | 'type'
   >,
   ourConversationId: string | undefined,
   conversation: undefined | Readonly<ConversationType>
@@ -1576,8 +1630,12 @@ function canReplyOrReact(
 
   // If we get past all the other checks above then we can always reply or
   // react if the message type is "incoming" | "story"
-  if (isIncoming(message) || isStory(message)) {
+  if (isIncoming(message)) {
     return true;
+  }
+
+  if (isStory(message)) {
+    return Boolean(message.canReplyToStory);
   }
 
   // Fail safe.
@@ -1587,6 +1645,7 @@ function canReplyOrReact(
 export function canReply(
   message: Pick<
     MessageWithUIFieldsType,
+    | 'canReplyToStory'
     | 'conversationId'
     | 'deletedForEveryone'
     | 'sendStateByConversationId'

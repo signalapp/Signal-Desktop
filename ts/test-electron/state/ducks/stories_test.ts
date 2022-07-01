@@ -108,10 +108,26 @@ describe('both/state/ducks/stories', () => {
         attachments: [attachment],
       };
 
+      const rootState = getEmptyRootState();
+
+      const getState = () => ({
+        ...rootState,
+        stories: {
+          ...rootState.stories,
+          stories: [
+            {
+              ...messageAttributes,
+              attachment: messageAttributes.attachments[0],
+              messageId: messageAttributes.id,
+            },
+          ],
+        },
+      });
+
       window.MessageController.register(storyId, messageAttributes);
 
       const dispatch = sinon.spy();
-      await queueStoryDownload(storyId)(dispatch, getEmptyRootState, null);
+      await queueStoryDownload(storyId)(dispatch, getState, null);
 
       const action = dispatch.getCall(0).args[0];
 
@@ -164,10 +180,26 @@ describe('both/state/ducks/stories', () => {
         ],
       };
 
+      const rootState = getEmptyRootState();
+
+      const getState = () => ({
+        ...rootState,
+        stories: {
+          ...rootState.stories,
+          stories: [
+            {
+              ...messageAttributes,
+              attachment: messageAttributes.attachments[0],
+              messageId: messageAttributes.id,
+            },
+          ],
+        },
+      });
+
       window.MessageController.register(storyId, messageAttributes);
 
       const dispatch = sinon.spy();
-      await queueStoryDownload(storyId)(dispatch, getEmptyRootState, null);
+      await queueStoryDownload(storyId)(dispatch, getState, null);
 
       sinon.assert.calledWith(dispatch, {
         type: 'NOOP',

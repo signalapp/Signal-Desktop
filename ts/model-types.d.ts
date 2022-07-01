@@ -120,6 +120,7 @@ export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: BodyRangesType;
   callHistoryDetails?: CallHistoryDetailsFromDiskType;
+  canReplyToStory?: boolean;
   changedId?: string;
   dataMessage?: Uint8Array | null;
   decrypted_at?: number;
@@ -147,6 +148,7 @@ export type MessageAttributesType = {
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
   sourceDevice?: number;
+  storyDistributionListId?: string;
   storyId?: string;
   storyReplyContext?: StoryReplyContextType;
   supportedVersionAtReceive?: unknown;

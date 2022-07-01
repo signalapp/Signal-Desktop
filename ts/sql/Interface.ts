@@ -233,10 +233,15 @@ export type DeleteSentProtoRecipientOptionsType = Readonly<{
 export type StoryDistributionType = Readonly<{
   id: UUIDStringType;
   name: string;
-
-  avatarUrlPath: string;
-  avatarKey: Uint8Array;
+  deletedAtTimestamp?: number;
+  allowsReplies: boolean;
+  isBlockList: boolean;
   senderKeyInfo: SenderKeyInfoType | undefined;
+
+  storageID: string;
+  storageVersion: number;
+  storageUnknownFields?: Uint8Array | null;
+  storageNeedsSync: boolean;
 }>;
 export type StoryDistributionMemberType = Readonly<{
   listId: UUIDStringType;
@@ -559,7 +564,14 @@ export type DataInterface = {
   ): Promise<StoryDistributionWithMembersType | undefined>;
   modifyStoryDistribution(distribution: StoryDistributionType): Promise<void>;
   modifyStoryDistributionMembers(
-    id: string,
+    listId: string,
+    options: {
+      toAdd: Array<UUIDStringType>;
+      toRemove: Array<UUIDStringType>;
+    }
+  ): Promise<void>;
+  modifyStoryDistributionWithMembers(
+    distribution: StoryDistributionType,
     options: {
       toAdd: Array<UUIDStringType>;
       toRemove: Array<UUIDStringType>;

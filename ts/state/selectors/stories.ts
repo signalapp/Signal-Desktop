@@ -6,21 +6,25 @@ import { pick } from 'lodash';
 
 import type { GetConversationByIdType } from './conversations';
 import type { ConversationType } from '../ducks/conversations';
+import type { MessageReactionType } from '../../model-types.d';
 import type {
   ConversationStoryType,
+  MyStoryType,
+  ReplyStateType,
+  StorySendStateType,
   StoryViewType,
-} from '../../components/StoryListItem';
-import type { MessageReactionType } from '../../model-types.d';
-import type { ReplyStateType } from '../../types/Stories';
+} from '../../types/Stories';
 import type { StateType } from '../reducer';
 import type { StoryDataType, StoriesStateType } from '../ducks/stories';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { SendStatus } from '../../messages/MessageSendState';
 import { canReply } from './message';
 import {
   getContactNameColorSelector,
   getConversationSelector,
   getMe,
 } from './conversations';
+import { getDistributionListSelector } from './storyDistributionLists';
 import { getUserConversationId } from './user';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
@@ -31,13 +35,13 @@ export const shouldShowStoriesView = createSelector(
   ({ isShowingStoriesView }): boolean => isShowingStoriesView
 );
 
-function getNewestStory(x: ConversationStoryType): StoryViewType {
+function getNewestStory(x: ConversationStoryType | MyStoryType): StoryViewType {
   return x.stories[x.stories.length - 1];
 }
 
 function sortByRecencyAndUnread(
-  a: ConversationStoryType,
-  b: ConversationStoryType
+  a: ConversationStoryType | MyStoryType,
+  b: ConversationStoryType | MyStoryType
 ): number {
   const storyA = getNewestStory(a);
   const storyB = getNewestStory(b);
@@ -86,11 +90,11 @@ function getAvatarData(
   ]);
 }
 
-function getConversationStory(
+function getStoryView(
   conversationSelector: GetConversationByIdType,
   story: StoryDataType,
   ourConversationId?: string
-): ConversationStoryType {
+): StoryViewType {
   const sender = pick(conversationSelector(story.sourceUuid || story.source), [
     'acceptedMessageRequest',
     'avatarPath',
@@ -105,6 +109,28 @@ function getConversationStory(
     'title',
   ]);
 
+  const { attachment, timestamp } = pick(story, ['attachment', 'timestamp']);
+
+  return {
+    attachment,
+    canReply: canReply(story, ourConversationId, conversationSelector),
+    isUnread: story.readStatus === ReadStatus.Unread,
+    messageId: story.messageId,
+    sender,
+    timestamp,
+  };
+}
+
+function getConversationStory(
+  conversationSelector: GetConversationByIdType,
+  story: StoryDataType,
+  ourConversationId?: string
+): ConversationStoryType {
+  const sender = pick(conversationSelector(story.sourceUuid || story.source), [
+    'hideStory',
+    'id',
+  ]);
+
   const conversation = pick(conversationSelector(story.conversationId), [
     'acceptedMessageRequest',
     'avatarPath',
@@ -116,16 +142,11 @@ function getConversationStory(
     'title',
   ]);
 
-  const { attachment, timestamp } = pick(story, ['attachment', 'timestamp']);
-
-  const storyView: StoryViewType = {
-    attachment,
-    canReply: canReply(story, ourConversationId, conversationSelector),
-    isUnread: story.readStatus === ReadStatus.Unread,
-    messageId: story.messageId,
-    sender,
-    timestamp,
-  };
+  const storyView = getStoryView(
+    conversationSelector,
+    story,
+    ourConversationId
+  );
 
   return {
     conversationId: conversation.id,
@@ -239,29 +260,96 @@ export const getStoryReplies = createSelector(
 
 export const getStories = createSelector(
   getConversationSelector,
-  getUserConversationId,
+  getDistributionListSelector,
   getStoriesState,
+  getUserConversationId,
   shouldShowStoriesView,
   (
     conversationSelector,
-    ourConversationId,
+    distributionListSelector,
     { stories }: Readonly<StoriesStateType>,
+    ourConversationId,
     isShowingStoriesView
   ): {
     hiddenStories: Array<ConversationStoryType>;
+    myStories: Array<MyStoryType>;
     stories: Array<ConversationStoryType>;
   } => {
     if (!isShowingStoriesView) {
       return {
         hiddenStories: [],
+        myStories: [],
         stories: [],
       };
     }
 
-    const storiesById = new Map<string, ConversationStoryType>();
     const hiddenStoriesById = new Map<string, ConversationStoryType>();
+    const myStoriesById = new Map<string, MyStoryType>();
+    const storiesById = new Map<string, ConversationStoryType>();
 
     stories.forEach(story => {
+      if (story.deletedForEveryone) {
+        return;
+      }
+
+      if (story.sendStateByConversationId && story.storyDistributionListId) {
+        const list = distributionListSelector(story.storyDistributionListId);
+        if (!list) {
+          return;
+        }
+
+        const storyView = getStoryView(
+          conversationSelector,
+          story,
+          ourConversationId
+        );
+
+        const sendState: Array<StorySendStateType> = [];
+        const { sendStateByConversationId } = story;
+
+        let views = 0;
+        Object.keys(story.sendStateByConversationId).forEach(recipientId => {
+          const recipient = conversationSelector(recipientId);
+
+          const recipientSendState = sendStateByConversationId[recipient.id];
+          if (recipientSendState.status === SendStatus.Viewed) {
+            views += 1;
+          }
+
+          sendState.push({
+            ...recipientSendState,
+            recipient: pick(recipient, [
+              'acceptedMessageRequest',
+              'avatarPath',
+              'color',
+              'id',
+              'isMe',
+              'name',
+              'profileName',
+              'sharedGroupNames',
+              'title',
+            ]),
+          });
+        });
+
+        const existingMyStory = myStoriesById.get(list.id) || { stories: [] };
+
+        myStoriesById.set(list.id, {
+          distributionId: list.id,
+          distributionName: list.name,
+          stories: [
+            ...existingMyStory.stories,
+            {
+              ...storyView,
+              sendState,
+              views,
+            },
+          ],
+        });
+
+        return;
+      }
+
       const conversationStory = getConversationStory(
         conversationSelector,
         story,
@@ -269,6 +357,7 @@ export const getStories = createSelector(
       );
 
       let storiesMap: Map<string, ConversationStoryType>;
+
       if (conversationStory.isHidden) {
         storiesMap = hiddenStoriesById;
       } else {
@@ -291,6 +380,9 @@ export const getStories = createSelector(
 
     return {
       hiddenStories: Array.from(hiddenStoriesById.values()).sort(
+        sortByRecencyAndUnread
+      ),
+      myStories: Array.from(myStoriesById.values()).sort(
         sortByRecencyAndUnread
       ),
       stories: Array.from(storiesById.values()).sort(sortByRecencyAndUnread),

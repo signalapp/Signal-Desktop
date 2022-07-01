@@ -20,10 +20,12 @@ import {
   mergeContactRecord,
   mergeGroupV1Record,
   mergeGroupV2Record,
+  mergeStoryDistributionListRecord,
   toAccountRecord,
   toContactRecord,
   toGroupV1Record,
   toGroupV2Record,
+  toStoryDistributionListRecord,
 } from './storageRecordOps';
 import type { MergeResultType } from './storageRecordOps';
 import { MAX_READ_KEYS } from './storageConstants';
@@ -67,6 +69,7 @@ const validRecordTypes = new Set([
   2, // GROUPV1
   3, // GROUPV2
   4, // ACCOUNT
+  5, // STORY_DISTRIBUTION_LIST
 ]);
 
 const backOff = new BackOff([
@@ -99,10 +102,10 @@ function redactExtendedStorageID({
   return redactStorageID(storageID, storageVersion);
 }
 
-async function encryptRecord(
+function encryptRecord(
   storageID: string | undefined,
   storageRecord: Proto.IStorageRecord
-): Promise<Proto.StorageItem> {
+): Proto.StorageItem {
   const storageItem = new Proto.StorageItem();
 
   const storageKeyBuffer = storageID
@@ -161,11 +164,80 @@ async function generateManifest(
   const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
   const newItems: Set<Proto.IStorageItem> = new Set();
 
+  function processStorageRecord({
+    conversation,
+    currentStorageID,
+    currentStorageVersion,
+    identifierType,
+    storageNeedsSync,
+    storageRecord,
+  }: {
+    conversation?: ConversationModel;
+    currentStorageID?: string;
+    currentStorageVersion?: number;
+    identifierType: Proto.ManifestRecord.Identifier.Type;
+    storageNeedsSync: boolean;
+    storageRecord: Proto.IStorageRecord;
+  }) {
+    const identifier = new Proto.ManifestRecord.Identifier();
+    identifier.type = identifierType;
+
+    const currentRedactedID = currentStorageID
+      ? redactStorageID(currentStorageID, currentStorageVersion)
+      : undefined;
+
+    const isNewItem = isNewManifest || storageNeedsSync || !currentStorageID;
+
+    const storageID = isNewItem
+      ? Bytes.toBase64(generateStorageID())
+      : currentStorageID;
+
+    let storageItem;
+    try {
+      storageItem = encryptRecord(storageID, storageRecord);
+    } catch (err) {
+      log.error(
+        `storageService.upload(${version}): encrypt record failed:`,
+        Errors.toLogFormat(err)
+      );
+      throw err;
+    }
+    identifier.raw = storageItem.key;
+
+    // When a client needs to update a given record it should create it
+    // under a new key and delete the existing key.
+    if (isNewItem) {
+      newItems.add(storageItem);
+
+      insertKeys.push(storageID);
+      const newRedactedID = redactStorageID(storageID, version, conversation);
+      if (currentStorageID) {
+        log.info(
+          `storageService.upload(${version}): ` +
+            `updating from=${currentRedactedID} ` +
+            `to=${newRedactedID}`
+        );
+        deleteKeys.push(Bytes.fromBase64(currentStorageID));
+      } else {
+        log.info(
+          `storageService.upload(${version}): adding key=${newRedactedID}`
+        );
+      }
+    }
+
+    manifestRecordKeys.add(identifier);
+
+    return {
+      isNewItem,
+      storageID,
+    };
+  }
+
   const conversations = window.getConversations();
   for (let i = 0; i < conversations.length; i += 1) {
     const conversation = conversations.models[i];
-    const identifier = new Proto.ManifestRecord.Identifier();
 
+    let identifierType;
     let storageRecord;
 
     const conversationType = typeofConversation(conversation.attributes);
@@ -173,7 +245,7 @@ async function generateManifest(
       storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.account = await toAccountRecord(conversation);
-      identifier.type = ITEM_TYPE.ACCOUNT;
+      identifierType = ITEM_TYPE.ACCOUNT;
     } else if (conversationType === ConversationTypes.Direct) {
       // Contacts must have UUID
       if (!conversation.get('uuid')) {
@@ -207,17 +279,15 @@ async function generateManifest(
       storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
-      identifier.type = ITEM_TYPE.CONTACT;
+      identifierType = ITEM_TYPE.CONTACT;
     } else if (conversationType === ConversationTypes.GroupV2) {
       storageRecord = new Proto.StorageRecord();
-      // eslint-disable-next-line no-await-in-loop
-      storageRecord.groupV2 = await toGroupV2Record(conversation);
-      identifier.type = ITEM_TYPE.GROUPV2;
+      storageRecord.groupV2 = toGroupV2Record(conversation);
+      identifierType = ITEM_TYPE.GROUPV2;
     } else if (conversationType === ConversationTypes.GroupV1) {
       storageRecord = new Proto.StorageRecord();
-      // eslint-disable-next-line no-await-in-loop
-      storageRecord.groupV1 = await toGroupV1Record(conversation);
-      identifier.type = ITEM_TYPE.GROUPV1;
+      storageRecord.groupV1 = toGroupV1Record(conversation);
+      identifierType = ITEM_TYPE.GROUPV1;
     } else {
       log.warn(
         `storageService.upload(${version}): ` +
@@ -225,59 +295,20 @@ async function generateManifest(
       );
     }
 
-    if (!storageRecord) {
+    if (!storageRecord || !identifierType) {
       continue;
     }
 
-    const currentStorageID = conversation.get('storageID');
-    const currentStorageVersion = conversation.get('storageVersion');
+    const { isNewItem, storageID } = processStorageRecord({
+      conversation,
+      currentStorageID: conversation.get('storageID'),
+      currentStorageVersion: conversation.get('storageVersion'),
+      identifierType,
+      storageNeedsSync: Boolean(conversation.get('needsStorageServiceSync')),
+      storageRecord,
+    });
 
-    const currentRedactedID = currentStorageID
-      ? redactStorageID(currentStorageID, currentStorageVersion)
-      : undefined;
-
-    const isNewItem =
-      isNewManifest ||
-      Boolean(conversation.get('needsStorageServiceSync')) ||
-      !currentStorageID;
-
-    const storageID = isNewItem
-      ? Bytes.toBase64(generateStorageID())
-      : currentStorageID;
-
-    let storageItem;
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      storageItem = await encryptRecord(storageID, storageRecord);
-    } catch (err) {
-      log.error(
-        `storageService.upload(${version}): encrypt record failed:`,
-        Errors.toLogFormat(err)
-      );
-      throw err;
-    }
-    identifier.raw = storageItem.key;
-
-    // When a client needs to update a given record it should create it
-    // under a new key and delete the existing key.
     if (isNewItem) {
-      newItems.add(storageItem);
-
-      insertKeys.push(storageID);
-      const newRedactedID = redactStorageID(storageID, version, conversation);
-      if (currentStorageID) {
-        log.info(
-          `storageService.upload(${version}): ` +
-            `updating from=${currentRedactedID} ` +
-            `to=${newRedactedID}`
-        );
-        deleteKeys.push(Bytes.fromBase64(currentStorageID));
-      } else {
-        log.info(
-          `storageService.upload(${version}): adding key=${newRedactedID}`
-        );
-      }
-
       postUploadUpdateFunctions.push(() => {
         conversation.set({
           needsStorageServiceSync: false,
@@ -287,9 +318,35 @@ async function generateManifest(
         updateConversation(conversation.attributes);
       });
     }
-
-    manifestRecordKeys.add(identifier);
   }
+
+  const storyDistributionLists =
+    await dataInterface.getAllStoryDistributionsWithMembers();
+
+  log.info(
+    `storageService.upload(${version}): adding storyDistributionLists=${storyDistributionLists.length}`
+  );
+
+  storyDistributionLists.forEach(storyDistributionList => {
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: storyDistributionList.storageID,
+      currentStorageVersion: storyDistributionList.storageVersion,
+      identifierType: ITEM_TYPE.STORY_DISTRIBUTION_LIST,
+      storageNeedsSync: storyDistributionList.storageNeedsSync,
+      storageRecord: toStoryDistributionListRecord(storyDistributionList),
+    });
+
+    if (isNewItem) {
+      postUploadUpdateFunctions.push(() => {
+        dataInterface.modifyStoryDistribution({
+          ...storyDistributionList,
+          storageID,
+          storageVersion: version,
+          storageNeedsSync: false,
+        });
+      });
+    }
+  });
 
   const unknownRecordsArray: ReadonlyArray<UnknownRecord> = (
     window.storage.get('storage-service-unknown-records') || []
@@ -784,6 +841,15 @@ async function mergeRecord(
         storageID,
         storageVersion,
         storageRecord.account
+      );
+    } else if (
+      itemType === ITEM_TYPE.STORY_DISTRIBUTION_LIST &&
+      storageRecord.storyDistributionList
+    ) {
+      mergeResult = await mergeStoryDistributionListRecord(
+        storageID,
+        storageVersion,
+        storageRecord.storyDistributionList
       );
     } else {
       isUnsupported = true;

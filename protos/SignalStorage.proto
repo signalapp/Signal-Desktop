@@ -39,6 +39,7 @@ message ManifestRecord {
       GROUPV1 = 2;
       GROUPV2 = 3;
       ACCOUNT = 4;
+      STORY_DISTRIBUTION_LIST = 5;
     }
 
     optional bytes raw  = 1;
@@ -57,6 +58,7 @@ message StorageRecord {
     GroupV1Record groupV1 = 2;
     GroupV2Record groupV2 = 3;
     AccountRecord account = 4;
+    StoryDistributionListRecord storyDistributionList = 5;
   }
 }
 
@@ -146,4 +148,13 @@ message AccountRecord {
   optional string                 subscriberCurrencyCode       = 22;
   optional bool                   displayBadgesOnProfile       = 23;
   optional bool                   keepMutedChatsArchived       = 25;
+}
+
+message StoryDistributionListRecord {
+  optional bytes identifier = 1;
+  optional string name = 2;
+  repeated string recipientUuids = 3;
+  optional uint64 deletedAtTimestamp = 4;
+  optional bool allowsReplies = 5;
+  optional bool isBlockList = 6;
 }

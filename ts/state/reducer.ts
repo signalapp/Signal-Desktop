@@ -23,6 +23,7 @@ import { reducer as safetyNumber } from './ducks/safetyNumber';
 import { reducer as search } from './ducks/search';
 import { reducer as stickers } from './ducks/stickers';
 import { reducer as stories } from './ducks/stories';
+import { reducer as storyDistributionLists } from './ducks/storyDistributionLists';
 import { reducer as updates } from './ducks/updates';
 import { reducer as user } from './ducks/user';
 
@@ -47,6 +48,7 @@ export const reducer = combineReducers({
   search,
   stickers,
   stories,
+  storyDistributionLists,
   updates,
   user,
 });
