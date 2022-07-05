@@ -116,6 +116,7 @@ import {
 } from '../services/LinkPreview';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { closeLightbox, showLightbox } from '../util/showLightbox';
+import { SECOND } from '../util/durations';
 
 type AttachmentOptions = {
   messageId: string;
@@ -2472,14 +2473,28 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     if (panel) {
-      panel.view.$el.addClass('panel--remove').one('transitionend', () => {
+      let timeout: ReturnType<typeof setTimeout> | undefined;
+      const removePanel = () => {
+        if (!timeout) {
+          return;
+        }
+
+        clearTimeout(timeout);
+        timeout = undefined;
+
         panel.view.remove();
 
         if (this.panels.length === 0) {
           // Make sure poppers are positioned properly
           window.dispatchEvent(new Event('resize'));
         }
-      });
+      };
+      panel.view.$el
+        .addClass('panel--remove')
+        .one('transitionend', removePanel);
+
+      // Backup, in case things go wrong with the transitionend event
+      timeout = setTimeout(removePanel, SECOND);
     }
 
     window.reduxActions.conversations.setSelectedConversationPanelDepth(
