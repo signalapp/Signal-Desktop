@@ -18,8 +18,7 @@ const ColdRoot = () => (
       <I18n messages={localeMessages} locale={SignalContext.config.locale}>
         <App
           executeMenuRole={SignalContext.executeMenuRole}
-          platform={SignalContext.OS.platform}
-          isWindows11={SignalContext.OS.isWindows11()}
+          hasCustomTitleBar={SignalContext.OS.hasCustomTitleBar()}
         />
       </I18n>
     </Router>

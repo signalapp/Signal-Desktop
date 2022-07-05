@@ -291,10 +291,10 @@ declare global {
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;
     i18n: LocalizerType;
-    isActive: () => boolean;
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
+    isMaximized: () => boolean;
     initialTheme?: ThemeType;
     libphonenumberInstance: {
       parse: (number: string) => PhoneNumber;
@@ -303,12 +303,11 @@ declare global {
     };
     libphonenumberFormat: typeof PhoneNumberFormat;
     nodeSetImmediate: typeof setImmediate;
-    onFullScreenChange: (fullScreen: boolean) => void;
+    onFullScreenChange: (fullScreen: boolean, maximized: boolean) => void;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
     reduxStore: Store<StateType>;
-    registerForActive: (handler: () => void) => void;
     restart: () => void;
     setImmediate: typeof setImmediate;
     showWindow: () => void;
@@ -326,7 +325,6 @@ declare global {
     systemTheme: WhatIsThis;
     textsecure: typeof textsecure;
     titleBarDoubleClick: () => void;
-    unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
     Backbone: typeof Backbone;
     CI?: CI;

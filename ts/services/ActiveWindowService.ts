@@ -25,6 +25,8 @@ export class ActiveWindowService {
 
   private activeCallbacks: Array<() => void> = [];
 
+  private changeCallbacks: Array<(isActive: boolean) => void> = [];
+
   private lastActiveEventAt = -Infinity;
 
   private callActiveCallbacks: () => void;
@@ -73,6 +75,16 @@ export class ActiveWindowService {
     );
   }
 
+  registerForChange(callback: (isActive: boolean) => void): void {
+    this.changeCallbacks.push(callback);
+  }
+
+  unregisterForChange(callback: (isActive: boolean) => void): void {
+    this.changeCallbacks = this.changeCallbacks.filter(
+      item => item !== callback
+    );
+  }
+
   private onActiveEvent(): void {
     this.updateState(() => {
       this.lastActiveEventAt = Date.now();
@@ -92,6 +104,12 @@ export class ActiveWindowService {
 
     if (!wasActiveBefore && isActiveNow) {
       this.callActiveCallbacks();
+    }
+
+    if (wasActiveBefore !== isActiveNow) {
+      for (const callback of this.changeCallbacks) {
+        callback(isActiveNow);
+      }
     }
   }
 }

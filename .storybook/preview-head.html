@@ -9,6 +9,9 @@
   type="text/css"
 />
 <script>
+  // eslint-disable-next-line
+  const noop = () => {};
+
   window.SignalWindow = window.SignalWindow || {};
   window.SignalWindow.log = {
     fatal: console.error.bind(console),
@@ -19,19 +22,27 @@
     trace: console.trace.bind(console),
   };
   window.SignalContext = {
+    activeWindowService: {
+      isActive: () => true;
+      registerForActive: noop,
+      unregisterForActive: noop,
+      registerForChange: noop,
+      unregisterForChange: noop,
+    },
+
     nativeThemeListener: {
       getSystemValue: async () => 'light',
-      subscribe: () => {},
-      unsubscribe: () => {},
+      subscribe: noop,
+      unsubscribe: noop,
     },
     Settings: {
       themeSetting: {
         getValue: async () => 'light',
       },
-      waitForChange: () => {},
+      waitForChange: noop,
     },
     OS: {
-      isWindows11: () => false,
+      hasCustomTitleBar: () => false,
     },
   };
 </script>

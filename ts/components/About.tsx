@@ -14,8 +14,7 @@ export type PropsType = {
   environment: string;
   i18n: LocalizerType;
   version: string;
-  platform: string;
-  isWindows11: boolean;
+  hasCustomTitleBar: boolean;
   executeMenuRole: ExecuteMenuRoleType;
 };
 
@@ -24,8 +23,7 @@ export const About = ({
   i18n,
   environment,
   version,
-  platform,
-  isWindows11,
+  hasCustomTitleBar,
   executeMenuRole,
 }: PropsType): JSX.Element => {
   useEscapeHandling(closeAbout);
@@ -34,8 +32,7 @@ export const About = ({
 
   return (
     <TitleBarContainer
-      platform={platform}
-      isWindows11={isWindows11}
+      hasCustomTitleBar={hasCustomTitleBar}
       theme={theme}
       executeMenuRole={executeMenuRole}
     >

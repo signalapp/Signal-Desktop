@@ -12,6 +12,7 @@ import { createTemplate } from '../../app/menu';
 import { ThemeType } from '../types/Util';
 import type { LocaleMessagesType } from '../types/I18N';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
+import { useIsWindowActive } from '../hooks/useIsWindowActive';
 
 export type MenuPropsType = Readonly<{
   hasMenu: true;
@@ -28,9 +29,8 @@ export type PropsType = Readonly<{
   theme: ThemeType;
   isMaximized?: boolean;
   isFullScreen?: boolean;
-  isWindows11: boolean;
+  hasCustomTitleBar: boolean;
   hideMenuBar?: boolean;
-  platform: string;
   executeMenuRole: ExecuteMenuRoleType;
   titleBarDoubleClick?: () => void;
   children: ReactNode;
@@ -116,15 +116,16 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     theme,
     isMaximized,
     isFullScreen,
-    isWindows11,
+    hasCustomTitleBar,
     hideMenuBar,
     executeMenuRole,
     titleBarDoubleClick,
     children,
     hasMenu,
-    platform,
     iconSrc = 'images/icon_32.png',
   } = props;
+
+  const isWindowActive = useIsWindowActive();
 
   const titleBarTheme = useMemo(
     () => ({
@@ -201,7 +202,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     [theme, hideMenuBar]
   );
 
-  if (platform !== 'win32' || isFullScreen) {
+  if (!hasCustomTitleBar || isFullScreen) {
     return <>{children}</>;
   }
 
@@ -236,17 +237,18 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
   }
 
   return (
-    <div className="TitleBarContainer">
-      <TitleBar
-        className={classNames(
-          'TitleBarContainer__title',
+    <div
+      className={classNames(
+        'TitleBarContainer',
+        isWindowActive ? 'TitleBarContainer--active' : null
+      )}
+    >
+      <div className="TitleBarContainer__padding" />
+      <div className="TitleBarContainer__content">{children}</div>
 
-          // Add a pixel of padding on non-maximized Windows 11 titlebar.
-          isWindows11 && !isMaximized
-            ? 'TitleBarContainer__title--extra-padding'
-            : null
-        )}
-        platform={platform}
+      <TitleBar
+        className="TitleBarContainer__title"
+        platform="win32"
         iconSrc={iconSrc}
         theme={titleBarTheme}
         maximized={isMaximized}
@@ -254,8 +256,6 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
         onDoubleClick={titleBarDoubleClick}
         hideControls
       />
-
-      <div className="TitleBarContainer__content">{children}</div>
     </div>
   );
 };

@@ -26,8 +26,7 @@ contextBridge.exposeInMainWorld('SignalContext', {
 
     ReactDOM.render(
       React.createElement(DebugLogWindow, {
-        platform: process.platform,
-        isWindows11: SignalContext.OS.isWindows11(),
+        hasCustomTitleBar: SignalContext.OS.hasCustomTitleBar(),
         executeMenuRole: SignalContext.executeMenuRole,
         closeWindow: () => SignalContext.executeMenuRole('close'),
         downloadLog: (logText: string) =>

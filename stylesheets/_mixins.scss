@@ -672,11 +672,11 @@
 @mixin install-screen {
   align-items: center;
   display: flex;
+  width: var(--window-width);
   height: var(--window-height);
   justify-content: center;
   line-height: 30px;
   user-select: none;
-  width: 100vw;
 
   @include light-theme {
     background: $color-gray-02;

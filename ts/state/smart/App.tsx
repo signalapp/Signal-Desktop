@@ -22,7 +22,6 @@ import {
   getIsMainWindowMaximized,
   getIsMainWindowFullScreen,
   getMenuOptions,
-  getPlatform,
 } from '../selectors/user';
 import { shouldShowStoriesView } from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
@@ -42,8 +41,7 @@ const mapStateToProps = (state: StateType) => {
     isMaximized: getIsMainWindowMaximized(state),
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
-    platform: getPlatform(state),
-    isWindows11: window.SignalContext.OS.isWindows11(),
+    hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
     hideMenuBar: getHideMenuBar(state),
     renderCallManager: () => <SmartCallManager />,
     renderCustomizingPreferredReactionsModal: () => (

@@ -158,8 +158,7 @@ const createProps = (): PropsType => ({
   i18n,
 
   executeMenuRole: action('executeMenuRole'),
-  platform: 'win32',
-  isWindows11: false,
+  hasCustomTitleBar: true,
 });
 
 export default {

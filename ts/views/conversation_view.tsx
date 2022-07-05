@@ -450,7 +450,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
 
     const markMessageRead = async (messageId: string) => {
-      if (!window.isActive()) {
+      if (!window.SignalContext.activeWindowService.isActive()) {
         return;
       }
 

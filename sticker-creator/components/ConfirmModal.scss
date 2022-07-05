@@ -3,12 +3,12 @@
 
 .facade {
   background: rgba(0, 0, 0, 0.33);
-  width: 100vw;
+  width: var(--window-width);
   height: var(--window-height);
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
-  left: 0;
-  top: 0;
+  left: var(--window-border);
+  top: var(--titlebar-height);
 }

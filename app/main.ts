@@ -432,6 +432,7 @@ async function prepareUrl(
 
     // Only used by the main window
     isMainWindowFullScreen: Boolean(mainWindow?.isFullScreen()),
+    isMainWindowMaximized: Boolean(mainWindow?.isMaximized()),
 
     // Only for tests
     argv: JSON.stringify(process.argv),
@@ -498,6 +499,17 @@ function handleCommonWindowEvents(
 
   activeWindows.add(window);
   window.on('closed', () => activeWindows.delete(window));
+
+  const setWindowFocus = () => {
+    window.webContents.send('set-window-focus', window.isFocused());
+  };
+  window.on('focus', setWindowFocus);
+  window.on('blur', setWindowFocus);
+
+  window.once('ready-to-show', setWindowFocus);
+  // This is a fallback in case we drop an event for some reason.
+  const focusInterval = setInterval(setWindowFocus, 10000);
+  window.on('closed', () => clearInterval(focusInterval));
 
   // Works only for mainWindow because it has `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
@@ -600,12 +612,12 @@ const mainTitleBarStyle =
     ? ('default' as const)
     : ('hidden' as const);
 
-const nonMainTitleBarStyle = OS.isWindows()
+const nonMainTitleBarStyle = OS.hasCustomTitleBar()
   ? ('hidden' as const)
   : ('default' as const);
 
 async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
-  if (!OS.isWindows()) {
+  if (!OS.hasCustomTitleBar()) {
     return false;
   }
 
@@ -781,18 +793,6 @@ async function createWindow() {
 
   mainWindow.on('resize', captureWindowStats);
   mainWindow.on('move', captureWindowStats);
-
-  const setWindowFocus = () => {
-    if (!mainWindow) {
-      return;
-    }
-    mainWindow.webContents.send('set-window-focus', mainWindow.isFocused());
-  };
-  mainWindow.on('focus', setWindowFocus);
-  mainWindow.on('blur', setWindowFocus);
-  mainWindow.once('ready-to-show', setWindowFocus);
-  // This is a fallback in case we drop an event for some reason.
-  setInterval(setWindowFocus, 10000);
 
   if (getEnvironment() === Environment.Test) {
     mainWindow.loadURL(await prepareFileUrl([__dirname, '../test/index.html']));

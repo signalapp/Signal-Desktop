@@ -36,8 +36,7 @@ type PropsType = {
   isMaximized: boolean;
   isFullScreen: boolean;
   menuOptions: MenuOptionsType;
-  platform: string;
-  isWindows11: boolean;
+  hasCustomTitleBar: boolean;
   hideMenuBar: boolean;
 
   executeMenuRole: ExecuteMenuRoleType;
@@ -59,11 +58,10 @@ export const App = ({
   isFullScreen,
   isMaximized,
   isShowingStoriesView,
-  isWindows11,
+  hasCustomTitleBar,
   localeMessages,
   menuOptions,
   openInbox,
-  platform,
   registerSingleDevice,
   renderCallManager,
   renderCustomizingPreferredReactionsModal,
@@ -152,8 +150,7 @@ export const App = ({
       theme={theme}
       isMaximized={isMaximized}
       isFullScreen={isFullScreen}
-      platform={platform}
-      isWindows11={isWindows11}
+      hasCustomTitleBar={hasCustomTitleBar}
       executeMenuRole={executeMenuRole}
       titleBarDoubleClick={titleBarDoubleClick}
       hasMenu

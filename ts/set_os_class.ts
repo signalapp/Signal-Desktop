@@ -14,4 +14,8 @@
   }
 
   document.body.classList.add(className);
+
+  if (window.SignalContext.OS.hasCustomTitleBar()) {
+    document.body.classList.add('os-has-custom-titlebar');
+  }
 }

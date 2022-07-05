@@ -228,7 +228,7 @@ class NotificationService extends EventEmitter {
     }
 
     const { notificationData } = this;
-    const isAppFocused = window.isActive();
+    const isAppFocused = window.SignalContext.activeWindowService.isActive();
     const userSetting = this.getNotificationSetting();
 
     // This isn't a boolean because TypeScript isn't smart enough to know that, if

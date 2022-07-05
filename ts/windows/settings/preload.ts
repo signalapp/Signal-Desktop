@@ -341,8 +341,7 @@ const renderPreferences = async () => {
 
     i18n: SignalContext.i18n,
 
-    platform: process.platform,
-    isWindows11: SignalContext.OS.isWindows11(),
+    hasCustomTitleBar: SignalContext.OS.hasCustomTitleBar(),
     executeMenuRole: SignalContext.executeMenuRole,
   };
 

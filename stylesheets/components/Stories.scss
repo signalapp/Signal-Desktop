@@ -19,7 +19,7 @@
     flex-direction: column;
     height: 100%;
     width: 380px;
-    padding-top: 42px;
+    padding-top: calc(14px + var(--title-bar-drag-area-height));
 
     &__header {
       align-items: center;

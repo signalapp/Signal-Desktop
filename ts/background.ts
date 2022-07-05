@@ -1835,7 +1835,9 @@ export async function startApp(): Promise<void> {
       window.reduxActions.app.openInstaller();
     }
 
-    window.registerForActive(() => notificationService.clear());
+    const { activeWindowService } = window.SignalContext;
+
+    activeWindowService.registerForActive(() => notificationService.clear());
     window.addEventListener('unload', () => notificationService.fastClear());
 
     notificationService.on('click', (id, messageId) => {
@@ -1848,7 +1850,7 @@ export async function startApp(): Promise<void> {
     });
 
     // Maybe refresh remote configuration when we become active
-    window.registerForActive(async () => {
+    activeWindowService.registerForActive(async () => {
       strictAssert(server !== undefined, 'WebAPI not ready');
 
       try {

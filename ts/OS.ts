@@ -16,7 +16,7 @@ export const isWindows = (minVersion?: string): boolean => {
 
   return is.undefined(minVersion) ? true : semver.gte(osRelease, minVersion);
 };
-export const isWindows11 = (): boolean => {
-  // See https://docs.microsoft.com/en-us/answers/questions/586619/windows-11-build-ver-is-still-10022000194.html
-  return isWindows('10.0.22000');
-};
+
+// Windows 10 and above
+export const hasCustomTitleBar = (): boolean =>
+  isWindows('10.0.0') || Boolean(process.env.CUSTOM_TITLEBAR);

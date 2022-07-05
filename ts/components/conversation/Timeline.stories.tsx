@@ -36,11 +36,6 @@ export default {
 // eslint-disable-next-line
 const noop = () => {};
 
-Object.assign(window, {
-  registerForActive: noop,
-  unregisterForActive: noop,
-});
-
 const items: Record<string, TimelineItemType> = {
   'id-1': {
     type: 'message',

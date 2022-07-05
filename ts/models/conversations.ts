@@ -1417,7 +1417,7 @@ export class ConversationModel extends window.Backbone
       messagesAdded({
         conversationId,
         messages: [{ ...message.attributes }],
-        isActive: window.isActive(),
+        isActive: window.SignalContext.activeWindowService.isActive(),
         isJustSent,
         isNewMessage: true,
       });
@@ -1567,7 +1567,7 @@ export class ConversationModel extends window.Backbone
         messages: cleaned.map((messageModel: MessageModel) => ({
           ...messageModel.attributes,
         })),
-        isActive: window.isActive(),
+        isActive: window.SignalContext.activeWindowService.isActive(),
         isJustSent: false,
         isNewMessage: false,
       });
@@ -1620,7 +1620,7 @@ export class ConversationModel extends window.Backbone
         messages: cleaned.map((messageModel: MessageModel) => ({
           ...messageModel.attributes,
         })),
-        isActive: window.isActive(),
+        isActive: window.SignalContext.activeWindowService.isActive(),
         isJustSent: false,
         isNewMessage: false,
       });

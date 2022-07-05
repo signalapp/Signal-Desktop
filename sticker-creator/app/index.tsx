@@ -16,15 +16,13 @@ import type { ExecuteMenuRoleType } from '../../ts/components/TitleBarContainer'
 import { useTheme } from '../../ts/hooks/useTheme';
 
 export type AppPropsType = Readonly<{
-  platform: string;
   executeMenuRole: ExecuteMenuRoleType;
-  isWindows11: boolean;
+  hasCustomTitleBar: boolean;
 }>;
 
 export const App = ({
-  platform,
   executeMenuRole,
-  isWindows11,
+  hasCustomTitleBar,
 }: AppPropsType): JSX.Element => {
   const i18n = useI18n();
   const theme = useTheme();
@@ -32,8 +30,7 @@ export const App = ({
   return (
     <TitleBarContainer
       iconSrc="../../images/icon_32.png"
-      platform={platform}
-      isWindows11={isWindows11}
+      hasCustomTitleBar={hasCustomTitleBar}
       theme={theme}
       executeMenuRole={executeMenuRole}
     >

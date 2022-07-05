@@ -573,7 +573,9 @@ export class Timeline extends React.Component<
 
     this.updateIntersectionObserver();
 
-    window.registerForActive(this.markNewestBottomVisibleMessageRead);
+    window.SignalContext.activeWindowService.registerForActive(
+      this.markNewestBottomVisibleMessageRead
+    );
 
     this.delayedPeekTimeout = setTimeout(() => {
       const { id, peekGroupCallForTheFirstTime } = this.props;
@@ -590,7 +592,9 @@ export class Timeline extends React.Component<
   public override componentWillUnmount(): void {
     const { delayedPeekTimeout, peekInterval } = this;
 
-    window.unregisterForActive(this.markNewestBottomVisibleMessageRead);
+    window.SignalContext.activeWindowService.unregisterForActive(
+      this.markNewestBottomVisibleMessageRead
+    );
 
     this.intersectionObserver?.disconnect();
 

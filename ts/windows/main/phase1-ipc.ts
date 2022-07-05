@@ -254,14 +254,17 @@ window.sendChallengeRequest = request => ipc.send('challenge:request', request);
 
 {
   let isFullScreen = Boolean(config.isMainWindowFullScreen);
+  let isMaximized = Boolean(config.isMainWindowMaximized);
 
   window.isFullScreen = () => isFullScreen;
+  window.isMaximized = () => isMaximized;
   // This is later overwritten.
   window.onFullScreenChange = noop;
 
-  ipc.on('full-screen-change', (_event, isFull) => {
-    isFullScreen = Boolean(isFull);
-    window.onFullScreenChange(isFullScreen);
+  ipc.on('window:set-window-stats', (_event, stats) => {
+    isFullScreen = Boolean(stats.isFullScreen);
+    isMaximized = Boolean(stats.isMaximized);
+    window.onFullScreenChange(isFullScreen, isMaximized);
   });
 }
 

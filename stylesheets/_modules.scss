@@ -4167,12 +4167,12 @@ button.module-image__border-overlay:focus {
 
   &__overlay {
     display: flex;
+    width: var(--window-width);
     height: var(--window-height);
     justify-content: flex-end;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100vw;
     z-index: $z-index-popup;
   }
 
@@ -5857,7 +5857,7 @@ button.module-image__border-overlay:focus {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100vw;
+    width: var(--window-width);
     height: var(--window-height);
     display: flex;
     justify-content: center;
@@ -7457,25 +7457,25 @@ button.module-image__border-overlay:focus {
 
 .module-modal-host__overlay {
   background: $color-black-alpha-40;
+  width: var(--window-width);
   height: var(--window-height);
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100vw;
+  left: var(--window-border);
+  top: var(--titlebar-height);
+  position: fixed;
   z-index: $z-index-popup-overlay;
 }
 
 .module-modal-host__overlay-container {
   display: flex;
   flex-direction: column;
+  width: var(--window-width);
   height: var(--window-height);
+  left: var(--window-border);
+  top: var(--titlebar-height);
   justify-content: center;
-  left: 0;
   overflow: hidden;
   padding: 20px;
-  position: absolute;
-  top: 0;
-  width: 100vw;
+  position: fixed;
   z-index: $z-index-popup-overlay;
 }
 
@@ -7612,9 +7612,9 @@ button.module-image__border-overlay:focus {
 .module-progress-dialog__overlay {
   background: $color-black-alpha-40;
   position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
+  left: var(--window-border);
+  top: var(--titlebar-height);
+  width: var(--window-width);
   height: var(--window-height);
   display: flex;
   justify-content: center;

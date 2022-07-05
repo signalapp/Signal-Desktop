@@ -12,6 +12,7 @@ import type { LocaleMessagesType } from '../types/I18N';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
 import type { SettingType } from '../util/preload';
 import type { RendererConfigType } from '../types/RendererConfig';
+import { ActiveWindowService } from '../services/ActiveWindowService';
 
 import { Bytes } from '../context/Bytes';
 import { Crypto } from '../context/Crypto';
@@ -28,7 +29,10 @@ import { createSetting } from '../util/preload';
 import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 import { waitForSettingsChange } from './waitForSettingsChange';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
-import { isWindows, isWindows11, isLinux, isMacOS } from '../OS';
+import { isWindows, isLinux, isMacOS, hasCustomTitleBar } from '../OS';
+
+const activeWindowService = new ActiveWindowService();
+activeWindowService.initialize(window.document, ipcRenderer);
 
 const params = new URLSearchParams(document.location.search);
 const configParam = params.get('config');
@@ -58,6 +62,7 @@ export type SignalContextType = {
   nativeThemeListener: NativeThemeType;
   setIsCallActive: (isCallActive: boolean) => unknown;
 
+  activeWindowService: typeof activeWindowService;
   Settings: {
     themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
     waitForChange: () => Promise<void>;
@@ -65,9 +70,9 @@ export type SignalContextType = {
   OS: {
     platform: string;
     isWindows: typeof isWindows;
-    isWindows11: typeof isWindows11;
     isLinux: typeof isLinux;
     isMacOS: typeof isMacOS;
+    hasCustomTitleBar: typeof hasCustomTitleBar;
   };
   config: RendererConfigType;
   getAppInstance: () => string | undefined;
@@ -86,6 +91,7 @@ export type SignalContextType = {
 };
 
 export const SignalContext: SignalContextType = {
+  activeWindowService,
   Settings: {
     themeSetting: createSetting('themeSetting', { setter: false }),
     waitForChange: waitForSettingsChange,
@@ -93,9 +99,9 @@ export const SignalContext: SignalContextType = {
   OS: {
     platform: process.platform,
     isWindows,
-    isWindows11,
     isLinux,
     isMacOS,
+    hasCustomTitleBar,
   },
   bytes: new Bytes(),
   config,

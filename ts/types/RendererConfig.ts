@@ -92,6 +92,7 @@ export const rendererConfigSchema = z.object({
 
   // Only used by main window
   isMainWindowFullScreen: z.boolean(),
+  isMainWindowMaximized: z.boolean(),
 
   // Only for tests
   argv: configOptionalStringSchema,

@@ -6,14 +6,41 @@
   flex-direction: column;
   height: 100vh;
 
-  &__title {
+  --border-color: transparent;
+
+  &--active {
+    --border-color: transparent;
+  }
+
+  border: var(--window-border) solid var(--border-color);
+
+  @mixin titlebar-position {
     position: fixed;
     top: 0;
     left: 0;
+
     width: calc(100vw * var(--zoom-factor));
     z-index: $z-index-window-controls;
     transform: scale(calc(1 / var(--zoom-factor)));
     transform-origin: 0 0;
+  }
+
+  // Draw bottom-less border frame around titlebar to prevent border-bottom
+  // color from leaking to corners.
+  &:after {
+    content: '';
+
+    @include titlebar-position;
+
+    height: calc(var(--titlebar-height) * var(--zoom-factor));
+
+    border: var(--unscaled-window-border) solid var(--border-color);
+    border-bottom: none;
+  }
+
+  &__title {
+    @include titlebar-position;
+    border: var(--unscaled-window-border) solid transparent;
 
     // This matches the inline styles of frameless-titlebar
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -23,16 +50,13 @@
     & button {
       font-family: inherit;
     }
+  }
 
-    // Shift titlebar down 1px on Windows 11 because otherwise window border
-    // will cover it.
-    &--extra-padding {
-      padding-top: 1px;
-    }
+  &__padding {
+    height: calc(var(--titlebar-height) - var(--window-border));
   }
 
   &__content {
-    margin-top: var(--titlebar-height);
     height: var(--window-height);
     position: relative;
   }

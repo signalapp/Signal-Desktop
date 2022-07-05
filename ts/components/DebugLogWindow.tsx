@@ -31,8 +31,7 @@ export type PropsType = {
   i18n: LocalizerType;
   fetchLogs: () => Promise<string>;
   uploadLogs: (logs: string) => Promise<string>;
-  platform: string;
-  isWindows11: boolean;
+  hasCustomTitleBar: boolean;
   executeMenuRole: ExecuteMenuRoleType;
 };
 
@@ -48,8 +47,7 @@ export const DebugLogWindow = ({
   i18n,
   fetchLogs,
   uploadLogs,
-  platform,
-  isWindows11,
+  hasCustomTitleBar,
   executeMenuRole,
 }: PropsType): JSX.Element => {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
@@ -147,8 +145,7 @@ export const DebugLogWindow = ({
 
     return (
       <TitleBarContainer
-        platform={platform}
-        isWindows11={isWindows11}
+        hasCustomTitleBar={hasCustomTitleBar}
         theme={theme}
         executeMenuRole={executeMenuRole}
       >
@@ -191,8 +188,7 @@ export const DebugLogWindow = ({
 
   return (
     <TitleBarContainer
-      platform={platform}
-      isWindows11={isWindows11}
+      hasCustomTitleBar={hasCustomTitleBar}
       theme={theme}
       executeMenuRole={executeMenuRole}
     >

@@ -11,12 +11,12 @@
   background: $color-gray-95;
   display: flex;
   flex-direction: column;
+  width: var(--window-width);
   height: 100vh;
   left: 0;
   position: absolute;
   top: 0;
   user-select: none;
-  width: 100vw;
   z-index: $z-index-popup-overlay;
 
   &__container {

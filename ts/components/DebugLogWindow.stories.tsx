@@ -26,8 +26,7 @@ const createProps = (): PropsType => ({
     return 'https://picsum.photos/1800/900';
   },
   executeMenuRole: action('executeMenuRole'),
-  platform: 'win32',
-  isWindows11: false,
+  hasCustomTitleBar: true,
 });
 
 export default {

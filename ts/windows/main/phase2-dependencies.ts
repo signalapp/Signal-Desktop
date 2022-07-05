@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcRenderer as ipc } from 'electron';
 import Backbone from 'backbone';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 import * as React from 'react';
@@ -12,7 +11,6 @@ import PQueue from 'p-queue';
 
 import { textsecure } from '../../textsecure';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
-import { ActiveWindowService } from '../../services/ActiveWindowService';
 import * as Attachments from '../attachments';
 import { setup } from '../../signal';
 import { addSensitivePath } from '../../util/privacy';
@@ -43,14 +41,6 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
 window.imageToBlurHash = imageToBlurHash;
 window.libphonenumberInstance = PhoneNumberUtil.getInstance();
 window.libphonenumberFormat = PhoneNumberFormat;
-
-const activeWindowService = new ActiveWindowService();
-activeWindowService.initialize(window.document, ipc);
-window.isActive = activeWindowService.isActive.bind(activeWindowService);
-window.registerForActive =
-  activeWindowService.registerForActive.bind(activeWindowService);
-window.unregisterForActive =
-  activeWindowService.unregisterForActive.bind(activeWindowService);
 
 window.React = React;
 window.ReactDOM = ReactDOM;

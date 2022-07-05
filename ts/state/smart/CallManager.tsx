@@ -53,7 +53,8 @@ async function notifyForCall(
   isVideoCall: boolean
 ): Promise<void> {
   const shouldNotify =
-    !window.isActive() && window.Events.getCallSystemNotification();
+    !window.SignalContext.activeWindowService.isActive() &&
+    window.Events.getCallSystemNotification();
   if (!shouldNotify) {
     return;
   }

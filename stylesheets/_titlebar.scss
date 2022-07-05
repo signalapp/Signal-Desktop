@@ -17,10 +17,20 @@ body {
   }
 
   --window-height: 100vh;
+  --window-width: 100vw;
+  --unscaled-window-border: 0px;
+  --window-border: calc(var(--unscaled-window-border) / var(--zoom-factor));
   --titlebar-height: 0px;
 
-  &.os-windows:not(.full-screen) {
+  &.os-has-custom-titlebar:not(.full-screen) {
+    &:not(.maximized) {
+      --unscaled-window-border: 1px;
+    }
+
     --titlebar-height: calc(28px / var(--zoom-factor));
-    --window-height: calc(100vh - var(--titlebar-height));
+    --window-width: calc(100vw - 2 * var(--window-border));
+    --window-height: calc(
+      100vh - var(--titlebar-height) - 2 * var(--window-border)
+    );
   }
 }

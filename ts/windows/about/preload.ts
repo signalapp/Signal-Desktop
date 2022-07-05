@@ -36,8 +36,7 @@ contextBridge.exposeInMainWorld('SignalContext', {
         environment: `${environmentText.join(' - ')}${platform}`,
         i18n: SignalContext.i18n,
         version: SignalContext.getVersion(),
-        platform: process.platform,
-        isWindows11: SignalContext.OS.isWindows11(),
+        hasCustomTitleBar: SignalContext.OS.hasCustomTitleBar(),
         executeMenuRole: SignalContext.executeMenuRole,
       }),
       document.getElementById('app')
