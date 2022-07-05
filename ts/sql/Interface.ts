@@ -208,6 +208,7 @@ export type UnprocessedType = {
   serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
+  urgent?: boolean;
 };
 
 export type UnprocessedUpdateType = {

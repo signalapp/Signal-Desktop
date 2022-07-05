@@ -1480,11 +1480,13 @@ describe('SignalProtocolStore', () => {
         await store.addUnprocessed(
           {
             id: '2-two',
-            envelope: 'second',
-            timestamp: Date.now() + 2,
-            receivedAtCounter: 0,
             version: 2,
+
             attempts: 0,
+            envelope: 'second',
+            receivedAtCounter: 0,
+            timestamp: Date.now() + 2,
+            urgent: true,
           },
           { zone }
         );
@@ -1536,11 +1538,13 @@ describe('SignalProtocolStore', () => {
           await store.addUnprocessed(
             {
               id: '2-two',
-              envelope: 'second',
-              timestamp: 2,
-              receivedAtCounter: 0,
               version: 2,
+
               attempts: 0,
+              envelope: 'second',
+              receivedAtCounter: 0,
+              timestamp: 2,
+              urgent: true,
             },
             { zone }
           );
@@ -1656,35 +1660,43 @@ describe('SignalProtocolStore', () => {
       await Promise.all([
         store.addUnprocessed({
           id: '0-dropped',
-          envelope: 'old envelope',
-          timestamp: NOW - 2 * durations.MONTH,
-          receivedAtCounter: -1,
           version: 2,
+
           attempts: 0,
+          envelope: 'old envelope',
+          receivedAtCounter: -1,
+          timestamp: NOW - 2 * durations.MONTH,
+          urgent: true,
         }),
         store.addUnprocessed({
           id: '2-two',
-          envelope: 'second',
-          timestamp: NOW + 2,
-          receivedAtCounter: 1,
           version: 2,
+
           attempts: 0,
+          envelope: 'second',
+          receivedAtCounter: 1,
+          timestamp: NOW + 2,
+          urgent: true,
         }),
         store.addUnprocessed({
           id: '3-three',
-          envelope: 'third',
-          timestamp: NOW + 3,
-          receivedAtCounter: 2,
           version: 2,
+
           attempts: 0,
+          envelope: 'third',
+          receivedAtCounter: 2,
+          timestamp: NOW + 3,
+          urgent: true,
         }),
         store.addUnprocessed({
           id: '1-one',
-          envelope: 'first',
-          timestamp: NOW + 1,
-          receivedAtCounter: 0,
           version: 2,
+
           attempts: 0,
+          envelope: 'first',
+          receivedAtCounter: 0,
+          timestamp: NOW + 1,
+          urgent: true,
         }),
       ]);
 
@@ -1702,11 +1714,13 @@ describe('SignalProtocolStore', () => {
       const id = '1-one';
       await store.addUnprocessed({
         id,
-        envelope: 'first',
-        timestamp: NOW + 1,
-        receivedAtCounter: 0,
         version: 2,
+
         attempts: 0,
+        envelope: 'first',
+        receivedAtCounter: 0,
+        timestamp: NOW + 1,
+        urgent: false,
       });
       await store.updateUnprocessedWithData(id, { decrypted: 'updated' });
 
@@ -1715,17 +1729,20 @@ describe('SignalProtocolStore', () => {
       assert.strictEqual(items[0].decrypted, 'updated');
       assert.strictEqual(items[0].timestamp, NOW + 1);
       assert.strictEqual(items[0].attempts, 1);
+      assert.strictEqual(items[0].urgent, false);
     });
 
     it('removeUnprocessed successfully deletes item', async () => {
       const id = '1-one';
       await store.addUnprocessed({
         id,
-        envelope: 'first',
-        timestamp: NOW + 1,
-        receivedAtCounter: 0,
         version: 2,
+
         attempts: 0,
+        envelope: 'first',
+        receivedAtCounter: 0,
+        timestamp: NOW + 1,
+        urgent: true,
       });
       await store.removeUnprocessed(id);
 
@@ -1736,11 +1753,13 @@ describe('SignalProtocolStore', () => {
     it('getAllUnprocessedAndIncrementAttempts deletes items', async () => {
       await store.addUnprocessed({
         id: '1-one',
-        envelope: 'first',
-        timestamp: NOW + 1,
-        receivedAtCounter: 0,
         version: 2,
+
         attempts: 3,
+        envelope: 'first',
+        receivedAtCounter: 0,
+        timestamp: NOW + 1,
+        urgent: true,
       });
 
       const items = await store.getAllUnprocessedAndIncrementAttempts();

@@ -15,6 +15,7 @@ import {
   forEach,
   fromPairs,
   groupBy,
+  isBoolean,
   isNil,
   isNumber,
   isString,
@@ -3085,6 +3086,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     serverGuid,
     serverTimestamp,
     decrypted,
+    urgent,
   } = data;
   if (!id) {
     throw new Error('saveUnprocessedSync: id was falsey');
@@ -3110,7 +3112,8 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       sourceDevice,
       serverGuid,
       serverTimestamp,
-      decrypted
+      decrypted,
+      urgent
     ) values (
       $id,
       $timestamp,
@@ -3123,7 +3126,8 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       $sourceDevice,
       $serverGuid,
       $serverTimestamp,
-      $decrypted
+      $decrypted,
+      $urgent
     );
     `
   ).run({
@@ -3139,6 +3143,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     serverGuid: serverGuid || null,
     serverTimestamp: serverTimestamp || null,
     decrypted: decrypted || null,
+    urgent: urgent || !isBoolean(urgent) ? 1 : 0,
   });
 
   return id;
@@ -3210,7 +3215,10 @@ async function getUnprocessedById(
       id,
     });
 
-  return row;
+  return {
+    ...row,
+    urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+  };
 }
 
 async function getUnprocessedCount(): Promise<number> {
@@ -3267,7 +3275,11 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
           ORDER BY receivedAtCounter ASC;
         `
       )
-      .all();
+      .all()
+      .map(row => ({
+        ...row,
+        urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+      }));
   })();
 }
 

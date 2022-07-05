@@ -3,7 +3,7 @@
 
 /* eslint-disable no-bitwise */
 
-import { isNumber } from 'lodash';
+import { isBoolean, isNumber } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -115,6 +115,7 @@ import * as durations from '../util/durations';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 import { APPLICATION_OCTET_STREAM } from '../types/MIME';
+import type { SendTypesType } from '../util/handleMessageSend';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -165,6 +166,62 @@ export type MessageReceiverOptions = {
   storage: Storage;
   serverTrustRoot: string;
 };
+
+const LOG_UNEXPECTED_URGENT_VALUES = false;
+const MUST_BE_URGENT_TYPES: Array<SendTypesType> = [
+  'message',
+  'deleteForEveryone',
+  'reaction',
+  'readSync',
+];
+const CAN_BE_URGENT_TYPES: Array<SendTypesType> = [
+  'callingMessage',
+  'senderKeyDistributionMessage',
+
+  // Deprecated
+  'resetSession',
+  'legacyGroupChange',
+];
+
+function logUnexpectedUrgentValue(
+  envelope: ProcessedEnvelope,
+  type: SendTypesType
+) {
+  if (!LOG_UNEXPECTED_URGENT_VALUES) {
+    return;
+  }
+
+  const mustBeUrgent = MUST_BE_URGENT_TYPES.includes(type);
+  const canBeUrgent = mustBeUrgent || CAN_BE_URGENT_TYPES.includes(type);
+
+  if (envelope.urgent && !canBeUrgent) {
+    const envelopeId = getEnvelopeId(envelope);
+    log.warn(
+      `${envelopeId}: Message of type '${type}' was marked urgent, but shouldn't be!`
+    );
+  }
+  if (!envelope.urgent && mustBeUrgent) {
+    const envelopeId = getEnvelopeId(envelope);
+    log.warn(
+      `${envelopeId}: Message of type '${type}' wasn't marked urgent, but should be!`
+    );
+  }
+}
+
+function getEnvelopeId(envelope: ProcessedEnvelope): string {
+  const { timestamp } = envelope;
+
+  let prefix = '';
+
+  if (envelope.sourceUuid || envelope.source) {
+    const sender = envelope.sourceUuid || envelope.source;
+    prefix += `${sender}.${envelope.sourceDevice} `;
+  }
+
+  prefix += `> ${envelope.destinationUuid.toString()}`;
+
+  return `${prefix} ${timestamp} (${envelope.id})`;
+}
 
 export default class MessageReceiver
   extends EventTarget
@@ -322,6 +379,7 @@ export default class MessageReceiver
           content: dropNull(decoded.content),
           serverGuid: decoded.serverGuid,
           serverTimestamp,
+          urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
         };
 
         // After this point, decoding errors are not the server's
@@ -711,6 +769,7 @@ export default class MessageReceiver
         serverGuid: decoded.serverGuid,
         serverTimestamp:
           item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
+        urgent: isBoolean(item.urgent) ? item.urgent : true,
       };
 
       const { decrypted } = item;
@@ -756,21 +815,6 @@ export default class MessageReceiver
         );
       }
     }
-  }
-
-  private getEnvelopeId(envelope: ProcessedEnvelope): string {
-    const { timestamp } = envelope;
-
-    let prefix = '';
-
-    if (envelope.sourceUuid || envelope.source) {
-      const sender = envelope.sourceUuid || envelope.source;
-      prefix += `${sender}.${envelope.sourceDevice} `;
-    }
-
-    prefix += `> ${envelope.destinationUuid.toString()}`;
-
-    return `${prefix} ${timestamp} (${envelope.id})`;
   }
 
   private clearRetryTimeout(): void {
@@ -855,7 +899,7 @@ export default class MessageReceiver
               if (uuidKind === UUIDKind.Unknown) {
                 log.warn(
                   'MessageReceiver.decryptAndCacheBatch: ' +
-                    `Rejecting envelope ${this.getEnvelopeId(envelope)}, ` +
+                    `Rejecting envelope ${getEnvelopeId(envelope)}, ` +
                     `unknown uuid: ${destinationUuid}`
                 );
                 return;
@@ -984,11 +1028,13 @@ export default class MessageReceiver
     const data: UnprocessedType = {
       id,
       version: 2,
+
+      attempts: 1,
       envelope: Bytes.toBase64(plaintext),
+      messageAgeSec: envelope.messageAgeSec,
       receivedAtCounter: envelope.receivedAtCounter,
       timestamp: envelope.timestamp,
-      attempts: 1,
-      messageAgeSec: envelope.messageAgeSec,
+      urgent: envelope.urgent,
     };
     this.decryptAndCacheBatcher.add({
       request,
@@ -1010,7 +1056,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     plaintext: Uint8Array
   ): Promise<void> {
-    const id = this.getEnvelopeId(envelope);
+    const id = getEnvelopeId(envelope);
     log.info('queueing decrypted envelope', id);
 
     const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
@@ -1038,7 +1084,7 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     uuidKind: UUIDKind
   ): Promise<DecryptResult> {
-    let logId = this.getEnvelopeId(envelope);
+    let logId = getEnvelopeId(envelope);
     log.info(`queueing ${uuidKind} envelope`, logId);
 
     const task = async (): Promise<DecryptResult> => {
@@ -1053,7 +1099,7 @@ export default class MessageReceiver
         return { plaintext: undefined, envelope };
       }
 
-      logId = this.getEnvelopeId(unsealedEnvelope);
+      logId = getEnvelopeId(unsealedEnvelope);
 
       this.addToQueue(
         async () => this.dispatchEvent(new EnvelopeEvent(unsealedEnvelope)),
@@ -1128,7 +1174,7 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     uuidKind: UUIDKind
   ): Promise<UnsealedEnvelope | undefined> {
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
 
     if (this.stoppingProcessing) {
       log.warn(`MessageReceiver.unsealEnvelope(${logId}): dropping`);
@@ -1202,7 +1248,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     uuidKind: UUIDKind
   ): Promise<DecryptResult> {
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
 
     if (this.stoppingProcessing) {
       log.warn(`MessageReceiver.decryptEnvelope(${logId}): dropping unsealed`);
@@ -1325,7 +1371,7 @@ export default class MessageReceiver
       );
     }
 
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
 
     if (envelope.serverTimestamp > certificate.expiration()) {
       throw new Error(
@@ -1338,6 +1384,8 @@ export default class MessageReceiver
   }
 
   private async onDeliveryReceipt(envelope: ProcessedEnvelope): Promise<void> {
+    logUnexpectedUrgentValue(envelope, 'deliveryReceipt');
+
     await this.dispatchAndWait(
       new DeliveryEvent(
         {
@@ -1377,7 +1425,7 @@ export default class MessageReceiver
       'MessageReceiver.decryptSealedSender: localDeviceId'
     );
 
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
 
     const { unsealedContent: messageContent, certificate } = envelope;
     strictAssert(
@@ -1489,7 +1537,7 @@ export default class MessageReceiver
   ): Promise<Uint8Array | undefined> {
     const { sessionStore, identityKeyStore, zone } = stores;
 
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
     const envelopeTypeEnum = Proto.Envelope.Type;
 
     const identifier = envelope.sourceUuid;
@@ -1692,7 +1740,7 @@ export default class MessageReceiver
           TaskType.Decrypted
         );
       } else {
-        const envelopeId = this.getEnvelopeId(envelope);
+        const envelopeId = getEnvelopeId(envelope);
         this.removeFromCache(envelope);
         log.error(
           `MessageReceiver.decrypt: Envelope ${envelopeId} missing uuid or deviceId`
@@ -1707,7 +1755,10 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     sentContainer: ProcessedSent
   ) {
-    log.info('MessageReceiver.handleSentMessage', this.getEnvelopeId(envelope));
+    log.info('MessageReceiver.handleSentMessage', getEnvelopeId(envelope));
+
+    logUnexpectedUrgentValue(envelope, 'sentSync');
+
     const {
       destination,
       destinationUuid,
@@ -1725,11 +1776,11 @@ export default class MessageReceiver
     let p: Promise<void> = Promise.resolve();
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
       if (destinationUuid) {
-        p = this.handleEndSession(new UUID(destinationUuid));
+        p = this.handleEndSession(envelope, new UUID(destinationUuid));
       } else if (destination) {
         const theirUuid = UUID.lookup(destination);
         if (theirUuid) {
-          p = this.handleEndSession(theirUuid);
+          p = this.handleEndSession(envelope, theirUuid);
         } else {
           log.warn(`handleSentMessage: uuid not found for ${destination}`);
           p = Promise.resolve();
@@ -1759,9 +1810,7 @@ export default class MessageReceiver
 
     if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
       log.warn(
-        `Message ${this.getEnvelopeId(
-          envelope
-        )} ignored; destined for blocked group`
+        `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
       this.removeFromCache(envelope);
       return undefined;
@@ -1791,7 +1840,7 @@ export default class MessageReceiver
     msg: Proto.IStoryMessage,
     sentMessage?: ProcessedSent
   ): Promise<void> {
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
     log.info('MessageReceiver.handleStoryMessage', logId);
 
     const attachments: Array<ProcessedAttachment> = [];
@@ -1823,7 +1872,7 @@ export default class MessageReceiver
     const groupV2 = msg.group ? processGroupV2Context(msg.group) : undefined;
     if (groupV2 && this.isGroupBlocked(groupV2.id)) {
       log.warn(
-        `MessageReceiver.handleStoryMessage: envelope ${this.getEnvelopeId(
+        `MessageReceiver.handleStoryMessage: envelope ${getEnvelopeId(
           envelope
         )} ignored; destined for blocked group`
       );
@@ -1933,12 +1982,14 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     msg: Proto.IDataMessage
   ): Promise<void> {
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
     log.info('MessageReceiver.handleDataMessage', logId);
 
     const isStoriesEnabled =
       isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
     if (!isStoriesEnabled && msg.storyContext) {
+      logUnexpectedUrgentValue(envelope, 'story');
+
       log.info(
         `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
       );
@@ -1962,7 +2013,7 @@ export default class MessageReceiver
     await this.checkGroupV1Data(msg);
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(new UUID(destination));
+      p = this.handleEndSession(envelope, new UUID(destination));
     }
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) {
@@ -1970,6 +2021,8 @@ export default class MessageReceiver
         msg.profileKey && msg.profileKey.length > 0,
         'PROFILE_KEY_UPDATE without profileKey'
       );
+
+      logUnexpectedUrgentValue(envelope, 'profileKeyUpdate');
 
       const ev = new ProfileKeyUpdateEvent(
         {
@@ -1982,6 +2035,29 @@ export default class MessageReceiver
       return this.dispatchAndWait(ev);
     }
     await p;
+
+    let type: SendTypesType = 'message';
+
+    if (msg.storyContext) {
+      type = 'story';
+    } else if (msg.body) {
+      type = 'message';
+    } else if (msg.reaction) {
+      type = 'reaction';
+    } else if (msg.delete) {
+      type = 'deleteForEveryone';
+    } else if (
+      msg.flags &&
+      msg.flags & Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+    ) {
+      type = 'expirationTimerUpdate';
+    } else if (msg.group) {
+      type = 'legacyGroupChange';
+    }
+    // Note: other data messages without any of these attributes will fall into the
+    //   'message' bucket - like stickers, gift badges, etc.
+
+    logUnexpectedUrgentValue(envelope, type);
 
     const message = await this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
@@ -2000,9 +2076,7 @@ export default class MessageReceiver
 
     if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
       log.warn(
-        `Message ${this.getEnvelopeId(
-          envelope
-        )} ignored; destined for blocked group`
+        `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
       this.removeFromCache(envelope);
       return undefined;
@@ -2136,7 +2210,7 @@ export default class MessageReceiver
         return;
       }
 
-      const logId = this.getEnvelopeId(envelope);
+      const logId = getEnvelopeId(envelope);
       log.info(
         `innerHandleContentMessage/${logId}: Dropping incoming message with storyMessage field`
       );
@@ -2155,8 +2229,10 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     decryptionError: Uint8Array
   ) {
-    const logId = this.getEnvelopeId(envelope);
+    const logId = getEnvelopeId(envelope);
     log.info(`handleDecryptionError: ${logId}`);
+
+    logUnexpectedUrgentValue(envelope, 'retryRequest');
 
     const buffer = Buffer.from(decryptionError);
     const request = DecryptionErrorMessage.deserialize(buffer);
@@ -2187,8 +2263,10 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     distributionMessage: Uint8Array
   ): Promise<void> {
-    const envelopeId = this.getEnvelopeId(envelope);
+    const envelopeId = getEnvelopeId(envelope);
     log.info(`handleSenderKeyDistributionMessage/${envelopeId}`);
+
+    logUnexpectedUrgentValue(envelope, 'senderKeyDistributionMessage');
 
     // Note: we don't call removeFromCache here because this message can be combined
     //   with a dataMessage, for example. That processing will dictate cache removal.
@@ -2233,6 +2311,8 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     callingMessage: Proto.ICallingMessage
   ): Promise<void> {
+    logUnexpectedUrgentValue(envelope, 'callingMessage');
+
     this.removeFromCache(envelope);
     await window.Signal.Services.calling.handleCallingMessage(
       envelope,
@@ -2247,21 +2327,27 @@ export default class MessageReceiver
     strictAssert(receiptMessage.timestamp, 'Receipt message without timestamp');
 
     let EventClass: typeof DeliveryEvent | typeof ReadEvent | typeof ViewEvent;
+    let type: SendTypesType;
     switch (receiptMessage.type) {
       case Proto.ReceiptMessage.Type.DELIVERY:
         EventClass = DeliveryEvent;
+        type = 'deliveryReceipt';
         break;
       case Proto.ReceiptMessage.Type.READ:
         EventClass = ReadEvent;
+        type = 'readReceipt';
         break;
       case Proto.ReceiptMessage.Type.VIEWED:
         EventClass = ViewEvent;
+        type = 'viewedReceipt';
         break;
       default:
         // This can happen if we get a receipt type we don't know about yet, which
         //   is totally fine.
         return;
     }
+
+    logUnexpectedUrgentValue(envelope, type);
 
     await Promise.all(
       receiptMessage.timestamp.map(async rawTimestamp => {
@@ -2285,6 +2371,8 @@ export default class MessageReceiver
     typingMessage: Proto.ITypingMessage
   ): Promise<void> {
     this.removeFromCache(envelope);
+
+    logUnexpectedUrgentValue(envelope, 'typing');
 
     if (envelope.timestamp && typingMessage.timestamp) {
       const envelopeTimestamp = envelope.timestamp;
@@ -2337,7 +2425,10 @@ export default class MessageReceiver
   }
 
   private handleNullMessage(envelope: ProcessedEnvelope): void {
-    log.info('MessageReceiver.handleNullMessage', this.getEnvelopeId(envelope));
+    log.info('MessageReceiver.handleNullMessage', getEnvelopeId(envelope));
+
+    logUnexpectedUrgentValue(envelope, 'nullMessage');
+
     this.removeFromCache(envelope);
   }
 
@@ -2355,7 +2446,7 @@ export default class MessageReceiver
       if (isInvalid) {
         log.info(
           'isInvalidGroupData: invalid GroupV1 message from',
-          this.getEnvelopeId(envelope)
+          getEnvelopeId(envelope)
         );
       }
 
@@ -2370,7 +2461,7 @@ export default class MessageReceiver
       if (isInvalid) {
         log.info(
           'isInvalidGroupData: invalid GroupV2 message from',
-          this.getEnvelopeId(envelope)
+          getEnvelopeId(envelope)
         );
       }
       return isInvalid;
@@ -2499,7 +2590,7 @@ export default class MessageReceiver
         this.getDestination(sentMessage),
         sentMessage.timestamp?.toNumber(),
         'from',
-        this.getEnvelopeId(envelope)
+        getEnvelopeId(envelope)
       );
       return this.handleSentMessage(envelope, sentMessage);
     }
@@ -2563,7 +2654,7 @@ export default class MessageReceiver
 
     this.removeFromCache(envelope);
     log.warn(
-      `handleSyncMessage/${this.getEnvelopeId(envelope)}: Got empty SyncMessage`
+      `handleSyncMessage/${getEnvelopeId(envelope)}: Got empty SyncMessage`
     );
     return Promise.resolve();
   }
@@ -2573,6 +2664,9 @@ export default class MessageReceiver
     configuration: Proto.SyncMessage.IConfiguration
   ): Promise<void> {
     log.info('got configuration sync message');
+
+    logUnexpectedUrgentValue(envelope, 'configurationSync');
+
     const ev = new ConfigurationEvent(
       configuration,
       this.removeFromCache.bind(this, envelope)
@@ -2585,6 +2679,8 @@ export default class MessageReceiver
     sync: Proto.SyncMessage.IViewOnceOpen
   ): Promise<void> {
     log.info('got view once open sync message');
+
+    logUnexpectedUrgentValue(envelope, 'viewOnceSync');
 
     const ev = new ViewOnceOpenSyncEvent(
       {
@@ -2605,6 +2701,8 @@ export default class MessageReceiver
     sync: Proto.SyncMessage.IMessageRequestResponse
   ): Promise<void> {
     log.info('got message request response sync message');
+
+    logUnexpectedUrgentValue(envelope, 'messageRequestSync');
 
     const { groupId } = sync;
 
@@ -2648,6 +2746,8 @@ export default class MessageReceiver
   ): Promise<void> {
     log.info('got fetch latest sync message');
 
+    logUnexpectedUrgentValue(envelope, 'fetchLatestManifestSync');
+
     const ev = new FetchLatestEvent(
       sync.type,
       this.removeFromCache.bind(this, envelope)
@@ -2661,6 +2761,8 @@ export default class MessageReceiver
     sync: Proto.SyncMessage.IKeys
   ): Promise<void> {
     log.info('got keys sync message');
+
+    logUnexpectedUrgentValue(envelope, 'keySync');
 
     if (!sync.storageService) {
       return undefined;
@@ -2679,6 +2781,8 @@ export default class MessageReceiver
     { publicKey, privateKey }: Proto.SyncMessage.IPniIdentity
   ): Promise<void> {
     log.info('MessageReceiver: got pni identity sync message');
+
+    logUnexpectedUrgentValue(envelope, 'pniIdentitySync');
 
     if (!publicKey || !privateKey) {
       log.warn('MessageReceiver: empty pni identity sync message');
@@ -2706,6 +2810,7 @@ export default class MessageReceiver
   ): Promise<void> {
     const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
     log.info('got sticker pack operation sync message');
+    logUnexpectedUrgentValue(envelope, 'stickerPackSync');
 
     const stickerPacks = operations.map(operation => ({
       id: operation.packId ? Bytes.toHex(operation.packId) : undefined,
@@ -2726,7 +2831,10 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     read: Array<Proto.SyncMessage.IRead>
   ): Promise<void> {
-    log.info('MessageReceiver.handleRead', this.getEnvelopeId(envelope));
+    log.info('MessageReceiver.handleRead', getEnvelopeId(envelope));
+
+    logUnexpectedUrgentValue(envelope, 'readSync');
+
     const results = [];
     for (const { timestamp, sender, senderUuid } of read) {
       const ev = new ReadSyncEvent(
@@ -2749,7 +2857,10 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     viewed: ReadonlyArray<Proto.SyncMessage.IViewed>
   ): Promise<void> {
-    log.info('MessageReceiver.handleViewed', this.getEnvelopeId(envelope));
+    log.info('MessageReceiver.handleViewed', getEnvelopeId(envelope));
+
+    logUnexpectedUrgentValue(envelope, 'viewSync');
+
     await Promise.all(
       viewed.map(async ({ timestamp, senderE164, senderUuid }) => {
         const ev = new ViewSyncEvent(
@@ -2777,6 +2888,8 @@ export default class MessageReceiver
     if (!blob) {
       throw new Error('MessageReceiver.handleContacts: blob field was missing');
     }
+
+    logUnexpectedUrgentValue(envelope, 'contactSync');
 
     this.removeFromCache(envelope);
 
@@ -2812,6 +2925,8 @@ export default class MessageReceiver
     const { blob } = groups;
 
     this.removeFromCache(envelope);
+
+    logUnexpectedUrgentValue(envelope, 'groupSync');
 
     if (!blob) {
       throw new Error('MessageReceiver.handleGroups: blob field was missing');
@@ -2860,6 +2975,8 @@ export default class MessageReceiver
   ): Promise<void> {
     const allIdentifiers = [];
     let changed = false;
+
+    logUnexpectedUrgentValue(envelope, 'blockSync');
 
     if (blocked.numbers) {
       const previous = this.storage.get('blocked', []);
@@ -2948,8 +3065,14 @@ export default class MessageReceiver
     return downloadAttachment(this.server, cleaned);
   }
 
-  private async handleEndSession(theirUuid: UUID): Promise<void> {
+  private async handleEndSession(
+    envelope: ProcessedEnvelope,
+    theirUuid: UUID
+  ): Promise<void> {
     log.info(`handleEndSession: closing sessions for ${theirUuid.toString()}`);
+
+    logUnexpectedUrgentValue(envelope, 'resetSession');
+
     await this.storage.protocol.archiveAllSessions(theirUuid);
   }
 

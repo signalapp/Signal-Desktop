@@ -19,6 +19,7 @@ const { insertSentProto, updateConversation } = dataInterface;
 export const sendTypesEnum = z.enum([
   // Core user interactions, default urgent
   'message',
+  'story', // non-urgent
   'callingMessage', // excluded from send log; only call-initiation messages are urgent
   'deleteForEveryone',
   'expirationTimerUpdate', // non-urgent
@@ -45,6 +46,14 @@ export const sendTypesEnum = z.enum([
   'groupSyncRequest',
   'keySyncRequest', // urgent because it blocks the link process
   'pniIdentitySyncRequest', // urgent because we need our PNI to be fully functional
+
+  // The actual sync messages, which we never send, just receive - non-urgent
+  'blockSync',
+  'configurationSync',
+  'contactSync',
+  'groupSync',
+  'keySync',
+  'pniIdentitySync',
 
   // Syncs, default non-urgent
   'fetchLatestManifestSync',
