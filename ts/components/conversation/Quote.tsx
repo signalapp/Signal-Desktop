@@ -518,15 +518,18 @@ export class Quote extends React.Component<Props, State> {
       return null;
     }
 
+    let colorClassName: string;
     let directionClassName: string;
     if (isCompose) {
       directionClassName = this.getClassName('--compose');
+      colorClassName = this.getClassName(`--compose-${conversationColor}`);
     } else if (isIncoming) {
       directionClassName = this.getClassName('--incoming');
+      colorClassName = this.getClassName(`--incoming-${conversationColor}`);
     } else {
       directionClassName = this.getClassName('--outgoing');
+      colorClassName = this.getClassName(`--outgoing-${conversationColor}`);
     }
-    const colorClassName = `${directionClassName}-${conversationColor}`;
 
     return (
       <div className={this.getClassName('__container')}>
