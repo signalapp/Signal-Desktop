@@ -29,6 +29,7 @@
   // color from leaking to corners.
   &:after {
     content: '';
+    display: none;
 
     @include titlebar-position;
 
