@@ -63,7 +63,8 @@ ROLE_TO_ACCELERATOR.set('minimize', 'CmdOrCtrl+M');
 
 function convertMenu(
   menuList: ReadonlyArray<MenuItemConstructorOptions>,
-  executeMenuRole: (role: MenuItemConstructorOptions['role']) => void
+  executeMenuRole: (role: MenuItemConstructorOptions['role']) => void,
+  localeMessages: LocaleMessagesType
 ): Array<MenuItem> {
   return menuList.map(item => {
     const {
@@ -77,7 +78,7 @@ function convertMenu(
     let submenu: Array<MenuItem> | undefined;
 
     if (Array.isArray(originalSubmenu)) {
-      submenu = convertMenu(originalSubmenu, executeMenuRole);
+      submenu = convertMenu(originalSubmenu, executeMenuRole, localeMessages);
     } else if (originalSubmenu) {
       throw new Error('Non-array submenu is not supported');
     }
@@ -100,6 +101,18 @@ function convertMenu(
     } else if (role) {
       accelerator = ROLE_TO_ACCELERATOR.get(role);
     }
+
+    // Custom titlebar is visible only on Windows and this string is used only
+    // in UI. Actual accelerator interception is handled by Electron through
+    // `app/main.ts`.
+    accelerator = accelerator?.replace(
+      /CommandOrControl|CmdOrCtrl/g,
+      localeMessages['Keyboard--Key--ctrl'].message
+    );
+    accelerator = accelerator?.replace(
+      /Shift/g,
+      localeMessages['Keyboard--Key--shift'].message
+    );
 
     return {
       type,
@@ -233,7 +246,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
       localeMessages
     );
 
-    maybeMenu = convertMenu(menuTemplate, executeMenuRole);
+    maybeMenu = convertMenu(menuTemplate, executeMenuRole, localeMessages);
   }
 
   return (
