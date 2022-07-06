@@ -16,6 +16,7 @@ import type {
   ConversationTypeType,
   InteractionModeType,
 } from '../../state/ducks/conversations';
+import type { ViewStoryActionCreatorType } from '../../state/ducks/stories';
 import type { TimelineItemType } from './TimelineItem';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { Avatar, AvatarSize } from '../Avatar';
@@ -44,6 +45,7 @@ import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseF
 import { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
 import * as log from '../../logging/log';
+import { StoryViewModeType } from '../../types/Stories';
 
 import type { AttachmentType } from '../../types/Attachment';
 import {
@@ -252,7 +254,7 @@ export type PropsData = {
     emoji?: string;
     isFromMe: boolean;
     rawAttachment?: QuotedAttachmentType;
-    referencedMessageNotFound?: boolean;
+    storyId?: string;
     text: string;
   };
   previews: Array<LinkPreviewType>;
@@ -360,6 +362,7 @@ export type PropsActions = {
 
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
+  viewStory: ViewStoryActionCreatorType;
 };
 
 export type Props = PropsData &
@@ -1519,6 +1522,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       storyReplyContext,
+      viewStory,
     } = this.props;
 
     if (!storyReplyContext) {
@@ -1546,13 +1550,11 @@ export class Message extends React.PureComponent<Props, State> {
           isViewOnce={false}
           moduleClassName="StoryReplyQuote"
           onClick={() => {
-            // TODO DESKTOP-3255
+            viewStory(storyReplyContext.storyId, StoryViewModeType.Single);
           }}
           rawAttachment={storyReplyContext.rawAttachment}
           reactionEmoji={storyReplyContext.emoji}
-          referencedMessageNotFound={Boolean(
-            storyReplyContext.referencedMessageNotFound
-          )}
+          referencedMessageNotFound={!storyReplyContext.storyId}
           text={storyReplyContext.text}
         />
       </>

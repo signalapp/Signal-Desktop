@@ -69,6 +69,6 @@ export function getFakeStory({
   return {
     conversationId: storyView.sender.id,
     group,
-    stories: [storyView],
+    storyView,
   };
 }

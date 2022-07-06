@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ThunkAction } from 'redux-thunk';
+import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { isEqual, pick } from 'lodash';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
@@ -18,6 +18,7 @@ import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
 import { DAY } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
 import { UUID } from '../../types/UUID';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
@@ -32,11 +33,12 @@ import {
   isDownloaded,
   isDownloading,
 } from '../../types/Attachment';
+import { getConversationSelector } from '../selectors/conversations';
+import { getStories } from '../selectors/stories';
+import { isGroup } from '../../util/whatTypeOfConversation';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
-import { isGroup } from '../../util/whatTypeOfConversation';
-import { getConversationSelector } from '../selectors/conversations';
 
 export type StoryDataType = {
   attachment?: AttachmentType;
@@ -56,6 +58,12 @@ export type StoryDataType = {
   | 'type'
 >;
 
+export type SelectedStoryDataType = {
+  currentIndex: number;
+  numStories: number;
+  story: StoryDataType;
+};
+
 // State
 
 export type StoriesStateType = {
@@ -64,7 +72,9 @@ export type StoriesStateType = {
     messageId: string;
     replies: Array<MessageAttributesType>;
   };
+  readonly selectedStoryData?: SelectedStoryDataType;
   readonly stories: Array<StoryDataType>;
+  readonly storyViewMode?: StoryViewModeType;
 };
 
 // Actions
@@ -76,6 +86,7 @@ const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
+const VIEW_STORY = 'stories/VIEW_STORY';
 
 type DOEStoryActionType = {
   type: typeof DOE_STORY;
@@ -117,6 +128,16 @@ type ToggleViewActionType = {
   type: typeof TOGGLE_VIEW;
 };
 
+type ViewStoryActionType = {
+  type: typeof VIEW_STORY;
+  payload:
+    | {
+        selectedStoryData: SelectedStoryDataType;
+        storyViewMode: StoryViewModeType;
+      }
+    | undefined;
+};
+
 export type StoriesActionType =
   | DOEStoryActionType
   | LoadStoryRepliesActionType
@@ -126,22 +147,10 @@ export type StoriesActionType =
   | ReplyToStoryActionType
   | ResolveAttachmentUrlActionType
   | StoryChangedActionType
-  | ToggleViewActionType;
+  | ToggleViewActionType
+  | ViewStoryActionType;
 
 // Action Creators
-
-export const actions = {
-  deleteStoryForEveryone,
-  loadStoryReplies,
-  markStoryRead,
-  queueStoryDownload,
-  reactToStory,
-  replyToStory,
-  storyChanged,
-  toggleStoriesView,
-};
-
-export const useStoriesActions = (): typeof actions => useBoundActions(actions);
 
 function deleteStoryForEveryone(
   story: StoryViewType
@@ -414,6 +423,338 @@ function toggleStoriesView(): ToggleViewActionType {
   };
 }
 
+const getSelectedStoryDataForConversationId = (
+  dispatch: ThunkDispatch<
+    RootStateType,
+    unknown,
+    NoopActionType | ResolveAttachmentUrlActionType
+  >,
+  getState: () => RootStateType,
+  conversationId: string,
+  selectedStoryId?: string
+): {
+  currentIndex: number;
+  hasUnread: boolean;
+  numStories: number;
+  storiesByConversationId: Array<StoryDataType>;
+} => {
+  const state = getState();
+  const { stories } = state.stories;
+
+  const storiesByConversationId = stories.filter(
+    item => item.conversationId === conversationId
+  );
+
+  // Find the index of the storyId provided, or if none provided then find the
+  // oldest unread story from the user. If all stories are read then we can
+  // start at the first story.
+  let currentIndex = 0;
+  let hasUnread = false;
+  storiesByConversationId.forEach((item, index) => {
+    if (selectedStoryId && item.messageId === selectedStoryId) {
+      currentIndex = index;
+    }
+
+    if (
+      !selectedStoryId &&
+      !currentIndex &&
+      item.readStatus === ReadStatus.Unread
+    ) {
+      hasUnread = true;
+      currentIndex = index;
+    }
+  });
+
+  const numStories = storiesByConversationId.length;
+
+  // Queue all undownloaded stories once we're viewing someone's stories
+  storiesByConversationId.forEach(item => {
+    if (isDownloaded(item.attachment) || isDownloading(item.attachment)) {
+      return;
+    }
+
+    queueStoryDownload(item.messageId)(dispatch, getState, null);
+  });
+
+  return {
+    currentIndex,
+    hasUnread,
+    numStories,
+    storiesByConversationId,
+  };
+};
+
+function viewUserStories(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> {
+  return (dispatch, getState) => {
+    const { currentIndex, hasUnread, numStories, storiesByConversationId } =
+      getSelectedStoryDataForConversationId(dispatch, getState, conversationId);
+
+    const story = storiesByConversationId[currentIndex];
+
+    dispatch({
+      type: VIEW_STORY,
+      payload: {
+        selectedStoryData: {
+          currentIndex,
+          numStories,
+          story,
+        },
+        storyViewMode: hasUnread
+          ? StoryViewModeType.Unread
+          : StoryViewModeType.All,
+      },
+    });
+  };
+}
+
+export type ViewStoryActionCreatorType = (
+  storyId?: string,
+  storyViewMode?: StoryViewModeType,
+  viewDirection?: StoryViewDirectionType
+) => unknown;
+
+const viewStory: ViewStoryActionCreatorType = (
+  storyId,
+  storyViewMode,
+  viewDirection
+): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
+  return (dispatch, getState) => {
+    if (!storyId || !storyViewMode) {
+      dispatch({
+        type: VIEW_STORY,
+        payload: undefined,
+      });
+      return;
+    }
+
+    const state = getState();
+    const { stories } = state.stories;
+
+    // Spec:
+    // When opening the story viewer you should always be taken to the oldest
+    //    un viewed story of the user you tapped on
+    // If all stories from a user are viewed, opening the viewer should take
+    //    you to their oldest story
+
+    const story = stories.find(item => item.messageId === storyId);
+
+    if (!story) {
+      return;
+    }
+
+    const { currentIndex, numStories, storiesByConversationId } =
+      getSelectedStoryDataForConversationId(
+        dispatch,
+        getState,
+        story.conversationId,
+        storyId
+      );
+
+    // Go directly to the storyId selected
+    if (!viewDirection) {
+      dispatch({
+        type: VIEW_STORY,
+        payload: {
+          selectedStoryData: {
+            currentIndex,
+            numStories,
+            story,
+          },
+          storyViewMode,
+        },
+      });
+      return;
+    }
+
+    // Next story within the same user's stories
+    if (
+      viewDirection === StoryViewDirectionType.Next &&
+      currentIndex < numStories - 1
+    ) {
+      const nextIndex = currentIndex + 1;
+      const nextStory = storiesByConversationId[nextIndex];
+
+      dispatch({
+        type: VIEW_STORY,
+        payload: {
+          selectedStoryData: {
+            currentIndex: nextIndex,
+            numStories,
+            story: nextStory,
+          },
+          storyViewMode,
+        },
+      });
+      return;
+    }
+
+    // Prev story within the same user's stories
+    if (viewDirection === StoryViewDirectionType.Previous && currentIndex > 0) {
+      const nextIndex = currentIndex - 1;
+      const nextStory = storiesByConversationId[nextIndex];
+
+      dispatch({
+        type: VIEW_STORY,
+        payload: {
+          selectedStoryData: {
+            currentIndex: nextIndex,
+            numStories,
+            story: nextStory,
+          },
+          storyViewMode,
+        },
+      });
+      return;
+    }
+
+    // Are there any unviewed stories left? If so we should play the unviewed
+    // stories first. But only if we're going "next"
+    if (viewDirection === StoryViewDirectionType.Next) {
+      const unreadStory = stories.find(
+        item => item.readStatus === ReadStatus.Unread
+      );
+      if (unreadStory) {
+        const nextSelectedStoryData = getSelectedStoryDataForConversationId(
+          dispatch,
+          getState,
+          unreadStory.conversationId,
+          unreadStory.messageId
+        );
+        dispatch({
+          type: VIEW_STORY,
+          payload: {
+            selectedStoryData: {
+              currentIndex: nextSelectedStoryData.currentIndex,
+              numStories: nextSelectedStoryData.numStories,
+              story: unreadStory,
+            },
+            storyViewMode,
+          },
+        });
+        return;
+      }
+    }
+
+    const conversationStories = getStories(state).stories;
+    const conversationStoryIndex = conversationStories.findIndex(
+      item => item.conversationId === story.conversationId
+    );
+
+    if (conversationStoryIndex < 0) {
+      return;
+    }
+
+    // Find the next user's stories
+    if (
+      viewDirection === StoryViewDirectionType.Next &&
+      conversationStoryIndex < conversationStories.length - 1
+    ) {
+      // Spec:
+      // Tapping right advances you to the next un viewed story
+      // If all stories are viewed, advance to the next viewed story
+      // When you reach the newest story from a user, tapping right again
+      //    should take you to the next user's oldest un viewed story or oldest
+      //    story if all stories for the next user are viewed.
+      // When you reach the newest story from the last user in the story list,
+      //    tapping right should close the viewer
+      // Touch area for tapping right should be 80% of width of the screen
+      const nextConversationStoryIndex = conversationStoryIndex + 1;
+      const conversationStory = conversationStories[nextConversationStoryIndex];
+
+      const nextSelectedStoryData = getSelectedStoryDataForConversationId(
+        dispatch,
+        getState,
+        conversationStory.conversationId
+      );
+
+      // Close the viewer if we were viewing unread stories only and we've
+      // reached the last unread story.
+      if (
+        !nextSelectedStoryData.hasUnread &&
+        storyViewMode === StoryViewModeType.Unread
+      ) {
+        dispatch({
+          type: VIEW_STORY,
+          payload: undefined,
+        });
+        return;
+      }
+
+      dispatch({
+        type: VIEW_STORY,
+        payload: {
+          selectedStoryData: {
+            currentIndex: 0,
+            numStories: nextSelectedStoryData.numStories,
+            story: nextSelectedStoryData.storiesByConversationId[0],
+          },
+          storyViewMode,
+        },
+      });
+      return;
+    }
+
+    // Find the previous user's stories
+    if (
+      viewDirection === StoryViewDirectionType.Previous &&
+      conversationStoryIndex > 0
+    ) {
+      // Spec:
+      // Tapping left takes you back to the previous story
+      // When you reach the oldest story from a user, tapping left again takes
+      //    you to the previous users oldest un viewed story or newest viewed
+      //    story if all stories are viewed
+      // If you tap left on the oldest story from the first user in the story
+      //    list, it should re-start playback on that story
+      // Touch area for tapping left should be 20% of width of the screen
+      const nextConversationStoryIndex = conversationStoryIndex - 1;
+      const conversationStory = conversationStories[nextConversationStoryIndex];
+
+      const nextSelectedStoryData = getSelectedStoryDataForConversationId(
+        dispatch,
+        getState,
+        conversationStory.conversationId
+      );
+
+      dispatch({
+        type: VIEW_STORY,
+        payload: {
+          selectedStoryData: {
+            currentIndex: 0,
+            numStories: nextSelectedStoryData.numStories,
+            story: nextSelectedStoryData.storiesByConversationId[0],
+          },
+          storyViewMode,
+        },
+      });
+      return;
+    }
+
+    // Could not meet any criteria, close the viewer
+    dispatch({
+      type: VIEW_STORY,
+      payload: undefined,
+    });
+  };
+};
+
+export const actions = {
+  deleteStoryForEveryone,
+  loadStoryReplies,
+  markStoryRead,
+  queueStoryDownload,
+  reactToStory,
+  replyToStory,
+  storyChanged,
+  toggleStoriesView,
+  viewUserStories,
+  viewStory,
+};
+
+export const useStoriesActions = (): typeof actions => useBoundActions(actions);
+
 // Reducer
 
 export function getEmptyState(
@@ -642,6 +983,16 @@ export function reducer(
         ...state.stories[prevStoryIndex],
         deletedForEveryone: true,
       }),
+    };
+  }
+
+  if (action.type === VIEW_STORY) {
+    const { selectedStoryData, storyViewMode } = action.payload || {};
+
+    return {
+      ...state,
+      selectedStoryData,
+      storyViewMode,
     };
   }
 

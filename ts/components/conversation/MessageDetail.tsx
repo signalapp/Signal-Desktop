@@ -96,6 +96,7 @@ export type PropsReduxActions = Pick<
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
   | 'checkForAccount'
+  | 'viewStory'
 >;
 
 export type ExternalProps = PropsData & PropsBackboneActions;
@@ -302,6 +303,7 @@ export class MessageDetail extends React.Component<Props> {
       showVisualAttachment,
       startConversation,
       theme,
+      viewStory,
     } = this.props;
 
     return (
@@ -371,6 +373,7 @@ export class MessageDetail extends React.Component<Props> {
             showVisualAttachment={showVisualAttachment}
             startConversation={startConversation}
             theme={theme}
+            viewStory={viewStory}
           />
         </div>
         <table className="module-message-detail__info">

@@ -418,6 +418,8 @@ const actions = () => ({
 
   peekGroupCallForTheFirstTime: action('peekGroupCallForTheFirstTime'),
   peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
+
+  viewStory: action('viewStory'),
 });
 
 const renderItem = ({

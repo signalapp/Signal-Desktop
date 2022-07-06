@@ -253,6 +253,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   },
   theme: ThemeType.light,
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
+  viewStory: action('viewStory'),
 });
 
 const createTimelineItem = (data: undefined | Props) =>

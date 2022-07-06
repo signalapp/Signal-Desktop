@@ -1,11 +1,10 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Meta, Story } from '@storybook/react';
 import * as React from 'react';
-import { isString } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
 
 import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
@@ -30,8 +29,49 @@ import { ThemeType } from '../../types/Util';
 const i18n = setupI18n('en', enMessages);
 
 export default {
+  component: Quote,
   title: 'Components/Conversation/Quote',
-};
+  argTypes: {
+    authorTitle: {
+      defaultValue: 'Default Sender',
+    },
+    conversationColor: {
+      defaultValue: 'forest',
+    },
+    doubleCheckMissingQuoteReference: { action: true },
+    i18n: {
+      defaultValue: i18n,
+    },
+    isFromMe: {
+      control: { type: 'checkbox' },
+      defaultValue: false,
+    },
+    isGiftBadge: {
+      control: { type: 'checkbox' },
+      defaultValue: false,
+    },
+    isIncoming: {
+      control: { type: 'checkbox' },
+      defaultValue: false,
+    },
+    isViewOnce: {
+      control: { type: 'checkbox' },
+      defaultValue: false,
+    },
+    onClick: { action: true },
+    onClose: { action: true },
+    rawAttachment: {
+      defaultValue: undefined,
+    },
+    referencedMessageNotFound: {
+      control: { type: 'checkbox' },
+      defaultValue: false,
+    },
+    text: {
+      defaultValue: 'A sample message from a pal',
+    },
+  },
+} as Meta;
 
 const defaultMessageProps: MessagesProps = {
   author: getDefaultConversation({
@@ -105,6 +145,7 @@ const defaultMessageProps: MessagesProps = {
   textDirection: TextDirection.Default,
   theme: ThemeType.light,
   timestamp: Date.now(),
+  viewStory: action('viewStory'),
 };
 
 const renderInMessage = ({
@@ -143,459 +184,332 @@ const renderInMessage = ({
   );
 };
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  authorTitle: text(
-    'authorTitle',
-    overrideProps.authorTitle || 'Default Sender'
-  ),
-  conversationColor: overrideProps.conversationColor || 'forest',
-  doubleCheckMissingQuoteReference:
-    overrideProps.doubleCheckMissingQuoteReference ||
-    action('doubleCheckMissingQuoteReference'),
-  i18n,
-  isFromMe: boolean('isFromMe', overrideProps.isFromMe || false),
-  isIncoming: boolean('isIncoming', overrideProps.isIncoming || false),
-  onClick: action('onClick'),
-  onClose: action('onClose'),
-  rawAttachment: overrideProps.rawAttachment || undefined,
-  referencedMessageNotFound: boolean(
-    'referencedMessageNotFound',
-    overrideProps.referencedMessageNotFound || false
-  ),
-  isGiftBadge: boolean('isGiftBadge', overrideProps.isGiftBadge || false),
-  isViewOnce: boolean('isViewOnce', overrideProps.isViewOnce || false),
-  text: text(
-    'text',
-    isString(overrideProps.text)
-      ? overrideProps.text
-      : 'A sample message from a pal'
-  ),
-});
+const Template: Story<Props> = args => <Quote {...args} />;
+const TemplateInMessage: Story<Props> = args => renderInMessage(args);
 
-export const OutgoingByAnotherAuthor = (): JSX.Element => {
-  const props = createProps({
-    authorTitle: 'Terrence Malick',
-  });
-
-  return <Quote {...props} />;
+export const OutgoingByAnotherAuthor = Template.bind({});
+OutgoingByAnotherAuthor.args = {
+  authorTitle: getDefaultConversation().title,
 };
-
 OutgoingByAnotherAuthor.story = {
   name: 'Outgoing by Another Author',
 };
 
-export const OutgoingByMe = (): JSX.Element => {
-  const props = createProps({
-    isFromMe: true,
-  });
-
-  return <Quote {...props} />;
+export const OutgoingByMe = Template.bind({});
+OutgoingByMe.args = {
+  isFromMe: true,
 };
-
 OutgoingByMe.story = {
   name: 'Outgoing by Me',
 };
 
-export const IncomingByAnotherAuthor = (): JSX.Element => {
-  const props = createProps({
-    authorTitle: 'Terrence Malick',
-    isIncoming: true,
-  });
-
-  return <Quote {...props} />;
+export const IncomingByAnotherAuthor = Template.bind({});
+IncomingByAnotherAuthor.args = {
+  authorTitle: getDefaultConversation().title,
+  isIncoming: true,
 };
-
 IncomingByAnotherAuthor.story = {
   name: 'Incoming by Another Author',
 };
 
-export const IncomingByMe = (): JSX.Element => {
-  const props = createProps({
-    isFromMe: true,
-    isIncoming: true,
-  });
-
-  return <Quote {...props} />;
+export const IncomingByMe = Template.bind({});
+IncomingByMe.args = {
+  isFromMe: true,
+  isIncoming: true,
 };
-
 IncomingByMe.story = {
   name: 'Incoming by Me',
 };
 
-export const IncomingOutgoingColors = (): JSX.Element => {
-  const props = createProps({});
+export const IncomingOutgoingColors = (args: Props): JSX.Element => {
   return (
     <>
       {ConversationColors.map(color =>
-        renderInMessage({ ...props, conversationColor: color })
+        renderInMessage({ ...args, conversationColor: color })
       )}
     </>
   );
 };
-
+IncomingOutgoingColors.args = {};
 IncomingOutgoingColors.story = {
   name: 'Incoming/Outgoing Colors',
 };
 
-export const ImageOnly = (): JSX.Element => {
-  const props = createProps({
-    text: '',
-    rawAttachment: {
+export const ImageOnly = Template.bind({});
+ImageOnly.args = {
+  text: '',
+  rawAttachment: {
+    contentType: IMAGE_PNG,
+    fileName: 'sax.png',
+    isVoiceMessage: false,
+    thumbnail: {
       contentType: IMAGE_PNG,
-      fileName: 'sax.png',
-      isVoiceMessage: false,
-      thumbnail: {
-        contentType: IMAGE_PNG,
-        height: 100,
-        width: 100,
-        path: pngUrl,
-        objectUrl: pngUrl,
-      },
+      height: 100,
+      width: 100,
+      path: pngUrl,
+      objectUrl: pngUrl,
     },
-  });
-
-  return <Quote {...props} />;
+  },
 };
 
-export const ImageAttachment = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
+export const ImageAttachment = Template.bind({});
+ImageAttachment.args = {
+  rawAttachment: {
+    contentType: IMAGE_PNG,
+    fileName: 'sax.png',
+    isVoiceMessage: false,
+    thumbnail: {
       contentType: IMAGE_PNG,
-      fileName: 'sax.png',
-      isVoiceMessage: false,
-      thumbnail: {
-        contentType: IMAGE_PNG,
-        height: 100,
-        width: 100,
-        path: pngUrl,
-        objectUrl: pngUrl,
-      },
+      height: 100,
+      width: 100,
+      path: pngUrl,
+      objectUrl: pngUrl,
     },
-  });
-
-  return <Quote {...props} />;
+  },
 };
 
-export const ImageAttachmentWOThumbnail = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: IMAGE_PNG,
-      fileName: 'sax.png',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const ImageAttachmentNoThumbnail = Template.bind({});
+ImageAttachmentNoThumbnail.args = {
+  rawAttachment: {
+    contentType: IMAGE_PNG,
+    fileName: 'sax.png',
+    isVoiceMessage: false,
+  },
 };
-
-ImageAttachmentWOThumbnail.story = {
+ImageAttachmentNoThumbnail.story = {
   name: 'Image Attachment w/o Thumbnail',
 };
 
-export const ImageTapToView = (): JSX.Element => {
-  const props = createProps({
-    text: '',
-    isViewOnce: true,
-    rawAttachment: {
-      contentType: IMAGE_PNG,
-      fileName: 'sax.png',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const ImageTapToView = Template.bind({});
+ImageTapToView.args = {
+  text: '',
+  isViewOnce: true,
+  rawAttachment: {
+    contentType: IMAGE_PNG,
+    fileName: 'sax.png',
+    isVoiceMessage: false,
+  },
 };
-
 ImageTapToView.story = {
   name: 'Image Tap-to-View',
 };
 
-export const VideoOnly = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: VIDEO_MP4,
-      fileName: 'great-video.mp4',
-      isVoiceMessage: false,
-      thumbnail: {
-        contentType: IMAGE_PNG,
-        height: 100,
-        width: 100,
-        path: pngUrl,
-        objectUrl: pngUrl,
-      },
+export const VideoOnly = Template.bind({});
+VideoOnly.args = {
+  rawAttachment: {
+    contentType: VIDEO_MP4,
+    fileName: 'great-video.mp4',
+    isVoiceMessage: false,
+    thumbnail: {
+      contentType: IMAGE_PNG,
+      height: 100,
+      width: 100,
+      path: pngUrl,
+      objectUrl: pngUrl,
     },
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
-
-  return <Quote {...props} />;
+  },
+  text: undefined,
 };
 
-export const VideoAttachment = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: VIDEO_MP4,
-      fileName: 'great-video.mp4',
-      isVoiceMessage: false,
-      thumbnail: {
-        contentType: IMAGE_PNG,
-        height: 100,
-        width: 100,
-        path: pngUrl,
-        objectUrl: pngUrl,
-      },
+export const VideoAttachment = Template.bind({});
+VideoAttachment.args = {
+  rawAttachment: {
+    contentType: VIDEO_MP4,
+    fileName: 'great-video.mp4',
+    isVoiceMessage: false,
+    thumbnail: {
+      contentType: IMAGE_PNG,
+      height: 100,
+      width: 100,
+      path: pngUrl,
+      objectUrl: pngUrl,
     },
-  });
-
-  return <Quote {...props} />;
+  },
 };
 
-export const VideoAttachmentWOThumbnail = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: VIDEO_MP4,
-      fileName: 'great-video.mp4',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const VideoAttachmentNoThumbnail = Template.bind({});
+VideoAttachmentNoThumbnail.args = {
+  rawAttachment: {
+    contentType: VIDEO_MP4,
+    fileName: 'great-video.mp4',
+    isVoiceMessage: false,
+  },
 };
-
-VideoAttachmentWOThumbnail.story = {
+VideoAttachmentNoThumbnail.story = {
   name: 'Video Attachment w/o Thumbnail',
 };
 
-export const VideoTapToView = (): JSX.Element => {
-  const props = createProps({
-    text: '',
-    isViewOnce: true,
-    rawAttachment: {
-      contentType: VIDEO_MP4,
-      fileName: 'great-video.mp4',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const VideoTapToView = Template.bind({});
+VideoTapToView.args = {
+  text: '',
+  isViewOnce: true,
+  rawAttachment: {
+    contentType: VIDEO_MP4,
+    fileName: 'great-video.mp4',
+    isVoiceMessage: false,
+  },
 };
-
 VideoTapToView.story = {
   name: 'Video Tap-to-View',
 };
 
-export const GiftBadge = (): JSX.Element => {
-  const props = createProps({
-    text: "Some text which shouldn't be rendered",
-    isGiftBadge: true,
-  });
-
-  return renderInMessage(props);
+export const GiftBadge = TemplateInMessage.bind({});
+GiftBadge.args = {
+  text: "Some text which shouldn't be rendered",
+  isGiftBadge: true,
 };
 
-export const AudioOnly = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: AUDIO_MP3,
-      fileName: 'great-video.mp3',
-      isVoiceMessage: false,
-    },
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
-
-  return <Quote {...props} />;
+export const AudioOnly = Template.bind({});
+AudioOnly.args = {
+  rawAttachment: {
+    contentType: AUDIO_MP3,
+    fileName: 'great-video.mp3',
+    isVoiceMessage: false,
+  },
+  text: undefined,
 };
 
-export const AudioAttachment = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: AUDIO_MP3,
-      fileName: 'great-video.mp3',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const AudioAttachment = Template.bind({});
+AudioAttachment.args = {
+  rawAttachment: {
+    contentType: AUDIO_MP3,
+    fileName: 'great-video.mp3',
+    isVoiceMessage: false,
+  },
 };
 
-export const VoiceMessageOnly = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: AUDIO_MP3,
-      fileName: 'great-video.mp3',
-      isVoiceMessage: true,
-    },
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
-
-  return <Quote {...props} />;
+export const VoiceMessageOnly = Template.bind({});
+VoiceMessageOnly.args = {
+  rawAttachment: {
+    contentType: AUDIO_MP3,
+    fileName: 'great-video.mp3',
+    isVoiceMessage: true,
+  },
+  text: undefined,
 };
 
-export const VoiceMessageAttachment = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: AUDIO_MP3,
-      fileName: 'great-video.mp3',
-      isVoiceMessage: true,
-    },
-  });
-
-  return <Quote {...props} />;
+export const VoiceMessageAttachment = Template.bind({});
+VoiceMessageAttachment.args = {
+  rawAttachment: {
+    contentType: AUDIO_MP3,
+    fileName: 'great-video.mp3',
+    isVoiceMessage: true,
+  },
 };
 
-export const OtherFileOnly = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: stringToMIMEType('application/json'),
-      fileName: 'great-data.json',
-      isVoiceMessage: false,
-    },
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
-
-  return <Quote {...props} />;
+export const OtherFileOnly = Template.bind({});
+OtherFileOnly.args = {
+  rawAttachment: {
+    contentType: stringToMIMEType('application/json'),
+    fileName: 'great-data.json',
+    isVoiceMessage: false,
+  },
+  text: undefined,
 };
 
-export const MediaTapToView = (): JSX.Element => {
-  const props = createProps({
-    text: '',
-    isViewOnce: true,
-    rawAttachment: {
-      contentType: AUDIO_MP3,
-      fileName: 'great-video.mp3',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const MediaTapToView = Template.bind({});
+MediaTapToView.args = {
+  text: '',
+  isViewOnce: true,
+  rawAttachment: {
+    contentType: AUDIO_MP3,
+    fileName: 'great-video.mp3',
+    isVoiceMessage: false,
+  },
 };
-
 MediaTapToView.story = {
   name: 'Media Tap-to-View',
 };
 
-export const OtherFileAttachment = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: stringToMIMEType('application/json'),
-      fileName: 'great-data.json',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const OtherFileAttachment = Template.bind({});
+OtherFileAttachment.args = {
+  rawAttachment: {
+    contentType: stringToMIMEType('application/json'),
+    fileName: 'great-data.json',
+    isVoiceMessage: false,
+  },
 };
 
-export const LongMessageAttachmentShouldBeHidden = (): JSX.Element => {
-  const props = createProps({
-    rawAttachment: {
-      contentType: LONG_MESSAGE,
-      fileName: 'signal-long-message-123.txt',
-      isVoiceMessage: false,
-    },
-  });
-
-  return <Quote {...props} />;
+export const LongMessageAttachmentShouldBeHidden = Template.bind({});
+LongMessageAttachmentShouldBeHidden.args = {
+  rawAttachment: {
+    contentType: LONG_MESSAGE,
+    fileName: 'signal-long-message-123.txt',
+    isVoiceMessage: false,
+  },
 };
-
 LongMessageAttachmentShouldBeHidden.story = {
   name: 'Long message attachment (should be hidden)',
 };
 
-export const NoCloseButton = (): JSX.Element => {
-  const props = createProps();
-  props.onClose = undefined;
-
-  return <Quote {...props} />;
+export const NoCloseButton = Template.bind({});
+NoCloseButton.args = {
+  onClose: undefined,
 };
 
-export const MessageNotFound = (): JSX.Element => {
-  const props = createProps({
-    referencedMessageNotFound: true,
-  });
-
-  return renderInMessage(props);
+export const MessageNotFound = TemplateInMessage.bind({});
+MessageNotFound.args = {
+  referencedMessageNotFound: true,
 };
 
-export const MissingTextAttachment = (): JSX.Element => {
-  const props = createProps();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
-
-  return <Quote {...props} />;
+export const MissingTextAttachment = Template.bind({});
+MissingTextAttachment.args = {
+  text: undefined,
 };
-
 MissingTextAttachment.story = {
   name: 'Missing Text & Attachment',
 };
 
-export const MentionOutgoingAnotherAuthor = (): JSX.Element => {
-  const props = createProps({
-    authorTitle: 'Tony Stark',
-    text: '@Captain America Lunch later?',
-  });
-
-  return <Quote {...props} />;
+export const MentionOutgoingAnotherAuthor = Template.bind({});
+MentionOutgoingAnotherAuthor.args = {
+  authorTitle: 'Tony Stark',
+  text: '@Captain America Lunch later?',
 };
-
 MentionOutgoingAnotherAuthor.story = {
   name: '@mention + outgoing + another author',
 };
 
-export const MentionOutgoingMe = (): JSX.Element => {
-  const props = createProps({
-    isFromMe: true,
-    text: '@Captain America Lunch later?',
-  });
-
-  return <Quote {...props} />;
+export const MentionOutgoingMe = Template.bind({});
+MentionOutgoingMe.args = {
+  isFromMe: true,
+  text: '@Captain America Lunch later?',
 };
-
 MentionOutgoingMe.story = {
   name: '@mention + outgoing + me',
 };
 
-export const MentionIncomingAnotherAuthor = (): JSX.Element => {
-  const props = createProps({
-    authorTitle: 'Captain America',
-    isIncoming: true,
-    text: '@Tony Stark sure',
-  });
-
-  return <Quote {...props} />;
+export const MentionIncomingAnotherAuthor = Template.bind({});
+MentionIncomingAnotherAuthor.args = {
+  authorTitle: 'Captain America',
+  isIncoming: true,
+  text: '@Tony Stark sure',
 };
-
 MentionIncomingAnotherAuthor.story = {
   name: '@mention + incoming + another author',
 };
 
-export const MentionIncomingMe = (): JSX.Element => {
-  const props = createProps({
-    isFromMe: true,
-    isIncoming: true,
-    text: '@Tony Stark sure',
-  });
-
-  return <Quote {...props} />;
+export const MentionIncomingMe = Template.bind({});
+MentionIncomingMe.args = {
+  isFromMe: true,
+  isIncoming: true,
+  text: '@Tony Stark sure',
 };
-
 MentionIncomingMe.story = {
   name: '@mention + incoming + me',
 };
 
-export const CustomColor = (): JSX.Element => (
+export const CustomColor = (args: Props): JSX.Element => (
   <>
     <Quote
-      {...createProps({ isIncoming: true, text: 'Solid + Gradient' })}
+      {...args}
       customColor={{
         start: { hue: 82, saturation: 35 },
       }}
     />
     <Quote
-      {...createProps()}
+      {...args}
+      isIncoming={false}
+      text="A gradient"
       customColor={{
         deg: 192,
         start: { hue: 304, saturation: 85 },
@@ -604,59 +518,48 @@ export const CustomColor = (): JSX.Element => (
     />
   </>
 );
-
-export const IsStoryReply = (): JSX.Element => {
-  const props = createProps({
-    text: 'Wow!',
-  });
-
-  return (
-    <Quote
-      {...props}
-      authorTitle="Amanda"
-      isStoryReply
-      moduleClassName="StoryReplyQuote"
-      onClose={undefined}
-      rawAttachment={{
-        contentType: VIDEO_MP4,
-        fileName: 'great-video.mp4',
-        isVoiceMessage: false,
-      }}
-    />
-  );
+CustomColor.args = {
+  isIncoming: true,
+  text: 'Solid + Gradient',
 };
 
+export const IsStoryReply = Template.bind({});
+IsStoryReply.args = {
+  text: 'Wow!',
+  authorTitle: 'Amanda',
+  isStoryReply: true,
+  moduleClassName: 'StoryReplyQuote',
+  onClose: undefined,
+  rawAttachment: {
+    contentType: VIDEO_MP4,
+    fileName: 'great-video.mp4',
+    isVoiceMessage: false,
+  },
+};
 IsStoryReply.story = {
   name: 'isStoryReply',
 };
 
-export const IsStoryReplyEmoji = (): JSX.Element => {
-  const props = createProps();
-
-  return (
-    <Quote
-      {...props}
-      authorTitle="Charlie"
-      isStoryReply
-      moduleClassName="StoryReplyQuote"
-      onClose={undefined}
-      rawAttachment={{
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        isVoiceMessage: false,
-        thumbnail: {
-          contentType: IMAGE_PNG,
-          height: 100,
-          width: 100,
-          path: pngUrl,
-          objectUrl: pngUrl,
-        },
-      }}
-      reactionEmoji="🏋️"
-    />
-  );
+export const IsStoryReplyEmoji = Template.bind({});
+IsStoryReplyEmoji.args = {
+  authorTitle: getDefaultConversation().firstName,
+  isStoryReply: true,
+  moduleClassName: 'StoryReplyQuote',
+  onClose: undefined,
+  rawAttachment: {
+    contentType: IMAGE_PNG,
+    fileName: 'sax.png',
+    isVoiceMessage: false,
+    thumbnail: {
+      contentType: IMAGE_PNG,
+      height: 100,
+      width: 100,
+      path: pngUrl,
+      objectUrl: pngUrl,
+    },
+  },
+  reactionEmoji: '🏋️',
 };
-
 IsStoryReplyEmoji.story = {
   name: 'isStoryReply emoji',
 };

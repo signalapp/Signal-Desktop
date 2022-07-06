@@ -13,6 +13,7 @@ import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLeftPane } from './LeftPane';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { SmartStories } from './Stories';
+import { SmartStoryViewer } from './StoryViewer';
 import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
@@ -23,7 +24,10 @@ import {
   getIsMainWindowFullScreen,
   getMenuOptions,
 } from '../selectors/user';
-import { shouldShowStoriesView } from '../selectors/stories';
+import {
+  getSelectedStoryData,
+  shouldShowStoriesView,
+} from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
@@ -54,6 +58,8 @@ const mapStateToProps = (state: StateType) => {
     ),
     isShowingStoriesView: shouldShowStoriesView(state),
     renderStories: () => <SmartStories />,
+    selectedStoryData: getSelectedStoryData(state),
+    renderStoryViewer: () => <SmartStoryViewer />,
     requestVerification: (
       type: 'sms' | 'voice',
       number: string,

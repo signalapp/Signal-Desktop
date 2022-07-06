@@ -267,6 +267,8 @@ const getActions = createSelector(
       'downloadNewVersion',
 
       'contactSupport',
+
+      'viewStory',
     ]);
 
     const safe: AssertProps<PropsActionsType, typeof unsafe> = unsafe;

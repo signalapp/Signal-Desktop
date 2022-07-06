@@ -45,7 +45,7 @@ export type ConversationStoryType = {
   >;
   isHidden?: boolean;
   searchNames?: string; // This is just here to satisfy Fuse's types
-  stories: Array<StoryViewType>;
+  storyView: StoryViewType;
 };
 
 export type StorySendStateType = {
@@ -99,3 +99,14 @@ export type MyStoryType = {
 };
 
 export const MY_STORIES_ID = '00000000-0000-0000-0000-000000000000';
+
+export enum StoryViewDirectionType {
+  Next = 'Next',
+  Previous = 'Previous',
+}
+
+export enum StoryViewModeType {
+  Unread = 'Unread',
+  All = 'All',
+  Single = 'Single',
+}

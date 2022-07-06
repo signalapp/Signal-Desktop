@@ -28,6 +28,9 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
+    me: {
+      defaultValue: getDefaultConversation(),
+    },
     myStories: {
       defaultValue: [],
     },
@@ -48,6 +51,8 @@ export default {
     },
     toggleHideStories: { action: true },
     toggleStoriesView: { action: true },
+    viewUserStories: { action: true },
+    viewStory: { action: true },
   },
 } as Meta;
 

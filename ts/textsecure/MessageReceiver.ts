@@ -1936,7 +1936,7 @@ export default class MessageReceiver
       distributionListToSentUuid.forEach((sentToUuids, listId) => {
         const ev = new SentEvent(
           {
-            destinationUuid: dropNull(sentMessage.destinationUuid),
+            destinationUuid: envelope.destinationUuid.toString(),
             timestamp: envelope.timestamp,
             serverTimestamp: envelope.serverTimestamp,
             unidentifiedStatus: Array.from(sentToUuids).map(

@@ -17,6 +17,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import { TitleBarContainer } from './TitleBarContainer';
 import type { ExecuteMenuRoleType } from './TitleBarContainer';
+import type { SelectedStoryDataType } from '../state/ducks/stories';
 
 type PropsType = {
   appView: AppViewType;
@@ -27,6 +28,8 @@ type PropsType = {
   renderGlobalModalContainer: () => JSX.Element;
   isShowingStoriesView: boolean;
   renderStories: () => JSX.Element;
+  selectedStoryData?: SelectedStoryDataType;
+  renderStoryViewer: () => JSX.Element;
   requestVerification: (
     type: 'sms' | 'voice',
     number: string,
@@ -69,9 +72,11 @@ export const App = ({
   renderLeftPane,
   renderSafetyNumber,
   renderStories,
+  renderStoryViewer,
   requestVerification,
   selectedConversationId,
   selectedMessage,
+  selectedStoryData,
   showConversation,
   showWhatsNewModal,
   theme,
@@ -169,6 +174,7 @@ export const App = ({
         {renderGlobalModalContainer()}
         {renderCallManager()}
         {isShowingStoriesView && renderStories()}
+        {selectedStoryData && renderStoryViewer()}
         {contents}
       </div>
     </TitleBarContainer>

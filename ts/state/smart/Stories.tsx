@@ -7,12 +7,10 @@ import { useSelector } from 'react-redux';
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import type { PropsType as SmartStoryCreatorPropsType } from './StoryCreator';
-import type { PropsType as SmartStoryViewerPropsType } from './StoryViewer';
 import { SmartStoryCreator } from './StoryCreator';
-import { SmartStoryViewer } from './StoryViewer';
 import { Stories } from '../../components/Stories';
 import { getMe } from '../selectors/conversations';
-import { getIntl, getUserConversationId } from '../selectors/user';
+import { getIntl } from '../selectors/user';
 import { getPreferredLeftPaneWidth } from '../selectors/items';
 import { getStories } from '../selectors/stories';
 import { saveAttachment } from '../../util/saveAttachment';
@@ -24,24 +22,6 @@ function renderStoryCreator({
   onClose,
 }: SmartStoryCreatorPropsType): JSX.Element {
   return <SmartStoryCreator onClose={onClose} />;
-}
-
-function renderStoryViewer({
-  conversationId,
-  onClose,
-  onNextUserStories,
-  onPrevUserStories,
-  storyToView,
-}: SmartStoryViewerPropsType): JSX.Element {
-  return (
-    <SmartStoryViewer
-      conversationId={conversationId}
-      onClose={onClose}
-      onNextUserStories={onNextUserStories}
-      onPrevUserStories={onPrevUserStories}
-      storyToView={storyToView}
-    />
-  );
 }
 
 export function SmartStories(): JSX.Element | null {
@@ -61,7 +41,6 @@ export function SmartStories(): JSX.Element | null {
 
   const { hiddenStories, myStories, stories } = useSelector(getStories);
 
-  const ourConversationId = useSelector(getUserConversationId);
   const me = useSelector(getMe);
 
   if (!isShowingStoriesView) {
@@ -82,10 +61,8 @@ export function SmartStories(): JSX.Element | null {
           saveAttachment(story.attachment, story.timestamp);
         }
       }}
-      ourConversationId={String(ourConversationId)}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
-      renderStoryViewer={renderStoryViewer}
       showConversation={showConversation}
       stories={stories}
       toggleHideStories={toggleHideStories}

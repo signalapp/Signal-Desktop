@@ -4,10 +4,10 @@
 import React, { useState } from 'react';
 import type { MyStoryType, StoryViewType } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
-import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/StoryViewer';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { MY_STORIES_ID } from '../types/Stories';
+import { MY_STORIES_ID, StoryViewModeType } from '../types/Stories';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { Theme } from '../util/theme';
@@ -19,9 +19,8 @@ export type PropsType = {
   onDelete: (story: StoryViewType) => unknown;
   onForward: (storyId: string) => unknown;
   onSave: (story: StoryViewType) => unknown;
-  ourConversationId: string;
   queueStoryDownload: (storyId: string) => unknown;
-  renderStoryViewer: (props: SmartStoryViewerPropsType) => JSX.Element;
+  viewStory: ViewStoryActionCreatorType;
 };
 
 export const MyStories = ({
@@ -31,15 +30,12 @@ export const MyStories = ({
   onDelete,
   onForward,
   onSave,
-  ourConversationId,
   queueStoryDownload,
-  renderStoryViewer,
+  viewStory,
 }: PropsType): JSX.Element => {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
   >();
-
-  const [storyToView, setStoryToView] = useState<StoryViewType | undefined>();
 
   return (
     <>
@@ -58,12 +54,6 @@ export const MyStories = ({
           {i18n('MyStories__delete')}
         </ConfirmationDialog>
       )}
-      {storyToView &&
-        renderStoryViewer({
-          conversationId: ourConversationId,
-          onClose: () => setStoryToView(undefined),
-          storyToView,
-        })}
       <div className="Stories__pane__header Stories__pane__header--centered">
         <button
           aria-label={i18n('back')}
@@ -89,7 +79,9 @@ export const MyStories = ({
                   <button
                     aria-label={i18n('MyStories__story')}
                     className="MyStories__story__preview"
-                    onClick={() => setStoryToView(story)}
+                    onClick={() =>
+                      viewStory(story.messageId, StoryViewModeType.Single)
+                    }
                     type="button"
                   >
                     <StoryImage

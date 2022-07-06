@@ -483,7 +483,7 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
       rawAttachment: storyReplyContext.attachment
         ? processQuoteAttachment(storyReplyContext.attachment)
         : undefined,
-      referencedMessageNotFound: !storyReplyContext.messageId,
+      storyId: storyReplyContext.messageId,
       text: getStoryReplyText(window.i18n, storyReplyContext.attachment),
     };
   },

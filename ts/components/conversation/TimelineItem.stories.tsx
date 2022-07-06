@@ -107,6 +107,7 @@ const getDefaultProps = () => ({
   renderEmojiPicker,
   renderReactionPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
+  viewStory: action('viewStory'),
 });
 
 export default {

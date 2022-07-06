@@ -21,17 +21,14 @@ import { StoryListItem } from './StoryListItem';
 import { isNotNil } from '../util/isNotNil';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
-  getFn: (obj, path) => {
+  getFn: (story, path) => {
     if (path === 'searchNames') {
-      return obj.stories
-        .flatMap((story: StoryViewType) => [
-          story.sender.title,
-          story.sender.name,
-        ])
-        .filter(isNotNil);
+      return [story.storyView.sender.title, story.storyView.sender.name].filter(
+        isNotNil
+      );
     }
 
-    return obj.group?.title ?? '';
+    return story.group?.title ?? '';
   },
   keys: [
     {
@@ -55,9 +52,7 @@ function search(
     .map(result => result.item);
 }
 
-function getNewestStory(
-  story: ConversationStoryType | MyStoryType
-): StoryViewType {
+function getNewestMyStory(story: MyStoryType): StoryViewType {
   return story.stories[story.stories.length - 1];
 }
 
@@ -137,7 +132,7 @@ export const StoriesPane = ({
         i18n={i18n}
         me={me}
         newestStory={
-          myStories.length ? getNewestStory(myStories[0]) : undefined
+          myStories.length ? getNewestMyStory(myStories[0]) : undefined
         }
         onClick={onMyStoriesClicked}
         queueStoryDownload={queueStoryDownload}
@@ -151,7 +146,7 @@ export const StoriesPane = ({
           <StoryListItem
             group={story.group}
             i18n={i18n}
-            key={getNewestStory(story).timestamp}
+            key={story.storyView.timestamp}
             onClick={() => {
               onStoryClicked(story.conversationId);
             }}
@@ -161,7 +156,7 @@ export const StoriesPane = ({
               toggleStoriesView();
             }}
             queueStoryDownload={queueStoryDownload}
-            story={getNewestStory(story)}
+            story={story.storyView}
           />
         ))}
         {Boolean(hiddenStories.length) && (
@@ -178,7 +173,7 @@ export const StoriesPane = ({
             {isShowingHiddenStories &&
               hiddenStories.map(story => (
                 <StoryListItem
-                  key={getNewestStory(story).timestamp}
+                  key={story.storyView.timestamp}
                   i18n={i18n}
                   isHidden
                   onClick={() => {
@@ -190,7 +185,7 @@ export const StoriesPane = ({
                     toggleStoriesView();
                   }}
                   queueStoryDownload={queueStoryDownload}
-                  story={getNewestStory(story)}
+                  story={story.storyView}
                 />
               ))}
           </>

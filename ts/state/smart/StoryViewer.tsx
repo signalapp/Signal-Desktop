@@ -4,12 +4,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import type { GetStoriesByConversationIdType } from '../selectors/stories';
+import type { GetConversationByIdType } from '../selectors/conversations';
 import type { LocalizerType } from '../../types/Util';
+import type { StoryViewModeType } from '../../types/Stories';
 import type { StateType } from '../reducer';
-import type { StoryViewType } from '../../types/Stories';
+import type { SelectedStoryDataType } from '../ducks/stories';
 import { StoryViewer } from '../../components/StoryViewer';
 import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
+import { getConversationSelector } from '../selectors/conversations';
 import {
   getEmojiSkinTone,
   getHasAllStoriesMuted,
@@ -17,30 +19,22 @@ import {
 } from '../selectors/items';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getStoriesSelector, getStoryReplies } from '../selectors/stories';
+import {
+  getConversationStory,
+  getSelectedStoryData,
+  getStoryReplies,
+  getStoryView,
+} from '../selectors/stories';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { showToast } from '../../util/showToast';
+import { strictAssert } from '../../util/assert';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useStoriesActions } from '../ducks/stories';
 
-export type PropsType = {
-  conversationId: string;
-  onClose: () => unknown;
-  onNextUserStories?: () => unknown;
-  onPrevUserStories?: () => unknown;
-  storyToView?: StoryViewType;
-};
-
-export function SmartStoryViewer({
-  conversationId,
-  onClose,
-  onNextUserStories,
-  onPrevUserStories,
-  storyToView,
-}: PropsType): JSX.Element | null {
+export function SmartStoryViewer(): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { onSetSkinTone, toggleHasAllStoriesMuted } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
@@ -52,14 +46,25 @@ export function SmartStoryViewer({
     getPreferredReactionEmoji
   );
 
-  const getStoriesByConversationId = useSelector<
+  const selectedStoryData = useSelector<
     StateType,
-    GetStoriesByConversationIdType
-  >(getStoriesSelector);
+    SelectedStoryDataType | undefined
+  >(getSelectedStoryData);
 
-  const { group, stories } = storyToView
-    ? { group: undefined, stories: [storyToView] }
-    : getStoriesByConversationId(conversationId);
+  strictAssert(selectedStoryData, 'StoryViewer: !selectedStoryData');
+
+  const conversationSelector = useSelector<StateType, GetConversationByIdType>(
+    getConversationSelector
+  );
+
+  const storyView = getStoryView(conversationSelector, selectedStoryData.story);
+  const conversationStory = getConversationStory(
+    conversationSelector,
+    selectedStoryData.story
+  );
+  const storyViewMode = useSelector<StateType, StoryViewModeType | undefined>(
+    state => state.stories.storyViewMode
+  );
 
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
@@ -70,26 +75,24 @@ export function SmartStoryViewer({
 
   return (
     <StoryViewer
-      conversationId={conversationId}
+      currentIndex={selectedStoryData.currentIndex}
       getPreferredBadge={getPreferredBadge}
-      group={group}
+      group={conversationStory.group}
       hasAllStoriesMuted={hasAllStoriesMuted}
       i18n={i18n}
-      onClose={onClose}
+      numStories={selectedStoryData.numStories}
       onHideStory={toggleHideStories}
       onGoToConversation={senderId => {
         showConversation({ conversationId: senderId });
         storiesActions.toggleStoriesView();
       }}
-      onNextUserStories={onNextUserStories}
-      onPrevUserStories={onPrevUserStories}
       onReactToStory={async (emoji, story) => {
         const { messageId } = story;
         storiesActions.reactToStory(emoji, messageId);
       }}
       onReplyToStory={(message, mentions, timestamp, story) => {
         storiesActions.replyToStory(
-          conversationId,
+          conversationStory.conversationId,
           message,
           mentions,
           timestamp,
@@ -103,8 +106,9 @@ export function SmartStoryViewer({
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
-      stories={stories}
       skinTone={skinTone}
+      story={storyView}
+      storyViewMode={storyViewMode}
       toggleHasAllStoriesMuted={toggleHasAllStoriesMuted}
       {...storiesActions}
     />

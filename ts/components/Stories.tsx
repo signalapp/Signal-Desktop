@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import FocusTrap from 'focus-trap-react';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import type {
   ConversationType,
@@ -15,8 +15,7 @@ import type {
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PropsType as SmartStoryCreatorPropsType } from '../state/smart/StoryCreator';
-import type { PropsType as SmartStoryViewerPropsType } from '../state/smart/StoryViewer';
-import * as log from '../logging/log';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { MyStories } from './MyStories';
 import { StoriesPane } from './StoriesPane';
 import { Theme, themeClassName } from '../util/theme';
@@ -30,15 +29,15 @@ export type PropsType = {
   myStories: Array<MyStoryType>;
   onForwardStory: (storyId: string) => unknown;
   onSaveStory: (story: StoryViewType) => unknown;
-  ourConversationId: string;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: (props: SmartStoryCreatorPropsType) => JSX.Element;
-  renderStoryViewer: (props: SmartStoryViewerPropsType) => JSX.Element;
   showConversation: ShowConversationType;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
+  viewUserStories: (conversationId: string) => unknown;
+  viewStory: ViewStoryActionCreatorType;
 };
 
 export const Stories = ({
@@ -49,75 +48,19 @@ export const Stories = ({
   myStories,
   onForwardStory,
   onSaveStory,
-  ourConversationId,
   preferredWidthFromStorage,
   queueStoryDownload,
   renderStoryCreator,
-  renderStoryViewer,
   showConversation,
   stories,
   toggleHideStories,
   toggleStoriesView,
+  viewUserStories,
+  viewStory,
 }: PropsType): JSX.Element => {
-  const [conversationIdToView, setConversationIdToView] = useState<
-    undefined | string
-  >();
-
   const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
     requiresFullWidth: true,
   });
-
-  const onNextUserStories = useCallback(() => {
-    // First find the next unread story if there are any
-    const nextUnreadIndex = stories.findIndex(conversationStory =>
-      conversationStory.stories.some(story => story.isUnread)
-    );
-
-    log.info('stories.onNextUserStories', { nextUnreadIndex });
-
-    if (nextUnreadIndex >= 0) {
-      const nextStory = stories[nextUnreadIndex];
-      setConversationIdToView(nextStory.conversationId);
-      return;
-    }
-
-    // If not then play the next available story
-    const storyIndex = stories.findIndex(
-      x => x.conversationId === conversationIdToView
-    );
-
-    log.info('stories.onNextUserStories', {
-      storyIndex,
-      length: stories.length,
-    });
-
-    // If we've reached the end, close the viewer
-    if (storyIndex >= stories.length - 1 || storyIndex === -1) {
-      setConversationIdToView(undefined);
-      return;
-    }
-    const nextStory = stories[storyIndex + 1];
-    setConversationIdToView(nextStory.conversationId);
-  }, [conversationIdToView, stories]);
-
-  const onPrevUserStories = useCallback(() => {
-    const storyIndex = stories.findIndex(
-      x => x.conversationId === conversationIdToView
-    );
-
-    log.info('stories.onPrevUserStories', {
-      storyIndex,
-      length: stories.length,
-    });
-
-    if (storyIndex <= 0) {
-      // Restart playback on the story if it's the oldest
-      setConversationIdToView(conversationIdToView);
-      return;
-    }
-    const prevStory = stories[storyIndex - 1];
-    setConversationIdToView(prevStory.conversationId);
-  }, [conversationIdToView, stories]);
 
   const [isShowingStoryCreator, setIsShowingStoryCreator] = useState(false);
   const [isMyStories, setIsMyStories] = useState(false);
@@ -127,13 +70,6 @@ export const Stories = ({
       {isShowingStoryCreator &&
         renderStoryCreator({
           onClose: () => setIsShowingStoryCreator(false),
-        })}
-      {conversationIdToView &&
-        renderStoryViewer({
-          conversationId: conversationIdToView,
-          onClose: () => setConversationIdToView(undefined),
-          onNextUserStories,
-          onPrevUserStories,
         })}
       <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
         <div className="Stories__pane" style={{ width }}>
@@ -145,9 +81,8 @@ export const Stories = ({
               onDelete={deleteStoryForEveryone}
               onForward={onForwardStory}
               onSave={onSaveStory}
-              ourConversationId={ourConversationId}
               queueStoryDownload={queueStoryDownload}
-              renderStoryViewer={renderStoryViewer}
+              viewStory={viewStory}
             />
           ) : (
             <StoriesPane
@@ -163,16 +98,7 @@ export const Stories = ({
                   setIsShowingStoryCreator(true);
                 }
               }}
-              onStoryClicked={clickedIdToView => {
-                const storyIndex = stories.findIndex(
-                  x => x.conversationId === clickedIdToView
-                );
-                log.info('stories.onStoryClicked[StoriesPane]', {
-                  storyIndex,
-                  length: stories.length,
-                });
-                setConversationIdToView(clickedIdToView);
-              }}
+              onStoryClicked={viewUserStories}
               queueStoryDownload={queueStoryDownload}
               showConversation={showConversation}
               stories={stories}

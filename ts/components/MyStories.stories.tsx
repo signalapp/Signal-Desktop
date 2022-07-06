@@ -47,6 +47,7 @@ export default {
     renderStoryViewer: {
       action: true,
     },
+    viewStory: { action: true },
   },
 } as Meta;
 

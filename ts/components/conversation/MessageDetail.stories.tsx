@@ -103,6 +103,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showForwardMessageModal: action('showForwardMessageModal'),
   showVisualAttachment: action('showVisualAttachment'),
   startConversation: action('startConversation'),
+  viewStory: action('viewStory'),
 });
 
 export const DeliveredIncoming = (): JSX.Element => {
