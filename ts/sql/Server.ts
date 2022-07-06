@@ -33,7 +33,7 @@ import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
 import { UUID } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import type { StoredJob } from '../jobs/types';
-import { assert, assertSync } from '../util/assert';
+import { assert, assertSync, strictAssert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
 import { consoleLogger } from '../util/consoleLogger';
 import { dropNull } from '../util/dropNull';
@@ -1750,8 +1750,16 @@ function saveMessageSync(
     readStatus,
     expireTimer,
     expirationStartTimestamp,
+    attachments,
   } = data;
   let { seenStatus } = data;
+
+  if (attachments) {
+    strictAssert(
+      attachments.every(attachment => !attachment.data),
+      'Attempting to save a hydrated message'
+    );
+  }
 
   if (readStatus === ReadStatus.Unread && seenStatus !== SeenStatus.Unseen) {
     log.warn(
