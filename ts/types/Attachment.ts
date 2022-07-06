@@ -28,6 +28,7 @@ import { scaleImageToLevel } from '../util/scaleImageToLevel';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { getValue } from '../RemoteConfig';
+import { isRecord } from '../util/isRecord';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -251,7 +252,7 @@ export function isValid(
 // part of re-encoding the image:
 export async function autoOrientJPEG(
   attachment: AttachmentType,
-  _: unknown,
+  { logger }: { logger: LoggerType },
   {
     sendHQImages = false,
     isIncoming = false,
@@ -280,26 +281,37 @@ export async function autoOrientJPEG(
   const dataBlob = new Blob([attachment.data], {
     type: attachment.contentType,
   });
-  const { blob: xcodedDataBlob } = await scaleImageToLevel(
-    dataBlob,
-    attachment.contentType,
-    isIncoming
-  );
-  const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
+  try {
+    const { blob: xcodedDataBlob } = await scaleImageToLevel(
+      dataBlob,
+      attachment.contentType,
+      isIncoming
+    );
+    const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
-  // IMPORTANT: We overwrite the existing `data` `Uint8Array` losing the original
-  // image data. Ideally, we’d preserve the original image data for users who want to
-  // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
-  // by potentially doubling stored image data.
-  // See: https://github.com/signalapp/Signal-Desktop/issues/1589
-  const xcodedAttachment = {
-    // `digest` is no longer valid for auto-oriented image data, so we discard it:
-    ...omit(attachment, 'digest'),
-    data: new Uint8Array(xcodedDataArrayBuffer),
-    size: xcodedDataArrayBuffer.byteLength,
-  };
+    // IMPORTANT: We overwrite the existing `data` `Uint8Array` losing the original
+    // image data. Ideally, we’d preserve the original image data for users who want to
+    // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
+    // by potentially doubling stored image data.
+    // See: https://github.com/signalapp/Signal-Desktop/issues/1589
+    const xcodedAttachment = {
+      // `digest` is no longer valid for auto-oriented image data, so we discard it:
+      ...omit(attachment, 'digest'),
+      data: new Uint8Array(xcodedDataArrayBuffer),
+      size: xcodedDataArrayBuffer.byteLength,
+    };
 
-  return xcodedAttachment;
+    return xcodedAttachment;
+  } catch (error: unknown) {
+    const errorString =
+      isRecord(error) && 'stack' in error ? error.stack : error;
+    logger.error(
+      'autoOrientJPEG: Failed to rotate/scale attachment',
+      errorString
+    );
+
+    return attachment;
+  }
 }
 
 const UNICODE_LEFT_TO_RIGHT_OVERRIDE = '\u202D';
