@@ -8,6 +8,7 @@ import { IMAGE_JPEG } from '../types/MIME';
 import { canvasToBlob } from './canvasToBlob';
 import { getValue } from '../RemoteConfig';
 import { parseNumber } from './libphonenumberUtil';
+import { isRecord } from './isRecord';
 
 enum MediaQualityLevels {
   One = 1,
@@ -126,7 +127,11 @@ export async function scaleImageToLevel(
     }
     ({ image } = data);
   } catch (err) {
-    const error = new Error('scaleImageToLevel: Failed to process image');
+    const errorString = isRecord(err) && 'stack' in err ? err.stack : err;
+    const error = new Error(
+      'scaleImageToLevel: Failed to process image',
+      errorString
+    );
     error.originalError = err;
     throw error;
   }

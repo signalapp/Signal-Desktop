@@ -580,9 +580,13 @@ export const processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const rotatedAttachment = await autoOrientJPEG(attachment, undefined, {
-    isIncoming: true,
-  });
+  const rotatedAttachment = await autoOrientJPEG(
+    attachment,
+    { logger },
+    {
+      isIncoming: true,
+    }
+  );
   const onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
     writeNewAttachmentData,
   });
