@@ -8966,6 +8966,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.tsx",
+    "line": "  const emojiButtonRef = useRef<EmojiButtonAPI | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-07-07T20:51:44.602Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CompositionInput.tsx",
     "line": "  const callbacksRef = React.useRef(unstaleCallbacks);",
     "reasonCategory": "usageTrusted",

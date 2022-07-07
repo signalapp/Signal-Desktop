@@ -15,7 +15,10 @@ import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder'
 import { RecordingState } from '../state/ducks/audioRecorder';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import { Spinner } from './Spinner';
-import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
+import type {
+  Props as EmojiButtonProps,
+  EmojiButtonAPI,
+} from './emoji/EmojiButton';
 import { EmojiButton } from './emoji/EmojiButton';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import { StickerButton } from './stickers/StickerButton';
@@ -259,6 +262,7 @@ export const CompositionArea = ({
     AttachmentDraftType | undefined
   >();
   const inputApiRef = useRef<InputApi | undefined>();
+  const emojiButtonRef = useRef<EmojiButtonAPI | undefined>();
   const fileInputRef = useRef<null | HTMLInputElement>(null);
 
   const handleForceSend = useCallback(() => {
@@ -270,6 +274,7 @@ export const CompositionArea = ({
 
   const handleSubmit = useCallback(
     (message: string, mentions: Array<BodyRangeType>, timestamp: number) => {
+      emojiButtonRef.current?.close();
       onSendMessage({
         draftAttachments,
         mentions,
@@ -358,8 +363,8 @@ export const CompositionArea = ({
     <>
       <div className="CompositionArea__button-cell">
         <EmojiButton
+          emojiButtonApi={emojiButtonRef}
           i18n={i18n}
-          closeOnPick
           doSend={handleForceSend}
           onPickEmoji={insertEmoji}
           onClose={focusInput}
@@ -394,6 +399,7 @@ export const CompositionArea = ({
         onSendAudioRecording={(
           voiceNoteAttachment: InMemoryAttachmentDraftType
         ) => {
+          emojiButtonRef.current?.close();
           onSendMessage({ voiceNoteAttachment });
         }}
         startRecording={startRecording}

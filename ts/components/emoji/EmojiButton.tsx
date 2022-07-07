@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { MutableRefObject } from 'react';
 import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
@@ -13,13 +14,14 @@ import type { LocalizerType } from '../../types/Util';
 import { useRefMerger } from '../../hooks/useRefMerger';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 
-export type OwnProps = {
-  readonly className?: string;
-  readonly closeOnPick?: boolean;
-  readonly emoji?: string;
-  readonly i18n: LocalizerType;
-  readonly onClose?: () => unknown;
-};
+export type OwnProps = Readonly<{
+  className?: string;
+  closeOnPick?: boolean;
+  emoji?: string;
+  i18n: LocalizerType;
+  onClose?: () => unknown;
+  emojiButtonApi?: MutableRefObject<EmojiButtonAPI | undefined>;
+}>;
 
 export type Props = OwnProps &
   Pick<
@@ -27,11 +29,16 @@ export type Props = OwnProps &
     'doSend' | 'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
   >;
 
+export type EmojiButtonAPI = Readonly<{
+  close: () => void;
+}>;
+
 export const EmojiButton = React.memo(
   ({
     className,
     closeOnPick,
     emoji,
+    emojiButtonApi,
     i18n,
     doSend,
     onClose,
@@ -61,6 +68,19 @@ export const EmojiButton = React.memo(
         onClose();
       }
     }, [setOpen, onClose]);
+
+    const api = React.useMemo(
+      () => ({
+        close: () => setOpen(false),
+      }),
+      [setOpen]
+    );
+
+    if (emojiButtonApi) {
+      // Using a React.MutableRefObject, so we need to reassign this prop.
+      // eslint-disable-next-line no-param-reassign
+      emojiButtonApi.current = api;
+    }
 
     // Create popper root and handle outside clicks
     React.useEffect(() => {
