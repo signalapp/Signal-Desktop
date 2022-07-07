@@ -4,7 +4,11 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
-import { bytesToUuid, deriveMasterKeyFromGroupV1 } from '../Crypto';
+import {
+  uuidToBytes,
+  bytesToUuid,
+  deriveMasterKeyFromGroupV1,
+} from '../Crypto';
 import * as Bytes from '../Bytes';
 import {
   deriveGroupFields,
@@ -383,7 +387,7 @@ export function toStoryDistributionListRecord(
 ): Proto.StoryDistributionListRecord {
   const storyDistributionListRecord = new Proto.StoryDistributionListRecord();
 
-  storyDistributionListRecord.identifier = Bytes.fromBinary(
+  storyDistributionListRecord.identifier = uuidToBytes(
     storyDistributionList.id
   );
   storyDistributionListRecord.name = storyDistributionList.name;
