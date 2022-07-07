@@ -113,13 +113,51 @@ export function getStoryView(
 
   const { attachment, timestamp } = pick(story, ['attachment', 'timestamp']);
 
+  const { sendStateByConversationId } = story;
+  let sendState: Array<StorySendStateType> | undefined;
+  let views: number | undefined;
+
+  if (sendStateByConversationId) {
+    const innerSendState: Array<StorySendStateType> = [];
+    let innerViews = 0;
+
+    Object.keys(sendStateByConversationId).forEach(recipientId => {
+      const recipient = conversationSelector(recipientId);
+
+      const recipientSendState = sendStateByConversationId[recipient.id];
+      if (recipientSendState.status === SendStatus.Viewed) {
+        innerViews += 1;
+      }
+
+      innerSendState.push({
+        ...recipientSendState,
+        recipient: pick(recipient, [
+          'acceptedMessageRequest',
+          'avatarPath',
+          'color',
+          'id',
+          'isMe',
+          'name',
+          'profileName',
+          'sharedGroupNames',
+          'title',
+        ]),
+      });
+    });
+
+    sendState = innerSendState;
+    views = innerViews;
+  }
+
   return {
     attachment,
     canReply: canReply(story, undefined, conversationSelector),
     isUnread: story.readStatus === ReadStatus.Unread,
     messageId: story.messageId,
     sender,
+    sendState,
     timestamp,
+    views,
   };
 }
 
@@ -260,47 +298,12 @@ export const getStories = createSelector(
 
         const storyView = getStoryView(conversationSelector, story);
 
-        const sendState: Array<StorySendStateType> = [];
-        const { sendStateByConversationId } = story;
-
-        let views = 0;
-        Object.keys(story.sendStateByConversationId).forEach(recipientId => {
-          const recipient = conversationSelector(recipientId);
-
-          const recipientSendState = sendStateByConversationId[recipient.id];
-          if (recipientSendState.status === SendStatus.Viewed) {
-            views += 1;
-          }
-
-          sendState.push({
-            ...recipientSendState,
-            recipient: pick(recipient, [
-              'acceptedMessageRequest',
-              'avatarPath',
-              'color',
-              'id',
-              'isMe',
-              'name',
-              'profileName',
-              'sharedGroupNames',
-              'title',
-            ]),
-          });
-        });
-
         const existingMyStory = myStoriesById.get(list.id) || { stories: [] };
 
         myStoriesById.set(list.id, {
           distributionId: list.id,
           distributionName: list.name,
-          stories: [
-            ...existingMyStory.stories,
-            {
-              ...storyView,
-              sendState,
-              views,
-            },
-          ],
+          stories: [...existingMyStory.stories, storyView],
         });
 
         return;
