@@ -2832,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "Isteklo",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2840,7 +2840,7 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "Preuzeto",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {

@@ -2766,7 +2766,7 @@
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "선물",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
@@ -2778,11 +2778,11 @@
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "선물을 받았습니다.",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "선물 배지를 사용했습니다.",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2794,7 +2794,7 @@
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "선물",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
@@ -2832,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "만료됨",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2840,11 +2840,11 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "사용함",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
-        "message": "Thanks for your support!",
+        "message": "지원해 주셔서 감사합니다!",
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
@@ -7000,7 +7000,7 @@
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "끌기",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
@@ -7152,11 +7152,11 @@
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "스토리 추가",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "숨겨진 스토리",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
@@ -7206,15 +7206,15 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "No replies yet",
+        "message": "회신 없음",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "저회",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "회신",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -7222,7 +7222,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "스토리에 반응함",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7234,11 +7234,11 @@
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "스토리 숨기기",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "채팅으로 이동",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
@@ -7306,7 +7306,7 @@
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "Visit link",
+        "message": "방문 링크",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
@@ -7324,7 +7324,7 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "Reacted to your story",
+        "message": "내 스토리에 반응함",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
@@ -7332,7 +7332,7 @@
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "No longer available",
+        "message": "더는 사용할 수 없음",
         "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {

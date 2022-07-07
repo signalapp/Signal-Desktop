@@ -1272,7 +1272,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "Bidalketa arazoa",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1566,11 +1566,11 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "Telefonatu",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "Taldea handiegia da parte-hartzaileei deitzeko.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -2766,7 +2766,7 @@
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "Oparia",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
@@ -2778,11 +2778,11 @@
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "Opari bat jaso duzu",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "Opari berreizgarri bat kitatu duzu",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2794,7 +2794,7 @@
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "Oparia",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
@@ -3020,7 +3020,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "Irakurri gehiago",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -3296,7 +3296,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Decline call",
+        "message": "Utzi deia",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3862,7 +3862,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "No groups in common. Review requests carefully.",
+        "message": "Talde komunik ez. Errebisatu eskaerak arretaz.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "Ezin zara talde honetan sartu taldearen estekaren bidez, administratzaile batek kendu zaituelako.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -5430,7 +5430,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
-        "message": "You changed the group description.",
+        "message": "Taldearen deskribapena aldatu duzu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
@@ -5448,7 +5448,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "Taldearen ezarpenak aldatu dituzu administratazileek soilik mezuak bidali ahal izateko.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
@@ -5466,7 +5466,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "Taldearen ezarpenak aldatu dituzu kide guztiek mezuak bidali ahal izateko.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -6362,15 +6362,15 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verify to continue messaging",
+        "message": "Egiaztatu mezuak bidaltzen jarraitzeko.",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "Signal-en spam-a ekiditeko, mesedez egiaztapena bete.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "Egiaztatu ondoren, mzuak bidaltzen jarrai dezakezu. Etendako mezuak automatikoki bidaliko dira.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -6566,7 +6566,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "message": "Talde deskribapenak talde honetako kide eta gonbidatuentzat egongo dira ikusgai.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -6618,7 +6618,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "Nork ikusia:",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -7072,7 +7072,7 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Flip",
+        "message": "Biratu",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7332,7 +7332,7 @@
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "No longer available",
+        "message": "Ez dago erabilgarri",
         "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {

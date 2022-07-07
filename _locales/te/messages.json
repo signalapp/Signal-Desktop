@@ -222,7 +222,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
-        "message": "No archived conversations.",
+        "message": "ఆర్కైవ్ చేసిన సంభాషణలు ఏవీ లేవు.",
         "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
     },
     "archiveConversation": {
@@ -420,7 +420,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
-        "message": "Send pending messages",
+        "message": "పెండింగ్ సందేశాలను పంపండి",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -464,15 +464,15 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "మీరు సబ్మిట్ మీద క్లిక్ చేసినప్పుడు, మీ లాగ్ ప్రత్యేకమైన, పబ్లిష్ చేయని  URL వద్ద 30 రోజులపాటు ఆన్‌లైన్‌లో పోస్ట్ చేయబడుతుంది. మీరు ముందుగా దానిని స్థానికంగా సేవ్ చేయవచ్చు.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "అప్‌లోడ్‌తో ఏదో తప్పు జరిగింది! దయచేసి support@signal.org కు ఇమెయిల్ చేసి, టెక్ట్స్ ఫైల్ వలే మీ లాగ్‌ని జతచేయండి.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "డీబగ్ లాగ్ సబ్మిట్ చేయబడింది",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {

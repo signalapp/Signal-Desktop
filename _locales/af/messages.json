@@ -230,7 +230,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Mark as unread",
+        "message": "Merk as ongelees",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -1154,7 +1154,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Hierdie boodskap sal vir almal in die gesprek geskrap word indien hulle ’n onlangse weergawe van Signal het. Hulle sal kan sien dat jy ’n boodskap geskrap het.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1272,7 +1272,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "Afleweringsprobleem",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1426,7 +1426,7 @@
         "description": "Shown on the install screen if the QR code fails to load"
     },
     "Install__support-link": {
-        "message": "Need help?",
+        "message": "Hulp nodig?",
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
@@ -1514,7 +1514,7 @@
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "Oproep is vol",
         "description": "Text in the call lobby when you can't join because the call is full"
     },
     "calling__button--video__label": {
@@ -1566,11 +1566,11 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "Skakel",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "Groep is te groot om deelnemers te bel.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -1802,7 +1802,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "Julle sal nie mekaar se oudio of video ontvang nie.",
         "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
@@ -1888,11 +1888,11 @@
         "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
-        "message": "Always relay calls",
+        "message": "Herlei altyd oproepe",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Relay all calls through the Signal server to avoid revealing your IP address to your contact. Enabling will reduce call quality.",
+        "message": "Herlei alle oproepe deur die Signal-bediener om te verhoed dat jou IP-adres aan jou kontak bekend gemaak word. Aktivering sal oproepgehalte verlaag.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -2456,7 +2456,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Maximum group size reached",
+        "message": "Maksimum groepgrootte bereik.",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2766,7 +2766,7 @@
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "Geskenk",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
@@ -2778,11 +2778,11 @@
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "Jy het ’n geskenk ontvang",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "Jy het 'n geskenkwapen afgelos",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2794,7 +2794,7 @@
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "Geskenk",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
@@ -3020,7 +3020,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "Lees meer",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -3296,7 +3296,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Decline call",
+        "message": "Aanvaar nie oproep nie",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3894,11 +3894,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "Gemiste oudio-oproep",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "Gemiste video-oproep",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -4114,7 +4114,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "Verlaat oproep",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "Jy kan nie d.m.v. die groepskakel by hierdie groep aansluit nie, want 'n admin het jou verwyder.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -4734,7 +4734,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Your request to join the group has been approved.",
+        "message": "Jou versoek om by die groep aan te sluit is goedgekeur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -6038,11 +6038,11 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Block request",
+        "message": "Versper versoek",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "Versper versoek?",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
@@ -7072,7 +7072,7 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Flip",
+        "message": "Roteer",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7332,7 +7332,7 @@
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "No longer available",
+        "message": "Nie meer beskikbaar nie",
         "description": "Label for when a story is not found"
     },
     "WhatsNew__modal-title": {

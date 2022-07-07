@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
+        "message": "$name$ je od vas dobio/la značku. Kada prihvati značku, moći će da bira da li želi da je prikaže ili sakrije.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {

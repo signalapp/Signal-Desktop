@@ -2762,7 +2762,7 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
-        "message": "Tap this message on mobile to view your gift",
+        "message": "Toca nesta mensagem no telemóvel para veres o teu presente",
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Donate to Signal\" and subscribe",
+        "message": "Toca em \"Doar para o Signal\" e subscreve",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Unblock the \"$groupName$\" Group?",
+        "message": "Queres desbloquear o grupo \"$groupName$\"?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5814,7 +5814,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Your contacts will be able add you to this group.",
+        "message": "Os teus contactos poderão adicionar-te a este grupo.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -7254,11 +7254,11 @@
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
-        "message": "Toggle text background color",
+        "message": "Trocar cor de fundo do texto",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
-        "message": "Change story background color",
+        "message": "Mudar cor de fundo da história",
         "description": "Button label"
     },
     "StoryCreator__next": {
@@ -7266,7 +7266,7 @@
         "description": "Button label text to advance to next step of story creation"
     },
     "StoryCreator__add-link": {
-        "message": "Add link",
+        "message": "Adicionar link",
         "description": "Button label to apply the link preview to story"
     },
     "StoryCreator__input-placeholder": {
@@ -7278,19 +7278,19 @@
         "description": "Label for font"
     },
     "StoryCreator__text--bold": {
-        "message": "Bold",
+        "message": "Negrito",
         "description": "Label for font"
     },
     "StoryCreator__text--serif": {
-        "message": "Serif",
+        "message": "Serifa",
         "description": "Label for font"
     },
     "StoryCreator__text--script": {
-        "message": "Script",
+        "message": "Manuscrita",
         "description": "Label for font"
     },
     "StoryCreator__text--condensed": {
-        "message": "Condensed",
+        "message": "Condensada",
         "description": "Label for font"
     },
     "StoryCreator__link-preview-placeholder": {
@@ -7298,7 +7298,7 @@
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
-        "message": "Add a link for viewers of your story",
+        "message": "Adiciona um link para os visualizadores da tua story",
         "description": "Empty state for the link preview"
     },
     "TextAttachment__placeholder": {
@@ -7344,7 +7344,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.47--1": {
-        "message": "For all the dark mode folks on Windows, we've got a new titlebar to match your style.",
+        "message": "Temos uma nova barra de ferramentas perfeita para quem curte o modo escuro do Windows.",
         "description": "Release notes for v5.47"
     }
 }
