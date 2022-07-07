@@ -1323,7 +1323,7 @@ export class Message extends React.PureComponent<Props, State> {
                 'module-message__text',
                 `module-message__text--${direction}`
               )}
-              dir={isRTL ? 'rtl' : undefined}
+              dir="auto"
             >
               {description}
               {this.getMetadataPlacement() ===
