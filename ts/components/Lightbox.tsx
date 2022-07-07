@@ -471,7 +471,7 @@ export function Lightbox({
 
       content = (
         <video
-          className="Lightbox__object"
+          className="Lightbox__object Lightbox__object--video"
           controls={!shouldLoop}
           key={objectURL}
           loop={shouldLoop}
