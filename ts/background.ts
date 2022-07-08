@@ -850,35 +850,55 @@ export async function startApp(): Promise<void> {
     setAppLoadingScreenMessage(window.i18n('loading'), window.i18n);
 
     let isMigrationWithIndexComplete = false;
+    let isIdleTaskProcessing = false;
     log.info(
       `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
-      const NUM_MESSAGES_PER_BATCH = 100;
-      const BATCH_DELAY = 5 * durations.SECOND;
+      const NUM_MESSAGES_PER_BATCH = 25;
+      const BATCH_DELAY = 10 * durations.SECOND;
 
-      if (!isMigrationWithIndexComplete) {
-        const batchWithIndex = await migrateMessageData({
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-          getMessagesNeedingUpgrade:
-            window.Signal.Data.getMessagesNeedingUpgrade,
-          saveMessages: window.Signal.Data.saveMessages,
-        });
-        log.info('Upgrade message schema (with index):', batchWithIndex);
-        isMigrationWithIndexComplete = batchWithIndex.done;
+      if (isIdleTaskProcessing) {
+        log.warn(
+          'idleDetector/idle: previous batch incomplete, not starting another'
+        );
+        return;
       }
+      try {
+        isIdleTaskProcessing = true;
 
-      idleDetector.stop();
+        if (!isMigrationWithIndexComplete) {
+          log.warn(
+            `idleDetector/idle: fetching at most ${NUM_MESSAGES_PER_BATCH} for migration`
+          );
+          const batchWithIndex = await migrateMessageData({
+            numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+            upgradeMessageSchema,
+            getMessagesNeedingUpgrade:
+              window.Signal.Data.getMessagesNeedingUpgrade,
+            saveMessages: window.Signal.Data.saveMessages,
+          });
+          log.info('idleDetector/idle: Upgraded messages:', batchWithIndex);
+          isMigrationWithIndexComplete = batchWithIndex.done;
+        }
+      } finally {
+        idleDetector.stop();
 
-      if (isMigrationWithIndexComplete) {
-        log.info('Background migration complete. Stopping idle detector.');
-      } else {
-        log.info('Background migration not complete. Pausing idle detector.');
+        if (isMigrationWithIndexComplete) {
+          log.info(
+            'idleDetector/idle: Background migration complete. Stopping.'
+          );
+        } else {
+          log.info(
+            `idleDetector/idle: Background migration not complete. Pausing for ${BATCH_DELAY}ms.`
+          );
 
-        setTimeout(() => {
-          idleDetector.start();
-        }, BATCH_DELAY);
+          setTimeout(() => {
+            idleDetector.start();
+          }, BATCH_DELAY);
+        }
+
+        isIdleTaskProcessing = false;
       }
     });
 
