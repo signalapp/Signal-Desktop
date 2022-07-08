@@ -24,10 +24,18 @@ export async function findStoryMessage(
   }
 
   const sentAt = getTimestampFromLong(sentTimestamp);
+  const ourConversationId =
+    window.ConversationController.getOurConversationIdOrThrow();
 
   const inMemoryMessages = window.MessageController.filterBySentAt(sentAt);
   const matchingMessage = find(inMemoryMessages, item =>
-    isStoryAMatch(item.attributes, conversationId, authorUuid, sentAt)
+    isStoryAMatch(
+      item.attributes,
+      conversationId,
+      ourConversationId,
+      authorUuid,
+      sentAt
+    )
   );
 
   if (matchingMessage) {
@@ -37,7 +45,7 @@ export async function findStoryMessage(
   log.info('findStoryMessage: db lookup needed', sentAt);
   const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
   const found = messages.find(item =>
-    isStoryAMatch(item, conversationId, authorUuid, sentAt)
+    isStoryAMatch(item, conversationId, ourConversationId, authorUuid, sentAt)
   );
 
   if (!found) {
@@ -49,9 +57,10 @@ export async function findStoryMessage(
   return message;
 }
 
-export function isStoryAMatch(
+function isStoryAMatch(
   message: MessageAttributesType | null | undefined,
   conversationId: string,
+  ourConversationId: string,
   authorUuid: string,
   sentTimestamp: number
 ): message is MessageAttributesType {
@@ -66,7 +75,8 @@ export function isStoryAMatch(
 
   return (
     message.sent_at === sentTimestamp &&
-    message.conversationId === conversationId &&
-    getContactId(message) === authorConversationId
+    getContactId(message) === authorConversationId &&
+    (message.conversationId === conversationId ||
+      message.conversationId === ourConversationId)
   );
 }
