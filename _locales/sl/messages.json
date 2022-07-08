@@ -476,7 +476,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Sistemska zabeležba je bila prenešena. Ko boste stopili v stik s podporno službo, prekopirajte spodnji URL naslov in ga pripnite skupaj z opisom problema ter koraki za njegovo ponovitev.",
+        "message": "Sistemska zabeležba je bila prenesena. Ko boste stopili v stik s podporno službo, prekopirajte spodnji URL naslov in ga pripnite skupaj z opisom problema ter koraki za njegovo ponovitev.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -1260,7 +1260,7 @@
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
-        "message": "Več o tem...",
+        "message": "Več o tem",
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
@@ -1286,7 +1286,7 @@
         }
     },
     "DeliveryIssue--learnMore": {
-        "message": "Več o tem...",
+        "message": "Več o tem",
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
@@ -1294,7 +1294,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika_ce $sender$ vam ne morejo biti dostavljeni. Lahko so bili poslani osebno ali prek skupine.",
+        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika_ce $sender$ ne morejo biti dostavljeni. Lahko so bili poslani osebno ali prek skupine.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1422,7 +1422,7 @@
         }
     },
     "Install__qr-failed__learn-more": {
-        "message": "Izvedite več",
+        "message": "Preberite več",
         "description": "Shown on the install screen if the QR code fails to load"
     },
     "Install__support-link": {
@@ -1636,7 +1636,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$, in še $others$ drugih so v tem klicu",
+        "message": "$first$, $second$, in še $others$ drugih je v tem klicu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal bo pozvonil uporabniku_ci $person$",
+        "message": "Signal bo poklical uporabnika_co $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal bo zvonil uporabnikoma_cama $first$ in $second$",
+        "message": "Signal bo poklical uporabnika_ci $first$ in $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal bo zvonil uporabnikom_cam $first$, $second$ in $third$",
+        "message": "Signal bo poklical uporabnike_ce $first$, $second$ in $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal bo zvonil uporabnikoma_cama $first$, $second$ in še $others$ ",
+        "message": "Signal bo poklical uporabnika_co $first$, $second$ in še $others$ ",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1778,7 +1778,7 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "Udeleženci klica - 1 uporabnikov",
+        "message": "Udeleženci klica - 1 uporabnik_ca",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
@@ -1988,11 +1988,11 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ne pošiljatelj, ne sporočilo",
+        "message": "Ne ime ne vsebina",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Samo pošiljatelja",
+        "message": "Samo ime",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
@@ -2062,7 +2062,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Delno izbrisano, klikni za nov poskus",
+        "message": "Delno izbrisano, kliknite za nov poskus",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2140,7 +2140,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$min",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -2584,7 +2584,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "Uporabnik $name$ je zapustil skupino.",
+        "message": "Uporabnik_ca $name$ je zapustil_a skupino.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -2594,7 +2594,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "Uporabnik $name$ je zapustil skupino.",
+        "message": "Uporabnik_ca $name$ je zapustil_a skupino.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -2604,7 +2604,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Uporabnik $name$ je posodobil skupino.",
+        "message": "Uporabnik_ca $name$ je posodobil_a skupino.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -2636,7 +2636,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "Uporabnik $name$ se je pridružil skupini.",
+        "message": "Uporabnik_ca $name$ se je pridružil_a skupini.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2782,15 +2782,15 @@
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "Vnovčili ste darilni bedž",
+        "message": "Vnovčili ste darilno značko",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "Poslali ste darilni bedž",
+        "message": "Poslali ste darilno značko",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Darilni bedž",
+        "message": "Darilna značka",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "Podarili ste bedž uporabniku_ci $name$. Ko potrdi prejem, bo lahko bedž prikazoval_a ali skril_a.",
+        "message": "Podarili ste značko uporabniku_ci $name$. Ko potrdi prejem, bo lahko značko prikazal_a ali skril_a.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -7088,7 +7088,7 @@
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Tvoja zgodba",
+        "message": "Vaša zgodba",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {

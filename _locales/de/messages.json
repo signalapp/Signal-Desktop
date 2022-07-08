@@ -1542,7 +1542,7 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mikrofon ausschalten",
+        "message": "Mikrofon stummschalten",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
@@ -2758,7 +2758,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "Schau dir diese Nachricht auf deinem Mobilgerät an, um sie zu öffnen",
+        "message": "Diese Nachricht auf dem Mobilgerät anzeigen, um sie zu öffnen",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {

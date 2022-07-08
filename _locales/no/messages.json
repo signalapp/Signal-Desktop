@@ -3866,7 +3866,7 @@
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
-        "message": "Answer",
+        "message": "Svar",
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
