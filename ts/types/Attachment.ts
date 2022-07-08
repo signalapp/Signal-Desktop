@@ -996,8 +996,9 @@ export const getSuggestedFilename = ({
   timestamp?: number | Date;
   index?: number;
 }): string => {
-  if (!isNumber(index) && attachment.fileName) {
-    return attachment.fileName;
+  const { fileName } = attachment;
+  if (fileName) {
+    return fileName;
   }
 
   const prefix = 'signal';
@@ -1006,7 +1007,10 @@ export const getSuggestedFilename = ({
     : '';
   const fileType = getFileExtension(attachment);
   const extension = fileType ? `.${fileType}` : '';
-  const indexSuffix = index ? `_${padStart(index.toString(), 3, '0')}` : '';
+  const indexSuffix =
+    isNumber(index) && index > 1
+      ? `_${padStart(index.toString(), 3, '0')}`
+      : '';
 
   return `${prefix}${suffix}${indexSuffix}${extension}`;
 };
