@@ -4,7 +4,8 @@
 
 import { StorageState } from '@signalapp/mock-server';
 
-import { Bootstrap, saveLogs } from './fixtures';
+import type { App } from './fixtures';
+import { Bootstrap } from './fixtures';
 
 const CONTACT_COUNT = 1000;
 
@@ -43,8 +44,9 @@ const CONTACT_COUNT = 1000;
   await phone.setStorageState(state);
 
   const start = Date.now();
-  const app = await bootstrap.link();
+  let app: App | undefined;
   try {
+    app = await bootstrap.link();
     const window = await app.getWindow();
 
     const leftPane = window.locator('.left-pane-wrapper');
@@ -58,10 +60,10 @@ const CONTACT_COUNT = 1000;
     const duration = Date.now() - start;
     console.log(`Took: ${(duration / 1000).toFixed(2)} seconds`);
   } catch (error) {
-    await saveLogs(bootstrap);
+    await bootstrap.saveLogs();
     throw error;
   } finally {
-    await app.close();
+    await app?.close();
     await bootstrap.teardown();
   }
 })();

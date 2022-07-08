@@ -23,6 +23,7 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
 import { getValue, isEnabled } from '../RemoteConfig';
+import type { UUIDStringType } from '../types/UUID';
 import { isRecord } from './isRecord';
 
 import { isOlderThan } from './timestamp';
@@ -80,7 +81,7 @@ const ZERO_ACCESS_KEY = Bytes.toBase64(new Uint8Array(ACCESS_KEY_LENGTH));
 export type SenderKeyTargetType = {
   getGroupId: () => string | undefined;
   getMembers: () => Array<ConversationModel>;
-  hasMember: (id: string) => boolean;
+  hasMember: (uuid: UUIDStringType) => boolean;
   idForLogging: () => string;
   isGroupV2: () => boolean;
   isValid: () => boolean;
@@ -1145,10 +1146,12 @@ function partialDeviceComparator(
   );
 }
 
-function getUuidsFromDevices(devices: Array<DeviceType>): Array<string> {
-  const uuids = new Set<string>();
+function getUuidsFromDevices(
+  devices: Array<DeviceType>
+): Array<UUIDStringType> {
+  const uuids = new Set<UUIDStringType>();
   devices.forEach(device => {
-    uuids.add(device.identifier);
+    uuids.add(UUID.checkedLookup(device.identifier).toString());
   });
 
   return Array.from(uuids);
@@ -1160,9 +1163,9 @@ export function _analyzeSenderKeyDevices(
   isPartialSend?: boolean
 ): {
   newToMemberDevices: Array<DeviceType>;
-  newToMemberUuids: Array<string>;
+  newToMemberUuids: Array<UUIDStringType>;
   removedFromMemberDevices: Array<DeviceType>;
-  removedFromMemberUuids: Array<string>;
+  removedFromMemberUuids: Array<UUIDStringType>;
 } {
   const newToMemberDevices = differenceWith<DeviceType, DeviceType>(
     devicesForSend,

@@ -39,63 +39,68 @@ export async function initStorage(
 
   await bootstrap.init();
 
-  // Populate storage service
-  const { contacts, phone } = bootstrap;
+  try {
+    // Populate storage service
+    const { contacts, phone } = bootstrap;
 
-  const [firstContact] = contacts;
+    const [firstContact] = contacts;
 
-  const members = [...contacts].slice(0, GROUP_SIZE);
+    const members = [...contacts].slice(0, GROUP_SIZE);
 
-  const group = await phone.createGroup({
-    title: 'Mock Group',
-    members: [phone, ...members],
-  });
-
-  let state = StorageState.getEmpty();
-
-  state = state.updateAccount({
-    profileKey: phone.profileKey.serialize(),
-    e164: phone.device.number,
-  });
-
-  state = state
-    .addGroup(group, {
-      whitelisted: true,
-    })
-    .pinGroup(group);
-
-  for (const contact of contacts) {
-    state = state.addContact(contact, {
-      identityState: Proto.ContactRecord.IdentityState.VERIFIED,
-      whitelisted: true,
-
-      identityKey: contact.publicKey.serialize(),
-      profileKey: contact.profileKey.serialize(),
+    const group = await phone.createGroup({
+      title: 'Mock Group',
+      members: [phone, ...members],
     });
+
+    let state = StorageState.getEmpty();
+
+    state = state.updateAccount({
+      profileKey: phone.profileKey.serialize(),
+      e164: phone.device.number,
+    });
+
+    state = state
+      .addGroup(group, {
+        whitelisted: true,
+      })
+      .pinGroup(group);
+
+    for (const contact of contacts) {
+      state = state.addContact(contact, {
+        identityState: Proto.ContactRecord.IdentityState.VERIFIED,
+        whitelisted: true,
+
+        identityKey: contact.publicKey.serialize(),
+        profileKey: contact.profileKey.serialize(),
+      });
+    }
+
+    state = state.pin(firstContact);
+
+    await phone.setStorageState(state);
+
+    // Link new device
+    const app = await bootstrap.link();
+
+    const { desktop } = bootstrap;
+
+    // Send a message to the group and the first contact
+    const contactSend = contacts[0].sendText(desktop, 'hello from contact', {
+      timestamp: bootstrap.getTimestamp(),
+      sealed: true,
+    });
+
+    const groupSend = members[0].sendText(desktop, 'hello in group', {
+      timestamp: bootstrap.getTimestamp(),
+      sealed: true,
+      group,
+    });
+
+    await Promise.all([contactSend, groupSend]);
+
+    return { bootstrap, app, group, members };
+  } catch (error) {
+    await bootstrap.saveLogs();
+    throw error;
   }
-
-  state = state.pin(firstContact);
-
-  await phone.setStorageState(state);
-
-  // Link new device
-  const app = await bootstrap.link();
-
-  const { desktop } = bootstrap;
-
-  // Send a message to the group and the first contact
-  const contactSend = contacts[0].sendText(desktop, 'hello from contact', {
-    timestamp: bootstrap.getTimestamp(),
-    sealed: true,
-  });
-
-  const groupSend = members[0].sendText(desktop, 'hello in group', {
-    timestamp: bootstrap.getTimestamp(),
-    sealed: true,
-    group,
-  });
-
-  await Promise.all([contactSend, groupSend]);
-
-  return { bootstrap, app, group, members };
 }

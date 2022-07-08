@@ -20,7 +20,8 @@ export type StringRendererType<T> = (
 export type RenderOptionsType<T> = {
   from?: UUIDStringType;
   i18n: LocalizerType;
-  ourUuid?: UUIDStringType;
+  ourACI?: UUIDStringType;
+  ourPNI?: UUIDStringType;
   renderContact: SmartContactRendererType<T>;
   renderString: StringRendererType<T>;
 };
@@ -66,8 +67,15 @@ export function renderChangeDetail<T>(
   detail: GroupV2ChangeDetailType,
   options: RenderOptionsType<T>
 ): T | string | ReadonlyArray<T | string> {
-  const { from, i18n, ourUuid, renderContact, renderString } = options;
-  const fromYou = Boolean(from && ourUuid && from === ourUuid);
+  const { from, i18n, ourACI, ourPNI, renderContact, renderString } = options;
+
+  const isOurUuid = (uuid?: UUIDStringType): boolean => {
+    if (!uuid) {
+      return false;
+    }
+    return Boolean((ourACI && uuid === ourACI) || (ourPNI && uuid === ourPNI));
+  };
+  const fromYou = isOurUuid(from);
 
   if (detail.type === 'create') {
     if (fromYou) {
@@ -229,7 +237,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'member-add') {
     const { uuid } = detail;
-    const weAreJoiner = Boolean(ourUuid && uuid === ourUuid);
+    const weAreJoiner = isOurUuid(uuid);
 
     if (weAreJoiner) {
       if (fromYou) {
@@ -259,10 +267,11 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'member-add-from-invite') {
     const { uuid, inviter } = detail;
-    const weAreJoiner = Boolean(ourUuid && uuid === ourUuid);
-    const weAreInviter = Boolean(inviter && ourUuid && inviter === ourUuid);
+    const weAreJoiner = isOurUuid(uuid);
+    const weAreInviter = isOurUuid(inviter);
+    const pniPromotedToACI = weAreJoiner && from === ourPNI;
 
-    if (!from || from !== uuid) {
+    if (!from || (from !== uuid && !pniPromotedToACI)) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
@@ -322,7 +331,7 @@ export function renderChangeDetail<T>(
   if (detail.type === 'member-add-from-link') {
     const { uuid } = detail;
 
-    if (fromYou && ourUuid && uuid === ourUuid) {
+    if (fromYou && isOurUuid(uuid)) {
       return renderString('GroupV2--member-add-from-link--you--you', i18n);
     }
     if (from && uuid === from) {
@@ -340,7 +349,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'member-add-from-admin-approval') {
     const { uuid } = detail;
-    const weAreJoiner = Boolean(ourUuid && uuid === ourUuid);
+    const weAreJoiner = isOurUuid(uuid);
 
     if (weAreJoiner) {
       if (from) {
@@ -391,7 +400,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'member-remove') {
     const { uuid } = detail;
-    const weAreLeaver = Boolean(ourUuid && uuid === ourUuid);
+    const weAreLeaver = isOurUuid(uuid);
 
     if (weAreLeaver) {
       if (fromYou) {
@@ -427,7 +436,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'member-privilege') {
     const { uuid, newPrivilege } = detail;
-    const weAreMember = Boolean(ourUuid && uuid === ourUuid);
+    const weAreMember = isOurUuid(uuid);
 
     if (newPrivilege === RoleEnum.ADMINISTRATOR) {
       if (weAreMember) {
@@ -513,7 +522,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'pending-add-one') {
     const { uuid } = detail;
-    const weAreInvited = Boolean(ourUuid && uuid === ourUuid);
+    const weAreInvited = isOurUuid(uuid);
     if (weAreInvited) {
       if (from) {
         return renderString('GroupV2--pending-add--one--you--other', i18n, [
@@ -554,8 +563,8 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'pending-remove-one') {
     const { inviter, uuid } = detail;
-    const weAreInviter = Boolean(inviter && ourUuid && inviter === ourUuid);
-    const weAreInvited = Boolean(ourUuid && uuid === ourUuid);
+    const weAreInviter = isOurUuid(inviter);
+    const weAreInvited = isOurUuid(uuid);
     const sentByInvited = Boolean(from && from === uuid);
     const sentByInviter = Boolean(from && inviter && from === inviter);
 
@@ -649,7 +658,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'pending-remove-many') {
     const { count, inviter } = detail;
-    const weAreInviter = Boolean(inviter && ourUuid && inviter === ourUuid);
+    const weAreInviter = isOurUuid(inviter);
 
     if (weAreInviter) {
       if (fromYou) {
@@ -729,7 +738,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'admin-approval-add-one') {
     const { uuid } = detail;
-    const weAreJoiner = Boolean(ourUuid && uuid === ourUuid);
+    const weAreJoiner = isOurUuid(uuid);
 
     if (weAreJoiner) {
       return renderString('GroupV2--admin-approval-add-one--you', i18n);
@@ -740,7 +749,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'admin-approval-remove-one') {
     const { uuid } = detail;
-    const weAreJoiner = Boolean(ourUuid && uuid === ourUuid);
+    const weAreJoiner = isOurUuid(uuid);
 
     if (weAreJoiner) {
       if (fromYou) {

@@ -12,7 +12,7 @@ import type {
   GroupCallStateType,
 } from '../ducks/calling';
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/calling';
-import { getUserUuid } from './user';
+import { getUserACI } from './user';
 import { getOwn } from '../../util/getOwn';
 import { CallViewMode } from '../../types/Calling';
 import type { UUIDStringType } from '../../types/UUID';
@@ -61,7 +61,7 @@ export const isInCall = createSelector(
 
 export const getIncomingCall = createSelector(
   getCallsByConversation,
-  getUserUuid,
+  getUserACI,
   (
     callsByConversation: CallsByConversationType,
     ourUuid: UUIDStringType | undefined

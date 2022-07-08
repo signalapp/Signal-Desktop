@@ -157,7 +157,7 @@ describe('calling duck', () => {
     },
   };
 
-  const ourUuid = UUID.generate().toString();
+  const ourACI = UUID.generate().toString();
 
   const getEmptyRootState = () => {
     const rootState = rootReducer(undefined, noopAction());
@@ -165,7 +165,7 @@ describe('calling duck', () => {
       ...rootState,
       user: {
         ...rootState.user,
-        ourUuid,
+        ourACI,
       },
     };
   };

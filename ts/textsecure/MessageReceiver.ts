@@ -759,7 +759,9 @@ export default class MessageReceiver
         // Proto.Envelope fields
         type: decoded.type,
         source: decoded.source || item.source,
-        sourceUuid: decoded.sourceUuid || item.sourceUuid,
+        sourceUuid: decoded.sourceUuid
+          ? UUID.cast(decoded.sourceUuid)
+          : item.sourceUuid,
         sourceDevice: decoded.sourceDevice || item.sourceDevice,
         destinationUuid: new UUID(
           decoded.destinationUuid || item.destinationUuid || ourUuid.toString()

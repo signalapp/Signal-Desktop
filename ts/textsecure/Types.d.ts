@@ -3,7 +3,7 @@
 
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
-import type { UUID } from '../types/UUID';
+import type { UUID, UUIDStringType } from '../types/UUID';
 import type { TextAttachmentType } from '../types/Attachment';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { MIMEType } from '../types/MIME';
@@ -84,7 +84,7 @@ export type ProcessedEnvelope = Readonly<{
   // Mostly from Proto.Envelope except for null/undefined
   type: Proto.Envelope.Type;
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   sourceDevice?: number;
   destinationUuid: UUID;
   timestamp: number;

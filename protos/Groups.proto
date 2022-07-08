@@ -101,6 +101,8 @@ message GroupChange {
 
     message ModifyMemberProfileKeyAction {
       bytes presentation = 1;
+      bytes user_id = 2;
+      bytes profile_key = 3;
     }
 
     message AddMemberPendingProfileKeyAction {
@@ -113,6 +115,15 @@ message GroupChange {
 
     message PromoteMemberPendingProfileKeyAction {
       bytes presentation = 1;
+      bytes user_id = 2;
+      bytes profile_key = 3;
+    }
+
+    message PromoteMemberPendingPniAciProfileKeyAction {
+      bytes presentation = 1;
+      bytes user_id = 2;
+      bytes pni = 3;
+      bytes profile_key = 4;
     }
 
     message AddMemberPendingAdminApprovalAction {
@@ -200,7 +211,8 @@ message GroupChange {
              ModifyAnnouncementsOnlyAction              modifyAnnouncementsOnly            = 21; // change epoch = 3
     repeated AddMemberBannedAction                      addMembersBanned                   = 22; // change epoch = 4
     repeated DeleteMemberBannedAction                   deleteMembersBanned                = 23; // change epoch = 4
-    // next: 24
+    repeated PromoteMemberPendingPniAciProfileKeyAction promoteMembersPendingPniAciProfileKey = 24;  // change epoch = 5
+    // next: 25
   }
 
   bytes  actions         = 1; // The serialized actions

@@ -490,7 +490,7 @@ const URL_CALLS = {
   directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
-  getGroupCredentials: 'v1/certificate/group',
+  getGroupCredentials: 'v1/certificate/auth/group',
   getIceServers: 'v1/accounts/turn',
   getStickerPackUpload: 'v1/sticker/pack/form',
   groupLog: 'v1/groups/logs',
@@ -718,6 +718,9 @@ export type ProfileType = Readonly<{
   unrestrictedUnidentifiedAccess?: string;
   uuid?: string;
   credential?: string;
+
+  // Only present when `credentialType` is `pni`
+  pniCredential?: string;
   capabilities?: CapabilitiesType;
   paymentAddress?: string;
   badges?: unknown;
@@ -769,7 +772,7 @@ export type GetUuidsForE164sV2OptionsType = Readonly<{
 type GetProfileCommonOptionsType = Readonly<
   {
     userLanguages: ReadonlyArray<string>;
-    credentialType?: 'pni' | 'profileKey';
+    credentialType?: 'pni' | 'expiringProfileKey';
   } & (
     | {
         profileKeyVersion?: undefined;
@@ -791,6 +794,11 @@ export type GetProfileUnauthOptionsType = GetProfileCommonOptionsType &
   Readonly<{
     accessKey: string;
   }>;
+
+export type GetGroupCredentialsOptionsType = Readonly<{
+  startDayInMs: number;
+  endDayInMs: number;
+}>;
 
 export type WebAPIType = {
   startRegistration(): unknown;
@@ -819,9 +827,7 @@ export type WebAPIType = {
   ) => Promise<Proto.GroupJoinInfo>;
   getGroupAvatar: (key: string) => Promise<Uint8Array>;
   getGroupCredentials: (
-    startDay: number,
-    endDay: number,
-    uuidKind: UUIDKind
+    options: GetGroupCredentialsOptionsType
   ) => Promise<Array<GroupCredentialType>>;
   getGroupExternalCredential: (
     options: GroupCredentialsType
@@ -1580,7 +1586,7 @@ export function initialize({
       {
         profileKeyVersion,
         profileKeyCredentialRequest,
-        credentialType = 'profileKey',
+        credentialType = 'expiringProfileKey',
       }: GetProfileCommonOptionsType
     ) {
       let profileUrl = `/${identifier}`;
@@ -2509,14 +2515,17 @@ export function initialize({
       credentials: Array<GroupCredentialType>;
     };
 
-    async function getGroupCredentials(
-      startDay: number,
-      endDay: number,
-      uuidKind: UUIDKind
-    ): Promise<Array<GroupCredentialType>> {
+    async function getGroupCredentials({
+      startDayInMs,
+      endDayInMs,
+    }: GetGroupCredentialsOptionsType): Promise<Array<GroupCredentialType>> {
+      const startDayInSeconds = startDayInMs / durations.SECOND;
+      const endDayInSeconds = endDayInMs / durations.SECOND;
       const response = (await _ajax({
         call: 'getGroupCredentials',
-        urlParameters: `/${startDay}/${endDay}?${uuidKindToQuery(uuidKind)}`,
+        urlParameters:
+          `?redemptionStartSeconds=${startDayInSeconds}&` +
+          `redemptionEndSeconds=${endDayInSeconds}`,
         httpType: 'GET',
         responseType: 'json',
       })) as CredentialResponseType;

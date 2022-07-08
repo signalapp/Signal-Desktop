@@ -61,7 +61,8 @@ import {
   getRegionCode,
   getUserConversationId,
   getUserNumber,
-  getUserUuid,
+  getUserACI,
+  getUserPNI,
 } from './user';
 
 import type {
@@ -114,7 +115,8 @@ export type GetPropsForBubbleOptions = Readonly<{
   conversationSelector: GetConversationByIdType;
   ourConversationId?: string;
   ourNumber?: string;
-  ourUuid?: UUIDStringType;
+  ourACI?: UUIDStringType;
+  ourPNI?: UUIDStringType;
   selectedMessageId?: string;
   selectedMessageCounter?: number;
   regionCode?: string;
@@ -182,7 +184,7 @@ export function getSourceDevice(
 
 export function getSourceUuid(
   message: MessageWithUIFieldsType,
-  ourUuid: string | undefined
+  ourACI: string | undefined
 ): string | undefined {
   if (isIncoming(message)) {
     return message.sourceUuid;
@@ -193,12 +195,16 @@ export function getSourceUuid(
     );
   }
 
-  return ourUuid;
+  return ourACI;
 }
 
 export type GetContactOptions = Pick<
   GetPropsForBubbleOptions,
-  'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourUuid'
+  | 'conversationSelector'
+  | 'ourConversationId'
+  | 'ourNumber'
+  | 'ourACI'
+  | 'ourPNI'
 >;
 
 export function getContactId(
@@ -207,11 +213,11 @@ export function getContactId(
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourUuid,
+    ourACI,
   }: GetContactOptions
 ): string | undefined {
   const source = getSource(message, ourNumber);
-  const sourceUuid = getSourceUuid(message, ourUuid);
+  const sourceUuid = getSourceUuid(message, ourACI);
 
   if (!source && !sourceUuid) {
     return ourConversationId;
@@ -228,11 +234,11 @@ export function getContact(
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourUuid,
+    ourACI,
   }: GetContactOptions
 ): ConversationType {
   const source = getSource(message, ourNumber);
-  const sourceUuid = getSourceUuid(message, ourUuid);
+  const sourceUuid = getSourceUuid(message, ourACI);
 
   if (!source && !sourceUuid) {
     return conversationSelector(ourConversationId);
@@ -563,7 +569,8 @@ export type GetPropsForMessageOptions = Pick<
   GetPropsForBubbleOptions,
   | 'conversationSelector'
   | 'ourConversationId'
-  | 'ourUuid'
+  | 'ourACI'
+  | 'ourPNI'
   | 'ourNumber'
   | 'selectedMessageId'
   | 'selectedMessageCounter'
@@ -621,7 +628,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       conversationSelector,
       ourConversationId,
       ourNumber,
-      ourUuid,
+      ourACI,
       regionCode,
       selectedMessageId,
       selectedMessageCounter,
@@ -652,7 +659,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       conversationSelector,
       ourConversationId,
       ourNumber,
-      ourUuid,
+      ourACI,
     });
     const contactNameColor = contactNameColorSelector(conversationId, authorId);
 
@@ -781,7 +788,8 @@ export const getPropsForMessage: (
 export const getMessagePropsSelector = createSelector(
   getConversationSelector,
   getUserConversationId,
-  getUserUuid,
+  getUserACI,
+  getUserPNI,
   getUserNumber,
   getRegionCode,
   getAccountSelector,
@@ -790,7 +798,8 @@ export const getMessagePropsSelector = createSelector(
   (
       conversationSelector,
       ourConversationId,
-      ourUuid,
+      ourACI,
+      ourPNI,
       ourNumber,
       regionCode,
       accountSelector,
@@ -804,7 +813,8 @@ export const getMessagePropsSelector = createSelector(
         conversationSelector,
         ourConversationId,
         ourNumber,
-        ourUuid,
+        ourACI,
+        ourPNI,
         regionCode,
         selectedMessageCounter: selectedMessage?.counter,
         selectedMessageId: selectedMessage?.id,
@@ -977,7 +987,7 @@ export function isGroupV2Change(message: MessageWithUIFieldsType): boolean {
 
 function getPropsForGroupV2Change(
   message: MessageWithUIFieldsType,
-  { conversationSelector, ourUuid }: GetPropsForBubbleOptions
+  { conversationSelector, ourACI, ourPNI }: GetPropsForBubbleOptions
 ): GroupsV2Props {
   const change = message.groupV2Change;
 
@@ -992,7 +1002,8 @@ function getPropsForGroupV2Change(
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
     groupMemberships: conversation.memberships,
     groupBannedMemberships: conversation.bannedMemberships,
-    ourUuid,
+    ourACI,
+    ourPNI,
     change,
   };
 }

@@ -1263,7 +1263,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const ourUuid = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
     if (
       !isGroup(this.model.attributes) ||
-      (ourUuid && this.model.hasMember(ourUuid.toString()))
+      (ourUuid && this.model.hasMember(ourUuid))
     ) {
       strictAssert(
         this.model.throttledGetProfiles !== undefined,

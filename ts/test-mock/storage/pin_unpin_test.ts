@@ -21,7 +21,15 @@ describe('storage service', function needsName() {
     ({ bootstrap, app, group } = await initStorage());
   });
 
-  afterEach(async () => {
+  afterEach(async function after() {
+    if (!bootstrap) {
+      return;
+    }
+
+    if (this.currentTest?.state !== 'passed') {
+      await bootstrap.saveLogs();
+    }
+
     await app.close();
     await bootstrap.teardown();
   });

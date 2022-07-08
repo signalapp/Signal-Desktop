@@ -8,7 +8,7 @@ import os from 'os';
 import createDebug from 'debug';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
-import { Server, loadCertificates } from '@signalapp/mock-server';
+import { Server, UUIDKind, loadCertificates } from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
 import { App } from './playwright';
@@ -156,7 +156,7 @@ export class Bootstrap {
     );
 
     this.privPhone = await this.server.createPrimaryDevice({
-      profileName: 'Mock',
+      profileName: 'Myself',
       contacts: this.contacts,
     });
 
@@ -206,10 +206,12 @@ export class Bootstrap {
     await this.phone.addSingleUseKey(this.desktop, desktopKey);
 
     for (const contact of this.contacts) {
-      // eslint-disable-next-line no-await-in-loop
-      const contactKey = await this.desktop.popSingleUseKey();
-      // eslint-disable-next-line no-await-in-loop
-      await contact.addSingleUseKey(this.desktop, contactKey);
+      for (const uuidKind of [UUIDKind.ACI, UUIDKind.PNI]) {
+        // eslint-disable-next-line no-await-in-loop
+        const contactKey = await this.desktop.popSingleUseKey(uuidKind);
+        // eslint-disable-next-line no-await-in-loop
+        await contact.addSingleUseKey(this.desktop, contactKey, uuidKind);
+      }
     }
 
     await this.phone.waitForSync(this.desktop);
@@ -252,6 +254,25 @@ export class Bootstrap {
     const result = this.timestamp;
     this.timestamp += 1;
     return result;
+  }
+
+  public async saveLogs(): Promise<void> {
+    const { ARTIFACTS_DIR } = process.env;
+    if (!ARTIFACTS_DIR) {
+      // eslint-disable-next-line no-console
+      console.error('Not saving logs. Please set ARTIFACTS_DIR env variable');
+      return;
+    }
+
+    await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
+
+    const outDir = await fs.mkdtemp(path.join(ARTIFACTS_DIR, 'logs-'));
+
+    // eslint-disable-next-line no-console
+    console.error(`Saving logs to ${outDir}`);
+
+    const { logsDir } = this;
+    await fs.rename(logsDir, path.join(outDir));
   }
 
   //
@@ -299,12 +320,18 @@ export class Bootstrap {
       storageProfile: 'mock',
       serverUrl: url,
       storageUrl: url,
-      directoryUrl: url,
       cdn: {
         '0': url,
         '2': url,
       },
       updatesEnabled: false,
+
+      directoryVersion: 3,
+      directoryV3Url: url,
+      directoryV3MRENCLAVE:
+        '51133fecb3fa18aaf0c8f64cb763656d3272d9faaacdb26ae7df082e414fb142',
+      directoryV3Root:
+        '-----BEGIN CERTIFICATE-----\nMIICjzCCAjSgAwIBAgIUImUM1lqdNInzg7SVUr9QGzknBqwwCgYIKoZIzj0EAwIw\naDEaMBgGA1UEAwwRSW50ZWwgU0dYIFJvb3QgQ0ExGjAYBgNVBAoMEUludGVsIENv\ncnBvcmF0aW9uMRQwEgYDVQQHDAtTYW50YSBDbGFyYTELMAkGA1UECAwCQ0ExCzAJ\nBgNVBAYTAlVTMB4XDTE4MDUyMTEwNDUxMFoXDTQ5MTIzMTIzNTk1OVowaDEaMBgG\nA1UEAwwRSW50ZWwgU0dYIFJvb3QgQ0ExGjAYBgNVBAoMEUludGVsIENvcnBvcmF0\naW9uMRQwEgYDVQQHDAtTYW50YSBDbGFyYTELMAkGA1UECAwCQ0ExCzAJBgNVBAYT\nAlVTMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEC6nEwMDIYZOj/iPWsCzaEKi7\n1OiOSLRFhWGjbnBVJfVnkY4u3IjkDYYL0MxO4mqsyYjlBalTVYxFP2sJBK5zlKOB\nuzCBuDAfBgNVHSMEGDAWgBQiZQzWWp00ifODtJVSv1AbOScGrDBSBgNVHR8ESzBJ\nMEegRaBDhkFodHRwczovL2NlcnRpZmljYXRlcy50cnVzdGVkc2VydmljZXMuaW50\nZWwuY29tL0ludGVsU0dYUm9vdENBLmRlcjAdBgNVHQ4EFgQUImUM1lqdNInzg7SV\nUr9QGzknBqwwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwCgYI\nKoZIzj0EAwIDSQAwRgIhAOW/5QkR+S9CiSDcNoowLuPRLsWGf/Yi7GSX94BgwTwg\nAiEA4J0lrHoMs+Xo5o/sX6O9QWxHRAvZUGOdRQ7cvqRXaqI=\n-----END CERTIFICATE-----\n',
 
       ...this.options.extraConfig,
     });

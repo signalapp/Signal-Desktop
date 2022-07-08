@@ -6,20 +6,76 @@ import PQueue from 'p-queue';
 
 import * as log from './logging/log';
 import { assert } from './util/assert';
+import { sleep } from './util/sleep';
 import { missingCaseError } from './util/missingCaseError';
 import { isNormalNumber } from './util/isNormalNumber';
 import { take } from './util/iterables';
-import { isOlderThan } from './util/timestamp';
 import type { ConversationModel } from './models/conversations';
 import type { StorageInterface } from './types/Storage.d';
+import * as Errors from './types/errors';
 import { getProfile } from './util/getProfile';
-import { MINUTE } from './util/durations';
+import { MINUTE, HOUR, DAY, MONTH } from './util/durations';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
-const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = 30 * 24 * 60 * 60 * 1000;
-const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = 1 * 24 * 60 * 60 * 1000;
+const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = MONTH;
+const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = DAY;
 const MAX_CONVERSATIONS_TO_REFRESH = 50;
-const MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN = 12 * 3600 * 1000;
+const MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN = 12 * HOUR;
+const MIN_REFRESH_DELAY = MINUTE;
+
+export class RoutineProfileRefresher {
+  private interval: NodeJS.Timeout | undefined;
+
+  constructor(
+    private readonly options: {
+      getAllConversations: () => ReadonlyArray<ConversationModel>;
+      getOurConversationId: () => string | undefined;
+      storage: Pick<StorageInterface, 'get' | 'put'>;
+    }
+  ) {}
+
+  public async start(): Promise<void> {
+    if (this.interval !== undefined) {
+      clearInterval(this.interval);
+    }
+
+    const { storage, getAllConversations, getOurConversationId } = this.options;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const refreshInMs = timeUntilNextRefresh(storage);
+
+      log.info(`routineProfileRefresh: waiting for ${refreshInMs}ms`);
+
+      // eslint-disable-next-line no-await-in-loop
+      await sleep(refreshInMs);
+
+      const ourConversationId = getOurConversationId();
+      if (!ourConversationId) {
+        log.warn('routineProfileRefresh: missing our conversation id');
+
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(MIN_REFRESH_DELAY);
+
+        continue;
+      }
+
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await routineProfileRefresh({
+          allConversations: getAllConversations(),
+          ourConversationId,
+          storage,
+        });
+      } catch (error) {
+        log.error('routineProfileRefresh: failure', Errors.toLogFormat(error));
+
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(MIN_REFRESH_DELAY);
+      }
+    }
+  }
+}
 
 export async function routineProfileRefresh({
   allConversations,
@@ -29,14 +85,15 @@ export async function routineProfileRefresh({
   // Only for tests
   getProfileFn = getProfile,
 }: {
-  allConversations: Array<ConversationModel>;
+  allConversations: ReadonlyArray<ConversationModel>;
   ourConversationId: string;
   storage: Pick<StorageInterface, 'get' | 'put'>;
   getProfileFn?: typeof getProfile;
 }): Promise<void> {
   log.info('routineProfileRefresh: starting');
 
-  if (!hasEnoughTimeElapsedSinceLastRefresh(storage)) {
+  const refreshInMs = timeUntilNextRefresh(storage);
+  if (refreshInMs > 0) {
     log.info('routineProfileRefresh: too soon to refresh. Doing nothing');
     return;
   }
@@ -91,24 +148,24 @@ export async function routineProfileRefresh({
   );
 }
 
-function hasEnoughTimeElapsedSinceLastRefresh(
-  storage: Pick<StorageInterface, 'get'>
-): boolean {
+function timeUntilNextRefresh(storage: Pick<StorageInterface, 'get'>): number {
   const storedValue = storage.get(STORAGE_KEY);
 
   if (isNil(storedValue)) {
-    return true;
+    return 0;
   }
 
   if (isNormalNumber(storedValue)) {
-    return isOlderThan(storedValue, MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN);
+    const planned = storedValue + MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN;
+    const now = Date.now();
+    return Math.max(0, planned - now);
   }
 
   assert(
     false,
     `An invalid value was stored in ${STORAGE_KEY}; treating it as nil`
   );
-  return true;
+  return 0;
 }
 
 function getConversationsToRefresh(
@@ -134,6 +191,20 @@ function* getFilteredConversations(
     const type = conversation.get('type');
     switch (type) {
       case 'private':
+        if (
+          conversation.hasProfileKeyCredentialExpired() &&
+          (conversation.id === ourConversationId ||
+            !conversationIdsSeen.has(conversation.id))
+        ) {
+          conversation.set({
+            profileKeyCredential: null,
+            profileKeyCredentialExpiration: null,
+          });
+          conversationIdsSeen.add(conversation.id);
+          yield conversation;
+          break;
+        }
+
         if (
           !conversationIdsSeen.has(conversation.id) &&
           isConversationActive(conversation) &&

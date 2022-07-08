@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 
 import {
   _analyzeSenderKeyDevices,
   _waitForAll,
   _shouldFailSend,
 } from '../../util/sendToGroup';
+import { UUID } from '../../types/UUID';
 
 import type { DeviceType } from '../../textsecure/Types.d';
 import {
@@ -23,21 +25,39 @@ import {
 } from '../../textsecure/Errors';
 
 describe('sendToGroup', () => {
+  const uuidOne = UUID.generate().toString();
+  const uuidTwo = UUID.generate().toString();
+
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+
+    const stub = sandbox.stub(UUID, 'lookup');
+    stub.withArgs(uuidOne).returns(new UUID(uuidOne));
+    stub.withArgs(uuidTwo).returns(new UUID(uuidTwo));
+    stub.returns(undefined);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('#_analyzeSenderKeyDevices', () => {
     function getDefaultDeviceList(): Array<DeviceType> {
       return [
         {
-          identifier: 'ident-guid-one',
+          identifier: uuidOne,
           id: 1,
           registrationId: 11,
         },
         {
-          identifier: 'ident-guid-one',
+          identifier: uuidOne,
           id: 2,
           registrationId: 22,
         },
         {
-          identifier: 'ident-guid-two',
+          identifier: uuidTwo,
           id: 2,
           registrationId: 33,
         },
@@ -76,17 +96,17 @@ describe('sendToGroup', () => {
 
       assert.deepEqual(newToMemberDevices, [
         {
-          identifier: 'ident-guid-one',
+          identifier: uuidOne,
           id: 2,
           registrationId: 22,
         },
         {
-          identifier: 'ident-guid-two',
+          identifier: uuidTwo,
           id: 2,
           registrationId: 33,
         },
       ]);
-      assert.deepEqual(newToMemberUuids, ['ident-guid-one', 'ident-guid-two']);
+      assert.deepEqual(newToMemberUuids, [uuidOne, uuidTwo]);
       assert.isEmpty(removedFromMemberDevices);
       assert.isEmpty(removedFromMemberUuids);
     });
@@ -108,20 +128,17 @@ describe('sendToGroup', () => {
       assert.isEmpty(newToMemberUuids);
       assert.deepEqual(removedFromMemberDevices, [
         {
-          identifier: 'ident-guid-one',
+          identifier: uuidOne,
           id: 2,
           registrationId: 22,
         },
         {
-          identifier: 'ident-guid-two',
+          identifier: uuidTwo,
           id: 2,
           registrationId: 33,
         },
       ]);
-      assert.deepEqual(removedFromMemberUuids, [
-        'ident-guid-one',
-        'ident-guid-two',
-      ]);
+      assert.deepEqual(removedFromMemberUuids, [uuidOne, uuidTwo]);
     });
     it('returns empty removals if partial send', () => {
       const memberDevices = getDefaultDeviceList();

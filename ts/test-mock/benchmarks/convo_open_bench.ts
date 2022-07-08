@@ -2,16 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-await-in-loop, no-console */
 
+import assert from 'assert';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 
-import {
-  Bootstrap,
-  debug,
-  saveLogs,
-  stats,
-  RUN_COUNT,
-  DISCARD_COUNT,
-} from './fixtures';
+import type { App } from './fixtures';
+import { Bootstrap, debug, stats, RUN_COUNT, DISCARD_COUNT } from './fixtures';
 
 const CONVERSATION_SIZE = 1000; // messages
 const DELAY = 50; // milliseconds
@@ -22,9 +17,10 @@ const DELAY = 50; // milliseconds
   });
 
   await bootstrap.init();
-  const app = await bootstrap.link();
 
+  let app: App | undefined;
   try {
+    app = await bootstrap.link();
     const { server, contacts, phone, desktop } = bootstrap;
 
     const [first, second] = contacts;
@@ -65,6 +61,7 @@ const DELAY = 50; // milliseconds
     };
 
     const measure = async (): Promise<void> => {
+      assert(app);
       const window = await app.getWindow();
 
       const leftPane = window.locator('.left-pane-wrapper');
@@ -102,10 +99,10 @@ const DELAY = 50; // milliseconds
 
     await Promise.all([sendQueue(), measure()]);
   } catch (error) {
-    await saveLogs(bootstrap);
+    await bootstrap.saveLogs();
     throw error;
   } finally {
-    await app.close();
+    await app?.close();
     await bootstrap.teardown();
   }
 })();

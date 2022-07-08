@@ -51,7 +51,7 @@ import {
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
-import { routineProfileRefresh } from './routineProfileRefresh';
+import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
@@ -220,6 +220,7 @@ export async function startApp(): Promise<void> {
   let server: WebAPIType | undefined;
   let messageReceiver: MessageReceiver | undefined;
   let challengeHandler: ChallengeHandler | undefined;
+  let routineProfileRefresher: RoutineProfileRefresher | undefined;
 
   window.storage.onready(() => {
     server = window.WebAPI.connect(
@@ -812,6 +813,11 @@ export async function startApp(): Promise<void> {
         await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v5.50.0-alpha.1')) {
+        await window.storage.put('groupCredentials', []);
+        await window.Signal.Data.removeAllProfileKeyCredentials();
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')) {
         await deleteAllLogs();
@@ -1172,7 +1178,12 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
-      const newUuid = window.textsecure.storage.user.getUuid()?.toString();
+      const newACI = window.textsecure.storage.user
+        .getUuid(UUIDKind.ACI)
+        ?.toString();
+      const newPNI = window.textsecure.storage.user
+        .getUuid(UUIDKind.PNI)
+        ?.toString();
       const ourConversation =
         window.ConversationController.getOurConversation();
 
@@ -1184,7 +1195,8 @@ export async function startApp(): Promise<void> {
         ourConversationId: ourConversation?.get('id'),
         ourDeviceId: newDeviceId,
         ourNumber: newNumber,
-        ourUuid: newUuid,
+        ourACI: newACI,
+        ourPNI: newPNI,
         regionCode: window.storage.get('regionCode'),
       });
 
@@ -2492,14 +2504,15 @@ export async function startApp(): Promise<void> {
 
     // Kick off a profile refresh if necessary, but don't wait for it, as failure is
     //   tolerable.
-    const ourConversationId =
-      window.ConversationController.getOurConversationId();
-    if (ourConversationId) {
-      routineProfileRefresh({
-        allConversations: window.ConversationController.getAll(),
-        ourConversationId,
+    if (!routineProfileRefresher) {
+      routineProfileRefresher = new RoutineProfileRefresher({
+        getAllConversations: () => window.ConversationController.getAll(),
+        getOurConversationId: () =>
+          window.ConversationController.getOurConversationId(),
         storage,
       });
+
+      routineProfileRefresher.start();
     } else {
       assert(
         false,
@@ -2625,10 +2638,14 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
+    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+
     // We drop typing notifications in groups we're not a part of
     if (
       !isDirectConversation(conversation.attributes) &&
-      !conversation.hasMember(ourId)
+      !(ourACI && conversation.hasMember(ourACI)) &&
+      !(ourPNI && conversation.hasMember(ourPNI))
     ) {
       log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`

@@ -205,6 +205,7 @@ const dataInterface: ClientInterface = {
   updateConversations,
   removeConversation,
   updateAllConversationColors,
+  removeAllProfileKeyCredentials,
 
   getAllConversations,
   getAllConversationIds,
@@ -1161,7 +1162,7 @@ async function getMessageBySender({
   sent_at,
 }: {
   source: string;
-  sourceUuid: string;
+  sourceUuid: UUIDStringType;
   sourceDevice: number;
   sent_at: number;
 }) {
@@ -1271,7 +1272,7 @@ async function getOlderStories(options: {
   limit?: number;
   receivedAt?: number;
   sentAt?: number;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
 }): Promise<Array<MessageType>> {
   return channels.getOlderStories(options);
 }
@@ -1792,6 +1793,10 @@ async function updateAllConversationColors(
     conversationColor,
     customColorData
   );
+}
+
+async function removeAllProfileKeyCredentials(): Promise<void> {
+  return channels.removeAllProfileKeyCredentials();
 }
 
 function getMaxMessageCounter(): Promise<number | undefined> {

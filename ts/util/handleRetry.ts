@@ -18,6 +18,7 @@ import { parseIntOrThrow } from './parseIntOrThrow';
 import * as RemoteConfig from '../RemoteConfig';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import { ToastDecryptionError } from '../components/ToastDecryptionError';
 import { showToast } from './showToast';
 import * as Errors from '../types/errors';
@@ -287,7 +288,7 @@ async function sendDistributionMessageOrNullMessage(
     const group = window.ConversationController.get(groupId);
     const distributionId = group?.get('senderKeyInfo')?.distributionId;
 
-    if (group && !group.hasMember(requesterUuid)) {
+    if (group && !group.hasMember(new UUID(requesterUuid))) {
       throw new Error(
         `sendDistributionMessageOrNullMessage/${logId}: Requester ${requesterUuid} is not a member of ${conversation.idForLogging()}`
       );
@@ -429,7 +430,7 @@ async function maybeAddSenderKeyDistributionMessage({
     };
   }
 
-  if (!conversation.hasMember(requesterUuid)) {
+  if (!conversation.hasMember(new UUID(requesterUuid))) {
     throw new Error(
       `maybeAddSenderKeyDistributionMessage/${logId}: Recipient ${requesterUuid} is not a member of ${conversation.idForLogging()}`
     );

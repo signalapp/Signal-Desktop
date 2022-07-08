@@ -13,6 +13,7 @@ import {
   parseGroupLink,
 } from '../groups';
 import * as Errors from '../types/errors';
+import { UUIDKind } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { isGroupV1 } from '../util/whatTypeOfConversation';
@@ -64,13 +65,9 @@ export async function joinViaLink(hash: string): Promise<void> {
   const existingConversation =
     window.ConversationController.get(id) ||
     window.ConversationController.getByDerivedGroupV2Id(id);
-  const ourConversationId =
-    window.ConversationController.getOurConversationIdOrThrow();
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
 
-  if (
-    existingConversation &&
-    existingConversation.hasMember(ourConversationId)
-  ) {
+  if (existingConversation && existingConversation.hasMember(ourUuid)) {
     log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
@@ -152,7 +149,7 @@ export async function joinViaLink(hash: string): Promise<void> {
   if (
     approvalRequired &&
     existingConversation &&
-    existingConversation.isMemberAwaitingApproval(ourConversationId)
+    existingConversation.isMemberAwaitingApproval(ourUuid)
   ) {
     log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
@@ -246,9 +243,9 @@ export async function joinViaLink(hash: string): Promise<void> {
           //   via some other process. If so, just open that conversation.
           if (
             targetConversation &&
-            (targetConversation.hasMember(ourConversationId) ||
+            (targetConversation.hasMember(ourUuid) ||
               (approvalRequired &&
-                targetConversation.isMemberAwaitingApproval(ourConversationId)))
+                targetConversation.isMemberAwaitingApproval(ourUuid)))
           ) {
             log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`

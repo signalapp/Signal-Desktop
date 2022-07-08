@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
+import { actions as userActions } from '../../../state/ducks/user';
 import {
   CallMode,
   CallState,
@@ -25,7 +26,15 @@ import type {
 import { getEmptyState } from '../../../state/ducks/calling';
 
 describe('state/selectors/calling', () => {
-  const getEmptyRootState = () => rootReducer(undefined, noopAction());
+  const getEmptyRootState = () => {
+    const initial = rootReducer(undefined, noopAction());
+    return rootReducer(
+      initial,
+      userActions.userChanged({
+        ourACI: '00000000-0000-4000-8000-000000000000',
+      })
+    );
+  };
 
   const getCallingState = (calling: CallingStateType) => ({
     ...getEmptyRootState(),

@@ -35,9 +35,14 @@ export const getUserConversationId = createSelector(
   (state: UserStateType): string | undefined => state.ourConversationId
 );
 
-export const getUserUuid = createSelector(
+export const getUserACI = createSelector(
   getUser,
-  (state: UserStateType): UUIDStringType | undefined => state.ourUuid
+  (state: UserStateType): UUIDStringType | undefined => state.ourACI
+);
+
+export const getUserPNI = createSelector(
+  getUser,
+  (state: UserStateType): UUIDStringType | undefined => state.ourPNI
 );
 
 export const getIntl = createSelector(

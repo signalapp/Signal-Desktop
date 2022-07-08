@@ -16,7 +16,8 @@ import type { FullJSXType } from '../Intl';
 
 const i18n = setupI18n('en', enMessages);
 
-const OUR_ID = UUID.generate().toString();
+const OUR_ACI = UUID.generate().toString();
+const OUR_PNI = UUID.generate().toString();
 const CONTACT_A = UUID.generate().toString();
 const CONTACT_B = UUID.generate().toString();
 const CONTACT_C = UUID.generate().toString();
@@ -59,7 +60,8 @@ const renderChange = (
     groupMemberships={groupMemberships}
     groupName={groupName}
     i18n={i18n}
-    ourUuid={OUR_ID}
+    ourACI={OUR_ACI}
+    ourPNI={OUR_PNI}
     renderContact={renderContact}
   />
 );
@@ -89,7 +91,11 @@ export const Multiple = (): JSX.Element => {
           },
           {
             type: 'member-add',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
+          },
+          {
+            type: 'member-add',
+            uuid: OUR_PNI,
           },
           {
             type: 'description',
@@ -97,7 +103,7 @@ export const Multiple = (): JSX.Element => {
           },
           {
             type: 'member-privilege',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -110,7 +116,7 @@ export const Create = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'create',
@@ -140,7 +146,7 @@ export const Title = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'title',
@@ -166,7 +172,7 @@ export const Title = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'title',
@@ -196,7 +202,7 @@ export const Avatar = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'avatar',
@@ -222,7 +228,7 @@ export const Avatar = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'avatar',
@@ -255,7 +261,7 @@ export const AccessAttributes = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'access-attributes',
@@ -281,7 +287,7 @@ export const AccessAttributes = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'access-attributes',
@@ -318,7 +324,7 @@ export const AccessMembers = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'access-members',
@@ -344,7 +350,7 @@ export const AccessMembers = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'access-members',
@@ -381,7 +387,7 @@ export const AccessInviteLink = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'access-invite-link',
@@ -407,7 +413,7 @@ export const AccessInviteLink = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'access-invite-link',
@@ -444,11 +450,11 @@ export const MemberAdd = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -457,7 +463,7 @@ export const MemberAdd = (): JSX.Element => {
         details: [
           {
             type: 'member-add',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -465,12 +471,12 @@ export const MemberAdd = (): JSX.Element => {
         details: [
           {
             type: 'member-add',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add',
@@ -508,7 +514,7 @@ export const MemberAddFromInvited = (): JSX.Element => {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             inviter: CONTACT_B,
           },
         ],
@@ -517,14 +523,14 @@ export const MemberAddFromInvited = (): JSX.Element => {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             inviter: CONTACT_A,
           },
         ],
       })}
       {/* the rest of the 'someone added someone else' checks */}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add-from-invite',
@@ -554,21 +560,21 @@ export const MemberAddFromInvited = (): JSX.Element => {
       })}
       {/* in all of these we know the user has accepted the invite */}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             inviter: CONTACT_A,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -578,7 +584,7 @@ export const MemberAddFromInvited = (): JSX.Element => {
           {
             type: 'member-add-from-invite',
             uuid: CONTACT_A,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
@@ -601,6 +607,17 @@ export const MemberAddFromInvited = (): JSX.Element => {
           },
         ],
       })}
+      ACI accepts PNI invite:
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            uuid: OUR_ACI,
+            inviter: CONTACT_B,
+          },
+        ],
+      })}
     </>
   );
 };
@@ -613,11 +630,11 @@ export const MemberAddFromLink = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add-from-link',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -654,7 +671,7 @@ export const MemberAddFromAdminApproval = (): JSX.Element => {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -662,12 +679,12 @@ export const MemberAddFromAdminApproval = (): JSX.Element => {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-add-from-admin-approval',
@@ -704,11 +721,11 @@ export const MemberRemove = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-remove',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -717,7 +734,7 @@ export const MemberRemove = (): JSX.Element => {
         details: [
           {
             type: 'member-remove',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -725,12 +742,12 @@ export const MemberRemove = (): JSX.Element => {
         details: [
           {
             type: 'member-remove',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-remove',
@@ -776,7 +793,7 @@ export const MemberPrivilege = (): JSX.Element => {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -785,13 +802,13 @@ export const MemberPrivilege = (): JSX.Element => {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-privilege',
@@ -824,7 +841,7 @@ export const MemberPrivilege = (): JSX.Element => {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
@@ -833,13 +850,13 @@ export const MemberPrivilege = (): JSX.Element => {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'member-privilege',
@@ -879,7 +896,7 @@ export const PendingAddOne = (): JSX.Element => {
         details: [
           {
             type: 'pending-add-one',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -887,12 +904,12 @@ export const PendingAddOne = (): JSX.Element => {
         details: [
           {
             type: 'pending-add-one',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-add-one',
@@ -929,7 +946,7 @@ export const PendingAddMany = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-add-many',
@@ -971,17 +988,17 @@ export const PendingRemoveOne = (): JSX.Element => {
           {
             type: 'pending-remove-one',
             uuid: INVITEE_A,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-remove-one',
             uuid: INVITEE_A,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
@@ -991,7 +1008,7 @@ export const PendingRemoveOne = (): JSX.Element => {
           {
             type: 'pending-remove-one',
             uuid: INVITEE_A,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
@@ -1000,7 +1017,7 @@ export const PendingRemoveOne = (): JSX.Element => {
           {
             type: 'pending-remove-one',
             uuid: INVITEE_A,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
@@ -1029,7 +1046,7 @@ export const PendingRemoveOne = (): JSX.Element => {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
             inviter: CONTACT_B,
           },
         ],
@@ -1056,7 +1073,7 @@ export const PendingRemoveOne = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-remove-one',
@@ -1076,7 +1093,7 @@ export const PendingRemoveOne = (): JSX.Element => {
       })}
 
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-remove-one',
@@ -1113,12 +1130,12 @@ export const PendingRemoveMany = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-remove-many',
             count: 5,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
@@ -1128,7 +1145,7 @@ export const PendingRemoveMany = (): JSX.Element => {
           {
             type: 'pending-remove-many',
             count: 5,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
@@ -1137,12 +1154,12 @@ export const PendingRemoveMany = (): JSX.Element => {
           {
             type: 'pending-remove-many',
             count: 5,
-            inviter: OUR_ID,
+            inviter: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-remove-many',
@@ -1171,7 +1188,7 @@ export const PendingRemoveMany = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'pending-remove-many',
@@ -1212,7 +1229,7 @@ export const AdminApprovalAdd = (): JSX.Element => {
         details: [
           {
             type: 'admin-approval-add-one',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -1236,11 +1253,11 @@ export const AdminApprovalRemove = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'admin-approval-remove-one',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
@@ -1248,12 +1265,12 @@ export const AdminApprovalRemove = (): JSX.Element => {
         details: [
           {
             type: 'admin-approval-remove-one',
-            uuid: OUR_ID,
+            uuid: OUR_ACI,
           },
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'admin-approval-remove-one',
@@ -1354,7 +1371,7 @@ export const GroupLinkAdd = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'group-link-add',
@@ -1380,7 +1397,7 @@ export const GroupLinkAdd = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'group-link-add',
@@ -1417,7 +1434,7 @@ export const GroupLinkReset = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'group-link-reset',
@@ -1451,7 +1468,7 @@ export const GroupLinkRemove = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'group-link-remove',
@@ -1485,7 +1502,7 @@ export const DescriptionRemove = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             removed: true,
@@ -1523,7 +1540,7 @@ export const DescriptionChange = (): JSX.Element => {
     <>
       {renderChange(
         {
-          from: OUR_ID,
+          from: OUR_ACI,
           details: [
             {
               type: 'description',
@@ -1571,7 +1588,7 @@ export const AnnouncementGroupChange = (): JSX.Element => {
   return (
     <>
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'announcements-only',
@@ -1597,7 +1614,7 @@ export const AnnouncementGroupChange = (): JSX.Element => {
         ],
       })}
       {renderChange({
-        from: OUR_ID,
+        from: OUR_ACI,
         details: [
           {
             type: 'announcements-only',

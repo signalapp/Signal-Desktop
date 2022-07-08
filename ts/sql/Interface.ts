@@ -202,7 +202,7 @@ export type UnprocessedType = {
 
   messageAgeSec?: number;
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   sourceDevice?: number;
   destinationUuid?: string;
   serverGuid?: string;
@@ -213,7 +213,7 @@ export type UnprocessedType = {
 
 export type UnprocessedUpdateType = {
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   sourceDevice?: number;
   serverGuid?: string;
   serverTimestamp?: number;
@@ -257,8 +257,8 @@ export type StoryDistributionWithMembersType = Readonly<
 
 export type StoryReadType = Readonly<{
   authorId: UUIDStringType;
-  conversationId: UUIDStringType;
-  storyId: UUIDStringType;
+  conversationId: string;
+  storyId: string;
   storyReadDate: number;
 }>;
 
@@ -362,6 +362,7 @@ export type DataInterface = {
       value: CustomColorType;
     }
   ) => Promise<void>;
+  removeAllProfileKeyCredentials: () => Promise<void>;
 
   getAllConversations: () => Promise<Array<ConversationType>>;
   getAllConversationIds: () => Promise<Array<string>>;
@@ -439,7 +440,7 @@ export type DataInterface = {
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {
     source: string;
-    sourceUuid: string;
+    sourceUuid: UUIDStringType;
     sourceDevice: number;
     sent_at: number;
   }) => Promise<MessageType | undefined>;
@@ -462,7 +463,7 @@ export type DataInterface = {
     limit?: number;
     receivedAt?: number;
     sentAt?: number;
-    sourceUuid?: string;
+    sourceUuid?: UUIDStringType;
   }) => Promise<Array<MessageType>>;
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (

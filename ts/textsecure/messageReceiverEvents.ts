@@ -5,6 +5,7 @@
 import type { PublicKey } from '@signalapp/libsignal-client';
 
 import type { SignalService as Proto } from '../protobuf';
+import type { UUIDStringType } from '../types/UUID';
 import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
@@ -129,7 +130,7 @@ export type DeliveryEventData = Readonly<{
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   sourceDevice?: number;
 }>;
 
@@ -166,7 +167,7 @@ export class DecryptionErrorEvent extends ConfirmableEvent {
 export type RetryRequestEventData = Readonly<{
   groupId?: string;
   ratchetKey?: PublicKey;
-  requesterUuid: string;
+  requesterUuid: UUIDStringType;
   requesterDevice: number;
   senderDevice: number;
   sentAt: number;
@@ -204,7 +205,7 @@ export class SentEvent extends ConfirmableEvent {
 
 export type ProfileKeyUpdateData = Readonly<{
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   profileKey: string;
 }>;
 
@@ -219,7 +220,7 @@ export class ProfileKeyUpdateEvent extends ConfirmableEvent {
 
 export type MessageEventData = Readonly<{
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   sourceDevice?: number;
   timestamp: number;
   serverGuid?: string;
@@ -243,7 +244,7 @@ export type ReadOrViewEventData = Readonly<{
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   sourceDevice?: number;
 }>;
 
@@ -276,14 +277,14 @@ export class ConfigurationEvent extends ConfirmableEvent {
 
 export type ViewOnceOpenSyncOptions = {
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
   timestamp?: number;
 };
 
 export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
   public readonly source?: string;
 
-  public readonly sourceUuid?: string;
+  public readonly sourceUuid?: UUIDStringType;
 
   public readonly timestamp?: number;
 

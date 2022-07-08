@@ -21,7 +21,7 @@ import { AttachmentDraftType, AttachmentType } from './types/Attachment';
 import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
-import { UUIDStringType } from './types/UUID';
+import { UUIDStringType, UUIDKind } from './types/UUID';
 import { ReactionSource } from './reactions/ReactionSource';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
@@ -282,6 +282,8 @@ export type ConversationAttributesType = {
     path: string;
   };
   profileKeyCredential?: string | null;
+  profileKeyCredentialExpiration?: number | null;
+  pniCredential?: string | null;
   lastProfile?: ConversationLastProfileType;
   quotedMessageId?: string | null;
   sealedSender?: unknown;

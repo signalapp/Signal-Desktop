@@ -9,10 +9,11 @@ import {
   EnvelopeType,
   ReceiptType,
 } from '@signalapp/mock-server';
+
+import type { App } from './fixtures';
 import {
   Bootstrap,
   debug,
-  saveLogs,
   stats,
   RUN_COUNT,
   GROUP_SIZE,
@@ -44,9 +45,11 @@ const LAST_MESSAGE = 'start sending messages now';
       .pinGroup(group)
   );
 
-  const app = await bootstrap.link();
+  let app: App | undefined;
 
   try {
+    app = await bootstrap.link();
+
     const { server, desktop } = bootstrap;
     const [first] = members;
 
@@ -179,10 +182,10 @@ const LAST_MESSAGE = 'start sending messages now';
 
     console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
   } catch (error) {
-    await saveLogs(bootstrap);
+    await bootstrap.saveLogs();
     throw error;
   } finally {
-    await app.close();
+    await app?.close();
     await bootstrap.teardown();
   }
 })();

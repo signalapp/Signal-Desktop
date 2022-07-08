@@ -5,7 +5,7 @@ import PQueue from 'p-queue';
 import { omit } from 'lodash';
 
 import EventTarget from './EventTarget';
-import type { WebAPIType, GroupCredentialType } from './WebAPI';
+import type { WebAPIType } from './WebAPI';
 import { HTTPError } from './Errors';
 import type { KeyPairType } from './Types.d';
 import ProvisioningCipher from './ProvisioningCipher';
@@ -753,14 +753,6 @@ export default class AccountManager extends EventTarget {
 
       await storage.protocol.hydrateCaches();
     });
-  }
-
-  async getGroupCredentials(
-    startDay: number,
-    endDay: number,
-    uuidKind: UUIDKind
-  ): Promise<Array<GroupCredentialType>> {
-    return this.server.getGroupCredentials(startDay, endDay, uuidKind);
   }
 
   // Takes the same object returned by generateKeys

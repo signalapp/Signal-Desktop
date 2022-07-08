@@ -115,9 +115,9 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
       contact => contact.username === username
     );
 
-    isUsernameVisible = candidateContacts.every(
-      contact => contact.username !== username
-    );
+    isUsernameVisible =
+      Boolean(username) &&
+      candidateContacts.every(contact => contact.username !== username);
   }
 
   const inputRef = useRef<null | HTMLInputElement>(null);

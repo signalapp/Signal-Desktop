@@ -6,6 +6,7 @@ import { times } from 'lodash';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
 import { UUID } from '../types/UUID';
+import { DAY } from '../util/durations';
 
 import { routineProfileRefresh } from '../routineProfileRefresh';
 
@@ -44,6 +45,7 @@ describe('routineProfileRefresh', () => {
       muteExpiresAt: 0,
       profileAvatar: undefined,
       profileKeyCredential: UUID.generate().toString(),
+      profileKeyCredentialExpiration: Date.now() + 2 * DAY,
       profileSharing: true,
       quotedMessageId: null,
       sealedSender: 1,

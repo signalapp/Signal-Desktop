@@ -3,8 +3,6 @@
 /* eslint-disable no-console */
 
 import createDebug from 'debug';
-import fs from 'fs/promises';
-import path from 'path';
 
 import { Bootstrap } from '../bootstrap';
 
@@ -61,19 +59,6 @@ export function stats(
   }
 
   return result;
-}
-
-export async function saveLogs(bootstrap: Bootstrap): Promise<void> {
-  const { ARTIFACTS_DIR } = process.env;
-  if (!ARTIFACTS_DIR) {
-    console.error('Not saving logs. Please set ARTIFACTS_DIR env variable');
-    return;
-  }
-
-  await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
-
-  const { logsDir } = bootstrap;
-  await fs.rename(logsDir, path.join(ARTIFACTS_DIR, 'logs'));
 }
 
 // Can happen if electron exits prematurely

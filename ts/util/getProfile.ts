@@ -1,7 +1,10 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
+import type {
+  ProfileKeyCredentialRequestContext,
+  ClientZkProfileOperations,
+} from '@signalapp/libsignal-client/zkgroup';
 import { SEALED_SENDER } from '../types/SealedSender';
 import * as Errors from '../types/errors';
 import type {
@@ -11,12 +14,15 @@ import type {
 import { HTTPError } from '../textsecure/Errors';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUIDKind } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto';
 import {
   generateProfileKeyCredentialRequest,
+  generatePNICredentialRequest,
   getClientZkProfileOperations,
   handleProfileKeyCredential,
+  handleProfileKeyPNICredential,
 } from './zkgroup';
 import { isMe } from './whatTypeOfConversation';
 import type { ConversationModel } from '../models/conversations';
@@ -24,6 +30,68 @@ import * as log from '../logging/log';
 import { getUserLanguages } from './userLanguages';
 import { parseBadgesFromServer } from '../badges/parseBadgesFromServer';
 import { strictAssert } from './assert';
+
+async function maybeGetPNICredential(
+  c: ConversationModel,
+  {
+    clientZkProfileCipher,
+    profileKey,
+    profileKeyVersion,
+    userLanguages,
+  }: {
+    clientZkProfileCipher: ClientZkProfileOperations;
+    profileKey: string;
+    profileKeyVersion: string;
+    userLanguages: ReadonlyArray<string>;
+  }
+): Promise<void> {
+  // Already present and up-to-date
+  if (c.get('pniCredential')) {
+    return;
+  }
+  strictAssert(isMe(c.attributes), 'Has to fetch PNI credential for ourselves');
+
+  log.info('maybeGetPNICredential: requesting PNI credential');
+
+  const { storage, messaging } = window.textsecure;
+  strictAssert(
+    messaging,
+    'maybeGetPNICredential: window.textsecure.messaging not available'
+  );
+
+  const ourACI = storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourPNI = storage.user.getCheckedUuid(UUIDKind.PNI);
+
+  const {
+    requestHex: profileKeyCredentialRequestHex,
+    context: profileCredentialRequestContext,
+  } = generatePNICredentialRequest(
+    clientZkProfileCipher,
+    ourACI.toString(),
+    ourPNI.toString(),
+    profileKey
+  );
+
+  const profile = await messaging.getProfile(ourACI, {
+    userLanguages,
+    profileKeyVersion,
+    profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+    credentialType: 'pni',
+  });
+
+  strictAssert(
+    profile.pniCredential,
+    'We must get the credential for ourselves'
+  );
+  const pniCredential = handleProfileKeyPNICredential(
+    clientZkProfileCipher,
+    profileCredentialRequestContext,
+    profile.pniCredential
+  );
+  c.set({ pniCredential });
+
+  log.info('maybeGetPNICredential: updated PNI credential');
+}
 
 async function doGetProfile(c: ConversationModel): Promise<void> {
   const idForLogging = c.idForLogging();
@@ -168,6 +236,22 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
       }
     }
 
+    if (isMe(c.attributes) && profileKey && profileKeyVersion) {
+      try {
+        await maybeGetPNICredential(c, {
+          clientZkProfileCipher,
+          profileKey,
+          profileKeyVersion,
+          userLanguages,
+        });
+      } catch (error) {
+        log.warn(
+          'getProfile failed to get our own PNI credential',
+          Errors.toLogFormat(error)
+        );
+      }
+    }
+
     if (profile.identityKey) {
       const identityKey = Bytes.fromBase64(profile.identityKey);
       const changed = await window.textsecure.storage.protocol.saveIdentity(
@@ -285,12 +369,15 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
 
     if (profileCredentialRequestContext) {
       if (profile.credential) {
-        const profileKeyCredential = handleProfileKeyCredential(
+        const {
+          credential: profileKeyCredential,
+          expiration: profileKeyCredentialExpiration,
+        } = handleProfileKeyCredential(
           clientZkProfileCipher,
           profileCredentialRequestContext,
           profile.credential
         );
-        c.set({ profileKeyCredential });
+        c.set({ profileKeyCredential, profileKeyCredentialExpiration });
       } else {
         c.unset('profileKeyCredential');
       }

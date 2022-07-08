@@ -207,3 +207,11 @@ jobs:
       env:
         NODE_ENV: production
         DEBUG: mock:test:*
+        ARTIFACTS_DIR: artifacts/startup
+
+    - name: Upload mock server test logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: logs
+        path: artifacts

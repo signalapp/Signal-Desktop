@@ -28,6 +28,7 @@ import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
 import { getInitialState as stickers } from '../types/Stickers';
 import type { MenuOptionsType } from '../types/menu';
+import { UUIDKind } from '../types/UUID';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import type { MainWindowStatsType } from '../windows/context';
 
@@ -51,7 +52,12 @@ export function getInitialState({
     conversation.format()
   );
   const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
+  const ourACI = window.textsecure.storage.user
+    .getUuid(UUIDKind.ACI)
+    ?.toString();
+  const ourPNI = window.textsecure.storage.user
+    .getUuid(UUIDKind.PNI)
+    ?.toString();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
@@ -119,7 +125,8 @@ export function getInitialState({
       ourConversationId,
       ourDeviceId,
       ourNumber,
-      ourUuid,
+      ourACI,
+      ourPNI,
       platform: window.platform,
       i18n: window.i18n,
       localeMessages: window.SignalContext.localeMessages,

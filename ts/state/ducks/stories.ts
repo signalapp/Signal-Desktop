@@ -20,7 +20,6 @@ import { DAY } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
-import { UUID } from '../../types/UUID';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
 import { markViewed } from '../../services/MessageUpdater';
@@ -271,7 +270,7 @@ function markStoryRead(
     await dataInterface.addNewStoryRead({
       authorId: message.attributes.sourceUuid,
       conversationId: message.attributes.conversationId,
-      storyId: UUID.fromString(messageId),
+      storyId: messageId,
       storyReadDate,
     });
 

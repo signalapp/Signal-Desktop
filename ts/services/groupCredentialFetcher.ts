@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last, sortBy } from 'lodash';
-import { AuthCredentialResponse } from '@signalapp/libsignal-client/zkgroup';
+import { AuthCredentialWithPniResponse } from '@signalapp/libsignal-client/zkgroup';
 
 import { getClientZkAuthOperations } from '../util/zkgroup';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
+import { strictAssert } from '../util/assert';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
+import { toDayMillis } from '../util/timestamp';
 import { UUIDKind } from '../types/UUID';
 import * as log from '../logging/log';
 
@@ -17,19 +19,24 @@ export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
 
 type CredentialsDataType = Array<GroupCredentialType>;
 type RequestDatesType = {
-  startDay: number;
-  endDay: number;
+  startDayInMs: number;
+  endDayInMs: number;
 };
 type NextCredentialsType = {
   today: GroupCredentialType;
   tomorrow: GroupCredentialType;
 };
 
-function getTodayInEpoch() {
-  return Math.floor(Date.now() / durations.DAY);
-}
-
 let started = false;
+
+function getCheckedCredentials(reason: string): CredentialsDataType {
+  const result = window.storage.get('groupCredentials');
+  strictAssert(
+    result !== undefined,
+    `getCheckedCredentials: no credentials found, ${reason}`
+  );
+  return result;
+}
 
 export async function initializeGroupCredentialFetcher(): Promise<void> {
   if (started) {
@@ -89,16 +96,14 @@ export async function runWithRetry(
 }
 
 // In cases where we are at a day boundary, we might need to use tomorrow in a retry
-export function getCredentialsForToday(
-  data: CredentialsDataType | undefined
+export function getCheckedCredentialsForToday(
+  reason: string
 ): NextCredentialsType {
-  if (!data) {
-    throw new Error('getCredentialsForToday: No credentials fetched!');
-  }
+  const data = getCheckedCredentials(reason);
 
-  const todayInEpoch = getTodayInEpoch();
+  const today = toDayMillis(Date.now());
   const todayIndex = data.findIndex(
-    (item: GroupCredentialType) => item.redemptionTime === todayInEpoch
+    (item: GroupCredentialType) => item.redemptionTime === today
   );
   if (todayIndex < 0) {
     throw new Error(
@@ -113,29 +118,37 @@ export function getCredentialsForToday(
 }
 
 export async function maybeFetchNewCredentials(): Promise<void> {
-  const uuid = window.textsecure.storage.user.getUuid()?.toString();
-  if (!uuid) {
-    log.info('maybeFetchCredentials: no UUID, returning early');
+  const logId = 'maybeFetchNewCredentials';
+
+  const aci = window.textsecure.storage.user.getUuid(UUIDKind.ACI)?.toString();
+  if (!aci) {
+    log.info(`${logId}: no ACI, returning early`);
     return;
   }
-  const previous: CredentialsDataType | undefined = window.storage.get(
-    GROUP_CREDENTIALS_KEY
-  );
+
+  const pni = window.textsecure.storage.user.getUuid(UUIDKind.PNI)?.toString();
+  if (!pni) {
+    log.info(`${logId}: no PNI, returning early`);
+    return;
+  }
+
+  const previous: CredentialsDataType | undefined =
+    window.storage.get('groupCredentials');
   const requestDates = getDatesForRequest(previous);
   if (!requestDates) {
-    log.info('maybeFetchCredentials: no new credentials needed');
+    log.info(`${logId}: no new credentials needed`);
     return;
   }
 
-  const accountManager = window.getAccountManager();
-  if (!accountManager) {
-    log.info('maybeFetchCredentials: unable to get AccountManager');
+  const { server } = window.textsecure;
+  if (!server) {
+    log.error(`${logId}: unable to get server`);
     return;
   }
 
-  const { startDay, endDay } = requestDates;
+  const { startDayInMs, endDayInMs } = requestDates;
   log.info(
-    `maybeFetchCredentials: fetching credentials for ${startDay} through ${endDay}`
+    `${logId}: fetching credentials for ${startDayInMs} through ${endDayInMs}`
   );
 
   const serverPublicParamsBase64 = window.getServerPublicParams();
@@ -143,46 +156,47 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     serverPublicParamsBase64
   );
   const newCredentials = sortCredentials(
-    await accountManager.getGroupCredentials(startDay, endDay, UUIDKind.ACI)
+    await server.getGroupCredentials({ startDayInMs, endDayInMs })
   ).map((item: GroupCredentialType) => {
-    const authCredential = clientZKAuthOperations.receiveAuthCredential(
-      uuid,
+    const authCredential = clientZKAuthOperations.receiveAuthCredentialWithPni(
+      aci,
+      pni,
       item.redemptionTime,
-      new AuthCredentialResponse(Buffer.from(item.credential, 'base64'))
+      new AuthCredentialWithPniResponse(Buffer.from(item.credential, 'base64'))
     );
     const credential = authCredential.serialize().toString('base64');
 
     return {
-      redemptionTime: item.redemptionTime,
+      redemptionTime: item.redemptionTime * durations.SECOND,
       credential,
     };
   });
 
-  const todayInEpoch = getTodayInEpoch();
+  const today = toDayMillis(Date.now());
   const previousCleaned = previous
     ? previous.filter(
-        (item: GroupCredentialType) => item.redemptionTime >= todayInEpoch
+        (item: GroupCredentialType) => item.redemptionTime >= today
       )
     : [];
   const finalCredentials = [...previousCleaned, ...newCredentials];
 
-  log.info('maybeFetchCredentials: Saving new credentials...');
+  log.info(`${logId}: Saving new credentials...`);
   // Note: we don't wait for this to finish
-  window.storage.put(GROUP_CREDENTIALS_KEY, finalCredentials);
-  log.info('maybeFetchCredentials: Save complete.');
+  window.storage.put('groupCredentials', finalCredentials);
+  log.info(`${logId}: Save complete.`);
 }
 
 export function getDatesForRequest(
   data?: CredentialsDataType
 ): RequestDatesType | undefined {
-  const todayInEpoch = getTodayInEpoch();
-  const oneWeekOut = todayInEpoch + 7;
+  const today = toDayMillis(Date.now());
+  const oneWeekOut = today + durations.WEEK;
 
   const lastCredential = last(data);
-  if (!lastCredential || lastCredential.redemptionTime < todayInEpoch) {
+  if (!lastCredential || lastCredential.redemptionTime < today) {
     return {
-      startDay: todayInEpoch,
-      endDay: oneWeekOut,
+      startDayInMs: today,
+      endDayInMs: oneWeekOut,
     };
   }
 
@@ -191,8 +205,8 @@ export function getDatesForRequest(
   }
 
   return {
-    startDay: lastCredential.redemptionTime + 1,
-    endDay: oneWeekOut,
+    startDayInMs: lastCredential.redemptionTime + durations.DAY,
+    endDayInMs: oneWeekOut,
   };
 }
 

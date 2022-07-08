@@ -1745,28 +1745,20 @@
     "@react-spring/shared" "~9.4.5"
     "@react-spring/types" "~9.4.5"
 
-"@signalapp/libsignal-client@0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.17.0.tgz#ffe6763d80f56148b45192bca29deb16f9a0aea8"
-  integrity sha512-O5bd/BURWnybh6KhRYSO3NmNb1/oySu5yJx5ELy3QsfeFvpMnTkr0/PcXd0MCvRiaoN+/a0TsnywMO43t6Nxsw==
+"@signalapp/libsignal-client@0.18.1", "@signalapp/libsignal-client@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.18.1.tgz#6b499cdcc952f1981c6367f68484cf3275be3b31"
+  integrity sha512-43NcTYpahImlWHBDaNFmn7QaeXZHkFkTtb4m+ZWgzU0mkS1M8V+orGen2XuDvNiu+9HQmW4Lg7FV1deXhWtIRA==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
 
-"@signalapp/libsignal-client@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.16.0.tgz#7acba54b7ba05f513cdcf7f555efa1ccc6ce0145"
-  integrity sha512-/5EzlAcQoQReDomqV6VTtin5tvqvdUxoe8knSiz+L1kcLSlHA0So0zTR9WAdfQQ69t4q69vhaS4pu5yVI28YHA==
+"@signalapp/mock-server@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-2.0.1.tgz#0ecee7a0060181546e6b0c1b8e8c6f361fb2d7fe"
+  integrity sha512-YB0MIUzW8D1NirKpxxNXgEYuvK/OWbFo3djsBA4GqEUBIsJmdYcd4auHSqV3gKE/eSRoFQ0Z//eJNiqtsHbSEw==
   dependencies:
-    node-gyp-build "^4.2.3"
-    uuid "^8.3.0"
-
-"@signalapp/mock-server@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-1.5.1.tgz#e37a4505c037a3e85901cd00443d565cf9c2fe90"
-  integrity sha512-PqRrLhGPtKoTOeHj/L4tUlNkwXZ8MJMU3G7DaaVRAD+g+bpjpeb/ru73iH35K209wRdn4s7/hGUMaeRd6yKFxA==
-  dependencies:
-    "@signalapp/libsignal-client" "^0.16.0"
+    "@signalapp/libsignal-client" "^0.18.1"
     debug "^4.3.2"
     long "^4.0.0"
     micro "^9.3.4"

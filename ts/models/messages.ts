@@ -459,7 +459,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         conversationSelector: findAndFormatContact,
         ourConversationId,
         ourNumber: window.textsecure.storage.user.getNumber(),
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourACI: window.textsecure.storage.user
+          .getCheckedUuid(UUIDKind.ACI)
+          .toString(),
+        ourPNI: window.textsecure.storage.user
+          .getCheckedUuid(UUIDKind.PNI)
+          .toString(),
         regionCode: window.storage.get('regionCode', 'ZZ'),
         accountSelector: (identifier?: string) => {
           const state = window.reduxStore.getState();
@@ -540,7 +545,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const changes = GroupChange.renderChange<string>(change, {
         i18n: window.i18n,
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourACI: window.textsecure.storage.user
+          .getCheckedUuid(UUIDKind.ACI)
+          .toString(),
+        ourPNI: window.textsecure.storage.user
+          .getCheckedUuid(UUIDKind.PNI)
+          .toString(),
         renderContact: (conversationId: string) => {
           const conversation =
             window.ConversationController.get(conversationId);
@@ -2213,12 +2223,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             publicParams: initialMessage.groupV2.publicParams,
           });
 
-          // Standard GroupV2 modification codepath
           const existingRevision = conversation.get('revision');
+          const isFirstUpdate = !_.isNumber(existingRevision);
+
+          // Standard GroupV2 modification codepath
           const isV2GroupUpdate =
             initialMessage.groupV2 &&
             _.isNumber(initialMessage.groupV2.revision) &&
-            (!_.isNumber(existingRevision) ||
+            (isFirstUpdate ||
               initialMessage.groupV2.revision > existingRevision);
 
           if (isV2GroupUpdate && initialMessage.groupV2) {
@@ -2247,9 +2259,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       }
 
-      const ourConversationId =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        window.ConversationController.getOurConversationId()!;
+      const ourACI = window.textsecure.storage.user.getCheckedUuid(
+        UUIDKind.ACI
+      );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const senderId = window.ConversationController.ensureContactIds({
         e164: source,
@@ -2273,15 +2285,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
+      const areWeMember =
+        !conversation.get('left') && conversation.hasMember(ourACI);
+
       // Drop an incoming GroupV2 message if we or the sender are not part of the group
       //   after applying the message's associated group changes.
       if (
         type === 'incoming' &&
         !isDirectConversation(conversation.attributes) &&
         hasGroupV2Prop &&
-        (conversation.get('left') ||
-          !conversation.hasMember(ourConversationId) ||
-          !conversation.hasMember(senderId))
+        (!areWeMember ||
+          (sourceUuid && !conversation.hasMember(new UUID(sourceUuid))))
       ) {
         log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we or the sender are not a part of. Dropping.`
@@ -2301,7 +2315,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         !hasGroupV2Prop &&
         !isV1GroupUpdate &&
         conversation.get('members') &&
-        (conversation.get('left') || !conversation.hasMember(ourConversationId))
+        !areWeMember
       ) {
         log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
@@ -2323,7 +2337,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // Drop incoming messages to announcement only groups where sender is not admin
       if (
         conversation.get('announcementsOnly') &&
-        !conversation.isAdmin(senderId)
+        !conversation.isAdmin(UUID.checkedLookup(senderId))
       ) {
         confirm();
         return;

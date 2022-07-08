@@ -11,8 +11,8 @@ import { updateRemoteConfig } from '../helpers/RemoteConfigStub';
 const HARD_LIMIT_KEY = 'global.groupsv2.groupSizeHardLimit';
 
 describe('group add banned member', () => {
-  const uuid = UUID.generate().toString();
-  const ourUuid = UUID.generate().toString();
+  const uuid = UUID.generate();
+  const ourUuid = UUID.generate();
   const existing = Array.from({ length: 10 }, (_, index) => ({
     uuid: UUID.generate().toString(),
     timestamp: index,
@@ -49,7 +49,7 @@ describe('group add banned member', () => {
         clientZkGroupCipher,
         actions.addMembersBanned?.[0]?.added?.userId ?? new Uint8Array(0)
       ),
-      uuid
+      uuid.toString()
     );
     assert.strictEqual(actions.deleteMembersBanned, null);
   });
@@ -77,7 +77,7 @@ describe('group add banned member', () => {
         clientZkGroupCipher,
         actions.addMembersBanned?.[0]?.added?.userId ?? new Uint8Array(0)
       ),
-      uuid
+      uuid.toString()
     );
     assert.deepStrictEqual(
       deleted,
@@ -108,7 +108,7 @@ describe('group add banned member', () => {
       uuid,
       ourUuid,
       group: {
-        bannedMembersV2: [{ uuid, timestamp: 1 }],
+        bannedMembersV2: [{ uuid: uuid.toString(), timestamp: 1 }],
       },
     });
 

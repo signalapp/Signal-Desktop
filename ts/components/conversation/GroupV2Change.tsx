@@ -30,7 +30,8 @@ export type PropsDataType = {
   }>;
   groupBannedMemberships?: Array<UUIDStringType>;
   groupName?: string;
-  ourUuid?: UUIDStringType;
+  ourACI?: UUIDStringType;
+  ourPNI?: UUIDStringType;
   change: GroupV2ChangeType;
 };
 
@@ -132,7 +133,8 @@ function GroupV2Detail({
   groupBannedMemberships,
   groupName,
   i18n,
-  ourUuid,
+  ourACI,
+  ourPNI,
   renderContact,
   text,
 }: {
@@ -148,7 +150,8 @@ function GroupV2Detail({
   groupName?: string;
   i18n: LocalizerType;
   fromId?: UUIDStringType;
-  ourUuid?: UUIDStringType;
+  ourACI?: UUIDStringType;
+  ourPNI?: UUIDStringType;
   renderContact: SmartContactRendererType<FullJSXType>;
   text: FullJSXType;
 }): JSX.Element {
@@ -241,7 +244,8 @@ function GroupV2Detail({
     detail.type === 'admin-approval-bounce' &&
     areWeAdmin &&
     detail.uuid &&
-    detail.uuid !== ourUuid &&
+    detail.uuid !== ourACI &&
+    detail.uuid !== ourPNI &&
     (!fromId || fromId === detail.uuid) &&
     !groupMemberships?.some(item => item.uuid === detail.uuid) &&
     !groupBannedMemberships?.some(uuid => uuid === detail.uuid)
@@ -276,7 +280,8 @@ export function GroupV2Change(props: PropsType): ReactElement {
     groupMemberships,
     groupName,
     i18n,
-    ourUuid,
+    ourACI,
+    ourPNI,
     renderContact,
   } = props;
 
@@ -284,7 +289,8 @@ export function GroupV2Change(props: PropsType): ReactElement {
     <>
       {renderChange<FullJSXType>(change, {
         i18n,
-        ourUuid,
+        ourACI,
+        ourPNI,
         renderContact,
         renderString: renderStringToIntl,
       }).map(({ detail, isLastText, text }, index) => {
@@ -302,7 +308,8 @@ export function GroupV2Change(props: PropsType): ReactElement {
             // Difficult to find a unique key for this type
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            ourUuid={ourUuid}
+            ourACI={ourACI}
+            ourPNI={ourPNI}
             renderContact={renderContact}
             text={text}
           />

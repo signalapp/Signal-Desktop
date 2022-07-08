@@ -200,6 +200,7 @@ const dataInterface: ServerInterface = {
   updateConversations,
   removeConversation,
   updateAllConversationColors,
+  removeAllProfileKeyCredentials,
 
   getAllConversations,
   getAllConversationIds,
@@ -2033,7 +2034,7 @@ async function getMessageBySender({
   sent_at,
 }: {
   source: string;
-  sourceUuid: string;
+  sourceUuid: UUIDStringType;
   sourceDevice: number;
   sent_at: number;
 }): Promise<MessageType | undefined> {
@@ -2443,7 +2444,7 @@ async function getOlderStories({
   limit?: number;
   receivedAt?: number;
   sentAt?: number;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
 }): Promise<Array<MessageType>> {
   const db = getInstance();
   const rows: JSONRows = db
@@ -5066,4 +5067,16 @@ async function updateAllConversationColors(
       customColorId: customColorData?.id || null,
     }),
   });
+}
+
+async function removeAllProfileKeyCredentials(): Promise<void> {
+  const db = getInstance();
+
+  db.exec(
+    `
+    UPDATE conversations
+    SET
+      json = json_remove(json, '$.profileKeyCredential')
+    `
+  );
 }

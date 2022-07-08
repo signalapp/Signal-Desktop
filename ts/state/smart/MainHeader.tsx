@@ -14,7 +14,6 @@ import {
   getTheme,
   getUserConversationId,
   getUserNumber,
-  getUserUuid,
 } from '../selectors/user';
 import { getMe } from '../selectors/conversations';
 import { getStoriesEnabled } from '../selectors/items';
@@ -28,7 +27,6 @@ const mapStateToProps = (state: StateType) => {
     regionCode: getRegionCode(state),
     ourConversationId: getUserConversationId(state),
     ourNumber: getUserNumber(state),
-    ourUuid: getUserUuid(state),
     ...me,
     badge: getPreferredBadgeSelector(state)(me.badges),
     theme: getTheme(state),

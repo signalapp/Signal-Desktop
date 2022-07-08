@@ -18,7 +18,8 @@ export type UserStateType = {
   tempPath: string;
   ourConversationId: string | undefined;
   ourDeviceId: number | undefined;
-  ourUuid: UUIDStringType | undefined;
+  ourACI: UUIDStringType | undefined;
+  ourPNI: UUIDStringType | undefined;
   ourNumber: string | undefined;
   platform: string;
   regionCode: string | undefined;
@@ -39,7 +40,8 @@ type UserChangedActionType = {
   payload: {
     ourConversationId?: string;
     ourDeviceId?: number;
-    ourUuid?: UUIDStringType;
+    ourACI?: UUIDStringType;
+    ourPNI?: UUIDStringType;
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
@@ -64,7 +66,8 @@ function userChanged(attributes: {
   ourConversationId?: string;
   ourDeviceId?: number;
   ourNumber?: string;
-  ourUuid?: UUIDStringType;
+  ourACI?: UUIDStringType;
+  ourPNI?: UUIDStringType;
   regionCode?: string;
   theme?: ThemeType;
   isMainWindowMaximized?: boolean;
@@ -95,7 +98,8 @@ export function getEmptyState(): UserStateType {
     tempPath: 'missing',
     ourConversationId: 'missing',
     ourDeviceId: 0,
-    ourUuid: '00000000-0000-4000-8000-000000000000',
+    ourACI: undefined,
+    ourPNI: undefined,
     ourNumber: 'missing',
     regionCode: 'missing',
     platform: 'missing',
