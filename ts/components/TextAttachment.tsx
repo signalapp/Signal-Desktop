@@ -41,10 +41,13 @@ enum TextSize {
 }
 
 export type PropsType = {
+  disableLinkPreviewPopup?: boolean;
   i18n: LocalizerType;
   isEditingText?: boolean;
   isThumbnail?: boolean;
   onChange?: (text: string) => unknown;
+  onClick?: () => unknown;
+  onRemoveLinkPreview?: () => unknown;
   textAttachment: TextAttachmentType;
 };
 
@@ -102,10 +105,13 @@ function getTextStyles(
 }
 
 export const TextAttachment = ({
+  disableLinkPreviewPopup,
   i18n,
   isEditingText,
   isThumbnail,
   onChange,
+  onClick,
+  onRemoveLinkPreview,
   textAttachment,
 }: PropsType): JSX.Element | null => {
   const linkPreview = useRef<HTMLDivElement | null>(null);
@@ -137,6 +143,7 @@ export const TextAttachment = ({
             if (linkPreviewOffsetTop) {
               setLinkPreviewOffsetTop(undefined);
             }
+            onClick?.();
           }}
           onKeyUp={ev => {
             if (ev.key === 'Escape' && linkPreviewOffsetTop) {
@@ -222,17 +229,31 @@ export const TextAttachment = ({
                     ),
                   })}
                   ref={linkPreview}
-                  onFocus={() =>
-                    setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop)
-                  }
-                  onMouseOver={() =>
-                    setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop)
-                  }
+                  onFocus={() => {
+                    if (!disableLinkPreviewPopup) {
+                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
+                    }
+                  }}
+                  onMouseOver={() => {
+                    if (!disableLinkPreviewPopup) {
+                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
+                    }
+                  }}
                 >
+                  {onRemoveLinkPreview && (
+                    <div className="TextAttachment__preview__remove">
+                      <button
+                        aria-label={i18n('Keyboard--remove-draft-link-preview')}
+                        type="button"
+                        onClick={onRemoveLinkPreview}
+                      />
+                    </div>
+                  )}
                   <StagedLinkPreview
                     domain={getDomain(String(textAttachment.preview.url))}
                     i18n={i18n}
                     image={textAttachment.preview.image}
+                    imageSize={textAttachment.preview.title ? 144 : 72}
                     moduleClassName="TextAttachment__preview"
                     title={textAttachment.preview.title || undefined}
                     url={textAttachment.preview.url}

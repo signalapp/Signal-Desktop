@@ -15,6 +15,7 @@ import { isImageAttachment } from '../../types/Attachment';
 
 export type Props = LinkPreviewType & {
   i18n: LocalizerType;
+  imageSize?: number;
   moduleClassName?: string;
   onClose?: () => void;
 };
@@ -25,6 +26,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
   domain,
   i18n,
   image,
+  imageSize,
   moduleClassName,
   onClose,
   title,
@@ -58,10 +60,10 @@ export const StagedLinkPreview: React.FC<Props> = ({
             curveBottomRight={CurveType.Tiny}
             curveTopLeft={CurveType.Tiny}
             curveTopRight={CurveType.Tiny}
-            height={72}
+            height={imageSize || 72}
             i18n={i18n}
             url={image.url}
-            width={72}
+            width={imageSize || 72}
           />
         </div>
       ) : null}

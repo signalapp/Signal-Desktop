@@ -104,7 +104,7 @@ export const StoryCreator = ({
   const [textBackground, setTextBackground] = useState<TextBackground>(
     TextBackground.None
   );
-  const [sliderValue, setSliderValue] = useState<number>(0);
+  const [sliderValue, setSliderValue] = useState<number>(100);
   const [text, setText] = useState<string>('');
 
   const textEditorRef = useRef<HTMLInputElement | null>(null);
@@ -234,9 +234,18 @@ export const StoryCreator = ({
       <div className="StoryCreator">
         <div className="StoryCreator__container">
           <TextAttachment
+            disableLinkPreviewPopup
             i18n={i18n}
             isEditingText={isEditingText}
             onChange={setText}
+            onClick={() => {
+              if (!isEditingText) {
+                setIsEditingText(true);
+              }
+            }}
+            onRemoveLinkPreview={() => {
+              setHasLinkPreviewApplied(false);
+            }}
             textAttachment={{
               ...getBackground(selectedBackground),
               text,
