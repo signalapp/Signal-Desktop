@@ -27,14 +27,15 @@ Lastly, be sure to preview your issue before saving. Thanks!
     https://github.com/signalapp/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
   Replace [ ] with [X] once you've searched
 -->
-- [ ] I am using Signal-Desktop as provided by the Signal team, not a 3rd-party package.
+- [ ] I am using Signal-Desktop as provided by the Signal team, not a third-party package.
 <!--
-  If you're using a 3rd-party package, please report it to them first.
-  For flatpak:
+  If you're using a third-party package, please report it to them first.
+  For Flatpak:
   - https://github.com/flathub/org.signal.Signal/issues
-  For snap:
-  - https://github.com/flathub/org.signal.Signal/issues
-  For archlinux:
+  For Snap:
+  - https://github.com/snapcrafters/signal-desktop/issues
+  For Arch Linux:
+  - https://archlinux.org/packages/community/x86_64/signal-desktop/
   - https://aur.archlinux.org/packages/signal-desktop-beta/
   etc.
 -->
