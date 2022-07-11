@@ -2056,6 +2056,8 @@ export class ConversationModel extends window.Backbone
             UUIDKind.ACI
           );
           const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+          const ourConversation =
+            window.ConversationController.getOurConversationOrThrow();
 
           if (
             isGroupV1(this.attributes) ||
@@ -2068,7 +2070,7 @@ export class ConversationModel extends window.Backbone
           ) {
             await this.modifyGroupV2({
               name: 'promotePendingMember',
-              usingCredentialsFrom: [],
+              usingCredentialsFrom: [ourConversation],
               createGroupChange: () => this.promotePendingMember(UUIDKind.ACI),
             });
           } else if (
@@ -2078,7 +2080,7 @@ export class ConversationModel extends window.Backbone
           ) {
             await this.modifyGroupV2({
               name: 'promotePendingMember',
-              usingCredentialsFrom: [],
+              usingCredentialsFrom: [ourConversation],
               createGroupChange: () => this.promotePendingMember(UUIDKind.PNI),
             });
           } else if (isGroupV2(this.attributes) && this.isMember(ourACI)) {
@@ -2170,18 +2172,20 @@ export class ConversationModel extends window.Backbone
     approvalRequired: boolean;
   }): Promise<void> {
     const ourACI = window.textsecure.storage.user.getCheckedUuid();
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
     try {
       if (approvalRequired) {
         await this.modifyGroupV2({
           name: 'requestToJoin',
-          usingCredentialsFrom: [],
+          usingCredentialsFrom: [ourConversation],
           inviteLinkPassword,
           createGroupChange: () => this.addPendingApprovalRequest(),
         });
       } else {
         await this.modifyGroupV2({
           name: 'joinGroup',
-          usingCredentialsFrom: [],
+          usingCredentialsFrom: [ourConversation],
           inviteLinkPassword,
           createGroupChange: () => this.addMember(ourACI),
         });
@@ -2284,6 +2288,8 @@ export class ConversationModel extends window.Backbone
 
     const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
     const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
 
     if (this.isMemberPending(ourACI)) {
       await this.modifyGroupV2({
@@ -2294,7 +2300,7 @@ export class ConversationModel extends window.Backbone
     } else if (this.isMember(ourACI)) {
       await this.modifyGroupV2({
         name: 'delete',
-        usingCredentialsFrom: [],
+        usingCredentialsFrom: [ourConversation],
         createGroupChange: () => this.removeMember(ourACI),
       });
       // Keep PNI in pending if ACI was a member.
@@ -2418,9 +2424,7 @@ export class ConversationModel extends window.Backbone
       });
       await this.modifyGroupV2({
         name: 'removePendingMember',
-        usingCredentialsFrom: conversationIds
-          .map(id => window.ConversationController.get(id))
-          .filter(isNotNil),
+        usingCredentialsFrom: [],
         createGroupChange: () => this.removePendingMember(uuids),
         extraConversationsForSend: conversationIds,
       });
@@ -2444,14 +2448,14 @@ export class ConversationModel extends window.Backbone
     if (this.isMemberRequestingToJoin(uuid)) {
       await this.modifyGroupV2({
         name: 'denyPendingApprovalRequest',
-        usingCredentialsFrom: [pendingMember],
+        usingCredentialsFrom: [],
         createGroupChange: () => this.denyPendingApprovalRequest(uuid),
         extraConversationsForSend: [conversationId],
       });
     } else if (this.isMemberPending(uuid)) {
       await this.modifyGroupV2({
         name: 'removePendingMember',
-        usingCredentialsFrom: [pendingMember],
+        usingCredentialsFrom: [],
         createGroupChange: () => this.removePendingMember([uuid]),
         extraConversationsForSend: [conversationId],
       });
@@ -2476,14 +2480,14 @@ export class ConversationModel extends window.Backbone
     if (this.isMemberRequestingToJoin(uuid)) {
       await this.modifyGroupV2({
         name: 'denyPendingApprovalRequest',
-        usingCredentialsFrom: [pendingMember],
+        usingCredentialsFrom: [],
         createGroupChange: () => this.denyPendingApprovalRequest(uuid),
         extraConversationsForSend: [conversationId],
       });
     } else if (this.isMemberPending(uuid)) {
       await this.modifyGroupV2({
         name: 'removePendingMember',
-        usingCredentialsFrom: [pendingMember],
+        usingCredentialsFrom: [],
         createGroupChange: () => this.removePendingMember([uuid]),
         extraConversationsForSend: [conversationId],
       });
@@ -4783,13 +4787,18 @@ export class ConversationModel extends window.Backbone
   }
 
   hasProfileKeyCredentialExpired(): boolean {
+    const profileKey = this.get('profileKey');
+    if (!profileKey) {
+      return false;
+    }
+
     const profileKeyCredential = this.get('profileKeyCredential');
     const profileKeyCredentialExpiration = this.get(
       'profileKeyCredentialExpiration'
     );
 
     if (!profileKeyCredential) {
-      return false;
+      return true;
     }
 
     if (!isNumber(profileKeyCredentialExpiration)) {

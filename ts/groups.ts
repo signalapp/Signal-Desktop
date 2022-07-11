@@ -1472,11 +1472,42 @@ export async function modifyGroupV2({
 
   let refreshedCredentials = false;
 
+  const profileFetchQueue = new PQueue({
+    concurrency: 3,
+  });
+
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
     log.info(`modifyGroupV2/${logId}: Starting attempt ${attempt}`);
     try {
       // eslint-disable-next-line no-await-in-loop
       await window.waitForEmptyEventQueue();
+
+      // Fetch profiles for contacts that do not have credentials (or have
+      // expired credentials)
+      {
+        const membersMissingCredentials = usingCredentialsFrom.filter(member =>
+          member.hasProfileKeyCredentialExpired()
+        );
+        const logIds = membersMissingCredentials.map(member =>
+          member.idForLogging()
+        );
+
+        if (logIds.length !== 0) {
+          log.info(`modifyGroupV2/${logId}: Fetching profiles for ${logIds}`);
+        }
+
+        for (const member of membersMissingCredentials) {
+          member.set({
+            profileKeyCredential: null,
+            profileKeyCredentialExpiration: null,
+          });
+        }
+
+        // eslint-disable-next-line no-await-in-loop
+        await profileFetchQueue.addAll(
+          membersMissingCredentials.map(member => () => member.getProfiles())
+        );
+      }
 
       log.info(`modifyGroupV2/${logId}: Queuing attempt ${attempt}`);
 
@@ -1557,10 +1588,12 @@ export async function modifyGroupV2({
         const logIds = usingCredentialsFrom.map(member =>
           member.idForLogging()
         );
-        log.warn(
-          `modifyGroupV2/${logId}: Profile key credentials were not ` +
-            `up-to-date. Updating profiles for ${logIds} and retrying`
-        );
+        if (logIds.length !== 0) {
+          log.warn(
+            `modifyGroupV2/${logId}: Profile key credentials were not ` +
+              `up-to-date. Updating profiles for ${logIds} and retrying`
+          );
+        }
 
         for (const member of usingCredentialsFrom) {
           member.set({
@@ -1569,9 +1602,6 @@ export async function modifyGroupV2({
           });
         }
 
-        const profileFetchQueue = new PQueue({
-          concurrency: 3,
-        });
         // eslint-disable-next-line no-await-in-loop
         await profileFetchQueue.addAll(
           usingCredentialsFrom.map(member => () => member.getProfiles())
@@ -1741,6 +1771,17 @@ export async function createGroupV2({
 
   const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
 
+  const ourConversation =
+    window.ConversationController.getOurConversationOrThrow();
+  if (ourConversation.hasProfileKeyCredentialExpired()) {
+    log.info(`createGroupV2/${logId}: fetching our own credentials`);
+    ourConversation.set({
+      profileKeyCredential: null,
+      profileKeyCredentialExpiration: null,
+    });
+    await ourConversation.getProfiles();
+  }
+
   const membersV2: Array<GroupV2MemberType> = [
     {
       uuid: ourACI,
@@ -1770,7 +1811,7 @@ export async function createGroupV2({
       }
 
       // Refresh our local data to be sure
-      if (!contact.get('profileKey') || !contact.get('profileKeyCredential')) {
+      if (contact.hasProfileKeyCredentialExpired()) {
         await contact.getProfiles();
       }
 
