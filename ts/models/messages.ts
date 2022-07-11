@@ -826,18 +826,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { attributes } = this;
 
     if (attributes.storyReactionEmoji) {
-      const conversation = this.getConversation();
-      const firstName = conversation?.attributes.profileName;
-
-      if (!conversation || !firstName) {
-        return window.i18n('Quote__story-reaction--single');
+      if (!window.Signal.OS.isLinux()) {
+        return attributes.storyReactionEmoji;
       }
 
-      if (isMe(conversation.attributes)) {
-        return window.i18n('Quote__story-reaction--yours');
-      }
-
-      return window.i18n('Quote__story-reaction', [firstName]);
+      return window.i18n('Quote__story-reaction--single');
     }
 
     let modifiedText = text;

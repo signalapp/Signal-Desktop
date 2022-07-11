@@ -4,11 +4,15 @@
 /* eslint-disable max-classes-per-file */
 
 import { Collection, Model } from 'backbone';
-import * as log from '../logging/log';
+import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
-import type { ReactionAttributesType } from '../model-types.d';
+import type {
+  MessageAttributesType,
+  ReactionAttributesType,
+} from '../model-types.d';
+import * as log from '../logging/log';
 import { getContactId, getContact } from '../messages/helpers';
-import { isDirectConversation } from '../util/whatTypeOfConversation';
+import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import { isOutgoing, isStory } from '../state/selectors/message';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}
@@ -56,6 +60,26 @@ export class Reactions extends Collection<ReactionModel> {
     return [];
   }
 
+  private async findMessage(
+    targetTimestamp: number,
+    targetConversationId: string
+  ): Promise<MessageAttributesType | undefined> {
+    const messages = await window.Signal.Data.getMessagesBySentAt(
+      targetTimestamp
+    );
+
+    return messages.find(m => {
+      const contact = getContact(m);
+
+      if (!contact) {
+        return false;
+      }
+
+      const mcid = contact.get('id');
+      return mcid === targetConversationId;
+    });
+  }
+
   async onReaction(
     reaction: ReactionModel,
     generatedMessage: MessageModel
@@ -73,11 +97,41 @@ export class Reactions extends Collection<ReactionModel> {
         );
       }
 
-      const targetConversation =
-        await window.ConversationController.getConversationForTargetMessage(
-          targetConversationId,
+      const fromConversation = window.ConversationController.get(
+        generatedMessage.get('conversationId')
+      );
+
+      let targetConversation: ConversationModel | undefined | null;
+
+      const targetMessageCheck = await this.findMessage(
+        reaction.get('targetTimestamp'),
+        targetConversationId
+      );
+      if (!targetMessageCheck) {
+        log.info(
+          'No message for reaction',
+          reaction.get('targetAuthorUuid'),
           reaction.get('targetTimestamp')
         );
+
+        return;
+      }
+
+      if (
+        fromConversation &&
+        isStory(targetMessageCheck) &&
+        isDirectConversation(fromConversation.attributes) &&
+        !isMe(fromConversation.attributes)
+      ) {
+        targetConversation = fromConversation;
+      } else {
+        targetConversation =
+          await window.ConversationController.getConversationForTargetMessage(
+            targetConversationId,
+            reaction.get('targetTimestamp')
+          );
+      }
+
       if (!targetConversation) {
         log.info(
           'No target conversation for reaction',
@@ -91,44 +145,19 @@ export class Reactions extends Collection<ReactionModel> {
       await targetConversation.queueJob('Reactions.onReaction', async () => {
         log.info('Handling reaction for', reaction.get('targetTimestamp'));
 
-        const messages = await window.Signal.Data.getMessagesBySentAt(
-          reaction.get('targetTimestamp')
-        );
+        // Thanks TS.
+        if (!targetConversation) {
+          return;
+        }
+
         // Message is fetched inside the conversation queue so we have the
         // most recent data
-        const targetMessage = messages.find(m => {
-          const contact = getContact(m);
-
-          if (!contact) {
-            return false;
-          }
-
-          const mcid = contact.get('id');
-          const recid = window.ConversationController.ensureContactIds({
-            uuid: reaction.get('targetAuthorUuid'),
-          });
-          return mcid === recid;
-        });
+        const targetMessage = await this.findMessage(
+          reaction.get('targetTimestamp'),
+          targetConversationId
+        );
 
         if (!targetMessage) {
-          log.info(
-            'No message for reaction',
-            reaction.get('targetAuthorUuid'),
-            reaction.get('targetTimestamp')
-          );
-
-          // Since we haven't received the message for which we are removing a
-          // reaction, we can just remove those pending reactions
-          if (reaction.get('remove')) {
-            this.remove(reaction);
-            const oldReaction = this.where({
-              targetAuthorUuid: reaction.get('targetAuthorUuid'),
-              targetTimestamp: reaction.get('targetTimestamp'),
-              emoji: reaction.get('emoji'),
-            });
-            oldReaction.forEach(r => this.remove(r));
-          }
-
           return;
         }
 
@@ -148,22 +177,22 @@ export class Reactions extends Collection<ReactionModel> {
             storyReactionEmoji: reaction.get('emoji'),
           });
 
-          await Promise.all([
+          const [generatedMessageId] = await Promise.all([
             window.Signal.Data.saveMessage(generatedMessage.attributes, {
               ourUuid: window.textsecure.storage.user
                 .getCheckedUuid()
                 .toString(),
-              forceSave: true,
             }),
             generatedMessage.hydrateStoryContext(message),
           ]);
 
-          targetConversation.addSingleMessage(
-            window.MessageController.register(
-              generatedMessage.id,
-              generatedMessage
-            )
+          generatedMessage.set({ id: generatedMessageId });
+
+          const messageToAdd = window.MessageController.register(
+            generatedMessageId,
+            generatedMessage
           );
+          targetConversation.addSingleMessage(messageToAdd);
         }
 
         await message.handleReaction(reaction);

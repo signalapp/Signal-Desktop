@@ -7303,10 +7303,6 @@
       }
     }
   },
-  "Quote__story-reaction--yours": {
-    "message": "Reacted to your story",
-    "description": "Label for when a person reacts to your story"
-  },
   "Quote__story-reaction--single": {
     "message": "Reacted to a story",
     "description": "Used whenever we can't find a user's first name"
