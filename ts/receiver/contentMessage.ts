@@ -21,6 +21,11 @@ import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversation';
 import { ReadReceipts } from '../util/readReceipts';
 import { Storage } from '../util/storage';
+import { getMessageBySenderAndTimestamp } from '../data/data';
+import {
+  deleteMessagesFromSwarmAndCompletelyLocally,
+  deleteMessagesFromSwarmAndMarkAsDeletedLocally,
+} from '../interactions/conversations/unsendingInteractions';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -330,6 +335,7 @@ export async function innerHandleSwarmContentMessage(
 ): Promise<void> {
   try {
     perfStart(`SignalService.Content.decode-${envelope.id}`);
+    window.log.info('innerHandleSwarmContentMessage');
 
     const content = SignalService.Content.decode(new Uint8Array(plaintext));
     perfEnd(`SignalService.Content.decode-${envelope.id}`, 'SignalService.Content.decode');
@@ -377,7 +383,6 @@ export async function innerHandleSwarmContentMessage(
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
-
       await handleSwarmDataMessage(
         envelope,
         sentAtTimestamp,
@@ -442,11 +447,9 @@ export async function innerHandleSwarmContentMessage(
 }
 
 function onReadReceipt(readAt: number, timestamp: number, source: string) {
-  const { storage } = window;
-
   window?.log?.info('read receipt', source, timestamp);
 
-  if (!storage.get(SettingsKey.settingsReadReceipt)) {
+  if (!Storage.get(SettingsKey.settingsReadReceipt)) {
     return;
   }
 
@@ -528,7 +531,7 @@ async function handleTypingMessage(
  */
 async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: SignalService.Unsend) {
   const { author: messageAuthor, timestamp } = unsendMessage;
-
+  window.log.info(`handleUnsendMessage from ${messageAuthor}: of timestamp: ${timestamp}`);
   if (messageAuthor !== (envelope.senderIdentity || envelope.source)) {
     window?.log?.error(
       'handleUnsendMessage: Dropping request as the author and the sender differs.'
@@ -549,6 +552,37 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
     return;
   }
+  const messageToDelete = await getMessageBySenderAndTimestamp({
+    source: messageAuthor,
+    timestamp: Lodash.toNumber(timestamp),
+  });
+  const messageHash = messageToDelete?.get('messageHash');
+  //#endregion
+
+  //#region executing deletion
+  if (messageHash && messageToDelete) {
+    window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
+    const conversation = getConversationController().get(messageToDelete.get('conversationId'));
+    if (!conversation) {
+      await removeFromCache(envelope);
+
+      return;
+    }
+    if (messageToDelete.getSource() === UserUtils.getOurPubKeyStrFromCache()) {
+      // a message we sent is completely removed when we get a unsend request
+      void deleteMessagesFromSwarmAndCompletelyLocally(conversation, [messageToDelete]);
+    } else {
+      void deleteMessagesFromSwarmAndMarkAsDeletedLocally(conversation, [messageToDelete]);
+    }
+  } else {
+    window.log.info(
+      'handleUnsendMessage: got a request to delete an unknown messageHash:',
+      messageHash,
+      ' and found messageToDelete:',
+      messageToDelete?.id
+    );
+  }
+  await removeFromCache(envelope);
 }
 
 /**

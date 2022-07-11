@@ -1551,6 +1551,7 @@ async function initializeSql({
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
     cleanUpOldOpengroups();
+
     cleanUpUnusedNodeForKeyEntries();
     printDbStats();
 
@@ -3411,6 +3412,20 @@ function cleanUpOldOpengroups() {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
+  const pruneSetting = getItemById('prune-setting')?.value;
+
+  if (pruneSetting === undefined) {
+    console.info(
+      'Prune settings is undefined, skipping cleanUpOldOpengroups but we will need to ask user'
+    );
+    return;
+  }
+
+  if (!pruneSetting) {
+    console.info('Prune setting not enabled, skipping cleanUpOldOpengroups');
+    return;
+  }
+
   const v2Convos = getAllOpenGroupV2Conversations();
   if (!v2Convos || !v2Convos.length) {
     console.info('cleanUpOldOpengroups: v2Convos is empty');
@@ -3444,20 +3459,20 @@ function cleanUpOldOpengroups() {
       if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
         const minute = 1000 * 60;
         const sixMonths = minute * 60 * 24 * 30 * 6;
-        const messagesTimestampToRemove = Date.now() - sixMonths;
+        const limitTimestamp = Date.now() - sixMonths;
         const countToRemove = assertGlobalInstance()
           .prepare(
             `SELECT count(*) from ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId;`
           )
-          .get({ conversationId: convoId, serverTimestamp: Date.now() - sixMonths })['count(*)'];
+          .get({ conversationId: convoId, serverTimestamp: limitTimestamp })['count(*)'];
         const start = Date.now();
 
         assertGlobalInstance()
           .prepare(
             `
-      DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
+        DELETE FROM ${MESSAGES_TABLE} WHERE serverTimestamp <= $serverTimestamp AND conversationId = $conversationId`
           )
-          .run({ conversationId: convoId, serverTimestamp: messagesTimestampToRemove }); // delete messages older than sixMonths
+          .run({ conversationId: convoId, serverTimestamp: limitTimestamp }); // delete messages older than 6 months ago.
         const messagesInConvoAfter = getMessagesCountByConversation(convoId);
 
         console.info(
@@ -3688,6 +3703,7 @@ export const sqlNode = {
   getPubkeysInPublicConversation,
   getAllGroupsInvolvingId,
   removeAllConversations,
+  cleanUpOldOpengroups,
 
   searchConversations,
   searchMessages,

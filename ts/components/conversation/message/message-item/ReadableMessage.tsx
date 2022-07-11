@@ -144,9 +144,18 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           const found = await getMessageById(messageId);
 
           if (found && Boolean(found.get('unread'))) {
+            const foundReceivedAt = found.get('received_at');
             // mark the message as read.
             // this will trigger the expire timer.
             await found.markRead(Date.now());
+
+            // we should stack those and send them in a single message once every 5secs or something.
+            // this would be part of an redesign of the sending pipeline
+            if (foundReceivedAt) {
+              void getConversationController()
+                .get(found.id)
+                ?.sendReadReceiptsIfNeeded([foundReceivedAt]);
+            }
           }
         }
       }
@@ -177,6 +186,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}
+      data-testid="readable-message"
     >
       {props.children}
     </InView>

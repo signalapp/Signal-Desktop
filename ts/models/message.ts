@@ -1048,7 +1048,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     perfStart(`messageCommit-${this.attributes.id}`);
-    const id = await saveMessage(this.attributes);
+    // because the saving to db calls _cleanData which mutates the field for cleaning, we need to save a copy
+    const id = await saveMessage(_.cloneDeep(this.attributes));
     if (triggerUIUpdate) {
       this.dispatchMessageUpdate();
     }
@@ -1278,21 +1279,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('savedTheFile', [
         getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
       ]);
-    }
-    if (this.get('callNotificationType')) {
-      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-        this.get('conversationId')
-      );
-      const callNotificationType = this.get('callNotificationType');
-      if (callNotificationType === 'missed-call') {
-        return window.i18n('callMissed', [displayName]);
-      }
-      if (callNotificationType === 'started-call') {
-        return window.i18n('startedACall', [displayName]);
-      }
-      if (callNotificationType === 'answered-a-call') {
-        return window.i18n('answeredACall', [displayName]);
-      }
     }
     if (this.get('callNotificationType')) {
       const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(

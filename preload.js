@@ -86,6 +86,28 @@ window.getStartInTray = async () => {
   });
 };
 
+window.getOpengroupPruning = async () => {
+  return new Promise(resolve => {
+    ipc.once('get-opengroup-pruning-response', (_event, value) => {
+      resolve(value);
+    });
+    ipc.send('get-opengroup-pruning');
+  });
+};
+
+window.setOpengroupPruning = async opengroupPruning =>
+  new Promise((resolve, reject) => {
+    ipc.once('set-opengroup-pruning-response', (_event, error) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve();
+      return;
+    });
+    ipc.send('set-opengroup-pruning', opengroupPruning);
+  });
+
 window._ = require('lodash');
 
 // We never do these in our code, so we'll prevent it everywhere
@@ -224,7 +246,7 @@ window.getSeedNodeList = () =>
       ];
 
 const { locale: localFromEnv } = config;
-window.i18n = setupi18n(localFromEnv, localeMessages);
+window.i18n = setupi18n(localFromEnv || 'en', localeMessages);
 
 window.addEventListener('contextmenu', e => {
   const editable = e && e.target.closest('textarea, input, [contenteditable="true"]');

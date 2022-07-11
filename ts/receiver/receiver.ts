@@ -85,7 +85,6 @@ async function handleRequestDetail(
   // After this point, decoding errors are not the server's
   //   fault, and we should handle them gracefully and tell the
   //   user they received an invalid message
-
   // The message is for a medium size group
   if (options.conversationId) {
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();

@@ -73,7 +73,12 @@ export const SessionToast = (props: Props) => {
 
   return (
     // tslint:disable-next-line: use-simple-attributes
-    <Flex container={true} alignItems="center" onClick={props?.onToastClick || noop}>
+    <Flex
+      container={true}
+      alignItems="center"
+      onClick={props?.onToastClick || noop}
+      data-testid="session-toast"
+    >
       <IconDiv>
         <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
       </IconDiv>

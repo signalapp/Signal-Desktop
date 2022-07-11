@@ -30,6 +30,7 @@ export const renderUserMentionRow = (suggestion: SuggestionDataItem) => {
       key={suggestion.id}
       pubkey={`${suggestion.id}`}
       disableBg={true}
+      dataTestId="mentions-popup-row"
     />
   );
 };

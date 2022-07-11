@@ -159,6 +159,8 @@ export async function handleSwarmDataMessage(
   messageHash: string,
   senderConversationModel: ConversationModel
 ): Promise<void> {
+  window.log.info('handleSwarmDataMessage');
+
   const cleanDataMessage = await cleanIncomingDataMessage(envelope, rawDataMessage);
   // we handle group updates from our other devices in handleClosedGroupControlMessage()
   if (cleanDataMessage.closedGroupControlMessage) {

@@ -98,11 +98,9 @@ const removeNewlines = (text: string) => text.replace(/\r?\n|\r/g, '');
 //      redactSensitivePaths :: String -> String
 const redactSensitivePaths = redactPath(APP_ROOT_PATH);
 
+const isDev = (process.env.NODE_APP_INSTANCE || '').startsWith('devprod');
+
 //      redactAll :: String -> String
-export const redactAll = compose(
-  redactSensitivePaths,
-  redactGroupIds,
-  redactSessionID,
-  redactSnodeIP,
-  redactServerUrl
-);
+export const redactAll = !isDev
+  ? compose(redactSensitivePaths, redactGroupIds, redactSessionID, redactSnodeIP, redactServerUrl)
+  : (text: string) => text;

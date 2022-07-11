@@ -164,6 +164,10 @@ async function createAccount(identityKeyPair: any) {
   // Enable typing indicators by default
   await Storage.put(SettingsKey.settingsTypingIndicator, false);
 
+  // opengroups pruning in ON by default on new accounts, but you can change that from the settings
+  await Storage.put(SettingsKey.settingsOpengroupPruning, true);
+  await window.setOpengroupPruning(true);
+
   await setLocalPubKey(pubKeyString);
 }
 

@@ -146,6 +146,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
           event: e,
         });
       }}
+      data-testid="three-dots-conversation-options"
     >
       <SessionIconButton iconType="ellipses" iconSize="medium" />
     </div>
@@ -162,7 +163,12 @@ const ExpirationLength = (props: { expirationSettingName?: string }) => {
   return (
     <div className="module-conversation-header__expiration">
       <div className="module-conversation-header__expiration__clock-icon" />
-      <div className="module-conversation-header__expiration__setting">{expirationSettingName}</div>
+      <div
+        className="module-conversation-header__expiration__setting"
+        data-testid="disappearing-messages-indicator"
+      >
+        {expirationSettingName}
+      </div>
     </div>
   );
 };
@@ -185,6 +191,7 @@ const AvatarHeader = (props: {
           }
         }}
         pubkey={pubkey}
+        dataTestId="conversation-options-avatar"
       />
     </span>
   );
@@ -197,7 +204,13 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   }
 
   return (
-    <SessionIconButton iconType="chevron" iconSize="large" iconRotation={90} onClick={onGoBack} />
+    <SessionIconButton
+      iconType="chevron"
+      iconSize="large"
+      iconRotation={90}
+      onClick={onGoBack}
+      dataTestId="back-button-message-details"
+    />
   );
 };
 
@@ -305,7 +318,9 @@ const ConversationHeaderTitle = () => {
       }}
       role="button"
     >
-      <span className="module-contact-name__profile-name">{convoName}</span>
+      <span className="module-contact-name__profile-name" data-testid="header-conversation-name">
+        {convoName}
+      </span>
       <StyledSubtitleContainer>
         <ConversationHeaderSubtitle text={fullTextSubtitle} />
       </StyledSubtitleContainer>

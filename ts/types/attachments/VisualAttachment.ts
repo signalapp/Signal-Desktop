@@ -113,24 +113,7 @@ export const revokeObjectUrl = (objectUrl: string) => {
   URL.revokeObjectURL(objectUrl);
 };
 
-/**
- * Shows the system file picker for images, scale the image down for avatar/opengroup measurements and return the blob objectURL on success
- */
-export async function pickFileForAvatar(): Promise<string | null> {
-  const [fileHandle] = await (window as any).showOpenFilePicker({
-    types: [
-      {
-        description: 'Images',
-        accept: {
-          'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
-        },
-      },
-    ],
-    excludeAcceptAllOption: true,
-    multiple: false,
-  });
-  const file = (await fileHandle.getFile()) as File;
-
+export async function autoScaleAvatarBlob(file: File) {
   try {
     const scaled = await autoScaleForAvatar({ blob: file, contentType: file.type });
 
@@ -145,5 +128,49 @@ export async function pickFileForAvatar(): Promise<string | null> {
     );
     window.log.error(e);
     return null;
+  }
+}
+
+/**
+ * Shows the system file picker for images, scale the image down for avatar/opengroup measurements and return the blob objectURL on success
+ */
+export async function pickFileForAvatar(): Promise<string | null> {
+  if (process.env.NODE_APP_INSTANCE?.includes('test-integration')) {
+    window.log.info(
+      'shorting pickFileForAvatar as it does not work in playwright/notsending the filechooser event'
+    );
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 500;
+    canvas.height = 500;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error('we need a context');
+    }
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    return new Promise(resolve => {
+      canvas.toBlob(async blob => {
+        const file = new File([blob as Blob], 'image.png', { type: 'image/png' });
+        const url = await autoScaleAvatarBlob(file);
+        resolve(url);
+      });
+    });
+  } else {
+    const [fileHandle] = await (window as any).showOpenFilePicker({
+      types: [
+        {
+          description: 'Images',
+          accept: {
+            'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
+          },
+        },
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false,
+    });
+
+    const file = (await fileHandle.getFile()) as File;
+    return autoScaleAvatarBlob(file);
   }
 }
