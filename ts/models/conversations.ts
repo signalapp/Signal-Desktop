@@ -3997,9 +3997,11 @@ export class ConversationModel extends window.Backbone
         const { clearUnreadMetrics } = window.reduxActions.conversations;
         clearUnreadMetrics(this.id);
 
-        const enableProfileSharing = Boolean(
+        const enabledProfileSharing = Boolean(
           mandatoryProfileSharingEnabled && !this.get('profileSharing')
         );
+        const unarchivedConversation = Boolean(this.get('isArchived'));
+
         this.doAddSingleMessage(model, { isJustSent: true });
 
         const draftProperties = dontClearDraft
@@ -4013,15 +4015,18 @@ export class ConversationModel extends window.Backbone
 
         this.set({
           ...draftProperties,
-          ...(enableProfileSharing ? { profileSharing: true } : {}),
+          ...(enabledProfileSharing ? { profileSharing: true } : {}),
           ...this.incrementSentMessageCount({ dry: true }),
           active_at: now,
           timestamp: now,
-          isArchived: false,
+          ...(unarchivedConversation ? { isArchived: false } : {}),
         });
 
-        if (enableProfileSharing) {
-          this.captureChange('mandatoryProfileSharing');
+        if (enabledProfileSharing) {
+          this.captureChange('enqueueMessageForSend/mandatoryProfileSharing');
+        }
+        if (unarchivedConversation) {
+          this.captureChange('enqueueMessageForSend/unarchive');
         }
 
         extraReduxActions?.();
