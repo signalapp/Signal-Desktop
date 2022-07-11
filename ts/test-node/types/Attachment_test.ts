@@ -62,7 +62,25 @@ describe('Attachment', () => {
       });
     });
     context('for attachment with index', () => {
-      it('should generate a filename based on timestamp', () => {
+      it('should use filename if provided', () => {
+        const attachment: Attachment.AttachmentType = fakeAttachment({
+          fileName: 'funny-cat.mov',
+          data: Bytes.fromString('foo'),
+          contentType: MIME.VIDEO_QUICKTIME,
+        });
+        const timestamp = new Date(
+          DAY + new Date(DAY).getTimezoneOffset() * 60 * 1000
+        );
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          timestamp,
+          index: 3,
+        });
+        const expected = 'funny-cat.mov';
+        assert.strictEqual(actual, expected);
+      });
+
+      it('should use provided index if > 1 and filename not provided', () => {
         const attachment: Attachment.AttachmentType = fakeAttachment({
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
@@ -76,6 +94,23 @@ describe('Attachment', () => {
           index: 3,
         });
         const expected = 'signal-1970-01-02-000000_003.mov';
+        assert.strictEqual(actual, expected);
+      });
+
+      it('should not use provided index == 1 if filename not provided', () => {
+        const attachment: Attachment.AttachmentType = fakeAttachment({
+          data: Bytes.fromString('foo'),
+          contentType: MIME.VIDEO_QUICKTIME,
+        });
+        const timestamp = new Date(
+          DAY + new Date(DAY).getTimezoneOffset() * 60 * 1000
+        );
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          timestamp,
+          index: 1,
+        });
+        const expected = 'signal-1970-01-02-000000.mov';
         assert.strictEqual(actual, expected);
       });
     });
