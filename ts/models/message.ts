@@ -1295,21 +1295,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('answeredACall', [displayName]);
       }
     }
-    if (this.get('callNotificationType')) {
-      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-        this.get('conversationId')
-      );
-      const callNotificationType = this.get('callNotificationType');
-      if (callNotificationType === 'missed-call') {
-        return window.i18n('callMissed', [displayName]);
-      }
-      if (callNotificationType === 'started-call') {
-        return window.i18n('startedACall', [displayName]);
-      }
-      if (callNotificationType === 'answered-a-call') {
-        return window.i18n('answeredACall', [displayName]);
-      }
-    }
     return this.get('body');
   }
 }
