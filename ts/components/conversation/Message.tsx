@@ -593,6 +593,7 @@ export class Message extends React.PureComponent<Props, State> {
     {
       attachments,
       deletedForEveryone,
+      direction,
       expirationLength,
       expirationTimestamp,
       giftBadge,
@@ -615,7 +616,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge) {
-      const description = i18n('message--giftBadge--unopened');
+      const description = i18n(`message--giftBadge--unopened--${direction}`);
       const isDescriptionRTL = getDirection(description) === 'rtl';
 
       if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {

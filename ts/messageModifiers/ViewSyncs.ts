@@ -8,7 +8,7 @@ import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
-import { isIncoming, isStory } from '../state/selectors/message';
+import { isIncoming } from '../state/selectors/message';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
@@ -68,10 +68,7 @@ export class ViewSyncs extends Collection {
           uuid: item.sourceUuid,
         });
 
-        return (
-          (isIncoming(item) || isStory(item)) &&
-          senderId === sync.get('senderId')
-        );
+        return senderId === sync.get('senderId');
       });
 
       if (!found) {
