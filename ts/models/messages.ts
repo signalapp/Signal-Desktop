@@ -2045,7 +2045,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const idLog = conversation.idForLogging();
     await conversation.queueJob('handleDataMessage', async () => {
       log.info(
-        `handleDataMessage/${idLog}: processsing message ${message.idForLogging()}`
+        `handleDataMessage/${idLog}: processing message ${message.idForLogging()}`
       );
 
       if (
@@ -2603,48 +2603,43 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                   expireTimer: initialMessage.expireTimer,
                 },
               });
-              conversation.set({ expireTimer: dataMessage.expireTimer });
-            }
 
-            // NOTE: Remove once the above calls this.model.updateExpirationTimer()
-            const { expireTimer } = dataMessage;
-            const shouldLogExpireTimerChange =
-              isExpirationTimerUpdate(message.attributes) || expireTimer;
-            if (shouldLogExpireTimerChange) {
-              log.info("Update conversation 'expireTimer'", {
-                id: conversation.idForLogging(),
-                expireTimer,
-                source: 'handleDataMessage',
-              });
-            }
-
-            if (!isEndSession(message.attributes)) {
-              if (dataMessage.expireTimer) {
-                if (
-                  dataMessage.expireTimer !== conversation.get('expireTimer')
-                ) {
-                  conversation.updateExpirationTimer(dataMessage.expireTimer, {
-                    source,
-                    receivedAt: message.get('received_at'),
-                    receivedAtMS: message.get('received_at_ms'),
-                    sentAt: message.get('sent_at'),
-                    fromGroupUpdate: isGroupUpdate(message.attributes),
-                    reason: `handleDataMessage(${this.idForLogging()})`,
-                  });
-                }
-              } else if (
-                conversation.get('expireTimer') &&
-                // We only turn off timers if it's not a group update
-                !isGroupUpdate(message.attributes)
-              ) {
-                conversation.updateExpirationTimer(undefined, {
-                  source,
-                  receivedAt: message.get('received_at'),
-                  receivedAtMS: message.get('received_at_ms'),
-                  sentAt: message.get('sent_at'),
-                  reason: `handleDataMessage(${this.idForLogging()})`,
+              if (conversation.get('expireTimer') !== dataMessage.expireTimer) {
+                log.info('Incoming expirationTimerUpdate changed timer', {
+                  id: conversation.idForLogging(),
+                  expireTimer: dataMessage.expireTimer || 'disabled',
+                  source: 'handleDataMessage/expirationTimerUpdate',
+                });
+                conversation.set({
+                  expireTimer: dataMessage.expireTimer,
                 });
               }
+            }
+
+            // Note: For incoming expire timer updates (not normal messages that come
+            //   along with an expireTimer), the conversation will be updated by this
+            //   point and these calls will return early.
+            if (dataMessage.expireTimer) {
+              conversation.updateExpirationTimer(dataMessage.expireTimer, {
+                source,
+                receivedAt: message.get('received_at'),
+                receivedAtMS: message.get('received_at_ms'),
+                sentAt: message.get('sent_at'),
+                fromGroupUpdate: isGroupUpdate(message.attributes),
+                reason: `handleDataMessage(${this.idForLogging()})`,
+              });
+            } else if (
+              // We won't turn off timers for these kinds of messages:
+              !isGroupUpdate(message.attributes) &&
+              !isEndSession(message.attributes)
+            ) {
+              conversation.updateExpirationTimer(undefined, {
+                source,
+                receivedAt: message.get('received_at'),
+                receivedAtMS: message.get('received_at_ms'),
+                sentAt: message.get('sent_at'),
+                reason: `handleDataMessage(${this.idForLogging()})`,
+              });
             }
           }
 

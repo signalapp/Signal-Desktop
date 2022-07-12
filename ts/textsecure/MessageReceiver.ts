@@ -2885,7 +2885,7 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     contacts: Proto.SyncMessage.IContacts
   ): Promise<void> {
-    log.info('MessageReceiver: handleContacts');
+    log.info(`MessageReceiver: handleContacts ${getEnvelopeId(envelope)}`);
     const { blob } = contacts;
     if (!blob) {
       throw new Error('MessageReceiver.handleContacts: blob field was missing');
@@ -2924,6 +2924,7 @@ export default class MessageReceiver
     groups: Proto.SyncMessage.IGroups
   ): Promise<void> {
     log.info('group sync');
+    log.info(`MessageReceiver: handleGroups ${getEnvelopeId(envelope)}`);
     const { blob } = groups;
 
     this.removeFromCache(envelope);

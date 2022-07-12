@@ -317,7 +317,7 @@ export async function startApp(): Promise<void> {
     );
     messageReceiver.addEventListener(
       'contact',
-      queuedEventListener(onContactReceived)
+      queuedEventListener(onContactReceived, false)
     );
     messageReceiver.addEventListener(
       'contactSync',
@@ -2718,7 +2718,9 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.trigger('contactSync:complete');
   }
 
-  async function onContactReceived(ev: ContactEvent) {
+  // Note: Like the handling for incoming/outgoing messages, this method is synchronous,
+  //   deferring its async logic to the function passed to conversation.queueJob().
+  function onContactReceived(ev: ContactEvent) {
     const details = ev.contactDetails;
 
     const c = new window.Whisper.Conversation({
@@ -2735,60 +2737,66 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    try {
-      const detailsId = window.ConversationController.ensureContactIds({
-        e164: details.number,
-        uuid: details.uuid,
-        highTrust: true,
-        reason: 'onContactReceived',
-      });
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const conversation = window.ConversationController.get(detailsId)!;
+    const detailsId = window.ConversationController.ensureContactIds({
+      e164: details.number,
+      uuid: details.uuid,
+      highTrust: true,
+      reason: 'onContactReceived',
+    });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const conversation = window.ConversationController.get(detailsId)!;
 
-      conversation.set({
-        name: details.name,
-        inbox_position: details.inboxPosition,
-      });
-
-      // Update the conversation avatar only if new avatar exists and hash differs
-      const { avatar } = details;
-      if (avatar && avatar.data) {
-        const newAttributes = await Conversation.maybeUpdateAvatar(
-          conversation.attributes,
-          avatar.data,
-          {
-            writeNewAttachmentData,
-            deleteAttachmentData,
-            doesAttachmentExist,
-          }
-        );
-        conversation.set(newAttributes);
-      } else {
-        const { attributes } = conversation;
-        if (attributes.avatar && attributes.avatar.path) {
-          await deleteAttachmentData(attributes.avatar.path);
-        }
-        conversation.set({ avatar: null });
-      }
-
-      window.Signal.Data.updateConversation(conversation.attributes);
-
-      // expireTimer isn't stored in Storage Service so we have to rely on the
-      // contact sync.
-      const { expireTimer } = details;
-      const isValidExpireTimer = typeof expireTimer === 'number';
-      if (isValidExpireTimer) {
-        await conversation.updateExpirationTimer(expireTimer, {
-          source: window.ConversationController.getOurConversationId(),
-          receivedAt: ev.receivedAtCounter,
-          fromSync: true,
-          isInitialSync,
-          reason: 'contact sync',
+    // It's important to use queueJob here because we might update the expiration timer
+    //   and we don't want conflicts with incoming message processing happening on the
+    //   conversation queue.
+    conversation.queueJob('onContactReceived', async () => {
+      try {
+        conversation.set({
+          name: details.name,
+          inbox_position: details.inboxPosition,
         });
+
+        // Update the conversation avatar only if new avatar exists and hash differs
+        const { avatar } = details;
+        if (avatar && avatar.data) {
+          const newAttributes = await Conversation.maybeUpdateAvatar(
+            conversation.attributes,
+            avatar.data,
+            {
+              writeNewAttachmentData,
+              deleteAttachmentData,
+              doesAttachmentExist,
+            }
+          );
+          conversation.set(newAttributes);
+        } else {
+          const { attributes } = conversation;
+          if (attributes.avatar && attributes.avatar.path) {
+            await deleteAttachmentData(attributes.avatar.path);
+          }
+          conversation.set({ avatar: null });
+        }
+
+        window.Signal.Data.updateConversation(conversation.attributes);
+
+        // expireTimer isn't in Storage Service so we have to rely on contact sync.
+        const { expireTimer } = details;
+        const isValidExpireTimer = typeof expireTimer === 'number';
+        if (isValidExpireTimer) {
+          await conversation.updateExpirationTimer(expireTimer, {
+            source: window.ConversationController.getOurConversationId(),
+            receivedAt: ev.receivedAtCounter,
+            fromSync: true,
+            isInitialSync,
+            reason: 'contact sync',
+          });
+        }
+
+        window.Whisper.events.trigger('incrementProgress');
+      } catch (error) {
+        log.error('onContactReceived error:', Errors.toLogFormat(error));
       }
-    } catch (error) {
-      log.error('onContactReceived error:', Errors.toLogFormat(error));
-    }
+    });
   }
 
   async function onGroupSyncComplete() {
