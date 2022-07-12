@@ -11,6 +11,7 @@ import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
 import type { ReplyStateType, StoryViewType } from '../types/Stories';
+import type { ShowToastActionCreatorType } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import * as log from '../logging/log';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
@@ -24,6 +25,7 @@ import { StoryImage } from './StoryImage';
 import { StoryViewDirectionType, StoryViewModeType } from '../types/Stories';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { Theme } from '../util/theme';
+import { ToastType } from '../state/ducks/toast';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
@@ -66,6 +68,7 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
+  showToast: ShowToastActionCreatorType;
   skinTone?: number;
   story: StoryViewType;
   storyViewMode?: StoryViewModeType;
@@ -105,6 +108,7 @@ export const StoryViewer = ({
   recentEmojis,
   renderEmojiPicker,
   replyState,
+  showToast,
   skinTone,
   story,
   storyViewMode,
@@ -650,12 +654,14 @@ export const StoryViewer = ({
               onReactToStory(emoji, story);
               setHasReplyModal(false);
               setReactionEmoji(emoji);
+              showToast(ToastType.StoryReact);
             }}
             onReply={(message, mentions, replyTimestamp) => {
               if (!isGroupStory) {
                 setHasReplyModal(false);
               }
               onReplyToStory(message, mentions, replyTimestamp, story);
+              showToast(ToastType.StoryReply);
             }}
             onSetSkinTone={onSetSkinTone}
             onTextTooLong={onTextTooLong}

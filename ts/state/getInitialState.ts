@@ -18,6 +18,7 @@ import { getEmptyState as safetyNumber } from './ducks/safetyNumber';
 import { getEmptyState as search } from './ducks/search';
 import { getEmptyState as getStoriesEmptyState } from './ducks/stories';
 import { getEmptyState as getStoryDistributionListsEmptyState } from './ducks/storyDistributionLists';
+import { getEmptyState as getToastEmptyState } from './ducks/toast';
 import { getEmptyState as updates } from './ducks/updates';
 import { getEmptyState as user } from './ducks/user';
 
@@ -115,6 +116,7 @@ export function getInitialState({
       ...getStoryDistributionListsEmptyState(),
       distributionLists: storyDistributionLists || [],
     },
+    toast: getToastEmptyState(),
     updates: updates(),
     user: {
       ...user(),

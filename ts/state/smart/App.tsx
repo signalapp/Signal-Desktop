@@ -89,6 +89,7 @@ const mapStateToProps = (state: StateType) => {
     titleBarDoubleClick: (): void => {
       window.titleBarDoubleClick();
     },
+    toastType: state.toast.toastType,
   };
 };
 

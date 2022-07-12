@@ -1108,6 +1108,7 @@ export async function startApp(): Promise<void> {
         actionCreators.storyDistributionLists,
         store.dispatch
       ),
+      toast: bindActionCreators(actionCreators.toast, store.dispatch),
       updates: bindActionCreators(actionCreators.updates, store.dispatch),
       user: bindActionCreators(actionCreators.user, store.dispatch),
     };

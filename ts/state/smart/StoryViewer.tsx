@@ -10,7 +10,7 @@ import type { StoryViewModeType } from '../../types/Stories';
 import type { StateType } from '../reducer';
 import type { SelectedStoryDataType } from '../ducks/stories';
 import { StoryViewer } from '../../components/StoryViewer';
-import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
+import { ToastType, useToastActions } from '../ducks/toast';
 import { getConversationSelector } from '../selectors/conversations';
 import {
   getEmojiSkinTone,
@@ -26,7 +26,6 @@ import {
   getStoryView,
 } from '../selectors/stories';
 import { renderEmojiPicker } from './renderEmojiPicker';
-import { showToast } from '../../util/showToast';
 import { strictAssert } from '../../util/assert';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
@@ -39,6 +38,7 @@ export function SmartStoryViewer(): JSX.Element | null {
   const { onSetSkinTone, toggleHasAllStoriesMuted } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { showConversation, toggleHideStories } = useConversationsActions();
+  const { showToast } = useToastActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -100,12 +100,13 @@ export function SmartStoryViewer(): JSX.Element | null {
         );
       }}
       onSetSkinTone={onSetSkinTone}
-      onTextTooLong={() => showToast(ToastMessageBodyTooLong)}
+      onTextTooLong={() => showToast(ToastType.MessageBodyTooLong)}
       onUseEmoji={onUseEmoji}
       preferredReactionEmoji={preferredReactionEmoji}
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
+      showToast={showToast}
       skinTone={skinTone}
       story={storyView}
       storyViewMode={storyViewMode}

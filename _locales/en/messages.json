@@ -7161,6 +7161,14 @@
       }
     }
   },
+  "Stories__toast--sending-reply": {
+    "message": "Sending reply...",
+    "description": "Toast message"
+  },
+  "Stories__toast--sending-reaction": {
+    "message": "Sending reaction...",
+    "description": "Toast message"
+  },
   "StoryViewer__pause": {
     "message": "Pause",
     "description": "Aria label for pausing a story"

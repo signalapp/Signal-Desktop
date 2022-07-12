@@ -21,6 +21,7 @@ import { actions as search } from './ducks/search';
 import { actions as stickers } from './ducks/stickers';
 import { actions as stories } from './ducks/stories';
 import { actions as storyDistributionLists } from './ducks/storyDistributionLists';
+import { actions as toast } from './ducks/toast';
 import { actions as updates } from './ducks/updates';
 import { actions as user } from './ducks/user';
 import type { ReduxActions } from './types';
@@ -46,6 +47,7 @@ export const actionCreators: ReduxActions = {
   stickers,
   stories,
   storyDistributionLists,
+  toast,
   updates,
   user,
 };
@@ -71,6 +73,7 @@ export const mapDispatchToProps = {
   ...stickers,
   ...stories,
   ...storyDistributionLists,
+  ...toast,
   ...updates,
   ...user,
 };

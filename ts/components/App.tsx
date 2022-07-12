@@ -6,18 +6,20 @@ import React, { useEffect } from 'react';
 import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 
+import type { ExecuteMenuRoleType } from './TitleBarContainer';
+import type { LocaleMessagesType } from '../types/I18N';
+import type { MenuOptionsType, MenuActionType } from '../types/menu';
+import type { SelectedStoryDataType } from '../state/ducks/stories';
+import type { ToastType } from '../state/ducks/toast';
 import { AppViewType } from '../state/ducks/app';
 import { Inbox } from './Inbox';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
-import type { LocaleMessagesType } from '../types/I18N';
+import { TitleBarContainer } from './TitleBarContainer';
+import { ToastManager } from './ToastManager';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useReducedMotion } from '../hooks/useReducedMotion';
-import type { MenuOptionsType, MenuActionType } from '../types/menu';
-import { TitleBarContainer } from './TitleBarContainer';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
-import type { SelectedStoryDataType } from '../state/ducks/stories';
 
 type PropsType = {
   appView: AppViewType;
@@ -45,6 +47,8 @@ type PropsType = {
   executeMenuRole: ExecuteMenuRoleType;
   executeMenuAction: (action: MenuActionType) => void;
   titleBarDoubleClick: () => void;
+  toastType?: ToastType;
+  hideToast: () => unknown;
 } & ComponentProps<typeof Inbox>;
 
 export const App = ({
@@ -56,6 +60,7 @@ export const App = ({
   getPreferredBadge,
   hasInitialLoadCompleted,
   hideMenuBar,
+  hideToast,
   i18n,
   isCustomizingPreferredReactions,
   isFullScreen,
@@ -81,6 +86,7 @@ export const App = ({
   showWhatsNewModal,
   theme,
   titleBarDoubleClick,
+  toastType,
   verifyConversationsStoppingSend,
 }: PropsType): JSX.Element => {
   let contents;
@@ -171,6 +177,7 @@ export const App = ({
           'dark-theme': theme === ThemeType.dark,
         })}
       >
+        <ToastManager hideToast={hideToast} i18n={i18n} toastType={toastType} />
         {renderGlobalModalContainer()}
         {renderCallManager()}
         {isShowingStoriesView && renderStories()}

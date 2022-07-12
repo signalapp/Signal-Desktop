@@ -21,6 +21,7 @@ import type { actions as search } from './ducks/search';
 import type { actions as stickers } from './ducks/stickers';
 import type { actions as stories } from './ducks/stories';
 import type { actions as storyDistributionLists } from './ducks/storyDistributionLists';
+import type { actions as toast } from './ducks/toast';
 import type { actions as updates } from './ducks/updates';
 import type { actions as user } from './ducks/user';
 
@@ -45,6 +46,7 @@ export type ReduxActions = {
   stickers: typeof stickers;
   stories: typeof stories;
   storyDistributionLists: typeof storyDistributionLists;
+  toast: typeof toast;
   updates: typeof updates;
   user: typeof user;
 };
