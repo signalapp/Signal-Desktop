@@ -5,6 +5,8 @@ import { identity, isEqual, isNumber, isObject, map, omit, pick } from 'lodash';
 import { createSelector, createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
 import getDirection from 'direction';
+import emojiRegex from 'emoji-regex';
+import LinkifyIt from 'linkify-it';
 
 import type {
   LastMessageStatus,
@@ -92,6 +94,7 @@ import { DAY, HOUR } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
 
 const THREE_HOURS = 3 * HOUR;
+const linkify = LinkifyIt();
 
 type FormattedContact = Partial<ConversationType> &
   Pick<
@@ -709,12 +712,44 @@ function getTextAttachment(
   );
 }
 
+export function cleanBodyForDirectionCheck(text: string): string {
+  const MENTIONS_REGEX = /\uFFFC/g;
+  const EMOJI_REGEX = emojiRegex();
+  const initial = text.replace(MENTIONS_REGEX, '').replace(EMOJI_REGEX, '');
+
+  const linkMatches = linkify.match(initial);
+
+  if (!linkMatches || linkMatches.length === 0) {
+    return initial;
+  }
+
+  let result = '';
+  let lastIndex = 0;
+
+  linkMatches.forEach(match => {
+    if (lastIndex < match.index) {
+      result += initial.slice(lastIndex, match.index);
+    }
+
+    // drop the actual contents of the match
+
+    lastIndex = match.lastIndex;
+  });
+
+  if (lastIndex < initial.length) {
+    result += initial.slice(lastIndex);
+  }
+
+  return result;
+}
+
 function getTextDirection(body?: string): TextDirection {
   if (!body) {
     return TextDirection.None;
   }
 
-  const direction = getDirection(body);
+  const cleaned = cleanBodyForDirectionCheck(body);
+  const direction = getDirection(cleaned);
   switch (direction) {
     case 'ltr':
       return TextDirection.LeftToRight;

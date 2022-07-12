@@ -15,6 +15,7 @@ import {
   canDeleteForEveryone,
   canReact,
   canReply,
+  cleanBodyForDirectionCheck,
   getMessagePropStatus,
   isEndSession,
   isGroupUpdate,
@@ -27,6 +28,39 @@ describe('state/selectors/messages', () => {
 
   beforeEach(() => {
     ourConversationId = uuid();
+  });
+
+  describe('cleanBodyForDirectionCheck', () => {
+    it('drops emoji', () => {
+      const body = "😮😮😮😮 that's wild!";
+      const expected = " that's wild!";
+      const actual = cleanBodyForDirectionCheck(body);
+      assert.strictEqual(actual, expected);
+    });
+
+    it('drops mentions', () => {
+      const body = "heyo, how's it going \uFFFC? And \uFFFC too!";
+      const expected = "heyo, how's it going ? And  too!";
+      const actual = cleanBodyForDirectionCheck(body);
+      assert.strictEqual(actual, expected);
+    });
+
+    it('drops links', () => {
+      const body =
+        'You should download it from https://signal.org/download. Then read something on https://signal.org/blog. Then donate at https://signal.org/donate.';
+      const expected =
+        'You should download it from . Then read something on . Then donate at .';
+      const actual = cleanBodyForDirectionCheck(body);
+      assert.strictEqual(actual, expected);
+    });
+
+    it('drops all of them at the same time', () => {
+      const body =
+        'https://signal.org/download 😮 \uFFFC Did you really join Signal?';
+      const expected = '   Did you really join Signal?';
+      const actual = cleanBodyForDirectionCheck(body);
+      assert.strictEqual(actual, expected);
+    });
   });
 
   describe('canDeleteForEveryone', () => {
