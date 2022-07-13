@@ -7335,6 +7335,10 @@
         "message": "Už nie je k dispozícii",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "Kontextové menu",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
         "message": "Čo je nové",
         "description": "Title for the whats new modal"

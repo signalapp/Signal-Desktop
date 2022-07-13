@@ -1290,7 +1290,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Problemer med sending",
+        "message": "Problemer med levering",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -2832,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "Utløpt",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "Du kan ikke bli med i denne gruppen via lenken fordi en admin fjernet deg fra gruppen.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -5466,7 +5466,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Du endret gruppeinnstillingene slik at alle kan sende meldinger.",
+        "message": "Du endret gruppeinnstillingene slik at alle medlemmer kan sende meldinger.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -6578,7 +6578,7 @@
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "Vedleggskvalitet",
+        "message": "Mediekvalitet",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
@@ -7206,7 +7206,7 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "No replies yet",
+        "message": "Ingen svar ennå",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
@@ -7222,7 +7222,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "Reagerte på storyen",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7306,7 +7306,7 @@
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "Visit link",
+        "message": "Gå inn på lenken",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
@@ -7324,7 +7324,7 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "Reacted to your story",
+        "message": "Reagerte på storyen din",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
@@ -7332,8 +7332,12 @@
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "No longer available",
+        "message": "Ikke lenger tilgjengelig",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Kontekstmeny",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "What's New",

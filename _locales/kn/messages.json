@@ -1566,11 +1566,11 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "ರಿಂಗ್",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "ಭಾಗಿಗಳ ಕೂಟ ಮಾಡಲು ಗ್ರೂಪ್ ತೀರಾ ದೊಡ್ಡದಾಗಿದೆ.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -2778,11 +2778,11 @@
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೀರಿ",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಅನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -3020,7 +3020,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "ಇನ್ನಷ್ಟು ಓದಿ",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "ಅಡ್ಮಿನ್ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿರುವ ಕಾರಣದಿಂದ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ನೀವು ಈ ಗ್ರೂ್ ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -6038,11 +6038,11 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Block request",
+        "message": "ನಿರ್ಬಂಧ ವಿನಂತಿ",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "ನಿರ್ಬಂಧ ವಿನಂತಿ?",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
@@ -7072,7 +7072,7 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Flip",
+        "message": "ಫ್ಲಿಪ್",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7214,7 +7214,7 @@
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "ಪ್ರತಿಕ್ರಿಯೆಗಳು",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "No longer available",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "ಸಂದರ್ಭ ಮೆನು",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "What's New",

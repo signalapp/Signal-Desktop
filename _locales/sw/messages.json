@@ -222,7 +222,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
-        "message": "Hakuna mazungumzo yaliyohifadhiwa.",
+        "message": "Hakuna mazungumzo yaliyohifadhiwa kwenye kumbukumbu.",
         "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
     },
     "archiveConversation": {
@@ -420,7 +420,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
-        "message": "Tuma arafa zilizosalia.",
+        "message": "Tuma jumbe zilizosalia.",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -464,23 +464,23 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Ukibofya Wasilisha, kumbukumbu zako zitachapishwa mtandaoni kwa siku 30 katika anuani ya URL ya kipekee ambayo haijachapishwa. Unaweza kuihifadhi kwenye simu kwanza.",
+        "message": "Ukibonyeza Wasilisha, logi yako itachapishwa mtandaoni kwa siku 30 katika anuani ya URL ya kipekee ambayo haijachapishwa. Unaweza kuihifadhi kwenye simu kwanza.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Kuna hitilafu imetokea kwenye upakiaji! Tafadhali tuma barua pepe kwa support@signal.org  na uambatanishe kumbukumbu zako kama maandishi.",
+        "message": "Kuna hitilafu katika upakiaji! Tafadhali tuma barua pepe kwa support@signal.org  na uambatanishe na logi yako kama faili ya maandishi.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Debug log imewasilishwa",
+        "message": "Logi ya debug imewasilishwa",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log imepakiwa. Utakapowasiluana na huduma kwa wateja, nakili URL hapo chini na ambatanisha na maelezo ya tatizo uliloona na hatua za kunakili.",
+        "message": "Logi ya debug imesasishwa. Utakapowasiliana na msaada, nakili URL hapo chini na uiambatanishe na maelezo ya tatizo uliloona na hatua za kulinakili.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... ili kuona kumbukumbu kamili, bofya Hifadhi",
+        "message": "... ili kuona logi kamili, bonyeza Hifadhi",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -646,7 +646,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop imepata hitilafu ya msimbo kutoka $name$, kifaa $deviceId$",
+        "message": "Desktop imepata hitilafu ya msimbo kutoka kwa $name$, kifaa $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -660,7 +660,7 @@
         }
     },
     "decryptionErrorToastAction": {
-        "message": "Wasilisha kumbukumbu",
+        "message": "Wasilisha logi",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -926,7 +926,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadFullMessage": {
-        "message": "Pakua arafa yote",
+        "message": "Pakua ujumbe wote",
         "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
@@ -958,7 +958,7 @@
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Maliza kurekodi ujumbe na utume",
+        "message": "Maliza kurekodi ujumbe kisha utume",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
@@ -974,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Jumbe za sauti zinarekodiwa kwa saa moja tu. Itaacha kurekodu endapo utahamia kwenye programu nyingine.",
+        "message": "Jumbe za sauti zinarekodiwa kwa saa moja tu. Kurekodi kutakoma unapohamia kwa programu nyingine.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -982,7 +982,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "Kuna hitilafu kwenye kinasa sauti.",
+        "message": "Kulikuwa na hitilafu na kinasa sauti.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
@@ -1052,11 +1052,11 @@
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Zima",
+        "message": "Nyamazisha",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal imeshindwa kusasishwa. $retry$ au tembelea $url$ ili kusanikisha mwenyewe. Kisha, $support$ kuhusu tatizo hili.",
+        "message": "Signal haingeweza kusasishwa. $retry$ au tembelea $url$ ili kusanikisha mwenyewe. Kisha, $support$ kuhusu tatizo hili",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal imeshindwa kusasishwa. Tembelea $url$ kusanikisha mwenyewe. Kisha, $support$ kuhusu tatizo hili.",
+        "message": "Signal haingeweza kusasishwa. Tembelea $url$ kusanikisha mwenyewe. Kisha, $support$ kuhusu tatizo hili",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -1134,7 +1134,7 @@
         "description": ""
     },
     "forward": {
-        "message": "Mbele",
+        "message": "Shiriki kwa ",
         "description": ""
     },
     "done": {
@@ -1198,7 +1198,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Ili kuthibitisha usalama kwenye msimbo wa end-to-end pamoja na $name$, linganisha nambari zilizopo juu na kifaa chao.",
+        "message": "Ili kuthibitisha usalama kwenye msimbo wa end-to-end na $name$, linganisha nambari zilizopo juu na kifaa chao.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1348,7 +1348,7 @@
         "description": "Used on save buttons"
     },
     "reset": {
-        "message": "Seti upya tena",
+        "message": "Weka upya",
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
@@ -1372,7 +1372,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Skani kodi hii kwenye programu yako ya Signal katika simu yako",
+        "message": "Skani kodi hii kwenye programu ya Signal katika simu yako",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
@@ -1380,7 +1380,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Gusa kwenye $settings$, kisha gusa $linkedDevices$",
+        "message": "Bonyeza kwenye $settings$, kisha bonyeza $linkedDevices$",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1398,7 +1398,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Gusa $plusButton$ (Android) au $linkNewDevice$ (iPhone)",
+        "message": "Bonyeza $plusButton$ (Android) au $linkNewDevice$ (iPhone)",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1412,7 +1412,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "Kodi ya QR imeshindwa ku-load. Angalia mtandao wako na ujaribu tena. $learnMore$",
+        "message": "Kodi ya QR haingeweza ku-load. Angalia muunganisho wa mtandao wako kisha ujaribu tena. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1430,7 +1430,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "Utaona jina hili chini ya \"Vifaa Vilivyounganishwa\" kwenye simu yako.",
+        "message": "Utaona jina hili chini ya \"Vifaa Vilivyounganishwa\" kwenye simu yako",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1454,7 +1454,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Tahadhari: Historia ya gumzo haitaunganishwa kwenye kifaa hiki",
+        "message": "Tahadhari: Historia ya gumzo yako haitaunganishwa kwenye kifaa hiki",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1510,7 +1510,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Maikrofoni imenyamazishwa kutokana na ukubwa wa simu.",
+        "message": "Maikrofoni imenyamazishwa kufuatia ukubwa wa simu",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -1570,15 +1570,15 @@
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Kikundi ni kikubwa sana kuweza kuwapigia washiriki",
+        "message": "Kikundi ni kikubwa sana kuweza kuwapigia washiriki.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Arifu, isiite",
+        "message": "Arifu, isipige",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Wezesha kuita",
+        "message": "Wezesha kupiga simu",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal itaita $first$ na $second$",
+        "message": "Signal itapigia $first$ na $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal itaita $first$, $second$, na $third$",
+        "message": "Signal itapigia $first$, $second$, na $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal itaita $first$, $second$, na $others$ wengine",
+        "message": "Signal itapigia $first$, $second$, na $others$ wengine",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -2062,7 +2062,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Imefutika nusu, bofya kujaribu tena",
+        "message": "Imefutika nusu, bonyeza kujaribu tena",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2082,7 +2082,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Bofya ili kwenda signal.org/download",
+        "message": "Bonyeza ili kwenda kwa signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2402,15 +2402,15 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Imeshindikana kupata jina la mtumiaji. Angalia mtandao wako na ujaribu tena.",
+        "message": "Imeshindikana kupata jina la mtumiaji. Angalia muunganisho wa mtandao wako kisha ujaribu tena.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Imeshindikana kupata nambari ya simu. Angalia mtandao wako na ujaribu tena.",
+        "message": "Imeshindikana kupata nambari ya simu. Angalia muunganisho wa mtandao wako kisha ujaribu tena.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "Mtumiaji hajapatikana. $atUsername$ sio mtumiaji wa Signal; hakikisha umeingia jina la mtumiaji lililo kamili.",
+        "message": "Mtumiaji hajapatikana. $atUsername$ sio mtumiaji wa Signal; hakikisha umeingiza jina la mtumiaji lililo kamili.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Bofya kuelekeza Signal Desktop kwenye kifaa chao chako cha mkononi ili kuendelea kutuma ujumbe. ",
+        "message": "Bonyeza kuelekeza Signal Desktop kwenye kifaa chao chako cha mkononi ili kuendelea kutuma ujumbe. ",
         "description": ""
     },
     "unlinked": {
@@ -2544,27 +2544,27 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Sasisho jipya la Signal linapatikana.",
+        "message": "Sasisho jipya la Signal linapatikana",
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Jaribu tena kusasisha",
+        "message": "Jaribu tena sasisho",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "Wasiliana na huduma kwa wateja",
+        "message": "Wasiliana na msaada",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Bofya kuwasha upya Signal ",
+        "message": "Bonyeza kuanza upya Signal ",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Bofya kupakua sasisho",
+        "message": "Bonyeza kupakua sasisho",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal imeshindwa kusasishwa. Bofya kujaribu tena.",
+        "message": "Signal haingeweza kusasishwa. Bonyeza kujaribu tena.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2656,7 +2656,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Mazungumzo na $title$, $unreadCount$ arafa mpya, arafa ya mwisho: $lastMessage$.",
+        "message": "Mazungumzo na $title$, $unreadCount$ jumbe mpya, ujumbe wa mwisho: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2674,7 +2674,7 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "Arafa ya mwisho inawezekana imefutwa.",
+        "message": "Ujumbe wa mwisho huenda ukawa ulifutwa.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
@@ -2758,11 +2758,11 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "Tazma arafa hii kwenye simu ili kuifungua",
+        "message": "Tazama ujumbe huu kwenye simu ili kuufungua",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
-        "message": "Gusa ujumbe huu kwenye mobile ili kuangalia zawadi yako",
+        "message": "Bonyeza ujumbe huu kwenye kifaa chako cha mkononi ili kutazama zawadi yako",
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
@@ -2770,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Angalia simu yako ili kufungua zawadi.",
+        "message": "Angalia simu yako ili kufungua zawadi",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Angalia simu yako kuona zawadi yako",
+        "message": "Angalia simu yako kutazama zawadi yako",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2782,7 +2782,7 @@
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "Umepokea zawadi",
+        "message": "Umekomboa beji ya zawadi",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2840,7 +2840,7 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Imepokelewa",
+        "message": "Imekombolewa",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "Umemzawadia beji $name$. Watakapokubali, wataamua kuonyesha ama kuficha beji yao.",
+        "message": "Umemzawadi $name$ beji. Watakapokubali, watapatiwa chaguzi ya kuonyesha ama kuficha beji yao.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3288,7 +3288,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
-        "message": "Piga simu ya video",
+        "message": "Piga simu ya sauti",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-video-call": {
@@ -3296,11 +3296,11 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Kataa kupokea",
+        "message": "Kata simu",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
-        "message": "Mwisho wa simu",
+        "message": "Tamatisha simu",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
@@ -3324,7 +3324,7 @@
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationArchivedUndo": {
-        "message": "Ondoa",
+        "message": "Tengua",
         "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
@@ -3392,7 +3392,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Bifya au buruta/tupia faili ili kuongeza kibandiko ",
+        "message": "Bonyeza au vuruta/angusha faili ili kuongeza kibandiko ",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -4122,7 +4122,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Anza ku-share",
+        "message": "Anza kushiriki",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Huwezi kujiunga na kundi hili kupitia kiungo cha kikundi kwa sababu admin amekuondoa.",
+        "message": "Huwezi kujiunga na kikundi hiki kupitia kiungo cha kikundi kwa sababu admin amekuondoa.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -5618,7 +5618,7 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal inawezeshwa na watu kama wewe. Changia chochote na upate beji.",
+        "message": "Signal inawezeshwa na watu kama wewe. Changia upate beji.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -5626,11 +5626,11 @@
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Gusa picha yako ya wasifu kwenye sehemu ya juu kushoto ili ufungue Mipangilio",
+        "message": "Bonyeza picha yako ya wasifu kwenye sehemu ya juu kushoto ili ufungue Mipangilio",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Gusa \"Changia Signal\" na jisajili",
+        "message": "Bonyeza \"Changia Signal\" kisha jiandikishe",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5718,11 +5718,11 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "Ukiwasha mipangilio hii, ujumbe uliotumwa na kupokelewa katika kikundi hiki utatoweka baada ya kuonekana.",
+        "message": "Inapowezeshwa, jumbe zilizotumwa na kupokelewa katika kikundi hiki zitatoweka baada ya kuonekana.",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "Ikiwezeshwa, arafa zilizotumwa na kupokewa kwenye gumzo hili la 1:1 itapotea baada ya kuonwa.",
+        "message": "Ikiwezeshwa, jumbe zilizotumwa na kupokewa kwenye gumzo hili la 1:1 zitapotea baada ya kuonwa.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5766,7 +5766,7 @@
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--unblock-group": {
-        "message": "Acha kuzuia kikundi",
+        "message": "Ondoa kizuizi kwa kikundi",
         "description": "This is a button to unblock a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Ondoa zuio kwa kikundi cha \"$groupName$\"",
+        "message": "Ondoa kizuizi kwa kikundi cha \"$groupName$\"",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5818,7 +5818,7 @@
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
-        "message": "Fungua",
+        "message": "Ondoa kizuizi",
         "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Kataa ombi kutoka \"$name$\"? Hawataweza tena kuomba kujiunga na kikundi kupitia kiungo chake.",
+        "message": "Kataa ombi kutoka kwa \"$name$\"? Hawataweza tena kuomba kujiunga na kikundi kupitia kiungo chake.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -6046,7 +6046,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ hatoweza kujiunga au kuomba kujiunga na kikundi hiki kuptia kiungo cha kikundi. Ila wanaweza kuongezwa kwenye kikundi na wewe mwenyewe.",
+        "message": "$name$ hatoweza kujiunga au kuomba kujiunga na kikundi hiki kupitia kiungo cha kikundi. Ila wanaweza kuongezwa kwenye kikundi na wewe mwenyewe.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6056,7 +6056,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Zuia maombi",
+        "message": "Zuia ombi",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6182,7 +6182,7 @@
         }
     },
     "deselectContact": {
-        "message": "Tengua kumchagua $name$",
+        "message": "Tengua muwasiliani $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -6192,7 +6192,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Huwezi kuchagua muwasiliani $name$",
+        "message": "Haiwezekani kuchagua muwasiliani $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6352,7 +6352,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Uwaondoe kikundini \"$name$\"? Hawataweza kujiunga tena kwa kupitia kiungo cha kikundi.",
+        "message": "Waondoe \"$name$\" kutoka kwa kikundi? Hawataweza kujiunga tena kwa kupitia kiungo cha kikundi.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6642,7 +6642,7 @@
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
-        "message": "Majina ya watumiaji hayawezi kuanzia na nambari",
+        "message": "Majina ya watumiaji hayawezi kuanzia na nambari.",
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
@@ -6656,7 +6656,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Majina ya watumiaji yanatakiwa yasiwe na herufi zaidi ya $max$",
+        "message": "Majina ya watumiaji yanatakiwa yasiwe na herufi zaidi ya $max$.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6666,15 +6666,15 @@
         }
     },
     "ProfileEditor--username--check-username-taken": {
-        "message": "Jina hili la mtumiaji limechukuliwa.",
+        "message": "Jina la mtumiaji hili limechukuliwa.",
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Jina lako la mtumiaji halijahifadhiwa. Angalia mtandao wako tena na ujaribu tena.",
+        "message": "Jina lako la mtumiaji halijahifadhiwa. Angalia muunganisho wa mtandao wako kisha ujaribu tena.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Jina lako la mtumiaji halijaweza kuondolewa. Angalia mtandao wako na ujaribu tena.",
+        "message": "Jina lako la mtumiaji halijaweza kuondolewa. Angalia muunganisho wa mtandao wako kisha ujaribu tena.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6682,7 +6682,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Hii itaondoa jina lako la mtumiaji, na kuwezesha watumiaji wengine kulifanya lao. Una uhakika?",
+        "message": "Hii itaondoa jina lako la mtumiaji, na kuwezesha watumiaji wengine kulitumia. Una uhakika?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6818,7 +6818,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Import ya mwisho $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Ili kubadili mpangilio huu, fungua programu ya Signal kwenye kifaa chako na nenda kwenye Mipangilio > Gumzo",
+        "message": "Ili kubadili mpangilio huu, fungua programu ya Signal kwenye kifaa chako cha mkononi nenda kwenye Mipangilio > Gumzo",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6884,7 +6884,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Kubadili mipangilio hii, fungua programu ya Signal kwenye kifaa chako na nenda kwenye Mipangilio > Faragha",
+        "message": "Ili kubadili mipangilio hii, fungua programu ya Signal kwenye kifaa chako cha mkononi nenda kwenye Mipangilio > Faragha",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6908,7 +6908,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Nipate kwa kupitia nambari yangu ya simu",
+        "message": "Nipate kupitia kwa nambari yangu ya simu",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6946,15 +6946,15 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal imeshindwa kufunga",
+        "message": "Signal haiwezi kufungwa.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Tafadhali ifunge wewe mwenye na bofya Jaribu tena ili kuendelea.",
+        "message": "Tafadhali ifunge wewe mwenyewe kisha bonyeza Jaribu tena ili kuendelea.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ inaendelea.\nBofya SAWA kuifunga.\nKama haitafunga, jaribu kuifunga mwenyewe.",
+        "message": "$appName$ inaendelea. Bonyeza SAWA kuifunga. Kama haitafunga, jaribu kuifunga mwenyewe.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6964,11 +6964,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Imeshindikana ku-decompress mafaili. Jaribu kuisakinisha tena.",
+        "message": "Imeshindikana kupunguza faili. Jaribu kuisakinisha tena.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Imeshindikana kuondoa mafaili ya programu za zamani. Tafadhali jaribu kusanikisha tena.",
+        "message": "Imeshindikana kuondoa faili za programu za zamani. Tafadhali jaribu kusakinisha tena.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -6992,11 +6992,11 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Bofya ili kupata emoji nyingine",
+        "message": "Bonyeza ili kupata emoji nyingine",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "kulikuwa na hitilafu wakati wa kuhifadhi mipangilio yako. Tafadhali jaribu tena.",
+        "message": "Kulikuwa na hitilafu wakati wa kuhifadhi mipangilio yako. Tafadhali jaribu tena.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -7012,23 +7012,23 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Kata na zungusha",
+        "message": "Kata kisha zungusha",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
-        "message": "Ondoa",
+        "message": "Tengua",
         "description": "Label for the undo button in the media editor"
     },
     "MediaEditor__control--redo": {
-        "message": "Rudisha upya",
+        "message": "Rudia",
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "Ya Kawaida",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Kooza",
+        "message": "Highlight",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
@@ -7040,7 +7040,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Peni",
+        "message": "Kalamu",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
@@ -7052,7 +7052,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "Ya Kawaida",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -7064,7 +7064,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
-        "message": "Seti upya tena",
+        "message": "Weka upya",
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
@@ -7084,7 +7084,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "Stori zangu",
+        "message": "Stori Zangu",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -7096,11 +7096,11 @@
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "Chaguzi zaidi",
+        "message": "Hiari zaidi",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "$num$ wametazama",
+        "message": "Mtazamo $num$ ",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7110,7 +7110,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "$num$ wametazama",
+        "message": "Mitazamo $num$",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7148,11 +7148,11 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "Stori zangu",
+        "message": "Stori Zangu",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Ongeza story",
+        "message": "Ongeza stori",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
@@ -7164,7 +7164,7 @@
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Bofya kuangalia stori",
+        "message": "Bonyeza kuangalia stori",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
@@ -7182,11 +7182,11 @@
         }
     },
     "StoryViewer__pause": {
-        "message": "pumzika",
+        "message": "Sitisha",
         "description": "Aria label for pausing a story"
     },
     "StoryViewer__play": {
-        "message": "cheza",
+        "message": "Cheza",
         "description": "Aria label for playing a story"
     },
     "StoryViewer__reply": {
@@ -7198,7 +7198,7 @@
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
-        "message": "Zima",
+        "message": "Nyamazisha",
         "description": "Aria label for muting stories"
     },
     "StoryViewer__unmute": {
@@ -7206,11 +7206,11 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "Bado hakuna majibu",
+        "message": "Hakuna majibu bado",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Imeangaliwa",
+        "message": "Mitazamo",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
@@ -7250,23 +7250,23 @@
         "description": "Action button for the confirmation dialog to hide a story"
     },
     "StoryImage__error": {
-        "message": "Oicha ya kuonyesha hitilafu ",
+        "message": "Hitilafu kuonyesha picha",
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
-        "message": "Badili background color ya mwandiko",
+        "message": "Geuza rangi ya manthari nyuma ya mwandiko",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
-        "message": "Badili background color ya stori",
+        "message": "Badili rangi ya manthari nyuma ya stori",
         "description": "Button label"
     },
     "StoryCreator__next": {
-        "message": "Ifuatayo",
+        "message": "Inayofuata",
         "description": "Button label text to advance to next step of story creation"
     },
     "StoryCreator__add-link": {
-        "message": "Ongeza kiunho",
+        "message": "Ongeza kiungo",
         "description": "Button label to apply the link preview to story"
     },
     "StoryCreator__input-placeholder": {
@@ -7274,7 +7274,7 @@
         "description": "Placeholder to add text"
     },
     "StoryCreator__text--regular": {
-        "message": "Regular",
+        "message": "Ya kawaida",
         "description": "Label for font"
     },
     "StoryCreator__text--bold": {
@@ -7298,7 +7298,7 @@
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
-        "message": "Ongeza kiungo kwa ajili ya watazamaji wa stori yako",
+        "message": "Ongeza kiungo kwa watazamaji wa stori yako",
         "description": "Empty state for the link preview"
     },
     "TextAttachment__placeholder": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Haipatikani tena",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Menu ya Muktadha",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Kuna Lipi Jipya?",

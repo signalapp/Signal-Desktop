@@ -7335,6 +7335,10 @@
         "message": "Não está mais disponível",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "Menu de contexto",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
         "message": "Novidades",
         "description": "Title for the whats new modal"

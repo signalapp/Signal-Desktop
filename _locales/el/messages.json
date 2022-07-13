@@ -7335,6 +7335,10 @@
         "message": "Δεν είναι πλέον διαθέσιμη",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "Μενού πληροφοριών",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
         "message": "Νέες δυνατότητες",
         "description": "Title for the whats new modal"

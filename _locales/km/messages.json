@@ -246,7 +246,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "អ្នកអាចខ្ទាស់បានរហូតដល់ទៅការជជែកចំនួន 4",
+        "message": "អ្នកអាចខ្ទាស់ការជជែកបានរហូតដល់ 4",
         "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
@@ -402,7 +402,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "លេខសុវត្ថិភាពដែលអ្នកកំពុងព្យាយាមផ្ទៀងផ្ទាត់បានផ្លាស់ប្តូរ។ សូមពិនិត្យមើលលេខសុវត្ថិភាពថ្មីរបស់អ្នកជាមួយ $name1$។ សូមចាំថា ការផ្លាស់ប្តូរនេះអាចមានន័យថាមាននរណាម្នាក់កំពុងព្យាយាមរារាំងទំនាក់ទំនងរបស់អ្នក ឬ $name2$ ទើបតែដំឡើង Signal ឡើងវិញ។",
+        "message": "លេខសុវត្ថិភាពដែលអ្នកកំពុងព្យាយាមផ្ទៀងផ្ទាត់បានផ្លាស់ប្តូរ។ សូមពិនិត្យមើលលេខសុវត្ថិភាពថ្មីរបស់អ្នកជាមួយ $name1$។ សូមចាំថា ការផ្លាស់ប្តូរនេះអាចមានន័យថាមាននរណាម្នាក់កំពុងព្យាយាមរំខានដល់ការប្រាស្រ័យទាក់ទងរបស់អ្នក ឬថា $name2$ ទើបដំឡើង Signal ឡើងវិញ។",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -424,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name1$ បានផ្លាស់ប្តូរ។ នេះអាចមានន័យថាមាននរណាម្នាក់កំពុងព្យាយាមរារាំងទំនាក់ទំនងរបស់អ្នក ឬ $name2$ ទើបតែដំឡើង Signal ឡើងវិញ។ អ្នកអាចផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយទំនាក់ទំនងនេះ។",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name1$ បានផ្លាស់ប្តូរ។ នេះអាចមានន័យថាមាននរណាម្នាក់កំពុងព្យាយាមរំខានដល់ការប្រាស្រ័យទាក់ទងរបស់អ្នក ឬថា $name2$ ទើបដំឡើង Signal ឡើងវិញ។ អ្នកអាចនឹងត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយឈ្មោះទំនាក់ទំនងនេះ។",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -464,7 +464,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "នៅពេលអ្នកចុចដាក់ស្នើ កំណត់ហេតុរបស់អ្នកនឹងត្រូវបានបង្ហោះលើអ៊ីនធឺណិតរយៈពេល 30 ថ្ងៃនៅលើតំណដែលមិនទាន់បានផ្សព្វផ្សាយ។ អ្នកអាចរក្សាទុកវានៅក្នុងមូលដ្ឋានជាមុនសិន។",
+        "message": "នៅពេលអ្នកចុច ដាក់បញ្ជូន កំណត់ហេតុរបស់អ្នកនឹងត្រូវបានបង្ហោះលើអ៊ីនធឺណិតរយៈពេល 30 ថ្ងៃនៅ URL មួយដែលខុសប្លែកពីគេ និងមិនទាន់បានផ្សព្វផ្សាយ។ អ្នកអាចរក្សាទុកវានៅក្នុងឧបករណ៍សិន។",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "បាន​ដាក់​ស្នើ​កំណត់​ហេតុ​បំបាត់​កំហុស",
+        "message": "បាន​ដាក់​បញ្ជូនកំណត់​ហេតុលុបបំបាត់បញ្ហា",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "បានបង្ហោះកំណត់ហេតុលុបបំបាត់បញ្ហា។ នៅពេលអ្នកទាក់ទងផ្នែកជំនួយ សូមចម្លងតំណខាងក្រោម ហើយភ្ជាប់វាជាមួយការពិពណ៌នាអំពីបញ្ហាដែលអ្នកបានឃើញ និងជំហានដើម្បីបង្កើតវាឡើងវិញ។",
+        "message": "បានបង្ហោះកំណត់ហេតុលុបបំបាត់បញ្ហា។ នៅពេលអ្នកទាក់ទងផ្នែកជំនួយ សូមចម្លង URL ខាងក្រោម ហើយភ្ជាប់វាជាមួយការពណ៌នាអំពីបញ្ហាដែលអ្នកបានឃើញ និងជំហានដើម្បីបង្កើតវាឡើងវិញ។",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -660,7 +660,7 @@
         }
     },
     "decryptionErrorToastAction": {
-        "message": "ដាក់ស្នើកំណត់ហេតុ",
+        "message": "ដាក់បញ្ជូនកំណត់ហេតុ",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -716,7 +716,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "បង្ខំឲ្យអាប់ដេត",
+        "message": "បង្ខំឲ្យដំឡើងកំណែ",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -802,7 +802,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "បញ្ជីសារជាអក្សរ និងសារពហុមេឌៀមិនមាននៅលើកំព្យូទ័រលើតុទេ។",
+        "message": "ឈ្មោះទំនាក់ទំនងសម្រាប់សារជាអក្សរ និងសារពហុមេឌៀមិនមាននៅលើកំព្យូទ័រលើតុទេ។",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -868,7 +868,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "អ្វីថ្មីៗ",
+        "message": "អ្វីដែលថ្មី",
         "description": "Clickable link that displays the latest release notes"
     },
     "typingAlt": {
@@ -1012,7 +1012,7 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "សម្រាប់ការហៅ អ្នកត្រូវអនុញ្ញាត Signal Desktop ឲ្យចូលប្រើមីក្រូហ្វូនរបស់អ្នក។",
+        "message": "សម្រាប់ការហៅ អ្នកត្រូវតែអនុញ្ញាតឲ្យ Signal Desktop ចូលប្រើមីក្រូហ្វូនរបស់អ្នក។",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
@@ -1056,7 +1056,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal មិនអាចអាប់ដេតទេ។ $retry$ ឬចូលមើល $url$ ដើម្បីដំឡើងវាម្តងមួយៗ។ បន្ទាប់មក $support$ អំពីបញ្ហានេះ",
+        "message": "Signal មិនអាចដំឡើងកំណែបានទេ។ $retry$ ឬចូលទៅកាន់ $url$ ដើម្បីដំឡើងវាដោយផ្ទាល់។ បន្ទាប់មក $support$ អំពីបញ្ហានេះ",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal មិនអាចអាប់ដេតទេ។ ចូលមើល $url$ដើម្បីដំឡើងវាម្តងមួយៗ។ បន្ទាប់មក $support$ អំពីបញ្ហានេះ",
+        "message": "Signal មិនអាចដំឡើងកំណែបានទេ។ ចូលទៅកាន់ $url$ដើម្បីដំឡើងវាដោយផ្ទាល់។ បន្ទាប់មក $support$ អំពីបញ្ហានេះ",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -1198,7 +1198,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "ដើម្បីផ្ទៀងផ្ទាត់សុវត្ថិភាពនៃការអ៊ិនគ្រីបពីចុងដល់ចប់របស់អ្នកជាមួយ $name$ សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។",
+        "message": "ដើម្បីផ្ទៀងផ្ទាត់សុវត្ថិភាពនៃការអ៊ិនគ្រីបទាំងសងខាងរបស់អ្នកជាមួយ $name$ សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។",
         "description": "",
         "placeholders": {
             "name": {
@@ -1294,7 +1294,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនត្រូវបានបញ្ជូនទៅអ្នកពី $sender$។ ពួកគេប្រហែលជាបានព្យាយាមផ្ញើទៅអ្នកដោយផ្ទាល់ ឬនៅក្នុងក្រុម។",
+        "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកបានទេ។ ពួកគេប្រហែលជាបានព្យាយាមផ្ញើវាទៅអ្នកដោយផ្ទាល់ ឬនៅក្នុងក្រុម។",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": " សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនត្រូវបានបញ្ជូនទៅអ្នកពី $sender$ នៅក្នុងការជជែកនេះទេ។",
+        "message": " សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុង​ការជជែកនេះបានទេ។",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1372,7 +1372,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "ស្កេនកូដនេះនៅក្នុងកម្មវិធី Signal នៅលើទូរសព្ទរបស់អ្នក",
+        "message": "ស្គែនកូដនេះនៅក្នុងកម្មវិធី Signal នៅលើទូរសព្ទរបស់អ្នក",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
@@ -1412,7 +1412,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "លេខកូដ QR មិនអាចផ្ទុកបានទេ។ ពិនិត្យអ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត។ $learnMore$",
+        "message": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមពិនិត្យមើលអ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត។ $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1434,7 +1434,7 @@
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
-        "message": "កំព្យូទ័ររបស់អ្នក",
+        "message": "កុំព្យូទ័ររបស់ខ្ញុំ",
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
@@ -1454,7 +1454,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "ចំណាំ៖ ប្រវត្តិជជែករបស់អ្នកនឹងមិនត្រូវបានធ្វើសមកាលកម្មទៅនឹងឧបករណ៍នេះទេ",
+        "message": "ចំណាំ៖ ប្រវត្តិជជែករបស់អ្នកនឹងមិនត្រូវបានធ្វើសមកាលកម្មទៅឧបករណ៍នេះទេ",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1510,7 +1510,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "មីក្រូហ្វូនត្រូវបានបិទដោយសារតែទំហំនៃការហៅ",
+        "message": "មីក្រូហ្វូនត្រូវបានបិទសំឡេងដោយសារមានមនុស្សច្រើនចូលរួមក្នុងការហៅ",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -1554,15 +1554,15 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "ការធ្វើបទបង្ហាញត្រូវបានបិទ",
+        "message": "ការបង្ហាញត្រូវបានបិទ",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "ចាប់ផ្តើមធ្វើបទបង្ហាញ",
+        "message": "ចាប់ផ្តើមបង្ហាញ",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "ឈប់ធ្វើបទបង្ហាញ",
+        "message": "ឈប់បង្ហាញ",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
@@ -1578,7 +1578,7 @@
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "បើកសម្លេងរោទ៍",
+        "message": "បើកសំឡេងរោទ៍",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1636,7 +1636,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$ និង $others$ផ្សេងទៀតកំពុងនៅក្នុងការហៅនេះ ",
+        "message": "$first$, $second$ និង $others$ នាក់ផ្សេងទៀតកំពុងនៅក្នុងការហៅនេះ ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal នឹងរោទ៍ $person$",
+        "message": "Signal នឹងរោទ៍ទៅ $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal នឹងរោទ៍ $first$ និង $second$",
+        "message": "Signal នឹងរោទ៍ទៅ $first$ និង $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal នឹងរោទិ៍ $first$ $second$ និង $third$",
+        "message": "Signal នឹងរោទ៍ទៅ $first$, $second$ និង $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal នឹងរោទិ៍ $first$ $second$ និង $others$ នាក់ផ្សេងទៀត",
+        "message": "Signal នឹងរោទ៍ទៅ $first$, $second$ និង $others$ នាក់ផ្សេងទៀត",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1738,7 +1738,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$ $second$ និង $third$ នឹងត្រូវបានជូនដំណឹង",
+        "message": "$first$, $second$ និង $third$ នឹងត្រូវបានជូនដំណឹង",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1756,7 +1756,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$ $second$ និង $others$ នាក់ផ្សេងទៀតនឹងត្រូវបានជូនដំណឹង",
+        "message": "$first$, $second$ និង $others$ នាក់ផ្សេងទៀតនឹងត្រូវបានជូនដំណឹង",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1782,7 +1782,7 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · មនុស្ស $people$ នាក់",
+        "message": "នៅក្នុងការហៅនេះ · មនុស្ស $people$ នាក់",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1814,11 +1814,11 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "អ្នកកំពុងធ្វើបទបង្ហាញដល់អ្នករាល់គ្នា។",
+        "message": "អ្នកកំពុងបង្ហាញទៅអ្នករាល់គ្នា។",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "ចុចត្រង់នេះដើម្បីត្រឡប់ទៅការហៅវិញ នៅពេលអ្នករួចរាល់ក្នុងការឈប់ធ្វើបទបង្ហាញ។",
+        "message": "ចុចត្រង់នេះដើម្បីត្រឡប់ទៅការហៅវិញ នៅពេលអ្នកត្រៀមរួចរាល់ដើម្បីបញ្ឈប់ការបង្ហាញ។",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1836,11 +1836,11 @@
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "អ្នកបានឈប់ធ្វើបទបង្ហាញ",
+        "message": "អ្នកបានបញ្ឈប់ការបង្ហាញ",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ កំពុងធ្វើបទបង្ហាញ",
+        "message": "$name$ កំពុងធ្វើការបង្ហាញ",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1850,7 +1850,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ បានឈប់ធ្វើបទបង្ហាញ",
+        "message": "$name$ បានបញ្ឈប់ការបង្ហាញ",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1868,11 +1868,11 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "ចូលទៅកាន់ការកំណត់ប្រព័ន្ធ។",
+        "message": "ចូលទៅកាន់ចំណូលចិត្តប្រព័ន្ធ។",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "ចុចលើរូបតំណាងចាក់សោនៅខាងក្រោមផ្នែកខាងឆ្វេង ហើយបញ្ចូលពាក្យសម្ងាត់កុំព្យូទ័ររបស់អ្នក។",
+        "message": "ចុចលើរូបចាក់សោនៅខាងឆ្វេងផ្នែកខាងក្រោម ហើយបញ្ចូលពាក្យសម្ងាត់កុំព្យូទ័ររបស់អ្នក។",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
@@ -1880,7 +1880,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "បើក​ការកំណត់​ប្រព័ន្ធ",
+        "message": "បើកចំណូលចិត្តប្រព័ន្ធ",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1912,7 +1912,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "ពិនិត្យអក្ខរាវិរុទ្ធអត្ថបទដែលបានបញ្ចូលក្នុងប្រអប់សមាសភាពសារ",
+        "message": "ពិនិត្យអក្ខរាវិរុទ្ធអត្ថបទដែលបានបញ្ចូលក្នុងប្រអប់សរសេរសារ",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1936,7 +1936,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "លុបទិន្នន័យកម្មវិធី",
+        "message": "សម្អាតទិន្នន័យកម្មវិធី",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -2050,7 +2050,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "មិនអាចលុបទេ",
+        "message": "មិនអាចលុបបានទេ",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2058,11 +2058,11 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "បានផ្ញើដោយផ្នែក។ សូមចុចសម្រាប់ព័ត៌មានលម្អិត។",
+        "message": "បានផ្ញើផ្នែកខ្លះ សូមចុចមើលព័ត៌មានលម្អិត",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "បានលុបខ្លះ។ ចុចដើម្បីព្យាយាមម្តងទៀត។",
+        "message": "បានលុបខ្លះ សូមចុចព្យាយាមម្តងទៀត",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2178,7 +2178,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "អ្នកកំណត់ពេលវេលាសារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
+        "message": "អ្នកបានកំណត់ពេលវេលាសម្រាប់សារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -2188,7 +2188,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "បានធ្វើបច្ចុប្បន្នភាពពេលវេលាសារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
+        "message": "បានធ្វើបច្ចុប្បន្នភាពពេលវេលាសម្រាប់សារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -2198,7 +2198,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "សមាជិកម្នាក់បានកំណត់ពេលវេលាសារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
+        "message": "សមាជិកម្នាក់បានកំណត់ពេលវេលាសម្រាប់សារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2208,7 +2208,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ បានកំណត់ពេលវេលាសារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
+        "message": "$name$ បានកំណត់ពេលវេលាសម្រាប់សារដែលបាត់ដោយស្វ័យប្រវត្តិទៅ $time$។",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -2296,7 +2296,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ បានប្តូរឈ្មោះប្រូហ្វាល់របស់ពួកគេទៅជា $newProfile$។",
+        "message": "$oldProfile$ បានប្តូរឈ្មោះប្រូហ្វាល់របស់គេទៅជា $newProfile$។",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2370,7 +2370,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "ទាញ​យក​ចិត្ត​ទុក​ដាក់​ទៅនឹងវីនដូនេះ នៅ​ពេលមានសារជូនដំណឹង",
+        "message": "​យក​ចិត្ត​ទុក​ដាក់​ចំពោះវីនដូនេះ នៅ​ពេលមានសារជូនដំណឹង",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -2390,7 +2390,7 @@
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
-        "message": "ស្វែងរកតាមឈ្មោះ ឬលេខទូរស័ព្ទ",
+        "message": "ស្វែងរកតាមឈ្មោះ ឬលេខទូរសព្ទ",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
@@ -2402,11 +2402,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "មិនអាចទៅយកឈ្មោះអ្នកប្រើ។ សូមពិនិ្យមើលការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+        "message": "មិនអាចស្រង់រកឈ្មោះអ្នកប្រើបាន។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "មិនអាចទៅយកលេខទូរសព្ទ។ សូមពិនិ្យមើលការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+        "message": "មិនអាចស្រង់រកលេខទូរសព្ទបាន។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "រកមិនឃើញអ្នកប្រើទេ។ \"$phoneNumber$\" មិនមែនជាអ្នកប្រើប្រាស់ Signal ទេ។",
+        "message": "រកមិនឃើញអ្នកប្រើទេ។ \"$phoneNumber$\" មិនមែនជាអ្នកប្រើ Signal ទេ។",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2496,7 +2496,7 @@
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
-        "message": "ការពិពណ៌នា",
+        "message": "ការពណ៌នា",
         "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
@@ -2508,7 +2508,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "ក្រុមនេះមិនអាចបង្កើតបានទេ។ ពិនិត្យការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+        "message": "ក្រុមនេះមិនអាចបង្កើតបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2516,7 +2516,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "មិនអាចធ្វើបច្ចុប្បន្នភាពក្រុម។ ពិនិត្យការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+        "message": "មិនអាចធ្វើបច្ចុប្បន្នភាពក្រុមបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "ចុចដើម្បីភ្ជាប់ Signal Desktop ឡើងវិញទៅកាន់ទូរសព្ទចល័តរបស់អ្នក ដើម្បីបន្តការផ្ញើសារ។",
+        "message": "ចុចដើម្បីភ្ជាប់ Signal Desktop ឡើងវិញជាមួយឧបករណ៍ចល័តរបស់អ្នក ដើម្បីបន្តការផ្ញើសារ។",
         "description": ""
     },
     "unlinked": {
@@ -2544,11 +2544,11 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "មានការអាប់ដេត",
+        "message": "មានកំណែថ្មី",
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "ព្យាយាមអាប់ដេតម្តងទៀត",
+        "message": "ព្យាយាមដំឡើងកំណែថ្មីម្តងទៀត",
         "description": ""
     },
     "autoUpdateContactSupport": {
@@ -2560,11 +2560,11 @@
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "ចុចដើម្បីទាញយកការអាប់ដេត",
+        "message": "ចុចដើម្បីទាញយកកំណែថ្មី",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal មិនអាចអាប់ដេតទេ។ សូមចុចដើម្បីព្យាយាមម្តងទៀត។",
+        "message": "Signal មិនអាចដំឡើងកំណែថ្មីបានទេ។ សូមចុចដើម្បីព្យាយាមម្តងទៀត។",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2580,7 +2580,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "មិនអើពើការអាប់ដេត",
+        "message": "មិនយកចិត្តទុកដាក់នឹងកំណែថ្មី",
         "description": ""
     },
     "leftTheGroup": {
@@ -2770,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "ពិនិត្យទូរសព្ទរបស់អ្នកដើម្បីបើកមើលអំណោយ",
+        "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីបើកមើលកាដូ",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "ពិនិត្យទូរសព្ទរបស់អ្នកដើម្បីមើលអំណោយរបស់អ្នក",
+        "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីមើលកាដូសម្រាប់អ្នក",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2786,11 +2786,11 @@
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "អ្នកបានផ្ញើស្លាកអំណោយ",
+        "message": "អ្នកបានផ្ញើស្លាកកាដូ",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "ស្លាកអំណោយ",
+        "message": "ស្លាកកាដូ",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "អ្នកបានផ្តល់ស្លាកជូនទៅ $name$។ ពេលពួកគេទទួលយក ពួកគេនឹងអាចជ្រើសរើសដើម្បីបង្ហាញ ឬលាក់ស្លាករបស់ពួកគេ។",
+        "message": "អ្នកបានផ្តល់ស្លាកមួយទៅ $name$។ ពេលគេទទួលយករួច គេនឹងមានជម្រើសបង្ហាញ ឬលាក់ស្លាករបស់គេ។",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -2926,7 +2926,7 @@
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "ស្ទីគ័រថ្មី",
+        "message": "ស្ទីគ័រថ្មីៗនេះ",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -3172,7 +3172,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "បិទ ឬបើក​កម្មវិធី​ជ្រើស​រើសប្រតិកម្ម​អារម្មណ៍​សម្រាប់​សារ​ដែល​បាន​ជ្រើសរើស",
+        "message": "បិទ/បើក​កម្មវិធី​ជ្រើស​រើសប្រតិកម្ម​-រូបអារម្មណ៍​សម្រាប់​សារ​ដែល​បាន​ជ្រើសរើស",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -3396,7 +3396,7 @@
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
-        "message": "ស្ទីគ័រត្រូវតែជាទម្រង់ PNG, APNG ឬ WebP ដែលមានផ្ទៃខាងក្រោយថ្លា និង 512x512 ភីកសែល។ រឹមដែលបានណែនាំគឺ 16px។",
+        "message": "ស្ទីគ័រត្រូវតែមានទម្រង់ជា PNG, APNG ឬ WebP ដែលមានផ្ទៃខាងក្រោយច្បាស់ និងមានភីកស៊ែល 512x512។ គួរតែមានរឹម 16px។",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -3532,7 +3532,7 @@
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "ស្ទីគ័រដែលមានចលនាត្រូវតែរង្វិលជុំជារៀងរហូត",
+        "message": "ស្ទីគ័រដែលមានចលនាត្រូវតែមានចលនាសាដើមរហូត",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
@@ -3540,7 +3540,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "វិមាត្រស្ទីគ័រ PNG ដែលមានចលនាតូចពេក",
+        "message": "វិមាត្រស្ទីគ័រ PNG ដែលមានចលនាមានទំហំតូចពេក",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -3586,7 +3586,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "អនុញ្ញាតឲ្យ $name$ ផ្ញើសារទៅអ្នក និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយពួកគេឬ? ពួកគេនឹងមិនដឹងថាអ្នកបានឃើញសាររបស់ពួកគេរហូតទាល់តែអ្នកយល់ព្រម។",
+        "message": "ឲ្យ $name$ ផ្ញើសារមកអ្នកបាន និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេឬ? គេនឹងមិនដឹងថាអ្នកបានឃើញសាររបស់គេទេ ទាល់តែអ្នកព្រមទទួលយកសិន។",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3596,7 +3596,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "អនុញ្ញាតឲ្យ $name$ ផ្ញើសារទៅអ្នក និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយពួកគេឬ? ពួកគេនឹងមិនទទួលបានសារណាមួយរហូតទាល់តែអ្នកមិនទប់ស្កាត់ពួកគេវិញ។",
+        "message": "ឲ្យ $name$ ផ្ញើសារមកអ្នកបាន និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេឬ? អ្នកនឹងមិនទទួលបានសារណាមួយទេ ទាល់តែអ្នកឈប់ទប់ស្កាត់គេសិន។",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3622,7 +3622,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-title": {
-        "message": "មិនទប់ស្កាត់ $name$ វិញឬ?",
+        "message": "ឈប់ទប់ស្កាត់ $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -3662,7 +3662,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "ទប់ស្កាត និងចាកចេញពី $group$ ឬ?",
+        "message": "ទប់ស្កាត់ និងចាកចេញពី $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3728,7 +3728,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "បន្តការសន្ទនានេះជាមួយ $firstName$ និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយពួកគេឬ? $learnMore$",
+        "message": "បន្តការសន្ទនានេះជាមួយ $firstName$ និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេឬ? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3808,7 +3808,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "សមាជិកនៃ $group1$ $group2$ $group3$ និងមួយទៀត",
+        "message": "សមាជិកនៃ $group1$, $group2$, $group3$ និងមួយទៀត",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3826,7 +3826,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "សមាជិកនៃ $group1$ $group2$ $group3$ និង $remainingCount$ ទៀត",
+        "message": "សមាជិកនៃ $group1$, $group2$, $group3$ និង $remainingCount$ ទៀត",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -3968,7 +3968,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ កំពុងហៅមកអ្នក $first$ $second$  និង 1 នាក់ផ្សេងទៀត",
+        "message": "$ringer$ កំពុងហៅមកអ្នក $first$, $second$  និង 1 នាក់ផ្សេងទៀត",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4084,11 +4084,11 @@
         }
     },
     "calling__in-another-call-tooltip": {
-        "message": "អ្នកនៅក្នុងការហៅមួយស្រាប់ហើយ",
+        "message": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "ការហៅទូរសព្ទឈានដល់ចំនួនកំណត់នៃអ្នកចូលរួម $max$ នាក់",
+        "message": "ការហៅទូរសព្ទមានអ្នកចូលរួមដល់ចំនួនកំណត់ $max$ នាក់ហើយ",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -4118,7 +4118,7 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "ចែករំលែកអេក្រង់",
+        "message": "ចែករំលែកអេក្រង់របស់អ្នក",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
@@ -4254,7 +4254,7 @@
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "អ្នកបានស្នើសុំការអនុម័តដើម្បីចូលរួមក្រុមនេះរួចហើយ។",
+        "message": "អ្នកបានស្នើសុំការឯកភាពដើម្បីចូលរួមក្រុមនេះរួចហើយ។",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
@@ -4262,11 +4262,11 @@
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "តំណនេះមិនត្រូវបានគាំទ្រដោយកំណែរបស់ Signal Desktop នេះទេ។",
+        "message": "កំណែរបស់ Signal Desktop នេះមិនស្គាល់តំណនេះទេ។",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "មិនអាចចូលរួមក្រុម",
+        "message": "មិនអាចចូលរួមក្រុមបាន",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
@@ -4274,7 +4274,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-forbidden--title": {
-        "message": "មិនអាចចូលរួមក្រុម",
+        "message": "មិនអាចចូលរួមក្រុមបាន",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
@@ -4282,7 +4282,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "អ្នកគ្រប់គ្រងនៃក្រុមនេះត្រូវតែអនុម័តសំណើរបស់អ្នក មុនពេលអ្នកអាចចូលរួមក្រុមនេះបាន។ ប្រសិនបើបានអនុម័តរួច ឈ្មោះ និងរូបថតរបស់អ្នកនឹងត្រូវបានចែករំលែកជាមួយសមាជិករបស់ខ្លួន។",
+        "message": "អ្នកគ្រប់គ្រងក្រុមនេះត្រូវតែឯកភាពលើសំណើរបស់អ្នក មុនពេលអ្នកអាចចូលរួមក្រុមនេះបាន។ ប្រសិនបើបានឯកភាពរួច ឈ្មោះ និងរូបថតរបស់អ្នកនឹងត្រូវបានចែករំលែកជាមួយសមាជិករបស់ក្រុម។",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -4290,7 +4290,7 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "ស្នើសុំដើម្បីចូលរួម",
+        "message": "ស្នើសុំចូលរួម",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
@@ -4358,7 +4358,7 @@
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "កំពុងអាប់ដេត…",
+        "message": "កំពុងធ្វើបច្ចុប្បន្នភាព…",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -4380,7 +4380,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ បានផ្លាស់ប្តូរឈ្មោះក្រុមទៅជា \"$newTitle$\"។",
+        "message": "$memberName$ បានប្តូរឈ្មោះក្រុមទៅជា \"$newTitle$\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4394,7 +4394,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "អ្នកបានផ្លាស់ប្តូរឈ្មោះក្រុមទៅជា \"$newTitle$\"។",
+        "message": "អ្នកបានប្តូរឈ្មោះក្រុមទៅជា \"$newTitle$\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4404,7 +4404,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "សមាជិកម្នាក់បានផ្លាស់ប្តូរឈ្មោះក្រុមទៅជា \"$newTitle$\"។",
+        "message": "សមាជិកម្នាក់បានប្តូរឈ្មោះក្រុមទៅជា \"$newTitle$\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4468,7 +4468,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់តែអ្នកគ្រប់គ្រង\"។",
+        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមបានទៅជា \"មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4478,15 +4478,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់តែអ្នកគ្រប់គ្រង\"។",
+        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមបាន ទៅជា \"មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់តែអ្នកគ្រប់គ្រង\"។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមបាន ទៅជា \"មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់សមាជិកទាំងអស់\"។",
+        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4496,15 +4496,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់សមាជិកទាំងអស់\"។",
+        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់សមាជិកទាំងអស់\"។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែព័ត៌មានក្រុមទៅជា \"សម្រាប់តែអ្នកគ្រប់គ្រង\"។",
+        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4514,15 +4514,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមទៅជា \"សម្រាប់តែអ្នកគ្រប់គ្រង\"។",
+        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមទៅជា \"សម្រាប់តែអ្នកគ្រប់គ្រង\"។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមទៅជា \"សម្រាប់សមាជិកទាំងអស់\"។",
+        "message": "$adminName$ បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4532,19 +4532,19 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមទៅជា \"សម្រាប់សមាជិកទាំងអស់\"។",
+        "message": "អ្នកបានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមទៅជា \"សម្រាប់សមាជិកទាំងអស់\"។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "អ្នកបានបិទការអនុម័តពីអ្នកគ្រប់គ្រងសម្រាប់តំណក្រុម។",
+        "message": "អ្នកបានបិទការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ បានបិទការអនុម័តពីអ្នកគ្រប់គ្រងសម្រាប់តំណក្រុម។",
+        "message": "$adminName$ បានបិទការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4554,15 +4554,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "ការអនុម័តពីអ្នកគ្រប់គ្រងសម្រាប់តំណក្រុមត្រូវបានបិទ។",
+        "message": "ការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុមត្រូវបានបិទ។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "អ្នកបានបើកការអនុម័តពីអ្នកគ្រប់គ្រងសម្រាប់តំណក្រុម។",
+        "message": "អ្នកបានបើកការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ បានបើកការអនុម័តពីអ្នកគ្រប់គ្រងសម្រាប់តំណក្រុម។",
+        "message": "$adminName$ បានបើកការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4572,11 +4572,11 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "ការអនុម័តពីអ្នកគ្រប់គ្រងសម្រាប់តំណក្រុមត្រូវបានបើក។",
+        "message": "ការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុមត្រូវបានបើក។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "អ្នកបានបញ្ចូលសមាជិកដែលបានបបួល $inviteeName$។",
+        "message": "អ្នកបានបញ្ចូលសមាជិកដែលត្រូវបានគេបបួលឈ្មោះ $inviteeName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4586,7 +4586,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ បានបញ្ចូលសមាជិកដែលបានបបួល $inviteeName$។",
+        "message": "$memberName$ បានបញ្ចូលសមាជិកដែលត្រូវបានគេបបួលឈ្មោះ $inviteeName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4600,7 +4600,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "សមាជិកម្នាក់បានបញ្ចូលសមាជិកដែលបានបបួល $inviteeName$។",
+        "message": "សមាជិកម្នាក់បានបញ្ចូលសមាជិកដែលត្រូវបានគេបបួលឈ្មោះ $inviteeName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4610,7 +4610,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$បានយល់ព្រមការបបួលឲ្យចូលរួមក្រុមពី $inviterName$។",
+        "message": "$inviteeName$បានទទួលយកការបបួលឲ្យចូលរួមក្រុមពី $inviterName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4624,7 +4624,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ បានយល់ព្រមការបបួលឲ្យចូលរួមក្រុម។",
+        "message": "$inviteeName$ បានទទួលយកការបបួលឲ្យចូលរួមក្នុងក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4634,7 +4634,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "អ្នកបានយល់ព្រមការបបួលឲ្យចូលរួមក្រុមពី $inviterName$។",
+        "message": "អ្នកបានទទួលយកការបបួលឲ្យចូលរួមក្នុងក្រុមពី $inviterName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4648,7 +4648,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ បានយល់ព្រមការបបួលឲ្យចូលរួមក្រុម។",
+        "message": "$inviteeName$ បានទទួលយកការបបួលឲ្យចូលរួមក្នុងក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4724,7 +4724,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ បានអនុម័តសំណើរបស់អ្នកដើម្បីចូលរួមក្រុម។",
+        "message": "$adminName$ បានឯកភាពលើសំណើរបស់អ្នកដើម្បីចូលរួមក្រុមហើយ។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4738,7 +4738,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "អ្នកបានអនុម័តសំណើដើម្បីចូលរួមក្រុមពី $joinerName$។",
+        "message": "អ្នកបានឯកភាពលើសំណើសុំចូលរួមក្រុមពី $joinerName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4748,7 +4748,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ បានអនុម័តសំណើដើម្បីចូលរួមក្រុមពី $joinerName$។",
+        "message": "$adminName$ បានឯកភាពលើសំណើសុំចូលរួមក្រុមពី $joinerName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4762,7 +4762,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "សំណើដើម្បីចូលរួមក្រុមពី $joinerName$ ត្រូវបានអនុម័ត។",
+        "message": "សំណើសុំចូលរួមក្រុមពី $joinerName$ ត្រូវបានឯកភាព។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4834,7 +4834,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ បានតែងតាំង $memberName$ ជាអ្នកគ្រប់គ្រង។",
+        "message": "$adminName$ បានកំណត់ $memberName$ ជាអ្នកគ្រប់គ្រង។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4848,7 +4848,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "អ្នកបានតែងតាំង $memberName$ ជាអ្នកគ្រប់គ្រង។",
+        "message": "អ្នកបានកំណត់ $memberName$ ជាអ្នកគ្រប់គ្រង។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4858,7 +4858,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "អ្នកគ្រប់គ្រងម្នាក់បានតែងតាំង $memberName$ ជាអ្នកគ្រប់គ្រង។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានកំណត់ $memberName$ ជាអ្នកគ្រប់គ្រង។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4868,7 +4868,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ បានតែងតាំងអ្នកជាអ្នកគ្រប់គ្រង។",
+        "message": "$adminName$ បានកំណត់អ្នកជាអ្នកគ្រប់គ្រង។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4878,11 +4878,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "អ្នកគ្រប់គ្រងម្នាក់បានតែងតាំងអ្នកជាអ្នកគ្រប់គ្រង។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានកំណត់អ្នកជាអ្នកគ្រប់គ្រង។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ បានលុបចោលសិទ្ធិគ្រប់គ្រងពី $memberName$។",
+        "message": "$adminName$ បានដកហូតឯកសិទ្ធិជាអ្នកគ្រប់គ្រងពី $memberName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4896,7 +4896,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "អ្នកបានលុបចោលសិទ្ធិគ្រប់គ្រងពី $memberName$។",
+        "message": "អ្នកបានដកហូតឯកសិទ្ធិជាអ្នកគ្រប់គ្រងពី $memberName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4906,7 +4906,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "អ្នកគ្រប់គ្រងបានលុបចោលសិទ្ធិគ្រប់គ្រងពី $memberName$។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានដកហូតឯកសិទ្ធិជាអ្នកគ្រប់គ្រងពី $memberName$។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4916,7 +4916,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ បានលុបចោលសិទ្ធិគ្រប់គ្រងរបស់អ្នក។",
+        "message": "$adminName$ បានដកហូតឯកសិទ្ធិជាអ្នកគ្រប់គ្រងរបស់អ្នក។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4926,7 +4926,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "អ្នកគ្រប់គ្រងបានលុបចោលសិទ្ធិគ្រប់គ្រងរបស់អ្នក។",
+        "message": "អ្នកគ្រប់គ្រងម្នាក់បានដកហូតឯកសិទ្ធិជាអ្នកគ្រប់គ្រងរបស់អ្នក។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
@@ -4950,7 +4950,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "បុគ្គលម្នាក់ត្រូវបានបបួលឲ្យចូលរួមក្រុម។",
+        "message": "មនុស្សម្នាក់ត្រូវបានបបួលឲ្យចូលរួមក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5120,7 +5120,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ បានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស 1 នាក់ដែលបានបបួលដោយ $memberName$។",
+        "message": "$adminName$ បានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស 1 នាក់ដែល $memberName$ បានបបួល។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5264,7 +5264,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ បានស្នើសុំចូលរួមតាមរយៈតំណភ្ជាប់ក្រុម។",
+        "message": "$joinerName$ បានស្នើសុំចូលរួមតាមរយៈតំណក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5340,11 +5340,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "អ្នកបានបើកតំណក្រុមដោយមានការអនុម័តពីអ្នកគ្រប់គ្រង។",
+        "message": "អ្នកបានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបិទ។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ បានបើកតំណក្រុមដោយមានការអនុម័តពីអ្នកគ្រប់គ្រង។",
+        "message": "$adminName$ បានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបិទ។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5354,15 +5354,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "តំណក្រុមត្រូវបានបើកដោយមានការអនុម័តពីអ្នកគ្រប់គ្រង។",
+        "message": "តំណក្រុមត្រូវបានបើកដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបិទ។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "អ្នកបានបើកតំណក្រុមដោយមានការអនុម័តពីអ្នកគ្រប់គ្រង។",
+        "message": "អ្នកបានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបើក។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ បានបើកតំណក្រុមដោយមានការអនុម័តពីអ្នកគ្រប់គ្រង។",
+        "message": "$adminName$ បានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបើក។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5372,7 +5372,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "តំណក្រុមត្រូវបានបើកដោយមានការអនុម័តពីអ្នកគ្រប់គ្រង។",
+        "message": "តំណក្រុមត្រូវបានបើក ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបើក។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -5416,7 +5416,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$ បានលុបការពិពណ៌នាក្រុម។",
+        "message": "$memberName$ បានលុបការពណ៌នាអំពីក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5434,7 +5434,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$ បានផ្លាស់ប្តូរការពិពណ៌នាក្រុម។",
+        "message": "$memberName$ បានផ្លាស់ប្តូរការពណ៌នាអំពីក្រុម។",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5484,7 +5484,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "ដំឡើងកំណែក្រុមនេះ ដើម្បីដំណើរការមុខងារថ្មីៗដូចជា @លើកមកនិយាយ និងអ្នកគ្រប់គ្រង។ សមាជិកដែលមិនបានចែករំលែកឈ្មោះ ឬរូបថតរបស់ពួកគេនៅក្នុងក្រុមនេះនឹងត្រូវបានបបួលឲ្យចូលរួម។ $learnMore$",
+        "message": "ដំឡើងកម្រិតរបស់ក្រុមនេះ ដើម្បីបើកដំណើរការមុខងារថ្មីៗដូចជា @លើកឈ្មោះ និងអ្នកគ្រប់គ្រង។ សមាជិកដែលមិនបានចែករំលែកឈ្មោះ ឬរូបថតរបស់ពួកគេនៅក្នុងក្រុមនេះនឹងត្រូវបានបបួលឲ្យចូលរួម។ $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5526,15 +5526,15 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "អ្នកនឹងត្រូវយល់ព្រមការបបួលដើម្បីចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនអាចទទួលសារក្នុងក្រុម រហូតដល់អ្នកយល់ព្រម។",
+        "message": "អ្នកនឹងត្រូវទទួលយកការបបួលឲ្យចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនទទួលបានសាររបស់ក្រុមទេ រហូតទាល់តែអ្នកទទួលយកសិន។",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "សមាជិកទាំងនេះ នឹងត្រូវយល់ព្រមការបបួលដើម្បីចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនអាចទទួលសារក្នុងក្រុម រហូតដល់ពួកគេយល់ព្រម៖",
+        "message": "សមាជិកទាំងនេះនឹងត្រូវទទួលយកការបបួលឲ្យចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនទទួលបានសាររបស់ក្រុមទេ រហូតទាល់តែពួកគេទទួលយកសិន៖",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "សមាជិកទាំងនេះ នឹងត្រូវយល់ព្រមការបបួលដើម្បីចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនអាចទទួលសារក្នុងក្រុម រហូតដល់ពួកគេយល់ព្រម៖",
+        "message": "សមាជិកនេះនឹងត្រូវទទួលយកការបបួលឲ្យចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនទទួលបានសាររបស់ក្រុមទេ រហូតទាល់តែគេទទួលយកសិន៖",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -5554,11 +5554,11 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "អ្នកមិនអាចបន្ថែមចូលក្រុមថ្មី និងត្រូវបានបបួលដើម្បីចូលរួម។",
+        "message": "មិនអាចបញ្ចូលអ្នកទៅក្រុមថ្មីបានទេ តែអ្នកត្រូវបានគេបបួលឲ្យចូលរួម។",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ មិនអាចបញ្ចូលទៅក្នុងក្រុមថ្មី ហើយត្រូវបានបបួលឲ្យចូលរួម។",
+        "message": "$contact$ មិនអាចបញ្ចូលទៅក្រុមថ្មីបានទេ តែត្រូវបានគេបបួលឲ្យចូលរួម។",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5568,7 +5568,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "សមាជិក $count$ នាក់មិនអាចបញ្ចូលទៅក្នុងក្រុមថ្មី ហើយត្រូវបានបបួលឲ្យចូលរួម។",
+        "message": "សមាជិក $count$ នាក់មិនអាចបញ្ចូលទៅក្រុមថ្មីបានទេ តែត្រូវបានគេបបួលឲ្យចូលរួម។",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5646,11 +5646,11 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop មិនគាំទ្រការផ្ញើសារដែលមិនមែនជាទំនាក់ទំនងរបស់ Signal ទេ។ ស្នើសុំឲ្យបុគ្គលនេះដំឡើង Signal សម្រាប់បទពិសោធន៍ផ្ញើសារដែលមានសុវត្ថិភាពជាងមុន។",
+        "message": "Signal Desktop មិនអាចប្រើបានសម្រាប់ផ្ញើសារទៅឈ្មោះទំនាក់ទំនងដែលមិនមានកម្មវិធី Signal ទេ។ ស្នើឲ្យគាត់ម្នាក់នេះដំឡើងកម្មវិធី Signal ដើម្បីទទួលបានបទពិសោធន៍ផ្ញើសារ​ដែលកាន់តែមានសុវត្ថិភាពជាងមុន។",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "កំពុងពិនិត្យមើលស្ថានភាពចុះឈ្មោះទំនាក់ទំនង",
+        "message": "កំពុងពិនិត្យមើលស្ថានភាពចុះឈ្មោះរបស់ឈ្មោះទំនាក់ទំនង",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
@@ -5680,7 +5680,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "ដក $contact$ ចេញពីអ្នកគ្រប់គ្រងក្រុមឬ?",
+        "message": "ដក $contact$ ចេញ លែងឲ្យធ្វើជាអ្នកគ្រប់គ្រងក្រុម?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5718,11 +5718,11 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងក្រុមនេះនឹងបាត់ទៅវិញ បន្ទាប់ពីពួកគេបានមើលឃើញ។",
+        "message": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងក្រុមនេះនឹងបាត់ទៅវិញ បន្ទាប់ពីពួកវាត្រូវបានគេមើលរួច។",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "នៅពេលបើក សារដែលត្រូវបានផ្ញើ និងទទួលបាននៅក្នុងការជជែកមួយទល់មួយនេះនឹងបាត់បន្ទាប់ពីពួកគេមើលរួច។",
+        "message": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងការជជែកមួយទល់មួយនេះ​នឹងបាត់ទៅវិញបន្ទាប់ពីពួកវាត្រូវបានគេមើលរួច។",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5734,7 +5734,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "ជ្រើសរើសអ្នកដែលអាចកែឈ្មោះក្រុម រូបថត ការពិពណ៌នា និងកម្មវិធីកំណត់ពេលសារដែលបាត់ដោយស្វ័យប្រវត្តិ។",
+        "message": "ជ្រើសរើសអ្នកដែលអាចកែឈ្មោះ រូបថត ការពណ៌នារបស់ក្រុម និងកម្មវិធីកំណត់ពេលសារដែលបាត់ដោយស្វ័យប្រវត្តិ។",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5862,7 +5862,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "ទទួលបានសារជូនដំណឹងនៅពេលអ្នកត្រូវបានលើកឡើងនៅក្នុងការជជែកដែលបានបិទសំឡេង",
+        "message": "ទទួលបានសារជូនដំណឹងនៅពេលអ្នកត្រូវបានគេលើកឈ្មោះនៅក្នុងការជជែកដែលបានបិទសំឡេង",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5894,7 +5894,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "តម្រូវឲ្យអ្នកគ្រប់គ្រងអនុម័តសមាជិកថ្មីដែលចូល​រួម​តាម​រយៈ​តំណ​ក្រុម",
+        "message": "តម្រូវឲ្យអ្នកគ្រប់គ្រងឯកភាពលើសមាជិកថ្មីៗដែលចូល​រួម​តាម​រយៈ​តំណ​ក្រុម",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5918,7 +5918,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "អនុម័តសំណើពី \"$name$\" ឬ?",
+        "message": "ឯកភាពលើសំណើពី \"$name$\" ឬ?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "បដិសេធសំណើពី \"$name$\" ឬ? ពួកគេនឹងមិនអាចស្នើសុំចូលរួមតាមរយៈតំណក្រុមម្តងទៀត។",
+        "message": "បដិសេធសំណើពី \"$name$\" ឬ? គេនឹងមិនអាចស្នើសុំចូលរួមតាមរយៈតំណក្រុមម្តងទៀតទេ។",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -6016,7 +6016,7 @@
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
-        "message": "អនុម័តសំណើ",
+        "message": "ឯកភាពលើសំណើ",
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
@@ -6034,7 +6034,7 @@
         }
     },
     "PendingInvites--info": {
-        "message": "ព័ត៌មានលម្អិតអំពីមនុស្សដែលត្រូវបានបបួលឲ្យចូលរួមក្នុងក្រុមនេះមិនត្រូវបានបង្ហាញទេ រហូតដល់ពួកគេចូលរួម។ អ្នកបបួលនឹងឃើញសារបន្ទាប់ពីពួកគេចូលរួមក្រុមប៉ុណ្ណោះ។",
+        "message": "ព័ត៌មានលម្អិតអំពីអ្នកទាំងឡាយដែលត្រូវបានគេបបួលឲ្យចូលរួមក្នុងក្រុមនេះមិនត្រូវបានបង្ហាញទេ រហូតទាល់តែពួកគេចូលរួមទើបឃើញ។ អ្នកដែលគេបបួល អាចមើលឃើញសារបាន លុះត្រាតែពួកគេចូលរួមក្រុមរួចសិន។",
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
@@ -6046,7 +6046,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ នឹងមិនអាចចូលរួម ឬស្នើសុំចូលរួម​ក្រុម​នេះ​តាម​រយៈ​តំណ​ក្រុម​បាន​ទេ។ ពួកគេនៅតែអាចបញ្ចូលទៅក្នុងក្រុមម្តងមួយៗ។",
+        "message": "$name$ នឹងមិនអាចចូលរួម ឬស្នើសុំចូលរួម​ក្រុម​នេះ​តាម​រយៈ​តំណ​ក្រុម​បាន​ទេ។ នៅតែអាចបញ្ចូលគេទៅក្នុងក្រុមនេះដោយផ្ទាល់បាន។",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6068,7 +6068,7 @@
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
-        "message": "ផ្លាស់ប្តូររូបថត",
+        "message": "ប្តូររូបថត",
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
@@ -6080,7 +6080,7 @@
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
-        "message": "លុបទំនាក់ទំនង",
+        "message": "លុបឈ្មោះទំនាក់ទំនង",
         "description": "The label for the 'remove' button on the contact pill"
     },
     "ComposeErrorDialog--close": {
@@ -6088,11 +6088,11 @@
         "description": "The text on the button when there's an error in the composer"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--one": {
-        "message": "បានផ្ញើការអញ្ជើញ",
+        "message": "បានផ្ញើការបបួល",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--many": {
-        "message": "បានផ្ញើការអញ្ជើញចំនួន $count$",
+        "message": "បានផ្ញើការបបួលចំនួន $count$",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "count": {
@@ -6102,7 +6102,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ មិនអាចត្រូវបានបញ្ចូលទៅក្នុងក្រុមនេះដោយអ្នកទេ។",
+        "message": "អ្នកមិនអាចបញ្ចូល $name$ ទៅក្នុងក្រុមនេះដោយស្វ័យប្រវត្តិបានទេ។",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -6112,11 +6112,11 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "អ្នក​ប្រើ​ទាំងនេះ​មិន​អាច​ត្រូវ​បាន​បញ្ចូល​ដោយ​ស្វ័យ​ប្រវត្តិ​ទៅ​ក្នុង​ក្រុម​នេះ​ដោយ​អ្នក​ទេ។",
+        "message": "អ្នកមិនអាចបញ្ចូលអ្នក​ប្រើ​ទាំងនេះទៅ​ក្នុង​ក្រុម​នេះ​​ដោយ​ស្វ័យ​ប្រវត្តិ​បានទេ។",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "ពួកគេត្រូវបានបបួលឲ្យចូលរួម ហើយនឹងមិនឃើញសារក្រុមណាមួយឡើយ រហូតដល់ពួកគេទទួលយក។",
+        "message": "ពួកគេត្រូវបានបបួលឲ្យចូលរួម តែមើលមិនឃើញសាររបស់ក្រុមទេ រហូតទាល់តែពួកគេទទួលយកការបបួលសិន។",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -6132,7 +6132,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "បញ្ចូល $person$ ទៅក្នង \"$group$\" ឬ?",
+        "message": "បញ្ចូល $person$ ទៅក្នុង \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -6172,7 +6172,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": " ជ្រើសរើសបញ្ជីទំនាក់ទំនង $name$",
+        "message": " ជ្រើសរើសឈ្មោះទំនាក់ទំនង $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -6192,7 +6192,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "មិនអាចជ្រើសរើសបញ្ជីទំនាក់ទំនង $name$",
+        "message": "មិនអាចជ្រើសរើសឈ្មោះទំនាក់ទំនង $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6218,11 +6218,11 @@
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
-        "message": "ទាញយកឯកសារភ្ជាប់ជាសំឡេង…",
+        "message": "កំពុងទាញយកឯកសារភ្ជាប់ជាសំឡេង…",
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "ពេលវេលាចាក់សារថ្មីនៃឯកសារភ្ជាប់ជាសំឡេង",
+        "message": "រយៈពេលចាក់ឯកសារភ្ជាប់ជាសំឡេង",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
@@ -6236,7 +6236,7 @@
         }
     },
     "composeIcon": {
-        "message": "ប៊ូតុងសរសេរ",
+        "message": "ប៊ូតុងសរសេរសារ",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "លែងមានទៀតហើយ",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "ម៉ឺនុយបរិបទ",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "អ្វីថ្មីៗ",

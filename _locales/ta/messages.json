@@ -222,7 +222,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
-        "message": "No archived conversations.",
+        "message": "காப்பகப்படுத்தப்பட்ட உரையாடல்கள் இல்லை.",
         "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
     },
     "archiveConversation": {
@@ -420,7 +420,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
-        "message": "Send pending messages",
+        "message": "நிலுவையில் உள்ள செய்திகளை அனுப்பவும்",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -464,15 +464,15 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
+        "message": "நீங்கள் சமர்ப்பி என்பதைக் கிளிக் செய்யும் போது, ​​உங்கள் பதிவு 30 நாட்களுக்கு ஒரு தனித்துவமான, வெளியிடப்படாத இணைப்பு மூலம் ஆன்லைனில் வெளியிடப்படும். நீங்கள் முதலில் அதை உள்நிலையில் சேமிக்கலாம்.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "பதிவேற்றத்தில் ஏதோ தவறு நடந்துவிட்டது! support@signal.org க்கு மின்னஞ்சல் செய்து உங்கள் பதிவை உரைக் கோப்பாக இணைக்கவும்.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "பிழைதிருத்தப் பதிவு சமர்ப்பிக்கப்பட்டது",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
@@ -660,7 +660,7 @@
         }
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "பதிவைச் சமர்ப்பிக்கவும்",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -788,7 +788,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Search chat",
+        "message": "சாட்டைத் தேடு",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -840,7 +840,7 @@
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
-        "message": "Find by phone number",
+        "message": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
         "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
@@ -926,7 +926,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadFullMessage": {
-        "message": "Download Full Message",
+        "message": "முழு செய்தியைப் பதிவிறக்கவும்",
         "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
@@ -954,15 +954,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
-        "message": "Start recording voice message",
+        "message": "குரல் செய்தியைப் பதிவுசெய்யத் தொடங்குங்கள்",
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "குரல் செய்தியை பூர்த்தி செய்து அனுப்பவும்",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Cancel voice message",
+        "message": "குரல் செய்தியை ரத்துசெய்யவும்",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -1434,7 +1434,7 @@
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
-        "message": "My Computer",
+        "message": "எனது கணினி",
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
@@ -1454,7 +1454,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Note: Your chat history will not be synced to this device",
+        "message": "குறிப்பு: உங்கள் சாட் வரலாறு இந்த சாதனத்துடன் ஒத்திசைக்கப்படாது",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1474,7 +1474,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "An unexpected error occurred. Please try again.",
+        "message": "எதிர்பாராத பிழை ஏற்பட்டு விட்டது. தயவுசெய்து மீண்டும் முயற்சி செய்க.",
         "description": ""
     },
     "installTryAgain": {
@@ -1936,7 +1936,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "பயன்பாட்டுத் தரவை அழிக்கவும்",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -2262,7 +2262,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "அறிவிப்பு ஒலிகளை இயக்கவும்",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2386,7 +2386,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Stories",
+        "message": "ஸ்டோரீஸ்",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
@@ -2544,15 +2544,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "புதுப்பிப்பு கிடைக்கிறது",
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "புதுப்பிப்பை மீண்டும் முயற்சிக்கவும்",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "உதவி மையத்தை தொடர்பு கொள்ளவும்",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -2766,7 +2766,7 @@
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "பரிசு",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
@@ -2778,11 +2778,11 @@
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "நீங்கள் ஒரு பரிசு பெற்றுள்ளீர்கள்",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "நீங்கள் ஒரு பரிசு பேட்ஜை மீட்டெடுத்துள்ளீர்கள்",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2790,11 +2790,11 @@
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Gift Badge",
+        "message": "பரிசு பேட்ஜ்",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "பரிசு",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
@@ -2832,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Expired",
+        "message": "காலாவதியாகிவிட்டது",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2840,11 +2840,11 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "மீட்டெடுக்கப்பட்டது",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
-        "message": "Thanks for your support!",
+        "message": "உங்கள் ஆதரவுக்கு நன்றி!",
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "You can't join this group via the group link because an admin removed you.",
+        "message": "ஒரு நிர்வாகி உங்களை நீக்கியதால், குழு இணைப்பு வாயிலாக இந்தக் குழுவில் உங்களால் சேர முடியாது.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -6038,11 +6038,11 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Block request",
+        "message": "கோரிக்கையைத் தடை செய்யவும்",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "கோரிக்கையைத் தடை செய்யலாமா?",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
@@ -7000,11 +7000,11 @@
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "வரை",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "உரையைச் சேர்க்கவும்",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -7084,7 +7084,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "My Stories",
+        "message": "எனது ஸ்டோரீஸ்",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -7144,19 +7144,19 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
-        "message": "Stories",
+        "message": "ஸ்டோரீஸ்",
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "My Stories",
+        "message": "எனது ஸ்டோரீஸ்",
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "ஒரு ஸ்டோரியைச் சேர்க்கவும்",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "மறைக்கப்பட்ட ஸ்டோரீக்கள்",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
@@ -7206,15 +7206,15 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "No replies yet",
+        "message": "இன்னும் பதில்கள் ஏதுமில்லை",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "பார்வைகள்",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "பதில்கள்",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -7222,7 +7222,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "ஸ்டோரிக்கு பதிலளிக்கப்பட்டது",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7234,11 +7234,11 @@
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "ஸ்டோரியை மறைக்கவும்",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "சாட்டிற்குச் செல் ",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
@@ -7270,7 +7270,7 @@
         "description": "Button label to apply the link preview to story"
     },
     "StoryCreator__input-placeholder": {
-        "message": "Add text",
+        "message": "உரையைச் சேர்க்கவும்",
         "description": "Placeholder to add text"
     },
     "StoryCreator__text--regular": {
@@ -7294,7 +7294,7 @@
         "description": "Label for font"
     },
     "StoryCreator__link-preview-placeholder": {
-        "message": "Type or paste a URL",
+        "message": "இணைப்பை டைப் செய்யவும் அல்லது ஒட்டவும்",
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
@@ -7302,11 +7302,11 @@
         "description": "Empty state for the link preview"
     },
     "TextAttachment__placeholder": {
-        "message": "Add text",
+        "message": "உரையைச் சேர்க்கவும்",
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "Visit link",
+        "message": "இணைப்பை பார்வையிடவும்",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
@@ -7324,16 +7324,20 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "Reacted to your story",
+        "message": "உங்கள் ஸ்டோரிக்கு பதிலளித்துள்ளார்",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
-        "message": "Reacted to a story",
+        "message": "ஒரு ஸ்டோரிக்கு பதிலளித்துள்ளார்",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "No longer available",
+        "message": "இனி கிடைக்காது",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Context menu",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "What's New",

@@ -7335,6 +7335,10 @@
         "message": "לא זמין יותר",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "תפריט קונטקסט",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
         "message": "מה חדש",
         "description": "Title for the whats new modal"

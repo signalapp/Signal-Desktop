@@ -974,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Tin nhắn thoại được giới hạn ở một giờ. Việc thu âm sẽ dừng lại nếu bạn chuyển sang ứng dụng khác.",
+        "message": "Tin nhắn thoại được giới hạn trong một giờ. Việc thu âm sẽ dừng lại nếu bạn chuyển sang ứng dụng khác.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã gỡ bạn khỏi nhóm.",
+        "message": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã xóa bạn khỏi nhóm.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Không thể xem được nữa",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Menu chuột phải",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Có gì mới",

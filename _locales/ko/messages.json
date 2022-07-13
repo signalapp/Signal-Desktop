@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "사용자를 찾을 수 없습니다. '$phoneNumber$'번은 Signal 사용자가 아닙니다.",
+        "message": "사용자를 찾을 수 없습니다. '$phoneNumber$'은(는) Signal 사용자가 아닙니다.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "사용자를 찾을 수 없습니다. '$phoneNumber$'번은 올바른 전화번호가 아닙니다.",
+        "message": "사용자를 찾을 수 없습니다. '$phoneNumber$'은(는) 올바른 전화번호가 아닙니다.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "클릭하여 Signal Desktop을 모바일 장치에 다시 연결하고 메시지를 계속 사용하세요.",
+        "message": "클릭하여 Signal Desktop을 모바일 기기에 다시 연결하고 메시지를 계속 사용하세요.",
         "description": ""
     },
     "unlinked": {
@@ -2552,7 +2552,7 @@
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "지원에 문의",
+        "message": "고객 지원팀에 문의",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -2758,7 +2758,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "모바일에서 이 메시지를 확인하여 선물을 열어보세요.",
+        "message": "모바일에서 이 메시지를 확인하여 선물을 열어 보세요.",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
@@ -2770,7 +2770,7 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "휴대전화에서 선물을 여세요.",
+        "message": "휴대전화에서 선물을 열어 보세요.",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
@@ -3392,7 +3392,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "파일을 클릭하거나 드래그/드롭하여 스티커를 추가합니다.",
+        "message": "파일을 클릭하거나 끌어와 스티커를 추가합니다.",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3926,7 +3926,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ 님이 귀하에게 전화를 걸고 있습니다.",
+        "message": "$ringer$ 님이 나에게 전화를 걸었습니다.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3936,7 +3936,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ 님이 귀하와 $otherMember$ 님에게 전화를 걸고 있습니다.",
+        "message": "$ringer$ 님이 나와 $otherMember$ 님에게 전화를 걸었습니다.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3950,7 +3950,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ 님이 귀하와 $first$ 님, $second$ 님에게 전화를 걸고 있습니다.",
+        "message": "$ringer$ 님이 나와 $first$ 님, $second$ 님에게 전화를 걸었습니다.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3968,7 +3968,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ 님이 귀하와 $first$ 님, $second$ 님 외 1명에게 전화를 걸고 있습니다.",
+        "message": "$ringer$ 님이 나와 $first$ 님, $second$ 님 외 1명에게 전화를 걸었습니다.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3986,7 +3986,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ 님이 귀하와 $first$ 님, $second$ 님 외 $remaining$명에게 전화를 걸고 있습니다.",
+        "message": "$ringer$ 님이 나와 $first$ 님, $second$ 님 외 $remaining$명에게 전화를 걸었습니다.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -5618,7 +5618,7 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal은 여러분과 같은 사용자의 기여로 운영됩니다. 기여하고 배지를 받으세요.",
+        "message": "Signal은 여러분과 같은 사용자의 기여로 운영됩니다. 기부하고 배지를 받으세요.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -5722,7 +5722,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "이 설정을 켜면 이 일대일 채팅에서 주고받은 메시지를 받는 사람이 확인하면 삭제합니다.",
+        "message": "설정을 켜면 이 일대일 채팅에서 주고받은 메시지는 상대가 확인하고 일정 시간이 흐르면 사라지게 됩니다.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5862,7 +5862,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "알림을 끈 대화에서 사용자를 멘션하는 경우 알림을 받습니다.",
+        "message": "알림을 끈 대화에서 내가 멘션되는 경우 알림을 받습니다.",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -6046,7 +6046,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ 님이 그룹 링크를 통해 이 그룹에 참가하도록 요청하거나 참가할 수 없게 됩니다. 하지만 수동으로 계속 그룹에 추가할 수 있습니다.",
+        "message": "$name$ 님이 그룹 링크를 통해 이 그룹에 참가하거나 참가하도록 요청할 수 없게 됩니다. 하지만 수동으로 그룹에 추가될 수는 있습니다.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6638,7 +6638,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "사용자명에는 a~z, 0~9, _만 포함할 수 있습니다.",
+        "message": "사용자명에는 a~z, 0~9, _만 포함될 수 있습니다.",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6682,7 +6682,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "사용자명을 제거하여 다른 사용자가 사용할 수 있게 됩니다. 계속할까요?",
+        "message": "사용자명을 삭제하면 다른 사용자가 사용할 수 있게 됩니다. 계속할까요?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6836,7 +6836,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "확대/축소 수준",
+        "message": "확대/축소",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "이 설정을 변경하려면 모바일 장치에서 Signal 앱을 열고 설정 > 대화로 이동합니다.",
+        "message": "이 설정을 변경하려면 모바일 기기에서 Signal 앱을 열고 설정 > 대화로 이동합니다.",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6884,7 +6884,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "이 설정을 변경하려면 모바일 장치에서 Signal 앱을 열고 설정 > 개인정보로 이동합니다.",
+        "message": "이 설정을 변경하려면 모바일 기기에서 Signal 앱을 열고 설정 > 개인정보로 이동합니다.",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6976,7 +6976,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal이 작동 중단 후 다시 시작했습니다. 작동 중단 보고서를 제출하여 Signal이 문제를 조사할 수 있도록 도와주세요.",
+        "message": "Signal이 작동 중단 후 다시 실행되었습니다. Signal이 해당 문제를 검토할 수 있도록 작동 중단 보고서를 제출해 주세요.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6996,11 +6996,11 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "설정을 저장하는 데 문제가 발생했습니다. 다시 시도하세요.",
+        "message": "설정 저장 중 문제가 발생했습니다. 다시 시도하세요.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "끌기",
+        "message": "그리기",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
@@ -7100,7 +7100,7 @@
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "조회 $num$명",
+        "message": "조회수 $num$",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7110,7 +7110,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "조회 $num$명",
+        "message": "조회수 $num$",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7120,7 +7120,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "회신 $num$개",
+        "message": "답장 $num$개",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7130,7 +7130,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "회신 $num$개 ",
+        "message": "답장 $num$개",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7140,7 +7140,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "이 스토리를 삭제할까요? 스토리를 받은 모든 사람에게서 스토리를 삭제합니다.",
+        "message": "이 스토리를 삭제할까요? 스토리를 받은 모든 사람에게서 해당 스토리가 삭제됩니다.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7194,7 +7194,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "그룹에 회신",
+        "message": "그룹에 답장",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
@@ -7206,15 +7206,15 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "회신 없음",
+        "message": "답장 없음",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "저회",
+        "message": "조회",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "회신",
+        "message": "답장",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
@@ -7242,7 +7242,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "스토리를 숨길까요? $name$ 님의 새 스토리 업데이트가 더는 스토리 목록 상단에 표시되지 않습니다.",
+        "message": "스토리를 숨길까요? $name$ 님의 새 스토리 업데이트가 더 이상 스토리 목록 상단에 표시되지 않습니다.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7306,7 +7306,7 @@
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "방문 링크",
+        "message": "링크 방문",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
@@ -7324,7 +7324,7 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "내 스토리에 반응함",
+        "message": "내 스토리에 반응했습니다.",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
@@ -7335,12 +7335,16 @@
         "message": "더는 사용할 수 없음",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "바로 가기 메뉴",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
-        "message": "새로운 기능",
+        "message": "업데이트 내용",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "이 버전은 Signal의 원활한 실행을 위한 사소한 변경 사항과 버그 수정을 다수 포함합니다.",
+        "message": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.47--1": {

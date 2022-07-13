@@ -2762,7 +2762,7 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
-        "message": "Depuis votre téléphone, appuyez sur ce message pour voir votre cadeau",
+        "message": "Depuis votre téléphone, appuyez sur ce message pour découvrir votre cadeau",
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
@@ -2786,7 +2786,7 @@
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "Vous avez envoyé un macaron cadeau",
+        "message": "Vous avez envoyé un macaron",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
@@ -7254,11 +7254,11 @@
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
-        "message": "Changer le fond de la conversation",
+        "message": "Changer la couleur du fond de la conversation",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
-        "message": "Changer le fond de la story",
+        "message": "Changer le fond de l'histoire",
         "description": "Button label"
     },
     "StoryCreator__next": {
@@ -7298,7 +7298,7 @@
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
-        "message": "Ajouter un lien pour les personnes qui voient votre Story",
+        "message": "Ajouter un lien pour les personnes qui voient votre histoire",
         "description": "Empty state for the link preview"
     },
     "TextAttachment__placeholder": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "N’est plus proposée",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Menu contextuel",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Les nouveautés",
