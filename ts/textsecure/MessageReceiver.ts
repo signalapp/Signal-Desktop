@@ -109,6 +109,7 @@ import {
   ContactSyncEvent,
   GroupEvent,
   GroupSyncEvent,
+  StoryRecipientUpdateEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -577,6 +578,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'envelope',
     handler: (ev: EnvelopeEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'storyRecipientUpdate',
+    handler: (ev: StoryRecipientUpdateEvent) => void
   ): void;
 
   public override addEventListener(name: string, handler: EventHandler): void {
@@ -1821,7 +1827,8 @@ export default class MessageReceiver
     const ev = new SentEvent(
       {
         destination: dropNull(destination),
-        destinationUuid: dropNull(destinationUuid),
+        destinationUuid:
+          dropNull(destinationUuid) || envelope.destinationUuid.toString(),
         timestamp: timestamp?.toNumber(),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
@@ -1931,7 +1938,7 @@ export default class MessageReceiver
 
         isAllowedToReply.set(
           destinationUuid,
-          Boolean(recipient.isAllowedToReply)
+          recipient.isAllowedToReply !== false
         );
       });
 
@@ -2570,6 +2577,18 @@ export default class MessageReceiver
           sentMessage
         );
         return;
+      }
+
+      if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
+        const ev = new StoryRecipientUpdateEvent(
+          {
+            destinationUuid: envelope.destinationUuid.toString(),
+            timestamp: envelope.timestamp,
+            storyMessageRecipients: sentMessage.storyMessageRecipients,
+          },
+          this.removeFromCache.bind(this, envelope)
+        );
+        return this.dispatchAndWait(ev);
       }
 
       if (!sentMessage || !sentMessage.message) {

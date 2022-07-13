@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { isEqual, pick } from 'lodash';
+import { isEqual, noop, pick } from 'lodash';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
 import type { MessageAttributesType } from '../../model-types.d';
@@ -19,6 +19,7 @@ import dataInterface from '../../sql/Client';
 import { DAY } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
+import { StoryRecipientUpdateEvent } from '../../textsecure/messageReceiverEvents';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
@@ -33,8 +34,10 @@ import {
   isDownloading,
 } from '../../types/Attachment';
 import { getConversationSelector } from '../selectors/conversations';
+import { getSendOptions } from '../../util/getSendOptions';
 import { getStories } from '../selectors/stories';
 import { isGroup } from '../../util/whatTypeOfConversation';
+import { onStoryRecipientUpdate } from '../../util/onStoryRecipientUpdate';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
@@ -154,7 +157,7 @@ export type StoriesActionType =
 function deleteStoryForEveryone(
   story: StoryViewType
 ): ThunkAction<void, RootStateType, unknown, DOEStoryActionType> {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     if (!story.sendState) {
       return;
     }
@@ -162,25 +165,79 @@ function deleteStoryForEveryone(
     const conversationIds = new Set(
       story.sendState.map(({ recipient }) => recipient.id)
     );
+    const updatedStoryRecipients = new Map<
+      string,
+      {
+        distributionListIds: Set<string>;
+        isAllowedToReply: boolean;
+      }
+    >();
+
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
+
+    // Remove ourselves from the DOE.
+    conversationIds.delete(ourConversation.id);
 
     // Find stories that were sent to other distribution lists so that we don't
     // send a DOE request to the members of those lists.
     const { stories } = getState().stories;
     stories.forEach(item => {
-      if (item.timestamp !== story.timestamp) {
+      const { sendStateByConversationId } = item;
+      // We only want matching timestamp stories which are stories that were
+      // sent to multi distribution lists.
+      // We don't want the story we just passed in.
+      // Don't need to check for stories that have already been deleted.
+      // And only for sent stories, not incoming.
+      if (
+        item.timestamp !== story.timestamp ||
+        item.messageId === story.messageId ||
+        item.deletedForEveryone ||
+        !sendStateByConversationId
+      ) {
         return;
       }
 
-      if (!item.sendStateByConversationId) {
-        return;
-      }
+      Object.keys(sendStateByConversationId).forEach(conversationId => {
+        if (conversationId === ourConversation.id) {
+          return;
+        }
 
-      Object.keys(item.sendStateByConversationId).forEach(conversationId => {
+        const destinationUuid =
+          window.ConversationController.get(conversationId)?.get('uuid');
+
+        if (!destinationUuid) {
+          return;
+        }
+
+        const distributionListIds =
+          updatedStoryRecipients.get(destinationUuid)?.distributionListIds ||
+          new Set();
+
+        // These are the remaining distribution list ids that the user has
+        // access to.
+        updatedStoryRecipients.set(destinationUuid, {
+          distributionListIds: item.storyDistributionListId
+            ? new Set([...distributionListIds, item.storyDistributionListId])
+            : distributionListIds,
+          isAllowedToReply:
+            sendStateByConversationId[conversationId]
+              .isAllowedToReplyToStory !== false,
+        });
+
+        // Remove this conversationId so we don't send the DOE to those that
+        // still have access.
         conversationIds.delete(conversationId);
       });
     });
 
+    // Send the DOE
     conversationIds.forEach(cid => {
+      // Don't DOE yourself!
+      if (cid === ourConversation.id) {
+        return;
+      }
+
       const conversation = window.ConversationController.get(cid);
 
       if (!conversation) {
@@ -193,6 +250,81 @@ function deleteStoryForEveryone(
         timestamp: story.timestamp,
       });
     });
+
+    // If it's the last story sent to a distribution list we don't have to send
+    // the sync message, but to be consistent let's build up the updated
+    // storyMessageRecipients and send the sync message.
+    if (!updatedStoryRecipients.size) {
+      story.sendState.forEach(item => {
+        if (item.recipient.id === ourConversation.id) {
+          return;
+        }
+
+        const destinationUuid = window.ConversationController.get(
+          item.recipient.id
+        )?.get('uuid');
+
+        if (!destinationUuid) {
+          return;
+        }
+
+        updatedStoryRecipients.set(destinationUuid, {
+          distributionListIds: new Set(),
+          isAllowedToReply: item.isAllowedToReplyToStory !== false,
+        });
+      });
+    }
+
+    // Send the sync message with the updated storyMessageRecipients list
+    const sender = window.textsecure.messaging;
+    if (sender) {
+      const options = await getSendOptions(ourConversation.attributes, {
+        syncMessage: true,
+      });
+
+      const storyMessageRecipients: Array<{
+        destinationUuid: string;
+        distributionListIds: Array<string>;
+        isAllowedToReply: boolean;
+      }> = [];
+
+      updatedStoryRecipients.forEach((recipientData, destinationUuid) => {
+        storyMessageRecipients.push({
+          destinationUuid,
+          distributionListIds: Array.from(recipientData.distributionListIds),
+          isAllowedToReply: recipientData.isAllowedToReply,
+        });
+      });
+
+      const destinationUuid = ourConversation.get('uuid');
+
+      if (!destinationUuid) {
+        return;
+      }
+
+      // Sync message for other devices
+      sender.sendSyncMessage({
+        destination: undefined,
+        destinationUuid,
+        storyMessageRecipients,
+        expirationStartTimestamp: null,
+        isUpdate: true,
+        options,
+        timestamp: story.timestamp,
+        urgent: false,
+      });
+
+      // Sync message for Desktop
+      const ev = new StoryRecipientUpdateEvent(
+        {
+          destinationUuid,
+          timestamp: story.timestamp,
+          storyMessageRecipients,
+        },
+        noop
+      );
+      onStoryRecipientUpdate(ev);
+    }
 
     dispatch({
       type: DOE_STORY,

@@ -7,6 +7,7 @@ import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import { getContactId } from '../messages/helpers';
 import * as log from '../logging/log';
+import { deleteForEveryone } from '../util/deleteForEveryone';
 
 export type DeleteAttributesType = {
   targetSentTimestamp: number;
@@ -73,7 +74,7 @@ export class Deletes extends Collection<DeleteModel> {
         );
 
         const targetMessage = messages.find(
-          m => del.get('fromId') === getContactId(m)
+          m => del.get('fromId') === getContactId(m) && !m.deletedForEveryone
         );
 
         if (!targetMessage) {
@@ -91,7 +92,7 @@ export class Deletes extends Collection<DeleteModel> {
           targetMessage
         );
 
-        await window.Signal.Util.deleteForEveryone(message, del);
+        await deleteForEveryone(message, del);
 
         this.remove(del);
       });

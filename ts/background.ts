@@ -154,6 +154,7 @@ import { conversationJobQueue } from './jobs/conversationJobQueue';
 import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
+import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
 import { validateConversation } from './util/validateConversation';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
@@ -397,6 +398,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'pniIdentity',
       queuedEventListener(onPNIIdentitySync)
+    );
+    messageReceiver.addEventListener(
+      'storyRecipientUpdate',
+      queuedEventListener(onStoryRecipientUpdate, false)
     );
   });
 

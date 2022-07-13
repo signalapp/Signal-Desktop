@@ -418,3 +418,18 @@ export class ViewSyncEvent extends ConfirmableEvent {
     super('viewSync', confirm);
   }
 }
+
+export type StoryRecipientUpdateData = Readonly<{
+  destinationUuid: string;
+  storyMessageRecipients: Array<Proto.SyncMessage.Sent.IStoryMessageRecipient>;
+  timestamp: number;
+}>;
+
+export class StoryRecipientUpdateEvent extends ConfirmableEvent {
+  constructor(
+    public readonly data: StoryRecipientUpdateData,
+    confirm: ConfirmCallback
+  ) {
+    super('storyRecipientUpdate', confirm);
+  }
+}

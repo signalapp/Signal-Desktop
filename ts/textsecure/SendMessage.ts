@@ -1232,8 +1232,9 @@ export default class MessageSender {
     isUpdate,
     urgent,
     options,
+    storyMessageRecipients,
   }: Readonly<{
-    encodedDataMessage: Uint8Array;
+    encodedDataMessage?: Uint8Array;
     timestamp: number;
     destination: string | undefined;
     destinationUuid: string | null | undefined;
@@ -1243,13 +1244,21 @@ export default class MessageSender {
     isUpdate?: boolean;
     urgent: boolean;
     options?: SendOptionsType;
+    storyMessageRecipients?: Array<{
+      destinationUuid: string;
+      distributionListIds: Array<string>;
+      isAllowedToReply: boolean;
+    }>;
   }>): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
-    const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
     const sentMessage = new Proto.SyncMessage.Sent();
     sentMessage.timestamp = Long.fromNumber(timestamp);
-    sentMessage.message = dataMessage;
+
+    if (encodedDataMessage) {
+      const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
+      sentMessage.message = dataMessage;
+    }
     if (destination) {
       sentMessage.destination = destination;
     }
@@ -1259,6 +1268,19 @@ export default class MessageSender {
     if (expirationStartTimestamp) {
       sentMessage.expirationStartTimestamp = Long.fromNumber(
         expirationStartTimestamp
+      );
+    }
+    if (storyMessageRecipients) {
+      sentMessage.storyMessageRecipients = storyMessageRecipients.map(
+        recipient => {
+          const storyMessageRecipient =
+            new Proto.SyncMessage.Sent.StoryMessageRecipient();
+          storyMessageRecipient.destinationUuid = recipient.destinationUuid;
+          storyMessageRecipient.distributionListIds =
+            recipient.distributionListIds;
+          storyMessageRecipient.isAllowedToReply = recipient.isAllowedToReply;
+          return storyMessageRecipient;
+        }
       );
     }
 

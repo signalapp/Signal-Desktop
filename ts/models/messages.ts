@@ -17,6 +17,7 @@ import {
   repeat,
   zipObject,
 } from '../util/iterables';
+import type { DeleteModel } from '../messageModifiers/Deletes';
 import type { SentEventData } from '../textsecure/messageReceiverEvents';
 import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
@@ -160,7 +161,6 @@ import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
-import type { DeleteModel } from '../messageModifiers/Deletes';
 import type { StickerWithHydratedData } from '../types/Stickers';
 
 /* eslint-disable more/no-then */
