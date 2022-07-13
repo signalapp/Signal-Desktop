@@ -8,7 +8,6 @@ import type {
   MessageAttributesType,
   MessageReactionType,
   QuotedMessageType,
-  WhatIsThis,
 } from '../model-types.d';
 import {
   filter,
@@ -46,7 +45,10 @@ import * as reactionUtil from '../reactions/util';
 import * as Stickers from '../types/Stickers';
 import * as Errors from '../types/errors';
 import * as EmbeddedContact from '../types/EmbeddedContact';
-import type { AttachmentType } from '../types/Attachment';
+import type {
+  AttachmentType,
+  AttachmentWithHydratedData,
+} from '../types/Attachment';
 import { isImage, isVideo } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import { stringToMIMEType } from '../types/MIME';
@@ -158,6 +160,8 @@ import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
+import type { DeleteModel } from '../messageModifiers/Deletes';
+import type { StickerWithHydratedData } from '../types/Stickers';
 
 /* eslint-disable more/no-then */
 
@@ -176,9 +180,14 @@ const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 const { getMessageBySender } = window.Signal.Data;
 
 export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
-  static getLongMessageAttachment: (
-    attachment: typeof window.WhatIsThis
-  ) => typeof window.WhatIsThis;
+  static getLongMessageAttachment: (opts: {
+    attachments: Array<AttachmentWithHydratedData>;
+    body?: string;
+    now: number;
+  }) => {
+    body?: string;
+    attachments: Array<AttachmentWithHydratedData>;
+  };
 
   CURRENT_PROTOCOL_VERSION?: number;
 
@@ -198,9 +207,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   cachedOutgoingPreviewData?: Array<LinkPreviewType>;
 
-  cachedOutgoingQuoteData?: WhatIsThis;
+  cachedOutgoingQuoteData?: QuotedMessageType;
 
-  cachedOutgoingStickerData?: WhatIsThis;
+  cachedOutgoingStickerData?: StickerWithHydratedData;
 
   override initialize(attributes: unknown): void {
     if (_.isObject(attributes)) {
@@ -1910,7 +1919,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // eslint-disable-next-line no-param-reassign
       quote.attachments = [
         {
-          contentType: 'image/jpeg',
+          contentType: MIME.IMAGE_JPEG,
         },
       ];
       // eslint-disable-next-line no-param-reassign
@@ -1942,7 +1951,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line no-param-reassign
     quote.text = originalMessage.get('body');
     if (firstAttachment) {
-      firstAttachment.thumbnail = undefined;
+      firstAttachment.thumbnail = null;
     }
 
     if (
@@ -2336,7 +2345,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
-      const messageId = UUID.generate().toString();
+      const messageId = message.get('id') || UUID.generate().toString();
 
       // Send delivery receipts, but only for incoming sealed sender messages
       // and not for messages from unaccepted conversations
@@ -2379,7 +2388,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const urls = LinkPreview.findLinks(dataMessage.body || '');
         const incomingPreview = dataMessage.preview || [];
         const preview = incomingPreview.filter(
-          (item: typeof window.WhatIsThis) =>
+          (item: LinkPreviewType) =>
             (item.image || item.title) &&
             urls.includes(item.url) &&
             LinkPreview.shouldPreviewHref(item.url)
@@ -3215,7 +3224,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async handleDeleteForEveryone(
-    del: typeof window.WhatIsThis,
+    del: DeleteModel,
     shouldPersist = true
   ): Promise<void> {
     log.info('Handling DOE.', {

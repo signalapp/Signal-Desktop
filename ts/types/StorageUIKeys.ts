@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-
 import type { StorageAccessType } from './Storage.d';
 
 export const themeSettingSchema = z.enum(['system', 'light', 'dark']);

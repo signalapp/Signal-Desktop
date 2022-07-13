@@ -20,8 +20,9 @@ import type {
 } from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { BodyRangesType, StoryContextType } from '../../types/Util';
-import type { WhatIsThis } from '../../window.d';
 import type { LoggerType } from '../../types/Logging';
+import type { StickerWithHydratedData } from '../../types/Stickers';
+import type { QuotedMessageType } from '../../model-types.d';
 import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
@@ -31,6 +32,7 @@ import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { sendToGroup } from '../../util/sendToGroup';
 
 export async function sendNormalMessage(
   conversation: ConversationModel,
@@ -207,7 +209,7 @@ export async function sendNormalMessage(
         innerPromise = conversation.queueJob(
           'conversationQueue/sendNormalMessage',
           abortSignal =>
-            window.Signal.Util.sendToGroup({
+            sendToGroup({
               abortSignal,
               contentHint: ContentHint.RESENDABLE,
               groupSendOptions: {
@@ -428,8 +430,8 @@ async function getMessageSendData({
   mentions: undefined | BodyRangesType;
   messageTimestamp: number;
   preview: Array<LinkPreviewType>;
-  quote: WhatIsThis;
-  sticker: WhatIsThis;
+  quote: QuotedMessageType | null;
+  sticker: StickerWithHydratedData | undefined;
   storyContext?: StoryContextType;
 }> {
   const {

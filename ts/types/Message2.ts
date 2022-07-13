@@ -651,7 +651,7 @@ export const processNewSticker = async (
 };
 
 type LoadAttachmentType = (
-  attachment: AttachmentType
+  attachment: Pick<AttachmentType, 'data' | 'path'>
 ) => Promise<AttachmentWithHydratedData>;
 
 export const createAttachmentLoader = (

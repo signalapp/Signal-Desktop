@@ -14,6 +14,7 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
 
+import type { QuotedMessageType } from '../model-types.d';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
@@ -110,15 +111,6 @@ export type StickerType = StickerWithHydratedData & {
   attachmentPointer?: Proto.IAttachmentPointer;
 };
 
-export type QuoteType = {
-  attachments?: Array<AttachmentType>;
-  authorUuid?: string;
-  bodyRanges?: BodyRangesType;
-  id?: number;
-  isGiftBadge?: boolean;
-  text?: string;
-};
-
 export type ReactionType = {
   emoji?: string;
   remove?: boolean;
@@ -192,9 +184,9 @@ export type MessageOptionsType = {
   needsSync?: boolean;
   preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
-  quote?: QuoteType;
+  quote?: QuotedMessageType | null;
   recipients: ReadonlyArray<string>;
-  sticker?: StickerType;
+  sticker?: StickerWithHydratedData;
   reaction?: ReactionType;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
@@ -215,9 +207,9 @@ export type GroupSendOptionsType = {
   messageText?: string;
   preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
-  quote?: QuoteType;
+  quote?: QuotedMessageType | null;
   reaction?: ReactionType;
-  sticker?: StickerType;
+  sticker?: StickerWithHydratedData;
   storyContext?: StoryContextType;
   timestamp: number;
 };
@@ -246,7 +238,7 @@ class Message {
 
   profileKey?: Uint8Array;
 
-  quote?: QuoteType;
+  quote?: QuotedMessageType | null;
 
   recipients: ReadonlyArray<string>;
 
@@ -1195,9 +1187,9 @@ export default class MessageSender {
     options?: SendOptionsType;
     preview?: ReadonlyArray<LinkPreviewType> | undefined;
     profileKey?: Uint8Array;
-    quote?: QuoteType;
+    quote?: QuotedMessageType | null;
     reaction?: ReactionType;
-    sticker?: StickerType;
+    sticker?: StickerWithHydratedData;
     storyContext?: StoryContextType;
     timestamp: number;
     urgent: boolean;

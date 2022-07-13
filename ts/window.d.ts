@@ -98,8 +98,6 @@ import { RendererConfigType } from './types/RendererConfig';
 
 export { Long } from 'long';
 
-export type WhatIsThis = any;
-
 // Synced with the type in ts/shims/showConfirmationDialog
 // we are duplicating it here because that file cannot import/export.
 type ConfirmationDialogViewProps = {
@@ -253,8 +251,6 @@ declare global {
     };
     WebAudioRecorder: typeof WebAudioRecorderClass;
 
-    WhatIsThis: WhatIsThis;
-
     addSetupMenuItems: () => void;
     attachmentDownloadQueue: Array<MessageModel> | undefined;
     startupProcessingQueue: StartupQueue | undefined;
@@ -305,7 +301,7 @@ declare global {
     nodeSetImmediate: typeof setImmediate;
     onFullScreenChange: (fullScreen: boolean, maximized: boolean) => void;
     platform: string;
-    preloadedImages: Array<WhatIsThis>;
+    preloadedImages: Array<HTMLImageElement>;
     reduxActions: ReduxActions;
     reduxStore: Store<StateType>;
     restart: () => void;
@@ -315,14 +311,14 @@ declare global {
     shutdown: () => void;
     showDebugLog: () => void;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
-    setAutoHideMenuBar: (value: WhatIsThis) => void;
+    setAutoHideMenuBar: (value: boolean) => void;
     setBadgeCount: (count: number) => void;
-    setMenuBarVisibility: (value: WhatIsThis) => void;
+    setMenuBarVisibility: (value: boolean) => void;
     updateSystemTraySetting: (value: SystemTraySetting) => void;
     showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: Storage;
-    systemTheme: WhatIsThis;
+    systemTheme: ThemeType;
     textsecure: typeof textsecure;
     titleBarDoubleClick: () => void;
     updateTrayIcon: (count: number) => void;
@@ -341,7 +337,7 @@ declare global {
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
-    getServerTrustRoot: () => WhatIsThis;
+    getServerTrustRoot: () => string;
     readyForUpdates: () => void;
     logAppLoadedEvent?: (options: { processedCount?: number }) => void;
     logAuthenticatedConnect?: () => void;

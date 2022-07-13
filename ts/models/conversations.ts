@@ -1,7 +1,7 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compact, isNumber, throttle, debounce } from 'lodash';
+import { compact, has, isNumber, throttle, debounce } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
 import { v4 as generateGuid } from 'uuid';
@@ -15,28 +15,24 @@ import type {
   QuotedMessageType,
   SenderKeyInfoType,
   VerificationOptions,
-  WhatIsThis,
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
-import {
-  getRegionCodeForNumber,
-  parseNumber,
-} from '../util/libphonenumberUtil';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import { toDayMillis } from '../util/timestamp';
-import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import type { CallHistoryDetailsType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
 import * as EmbeddedContact from '../types/EmbeddedContact';
 import * as Conversation from '../types/Conversation';
+import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
 import type {
   ContactWithHydratedAvatar,
   GroupV1InfoType,
   GroupV2InfoType,
-  StickerType,
 } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import MessageSender from '../textsecure/SendMessage';
@@ -58,7 +54,7 @@ import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
-import { UUID, isValidUuid, UUIDKind } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
 import * as Bytes from '../Bytes';
@@ -125,6 +121,7 @@ import { SeenStatus } from '../MessageSeenStatus';
 import { getConversationIdForLogging } from '../util/idForLogging';
 import { getSendTarget } from '../util/getSendTarget';
 import { getRecipients } from '../util/getRecipients';
+import { validateConversation } from '../util/validateConversation';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -3389,71 +3386,7 @@ export class ConversationModel extends window.Backbone
   }
 
   override validate(attributes = this.attributes): string | null {
-    const required = ['type'];
-    const missing = window._.filter(required, attr => !attributes[attr]);
-    if (missing.length) {
-      return `Conversation must have ${missing}`;
-    }
-
-    if (attributes.type !== 'private' && attributes.type !== 'group') {
-      return `Invalid conversation type: ${attributes.type}`;
-    }
-
-    const atLeastOneOf = ['e164', 'uuid', 'groupId'];
-    const hasAtLeastOneOf =
-      window._.filter(atLeastOneOf, attr => attributes[attr]).length > 0;
-
-    if (!hasAtLeastOneOf) {
-      return 'Missing one of e164, uuid, or groupId';
-    }
-
-    const error = this.validateNumber() || this.validateUuid();
-
-    if (error) {
-      return error;
-    }
-
-    return null;
-  }
-
-  validateNumber(): string | null {
-    if (isDirectConversation(this.attributes) && this.get('e164')) {
-      const regionCode = window.storage.get('regionCode');
-      if (!regionCode) {
-        throw new Error('No region code');
-      }
-      const number = parseNumber(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('e164')!,
-        regionCode
-      );
-      if (number.isValidNumber) {
-        this.set({ e164: number.e164 });
-        return null;
-      }
-
-      let errorMessage: undefined | string;
-      if (number.error instanceof Error) {
-        errorMessage = number.error.message;
-      } else if (typeof number.error === 'string') {
-        errorMessage = number.error;
-      }
-      return errorMessage || 'Invalid phone number';
-    }
-
-    return null;
-  }
-
-  validateUuid(): string | null {
-    if (isDirectConversation(this.attributes) && this.get('uuid')) {
-      if (isValidUuid(this.get('uuid'))) {
-        return null;
-      }
-
-      return 'Invalid UUID';
-    }
-
-    return null;
+    return validateConversation(attributes);
   }
 
   queueJob<T>(
@@ -3643,10 +3576,16 @@ export class ConversationModel extends window.Backbone
   }
 
   async getQuoteAttachment(
-    attachments?: Array<WhatIsThis>,
-    preview?: Array<WhatIsThis>,
-    sticker?: WhatIsThis
-  ): Promise<WhatIsThis> {
+    attachments?: Array<AttachmentType>,
+    preview?: Array<LinkPreviewType>,
+    sticker?: StickerType
+  ): Promise<
+    Array<{
+      contentType: MIMEType;
+      fileName: string | null;
+      thumbnail: ThumbnailType | null;
+    }>
+  > {
     if (attachments && attachments.length) {
       const attachmentsToUse = Array.from(take(attachments, 1));
       const isGIFQuote = isGIF(attachmentsToUse);
@@ -3673,7 +3612,9 @@ export class ConversationModel extends window.Backbone
             thumbnail: thumbnail
               ? {
                   ...(await loadAttachmentData(thumbnail)),
-                  objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                  objectUrl: thumbnail.path
+                    ? getAbsoluteAttachmentPath(thumbnail.path)
+                    : undefined,
                 }
               : null,
           };
@@ -3708,7 +3649,9 @@ export class ConversationModel extends window.Backbone
             thumbnail: image
               ? {
                   ...(await loadAttachmentData(image)),
-                  objectUrl: getAbsoluteAttachmentPath(image.path),
+                  objectUrl: image.path
+                    ? getAbsoluteAttachmentPath(image.path)
+                    : undefined,
                 }
               : null,
           };
@@ -3727,7 +3670,7 @@ export class ConversationModel extends window.Backbone
           fileName: null,
           thumbnail: {
             ...(await loadAttachmentData(sticker.data)),
-            objectUrl: getAbsoluteAttachmentPath(path),
+            objectUrl: path ? getAbsoluteAttachmentPath(path) : undefined,
           },
         },
       ];
@@ -3797,7 +3740,7 @@ export class ConversationModel extends window.Backbone
       contentType = IMAGE_WEBP;
     }
 
-    const sticker = {
+    const sticker: StickerWithHydratedData = {
       packId,
       stickerId,
       packKey: key,
@@ -3867,7 +3810,7 @@ export class ConversationModel extends window.Backbone
       mentions?: BodyRangesType;
       preview?: Array<LinkPreviewType>;
       quote?: QuotedMessageType;
-      sticker?: StickerType;
+      sticker?: StickerWithHydratedData;
     },
     {
       dontClearDraft,
@@ -5489,8 +5432,8 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     );
   },
 
-  reset(...args: Array<WhatIsThis>) {
-    window.Backbone.Collection.prototype.reset.apply(this, args as WhatIsThis);
+  reset(models?: Array<ConversationModel>, options?: Backbone.Silenceable) {
+    window.Backbone.Collection.prototype.reset.call(this, models, options);
     this.resetLookups();
   },
 
@@ -5534,8 +5477,14 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this._byGroupId = Object.create(null);
   },
 
-  add(data: WhatIsThis | Array<WhatIsThis>) {
-    let hydratedData;
+  add(
+    data:
+      | ConversationModel
+      | ConversationAttributesType
+      | Array<ConversationModel>
+      | Array<ConversationAttributesType>
+  ) {
+    let hydratedData: Array<ConversationModel> | ConversationModel;
 
     // First, we need to ensure that the data we're working with is Conversation models
     if (Array.isArray(data)) {
@@ -5544,16 +5493,20 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
         const item = data[i];
 
         // We create a new model if it's not already a model
-        if (!item.get) {
-          hydratedData.push(new window.Whisper.Conversation(item));
+        if (has(item, 'get')) {
+          hydratedData.push(item as ConversationModel);
         } else {
-          hydratedData.push(item);
+          hydratedData.push(
+            new window.Whisper.Conversation(item as ConversationAttributesType)
+          );
         }
       }
-    } else if (!data.get) {
-      hydratedData = new window.Whisper.Conversation(data);
+    } else if (has(data, 'get')) {
+      hydratedData = data as ConversationModel;
     } else {
-      hydratedData = data;
+      hydratedData = new window.Whisper.Conversation(
+        data as ConversationAttributesType
+      );
     }
 
     // Next, we update our lookups first to prevent infinite loops on the 'add' event
@@ -5562,7 +5515,9 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     );
 
     // Lastly, we fire off the add events related to this change
-    window.Backbone.Collection.prototype.add.call(this, hydratedData);
+    // Go home Backbone, you're drunk.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    window.Backbone.Collection.prototype.add.call(this, hydratedData as any);
 
     return hydratedData;
   },
@@ -5583,7 +5538,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     );
   },
 
-  comparator(m: WhatIsThis) {
+  comparator(m: ConversationModel) {
     return -(m.get('active_at') || 0);
   },
 });

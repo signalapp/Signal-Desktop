@@ -113,7 +113,7 @@ type MigrationsModuleType = {
   getAbsoluteStickerPath: (path: string) => string;
   getAbsoluteTempPath: (path: string) => string;
   loadAttachmentData: (
-    attachment: AttachmentType
+    attachment: Pick<AttachmentType, 'data' | 'path'>
   ) => Promise<AttachmentWithHydratedData>;
   loadContactData: (
     contact: Array<EmbeddedContactType> | undefined

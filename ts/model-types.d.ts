@@ -17,7 +17,11 @@ import { ReadStatus } from './messages/MessageReadStatus';
 import { SendStateByConversationId } from './messages/MessageSendState';
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 import { ConversationColorType } from './types/Colors';
-import { AttachmentDraftType, AttachmentType } from './types/Attachment';
+import {
+  AttachmentDraftType,
+  AttachmentType,
+  ThumbnailType,
+} from './types/Attachment';
 import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
@@ -30,10 +34,9 @@ import { SeenStatus } from './MessageSeenStatus';
 import { GiftBadgeStates } from './components/conversation/Message';
 import { LinkPreviewType } from './types/message/LinkPreviews';
 
+import type { ProcessedQuoteAttachment } from './textsecure/Types.d';
 import type { StickerType } from './types/Stickers';
 import { MIMEType } from './types/MIME';
-
-export type WhatIsThis = any;
 
 export type LastMessageStatus =
   | 'paused'
@@ -73,7 +76,9 @@ export type QuotedAttachment = {
 };
 
 export type QuotedMessageType = {
-  attachments: Array<WhatIsThis /* QuotedAttachment */>;
+  // TODO DESKTOP-3826
+  // eslint-disable-next-line no-explicit-any
+  attachments: Array<any>;
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
   //   new messages, but old messages might have this attribute.
   author?: string;
@@ -244,6 +249,11 @@ export type ConversationLastProfileType = Readonly<{
   profileKey: string;
   profileKeyVersion: string;
 }>;
+
+export type ValidateConversationType = Pick<
+  ConversationAttributesType,
+  'e164' | 'uuid' | 'type' | 'groupId'
+>;
 
 export type ConversationAttributesType = {
   accessKey?: string | null;

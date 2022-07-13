@@ -32,6 +32,7 @@ import type { MenuOptionsType } from '../types/menu';
 import { UUIDKind } from '../types/UUID';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import type { MainWindowStatsType } from '../windows/context';
+import { getThemeType } from '../util/getThemeType';
 
 export function getInitialState({
   badges,
@@ -63,8 +64,7 @@ export function getInitialState({
     window.ConversationController.getOurConversationId();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
 
-  const themeSetting = window.Events.getThemeSetting();
-  const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
+  const theme = getThemeType();
 
   return {
     accounts: accounts(),

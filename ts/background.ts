@@ -21,11 +21,11 @@ import type {
   MessageAttributesType,
   ConversationAttributesType,
   ReactionAttributesType,
+  ValidateConversationType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
-import type { WhatIsThis } from './window.d';
 import type { MenuOptionsType } from './types/menu';
 import type { Receipt } from './types/Receipt';
 import { SocketStatus } from './types/SocketStatus';
@@ -133,8 +133,7 @@ import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
-import { isValidUuid, UUIDKind } from './types/UUID';
-import type { UUID } from './types/UUID';
+import { isValidUuid, UUIDKind, UUID } from './types/UUID';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
@@ -155,6 +154,7 @@ import { conversationJobQueue } from './jobs/conversationJobQueue';
 import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
+import { validateConversation } from './util/validateConversation';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1227,7 +1227,7 @@ export async function startApp(): Promise<void> {
       window.reduxActions.user.userChanged({ menuOptions: options });
     });
 
-    let shortcutGuideView: WhatIsThis | null = null;
+    let shortcutGuideView: ReactWrapperView | null = null;
 
     window.showKeyboardShortcuts = () => {
       if (!shortcutGuideView) {
@@ -2724,12 +2724,13 @@ export async function startApp(): Promise<void> {
   function onContactReceived(ev: ContactEvent) {
     const details = ev.contactDetails;
 
-    const c = new window.Whisper.Conversation({
+    const partialConversation: ValidateConversationType = {
       e164: details.number,
-      uuid: details.uuid,
+      uuid: UUID.fromString(details.uuid),
       type: 'private',
-    } as Partial<ConversationAttributesType> as WhatIsThis);
-    const validationError = c.validate();
+    };
+
+    const validationError = validateConversation(partialConversation);
     if (validationError) {
       log.error(
         'Invalid contact received:',
@@ -3188,7 +3189,8 @@ export async function startApp(): Promise<void> {
         .filter(isNotNil);
     }
 
-    return new window.Whisper.Message({
+    const partialMessage: MessageAttributesType = {
+      id: UUID.generate().toString(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -3211,7 +3213,9 @@ export async function startApp(): Promise<void> {
       type: data.message.isStory ? 'story' : 'outgoing',
       storyDistributionListId: data.storyDistributionListId,
       unidentifiedDeliveries,
-    } as Partial<MessageAttributesType> as WhatIsThis);
+    };
+
+    return new window.Whisper.Message(partialMessage);
   }
 
   // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
@@ -3446,7 +3450,8 @@ export async function startApp(): Promise<void> {
       Boolean(data.receivedAtCounter),
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
-    return new window.Whisper.Message({
+    const partialMessage: MessageAttributesType = {
+      id: UUID.generate().toString(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -3460,11 +3465,14 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: data.source,
       sourceDevice: data.sourceDevice,
-      sourceUuid: data.sourceUuid,
+      sourceUuid: data.sourceUuid
+        ? UUID.fromString(data.sourceUuid)
+        : undefined,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
-    } as Partial<MessageAttributesType> as WhatIsThis);
+    };
+    return new window.Whisper.Message(partialMessage);
   }
 
   // Returns `false` if this message isn't a group call message.
