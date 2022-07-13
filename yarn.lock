@@ -2249,9 +2249,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-"better-sqlite3@https://github.com/oxen-io/session-better-sqlite3#587721adcf31e5872e0089a1bccc9a9342f46dd5":
+"better-sqlite3@https://github.com/oxen-io/session-better-sqlite3#af47530acea25800d22b5e1ae834b709d2bfca40":
   version "7.5.0"
-  resolved "https://github.com/oxen-io/session-better-sqlite3#587721adcf31e5872e0089a1bccc9a9342f46dd5"
+  resolved "https://github.com/oxen-io/session-better-sqlite3#af47530acea25800d22b5e1ae834b709d2bfca40"
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
