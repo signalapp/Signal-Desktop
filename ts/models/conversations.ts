@@ -3,7 +3,6 @@
 
 import { compact, has, isNumber, throttle, debounce } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
-import PQueue from 'p-queue';
 import { v4 as generateGuid } from 'uuid';
 
 import type {
@@ -226,8 +225,6 @@ export class ConversationModel extends window.Backbone
   private muteTimer?: NodeJS.Timer;
 
   private isInReduxBatch = false;
-
-  private _activeProfileFetch?: Promise<void>;
 
   override defaults(): Partial<ConversationAttributesType> {
     return {
@@ -4016,7 +4013,7 @@ export class ConversationModel extends window.Backbone
   //   with them?
   isFromOrAddedByTrustedContact(): boolean {
     if (isDirectConversation(this.attributes)) {
-      return Boolean(this.get('name')) || this.get('profileSharing');
+      return Boolean(this.get('name')) || Boolean(this.get('profileSharing'));
     }
 
     const addedBy = this.get('addedBy');
@@ -4583,32 +4580,11 @@ export class ConversationModel extends window.Backbone
     const conversations =
       this.getMembers() as unknown as Array<ConversationModel>;
 
-    const queue = new PQueue({
-      concurrency: 3,
-    });
-
-    // Convert Promise<void[]> that is returned by addAll() to Promise<void>
-    const promise = (async () => {
-      await queue.addAll(
-        conversations.map(
-          conversation => () =>
-            getProfile(conversation.get('uuid'), conversation.get('e164'))
-        )
-      );
-    })();
-
-    this._activeProfileFetch = promise;
-    try {
-      await promise;
-    } finally {
-      if (this._activeProfileFetch === promise) {
-        this._activeProfileFetch = undefined;
-      }
-    }
-  }
-
-  getActiveProfileFetch(): Promise<void> | undefined {
-    return this._activeProfileFetch;
+    await Promise.all(
+      conversations.map(conversation =>
+        getProfile(conversation.get('uuid'), conversation.get('e164'))
+      )
+    );
   }
 
   async setEncryptedProfileName(

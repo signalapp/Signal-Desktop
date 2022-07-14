@@ -1242,7 +1242,7 @@ async function processRemoteRecords(
     );
 
     // Intentionally not awaiting
-    pMap(needProfileFetch, convo => convo.getProfiles(), { concurrency: 3 });
+    needProfileFetch.map(convo => convo.getProfiles());
 
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();

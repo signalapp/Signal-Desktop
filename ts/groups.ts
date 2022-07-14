@@ -13,7 +13,6 @@ import Long from 'long';
 import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
-import PQueue from 'p-queue';
 import * as log from './logging/log';
 import {
   getCheckedCredentialsForToday,
@@ -1472,10 +1471,6 @@ export async function modifyGroupV2({
 
   let refreshedCredentials = false;
 
-  const profileFetchQueue = new PQueue({
-    concurrency: 3,
-  });
-
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
     log.info(`modifyGroupV2/${logId}: Starting attempt ${attempt}`);
     try {
@@ -1504,8 +1499,8 @@ export async function modifyGroupV2({
         }
 
         // eslint-disable-next-line no-await-in-loop
-        await profileFetchQueue.addAll(
-          membersMissingCredentials.map(member => () => member.getProfiles())
+        await Promise.all(
+          membersMissingCredentials.map(member => member.getProfiles())
         );
       }
 
@@ -1603,8 +1598,8 @@ export async function modifyGroupV2({
         }
 
         // eslint-disable-next-line no-await-in-loop
-        await profileFetchQueue.addAll(
-          usingCredentialsFrom.map(member => () => member.getProfiles())
+        await Promise.all(
+          usingCredentialsFrom.map(member => member.getProfiles())
         );
 
         // Fetch credentials only once
@@ -3088,14 +3083,8 @@ async function updateGroup(
         `${contactsWithoutProfileKey.length} missing profiles`
     );
 
-    const profileFetchQueue = new PQueue({
-      concurrency: 3,
-    });
-    profileFetches = profileFetchQueue.addAll(
-      contactsWithoutProfileKey.map(contact => () => {
-        const active = contact.getActiveProfileFetch();
-        return active || contact.getProfiles();
-      })
+    profileFetches = Promise.all(
+      contactsWithoutProfileKey.map(contact => contact.getProfiles())
     );
   }
 

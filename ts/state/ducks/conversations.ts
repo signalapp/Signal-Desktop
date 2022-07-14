@@ -3,7 +3,6 @@
 
 /* eslint-disable camelcase */
 
-import PQueue from 'p-queue';
 import type { ThunkAction } from 'redux-thunk';
 import {
   difference,
@@ -1586,9 +1585,6 @@ function conversationStoppedByMissingVerification(payload: {
   untrustedUuids: ReadonlyArray<string>;
 }): ConversationStoppedByMissingVerificationActionType {
   // Fetching profiles to ensure that we have their latest identity key in storage
-  const profileFetchQueue = new PQueue({
-    concurrency: 3,
-  });
   payload.untrustedUuids.forEach(uuid => {
     const conversation = window.ConversationController.get(uuid);
     if (!conversation) {
@@ -1598,10 +1594,8 @@ function conversationStoppedByMissingVerification(payload: {
       return;
     }
 
-    profileFetchQueue.add(() => {
-      const active = conversation.getActiveProfileFetch();
-      return active || conversation.getProfiles();
-    });
+    // Intentionally not awaiting here
+    conversation.getProfiles();
   });
 
   return {

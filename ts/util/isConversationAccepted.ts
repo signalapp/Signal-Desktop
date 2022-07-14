@@ -35,7 +35,7 @@ export function isConversationAccepted(
 
   const { sentMessageCount } = conversationAttrs;
 
-  const hasSentMessages = sentMessageCount > 0;
+  const hasSentMessages = (sentMessageCount || 0) > 0;
   const hasMessagesBeforeMessageRequests =
     (conversationAttrs.messageCountBeforeMessageRequests || 0) > 0;
   const hasNoMessages = (conversationAttrs.messageCount || 0) === 0;
@@ -47,7 +47,7 @@ export function isConversationAccepted(
   const isEmptyWhitelistedGroup =
     hasNoMessages &&
     !isDirectConversation(conversationAttrs) &&
-    conversationAttrs.profileSharing;
+    Boolean(conversationAttrs.profileSharing);
 
   return (
     isFromOrAddedByTrustedContact(conversationAttrs) ||
