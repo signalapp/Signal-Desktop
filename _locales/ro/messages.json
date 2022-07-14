@@ -3640,7 +3640,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Raportează spamul și blochează",
+        "message": "Raportează spam și blochează",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Nu mai este disponibilă",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Meniu context",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Ce este nou",

@@ -464,7 +464,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Saat Anda mengeklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik, tidak dipublikasikan. Anda dapat Simpan secara lokal terlebih dahulu.",
+        "message": "Saat Anda mengeklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat Simpan secara lokal terlebih dahulu.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -476,11 +476,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Log awakutu diunggah. Saat Anda menghubungi tim dukungan, salin URL di bawah dan lampirkan bersama dengan deskripsi masalah yang Anda lihat dan langkah-langkah untuk mereproduksinya.",
+        "message": "Log awakutu diunggah. Saat Anda menghubungi tim dukungan, salin URL di bawah dan lampirkan disertai dengan deskripsi masalah yang Anda lihat dan langkah-langkah untuk mereproduksinya.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "...untuk melihat log penuh, klik Simpan",
+        "message": "… untuk melihat log penuh, klik Simpan",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -926,7 +926,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadFullMessage": {
-        "message": "Unduh Pesan Penuh",
+        "message": "Unduh Pesan Selengkapnya",
         "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal tidak dapat memperbarui. Buka $url$ untuk menginstal secara manual. Lalu, $support$ terkait masalah ini",
+        "message": "Signal tidak dapat melakukan pembaruan. Buka $url$ untuk menginstal secara manual. Lalu, $support$ terkait masalah ini",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "Anda memberikan lencana ke $name$. Saat diterima, mereka akan diberi pilihan menampilkan atau menyembunyikan lencana.",
+        "message": "Anda menghadiahkan lencana ke $name$. Saat menerimanya, mereka akan diberi pilihan untuk menampilkan atau menyembunyikan lencana.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Tolak permintaan dari \"$name$\"? Mereka tidak akan bisa lagi meminta untuk gabung via tautan grup lagi.",
+        "message": "Tolak permintaan dari \"$name$\"? Mereka tidak akan bisa lagi meminta bergabung via tautan grup.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -7140,7 +7140,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Hapus cerita ini? Cerita juga akan dihapus bagi semua yang menerimanya.",
+        "message": "Hapus cerita ini? Cerita juga akan dihapus untuk semua yang menerimanya.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7218,7 +7218,7 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "Bereaksi ke cerita",
+        "message": "Menanggapi cerita",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
@@ -7314,7 +7314,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Bereaksi ke cerita dari $name$",
+        "message": "Menanggapi cerita dari $name$",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Tidak lagi tersedia",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Menu konteks",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Yang Baru",

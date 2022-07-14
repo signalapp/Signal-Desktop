@@ -2222,7 +2222,7 @@
         }
     },
     "disappearingMessages__off": {
-        "message": "Kapalı",
+        "message": "kapalı",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
@@ -3236,7 +3236,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 den 9 a",
+        "message": "1'den 9'a",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
@@ -3742,7 +3742,7 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Dahasını öğrenin",
+        "message": "Dahasını öğrenin.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
@@ -3878,11 +3878,11 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "Sesli aramayı reddettiniz.",
+        "message": "Sesli aramayı reddettiniz",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "Görüntülü aramayı reddettiniz.",
+        "message": "Görüntülü aramayı reddettiniz",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
@@ -6412,7 +6412,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Genel Sohhet Rengi",
+        "message": "Genel Sohbet Rengi",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -6896,7 +6896,7 @@
         "description": "Option for who can see my X select"
     },
     "Preferences__who-can--nobody": {
-        "message": "Hiçkimse",
+        "message": "Hiç kimse",
         "description": "Option for who can see my X select"
     },
     "Preferences--messaging": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Artık mevcut değil.",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "İçerik menüsü",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Neler Yeni",

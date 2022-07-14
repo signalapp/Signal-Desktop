@@ -1636,7 +1636,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$, in še $others$ drugih je v tem klicu",
+        "message": "$first$, $second$ in še $others$ drugih je v tem klicu",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Ni več na voljo",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Meni s kontekstom",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Kaj je novega",

@@ -7335,6 +7335,10 @@
         "message": "Tiada lagi",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "Menu konteks",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
         "message": "Perkara Baharu",
         "description": "Title for the whats new modal"

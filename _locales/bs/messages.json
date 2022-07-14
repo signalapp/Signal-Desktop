@@ -28,11 +28,11 @@
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
-        "message": "&Fajl",
+        "message": "&Datoteka",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Kreiraj/otpremi paket naljepnica",
+        "message": "Kreiraj/preuzmi paket naljepnica",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -238,15 +238,15 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Zakači razgovor",
+        "message": "Prikvači razgovor",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Otkači razgovor",
+        "message": "Otkvači razgovor",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Možete zakačiti samo 4 chata",
+        "message": "Možete prikvačiti samo 4 chata",
         "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
@@ -254,7 +254,7 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Odaberi fajl",
+        "message": "Odaberi datoteku",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
@@ -378,7 +378,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Sigurnosni broj s kontaktom $name$ ste označili kao potvrđen s drugogo uređaja",
+        "message": "Sigurnosni broj s kontaktom $name$ ste označili kao potvrđen s drugog uređaja",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Sigurnosni broj s kontaktom $name$ ste označili kao da nije potvrđen s drugogo uređaja",
+        "message": "Sigurnosni broj s kontaktom $name$ ste označili kao da nije potvrđen s drugog uređaja",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -402,7 +402,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Sigurnosni broj koji pokušavate potvrditi se promijenio. Pregledajte sigurnosni broj s kontaktom $name1$. Nemojte zaboraviti da ova promjena može značiti da neko pokušava presresti vašu komunikaciju ili da je $name2$ jednostavno ponovo instalirao/la Signal.",
+        "message": "Sigurnosni broj koji pokušavate potvrditi se promijenio. Pregledajte novi sigurnosni broj s kontaktom $name1$. Nemojte zaboraviti da ova promjena može značiti da neko pokušava presresti vašu komunikaciju ili da je $name2$ jednostavno ponovo instalirao/la Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -424,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Sigurnosni broj koji s kontaktom $name1$ se promijenio. To može značiti da neko pokušava presresti vašu komunikaciju ili da je $name2$ jednostavno ponovo instalirao/la Signal. Možda želite potvrditi svoj sigurnosni broj s ovom kontaktom.",
+        "message": "Sigurnosni broj koji s kontaktom $name1$ se promijenio. To može značiti da neko pokušava presresti vašu komunikaciju ili da je $name2$ jednostavno ponovo instalirao/la Signal. Možda želite potvrditi svoj sigurnosni broj s ovim kontaktom.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -450,7 +450,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "Vaš sigurnosni broj s kontaktom $name$ se promijenio i više nije potvrđen. Kliknite za prikaz.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -460,7 +460,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Vaši sigurnosni brojevi s više članova ove grupe su se promijenili i više nisu potvrđeni. Kliknite za prikaz.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -468,7 +468,7 @@
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Nešto nije u redu s otpremanjem! Pošaljite e-poruku na support@signal.org i priložite zapisnik kao tekstualni fajl.",
+        "message": "Nešto nije u redu s prijenosom! Pošaljite e-poruku na support@signal.org i priložite zapisnik kao tekstualni dokument.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
@@ -476,11 +476,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Zapisnik o otklanjanju grešaka je otpremljen. Prilikom kontaktiranja podrške, kopirajte URL u nastavku i priložite ga zajedno s opisom problema koji ste primijetili i koracima za njegovu reprodukciju.",
+        "message": "Zapisnik o otklanjanju grešaka je postavljen. Prilikom kontaktiranja podrške, kopirajte URL u nastavku i priložite ga zajedno s opisom problema koji ste primijetili i koracima za njegovu reprodukciju.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... da prikažete cjelokupni zapisnik, kliknite Sačuvaj",
+        "message": "... da prikažete cjelokupni zapisnik, kliknite Spremi",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -492,7 +492,7 @@
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link je kopiran u međumemoriju",
+        "message": "Link je kopiran u međuspremnik",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -560,11 +560,11 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Nemate medijske fajlove u ovom razgovoru",
+        "message": "Nemate medijske datoteke u ovom razgovoru",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "Svi medijski fajlovi",
+        "message": "Sve medijske datoteke",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -668,7 +668,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "U jednoj poruci ne možete miješati priloge koji nisu slike i prilogo koji jesu.",
+        "message": "U jednoj poruci ne možete miješati priloge koji nisu slike i priloge koji jesu.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
@@ -880,7 +880,7 @@
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
-        "message": "Avatar za kontakta $name$",
+        "message": "Avatar za kontakt $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "Poruka, naljepnica, reakcija, potvrda o čitanju ili medijski sadržaj se nije moga dostaviti od pošiljaoca $sender$ u ovom chatu.",
+        "message": "Poruka, naljepnica, reakcija, potvrda o čitanju ili medijski sadržaj se nije mogao dostaviti od pošiljaoca $sender$ u ovom chatu.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1352,7 +1352,7 @@
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
-        "message": "Ikona fajla",
+        "message": "Ikona datoteke",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1864,7 +1864,7 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signalu je potrebno odobrenje da pristupi snimak ekrana vašeg računara.",
+        "message": "Signalu je potrebno odobrenje da pristupi snimku ekrana vašeg računara.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -1872,7 +1872,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Kliknite na ikonu brave u donjem lijevom uglu i unesite lozinku računara.",
+        "message": "Kliknite na ikonu lokota u donjem lijevom uglu i unesite lozinku računara.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
@@ -1940,7 +1940,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Na ovaj način će se izbrisati svi podaci u aplikaciji i uklonit će se sve poruke i sačuvane informacije o računu.",
+        "message": "Na ovaj način će se izbrisati svi podaci u aplikaciji i uklonit će se sve poruke i spremljene informacije o računu.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1952,7 +1952,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Upravo ćete izbrisati sve sačuvane informacije o računu ove aplikacije, uključujući sve kontakte i sve poruke. Uvijek možete ponovo povezati svoj mobilni uređaj, ali na taj način nećete vratiti izbrisane poruke.",
+        "message": "Upravo ćete izbrisati sve spremljene informacije o računu ove aplikacije, uključujući sve kontakte i sve poruke. Uvijek možete ponovo povezati svoj mobilni uređaj, ali na taj način nećete vratiti izbrisane poruke.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1988,7 +1988,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ime, naziva niti sadržaja",
+        "message": "Nema naziva niti sadržaja",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -2278,7 +2278,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ je promijenio/la naziv profila sa $oldProfile$ na $newProfile$.",
+        "message": "$sender$ je promijenio/la ime profila sa $oldProfile$ na $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2296,7 +2296,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ je promijenio/la naziv profila na $newProfile$.",
+        "message": "$oldProfile$ je promijenio/la ime profila na $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2568,7 +2568,7 @@
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Pritisnite Ponovo pokreni Signal da promijenite ažuriranja.",
+        "message": "Pritisnite Ponovo pokreni Signal da primijenite ažuriranja.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -2678,7 +2678,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Odlazak u razgovor sa: $title$",
+        "message": "Idi u razgovor sa: $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -3034,7 +3034,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Možete zatražiti da $contact$ sada ponovo pošalje poruku da koristite ažuriranu verziju Signala.",
+        "message": "Možete zatražiti da $contact$  ponovo pošalje poruku sada kada koristite ažuriranu verziju Signala.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3092,7 +3092,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigirajte po odjeljku",
+        "message": "Upravljajte po odjeljku",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -3112,7 +3112,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Preference",
+        "message": "Postavke",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
@@ -3156,7 +3156,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Počnite snimate glasovnu poruku",
+        "message": "Počnite snimati glasovnu poruku",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
@@ -3172,7 +3172,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Uključite/isključite birač reakcije emoji sličicama za odabrane poruke",
+        "message": "Uključite/isključite birač emoji reakcija za odabrane poruke",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -3196,7 +3196,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Priložite fajl",
+        "message": "Priložite datoteku",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
@@ -3244,7 +3244,7 @@
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navigiranje",
+        "message": "Upravljanje",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
@@ -3316,7 +3316,7 @@
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Nazad u pristigle poruke",
+        "message": "Nazad u dolazne poruke",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
@@ -3392,7 +3392,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Kliknite ili prevucite/ispustite fajl da dodate naljepnicu",
+        "message": "Kliknite ili prevucite/ispustite datoteku da dodate naljepnicu",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3442,15 +3442,15 @@
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Jeste li sigurni da želite otpremiti paket naljepnica?",
+        "message": "Jeste li sigurni da želite preuzeti paket naljepnica?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Otpremi",
+        "message": "Preuzmi",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Kada kreirate paket naljepnica više nećete uređivati niti brisati naljepnice.",
+        "message": "Kada kreirate paket naljepnica više nećete moći uređivati niti brisati naljepnice.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -3458,7 +3458,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "Otpremljeno: $count$ od $total$ ",
+        "message": "Preuzeto: $count$ od $total$ ",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3502,7 +3502,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Pogledajte ovaj novi paket naljepnica koji sam kreirao/la za Signal. #makeprivacystick",
+        "message": "Pogledaj ovaj novi paket naljepnica koji sam kreirao/la za Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -3532,7 +3532,7 @@
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animirane naljepnice moraju biti u neprestanoj petlji",
+        "message": "Animirane naljepnice moraju se stalno ponavljati",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
@@ -3544,7 +3544,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Greška prilikom otpremanja naljepnica: $message$",
+        "message": "Greška prilikom preuzimanja naljepnica: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -3586,7 +3586,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Omogućiti da vam$name$ pošalje poruku i podijeliti ime i fotografiju s njim/njom? Ta osoba neće znati da ste vidjeli poruku dok ne prihvatite.",
+        "message": "Omogućite da vam$name$ pošalje poruku i podijelite ime i fotografiju s njim/njom? Ta osoba neće znati da ste vidjeli poruku dok ne prihvatite.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3596,7 +3596,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Omogućiti da vam $name$ pošalje poruku i podijeliti ime i fotografiju s njim/njom? Nećete primati poruke dok ne odblokirate tu osobu.",
+        "message": "Omogućite da vam $name$ pošalje poruku i podijelite ime i fotografiju s njim/njom? Nećete primati poruke dok ne odblokirate tu osobu.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3606,7 +3606,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Pridružiti se grupi i podijeliti ime i fotografiju s članovima grupe? Neće znati da ste vidjeli poruke dok ne prihvatite.",
+        "message": "Pridružite se grupi i podijelite ime i fotografiju s članovima grupe? Neće znati da ste vidjeli poruke dok ne prihvatite.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
@@ -3662,7 +3662,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Blokirati i napustiti grupu $group$?",
+        "message": "Blokiraj i napusti grupu $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3672,7 +3672,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Nećete više primati poruke ni novosti iz ove grupe, a članovi vas više neće moći dodati u ovu poruku.",
+        "message": "Nećete više primati poruke ni novosti iz ove grupe, a članovi vas više neće moći dodati u ovu grupu.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3688,7 +3688,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Izbrisati i napustiti grupu $group$?",
+        "message": "Izbriši i napusti grupu $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3718,7 +3718,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Nastaviti razgovor s ovom grupom i podijeliti ime i fotografiju s njenim članovima? $learnMore$",
+        "message": "Nastavi razgovor s ovom grupom i podijeli ime i fotografiju s njenim članovima? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3728,7 +3728,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Nastaviti ovaj razgovor s korisnikom $firstName$ i podijeliti ime i fotografiju s njim/njom? $learnMore$",
+        "message": "Nastavi ovaj razgovor s korisnikom $firstName$ i podijeli ime i fotografiju s njim/njom? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3910,11 +3910,11 @@
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Neodgovoren audio poziv",
+        "message": "Neodgovoreni audio poziv",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Neodgovoren video poziv",
+        "message": "Neodgovoreni video poziv",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
@@ -3968,7 +3968,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ vas poziva, $first$, $second$, i još jednog korisnika",
+        "message": "$ringer$  poziva vas, $first$, $second$, i još jednog korisnika",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4432,7 +4432,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ je promijenio/la avatar grupe.",
+        "message": "$memberName$ je promijenio/la avatara grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4446,11 +4446,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "Član je promijenio avatar grupe.",
+        "message": "Član je promijenio avatara grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ je uklonio/la avatar grupe.",
+        "message": "$memberName$ je uklonio/la avatara grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4460,11 +4460,11 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "Uklonili ste avatar grupe.",
+        "message": "Uklonili ste avatara grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "Član je uklonio avatar grupe.",
+        "message": "Član je uklonio avatara grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
@@ -4554,7 +4554,7 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Odobrenje administratora za link grupe je onemogućen.",
+        "message": "Odobrenje administratora za link grupe je onemogućeno.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
@@ -4610,7 +4610,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ je prihvatio/la pozivnicu u grupu koji je poslao/la $inviterName$.",
+        "message": "$inviteeName$ je prihvatio/la pozivnicu u grupu koju je poslao/la $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4634,7 +4634,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "Prihvatili ste pozivnicu u grupu koji je poslao/la $inviterName$.",
+        "message": "Prihvatili ste pozivnicu u grupu koju je poslao/la $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4644,7 +4644,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you-no-from": {
-        "message": "Prihvatilis te pozivnicu u grupu.",
+        "message": "Prihvatili ste pozivnicu u grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
@@ -4772,7 +4772,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ je uklonio člana $memberName$.",
+        "message": "$adminName$ je uklonio/la člana $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4816,7 +4816,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ vas je uklonio.",
+        "message": "$adminName$ vas je uklonio/la.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4834,7 +4834,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ je postavio člana $memberName$ kao administratora.",
+        "message": "$adminName$ je postavio/la člana $memberName$ kao administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4868,7 +4868,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ vas je postavio kao administratora.",
+        "message": "$adminName$ vas je postavio/la kao administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4974,7 +4974,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ je pozvao sljedeći broj osoba u grupu: $count$. ",
+        "message": "$memberName$ je pozvao/la sljedeći broj osoba u grupu: $count$. ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5212,7 +5212,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "Administrator je povukao pozivnice u grupe za korisnike (njih $count$) koje j epozvao/la$memberName$.",
+        "message": "Administrator je povukao pozivnice u grupe za korisnike (njih $count$) koje je pozvao/la$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5264,7 +5264,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ je zatražio da sepridruži putem linka grupe.",
+        "message": "$joinerName$ je zatražio da se pridruži putem linka grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5398,7 +5398,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ je poništio link grupe.",
+        "message": "$adminName$ je poništio/la link grupe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5534,7 +5534,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Ovaj član će morati ponovo prihvatiti pozivnicu u grupu i neće moći primati poruke grupe dok je ne prihvati:",
+        "message": "Ovaj član će morati ponovo prihvatiti pozivnicu da se pridruži ovoj grupi i neće moći primati poruke grupe dok je ne prihvati:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -5638,7 +5638,7 @@
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Priložite fajl",
+        "message": "Priložite datoteku",
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
@@ -5680,7 +5680,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Ukloniti $contact$ kao administratora grupe?",
+        "message": "Ukloni $contact$ kao administratora grupe?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5706,7 +5706,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Uključiti zvuk ovog chata?",
+        "message": "Uključi zvuk ovog chata?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5796,7 +5796,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Blokirati i napustiti grupu \"$groupName$\"?",
+        "message": "Blokiraj i napusti grupu \"$groupName$\"?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Odbiti zahtjev koji šalje \"$name$\"? Ta osova neće ponovo moći zatražiti da se pridruži putem linka grupe.",
+        "message": "Odbiti zahtjev koji šalje \"$name$\"? Ta osoba neće ponovo moći zatražiti da se pridruži putem linka grupe.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -6068,11 +6068,11 @@
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
-        "message": "Promijenite fotografiju",
+        "message": "Promijeni fotografiju",
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "Otpremi fotografiju",
+        "message": "Prenesi fotografiju",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
@@ -6292,7 +6292,7 @@
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Kliknite da pregledate",
+        "message": "Kliknite za pregled",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Da promijenite ovu postavku, otvorite aplikaciju Signal na mobilnom uređaju i navigirajte na Postavke > Chatovi",
+        "message": "Da promijenite ovu postavku, otvorite aplikaciju Signal na mobilnom uređaju i idite na Postavke > Chatovi",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6884,7 +6884,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Da promijenite ove postavke, otvorite aplikaciju Signal na mobilnom uređaju i navigirajte na Postavke > Privatnost",
+        "message": "Da promijenite ove postavke, otvorite aplikaciju Signal na mobilnom uređaju i idite na Postavke > Privatnost",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6954,7 +6954,7 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "Aplikacija$appName$ je pokrenuta.\nKliknite Uredu da je zatvorite.\nAko se ne zatvori, pokušajte je ručno zatvoriti.",
+        "message": "Aplikacija$appName$ je pokrenuta.\nKliknite U redu da je zatvorite.\nAko se ne zatvori, pokušajte je ručno zatvoriti.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6968,7 +6968,7 @@
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Deinstaliranje starih fajlova aplikacije nije uspjelo. Pokušajte ponovo pokrenuti alat za instaliranje.",
+        "message": "Deinstaliranje starih datoteka aplikacije nije uspjelo. Pokušajte ponovo pokrenuti alat za instaliranje.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7068,7 +7068,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotiraj platno",
+        "message": "Rotiraj",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -7140,7 +7140,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Izbrisati ovu priču? Također će se izbrisati za sve koji su je primili.",
+        "message": "Želite izbrisati ovu priču? Također će se izbrisati za sve koji su je primili.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Više nije dostupno",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Kontekstualni meni",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Šta je novo",

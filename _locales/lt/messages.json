@@ -7335,6 +7335,10 @@
         "message": "Daugiau nebeprieinama",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "Kontekstinis meniu",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
         "message": "Kas naujo",
         "description": "Title for the whats new modal"

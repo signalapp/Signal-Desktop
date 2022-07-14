@@ -1372,7 +1372,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Скенирајте го овој код во Signal апликацијата на важиот телефон",
+        "message": "Скенирајте го овој код во Signal апликацијата на вашиот телефон",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
@@ -1510,7 +1510,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Микрофонот е исклучен зашто има голем број на луѓе на повикот",
+        "message": "Микрофонот е исклучен зашто има голем број луѓе на повикот",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -1574,7 +1574,7 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Извести, не ѕвони",
+        "message": "Известете, не ѕвонете",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
@@ -1868,7 +1868,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Одете до поставувањата на систем",
+        "message": "Одете во Поставувањата на системот",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
@@ -1880,7 +1880,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Отворете ги поставувањата на систем",
+        "message": "Отворете ги Поставувањата на системот",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1924,19 +1924,19 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Минимизирај до системска лента",
+        "message": "Минимизирајте до системска лента",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Стартувај во системска лента",
+        "message": "Стартувајте во системска лента",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Отвори при најава на компјутер",
+        "message": "Отворете при најава на компјутер",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Избриши ги податоците од апликацијата",
+        "message": "Избришете ги податоците од апликацијата",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -2262,7 +2262,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Вклучи звучни нотификации",
+        "message": "Вклучете звучни нотификации",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2580,7 +2580,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Игнорирај ја новата верзија",
+        "message": "Игнорирајте ја новата верзија",
         "description": ""
     },
     "leftTheGroup": {
@@ -2678,7 +2678,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Оди до разговорот со $title$",
+        "message": "Одете до разговорот со $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -3280,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Прифати повик со видео",
+        "message": "Прифатете повик со видео",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Прифати повик со аудио",
+        "message": "Прифатете повик со аудио",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -3388,7 +3388,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Отстрани налепница",
+        "message": "Отстранете налепница",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
@@ -3570,7 +3570,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Отстрани реакција",
+        "message": "Отстранете реакција",
         "description": ""
     },
     "Reactions--error": {
@@ -4188,7 +4188,7 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Исклучи известувања секогаш",
+        "message": "Исклучете известувања секогаш",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -5654,7 +5654,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Вклучи ги разговорите со исклучени известувања во бројот на известувања",
+        "message": "Вклучете ги разговорите со исклучени известувања во бројот на известувања",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5722,7 +5722,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "Кога оваа опција е овзможена, испратените и примените пораки во овој разговор ќе исчезнат откако ќе бидат видени.",
+        "message": "Кога оваа опција е овозможена, испратените и примените пораки во овој разговор 1:1 ќе исчезнат откако ќе бидат видени.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -6060,11 +6060,11 @@
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
-        "message": "Додадете слика на групата",
+        "message": "Додаjте слика на групата",
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Додадете слика",
+        "message": "Додајте слика",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -6818,7 +6818,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Последен увоз на $date$ $time$",
+        "message": "Последен внес на $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -7334,6 +7334,10 @@
     "Quote__story-unavailable": {
         "message": "Повеќе не е достапна",
         "description": "Label for when a story is not found"
+    },
+    "ContextMenu--button": {
+        "message": "Контекстуално мени",
+        "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
         "message": "Што е ново",

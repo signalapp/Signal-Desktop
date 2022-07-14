@@ -480,7 +480,7 @@
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "...如要查看完整日志，请点击保持",
+        "message": "…如要查看完整日志，请点击保存",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "$sender$的消息、贴纸、回应、已读回执或媒体无法在此聊天中发送给您。",
+        "message": "$sender$的消息、贴纸、反应、已读回执或媒体无法在此聊天中发送给您。",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "点击将桌面版 Signal 与您的移动设备重新关联，以便继续收发消息。",
+        "message": "点击将 Signal Desktop 与您的移动设备重新关联，以便继续收发消息。",
         "description": ""
     },
     "unlinked": {
@@ -2656,7 +2656,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "与$title$的对话，$unreadCount$ 条新消息，最后一条消息：$lastMessage$。",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2674,11 +2674,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "最后一条消息可能已被删除。",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "前往与$title$的对话",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2758,7 +2758,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "View this message on mobile to open it",
+        "message": "在手机上查看此消息以打开",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
@@ -2766,39 +2766,39 @@
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "礼物",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Check your phone to open gift",
+        "message": "查看您的手机以打开礼物",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Check your phone to view your gift",
+        "message": "查看您的手机以查看礼物",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "您收到了一个礼物",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "您领取了一个礼品徽章",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "You sent a gift badge",
+        "message": "您送出了一个礼品徽章",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Gift Badge",
+        "message": "礼品徽章",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "礼物",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$ days remaining",
+        "message": "还剩 $days$ 天",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -2808,7 +2808,7 @@
         }
     },
     "message--giftBadge--remaining--hours": {
-        "message": "$hours$ hours remaining",
+        "message": "还剩 $hours$ 小时",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
         "placeholders": {
             "hours": {
@@ -2818,7 +2818,7 @@
         }
     },
     "message--giftBadge--remaining--minutes": {
-        "message": "$minutes$ minutes remaining",
+        "message": "还剩 $minutes$ 分钟",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
         "placeholders": {
             "minutes": {
@@ -2828,11 +2828,11 @@
         }
     },
     "message--giftBadge--remaining--one-minute": {
-        "message": "1 minute remaining",
+        "message": "还剩 1 分钟",
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "已过期",
+        "message": "已到期",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2840,7 +2840,7 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "已领取",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
+        "message": "您给$name$赠送了一个徽章。对方领取徽章后可以选择显示或隐藏徽章。",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3280,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Accept call with video",
+        "message": "接受视频通话",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Accept call with audio",
+        "message": "接受音频通话",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -3296,7 +3296,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Decline call",
+        "message": "拒绝通话",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3388,11 +3388,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "移除贴纸",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "点击或拖/放文件以添加贴纸",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3570,7 +3570,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "移除反应",
         "description": ""
     },
     "Reactions--error": {
@@ -3808,7 +3808,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "$group1$、$group2$、$group3$和另一个群组的成员",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3926,7 +3926,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$正在呼叫您",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3936,7 +3936,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$正在呼叫您和$otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3950,7 +3950,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$正在呼叫您、$first$和$second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3968,7 +3968,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$正在呼叫您、$first$、$second$和另一个人",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3986,7 +3986,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$正在呼叫您、$first$、$second$和其他 $remaining$人",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4122,7 +4122,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "开始共享",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -4230,11 +4230,11 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "您无法给该群组发送消息。",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "只有群组管理人才能发起通话。",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -4342,7 +4342,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "无法加入群组，请稍后重试。",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -5316,7 +5316,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$发起和取消了通过群组链接加入群组的请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5326,7 +5326,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$发起和取消了通过群组链接加入群组的$numberOfRequests$个请求",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5452,7 +5452,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$已将群组设置更改为仅允许管理员发送消息。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5462,7 +5462,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "此群组已改为仅允许管理员发送消息。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -5470,7 +5470,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$已将群组设置改为允许所有成员发送消息。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5480,7 +5480,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "此群组已改为允许所有成员发送消息。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5618,7 +5618,7 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal 全凭您和千千万万的用户提供赞助。请给我们捐款并领取徽章吧。",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -5654,7 +5654,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "在徽章计数中包含静音对话数量",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5680,7 +5680,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "要移除$contact$的群组管理员身份吗？",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5706,7 +5706,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "要对此聊天取消静音吗？",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5722,7 +5722,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "启用后，此一对一聊天中收发的消息将会在读取后消失。",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5746,11 +5746,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "谁可以发送消息",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "选择谁可以给群组发送消息。",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5862,7 +5862,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "当静音聊天提及您时接收通知。",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "要拒绝“$name$”的请求吗？对方将无法再通过群组链接请求加入群组。",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5998,7 +5998,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "要撤回“$name$”发送的 $number$ 个请求吗？",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6038,15 +6038,15 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Block request",
+        "message": "屏蔽请求",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "要屏蔽请求吗？",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$将无法加入群组，或通过群组链接申请加入。不过您仍然可以手动将对方加入群组。",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6056,7 +6056,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "屏蔽请求",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6064,7 +6064,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "添加照片",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -6172,7 +6172,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "选择联系人$name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -6182,7 +6182,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "取消选择联系人$name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -6192,7 +6192,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "无法选择联系人$name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6244,11 +6244,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd, MMM D",
+        "message": "ddd，MMM D",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "MMM D, YYYY",
+        "message": "MMM D，YYYY",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6352,7 +6352,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "要将“$name$”移除出群组吗？对方将无法通过群组链接重新加入群组。",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6374,7 +6374,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "是否继续且不验证？",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -6500,11 +6500,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__label--value": {
-        "message": "Number",
+        "message": "数字",
         "description": "aria-label for the number select box"
     },
     "DisappearingTimeDialog__label--units": {
-        "message": "Unit of time",
+        "message": "时间单位",
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
@@ -6558,7 +6558,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "无法显示此消息。请点击发送调试日志。",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6638,7 +6638,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "用户名仅可包含字母 a-z、数字 0-9 以及 _ 符号",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6646,7 +6646,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "用户名必须至少包含 $min$ 个字符。",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6656,7 +6656,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "用户名至多只能包含 $max$ 个字符。",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6670,19 +6670,19 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "无法保持您的用户名。请检查您的网络连接并重试。",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "您的用户名无法删除。请检查您的网络连接并重试。",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "删除用户名",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "您的用户名将会被删除，并可供其他用户选用。您确定要删除吗？",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6690,7 +6690,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "介绍一下自己...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6706,7 +6706,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "您的个人资料已加密。您的联系人以及您发起或接受新聊天的聊天对象将能看到您的个人资料及其更新。$learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6752,7 +6752,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "您的头像",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6760,15 +6760,15 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "无法更新您的个人资料，请重试。",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "给管理人发消息",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "只有$admins$才能发送消息",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6782,15 +6782,15 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Select an avatar",
+        "message": "选择一个头像",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "选择一种颜色",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "群组头像",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6818,7 +6818,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "上次导入时间为 $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6836,7 +6836,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "缩放级别",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "如要更改此设置，请在您的移动设备中打开 Signal 应用，然后前往“设置>聊天”",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6852,7 +6852,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "通知内容",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6860,7 +6860,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ 个联系人",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6870,7 +6870,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ 个联系人",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6884,7 +6884,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "如要更改这些设置，请在您的移动设备中打开 Signal 应用，然后前往“设置>聊天”",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6908,7 +6908,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "通过我的电话号码找到我",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6920,15 +6920,15 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "更新",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "自动下载更新",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "启用通知",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6936,7 +6936,7 @@
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "$version$ 版本有更新",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6946,15 +6946,15 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal 无法关闭",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "请手动关闭并点击“重试”继续操作。",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+        "message": "$appName$ 正在运行。\n点击 OK 将其关闭。\n如果无法关闭，请尝试手动关闭。",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6964,19 +6964,19 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Failed to decompress files. Please try running the installer again.",
+        "message": "无法解压文件。请尝试重新运行安装程序。",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "无法卸载旧应用文件。请尝试重新运行安装程序。",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
-        "message": "Application crashed",
+        "message": "应用程序崩溃",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
+        "message": "Signal 已在崩溃后重启。您可以提交崩溃报告以帮助 Signal 调查此问题。",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6984,7 +6984,7 @@
         "description": "A button label for submission of the crash reporter data after a recent crash"
     },
     "CrashReportDialog__erase": {
-        "message": "Don't Send",
+        "message": "不发送",
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
@@ -6992,19 +6992,19 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "点击以更换表情符号",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "保存您的设置时出错，请重试。",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "绘画",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "添加文本",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -7012,7 +7012,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "裁剪和旋转",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -7024,35 +7024,35 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "常规",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "高亮",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "轮廓",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "下划线",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "画笔",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "高亮笔",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "细",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "常规",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -7060,7 +7060,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "粗",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -7068,11 +7068,11 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "旋转",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Flip",
+        "message": "翻转",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7088,19 +7088,19 @@
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Your story",
+        "message": "您的动态",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "下载动态",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "More options",
+        "message": "更多选项",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "$num$ view",
+        "message": "$num$ 次浏览",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7110,7 +7110,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "$num$ views",
+        "message": "$num$ 次浏览",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7120,7 +7120,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "$num$ reply",
+        "message": "$num$ 个回复",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7130,7 +7130,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ replies",
+        "message": "$num$ 个回复",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7140,7 +7140,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "要删除此动态吗？收到此动态的所有人也将看不到此动态 。",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7152,23 +7152,23 @@
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "添加动态",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "隐藏的动态",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "当前没有可以显示的近期动态",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "点击查看动态",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$发送给$group$ ",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -7194,7 +7194,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "Reply to Group",
+        "message": "回复群组",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
@@ -7210,15 +7210,15 @@
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "浏览",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "回复",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "回应动态",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
@@ -7226,23 +7226,23 @@
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "Story",
+        "message": "动态",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "显示动态",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "隐藏动态",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "前往聊天",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "要隐藏动态吗？隐藏后$name$的新动态更新将不会显示在动态列表的顶部。",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7250,7 +7250,7 @@
         "description": "Action button for the confirmation dialog to hide a story"
     },
     "StoryImage__error": {
-        "message": "Error displaying image",
+        "message": "显示图片出错",
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
@@ -7270,11 +7270,11 @@
         "description": "Button label to apply the link preview to story"
     },
     "StoryCreator__input-placeholder": {
-        "message": "Add text",
+        "message": "添加文本",
         "description": "Placeholder to add text"
     },
     "StoryCreator__text--regular": {
-        "message": "Regular",
+        "message": "常规",
         "description": "Label for font"
     },
     "StoryCreator__text--bold": {
@@ -7294,7 +7294,7 @@
         "description": "Label for font"
     },
     "StoryCreator__link-preview-placeholder": {
-        "message": "Type or paste a URL",
+        "message": "输入或粘贴 URL",
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
@@ -7302,7 +7302,7 @@
         "description": "Empty state for the link preview"
     },
     "TextAttachment__placeholder": {
-        "message": "Add text",
+        "message": "添加文本",
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
@@ -7310,11 +7310,11 @@
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
-        "message": "Story",
+        "message": "动态",
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Reacted to a story from $name$",
+        "message": "已回应$name$的动态",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7328,19 +7328,23 @@
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
-        "message": "Reacted to a story",
+        "message": "已回应动态",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
         "message": "已不存在",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "上下文菜单",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "最新消息",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.47--1": {

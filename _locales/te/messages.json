@@ -646,7 +646,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+        "message": "డెస్క్‌టాప్‌కు $name$, పరికరం $deviceId$ నుంచి ఒక డీక్రిప్సన్ దోషం ఏర్పడింది",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -696,7 +696,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "పొడవుగా ఉండరాదు",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Signal ని అప్‌డేట్ చేయలేం. దీనిని మాన్యువల్‌గా ఇన్‌స్టాల్ చేయడానికి $url$ని సందర్శించండి. తరువాత, ఈ సమస్య గురించి $support$ని సంప్రదించండి.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -1198,7 +1198,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "$name$తో మీ ఎండ్ టూ ఎండ్ ఎన్‌క్రిప్షన్‌ని ధృవీకరించడానికి, పైన నెంబర్లను వారి పరికరంతో పోల్చండి.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1228,7 +1228,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Retry Delete for Everyone",
+        "message": "ప్రతిఒక్కరికి డిలీట్ చేయడాన్ని మళ్లీ ప్రయత్నించండి",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "ఈ చాట్‌లో $sender$ నుంచి సందేశం, స్టిక్కర్, రియాక్షన్, రీడ్ రిసిప్ట్ లేదా మీడియా డెలివరీ చేయబడదు.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1314,7 +1314,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their phone number",
+        "message": "$sender$వారి ఫోన్ నెంబర్‌ని మార్చారు",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1372,7 +1372,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "మీ ఫోన్ మీద Signal యాప్‌లో ఈ కోడ్‌ని స్కాన్ చేయండి",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
@@ -1398,7 +1398,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "message": "$plusButton$ (Android) లేదా $linkNewDevice$ (iPhone)ని తట్టండి",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1412,7 +1412,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "message": "QR కోడ్ లోడ్ కాదు, మీ ఇంటర్నెట్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "$person$కు Signal రింగ్ చేస్తుంది.",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "$first$ మరియు $second$కు Signal రింగ్ చేస్తుంది",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "$first$, $second$, మరియు $third$లకు Signal  రింగ్ చేస్తుంది",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "$first$, $second$, మరియు $others$ ఇతరులకు Signal  రింగ్ చేస్తుంది",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1714,7 +1714,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$కు నోటిఫై చేయబడుతుంది",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1724,7 +1724,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ మరియు $second$కు నోటిఫై చేయబడుతుంది",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1738,7 +1738,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$, మరియు $third$లకు నోటిఫై చేయబడుతుంది.",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1912,7 +1912,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "స్పెల్ చెక్ టెక్ట్స్ సందేశం కంపోజిషన్ బాక్స్‌లో నమోదు చేయబడింది.",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1936,7 +1936,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "అప్లికేషన్ డేటాను క్లియర్ చేయండి",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -2050,7 +2050,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Delete failed",
+        "message": "డిలీట్ చేయడం విఫలమైంది",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2062,7 +2062,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Partially deleted, click to retry",
+        "message": "పాక్షికంగా డిలీట్ చేయబడింది, మళ్లీ ప్రయత్నించడానికి క్లిక్ చేయండి",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2082,7 +2082,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "signal.org/download కు వెళ్లడానికి క్లిక్ చేయండి",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2094,7 +2094,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "కాంటాక్ట్‌ల ఇంపోర్ట్",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2158,11 +2158,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[ఇవాల్టి] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[నిన్న] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2262,7 +2262,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "నోటిఫికేషన్ సౌండ్‌లను ప్లే చేయండి",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2402,15 +2402,15 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "యూజర్‌నేమ్ పొందడం విఫలమైంది. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Failed to fetch phone number. Check your connection and try again.",
+        "message": "ఫోన్ నెంబర్ పొందడం విఫలమైంది. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "యూజర్ కనుగొనబడలేదు. $atUsername$ Signal యూజర్ కాదు; మీరు యూజర్‌నేమ్ పూర్తిగా నమోదు చేసినట్లుగా ధృవీకరించుకోండి.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+        "message": "యూజర్ కనుగొనబడలేదు. \"$phoneNumber$\" Signal యూజర్ కాదు.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+        "message": "యూజర్ కనుగొనబడలేదు. \"$phoneNumber$\" చెల్లుబాటు అయ్యే ఫోన్ నెంబరు కాదు.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "మెసేజింగ్‌ని కొనసాగించడానికి మీ మొబైల్ పరికరానికి Signal Desktop రీలింక్ చేయడానికి క్లిక్ చేయండి.",
         "description": ""
     },
     "unlinked": {
@@ -2544,27 +2544,27 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "అప్‌డేట్ లభ్యమవుతోంది",
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "అప్‌డేట్ మళ్లీ ప్రయత్నించండి",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "సపోర్ట్‌ని సంప్రదించండి",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Signal తిరిగి ప్రారంభించడానికి క్లిక్ చేయండి",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "అప్‌డేట్ డౌన్‌లోడ్ చేసుకోవడానికి క్లిక్ చేయండి",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal couldn’t update. Click to try again.",
+        "message": "Signal ని అప్‌డేట్ చేయలేకపోయింది. మళ్లీ ప్రయత్నించడానికి క్లిక్ చేయండి.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2580,7 +2580,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "అప్‌డేట్‌ని విస్మరించండి",
         "description": ""
     },
     "leftTheGroup": {
@@ -2656,7 +2656,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "$title$తో సంభాషణ, $unreadCount$ కొత్త సందేశాలు, చివరి సందేశం: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2674,11 +2674,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "చివరి సందేశం డిలీట్ చేయబడవచ్చు.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "$title$తో సంభాషణకు వెళ్లండి",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2758,7 +2758,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "View this message on mobile to open it",
+        "message": "దీనిని ఓపెన్ చేయడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
@@ -2766,39 +2766,39 @@
         "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
     },
     "message--giftBadge--unopened--label": {
-        "message": "Gift",
+        "message": "బహుమతి",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Check your phone to open gift",
+        "message": "బహుమతిని ఓపెన్ చేయడానికి మీ ఫోన్‌ని చెక్ చేయండి",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Check your phone to view your gift",
+        "message": "మీ బహుమతిని వీక్షించడానికి మీ ఫోన్ చెక్ చేయండి",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
-        "message": "You received a gift",
+        "message": "మీరు ఒక బహుమతిని అందుకున్నారు",
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "You redeemed a gift badge",
+        "message": "మీరు ఒక గిఫ్ట్ బ్యాడ్జీని రీడిమ్ చేసుకున్నారు",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "You sent a gift badge",
+        "message": "మీరు ఒక గిఫ్ట్ బ్యాడ్జీని పంపారు",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Gift Badge",
+        "message": "గిఫ్ట్ బ్యాడ్జీ",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
-        "message": "Gift",
+        "message": "బహుమతి",
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$ days remaining",
+        "message": "$days$ రోజులు మిగిలి ఉన్నాయి",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -2808,7 +2808,7 @@
         }
     },
     "message--giftBadge--remaining--hours": {
-        "message": "$hours$ hours remaining",
+        "message": "$hours$ గంటలు మిగిలి ఉన్నాయి",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
         "placeholders": {
             "hours": {
@@ -2818,7 +2818,7 @@
         }
     },
     "message--giftBadge--remaining--minutes": {
-        "message": "$minutes$ minutes remaining",
+        "message": "$minutes$ నిమిషాలు మిగిలి ఉన్నాయి",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
         "placeholders": {
             "minutes": {
@@ -2828,7 +2828,7 @@
         }
     },
     "message--giftBadge--remaining--one-minute": {
-        "message": "1 minute remaining",
+        "message": "1 నిమిషం మిగిలి ఉంది",
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
@@ -2840,15 +2840,15 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Redeemed",
+        "message": "రీడిమ్ చేయబడింది",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
-        "message": "Thanks for your support!",
+        "message": "మీ సపోర్ట్‌కు ధన్యవాదాలు!",
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
+        "message": "మీరు $name$కు బ్యాడ్జీని బహుమతిగా ఇచ్చారు. వారు ఆమోదించినప్పుడు, వారికి బ్యాడ్జీని చూపించడం లేదా దాచిపెట్టాలని ఎంపిక ఇవ్వబడుతుంది.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3280,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Accept call with video",
+        "message": "వీడియోతో కాల్‌ని ఆమోదించండి",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Accept call with audio",
+        "message": "ఆడియోతో కాల్‌ని ఆమోదించండి",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -3296,7 +3296,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Decline call",
+        "message": "కాల్‌ని నిరాకరించండి",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3388,11 +3388,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "స్టిక్కర్‌ని తొలగించండి",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "స్టిక్కర్ జోడించడానికి ఒక ఫైల్‌ని క్లిక్ చేయండి లేదా డ్రాగ్/డ్రాప్ చేయండి",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3570,7 +3570,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "రియాక్షన్ తొలగించండి",
         "description": ""
     },
     "Reactions--error": {
@@ -3808,7 +3808,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "$group1$, $group2$, $group3$ మరియు మరొకదాని సభ్యుడు",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3926,7 +3926,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ మీకు కాల్ చేస్తున్నారు",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3936,7 +3936,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ మిమ్మల్ని మరియు $otherMember$కు కాల్ చేస్తున్నారు",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3950,7 +3950,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ మీకు, $first$, మరియు $second$కు కాల్ చేస్తున్నారు",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3968,7 +3968,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ మీకు, $first$, $second$, మరియు మరో 1కు కాల్ చేస్తోంది.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3986,7 +3986,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ మీకు, $first$, $second$, మరియు $remaining$ ఇతరులకు కాల్ చేస్తున్నారు",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4122,7 +4122,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "పంచుకోవడం ప్రారంభించండి",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -4230,11 +4230,11 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "మీరు ఆ గ్రూపుకు సందేశాన్ని పంపలేరు.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "కేవలం గ్రూపు అడ్మిన్‌లు మాత్రమే కాల్‌ని ప్రారంభించవచ్చు.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -4342,7 +4342,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "గ్రూపులో చేరలేకపోయింది. తరువాత మళ్లీ ప్రయత్నించండి.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -5316,7 +5316,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$ అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరాలనే వారి అభ్యర్ధనను రద్దు చేశారు",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5326,7 +5326,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$ అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరడానికి $numberOfRequests$ అభ్యర్ధనలను రద్దు చేశారు.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5452,7 +5452,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "అడ్మిన్‌లు మాత్రమే సందేశాలను పంపడానికి అనుమతించేందుకు $memberName$ గ్రూపు సెట్టింగ్‌లను మార్చారు.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5462,7 +5462,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "అడ్మిన్‌లు మాత్రమే సందేశాలను పంపడానికి అనుమతించేందుకు గ్రూపు మార్చబడింది.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -5470,7 +5470,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "సభ్యులందరూ సందేశాలను పంపేందుకు అనుమతించడానికి $memberName$ గ్రూపు సెట్టింగ్‌లను మార్చారు.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5480,7 +5480,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "సభ్యులందరూ సందేశాలను పంపేందుకు అనుమతించడానికి గ్రూపు మార్చబడింది.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5618,15 +5618,15 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal మీలాంటి వ్యక్తుల సహాయంతో పని చేస్తుంది. విరాళం ఇవ్వండి మరియు ఒక బ్యాడ్జిని పొందండి.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "మీ ఫోన్‌పై Signalని ఓపెన్ చేయండి",
+        "message": "మీ ఫోన్‌పై Signal ని ఓపెన్ చేయండి",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Tap on your profile photo in the top left to open Settings",
+        "message": "సెట్టింగ్‌లను ఓపెన్  చేయడానికి పైన కుడివైపున ఉండే మీ ప్రొఫైల్ చిత్రంపై తట్టండి",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
@@ -5654,7 +5654,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "బ్యాడ్జీ కౌంట్‌లో మ్యూట్ చేసిన సంభాషణలను జోడించండి",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5680,7 +5680,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "$contact$ను గ్రూపు అడ్మిన్ వలే తొలగించాలా?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5706,7 +5706,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "ఈ చాట్‌ని అన్‌మ్యూట్ చేయాలా?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5722,7 +5722,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "ప్రారంభించినప్పుడు, 1:1 చాట్‌లో పంపిన మరియు అందుకున్న సందేశాలు, వారు వాటిని చూసిన తరువాత అదృశ్యం అవుతాయి.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5746,11 +5746,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "ఎవరు సందేశాలను పంపగలరు",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "గ్రూపుకు ఎవరు సందేశాలు పంపాలనేది ఎంచుకోండి.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5862,15 +5862,15 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "మ్యూటెడ్ చాట్‌ల్లో మిమ్మల్ని పేర్కొన్నప్పుడు నోటిఫికేషన్‌లను పొందండి",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
-        "message": "Always notify",
+        "message": "ఎల్లప్పుడూ నోటిఫై చేయండి",
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "మ్యూట్ చేసినట్లయితే నోటిఫై చేయవద్దు",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "\"$name$\" నుంచి అభ్యర్ధన నిరాకరించాలా? గ్రూపు లింక్ ద్వారా మళ్లీ చేరడానికి వారు అభ్యర్ధించలేరు.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5998,7 +5998,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "\"$name$\" ద్వారా పంపిన $number$ ఆహ్వానాలను రద్దు చేయాలా?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6038,15 +6038,15 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Block request",
+        "message": "అభ్యర్ధన బ్లాక్ చేయండి",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Block request?",
+        "message": "అభ్యర్ధన బ్లాక్ చేయాలా?",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$ గ్రూపు లింక్ ద్వారా ఈ గ్రూపులో చేరడం లేదా చేరడానికి అభ్యర్ధించడం సాధ్యం కాదు. వారిని ఇంకా గ్రూపుకు మాన్యువల్‌గా జోడించవచ్చు.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6056,7 +6056,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "అభ్యర్ధన బ్లాక్ చేయండి",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6064,7 +6064,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "ఫోటోని జోడించండి",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -6172,7 +6172,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "$name$ కాంటాక్ట్‌ని ఎంచుకోండి",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -6182,7 +6182,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "$name$ కాంటాక్ట్‌ని డీసెలక్ట్ చేయండి",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -6192,7 +6192,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "$name$ కాంటాక్ట్‌ని ఎంచుకోలేం",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6352,7 +6352,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "గ్రూపు నుంచి $name$ని తొలగించాలా? వారు గ్రూపు లింక్ ద్వారా తిరిగి చేరలేకపోతారు.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6374,7 +6374,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "ధృవీకరించుకుండానే ముందుకు సాగాలా?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -6500,11 +6500,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__label--value": {
-        "message": "Number",
+        "message": "నెంబరు",
         "description": "aria-label for the number select box"
     },
     "DisappearingTimeDialog__label--units": {
-        "message": "Unit of time",
+        "message": "టైమ్ యూనిట్",
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
@@ -6558,7 +6558,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "ఈ సందేశాన్ని ప్రదర్శించలేదు. డీబగ్ లాగ్ సబ్మిట్ చేయడానికి క్లిక్ చేయండి.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6638,7 +6638,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "యూజర్‌నేమ్‌ల్లో a-z, 0-9 మరియు ఇవి ఉండవచ్చు _",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6646,7 +6646,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "యూజర్‌నేమ్‌లో కనీసం $min$ క్యారెక్టర్‌లు ఉండాలి",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6656,7 +6656,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "యూజర్‌నేమ్‌లో గరిష్టంగా $max$ క్యారెక్టర్‌లు ఉండాలి.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6670,19 +6670,19 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "మీ యూజర్‌నేమ్‌ని సేవ్ చేయలేరు. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "మీ యూజర్‌నేమ్‌ని తొలగించలేం. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "యూజర్‌నేమ్‌ని డిలీట్ చేయండి",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "ఇది మీ యూజర్‌నేమ్‌ని తొలగిస్తుంది, ఇతర యూజర్‌లు దానికి క్లెయిం చేయడానికి అనుమతిస్తుంది. మీరు ఖచ్చితంగా అనుకుంటున్నారా?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6690,7 +6690,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "మీ గురించి ఏదైనా రాయండి...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6706,7 +6706,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "మీ ప్రొఫైల్ ఎన్‌క్రిప్ట్ చేయబడింది. మీరు కొత్త చాట్‌లను ప్రారంభించినప్పుడు లేదా ఆమోదించినప్పుడు మీ ప్రొఫైల్ మరియు దానికి మార్పులు మీ కాంటాక్ట్‌లకు కనిపిస్తాయి. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6752,7 +6752,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "మీ అవతార్",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6760,7 +6760,7 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "మీ ప్రొఫైల్‌ని అప్‌డేట్ చేయలేం. దయచేసి మళ్లీ ప్రయత్నించండి.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -6768,7 +6768,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "కేవలం $admins$ మాత్రమే సందేశాలను పంపగలరు.",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "ఈ సెట్టింగ్‌లను మార్చడానికి, మీ మొబైల్ పరికరంపై Signal యాప్‌ని ఓపెన్ చేయండి మరియు సెట్టింగ్‌లు > చాట్‌లకు వెళ్లండి.",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6946,15 +6946,15 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal ను క్లోజ్ చేయలేరు.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "దయచేసి దానిని మాన్యువల్‌గా క్లోజ్ చేసి, కొనసాగడానికి మళ్లీ ప్రయత్నించండి క్లిక్ చేయండి.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+        "message": "$appName$ రన్ అవుతోంది.\nదానిని క్లోజ్ చేయడానికి ఒకే మీద క్లిక్ చేయండి.\nఇది క్లోజ్ కానట్లయితే, మాన్యువల్‌గా దానిని క్లోజ్ చేయడానికి ప్రయత్నించండి.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6968,7 +6968,7 @@
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "పాత అప్లికేషన్ ఫైల్స్‌ని అన్‌ఇన్‌స్టాల్ చేయడం విఫలమైంది. దయచేసి ఇన్‌స్టలర్‌ని మళ్లీ రన్ చేయడానికి ప్రయత్నించండి.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -6976,7 +6976,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
+        "message": "Signal క్రాష్ తరువాత రీస్టార్ట్ చేయబడింది. సమస్యను పరిశోధించడానికి Signal కు సాయం చేయడానికి మీరు క్రాష్ రిపోర్ట్‌ని సబ్మిట్ చేయవచ్చు.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6996,11 +6996,11 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "మీ సెట్టింగ్‌లను సేవ్ చేసేటప్పుడు ఒక దోషం ఏర్పడింది, దయచేసి మళ్లీ ప్రయత్నించండి.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "డ్రా",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
@@ -7048,7 +7048,7 @@
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "పలుచటి",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
@@ -7068,11 +7068,11 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "రొటేట్",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Flip",
+        "message": "ప్లిప్",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7092,11 +7092,11 @@
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "స్టోరీని డౌన్‌లోడ్ చేయండి",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "More options",
+        "message": "మరిన్ని ఆప్షన్‌లు",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
@@ -7110,7 +7110,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "$num$ views",
+        "message": "$num$ వీక్షణలు",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7120,7 +7120,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "$num$ reply",
+        "message": "$num$ రిప్లై",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7130,7 +7130,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ replies",
+        "message": "$num$ రిప్లైలు",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7140,7 +7140,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "ఈ స్టోరీని డిలీట్ చేయాలా? దీనిని అందుకున్న ప్రతిఒక్కరి కొరకు కూడా ఇది డిలీట్ చేయబడుతుంది.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "Stories__title": {
@@ -7152,23 +7152,23 @@
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "Add a story",
+        "message": "ఒక స్టోరీని జోడించండి",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "Hidden stories",
+        "message": "దాచిపెట్టబడ్డ స్టోరీలు",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవల స్టోరీలు లేవు",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "స్టోరీని చూడటానికి క్లిక్ చేయండి",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$ నుంచి $group$",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -7194,7 +7194,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "Reply to Group",
+        "message": "గ్రూపుకు బదులివ్వడం",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
@@ -7206,43 +7206,43 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryViewsNRepliesModal__no-replies": {
-        "message": "No replies yet",
+        "message": "ఇంకా ఎలాంటి రిప్లైలు లేవు",
         "description": "Placeholder text for when there are no replies"
     },
     "StoryViewsNRepliesModal__tab--views": {
-        "message": "Views",
+        "message": "వీక్షణలు",
         "description": "Title for views tab"
     },
     "StoryViewsNRepliesModal__tab--replies": {
-        "message": "Replies",
+        "message": "రిప్లైలు",
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "స్టోరీకి రియాక్ట్ కావడం",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reacted to the story",
+        "message": "స్టోరీకి రియాక్ట్ అయ్యారు",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "Story",
+        "message": "స్టోరీ",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "స్టోరీలు చూపించండి",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Hide story",
+        "message": "స్టోరీని దాచిపెట్టండి",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Go to chat",
+        "message": "చాట్‌కు వెళ్లండి",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "స్టోరిని దాచిపెట్టాలా? స్టోరీల యొక్క లిస్ట్‌పై $name$ నుంచి కొత్త స్టోరీ అప్‌డేట్‌లు ఇక ఏమాత్రం కనిపించవు.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7250,7 +7250,7 @@
         "description": "Action button for the confirmation dialog to hide a story"
     },
     "StoryImage__error": {
-        "message": "Error displaying image",
+        "message": "ఇమేజ్‌ని ప్రదర్శించడంలో దోషం",
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
@@ -7294,7 +7294,7 @@
         "description": "Label for font"
     },
     "StoryCreator__link-preview-placeholder": {
-        "message": "Type or paste a URL",
+        "message": "URLని టైప్ చేయండి లేదా పేస్ట్ చేయండి",
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
@@ -7306,15 +7306,15 @@
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "Visit link",
+        "message": "లింక్‌ని సందర్శించండి",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
-        "message": "Story",
+        "message": "స్టోరీ",
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Reacted to a story from $name$",
+        "message": "$name$ నుంచి స్టోరీకి రియాక్ట్ అయింది",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7324,23 +7324,27 @@
         }
     },
     "Quote__story-reaction--yours": {
-        "message": "Reacted to your story",
+        "message": "మీ స్టోరీకి ప్రతిస్పందించారు",
         "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
-        "message": "Reacted to a story",
+        "message": "ఒక స్టోరీకి రియాక్ట్ అయ్యారు",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "No longer available",
+        "message": "ఇక ఏమాత్రం లభ్యం కాదు",
         "description": "Label for when a story is not found"
     },
+    "ContextMenu--button": {
+        "message": "సందర్భ మెనూ",
+        "description": "Default aria-label for the context menu buttons"
+    },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "కొత్తది ఏమిటి",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.47--1": {
