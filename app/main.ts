@@ -1585,7 +1585,7 @@ app.on('ready', async () => {
 
   if (!locale) {
     const appLocale = getAppLocale();
-    locale = loadLocale({ appLocale, logger });
+    locale = loadLocale({ appLocale, logger: getLogger() });
   }
 
   sqlInitPromise = initializeSQL(userDataPath);

@@ -202,6 +202,9 @@ describe('createTemplate', () => {
       error(arg: unknown) {
         throw new Error(String(arg));
       },
+      warn(arg: unknown) {
+        throw new Error(String(arg));
+      },
     },
   });
 
