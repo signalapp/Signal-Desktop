@@ -2519,11 +2519,6 @@ export async function startApp(): Promise<void> {
       });
 
       routineProfileRefresher.start();
-    } else {
-      assert(
-        false,
-        'Failed to fetch our conversation ID. Skipping routine profile refresh'
-      );
     }
 
     // Make sure we have the PNI identity

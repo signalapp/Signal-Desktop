@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { isBoolean } from 'lodash';
-import { boolean } from '@storybook/addon-knobs';
+
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './GroupV1MigrationDialog';
@@ -34,21 +33,11 @@ const contact3: ConversationType = getDefaultConversation({
   id: 'guid-3',
 });
 
-function booleanOr(value: boolean | undefined, defaultValue: boolean): boolean {
-  return isBoolean(value) ? value : defaultValue;
-}
-
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  areWeInvited: boolean(
-    'areWeInvited',
-    booleanOr(overrideProps.areWeInvited, false)
-  ),
+  areWeInvited: Boolean(overrideProps.areWeInvited),
   droppedMembers: overrideProps.droppedMembers || [contact3, contact1],
   getPreferredBadge: () => undefined,
-  hasMigrated: boolean(
-    'hasMigrated',
-    booleanOr(overrideProps.hasMigrated, false)
-  ),
+  hasMigrated: Boolean(overrideProps.hasMigrated),
   i18n,
   invitedMembers: overrideProps.invitedMembers || [contact2],
   migrate: action('migrate'),
