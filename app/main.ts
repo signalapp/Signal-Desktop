@@ -608,7 +608,8 @@ if (OS.isWindows()) {
 }
 
 const mainTitleBarStyle =
-  OS.hasCustomTitleBar() && !isTestEnvironment(getEnvironment())
+  (OS.isMacOS() || OS.hasCustomTitleBar()) &&
+  !isTestEnvironment(getEnvironment())
     ? ('hidden' as const)
     : ('default' as const);
 
