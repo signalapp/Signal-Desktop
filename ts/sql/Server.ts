@@ -394,6 +394,7 @@ function switchToWAL(db: Database): void {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
   db.pragma('synchronous = FULL');
+  db.pragma('fullfsync = ON');
 }
 
 function migrateSchemaVersion(db: Database): void {
