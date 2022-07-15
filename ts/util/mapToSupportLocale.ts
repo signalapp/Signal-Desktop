@@ -15,6 +15,7 @@ export type SupportLocaleType =
   | 'sq'
   | 'zh-tw';
 
+// See https://source.chromium.org/chromium/chromium/src/+/main:ui/base/l10n/l10n_util.cc
 export type ElectronLocaleType =
   | 'af'
   | 'ar'
@@ -25,8 +26,19 @@ export type ElectronLocaleType =
   | 'cy'
   | 'da'
   | 'de'
+  | 'de-AT'
+  | 'de-CH'
+  | 'de-DE'
+  | 'de-LI'
   | 'el'
   | 'en'
+  | 'en-AU'
+  | 'en-CA'
+  | 'en-GB'
+  | 'en-GB-oxendict'
+  | 'en-IN'
+  | 'en-NZ'
+  | 'en-US'
   | 'eo'
   | 'es'
   | 'es_419'
@@ -35,12 +47,17 @@ export type ElectronLocaleType =
   | 'fa'
   | 'fi'
   | 'fr'
+  | 'fr-CA'
+  | 'fr-CH'
+  | 'fr-FR'
   | 'he'
   | 'hi'
   | 'hr'
   | 'hu'
   | 'id'
   | 'it'
+  | 'it-CH'
+  | 'it-IT'
   | 'ja'
   | 'km'
   | 'kn'
@@ -72,6 +89,7 @@ export type ElectronLocaleType =
   | 'ur'
   | 'vi'
   | 'zh_CN'
+  | 'zh-HK'
   | 'zh_TW';
 
 export function mapToSupportLocale(ourLocale: string): SupportLocaleType {
