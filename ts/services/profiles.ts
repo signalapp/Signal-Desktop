@@ -230,7 +230,6 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   const profileKey = c.get('profileKey');
   const profileKeyVersion = c.deriveProfileKeyVersion();
   const uuid = c.getCheckedUuid('getProfile');
-  const existingProfileKeyCredential = c.get('profileKeyCredential');
   const lastProfile = c.get('lastProfile');
 
   let profileCredentialRequestContext:
@@ -246,7 +245,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
       'profileKeyVersion and accessKey are derived from profileKey'
     );
 
-    if (existingProfileKeyCredential) {
+    if (!c.hasProfileKeyCredentialExpired()) {
       getProfileOptions = {
         accessKey,
         profileKeyVersion,

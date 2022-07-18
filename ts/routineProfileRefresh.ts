@@ -196,10 +196,6 @@ function* getFilteredConversations(
           (conversation.id === ourConversationId ||
             !conversationIdsSeen.has(conversation.id))
         ) {
-          conversation.set({
-            profileKeyCredential: null,
-            profileKeyCredentialExpiration: null,
-          });
           conversationIdsSeen.add(conversation.id);
           yield conversation;
           break;
