@@ -2407,7 +2407,4 @@ export default class MessageSender {
   async deleteUsername(): Promise<ReturnType<WebAPIType['deleteUsername']>> {
     return this.server.deleteUsername();
   }
-  async whoami(): Promise<ReturnType<WebAPIType['whoami']>> {
-    return this.server.whoami();
-  }
 }

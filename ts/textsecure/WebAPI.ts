@@ -33,7 +33,7 @@ import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import type { UUID, UUIDStringType } from '../types/UUID';
-import { isValidUuid, UUIDKind } from '../types/UUID';
+import { UUIDKind } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import { getRandomValue } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
@@ -750,12 +750,15 @@ export type MakeProxiedRequestResultType =
       totalSize: number;
     };
 
-export type WhoamiResultType = Readonly<{
-  uuid?: UUIDStringType;
-  pni?: UUIDStringType;
-  number?: string;
-  username?: string;
-}>;
+const whoamiResultZod = z
+  .object({
+    uuid: z.string(),
+    pni: z.string(),
+    number: z.string(),
+    username: z.string().or(z.null()).optional(),
+  })
+  .passthrough();
+export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 
 export type ConfirmCodeResultType = Readonly<{
   uuid: UUIDStringType;
@@ -1396,18 +1399,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      if (!isRecord(response)) {
-        return {};
-      }
-
-      return {
-        uuid: isValidUuid(response.uuid) ? response.uuid : undefined,
-        pni: isValidUuid(response.pni) ? response.pni : undefined,
-        number:
-          typeof response.number === 'string' ? response.number : undefined,
-        username:
-          typeof response.username === 'string' ? response.username : undefined,
-      };
+      return whoamiResultZod.parse(response);
     }
 
     async function sendChallengeResponse(challengeResponse: ChallengeType) {
