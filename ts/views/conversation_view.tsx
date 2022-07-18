@@ -2617,7 +2617,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
-      model.enqueueMessageForSend(
+      await model.enqueueMessageForSend(
         {
           body: message,
           attachments,
