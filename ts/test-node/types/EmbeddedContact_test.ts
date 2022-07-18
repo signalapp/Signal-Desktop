@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
+import * as logger from '../../logging/log';
 import { IMAGE_GIF, IMAGE_PNG } from '../../types/MIME';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { Avatar, Email, Phone } from '../../types/EmbeddedContact';
@@ -18,9 +19,6 @@ import { UUID } from '../../types/UUID';
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
-  const logger = {
-    error: () => undefined,
-  };
 
   const writeNewAttachmentData = sinon
     .stub()

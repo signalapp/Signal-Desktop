@@ -396,6 +396,7 @@ describe('Attachment', () => {
 
       const actual = await Attachment.migrateDataToFileSystem(input, {
         writeNewAttachmentData,
+        logger,
       });
       assert.deepEqual(actual, expected);
     });
@@ -417,11 +418,12 @@ describe('Attachment', () => {
 
       const actual = await Attachment.migrateDataToFileSystem(input, {
         writeNewAttachmentData,
+        logger,
       });
       assert.deepEqual(actual, expected);
     });
 
-    it('should throw error if data is not valid', async () => {
+    it('should clear `data` field if it is not a typed array', async () => {
       const input = {
         contentType: MIME.IMAGE_JPEG,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -432,12 +434,12 @@ describe('Attachment', () => {
 
       const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
 
-      await assert.isRejected(
-        Attachment.migrateDataToFileSystem(input, {
-          writeNewAttachmentData,
-        }),
-        'Expected `attachment.data` to be a typed array; got: number'
-      );
+      const actual = await Attachment.migrateDataToFileSystem(input, {
+        writeNewAttachmentData,
+        logger,
+      });
+
+      assert.isUndefined(actual.data);
     });
   });
 });

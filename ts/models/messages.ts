@@ -2511,6 +2511,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                     await Attachment.migrateDataToFileSystem(downloadedAvatar, {
                       writeNewAttachmentData:
                         window.Signal.Migrations.writeNewAttachmentData,
+                      logger: log,
                     });
                   avatar = {
                     ...onDiskAttachment,

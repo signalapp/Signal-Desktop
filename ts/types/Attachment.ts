@@ -180,8 +180,10 @@ export async function migrateDataToFileSystem(
   attachment: AttachmentType,
   {
     writeNewAttachmentData,
+    logger,
   }: {
     writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
+    logger: LoggerType;
   }
 ): Promise<AttachmentType> {
   if (!isFunction(writeNewAttachmentData)) {
@@ -195,11 +197,12 @@ export async function migrateDataToFileSystem(
     return attachment;
   }
 
+  // This attachment was already broken by a roundtrip to the database - repair it now
   if (!isTypedArray(data)) {
-    throw new TypeError(
-      'Expected `attachment.data` to be a typed array;' +
-        ` got: ${typeof attachment.data}`
+    logger.warn(
+      'migrateDataToFileSystem: Attachment had non-array `data` field; deleting.'
     );
+    return omit({ ...attachment }, ['data']);
   }
 
   const path = await writeNewAttachmentData(data);

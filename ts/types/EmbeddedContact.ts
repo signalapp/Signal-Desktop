@@ -192,7 +192,7 @@ export function parseAndWriteAvatar(
     context: {
       message: MessageAttributesType;
       getRegionCode: () => string | undefined;
-      logger: Pick<LoggerType, 'error'>;
+      logger: LoggerType;
       writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
     }
   ): Promise<EmbeddedContactType> => {

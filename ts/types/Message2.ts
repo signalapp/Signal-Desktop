@@ -589,6 +589,7 @@ export const processNewAttachment = async (
   );
   const onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
     writeNewAttachmentData,
+    logger,
   });
   const finalAttachment = await captureDimensionsAndScreenshot(
     onDiskAttachment,
