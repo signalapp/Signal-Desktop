@@ -93,6 +93,9 @@ import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import { DAY, HOUR } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
+import { isIncoming, isOutgoing, isStory } from '../../messages/helpers';
+
+export { isIncoming, isOutgoing, isStory };
 
 const THREE_HOURS = 3 * HOUR;
 const linkify = LinkifyIt();
@@ -128,24 +131,6 @@ export type GetPropsForBubbleOptions = Readonly<{
   accountSelector: AccountSelectorType;
   contactNameColorSelector: ContactNameColorSelectorType;
 }>;
-
-export function isIncoming(
-  message: Pick<MessageWithUIFieldsType, 'type'>
-): boolean {
-  return message.type === 'incoming';
-}
-
-export function isOutgoing(
-  message: Pick<MessageWithUIFieldsType, 'type'>
-): boolean {
-  return message.type === 'outgoing';
-}
-
-export function isStory(
-  message: Pick<MessageWithUIFieldsType, 'type'>
-): boolean {
-  return message.type === 'story';
-}
 
 export function hasErrors(
   message: Pick<MessageWithUIFieldsType, 'errors'>

@@ -18,6 +18,7 @@ import {
   get,
   groupBy,
   isFunction,
+  isTypedArray,
   last,
   map,
   omit,
@@ -90,6 +91,7 @@ import type {
 import Server from './Server';
 import { isCorruptionError } from './errors';
 import { MINUTE } from '../util/durations';
+import { getMessageIdForLogging } from '../util/idForLogging';
 
 // We listen to a lot of events on ipc, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -433,11 +435,24 @@ function _cleanData(
   return cleaned;
 }
 
-function _cleanMessageData(data: MessageType): MessageType {
+export function _cleanMessageData(data: MessageType): MessageType {
   // Ensure that all messages have the received_at set properly
   if (!data.received_at) {
     assert(false, 'received_at was not set on the message');
     data.received_at = window.Signal.Util.incrementMessageCounter();
+  }
+  if (data.attachments) {
+    const logId = getMessageIdForLogging(data);
+    data.attachments = data.attachments.map((attachment, index) => {
+      if (attachment.data && !isTypedArray(attachment.data)) {
+        log.warn(
+          `_cleanMessageData/${logId}: Attachment ${index} had non-array \`data\` field; deleting.`
+        );
+        return omit(attachment, ['data']);
+      }
+
+      return attachment;
+    });
   }
   return _cleanData(omit(data, ['dataMessage']));
 }

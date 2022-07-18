@@ -9,7 +9,22 @@ import type {
   QuotedMessageType,
 } from '../model-types.d';
 import type { UUIDStringType } from '../types/UUID';
-import { isIncoming, isOutgoing, isStory } from '../state/selectors/message';
+
+export function isIncoming(
+  message: Pick<MessageAttributesType, 'type'>
+): boolean {
+  return message.type === 'incoming';
+}
+
+export function isOutgoing(
+  message: Pick<MessageAttributesType, 'type'>
+): boolean {
+  return message.type === 'outgoing';
+}
+
+export function isStory(message: Pick<MessageAttributesType, 'type'>): boolean {
+  return message.type === 'story';
+}
 
 export function isQuoteAMatch(
   message: MessageAttributesType | null | undefined,
