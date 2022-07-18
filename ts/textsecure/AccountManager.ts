@@ -33,6 +33,7 @@ import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assert, strictAssert } from '../util/assert';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
+import { isNotNil } from '../util/isNotNil';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
@@ -42,19 +43,6 @@ const ARCHIVE_AGE = 30 * DAY;
 const PREKEY_ROTATION_AGE = DAY * 1.5;
 const PROFILE_KEY_LENGTH = 32;
 const SIGNED_KEY_GEN_BATCH_SIZE = 100;
-
-function getIdentifier(id: string | undefined) {
-  if (!id || !id.length) {
-    return id;
-  }
-
-  const parts = id.split('.');
-  if (!parts.length) {
-    return id;
-  }
-
-  return parts[0];
-}
 
 export type GeneratedKeysType = {
   preKeys: Array<{
@@ -529,8 +517,9 @@ export default class AccountManager extends EventTarget {
     password = password.substring(0, password.length - 2);
     const registrationId = generateRegistrationId();
 
-    const previousNumber = getIdentifier(storage.get('number_id'));
-    const previousUuid = getIdentifier(storage.get('uuid_id'));
+    const previousNumber = storage.user.getNumber();
+    const previousACI = storage.user.getUuid(UUIDKind.ACI)?.toString();
+    const previousPNI = storage.user.getUuid(UUIDKind.PNI)?.toString();
 
     let encryptedDeviceName;
     if (deviceName) {
@@ -556,11 +545,11 @@ export default class AccountManager extends EventTarget {
     const ourUuid = UUID.cast(response.uuid);
     const ourPni = UUID.cast(response.pni);
 
-    const uuidChanged = previousUuid && ourUuid && previousUuid !== ourUuid;
+    const uuidChanged = previousACI && ourUuid && previousACI !== ourUuid;
 
     // We only consider the number changed if we didn't have a UUID before
     const numberChanged =
-      !previousUuid && previousNumber && previousNumber !== number;
+      !previousACI && previousNumber && previousNumber !== number;
 
     if (uuidChanged || numberChanged) {
       if (uuidChanged) {
@@ -592,15 +581,17 @@ export default class AccountManager extends EventTarget {
 
     await senderCertificateService.clear();
 
-    if (previousUuid) {
+    const previousUuids = [previousACI, previousPNI].filter(isNotNil);
+
+    if (previousUuids.length > 0) {
       await Promise.all([
         storage.put(
           'identityKeyMap',
-          omit(storage.get('identityKeyMap') || {}, previousUuid)
+          omit(storage.get('identityKeyMap') || {}, previousUuids)
         ),
         storage.put(
           'registrationIdMap',
-          omit(storage.get('registrationIdMap') || {}, previousUuid)
+          omit(storage.get('registrationIdMap') || {}, previousUuids)
         ),
       ]);
     }
@@ -848,5 +839,32 @@ export default class AccountManager extends EventTarget {
   async registrationDone(): Promise<void> {
     log.info('registration done');
     this.dispatchEvent(new Event('registration'));
+  }
+
+  async setPni(pni: string): Promise<void> {
+    const { storage } = window.textsecure;
+
+    const oldPni = storage.user.getUuid(UUIDKind.PNI)?.toString();
+    if (oldPni === pni) {
+      return;
+    }
+
+    if (oldPni) {
+      await Promise.all([
+        storage.put(
+          'identityKeyMap',
+          omit(storage.get('identityKeyMap') || {}, oldPni)
+        ),
+        storage.put(
+          'registrationIdMap',
+          omit(storage.get('registrationIdMap') || {}, oldPni)
+        ),
+      ]);
+    }
+
+    log.info(`AccountManager.setPni: updating pni from ${oldPni} to ${pni}`);
+    await storage.user.setPni(pni);
+
+    await storage.protocol.hydrateCaches();
   }
 }

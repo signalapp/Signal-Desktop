@@ -3,7 +3,7 @@
 
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import dataInterface from '../sql/Client';
-import { updateOurUsername } from '../util/updateOurUsername';
+import { updateOurUsernameAndPni } from '../util/updateOurUsernameAndPni';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
@@ -21,7 +21,7 @@ export async function writeUsername({
   }
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsername();
+  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');

@@ -146,7 +146,7 @@ import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
-import { updateOurUsername } from './util/updateOurUsername';
+import { updateOurUsernameAndPni } from './util/updateOurUsernameAndPni';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
@@ -2213,18 +2213,6 @@ export async function startApp(): Promise<void> {
         return unlinkAndDisconnect(RemoveAllConfiguration.Full);
       }
 
-      if (!window.textsecure.storage.user.getUuid(UUIDKind.PNI)) {
-        log.info('PNI not captured during registration, fetching');
-        const { pni } = await server.whoami();
-        if (!pni) {
-          log.error('No PNI found, unlinking');
-          return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
-        }
-
-        log.info('Setting PNI to', pni);
-        await window.textsecure.storage.user.setPni(pni);
-      }
-
       if (connectCount === 1) {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
@@ -2239,7 +2227,7 @@ export async function startApp(): Promise<void> {
               changeNumber: true,
               stories: true,
             }),
-            updateOurUsername(),
+            updateOurUsernameAndPni(),
           ]);
         } catch (error) {
           log.error(
@@ -2247,6 +2235,11 @@ export async function startApp(): Promise<void> {
             error && error.stack ? error.stack : error
           );
         }
+      }
+
+      if (!window.textsecure.storage.user.getUuid(UUIDKind.PNI)) {
+        log.error('PNI not captured during registration, unlinking softly');
+        return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
       }
 
       if (firstRun === true && deviceId !== 1) {
@@ -3625,7 +3618,10 @@ export async function startApp(): Promise<void> {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
         const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await Promise.all([getProfile(ourUuid, ourE164), updateOurUsername()]);
+        await Promise.all([
+          getProfile(ourUuid, ourE164),
+          updateOurUsernameAndPni(),
+        ]);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
