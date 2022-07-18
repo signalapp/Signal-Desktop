@@ -818,7 +818,7 @@ export async function startApp(): Promise<void> {
         await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
-      if (window.isBeforeVersion(lastVersion, 'v5.50.0-alpha.1')) {
+      if (window.isBeforeVersion(lastVersion, 'v5.51.0-beta.2')) {
         await window.storage.put('groupCredentials', []);
         await window.Signal.Data.removeAllProfileKeyCredentials();
       }
