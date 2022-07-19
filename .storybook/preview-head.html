@@ -39,7 +39,7 @@
       themeSetting: {
         getValue: async () => 'light',
       },
-      waitForChange: noop,
+      waitForChange: () => new Promise(noop),
     },
     OS: {
       hasCustomTitleBar: () => false,
