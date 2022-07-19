@@ -215,7 +215,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     [theme, hideMenuBar]
   );
 
-  if (!hasCustomTitleBar || isFullScreen) {
+  if (!hasCustomTitleBar) {
     return <>{children}</>;
   }
 
@@ -253,22 +253,25 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
     <div
       className={classNames(
         'TitleBarContainer',
-        isWindowActive ? 'TitleBarContainer--active' : null
+        isWindowActive ? 'TitleBarContainer--active' : null,
+        isFullScreen ? 'TitleBarContainer--fullscreen' : null
       )}
     >
       <div className="TitleBarContainer__padding" />
       <div className="TitleBarContainer__content">{children}</div>
 
-      <TitleBar
-        className="TitleBarContainer__title"
-        platform="win32"
-        iconSrc={iconSrc}
-        theme={titleBarTheme}
-        maximized={isMaximized}
-        menu={maybeMenu}
-        onDoubleClick={titleBarDoubleClick}
-        hideControls
-      />
+      {!isFullScreen ? (
+        <TitleBar
+          className="TitleBarContainer__title"
+          platform="win32"
+          iconSrc={iconSrc}
+          theme={titleBarTheme}
+          maximized={isMaximized}
+          menu={maybeMenu}
+          onDoubleClick={titleBarDoubleClick}
+          hideControls
+        />
+      ) : null}
     </div>
   );
 };
