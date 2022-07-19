@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import FocusTrap from 'focus-trap-react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
@@ -197,6 +203,13 @@ export const StoryViewer = ({
     };
   }, [attachment]);
 
+  const unmountRef = useRef<boolean>(false);
+  useEffect(() => {
+    return () => {
+      unmountRef.current = true;
+    };
+  });
+
   const [styles, spring] = useSpring(
     () => ({
       from: { width: 0 },
@@ -204,6 +217,13 @@ export const StoryViewer = ({
       loop: true,
       onRest: {
         width: ({ value }) => {
+          if (unmountRef.current) {
+            log.info(
+              'stories.StoryViewer.spring.onRest: called after component unmounted'
+            );
+            return;
+          }
+
           if (value === 100) {
             viewStory(
               story.messageId,

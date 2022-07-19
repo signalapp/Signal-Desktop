@@ -9295,6 +9295,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewer.tsx",
+    "line": "  const unmountRef = useRef<boolean>(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-07-18T23:30:04.033Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/StoryViewsNRepliesModal.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
