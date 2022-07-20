@@ -4,6 +4,7 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
 import * as React from 'react';
+import * as RemoteConfig from '../RemoteConfig';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
@@ -47,6 +48,7 @@ export type IPCEventsValuesType = {
   callRingtoneNotification: boolean;
   callSystemNotification: boolean;
   countMutedConversations: boolean;
+  hasStoriesEnabled: boolean;
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
   lastSyncTime: number | undefined;
@@ -111,6 +113,7 @@ export type IPCEventsCallbacksType = {
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
   ) => void;
+  shouldShowStoriesSettings: () => boolean;
   getDefaultConversationColor: () => DefaultConversationColorType;
   persistZoomFactor: (factor: number) => Promise<void>;
 };
@@ -174,6 +177,10 @@ export function createIPCEvents(
     setZoomFactor: async (zoomFactor: ZoomFactorType) => {
       webFrame.setZoomFactor(zoomFactor);
     },
+
+    getHasStoriesEnabled: () => window.storage.get('hasStoriesEnabled', true),
+    setHasStoriesEnabled: (value: boolean) =>
+      window.storage.put('hasStoriesEnabled', value),
 
     getPreferredAudioInputDevice: () =>
       window.storage.get('preferred-audio-input-device'),
@@ -331,6 +338,9 @@ export function createIPCEvents(
 
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
+    shouldShowStoriesSettings: () =>
+      RemoteConfig.isEnabled('desktop.internalUser') ||
+      RemoteConfig.isEnabled('desktop.stories'),
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
         const FIVE_MINUTES = 5 * durations.MINUTE;

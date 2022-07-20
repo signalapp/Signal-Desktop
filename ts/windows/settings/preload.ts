@@ -50,6 +50,7 @@ const settingSystemTraySetting = createSetting('systemTraySetting');
 
 const settingLastSyncTime = createSetting('lastSyncTime');
 
+const settingHasStoriesEnabled = createSetting('hasStoriesEnabled');
 const settingZoomFactor = createSetting('zoomFactor');
 
 // Getters only.
@@ -84,6 +85,9 @@ const ipcGetCustomColors = createCallback('getCustomColors');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
 const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
+const ipcShouldShowStoriesSettings = createCallback(
+  'shouldShowStoriesSettings'
+);
 
 // ChatColorPicker redux hookups
 // The redux actions update over IPC through a preferences re-render
@@ -146,6 +150,7 @@ const renderPreferences = async () => {
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
+    hasStoriesEnabled,
     hasTypingIndicators,
     isPhoneNumberSharingSupported,
     lastSyncTime,
@@ -162,8 +167,9 @@ const renderPreferences = async () => {
 
     availableIODevices,
     customColors,
-    isSyncNotSupported,
     defaultConversationColor,
+    isSyncNotSupported,
+    shouldShowStoriesSettings,
   } = await awaitObject({
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
@@ -182,6 +188,7 @@ const renderPreferences = async () => {
     hasReadReceipts: settingReadReceipts.getValue(),
     hasRelayCalls: settingRelayCalls.getValue(),
     hasSpellCheck: settingSpellCheck.getValue(),
+    hasStoriesEnabled: settingHasStoriesEnabled.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
@@ -199,8 +206,9 @@ const renderPreferences = async () => {
     // Callbacks
     availableIODevices: ipcGetAvailableIODevices(),
     customColors: ipcGetCustomColors(),
-    isSyncNotSupported: ipcIsSyncNotSupported(),
     defaultConversationColor: ipcGetDefaultConversationColor(),
+    isSyncNotSupported: ipcIsSyncNotSupported(),
+    shouldShowStoriesSettings: ipcShouldShowStoriesSettings(),
   });
 
   const { availableCameras, availableMicrophones, availableSpeakers } =
@@ -236,6 +244,7 @@ const renderPreferences = async () => {
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
+    hasStoriesEnabled,
     hasTypingIndicators,
     lastSyncTime,
     notificationContent,
@@ -263,6 +272,7 @@ const renderPreferences = async () => {
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
+    shouldShowStoriesSettings,
 
     // Limited support features
     isAudioNotificationsSupported: Settings.isAudioNotificationSupported(),
@@ -287,6 +297,7 @@ const renderPreferences = async () => {
     onCountMutedConversationsChange: reRender(
       settingCountMutedConversations.setValue
     ),
+    onHasStoriesEnabledChanged: reRender(settingHasStoriesEnabled.setValue),
     onHideMenuBarChange: reRender(settingHideMenuBar.setValue),
     onIncomingCallNotificationsChange: reRender(
       settingIncomingCallNotification.setValue

@@ -44,7 +44,7 @@ import { useTheme } from '../hooks/useTheme';
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
-export type PropsType = {
+export type PropsDataType = {
   // Settings
   blockedCount: number;
   customColors: Record<string, CustomColorType>;
@@ -68,6 +68,7 @@ export type PropsType = {
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean;
+  hasStoriesEnabled: boolean;
   hasTypingIndicators: boolean;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
@@ -81,15 +82,36 @@ export type PropsType = {
   zoomFactor: ZoomFactorType;
 
   // Other props
+  hasCustomTitleBar: boolean;
+  initialSpellCheckSetting: boolean;
+  shouldShowStoriesSettings: boolean;
+
+  // Limited support features
+  isAudioNotificationsSupported: boolean;
+  isAutoDownloadUpdatesSupported: boolean;
+  isAutoLaunchSupported: boolean;
+  isHideMenuBarSupported: boolean;
+  isNotificationAttentionSupported: boolean;
+  isPhoneNumberSharingSupported: boolean;
+  isSyncSupported: boolean;
+  isSystemTraySupported: boolean;
+
+  availableCameras: Array<
+    Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
+  >;
+} & Omit<MediaDeviceSettings, 'availableCameras'>;
+
+type PropsFunctionType = {
+  // Other props
   addCustomColor: (color: CustomColorType) => unknown;
   closeSettings: () => unknown;
   doDeleteAllData: () => unknown;
   doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
+  executeMenuRole: ExecuteMenuRoleType;
   getConversationsWithCustomColor: (
     colorId: string
   ) => Promise<Array<ConversationType>>;
-  initialSpellCheckSetting: boolean;
   makeSyncRequest: () => unknown;
   removeCustomColor: (colorId: string) => unknown;
   removeCustomColorOnConversations: (colorId: string) => unknown;
@@ -102,18 +124,6 @@ export type PropsType = {
       value: CustomColorType;
     }
   ) => unknown;
-  hasCustomTitleBar: boolean;
-  executeMenuRole: ExecuteMenuRoleType;
-
-  // Limited support features
-  isAudioNotificationsSupported: boolean;
-  isAutoDownloadUpdatesSupported: boolean;
-  isAutoLaunchSupported: boolean;
-  isHideMenuBarSupported: boolean;
-  isNotificationAttentionSupported: boolean;
-  isPhoneNumberSharingSupported: boolean;
-  isSyncSupported: boolean;
-  isSystemTraySupported: boolean;
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
@@ -122,6 +132,7 @@ export type PropsType = {
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
+  onHasStoriesEnabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
@@ -141,13 +152,11 @@ export type PropsType = {
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
 
-  availableCameras: Array<
-    Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
-  >;
-
   // Localization
   i18n: LocalizerType;
-} & Omit<MediaDeviceSettings, 'availableCameras'>;
+};
+
+export type PropsType = PropsDataType & PropsFunctionType;
 
 enum Page {
   // Accessible through left nav
@@ -218,6 +227,7 @@ export const Preferences = ({
   hasReadReceipts,
   hasRelayCalls,
   hasSpellCheck,
+  hasStoriesEnabled,
   hasTypingIndicators,
   i18n,
   initialSpellCheckSetting,
@@ -239,6 +249,7 @@ export const Preferences = ({
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onCountMutedConversationsChange,
+  onHasStoriesEnabledChanged,
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
   onLastSyncTimeChange,
@@ -265,12 +276,14 @@ export const Preferences = ({
   selectedMicrophone,
   selectedSpeaker,
   setGlobalDefaultConversationColor,
+  shouldShowStoriesSettings,
   themeSetting,
   universalExpireTimer = 0,
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
 }: PropsType): JSX.Element => {
+  const storiesId = useUniqueId();
   const themeSelectId = useUniqueId();
   const zoomSelectId = useUniqueId();
 
@@ -947,6 +960,39 @@ export const Preferences = ({
             }
           />
         </SettingsRow>
+        {shouldShowStoriesSettings && (
+          <SettingsRow title={i18n('Stories__title')}>
+            <Control
+              left={
+                <label htmlFor={storiesId}>
+                  <div>{i18n('Stories__settings-toggle--title')}</div>
+                  <div className="Preferences__description">
+                    {i18n('Stories__settings-toggle--description')}
+                  </div>
+                </label>
+              }
+              right={
+                <Select
+                  id={storiesId}
+                  onChange={value => {
+                    onHasStoriesEnabledChanged(value === 'true');
+                  }}
+                  options={[
+                    {
+                      text: i18n('on'),
+                      value: 'true',
+                    },
+                    {
+                      text: i18n('off'),
+                      value: 'false',
+                    },
+                  ]}
+                  value={String(hasStoriesEnabled)}
+                />
+              }
+            />
+          </SettingsRow>
+        )}
         <SettingsRow>
           <Control
             left={

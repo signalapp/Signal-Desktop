@@ -61,6 +61,7 @@ export class SettingsChannel extends EventEmitter {
     this.installCallback('isPrimary');
     this.installCallback('syncRequest');
     this.installCallback('isPhoneNumberSharingEnabled');
+    this.installCallback('shouldShowStoriesSettings');
 
     // Getters only. These are set by the primary device
     this.installSetting('blockedCount', { setter: false });
@@ -103,6 +104,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('lastSyncTime');
     this.installSetting('universalExpireTimer');
 
+    this.installSetting('hasStoriesEnabled');
     this.installSetting('zoomFactor');
 
     installPermissionsHandler({ session, userConfig });

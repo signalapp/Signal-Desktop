@@ -39,23 +39,26 @@ installSetting('typingIndicatorSetting', {
   setter: false,
 });
 
+installCallback('isPhoneNumberSharingEnabled');
+installCallback('isPrimary');
+installCallback('shouldShowStoriesSettings');
+installCallback('syncRequest');
+
 installSetting('alwaysRelayCalls');
 installSetting('audioNotification');
 installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
-installSetting('countMutedConversations');
 installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');
+installSetting('countMutedConversations');
 installSetting('deviceName');
+installSetting('hasStoriesEnabled');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');
-installCallback('isPhoneNumberSharingEnabled');
-installCallback('isPrimary');
-installCallback('syncRequest');
+installSetting('lastSyncTime');
 installSetting('notificationDrawAttention');
 installSetting('notificationSetting');
 installSetting('spellCheck');
-installSetting('lastSyncTime');
 installSetting('systemTraySetting');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');

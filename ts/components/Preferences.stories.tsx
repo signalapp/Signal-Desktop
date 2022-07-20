@@ -1,16 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
-import type { PropsType } from './Preferences';
+import type { PropsDataType, PropsType } from './Preferences';
 import { Preferences } from './Preferences';
 import { setupI18n } from '../util/setupI18n';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
+import { objectMap } from '../util/objectMap';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -42,7 +43,7 @@ const availableSpeakers = [
   },
 ];
 
-const createProps = (): PropsType => ({
+const getDefaultArgs = (): PropsDataType => ({
   availableCameras: [
     {
       deviceId:
@@ -73,6 +74,7 @@ const createProps = (): PropsType => ({
   hasCallNotifications: true,
   hasCallRingtoneNotification: false,
   hasCountMutedConversations: false,
+  hasCustomTitleBar: true,
   hasHideMenuBar: false,
   hasIncomingCallNotifications: true,
   hasLinkPreviews: true,
@@ -85,38 +87,9 @@ const createProps = (): PropsType => ({
   hasReadReceipts: true,
   hasRelayCalls: false,
   hasSpellCheck: true,
+  hasStoriesEnabled: true,
   hasTypingIndicators: true,
-  lastSyncTime: Date.now(),
-  notificationContent: 'name',
-  selectedCamera:
-    'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
-  selectedMicrophone: availableMicrophones[0],
-  selectedSpeaker: availableSpeakers[1],
-  themeSetting: 'system',
-  universalExpireTimer: 3600,
-  whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
-  whoCanSeeMe: PhoneNumberSharingMode.Everybody,
-  zoomFactor: 1,
-
-  addCustomColor: action('addCustomColor'),
-  closeSettings: action('closeSettings'),
-  doDeleteAllData: action('doDeleteAllData'),
-  doneRendering: action('doneRendering'),
-  editCustomColor: action('editCustomColor'),
-  getConversationsWithCustomColor: () => Promise.resolve([]),
   initialSpellCheckSetting: true,
-  makeSyncRequest: () => {
-    action('makeSyncRequest');
-    return Promise.resolve();
-  },
-  removeCustomColor: action('removeCustomColor'),
-  removeCustomColorOnConversations: action('removeCustomColorOnConversations'),
-  resetAllChatColors: action('resetAllChatColors'),
-  resetDefaultChatColor: action('resetDefaultChatColor'),
-  setGlobalDefaultConversationColor: action(
-    'setGlobalDefaultConversationColor'
-  ),
-
   isAudioNotificationsSupported: true,
   isAutoDownloadUpdatesSupported: true,
   isAutoLaunchSupported: true,
@@ -125,62 +98,95 @@ const createProps = (): PropsType => ({
   isPhoneNumberSharingSupported: false,
   isSyncSupported: true,
   isSystemTraySupported: true,
+  lastSyncTime: Date.now(),
+  notificationContent: 'name',
+  selectedCamera:
+    'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
+  selectedMicrophone: availableMicrophones[0],
+  selectedSpeaker: availableSpeakers[1],
+  shouldShowStoriesSettings: true,
+  themeSetting: 'system',
+  universalExpireTimer: 3600,
+  whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
+  whoCanSeeMe: PhoneNumberSharingMode.Everybody,
+  zoomFactor: 1,
+});
 
-  onAudioNotificationsChange: action('onAudioNotificationsChange'),
-  onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
-  onAutoLaunchChange: action('onAutoLaunchChange'),
-  onCallNotificationsChange: action('onCallNotificationsChange'),
-  onCallRingtoneNotificationChange: action('onCallRingtoneNotificationChange'),
-  onCountMutedConversationsChange: action('onCountMutedConversationsChange'),
-  onHideMenuBarChange: action('onHideMenuBarChange'),
-  onIncomingCallNotificationsChange: action(
-    'onIncomingCallNotificationsChange'
-  ),
-  onLastSyncTimeChange: action('onLastSyncTimeChange'),
-  onMediaCameraPermissionsChange: action('onMediaCameraPermissionsChange'),
-  onMediaPermissionsChange: action('onMediaPermissionsChange'),
-  onMinimizeToAndStartInSystemTrayChange: action(
-    'onMinimizeToAndStartInSystemTrayChange'
-  ),
-  onMinimizeToSystemTrayChange: action('onMinimizeToSystemTrayChange'),
-  onNotificationAttentionChange: action('onNotificationAttentionChange'),
-  onNotificationContentChange: action('onNotificationContentChange'),
-  onNotificationsChange: action('onNotificationsChange'),
-  onRelayCallsChange: action('onRelayCallsChange'),
-  onSelectedCameraChange: action('onSelectedCameraChange'),
-  onSelectedMicrophoneChange: action('onSelectedMicrophoneChange'),
-  onSelectedSpeakerChange: action('onSelectedSpeakerChange'),
-  onSpellCheckChange: action('onSpellCheckChange'),
-  onThemeChange: action('onThemeChange'),
-  onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
-  onZoomFactorChange: action('onZoomFactorChange'),
-
-  i18n,
-
-  executeMenuRole: action('executeMenuRole'),
-  hasCustomTitleBar: true,
+const defaultArgTypes: Record<string, { defaultValue: unknown }> = {};
+objectMap(getDefaultArgs(), (key, defaultValue) => {
+  defaultArgTypes[key] = { defaultValue };
 });
 
 export default {
   title: 'Components/Preferences',
+  component: Preferences,
+  argTypes: {
+    // ...defaultArgTypes,
+
+    i18n: {
+      defaultValue: i18n,
+    },
+
+    addCustomColor: { action: true },
+    closeSettings: { action: true },
+    doDeleteAllData: { action: true },
+    doneRendering: { action: true },
+    editCustomColor: { action: true },
+    executeMenuRole: { action: true },
+    getConversationsWithCustomColor: { action: true },
+    makeSyncRequest: { action: true },
+    onAudioNotificationsChange: { action: true },
+    onAutoDownloadUpdateChange: { action: true },
+    onAutoLaunchChange: { action: true },
+    onCallNotificationsChange: { action: true },
+    onCallRingtoneNotificationChange: { action: true },
+    onCountMutedConversationsChange: { action: true },
+    onHasStoriesEnabledChanged: { action: true },
+    onHideMenuBarChange: { action: true },
+    onIncomingCallNotificationsChange: { action: true },
+    onLastSyncTimeChange: { action: true },
+    onMediaCameraPermissionsChange: { action: true },
+    onMediaPermissionsChange: { action: true },
+    onMinimizeToAndStartInSystemTrayChange: { action: true },
+    onMinimizeToSystemTrayChange: { action: true },
+    onNotificationAttentionChange: { action: true },
+    onNotificationContentChange: { action: true },
+    onNotificationsChange: { action: true },
+    onRelayCallsChange: { action: true },
+    onSelectedCameraChange: { action: true },
+    onSelectedMicrophoneChange: { action: true },
+    onSelectedSpeakerChange: { action: true },
+    onSpellCheckChange: { action: true },
+    onThemeChange: { action: true },
+    onUniversalExpireTimerChange: { action: true },
+    onZoomFactorChange: { action: true },
+    removeCustomColor: { action: true },
+    removeCustomColorOnConversations: { action: true },
+    resetAllChatColors: { action: true },
+    resetDefaultChatColor: { action: true },
+    setGlobalDefaultConversationColor: { action: true },
+  },
+} as Meta;
+
+const Template: Story<PropsType> = args => <Preferences {...args} />;
+
+export const _Preferences = Template.bind({});
+_Preferences.args = getDefaultArgs();
+
+export const Blocked1 = Template.bind({});
+Blocked1.args = {
+  blockedCount: 1,
 };
 
-export const _Preferences = (): JSX.Element => (
-  <Preferences {...createProps()} />
-);
+export const BlockedMany = Template.bind({});
+BlockedMany.args = {
+  blockedCount: 55,
+};
 
-export const Blocked1 = (): JSX.Element => (
-  <Preferences {...createProps()} blockedCount={1} />
-);
-
-export const BlockedMany = (): JSX.Element => (
-  <Preferences {...createProps()} blockedCount={55} />
-);
-
-export const CustomUniversalExpireTimer = (): JSX.Element => (
-  <Preferences {...createProps()} universalExpireTimer={9000} />
-);
-
+export const CustomUniversalExpireTimer = Template.bind({});
+CustomUniversalExpireTimer.args = {
+  universalExpireTimer: 9000,
+};
 CustomUniversalExpireTimer.story = {
   name: 'Custom universalExpireTimer',
 };
