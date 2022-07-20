@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { v4 as uuid } from 'uuid';
+import casual from 'casual';
 
 import type { AttachmentType } from '../../types/Attachment';
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -11,6 +11,7 @@ import type {
   StoryViewType,
 } from '../../types/Stories';
 import * as durations from '../../util/durations';
+import { UUID } from '../../types/UUID';
 import { getDefaultConversation } from './getDefaultConversation';
 import { fakeAttachment, fakeThumbnail } from './fakeAttachment';
 import { MY_STORIES_ID } from '../../types/Stories';
@@ -23,16 +24,16 @@ function getAttachmentWithThumbnail(url: string): AttachmentType {
 }
 
 export function getFakeMyStory(id?: string, name?: string): MyStoryType {
-  const storyCount = Math.ceil(Math.random() * 6 + 1);
+  const storyCount = casual.integer(2, 6);
 
   return {
-    distributionId: id || uuid(),
+    distributionId: id || UUID.generate().toString(),
     distributionName:
-      name || id === MY_STORIES_ID ? 'My Stories' : 'Private Distribution List',
+      name || id === MY_STORIES_ID ? 'My Stories' : casual.catch_phrase,
     stories: Array.from(Array(storyCount), () => ({
       ...getFakeStoryView(),
       sendState: [],
-      views: Math.floor(Math.random() * 20),
+      views: casual.integer(1, 20),
     })),
   };
 }
@@ -47,9 +48,9 @@ export function getFakeStoryView(
     attachment: getAttachmentWithThumbnail(
       attachmentUrl || '/fixtures/tina-rolf-269345-unsplash.jpg'
     ),
-    hasReplies: Math.random() > 0.5,
-    isUnread: Math.random() > 0.5,
-    messageId: uuid(),
+    hasReplies: Boolean(casual.coin_flip),
+    isUnread: Boolean(casual.coin_flip),
+    messageId: UUID.generate().toString(),
     sender,
     timestamp: timestamp || Date.now() - 2 * durations.MINUTE,
   };

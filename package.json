@@ -264,6 +264,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "8.0.6",
     "babel-plugin-lodash": "3.3.4",
+    "casual": "1.6.2",
     "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
     "core-js": "2.6.9",
@@ -314,7 +315,7 @@
     "fabric/jsdom": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fast-glob/glob-parent": "5.1.2",
     "read-last-lines/mz/thenify-all/thenify": "3.3.1",
-    "sharp/color/color-string": "1.7.4"
+    "sharp/color/color-string": "1.9.0"
   },
   "engines": {
     "node": "16.13.2"
