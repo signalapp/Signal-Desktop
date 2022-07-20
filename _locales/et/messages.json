@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Vastuse saatmine …",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Reaktsiooni saatmine …",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Paus",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Reageeris sinu loole",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Reageeris loole",

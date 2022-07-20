@@ -934,7 +934,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "Berikan Reaksi terhadap Pesan",
+        "message": "Tanggapi Pesan",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -2014,7 +2014,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ bereaksi  $emoji$ terhadap pesan Anda",
+        "message": "$sender$ memberi tanggapan $emoji$ pada pesan Anda",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2028,7 +2028,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ bereaksi $emoji$ terhadap: $message$",
+        "message": "$sender$ memberi tanggapan $emoji$ pada: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -3574,7 +3574,7 @@
         "description": ""
     },
     "Reactions--error": {
-        "message": "Gagal mengiirim tanggapan. Silahkan coba lagi.",
+        "message": "Gagal mengirim tanggapan. Silahkan coba lagi.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Mengirim balasan…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Mengirim tanggapan…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Jeda",
         "description": "Aria label for pausing a story"
@@ -7218,11 +7226,11 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "Menanggapi cerita",
+        "message": "Tanggapi cerita",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Bereaksi terhadap cerita",
+        "message": "Menanggapi cerita",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7323,12 +7331,8 @@
             }
         }
     },
-    "Quote__story-reaction--yours": {
-        "message": "Bereaksi terhadap cerita Anda",
-        "description": "Label for when a person reacts to your story"
-    },
     "Quote__story-reaction--single": {
-        "message": "Bereaksi terhadap sebuah cerita",
+        "message": "Menanggapi cerita",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {

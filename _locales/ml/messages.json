@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "മറുപടി അയയ്ക്കുന്നു...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "പ്രതികരണം അയയ്ക്കുന്നു...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "താൽക്കാലികമായി നിർത്തുക",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "നിങ്ങളുടെ സ്റ്റോറിയോട് പ്രതികരിച്ചു",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "ഒരു സ്റ്റോറിയോട് പ്രതികരിച്ചു",

@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "જવાબ મોકલી રહ્યાં છીએ...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "પ્રતિક્રિયા મોકલી રહ્યાં છીએ...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "થોભાવો",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "તમારી સ્ટોરી પર પ્રતિક્રિયા આપી",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "સ્ટોરી પર પ્રતિક્રિયા આપી",

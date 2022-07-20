@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Tuma jibu .. ",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Tuma reaction ...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Sitisha",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Ame-react kwa stori yako",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Ame-react kwa stori",

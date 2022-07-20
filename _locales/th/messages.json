@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "กำลังส่งการตอบกลับ…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "กำลังส่งการแสดงความรู้สึก…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "หยุดชั่วคราว",
         "description": "Aria label for pausing a story"
@@ -7323,10 +7331,6 @@
             }
         }
     },
-    "Quote__story-reaction--yours": {
-        "message": "ตอบสนองกับสตอรี่ของคุณ",
-        "description": "Label for when a person reacts to your story"
-    },
     "Quote__story-reaction--single": {
         "message": "ตอบสนองกับสตอรี่",
         "description": "Used whenever we can't find a user's first name"
@@ -7336,7 +7340,7 @@
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
-        "message": "เมนูบริบท",
+        "message": "เมนูลัด",
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {

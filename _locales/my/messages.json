@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "ပြန်စာ ပို့နေဆဲ...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "တုံ့ပြန်ချက် ပို့နေဆဲ...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "ခဏရပ်သည်",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "သင့်စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "စတိုရီတစ်ခုကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်",

@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Sending reply...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Sending reaction...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Pausa",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Reagerade på din berättelse",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Reagerade på en berättelse",

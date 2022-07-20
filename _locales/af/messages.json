@@ -1574,7 +1574,7 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Stel in kennis, moenie bel nie",
+        "message": "Stel in kennis, moenie lui nie",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
@@ -2656,7 +2656,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Gesprek met $title$, $unreadCount$ nuwe boodskap, laaste boodskap: $lastMessage$.",
+        "message": "Gesprek met $title$, $unreadCount$ nuwe boodskappe, laaste boodskap: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -3586,7 +3586,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Laat $name$ aan jou boodskappe stuur, en deel jou naam en foto met hulle? Hulle sal nie weet dat jy hulle boodskappe gesien het nie tot jy aanvaar.",
+        "message": "Laat $name$ toe om vir jou boodskappe te stuur, en deel jou naam en foto met hulle? Tot jy aanvaar, sal hulle nie weet dat jy hulle boodskappe gesien het nie.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3596,7 +3596,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Laat $name$ aan jou boodskappe stuur, en deel jou naam en foto met hulle? Jy sal geen boodskappe ontvang nie tot jy hulle ontsper.",
+        "message": "Laat $name$ toe om vir jou boodskappe te stuur, en deel jou naam en foto met hulle? Tot jy hulle ontsper, sal jy geen boodskappe ontvang nie.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -4226,7 +4226,7 @@
         "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Jammer, daardie sgnl:// link het nie sin gemaak nie!",
+        "message": "Jammer, daardie sgnl:// skakel het nie sin gemaak nie!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
@@ -4738,7 +4738,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "Jy het ’n versoek goedgekeur van $joinerName$ om by die groep aan te sluit.",
+        "message": "Jy het ’n versoek van $joinerName$ om by die groep aan te sluit, goedgekeur.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4748,7 +4748,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ het ’n versoek goedgekeur van $joinerName$ om by die groep aan te sluit.",
+        "message": "$adminName$ het ’n versoek van $joinerName$ om by die groep aan te sluit, goedgekeur.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4796,7 +4796,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "Jy het die $memberName$ verwyder.",
+        "message": "Jy het $memberName$ verwyder.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4882,7 +4882,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ het admin-voorregte van $memberName$ herroep.",
+        "message": "$adminName$ het $memberName$ se admin-voorregte herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5120,7 +5120,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ het ’n uitnodiging na die groep vir 1 persoon genooi deur $memberName$ herroep.",
+        "message": "$adminName$ het ’n uitnodiging na die groep vir 1 persoon gestuur deur $memberName$ herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5134,7 +5134,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Jy het ’n uitnodiging na die groep vir 1 persoon genooi deur $memberName$ herroep.",
+        "message": "Jy het ’n uitnodiging na die groep vir 1 persoon gestuur deur $memberName$ herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5144,7 +5144,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "'n Admin het ’n uitnodiging na die groep vir 1 persoon genooi deur $memberName$ herroep.",
+        "message": "'n Admin het ’n uitnodiging na die groep vir 1 persoon gestuur deur $memberName$ herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -6968,7 +6968,7 @@
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Kon nie lou toepassingsêers deïnstalleer nie. Laat loop die installeerder weer, asb.",
+        "message": "Kon nie ou toepassingsêers deïnstalleer nie. Laat loop die installeerder weer, asb.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Besig om antwoord te stuur…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Besig om reaksie te stuur…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Pouseer",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Het op jou storie gereageer",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Het op die storie gereageer",
