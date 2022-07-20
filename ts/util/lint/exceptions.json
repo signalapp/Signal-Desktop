@@ -1753,18 +1753,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/casual/node_modules/moment/min/moment-with-locales.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-07-07T22:51:10.163Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/casual/node_modules/moment/min/moment.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-07-07T22:51:10.163Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/config/lib/config.js",
     "line": "      configObject = VisionmediaYaml.eval(util.stripYamlComments(content));",
