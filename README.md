@@ -20,12 +20,6 @@ Please search for any [existing issues](https://github.com/signalapp/Signal-Desk
 
 Please use our community forum: https://community.signalusers.org/
 
-## Contributing Translations
-
-Interested in helping to translate Signal? Contribute here:
-
-https://www.transifex.com/projects/p/signal-desktop
-
 ## Contributing Code
 
 Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md)

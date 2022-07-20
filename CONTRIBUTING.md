@@ -1,4 +1,4 @@
-<!-- Copyright 2015-2020 Signal Messenger, LLC -->
+<!-- Copyright 2015-2022 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 # Contributor Guidelines
@@ -191,13 +191,11 @@ So you wanna make a pull request? Please observe the following guidelines.
 
 - First, make sure that your `yarn ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
-- Please do not submit pull requests for translation fixes. Anyone can update
-  the translations in [Transifex](https://www.transifex.com/projects/p/signal-desktop).
+- Please do not submit pull requests for translation fixes.
 - Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are generated
-  automatically based on that file and then periodically uploaded to Transifex for
-  translation.
+  automatically based on that file and then periodically translated.
 - [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
   changes on the latest `main` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
