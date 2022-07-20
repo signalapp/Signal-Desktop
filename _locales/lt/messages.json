@@ -2318,7 +2318,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Saugumo numerio pasikeitimai",
+        "message": "Saugumo numerių pokyčiai",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Siunčiamas atsakymas…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Siunčiama reakcija…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Pristabdyti",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Sureagavo į jūsų istoriją",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Sureagavo į istoriją",

@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Đang gửi câu trả lời…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Đang gửi bày tỏ cảm xúc…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Tạm ngưng",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Đã bày tỏ cảm xúc với story của bạn",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Đã bày tỏ cảm xúc với một story",

@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "ការទទួលស្គាល់កម្មវិធី",
+        "message": "សេចក្តីថ្លែងអំណរគុណ​ចំពោះ​សូហ្វវែរ",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -472,7 +472,7 @@
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "បាន​ដាក់​បញ្ជូនកំណត់​ហេតុលុបបំបាត់បញ្ហា",
+        "message": "បាន​ដាក់​បញ្ជូនកំណត់​ហេតុបំបាត់បញ្ហា",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
@@ -6264,7 +6264,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "ពិនិត្យមើលសំណើដោយប្រុងប្រយ័ត្ន។ Signal បានរកឃើញបញ្ជីទំនាក់ទំនងផ្សេងទៀតដែលមានឈ្មោះដូចគ្នា។ $link$",
+        "message": "ពិនិត្យមើលសំណើដោយប្រុងប្រយ័ត្ន។ Signal បានរកឃើញឈ្មោះទំនាក់ទំនងមួយទៀតដែលមានឈ្មោះដូចគ្នា។ $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -6316,7 +6316,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "សមាជិកក្រុម $count$ នាក់មានឈ្មោះស្រដៀងគ្នា។ ពិនិត្យមើលសមាជិកខាងក្រោម ឬជ្រើសរើសដើម្បីធ្វើសកម្មភាព។",
+        "message": "សមាជិកក្រុម $count$ នាក់មានឈ្មោះស្រដៀងគ្នា។ ពិនិត្យមើលសមាជិកខាងក្រោម ឬសម្រេចចាត់វិធានការ។",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -6324,7 +6324,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "ថ្មីៗនេះបានប្តូរឈ្មោះប្រូហ្វាល់របស់ពួកគេពី $oldName$ ទៅជា $newName$",
+        "message": "ថ្មីៗនេះបានប្តូរឈ្មោះប្រូហ្វាល់របស់គេពី $oldName$ ទៅជា $newName$",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -6352,7 +6352,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "ដក \"$name$\" ចេញពីក្រុមឬ? ពួកគេនឹងមិនអាចចូលរួមឡើងវិញតាមរយៈតំណក្រុមទេ។",
+        "message": "ដក \"$name$\" ចេញពីក្រុមឬ? គេនឹងមិនអាចចូលរួមឡើងវិញតាមរយៈតំណក្រុមទេ។",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6390,7 +6390,7 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "ការផ្ទៀងផ្ទាត់មិនបានជោគជ័យទេ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+        "message": "មិនអាចផ្ទៀងផ្ទាត់បានទេ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
@@ -6402,7 +6402,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "ពណ៌ដែលបានកំណត់ផ្ទាល់ខ្លួននេះនៅក្នុងការជជែកចំនួន $num$។ តើអ្នកចង់លុបវាចោលសម្រាប់ការជជែកទាំងអស់ឬទេ?",
+        "message": "ពណ៌ដែលបានកំណត់ផ្ទាល់ខ្លួននេះត្រូវបានប្រើនៅក្នុងការជជែកចំនួន $num$។ តើអ្នកពិតជាចង់លុបវាចោលសម្រាប់ការជជែកទាំងអស់មែនឬ?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -6548,7 +6548,7 @@
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "ពេលវេលាសារដែលបាត់ដោយស្វ័យប្រវត្តិនឹងត្រូវបានកំណត់ទៅជា $timeValue$ នៅពេលអ្នកផ្ញើសារទៅពួកគេ។",
+        "message": "ពេលវេលាសម្រាប់ឲ្យសារបាត់ដោយស្វ័យប្រវត្តិនឹងត្រូវបានកំណត់ទៅ $timeValue$ នៅពេលអ្នកផ្ញើសារទៅពួកគេ។",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -6558,7 +6558,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "មិនអាចបង្ហាញសារនេះទេ។ សូមចុចដើម្បីដាក់ស្នើកំណត់ហេតុបំបាត់កំហុស។",
+        "message": "មិនអាចបង្ហាញសារនេះបានទេ។ សូមចុចដើម្បីដាក់បញ្ជូនកំណត់ហេតុបំបាត់បញ្ហា។",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6566,7 +6566,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "ការពណ៌នាក្រុម នឹងត្រូវបង្ហាញទៅសមាជិកនៃក្រុមនេះ និងមនុស្សដែលត្រូវបានបបួល។",
+        "message": "សមាជិកក្រុមនេះ និងអ្នកទាំងឡាយដែលត្រូវបានគេបបួលនឹងមើលឃើញការពណ៌នាអំពីក្រុម។",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -6638,7 +6638,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "ឈ្មោះអ្នកប្រើប្រាស់អាចមានតែ a-z, 0-9 និង _",
+        "message": "ឈ្មោះអ្នកប្រើអាចមានត្រឹមតែ a-z, 0-9 និង _ ប៉ុណ្ណោះ",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6646,7 +6646,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "ឈ្មោះអ្នកប្រើត្រូវមានតួអក្សរតិចបំផុត $min$។",
+        "message": "ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងតិច $min$ តួអក្សរ។",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6656,7 +6656,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "ឈ្មោះ​អ្នក​ប្រើ​ត្រូវ​តែ​មាន​តួអក្សរ​ច្រើន​បំផុត $max$។",
+        "message": "ឈ្មោះ​អ្នក​ប្រើ​ត្រូវ​តែ​មានច្រើន​បំផុត $max$ ​តួអក្សរ។",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6670,11 +6670,11 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចរក្សាទុកបានទេ។ សូមពិនិត្យការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+        "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចរក្សាទុកបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចដកចេញបានទេ។ សូមពិនិត្យការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+        "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចដកចេញបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6682,7 +6682,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "ការធ្វើបែបនេះនឹងលុប​ឈ្មោះ​អ្នក​ប្រើ​របស់​អ្នក​ចេញ ដោយ​អនុញ្ញាត​ឲ្យអ្នក​ប្រើ​ផ្សេង​ទៀតយក​វា។ តើ​អ្នក​ប្រាកដ​ឬ​ទេ?",
+        "message": "ការធ្វើបែបនេះនឹងលុប​ឈ្មោះ​អ្នក​ប្រើ​របស់​អ្នក​ចេញ ហើយធ្វើឲ្យអ្នក​ប្រើ​ផ្សេង​ទៀតយក​វាទៅប្រើបាន។ តើអ្នក​ច្បាស់អត់?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6706,7 +6706,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក ហើយនៅពេលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ $learnMore$",
+        "message": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6768,7 +6768,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "មានតែ $admins$ ដែលអាចផ្ញើសារបាន",
+        "message": "មានតែ $admins$ ប៉ុណ្ណោះដែលអាចផ្ញើសារបាន",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6790,7 +6790,7 @@
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "រូបតំណាងជាក្រុម",
+        "message": "រូបតំណាងក្រុម",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ រួចទៅការជជែក",
+        "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ការជជែក",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6860,7 +6860,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ បញ្ជីទំនាក់ទំនង",
+        "message": "$num$ ឈ្មោះទំនាក់ទំនង",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6870,7 +6870,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ បញ្ជីទំនាក់ទំនង",
+        "message": "$num$ ឈ្មោះទំនាក់ទំនង",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6884,7 +6884,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់ទាំងនេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ រួចទៅឯកជនភាព",
+        "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់ទាំងនេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6920,11 +6920,11 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "បច្ចុប្បន្នភាព",
+        "message": "កំណែថ្មី",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "ទាញយកបច្ចុប្បន្នភាពដោយស្វ័យប្រវត្តិ",
+        "message": "ទាញយកកំណែថ្មីដោយស្វ័យប្រវត្តិ",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
@@ -6936,7 +6936,7 @@
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "ធ្វើបច្ចុប្បន្នភាពទៅកំណែ $version$ ដែលមាន",
+        "message": "ដំឡើងកំណែទៅ $version$ ដែលមាន",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6946,15 +6946,15 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal មិនអាចបិទបានទេ។",
+        "message": "មិនអាចបិទ Signal បានទេ។",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "សូមបិទវាមួយៗ ហើយចុចព្យាយាមម្តងទៀត ដើម្បីបន្ត។",
+        "message": "សូមបិទវាដោយផ្ទាល់ រួចចុចព្យាយាមម្តងទៀត ដើម្បីបន្ត។",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ កំពុងដំណើរការ។\nចុចបាទ/ចាសដើម្បីបិទវា។\nប្រសិនបើវាមិនបិទទេ សូមព្យាយាមបិទវាមួយៗ។",
+        "message": "$appName$ កំពុងដំណើរការ។\nចុច យល់ព្រម ដើម្បីបិទវា។\nបើវាមិនបិទទេ សូមសាកល្បងបិទវាដោយផ្ទាល់។",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6964,11 +6964,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "មិនអាចបង្រួមឯកសារ។ សូមព្យាយាមដំណើរការកម្មវិធីដំឡើងម្តងទៀត។",
+        "message": "មិនអាចពន្លាឯកសារបានទេ។ សូមសាកល្បងដំណើរការកម្មវិធីដំឡើងម្តងទៀត។",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "មិនអាចលុបឯកសារកម្មវិធីចាស់។ សូមព្យាយាមដំណើរការកម្មវិធីដំឡើងម្តងទៀត។",
+        "message": "មិនអាចលុបឯកសារកម្មវិធីចាស់ៗបានទេ។ សូមសាកល្បងដំណើរការកម្មវិធីដំឡើងម្តងទៀត។",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -6976,7 +6976,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal បានចាប់ផ្តើមឡើងវិញបន្ទាប់ពីការគាំង។ អ្នកអាចដាក់ស្នើរបាយការណ៍គាំងដើម្បីជួយ Signal ស៊ើបអង្កេតបញ្ហានេះ។",
+        "message": "បន្ទាប់ពីគាំងមក Signal បានចាប់ផ្តើមឡើងវិញ។ អ្នកអាចដាក់បញ្ជូន​របាយការណ៍អំពីការគាំង​ដើម្បីជួយដល់ Signal ក្នុងការស៊ើបអង្កេតអំពីបញ្ហានេះ។",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6996,7 +6996,7 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "មានបញ្ហាក្នុងការរក្សាទុកការកំណត់របស់អ្នក។ សូមព្យាយាមម្តងទៀត។",
+        "message": "មានបញ្ហាមួយកើតឡើងនៅពេលរក្សាទុកការកំណត់របស់អ្នក។ សូមព្យាយាមម្តងទៀត។",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -7036,7 +7036,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "គូសបន្ទាត់ពីក្រោម",
+        "message": "បន្ទាត់ពីក្រោម",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
@@ -7044,7 +7044,7 @@
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "ប៊ិចពណ៌គូសចំណាំ",
+        "message": "ប៊ិចពណ៌គូសរំលេច",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
@@ -7100,7 +7100,7 @@
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "ចំនួនមើល $num$",
+        "message": "ចំនួនមើល $num$ ដង",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7110,7 +7110,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "ចំនួនមើល $num$",
+        "message": "ចំនួនមើល $num$ ដង",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7160,7 +7160,7 @@
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "មិនមានរឿងថ្មីៗដើម្បីបង្ហាញនៅពេលនេះទេ",
+        "message": "មិនមានរឿងរ៉ាវថ្មីៗសម្រាប់បង្ហាញឥឡូវនេះទេ",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
@@ -7180,6 +7180,14 @@
                 "example": "Family"
             }
         }
+    },
+    "Stories__toast--sending-reply": {
+        "message": "កំពុងផ្ញើការឆ្លើយតប…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "កំពុង​ផ្ញើ​ប្រតិកម្ម…",
+        "description": "Toast message"
     },
     "StoryViewer__pause": {
         "message": "ផ្អាក់",
@@ -7323,10 +7331,6 @@
             }
         }
     },
-    "Quote__story-reaction--yours": {
-        "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវរបស់អ្នក",
-        "description": "Label for when a person reacts to your story"
-    },
     "Quote__story-reaction--single": {
         "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវមួយ",
         "description": "Used whenever we can't find a user's first name"
@@ -7340,11 +7344,11 @@
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
-        "message": "អ្វីថ្មីៗ",
+        "message": "អ្វីដែលថ្មី",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​កែ​កំហុស​តូចៗ​មួយ​ចំនួន ដើម្បី​រក្សា​ Signal ឲ្យ​ដំណើរការ​ដោយ​រលូន។",
+        "message": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.47--1": {

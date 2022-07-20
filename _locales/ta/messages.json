@@ -1454,7 +1454,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "குறிப்பு: உங்கள் சாட் வரலாறு இந்த சாதனத்துடன் ஒத்திசைக்கப்படாது",
+        "message": "குறிப்பு: உங்கள் சாட் வரலாறு இந்த டிவைஸுடன் ஒத்திசைக்கப்படாது",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "பதில் அனுப்பப்படுகிறது…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "எதிர்வினை அனுப்பப்படுகிறது…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Pause",
         "description": "Aria label for pausing a story"
@@ -7323,10 +7331,6 @@
             }
         }
     },
-    "Quote__story-reaction--yours": {
-        "message": "உங்கள் ஸ்டோரிக்கு பதிலளித்துள்ளார்",
-        "description": "Label for when a person reacts to your story"
-    },
     "Quote__story-reaction--single": {
         "message": "ஒரு ஸ்டோரிக்கு பதிலளித்துள்ளார்",
         "description": "Used whenever we can't find a user's first name"
@@ -7336,7 +7340,7 @@
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
-        "message": "Context menu",
+        "message": "கான்டெக்ச்ட் பட்டியல்",
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {

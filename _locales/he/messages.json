@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "שולח תשובה...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "שולח תגובה...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "השהה",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "הגיב/ה אל הסיפור שלך",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "הגיב/ה אל סיפור",

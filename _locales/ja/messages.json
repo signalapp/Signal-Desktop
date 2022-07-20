@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "返信を送信しています…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "リアクションを送信しています...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "一時停止",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "あなたのストーリーにリアクションされました",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "ストーリーにリアクションがありました",

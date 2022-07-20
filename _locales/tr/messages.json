@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Yanıt gönderiliyor...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Tepki gönderiliyor...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Durdur",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "Hikayene tepki verildi",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Bir hikayeye tepki verildi",

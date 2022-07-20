@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "正在傳送回覆…",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "正在傳送反應…",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "暫停",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "對你的限時動態表達了心情",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "對一則限時動態回應",

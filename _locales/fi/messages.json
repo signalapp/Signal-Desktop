@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "Lähetetään vastausta...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "Lähetetään reaktiota...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "Pysäytä",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "lähetti reaktion tarinaasi",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "Lähetti reaktion tarinaan",

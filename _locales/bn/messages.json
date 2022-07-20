@@ -7181,6 +7181,14 @@
             }
         }
     },
+    "Stories__toast--sending-reply": {
+        "message": "রিপ্লাই পাঠানো হচ্ছে...",
+        "description": "Toast message"
+    },
+    "Stories__toast--sending-reaction": {
+        "message": "রিঅ্যাকশন পাঠানো হচ্ছে...",
+        "description": "Toast message"
+    },
     "StoryViewer__pause": {
         "message": "পজ করুন",
         "description": "Aria label for pausing a story"
@@ -7322,10 +7330,6 @@
                 "example": "Charlie"
             }
         }
-    },
-    "Quote__story-reaction--yours": {
-        "message": "আপনার স্টোরি-তে রিঅ্যাক্ট করা হয়েছে",
-        "description": "Label for when a person reacts to your story"
     },
     "Quote__story-reaction--single": {
         "message": "একটি স্টোরি-তে রিঅ্যাক্ট করা হয়েছে",
