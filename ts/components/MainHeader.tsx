@@ -26,6 +26,7 @@ export type PropsType = {
   profileName?: string;
   theme: ThemeType;
   title: string;
+  unreadStoriesCount: number;
 
   showArchivedConversations: () => void;
   startComposing: () => void;
@@ -132,6 +133,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       title,
       toggleProfileEditor,
       toggleStoriesView,
+      unreadStoriesCount,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
 
@@ -222,7 +224,13 @@ export class MainHeader extends React.Component<PropsType, StateType> {
               onClick={toggleStoriesView}
               title={i18n('stories')}
               type="button"
-            />
+            >
+              {unreadStoriesCount ? (
+                <span className="module-main-header__stories-badge">
+                  {unreadStoriesCount}
+                </span>
+              ) : undefined}
+            </button>
           )}
           <button
             aria-label={i18n('newConversation')}

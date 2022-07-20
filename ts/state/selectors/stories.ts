@@ -340,3 +340,11 @@ export const getStories = createSelector(
     };
   }
 );
+
+export const getUnreadStoriesCount = createSelector(
+  getStoriesState,
+  ({ stories }): number => {
+    return stories.filter(story => story.readStatus === ReadStatus.Unread)
+      .length;
+  }
+);

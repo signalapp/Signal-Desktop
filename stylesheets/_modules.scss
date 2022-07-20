@@ -2614,6 +2614,24 @@ button.ConversationDetails__action-button {
     }
   }
 
+  &__stories-badge {
+    @include rounded-corners;
+    align-items: center;
+    background-color: $color-accent-red;
+    color: $color-white;
+    display: flex;
+    height: 16px;
+    justify-content: center;
+    min-width: 16px;
+    overflow: hidden;
+    padding: 0 2px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    user-select: none;
+    z-index: $z-index-base;
+  }
+
   &__stories-icon {
     -webkit-app-region: no-drag;
     align-items: center;
@@ -2623,9 +2641,10 @@ button.ConversationDetails__action-button {
     display: inline-flex;
     height: 32px;
     justify-content: center;
-    padding: 2px;
-    width: 32px;
     margin-right: 20px;
+    padding: 2px;
+    position: relative;
+    width: 32px;
 
     .module-left-pane--width-narrow & {
       display: none;

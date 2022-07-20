@@ -1,77 +1,93 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-import { text } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
+import type { Meta, Story } from '@storybook/react';
+import React from 'react';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './MainHeader';
+import enMessages from '../../_locales/en/messages.json';
 import { MainHeader } from './MainHeader';
 import { ThemeType } from '../types/Util';
+import { setupI18n } from '../util/setupI18n';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/MainHeader',
+  component: MainHeader,
+  argTypes: {
+    areStoriesEnabled: {
+      defaultValue: false,
+    },
+    avatarPath: {
+      defaultValue: undefined,
+    },
+    hasPendingUpdate: {
+      defaultValue: false,
+    },
+    i18n: {
+      defaultValue: i18n,
+    },
+    name: {
+      defaultValue: undefined,
+    },
+    phoneNumber: {
+      defaultValue: undefined,
+    },
+    showArchivedConversations: { action: true },
+    startComposing: { action: true },
+    startUpdate: { action: true },
+    theme: {
+      defaultValue: ThemeType.light,
+    },
+    title: {
+      defaultValue: '',
+    },
+    toggleProfileEditor: { action: true },
+    toggleStoriesView: { action: true },
+    unreadStoriesCount: {
+      defaultValue: 0,
+    },
+  },
+} as Meta;
+
+const Template: Story<PropsType> = args => <MainHeader {...args} />;
+
+export const Basic = Template.bind({});
+Basic.args = {};
+
+export const Name = Template.bind({});
+{
+  const { name, title } = getDefaultConversation();
+  Name.args = {
+    name,
+    title,
+  };
+}
+
+export const PhoneNumber = Template.bind({});
+{
+  const { name, e164: phoneNumber } = getDefaultConversation();
+  PhoneNumber.args = {
+    name,
+    phoneNumber,
+  };
+}
+
+export const UpdateAvailable = Template.bind({});
+UpdateAvailable.args = {
+  hasPendingUpdate: true,
 };
 
-const requiredText = (name: string, value: string | undefined) =>
-  text(name, value || '');
-const optionalText = (name: string, value: string | undefined) =>
-  text(name, value || '') || undefined;
-
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  areStoriesEnabled: false,
-  theme: ThemeType.light,
-
-  phoneNumber: optionalText('phoneNumber', overrideProps.phoneNumber),
-  title: requiredText('title', overrideProps.title),
-  name: optionalText('name', overrideProps.name),
-  avatarPath: optionalText('avatarPath', overrideProps.avatarPath),
-  hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
-
-  i18n,
-
-  startUpdate: action('startUpdate'),
-
-  showArchivedConversations: action('showArchivedConversations'),
-  startComposing: action('startComposing'),
-  toggleProfileEditor: action('toggleProfileEditor'),
-  toggleStoriesView: action('toggleStoriesView'),
-});
-
-export const Basic = (): JSX.Element => {
-  const props = createProps({});
-
-  return <MainHeader {...props} />;
+export const Stories = Template.bind({});
+Stories.args = {
+  areStoriesEnabled: true,
+  unreadStoriesCount: 6,
 };
 
-export const Name = (): JSX.Element => {
-  const props = createProps({
-    name: 'John Smith',
-    title: 'John Smith',
-  });
-
-  return <MainHeader {...props} />;
+export const StoriesOverflow = Template.bind({});
+StoriesOverflow.args = {
+  areStoriesEnabled: true,
+  unreadStoriesCount: 69,
 };
-
-export const PhoneNumber = (): JSX.Element => {
-  const props = createProps({
-    name: 'John Smith',
-    phoneNumber: '+15553004000',
-  });
-
-  return <MainHeader {...props} />;
-};
-
-export const UpdateAvailable = (): JSX.Element => {
-  const props = createProps({ hasPendingUpdate: true });
-
-  return <MainHeader {...props} />;
-};
-
-export const Stories = (): JSX.Element => (
-  <MainHeader {...createProps({})} areStoriesEnabled />
-);
