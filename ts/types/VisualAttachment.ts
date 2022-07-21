@@ -127,7 +127,7 @@ export function makeVideoScreenshot({
       strictAssert(context, 'Failed to get canvas context');
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      video.addEventListener('loadeddata', seek);
+      video.removeEventListener('loadeddata', seek);
       video.removeEventListener('seeked', capture);
 
       try {

@@ -10,7 +10,11 @@ import * as log from '../../logging/log';
 import { ForwardMessageModal } from '../../components/ForwardMessageModal';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
-import { getAllComposableConversations } from '../selectors/conversations';
+import type { GetConversationByIdType } from '../selectors/conversations';
+import {
+  getAllComposableConversations,
+  getConversationSelector,
+} from '../selectors/conversations';
 import { getEmojiSkinTone } from '../selectors/items';
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
 import { getLinkPreview } from '../selectors/linkPreviews';
@@ -27,6 +31,29 @@ import { useActions as useEmojiActions } from '../ducks/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
+import { processBodyRanges } from '../selectors/message';
+import { getTextWithMentions } from '../../util/getTextWithMentions';
+
+function renderMentions(
+  message: ForwardMessagePropsType,
+  conversationSelector: GetConversationByIdType
+): string | undefined {
+  const { text } = message;
+
+  if (!text) {
+    return text;
+  }
+
+  const bodyRanges = processBodyRanges(message, {
+    conversationSelector,
+  });
+
+  if (bodyRanges && bodyRanges.length) {
+    return getTextWithMentions(bodyRanges, text);
+  }
+
+  return text;
+}
 
 export function SmartForwardMessageModal(): JSX.Element | null {
   const forwardMessageProps = useSelector<
@@ -35,6 +62,7 @@ export function SmartForwardMessageModal(): JSX.Element | null {
   >(state => state.globalModals.forwardMessageProps);
   const candidateConversations = useSelector(getAllComposableConversations);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const getConversation = useSelector(getConversationSelector);
   const i18n = useSelector(getIntl);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const recentEmojis = useSelector(selectRecentEmojis);
@@ -57,6 +85,8 @@ export function SmartForwardMessageModal(): JSX.Element | null {
     resetLinkPreview();
     toggleForwardMessageModal();
   }
+
+  const cleanedBody = renderMentions(forwardMessageProps, getConversation);
 
   return (
     <ForwardMessageModal
@@ -96,7 +126,7 @@ export function SmartForwardMessageModal(): JSX.Element | null {
       linkPreview={linkPreviewForSource(
         LinkPreviewSourceType.ForwardMessageModal
       )}
-      messageBody={forwardMessageProps.text}
+      messageBody={cleanedBody}
       onClose={closeModal}
       onEditorStateChange={(
         messageText: string,
