@@ -4062,6 +4062,8 @@ type StoryDistributionForDatabase = Readonly<
     deletedAtTimestamp: number | null;
     isBlockList: 0 | 1;
     senderKeyInfoJson: string | null;
+    storageID: string | null;
+    storageVersion: number | null;
     storageNeedsSync: 0 | 1;
   } & Omit<
     StoryDistributionType,
@@ -4069,6 +4071,8 @@ type StoryDistributionForDatabase = Readonly<
     | 'deletedAtTimestamp'
     | 'isBlockList'
     | 'senderKeyInfo'
+    | 'storageID'
+    | 'storageVersion'
     | 'storageNeedsSync'
   >
 >;
@@ -4084,6 +4088,8 @@ function hydrateStoryDistribution(
     senderKeyInfo: fromDatabase.senderKeyInfoJson
       ? JSON.parse(fromDatabase.senderKeyInfoJson)
       : undefined,
+    storageID: fromDatabase.storageID || undefined,
+    storageVersion: fromDatabase.storageVersion || undefined,
     storageNeedsSync: Boolean(fromDatabase.storageNeedsSync),
     storageUnknownFields: fromDatabase.storageUnknownFields || undefined,
   };
@@ -4099,6 +4105,8 @@ function freezeStoryDistribution(
     senderKeyInfoJson: story.senderKeyInfo
       ? JSON.stringify(story.senderKeyInfo)
       : null,
+    storageID: story.storageID || null,
+    storageVersion: story.storageVersion || null,
     storageNeedsSync: story.storageNeedsSync ? 1 : 0,
     storageUnknownFields: story.storageUnknownFields || null,
   };

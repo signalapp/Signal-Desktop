@@ -7,6 +7,10 @@
     margin: 0;
     padding: 6px 0;
     width: auto;
+
+    &--single-item {
+      padding: 0;
+    }
   }
 
   &__title {
@@ -121,9 +125,15 @@
     &--focused,
     &:focus,
     &:active {
-      border-radius: 6px;
-      box-shadow: 0 0 1px 1px $color-ultramarine;
-      outline: none;
+      @include keyboard-mode {
+        border-radius: 6px;
+        box-shadow: 0 0 1px 1px $color-ultramarine;
+        outline: none;
+      }
     }
+  }
+
+  &__popper--single-item &__option {
+    padding: 12px 6px;
   }
 }

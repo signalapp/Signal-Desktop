@@ -4,7 +4,9 @@
 import type { AttachmentType } from './Attachment';
 import type { ContactNameColorType } from './Colors';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from './Util';
 import type { SendStatus } from '../messages/MessageSendState';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 
 export type ReplyType = Pick<
   ConversationType,
@@ -109,4 +111,19 @@ export enum StoryViewModeType {
   Unread = 'Unread',
   All = 'All',
   Single = 'Single',
+}
+
+export type StoryDistributionListWithMembersDataType = Omit<
+  StoryDistributionListDataType,
+  'memberUuids'
+> & {
+  members: Array<ConversationType>;
+};
+
+export function getStoryDistributionListName(
+  i18n: LocalizerType,
+  id: string,
+  name: string
+): string {
+  return id === MY_STORIES_ID ? i18n('Stories__mine') : name;
 }

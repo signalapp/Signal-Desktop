@@ -10,6 +10,7 @@ import { SmartContactModal } from './ContactModal';
 import { SmartForwardMessageModal } from './ForwardMessageModal';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
+import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
 
 import { getIntl } from '../selectors/user';
 
@@ -25,6 +26,10 @@ function renderForwardMessageModal(): JSX.Element {
   return <SmartForwardMessageModal />;
 }
 
+function renderStoriesSettings(): JSX.Element {
+  return <SmartStoriesSettingsModal />;
+}
+
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
 
@@ -34,6 +39,7 @@ const mapStateToProps = (state: StateType) => {
     renderContactModal,
     renderForwardMessageModal,
     renderProfileEditor,
+    renderStoriesSettings,
     renderSafetyNumber: () => (
       <SmartSafetyNumberModal
         contactID={String(state.globalModals.safetyNumberModalContactId)}

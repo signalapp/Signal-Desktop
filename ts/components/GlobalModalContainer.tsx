@@ -12,6 +12,7 @@ import { missingCaseError } from '../util/missingCaseError';
 
 import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
 type PropsType = {
@@ -28,6 +29,12 @@ type PropsType = {
   // SafetyNumberModal
   safetyNumberModalContactId?: string;
   renderSafetyNumber: () => JSX.Element;
+  // SignalConnectionsModal
+  isSignalConnectionsVisible: boolean;
+  toggleSignalConnectionsModal: () => unknown;
+  // StoriesSettings
+  isStoriesSettingsVisible: boolean;
+  renderStoriesSettings: () => JSX.Element;
   // UserNotFoundModal
   hideUserNotFoundModal: () => unknown;
   userNotFoundModalState?: UserNotFoundModalStateType;
@@ -50,6 +57,12 @@ export const GlobalModalContainer = ({
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
+  // SignalConnectionsModal
+  isSignalConnectionsVisible,
+  toggleSignalConnectionsModal,
+  // StoriesSettings
+  isStoriesSettingsVisible,
+  renderStoriesSettings,
   // UserNotFoundModal
   hideUserNotFoundModal,
   userNotFoundModalState,
@@ -103,6 +116,19 @@ export const GlobalModalContainer = ({
 
   if (forwardMessageProps) {
     return renderForwardMessageModal();
+  }
+
+  if (isSignalConnectionsVisible) {
+    return (
+      <SignalConnectionsModal
+        i18n={i18n}
+        onClose={toggleSignalConnectionsModal}
+      />
+    );
+  }
+
+  if (isStoriesSettingsVisible) {
+    return renderStoriesSettings();
   }
 
   return null;

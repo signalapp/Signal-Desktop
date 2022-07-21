@@ -1,0 +1,177 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoriesSettingsModal {
+  &__modal {
+    .module-conversation-list {
+      padding: 0;
+    }
+
+    .module-conversation-list__item--contact-or-conversation {
+      padding: 0;
+    }
+  }
+
+  &__list {
+    @include button-reset;
+    @include font-body-1;
+    align-items: center;
+    display: flex;
+    height: 52px;
+    justify-content: space-between;
+    width: 100%;
+
+    &--no-pointer {
+      cursor: inherit;
+    }
+
+    &__viewers {
+      color: $color-gray-25;
+    }
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+
+    &__avatar {
+      @mixin avatar($svg) {
+        @include rounded-corners;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 36px;
+        height: 36px;
+        background: $color-gray-75;
+
+        &::after {
+          @include color-svg($svg, $color-white);
+          content: '';
+          height: 20px;
+          width: 20px;
+        }
+      }
+
+      &--new {
+        @include avatar('../images/icons/v2/plus-20.svg');
+      }
+
+      &--private {
+        @include avatar('../images/icons/v2/group-solid-24.svg');
+
+        &--large {
+          height: 64px;
+          width: 64px;
+        }
+      }
+    }
+
+    &__title {
+      margin-left: 12px;
+    }
+
+    &__delete {
+      @include button-reset;
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-gray-25
+      );
+      height: 20px;
+      width: 20px;
+      visibility: hidden;
+    }
+
+    &:hover &__delete {
+      visibility: visible;
+    }
+  }
+
+  &__divider {
+    border-color: $color-gray-65;
+    border-style: solid;
+  }
+
+  &__title {
+    @include font-body-1-bold;
+    margin-top: 24px;
+  }
+
+  &__delete-list {
+    @include button-reset;
+    align-items: center;
+    color: $color-accent-red;
+    display: flex;
+    height: 52px;
+    width: 100%;
+
+    &::before {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-accent-red
+      );
+      content: '';
+      height: 20px;
+      margin-right: 20px;
+      width: 20px;
+    }
+  }
+
+  &__checkbox {
+    margin: 18px 0;
+  }
+
+  &__conversation-list {
+    flex-grow: 1;
+    min-height: 300px;
+    overflow: hidden;
+  }
+
+  &__search {
+    &__container {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &__tags {
+    margin: 0 -4px;
+  }
+
+  &__tag {
+    align-items: center;
+    background: $color-gray-75;
+    border-radius: 26px;
+    color: $color-gray-05;
+    display: inline-flex;
+    padding: 4px 0;
+    margin: 0 4px;
+
+    &__name {
+      margin-left: 4px;
+    }
+
+    &__remove {
+      @include button-reset;
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+      height: 12px;
+      margin: 0 8px;
+      width: 12px;
+    }
+  }
+
+  &__name-story-avatar-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__disclaimer {
+    @include font-subtitle;
+    color: $color-gray-25;
+
+    &__learn-more {
+      @include button-reset;
+      color: $color-gray-05;
+    }
+  }
+}

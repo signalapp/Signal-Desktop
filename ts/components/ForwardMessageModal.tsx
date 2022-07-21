@@ -34,9 +34,12 @@ import type { BodyRangeType, LocalizerType, ThemeType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
-import { assert } from '../util/assert';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { useAnimated } from '../hooks/useAnimated';
+import {
+  shouldNeverBeCalled,
+  asyncShouldNeverBeCalled,
+} from '../util/shouldNeverBeCalled';
 
 export type DataPropsType = {
   attachments?: Array<AttachmentType>;
@@ -470,15 +473,3 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     </>
   );
 };
-
-function shouldNeverBeCalled(..._args: ReadonlyArray<unknown>): void {
-  assert(false, 'This should never be called. Doing nothing');
-}
-
-async function asyncShouldNeverBeCalled(
-  ..._args: ReadonlyArray<unknown>
-): Promise<undefined> {
-  shouldNeverBeCalled();
-
-  return undefined;
-}

@@ -1,9 +1,8 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Buffer } from 'buffer';
 import pProps from 'p-props';
-import { chunk } from 'lodash';
 import Long from 'long';
 import { HKDF } from '@signalapp/libsignal-client';
 
@@ -14,6 +13,8 @@ import { HashType, CipherType } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
 import { UUID, UUID_BYTE_SIZE } from './types/UUID';
 import type { UUIDStringType } from './types/UUID';
+
+export { uuidToBytes } from './util/uuidToBytes';
 
 export { HashType, CipherType };
 
@@ -446,20 +447,6 @@ export async function encryptCdsDiscoveryRequest(
     mac: Bytes.toBase64(queryDataCiphertextMac),
     envelopes,
   };
-}
-
-export function uuidToBytes(uuid: string): Uint8Array {
-  if (uuid.length !== 36) {
-    log.warn(
-      'uuidToBytes: received a string of invalid length. ' +
-        'Returning an empty Uint8Array'
-    );
-    return new Uint8Array(0);
-  }
-
-  return Uint8Array.from(
-    chunk(uuid.replace(/-/g, ''), 2).map(pair => parseInt(pair.join(''), 16))
-  );
 }
 
 export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {

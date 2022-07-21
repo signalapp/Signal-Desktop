@@ -15,6 +15,7 @@ export type PropsType = {
   moduleClassName?: string;
   name: string;
   onChange: (value: boolean) => unknown;
+  onClick?: () => unknown;
 };
 
 export const Checkbox = ({
@@ -26,6 +27,7 @@ export const Checkbox = ({
   moduleClassName,
   name,
   onChange,
+  onClick,
 }: PropsType): JSX.Element => {
   const getClassName = getClassNamesFor('Checkbox', moduleClassName);
   const id = useMemo(() => `${name}::${uuid()}`, [name]);
@@ -39,12 +41,15 @@ export const Checkbox = ({
             id={id}
             name={name}
             onChange={ev => onChange(ev.target.checked)}
+            onClick={onClick}
             type={isRadio ? 'radio' : 'checkbox'}
           />
         </div>
         <div>
-          <label htmlFor={id}>{label}</label>
-          <div className={getClassName('__description')}>{description}</div>
+          <label htmlFor={id}>
+            <div>{label}</div>
+            <div className={getClassName('__description')}>{description}</div>
+          </label>
         </div>
       </div>
     </div>

@@ -1277,12 +1277,14 @@ export async function mergeStoryDistributionListRecord(
 
   if (!localStoryDistributionList) {
     await dataInterface.createNewStoryDistribution(storyDistribution);
-    window.reduxActions.storyDistributionLists.createDistributionList({
-      allowsReplies: Boolean(storyDistribution.allowsReplies),
-      id: storyDistribution.id,
-      isBlockList: Boolean(storyDistribution.isBlockList),
-      name: storyDistribution.name,
-    });
+
+    const shouldSave = false;
+    window.reduxActions.storyDistributionLists.createDistributionList(
+      storyDistribution.name,
+      remoteListMembers,
+      storyDistribution,
+      shouldSave
+    );
 
     return {
       details,
@@ -1306,8 +1308,6 @@ export async function mergeStoryDistributionListRecord(
     storyDistributionListRecord
   );
 
-  const needsUpdate = needsToClearUnknownFields || hasConflict;
-
   const localMembersListSet = new Set(localStoryDistributionList.members);
   const toAdd: Array<UUIDStringType> = remoteListMembers.filter(
     uuid => !localMembersListSet.has(uuid)
@@ -1318,6 +1318,10 @@ export async function mergeStoryDistributionListRecord(
     localStoryDistributionList.members.filter(
       uuid => !remoteMemberListSet.has(uuid)
     );
+
+  const needsUpdate = Boolean(
+    needsToClearUnknownFields || hasConflict || toAdd.length || toRemove.length
+  );
 
   if (!needsUpdate) {
     return {
@@ -1335,8 +1339,11 @@ export async function mergeStoryDistributionListRecord(
     });
     window.reduxActions.storyDistributionLists.modifyDistributionList({
       allowsReplies: Boolean(storyDistribution.allowsReplies),
+      deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
       id: storyDistribution.id,
       isBlockList: Boolean(storyDistribution.isBlockList),
+      membersToAdd: toAdd,
+      membersToRemove: toRemove,
       name: storyDistribution.name,
     });
   }

@@ -7,8 +7,9 @@ import type { LocalizerType } from '../types/Util';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { MY_STORIES_ID, StoryViewModeType } from '../types/Stories';
+import { StoryViewModeType } from '../types/Stories';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
+import { StoryDistributionListName } from './StoryDistributionListName';
 import { StoryImage } from './StoryImage';
 import { Theme } from '../util/theme';
 
@@ -69,9 +70,11 @@ export const MyStories = ({
         {myStories.map(list => (
           <div className="MyStories__distribution" key={list.distributionId}>
             <div className="MyStories__distribution__title">
-              {list.distributionId === MY_STORIES_ID
-                ? i18n('Stories__mine')
-                : list.distributionName}
+              <StoryDistributionListName
+                i18n={i18n}
+                id={list.distributionId}
+                name={list.distributionName}
+              />
             </div>
             {list.stories.map(story => (
               <div className="MyStories__story" key={story.timestamp}>

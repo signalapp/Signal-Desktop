@@ -12,7 +12,6 @@
   max-height: 89vh;
   display: flex;
   flex-direction: column;
-
   @include light-theme() {
     background: $color-white;
     color: $color-gray-90;
@@ -24,21 +23,76 @@
   }
 
   &__header {
-    position: sticky;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
     padding: 16px 16px 0 16px;
+    position: sticky;
+
+    &--with-back-button .module-Modal__title {
+      text-align: center;
+    }
   }
 
   &__title {
     @include font-body-1-bold;
-    margin: 0 0 1em 0;
+    margin: 0;
     padding: 0;
+    flex: 1;
+  }
+
+  &__back-button {
+    @include button-reset;
+    border-radius: 4px;
+    height: 24px;
+    width: 24px;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-gray-75
+        );
+      }
+
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-gray-15
+        );
+      }
+    }
+
+    @include light-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-02;
+      }
+      &:active {
+        background: $color-gray-05;
+      }
+    }
+    @include dark-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-80;
+      }
+      &:active {
+        background: $color-gray-75;
+      }
+    }
   }
 
   &__close-button {
     @include button-reset;
 
     border-radius: 4px;
-    float: right;
     height: 24px;
     width: 24px;
 

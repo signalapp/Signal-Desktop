@@ -16,6 +16,8 @@ export type GlobalModalsStateType = {
   readonly contactModalState?: ContactModalStateType;
   readonly forwardMessageProps?: ForwardMessagePropsType;
   readonly isProfileEditorVisible: boolean;
+  readonly isStoriesSettingsVisible: boolean;
+  readonly isSignalConnectionsVisible: boolean;
   readonly isWhatsNewVisible: boolean;
   readonly profileEditorHasError: boolean;
   readonly safetyNumberModalContactId?: string;
@@ -30,12 +32,16 @@ const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
 const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
 const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
+const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
+const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
 const TOGGLE_FORWARD_MESSAGE_MODAL =
   'globalModals/TOGGLE_FORWARD_MESSAGE_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
+const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
+  'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
 
 export type ContactModalStateType = {
   contactId: string;
@@ -96,6 +102,18 @@ type ToggleSafetyNumberModalActionType = {
   payload: string | undefined;
 };
 
+type ToggleSignalConnectionsModalActionType = {
+  type: typeof TOGGLE_SIGNAL_CONNECTIONS_MODAL;
+};
+
+type ShowStoriesSettingsActionType = {
+  type: typeof SHOW_STORIES_SETTINGS;
+};
+
+type HideStoriesSettingsActionType = {
+  type: typeof HIDE_STORIES_SETTINGS;
+};
+
 export type GlobalModalsActionType =
   | HideContactModalActionType
   | ShowContactModalActionType
@@ -103,10 +121,13 @@ export type GlobalModalsActionType =
   | ShowWhatsNewModalActionType
   | HideUserNotFoundModalActionType
   | ShowUserNotFoundModalActionType
+  | HideStoriesSettingsActionType
+  | ShowStoriesSettingsActionType
   | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
-  | ToggleSafetyNumberModalActionType;
+  | ToggleSafetyNumberModalActionType
+  | ToggleSignalConnectionsModalActionType;
 
 // Action Creators
 
@@ -117,10 +138,13 @@ export const actions = {
   showWhatsNewModal,
   hideUserNotFoundModal,
   showUserNotFoundModal,
+  hideStoriesSettings,
+  showStoriesSettings,
   toggleForwardMessageModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
+  toggleSignalConnectionsModal,
 };
 
 export const useGlobalModalActions = (): typeof actions =>
@@ -170,6 +194,14 @@ function showUserNotFoundModal(
     type: SHOW_UUID_NOT_FOUND_MODAL,
     payload,
   };
+}
+
+function hideStoriesSettings(): HideStoriesSettingsActionType {
+  return { type: HIDE_STORIES_SETTINGS };
+}
+
+function showStoriesSettings(): ShowStoriesSettingsActionType {
+  return { type: SHOW_STORIES_SETTINGS };
 }
 
 function toggleForwardMessageModal(
@@ -224,13 +256,21 @@ function toggleSafetyNumberModal(
   };
 }
 
+function toggleSignalConnectionsModal(): ToggleSignalConnectionsModalActionType {
+  return {
+    type: TOGGLE_SIGNAL_CONNECTIONS_MODAL,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
   return {
     isProfileEditorVisible: false,
-    profileEditorHasError: false,
+    isSignalConnectionsVisible: false,
+    isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
+    profileEditorHasError: false,
   };
 }
 
@@ -307,6 +347,27 @@ export function reducer(
     return {
       ...state,
       forwardMessageProps: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_STORIES_SETTINGS) {
+    return {
+      ...state,
+      isStoriesSettingsVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_STORIES_SETTINGS) {
+    return {
+      ...state,
+      isStoriesSettingsVisible: true,
+    };
+  }
+
+  if (action.type === TOGGLE_SIGNAL_CONNECTIONS_MODAL) {
+    return {
+      ...state,
+      isSignalConnectionsVisible: !state.isSignalConnectionsVisible,
     };
   }
 

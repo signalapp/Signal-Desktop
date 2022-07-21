@@ -33,6 +33,7 @@ export type PropsType = {
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: (props: SmartStoryCreatorPropsType) => JSX.Element;
   showConversation: ShowConversationType;
+  showStoriesSettings: () => unknown;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
@@ -52,6 +53,7 @@ export const Stories = ({
   queueStoryDownload,
   renderStoryCreator,
   showConversation,
+  showStoriesSettings,
   stories,
   toggleHideStories,
   toggleStoriesView,
@@ -98,6 +100,7 @@ export const Stories = ({
                   setIsShowingStoryCreator(true);
                 }
               }}
+              onStoriesSettings={showStoriesSettings}
               onStoryClicked={viewUserStories}
               queueStoryDownload={queueStoryDownload}
               showConversation={showConversation}

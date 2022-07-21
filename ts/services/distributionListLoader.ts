@@ -15,12 +15,16 @@ export async function loadDistributionLists(): Promise<void> {
 export function getDistributionListsForRedux(): Array<StoryDistributionListDataType> {
   strictAssert(distributionLists, 'distributionLists has not been loaded');
 
-  const lists = distributionLists.map(list => ({
-    allowsReplies: Boolean(list.allowsReplies),
-    id: list.id,
-    isBlockList: Boolean(list.isBlockList),
-    name: list.name,
-  }));
+  const lists = distributionLists
+    .map(list => ({
+      allowsReplies: Boolean(list.allowsReplies),
+      deletedAtTimestamp: list.deletedAtTimestamp,
+      id: list.id,
+      isBlockList: Boolean(list.isBlockList),
+      name: list.name,
+      memberUuids: list.members,
+    }))
+    .filter(list => !list.deletedAtTimestamp);
 
   distributionLists = undefined;
 

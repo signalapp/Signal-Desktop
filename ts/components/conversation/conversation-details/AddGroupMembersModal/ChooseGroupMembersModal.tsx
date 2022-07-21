@@ -15,7 +15,6 @@ import Measure from 'react-measure';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
 import { getUsernameFromSearch } from '../../../../types/Username';
-import { assert } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
@@ -40,6 +39,7 @@ import { ConversationList, RowType } from '../../../ConversationList';
 import { ContactCheckboxDisabledReason } from '../../../conversationList/ContactCheckbox';
 import { Button, ButtonVariant } from '../../../Button';
 import { SearchInput } from '../../../SearchInput';
+import { shouldNeverBeCalled } from '../../../../util/shouldNeverBeCalled';
 
 export type StatePropsType = {
   regionCode: string | undefined;
@@ -399,7 +399,3 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
     </ModalHost>
   );
 };
-
-function shouldNeverBeCalled(..._args: ReadonlyArray<unknown>): unknown {
-  assert(false, 'This should never be called. Doing nothing');
-}

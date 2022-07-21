@@ -7,12 +7,16 @@ import { StorageState, Proto } from '@signalapp/mock-server';
 import { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import type { BootstrapOptions } from '../bootstrap';
+import { MY_STORIES_ID } from '../../types/Stories';
+import { uuidToBytes } from '../../util/uuidToBytes';
 
 export const debug = createDebug('mock:test:storage');
 
 export { App, Bootstrap };
 
 const GROUP_SIZE = 8;
+
+const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 export type InitStorageResultType = Readonly<{
   bootstrap: Bootstrap;
@@ -76,6 +80,19 @@ export async function initStorage(
     }
 
     state = state.pin(firstContact);
+
+    state = state.addRecord({
+      type: IdentifierType.STORY_DISTRIBUTION_LIST,
+      record: {
+        storyDistributionList: {
+          allowsReplies: true,
+          identifier: uuidToBytes(MY_STORIES_ID),
+          isBlockList: true,
+          name: MY_STORIES_ID,
+          recipientUuids: [],
+        },
+      },
+    });
 
     await phone.setStorageState(state);
 

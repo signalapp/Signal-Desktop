@@ -93,7 +93,9 @@ export function ContextMenuPopper<T>({
     >
       <div className={theme ? themeClassName(theme) : undefined}>
         <div
-          className="ContextMenu__popper"
+          className={classNames('ContextMenu__popper', {
+            'ContextMenu__popper--single-item': menuOptions.length === 1,
+          })}
           ref={setPopperElement}
           style={styles.popper}
           {...attributes.popper}

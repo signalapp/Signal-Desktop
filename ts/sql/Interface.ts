@@ -240,8 +240,8 @@ export type StoryDistributionType = Readonly<{
   isBlockList: boolean;
   senderKeyInfo: SenderKeyInfoType | undefined;
 
-  storageID: string;
-  storageVersion: number;
+  storageID?: string;
+  storageVersion?: number;
   storageUnknownFields?: Uint8Array | null;
   storageNeedsSync: boolean;
 }>;

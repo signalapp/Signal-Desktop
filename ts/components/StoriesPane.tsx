@@ -15,9 +15,11 @@ import type {
   StoryViewType,
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
+import { ContextMenu } from './ContextMenu';
 import { MyStoriesButton } from './MyStoriesButton';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
+import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
@@ -63,6 +65,7 @@ export type PropsType = {
   myStories: Array<MyStoryType>;
   onAddStory: () => unknown;
   onMyStoriesClicked: () => unknown;
+  onStoriesSettings: () => unknown;
   onStoryClicked: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
@@ -78,6 +81,7 @@ export const StoriesPane = ({
   myStories,
   onAddStory,
   onMyStoriesClicked,
+  onStoriesSettings,
   onStoryClicked,
   queueStoryDownload,
   showConversation,
@@ -116,6 +120,21 @@ export const StoriesPane = ({
           className="Stories__pane__header--camera"
           onClick={onAddStory}
           type="button"
+        />
+        <ContextMenu
+          buttonClassName="Stories__pane__settings"
+          i18n={i18n}
+          menuOptions={[
+            {
+              onClick: () => onStoriesSettings(),
+              label: i18n('StoriesSettings__context-menu'),
+            },
+          ]}
+          popperOptions={{
+            placement: 'bottom',
+            strategy: 'absolute',
+          }}
+          theme={Theme.Dark}
         />
       </div>
       <SearchInput

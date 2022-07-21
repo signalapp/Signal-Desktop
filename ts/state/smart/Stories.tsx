@@ -27,7 +27,8 @@ function renderStoryCreator({
 export function SmartStories(): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { showConversation, toggleHideStories } = useConversationsActions();
-  const { toggleForwardMessageModal } = useGlobalModalActions();
+  const { showStoriesSettings, toggleForwardMessageModal } =
+    useGlobalModalActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
@@ -64,6 +65,7 @@ export function SmartStories(): JSX.Element | null {
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
       showConversation={showConversation}
+      showStoriesSettings={showStoriesSettings}
       stories={stories}
       toggleHideStories={toggleHideStories}
       {...storiesActions}

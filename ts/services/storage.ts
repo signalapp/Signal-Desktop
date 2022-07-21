@@ -52,6 +52,8 @@ import type {
   UnknownRecord,
 } from '../types/StorageService.d';
 import MessageSender from '../textsecure/SendMessage';
+import type { StoryDistributionWithMembersType } from '../sql/Interface';
+import { MY_STORIES_ID } from '../types/Stories';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -328,12 +330,17 @@ async function generateManifest(
   );
 
   storyDistributionLists.forEach(storyDistributionList => {
+    const storageRecord = new Proto.StorageRecord();
+    storageRecord.storyDistributionList = toStoryDistributionListRecord(
+      storyDistributionList
+    );
+
     const { isNewItem, storageID } = processStorageRecord({
       currentStorageID: storyDistributionList.storageID,
       currentStorageVersion: storyDistributionList.storageVersion,
       identifierType: ITEM_TYPE.STORY_DISTRIBUTION_LIST,
       storageNeedsSync: storyDistributionList.storageNeedsSync,
-      storageRecord: toStoryDistributionListRecord(storyDistributionList),
+      storageRecord,
     });
 
     if (isNewItem) {
@@ -1017,6 +1024,35 @@ async function processManifest(
       updateConversation(conversation.attributes);
     }
   });
+
+  // Check to make sure we have a "My Stories" distribution list set up
+  const myStories = await dataInterface.getStoryDistributionWithMembers(
+    MY_STORIES_ID
+  );
+
+  if (!myStories) {
+    const storyDistribution: StoryDistributionWithMembersType = {
+      allowsReplies: true,
+      id: MY_STORIES_ID,
+      isBlockList: true,
+      members: [],
+      name: MY_STORIES_ID,
+      senderKeyInfo: undefined,
+      storageNeedsSync: true,
+    };
+
+    await dataInterface.createNewStoryDistribution(storyDistribution);
+
+    const shouldSave = false;
+    window.reduxActions.storyDistributionLists.createDistributionList(
+      storyDistribution.name,
+      storyDistribution.members,
+      storyDistribution,
+      shouldSave
+    );
+
+    conflictCount += 1;
+  }
 
   log.info(
     `storageService.process(${version}): conflictCount=${conflictCount}`

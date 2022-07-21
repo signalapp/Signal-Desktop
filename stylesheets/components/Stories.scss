@@ -21,6 +21,20 @@
     width: 380px;
     padding-top: calc(14px + var(--title-bar-drag-area-height));
 
+    &__settings {
+      margin-left: 24px;
+      opacity: 1;
+
+      &::after {
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/more-horiz-24.svg',
+            $color-white
+          );
+        }
+      }
+    }
+
     &__header {
       align-items: center;
       display: flex;

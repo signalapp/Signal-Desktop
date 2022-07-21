@@ -46,6 +46,7 @@ export default {
     renderStoryCreator: { action: true },
     renderStoryViewer: { action: true },
     showConversation: { action: true },
+    showStoriesSettings: { action: true },
     stories: {
       defaultValue: [],
     },
