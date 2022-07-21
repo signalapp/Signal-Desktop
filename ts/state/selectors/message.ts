@@ -38,6 +38,7 @@ import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
 import type { AssertProps, BodyRangesType } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import { getMentionsRegex } from '../../types/Message';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import type { AttachmentType } from '../../types/Attachment';
@@ -705,7 +706,7 @@ function getTextAttachment(
 }
 
 export function cleanBodyForDirectionCheck(text: string): string {
-  const MENTIONS_REGEX = /\uFFFC/g;
+  const MENTIONS_REGEX = getMentionsRegex();
   const EMOJI_REGEX = emojiRegex();
   const initial = text.replace(MENTIONS_REGEX, '').replace(EMOJI_REGEX, '');
 

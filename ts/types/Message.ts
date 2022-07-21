@@ -7,6 +7,10 @@ import type { AttachmentType } from './Attachment';
 import type { EmbeddedContactType } from './EmbeddedContact';
 import type { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
+export function getMentionsRegex(): RegExp {
+  return /\uFFFC/g;
+}
+
 export type Message = (
   | UserMessage
   | VerifiedChangeMessage
