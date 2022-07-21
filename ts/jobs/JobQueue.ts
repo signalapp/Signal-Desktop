@@ -62,7 +62,7 @@ export abstract class JobQueue<T> {
     }
   >();
 
-  private readonly defaultInMemoryQueue = new PQueue();
+  private readonly defaultInMemoryQueue = new PQueue({ concurrency: 1 });
 
   private started = false;
 

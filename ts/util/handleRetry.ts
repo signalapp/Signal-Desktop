@@ -599,10 +599,10 @@ function scheduleSessionReset(senderUuid: string, senderDevice: number) {
     );
   }
 
-  lightSessionResetQueue.add(() => {
+  lightSessionResetQueue.add(async () => {
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
 
-    window.textsecure.storage.protocol.lightSessionReset(
+    await window.textsecure.storage.protocol.lightSessionReset(
       new QualifiedAddress(ourUuid, Address.create(senderUuid, senderDevice))
     );
   });

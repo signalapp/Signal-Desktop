@@ -441,17 +441,18 @@ export async function startApp(): Promise<void> {
     timeout: durations.MINUTE * 30,
   });
 
+  // Note: this queue is meant to allow for stop/start of tasks, not limit parallelism.
   const profileKeyResponseQueue = new window.PQueue();
   profileKeyResponseQueue.pause();
 
-  const lightSessionResetQueue = new window.PQueue();
+  const lightSessionResetQueue = new window.PQueue({ concurrency: 1 });
   window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
   lightSessionResetQueue.pause();
 
-  const onDecryptionErrorQueue = new window.PQueue();
+  const onDecryptionErrorQueue = new window.PQueue({ concurrency: 1 });
   onDecryptionErrorQueue.pause();
 
-  const onRetryRequestQueue = new window.PQueue();
+  const onRetryRequestQueue = new window.PQueue({ concurrency: 1 });
   onRetryRequestQueue.pause();
 
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
