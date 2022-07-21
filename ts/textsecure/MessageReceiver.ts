@@ -1856,6 +1856,12 @@ export default class MessageReceiver
 
     const attachments: Array<ProcessedAttachment> = [];
 
+    if (!window.Events.getHasStoriesEnabled()) {
+      log.info('MessageReceiver.handleStoryMessage: dropping', logId);
+      this.removeFromCache(envelope);
+      return;
+    }
+
     if (msg.fileAttachment) {
       const attachment = processAttachment(msg.fileAttachment);
       attachments.push(attachment);
@@ -2582,6 +2588,14 @@ export default class MessageReceiver
       }
 
       if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
+        if (!window.Events.getHasStoriesEnabled()) {
+          log.info(
+            'MessageReceiver.handleSyncMessage: dropping story recipients update'
+          );
+          this.removeFromCache(envelope);
+          return;
+        }
+
         const ev = new StoryRecipientUpdateEvent(
           {
             destinationUuid: envelope.destinationUuid.toString(),
