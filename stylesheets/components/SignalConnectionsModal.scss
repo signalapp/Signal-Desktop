@@ -4,6 +4,18 @@
 .SignalConnectionsModal {
   color: $color-gray-05;
 
+  &__icon {
+    @include color-svg(
+      '../images/icons/v2/signal-connections.svg',
+      $color-ultramarine-light
+    );
+    display: block;
+    height: 69px;
+    margin: 0 auto;
+    margin-bottom: 24px;
+    width: 75px;
+  }
+
   &__list {
     margin: 16px 0;
 

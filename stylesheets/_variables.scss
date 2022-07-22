@@ -263,6 +263,7 @@ $z-index-window-controls: 10000;
 // Component specific
 // The scroll down button should be above everything in the timeline but
 // popups, tooltips, toasts, and other items should stack above it.
+$z-index-story-meta: 3;
 $z-index-scroll-down-button: 10;
 $z-index-stories: 97;
 $z-index-calling: 98;

@@ -22,8 +22,10 @@
     padding-top: calc(14px + var(--title-bar-drag-area-height));
 
     &__settings {
-      margin-left: 24px;
       opacity: 1;
+      position: absolute;
+      right: 12px;
+      top: -6px;
 
       &::after {
         @include dark-theme {
@@ -40,6 +42,7 @@
       display: flex;
       justify-content: space-between;
       padding: 0 16px;
+      position: relative;
 
       &--centered {
         justify-content: flex-start;
@@ -65,6 +68,8 @@
           $color-white
         );
         height: 22px;
+        position: absolute;
+        right: 63px;
         width: 22px;
       }
 
@@ -72,31 +77,15 @@
         @include button-reset;
 
         height: 24px;
+        position: absolute;
         width: 24px;
 
-        @include light-theme {
-          @include color-svg(
-            '../images/icons/v2/chevron-left-24.svg',
-            $color-gray-60
-          );
-        }
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-white
+        );
 
         @include keyboard-mode {
-          &:focus {
-            @include color-svg(
-              '../images/icons/v2/chevron-left-24.svg',
-              $color-ultramarine
-            );
-          }
-        }
-
-        @include dark-theme {
-          @include color-svg(
-            '../images/icons/v2/chevron-left-24.svg',
-            $color-gray-25
-          );
-        }
-        @include dark-keyboard-mode {
           &:hover {
             @include color-svg(
               '../images/icons/v2/chevron-left-24.svg',

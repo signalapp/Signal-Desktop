@@ -342,11 +342,14 @@ export const getStories = createSelector(
   }
 );
 
-export const getUnreadStoriesCount = createSelector(
+export const getUnreadStorySenderCount = createSelector(
   getStoriesState,
   ({ stories }): number => {
-    return stories.filter(story => story.readStatus === ReadStatus.Unread)
-      .length;
+    return new Set(
+      stories
+        .filter(story => story.readStatus === ReadStatus.Unread)
+        .map(story => story.conversationId)
+    ).size;
   }
 );
 

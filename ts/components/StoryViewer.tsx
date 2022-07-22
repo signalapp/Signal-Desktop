@@ -208,7 +208,7 @@ export const StoryViewer = ({
     return () => {
       unmountRef.current = true;
     };
-  });
+  }, []);
 
   const [styles, spring] = useSpring(
     () => ({

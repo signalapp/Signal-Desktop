@@ -2620,6 +2620,7 @@ button.ConversationDetails__action-button {
     background-color: $color-accent-red;
     color: $color-white;
     display: flex;
+    font-size: 10px;
     height: 16px;
     justify-content: center;
     min-width: 16px;
@@ -2627,7 +2628,7 @@ button.ConversationDetails__action-button {
     padding: 0 2px;
     position: absolute;
     right: -6px;
-    top: -6px;
+    top: -4px;
     user-select: none;
     z-index: $z-index-base;
   }

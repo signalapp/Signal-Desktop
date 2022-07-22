@@ -906,6 +906,12 @@ export function reducer(
     return {
       ...state,
       isShowingStoriesView: !state.isShowingStoriesView,
+      selectedStoryData: state.isShowingStoriesView
+        ? undefined
+        : state.selectedStoryData,
+      storyViewMode: state.isShowingStoriesView
+        ? undefined
+        : state.storyViewMode,
     };
   }
 

@@ -25,6 +25,7 @@
     flex: 1;
     flex-direction: column;
     margin-left: 12px;
+    margin-right: 12px;
 
     &--title {
       @include font-body-1-bold;
