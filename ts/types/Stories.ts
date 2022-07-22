@@ -127,3 +127,8 @@ export function getStoryDistributionListName(
 ): string {
   return id === MY_STORIES_ID ? i18n('Stories__mine') : name;
 }
+
+export enum HasStories {
+  Read = 'Read',
+  Unread = 'Unread',
+}

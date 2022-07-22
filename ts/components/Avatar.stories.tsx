@@ -3,20 +3,20 @@
 
 import type { Meta, Story } from '@storybook/react';
 import * as React from 'react';
-import { isBoolean } from 'lodash';
+import { action } from '@storybook/addon-actions';
 import { expect } from '@storybook/jest';
+import { isBoolean } from 'lodash';
 import { within, userEvent } from '@storybook/testing-library';
 
-import { action } from '@storybook/addon-actions';
-
-import type { Props } from './Avatar';
-import { Avatar, AvatarBlur, AvatarSize, AvatarStoryRing } from './Avatar';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import type { AvatarColorType } from '../types/Colors';
+import type { Props } from './Avatar';
+import enMessages from '../../_locales/en/messages.json';
+import { Avatar, AvatarBlur, AvatarSize } from './Avatar';
 import { AvatarColors } from '../types/Colors';
-import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
+import { HasStories } from '../types/Stories';
 import { ThemeType } from '../types/Util';
+import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
+import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -63,7 +63,7 @@ export default {
     },
     storyRing: {
       control: { type: 'radio' },
-      options: [undefined, ...Object.values(AvatarStoryRing)],
+      options: [undefined, ...Object.values(HasStories)],
     },
     theme: {
       control: { type: 'radio' },
@@ -263,7 +263,7 @@ BlurredWithClickToView.story = {
 export const StoryUnread = TemplateSingle.bind({});
 StoryUnread.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
-  storyRing: AvatarStoryRing.Unread,
+  storyRing: HasStories.Unread,
 });
 StoryUnread.story = {
   name: 'Story: unread',
@@ -272,7 +272,7 @@ StoryUnread.story = {
 export const StoryRead = TemplateSingle.bind({});
 StoryRead.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
-  storyRing: AvatarStoryRing.Read,
+  storyRing: HasStories.Read,
 });
 StoryRead.story = {
   name: 'Story: read',

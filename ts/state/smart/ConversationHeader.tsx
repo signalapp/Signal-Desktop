@@ -3,6 +3,8 @@
 
 import { connect } from 'react-redux';
 import { pick } from 'lodash';
+import type { ConversationType } from '../ducks/conversations';
+import type { StateType } from '../reducer';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
@@ -12,15 +14,15 @@ import {
   getConversationSelector,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
-import type { StateType } from '../reducer';
 import { CallMode } from '../../types/Calling';
-import type { ConversationType } from '../ducks/conversations';
-import { getConversationCallMode } from '../ducks/conversations';
 import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
-import { getUserACI, getIntl, getTheme } from '../selectors/user';
+import { getConversationCallMode } from '../ducks/conversations';
+import { getHasStoriesSelector } from '../selectors/stories';
 import { getOwn } from '../../util/getOwn';
-import { missingCaseError } from '../../util/missingCaseError';
+import { getUserACI, getIntl, getTheme } from '../selectors/user';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { mapDispatchToProps } from '../actions';
+import { missingCaseError } from '../../util/missingCaseError';
 import { strictAssert } from '../../util/assert';
 
 export type OwnProps = {
@@ -83,6 +85,8 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     throw new Error('Could not find conversation');
   }
 
+  const hasStories = getHasStoriesSelector(state)(id);
+
   return {
     ...pick(conversation, [
       'acceptedMessageRequest',
@@ -110,6 +114,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     ]),
     badge: getPreferredBadgeSelector(state)(conversation.badges),
     conversationTitle: state.conversations.selectedConversationTitle,
+    hasStories,
     isMissingMandatoryProfileSharing:
       isMissingRequiredProfileSharing(conversation),
     isSMSOnly: isConversationSMSOnly(conversation),
@@ -120,6 +125,6 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
   };
 };
 
-const smart = connect(mapStateToProps, {});
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const SmartConversationHeader = smart(ConversationHeader);

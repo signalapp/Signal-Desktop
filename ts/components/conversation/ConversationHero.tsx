@@ -9,6 +9,7 @@ import { About } from './About';
 import { GroupDescription } from './GroupDescription';
 import { SharedGroupNames } from '../SharedGroupNames';
 import type { LocalizerType, ThemeType } from '../../types/Util';
+import type { HasStories } from '../../types/Stories';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
@@ -18,6 +19,8 @@ export type Props = {
   about?: string;
   acceptedMessageRequest?: boolean;
   groupDescription?: string;
+  hasStories?: HasStories;
+  id: string;
   i18n: LocalizerType;
   isMe: boolean;
   membersCount?: number;
@@ -27,6 +30,7 @@ export type Props = {
   unblurredAvatarPath?: string;
   updateSharedGroups: () => unknown;
   theme: ThemeType;
+  viewUserStories: (cid: string) => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
 const renderMembershipRow = ({
@@ -101,6 +105,8 @@ export const ConversationHero = ({
   color,
   conversationType,
   groupDescription,
+  hasStories,
+  id,
   isMe,
   membersCount,
   sharedGroupNames = [],
@@ -112,6 +118,7 @@ export const ConversationHero = ({
   unblurAvatar,
   unblurredAvatarPath,
   updateSharedGroups,
+  viewUserStories,
 }: Props): JSX.Element => {
   const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
     useState(false);
@@ -124,7 +131,7 @@ export const ConversationHero = ({
     updateSharedGroups();
   }, [updateSharedGroups]);
 
-  let avatarBlur: AvatarBlur;
+  let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
   let avatarOnClick: undefined | (() => void);
   if (
     shouldBlurAvatar({
@@ -137,8 +144,10 @@ export const ConversationHero = ({
   ) {
     avatarBlur = AvatarBlur.BlurPictureWithClickToView;
     avatarOnClick = unblurAvatar;
-  } else {
-    avatarBlur = AvatarBlur.NoBlur;
+  } else if (hasStories) {
+    avatarOnClick = () => {
+      viewUserStories(id);
+    };
   }
 
   const phoneNumberOnly = Boolean(
@@ -165,6 +174,7 @@ export const ConversationHero = ({
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
           size={112}
+          storyRing={hasStories}
           theme={theme}
           title={title}
         />

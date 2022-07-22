@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps } from 'react';
@@ -56,6 +56,7 @@ const commonProps = {
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
   onSetPin: action('onSetPin'),
+  viewUserStories: action('viewUserStories'),
 };
 
 export const PrivateConvo = (): JSX.Element => {

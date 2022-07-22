@@ -11,6 +11,7 @@ import { getAreWeASubscriber } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import { getBadgesSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
+import { getHasStoriesSelector } from '../selectors/stories';
 
 const mapStateToProps = (state: StateType): PropsDataType => {
   const { contactId, conversationId } =
@@ -35,12 +36,15 @@ const mapStateToProps = (state: StateType): PropsDataType => {
     });
   }
 
+  const hasStories = getHasStoriesSelector(state)(conversationId);
+
   return {
     areWeASubscriber: getAreWeASubscriber(state),
     areWeAdmin,
     badges: getBadgesSelector(state)(contact.badges),
     contact,
     conversation: currentConversation,
+    hasStories,
     i18n: getIntl(state),
     isAdmin,
     isMember,

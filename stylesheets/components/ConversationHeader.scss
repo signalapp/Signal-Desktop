@@ -119,6 +119,7 @@
       margin-left: 4px;
       margin-right: var(--button-spacing);
       padding: $padding;
+      padding-left: 0;
 
       @include keyboard-mode {
         &:focus {

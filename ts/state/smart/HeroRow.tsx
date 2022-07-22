@@ -9,6 +9,7 @@ import { ConversationHero } from '../../components/conversation/ConversationHero
 import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
+import { getHasStoriesSelector } from '../selectors/stories';
 
 type ExternalProps = {
   id: string;
@@ -27,6 +28,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     ...conversation,
     conversationType: conversation.type,
+    hasStories: getHasStoriesSelector(state)(id),
     badge: getPreferredBadgeSelector(state)(conversation.badges),
     theme: getTheme(state),
   };

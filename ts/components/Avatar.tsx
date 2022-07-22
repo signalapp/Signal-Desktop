@@ -12,19 +12,19 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Spinner } from './Spinner';
-
-import { getInitials } from '../util/getInitials';
-import type { LocalizerType } from '../types/Util';
-import { ThemeType } from '../types/Util';
 import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
+import type { LocalizerType } from '../types/Util';
 import * as log from '../logging/log';
-import { assert } from '../util/assert';
-import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
-import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
-import { isBadgeVisible } from '../badges/isBadgeVisible';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme';
+import { HasStories } from '../types/Stories';
+import { Spinner } from './Spinner';
+import { ThemeType } from '../types/Util';
+import { assert } from '../util/assert';
+import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
+import { getInitials } from '../util/getInitials';
+import { isBadgeVisible } from '../badges/isBadgeVisible';
+import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
 import { shouldShowBadges } from '../badges/shouldShowBadges';
 
 export enum AvatarBlur {
@@ -43,11 +43,6 @@ export enum AvatarSize {
   EIGHTY = 80,
   NINETY_SIX = 96,
   ONE_HUNDRED_TWELVE = 112,
-}
-
-export enum AvatarStoryRing {
-  Unread = 'Unread',
-  Read = 'Read',
 }
 
 type BadgePlacementType = { bottom: number; right: number };
@@ -70,7 +65,7 @@ export type Props = {
   title: string;
   unblurredAvatarPath?: string;
   searchResult?: boolean;
-  storyRing?: AvatarStoryRing;
+  storyRing?: HasStories;
 
   onClick?: (event: MouseEvent<HTMLButtonElement>) => unknown;
   onClickBadge?: (event: MouseEvent<HTMLButtonElement>) => unknown;
@@ -308,9 +303,8 @@ export const Avatar: FunctionComponent<Props> = ({
       className={classNames(
         'module-Avatar',
         hasImage ? 'module-Avatar--with-image' : 'module-Avatar--no-image',
-        storyRing && 'module-Avatar--with-story',
-        storyRing === AvatarStoryRing.Unread &&
-          'module-Avatar--with-story--unread',
+        Boolean(storyRing) && 'module-Avatar--with-story',
+        storyRing === HasStories.Unread && 'module-Avatar--with-story--unread',
         className
       )}
       style={{

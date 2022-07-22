@@ -491,19 +491,21 @@ const renderHeroRow = () => {
       <ConversationHero
         about={getAbout()}
         acceptedMessageRequest
+        avatarPath={getAvatarPath()}
         badge={undefined}
+        conversationType="direct"
+        id={getDefaultConversation().id}
         i18n={i18n}
         isMe={false}
-        title={getTitle()}
-        avatarPath={getAvatarPath()}
         name={getName()}
-        profileName={getProfileName()}
         phoneNumber={getPhoneNumber()}
-        conversationType="direct"
+        profileName={getProfileName()}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
         theme={theme}
+        title={getTitle()}
         unblurAvatar={action('unblurAvatar')}
         updateSharedGroups={noop}
+        viewUserStories={action('viewUserStories')}
       />
     );
   };

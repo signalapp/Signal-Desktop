@@ -1,25 +1,26 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
-import * as log from '../../logging/log';
-import { missingCaseError } from '../../util/missingCaseError';
-import { About } from './About';
-import { Avatar } from '../Avatar';
-import { AvatarLightbox } from '../AvatarLightbox';
 import type {
   ConversationType,
   ShowConversationType,
 } from '../../state/ducks/conversations';
-import { Modal } from '../Modal';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import { BadgeDialog } from '../BadgeDialog';
 import type { BadgeType } from '../../badges/types';
-import { SharedGroupNames } from '../SharedGroupNames';
+import type { HasStories } from '../../types/Stories';
+import type { LocalizerType, ThemeType } from '../../types/Util';
+import * as log from '../../logging/log';
+import { About } from './About';
+import { Avatar } from '../Avatar';
+import { AvatarLightbox } from '../AvatarLightbox';
+import { BadgeDialog } from '../BadgeDialog';
 import { ConfirmationDialog } from '../ConfirmationDialog';
+import { Modal } from '../Modal';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog';
+import { SharedGroupNames } from '../SharedGroupNames';
+import { missingCaseError } from '../../util/missingCaseError';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -27,6 +28,7 @@ export type PropsDataType = {
   badges: ReadonlyArray<BadgeType>;
   contact?: ConversationType;
   conversation?: ConversationType;
+  hasStories?: HasStories;
   readonly i18n: LocalizerType;
   isAdmin: boolean;
   isMember: boolean;
@@ -40,6 +42,7 @@ type PropsActionType = {
   toggleAdmin: (conversationId: string, contactId: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   updateConversationModelSharedGroups: (conversationId: string) => void;
+  viewUserStories: (cid: string) => unknown;
 };
 
 export type PropsType = PropsDataType & PropsActionType;
@@ -62,6 +65,7 @@ export const ContactModal = ({
   badges,
   contact,
   conversation,
+  hasStories,
   hideContactModal,
   i18n,
   isAdmin,
@@ -72,6 +76,7 @@ export const ContactModal = ({
   toggleAdmin,
   toggleSafetyNumberModal,
   updateConversationModelSharedGroups,
+  viewUserStories,
 }: PropsType): JSX.Element => {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
@@ -172,14 +177,21 @@ export const ContactModal = ({
               i18n={i18n}
               isMe={contact.isMe}
               name={contact.name}
+              onClick={() => {
+                if (conversation && hasStories) {
+                  viewUserStories(conversation.id);
+                } else {
+                  setView(ContactModalView.ShowingAvatar);
+                }
+              }}
+              onClickBadge={() => setView(ContactModalView.ShowingBadges)}
               profileName={contact.profileName}
               sharedGroupNames={contact.sharedGroupNames}
               size={96}
+              storyRing={hasStories}
               theme={theme}
               title={contact.title}
               unblurredAvatarPath={contact.unblurredAvatarPath}
-              onClick={() => setView(ContactModalView.ShowingAvatar)}
-              onClickBadge={() => setView(ContactModalView.ShowingBadges)}
             />
             <div className="ContactModal__name">{contact.title}</div>
             <div className="module-about__container">

@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -20,6 +20,7 @@ import { InContactsIcon } from '../InContactsIcon';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
+import type { HasStories } from '../../types/Stories';
 import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -39,6 +40,7 @@ export enum OutgoingCallButtonStyle {
 export type PropsDataType = {
   badge?: BadgeType;
   conversationTitle?: string;
+  hasStories?: HasStories;
   isMissingMandatoryProfileSharing?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
   showBackButton?: boolean;
@@ -88,6 +90,7 @@ export type PropsActionsType = {
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
+  viewUserStories: (cid: string) => unknown;
 };
 
 export type PropsHousekeepingType = {
@@ -199,6 +202,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       avatarPath,
       badge,
       color,
+      hasStories,
+      id,
       i18n,
       type,
       isMe,
@@ -209,6 +214,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       theme,
       title,
       unblurredAvatarPath,
+      viewUserStories,
     } = this.props;
 
     return (
@@ -221,14 +227,22 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           conversationType={type}
           i18n={i18n}
           isMe={isMe}
-          noteToSelf={isMe}
-          title={title}
           name={name}
+          noteToSelf={isMe}
+          onClick={
+            hasStories
+              ? () => {
+                  viewUserStories(id);
+                }
+              : undefined
+          }
           phoneNumber={phoneNumber}
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
           size={AvatarSize.THIRTY_TWO}
+          storyRing={hasStories}
           theme={theme}
+          title={title}
           unblurredAvatarPath={unblurredAvatarPath}
         />
       </span>
@@ -488,30 +502,32 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         throw missingCaseError(type);
     }
 
+    const avatar = this.renderAvatar();
     const contents = (
-      <>
-        {this.renderAvatar()}
-        <div className="module-ConversationHeader__header__info">
-          {this.renderHeaderInfoTitle()}
-          {this.renderHeaderInfoSubtitle()}
-        </div>
-      </>
+      <div className="module-ConversationHeader__header__info">
+        {this.renderHeaderInfoTitle()}
+        {this.renderHeaderInfoSubtitle()}
+      </div>
     );
 
     if (onClick) {
       return (
-        <button
-          type="button"
-          className="module-ConversationHeader__header module-ConversationHeader__header--clickable"
-          onClick={onClick}
-        >
-          {contents}
-        </button>
+        <div className="module-ConversationHeader__header">
+          {avatar}
+          <button
+            type="button"
+            className="module-ConversationHeader__header--clickable"
+            onClick={onClick}
+          >
+            {contents}
+          </button>
+        </div>
       );
     }
 
     return (
       <div className="module-ConversationHeader__header" ref={this.headerRef}>
+        {avatar}
         {contents}
       </div>
     );

@@ -20,7 +20,7 @@ import type {
   StoryDataType,
   StoriesStateType,
 } from '../ducks/stories';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { HasStories, MY_STORIES_ID } from '../../types/Stories';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import { canReply } from './message';
@@ -30,6 +30,7 @@ import {
   getMe,
 } from './conversations';
 import { getDistributionListSelector } from './storyDistributionLists';
+import { getStoriesEnabled } from './items';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -347,4 +348,29 @@ export const getUnreadStoriesCount = createSelector(
     return stories.filter(story => story.readStatus === ReadStatus.Unread)
       .length;
   }
+);
+
+export const getHasStoriesSelector = createSelector(
+  getStoriesEnabled,
+  getStoriesState,
+  (isEnabled, { stories }) =>
+    (conversationId?: string): HasStories | undefined => {
+      if (!isEnabled || !conversationId) {
+        return;
+      }
+
+      const conversationStories = stories.filter(
+        story => story.conversationId === conversationId
+      );
+
+      if (!conversationStories.length) {
+        return;
+      }
+
+      return conversationStories.some(
+        story => story.readStatus === ReadStatus.Unread
+      )
+        ? HasStories.Unread
+        : HasStories.Read;
+    }
 );

@@ -5,9 +5,10 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
-import { Avatar, AvatarSize, AvatarStoryRing } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenuPopper } from './ContextMenu';
+import { HasStories } from '../types/Stories';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { getAvatarColor } from '../types/Colors';
@@ -57,9 +58,9 @@ export const StoryListItem = ({
     title,
   } = sender;
 
-  let avatarStoryRing: AvatarStoryRing | undefined;
+  let avatarStoryRing: HasStories | undefined;
   if (attachment) {
-    avatarStoryRing = isUnread ? AvatarStoryRing.Unread : AvatarStoryRing.Read;
+    avatarStoryRing = isUnread ? HasStories.Unread : HasStories.Read;
   }
 
   let repliesElement: JSX.Element | undefined;
