@@ -106,6 +106,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
+      shouldShowDetailsModal={selectedStoryData.shouldShowDetailsModal}
       showToast={showToast}
       skinTone={skinTone}
       story={storyView}

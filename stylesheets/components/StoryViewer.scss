@@ -146,16 +146,23 @@
     }
   }
 
-  &__more {
-    @include button-reset;
+  &__more__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 24px;
     width: 24px;
 
-    @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
+    &::after {
+      @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
+      content: '';
+      height: 20px;
+      width: 20px;
 
-    @include keyboard-mode {
-      &:focus {
-        background-color: $color-black;
+      @include keyboard-mode {
+        &:focus {
+          background-color: $color-black;
+        }
       }
     }
   }

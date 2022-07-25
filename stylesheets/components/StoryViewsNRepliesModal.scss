@@ -180,6 +180,33 @@
       width: 40px;
     }
   }
+
+  &__debugger__button {
+    color: $color-gray-25;
+    display: block;
+    font-weight: 600;
+    height: auto;
+    opacity: 1;
+    width: auto;
+
+    &--active {
+      @include dark-theme {
+        background: inherit;
+      }
+    }
+
+    &::after {
+      display: none;
+    }
+
+    &__text {
+      font-weight: normal;
+    }
+  }
+
+  &__copy-icon {
+    @include color-svg('../images/icons/v2/copy-outline-24.svg', $color-white);
+  }
 }
 
 .Tabs.StoryViewsNRepliesModal__tabs {

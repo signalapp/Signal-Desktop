@@ -143,21 +143,17 @@
     margin-bottom: 22px;
     padding: 14px 12px;
 
-    &__tool {
+    &__tool,
+    &__tool__button {
       margin-right: 14px;
     }
 
     &__button {
       @mixin icon($icon) {
         @include svg($icon);
-        opacity: 1;
         height: 20px;
         width: 20px;
         border-radius: 0;
-
-        &::after {
-          display: none;
-        }
       }
 
       @include button-reset;
@@ -173,19 +169,19 @@
       &--bg-none {
         @include icon('text-effect-off-24.svg');
       }
-      &--font-regular {
+      &--font-regular__button {
         @include icon('font-regular.svg');
       }
-      &--font-bold {
+      &--font-bold__button {
         @include icon('font-bold.svg');
       }
-      &--font-serif {
+      &--font-serif__button {
         @include icon('font-serif.svg');
       }
-      &--font-script {
+      &--font-script__button {
         @include icon('font-script.svg');
       }
-      &--font-condensed {
+      &--font-condensed__button {
         @include icon('font-condensed.svg');
       }
     }

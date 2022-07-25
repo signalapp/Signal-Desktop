@@ -52,18 +52,7 @@ export type ConversationStoryType = {
 
 export type StorySendStateType = {
   isAllowedToReplyToStory?: boolean;
-  recipient: Pick<
-    ConversationType,
-    | 'acceptedMessageRequest'
-    | 'avatarPath'
-    | 'color'
-    | 'id'
-    | 'isMe'
-    | 'name'
-    | 'profileName'
-    | 'sharedGroupNames'
-    | 'title'
-  >;
+  recipient: ConversationType;
   status: SendStatus;
   updatedAt?: number;
 };
@@ -80,6 +69,7 @@ export type StoryViewType = {
     ConversationType,
     | 'acceptedMessageRequest'
     | 'avatarPath'
+    | 'badges'
     | 'color'
     | 'firstName'
     | 'id'

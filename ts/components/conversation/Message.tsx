@@ -1551,7 +1551,10 @@ export class Message extends React.PureComponent<Props, State> {
           isViewOnce={false}
           moduleClassName="StoryReplyQuote"
           onClick={() => {
-            viewStory(storyReplyContext.storyId, StoryViewModeType.Single);
+            viewStory({
+              storyId: storyReplyContext.storyId,
+              storyViewMode: StoryViewModeType.Single,
+            });
           }}
           rawAttachment={storyReplyContext.rawAttachment}
           reactionEmoji={storyReplyContext.emoji}

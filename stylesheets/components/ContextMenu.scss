@@ -20,50 +20,6 @@
 
   &__button {
     @include button-reset();
-    align-items: center;
-    border-radius: 16px;
-    display: flex;
-    height: 32px;
-    justify-content: center;
-    opacity: 0.5;
-    width: 32px;
-
-    &:focus,
-    &:hover {
-      opacity: 1;
-    }
-
-    &::after {
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/collapse-down-20.svg',
-          $color-black
-        );
-      }
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/collapse-down-20.svg',
-          $color-white
-        );
-      }
-      content: '';
-      display: block;
-      flex-shrink: 0;
-      height: 24px;
-      width: 24px;
-    }
-
-    &--active {
-      opacity: 1;
-
-      @include light-theme() {
-        background-color: $color-gray-05;
-      }
-
-      @include dark-theme() {
-        background-color: $color-gray-75;
-      }
-    }
   }
 
   &__option {

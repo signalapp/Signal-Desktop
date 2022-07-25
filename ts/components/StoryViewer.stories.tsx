@@ -121,3 +121,22 @@ LongCaption.args = {
     }),
   },
 };
+
+export const YourStory = Template.bind({});
+{
+  const storyView = getFakeStoryView(
+    '/fixtures/nathan-anderson-316188-unsplash.jpg'
+  );
+
+  YourStory.args = {
+    story: {
+      ...storyView,
+      sender: {
+        ...storyView.sender,
+        isMe: true,
+      },
+      sendState: [],
+    },
+  };
+  YourStory.storyName = 'Your story';
+}

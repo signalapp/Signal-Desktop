@@ -101,6 +101,7 @@ export function getStoryView(
   const sender = pick(conversationSelector(story.sourceUuid || story.source), [
     'acceptedMessageRequest',
     'avatarPath',
+    'badges',
     'color',
     'firstName',
     'hideStory',
@@ -132,17 +133,7 @@ export function getStoryView(
 
       innerSendState.push({
         ...recipientSendState,
-        recipient: pick(recipient, [
-          'acceptedMessageRequest',
-          'avatarPath',
-          'color',
-          'id',
-          'isMe',
-          'name',
-          'profileName',
-          'sharedGroupNames',
-          'title',
-        ]),
+        recipient,
       });
     });
 

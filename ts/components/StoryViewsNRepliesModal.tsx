@@ -34,6 +34,7 @@ enum Tab {
 
 export type PropsType = {
   authorTitle: string;
+  canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isGroupStory?: boolean;
@@ -59,6 +60,7 @@ export type PropsType = {
 
 export const StoryViewsNRepliesModal = ({
   authorTitle,
+  canReply,
   getPreferredBadge,
   i18n,
   isGroupStory,
@@ -76,7 +78,7 @@ export const StoryViewsNRepliesModal = ({
   skinTone,
   storyPreviewAttachment,
   views,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element | null => {
   const inputApiRef = useRef<InputApi | undefined>();
   const [bottom, setBottom] = useState<HTMLDivElement | null>(null);
   const [messageBodyText, setMessageBodyText] = useState('');
@@ -117,7 +119,7 @@ export const StoryViewsNRepliesModal = ({
 
   let composerElement: JSX.Element | undefined;
 
-  if (!isMyStory) {
+  if (!isMyStory && canReply) {
     composerElement = (
       <>
         {!isGroupStory && (
@@ -372,6 +374,10 @@ export const StoryViewsNRepliesModal = ({
         )}
       </Tabs>
     ) : undefined;
+
+  if (!tabsElement && !viewsElement && !repliesElement && !composerElement) {
+    return null;
+  }
 
   return (
     <Modal

@@ -63,6 +63,7 @@ export type StoryDataType = {
 export type SelectedStoryDataType = {
   currentIndex: number;
   numStories: number;
+  shouldShowDetailsModal: boolean;
   story: StoryDataType;
 };
 
@@ -616,7 +617,8 @@ const getSelectedStoryDataForConversationId = (
 };
 
 function viewUserStories(
-  conversationId: string
+  conversationId: string,
+  shouldShowDetailsModal = false
 ): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> {
   return (dispatch, getState) => {
     const { currentIndex, hasUnread, numStories, storiesByConversationId } =
@@ -630,6 +632,7 @@ function viewUserStories(
         selectedStoryData: {
           currentIndex,
           numStories,
+          shouldShowDetailsModal,
           story,
         },
         storyViewMode: hasUnread
@@ -640,19 +643,23 @@ function viewUserStories(
   };
 }
 
-export type ViewStoryActionCreatorType = (
-  storyId?: string,
-  storyViewMode?: StoryViewModeType,
-  viewDirection?: StoryViewDirectionType
-) => unknown;
+export type ViewStoryActionCreatorType = (opts: {
+  closeViewer?: boolean;
+  storyId?: string;
+  storyViewMode?: StoryViewModeType;
+  viewDirection?: StoryViewDirectionType;
+  shouldShowDetailsModal?: boolean;
+}) => unknown;
 
-const viewStory: ViewStoryActionCreatorType = (
+const viewStory: ViewStoryActionCreatorType = ({
+  closeViewer,
+  shouldShowDetailsModal = false,
   storyId,
   storyViewMode,
-  viewDirection
-): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
+  viewDirection,
+}): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
   return (dispatch, getState) => {
-    if (!storyId || !storyViewMode) {
+    if (closeViewer || !storyId || !storyViewMode) {
       dispatch({
         type: VIEW_STORY,
         payload: undefined,
@@ -691,6 +698,7 @@ const viewStory: ViewStoryActionCreatorType = (
           selectedStoryData: {
             currentIndex,
             numStories,
+            shouldShowDetailsModal,
             story,
           },
           storyViewMode,
@@ -713,6 +721,7 @@ const viewStory: ViewStoryActionCreatorType = (
           selectedStoryData: {
             currentIndex: nextIndex,
             numStories,
+            shouldShowDetailsModal: false,
             story: nextStory,
           },
           storyViewMode,
@@ -732,6 +741,7 @@ const viewStory: ViewStoryActionCreatorType = (
           selectedStoryData: {
             currentIndex: nextIndex,
             numStories,
+            shouldShowDetailsModal: false,
             story: nextStory,
           },
           storyViewMode,
@@ -759,6 +769,7 @@ const viewStory: ViewStoryActionCreatorType = (
             selectedStoryData: {
               currentIndex: nextSelectedStoryData.currentIndex,
               numStories: nextSelectedStoryData.numStories,
+              shouldShowDetailsModal: false,
               story: unreadStory,
             },
             storyViewMode,
@@ -819,6 +830,7 @@ const viewStory: ViewStoryActionCreatorType = (
           selectedStoryData: {
             currentIndex: 0,
             numStories: nextSelectedStoryData.numStories,
+            shouldShowDetailsModal: false,
             story: nextSelectedStoryData.storiesByConversationId[0],
           },
           storyViewMode,
@@ -855,6 +867,7 @@ const viewStory: ViewStoryActionCreatorType = (
           selectedStoryData: {
             currentIndex: 0,
             numStories: nextSelectedStoryData.numStories,
+            shouldShowDetailsModal: false,
             story: nextSelectedStoryData.storiesByConversationId[0],
           },
           storyViewMode,

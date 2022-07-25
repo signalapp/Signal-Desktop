@@ -42,7 +42,7 @@ export const MyStoriesButton = ({
     <div className="Stories__my-stories">
       <button
         aria-label={i18n('StoryListItem__label')}
-        className="StoryListItem"
+        className="StoryListItem__button"
         onClick={onClick}
         tabIndex={0}
         type="button"

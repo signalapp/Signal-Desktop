@@ -83,7 +83,10 @@ export const MyStories = ({
                     aria-label={i18n('MyStories__story')}
                     className="MyStories__story__preview"
                     onClick={() =>
-                      viewStory(story.messageId, StoryViewModeType.Single)
+                      viewStory({
+                        storyId: story.messageId,
+                        storyViewMode: StoryViewModeType.Single,
+                      })
                     }
                     type="button"
                   >
@@ -120,9 +123,15 @@ export const MyStories = ({
                   type="button"
                 />
                 <ContextMenu
-                  buttonClassName="MyStories__story__more"
                   i18n={i18n}
                   menuOptions={[
+                    {
+                      icon: 'MyStories__icon--forward',
+                      label: i18n('forward'),
+                      onClick: () => {
+                        onForward(story.messageId);
+                      },
+                    },
                     {
                       icon: 'MyStories__icon--save',
                       label: i18n('save'),
@@ -131,10 +140,14 @@ export const MyStories = ({
                       },
                     },
                     {
-                      icon: 'MyStories__icon--forward',
-                      label: i18n('forward'),
+                      icon: 'StoryListItem__icon--info',
+                      label: i18n('StoryListItem__info'),
                       onClick: () => {
-                        onForward(story.messageId);
+                        viewStory({
+                          storyId: story.messageId,
+                          storyViewMode: StoryViewModeType.Single,
+                          shouldShowDetailsModal: true,
+                        });
                       },
                     },
                     {
@@ -145,6 +158,7 @@ export const MyStories = ({
                       },
                     },
                   ]}
+                  moduleClassName="MyStories__story__more"
                   theme={Theme.Dark}
                 />
               </div>

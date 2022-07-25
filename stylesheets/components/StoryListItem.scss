@@ -2,22 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .StoryListItem {
-  @include button-reset;
-  align-items: center;
-  border-radius: 10px;
-  display: flex;
-  height: 96px;
-  padding: 0 10px;
-  width: 100%;
+  &__button {
+    @include button-reset;
+    align-items: center;
+    border-radius: 10px;
+    display: flex;
+    height: 96px;
+    padding: 0 10px;
+    width: 100%;
 
-  @include keyboard-mode {
-    &:focus {
+    @include keyboard-mode {
+      &:focus {
+        background: $color-gray-65;
+      }
+    }
+
+    &:hover {
       background: $color-gray-65;
     }
-  }
-
-  &:hover {
-    background: $color-gray-65;
   }
 
   &__info {
@@ -107,8 +109,22 @@
       @include color-svg('../images/icons/v2/open-24.svg', $color-white);
     }
 
+    &--delete {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-white
+      );
+    }
+
     &--hide {
       @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+    }
+
+    &--info {
+      @include color-svg(
+        '../images/icons/v2/info-outline-24.svg',
+        $color-white
+      );
     }
   }
 }

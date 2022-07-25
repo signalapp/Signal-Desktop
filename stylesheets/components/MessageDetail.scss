@@ -28,6 +28,9 @@
   min-width: 72px;
 }
 
+.module-message-detail__unix-timestamp-menu__button {
+}
+
 .module-message-detail__unix-timestamp {
   @include light-theme {
     color: $color-gray-05;

@@ -66,12 +66,12 @@ export type PropsType = {
   onAddStory: () => unknown;
   onMyStoriesClicked: () => unknown;
   onStoriesSettings: () => unknown;
-  onStoryClicked: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
+  viewUserStories: (conversationId: string) => unknown;
 };
 
 export const StoriesPane = ({
@@ -82,12 +82,12 @@ export const StoriesPane = ({
   onAddStory,
   onMyStoriesClicked,
   onStoriesSettings,
-  onStoryClicked,
   queueStoryDownload,
   showConversation,
   stories,
   toggleHideStories,
   toggleStoriesView,
+  viewUserStories,
 }: PropsType): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isShowingHiddenStories, setIsShowingHiddenStories] = useState(false);
@@ -122,7 +122,6 @@ export const StoriesPane = ({
           type="button"
         />
         <ContextMenu
-          buttonClassName="Stories__pane__settings"
           i18n={i18n}
           menuOptions={[
             {
@@ -130,6 +129,7 @@ export const StoriesPane = ({
               label: i18n('StoriesSettings__context-menu'),
             },
           ]}
+          moduleClassName="Stories__pane__settings"
           popperOptions={{
             placement: 'bottom',
             strategy: 'absolute',
@@ -166,9 +166,6 @@ export const StoriesPane = ({
             group={story.group}
             i18n={i18n}
             key={story.storyView.timestamp}
-            onClick={() => {
-              onStoryClicked(story.conversationId);
-            }}
             onHideStory={toggleHideStories}
             onGoToConversation={conversationId => {
               showConversation({ conversationId });
@@ -176,6 +173,7 @@ export const StoriesPane = ({
             }}
             queueStoryDownload={queueStoryDownload}
             story={story.storyView}
+            viewUserStories={viewUserStories}
           />
         ))}
         {Boolean(hiddenStories.length) && (
@@ -195,9 +193,6 @@ export const StoriesPane = ({
                   key={story.storyView.timestamp}
                   i18n={i18n}
                   isHidden
-                  onClick={() => {
-                    onStoryClicked(story.conversationId);
-                  }}
                   onHideStory={toggleHideStories}
                   onGoToConversation={conversationId => {
                     showConversation({ conversationId });
@@ -205,6 +200,7 @@ export const StoriesPane = ({
                   }}
                   queueStoryDownload={queueStoryDownload}
                   story={story.storyView}
+                  viewUserStories={viewUserStories}
                 />
               ))}
           </>

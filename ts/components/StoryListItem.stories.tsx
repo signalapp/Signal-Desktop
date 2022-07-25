@@ -23,7 +23,6 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
-    onClick: { action: true },
     onGoToConversation: { action: true },
     onHideStory: { action: true },
     queueStoryDownload: { action: true },
@@ -34,6 +33,7 @@ export default {
         timestamp: Date.now(),
       },
     },
+    viewUserStories: { action: true },
   },
 } as Meta;
 

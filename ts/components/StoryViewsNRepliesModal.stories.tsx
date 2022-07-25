@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
@@ -18,35 +18,50 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/StoryViewsNRepliesModal',
-};
-
-function getDefaultProps(): PropsType {
-  return {
-    authorTitle: getDefaultConversation().title,
-    getPreferredBadge: () => undefined,
-    i18n,
-    isMyStory: false,
-    onClose: action('onClose'),
-    onSetSkinTone: action('onSetSkinTone'),
-    onReact: action('onReact'),
-    onReply: action('onReply'),
-    onTextTooLong: action('onTextTooLong'),
-    onUseEmoji: action('onUseEmoji'),
-    preferredReactionEmoji: ['❤️', '👍', '👎', '😂', '😮', '😢'],
-    renderEmojiPicker: () => <div />,
-    replies: [],
-    storyPreviewAttachment: fakeAttachment({
-      thumbnail: {
-        contentType: IMAGE_JPEG,
-        height: 64,
-        objectUrl: '/fixtures/nathan-anderson-316188-unsplash.jpg',
-        path: '',
-        width: 40,
-      },
-    }),
-    views: [],
-  };
-}
+  component: StoryViewsNRepliesModal,
+  argTypes: {
+    authorTitle: {
+      defaultValue: getDefaultConversation().title,
+    },
+    canReply: {
+      defaultValue: true,
+    },
+    getPreferredBadge: { action: true },
+    i18n: {
+      defaultValue: i18n,
+    },
+    isMyStory: {
+      defaultValue: false,
+    },
+    onClose: { action: true },
+    onSetSkinTone: { action: true },
+    onReact: { action: true },
+    onReply: { action: true },
+    onTextTooLong: { action: true },
+    onUseEmoji: { action: true },
+    preferredReactionEmoji: {
+      defaultValue: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+    },
+    renderEmojiPicker: { action: true },
+    replies: {
+      defaultValue: [],
+    },
+    storyPreviewAttachment: {
+      defaultValue: fakeAttachment({
+        thumbnail: {
+          contentType: IMAGE_JPEG,
+          height: 64,
+          objectUrl: '/fixtures/nathan-anderson-316188-unsplash.jpg',
+          path: '',
+          width: 40,
+        },
+      }),
+    },
+    views: {
+      defaultValue: [],
+    },
+  },
+} as Meta;
 
 function getViewsAndReplies() {
   const p1 = getDefaultConversation();
@@ -107,47 +122,51 @@ function getViewsAndReplies() {
   };
 }
 
-export const CanReply = (): JSX.Element => (
-  <StoryViewsNRepliesModal {...getDefaultProps()} />
+const Template: Story<PropsType> = args => (
+  <StoryViewsNRepliesModal {...args} />
 );
 
-CanReply.story = {
-  name: 'Can reply',
+export const CanReply = Template.bind({});
+CanReply.args = {};
+CanReply.storyName = 'Can reply';
+
+export const ViewsOnly = Template.bind({});
+ViewsOnly.args = {
+  isMyStory: true,
+  views: getViewsAndReplies().views,
 };
+ViewsOnly.storyName = 'Views only';
 
-export const ViewsOnly = (): JSX.Element => (
-  <StoryViewsNRepliesModal
-    {...getDefaultProps()}
-    isMyStory
-    views={getViewsAndReplies().views}
-  />
-);
-
-ViewsOnly.story = {
-  name: 'Views only',
+export const InAGroupNoReplies = Template.bind({});
+InAGroupNoReplies.args = {
+  isGroupStory: true,
 };
+InAGroupNoReplies.storyName = 'In a group (no replies)';
 
-export const InAGroupNoReplies = (): JSX.Element => (
-  <StoryViewsNRepliesModal {...getDefaultProps()} isGroupStory />
-);
-
-InAGroupNoReplies.story = {
-  name: 'In a group (no replies)',
-};
-
-export const InAGroup = (): JSX.Element => {
+export const InAGroup = Template.bind({});
+{
   const { views, replies } = getViewsAndReplies();
+  InAGroup.args = {
+    isGroupStory: true,
+    replies,
+    views,
+  };
+}
+InAGroup.storyName = 'In a group';
 
-  return (
-    <StoryViewsNRepliesModal
-      {...getDefaultProps()}
-      isGroupStory
-      replies={replies}
-      views={views}
-    />
-  );
+export const CantReply = Template.bind({});
+CantReply.args = {
+  canReply: false,
 };
 
-InAGroup.story = {
-  name: 'In a group',
-};
+export const InAGroupCantReply = Template.bind({});
+{
+  const { views, replies } = getViewsAndReplies();
+  InAGroupCantReply.args = {
+    canReply: false,
+    isGroupStory: true,
+    replies,
+    views,
+  };
+}
+InAGroupCantReply.storyName = "In a group (can't reply)";

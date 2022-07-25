@@ -12,6 +12,7 @@ import React, {
 import classNames from 'classnames';
 import { useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
+import type { ContextMenuOptionType } from './ContextMenu';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
@@ -23,13 +24,14 @@ import * as log from '../logging/log';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import { ContextMenuPopper } from './ContextMenu';
+import { ContextMenu } from './ContextMenu';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
+import { StoryDetailsModal } from './StoryDetailsModal';
+import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { StoryImage } from './StoryImage';
 import { StoryViewDirectionType, StoryViewModeType } from '../types/Stories';
-import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { Theme } from '../util/theme';
 import { ToastType } from '../state/ducks/toast';
 import { getAvatarColor } from '../types/Colors';
@@ -40,6 +42,7 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
   currentIndex: number;
+  deleteStoryForEveryone: (story: StoryViewType) => unknown;
   getPreferredBadge: PreferredBadgeSelectorType;
   group?: Pick<
     ConversationType,
@@ -74,6 +77,7 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
+  shouldShowDetailsModal?: boolean;
   showToast: ShowToastActionCreatorType;
   skinTone?: number;
   story: StoryViewType;
@@ -95,6 +99,7 @@ enum Arrow {
 
 export const StoryViewer = ({
   currentIndex,
+  deleteStoryForEveryone,
   getPreferredBadge,
   group,
   hasAllStoriesMuted,
@@ -114,6 +119,7 @@ export const StoryViewer = ({
   recentEmojis,
   renderEmojiPicker,
   replyState,
+  shouldShowDetailsModal,
   showToast,
   skinTone,
   story,
@@ -121,12 +127,14 @@ export const StoryViewer = ({
   toggleHasAllStoriesMuted,
   viewStory,
 }: PropsType): JSX.Element => {
+  const [isShowingContextMenu, setIsShowingContextMenu] =
+    useState<boolean>(false);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
-  const [isShowingContextMenu, setIsShowingContextMenu] = useState(false);
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
   const [reactionEmoji, setReactionEmoji] = useState<string | undefined>();
+  const [confirmDeleteStory, setConfirmDeleteStory] = useState<
+    StoryViewType | undefined
+  >();
 
   const { attachment, canReply, isHidden, messageId, sendState, timestamp } =
     story;
@@ -143,19 +151,25 @@ export const StoryViewer = ({
     title,
   } = story.sender;
 
-  const [hasReplyModal, setHasReplyModal] = useState(false);
+  const [hasStoryViewsNRepliesModal, setHasStoryViewsNRepliesModal] =
+    useState(false);
+  const [hasStoryDetailsModal, setHasStoryDetailsModal] = useState(
+    Boolean(shouldShowDetailsModal)
+  );
 
   const onClose = useCallback(() => {
-    viewStory();
+    viewStory({
+      closeViewer: true,
+    });
   }, [viewStory]);
 
   const onEscape = useCallback(() => {
-    if (hasReplyModal) {
-      setHasReplyModal(false);
+    if (hasStoryViewsNRepliesModal) {
+      setHasStoryViewsNRepliesModal(false);
     } else {
       onClose();
     }
-  }, [hasReplyModal, onClose]);
+  }, [hasStoryViewsNRepliesModal, onClose]);
 
   useEscapeHandling(onEscape);
 
@@ -225,11 +239,11 @@ export const StoryViewer = ({
           }
 
           if (value === 100) {
-            viewStory(
-              story.messageId,
+            viewStory({
+              storyId: story.messageId,
               storyViewMode,
-              StoryViewDirectionType.Next
-            );
+              viewDirection: StoryViewDirectionType.Next,
+            });
           }
         },
       },
@@ -263,7 +277,8 @@ export const StoryViewer = ({
   const shouldPauseViewing =
     hasConfirmHideStory ||
     hasExpandedCaption ||
-    hasReplyModal ||
+    hasStoryDetailsModal ||
+    hasStoryViewsNRepliesModal ||
     isShowingContextMenu ||
     pauseStory ||
     Boolean(reactionEmoji);
@@ -284,15 +299,19 @@ export const StoryViewer = ({
   const navigateStories = useCallback(
     (ev: KeyboardEvent) => {
       if (ev.key === 'ArrowRight') {
-        viewStory(story.messageId, storyViewMode, StoryViewDirectionType.Next);
+        viewStory({
+          storyId: story.messageId,
+          storyViewMode,
+          viewDirection: StoryViewDirectionType.Next,
+        });
         ev.preventDefault();
         ev.stopPropagation();
       } else if (ev.key === 'ArrowLeft') {
-        viewStory(
-          story.messageId,
+        viewStory({
+          storyId: story.messageId,
           storyViewMode,
-          StoryViewDirectionType.Previous
-        );
+          viewDirection: StoryViewDirectionType.Previous,
+        });
         ev.preventDefault();
         ev.stopPropagation();
       }
@@ -357,9 +376,49 @@ export const StoryViewer = ({
   const replyCount = replies.length;
   const viewCount = views.length;
 
-  const shouldShowContextMenu = !sendState;
-
   const hasPrevNextArrows = storyViewMode !== StoryViewModeType.Single;
+
+  const contextMenuOptions: ReadonlyArray<ContextMenuOptionType<unknown>> =
+    sendState
+      ? [
+          {
+            icon: 'StoryListItem__icon--info',
+            label: i18n('StoryListItem__info'),
+            onClick: () => setHasStoryDetailsModal(true),
+          },
+          {
+            icon: 'StoryListItem__icon--delete',
+            label: i18n('StoryListItem__delete'),
+            onClick: () => setConfirmDeleteStory(story),
+          },
+        ]
+      : [
+          {
+            icon: 'StoryListItem__icon--info',
+            label: i18n('StoryListItem__info'),
+            onClick: () => setHasStoryDetailsModal(true),
+          },
+          {
+            icon: 'StoryListItem__icon--hide',
+            label: isHidden
+              ? i18n('StoryListItem__unhide')
+              : i18n('StoryListItem__hide'),
+            onClick: () => {
+              if (isHidden) {
+                onHideStory(id);
+              } else {
+                setHasConfirmHideStory(true);
+              }
+            },
+          },
+          {
+            icon: 'StoryListItem__icon--chat',
+            label: i18n('StoryListItem__go-to-chat'),
+            onClick: () => {
+              onGoToConversation(id);
+            },
+          },
+        ];
 
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
@@ -379,11 +438,11 @@ export const StoryViewer = ({
                 }
               )}
               onClick={() =>
-                viewStory(
-                  story.messageId,
+                viewStory({
+                  storyId: story.messageId,
                   storyViewMode,
-                  StoryViewDirectionType.Previous
-                )
+                  viewDirection: StoryViewDirectionType.Previous,
+                })
               }
               onMouseMove={() => setArrowToShow(Arrow.Left)}
               type="button"
@@ -519,15 +578,14 @@ export const StoryViewer = ({
                   onClick={toggleHasAllStoriesMuted}
                   type="button"
                 />
-                {shouldShowContextMenu && (
-                  <button
-                    aria-label={i18n('MyStories__more')}
-                    className="StoryViewer__more"
-                    onClick={() => setIsShowingContextMenu(true)}
-                    ref={setReferenceElement}
-                    type="button"
-                  />
-                )}
+                <ContextMenu
+                  aria-label={i18n('MyStories__more')}
+                  i18n={i18n}
+                  menuOptions={contextMenuOptions}
+                  moduleClassName="StoryViewer__more"
+                  onMenuShowingChanged={setIsShowingContextMenu}
+                  theme={Theme.Dark}
+                />
               </div>
             </div>
             <div className="StoryViewer__progress">
@@ -555,14 +613,14 @@ export const StoryViewer = ({
               {canReply && (
                 <button
                   className="StoryViewer__reply"
-                  onClick={() => setHasReplyModal(true)}
+                  onClick={() => setHasStoryViewsNRepliesModal(true)}
                   tabIndex={0}
                   type="button"
                 >
                   <>
-                    {viewCount > 0 || replyCount > 0 ? (
+                    {sendState || replyCount > 0 ? (
                       <span className="StoryViewer__reply__chevron">
-                        {viewCount > 0 &&
+                        {sendState &&
                           (viewCount === 1 ? (
                             <Intl
                               i18n={i18n}
@@ -593,7 +651,7 @@ export const StoryViewer = ({
                           ))}
                       </span>
                     ) : null}
-                    {!viewCount && !replyCount && (
+                    {!sendState && !replyCount && (
                       <span className="StoryViewer__reply__arrow">
                         {isGroupStory
                           ? i18n('StoryViewer__reply-group')
@@ -615,11 +673,11 @@ export const StoryViewer = ({
                 }
               )}
               onClick={() =>
-                viewStory(
-                  story.messageId,
+                viewStory({
+                  storyId: story.messageId,
                   storyViewMode,
-                  StoryViewDirectionType.Next
-                )
+                  viewDirection: StoryViewDirectionType.Next,
+                })
               }
               onMouseMove={() => setArrowToShow(Arrow.Right)}
               type="button"
@@ -634,51 +692,35 @@ export const StoryViewer = ({
             type="button"
           />
         </div>
-        <ContextMenuPopper
-          isMenuShowing={isShowingContextMenu}
-          menuOptions={[
-            {
-              icon: 'StoryListItem__icon--hide',
-              label: isHidden
-                ? i18n('StoryListItem__unhide')
-                : i18n('StoryListItem__hide'),
-              onClick: () => {
-                if (isHidden) {
-                  onHideStory(id);
-                } else {
-                  setHasConfirmHideStory(true);
-                }
-              },
-            },
-            {
-              icon: 'StoryListItem__icon--chat',
-              label: i18n('StoryListItem__go-to-chat'),
-              onClick: () => {
-                onGoToConversation(id);
-              },
-            },
-          ]}
-          onClose={() => setIsShowingContextMenu(false)}
-          referenceElement={referenceElement}
-          theme={Theme.Dark}
-        />
-        {hasReplyModal && canReply && (
+        {hasStoryDetailsModal && (
+          <StoryDetailsModal
+            getPreferredBadge={getPreferredBadge}
+            i18n={i18n}
+            onClose={() => setHasStoryDetailsModal(false)}
+            sender={story.sender}
+            sendState={sendState}
+            size={attachment?.size}
+            timestamp={timestamp}
+          />
+        )}
+        {hasStoryViewsNRepliesModal && (
           <StoryViewsNRepliesModal
             authorTitle={firstName || title}
+            canReply={Boolean(canReply)}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             isGroupStory={isGroupStory}
             isMyStory={isMe}
-            onClose={() => setHasReplyModal(false)}
+            onClose={() => setHasStoryViewsNRepliesModal(false)}
             onReact={emoji => {
               onReactToStory(emoji, story);
-              setHasReplyModal(false);
+              setHasStoryViewsNRepliesModal(false);
               setReactionEmoji(emoji);
               showToast(ToastType.StoryReact);
             }}
             onReply={(message, mentions, replyTimestamp) => {
               if (!isGroupStory) {
-                setHasReplyModal(false);
+                setHasStoryViewsNRepliesModal(false);
               }
               onReplyToStory(message, mentions, replyTimestamp, story);
               showToast(ToastType.StoryReply);
@@ -710,6 +752,21 @@ export const StoryViewer = ({
             }}
           >
             {i18n('StoryListItem__hide-modal--body', [String(firstName)])}
+          </ConfirmationDialog>
+        )}
+        {confirmDeleteStory && (
+          <ConfirmationDialog
+            actions={[
+              {
+                text: i18n('delete'),
+                action: () => deleteStoryForEveryone(confirmDeleteStory),
+                style: 'negative',
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => setConfirmDeleteStory(undefined)}
+          >
+            {i18n('MyStories__delete')}
           </ConfirmationDialog>
         )}
       </div>

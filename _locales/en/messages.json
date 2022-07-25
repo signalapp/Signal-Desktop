@@ -7385,6 +7385,30 @@
     "message": "Unmute",
     "description": "Aria label for unmuting stories"
   },
+  "StoryDetailsModal__sent-time": {
+    "message": "Sent $time$",
+    "description": "Sent timestamp",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "Today 5:33pm"
+      }
+    }
+  },
+  "StoryDetailsModal__file-size": {
+    "message": "File size $size$",
+    "description": "File size description",
+    "placeholders": {
+      "size": {
+        "content": "$1",
+        "example": "100kb"
+      }
+    }
+  },
+  "StoryDetailsModal__copy-timestamp": {
+    "message": "Copy timestamp",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "No replies yet",
     "description": "Placeholder text for when there are no replies"
@@ -7420,6 +7444,14 @@
   "StoryListItem__go-to-chat": {
     "message": "Go to chat",
     "description": "Label for menu item to go to conversation"
+  },
+  "StoryListItem__delete": {
+    "message": "Delete",
+    "description": "Label for menu item to delete a story"
+  },
+  "StoryListItem__info": {
+    "message": "Info",
+    "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
     "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",

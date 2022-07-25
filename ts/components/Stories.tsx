@@ -101,12 +101,12 @@ export const Stories = ({
                 }
               }}
               onStoriesSettings={showStoriesSettings}
-              onStoryClicked={viewUserStories}
               queueStoryDownload={queueStoryDownload}
               showConversation={showConversation}
               stories={stories}
               toggleHideStories={toggleHideStories}
               toggleStoriesView={toggleStoriesView}
+              viewUserStories={viewUserStories}
             />
           )}
         </div>

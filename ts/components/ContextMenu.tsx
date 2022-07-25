@@ -1,7 +1,7 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, KeyboardEvent } from 'react';
+import type { KeyboardEvent, ReactNode } from 'react';
 import type { Options } from '@popperjs/core';
 import FocusTrap from 'focus-trap-react';
 import React, { useEffect, useState } from 'react';
@@ -11,9 +11,10 @@ import { noop } from 'lodash';
 
 import type { Theme } from '../util/theme';
 import type { LocalizerType } from '../types/Util';
+import { getClassNamesFor } from '../util/getClassNamesFor';
 import { themeClassName } from '../util/theme';
 
-type OptionType<T> = {
+export type ContextMenuOptionType<T> = {
   readonly description?: string;
   readonly icon?: string;
   readonly label: string;
@@ -21,46 +22,52 @@ type OptionType<T> = {
   readonly value?: T;
 };
 
-export type ContextMenuPropsType<T> = {
-  readonly focusedIndex?: number;
-  readonly isMenuShowing: boolean;
-  readonly menuOptions: ReadonlyArray<OptionType<T>>;
-  readonly onClose: () => unknown;
+export type PropsType<T> = {
+  readonly children?: ReactNode;
+  readonly i18n: LocalizerType;
+  readonly menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
+  readonly moduleClassName?: string;
+  readonly onClick?: () => unknown;
+  readonly onMenuShowingChanged?: (value: boolean) => unknown;
   readonly popperOptions?: Pick<Options, 'placement' | 'strategy'>;
-  readonly referenceElement: HTMLElement | null;
   readonly theme?: Theme;
   readonly title?: string;
   readonly value?: T;
 };
 
-export type PropsType<T> = {
-  readonly buttonClassName?: string;
-  readonly buttonStyle?: CSSProperties;
-  readonly i18n: LocalizerType;
-} & Pick<
-  ContextMenuPropsType<T>,
-  'menuOptions' | 'popperOptions' | 'theme' | 'title' | 'value'
->;
-
-export function ContextMenuPopper<T>({
+export function ContextMenu<T>({
+  children,
+  i18n,
   menuOptions,
-  focusedIndex,
-  isMenuShowing,
+  moduleClassName,
+  onClick,
+  onMenuShowingChanged,
   popperOptions,
-  onClose,
-  referenceElement,
-  title,
   theme,
+  title,
   value,
-}: ContextMenuPropsType<T>): JSX.Element | null {
+}: PropsType<T>): JSX.Element {
+  const [isMenuShowing, setIsMenuShowing] = useState<boolean>(false);
+  const [focusedIndex, setFocusedIndex] = useState<number | undefined>(
+    undefined
+  );
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null
   );
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement | null>(null);
+
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'top-start',
     strategy: 'fixed',
     ...popperOptions,
   });
+
+  useEffect(() => {
+    if (onMenuShowingChanged) {
+      onMenuShowingChanged(isMenuShowing);
+    }
+  }, [isMenuShowing, onMenuShowingChanged]);
 
   useEffect(() => {
     if (!isMenuShowing) {
@@ -69,7 +76,7 @@ export function ContextMenuPopper<T>({
 
     const handleOutsideClick = (event: MouseEvent) => {
       if (!referenceElement?.contains(event.target as Node)) {
-        onClose();
+        setIsMenuShowing(false);
         event.stopPropagation();
         event.preventDefault();
       }
@@ -79,92 +86,10 @@ export function ContextMenuPopper<T>({
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [isMenuShowing, onClose, referenceElement]);
-
-  if (!isMenuShowing) {
-    return null;
-  }
-
-  return (
-    <FocusTrap
-      focusTrapOptions={{
-        allowOutsideClick: true,
-      }}
-    >
-      <div className={theme ? themeClassName(theme) : undefined}>
-        <div
-          className={classNames('ContextMenu__popper', {
-            'ContextMenu__popper--single-item': menuOptions.length === 1,
-          })}
-          ref={setPopperElement}
-          style={styles.popper}
-          {...attributes.popper}
-        >
-          {title && <div className="ContextMenu__title">{title}</div>}
-          {menuOptions.map((option, index) => (
-            <button
-              aria-label={option.label}
-              className={classNames({
-                ContextMenu__option: true,
-                'ContextMenu__option--focused': focusedIndex === index,
-              })}
-              key={option.label}
-              type="button"
-              onClick={() => {
-                option.onClick(option.value);
-                onClose();
-              }}
-            >
-              <div className="ContextMenu__option--container">
-                {option.icon && (
-                  <div
-                    className={classNames(
-                      'ContextMenu__option--icon',
-                      option.icon
-                    )}
-                  />
-                )}
-                <div>
-                  <div className="ContextMenu__option--title">
-                    {option.label}
-                  </div>
-                  {option.description && (
-                    <div className="ContextMenu__option--description">
-                      {option.description}
-                    </div>
-                  )}
-                </div>
-              </div>
-              {typeof value !== 'undefined' &&
-              typeof option.value !== 'undefined' &&
-              value === option.value ? (
-                <div className="ContextMenu__option--selected" />
-              ) : null}
-            </button>
-          ))}
-        </div>
-      </div>
-    </FocusTrap>
-  );
-}
-
-export function ContextMenu<T>({
-  buttonClassName,
-  buttonStyle,
-  i18n,
-  menuOptions,
-  popperOptions,
-  theme,
-  title,
-  value,
-}: PropsType<T>): JSX.Element {
-  const [menuShowing, setMenuShowing] = useState<boolean>(false);
-  const [focusedIndex, setFocusedIndex] = useState<number | undefined>(
-    undefined
-  );
+  }, [isMenuShowing, referenceElement]);
 
   const handleKeyDown = (ev: KeyboardEvent) => {
-    if (!menuShowing) {
+    if (!isMenuShowing) {
       if (ev.key === 'Enter') {
         setFocusedIndex(0);
       }
@@ -194,46 +119,101 @@ export function ContextMenu<T>({
         const focusedOption = menuOptions[focusedIndex];
         focusedOption.onClick(focusedOption.value);
       }
-      setMenuShowing(false);
+      setIsMenuShowing(false);
       ev.stopPropagation();
       ev.preventDefault();
     }
   };
 
   const handleClick = (ev: KeyboardEvent | React.MouseEvent) => {
-    setMenuShowing(true);
+    setIsMenuShowing(true);
     ev.stopPropagation();
     ev.preventDefault();
   };
 
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
+  const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
   return (
     <div className={theme ? themeClassName(theme) : undefined}>
       <button
         aria-label={i18n('ContextMenu--button')}
-        className={classNames(buttonClassName, {
-          ContextMenu__button: true,
-          'ContextMenu__button--active': menuShowing,
-        })}
-        onClick={handleClick}
+        className={classNames(
+          getClassName('__button'),
+          isMenuShowing ? getClassName('__button--active') : undefined
+        )}
+        onClick={onClick || handleClick}
+        onContextMenu={handleClick}
         onKeyDown={handleKeyDown}
         ref={setReferenceElement}
-        style={buttonStyle}
         type="button"
-      />
-      {menuShowing && (
-        <ContextMenuPopper
-          focusedIndex={focusedIndex}
-          isMenuShowing={menuShowing}
-          menuOptions={menuOptions}
-          onClose={() => setMenuShowing(false)}
-          popperOptions={popperOptions}
-          referenceElement={referenceElement}
-          title={title}
-          value={value}
-        />
+      >
+        {children}
+      </button>
+      {isMenuShowing && (
+        <FocusTrap
+          focusTrapOptions={{
+            allowOutsideClick: true,
+          }}
+        >
+          <div className={theme ? themeClassName(theme) : undefined}>
+            <div
+              className={classNames(
+                getClassName('__popper'),
+                menuOptions.length === 1
+                  ? getClassName('__popper--single-item')
+                  : undefined
+              )}
+              ref={setPopperElement}
+              style={styles.popper}
+              {...attributes.popper}
+            >
+              {title && <div className={getClassName('__title')}>{title}</div>}
+              {menuOptions.map((option, index) => (
+                <button
+                  aria-label={option.label}
+                  className={classNames(
+                    getClassName('__option'),
+                    focusedIndex === index
+                      ? getClassName('__option--focused')
+                      : undefined
+                  )}
+                  key={option.label}
+                  type="button"
+                  onClick={() => {
+                    option.onClick(option.value);
+                    setIsMenuShowing(false);
+                  }}
+                >
+                  <div className={getClassName('__option--container')}>
+                    {option.icon && (
+                      <div
+                        className={classNames(
+                          getClassName('__option--icon'),
+                          option.icon
+                        )}
+                      />
+                    )}
+                    <div>
+                      <div className={getClassName('__option--title')}>
+                        {option.label}
+                      </div>
+                      {option.description && (
+                        <div className={getClassName('__option--description')}>
+                          {option.description}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {typeof value !== 'undefined' &&
+                  typeof option.value !== 'undefined' &&
+                  value === option.value ? (
+                    <div className={getClassName('__option--selected')} />
+                  ) : null}
+                </button>
+              ))}
+            </div>
+          </div>
+        </FocusTrap>
       )}
     </div>
   );

@@ -21,7 +21,8 @@
     width: 380px;
     padding-top: calc(14px + var(--title-bar-drag-area-height));
 
-    &__settings {
+    &__settings__button {
+      margin-left: 24px;
       opacity: 1;
       position: absolute;
       right: 12px;

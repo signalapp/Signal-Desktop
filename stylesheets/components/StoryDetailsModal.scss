@@ -1,0 +1,79 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.StoryDetailsModal {
+  min-width: 320px;
+  overflow: hidden;
+
+  &__overlay-container {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  &__debugger__button {
+    color: $color-gray-25;
+    display: block;
+    font-weight: 600;
+    height: auto;
+    width: auto;
+
+    &__text {
+      font-weight: normal;
+    }
+  }
+
+  &__copy-icon {
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/copy-outline-24.svg',
+        $color-white
+      );
+    }
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/copy-outline-24.svg',
+        $color-black
+      );
+    }
+  }
+
+  &__contact-container {
+    border-top: 1px solid $color-gray-75;
+  }
+
+  &__contact-group__header {
+    @include font-body-1-bold;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 10px 0;
+    user-select: none;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__contact {
+    margin-bottom: 8px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__text {
+      @include font-body-1;
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__status-timestamp {
+    margin-left: 6px;
+  }
+}

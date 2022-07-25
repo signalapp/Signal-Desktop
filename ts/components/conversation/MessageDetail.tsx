@@ -8,6 +8,7 @@ import { noop } from 'lodash';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
+import { ContextMenu } from '../ContextMenu';
 import { Time } from '../Time';
 import type {
   Props as MessagePropsType,
@@ -392,12 +393,27 @@ export class MessageDetail extends React.Component<Props> {
             <tr>
               <td className="module-message-detail__label">{i18n('sent')}</td>
               <td>
-                <Time timestamp={sentAt}>
-                  {formatDateTimeLong(i18n, sentAt)}
-                </Time>{' '}
-                <span className="module-message-detail__unix-timestamp">
-                  ({sentAt})
-                </span>
+                <ContextMenu
+                  i18n={i18n}
+                  menuOptions={[
+                    {
+                      icon: 'StoryDetailsModal__copy-icon',
+                      label: i18n('StoryDetailsModal__copy-timestamp'),
+                      onClick: () => {
+                        window.navigator.clipboard.writeText(String(sentAt));
+                      },
+                    },
+                  ]}
+                >
+                  <>
+                    <Time timestamp={sentAt}>
+                      {formatDateTimeLong(i18n, sentAt)}
+                    </Time>{' '}
+                    <span className="module-message-detail__unix-timestamp">
+                      ({sentAt})
+                    </span>
+                  </>
+                </ContextMenu>
               </td>
             </tr>
             {receivedAt && message.direction === 'incoming' ? (

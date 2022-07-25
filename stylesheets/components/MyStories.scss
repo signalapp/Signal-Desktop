@@ -56,7 +56,7 @@
       }
     }
 
-    &__more {
+    &__more__button {
       align-items: center;
       background: $color-gray-65;
       border-radius: 100%;
@@ -64,7 +64,6 @@
       height: 28px;
       justify-content: center;
       margin-left: 16px;
-      opacity: 1;
       width: 28px;
 
       &::after {

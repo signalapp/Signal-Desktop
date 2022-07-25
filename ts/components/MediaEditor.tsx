@@ -569,14 +569,6 @@ export const MediaEditor = ({
           value={sliderValue}
         />
         <ContextMenu
-          buttonClassName={classNames('MediaEditor__tools__tool', {
-            'MediaEditor__tools__button--text-regular':
-              textStyle === TextStyle.Regular,
-            'MediaEditor__tools__button--text-highlight':
-              textStyle === TextStyle.Highlight,
-            'MediaEditor__tools__button--text-outline':
-              textStyle === TextStyle.Outline,
-          })}
           i18n={i18n}
           menuOptions={[
             {
@@ -598,6 +590,14 @@ export const MediaEditor = ({
               value: TextStyle.Outline,
             },
           ]}
+          moduleClassName={classNames('MediaEditor__tools__tool', {
+            'MediaEditor__tools__button--text-regular':
+              textStyle === TextStyle.Regular,
+            'MediaEditor__tools__button--text-highlight':
+              textStyle === TextStyle.Highlight,
+            'MediaEditor__tools__button--text-outline':
+              textStyle === TextStyle.Outline,
+          })}
           theme={Theme.Dark}
           value={textStyle}
         />
@@ -628,11 +628,6 @@ export const MediaEditor = ({
           value={sliderValue}
         />
         <ContextMenu
-          buttonClassName={classNames('MediaEditor__tools__tool', {
-            'MediaEditor__tools__button--draw-pen': drawTool === DrawTool.Pen,
-            'MediaEditor__tools__button--draw-highlighter':
-              drawTool === DrawTool.Highlighter,
-          })}
           i18n={i18n}
           menuOptions={[
             {
@@ -648,20 +643,15 @@ export const MediaEditor = ({
               value: DrawTool.Highlighter,
             },
           ]}
+          moduleClassName={classNames('MediaEditor__tools__tool', {
+            'MediaEditor__tools__button--draw-pen': drawTool === DrawTool.Pen,
+            'MediaEditor__tools__button--draw-highlighter':
+              drawTool === DrawTool.Highlighter,
+          })}
           theme={Theme.Dark}
           value={drawTool}
         />
         <ContextMenu
-          buttonClassName={classNames('MediaEditor__tools__tool', {
-            'MediaEditor__tools__button--width-thin':
-              drawWidth === DrawWidth.Thin,
-            'MediaEditor__tools__button--width-regular':
-              drawWidth === DrawWidth.Regular,
-            'MediaEditor__tools__button--width-medium':
-              drawWidth === DrawWidth.Medium,
-            'MediaEditor__tools__button--width-heavy':
-              drawWidth === DrawWidth.Heavy,
-          })}
           i18n={i18n}
           menuOptions={[
             {
@@ -689,6 +679,16 @@ export const MediaEditor = ({
               value: DrawWidth.Heavy,
             },
           ]}
+          moduleClassName={classNames('MediaEditor__tools__tool', {
+            'MediaEditor__tools__button--width-thin':
+              drawWidth === DrawWidth.Thin,
+            'MediaEditor__tools__button--width-regular':
+              drawWidth === DrawWidth.Regular,
+            'MediaEditor__tools__button--width-medium':
+              drawWidth === DrawWidth.Medium,
+            'MediaEditor__tools__button--width-heavy':
+              drawWidth === DrawWidth.Heavy,
+          })}
           theme={Theme.Dark}
           value={drawWidth}
         />

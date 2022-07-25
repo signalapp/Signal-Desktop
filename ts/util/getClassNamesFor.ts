@@ -7,11 +7,16 @@ export function getClassNamesFor(
   ...modules: Array<string | undefined>
 ): (modifier?: string) => string {
   return modifier => {
-    const cx = modules.map(parentModule =>
-      parentModule && modifier !== undefined
-        ? `${parentModule}${modifier}`
-        : undefined
-    );
+    if (modifier === undefined) {
+      return '';
+    }
+
+    const cx = modules
+      .flatMap(m => (m ? m.split(' ') : undefined))
+      .map(parentModule =>
+        parentModule ? `${parentModule}${modifier}` : undefined
+      );
+
     return classNames(cx);
   };
 }

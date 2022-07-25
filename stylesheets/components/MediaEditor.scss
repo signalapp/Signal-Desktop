@@ -152,7 +152,8 @@
     margin-bottom: 22px;
     padding: 14px 12px;
 
-    &__tool {
+    &__tool,
+    &__tool__button {
       margin-right: 14px;
     }
 
@@ -170,6 +171,7 @@
       }
 
       @include button-reset;
+      display: flex;
       margin: 0 8px;
       padding: 8px;
 
@@ -179,31 +181,31 @@
         padding: 0 6px;
       }
 
-      &--draw-pen {
+      &--draw-pen__button {
         @include icon('pen-20.svg');
       }
-      &--draw-highlighter {
+      &--draw-highlighter__button {
         @include icon('pen-highlighter-20.svg');
       }
-      &--width-thin {
+      &--width-thin__button {
         @include icon('pen-light-20.svg');
       }
-      &--width-regular {
+      &--width-regular__button {
         @include icon('pen-regular-20.svg');
       }
-      &--width-medium {
+      &--width-medium__button {
         @include icon('pen-medium-20.svg');
       }
-      &--width-heavy {
+      &--width-heavy__button {
         @include icon('pen-heavy-20.svg');
       }
-      &--text-regular {
+      &--text-regular__button {
         @include icon('text-regular-20.svg');
       }
-      &--text-highlight {
+      &--text-highlight__button {
         @include icon('text-highlight-20.svg');
       }
-      &--text-outline {
+      &--text-outline__button {
         @include icon('text-outline-20.svg');
       }
       &--rotate {

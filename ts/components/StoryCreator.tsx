@@ -267,18 +267,6 @@ export const StoryCreator = ({
                 value={sliderValue}
               />
               <ContextMenu
-                buttonClassName={classNames('StoryCreator__tools__tool', {
-                  'StoryCreator__tools__button--font-regular':
-                    textStyle === TextStyle.Regular,
-                  'StoryCreator__tools__button--font-bold':
-                    textStyle === TextStyle.Bold,
-                  'StoryCreator__tools__button--font-serif':
-                    textStyle === TextStyle.Serif,
-                  'StoryCreator__tools__button--font-script':
-                    textStyle === TextStyle.Script,
-                  'StoryCreator__tools__button--font-condensed':
-                    textStyle === TextStyle.Condensed,
-                })}
                 i18n={i18n}
                 menuOptions={[
                   {
@@ -312,6 +300,18 @@ export const StoryCreator = ({
                     value: TextStyle.Condensed,
                   },
                 ]}
+                moduleClassName={classNames('StoryCreator__tools__tool', {
+                  'StoryCreator__tools__button--font-regular':
+                    textStyle === TextStyle.Regular,
+                  'StoryCreator__tools__button--font-bold':
+                    textStyle === TextStyle.Bold,
+                  'StoryCreator__tools__button--font-serif':
+                    textStyle === TextStyle.Serif,
+                  'StoryCreator__tools__button--font-script':
+                    textStyle === TextStyle.Script,
+                  'StoryCreator__tools__button--font-condensed':
+                    textStyle === TextStyle.Condensed,
+                })}
                 theme={Theme.Dark}
                 value={textStyle}
               />

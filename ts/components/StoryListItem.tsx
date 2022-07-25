@@ -7,7 +7,7 @@ import type { LocalizerType } from '../types/Util';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import { ContextMenuPopper } from './ContextMenu';
+import { ContextMenu } from './ContextMenu';
 import { HasStories } from '../types/Stories';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
@@ -15,27 +15,27 @@ import { getAvatarColor } from '../types/Colors';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   i18n: LocalizerType;
-  onClick: () => unknown;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   story: StoryViewType;
+  viewUserStories: (
+    conversationId: string,
+    shouldShowDetailsModal?: boolean
+  ) => unknown;
 };
 
 export const StoryListItem = ({
   group,
   i18n,
   isHidden,
-  onClick,
   onGoToConversation,
   onHideStory,
   queueStoryDownload,
   story,
+  viewUserStories,
 }: PropsType): JSX.Element => {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
-  const [isShowingContextMenu, setIsShowingContextMenu] = useState(false);
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
 
   const {
     attachment,
@@ -72,21 +72,42 @@ export const StoryListItem = ({
 
   return (
     <>
-      <button
+      <ContextMenu
         aria-label={i18n('StoryListItem__label')}
-        className={classNames('StoryListItem', {
+        i18n={i18n}
+        menuOptions={[
+          {
+            icon: 'StoryListItem__icon--hide',
+            label: isHidden
+              ? i18n('StoryListItem__unhide')
+              : i18n('StoryListItem__hide'),
+            onClick: () => {
+              if (isHidden) {
+                onHideStory(sender.id);
+              } else {
+                setHasConfirmHideStory(true);
+              }
+            },
+          },
+          {
+            icon: 'StoryListItem__icon--info',
+            label: i18n('StoryListItem__info'),
+            onClick: () => viewUserStories(sender.id, true),
+          },
+          {
+            icon: 'StoryListItem__icon--chat',
+            label: i18n('StoryListItem__go-to-chat'),
+            onClick: () => onGoToConversation(sender.id),
+          },
+        ]}
+        moduleClassName={classNames('StoryListItem', {
           'StoryListItem--hidden': isHidden,
         })}
-        onClick={onClick}
-        onContextMenu={ev => {
-          ev.preventDefault();
-          ev.stopPropagation();
-
-          setIsShowingContextMenu(true);
+        onClick={() => viewUserStories(sender.id)}
+        popperOptions={{
+          placement: 'bottom',
+          strategy: 'absolute',
         }}
-        ref={setReferenceElement}
-        tabIndex={0}
-        type="button"
       >
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
@@ -133,38 +154,7 @@ export const StoryListItem = ({
             storyId={story.messageId}
           />
         </div>
-      </button>
-      <ContextMenuPopper
-        isMenuShowing={isShowingContextMenu}
-        menuOptions={[
-          {
-            icon: 'StoryListItem__icon--hide',
-            label: isHidden
-              ? i18n('StoryListItem__unhide')
-              : i18n('StoryListItem__hide'),
-            onClick: () => {
-              if (isHidden) {
-                onHideStory(sender.id);
-              } else {
-                setHasConfirmHideStory(true);
-              }
-            },
-          },
-          {
-            icon: 'StoryListItem__icon--chat',
-            label: i18n('StoryListItem__go-to-chat'),
-            onClick: () => {
-              onGoToConversation(sender.id);
-            },
-          },
-        ]}
-        onClose={() => setIsShowingContextMenu(false)}
-        popperOptions={{
-          placement: 'bottom',
-          strategy: 'absolute',
-        }}
-        referenceElement={referenceElement}
-      />
+      </ContextMenu>
       {hasConfirmHideStory && (
         <ConfirmationDialog
           actions={[
