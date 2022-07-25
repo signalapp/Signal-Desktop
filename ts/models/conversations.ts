@@ -1755,7 +1755,7 @@ export class ConversationModel extends window.Backbone
 
     const { customColor, customColorId } = this.getCustomColorData();
 
-    const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+    const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
     const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
 
     // TODO: DESKTOP-720
@@ -1775,12 +1775,13 @@ export class ConversationModel extends window.Backbone
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       activeAt: this.get('active_at')!,
       areWePending:
-        this.isMemberPending(ourACI) ||
-        Boolean(
-          ourPNI && !this.isMember(ourACI) && this.isMemberPending(ourPNI)
-        ),
+        ourACI &&
+        (this.isMemberPending(ourACI) ||
+          Boolean(
+            ourPNI && !this.isMember(ourACI) && this.isMemberPending(ourPNI)
+          )),
       areWePendingApproval: Boolean(
-        ourConversationId && this.isMemberAwaitingApproval(ourACI)
+        ourConversationId && ourACI && this.isMemberAwaitingApproval(ourACI)
       ),
       areWeAdmin: this.areWeAdmin(),
       avatars: getAvatarData(this.attributes),
