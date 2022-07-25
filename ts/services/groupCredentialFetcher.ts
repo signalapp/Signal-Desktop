@@ -126,12 +126,6 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     return;
   }
 
-  const pni = window.textsecure.storage.user.getUuid(UUIDKind.PNI)?.toString();
-  if (!pni) {
-    log.info(`${logId}: no PNI, returning early`);
-    return;
-  }
-
   const previous: CredentialsDataType | undefined =
     window.storage.get('groupCredentials');
   const requestDates = getDatesForRequest(previous);
@@ -150,6 +144,13 @@ export async function maybeFetchNewCredentials(): Promise<void> {
   log.info(
     `${logId}: fetching credentials for ${startDayInMs} through ${endDayInMs}`
   );
+
+  // TODO(indutny): In the future we'd like to avoid this extra call all the time
+  const { pni } = await server.whoami();
+  if (!pni) {
+    log.info(`${logId}: no PNI, returning early`);
+    return;
+  }
 
   const serverPublicParamsBase64 = window.getServerPublicParams();
   const clientZKAuthOperations = getClientZkAuthOperations(
