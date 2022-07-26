@@ -41,7 +41,7 @@ export type ElectronLocaleType =
   | 'en-US'
   | 'eo'
   | 'es'
-  | 'es_419'
+  | 'es-419'
   | 'et'
   | 'eu'
   | 'fa'
@@ -71,8 +71,8 @@ export type ElectronLocaleType =
   | 'nn'
   | 'no'
   | 'pl'
-  | 'pt_BR'
-  | 'pt_PT'
+  | 'pt-BR'
+  | 'pt-PT'
   | 'ro'
   | 'ru'
   | 'sk'
@@ -88,9 +88,9 @@ export type ElectronLocaleType =
   | 'uk'
   | 'ur'
   | 'vi'
-  | 'zh_CN'
+  | 'zh-CN'
   | 'zh-HK'
-  | 'zh_TW';
+  | 'zh-TW';
 
 export function mapToSupportLocale(ourLocale: string): SupportLocaleType {
   if (ourLocale === 'ar') {
@@ -114,7 +114,7 @@ export function mapToSupportLocale(ourLocale: string): SupportLocaleType {
   if (ourLocale === 'pl') {
     return ourLocale;
   }
-  if (ourLocale === 'pt_BR') {
+  if (ourLocale === 'pt-BR') {
     return 'pt-br';
   }
   if (ourLocale === 'ru') {
@@ -123,7 +123,7 @@ export function mapToSupportLocale(ourLocale: string): SupportLocaleType {
   if (ourLocale === 'sq') {
     return ourLocale;
   }
-  if (ourLocale === 'zh_TW') {
+  if (ourLocale === 'zh-TW') {
     return 'zh-tw';
   }
 
