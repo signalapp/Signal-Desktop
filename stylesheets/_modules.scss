@@ -356,7 +356,7 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message:focus {
+.module-message:focus-within {
   @include keyboard-mode {
     background: $color-selected-message-background-light;
   }
