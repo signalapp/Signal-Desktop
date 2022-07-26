@@ -2999,9 +2999,9 @@ export class Message extends React.PureComponent<Props, State> {
           expiring ? 'module-message--expired' : null
         )}
         tabIndex={0}
-        // We pretend to be a button because we sometimes contain buttons and a button
-        //   cannot be within another button
-        role="button"
+        // We need to have a role because screenreaders need to be able to focus here to
+        //   read the message, but we can't be a button; that would break inner buttons.
+        role="row"
         onKeyDown={this.handleKeyDown}
         onFocus={this.handleFocus}
         ref={this.focusRef}
