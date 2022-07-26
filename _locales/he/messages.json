@@ -7189,6 +7189,14 @@
         "message": "שולח תגובה...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "שיתוף וצפיה בסטוריז",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "כבר לא תוכלו לשתף או לצפות בסיפורים כאשר האפשרות הזאת כבויה.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "השהה",
         "description": "Aria label for pausing a story"

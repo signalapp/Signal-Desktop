@@ -7189,6 +7189,14 @@
         "message": "در حال ارسال واکنش...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "اشتراک‌گذاری و نمایش استوری‌ها",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "وقتی این گزینه خاموش است، دیگر نمی‌توانید استوری‌ها را اشتراک‌گذاری یا مشاهده کنید.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "مکث",
         "description": "Aria label for pausing a story"

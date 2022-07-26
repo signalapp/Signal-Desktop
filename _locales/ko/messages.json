@@ -7189,6 +7189,14 @@
         "message": "반응 전송 중...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "스토리 공유 및 보기",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "이 옵션을 끄면 더 이상 스토리를 공유하거나 볼 수 없습니다.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "일시 정지",
         "description": "Aria label for pausing a story"

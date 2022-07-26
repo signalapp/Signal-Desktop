@@ -282,7 +282,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "თუ ეს ნაბიჯები არ გამოგადგა, გთხოვთ, გამოაგზავნო გამართვის ჟურნალი (ვიზუალი -> გამართვის ჟურნალი), რათა მიგრაციაში დაგეხმაროთ!",
+        "message": "თუ ეს ნაბიჯები არ გამოგადგა, გთხოვთ, გამოაგზავნო გაუმართაობის რეესტრი (ნახვა -> გაუმართაობის რეესტრი), რათა მიგრაციაში დაგეხმაროთ!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -358,7 +358,7 @@
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "$name$-ის შემცველი შენი უსაფრთხოების ნომერი ვერიფიცირებულად მონიშნე",
+        "message": "შენი უსაფრთხოების ნომერი $name$-ი ვერიფიცირებულად მონიშნე",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "$name$-ის ის შემცველი შენი უსაფრთხოების ნომერი არა-ვერიფიცირებულად მონიშნე",
+        "message": "შენი უსაფრთხოების ნომერი $name$-ი არა-ვერიფიცირებულად მონიშნე",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -378,7 +378,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "$name$-ის შემცველი შენი უსაფრთხოების ნომერი ვერიფიცირებულად სხვა მოწყობილობიდან მონიშნე",
+        "message": "შენი უსაფრთხოების ნომერი$name$-ი ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "$name$-ის შემცველი შენი უსაფრთხოების ნომერი არა-ვერიფიცირებულად სხვა მოწყობილობიდან მონიშნე",
+        "message": "შენი უსაფრთხოების ნომერი $name$-ი არა-ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -402,7 +402,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "უსაფრთხოების ნომერი, რომლის ვერიფიცირებასაც ცდილობ, შეიცვალა. გთხოვთ, გადახედო $name1$-ის შემცველ შენს ახალ უსაფრთხოების ნომერს. დაიმახსოვრე, ეს ცვლილება შეიძლება ნიშნავს, რომ ვიღაც ცდილობს შენი კომუნიკაციის ჩაჭრას ან რომ $name2$-მა უბრალოდ ხელახლა დააინსტალირა Signal-ი.",
+        "message": "უსაფრთხოების ნომერი, რომლის ვერიფიცირებასაც ცდილობ, შეიცვალა. გთხოვთ, გადახედო $name1$-ის ახალ უსაფრთხოების ნომერს. დაიმახსოვრე, ეს ცვლილება შეიძლება ნიშნავს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შემოწრას ან რომ $name2$-მა უბრალოდ გადააყენა Signal-ი.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -416,15 +416,15 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "ამ ადამიანებმა შეიძლება ხელახლა დააინსტალირეს ან შეცვალეს მოწყობილობები. კონფიდენციალურობის უზრუნველსაყოფად, დაადასტურე შენი უსაფრთხოების ნომერი მათთან.",
+        "message": "ამ ადამიანებმა შეიძლება გადააყენეს ან შეცვალეს მოწყობილობები. კონფიდენციალურობის უზრუნველსაყოფად, დაადასტურე შენი უსაფრთხოების ნომერი მათთან.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
-        "message": "მიმდინარეობს მომლოდინე შეტყობინებების გაგზავნა",
+        "message": "გაუგზავნელი შეტყობინებების გაგზავნა",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "$name1$-ის შემცველი შენი უსაფრთხოების ნომერი შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს შენი კომუნიკაციის ჩაჭრას ან რომ $name2$-მა უბრალოდ ხელახლა დააინსტალირა Signal-ი. მგონი, სჯობს შენი უსაფრთხოების ნომერი ამ კონტაქტთან დაადასტურო.",
+        "message": "$name1$-ის შენი უსაფრთხოების ნომერი შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შეჭრას ან რომ $name2$-მა უბრალოდ გადააყენა Signal-ი. შენ შეგიძლია დაადასტურო ამ კონტაქტთან არსებული უსაფრთხოების ნომერი.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -472,15 +472,15 @@
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "გამართვის ჟურნალი ატვირთულია",
+        "message": "გაუმართაობის რეესტრი ატვირთულია",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "გამართვის ჟურნალი ატვირთულია. როცა მხარდაჭერის გუნდს დაუკავშირდები, დააკოპირე ქვემოთ მოცემული URL-ი და დაურთე შენს მიერ შემჩნეული პრობლემის აღწერილობა და მისი გამოსწორების ნაბიჯები.",
+        "message": "გაუმართაობის რეესტრი ატვირთულია. როცა მხარდაჭერის გუნდს დაუკავშირდები, დააკოპირე ქვემოთ მოცემული URL-ი და დაურთე შენს მიერ შემჩნეული პრობლემის აღწერილობა და მისი წარმოქმნის ნაბიჯები.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... სრული ჟურნალის სანახავად დააწკაპუნე შენახვაზე",
+        "message": "... სრული რეესტრის სანახავად დააწკაპუნე შენახვაზე",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -612,11 +612,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "მიმდინარეობს გადახედვის ჩატვირთვა...",
+        "message": "მიმდინარეობს წინასწარი ნახვის ჩატვირთვა...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "ბმულის პრევიუს მინიატურის მონახაზის გაკეთება $domain$-ისთვის",
+        "message": "ბმულის მინიატურის მონახაზის წინასწარი ნახვა $domain$-ისთვის",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -626,7 +626,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "ბმულის პრევიუს მინიატურა $domain$-ისთვის",
+        "message": "ბმულის წინასწარი ნახვის მინიატურა $domain$-ისთვის",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "domain": {
@@ -660,11 +660,11 @@
         }
     },
     "decryptionErrorToastAction": {
-        "message": "ჟურნალის გაგზავნა",
+        "message": "რეესტრის გაგზავნა",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
-        "message": "ისეთი დანართის მიბმისას, რომელიც სურათი არაა, ლიმიტი არის ერთი დანართი თითო შეტყობინებაზე.",
+        "message": "არა-სურათის დანართის მიმაგრებისას, ლიმიტი არის ერთი დანართი თითო შეტყობინებაზე.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
@@ -672,7 +672,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "ამ შეტყობინებაზე მეტი დანართის მიბმა შეუძლებელია.",
+        "message": "ამ შეტყობინებაზე მეტი დანართის მიმაგრება შეუძლებელია.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -708,11 +708,11 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "გამართვის ჟურნალი",
+        "message": "გაუმართაობის რეესტრი",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "გამართვის ჟურნალი",
+        "message": "გაუმართაობის რეესტრი",
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
@@ -772,7 +772,7 @@
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "თავის დანებება",
+        "message": "გასვლა",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -918,7 +918,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "ფოსტის ოფისის ყუთი",
+        "message": "საფოსტო ყუთი",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -2226,7 +2226,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "გაქრობადი შეტყობინებები",
         "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
@@ -2234,11 +2234,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "წევრმა გააუქმა გაქრობადი შეტყობინებები.",
+        "message": "წევრმა გათიშა გაქრობადი შეტყობინებები.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$-მა გააუქმა გაქრობადი შეტყობინებები.",
+        "message": "$name$-მა გათიშა გაქრობადი შეტყობინებები.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -2252,7 +2252,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "ტაიმერი დაყენებულია $time$-ის მიერ",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -2296,7 +2296,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$-მა პროფილის სახელი $newProfile$.-ით შეცვალა",
+        "message": "$oldProfile$-მა პროფილის სახელი $newProfile$-ით შეცვალა.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2322,7 +2322,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "$name$-ის შემცველი უსაფრთხოების ნომერი შეცვლილია",
+        "message": "$name$-ის უსაფრთხოების ნომერი შეიცვალა",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -2340,7 +2340,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "შენი $name1$-ის შემცველი უსაფრთხოების ნომერი:",
+        "message": "შენი უსაფრთხოების ნომერი $name1$-თან:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -2350,11 +2350,11 @@
         }
     },
     "themeLight": {
-        "message": "ნათელი",
+        "message": "ღია",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "ბნელი",
+        "message": "მუქი",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
@@ -2362,7 +2362,7 @@
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "შენიშვნა საკუთარ თავს",
+        "message": "ჩემი ჩანიშვნები",
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
@@ -2386,11 +2386,11 @@
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Story-ები",
+        "message": "Stories-ები",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
-        "message": "სახელით ან მობილურის ნომრით მოძებნა",
+        "message": "სახელით ან მობილურის ნომრით ძებნა",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
@@ -2402,7 +2402,7 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "მომხმარებლის სახელის მიღება ვერ მოხერხდა. შეამოწმე შენი  ინტერნეტ კავშირი და თავიდან სცადე.",
+        "message": "მომხმარებლის სახელის მიღება ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
@@ -3200,7 +3200,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "ბმულის პრევიუს მონახაზის წაშლა",
+        "message": "ბმულის მონახაზის წინასწარი ნხავის წაშლა",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -6448,7 +6448,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "აქ არის ჩატის ფერის პრევიუ.",
+        "message": "აქ შეგიძლია წინასწარ ნახო ჩატის ფერი.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -6558,7 +6558,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "ამ შეტყობინების ჩვენება ვერ მოხერხდა. გამართვის ჟურნალის გასაგზავნად დააწკაპუნე.",
+        "message": "ამ შეტყობინების ჩვენება ვერ მოხერხდა. დააჭირე გაუმართაობის რეესტრის გასაგზავნად.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6602,7 +6602,7 @@
         "description": "In the message details screen, shown above contacts where the message failed to deliver"
     },
     "MessageDetailsHeader--Pending": {
-        "message": "მომლოდინე",
+        "message": "იგზავნება",
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
@@ -6840,7 +6840,7 @@
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
-        "message": "ბმულსი პრევიუების გენერირება",
+        "message": "ბმულსი წინასწარი ნხავის გენერირება",
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
@@ -7148,7 +7148,7 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "ჩემი Story-ები",
+        "message": "ჩემი Stories-ები",
         "description": "Label for your stories"
     },
     "Stories__add": {
@@ -7156,11 +7156,11 @@
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "დამალული Story-ები",
+        "message": "დამალული Stories-ები",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "უახლესი Story-იები ვერ მოიძებნა",
+        "message": "უახლესი Stories-ები ვერ მოიძებნა",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "მიმდინარეობს რეაქციის გაგზავნა...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "გააზიარე და ნახე Stories-ები",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "შენ ვეღარ შეძლებ Stories-ების გაზიარებას ან ნახვას, როდესაც ეს ფუნქცია გამორთულია.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "დაპაუზება",
@@ -7238,7 +7246,7 @@
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Story-იების ჩვენება",
+        "message": "Stories-ების ჩვენება",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
@@ -7250,7 +7258,7 @@
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "დავმალოთ Story-ი? $name$-ისგან Story-ის განახლებები Story-იების სიის სათავეში აღარ გამოჩნდება.",
+        "message": "დავმალოთ Story-ი? $name$-ისგან Story-ის განახლებები Stories-ების სიის სათავეში აღარ გამოჩნდება.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {

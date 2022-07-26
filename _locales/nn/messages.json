@@ -7189,6 +7189,14 @@
         "message": "Sending reaction...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Share & View Stories",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Du kan ikkje lenger dela eller visa Historier når dette er skrudd av.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pause",
         "description": "Aria label for pausing a story"

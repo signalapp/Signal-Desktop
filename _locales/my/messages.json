@@ -7189,6 +7189,14 @@
         "message": "တုံ့ပြန်ချက် ပို့နေဆဲ...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "စတိုရီများကို မျှဝေကြည့်ရှုရန်",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "ဤရွေးချယ်မှုကို ပိတ်ထားချိန်တွင် စတိုရီများ မျှဝေခြင်း သို့မဟုတ် ကြည့်ခြင်းကို လုပ်ဆောင်နိုင်တော့မည် မဟုတ်ပါ။",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "ခဏရပ်သည်",
         "description": "Aria label for pausing a story"

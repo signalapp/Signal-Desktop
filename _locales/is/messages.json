@@ -7189,6 +7189,14 @@
         "message": "Sending reaction...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Share & View Stories",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Þú munt ekki lengur geta deilt eða skoðað sögur ef slökkt er á þessum valkosti.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Í bið",
         "description": "Aria label for pausing a story"

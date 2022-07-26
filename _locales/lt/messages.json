@@ -7189,6 +7189,14 @@
         "message": "Siunčiama reakcija…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Dalintis ir žiūrėti istorijas",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Išjungę šią parinktį daugiau nebegalėsite bendrinti ar žiūrėti istorijų.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pristabdyti",
         "description": "Aria label for pausing a story"

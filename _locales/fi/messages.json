@@ -7189,6 +7189,14 @@
         "message": "Lähetetään reaktiota...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Jaa ja katso tarinoita",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Et voi enää jakaa tai katsoa tarinoita, kun tämä valinta on valittuna.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pysäytä",
         "description": "Aria label for pausing a story"

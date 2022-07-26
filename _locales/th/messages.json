@@ -7189,6 +7189,14 @@
         "message": "กำลังส่งการแสดงความรู้สึก…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "แชร์และดูสตอรี่",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "คุณจะแชร์หรือรับชมสตอรี่ไม่ได้อีกต่อไป ถ้าตัวเลือกนี้ถูกปิด",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "หยุดชั่วคราว",
         "description": "Aria label for pausing a story"

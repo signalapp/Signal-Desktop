@@ -7189,6 +7189,14 @@
         "message": "Γίνεται αποστολή αντίδρασης...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Κοινοποίηση και προβολή ιστοριών",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Δεν θα μπορείς πια να μοιραστείς ή να δεις Ιστορίες όταν αυτή η επιλογή είναι απενεργοποιημένη.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Παύση",
         "description": "Aria label for pausing a story"

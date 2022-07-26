@@ -7182,12 +7182,20 @@
         }
     },
     "Stories__toast--sending-reply": {
-        "message": "Sending reply...",
+        "message": "Antwort wird verschickt …",
         "description": "Toast message"
     },
     "Stories__toast--sending-reaction": {
-        "message": "Sending reaction...",
+        "message": "Reaktion wird verschickt …",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Storys teilen & betrachten",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Wenn diese Option deaktiviert ist, können keine Stories geteilt und angesehen werden.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Pause",

@@ -7189,6 +7189,14 @@
         "message": "Pošiljanje odziva ...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Deljenje & Ogled Zgodb",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Če je ta nastavitev izklopljena, ne boste več mogli deliti ali gledati zgodb.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pavza",
         "description": "Aria label for pausing a story"

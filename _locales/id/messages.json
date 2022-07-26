@@ -7189,6 +7189,14 @@
         "message": "Mengirim tanggapan…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Bagikan & Lihat Cerita",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Anda tidak akan bisa lagi berbagi atau melihat Cerita bila opsi ini dinonaktifkan.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Jeda",
         "description": "Aria label for pausing a story"

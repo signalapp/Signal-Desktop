@@ -7189,6 +7189,14 @@
         "message": "កំពុង​ផ្ញើ​ប្រតិកម្ម…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវបានទៀតទេ នៅពេលជម្រើសនេះត្រូវបានបិទ។",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "ផ្អាក់",
         "description": "Aria label for pausing a story"

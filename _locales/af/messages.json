@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Vee alle data uit en herbegin",
+        "message": "Vee alle data uit en begin weer",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -40,7 +40,7 @@
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Kyk",
+        "message": "&Aansig",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
@@ -60,11 +60,11 @@
         "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
-        "message": "Verberg",
+        "message": "Versteek",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Steek ander weg",
+        "message": "Versteek ander",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -144,11 +144,11 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Skakel tussen volskerm en venster",
+        "message": "Wissel volskerm",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Skakel ontwikkelaarsnutsgoed aan / uit",
+        "message": "Wissel ontwikkelaarsnutsgoed",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
@@ -156,7 +156,7 @@
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Stel as 'n selfstandige toestel op",
+        "message": "Stel op as 'n selfstandige toestel",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
@@ -168,7 +168,7 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Kopieer Foto",
+        "message": "Kopieer foto",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
@@ -262,7 +262,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Jy het net gegaan deur die uitvoer proses, en jou kontakte en boodskappe is geduldig wag op jou rekenaar. Kies die gids wat jou gered Signal data bevat.",
+        "message": "Jy het pas deur die uitvoerproses gegaan, en jou kontakte en boodskappe wag geduldig op jou rekenaar. Kies die lêer wat jou gestoorde Signal-data bevat.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -278,15 +278,15 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Maak seker dat jy gekies het die korrekte gids wat jou gered Signal data bevat. Die naam daarvan moet begin met 'Signal Uitvoer'. Jy kan ook 'n nuwe kopie van jou data te red van die Chrome App.",
+        "message": "Maak seker dat jy die korrekte lêer wat jou gestoorde Signal-data bevat, gekies het. Die naam moet met 'Signal Uitvoer' begin. Jy kan ook 'n nuwe kopie van jou data stoor vanaf die Chrome App.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "As hierdie stappe te doen nie werk vir jou, stuur asseblief 'n onfout log (Kyk -> Onfout Log) sodat ons kan jou help om ontslae te migreer!",
+        "message": "As hierdie stappe nie vir jou werk nie, stuur asseblief 'n onfout-log (Aansig -> Onfout-log) sodat ons jou kan help om te migreer!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Kies gids en probeer weer",
+        "message": "Kies lêer en probeer weer",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
@@ -302,15 +302,15 @@
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "jou gekies plek",
+        "message": "jou gekose plek",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Opgradering databasis. Dit kan 'n geruime tyd neem ...",
+        "message": "Besig om databasis op te gradeer. Dit kan 'n bietjie tyd neem ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Laai boodskappe. $count$ tot dusver...",
+        "message": "Besig om boodskappe te laai. $count$ tot dusver...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -340,7 +340,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 ongelees boodskap",
+        "message": "1 ongeleesde boodskap",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
@@ -354,11 +354,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Vir jou veiligheid, is gesprek geskiedenis nie oorgedra word aan nuwe gekoppelde toestelle.",
+        "message": "Vir jou veiligheid word gesprekgeskiedenis nie oorgedra na nuwe gekoppelde toestelle nie.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Jy gemerk jou veiligheidsnommer met $name$ as geverifieer.",
+        "message": "Jy het jou veiligheidsnommer met $name$ as geverifieer gemerk.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Jy gemerk jou veiligheidsnommer met $name$ as nie geverifieer",
+        "message": "Jy het jou veiligheidsnommer met $name$ as nie geverifieer nie gemerk",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -378,7 +378,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Jy gemerk jou veiligheidsnommer met $name$ as geverifieer vanaf 'n ander toestel.",
+        "message": "Jy het jou veiligheidsnommer met $name$ as geverifieer vanaf 'n ander toestel gemerk.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Jy gemerk jou veiligheidsnommer met $name$ as nie geverifieer vanaf 'n ander toestel.",
+        "message": "Jy het jou veiligheidsnommer met $name$ as nie geverifieer vanaf 'n ander toestel nie, gemerk.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -398,11 +398,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Jou veiligheidsnommer met hierdie groeplede het verander sedert jy laas nagegaan. Klik op 'n lid van die groep om jou nuwe veiligheidsnommer sien met hulle.",
+        "message": "Jou veiligheidsnommer met hierdie groeplede het verander sedert jy laas geverifieer het. Klik op 'n lid van die groep om jou nuwe veiligheidsnommer met hulle te sien.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Die veiligheidsnommer wat jy probeer om te verifieer verander. Gaan asseblief jou nuwe veiligheid aantal met $name1$. Onthou, hierdie verandering kan beteken dat iemand probeer om jou kommunikasie te onderskep of dat $name2$ het net Signal geïnstalleer.",
+        "message": "Die veiligheidsnommer wat jy tans probeer verifieer, het verander. Gaan asseblief jou nuwe veiligheidsnommer met $name1$ na. Onthou, hierdie verandering kan beteken dat iemand probeer om jou kommunikasie te onderskep, of dat $name2$ eenvoudig net Signal herïnstalleer het.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -416,7 +416,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Die volgende mense het dalk van toestelle verander of ’n herinstallasie gedoen. Verifieer u veiligheidsnomemr met hulle om privaatheid te verseker.",
+        "message": "Die volgende mense het dalk van toestelle verander of ’n herinstallasie gedoen. Verifieer jou veiligheidsnommer met hulle om privaatheid te verseker.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
@@ -424,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Jou veiligheidsnommer met $name1$ verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep of dat $name2$ het net Signal geïnstalleer. Miskien wil jy jou veiligheidsnommer verifieer met hierdie kontak.",
+        "message": "Jou veiligheidsnommer met $name1$ het verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep, óf dat $name2$ eenvoudig Signal herïnstalleer het. Jy moet dalk jou veiligheidsnommer met hierdie kontak verifieer.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -450,7 +450,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Jou veiligheidsnommer met $name$ verander en is nie meer geverifieer nie. Klik om to wys.",
+        "message": "Jou veiligheidsnommer met $name$ het verander en is nie meer geverifieer nie. Klik om to wys.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -464,7 +464,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Wanneer jy op Dien in klik, sal jou log vir 30 dae op 'n unieke, ongepubliseerde URL aanlyn geplaas word. Jy kan dit eers plaaslik stoor.",
+        "message": "Wanneer jy op Dien in klik, sal jou log vir 30 dae aanlyn op 'n unieke, ongepubliseerde URL geplaas word. Jy kan dit eers plaaslik stoor.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Ontfout ingediende log",
+        "message": "Ontfout-log ingedien",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Ontfout opgelaaide log. Wanneer jy Ondersteuning kontak, kopieer die URL hier onder en heg dit aan saam met die probleem wat jy gesien het en die stappe om dit te reproduseer.",
+        "message": "Ontfout-log opgelaai. Wanneer jy die steundiens kontak, kopieer die URL hieronder en heg dit aan saam met 'n beskrywing van die probleem wat jy waargeneem het, asook die stappe om dit te herproduseer.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -492,7 +492,7 @@
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Skakel is gekopieer na die klembord",
+        "message": "Skakel is gekopieer na die knipbord",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -504,7 +504,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Indien",
+        "message": "Dien in",
         "description": ""
     },
     "acceptNewKey": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "Jy het jou veiligheid aantal geverifieerde met $name$.",
+        "message": "Jy het jou veiligheidsnommer met $name$ geverifieer.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -530,7 +530,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Jy het nie jou veiligheid aantal met $name$ geverifieer.",
+        "message": "Jy het nie jou veiligheidsnommer met $name$ geverifieer nie.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -548,7 +548,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Jou veiligheidsnummer met hierdie kontak het verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep, of hierdie kontak eenvoudig geïnstalleer Signal. Jy wil dalk die onderstaande nuwe veiligheidsnummer verifieer.",
+        "message": "Jou veiligheidsnommer met hierdie kontak het verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep, óf dat hierdie kontak eenvoudig Signal  herinstalleer het. Jy moet dalk die onderstaande nuwe veiligheidsnommer verifieer.",
         "description": ""
     },
     "incomingError": {
@@ -560,7 +560,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Jy het nie enige media in hierdie gesprek nie",
+        "message": "Jy het geen media in hierdie gesprek nie",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
@@ -572,7 +572,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Jy hoef nie enige dokumente in hierdie gesprek het",
+        "message": "Jy het geen dokumente in hierdie gesprek nie",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -592,7 +592,7 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Ongesteunde aanhegsel tipe. Klik om te stoor.",
+        "message": "Ongesteunde aanhegseltipe. Klik om te stoor.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -608,7 +608,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Hegtingstipe word om veiligheidsredes nie toegelaat nie",
+        "message": "Aanhegseltipe word om veiligheidsredes nie toegelaat nie",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -616,7 +616,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Konsep-duimnael-skakelvoorskou vir $domain$",
+        "message": "Voorskou van konsep-duimnaelskakel vir $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -636,7 +636,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "Konsep-duimnaelskakel-aanhegsel: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -664,23 +664,23 @@
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
-        "message": "Wanneer insluitend 'n nie-beeld beslaglegging, die limiet is een beslaglegging per boodskap.",
+        "message": "Wanneer jy 'n nie-beeld-aanhegsel insluit, is jy tot een aanhegsel per boodskap beperk.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "Jy kan nie meng beeld-aanhegsels en ander aanhangsels in een boodskap.",
+        "message": "Jy kan nie beeld- en nie-beeld-aanhangsels in een boodskap saamvoeg nie.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Nie meer aanhegsels kan by hierdie boodskap gevoeg word nie.",
+        "message": "Jy kan nie nog aanhegsels by hierdie boodskap voeg nie.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Jammer, die geselekteerde lêer oorskry die boodskappe se grootte beperkings.",
+        "message": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Kan nie die gekose aanhegsel laai nie.",
+        "message": "Kan nie die geselekteerde aanhegsel laai nie.",
         "description": ""
     },
     "disconnected": {
@@ -688,31 +688,31 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Verbind...",
+        "message": "Besig om te konnekteer...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Klik om te herverbind",
+        "message": "Klik om te herkonnekteer",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Dit behoort nie lank te neem nie ...",
+        "message": "Dit behoort nie lank te neem nie",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
-        "message": "Op die regte pad",
+        "message": "Aflyn",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Kyk na jou netwerkverbinding",
+        "message": "Kontroleer jou netwerkverbinding.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "Onfout log",
+        "message": "Onfout-log",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Onfout log",
+        "message": "Onfout-log",
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
@@ -728,7 +728,7 @@
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "Gaan na opgraderingsnotas",
+        "message": "Gaan na Opgraderingsnotas",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
@@ -736,7 +736,7 @@
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Gaan na Ondersteuningsbladsy",
+        "message": "Gaan na Steundiensbladsy",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
@@ -744,11 +744,11 @@
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop vorkeure",
+        "message": "Signal Desktop voorkeure",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Plakkerpak skepper",
+        "message": "Plakkerpakket-skepper",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -756,23 +756,23 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Deel skerm",
+        "message": "Besig om skerm te deel",
         "description": "Title for screen sharing window"
     },
     "speech": {
-        "message": "Toespraak",
+        "message": "Spraak",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Vertoon",
+        "message": "Wys",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Verberg",
+        "message": "Versteek",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Afsluit",
+        "message": "Sluit af",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -784,7 +784,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Duidelike Soek",
+        "message": "Vee Soek uit",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -824,7 +824,7 @@
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kantakte",
+        "message": "Kontakte",
         "description": "Shown to separate the types of search results"
     },
     "groupsHeader": {
@@ -832,7 +832,7 @@
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Boodksappe",
+        "message": "Boodskappe",
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
@@ -894,27 +894,27 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "huis",
+        "message": "Huis",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "werk",
+        "message": "Werk",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "selfoon",
+        "message": "Selfoon",
         "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
-        "message": "e-pos",
+        "message": "E-pos",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "foon",
+        "message": "Foon",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "adres",
+        "message": "Adres",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
@@ -930,7 +930,7 @@
         "description": "Shown in the message bubble while a long message attachment is not downloaded"
     },
     "downloadAttachment": {
-        "message": "Laai aanhangsel af",
+        "message": "Laai aanhegsel af",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
@@ -938,7 +938,7 @@
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Antwoord boodskaap",
+        "message": "Antwoord boodskap",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -970,7 +970,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Stem boodskap opname gestop omdat jy oorgeskakel na 'n ander app.",
+        "message": "Opname van die stemboodskap is gestop omdat jy oorgeskakel het na 'n ander toepassing.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
@@ -978,7 +978,7 @@
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "'N stemboodskap moet slegs een aanhangsel bevat.",
+        "message": "'n Stemboodskap mag slegs een aanhegsel bevat.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
@@ -998,7 +998,7 @@
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "Om te antwoord op $name$",
+        "message": "Besig om te antwoord op $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -1008,19 +1008,19 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Om klankboodskappe te stuur, laat Signal Desktop toegang tot jou mikrofoon toe.",
+        "message": "Om klankboodskappe te stuur, gee Signal Desktop toegang tot jou mikrofoon.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "Vir oproepe moet jy vir Signal Desktop toegang tot jou mikrofoon toelaat.",
+        "message": "Om oproepe te maak, moet jy vir Signal Desktop toegang tot jou mikrofoon gee.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "Vir video-oproepe moet jy vir Signal Desktop toegang tot jou mikrofoon toelaat.",
+        "message": "Om video-oproepe te maak, moet jy vir Signal Desktop toegang tot jou mikrofoon gee.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
-        "message": "Laat toegang toe",
+        "message": "Gee toegang",
         "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
     },
     "showSettings": {
@@ -1044,7 +1044,7 @@
         "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
-        "message": "Kan nie opdateer nie",
+        "message": "Kan nie bywerk nie",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
@@ -1088,7 +1088,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is waarskynlik in 'n macOS-kwarantyn en sal nie outomaties kan opdateer nie. Probeer met Finder na $app$ skuif na $folder$.",
+        "message": "Signal Desktop is waarskynlik in 'n macOS-kwarantyn en sal nie outomaties kan opdateer nie. Probeer $app$ na $folder$ te skuif met Vindfunksie.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1166,7 +1166,7 @@
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "na",
+        "message": "aan",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
@@ -1208,7 +1208,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Jy het nog geen foto boodskappe met hierdie kontak verruil. Jou veiligheidsnummer saam met hulle sal beskikbaar wees na die eerste boodskap.",
+        "message": "Jy het nog geen boodskappe met hierdie kontak verruil nie. Jou veiligheidsnommer met hulle sal na die eerste boodskap beskikbaar wees.",
         "description": ""
     },
     "back": {
@@ -1228,11 +1228,11 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Probeer weer Skrap vir Almal",
+        "message": "Probeer weer skrap vir almal",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
-        "message": "Aangestuurde boodskap",
+        "message": "Stuur boodskap aan",
         "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
@@ -1244,11 +1244,11 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "Wis",
+        "message": "Skrap",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Vee hierdie gesprek permanent uit?",
+        "message": "Skrap hierdie gesprek permanent?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -1260,11 +1260,11 @@
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
-        "message": "Kom meer te wete",
+        "message": "Vind meer uit",
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal gebruik eind-tot-eind-enkripsie en gaan dalk soms van u kletssessies moet verfris. Dit beïnvloed nie u kletsbeveiliging nie, maar sou u dalk ’n boodskap van die kontak mis, kan u bloot vra dat dit weer gestuur word.",
+        "message": "Signal gebruik end-tot-end-enkripsie en gaan dalk soms van jou kletssessies moet verfris. Dit beïnvloed nie jou kletsbeveiliging nie, maar jy kan dalk ’n boodskap van die kontak mis en kan bloot vra dat dit weer gestuur word.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1286,7 +1286,7 @@
         }
     },
     "DeliveryIssue--learnMore": {
-        "message": "Kom meer te wete",
+        "message": "Vind meer uit",
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "’n Boodskap, plakker, reaksie, leesbewys of media van $sender$in hierdie klets kon nie aan jou afgelewer word nie.",
+        "message": "’n Boodskap, plakker, reaksie, leesbewys of media van $sender$ kon nie in hierdie klets aan jou afgelewer word nie.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1324,7 +1324,7 @@
         }
     },
     "quoteThumbnailAlt": {
-        "message": "Miniatuurafbeelding van die beeld uit die aangehaalde boodskap",
+        "message": "Duimnael van die beeld uit die aangehaalde boodskap",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
@@ -1332,7 +1332,7 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "'N kiekie van die video wat aan die boodskap geheg is",
+        "message": "Skermskoot van die video wat aan die boodskap geheg is",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -1344,7 +1344,7 @@
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "save": {
-        "message": "Bewaar",
+        "message": "Stoor",
         "description": "Used on save buttons"
     },
     "reset": {
@@ -1376,7 +1376,7 @@
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Open Signal op u telefoon",
+        "message": "Maak Signal op jou foon oop",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
@@ -1422,7 +1422,7 @@
         }
     },
     "Install__qr-failed__learn-more": {
-        "message": "Kom meer te wete",
+        "message": "Vind meer uit",
         "description": "Shown on the install screen if the QR code fails to load"
     },
     "Install__support-link": {
@@ -1434,7 +1434,7 @@
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
-        "message": "My Rekenaar",
+        "message": "My rekenaar",
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
@@ -1454,19 +1454,19 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Let wel: Jou kletsgeskiedenis sal nie na hierdie toestel gesinchroniseer word nie.",
+        "message": "Let wel: Jou kletsgeskiedenis sal nie na hierdie toestel gesinkroniseer word nie.",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Kon nie aan bediener koppel.",
+        "message": "Kon nie aan bediener koppel nie.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Jammer, jy het te veel toestelle reeds aangekoppel. Proober om sommige van die toestelle te verwyder.",
+        "message": "Jammer, jy het te veel toestelle reeds gekoppel. Probeer om sommige van die toestelle te verwyder.",
         "description": ""
     },
     "installTooOld": {
-        "message": "Dateer Signal op hierdie toestel op om u selfoon te skakel.",
+        "message": "Werk Signal op hierdie toestel by om jou selfoon te koppel.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1486,7 +1486,7 @@
         "description": "Header for theme settings"
     },
     "calling": {
-        "message": "Om te bel",
+        "message": "Besig om te bel",
         "description": "Header for calling options on the settings screen"
     },
     "calling__call-back": {
@@ -1506,7 +1506,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Keer terug na Oproep",
+        "message": "Keer terug na oproep",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
@@ -1558,7 +1558,7 @@
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Begin om aan te bied",
+        "message": "Begin met aanbieding",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
@@ -1566,7 +1566,7 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Skakel",
+        "message": "Bel",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
@@ -1582,7 +1582,7 @@
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
-        "message": "U kamera is af",
+        "message": "Jou kamera is af",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__pre-call-info--empty-group": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal sal $person$ skakel",
+        "message": "Signal sal $person$ bel",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal sal $first$ en $second$skakel",
+        "message": "Signal sal $first$ en $second$ bel",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal sal $first$, $second$ en $third$ skakel",
+        "message": "Signal sal $first$, $second$ en $third$ bel",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal sal $first$, $second$ en $others$ ander skakel",
+        "message": "Signal sal $first$, $second$ en $others$ ander bel",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1814,7 +1814,7 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "Jy bied aan vir almal.",
+        "message": "Jy is besig om vir almal aan te bied.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
@@ -1876,7 +1876,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "Aan die regterkant, merk die blokkie langs Signal. As jy nie Signal in die lys sien nie, klik die + om dit by te voeg.",
+        "message": "Aan die regterkant, merk die blokkie langs Signal. As jy Signal nie in die lys sien nie, klik die + om dit by te voeg.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1900,15 +1900,15 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Laat toegang tot die mikrofoon toe",
+        "message": "Gee toegang tot die mikrofoon",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Laat toegang tot die kamera toe",
+        "message": "Gee toegang tot die kamera",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "Algemene",
+        "message": "Algemeen",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
@@ -1920,7 +1920,7 @@
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Die speltoets sal gedeaktiveer word die volgende keer as Signal begin.",
+        "message": "Die speltoets sal die volgende keer as Signal begin, gedeaktiveer word.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
@@ -1932,7 +1932,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Maak oop wanneer op rekenaar aanteken",
+        "message": "Maak oop wanneer op rekenaar aangeteken word",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1944,7 +1944,7 @@
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Duidelike data",
+        "message": "Vee data uit",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
@@ -1952,7 +1952,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Jy is op die punt om al gered rekening inligting van hierdie aansoek, insluitend alle kontakte en alle boodskappe te verwyder. Jy kan altyd 'n skakel met jou selfoon weer, maar dit sal nie die verwyderde boodskappe terug te kry.",
+        "message": "Jy is op die punt om al die gestoorde rekeninginligting van hierdie toepassing te verwyder, insluitend alle kontakte en alle boodskappe. Jy kan altyd weer met jou selfoon koppel, maar dit sal nie die verwyderde boodskappe herstel nie.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -2028,7 +2028,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ gereageer met $emoji$ aan: $message$",
+        "message": "$sender$ het $emoji$ gereageer op: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2054,11 +2054,11 @@
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
-        "message": "Stuur wagtend",
+        "message": "Stuur is gepouseer",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Gedeeltelik gestuur, tik vir besonderhede",
+        "message": "Gedeeltelik gestuur, klik vir besonderhede",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
@@ -2074,15 +2074,15 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Kom meer te wete oor die verifiëring van veiligheidsnommers",
+        "message": "Vind meer uit oor die verifiëring van veiligheidsnommers",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Hierdie weergawe van Signal Desktop het verval. Gradeer asseblief op na die jongste weergawe om boodskappe voortgaan.",
+        "message": "Hierdie weergawe van Signal Desktop het verval. Gradeer asseblief op na die jongste weergawe om voort te gaan om boodskappe te stuur en ontvang.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Klik om te gaan na signal.org/download",
+        "message": "Klik om na signal.org/download te gaan",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2098,7 +2098,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Voer alle Signal-groepe en kontakte van u mobiele toestel af in.",
+        "message": "Voer alle Signal-groepe en kontakte van jou mobiele toestel af in.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -2110,11 +2110,11 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Invoer...",
+        "message": "Besig om in te voer...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Invoer het misluk. Maak seker dat jou rekenaar en selfoon is verbind tot internet.",
+        "message": "Invoer het misluk. Maak seker dat jou rekenaar en selfoon met die internet verbind is.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -2126,11 +2126,11 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1u",
+        "message": "1h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$u",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -2166,7 +2166,7 @@
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
-        "message": "Die boodskapliggaam is te lank.",
+        "message": "Die boodskapteks is te lank.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
@@ -2226,11 +2226,11 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
-        "message": "Verdwynende boodskappe",
+        "message": "Verdwynboodskappe",
         "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
-        "message": "Verdwyn boodskappe gedeaktiveer",
+        "message": "Verdwynboodskappe gedeaktiveer",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
@@ -2252,7 +2252,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer is ingestel op $time$",
+        "message": "Tydhouer is ingestel op $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -2278,7 +2278,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ het hul profielnaam van $oldProfile$ tot $newProfile$ verander.",
+        "message": "$sender$ het hul profielnaam van $oldProfile$ na $newProfile$ verander.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2410,7 +2410,7 @@
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "Gebruiker nie gevind nie. $atUsername$ is nie ’n Signal-gebruiker nie; maak seker jy het die volledige gebruikernaam ingevoer.",
+        "message": "Gebruiker nie gevind nie. $atUsername$ is nie ’n Signal-gebruiker nie; maak seker jy het die volledige gebruikersnaam ingevoer.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2512,7 +2512,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Groep redigeer",
+        "message": "Redigeer groep",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2540,7 +2540,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Herskakel",
+        "message": "Herkoppel",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
@@ -2556,7 +2556,7 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Klik om Signal te herbegin",
+        "message": "Klik om Signal te herlaai",
         "description": ""
     },
     "downloadNewVersionMessage": {
@@ -2568,11 +2568,11 @@
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Druk 'Herbegin Signal' om die opdaterings toe te pas.",
+        "message": "Druk Herlaai Signal om die bywerkings toe te pas.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Herbegin Signal",
+        "message": "Herlaai Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -2604,7 +2604,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ het die groep opgedateer.",
+        "message": "$name$ het die groep bygewerk.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -2614,11 +2614,11 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "jy het die groep opgedateer.",
+        "message": "Jy het die groep bygewerk.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Groepavatar is opgedateer",
+        "message": "Groepavatar is bygewerk",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -2754,7 +2754,7 @@
         "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
-        "message": "Hierdie boodskap is gewis.",
+        "message": "Hierdie boodskap is geskrap.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
@@ -2770,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Kyk na jou foon om geskenk oop te maak",
+        "message": "Kyk op jou foon om geskenk oop te maak",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Kyk na jou foon om jou geskenk te sien",
+        "message": "Kyk op jou foon om jou geskenk te sien",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2832,7 +2832,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "Het verval",
+        "message": "Verval",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2844,7 +2844,7 @@
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
-        "message": "Dankie vir u ondersteuning!",
+        "message": "Dankie vir jou ondersteuning!",
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
@@ -2874,7 +2874,7 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Geen Signal Artist-plakkers is beskikbaar nie",
+        "message": "Geen Signal Kunstenaar-plakkers beskikbaar nie",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2886,7 +2886,7 @@
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Installer",
+        "message": "Installeer",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
@@ -2894,11 +2894,11 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Jy mag nie in staat wees om weer te installeer hierdie plakkerpak as jy nie meer die bron boodskap.",
+        "message": "Jy mag dalk nie in staat wees om hierdie plakkerpakket weer te installeer as jy nie meer die bronboodskap het nie.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Stel plakkers bekend: Bandiet die Kat",
+        "message": "Stel plakkers bekend: Bandiet, die Kat",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
@@ -2934,7 +2934,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Installeer tans plakkerpak...",
+        "message": "Installeer tans plakkerpakket...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -2942,11 +2942,11 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Nuwe plakker pakke van jou boodskappe is beskikbaar om te installeer",
+        "message": "Nuwe plakkerpakket van jou boodskappe is beskikbaar om te installeer",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Geen plakkerpakkies gevind nie.",
+        "message": "Geen plakkerpakkette gevind nie.",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
@@ -2954,19 +2954,19 @@
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Plakkerpak",
+        "message": "Plakkerpakket",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Kon nie plakkerpakket oopmaak nie. Gaan jou internet konneksie en probeer weer.",
+        "message": "Kon nie plakkerpakket oopmaak nie. Kontroleer jou internetverbinding en probeer weer.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Geen emoji' gevind nie",
+        "message": "Geen emoji gevind nie",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Soek Emoji",
+        "message": "Soek emoji",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -3024,7 +3024,7 @@
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
-        "message": "$contact$ het julle gestuur om 'n boodskap wat nie verwerk kan word of vertoon word, omdat dit gebruik maak van 'n nuwe Signal funksie.",
+        "message": "$contact$ het vir jou 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit 'n gebruik maak van 'n nuwe Signal-funksie.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3034,7 +3034,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Jy kan $contact$ vra om nou weer te stuur hierdie boodskap dat jy 'n up-to-date weergawe van Signal.",
+        "message": "Jy kan $contact$ vra om hierdie boodskap weer te stuur nou dat jy 'n bygewerkte weergawe van Signal gebruik.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3044,19 +3044,19 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Een van jou toestelle het 'n boodskap wat nie verwerk kan word of vertoon word, omdat dit gebruik maak van 'n nuwe Signal funksie.",
+        "message": "Een van jou toestelle het 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit gebruik maak van 'n nuwe Signal-funksie.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Toekomstige boodskappe soos hierdie sal nou gesinchroniseer dat jy 'n up-to-date weergawe van Signal gebruik.",
+        "message": "Toekomstige boodskappe soos hierdie sal gesinkroniseer word nou dat jy 'n bygewerkte weergawe van Signal gebruik.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Dateer Signal op",
+        "message": "Werk Signal by",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Beskou",
+        "message": "Bekyk",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
@@ -3068,7 +3068,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "Eenkeerkyk-boodskappe nie in jou gesprek geskiedenis gestoor.",
+        "message": "Eenkeerkyk-boodskappe word nie in jou gesprekgeskiedenis gestoor nie.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -3104,11 +3104,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Vorige ongelees gesprek",
+        "message": "Vorige ongeleesde gesprek",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Volgende ongelees gesprek",
+        "message": "Volgende ongeleesde gesprek",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
@@ -3116,7 +3116,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Maak die gespreksmenu oop",
+        "message": "Maak die gesprekmenu oop",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--new-conversation": {
@@ -3140,11 +3140,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Fokus-komponis",
+        "message": "Fokus-opsteller",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Maak die media-aansig oop",
+        "message": "Maak Alle Media-aansig oop",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -3156,11 +3156,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Begin met die opneem van 'n stemnoot",
+        "message": "Begin 'n stemnota opneem",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Verstek aksie vir geselekteerde boodskap",
+        "message": "Verstek-aksie vir geselekteerde boodskap",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
@@ -3168,19 +3168,19 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Skakel antwoord op geselekteerde boodskap aan of uit",
+        "message": "Wissel antwoord op geselekteerde boodskap",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Skakel emoji-reaksiekieser aan of af vir geselekteerde boodskap",
+        "message": "Wissel emoji-reaksiekieser vir geselekteerde boodskap",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Stoor aanhangsel uit die geselekteerde boodskap",
+        "message": "Stoor aanhegsel uit die geselekteerde boodskap",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Vee geselekteerde boodskap uit",
+        "message": "Skrap geselekteerde boodskap",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
@@ -3188,15 +3188,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Brei komponis uit",
+        "message": "Brei opsteller uit",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Stuur (in uitgebreide komponis)",
+        "message": "Stuur (in uitgebreide opsteller)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Heg leër aan",
+        "message": "Heg lêer aan",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
@@ -3204,7 +3204,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Verwyder alle konsepaanhegsels",
+        "message": "Verwyder alle konsep-aanhegsels",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -3212,7 +3212,7 @@
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
-        "message": "Beheers",
+        "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
@@ -3240,7 +3240,7 @@
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
-        "message": "Sleutelbord kortpaaie",
+        "message": "Sleutelbordkortpaaie",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
@@ -3248,19 +3248,19 @@
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
-        "message": "Boodksappe",
+        "message": "Boodskappe",
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Komponis",
+        "message": "Opsteller",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Blaai na bo aan die lys",
+        "message": "Rol na die bokant van die lys",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Blaai na die onderkant van die lys",
+        "message": "Rol na die onderkant van die lys",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -3268,15 +3268,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "Om te bel",
+        "message": "Besig om te bel",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Skakel demp aan of af",
+        "message": "Wissel demp aan en af",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Skakel video aan of af",
+        "message": "Wissel video aan en af",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
@@ -3296,7 +3296,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Aanvaar nie oproep nie",
+        "message": "Weier oproep",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3304,11 +3304,11 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
-        "message": "Sluit pop-up af",
+        "message": "Maak opspring-item toe",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Voeg prentjie-aanhangsel by",
+        "message": "Voeg beeld-aanhegsel by",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
@@ -3320,11 +3320,11 @@
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Gesprek in argief",
+        "message": "Gesprek geargiveer",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationArchivedUndo": {
-        "message": "Ongedaan",
+        "message": "Ontdoen",
         "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
@@ -3336,11 +3336,11 @@
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Plakkerpak skepper",
+        "message": "Plakkerpakket-skepper",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Klik hier om prente by te voeg of te laat val",
+        "message": "Klik hier om prente by te voeg of neer te laat",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -3348,7 +3348,7 @@
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Plakkerpak",
+        "message": "Plakkerpakket",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -3384,7 +3384,7 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Voeg jou plakkers",
+        "message": "Voeg jou plakkers by",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
@@ -3392,7 +3392,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Klik of sleep/laat los 'n plakker hier",
+        "message": "Klik of sleep/laat 'n plakker hier neer",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3400,7 +3400,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Wys marges",
+        "message": "Wys kantruimtes",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
@@ -3418,11 +3418,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Dit stel ons in staat om plakkers stel om jy as jy boodskappe.",
+        "message": "Dit stel ons in staat om plakkers voor te stel terwyl jy boodskappe stuur.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Net 'n paar meer besonderhede...",
+        "message": "Net nog 'n paar besonderhede...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3438,11 +3438,11 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Dit is die beeld wat sal opdaag wanneer jy jou plakkerpak deel",
+        "message": "Dit is die beeld wat jy sal sien wanneer jy jou plakkerpakket deel",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Is jy seker jy wil hê dat jou plakkerpak oplaai?",
+        "message": "Is jy seker jy wil jou plakkerpakket oplaai?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -3450,11 +3450,11 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Jy sal nie meer in staat wees om veranderinge of te verwyder enige iets na die skep van 'n plakker pak maak.",
+        "message": "Jy sal nie meer in staat wees om veranderinge te maak of te skrap na jy 'n plakkerpakket gemaak het nie.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Skep tans u plakkerpak",
+        "message": "Skep tans jou plakkerpakket",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
@@ -3472,15 +3472,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Baie geluk! Jy het 'n plakkerpak geskep.",
+        "message": "Baie geluk! Jy het 'n plakkerpakket geskep.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Toegang tot jou nuwe plakkers deur die plakker ikoon, of deel met jou vriende met behulp van die skakel hieronder.",
+        "message": "Kry toegang tot jou nuwe plakkers deur die plakkerikoon, of deel met jou vriende met behulp van die skakel hieronder.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Gebruik die hashtag $hashtag$ te help ander mense te vind die URLs vir enige persoonlike plakker pakke wat jy wil die publiek toeganklik te maak.",
+        "message": "Gebruik die hutsetiket $hashtag$ om ander mense te help om die URLs vir enige persoonlike plakkerpakkette wat jy vir almal toeganklik wil maak, te vind.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3490,7 +3490,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Plakkerpak URL",
+        "message": "Plakkerpakket-URL",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -3498,15 +3498,15 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Skep 'n ander plakkerpak",
+        "message": "Skep 'n ander plakkerpakket",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Kyk na hierdie nuwe plakkerpakket wat ek vir Signal geskep het. #makeprivacystick #maakprivaatheidsverblyf",
+        "message": "Kyk na hierdie nuwe plakkerpakket wat ek vir Signal geskep het. #maakprivaatheidtel",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$prent(e) bygevoeg",
+        "message": "$count$ prent(e) bygevoeg",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -3520,7 +3520,7 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Die foto wat laat val is te groot",
+        "message": "Die foto wat neergelê is, is te groot",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
@@ -3532,7 +3532,7 @@
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Geanimeerde PNG-plakkers moet permanent aanhou loop",
+        "message": "Geanimeerde PNG-plakkers moet permanent aanhou lusuitvoer",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
@@ -3544,7 +3544,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Plakker-oplaai-fout: $message$",
+        "message": "Plakker-oplaaifout: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -3566,7 +3566,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Stel Signal op u foon en tafelblad in om die Sticker Pack Creator te gebruik",
+        "message": "Stel Signal op u foon en tafelblad in om die Plakkerpakket-skepper te gebruik",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -3596,7 +3596,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Laat $name$ toe om vir jou boodskappe te stuur, en deel jou naam en foto met hulle? Tot jy hulle ontsper, sal jy geen boodskappe ontvang nie.",
+        "message": "Laat $name$ toe om vir jou boodskappe te stuur, en deel jou naam en foto met hulle? Tot jy hulle ontblokkeer, sal jy geen boodskappe ontvang nie.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3606,11 +3606,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Sluit by hierdie groep aan en deel u naam en foto met die lede? Hulle sal nie weet dat u hulle boodskappe gesien het nie tot u aanvaar.",
+        "message": "Sluit by hierdie groep aan en deel jou naam en foto met die lede? Tot jy aanvaar, sal hull nie weet dat jy hulle boodskappe gesien het nie.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Ontsper hierdie groep aan en deel u naam en foto met die lede? U sal geen boodskappe ontvang nie tot u hulle ontsper.",
+        "message": "Deblokkeer hierdie groep en deel jou naam en foto met die lede? Tot jy hulle ontblokkeer, sal jy geen boodskappe ontvang nie.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3622,7 +3622,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-title": {
-        "message": "Ontsper $name$?",
+        "message": "Ontblokkeer $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -3640,15 +3640,15 @@
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Rapporteer gemorspos en versper",
+        "message": "Rapporteer gemorspos en blokkeer",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Rapporteer as gemorspos en versper.",
+        "message": "Rapporteer as gemorspos en blokkeer.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Versper $name$?",
+        "message": "Blokkeer $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -3662,7 +3662,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Versper en verlaat $group$?",
+        "message": "Blokkeer en verlaat $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3676,19 +3676,19 @@
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
-        "message": "Wis",
+        "message": "Skrap",
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "Wis gesprek uit?",
+        "message": "Skrap gesprek?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Hierdie gesprek sal van al jou toestelle af gewis word.",
+        "message": "Hierdie gesprek sal van al jou toestelle geskrap word.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Skrap en Verlaat $group$?",
+        "message": "Skrap en verlaat $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3698,15 +3698,15 @@
         }
     },
     "MessageRequests--delete-direct": {
-        "message": "Wis",
+        "message": "Skrap",
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "Wis en verlaat",
+        "message": "Skrap en verlaat",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Jy sal hierdie groep verlaat, en dit sal van al jou toestelle af gewis word.",
+        "message": "Jy sal hierdie groep verlaat, en dit sal van al jou toestelle geskrap word.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -4034,7 +4034,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Besig om te herverbind…",
+        "message": "Besig om te herkonnekteer…",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -4070,7 +4070,7 @@
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "U het ’n groepoproep begin",
+        "message": "Jy het ’n groepoproep begin",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
@@ -4242,11 +4242,11 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Dit is ’n ongeldige groepskakel. Maak seker die skakel is volledig en korrek voor u probeer aansluit.",
+        "message": "Hierdie is nie ’n geldige groepskakel nie. Maak seker die skakel is volledig en korrek voor jy probeer aansluit.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Wil u by hierdie groep aansluit en u naam en foto met die lede deel?",
+        "message": "Wil jy by hierdie groep aansluit en jou naam en foto met die lede deel?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -4262,11 +4262,11 @@
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "Hierdie skakel word nie deur hieride weergawe van Signal Desktop ondersteun nie.",
+        "message": "Hierdie skakel word nie deur hierdie weergawe van Signal Desktop ondersteun nie.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Kan nie by Groep Aansluit nie",
+        "message": "Kan nie by groep aansluit nie",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
@@ -4274,7 +4274,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-forbidden--title": {
-        "message": "Kan nie by Groep Aansluit nie",
+        "message": "Kan nie by groep aansluit nie",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
@@ -4334,7 +4334,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "U aansluitingsversoek is na die groepadmin gestuur. U sal laat weet word wanneer hulle aksie geneem het.",
+        "message": "Jou versoek om aan te sluit is na die groepadmin gestuur. Jy sal in kennis gestel word wanneer hulle aksie geneem het.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -4442,7 +4442,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "Jy het die groep avatar verander.",
+        "message": "Jy het die groep-avatar verander.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -4450,7 +4450,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ het die groepavatar verwyder.",
+        "message": "$memberName$ het die groep-avatar verwyder.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4710,7 +4710,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "U het d.m.v. die groepskakel by die groep aangesluit.",
+        "message": "Jy het d.m.v. die groepskakel by die groep aangesluit.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
@@ -4762,7 +4762,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "’n Versoek van $joinerName$ om by die groep aan te sluit is goedgekeur.",
+        "message": "’n Versoek van $joinerName$ om by die groep aan te sluit, is goedgekeur.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5120,7 +5120,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ het ’n uitnodiging na die groep vir 1 persoon gestuur deur $memberName$ herroep.",
+        "message": "$adminName$ het ’n uitnodiging na die groep vir 1 persoon, gestuur deur $memberName$, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5134,7 +5134,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Jy het ’n uitnodiging na die groep vir 1 persoon gestuur deur $memberName$ herroep.",
+        "message": "Jy het ’n uitnodiging na die groep vir 1 persoon, gestuur deur $memberName$, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5144,7 +5144,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "'n Admin het ’n uitnodiging na die groep vir 1 persoon gestuur deur $memberName$ herroep.",
+        "message": "'n Admin het ’n uitnodiging na die groep vir 1 persoon, gestuur deur $memberName$, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5174,7 +5174,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "’n Beheerder het u uitnodiging na die groep vir $inviteeName$ mense herroep.",
+        "message": "’n Admin het jou uitnodiging na die groep vir $inviteeName$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5184,7 +5184,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ het uitnodigings na die groep vir $count$ mense deur $memberName$ genooi, herroep.",
+        "message": "$adminName$ het uitnodigings na die groep vir $count$ mense, deur $memberName$ genooi, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5198,7 +5198,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "U het uitnodigings na die groep vir $count$ mense deur $memberName$ genooi, herroep.",
+        "message": "Jy het uitnodigings na die groep vir $count$ mense, deur $memberName$ genooi, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5212,7 +5212,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "’n Beheerder het uitnodigings na die groep vir $count$ mense deur $memberName$ genooi, herroep.",
+        "message": "’n Admin het uitnodigings na die groep vir $count$ mense, deur $memberName$ genooi, herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5240,7 +5240,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "U het u uitnodiging vir $count$ mense herroep.",
+        "message": "Jy het jou uitnodiging vir $count$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5250,7 +5250,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "’n Beheerder het ’n uitnodiging na die groep vir $count$ mense herroep.",
+        "message": "’n Admin het ’n uitnodiging na die groep vir $count$ mense herroep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5260,7 +5260,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "U het ’n versoek gestuur om by die groep aan te sluit.",
+        "message": "Jy het ’n versoek gestuur om by die groep aan te sluit.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -5274,15 +5274,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "U het u versoek om by die groep aan te sluit gekanselleer.",
+        "message": "Jy het jou versoek om by die groep aan te sluit, gekanselleer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "U versoek om by die groep aan te sluit is deur ’n beheerder geweier.",
+        "message": "Jou versoek om by die groep aan te sluit is deur ’n admin geweier.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "U het ’n versoek van $joinerName$ om by die groep aan te sluit geweier.",
+        "message": "Jy het ’n versoek van $joinerName$ om by die groep aan te sluit, geweier.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5292,7 +5292,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ het hul versoek gekanselleer om by die groep aan te sluit.",
+        "message": "$joinerName$ het hul versoek om by die groep aan te sluit, gekanselleer.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5302,7 +5302,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ het ’n versoek van $joinerName$ om by die groep aan te sluit geweier.",
+        "message": "$adminName$ het ’n versoek van $joinerName$ om by die groep aan te sluit, geweier.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5340,11 +5340,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "U het die groepskakel met beheerdergoedkeuring gedeaktiveer.",
+        "message": "Jy het die groepskakel geaktiveer met admingoedkeuring gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ het die groepskakel met beheerdergoedkeuring gedeaktiveer.",
+        "message": "$adminName$ het die groepskakel geaktiveer met admingoedkeuring gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5354,15 +5354,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Die groepskakel en beheerdergoedkeuring is gedeaktiveer.",
+        "message": "Die groepskakel is geaktiveer met admingoedkeuring gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "U het die groepskakel met beheerdergoedkeuring geaktiveer.",
+        "message": "Jy het die groepskakel geaktiveer met admingoedkeuring geaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ het die groepskakel met beheerdergoedkeuring geaktiveer.",
+        "message": "$adminName$ het die groepskakel geaktiveer met admingoedkeuring geaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5372,11 +5372,11 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Die groepskakel en beheerdergoedkeuring is geaktiveer.",
+        "message": "Die groepskakel is geaktiveer met admingoedkeuring geaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "U het die groepskakel gedeaktiveer.",
+        "message": "Jy het die groepskakel gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -5394,7 +5394,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "U het die groepskakel teruggestel.",
+        "message": "Jy het die groepskakel teruggestel.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -5412,7 +5412,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "U het die groepbeskrywing verwyder.",
+        "message": "Jy het die groepbeskrywing verwyder.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
@@ -5430,7 +5430,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
-        "message": "U het die groepbeskrywing verander.",
+        "message": "Jy het die groepbeskrywing verander.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
@@ -5448,11 +5448,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "U het die groepinstellings verander sodat slegs beheerders boodskappe kan stuur.",
+        "message": "Jy het die groepinstellings verander sodat slegs admins boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ het die groepinstellings verander sodat slegs beheerders boodskappe kan stuur.",
+        "message": "$memberName$ het die groepinstellings verander sodat slegs admins boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5462,11 +5462,11 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Die groep is verander sodat slegs beheerders boodskappe kan stuur.",
+        "message": "Die groep is verander sodat slegs admins boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "U het die groepinstellings verander sodat alle lede boodskappe kan stuur.",
+        "message": "Jy het die groepinstellings verander sodat alle lede boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -5484,7 +5484,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Gradeer hierdie groep op om nuwe funksies soos @vermeldings en beheerders te aktiveer. Lede wat nie hul naam of foto in die groep gedeel het nie, sal genooi word om aan te sluit. $learnMore$.",
+        "message": "Gradeer hierdie groep op om nuwe funksies soos @vermeldings en admins te aktiveer. Lede wat nie hul naam of foto in die groep gedeel het nie, sal genooi word om aan te sluit. $learnMore$.",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5498,7 +5498,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "Leer meer",
+        "message": "Vind meer uit",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -5506,11 +5506,11 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "Wat is nuwe groepe?",
+        "message": "Wat is Nuwe Groepe?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Gradeer op na nuwe groep",
+        "message": "Gradeer op na Nuwe Groep",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
@@ -5526,39 +5526,39 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "U moet weer ’n uitnodiging om by die groep aan te sluit aanvaar, en sal geen groepboodskappe ontvang voor u aanvaar nie:",
+        "message": "Jy moet weer ’n uitnodiging om by die groep aan te sluit, aanvaar en sal tot dan geen groepboodskappe ontvang nie:",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Hierdie lede moet weer ’n uitnodiging om by die groep aan te sluit aanvaar, en sal geen groepboodskappe ontvang voor hulle aanvaar nie:",
+        "message": "Hierdie lede moet weer ’n uitnodiging om by die groep aan te sluit, aanvaar en sal tot dan geen groepboodskappe ontvang nie:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Hierdie lid moet weer ’n uitnodiging om by die groep aaan te sluit aanvaar, en sal geen groepboodskappe ontvang voor hulle aanvaar nie:",
+        "message": "Hierdie lid moet weer ’n uitnodiging om by die groep aan te sluit, aanvaar en sal tot dan geen groepboodskappe ontvang nie:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Hierdie lede kan nie by nuwe groepe aansluit nie en sal van die volgende groep verwyder word:",
+        "message": "Hierdie lede kan nie by Nuwe Groepe aansluit nie en sal van die volgende groep verwyder word:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Hierdie lede kan nie by nuwe groepe aansluit nie en sal van die volgende groep verwyder word:",
+        "message": "Hierdie lede kan nie by Nuwe Groepe aansluit nie en sal van die volgende groep verwyder word:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Hierdie lede kon nie by nuwe groepe aansluit nie en is van die volgende groep verwyder:",
+        "message": "Hierdie lede kon nie by Nuwe Groepe aansluit nie en is van die volgende groep verwyder:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Hierdie lid kon nie by nuwe groepe aansluit nie en is van die volgende groep verwyder:",
+        "message": "Hierdie lid kon nie by Nuwe Groepe aansluit nie en is van die volgende groep verwyder:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "U kon nie tot die nuwe groep toegevoeg word nie en is genooi om aan te sluit.",
+        "message": "Jy kon nie by die Nuwe Groep toegevoeg word nie en is genooi om aan te sluit.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ kon nie tot die nuwe groep toegevoeg word nie en is genooi om aan te sluit.",
+        "message": "$contact$ kon nie by die Nuwe Groep toegevoeg word nie en is genooi om aan te sluit.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5568,7 +5568,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ lede kon nie tot die nuwe groep toegevoeg word nie en is genooi om aan te sluit.",
+        "message": "$count$ lede kon nie by die Nuwe Groep toegevoeg word nie en is genooi om aan te sluit.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5618,19 +5618,19 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal word deur mense soos u aangedryf. Dra by en verdien ’n wapen.",
+        "message": "Signal word deur mense soos jy aangedryf. Dra by en verdien ’n wapen.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal op u telefoon",
+        "message": "Maak Signal op jou foon oop",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Tik op u profielfoto bo links om Instellings te open",
+        "message": "Tik op jou profielfoto bo links om Instellings oop te maak",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tik op \"Skenk aan Signal\" en teken in",
+        "message": "Tik op \"Dra by tot Signal\" en teken in",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5642,7 +5642,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "Hierdie mens gebruik nie Signal nie",
+        "message": "Hierdie persoon gebruik nie Signal nie",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
@@ -5662,11 +5662,11 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Verwyder as beheerder",
+        "message": "Verwyder as admin",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Maak beheerder",
+        "message": "Maak admin",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -5680,7 +5680,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Verwyder $contact$ as groepbeheerder?",
+        "message": "Verwyder $contact$ as groepadmin?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5714,7 +5714,7 @@
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
-        "message": "Verdwynende boodskappe",
+        "message": "Verdwynboodskappe",
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
@@ -5742,7 +5742,7 @@
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Kies wie lede tot hierdie groep kan toevoeg.",
+        "message": "Kies wie lede by hierdie groep kan toevoeg.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
@@ -5762,23 +5762,23 @@
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Versper groep",
+        "message": "Blokkeer groep",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--unblock-group": {
-        "message": "Ontsper groep",
+        "message": "Ontblokkeer groep",
         "description": "This is a button to unblock a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Voor u verlaat, moet u ten minste een nuwe beheerder vir hierdie groep kies.",
+        "message": "Voor jy verlaat, moet jy ten minste een nuwe admin vir hierdie groep kies.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
-        "message": "Wil u regtig verlaat?",
+        "message": "Wil jy regtig verlaat?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "U sal nie meer boodskappe in hierdie groep kan stuur of ontvang nie.",
+        "message": "Jy sal nie meer boodskappe in hierdie groep kan stuur of ontvang nie.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Ontsper die \"$groupName$\"-groep?",
+        "message": "Ontblokkeer die \"$groupName$\"-groep?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5796,7 +5796,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Versper en verlaat die “$groupName$”-groep?",
+        "message": "Blokkeer en verlaat die “$groupName$”-groep?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5806,19 +5806,19 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "U sal nie meer boodskappe of nuus van hierdie groep ontvang nie.",
+        "message": "Jy sal nie meer boodskappe of nuus van hierdie groep ontvang nie.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
-        "message": "Versper",
+        "message": "Blokkeer",
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Jou kontakte sal jou in hierdie groep kan byvoeg.",
+        "message": "Jou kontakte sal jou by hierdie groep kan toevoeg.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
-        "message": "Ontsper",
+        "message": "Ontblokkeer",
         "description": "This is the modal button to confirm unblock of a group"
     },
     "ConversationDetailsHeader--members": {
@@ -5862,7 +5862,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Ontvang kennisgewings wanneer u in gedempte kletse genoem word?",
+        "message": "Ontvang kennisgewings wanneer jy in gedempte kletse genoem word?",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5882,7 +5882,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Is u seker u wil die groepskakel terugstel? Mense sal nie meer met die huidige skakel by die groep kan aansluit nie.",
+        "message": "Is jy seker jy wil die groepskakel terugstel? Mense sal nie meer met die huidige skakel by die groep kan aansluit nie.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5894,7 +5894,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "’n Beheerder moet nuwe lede goedkeur wat d.m.v. die groepskakel aansluit",
+        "message": "’n Admin moet nuwe lede goedkeur wat d.m.v. die groepskakel aansluit",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5918,7 +5918,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Keur versoek van \u001b“$name$” goed?",
+        "message": "Keur versoek van “$name$” goed?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5948,11 +5948,11 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Deur u genooi",
+        "message": "Deur jou genooi",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Deur u genooi",
+        "message": "Deur jou genooi",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
@@ -6034,15 +6034,15 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Details oor mense wat na die groep genooi is sal eers vertoon wanneer hulle aansluit. Genooides sal slegs boodskappe sien wanneer hulle by die groep aansluit.",
+        "message": "Besonderhede oor mense wat na die groep genooi is sal eers vertoon wanneer hulle aansluit. Genooides sal slegs boodskappe sien wanneer hulle by die groep aansluit.",
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Versper versoek",
+        "message": "Blokkeer versoek",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Versper versoek?",
+        "message": "Blokkeer versoek?",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
@@ -6056,7 +6056,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Versper Versoek",
+        "message": "Blokkeer versoek",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6102,7 +6102,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ kan nie outomaties deur u tot hierdie groep toegevoeg word nie.",
+        "message": "$name$ kan nie outomaties deur jou by hierdie groep toegevoeg word nie.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -6112,7 +6112,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "Hierdie gebruikers kan nie outomaties deur u tot hierdie groep toegevoeg word nie.",
+        "message": "Hierdie gebruikers kan nie outomaties deur jou by hierdie groep toegevoeg word nie.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
@@ -6120,7 +6120,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-        "message": "Leer meer",
+        "message": "Vind meer uit",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
@@ -6206,7 +6206,7 @@
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
-        "message": "Speel oudio-aanhegsel af",
+        "message": "Speel oudio-aanhegsel",
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
@@ -6214,7 +6214,7 @@
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
-        "message": "Laai die oudio-aanhegsel af",
+        "message": "Laai oudio-aanhegsel af",
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
@@ -6252,11 +6252,11 @@
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
-        "message": "Leer meer",
+        "message": "Vind meer uit",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "U het geen groepe in gemeen met hierdie persoon nie. Hanteer versoeke met omsigtigheid om ongewenste boodskappe te voorkom.",
+        "message": "Jy het geen groepe in gemeen met hierdie persoon nie. Hanteer versoeke met omsigtigheid om ongewenste boodskappe te voorkom.",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -6300,7 +6300,7 @@
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "Indien u onseker is oor die sender van die versoek, kan u die kontakte hieronder nagaan en aksie neem.",
+        "message": "Indien jy onseker is oor die sender van die versoek, kan jy die kontakte hieronder nagaan en aksie neem.",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -6308,7 +6308,7 @@
         "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
     },
     "ContactSpoofingReviewDialog__safe-title": {
-        "message": "U kontak",
+        "message": "Jou kontak",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
@@ -6370,7 +6370,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "Na verifikasie kan u boodskappe stuur. Enige wagtende boodskappe sal outomaties verstuur word.",
+        "message": "Jy kan na verifikasie boodskappe stuur. Enige wagtende boodskappe sal outomaties verstuur word.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -6378,7 +6378,7 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "Indien u kies om verifikasie oor te slaan kan u dalk boodskappe van ander mense mis en u boodskappe kan dalk nie verstuur word nie.",
+        "message": "Indien jy kies om verifikasie oor te slaan, kan jy dalk boodskappe van ander mense mis en jou boodskappe kan dalk nie gestuur word nie.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -6402,7 +6402,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Hierdie pasgemaakte kleur word in $num$ kletse gebruik. Wil u dit vir alle kletse skrap?",
+        "message": "Hierdie pasgemaakte kleur word in $num$ kletse gebruik. Wil jy dit vir alle kletse skrap?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -6440,11 +6440,11 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Wil u alle kletskleure oorheers?",
+        "message": "Wil jy alle kletskleure oorheers?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Toon kleurpasmaakredigeerder",
+        "message": "Wys kleurpasmaakredigeerder",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -6452,11 +6452,11 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Nog ’n bel.",
+        "message": "Nog ’n borrel.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "Die kleur is slegs vir u sigbaar.",
+        "message": "Die kleur is slegs vir jou sigbaar.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
@@ -6468,7 +6468,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
-        "message": "Wis",
+        "message": "Skrap",
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
@@ -6540,7 +6540,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Stel ’n verstekverdwynboodskaphorlosie in vir alle kletse wat u begin.",
+        "message": "Stel ’n verstek-verdwynboodskap-teller in vir alle kletse wat jy begin.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -6548,7 +6548,7 @@
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "Die verdwynboodskaptyd sal op $timeValue$ gestel word wanneer u ’n boodskap aan hulle stuur.",
+        "message": "Die verdwynboodskaptyd sal op $timeValue$ gestel word wanneer jy ’n boodskap aan hulle stuur.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -6558,7 +6558,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Kon nie die boodskap vertoon nie. Klik om ’n ontfoutlog in te dien.",
+        "message": "Kon nie die boodskap vertoon nie. Klik om ’n ontfout-log in te dien.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6634,7 +6634,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Gebruikername op Signal is opsioneel. As u kies om ’n gebruikernaam te skep, sal ander Signal-gebruikers u via hierdie gebruikernaam kan vind en u kan kontak sonder om u foonnommer te hê.",
+        "message": "Gebruikername op Signal is opsioneel. As jy kies om ’n gebruikernaam te skep, sal ander Signal-gebruikers jou via hierdie gebruikernaam kan vind en jou kan kontak sonder om jou foonnommer te hê.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6670,11 +6670,11 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "U gebruikernaam kon nie bewaar word nie. Gaan u verbinding na en probeer weer.",
+        "message": "Jou gebruikernaam kon nie bewaar word nie. Gaan jou verbinding na en probeer weer.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "U gebruikernaam kon nie verwyder word nie. Gaan u verbinding na en probeer weer.",
+        "message": "Jou gebruikernaam kon nie verwyder word nie. Gaan jou verbinding na en probeer weer.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6682,7 +6682,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Dit sal u gebruikernaam verwyder en ander mense sal dit kan gebruik. Is u seker?",
+        "message": "Dit sal jou gebruikernaam verwyder en ander mense sal dit kan gebruik. Is jy seker?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6690,7 +6690,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Skryf ’n paar woorde oor uself…",
+        "message": "Skryf ’n paar woorde oor jouself…",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6702,11 +6702,11 @@
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {
-        "message": "Wil u hierdie veranderinge weggooi?",
+        "message": "Wil jy hierdie veranderinge weggooi?",
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "U profiel is geënkripteer. U profiel en veranderinge daaraan sal aan u kontakte sigbaar wees wanneer u nuwe kletse begin of aanvaar. $learnMore$",
+        "message": "Jou profiel is geënkripteer. Jou profiel en veranderinge daaraan sal aan jou kontakte sigbaar wees wanneer jy nuwe kletse begin of aanvaar. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6716,7 +6716,7 @@
         }
     },
     "ProfileEditor--learnMore": {
-        "message": "Kom meer te wete",
+        "message": "Vind meer uit",
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
@@ -6744,7 +6744,7 @@
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
-        "message": "U naam",
+        "message": "Jou naam",
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
@@ -6752,7 +6752,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "U avatar",
+        "message": "Jou avatar",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6764,7 +6764,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Stuur ’n boodskap aan beheerder",
+        "message": "Stuur ’n boodskap aan admin",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -6778,7 +6778,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "beheerders",
+        "message": "admins",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
@@ -6790,7 +6790,7 @@
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Groepavatar",
+        "message": "Groep-avatar",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6844,7 +6844,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Open die Signal-toep op u mobiele toestel en gaan na Instellings > Kletse om hierdie instellings te verander",
+        "message": "Maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings > Kletse om hierdie instellings te verander",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6856,7 +6856,7 @@
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
-        "message": "Versper",
+        "message": "Geblokkeer",
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
@@ -6884,7 +6884,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Open die Signal-toep op u mobiele toestel en gaan na Instellings > Privaatheid om hierdie instellings te verander",
+        "message": "Maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings > Privaatheid om hierdie instellings te verander",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6904,11 +6904,11 @@
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
-        "message": "Sien my telefoonnommer",
+        "message": "Sien my foonnommer",
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Vind my op my telefoonnommer",
+        "message": "Vind my op my foonnommer",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6964,11 +6964,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Kon nie lêers dekompakteer nie. Laat loop die installeerder weer, asb.",
+        "message": "Kon nie lêers dekompakteer nie. Probeer die installeerder asb. weer laat loop.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Kon nie ou toepassingsêers deïnstalleer nie. Laat loop die installeerder weer, asb.",
+        "message": "Kon nie ou toepassingsêers deïnstalleer nie. Probeer die installeerder asb. weer laat loop.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -6976,7 +6976,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal het uitgebom en moes weer begin. U kan ’n uitbomverslag stuur om Signal te help om die probleem te ondersoek.",
+        "message": "Signal het uitgebom en moes weer begin. Jy kan ’n uitbomverslag stuur om Signal te help om die probleem te ondersoek.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6996,7 +6996,7 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "U instellings kon nie bewaar word nie. Probeer asb. weer.",
+        "message": "Jou instellings kon nie gestoor word nie. Probeer asb. weer.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -7072,7 +7072,7 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Roteer",
+        "message": "Draai om",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7189,6 +7189,14 @@
         "message": "Besig om reaksie te stuur…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Deel & Kyk na Stories",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Jy sal nie meer stories kan deel of daarna kyk wanneer hierdie opsie afgeskakel is nie.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pouseer",
         "description": "Aria label for pausing a story"
@@ -7254,7 +7262,7 @@
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
-        "message": "Verberg",
+        "message": "Versteek",
         "description": "Action button for the confirmation dialog to hide a story"
     },
     "StoryImage__error": {
@@ -7262,7 +7270,7 @@
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
-        "message": "Skakel agtergrondkleur aan of af",
+        "message": "Wissel agtergrondkleur",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

@@ -7189,6 +7189,14 @@
         "message": "Sending reaction...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Share & View Stories",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Fyddwch chi ddim yn gallu rhannu na gweld Straeon bellach pan fydd y dewis hwn wedi'i ddiffodd.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Oedi",
         "description": "Aria label for pausing a story"

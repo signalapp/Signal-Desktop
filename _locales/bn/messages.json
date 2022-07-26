@@ -7189,6 +7189,14 @@
         "message": "রিঅ্যাকশন পাঠানো হচ্ছে...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "স্টোরি শেয়ার করুন এবং দেখুন",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "এই অপশনটি বন্ধ থাকলে আপনি আর স্টোরি শেয়ার করতে বা দেখতে পাবেন না৷",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "পজ করুন",
         "description": "Aria label for pausing a story"

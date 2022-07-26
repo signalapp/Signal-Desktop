@@ -7189,6 +7189,14 @@
         "message": "Reagimi po dërgohet ...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Shpërndaj dhe shiko postimet e përkohshme ",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Pasi kjo të çaktivizohet, s’do të mund të shpërndash më materiale me të tjerë apo të shohësh postimet e përkohshme.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Ndalesë",
         "description": "Aria label for pausing a story"

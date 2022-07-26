@@ -704,7 +704,7 @@
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "請檢查一吓你嘅網路連線。",
+        "message": "請檢查一吓你嘅網絡連線。",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
@@ -1114,7 +1114,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "傳送唔到俾某啲接收者。請檢查吓你嘅網路連線。",
+        "message": "傳送唔到俾某啲接收者。請檢查吓你嘅網絡連線。",
         "description": ""
     },
     "error": {
@@ -1562,7 +1562,7 @@
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "暫停簡報",
+        "message": "停止簡報",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
@@ -1802,7 +1802,7 @@
         }
     },
     "calling__block-info": {
-        "message": "您唔會收到佢哋嘅語音或者影片，而佢哋都唔會收到您嘅語音或者影片。",
+        "message": "你唔會收到佢哋嘅語音或者影片，而佢哋都唔會收到你嘅語音或者影片。",
         "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
@@ -1850,7 +1850,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ 停止咗展示",
+        "message": "$name$ 停止咗簡報",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1864,19 +1864,19 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal 要得到存取權限先可以進行電腦螢幕錄製。",
+        "message": "Signal 要有存取權先可以錄到電腦螢幕。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "請您去系統偏好設定。",
+        "message": "去系統偏好設定。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "喺左下角㩒鎖定圖示，然後輸入您嘅電腦密碼。",
+        "message": "㩒左下角嘅鎖定圖示，然後輸入你嘅電腦密碼。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "喺右邊剔 Signal 隔離嘅方格。如果您喺清單搵唔到 Signal 嘅話就㩒個加號嚟新增 Signal。",
+        "message": "喺右邊剔 Signal 隔離嗰個格仔。如果你喺清單度搵唔到 Signal 嘅話，可以㩒個加號嚟新增 Signal。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1888,11 +1888,11 @@
         "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
-        "message": "一律轉送通話",
+        "message": "一律轉駁通話",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "經由 Signal 嘅伺服器轉送所有通話嚟避免向聯絡人透露您嘅 IP 位址。啟用嘅時候會降低通話質素。",
+        "message": "經由 Signal 嘅伺服器轉駁所有通話就可以避免向聯絡人透露你嘅 IP 位址。啟用嘅時候通話質素會降低。",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1912,7 +1912,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "檢查訊息框入面嘅文字拼寫",
+        "message": "檢查訊息框入面嘅文字串法",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1924,11 +1924,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "縮細到去系統匣",
+        "message": "縮細放入系統匣",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "開機嗰陣縮細到去系統匣",
+        "message": "開機嗰陣縮細放入系統匣",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -1940,7 +1940,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "咁樣會清除晒應用程式入面嘅所有資料，包括所有訊息同埋儲存咗嘅帳號資料。",
+        "message": "咁樣會清除晒應用程式入面嘅所有資料，包括所有訊息同埋儲存咗嘅帳戶資料。",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1948,11 +1948,11 @@
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "係咪要清除所有資料？",
+        "message": "係咪要清除所有資料呀？",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "您即將會刪除晒應用程式入面儲存嘅帳號資料，包括所有聯絡人同埋訊息。您可以隨時再用您嘅流動裝置進行連結，但係就冇辦法還原返刪除咗嘅訊息。",
+        "message": "你即將會刪除晒應用程式入面儲存嘅帳戶資料，包括所有聯絡人同埋訊息。你可以隨時再連結返流動裝置，但係就冇辦法還原刪除咗嘅訊息喇。",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1964,7 +1964,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "您之前安裝嘅 Signal 桌面版入面有過時嘅資料。如果您選擇繼續，佢就會被刪除，而您就要從頭開始。",
+        "message": "你之前安裝嘅 Signal 桌面版入面有過時嘅資料。如果您選擇繼續，呢啲資料就會被刪除，你就會從頭開始過喇。",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -2014,7 +2014,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ 用 $emoji$ 回應咗您嘅訊息",
+        "message": "$sender$ 用 $emoji$ 回應咗你嘅訊息",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2028,7 +2028,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ 用 $emoji$ 回應： $message$",
+        "message": "$sender$ 用 $emoji$ 回應咗：「$message$」",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2058,11 +2058,11 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "部分傳送，㩒一吓了解詳情",
+        "message": "傳送咗一部分，㩒一吓了解詳情",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "部分刪除，㩒一吓再試一次",
+        "message": "刪除咗一部分，㩒一吓再試一次",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2078,11 +2078,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "呢個 Signal 桌面版本已經過期。請您升級到最新版本嚟繼續收發訊息。",
+        "message": "呢個 Signal 桌面版本已經過咗期。請你升級到最新版本嚟繼續收發訊息啦。",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "㩒呢到去 signal.org/download",
+        "message": "㩒呢度去 signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2094,27 +2094,27 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "滙入聯絡人",
+        "message": "匯入聯絡人",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "從您嘅流動裝置滙入所有 Signal 群組同聯絡人。",
+        "message": "由你部流動裝置匯入所有 Signal 群組同聯絡人。",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "上次嘅滙入時間係",
+        "message": "上次嘅匯入時間：",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "而家滙入",
+        "message": "即刻匯入",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "滙入緊...",
+        "message": "匯入緊...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "滙入失敗。請確保您個電腦同手機都接通咗互聯網。",
+        "message": "匯入失敗。請確保你部電腦同手機都成功連接咗互聯網。",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -2130,7 +2130,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ 個鐘",
+        "message": "$hours$ 個鐘前",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -2178,7 +2178,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "您將自動銷毀訊息嘅時間設定咗做 $time$。",
+        "message": "你將自動銷毀訊息嘅時間設定咗做 $time$。",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -2188,7 +2188,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "您將自動銷毀訊息嘅時間更新咗做 $time$。",
+        "message": "你將自動銷毀訊息嘅時間更新咗做 $time$。",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -2230,7 +2230,7 @@
         "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
-        "message": "停用自動銷毀訊息",
+        "message": "停用咗自動銷毀訊息",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
@@ -2248,7 +2248,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "您停用咗自動銷毀訊息。",
+        "message": "你停用咗自動銷毀訊息。",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -2278,7 +2278,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ 將佢嘅個人資料名稱由 $oldProfile$ 改咗做 $newProfile$。",
+        "message": "$sender$ 將佢個人檔案入面個名由 $oldProfile$ 改咗做 $newProfile$。",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2296,7 +2296,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ 將佢嘅個人資料名稱改咗做 $newProfile$。",
+        "message": "$oldProfile$ 將佢個人檔案入面個名改咗做 $newProfile$。",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2322,7 +2322,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "您同 $name$ 嘅安全碼已經改咗",
+        "message": "你同 $name$ 嘅安全碼已經改咗",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -2336,11 +2336,11 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "您要同呢位使用者有通訊先可以進行驗證。",
+        "message": "你要同呢位用戶有通訊先可以驗證對方。",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "您同 $name1$ 嘅安全碼係：",
+        "message": "你同 $name1$ 嘅安全碼係：",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -2366,7 +2366,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "您可以係呢到記低筆記俾自己。如果您嘅帳號有連結其他裝置，新嘅筆記會自動同步處理。",
+        "message": "你可以係呢度記低筆記俾自己。如果你嘅帳戶有連結其他裝置，新嘅筆記會自動同步。",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -2402,15 +2402,15 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "搵唔到使用者名稱。請您檢查吓網路連線然後再試過喇。",
+        "message": "搵唔到用戶名稱。請檢查吓網絡連線然後再試過啦。",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "搵唔到電話號碼。請您檢查吓網路連線然後再試過喇。",
+        "message": "搵唔到電話號碼。請檢查吓網絡連線然後再試過啦。",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "搵唔到呢個使用者。$atUsername$ 唔係 Signal 嘅使用者；請您檢查吓有冇輸入完整嘅使用者名稱。",
+        "message": "搵唔到呢個用戶。$atUsername$ 唔係 Signal 嘅用戶；請檢查吓你輸入嘅用戶名稱係咪完整。",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "搵唔到呢個使用者。「$phoneNumber$」唔係 Signal 嘅使用者。",
+        "message": "搵唔到呢個用戶。「$phoneNumber$」唔係 Signal 嘅用戶。",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "搵唔到呢個使用者。「$phoneNumber$」唔係一個有效嘅電話號碼。",
+        "message": "搵唔到呢個用戶。「$phoneNumber$」唔係有效嘅電話號碼。",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2474,7 +2474,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal 群組喺人數唔超過 $max$ 個成員嘅時候表現最好。加入得越多人就會令到收發訊息延遲。",
+        "message": "Signal 群組喺人數唔超過 $max$ 個成員嘅時候表現最好。加多啲人就會令收發訊息慢咗。",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2492,7 +2492,7 @@
         "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__group-name-placeholder": {
-        "message": "群組名稱（一定要填架）",
+        "message": "群組名稱 (必填)",
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
@@ -2508,7 +2508,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "建立唔到呢個群組。請您檢查吓網路連線然後再試過喇。",
+        "message": "建立唔到呢個群組。請檢查吓網絡連線然後再試過啦。",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2516,7 +2516,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "更新唔到呢個群組。請您檢查吓網路連線然後再試過喇。",
+        "message": "更新唔到呢個群組。請檢查吓網絡連線然後再試過啦。",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2564,7 +2564,7 @@
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "更新唔到 Signal。請您㩒一吓再試過喇。",
+        "message": "更新唔到 Signal。㩒一吓再試過啦。",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2894,7 +2894,7 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "如果您冇咗原本嗰個訊息就可能裝唔返呢個貼圖包喇。",
+        "message": "如果你冇咗原本嗰個訊息，就可能裝唔返呢個貼圖包喇。",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
@@ -2958,7 +2958,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "開唔到貼圖包。請您檢查吓互聯網連線然後再試過喇。",
+        "message": "開唔到貼圖包。請檢查吓互聯網連線然後再試過啦。",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -3034,7 +3034,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "您而家用緊最新版本嘅 Signal，您可以叫 $contact$ 再傳送呢個訊息俾您喇。",
+        "message": "你而家用緊最新版本嘅 Signal 喇，你可以叫 $contact$ 傳送多次呢個訊息俾你。",
         "description": "",
         "placeholders": {
             "contact": {
@@ -6390,11 +6390,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "驗證失敗。請您稍後再試過喇。",
+        "message": "驗證失敗。請遲啲再試過啦。",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "系統冇辦法為所有人刪除訊息。請您稍後再試過喇。",
+        "message": "幫唔到所有人刪除訊息。請遲啲再試過啦。",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
@@ -6666,15 +6666,15 @@
         }
     },
     "ProfileEditor--username--check-username-taken": {
-        "message": "呢個使用者名稱已經俾人用咗喇。",
+        "message": "呢個用戶名稱已經俾人用咗喇。",
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "儲存唔到您個使用者名稱。請您檢查吓網路連接，然後再試過喇。",
+        "message": "儲存唔到你個用戶名稱。請檢查吓網絡連線，然後再試過啦。",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "移除唔到您個使用者名稱。請您檢查吓網路連接，然後再試過喇。",
+        "message": "移除唔到你個用戶名稱。請檢查吓網絡連線，然後再試過啦。",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6760,7 +6760,7 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "更新唔到您嘅個人資料。請您再試過喇。",
+        "message": "更新唔到你嘅個人檔案。請你再試過啦。",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -6996,7 +6996,7 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "儲存您嘅設定嗰陣出現錯誤。請您再試過喇。",
+        "message": "儲存你嘅設定嘅時候出現錯誤。請你再試過啦。",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "傳送緊心情回應...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "分享同睇吓限時動態",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "閂咗呢個選項嘅話，你就冇得再分享或者睇限時動態架喇。",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "暫停",

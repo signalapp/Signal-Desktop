@@ -7182,12 +7182,20 @@
         }
     },
     "Stories__toast--sending-reply": {
-        "message": "Sending reply...",
+        "message": "Válasz küldése...",
         "description": "Toast message"
     },
     "Stories__toast--sending-reaction": {
-        "message": "Sending reaction...",
+        "message": "Reakció küldése...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Történetek megosztása és megtekintése",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Ha letiltod ezt a funkciót, akkor nem fogsz tudni új történeteket hozzáadni vagy másokét megtekinteni.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Szünet",
