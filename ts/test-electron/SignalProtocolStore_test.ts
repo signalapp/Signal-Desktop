@@ -7,8 +7,12 @@ import chai, { assert } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import {
   Direction,
+  IdentityKeyPair,
+  PrivateKey,
+  PublicKey,
   SenderKeyRecord,
   SessionRecord,
+  SignedPreKeyRecord,
 } from '@signalapp/libsignal-client';
 
 import { signal } from '../protobuf/compiled';
@@ -18,7 +22,11 @@ import { Zone } from '../util/Zone';
 
 import * as Bytes from '../Bytes';
 import { getRandomBytes, constantTimeEqual } from '../Crypto';
-import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
+import {
+  clampPrivateKey,
+  setPublicKeyTypeByte,
+  generateSignedPreKey,
+} from '../Curve';
 import type { SignalProtocolStore } from '../SignalProtocolStore';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { Address } from '../types/Address';
@@ -134,8 +142,8 @@ describe('SignalProtocolStore', () => {
     window.storage.put('registrationIdMap', { [ourUuid.toString()]: 1337 });
     window.storage.put('identityKeyMap', {
       [ourUuid.toString()]: {
-        privKey: Bytes.toBase64(identityKey.privKey),
-        pubKey: Bytes.toBase64(identityKey.pubKey),
+        privKey: identityKey.privKey,
+        pubKey: identityKey.pubKey,
       },
     });
     await window.storage.fetch();
@@ -1764,6 +1772,82 @@ describe('SignalProtocolStore', () => {
 
       const items = await store.getAllUnprocessedAndIncrementAttempts();
       assert.strictEqual(items.length, 0);
+    });
+  });
+  describe('removeOurOldPni/updateOurPniKeyMaterial', () => {
+    beforeEach(async () => {
+      await store.storePreKey(ourUuid, 2, testKey);
+      await store.storeSignedPreKey(ourUuid, 3, testKey);
+    });
+
+    it('removes old data and sets new', async () => {
+      const oldPni = ourUuid;
+      const newPni = UUID.generate();
+
+      const newIdentity = IdentityKeyPair.generate();
+
+      const data = generateSignedPreKey(
+        {
+          pubKey: newIdentity.publicKey.serialize(),
+          privKey: newIdentity.privateKey.serialize(),
+        },
+        8201
+      );
+      const createdAt = Date.now() - 1241;
+      const signedPreKey = SignedPreKeyRecord.new(
+        data.keyId,
+        createdAt,
+        PublicKey.deserialize(Buffer.from(data.keyPair.pubKey)),
+        PrivateKey.deserialize(Buffer.from(data.keyPair.privKey)),
+        Buffer.from(data.signature)
+      );
+
+      await store.removeOurOldPni(oldPni);
+      await store.updateOurPniKeyMaterial(newPni, {
+        identityKeyPair: newIdentity.serialize(),
+        signedPreKey: signedPreKey.serialize(),
+        registrationId: 5231,
+      });
+
+      // Old data has to be removed
+      assert.isUndefined(await store.getIdentityKeyPair(oldPni));
+      assert.isUndefined(await store.getLocalRegistrationId(oldPni));
+      assert.isUndefined(await store.loadPreKey(oldPni, 2));
+      assert.isUndefined(await store.loadSignedPreKey(oldPni, 3));
+
+      // New data has to be added
+      const storedIdentity = await store.getIdentityKeyPair(newPni);
+      if (!storedIdentity) {
+        throw new Error('New identity not found');
+      }
+      assert.isTrue(
+        Bytes.areEqual(
+          storedIdentity.privKey,
+          newIdentity.privateKey.serialize()
+        )
+      );
+      assert.isTrue(
+        Bytes.areEqual(storedIdentity.pubKey, newIdentity.publicKey.serialize())
+      );
+
+      const storedSignedPreKey = await store.loadSignedPreKey(newPni, 8201);
+      if (!storedSignedPreKey) {
+        throw new Error('New signed pre key not found');
+      }
+      assert.isTrue(
+        Bytes.areEqual(
+          storedSignedPreKey.publicKey().serialize(),
+          data.keyPair.pubKey
+        )
+      );
+      assert.isTrue(
+        Bytes.areEqual(
+          storedSignedPreKey.privateKey().serialize(),
+          data.keyPair.privKey
+        )
+      );
+      assert.strictEqual(storedSignedPreKey.timestamp(), createdAt);
+      // Note: signature is ignored.
     });
   });
 });

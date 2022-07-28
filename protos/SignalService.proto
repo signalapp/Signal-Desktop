@@ -35,7 +35,8 @@ message Envelope {
   optional uint64 serverTimestamp = 10;
   optional bool ephemeral = 12; // indicates that the message should not be persisted if the recipient is offline
   optional bool urgent = 14 [default=true];  // indicates that the content is considered timely by the sender; defaults to true so senders have to opt-out to say something isn't time critical
-  // next: 15
+  optional string updated_pni = 15;
+  // next: 16
 }
 
 message Content {
@@ -509,6 +510,12 @@ message SyncMessage {
     optional Type type = 1;
   }
 
+  message PniChangeNumber {
+    optional bytes identityKeyPair = 1; // Serialized libsignal-client IdentityKeyPair
+    optional bytes signedPreKey    = 2; // Serialized libsignal-client SignedPreKeyRecord
+    optional uint32 registrationId = 3;
+  }
+
   optional Sent                   sent                   = 1;
   optional Contacts               contacts               = 2;
   optional Groups                 groups                 = 3;
@@ -526,6 +533,7 @@ message SyncMessage {
   reserved                                                 15; // not yet added
   repeated Viewed                 viewed                 = 16;
   optional PniIdentity            pniIdentity            = 17;
+  optional PniChangeNumber        pniChangeNumber        = 18;
 }
 
 message AttachmentPointer {

@@ -566,7 +566,6 @@ type DirectoryV3OptionsType = Readonly<{
   directoryVersion: 3;
   directoryV3Url: string;
   directoryV3MRENCLAVE: string;
-  directoryV3Root: string;
 }>;
 
 type OptionalDirectoryFieldsType = {
@@ -578,7 +577,6 @@ type OptionalDirectoryFieldsType = {
   directoryV2CodeHashes?: unknown;
   directoryV3Url?: unknown;
   directoryV3MRENCLAVE?: unknown;
-  directoryV3Root?: unknown;
 };
 
 type DirectoryOptionsType = OptionalDirectoryFieldsType &
@@ -803,6 +801,11 @@ export type GetGroupCredentialsOptionsType = Readonly<{
   endDayInMs: number;
 }>;
 
+export type GetGroupCredentialsResultType = Readonly<{
+  pni?: string | null;
+  credentials: ReadonlyArray<GroupCredentialType>;
+}>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -831,7 +834,7 @@ export type WebAPIType = {
   getGroupAvatar: (key: string) => Promise<Uint8Array>;
   getGroupCredentials: (
     options: GetGroupCredentialsOptionsType
-  ) => Promise<Array<GroupCredentialType>>;
+  ) => Promise<GetGroupCredentialsResultType>;
   getGroupExternalCredential: (
     options: GroupCredentialsType
   ) => Promise<Proto.GroupExternalCredential>;
@@ -1205,8 +1208,7 @@ export function initialize({
         },
       });
     } else if (directoryConfig.directoryVersion === 3) {
-      const { directoryV3Url, directoryV3MRENCLAVE, directoryV3Root } =
-        directoryConfig;
+      const { directoryV3Url, directoryV3MRENCLAVE } = directoryConfig;
 
       cds = new CDSI({
         logger: log,
@@ -1214,7 +1216,6 @@ export function initialize({
 
         url: directoryV3Url,
         mrenclave: directoryV3MRENCLAVE,
-        root: directoryV3Root,
         certificateAuthority,
         version,
 
@@ -2510,7 +2511,7 @@ export function initialize({
     async function getGroupCredentials({
       startDayInMs,
       endDayInMs,
-    }: GetGroupCredentialsOptionsType): Promise<Array<GroupCredentialType>> {
+    }: GetGroupCredentialsOptionsType): Promise<GetGroupCredentialsResultType> {
       const startDayInSeconds = startDayInMs / durations.SECOND;
       const endDayInSeconds = endDayInMs / durations.SECOND;
       const response = (await _ajax({
@@ -2522,7 +2523,7 @@ export function initialize({
         responseType: 'json',
       })) as CredentialResponseType;
 
-      return response.credentials;
+      return response;
     }
 
     async function getGroupExternalCredential(

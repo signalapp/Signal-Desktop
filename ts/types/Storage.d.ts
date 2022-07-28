@@ -35,8 +35,8 @@ export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 export type IdentityKeyMap = Record<
   string,
   {
-    privKey: string;
-    pubKey: string;
+    privKey: Uint8Array;
+    pubKey: Uint8Array;
   }
 >;
 

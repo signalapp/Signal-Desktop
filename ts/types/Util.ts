@@ -61,3 +61,7 @@ type InternalAssertProps<
 export type AssertProps<Result, Value> = InternalAssertProps<Result, Value>;
 
 export type UnwrapPromise<Value> = Value extends Promise<infer T> ? T : Value;
+
+export type BytesToStrings<Value> = Value extends Uint8Array
+  ? string
+  : { [Key in keyof Value]: BytesToStrings<Value[Key]> };

@@ -71,22 +71,25 @@ import {
 import { updateSchema } from './migrations';
 
 import type {
-  AllItemsType,
+  StoredAllItemsType,
   AttachmentDownloadJobType,
   ConversationMetricsType,
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
   EmojiType,
+  GetConversationRangeCenteredOnMessageResultType,
+  GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
-  IdentityKeyType,
+  StoredIdentityKeyType,
   ItemKeyType,
-  ItemType,
+  StoredItemType,
   ConversationMessageStatsType,
   MessageMetricsType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyIdType,
-  PreKeyType,
+  ReactionResultType,
+  StoredPreKeyType,
   ServerSearchResultMessageType,
   SenderKeyIdType,
   SenderKeyType,
@@ -100,7 +103,7 @@ import type {
   SessionIdType,
   SessionType,
   SignedPreKeyIdType,
-  SignedPreKeyType,
+  StoredSignedPreKeyType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -149,6 +152,7 @@ const dataInterface: ServerInterface = {
   getPreKeyById,
   bulkAddPreKeys,
   removePreKeyById,
+  removePreKeysByUuid,
   removeAllPreKeys,
   getAllPreKeys,
 
@@ -156,6 +160,7 @@ const dataInterface: ServerInterface = {
   getSignedPreKeyById,
   bulkAddSignedPreKeys,
   removeSignedPreKeyById,
+  removeSignedPreKeysByUuid,
   removeAllSignedPreKeys,
   getAllSignedPreKeys,
 
@@ -634,16 +639,18 @@ function getInstance(): Database {
 }
 
 const IDENTITY_KEYS_TABLE = 'identityKeys';
-async function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
+async function createOrUpdateIdentityKey(
+  data: StoredIdentityKeyType
+): Promise<void> {
   return createOrUpdate(getInstance(), IDENTITY_KEYS_TABLE, data);
 }
 async function getIdentityKeyById(
   id: IdentityKeyIdType
-): Promise<IdentityKeyType | undefined> {
+): Promise<StoredIdentityKeyType | undefined> {
   return getById(getInstance(), IDENTITY_KEYS_TABLE, id);
 }
 async function bulkAddIdentityKeys(
-  array: Array<IdentityKeyType>
+  array: Array<StoredIdentityKeyType>
 ): Promise<void> {
   return bulkAdd(getInstance(), IDENTITY_KEYS_TABLE, array);
 }
@@ -653,55 +660,67 @@ async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<void> {
 async function removeAllIdentityKeys(): Promise<void> {
   return removeAllFromTable(getInstance(), IDENTITY_KEYS_TABLE);
 }
-async function getAllIdentityKeys(): Promise<Array<IdentityKeyType>> {
+async function getAllIdentityKeys(): Promise<Array<StoredIdentityKeyType>> {
   return getAllFromTable(getInstance(), IDENTITY_KEYS_TABLE);
 }
 
 const PRE_KEYS_TABLE = 'preKeys';
-async function createOrUpdatePreKey(data: PreKeyType): Promise<void> {
+async function createOrUpdatePreKey(data: StoredPreKeyType): Promise<void> {
   return createOrUpdate(getInstance(), PRE_KEYS_TABLE, data);
 }
 async function getPreKeyById(
   id: PreKeyIdType
-): Promise<PreKeyType | undefined> {
+): Promise<StoredPreKeyType | undefined> {
   return getById(getInstance(), PRE_KEYS_TABLE, id);
 }
-async function bulkAddPreKeys(array: Array<PreKeyType>): Promise<void> {
+async function bulkAddPreKeys(array: Array<StoredPreKeyType>): Promise<void> {
   return bulkAdd(getInstance(), PRE_KEYS_TABLE, array);
 }
 async function removePreKeyById(id: PreKeyIdType): Promise<void> {
   return removeById(getInstance(), PRE_KEYS_TABLE, id);
 }
+async function removePreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+  const db = getInstance();
+  db.prepare<Query>('DELETE FROM preKeys WHERE ourUuid IS $uuid;').run({
+    uuid,
+  });
+}
 async function removeAllPreKeys(): Promise<void> {
   return removeAllFromTable(getInstance(), PRE_KEYS_TABLE);
 }
-async function getAllPreKeys(): Promise<Array<PreKeyType>> {
+async function getAllPreKeys(): Promise<Array<StoredPreKeyType>> {
   return getAllFromTable(getInstance(), PRE_KEYS_TABLE);
 }
 
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
 async function createOrUpdateSignedPreKey(
-  data: SignedPreKeyType
+  data: StoredSignedPreKeyType
 ): Promise<void> {
   return createOrUpdate(getInstance(), SIGNED_PRE_KEYS_TABLE, data);
 }
 async function getSignedPreKeyById(
   id: SignedPreKeyIdType
-): Promise<SignedPreKeyType | undefined> {
+): Promise<StoredSignedPreKeyType | undefined> {
   return getById(getInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
 async function bulkAddSignedPreKeys(
-  array: Array<SignedPreKeyType>
+  array: Array<StoredSignedPreKeyType>
 ): Promise<void> {
   return bulkAdd(getInstance(), SIGNED_PRE_KEYS_TABLE, array);
 }
 async function removeSignedPreKeyById(id: SignedPreKeyIdType): Promise<void> {
   return removeById(getInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
+async function removeSignedPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+  const db = getInstance();
+  db.prepare<Query>('DELETE FROM signedPreKeys WHERE ourUuid IS $uuid;').run({
+    uuid,
+  });
+}
 async function removeAllSignedPreKeys(): Promise<void> {
   return removeAllFromTable(getInstance(), SIGNED_PRE_KEYS_TABLE);
 }
-async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
+async function getAllSignedPreKeys(): Promise<Array<StoredSignedPreKeyType>> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>(
@@ -718,16 +737,16 @@ async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
 
 const ITEMS_TABLE = 'items';
 async function createOrUpdateItem<K extends ItemKeyType>(
-  data: ItemType<K>
+  data: StoredItemType<K>
 ): Promise<void> {
   return createOrUpdate(getInstance(), ITEMS_TABLE, data);
 }
 async function getItemById<K extends ItemKeyType>(
   id: K
-): Promise<ItemType<K> | undefined> {
+): Promise<StoredItemType<K> | undefined> {
   return getById(getInstance(), ITEMS_TABLE, id);
 }
-async function getAllItems(): Promise<AllItemsType> {
+async function getAllItems(): Promise<StoredAllItemsType> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>('SELECT json FROM items ORDER BY id ASC;')
@@ -743,7 +762,7 @@ async function getAllItems(): Promise<AllItemsType> {
     result[id] = value;
   }
 
-  return result as unknown as AllItemsType;
+  return result as unknown as StoredAllItemsType;
 }
 async function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(getInstance(), ITEMS_TABLE, id);
@@ -2097,20 +2116,7 @@ async function getUnreadByConversationAndMarkRead({
   newestUnreadAt: number;
   storyId?: UUIDStringType;
   readAt?: number;
-}): Promise<
-  Array<
-    { originalReadStatus: ReadStatus | undefined } & Pick<
-      MessageType,
-      | 'id'
-      | 'source'
-      | 'sourceUuid'
-      | 'sent_at'
-      | 'type'
-      | 'readStatus'
-      | 'seenStatus'
-    >
-  >
-> {
+}): Promise<GetUnreadByConversationAndMarkReadResultType> {
   const db = getInstance();
   return db.transaction(() => {
     const expirationStartTimestamp = Math.min(Date.now(), readAt ?? Infinity);
@@ -2203,10 +2209,6 @@ async function getUnreadByConversationAndMarkRead({
   })();
 }
 
-type ReactionResultType = Pick<
-  ReactionType,
-  'targetAuthorUuid' | 'targetTimestamp' | 'messageId'
-> & { rowid: number };
 async function getUnreadReactionsAndMarkRead({
   conversationId,
   newestUnreadAt,
@@ -2869,11 +2871,9 @@ async function getConversationRangeCenteredOnMessage({
   receivedAt: number;
   sentAt?: number;
   storyId: UUIDStringType | undefined;
-}): Promise<{
-  older: Array<MessageTypeUnhydrated>;
-  newer: Array<MessageTypeUnhydrated>;
-  metrics: ConversationMetricsType;
-}> {
+}): Promise<
+  GetConversationRangeCenteredOnMessageResultType<MessageTypeUnhydrated>
+> {
   const db = getInstance();
 
   return db.transaction(() => {

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import type { PrimaryDevice, Group } from '@signalapp/mock-server';
-import { StorageState, Proto } from '@signalapp/mock-server';
+import { StorageState, Proto, UUIDKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
@@ -55,7 +55,7 @@ describe('gv2', function needsName() {
       identityState: Proto.ContactRecord.IdentityState.VERIFIED,
       whitelisted: true,
 
-      identityKey: pniContact.pniPublicKey.serialize(),
+      identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
 
       // Give PNI as the uuid!
       serviceUuid: pniContact.device.pni,

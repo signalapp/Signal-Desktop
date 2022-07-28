@@ -4,14 +4,12 @@
 import { Cds2Client } from '@signalapp/libsignal-client';
 
 import { strictAssert } from '../../util/assert';
-import { DAY } from '../../util/durations';
 import { SignalService as Proto } from '../../protobuf';
 import { CDSSocketBase, CDSSocketState } from './CDSSocketBase';
 import type { CDSSocketBaseOptionsType } from './CDSSocketBase';
 
 export type CDSISocketOptionsType = Readonly<{
   mrenclave: Buffer;
-  trustedCaCert: Buffer;
 }> &
   CDSSocketBaseOptionsType;
 
@@ -30,15 +28,14 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
         await this.socketIterator.next();
       strictAssert(!done, 'CDSI socket closed before handshake');
 
-      const earliestValidTimestamp = new Date(Date.now() - DAY);
+      const earliestValidTimestamp = new Date();
 
       strictAssert(
         this.privCdsClient === undefined,
         'CDSI handshake called twice'
       );
-      this.privCdsClient = Cds2Client.new_NOT_FOR_PRODUCTION(
+      this.privCdsClient = Cds2Client.new(
         this.options.mrenclave,
-        this.options.trustedCaCert,
         attestationMessage,
         earliestValidTimestamp
       );

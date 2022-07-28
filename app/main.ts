@@ -389,7 +389,6 @@ async function prepareUrl(
     directoryV3Url: config.get<string | null>('directoryV3Url') || undefined,
     directoryV3MRENCLAVE:
       config.get<string | null>('directoryV3MRENCLAVE') || undefined,
-    directoryV3Root: config.get<string | null>('directoryV3Root') || undefined,
   });
   if (!directoryConfig.success) {
     throw new Error(

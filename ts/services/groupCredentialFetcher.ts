@@ -17,7 +17,7 @@ import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
 
-type CredentialsDataType = Array<GroupCredentialType>;
+type CredentialsDataType = ReadonlyArray<GroupCredentialType>;
 type RequestDatesType = {
   startDayInMs: number;
   endDayInMs: number;
@@ -145,33 +145,40 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     `${logId}: fetching credentials for ${startDayInMs} through ${endDayInMs}`
   );
 
-  // TODO(indutny): In the future we'd like to avoid this extra call all the time
-  const { pni } = await server.whoami();
-  if (!pni) {
-    log.info(`${logId}: no PNI, returning early`);
-    return;
-  }
-
   const serverPublicParamsBase64 = window.getServerPublicParams();
   const clientZKAuthOperations = getClientZkAuthOperations(
     serverPublicParamsBase64
   );
-  const newCredentials = sortCredentials(
-    await server.getGroupCredentials({ startDayInMs, endDayInMs })
-  ).map((item: GroupCredentialType) => {
-    const authCredential = clientZKAuthOperations.receiveAuthCredentialWithPni(
-      aci,
-      pni,
-      item.redemptionTime,
-      new AuthCredentialWithPniResponse(Buffer.from(item.credential, 'base64'))
-    );
-    const credential = authCredential.serialize().toString('base64');
 
-    return {
-      redemptionTime: item.redemptionTime * durations.SECOND,
-      credential,
-    };
-  });
+  const { pni, credentials: rawCredentials } = await server.getGroupCredentials(
+    { startDayInMs, endDayInMs }
+  );
+  strictAssert(pni, 'Server must give pni along with group credentials');
+
+  const localPni = window.storage.user.getUuid(UUIDKind.PNI);
+  if (pni !== localPni?.toString()) {
+    log.error(`${logId}: local PNI ${localPni}, does not match remote ${pni}`);
+  }
+
+  const newCredentials = sortCredentials(rawCredentials).map(
+    (item: GroupCredentialType) => {
+      const authCredential =
+        clientZKAuthOperations.receiveAuthCredentialWithPni(
+          aci,
+          pni,
+          item.redemptionTime,
+          new AuthCredentialWithPniResponse(
+            Buffer.from(item.credential, 'base64')
+          )
+        );
+      const credential = authCredential.serialize().toString('base64');
+
+      return {
+        redemptionTime: item.redemptionTime * durations.SECOND,
+        credential,
+      };
+    }
+  );
 
   const today = toDayMillis(Date.now());
   const previousCleaned = previous

@@ -3,26 +3,19 @@
 
 /* eslint-disable no-await-in-loop */
 /* eslint-disable camelcase */
-/* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
 import { ipcRenderer as ipc } from 'electron';
 import fs from 'fs-extra';
 import pify from 'pify';
 
 import {
-  cloneDeep,
   compact,
   fromPairs,
-  get,
   groupBy,
   isFunction,
   isTypedArray,
   last,
   map,
   omit,
-  set,
   toPairs,
   uniq,
 } from 'lodash';
@@ -34,6 +27,8 @@ import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../types/Message2';
 import { createBatcher } from '../util/batcher';
 import { assert, strictAssert } from '../util/assert';
+import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
+import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
@@ -49,21 +44,30 @@ import { formatJobForInsert } from '../jobs/formatJobForInsert';
 import { cleanupMessage } from '../util/cleanup';
 
 import type {
+  AllItemsType,
   AttachmentDownloadJobType,
   ClientInterface,
   ClientJobType,
   ClientSearchResultMessageType,
   ConversationType,
+  ConversationMetricsType,
   DeleteSentProtoRecipientOptionsType,
+  EmojiType,
+  GetUnreadByConversationAndMarkReadResultType,
+  GetConversationRangeCenteredOnMessageResultType,
   IdentityKeyIdType,
   IdentityKeyType,
+  StoredIdentityKeyType,
   ItemKeyType,
   ItemType,
+  StoredItemType,
   ConversationMessageStatsType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyIdType,
   PreKeyType,
+  ReactionResultType,
+  StoredPreKeyType,
   SenderKeyIdType,
   SenderKeyType,
   SentMessageDBType,
@@ -78,6 +82,7 @@ import type {
   SessionType,
   SignedPreKeyIdType,
   SignedPreKeyType,
+  StoredSignedPreKeyType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -115,9 +120,9 @@ const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 const ENSURE_FILE_PERMISSIONS = 'ensure-file-permissions';
 
 type ClientJobUpdateType = {
-  resolve: Function;
-  reject: Function;
-  args?: Array<any>;
+  resolve: (value: unknown) => void;
+  reject: (error: Error) => void;
+  args?: ReadonlyArray<unknown>;
 };
 
 enum RendererState {
@@ -131,8 +136,8 @@ const _jobs: { [id: string]: ClientJobType } = Object.create(null);
 const _DEBUG = false;
 let _jobCounter = 0;
 let _shuttingDown = false;
-let _shutdownCallback: Function | null = null;
-let _shutdownPromise: Promise<any> | null = null;
+let _shutdownCallback: ((error?: Error) => void) | null = null;
+let _shutdownPromise: Promise<void> | null = null;
 let state = RendererState.InMain;
 const startupQueries = new Map<string, number>();
 
@@ -156,6 +161,7 @@ const dataInterface: ClientInterface = {
   getPreKeyById,
   bulkAddPreKeys,
   removePreKeyById,
+  removePreKeysByUuid,
   removeAllPreKeys,
   getAllPreKeys,
 
@@ -163,6 +169,7 @@ const dataInterface: ClientInterface = {
   getSignedPreKeyById,
   bulkAddSignedPreKeys,
   removeSignedPreKeyById,
+  removeSignedPreKeysByUuid,
   removeAllSignedPreKeys,
   getAllSignedPreKeys,
 
@@ -409,7 +416,7 @@ async function goBackToMainProcess(): Promise<void> {
 
 const channelsAsUnknown = fromPairs(
   compact(
-    map(toPairs(dataInterface), ([name, value]: [string, any]) => {
+    map(toPairs(dataInterface), ([name, value]: [string, unknown]) => {
       if (isFunction(value)) {
         return [name, makeChannel(name)];
       }
@@ -417,9 +424,9 @@ const channelsAsUnknown = fromPairs(
       return null;
     })
   )
-) as any;
+) as unknown;
 
-const channels: ServerInterface = channelsAsUnknown;
+const channels: ServerInterface = channelsAsUnknown as ServerInterface;
 
 function _cleanData(
   data: unknown
@@ -436,14 +443,15 @@ function _cleanData(
 }
 
 export function _cleanMessageData(data: MessageType): MessageType {
+  const result = { ...data };
   // Ensure that all messages have the received_at set properly
   if (!data.received_at) {
     assert(false, 'received_at was not set on the message');
-    data.received_at = window.Signal.Util.incrementMessageCounter();
+    result.received_at = window.Signal.Util.incrementMessageCounter();
   }
   if (data.attachments) {
     const logId = getMessageIdForLogging(data);
-    data.attachments = data.attachments.map((attachment, index) => {
+    result.attachments = data.attachments.map((attachment, index) => {
       if (attachment.data && !isTypedArray(attachment.data)) {
         log.warn(
           `_cleanMessageData/${logId}: Attachment ${index} had non-array \`data\` field; deleting.`
@@ -454,7 +462,7 @@ export function _cleanMessageData(data: MessageType): MessageType {
       return attachment;
     });
   }
-  return _cleanData(omit(data, ['dataMessage']));
+  return _cleanData(omit(result, ['dataMessage']));
 }
 
 async function _shutdown() {
@@ -478,7 +486,7 @@ async function _shutdown() {
 
   // Outstanding jobs; we need to wait until the last one is done
   _shutdownPromise = new Promise<void>((resolve, reject) => {
-    _shutdownCallback = (error: Error) => {
+    _shutdownCallback = (error?: Error) => {
       log.info('data.shutdown: process complete');
       if (error) {
         reject(error);
@@ -521,7 +529,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
   _jobs[id] = {
     ..._jobs[id],
     ...data,
-    resolve: (value: any) => {
+    resolve: (value: unknown) => {
       _removeJob(id);
       const end = Date.now();
       if (_DEBUG) {
@@ -595,18 +603,21 @@ if (ipc && ipc.on) {
 }
 
 function makeChannel(fnName: string) {
-  return async (...args: Array<any>) => {
+  return async (...args: ReadonlyArray<unknown>) => {
     // During startup we want to avoid the high overhead of IPC so we utilize
     // the db that exists in the renderer process to be able to boot up quickly
     // once the app is running we switch back to the main process to avoid the
     // UI from locking up whenever we do costly db operations.
     if (state === RendererState.InRenderer) {
       const serverFnName = fnName as keyof ServerInterface;
+      const serverFn = Server[serverFnName] as (
+        ...fnArgs: ReadonlyArray<unknown>
+      ) => unknown;
       const start = Date.now();
 
       try {
         // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
-        return await (Server[serverFnName] as Function)(...args);
+        return await serverFn(...args);
       } catch (error) {
         if (isCorruptionError(error)) {
           log.error(
@@ -659,41 +670,27 @@ function makeChannel(fnName: string) {
   };
 }
 
-function keysToBytes(keys: Array<string>, data: any) {
-  const updated = cloneDeep(data);
-
-  const max = keys.length;
-  for (let i = 0; i < max; i += 1) {
-    const key = keys[i];
-    const value = get(data, key);
-
-    if (value) {
-      set(updated, key, Bytes.fromBase64(value));
-    }
-  }
-
-  return updated;
+function specToBytes<Input, Output>(
+  spec: ObjectMappingSpecType,
+  data: Input
+): Output {
+  return mapObjectWithSpec<string, Uint8Array>(spec, data, x =>
+    Bytes.fromBase64(x)
+  );
 }
 
-function keysFromBytes(keys: Array<string>, data: any) {
-  const updated = cloneDeep(data);
-
-  const max = keys.length;
-  for (let i = 0; i < max; i += 1) {
-    const key = keys[i];
-    const value = get(data, key);
-
-    if (value) {
-      set(updated, key, Bytes.toBase64(value));
-    }
-  }
-
-  return updated;
+function specFromBytes<Input, Output>(
+  spec: ObjectMappingSpecType,
+  data: Input
+): Output {
+  return mapObjectWithSpec<Uint8Array, string>(spec, data, x =>
+    Bytes.toBase64(x)
+  );
 }
 
 // Top-level calls
 
-async function shutdown() {
+async function shutdown(): Promise<void> {
   log.info('Client.shutdown');
 
   // Stop accepting new SQL jobs, flush outstanding queue
@@ -704,111 +701,144 @@ async function shutdown() {
 }
 
 // Note: will need to restart the app after calling this, to set up afresh
-async function close() {
+async function close(): Promise<void> {
   await channels.close();
 }
 
 // Note: will need to restart the app after calling this, to set up afresh
-async function removeDB() {
+async function removeDB(): Promise<void> {
   await channels.removeDB();
 }
 
-async function removeIndexedDBFiles() {
+async function removeIndexedDBFiles(): Promise<void> {
   await channels.removeIndexedDBFiles();
 }
 
 // Identity Keys
 
-const IDENTITY_KEY_KEYS = ['publicKey'];
-async function createOrUpdateIdentityKey(data: IdentityKeyType) {
-  const updated = keysFromBytes(IDENTITY_KEY_KEYS, data);
+const IDENTITY_KEY_SPEC = ['publicKey'];
+async function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
+  const updated: StoredIdentityKeyType = specFromBytes(IDENTITY_KEY_SPEC, data);
   await channels.createOrUpdateIdentityKey(updated);
 }
-async function getIdentityKeyById(id: IdentityKeyIdType) {
+async function getIdentityKeyById(
+  id: IdentityKeyIdType
+): Promise<IdentityKeyType | undefined> {
   const data = await channels.getIdentityKeyById(id);
 
-  return keysToBytes(IDENTITY_KEY_KEYS, data);
+  return specToBytes(IDENTITY_KEY_SPEC, data);
 }
-async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
-  const updated = map(array, data => keysFromBytes(IDENTITY_KEY_KEYS, data));
+async function bulkAddIdentityKeys(
+  array: Array<IdentityKeyType>
+): Promise<void> {
+  const updated: Array<StoredIdentityKeyType> = map(array, data =>
+    specFromBytes(IDENTITY_KEY_SPEC, data)
+  );
   await channels.bulkAddIdentityKeys(updated);
 }
-async function removeIdentityKeyById(id: IdentityKeyIdType) {
+async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<void> {
   await channels.removeIdentityKeyById(id);
 }
-async function removeAllIdentityKeys() {
+async function removeAllIdentityKeys(): Promise<void> {
   await channels.removeAllIdentityKeys();
 }
-async function getAllIdentityKeys() {
+async function getAllIdentityKeys(): Promise<Array<IdentityKeyType>> {
   const keys = await channels.getAllIdentityKeys();
 
-  return keys.map(key => keysToBytes(IDENTITY_KEY_KEYS, key));
+  return keys.map(key => specToBytes(IDENTITY_KEY_SPEC, key));
 }
 
 // Pre Keys
 
-async function createOrUpdatePreKey(data: PreKeyType) {
-  const updated = keysFromBytes(PRE_KEY_KEYS, data);
+async function createOrUpdatePreKey(data: PreKeyType): Promise<void> {
+  const updated: StoredPreKeyType = specFromBytes(PRE_KEY_SPEC, data);
   await channels.createOrUpdatePreKey(updated);
 }
-async function getPreKeyById(id: PreKeyIdType) {
+async function getPreKeyById(
+  id: PreKeyIdType
+): Promise<PreKeyType | undefined> {
   const data = await channels.getPreKeyById(id);
 
-  return keysToBytes(PRE_KEY_KEYS, data);
+  return specToBytes(PRE_KEY_SPEC, data);
 }
-async function bulkAddPreKeys(array: Array<PreKeyType>) {
-  const updated = map(array, data => keysFromBytes(PRE_KEY_KEYS, data));
+async function bulkAddPreKeys(array: Array<PreKeyType>): Promise<void> {
+  const updated: Array<StoredPreKeyType> = map(array, data =>
+    specFromBytes(PRE_KEY_SPEC, data)
+  );
   await channels.bulkAddPreKeys(updated);
 }
-async function removePreKeyById(id: PreKeyIdType) {
+async function removePreKeyById(id: PreKeyIdType): Promise<void> {
   await channels.removePreKeyById(id);
 }
-async function removeAllPreKeys() {
+async function removePreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+  await channels.removePreKeysByUuid(uuid);
+}
+async function removeAllPreKeys(): Promise<void> {
   await channels.removeAllPreKeys();
 }
-async function getAllPreKeys() {
+async function getAllPreKeys(): Promise<Array<PreKeyType>> {
   const keys = await channels.getAllPreKeys();
 
-  return keys.map(key => keysToBytes(PRE_KEY_KEYS, key));
+  return keys.map(key => specToBytes(PRE_KEY_SPEC, key));
 }
 
 // Signed Pre Keys
 
-const PRE_KEY_KEYS = ['privateKey', 'publicKey'];
-async function createOrUpdateSignedPreKey(data: SignedPreKeyType) {
-  const updated = keysFromBytes(PRE_KEY_KEYS, data);
+const PRE_KEY_SPEC = ['privateKey', 'publicKey'];
+async function createOrUpdateSignedPreKey(
+  data: SignedPreKeyType
+): Promise<void> {
+  const updated: StoredSignedPreKeyType = specFromBytes(PRE_KEY_SPEC, data);
   await channels.createOrUpdateSignedPreKey(updated);
 }
-async function getSignedPreKeyById(id: SignedPreKeyIdType) {
+async function getSignedPreKeyById(
+  id: SignedPreKeyIdType
+): Promise<SignedPreKeyType | undefined> {
   const data = await channels.getSignedPreKeyById(id);
 
-  return keysToBytes(PRE_KEY_KEYS, data);
+  return specToBytes(PRE_KEY_SPEC, data);
 }
-async function getAllSignedPreKeys() {
+async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
   const keys = await channels.getAllSignedPreKeys();
 
-  return keys.map((key: SignedPreKeyType) => keysToBytes(PRE_KEY_KEYS, key));
+  return keys.map(key => specToBytes(PRE_KEY_SPEC, key));
 }
-async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
-  const updated = map(array, data => keysFromBytes(PRE_KEY_KEYS, data));
+async function bulkAddSignedPreKeys(
+  array: Array<SignedPreKeyType>
+): Promise<void> {
+  const updated: Array<StoredSignedPreKeyType> = map(array, data =>
+    specFromBytes(PRE_KEY_SPEC, data)
+  );
   await channels.bulkAddSignedPreKeys(updated);
 }
-async function removeSignedPreKeyById(id: SignedPreKeyIdType) {
+async function removeSignedPreKeyById(id: SignedPreKeyIdType): Promise<void> {
   await channels.removeSignedPreKeyById(id);
 }
-async function removeAllSignedPreKeys() {
+async function removeSignedPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+  await channels.removeSignedPreKeysByUuid(uuid);
+}
+async function removeAllSignedPreKeys(): Promise<void> {
   await channels.removeAllSignedPreKeys();
 }
 
 // Items
 
-const ITEM_KEYS: Partial<Record<ItemKeyType, Array<string>>> = {
+const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   subscriberId: ['value'],
   profileKey: ['value'],
+  identityKeyMap: {
+    key: 'value',
+    valueSpec: {
+      isMap: true,
+      valueSpec: ['privKey', 'pubKey'],
+    },
+  },
 };
-async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {
+async function createOrUpdateItem<K extends ItemKeyType>(
+  data: ItemType<K>
+): Promise<void> {
   const { id } = data;
   if (!id) {
     throw new Error(
@@ -816,20 +846,22 @@ async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {
     );
   }
 
-  const keys = ITEM_KEYS[id];
-  const updated = Array.isArray(keys) ? keysFromBytes(keys, data) : data;
+  const spec = ITEM_SPECS[id];
+  const updated: StoredItemType<K> = spec
+    ? specFromBytes(spec, data)
+    : (data as unknown as StoredItemType<K>);
 
   await channels.createOrUpdateItem(updated);
 }
 async function getItemById<K extends ItemKeyType>(
   id: K
 ): Promise<ItemType<K> | undefined> {
-  const keys = ITEM_KEYS[id];
+  const spec = ITEM_SPECS[id];
   const data = await channels.getItemById(id);
 
-  return Array.isArray(keys) ? keysToBytes(keys, data) : data;
+  return spec ? specToBytes(spec, data) : (data as unknown as ItemType<K>);
 }
-async function getAllItems() {
+async function getAllItems(): Promise<AllItemsType> {
   const items = await channels.getAllItems();
 
   const result = Object.create(null);
@@ -838,10 +870,10 @@ async function getAllItems() {
     const key = id as ItemKeyType;
     const value = items[key];
 
-    const keys = ITEM_KEYS[key];
+    const keys = ITEM_SPECS[key];
 
-    const deserializedValue = Array.isArray(keys)
-      ? keysToBytes(keys, { value }).value
+    const deserializedValue = keys
+      ? (specToBytes(keys, { value }) as ItemType<typeof key>).value
       : value;
 
     result[key] = deserializedValue;
@@ -849,10 +881,10 @@ async function getAllItems() {
 
   return result;
 }
-async function removeItemById(id: ItemKeyType) {
+async function removeItemById(id: ItemKeyType): Promise<void> {
   await channels.removeItemById(id);
 }
-async function removeAllItems() {
+async function removeAllItems(): Promise<void> {
   await channels.removeAllItems();
 }
 
@@ -938,33 +970,37 @@ async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
 
 // Sessions
 
-async function createOrUpdateSession(data: SessionType) {
+async function createOrUpdateSession(data: SessionType): Promise<void> {
   await channels.createOrUpdateSession(data);
 }
-async function createOrUpdateSessions(array: Array<SessionType>) {
+async function createOrUpdateSessions(
+  array: Array<SessionType>
+): Promise<void> {
   await channels.createOrUpdateSessions(array);
 }
 async function commitDecryptResult(options: {
   senderKeys: Array<SenderKeyType>;
   sessions: Array<SessionType>;
   unprocessed: Array<UnprocessedType>;
-}) {
+}): Promise<void> {
   await channels.commitDecryptResult(options);
 }
-async function bulkAddSessions(array: Array<SessionType>) {
+async function bulkAddSessions(array: Array<SessionType>): Promise<void> {
   await channels.bulkAddSessions(array);
 }
-async function removeSessionById(id: SessionIdType) {
+async function removeSessionById(id: SessionIdType): Promise<void> {
   await channels.removeSessionById(id);
 }
 
-async function removeSessionsByConversation(conversationId: string) {
+async function removeSessionsByConversation(
+  conversationId: string
+): Promise<void> {
   await channels.removeSessionsByConversation(conversationId);
 }
-async function removeAllSessions() {
+async function removeAllSessions(): Promise<void> {
   await channels.removeAllSessions();
 }
-async function getAllSessions() {
+async function getAllSessions(): Promise<Array<SessionType>> {
   const sessions = await channels.getAllSessions();
 
   return sessions;
@@ -972,19 +1008,23 @@ async function getAllSessions() {
 
 // Conversation
 
-async function getConversationCount() {
+async function getConversationCount(): Promise<number> {
   return channels.getConversationCount();
 }
 
-async function saveConversation(data: ConversationType) {
+async function saveConversation(data: ConversationType): Promise<void> {
   await channels.saveConversation(data);
 }
 
-async function saveConversations(array: Array<ConversationType>) {
+async function saveConversations(
+  array: Array<ConversationType>
+): Promise<void> {
   await channels.saveConversations(array);
 }
 
-async function getConversationById(id: string) {
+async function getConversationById(
+  id: string
+): Promise<ConversationType | undefined> {
   return channels.getConversationById(id);
 }
 
@@ -1006,11 +1046,13 @@ const updateConversationBatcher = createBatcher<ConversationType>({
   },
 });
 
-function updateConversation(data: ConversationType) {
+function updateConversation(data: ConversationType): void {
   updateConversationBatcher.add(data);
 }
 
-async function updateConversations(array: Array<ConversationType>) {
+async function updateConversations(
+  array: Array<ConversationType>
+): Promise<void> {
   const { cleaned, pathsChanged } = cleanDataForIpc(array);
   assert(
     !pathsChanged.length,
@@ -1019,7 +1061,7 @@ async function updateConversations(array: Array<ConversationType>) {
   await channels.updateConversations(cleaned);
 }
 
-async function removeConversation(id: string) {
+async function removeConversation(id: string): Promise<void> {
   const existing = await getConversationById(id);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
@@ -1032,21 +1074,23 @@ async function removeConversation(id: string) {
   }
 }
 
-async function eraseStorageServiceStateFromConversations() {
+async function eraseStorageServiceStateFromConversations(): Promise<void> {
   await channels.eraseStorageServiceStateFromConversations();
 }
 
-async function getAllConversations() {
+async function getAllConversations(): Promise<Array<ConversationType>> {
   return channels.getAllConversations();
 }
 
-async function getAllConversationIds() {
+async function getAllConversationIds(): Promise<Array<string>> {
   const ids = await channels.getAllConversationIds();
 
   return ids;
 }
 
-async function getAllGroupsInvolvingUuid(uuid: UUIDStringType) {
+async function getAllGroupsInvolvingUuid(
+  uuid: UUIDStringType
+): Promise<Array<ConversationType>> {
   return channels.getAllGroupsInvolvingUuid(uuid);
 }
 
@@ -1067,7 +1111,7 @@ function handleSearchMessageJSON(
 async function searchMessages(
   query: string,
   { limit }: { limit?: number } = {}
-) {
+): Promise<Array<ClientSearchResultMessageType>> {
   const messages = await channels.searchMessages(query, { limit });
 
   return handleSearchMessageJSON(messages);
@@ -1077,7 +1121,7 @@ async function searchMessagesInConversation(
   query: string,
   conversationId: string,
   { limit }: { limit?: number } = {}
-) {
+): Promise<Array<ClientSearchResultMessageType>> {
   const messages = await channels.searchMessagesInConversation(
     query,
     conversationId,
@@ -1089,11 +1133,11 @@ async function searchMessagesInConversation(
 
 // Message
 
-async function getMessageCount(conversationId?: string) {
+async function getMessageCount(conversationId?: string): Promise<number> {
   return channels.getMessageCount(conversationId);
 }
 
-async function getStoryCount(conversationId: string) {
+async function getStoryCount(conversationId: string): Promise<number> {
   return channels.getStoryCount(conversationId);
 }
 
@@ -1104,7 +1148,7 @@ async function saveMessage(
     forceSave?: boolean;
     ourUuid: UUIDStringType;
   }
-) {
+): Promise<string> {
   const id = await channels.saveMessage(_cleanMessageData(data), {
     ...options,
     jobToInsert: options.jobToInsert && formatJobForInsert(options.jobToInsert),
@@ -1119,7 +1163,7 @@ async function saveMessage(
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourUuid: UUIDStringType }
-) {
+): Promise<void> {
   await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
     options
@@ -1129,7 +1173,7 @@ async function saveMessages(
   tapToViewMessagesDeletionService.update();
 }
 
-async function removeMessage(id: string) {
+async function removeMessage(id: string): Promise<void> {
   const message = await getMessageById(id);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
@@ -1141,15 +1185,17 @@ async function removeMessage(id: string) {
 }
 
 // Note: this method will not clean up external files, just delete from SQL
-async function removeMessages(ids: Array<string>) {
+async function removeMessages(ids: Array<string>): Promise<void> {
   await channels.removeMessages(ids);
 }
 
-async function getMessageById(id: string) {
+async function getMessageById(id: string): Promise<MessageType | undefined> {
   return channels.getMessageById(id);
 }
 
-async function getMessagesById(messageIds: Array<string>) {
+async function getMessagesById(
+  messageIds: Array<string>
+): Promise<Array<MessageType>> {
   if (!messageIds.length) {
     return [];
   }
@@ -1157,14 +1203,14 @@ async function getMessagesById(messageIds: Array<string>) {
 }
 
 // For testing only
-async function _getAllMessages() {
+async function _getAllMessages(): Promise<Array<MessageType>> {
   return channels._getAllMessages();
 }
-async function _removeAllMessages() {
+async function _removeAllMessages(): Promise<void> {
   await channels._removeAllMessages();
 }
 
-async function getAllMessageIds() {
+async function getAllMessageIds(): Promise<Array<string>> {
   const ids = await channels.getAllMessageIds();
 
   return ids;
@@ -1180,7 +1226,7 @@ async function getMessageBySender({
   sourceUuid: UUIDStringType;
   sourceDevice: number;
   sent_at: number;
-}) {
+}): Promise<MessageType | undefined> {
   return channels.getMessageBySender({
     source,
     sourceUuid,
@@ -1195,7 +1241,7 @@ async function getTotalUnreadForConversation(
     storyId: UUIDStringType | undefined;
     isGroup: boolean;
   }
-) {
+): Promise<number> {
   return channels.getTotalUnreadForConversation(conversationId, options);
 }
 
@@ -1205,7 +1251,7 @@ async function getUnreadByConversationAndMarkRead(options: {
   newestUnreadAt: number;
   readAt?: number;
   storyId?: UUIDStringType;
-}) {
+}): Promise<GetUnreadByConversationAndMarkReadResultType> {
   return channels.getUnreadByConversationAndMarkRead(options);
 }
 
@@ -1213,14 +1259,14 @@ async function getUnreadReactionsAndMarkRead(options: {
   conversationId: string;
   newestUnreadAt: number;
   storyId?: UUIDStringType;
-}) {
+}): Promise<Array<ReactionResultType>> {
   return channels.getUnreadReactionsAndMarkRead(options);
 }
 
 async function markReactionAsRead(
   targetAuthorUuid: string,
   targetTimestamp: number
-) {
+): Promise<ReactionType | undefined> {
   return channels.markReactionAsRead(targetAuthorUuid, targetTimestamp);
 }
 
@@ -1229,18 +1275,18 @@ async function removeReactionFromConversation(reaction: {
   fromId: string;
   targetAuthorUuid: string;
   targetTimestamp: number;
-}) {
+}): Promise<void> {
   return channels.removeReactionFromConversation(reaction);
 }
 
-async function addReaction(reactionObj: ReactionType) {
+async function addReaction(reactionObj: ReactionType): Promise<void> {
   return channels.addReaction(reactionObj);
 }
 
-async function _getAllReactions() {
+async function _getAllReactions(): Promise<Array<ReactionType>> {
   return channels._getAllReactions();
 }
-async function _removeAllReactions() {
+async function _removeAllReactions(): Promise<void> {
   await channels._removeAllReactions();
 }
 
@@ -1267,7 +1313,7 @@ async function getOlderMessagesByConversation(
     sentAt?: number;
     storyId: string | undefined;
   }
-) {
+): Promise<Array<MessageType>> {
   const messages = await channels.getOlderMessagesByConversation(
     conversationId,
     {
@@ -1307,7 +1353,7 @@ async function getNewerMessagesByConversation(
     sentAt?: number;
     storyId: UUIDStringType | undefined;
   }
-) {
+): Promise<Array<MessageType>> {
   const messages = await channels.getNewerMessagesByConversation(
     conversationId,
     {
@@ -1347,14 +1393,14 @@ async function getLastConversationMessage({
   conversationId,
 }: {
   conversationId: string;
-}) {
+}): Promise<MessageType | undefined> {
   return channels.getLastConversationMessage({ conversationId });
 }
 async function getMessageMetricsForConversation(
   conversationId: string,
   storyId?: UUIDStringType,
   isGroup?: boolean
-) {
+): Promise<ConversationMetricsType> {
   const result = await channels.getMessageMetricsForConversation(
     conversationId,
     storyId,
@@ -1371,7 +1417,7 @@ async function getConversationRangeCenteredOnMessage(options: {
   receivedAt: number;
   sentAt?: number;
   storyId: UUIDStringType | undefined;
-}) {
+}): Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>> {
   const result = await channels.getConversationRangeCenteredOnMessage(options);
 
   return {
@@ -1390,7 +1436,7 @@ function hasGroupCallHistoryMessage(
 async function migrateConversationMessages(
   obsoleteId: string,
   currentId: string
-) {
+): Promise<void> {
   await channels.migrateConversationMessages(obsoleteId, currentId);
 }
 
@@ -1401,7 +1447,7 @@ async function removeAllMessagesInConversation(
   }: {
     logId: string;
   }
-) {
+): Promise<void> {
   let messages;
   do {
     const chunkSize = 20;
@@ -1438,151 +1484,174 @@ async function removeAllMessagesInConversation(
   } while (messages.length > 0);
 }
 
-async function getMessagesBySentAt(sentAt: number) {
+async function getMessagesBySentAt(
+  sentAt: number
+): Promise<Array<MessageType>> {
   return channels.getMessagesBySentAt(sentAt);
 }
 
-async function getExpiredMessages() {
+async function getExpiredMessages(): Promise<Array<MessageType>> {
   return channels.getExpiredMessages();
 }
 
-function getMessagesUnexpectedlyMissingExpirationStartTimestamp() {
+function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise<
+  Array<MessageType>
+> {
   return channels.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
 }
 
-function getSoonestMessageExpiry() {
+function getSoonestMessageExpiry(): Promise<number | undefined> {
   return channels.getSoonestMessageExpiry();
 }
 
-async function getNextTapToViewMessageTimestampToAgeOut() {
+async function getNextTapToViewMessageTimestampToAgeOut(): Promise<
+  number | undefined
+> {
   return channels.getNextTapToViewMessageTimestampToAgeOut();
 }
-async function getTapToViewMessagesNeedingErase() {
+async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   return channels.getTapToViewMessagesNeedingErase();
 }
 
 // Unprocessed
 
-async function getUnprocessedCount() {
+async function getUnprocessedCount(): Promise<number> {
   return channels.getUnprocessedCount();
 }
 
-async function getAllUnprocessedAndIncrementAttempts() {
+async function getAllUnprocessedAndIncrementAttempts(): Promise<
+  Array<UnprocessedType>
+> {
   return channels.getAllUnprocessedAndIncrementAttempts();
 }
 
-async function getUnprocessedById(id: string) {
+async function getUnprocessedById(
+  id: string
+): Promise<UnprocessedType | undefined> {
   return channels.getUnprocessedById(id);
 }
 
 async function updateUnprocessedWithData(
   id: string,
   data: UnprocessedUpdateType
-) {
+): Promise<void> {
   await channels.updateUnprocessedWithData(id, data);
 }
 async function updateUnprocessedsWithData(
   array: Array<{ id: string; data: UnprocessedUpdateType }>
-) {
+): Promise<void> {
   await channels.updateUnprocessedsWithData(array);
 }
 
-async function removeUnprocessed(id: string | Array<string>) {
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   await channels.removeUnprocessed(id);
 }
 
-async function removeAllUnprocessed() {
+async function removeAllUnprocessed(): Promise<void> {
   await channels.removeAllUnprocessed();
 }
 
 // Attachment downloads
 
-async function getAttachmentDownloadJobById(id: string) {
+async function getAttachmentDownloadJobById(
+  id: string
+): Promise<AttachmentDownloadJobType | undefined> {
   return channels.getAttachmentDownloadJobById(id);
 }
 async function getNextAttachmentDownloadJobs(
   limit?: number,
   options?: { timestamp?: number }
-) {
+): Promise<Array<AttachmentDownloadJobType>> {
   return channels.getNextAttachmentDownloadJobs(limit, options);
 }
-async function saveAttachmentDownloadJob(job: AttachmentDownloadJobType) {
+async function saveAttachmentDownloadJob(
+  job: AttachmentDownloadJobType
+): Promise<void> {
   await channels.saveAttachmentDownloadJob(_cleanData(job));
 }
-async function setAttachmentDownloadJobPending(id: string, pending: boolean) {
+async function setAttachmentDownloadJobPending(
+  id: string,
+  pending: boolean
+): Promise<void> {
   await channels.setAttachmentDownloadJobPending(id, pending);
 }
-async function resetAttachmentDownloadPending() {
+async function resetAttachmentDownloadPending(): Promise<void> {
   await channels.resetAttachmentDownloadPending();
 }
-async function removeAttachmentDownloadJob(id: string) {
+async function removeAttachmentDownloadJob(id: string): Promise<void> {
   await channels.removeAttachmentDownloadJob(id);
 }
-async function removeAllAttachmentDownloadJobs() {
+async function removeAllAttachmentDownloadJobs(): Promise<void> {
   await channels.removeAllAttachmentDownloadJobs();
 }
 
 // Stickers
 
-async function getStickerCount() {
+async function getStickerCount(): Promise<number> {
   return channels.getStickerCount();
 }
 
-async function createOrUpdateStickerPack(pack: StickerPackType) {
+async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
   await channels.createOrUpdateStickerPack(pack);
 }
 async function updateStickerPackStatus(
   packId: string,
   status: StickerPackStatusType,
   options?: { timestamp: number }
-) {
+): Promise<void> {
   await channels.updateStickerPackStatus(packId, status, options);
 }
-async function createOrUpdateSticker(sticker: StickerType) {
+async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
   await channels.createOrUpdateSticker(sticker);
 }
 async function updateStickerLastUsed(
   packId: string,
   stickerId: number,
   timestamp: number
-) {
+): Promise<void> {
   await channels.updateStickerLastUsed(packId, stickerId, timestamp);
 }
-async function addStickerPackReference(messageId: string, packId: string) {
+async function addStickerPackReference(
+  messageId: string,
+  packId: string
+): Promise<void> {
   await channels.addStickerPackReference(messageId, packId);
 }
-async function deleteStickerPackReference(messageId: string, packId: string) {
+async function deleteStickerPackReference(
+  messageId: string,
+  packId: string
+): Promise<ReadonlyArray<string> | undefined> {
   return channels.deleteStickerPackReference(messageId, packId);
 }
-async function deleteStickerPack(packId: string) {
+async function deleteStickerPack(packId: string): Promise<Array<string>> {
   const paths = await channels.deleteStickerPack(packId);
 
   return paths;
 }
-async function getAllStickerPacks() {
+async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
   const packs = await channels.getAllStickerPacks();
 
   return packs;
 }
-async function getAllStickers() {
+async function getAllStickers(): Promise<Array<StickerType>> {
   const stickers = await channels.getAllStickers();
 
   return stickers;
 }
-async function getRecentStickers() {
+async function getRecentStickers(): Promise<Array<StickerType>> {
   const recentStickers = await channels.getRecentStickers();
 
   return recentStickers;
 }
-async function clearAllErrorStickerPackAttempts() {
+async function clearAllErrorStickerPackAttempts(): Promise<void> {
   await channels.clearAllErrorStickerPackAttempts();
 }
 
 // Emojis
-async function updateEmojiUsage(shortName: string) {
+async function updateEmojiUsage(shortName: string): Promise<void> {
   await channels.updateEmojiUsage(shortName);
 }
-async function getRecentEmojis(limit = 32) {
+async function getRecentEmojis(limit = 32): Promise<Array<EmojiType>> {
   return channels.getRecentEmojis(limit);
 }
 
@@ -1690,24 +1759,26 @@ async function countStoryReadsByConversation(
 
 // Other
 
-async function removeAll() {
+async function removeAll(): Promise<void> {
   await channels.removeAll();
 }
 
-async function removeAllConfiguration(type?: RemoveAllConfiguration) {
+async function removeAllConfiguration(
+  type?: RemoveAllConfiguration
+): Promise<void> {
   await channels.removeAllConfiguration(type);
 }
 
-async function cleanupOrphanedAttachments() {
+async function cleanupOrphanedAttachments(): Promise<void> {
   await callChannel(CLEANUP_ORPHANED_ATTACHMENTS_KEY);
 }
 
-async function ensureFilePermissions() {
+async function ensureFilePermissions(): Promise<void> {
   await callChannel(ENSURE_FILE_PERMISSIONS);
 }
 
 // Note: will need to restart the app after calling this, to set up afresh
-async function removeOtherData() {
+async function removeOtherData(): Promise<void> {
   await Promise.all([
     callChannel(ERASE_SQL_KEY),
     callChannel(ERASE_ATTACHMENTS_KEY),
@@ -1717,7 +1788,7 @@ async function removeOtherData() {
   ]);
 }
 
-async function callChannel(name: string) {
+async function callChannel(name: string): Promise<void> {
   return createTaskWithTimeout(
     () =>
       new Promise<void>((resolve, reject) => {
@@ -1739,7 +1810,7 @@ async function callChannel(name: string) {
 async function getMessagesNeedingUpgrade(
   limit: number,
   { maxVersion = CURRENT_SCHEMA_VERSION }: { maxVersion: number }
-) {
+): Promise<Array<MessageType>> {
   const messages = await channels.getMessagesNeedingUpgrade(limit, {
     maxVersion,
   });
@@ -1750,7 +1821,7 @@ async function getMessagesNeedingUpgrade(
 async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
   { limit }: { limit: number }
-) {
+): Promise<Array<MessageType>> {
   return channels.getMessagesWithVisualMediaAttachments(conversationId, {
     limit,
   });
@@ -1759,7 +1830,7 @@ async function getMessagesWithVisualMediaAttachments(
 async function getMessagesWithFileAttachments(
   conversationId: string,
   { limit }: { limit: number }
-) {
+): Promise<Array<MessageType>> {
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit,
   });

@@ -36,7 +36,6 @@ const directoryV3ConfigSchema = z.object({
   directoryVersion: z.literal(3),
   directoryV3Url: configRequiredStringSchema,
   directoryV3MRENCLAVE: configRequiredStringSchema,
-  directoryV3Root: configRequiredStringSchema,
 });
 
 export const directoryConfigSchema = z
@@ -50,7 +49,6 @@ export const directoryConfigSchema = z
     directoryV2Url: configOptionalUnknownSchema,
     directoryV3Url: configOptionalUnknownSchema,
     directoryV3MRENCLAVE: configOptionalUnknownSchema,
-    directoryV3Root: configOptionalUnknownSchema,
   })
   .and(
     directoryV1ConfigSchema

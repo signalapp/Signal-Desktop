@@ -79,7 +79,6 @@ import type {
   FetchLatestEvent,
   GroupEvent,
   KeysEvent,
-  PNIIdentityEvent,
   MessageEvent,
   MessageEventData,
   MessageRequestResponseEvent,
@@ -395,10 +394,6 @@ export async function startApp(): Promise<void> {
       queuedEventListener(onFetchLatestSync)
     );
     messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
-    messageReceiver.addEventListener(
-      'pniIdentity',
-      queuedEventListener(onPNIIdentitySync)
-    );
     messageReceiver.addEventListener(
       'storyRecipientUpdate',
       queuedEventListener(onStoryRecipientUpdate, false)
@@ -3668,15 +3663,6 @@ export async function startApp(): Promise<void> {
 
       await window.Signal.Services.runStorageServiceSyncJob();
     }
-  }
-
-  async function onPNIIdentitySync(ev: PNIIdentityEvent) {
-    ev.confirm();
-
-    log.info('onPNIIdentitySync: updating PNI keys');
-    const manager = window.getAccountManager();
-    const { privateKey: privKey, publicKey: pubKey } = ev.data;
-    await manager.updatePNIIdentity({ privKey, pubKey });
   }
 
   async function onMessageRequestResponse(ev: MessageRequestResponseEvent) {

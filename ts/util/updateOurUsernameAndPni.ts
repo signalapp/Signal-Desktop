@@ -13,7 +13,7 @@ export async function updateOurUsernameAndPni(): Promise<void> {
   );
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  const { username, pni } = await server.whoami();
+  const { username } = await server.whoami();
 
   me.set({ username: dropNull(username) });
   window.Signal.Data.updateConversation(me.attributes);
@@ -23,6 +23,4 @@ export async function updateOurUsernameAndPni(): Promise<void> {
     manager,
     'updateOurUsernameAndPni: AccountManager not available'
   );
-
-  await manager.setPni(pni);
 }

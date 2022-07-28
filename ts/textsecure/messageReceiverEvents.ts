@@ -357,20 +357,6 @@ export class KeysEvent extends ConfirmableEvent {
   }
 }
 
-export type PNIIdentityEventData = Readonly<{
-  publicKey: Uint8Array;
-  privateKey: Uint8Array;
-}>;
-
-export class PNIIdentityEvent extends ConfirmableEvent {
-  constructor(
-    public readonly data: PNIIdentityEventData,
-    confirm: ConfirmCallback
-  ) {
-    super('pniIdentity', confirm);
-  }
-}
-
 export type StickerPackEventData = Readonly<{
   id?: string;
   key?: string;

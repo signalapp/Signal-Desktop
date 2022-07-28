@@ -1,9 +1,7 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -15,7 +13,7 @@ import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
-import type { BodyRangesType } from '../types/Util';
+import type { BodyRangesType, BytesToStrings } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
 import type { BadgeType } from '../badges/types';
@@ -66,13 +64,26 @@ export type IdentityKeyType = {
   timestamp: number;
   verified: number;
 };
+export type StoredIdentityKeyType = {
+  firstUse: boolean;
+  id: UUIDStringType | `conversation:${string}`;
+  nonblockingApproval: boolean;
+  publicKey: string;
+  timestamp: number;
+  verified: number;
+};
 export type IdentityKeyIdType = IdentityKeyType['id'];
 
 export type ItemKeyType = keyof StorageAccessType;
 export type AllItemsType = Partial<StorageAccessType>;
+export type StoredAllItemsType = Partial<BytesToStrings<StorageAccessType>>;
 export type ItemType<K extends ItemKeyType> = {
   id: K;
   value: StorageAccessType[K];
+};
+export type StoredItemType<K extends ItemKeyType> = {
+  id: K;
+  value: BytesToStrings<StorageAccessType[K]>;
 };
 export type MessageType = MessageAttributesType;
 export type MessageTypeUnhydrated = {
@@ -84,6 +95,13 @@ export type PreKeyType = {
   ourUuid: UUIDStringType;
   privateKey: Uint8Array;
   publicKey: Uint8Array;
+};
+export type StoredPreKeyType = {
+  id: `${UUIDStringType}:${number}`;
+  keyId: number;
+  ourUuid: UUIDStringType;
+  privateKey: string;
+  publicKey: string;
 };
 export type PreKeyIdType = PreKeyType['id'];
 export type ServerSearchResultMessageType = {
@@ -149,6 +167,15 @@ export type SignedPreKeyType = {
   privateKey: Uint8Array;
   publicKey: Uint8Array;
 };
+export type StoredSignedPreKeyType = {
+  confirmed: boolean;
+  created_at: number;
+  ourUuid: UUIDStringType;
+  id: `${UUIDStringType}:${number}`;
+  keyId: number;
+  privateKey: string;
+  publicKey: string;
+};
 export type SignedPreKeyIdType = SignedPreKeyType['id'];
 
 export type StickerType = Readonly<{
@@ -205,6 +232,7 @@ export type UnprocessedType = {
   sourceUuid?: UUIDStringType;
   sourceDevice?: number;
   destinationUuid?: string;
+  updatedPni?: string;
   serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
@@ -262,41 +290,49 @@ export type StoryReadType = Readonly<{
   storyReadDate: number;
 }>;
 
+export type ReactionResultType = Pick<
+  ReactionType,
+  'targetAuthorUuid' | 'targetTimestamp' | 'messageId'
+> & { rowid: number };
+
+export type GetUnreadByConversationAndMarkReadResultType = Array<
+  { originalReadStatus: ReadStatus | undefined } & Pick<
+    MessageType,
+    | 'id'
+    | 'source'
+    | 'sourceUuid'
+    | 'sent_at'
+    | 'type'
+    | 'readStatus'
+    | 'seenStatus'
+  >
+>;
+
+export type GetConversationRangeCenteredOnMessageResultType<Message> =
+  Readonly<{
+    older: Array<Message>;
+    newer: Array<Message>;
+    metrics: ConversationMetricsType;
+  }>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
 
-  createOrUpdateIdentityKey: (data: IdentityKeyType) => Promise<void>;
-  getIdentityKeyById: (
-    id: IdentityKeyIdType
-  ) => Promise<IdentityKeyType | undefined>;
-  bulkAddIdentityKeys: (array: Array<IdentityKeyType>) => Promise<void>;
   removeIdentityKeyById: (id: IdentityKeyIdType) => Promise<void>;
   removeAllIdentityKeys: () => Promise<void>;
-  getAllIdentityKeys: () => Promise<Array<IdentityKeyType>>;
 
-  createOrUpdatePreKey: (data: PreKeyType) => Promise<void>;
-  getPreKeyById: (id: PreKeyIdType) => Promise<PreKeyType | undefined>;
-  bulkAddPreKeys: (array: Array<PreKeyType>) => Promise<void>;
   removePreKeyById: (id: PreKeyIdType) => Promise<void>;
+  removePreKeysByUuid: (uuid: UUIDStringType) => Promise<void>;
   removeAllPreKeys: () => Promise<void>;
-  getAllPreKeys: () => Promise<Array<PreKeyType>>;
 
-  createOrUpdateSignedPreKey: (data: SignedPreKeyType) => Promise<void>;
-  getSignedPreKeyById: (
-    id: SignedPreKeyIdType
-  ) => Promise<SignedPreKeyType | undefined>;
-  bulkAddSignedPreKeys: (array: Array<SignedPreKeyType>) => Promise<void>;
   removeSignedPreKeyById: (id: SignedPreKeyIdType) => Promise<void>;
+  removeSignedPreKeysByUuid: (uuid: UUIDStringType) => Promise<void>;
   removeAllSignedPreKeys: () => Promise<void>;
-  getAllSignedPreKeys: () => Promise<Array<SignedPreKeyType>>;
 
-  createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>): Promise<void>;
-  getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K> | undefined>;
-  removeItemById: (id: ItemKeyType) => Promise<void>;
   removeAllItems: () => Promise<void>;
-  getAllItems: () => Promise<AllItemsType>;
+  removeItemById: (id: ItemKeyType) => Promise<void>;
 
   createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
   getSenderKeyById: (id: SenderKeyIdType) => Promise<SenderKeyType | undefined>;
@@ -402,29 +438,12 @@ export type DataInterface = {
     newestUnreadAt: number;
     readAt?: number;
     storyId?: UUIDStringType;
-  }) => Promise<
-    Array<
-      { originalReadStatus: ReadStatus | undefined } & Pick<
-        MessageType,
-        | 'id'
-        | 'readStatus'
-        | 'seenStatus'
-        | 'sent_at'
-        | 'source'
-        | 'sourceUuid'
-        | 'type'
-      >
-    >
-  >;
+  }) => Promise<GetUnreadByConversationAndMarkReadResultType>;
   getUnreadReactionsAndMarkRead: (options: {
     conversationId: string;
     newestUnreadAt: number;
     storyId?: UUIDStringType;
-  }) => Promise<
-    Array<
-      Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp' | 'messageId'>
-    >
-  >;
+  }) => Promise<Array<ReactionResultType>>;
   markReactionAsRead: (
     targetAuthorUuid: string,
     targetTimestamp: number
@@ -671,11 +690,36 @@ export type ServerInterface = DataInterface & {
     receivedAt: number;
     sentAt?: number;
     storyId: UUIDStringType | undefined;
-  }) => Promise<{
-    older: Array<MessageTypeUnhydrated>;
-    newer: Array<MessageTypeUnhydrated>;
-    metrics: ConversationMetricsType;
-  }>;
+  }) => Promise<
+    GetConversationRangeCenteredOnMessageResultType<MessageTypeUnhydrated>
+  >;
+
+  createOrUpdateIdentityKey: (data: StoredIdentityKeyType) => Promise<void>;
+  getIdentityKeyById: (
+    id: IdentityKeyIdType
+  ) => Promise<StoredIdentityKeyType | undefined>;
+  bulkAddIdentityKeys: (array: Array<StoredIdentityKeyType>) => Promise<void>;
+  getAllIdentityKeys: () => Promise<Array<StoredIdentityKeyType>>;
+
+  createOrUpdatePreKey: (data: StoredPreKeyType) => Promise<void>;
+  getPreKeyById: (id: PreKeyIdType) => Promise<StoredPreKeyType | undefined>;
+  bulkAddPreKeys: (array: Array<StoredPreKeyType>) => Promise<void>;
+  getAllPreKeys: () => Promise<Array<StoredPreKeyType>>;
+
+  createOrUpdateSignedPreKey: (data: StoredSignedPreKeyType) => Promise<void>;
+  getSignedPreKeyById: (
+    id: SignedPreKeyIdType
+  ) => Promise<StoredSignedPreKeyType | undefined>;
+  bulkAddSignedPreKeys: (array: Array<StoredSignedPreKeyType>) => Promise<void>;
+  getAllSignedPreKeys: () => Promise<Array<StoredSignedPreKeyType>>;
+
+  createOrUpdateItem<K extends ItemKeyType>(
+    data: StoredItemType<K>
+  ): Promise<void>;
+  getItemById<K extends ItemKeyType>(
+    id: K
+  ): Promise<StoredItemType<K> | undefined>;
+  getAllItems: () => Promise<StoredAllItemsType>;
 
   // Server-only
 
@@ -744,11 +788,30 @@ export type ClientInterface = DataInterface & {
     receivedAt: number;
     sentAt?: number;
     storyId: UUIDStringType | undefined;
-  }) => Promise<{
-    older: Array<MessageAttributesType>;
-    newer: Array<MessageAttributesType>;
-    metrics: ConversationMetricsType;
-  }>;
+  }) => Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>>;
+
+  createOrUpdateIdentityKey: (data: IdentityKeyType) => Promise<void>;
+  getIdentityKeyById: (
+    id: IdentityKeyIdType
+  ) => Promise<IdentityKeyType | undefined>;
+  bulkAddIdentityKeys: (array: Array<IdentityKeyType>) => Promise<void>;
+  getAllIdentityKeys: () => Promise<Array<IdentityKeyType>>;
+
+  createOrUpdatePreKey: (data: PreKeyType) => Promise<void>;
+  getPreKeyById: (id: PreKeyIdType) => Promise<PreKeyType | undefined>;
+  bulkAddPreKeys: (array: Array<PreKeyType>) => Promise<void>;
+  getAllPreKeys: () => Promise<Array<PreKeyType>>;
+
+  createOrUpdateSignedPreKey: (data: SignedPreKeyType) => Promise<void>;
+  getSignedPreKeyById: (
+    id: SignedPreKeyIdType
+  ) => Promise<SignedPreKeyType | undefined>;
+  bulkAddSignedPreKeys: (array: Array<SignedPreKeyType>) => Promise<void>;
+  getAllSignedPreKeys: () => Promise<Array<SignedPreKeyType>>;
+
+  createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>): Promise<void>;
+  getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K> | undefined>;
+  getAllItems: () => Promise<AllItemsType>;
 
   // Client-side only
 
@@ -774,10 +837,10 @@ export type ClientInterface = DataInterface & {
 export type ClientJobType = {
   fnName: string;
   start: number;
-  resolve?: Function;
-  reject?: Function;
+  resolve?: (value: unknown) => void;
+  reject?: (error: Error) => void;
 
   // Only in DEBUG mode
   complete?: boolean;
-  args?: Array<any>;
+  args?: ReadonlyArray<unknown>;
 };

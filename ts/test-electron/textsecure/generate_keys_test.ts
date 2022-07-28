@@ -3,7 +3,6 @@
 
 import { assert } from 'chai';
 
-import { toBase64 } from '../../Bytes';
 import { constantTimeEqual } from '../../Crypto';
 import { generateKeyPair } from '../../Curve';
 import type { GeneratedKeysType } from '../../textsecure/AccountManager';
@@ -71,10 +70,7 @@ describe('Key generation', function thisNeeded() {
   before(async () => {
     const keyPair = generateKeyPair();
     await textsecure.storage.put('identityKeyMap', {
-      [ourUuid.toString()]: {
-        privKey: toBase64(keyPair.privKey),
-        pubKey: toBase64(keyPair.pubKey),
-      },
+      [ourUuid.toString()]: keyPair,
     });
     await textsecure.storage.user.setUuidAndDeviceId(ourUuid.toString(), 1);
     await textsecure.storage.protocol.hydrateCaches();

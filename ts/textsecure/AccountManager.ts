@@ -7,7 +7,7 @@ import { omit } from 'lodash';
 import EventTarget from './EventTarget';
 import type { WebAPIType } from './WebAPI';
 import { HTTPError } from './Errors';
-import type { KeyPairType } from './Types.d';
+import type { KeyPairType, PniKeyMaterialType } from './Types.d';
 import ProvisioningCipher from './ProvisioningCipher';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
@@ -332,6 +332,7 @@ export default class AccountManager extends EventTarget {
       }
       const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE, uuidKind);
       await this.server.registerKeys(keys, uuidKind);
+      await this.confirmKeys(keys, uuidKind);
     });
   }
 
@@ -649,16 +650,10 @@ export default class AccountManager extends EventTarget {
 
     const identityKeyMap = {
       ...(storage.get('identityKeyMap') || {}),
-      [ourUuid]: {
-        pubKey: Bytes.toBase64(aciKeyPair.pubKey),
-        privKey: Bytes.toBase64(aciKeyPair.privKey),
-      },
+      [ourUuid]: aciKeyPair,
       ...(pniKeyPair
         ? {
-            [ourPni]: {
-              pubKey: Bytes.toBase64(pniKeyPair.pubKey),
-              privKey: Bytes.toBase64(pniKeyPair.privKey),
-            },
+            [ourPni]: pniKeyPair,
           }
         : {}),
     };
@@ -702,30 +697,18 @@ export default class AccountManager extends EventTarget {
 
     log.info('AccountManager.updatePNIIdentity: generating new keys');
 
-    return this.queueTask(async () => {
-      const keys = await this.generateKeys(
-        SIGNED_KEY_GEN_BATCH_SIZE,
-        UUIDKind.PNI,
-        identityKeyPair
-      );
-      await this.server.registerKeys(keys, UUIDKind.PNI);
-      await this.confirmKeys(keys, UUIDKind.PNI);
-
+    await this.queueTask(async () => {
       // Server has accepted our keys which means we have the latest PNI identity
       // now that doesn't conflict the PNI identity of the primary device.
       log.info(
         'AccountManager.updatePNIIdentity: updating identity key ' +
           'and registration id'
       );
-      const { pubKey, privKey } = identityKeyPair;
 
       const pni = storage.user.getCheckedUuid(UUIDKind.PNI);
       const identityKeyMap = {
         ...(storage.get('identityKeyMap') || {}),
-        [pni.toString()]: {
-          pubKey: Bytes.toBase64(pubKey),
-          privKey: Bytes.toBase64(privKey),
-        },
+        [pni.toString()]: identityKeyPair,
       };
 
       const aci = storage.user.getCheckedUuid(UUIDKind.ACI);
@@ -743,6 +726,26 @@ export default class AccountManager extends EventTarget {
       ]);
 
       await storage.protocol.hydrateCaches();
+    });
+
+    // Intentionally not awaiting becase `updatePNIIdentity` runs on an
+    // Encrypted queue of MessageReceiver and we don't want to await remote
+    // endpoints and block message processing.
+    this.queueTask(async () => {
+      try {
+        const keys = await this.generateKeys(
+          SIGNED_KEY_GEN_BATCH_SIZE,
+          UUIDKind.PNI,
+          identityKeyPair
+        );
+        await this.server.registerKeys(keys, UUIDKind.PNI);
+        await this.confirmKeys(keys, UUIDKind.PNI);
+      } catch (error) {
+        log.error(
+          'updatePNIIdentity: Failed to upload PNI prekeys. Moving on',
+          Errors.toLogFormat(error)
+        );
+      }
     });
   }
 
@@ -841,30 +844,50 @@ export default class AccountManager extends EventTarget {
     this.dispatchEvent(new Event('registration'));
   }
 
-  async setPni(pni: string): Promise<void> {
+  async setPni(pni: string, keyMaterial?: PniKeyMaterialType): Promise<void> {
     const { storage } = window.textsecure;
 
     const oldPni = storage.user.getUuid(UUIDKind.PNI)?.toString();
-    if (oldPni === pni) {
+    if (oldPni === pni && !keyMaterial) {
       return;
     }
 
+    log.info(`AccountManager.setPni(${pni}): updating from ${oldPni}`);
+
     if (oldPni) {
-      await Promise.all([
-        storage.put(
-          'identityKeyMap',
-          omit(storage.get('identityKeyMap') || {}, oldPni)
-        ),
-        storage.put(
-          'registrationIdMap',
-          omit(storage.get('registrationIdMap') || {}, oldPni)
-        ),
-      ]);
+      await storage.protocol.removeOurOldPni(new UUID(oldPni));
     }
 
-    log.info(`AccountManager.setPni: updating pni from ${oldPni} to ${pni}`);
     await storage.user.setPni(pni);
 
-    await storage.protocol.hydrateCaches();
+    if (keyMaterial) {
+      await storage.protocol.updateOurPniKeyMaterial(
+        new UUID(pni),
+        keyMaterial
+      );
+
+      // Intentionally not awaiting since this is processed on encrypted queue
+      // of MessageReceiver.
+      this.queueTask(async () => {
+        try {
+          const keys = await this.generateKeys(
+            SIGNED_KEY_GEN_BATCH_SIZE,
+            UUIDKind.PNI
+          );
+          await this.server.registerKeys(keys, UUIDKind.PNI);
+          await this.confirmKeys(keys, UUIDKind.PNI);
+        } catch (error) {
+          log.error(
+            'setPni: Failed to upload PNI prekeys. Moving on',
+            Errors.toLogFormat(error)
+          );
+        }
+      });
+
+      // PNI has changed and credentials are no longer valid
+      await storage.put('groupCredentials', []);
+    } else {
+      log.warn(`AccountManager.setPni(${pni}): no key material`);
+    }
   }
 }
