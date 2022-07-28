@@ -14,6 +14,7 @@ import { StoryImage } from './StoryImage';
 import { getAvatarColor } from '../types/Colors';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
+  conversationId: string;
   i18n: LocalizerType;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
@@ -26,6 +27,7 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
 };
 
 export const StoryListItem = ({
+  conversationId,
   group,
   i18n,
   isHidden,
@@ -83,7 +85,7 @@ export const StoryListItem = ({
               : i18n('StoryListItem__hide'),
             onClick: () => {
               if (isHidden) {
-                onHideStory(sender.id);
+                onHideStory(conversationId);
               } else {
                 setHasConfirmHideStory(true);
               }
@@ -92,18 +94,18 @@ export const StoryListItem = ({
           {
             icon: 'StoryListItem__icon--info',
             label: i18n('StoryListItem__info'),
-            onClick: () => viewUserStories(sender.id, true),
+            onClick: () => viewUserStories(conversationId, true),
           },
           {
             icon: 'StoryListItem__icon--chat',
             label: i18n('StoryListItem__go-to-chat'),
-            onClick: () => onGoToConversation(sender.id),
+            onClick: () => onGoToConversation(conversationId),
           },
         ]}
         moduleClassName={classNames('StoryListItem', {
           'StoryListItem--hidden': isHidden,
         })}
-        onClick={() => viewUserStories(sender.id)}
+        onClick={() => viewUserStories(conversationId)}
         popperOptions={{
           placement: 'bottom',
           strategy: 'absolute',
@@ -159,7 +161,7 @@ export const StoryListItem = ({
         <ConfirmationDialog
           actions={[
             {
-              action: () => onHideStory(sender.id),
+              action: () => onHideStory(conversationId),
               style: 'affirmative',
               text: i18n('StoryListItem__hide-modal--confirm'),
             },

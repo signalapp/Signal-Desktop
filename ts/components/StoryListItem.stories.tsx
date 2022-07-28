@@ -20,6 +20,9 @@ export default {
   title: 'Components/StoryListItem',
   component: StoryListItem,
   argTypes: {
+    conversationId: {
+      defaultValue: getDefaultConversation().id,
+    },
     i18n: {
       defaultValue: i18n,
     },

@@ -163,6 +163,7 @@ export const StoriesPane = ({
       >
         {renderedStories.map(story => (
           <StoryListItem
+            conversationId={story.conversationId}
             group={story.group}
             i18n={i18n}
             key={story.storyView.timestamp}
@@ -190,6 +191,7 @@ export const StoriesPane = ({
             {isShowingHiddenStories &&
               hiddenStories.map(story => (
                 <StoryListItem
+                  conversationId={story.conversationId}
                   key={story.storyView.timestamp}
                   i18n={i18n}
                   isHidden
