@@ -7189,6 +7189,14 @@
         "message": "प्रतिक्रिया पाठवत आहे...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "स्टोरीज शेअर करा व पहा",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "हा पर्याय बंद असताना आपण यापुढे स्टोरीज शेअर करू किंवा पाहू शकणार नाही.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "विराम द्या",
         "description": "Aria label for pausing a story"

@@ -7189,6 +7189,14 @@
         "message": "Enviant reacció...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Compartir i veure històries",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Ja no podreu compartir ni veure històries quan aquesta opció estigui desactivada.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pausa",
         "description": "Aria label for pausing a story"

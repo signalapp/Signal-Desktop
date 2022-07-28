@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Vytvořit/nahrát balík nálepek",
+        "message": "Vytvořit/nahrát balíček nálepek",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -96,7 +96,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Vložit a aplikovat styl",
+        "message": "Vložit a použít styl",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -218,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Tyto konverzace jsou archivované a zobrazí se mezi doručenými zprávami, pokud budou přijaty nové zprávy.",
+        "message": "Tyto konverzace jsou archivované a mezi doručenými zprávami se zobrazí pouze v případě, že obdržíte nové zprávy.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
@@ -262,7 +262,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Právě jste prošli procesem exportu a vaše kontakty a zprávy trpělivě čekají na vašem počítači. Vyberte složku, která obsahuje vaše uložená data ze Signal.",
+        "message": "Právě jste dokončili proces exportu a vaše kontakty a zprávy už nyní čekají ve vašem počítači. Vyberte složku, která obsahuje vaše uložená data ze Signal.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -278,19 +278,19 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Ujistěte se, že jste vybrali správný adresář, který obsahuje vaše uložená data ze Signal. Jeho název by měl začínat řetězcem „Signal export“. Můžete také uložit novou kopii svých dat z aplikace Chrome.",
+        "message": "Ujistěte se, že jste vybrali správnou složku, která obsahuje vaše uložená data ze Signal. Její název by měl začínat řetězcem „Signal export“. Můžete také uložit novou kopii svých dat z aplikace Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Pokud vám tento postup nefunguje, zašlete nám, prosím, ladící log (Zobrazit -> Ladící log), abychom vám pomohli dokončit migraci.",
+        "message": "Pokud vám tento postup nefunguje, zašlete nám prosím protokol ladění (Zobrazit -> Protokol ladění), abychom vám mohli pomoci s dokončením migrace.",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Vyberte složku a zkuste znovu",
+        "message": "Vyberte složku a zkuste to znovu",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Provedeno!",
+        "message": "Úspěšně dokončeno!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
@@ -298,7 +298,7 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Připojit zařízení k telefonu",
+        "message": "Připojit toto zařízení k telefonu",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -332,7 +332,7 @@
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
-        "message": "Přesunout se na konec konverzace",
+        "message": "Přejít na konec konverzace",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
@@ -354,11 +354,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Pro zvýšení vaší bezpečnosti není historie konverzací kopírovaná na nově připojená zařízení.",
+        "message": "Z důvodu vaší bezpečnosti se historie konverzací nepřenáší do nově připojených zařízení.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Označili jste bezpečnostní číslo s $name$ jako ověřené.",
+        "message": "Označili jste své bezpečnostní číslo pro komunikaci s $name$ jako ověřené.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Označili jste bezpečnostní číslo s $name$ jako neověřené.",
+        "message": "Označili jste své bezpečnostní číslo pro komunikaci s $name$ jako neověřené.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -378,7 +378,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Označili jste bezpečnostní číslo s $name$ jako ověřené z jiného zařízení",
+        "message": "Označili jste své bezpečnostní číslo pro komunikaci s $name$ jako ověřené z jiného zařízení",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Označili jste bezpečnostní číslo s $name$ jako neověřené z jiného zařízení.",
+        "message": "Označili jste své bezpečnostní číslo pro komunikaci s $name$ jako neověřené z jiného zařízení.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -402,7 +402,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Bezpečnostní číslo, které se pokoušíte ověřit, se změnilo. Prosím, zkontrolujte s $name1$ své nové bezpečnostní číslo. Pamatujte, že tato změna může znamenat, že se někdo snaží vaši komunikaci odposlouchávat nebo si $name2$ prostě znovu nainstaloval Signal.",
+        "message": "Bezpečnostní číslo, které se pokoušíte ověřit, se změnilo. Prosím, zkontrolujte své nové bezpečnostní číslo pro komunikaci s $name1$. Pamatujte, že tato změna může znamenat, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name2$ prostě znovu nainstaloval Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -416,7 +416,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Následující lidé možná přeinstalovali nebo změnili zařízení. Ověřte s nimi své bezpečnostní číslo pro zajištění soukromí.",
+        "message": "Následující lidé možná přeinstalovali nebo změnili zařízení. V zájmu zajištění soukromí ověřte své bezpečnostní číslo pro komunikaci s nimi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
@@ -424,7 +424,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
-        "message": "Vaše bezpečnostní číslo s $name1$ se změnilo. To může znamenat, že se někdo pokouší odposlouchávat vaši komunikaci nebo že $name2$ prostě jen přeinstaloval Signal. Doporučujeme ověřit vaše bezpečnostní číslo s tímto kontaktem.",
+        "message": "Vaše bezpečnostní číslo pro komunikaci s $name1$ se změnilo. To může znamenat, že se někdo pokouší odposlouchávat vaši komunikaci, nebo že $name2$ prostě jen přeinstaloval Signal. Doporučujeme ověřit vaše bezpečnostní číslo s tímto kontaktem.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -450,7 +450,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Bezpečnostní číslo $name$ bylo změněno a nebylo ověřeno. Klikněte pro zobrazení.",
+        "message": "Bezpečnostní číslo pro komunikaci s $name$ bylo změněno a nebylo ověřeno. Klikněte pro zobrazení.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -460,11 +460,11 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Bezpečnostní čísla s více uživateli této skupiny byla změněna a nebyla dlouho ověřena. Klikněte pro jejich zobrazení.",
+        "message": "Vaše bezpečnostní čísla pro komunikaci s více členy této skupiny byla změněna a nebyla dlouho ověřena. Klikněte pro jejich zobrazení.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Po kliknutí na tlačítko Odeslat bude váš protokol zveřejněn online po dobu 30 dnů na jedinečné nezveřejněné adrese URL. Nejprve jej můžete uložit lokálně.",
+        "message": "Po kliknutí na tlačítko Odeslat bude váš protokol zveřejněn online po dobu 30 dnů na jedinečné neveřejné adrese URL. Nejprve jej můžete uložit lokálně.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
@@ -472,11 +472,11 @@
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Debug log odeslán",
+        "message": "Protokol ladění odeslán",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Nahrán protokol ladění. Až budete kontaktovat podporu, zkopírujte níže uvedenou adresu URL a přiložte ji spolu s popisem problému, který jste zaznamenali, a kroky k jeho reprodukci.",
+        "message": "Protokol ladění nahrán. Až budete kontaktovat podporu, zkopírujte níže uvedenou adresu URL a přiložte ji spolu s popisem problému, který jste zaznamenali, a kroků potřebných k jeho opakování.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "Ověřili jste bezpečnostní číslo s $name$.",
+        "message": "Ověřili jste bezpečnostní číslo pro komunikaci s $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -530,7 +530,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Bezpečnostní číslo s $name$ nebylo ověřeno.",
+        "message": "Bezpečnostní číslo pro komunikaci s $name$ nebylo ověřeno.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -548,7 +548,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Bezpečnostní číslo k tomuto kontaktu se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat nebo si kontakt prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
+        "message": "Vaše bezpečnostní číslo pro komunikaci s tímto kontaktem se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si kontakt prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
         "description": ""
     },
     "incomingError": {
@@ -560,7 +560,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "V konverzaci nejsou žádná média",
+        "message": "V této konverzaci nejsou žádná média",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
@@ -572,7 +572,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "V konverzaci nejsou žádné dokumenty",
+        "message": "V této konverzaci nejsou žádné dokumenty",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -608,7 +608,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Tento typ přílohy není povolen z bezpečnostních důvodů",
+        "message": "Tento typ přílohy není z bezpečnostních důvodů povolen",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -616,7 +616,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Náhled na odkaz pro  $domain$",
+        "message": "Návrh náhledu miniatury odkazu pro  $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -626,7 +626,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Náhled na odkaz pro  $domain$",
+        "message": "Náhled miniatury odkazu pro  $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "domain": {
@@ -676,7 +676,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Omlouváme se, vybraný soubor překročil limit velikosti zprávy.",
+        "message": "Je nám líto, vybraný soubor překračuje limit velikosti zprávy.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -708,11 +708,11 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "Ladící log",
+        "message": "Protokol ladění",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Ladící log",
+        "message": "Protokol ladění",
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
@@ -748,7 +748,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Tvorba balíčků nálepek",
+        "message": "Vytváření balíčků nálepek",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -806,7 +806,7 @@
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
-        "message": "Žádné výsledky pro ;$searchTerm$ v  $conversationName$",
+        "message": "Žádné výsledky pro „$searchTerm$“ v  $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -836,11 +836,11 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Najít pomocí uživatelského jména",
+        "message": "Najít podle uživatelského jména",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
-        "message": "Najít pomocí telefonního čísla",
+        "message": "Najít podle telefonního čísla",
         "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
@@ -950,7 +950,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Původní zpráva byla nalezena, ale nebyla načtena. Posuňte nahoru pro načtení.",
+        "message": "Původní zpráva byla nalezena, ale nebyla načtena. Přejděte nahoru a načtěte ji.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
@@ -966,11 +966,11 @@
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Nahrávání zvukové zprávy bylo ukončeno, protože byl dosažen maximální časový limit.",
+        "message": "Nahrávání zvukové zprávy bylo zastaveno, protože byl dosažen maximální časový limit.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Nahrávání zvukové zprávy bylo ukončeno, protože jste se přepnuli do jiné aplikace.",
+        "message": "Nahrávání zvukové zprávy bylo zastaveno, protože jste přepnuli do jiné aplikace.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
@@ -1008,15 +1008,15 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Pro posílání audio zpráv potřebuje Signal Desktop přístup k mikrofonu.",
+        "message": "Chcete-li odesílat hlasové zprávy, povolte aplikaci Signal Desktop přístup k mikrofonu.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "Pro volání musíte Signal Desktop povolit přístup k vašemu mikrofonu.",
+        "message": "Pro volání musíte aplikaci Signal Desktop povolit přístup k mikrofonu.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "Pro videohovory musíte Signal Desktop povolit přístup k vaší kameře.",
+        "message": "Pro videohovory musíte aplikaci Signal Desktop povolit přístup ke kameře.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -1044,7 +1044,7 @@
         "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
-        "message": "Aktualizace selhala",
+        "message": "Aktualizace není možná",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
@@ -1114,7 +1114,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Selhalo odeslání některým příjemcům. Zkontrolujte si síťové připojení.",
+        "message": "Selhalo odeslání některým příjemcům. Zkontrolujte své síťové připojení.",
         "description": ""
     },
     "error": {
@@ -1126,7 +1126,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Vymazat",
+        "message": "Smazat",
         "description": ""
     },
     "accept": {
@@ -1154,7 +1154,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Tato zpráva bude smazána pro všechny účastníky konverzace, pokud používají poslední verzi Signalu. Budou vidět, že jste zprávu smazali.",
+        "message": "Tato zpráva bude odstraněna pro všechny účastníky konverzace, pokud používají poslední verzi aplikace Signal. Budou moci vidět, že jste zprávu odstranili.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1216,7 +1216,7 @@
         "description": "Generic label for back"
     },
     "goBack": {
-        "message": "Zpět",
+        "message": "Vrátit se zpět",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1240,7 +1240,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Smazat zprávu všem",
+        "message": "Smazat zprávu u všech",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1252,11 +1252,11 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Bezpečné sezení resetováno",
+        "message": "Zabezpečená relace byla resetována",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Sezení konverzace aktualizováno",
+        "message": "Relace konverzace obnovena",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -1264,7 +1264,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal používá end-to-end šifrování a může občas potřebovat aktualizovat sezení chatu. To neovlivní bezpečnost chatu, ale můžete ztratit nějakou zprávu od tohoto kontaktu a může být potřeba kontakt požádat, aby vám zprávu poslal znovu.",
+        "message": "Signal používá koncové šifrování a někdy může být nutné obnovit relaci chatu. Nemá to vliv na zabezpečení chatu, ale je možné, že jste zprávu od tohoto kontaktu zmeškali, a proto ho můžete požádat, aby vám zprávu poslal znovu.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1286,7 +1286,7 @@
         }
     },
     "DeliveryIssue--learnMore": {
-        "message": "Dozvědět se více",
+        "message": "Zjistit více",
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
@@ -1294,7 +1294,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "Zpráva, nálepka, reakce, doručenka nebo média od $sender$ vám nemohla být doručena. Možná se vám ji pokusili poslat přímo nebo ve skupině.",
+        "message": "Zpráva, nálepka, reakce, potvrzení o přečtení nebo média od $sender$ vám nemohla být doručena. Je možné, že se vám ji pokusil/a poslat přímo nebo ve skupině.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1324,7 +1324,7 @@
         }
     },
     "quoteThumbnailAlt": {
-        "message": "Náhled obrázku z citované zprávy",
+        "message": "Miniatura obrázku z citované zprávy",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
@@ -1368,7 +1368,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkNewDevice": {
-        "message": "Propojit nové zařízení",
+        "message": "Připojit nové zařízení",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
@@ -1376,7 +1376,7 @@
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Na svém telefonu otevřete Signal",
+        "message": "Otevřete Signal na svém telefonu",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
@@ -1412,7 +1412,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "QR kód se nemohl načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. $learnMore$",
+        "message": "QR kód se nepodařilo načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1430,7 +1430,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "Název tohoto zařízení uvidíte pod „Spárovaná zařízení“",
+        "message": "Tento název se v telefonu zobrazí v části „Propojená zařízení“ .",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1446,7 +1446,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Dokončuji propojení s telefonem",
+        "message": "Dokončit propojení s telefonem",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1454,7 +1454,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Poznámka: Historie chatu nebude synchronizována do tohoto zařízení.",
+        "message": "Poznámka: Historie chatu nebude s tímto zařízením synchronizována.",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1462,11 +1462,11 @@
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Promiňte, ale máte už příliš mnoho propojených zařízení. Zkuste některá odstranit.",
+        "message": "Je nám líto, ale máte už příliš mnoho propojených zařízení. Zkuste některá odstranit.",
         "description": ""
     },
     "installTooOld": {
-        "message": "Aktualizujte Signal v tomto zařízení pro připojení k vašemu telefonu.",
+        "message": "Aktualizujte aplikaci Signal v tomto zařízení a propojte telefon.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1474,7 +1474,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "Nastala neočekávaná chyba. Zkuste to prosím znovu.",
+        "message": "Vyskytla se neočekávaná chyba. Zkuste to prosím znovu.",
         "description": ""
     },
     "installTryAgain": {
@@ -1514,7 +1514,7 @@
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
-        "message": "Hovor je plný",
+        "message": "Hovor je plně obsazen",
         "description": "Text in the call lobby when you can't join because the call is full"
     },
     "calling__button--video__label": {
@@ -1538,7 +1538,7 @@
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
-        "message": "Mikrofon zakázán",
+        "message": "Mikrofon je vypnutý",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
@@ -1554,19 +1554,19 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Prezentování zakázáno",
+        "message": "Prezentace vypnuta",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Začít prezentovat",
+        "message": "Zahájit prezentaci",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Zastavit prezentování",
+        "message": "Zastavit prezentaci",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Volat",
+        "message": "Vyzvánění",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
@@ -1600,7 +1600,7 @@
         }
     },
     "calling__pre-call-info--another-device-in-call": {
-        "message": "Jiné vaše zařízení se účastní tohoto hovoru",
+        "message": "Tohoto hovoru se účastní jiné vaše zařízení",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal zavolá $person$",
+        "message": "Signal bude volat $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal bude zvonit $first$ a $second$",
+        "message": "Signal bude volat $first$ a $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal bude zvonit $first$, $second$ a $third$",
+        "message": "Signal bude volat $first$, $second$ a $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal bude zvonit $first$, $second$ a $others$ dalším",
+        "message": "Signal bude volat $first$, $second$ a $others$ dalším",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1724,7 +1724,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ a $second$ uvidí oznámení",
+        "message": "$first$ a $second$ obdrží oznámení",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1738,7 +1738,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$ a $third$ uvidí oznámení",
+        "message": "$first$, $second$ a $third$ obdrží oznámení",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1756,7 +1756,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$ a $others$ další uvidí oznámení",
+        "message": "$first$, $second$ a $others$ další obdrží oznámení",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1814,7 +1814,7 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "Prezentjete všem",
+        "message": "Prezentujete všem",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
@@ -1860,15 +1860,15 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Potřebné povolení",
+        "message": "Je vyžadováno oprávnění",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal potřebuje oprávnění pro přístup k nahrávání obrazovky.",
+        "message": "Signal potřebuje oprávnění pro přístup k záznamu obrazovky.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Přejděte do systémových nastavení",
+        "message": "Přejít do systémových nastavení",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
@@ -1880,7 +1880,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Otevřete Systémová nastavení",
+        "message": "Otevřít systémová nastavení",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1888,11 +1888,11 @@
         "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
-        "message": "Vždy předávat hovory",
+        "message": "Vždy přesměrovávat hovory",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Přenášet všechna volání přes servery Signal, aby nedošlo k odhalení vaší IP adresy volanému. Povolením dojde ke zhoršení kvality hovoru.",
+        "message": "Přesměrovávat všechny hovory přes servery Signal, abyste kontaktu neprozradili svou IP adresu. Povolením této funkce se sníží kvalita hovoru.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1900,11 +1900,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Umožnit přístup k mikrofonu",
+        "message": "Povolit přístup k mikrofonu",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Umožnit přístup ke kameře",
+        "message": "Povolit přístup ke kameře",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1916,11 +1916,11 @@
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Kontrola pravopisu bude zapnuta po dalším zapnutí Signal.",
+        "message": "Kontrola pravopisu bude zapnuta při příštím spuštění aplikace Signal.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Kontrola pravopisu bude vypnuta po dalším zapnutí Signal.",
+        "message": "Kontrola pravopisu bude vypnuta při příštím spuštění aplikace Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
@@ -1940,7 +1940,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Dojde ke smazání všech dat aplikace, všech zpráv a informací o účtu.",
+        "message": "Tím vymažete všechna data v aplikaci a odstraníte všechny zprávy a uložené informace o účtu.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1952,7 +1952,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Chystáte se smazat všechny uložené informace o účtu včetně všech kontaktů a zpráv. Vaše mobilní zařízení můžete kdykoliv spárovat znovu, ale smazané zprávy nebudou obnoveny.",
+        "message": "Chystáte se smazat všechny uložené informace k účtu včetně všech kontaktů a zpráv. Vaše mobilní zařízení můžete kdykoliv spárovat znovu, ale smazané zprávy nebudou obnoveny.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1964,7 +1964,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Máte zastaralá data z předchozí instalace Signal Desktop. Pokud budete pokračovat, tato data budou smazána a musíte začít od začátku.",
+        "message": "Máte zastaralá data z předchozí instalace Signal Desktop. Pokud se rozhodnete pokračovat, budou tato data smazána a budete muset začít od začátku.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -2014,7 +2014,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ zareagoval(a) $emoji$ na vaši zprávu. ",
+        "message": "$sender$ zareagoval/a $emoji$ na vaši zprávu ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2028,7 +2028,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ zareagoval(a) $emoji$ na vaši $message$. ",
+        "message": "$sender$ zareagoval/a $emoji$ na vaši $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2046,11 +2046,11 @@
         }
     },
     "sendFailed": {
-        "message": "Odeslání selhalo",
+        "message": "Odeslání se nezdařilo",
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Smazání selhalo",
+        "message": "Smazání se nezdařilo",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2058,7 +2058,7 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Odesláno částečně, klepněte pro zobrazení detailů",
+        "message": "Odesláno částečně, klepněte pro zobrazení podrobností",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
@@ -2074,11 +2074,11 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Dozvědět se více o ověřování bezpečnostních čísel",
+        "message": "Zjistit více o ověřování bezpečnostních čísel",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Tato verze aplikace Signal Desktop je zastaralá. Abyste mohli dále komunikovat, aktualizujte ji prosím na nejnovější verzi.",
+        "message": "Tato verze aplikace Signal Desktop je zastaralá. Abyste mohli dále komunikovat, aktualizujte ji na nejnovější verzi.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -2114,7 +2114,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Import selhal. Zkontrolujte, zda jsou počítač i telefon připojeny k internetu.",
+        "message": "Import se nezdařil. Zkontrolujte, zda jsou počítač i telefon připojeny k internetu.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -2130,7 +2130,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$ h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -2140,7 +2140,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$ m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -2154,7 +2154,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D. MMM",
+        "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
@@ -2166,19 +2166,19 @@
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
-        "message": "Tělo zprávy je příliš dlouhé.",
+        "message": "Text zprávy je příliš dlouhý.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Pro odeslání zprávy tento kontakt odblokujte.",
+        "message": "Chcete-li odeslat zprávu, musíte tento kontakt odblokovat.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Pro odeslání zprávy tuto skupinu odblokujte.",
+        "message": "Chcete-li odeslat zprávu, musíte tuto skupinu odblokovat.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Nastavili jste časovač pro zmizení zprávy na $time$",
+        "message": "Nastavili jste čas zmizení zprávy na $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -2188,7 +2188,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Časovač pro zmizení zprávy byl aktualizován na $time$.",
+        "message": "Čas zmizení zprávy byl aktualizován na $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -2198,7 +2198,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Člen nastavil časovač pro zmizení zpráv na $time$.",
+        "message": "Člen nastavil čas zmizení zprávy na $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2208,7 +2208,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ nastavil(a) časovač pro zmizení zprávy na $time$",
+        "message": "$name$ nastavil/a čas zmizení zprávy na $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -2234,7 +2234,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Člen zakázal mizející zprávy.",
+        "message": "Člen vypnul mizení zpráv.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -2270,7 +2270,7 @@
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Zobrazovat notifikace pro volání",
+        "message": "Zobrazovat oznámení pro volání",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -2278,7 +2278,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ změnil(a) své jméno z $oldProfile$ na $newProfile$.",
+        "message": "$sender$ změnil/a své jméno z $oldProfile$ na $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2296,7 +2296,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ změnil(a) své jméno na $newProfile$.",
+        "message": "$oldProfile$ změnil/a své jméno na $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2322,7 +2322,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "Bezpečností číslo s $name$ se změnilo",
+        "message": "Bezpečností číslo pro komunikaci s $name$ se změnilo",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -2336,11 +2336,11 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Tento uživatel nemůže být ověřen, dokud si s ním nenapíšete.",
+        "message": "Tohoto uživatele nelze ověřit, dokud si s ním nevyměníte zprávy.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Vaše bezpečnostní číslo s $name1$:",
+        "message": "Vaše bezpečnostní číslo pro komunikaci s $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -2366,7 +2366,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "V této konverzaci můžete přidávat poznámky pro sebe. Pokud má váš účet nějaká propojená zařízení, budou se nové poznámky synchronizovat.",
+        "message": "V této konverzaci si můžete dělat poznámky. Pokud má váš účet nějaká propojená zařízení, budou se nové poznámky synchronizovat.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -2374,7 +2374,7 @@
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
-        "message": "Schovat lištu menu",
+        "message": "Schovat lištu nabídky",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
@@ -2390,15 +2390,15 @@
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
-        "message": "Hledat pomocí jména nebo telefonního čísla",
+        "message": "Hledat podle jména nebo telefonního čísla",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "Nenalezeny žádné kontakty",
+        "message": "Nebyly nalezeny žádné kontakty",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
-        "message": "Nenalezeny žádné konverzace",
+        "message": "Nebyly nalezeny žádné konverzace",
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
@@ -2410,7 +2410,7 @@
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "Uživatel nenalezen. $atUsername$ není Signal uživatelem; ujistěte se, že jste zadali kompletní uživatelské jméno.",
+        "message": "Uživatel nenalezen. $atUsername$ není uživatelem Signal; ujistěte se, že jste zadali celé uživatelské jméno.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "Uživatel nenalezen. \"$phoneNumber$\" není uživatel Signal.",
+        "message": "Uživatel nenalezen. \"$phoneNumber$\" není uživatelem Signal.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2456,7 +2456,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Dosažena maximální velikost skupiny",
+        "message": "Bylo dosaženo maximální velikosti skupiny",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2470,11 +2470,11 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Dosažen doporučený limit členů",
+        "message": "Byl dosažen doporučený limit členů",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Skupiny Signal fungují nejlépe s $max$ nebo méně členy. Přidáním více členů může docházet ke zpožděním při odesílání a doručování zpráv.",
+        "message": "Skupiny Signal fungují nejlépe s $max$ nebo méně členy. Přidáním více členů může docházet ke zpoždění při odesílání a doručování zpráv.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2492,7 +2492,7 @@
         "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__group-name-placeholder": {
-        "message": "Název skupiny (vyžadováno)",
+        "message": "Název skupiny (povinné)",
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
@@ -2508,7 +2508,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Tato skupina nemohla být vytvořena. Zkontrolujte připojení a zkuste to znovu.",
+        "message": "Tuto skupinu se nepodařilo vytvořit. Zkontrolujte připojení a zkuste to znovu.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Klikněte pro opakované připojení Signal Desktop k mobilnímu zařízení pro pokračování v komunikaci.",
+        "message": "Kliknutím znovu propojte Signal Desktop s mobilním zařízením a pokračujte v zasílání zpráv.",
         "description": ""
     },
     "unlinked": {
@@ -2540,7 +2540,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Přepárovat",
+        "message": "Znovu spárovat",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
@@ -2556,7 +2556,7 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Klikněte pro restartování aplikace Signal",
+        "message": "Kliknutím restartujete aplikaci Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
@@ -2568,7 +2568,7 @@
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Klikněte na Restartovat Signal pro aplikování změn.",
+        "message": "Stisknutím tlačítka Restartovat Signal provedete aktualizace.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -2584,7 +2584,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ opustil(a) skupinu.",
+        "message": "$name$ opustil/a skupinu.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -2594,7 +2594,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ opustil(a) skupinu.",
+        "message": "$name$ opustil/a skupinu.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -2604,7 +2604,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ upravil(a) skupinu.",
+        "message": "$name$ aktualizoval/a skupinu.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -2614,11 +2614,11 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "Upravili jste skupinu.",
+        "message": "Aktualizovali jste skupinu.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Avatar skupiny byl upraven.",
+        "message": "Avatar skupiny byl aktualizován.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -2636,7 +2636,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ se připojil(a) ke skupině.",
+        "message": "$name$ se připojil/a ke skupině.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2646,7 +2646,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ se připojil(a) ke skupině.",
+        "message": "$names$ se připojil/a ke skupině.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2678,7 +2678,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Jít na konverzaci s $title$",
+        "message": "Přejít na konverzaci s $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2720,7 +2720,7 @@
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
-        "message": "Zpráva s nálepkou",
+        "message": "Zpráva na nálepce",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getNotificationText--text-with-emoji": {
@@ -2770,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Zkontrolujte váš telefon pro otevření dárku",
+        "message": "Zkontrolujte telefon a otevřete dárek",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Zkontrolujte váš telefon pro zobrazení dárku",
+        "message": "Zkontrolujte telefon a zobrazte dárek",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2848,7 +2848,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "Darovali jste odznak uživateli $name$. Když jej přijmou, dostanou na výběr, zda chtějí svůj odznak ukázat nebo skrýt.",
+        "message": "Darovali jste odznak uživateli $name$. Když jej přijme, dostane na výběr, zda si chce odznak zobrazit nebo skrýt.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -2858,7 +2858,7 @@
         }
     },
     "stickers--toast--InstallFailed": {
-        "message": "Balík nálepek nelze nainstalovat",
+        "message": "Balíček nálepek nelze nainstalovat",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
@@ -2870,11 +2870,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Série od umělců Signal",
+        "message": "Umělecká série Signal",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Není dostupný žádný balíček nálepek pro Signal.",
+        "message": "Žádné umělecké nálepky Signal nejsou k dispozici",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2926,7 +2926,7 @@
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Nejnovější nálepka",
+        "message": "Poslední nálepka",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2942,11 +2942,11 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Nový balík nálepek z vašich zpráv je k dispozici pro instalaci",
+        "message": "Nové balíčky nálepek z vašich zpráv jsou k dispozici k instalaci",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Žádné balíky nálepek nenalezeny",
+        "message": "Žádné balíčky nálepek nebyly nalezeny",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
@@ -2954,11 +2954,11 @@
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Balík nálepek",
+        "message": "Balíček nálepek",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Došlo k chybě při otevírání balíku nálepek. Zkontrolujte vaše připojení k internetu a zkuste to znovu.",
+        "message": "Při otevírání balíčku nálepek se vyskytla chyba. Zkontrolujte vaše připojení k internetu a zkuste to znovu.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -3004,7 +3004,7 @@
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Objekt",
+        "message": "Předmět",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
@@ -3016,15 +3016,15 @@
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
-        "message": "Storno",
+        "message": "Zrušit",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Číst dále",
+        "message": "Číst dál",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
-        "message": "$contact$ vám zaslal(a) zprávu, kterou zde nelze zobrazit, protože používá novější funkci Signal.",
+        "message": "$contact$ vám poslal/a zprávu, kterou nelze zpracovat ani zobrazit, protože používá novou funkci Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3034,7 +3034,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Můžete $contact$ požádat o opětovné zaslání předchozí zprávy, jelikož již používáte poslední verzi Signal.",
+        "message": "Můžete $contact$ požádat o opětovné zaslání této zprávy, protože nyní používáte aktuální verzi Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3044,11 +3044,11 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Jedno z vašich zařízení odeslalo zprávu, kterou zde nelze zobrazit, protože používá novější funkci Signal.",
+        "message": "Jedno z vašich zařízení odeslalo zprávu, kterou nelze zpracovat ani zobrazit, protože používá novou funkci Signal.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Budoucí zprávy, jako je tato, budou synchronizovány, když nyní již používáte aktuální verzi Signal.",
+        "message": "Budoucí zprávy, jako je tato, budou synchronizovány, protože nyní používáte aktuální verzi Signal.",
         "description": ""
     },
     "Message--update-signal": {
@@ -3112,11 +3112,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Nastavení",
+        "message": "Předvolby",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Otevřít menu konverzace",
+        "message": "Otevřít nabídku konverzace",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--new-conversation": {
@@ -3124,7 +3124,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archivované konverzace",
+        "message": "Archivovat konverzaci",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
@@ -3140,7 +3140,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Zaměřit editor",
+        "message": "Zaostření na editor",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
@@ -3156,7 +3156,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Spustit nahrávání hlasové poznámky",
+        "message": "Spustit záznam hlasové poznámky",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
@@ -3184,27 +3184,27 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Přidat do zprávy zalomení na novou řádku",
+        "message": "Přidat nový řádek do zprávy",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Rozbalit editor",
+        "message": "Zvětšit editor",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Odeslat (v rozšířeném editoru)",
+        "message": "Odeslat (ve zvětšeném editoru)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Vložit přílohu",
+        "message": "Připojit soubor",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Odstranit náhled odkazu",
+        "message": "Odstranit náhled rozepsané zprávy",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Odstranit všechny přílohy rozepsané zprávy",
+        "message": "Odstranit všechny přílohy návrhu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -3216,7 +3216,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Option",
+        "message": "Volba",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -3272,7 +3272,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Zapnutí a vypnutí ztlumení",
+        "message": "Zapnutí a vypnutí ztlumení zvuku",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -3332,19 +3332,19 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Konverzace byla označena jako nepřečtená",
+        "message": "Konverzace označena jako nepřečtená",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Tvorba balíčků nálepek",
+        "message": "Vytváření balíčků nálepek",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Klepnutím nebo přetažením sem přidáte obrázky",
+        "message": "Kliknutím nebo přetažením sem přidáte obrázky",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Sem vložte obrázky",
+        "message": "Sem přetáhněte obrázky",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
@@ -3352,7 +3352,7 @@
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
-        "message": "Storno",
+        "message": "Zrušit",
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
@@ -3384,7 +3384,7 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Přidejte vlastní nálepky",
+        "message": "Přidejte své nálepky",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
@@ -3392,11 +3392,11 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Stisknout nebo chytit a přetáhnout soubor pro přidání nálepky",
+        "message": "Kliknutím nebo přetažením souboru přidáte nálepku.",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Nálepky musí být ve formátu PNG, APNG nebo WebP, s transparentním pozadím a o velikosti 512x512 pixelů. Doporučený okraj je 16px.",
+        "message": "Nálepky musí být ve formátu PNG, APNG nebo WebP s transparentním pozadím a rozlišením 512x512 pixelů. Doporučený okraj je 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -3414,15 +3414,15 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Přidejte emoji ke každé nálepce",
+        "message": "Přidat emoji ke každé nálepce",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Toto nám umožní vám navrhovat nálepky, zatímco píšete.",
+        "message": "Takto vám můžeme navrhovat nálepky v průběhu odesílání zpráv.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Ještě pár detailů…",
+        "message": "Ještě pár drobností…",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3454,7 +3454,7 @@
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Vytvořte si vlastní balíček nálepek.",
+        "message": "Vytvořte si svůj  balíček nálepek.",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
@@ -3480,7 +3480,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Ostatní najdou jakýkoliv vytvořený balíček nálepek, který chcete sdílet veřejně, použitím hashtag $hashtag$.",
+        "message": "Použijte hashtag $hashtag$, abyste ostatním lidem pomohli najít adresy URL všech vlastních balíčků nálepek, které chcete zpřístupnit.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3498,11 +3498,11 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Vytvořte další balíček nálepek.",
+        "message": "Vytvořit další balíček nálepek.",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Mrkněte na tenhle balíček nálepek, který jsem vytvořil(a) pro Signal. #makeprivacystick",
+        "message": "Mrkněte na tenhle balíček nálepek, který jsem vytvořil/a pro Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -3520,15 +3520,15 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Vložený obrázek je moc velký",
+        "message": "Vložený obrázek je příliš velký",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Chyba zpracování obrázku",
+        "message": "Chyba při zpracování obrázku",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animované PNG nálepky musí být čtvercové.",
+        "message": "Animované PNG nálepky musí být čtvercové",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
@@ -3536,11 +3536,11 @@
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Rozměry animované nálepky jsou příliš velké.",
+        "message": "Animovaná nálepka má příliš velké rozměry",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Rozměry animované nálepky jsou příliš malé.",
+        "message": "Animovaná nálepka má příliš malé rozměry",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -3558,15 +3558,15 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Moje nálepka na světlém tématu.",
+        "message": "Moje nálepka ve světlém motivu",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Moje nálepka na tmavém tématu.",
+        "message": "Moje nálepka v tmavém motivu",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Pokude chcete využít Tvůrce balíčku nálepek, nastavte nejdřív svůj telefon a desktop jako propojená zařízení.",
+        "message": "Pokud chcete používat Tvůrce balíčku nálepek, nastavte si Signal v telefonu a na ploše",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -3574,11 +3574,11 @@
         "description": ""
     },
     "Reactions--error": {
-        "message": "Nepodařilo se zaslat reakci. Prosím, zkuste to znovu.",
+        "message": "Nepodařilo se zaslat reakci. Zkuste to prosím znovu.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
-        "message": "Víc",
+        "message": "Více",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -3586,7 +3586,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Chcete povolit, aby vám $name$ mohli posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je nepřijmete.",
+        "message": "Chcete povolit, aby vám $name$ mohl/a posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je nepřijmete.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3596,7 +3596,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Chcete povolit, aby vám $name$ mohli posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je neodblokujete.",
+        "message": "Chcete povolit, aby vám $name$ mohl/a posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je neodblokujete.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3606,11 +3606,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Připojit se k této skupině a sdílet vaše jméno a fotografii s jejími členy? Nebudou vědět, že jste viděl jejich zprávy, dokud je nepřijmete.",
+        "message": "Chcete se připojit k této skupině a sdílet své jméno a fotografii s ostatními členy? Nebudou vědět, že jste viděli jejich zprávy, dokud je nepřijmete.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Odblokovat tuto skupinu a sdílet vaše jméno a fotografii s jejími členy? Dokud je neodblokujete, tak žádné zprávy neobdržíte.",
+        "message": "Chcete odblokovat tuto skupinu a sdílet své jméno a fotografii s ostatními členy? Dokud je neodblokujete, žádné zprávy neobdržíte.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3632,7 +3632,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "Budete moci vzájemně si posílat zprávy a volat.",
+        "message": "Budete moci si vzájemně posílat zprávy a volat.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
@@ -3644,7 +3644,7 @@
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Nahlášeno jako spam a zablokováno",
+        "message": "Nahlášeno jako spam a zablokováno.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3718,7 +3718,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Pokračovat ve vaší konverzaci s touto skupinou a sdílet vaše jméno a fotografii s jejími členy? $learnMore$",
+        "message": "Chcete pokračovat v konverzaci s touto skupinou a sdílet své jméno a fotografii s ostatními členy? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3728,7 +3728,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Pokračovat ve vaší konverzaci s $firstName$ a sdílet s nimi vaše jméno a fotografii? $learnMore$",
+        "message": "Chcete pokračovat v konverzaci s $firstName$ a sdílet s nimi své jméno a fotografii? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3746,7 +3746,7 @@
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "Členové skupiny $count$",
+        "message": "$count$ členů",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -3808,7 +3808,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Člen skupiny $group1$, $group2$, $group3$ a jedné další",
+        "message": "Člen skupin $group1$, $group2$, $group3$ a jedné další",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3848,7 +3848,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ vás přidal(a) do skupiny.",
+        "message": "$name$ vás přidal/a do skupiny.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3862,11 +3862,11 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "Žádné společné skupiny. Požadavky pečlivě prověřte.",
+        "message": "Žádné společné skupiny. Pečlivě si prohlédněte žádosti.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
-        "message": "Odpovědět",
+        "message": "Přijmout",
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "Odesílám reakci...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Sdílet a zobrazit příběhy",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Po vypnutí této možnosti již nebudete moci sdílet ani zobrazovat příběhy.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Zastavit",

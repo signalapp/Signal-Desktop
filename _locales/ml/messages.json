@@ -7189,6 +7189,14 @@
         "message": "പ്രതികരണം അയയ്ക്കുന്നു...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "ഈ ഓപ്ഷൻ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾക്ക് സ്റ്റോറീസ് പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "താൽക്കാലികമായി നിർത്തുക",
         "description": "Aria label for pausing a story"

@@ -168,7 +168,7 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Kopiraj slika",
+        "message": "Kopiraj sliku",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
@@ -184,7 +184,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
-        "message": "Ažurirajte Signal",
+        "message": "Ažuriraj Signal",
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
@@ -206,11 +206,11 @@
         }
     },
     "archivedConversations": {
-        "message": "Arhivirane Konverzacije",
+        "message": "Arhivirani razgovori",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Istaknuto",
+        "message": "Prikvačeno",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -250,7 +250,7 @@
         "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
-        "message": "Odaberi direktorij",
+        "message": "Odaberi mapu",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
@@ -270,7 +270,7 @@
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Nešto je pošlo po zlu!",
+        "message": "Nešto nije u redu!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
@@ -286,7 +286,7 @@
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Odaberi direktorij i pokušaj ponovo",
+        "message": "Odaberi mapu i pokušaj ponovno",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
@@ -306,7 +306,7 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Nadogradnja baze. Ovo može potrajati neko vrijeme...",
+        "message": "Nadogradnja baze podataka. Ovo može potrajati...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
@@ -332,7 +332,7 @@
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
-        "message": "Spusti na dno konverzacije",
+        "message": "Idi na dno razgovora",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
@@ -344,7 +344,7 @@
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$nepročitanih poruka",
+        "message": "Broj nepročitanih poruka: $count$",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -398,7 +398,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Vaši sigurnosni brojevi kod ovih članova grupe su se promijenili od vaše zadnje provjere. Kliknite na jednog člana grupe kako biste vidjeli vaš sigurnosni broj kod njih.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "Slanje reakcije...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Dijelite i gledajte priče",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Nećete moći dijeliti i vidjeti priče nakon što isključite ovu opciju.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Pauziranje",

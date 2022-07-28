@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Txat-aren kolorea",
+        "message": "Txataren kolorea",
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
@@ -420,7 +420,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
-        "message": "Bidali zain dauden mezuak",
+        "message": "Bidaltzeko zain dauden mezuak",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "identityKeyErrorOnSend": {
@@ -464,27 +464,27 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Bidali sakatzen duzunean, zure erregistroa sarean argitaratuko da 30 egunez argitaratu gabeko URL esklusibo batean. Lehenik lokalean gorde dezakezu.",
+        "message": "\"Bidali\" sakatzen duzunean, erregistroa sarera kargatuko da 30 egunez, argitaratu gabeko URL esklusibo batean. Lehenik, gailuan gorde dezakezu.",
         "description": "Description of what will happen with your debug log"
     },
     "debugLogError": {
-        "message": "Arazoren bat izan da kargatzean! Mesedez, bidali mezu elektroniko bat support@signal.org helbidera eta erantsi zure erregistroa testu-fitxategi gisa.",
+        "message": "Arazoren bat izan da kargatzean! Bidali mezu elektroniko bat support@signal.org helbidera eta erantsi erregistroa testu-fitxategi gisa.",
         "description": "Error message a recommendations if debug log upload fails"
     },
     "debugLogSuccess": {
-        "message": "Arazteen erregistroa bidali da",
+        "message": "Bidali da arazketa-erregistroa",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Arazketa-erregistroa kargatu da. Laguntza-zerbitzuarekin harremanetan jartzen zarenean, kopiatu beheko URLa eta erantsi ikusi duzun arazoaren deskribapen batekin eta erreproduzitzeko urratsekin.",
+        "message": "Kargatu da arazketa-erregistroa. Laguntza-zerbitzuarekin harremanetan jartzen zarenean, kopiatu beheko URLa eta erants ezazu arazoaren deskribapen batekin eta hura erreproduzitzeko urratsekin.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... erregistro osoa ikusteko, sakatu Gorde",
+        "message": "… erregistro osoa ikusteko, sakatu Gorde",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
-        "message": "Lotura kopiatu",
+        "message": "Kopiatu esteka",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
@@ -496,7 +496,7 @@
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Harremanetan jarri laguntza taldearekin",
+        "message": "Harremanetan jarri laguntza-zerbitzuarekin",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -646,7 +646,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Mahaigaineko deszifratze-errore bat $name$tik gertatu da $deviceId$gailutik",
+        "message": "Ordenagailurako bertsioak desenkriptatze-errore bat gertatu da ($name$; gailua: $deviceId$)",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -688,15 +688,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Konektatzen...",
+        "message": "Konektatzen…",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Klikatu konektatzeko.",
+        "message": "Egin klik berriro konektatzeko.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Ez du denbora luzea hartuko...",
+        "message": "Ez du luze joko",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -716,7 +716,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Behartu eguneratzea",
+        "message": "Behartu eguneratzera",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -756,7 +756,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Pantaila konpartitzen",
+        "message": "Pantaila partekatzen",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -788,7 +788,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Bilatu txata",
+        "message": "Bilatu txatean",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -802,7 +802,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS kontaktuak ez daude erabilgarri mahaigainean.",
+        "message": "SMS/MMS kontaktuak ez daude erabilgarri ordenagailurako bertsioan.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -836,11 +836,11 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Bilatu erabiltzaile-izena erabiliz",
+        "message": "Bilatu erabiltzaile-izenaren arabera",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
-        "message": "Bilatu telefono zenbakia erabiliz",
+        "message": "Bilatu telefono-zenbakiaren arabera",
         "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
     },
     "at-username": {
@@ -858,7 +858,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "Ikusi $whatsNew$ eguneratze honetan",
+        "message": "Ikusi eguneratze honen $whatsNew$ ",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -868,7 +868,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "zer berri",
+        "message": "berritasunak",
         "description": "Clickable link that displays the latest release notes"
     },
     "typingAlt": {
@@ -962,7 +962,7 @@
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Ahots-mezua ezereztu",
+        "message": "Utzi ahots-mezua bertan behera",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -974,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Ahots mezuak ordubetera mugatuta daude. Grabaketa geldituko da beste aplikazio batera aldatzen bazara.",
+        "message": "Ahots-mezuak gehienez ordubetekoak izan daitezke. Beste aplikazio bat irekitzen baduzu, grabatzeari utziko zaio.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -982,11 +982,11 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "Errore bat gertatu da ahots-grabagailuarekin.",
+        "message": "Errore bat izan da ahots-grabagailuarekin.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Eranskina gordeta.",
+        "message": "Gorde da eranskina.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
@@ -1048,15 +1048,15 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
-        "message": "Isildu",
+        "message": "Mutututa",
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Isildu",
+        "message": "Mututu",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal ezin izan da eguneratu. $retry$edo bisitatu $url$eskuz instalatzeko. Orduan,$support$ arazo honi buruz",
+        "message": "Ezin izan da eguneratu Signal. $retry$ edo bisitatu $url$ eskuz instalatzeko. Ondoren, $support$ arazo honi buruz.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal ezin izan da eguneratu. Bisitatu$url$eskuz instalatzeko. Orduan,$support$ arazo honi buruz",
+        "message": "Ezin izan da eguneratu Signal. Bisitatu $url$ eskuz instalatzeko. Ondoren, $support$ arazo honi buruz.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -1198,7 +1198,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "$name$kin duzun enkriptatzearen segurtasuna egiaztatzeko, alderatu goiko zenbakiak bere gailuarekin.",
+        "message": "$name$(r)ekin duzun muturretik muturrerako enkriptatzearen segurtasuna egiaztatzeko, alderatu goiko zenbakiak haren gailuarekin.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1228,7 +1228,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Saiatu berriro ezabatzen guztiontzat",
+        "message": "Saiatu berriro denentzat ezabatzen",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -1256,27 +1256,27 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Txataren sesioa eguneratu egin da",
+        "message": "Txat-saioa freskatu egin da",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
-        "message": "Gehiago jakin",
+        "message": "Lortu informazio gehiago",
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signalek muturretik-muturrerako zifratzea erabiltzen dut eta noizbehinka txataren sesioa eguneratu beharko duzu. Honek ez du zure txataren segurtasunean eraginik baina agian kontaktu horren mezuren bat galdu egingo zenuen eta berriz bidaltzeko eskatu beharko zenioke zure kontaktuari.",
+        "message": "Signal-ek muturretik muturrerako enkriptatzea erabiltzen du, eta baliteke noizbehinka txat-saioa eguneratu behar izatea. Horrek ez du eraginik txataren segurtasunean, baina agian kontaktu horren mezuren bat galdu duzu, eta berriz bidaltzeko eskatu diezaiokezu.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
-        "message": "Harremanetan jarri laguntza taldearekin",
+        "message": "Jarri harremanetan laguntza-zerbitzuarekin",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Bidalketa arazoa",
+        "message": "Arazo bat izan da bidalketarekin",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "$sender$ren mezu bat ezin izan da entregatu",
+        "message": "Ezin izan da entregatu $sender$(r)en mezu bat",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1286,15 +1286,15 @@
         }
     },
     "DeliveryIssue--learnMore": {
-        "message": "Gehiago jakin",
+        "message": "Lortu informazio gehiago",
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Bidalketa arazoa",
+        "message": "Arazo bat izan da bidalketarekin",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "Ezin izan zaizu entregatu $sender$ren mezu, sticker, erreakzio, irakurragiri edo multimedia-fitxategi bat. Agian zuzenean bidali nahi izan dizu, edo talde batean.",
+        "message": "Ezin izan zaizu entregatu $sender$(r)en mezu, sticker, erreakzio, irakurragiri edo multimedia-fitxategi bat. Agian zuzenean bidali nahi izan dizu, edo talde batean.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1304,7 +1304,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "Ezin izan dizugu$sender$ren mezu, eranskailu, erreakzio, irakurketa-agiria edo multimedia-eduki bat bidali txat honetan.",
+        "message": "Ezin izan dizugu entregatu $sender$(r)en mezu, sticker, erreakzio, irakurragiri edo multimedia-fitxategi bat txat honetan.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1314,7 +1314,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$k bere telefono zenbakia aldatu dute",
+        "message": "$sender$(e)k bere telefono-zenbakia aldatu du",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1348,7 +1348,7 @@
         "description": "Used on save buttons"
     },
     "reset": {
-        "message": "Berrabiarazi",
+        "message": "Berrezarri",
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
@@ -1380,7 +1380,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Sakatu $settings$, gero sakatu $linkedDevices$",
+        "message": "Sakatu $settings$ eta, jarraian, sakatu $linkedDevices$",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1398,7 +1398,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Sakatu $plusButton$(Android) edo $linkNewDevice$(iPhone)",
+        "message": "Sakatu $plusButton$ (Android-en) edo $linkNewDevice$ (iPhone-etan)",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1412,7 +1412,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "Ezin izan da QR kodea kargatu. Egiaztatu Internet eta saiatu berriro.$learnMore$",
+        "message": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1422,7 +1422,7 @@
         }
     },
     "Install__qr-failed__learn-more": {
-        "message": "Gehiago jakin",
+        "message": "Lortu informazio gehiago",
         "description": "Shown on the install screen if the QR code fails to load"
     },
     "Install__support-link": {
@@ -1430,7 +1430,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "Izen hau telefonoan \"Lotutako gailuak\" atalean ikusiko duzu",
+        "message": "Izen hau telefonoko \"Lotutako gailuak\" atalean ikusiko duzu",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1454,7 +1454,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Oharra: zure txat-historia ez da gailu honekin sinkronizatuko",
+        "message": "Oharra: txat-historia ez da sinkronizatuko gailu honekin",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1474,7 +1474,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "Ustekabeko errore bat gertatu da. Saiatu berriro mesedez.",
+        "message": "Ustekabeko errore bat gertatu da. Saiatu berriro.",
         "description": ""
     },
     "installTryAgain": {
@@ -1490,7 +1490,7 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__call-back": {
-        "message": "Bueltan deitu",
+        "message": "Itzuli deia",
         "description": "Button to call someone back"
     },
     "calling__call-again": {
@@ -1510,7 +1510,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Mikrofonoa isilduta dago deiaren tamaina dela eta",
+        "message": "Deiaren tamaina dela eta, mikrofonoa mutututa dago",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -1534,7 +1534,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Isildu",
+        "message": "Mututu",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -1554,7 +1554,7 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Aurkezpena desgaituta",
+        "message": "Aurkezteko aukera desgaituta dago",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
@@ -1566,7 +1566,7 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Telefonatu",
+        "message": "Deitu",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
@@ -1578,7 +1578,7 @@
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Gaitu soinua",
+        "message": "Gaitu deitzeko aukera",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1586,7 +1586,7 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__pre-call-info--empty-group": {
-        "message": "Beste inor ez dago hemen",
+        "message": "Ez dago beste inor",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__pre-call-info--1-person-in-call": {
@@ -1600,7 +1600,7 @@
         }
     },
     "calling__pre-call-info--another-device-in-call": {
-        "message": "Zure beste gailu bat dei honetan dago",
+        "message": "Zure beste gailuetako bat dei honetan dago",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
@@ -1654,7 +1654,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal-ek joko du$person$",
+        "message": "Signal-ek $person$(r)i deituko dio",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1664,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal-ek joko du$first$ eta $second$",
+        "message": "Signal-ek $first$ eta $second$(r)i deituko die",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1678,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal-ek joko du$first$, $second$, eta $third$ ",
+        "message": "Signal-ek $first$, $second$ eta $third$(r)i deituko die",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1696,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal-ek joko du$first$, $second$, eta $others$gehiago",
+        "message": "Signal-ek $first$, $second$ eta beste $others$(r)i deituko die",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1714,7 +1714,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$pertsonei jakinaraziko zaie",
+        "message": "$person$(e)k jakinarazpen bat jasoko du",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1724,7 +1724,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ eta $second$ri jakinaraziko zaie",
+        "message": "$first$ eta $second$(e)k jakinarazpen bat jasoko dute",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1738,7 +1738,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, eta $third$ri jakinaraziko zaie",
+        "message": "$first$, $second$ eta $third$(e)k jakinarazpen bat jasoko dute",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1756,7 +1756,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, eta $others$ gehiagori jakinaraziko zaie ",
+        "message": "$first$, $second$ eta beste $others$(e)k jakinarazpen bat jasoko dute ",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1818,7 +1818,7 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Egin klik hemen deira itzultzeko aurkezpena uzteko prest zaudenean.",
+        "message": "Aurkezteari uzteko prest zaudenean, egin klik hemen deira itzultzeko.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1850,7 +1850,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$k aurkezteari utzi dio",
+        "message": "$name$(e)k aurkezteari utzi dio",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1864,23 +1864,23 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal-ek baimena behar du zure ordenagailuko pantaila-grabaketara sartzeko.",
+        "message": "Ordenagailuaren pantaila grabatzeko aukera erabiltzeko baimena behar du Signal-ek.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Joan sistemaren hobespenak atalera.",
+        "message": "Joan sistemaren hobespenetara.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Egin klik beheko ezkerreko blokeoaren ikonoan eta idatzi ordenagailuaren pasahitza.",
+        "message": "Egin klik beheko ezkerreko blokeo-ikonoan eta idatzi ordenagailuaren pasahitza.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "Eskuinean, markatu Signal-en ondoko laukia. Zerrendan Signal ikusten ez baduzu, egin klik + botoian gehitzeko.",
+        "message": "Eskuinean, markatu Signal-en ondoko laukia. Zerrendan Signal ikusten ez baduzu, egin klik + botoian hura gehitzeko.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Ireki sistema hobespenak",
+        "message": "Ireki sistemaren hobespenak",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1912,7 +1912,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Mezuaren konposizio-koadroan idatzitako testua konprobatu",
+        "message": "Egiaztatu mezuak idazteko eremuko testuaren ortografia",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1928,15 +1928,15 @@
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Hasi minimizatuta erretiluan",
+        "message": "Hasi erretiluan minimizatuta",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Ireki ordenagailuan saioa hasteko",
+        "message": "Ireki ordenagailuan saioa hastean",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Garbitu aplikazioaren datuak",
+        "message": "Garbitu aplikazio-datuak",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -2054,7 +2054,7 @@
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
-        "message": "Bidalketa eten da",
+        "message": "Bidalketa eten egin da",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -2062,7 +2062,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Partzialki ezabatu da, egin klik berriro saiatzeko",
+        "message": "Partzialki ezabatu da. Egin klik berriro saiatzeko.",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2082,7 +2082,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Klikatu signal.org/download-era joateko",
+        "message": "Egin klik signal.org/download helbidera joateko",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2222,7 +2222,7 @@
         }
     },
     "disappearingMessages__off": {
-        "message": "desgaitu",
+        "message": "desaktibatu",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
@@ -2262,7 +2262,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Erreproduzitu jakinarazpen soinuak",
+        "message": "Erreproduzitu jakinarazpen-soinuak",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2310,7 +2310,7 @@
         }
     },
     "SafetyNumberModal__title": {
-        "message": "Segurtasun zenbakia egiaztatu",
+        "message": "Egiaztatu segurtasun-zenbakia",
         "description": "Title for the modal for safety number verification"
     },
     "safetyNumberChanged": {
@@ -2382,15 +2382,15 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
-        "message": "Solasaldi berria",
+        "message": "Elkarrizketa berria",
         "description": "Label for header when starting a new conversation"
     },
     "stories": {
-        "message": "Storie-ak",
+        "message": "Istorioak",
         "description": "Label for header to go to stories view"
     },
     "contactSearchPlaceholder": {
-        "message": "Bilatu Izenaren edo telefono zenbakiaren bidez",
+        "message": "Bilatu izenaren edo telefono-zenbakiaren arabera",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
@@ -2402,15 +2402,15 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Ezin izan da erabiltzaile-izena eskuratu. Egiaztatu konexioa eta saiatu berriro.",
+        "message": "Ezin izan da eskuratu erabiltzaile-izena. Egiaztatu konektatuta zaudela eta saiatu berriro.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Ezin izan da telefono-zenbakia eskuratu. Egiaztatu konexioa eta saiatu berriro.",
+        "message": "Ezin izan da eskuratu telefono-zenbakia. Egiaztatu konektatuta zaudela eta saiatu berriro.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "Ez da erabiltzailea aurkitu.$atUsername$ ez da Signal erabiltzailea; ziurtatu erabiltzaile-izen osoa sartu duzula.",
+        "message": "Ez da aurkitu erabiltzailea. $atUsername$ ez da Signal-eko erabiltzailea; ziurtatu erabiltzaile-izen osoa idatzi duzula.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2420,7 +2420,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "Ez da erabiltzailea aurkitu. \"$phoneNumber$\" ez da Signal erabiltzailea.",
+        "message": "Ez da aurkitu erabiltzailea. \"$phoneNumber$\" ez da Signal-eko erabiltzailea.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2430,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "Ez da erabiltzailea aurkitu. \"$phoneNumber$\" ez da baliozko telefono zenbakia.",
+        "message": "Ez da aurkitu erabiltzailea. \"$phoneNumber$\" ez da baliozko telefono-zenbaki bat.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2440,7 +2440,7 @@
         }
     },
     "chooseGroupMembers__title": {
-        "message": "Aukeratu partaideak",
+        "message": "Aukeratu kideak",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -2456,11 +2456,11 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Taldearen gehienezko tamainara iritsi da",
+        "message": "Taldearen gehieneko tamainara iritsi zara",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
-        "message": "Signal taldeek gehienez $max$ kide izan ditzakete.",
+        "message": "Signal-eko taldeek gehienez $max$ kide izan ditzakete.",
         "description": "Shown in the alert when you add the maximum number of group members",
         "placeholders": {
             "max": {
@@ -2470,11 +2470,11 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Gomendatutako kide kopuru mugara iritsi da",
+        "message": "Kide kopuruaren gomendatutako mugara iritsi zara",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal taldeek hobeto egiten dute$max$ kiderekin edo gutxiagorekin. Kide gehiago gehitzeak atzerapenak eragingo ditu mezuak bidaltzeko eta jasotzeko.",
+        "message": "Signal-eko taldeak hobeto dabiltza $max$ kiderekin edo gutxiagorekin. Kide gehiago gehituz gero, denbora gehiago beharko da mezuak bidali eta jasotzeko.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2484,7 +2484,7 @@
         }
     },
     "setGroupMetadata__title": {
-        "message": "Eman izena talde honi",
+        "message": "Jarri izena talde honi",
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
@@ -2508,15 +2508,15 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Ezin izan da sortu talde hau. Egiaztatu konexioa eta saiatu berriro.",
+        "message": "Ezin izan da sortu talde hau. Egiaztatu konektatuta zaudela eta saiatu berriro.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Taldea editatu",
+        "message": "Editatu taldea",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Ezin izan da taldea eguneratu. Egiaztatu konexioa eta saiatu berriro",
+        "message": "Ezin izan da eguneratu taldea. Egiaztatu konektatuta zaudela eta saiatu berriro",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2532,7 +2532,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Egin klik Signal Desktop zure gailu mugikorrera berriro lotzeko, mezuak bidaltzen jarraitzeko.",
+        "message": "Mezuak bidaltzen jarraitzeko, egin klik ordenagailurako Signal gailu mugikorrarekin berriro lotzeko.",
         "description": ""
     },
     "unlinked": {
@@ -2544,7 +2544,7 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Eguneratzea eskuragarri",
+        "message": "Eguneratze bat dago",
         "description": ""
     },
     "autoUpdateRetry": {
@@ -2552,7 +2552,7 @@
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "jarri harremanetan laguntzarekin",
+        "message": "jarri harremanetan laguntza-zerbitzuarekin",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -2560,11 +2560,11 @@
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Egin klik eguneraketa deskargatzeko",
+        "message": "Egin klik eguneratzea deskargatzeko",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal ezin izan da eguneratu. Egin klik berriro saiatzeko.",
+        "message": "Ezin izan da eguneratu Signal. Egin klik berriro saiatzeko.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2580,7 +2580,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Eguneratzea alde batera utzi",
+        "message": "Egin ez ikusi eguneratzeari",
         "description": ""
     },
     "leftTheGroup": {
@@ -2656,7 +2656,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "$title$rekin elkarrizketa, $unreadCount$mezu berri, azken mezua: $lastMessage$.",
+        "message": "$title$ erabiltzailearekin duzun elkarrizketa, $unreadCount$ mezu berri, azken mezua: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2674,11 +2674,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "Baliteke azken mezua ezabatu izana.",
+        "message": "Baliteke azken mezua ezabatu izatea.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Joan elkarrizketara$title$rekin",
+        "message": "Joan $title$ erabiltzailearekin duzun elkarrizketara",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2758,7 +2758,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "Ikusi mezu hau mugikorrean irekitzeko",
+        "message": "Mezu hau irekitzeko, ikus ezazu mugikorrean",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
@@ -2770,11 +2770,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Begiratu telefonoa oparia irekitzeko",
+        "message": "Oparia irekitzeko, eman begiratu bat telefonoari",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Begiratu telefonoa zure oparia ikusteko",
+        "message": "Oparia ikusteko, eman begiratu bat telefonoari",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2782,7 +2782,7 @@
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "Opari berreizgarri bat kitatu duzu",
+        "message": "Opari-bereizgarri bat erabili duzu",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2790,7 +2790,7 @@
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
-        "message": "Opari bereizgarria",
+        "message": "Opari-bereizgarria",
         "description": "Shown to label the gift badge you've redeemed on another device"
     },
     "quote--giftBadge": {
@@ -2798,7 +2798,7 @@
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$egun falta dira",
+        "message": "$days$ egun falta dira",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -2808,7 +2808,7 @@
         }
     },
     "message--giftBadge--remaining--hours": {
-        "message": "$hours$ordu falta dira",
+        "message": "$hours$ ordu falta dira",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
         "placeholders": {
             "hours": {
@@ -2818,7 +2818,7 @@
         }
     },
     "message--giftBadge--remaining--minutes": {
-        "message": "$minutes$minutu falta dira",
+        "message": "$minutes$ minutu falta dira",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
         "placeholders": {
             "minutes": {
@@ -2828,7 +2828,7 @@
         }
     },
     "message--giftBadge--remaining--one-minute": {
-        "message": "Minutu 1 falta da",
+        "message": "Minutu bat falta da",
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
@@ -2840,15 +2840,15 @@
         "description": "Shown when you've sent a gift badge to someone then opened it"
     },
     "message--giftBadge--redeemed": {
-        "message": "Ordaindua",
+        "message": "Erabilita",
         "description": "Shown when you've redeemed the gift badge on another device"
     },
     "modal--giftBadge--title": {
-        "message": "Eskerrik asko zure laguntzagatik!",
+        "message": "Eskerrik asko laguntzeagatik!",
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "$name$i bereizgarri bat oparitu diozu. Onartzen dutenean, bereizgarria erakusteko edo ezkutatzeko aukera izango dute.",
+        "message": "$name$(r)i bereizgarri bat oparitu diozu. Onartzen duenean, bereizgarria erakusteko edo ezkutatzeko aukera izango du.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3120,7 +3120,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--new-conversation": {
-        "message": "Hasi elkarrizketa berria",
+        "message": "Hasi elkarrizketa berri bat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -3280,11 +3280,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Onartu deia bideoarekin",
+        "message": "Onartu bideodeia",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Onartu deia audioarekin",
+        "message": "Onartu audio-deia",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -3292,11 +3292,11 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-video-call": {
-        "message": "Hasi bideo-deia",
+        "message": "Hasi bideodeia",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "Utzi deia",
+        "message": "Baztertu deia",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3388,11 +3388,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Ezabatu eranskailua",
+        "message": "Ezabatu stickerra",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Egin klik edo arrastatu/jaregin fitxategi bat eranskailu bat gehitzeko",
+        "message": "Eranskailu bat gehitzeko, egin klik edo arrastatu/jaregin fitxategi bat",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3622,7 +3622,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-title": {
-        "message": "$name$ desblokeatu?",
+        "message": "$name$ desblokeatu nahi duzu?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -3640,11 +3640,11 @@
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Salatu spam-a eta blokeatu",
+        "message": "Salatu spama dela eta blokeatu",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Spam bezala salatua eta blokeatua.",
+        "message": "Spam gisa salatu, eta blokeatu egin da.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3808,7 +3808,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "$group1$,$group2$, $group3$eta beste kide bat",
+        "message": "$group1$, $group2$, $group3$ eta beste talde bateko kidea",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3826,7 +3826,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "$group1$, $group2$, $group3$ eta $remainingCount$ talde gehiagotako kidea",
+        "message": "$group1$, $group2$, $group3$ eta beste $remainingCount$ taldetako kidea",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -3858,11 +3858,11 @@
         }
     },
     "no-groups-in-common": {
-        "message": "Ez dago zuen artean komuna den talderik",
+        "message": "Ez duzue talde komunik",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "Talde komunik ez. Errebisatu eskaerak arretaz.",
+        "message": "Ez duzue talde komunik. Berrikusi eskaerak arretaz.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3936,7 +3936,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$eta $otherMember$deika ari zaizue ",
+        "message": "$ringer$ zuri eta $otherMember$(r)i deika ari da",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3950,7 +3950,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ zuri$first$ri eta $second$ri deika ari da",
+        "message": "$ringer$ zuri, $first$(r)i eta $second$(r)i deika ari da",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3968,7 +3968,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$zu, $first$, $second$ eta beste bati deika ari da ",
+        "message": "$ringer$ zuri, $first$(r)i, $second$(r)i eta beste bati deika ari da",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3986,7 +3986,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$zu, $first$, $second$, $remaining$ eta beste bati deika ari da ",
+        "message": "$ringer$ zuri, $first$(r)i, $second$(r)i eta beste $remaining$(r)i deika ari da ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4118,7 +4118,7 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Pantaila partekatu",
+        "message": "Partekatu pantaila",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
@@ -4130,7 +4130,7 @@
         "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
     },
     "calling__SelectPresentingSourcesModal--screen": {
-        "message": "$id$pantaila",
+        "message": "$id$ pantaila",
         "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
         "placeholders": {
             "id": {
@@ -4168,7 +4168,7 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
-        "message": "Ez mututua",
+        "message": "Ez dago mutututa",
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
@@ -4196,7 +4196,7 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Mututu beti",
+        "message": "Beti mutututa",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
@@ -4274,11 +4274,11 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-forbidden--title": {
-        "message": "Ezin da taldera sartu",
+        "message": "Ezin zara sartu taldean",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Ezin zara talde honetan sartu taldearen estekaren bidez, administratzaile batek kendu zaituelako.",
+        "message": "Ezin zara sartu talde honetan taldearen estekaren bidez, administratzaile batek kendu egin zaituelako.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -4342,7 +4342,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Ezin izan da taldean sartu. Saiatu geroago.",
+        "message": "Ezin izan zara sartu taldean. Saiatu berriro geroago.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4350,7 +4350,7 @@
         "description": "Label for a group administrator"
     },
     "GroupV2--only-admins": {
-        "message": "Administratzaileak Bakarrik",
+        "message": "Administratzaileak bakarrik",
         "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
@@ -5316,7 +5316,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$(e)k taldearen estekaren bidez sartzeko eskaera bertan behera utzi du.",
+        "message": "$joinerName$(e)k, taldearen estekaren bidez sartzeko eskaera egin, eta bertan behera utzi du",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5326,7 +5326,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$k talde estekaren bidez sartzeko $numberOfRequests$eskaerak eskatu eta bertan behera utzi ditu",
+        "message": "$joinerName$(e)k, taldearen estekaren bidez sartzeko $numberOfRequests$ eskaera egin, eta bertan behera utzi ditu",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5412,11 +5412,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "Taldearen deskribapena ezabatu duzu.",
+        "message": "Taldearen deskribapena kendu duzu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$ erabiltzaileak taldearen deskribapena ezabatu du.",
+        "message": "$memberName$(e)k taldearen deskribapena kendu du.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5426,7 +5426,7 @@
         }
     },
     "GroupV2--description--remove--unknown": {
-        "message": "Taldearen deskribapena kendu da.",
+        "message": "Taldearen deskribapena kendu egin da.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
@@ -5434,7 +5434,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$ erabiltzaileak taldearen deskribapena aldatu du.",
+        "message": "$memberName$(e)k  taldearen deskribapena aldatu du.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5444,15 +5444,15 @@
         }
     },
     "GroupV2--description--change--unknown": {
-        "message": "Taldearen deskribapena aldatu da.",
+        "message": "Taldearen deskribapena aldatu egin da.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Taldearen ezarpenak aldatu dituzu administratazileek soilik mezuak bidali ahal izateko.",
+        "message": "Taldearen ezarpenak aldatu dituzu, administratzaileek soilik bidali ahal izan ditzaten mezuak.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$(e)k taldearen ezarpenak aldatu ditu administratzaileek mezuak bidaltzeko soilik baimentzeko.",
+        "message": "$memberName$(e)k taldearen ezarpenak aldatu ditu, administratzaileek soilik bidali ahal izan ditzaten mezuak.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5462,15 +5462,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Taldea aldatu da administratzaileek mezuak bidaltzeko soilik baimentzeko.",
+        "message": "Taldea aldatu egin da, administratzaileek soilik bidali ahal izan ditzaten mezuak.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Taldearen ezarpenak aldatu dituzu kide guztiek mezuak bidali ahal izateko.",
+        "message": "Taldearen ezarpenak aldatu dituzu, kide guztiek bidali ahal izan ditzaten mezuak.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$(e)k taldearen ezarpenak aldatu ditu kide guztiek mezuak bidaltzea ahalbidetzeko.",
+        "message": "$memberName$(e)k taldearen ezarpenak aldatu ditu, kide guztiek bidali ahal izan ditzaten mezuak.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5480,7 +5480,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "Taldea aldatu egin da kide guztiei mezuak bidaltzea ahalbidetzeko.",
+        "message": "Taldea aldatu egin da, kide guztiek bidali ahal izan ditzaten mezuak.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5610,19 +5610,19 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Signal-i dohaintza eman",
+        "message": "Egin dohaintza Signal-i",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Signal-i dohaintza eman",
+        "message": "Egin dohaintza Signal-i",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal zure moduko jendeari esker da posible. Lagundu eta jaso bereizgarri bat.",
+        "message": "Signal zure moduko jendeari esker da posible. Egin ekarpenak eta jaso bereizgarri bat.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Ireki Signal zure telefonoan",
+        "message": "Ireki Signal telefonoan",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5646,7 +5646,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop-ek ez du onartzen Signal-eko kontaktuak ez direnei mezuak bidaltzea. Eskatu pertsona honi Signal instalatzea mezularitza-esperientzia seguruagoa izateko.",
+        "message": "Signal-en ordenagailurako bertsioak ez du onartzen Signal-eko kontaktuak ez direnei mezuak bidaltzea. Eskatu pertsona honi Signal instalatzeko, mezularitza-esperientzia seguruagoa izan dezazuen.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -5654,7 +5654,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Sartu ezkutatutako elkarrizketak bereizgarrien kopuruan",
+        "message": "Sartu mutututako elkarrizketak bereizgarri kopuruan",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5680,7 +5680,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "$contact$taldeko administratzaile gisa kendu nahi duzu?",
+        "message": "$contact$(r)i taldeko administratzaile-maila kendu nahi diozu?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5694,7 +5694,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Txat-aren kolorea",
+        "message": "Txataren kolorea",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
@@ -5706,7 +5706,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Txat hau aktibatu nahi duzu?",
+        "message": "Txat hau berriro aktibatu nahi duzu?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5718,11 +5718,11 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
-        "message": "Aktibatuta dagoenean, solasaldi honetan bidalitako eta jasotako mezuak ikusi ostean desagertu egingo dira.",
+        "message": "Gaitzen baduzu, talde honetan bidalitako eta jasotako mezuak desagertu egingo dira ikusi ondoren.",
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "Gaituta dagoenean, 1:1eko txat honetan bidalitako eta jasotako mezuak desagertu egingo dira ikusi ondoren.",
+        "message": "Gaitzen baduzu, buruz buruko txat honetan bidalitako eta jasotako mezuak desagertu egingo dira ikusi ondoren.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5746,11 +5746,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Nork bidali ditzake kideak",
+        "message": "Nork bidal ditzake mezuak?",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Aukeratu nork bidali ditzakeen mezuak taldera.",
+        "message": "Aukeratu nork bidal ditzakeen mezuak taldera.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5770,7 +5770,7 @@
         "description": "This is a button to unblock a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Taldea utzi baino lehenago, gutxienez administratzaile berri bat aukeratu behar duzu talde honetarako.",
+        "message": "Irten baino lehen, gutxienez administratzaile berri bat aukeratu behar duzu talde honetarako.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5862,7 +5862,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Jaso jakinarazpenak isilduta dauden txatetan aipatzen zaituztenean",
+        "message": "Jaso jakinarazpenak mutututako txatetan aipatzen zaituztenean",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5870,7 +5870,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Ez jakinarazi muteatuta badago",
+        "message": "Ez jakinarazi mutututa badago",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "\"$name$\"(r)en eskaera ukatu nahi duzu? Ezingo dute egin taldearen estekaren bidez sartzeko beste eskaerarik. ",
+        "message": "\"$name$\"(r)en eskaera ukatu nahi duzu? Ezingo du egin taldearen estekaren bidez sartzeko beste eskaerarik. ",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5998,7 +5998,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Ezeztatu \"$name$\" erabiltzaileak bidalitako $number$ gonbidapen?",
+        "message": "\"$name$\"(e)k bidalitako $number$ gonbidapenak ukatu nahi dituzu?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6038,15 +6038,15 @@
         "description": "Information shown below the invite list"
     },
     "PendingRequests--block--button": {
-        "message": "Blokeo-eskaera",
+        "message": "Blokeatu eskaera",
         "description": "Shown in timeline if users cancel their request to join a group via a group link"
     },
     "PendingRequests--block--title": {
-        "message": "Blokeo-eskaera?",
+        "message": "Eskaera blokeatu nahi duzu?",
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ ezingo da talde honetan sartu talderako estekaren bidez, eta ezingo du bertan sartzeko eskatu. Hala ere, eskuz gehi daiteke taldean.",
+        "message": "Taldearen estekaren bidez, $name$ ezingo da talde honetan sartu, ez eta bertan sartzeko eskatu ere. Hala ere, eskuz gehi daiteke taldean.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6060,7 +6060,7 @@
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
-        "message": "Taldeko argazkia gehitu",
+        "message": "Gehitu taldearen argazkia",
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
@@ -6072,15 +6072,15 @@
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "Eguneratu argazkia",
+        "message": "Kargatu argazki bat",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
-        "message": "Argazkia ezabatu",
+        "message": "Kendu argazkia",
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
-        "message": "Ezabatu kontaktua",
+        "message": "Kendu kontaktua",
         "description": "The label for the 'remove' button on the contact pill"
     },
     "ComposeErrorDialog--close": {
@@ -6088,7 +6088,7 @@
         "description": "The text on the button when there's an error in the composer"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--one": {
-        "message": "gonbidapena bidali da",
+        "message": "Bidali da gonbidapena",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--many": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "Erreakzioa bidaltzen…",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Partekatu eta ikusi istorioak",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Aukera hau desaktibatzen baduzu, ezingo dituzu partekatu edo ikusi istorioak.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Pausatu",

@@ -7182,12 +7182,20 @@
         }
     },
     "Stories__toast--sending-reply": {
-        "message": "Sending reply...",
+        "message": "Sender svar...",
         "description": "Toast message"
     },
     "Stories__toast--sending-reaction": {
-        "message": "Sending reaction...",
+        "message": "Sender reaktion...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Del og se Historier",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Du vil ikke længere kunne dele eller se historier, når denne indstilling er slået fra.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Pause",
@@ -7340,7 +7348,7 @@
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
-        "message": "Context menu",
+        "message": "Genvejsmenu",
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {

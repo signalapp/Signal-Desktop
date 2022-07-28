@@ -7189,6 +7189,14 @@
         "message": "正在发送反应……",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "分享和浏览动态",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "关闭此选项后您将无法分享或浏览动态。",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "暂停",
         "description": "Aria label for pausing a story"

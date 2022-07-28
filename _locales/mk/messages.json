@@ -7189,6 +7189,14 @@
         "message": "Испраќање на реакција…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Споделувајте и гледајте приказни",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Кога оваа опција е исклучена, нема да можете да споделувате и гледате приказни.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Паузирај",
         "description": "Aria label for pausing a story"

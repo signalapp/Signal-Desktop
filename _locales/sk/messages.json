@@ -7189,6 +7189,14 @@
         "message": "Odosiela sa reakcia…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Zdieľať a zobraziť príbehy",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Keď je táto možnosť vypnutá, už nebudete môcť zdieľať ani zobrazovať príbehy.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pozastaviť",
         "description": "Aria label for pausing a story"

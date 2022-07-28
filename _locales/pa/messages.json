@@ -7189,6 +7189,14 @@
         "message": "ਪ੍ਰਤੀਕਿਰਿਆ ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰੋ ਅਤੇ ਦੇਖੋ",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "ਇਸ ਵਿਕਲਪ ਦੇ ਬੰਦ ਹੋਣ 'ਤੇ ਤੁਸੀਂ ਨਾ ਹੀ ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰ ਸਕੋਗੇ ਅਤੇ ਨਾ ਹੀ ਦੇਖ ਸਕੋਗੇ।",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "ਰੋਕੋ",
         "description": "Aria label for pausing a story"
