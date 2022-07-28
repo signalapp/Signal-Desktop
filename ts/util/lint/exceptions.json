@@ -1288,6 +1288,13 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "reasonCategory": "exampleCode",
+    "updated": "2022-07-26T23:41:36.800Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/agent-base/node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -2499,6 +2506,57 @@
     "line": "  return wrap(str, width, indent);",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/tools/domprops.js",
+    "line": "    \"innerHTML\",",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/tools/domprops.js",
+    "line": "    \"outerHTML\",",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-07-26T23:41:36.800Z",
+    "reasonDetail": "Part of keyword list for preservation in final minified build"
   },
   {
     "rule": "jQuery-load(",
@@ -8248,132 +8306,6 @@
     "updated": "2022-03-22T19:29:46.099Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "    \"innerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "    \"outerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "                const after_ret = tw.after(transformed, in_list);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "        if (tw.before) transformed = tw.before(this, descend, in_list);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "    before(node, descend) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "        function before(node, descend, in_list) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "line": "            function before(node) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/compress/index.js",
-    "line": "    before(node, descend) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/compress/index.js",
-    "line": "        function before(node, descend, in_list) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/compress/index.js",
-    "line": "            function before(node) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/transform.js",
-    "line": "                const after_ret = tw.after(transformed, in_list);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/transform.js",
-    "line": "        if (tw.before) transformed = tw.before(this, descend, in_list);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/dist/source-map.js",
-    "line": "  prepend(aChunk) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/dist/source-map.js",
-    "line": "        this.prepend(aChunk[i]);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/lib/source-node.js",
-    "line": "  prepend(aChunk) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/lib/source-node.js",
-    "line": "        this.prepend(aChunk[i]);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/tools/domprops.js",
-    "line": "    \"innerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/terser-webpack-plugin/node_modules/terser/tools/domprops.js",
-    "line": "    \"outerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-14T16:24:36.869Z"
-  },
-  {
     "rule": "jQuery-after(",
     "path": "node_modules/test-exclude/node_modules/braces/index.js",
     "line": "      arr.push(es6 ? tokens.after(val) : val);",
@@ -8640,14 +8572,6 @@
     "rule": "eval",
     "path": "node_modules/vm2/lib/vm.js",
     "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-02-16T15:30:35.122Z",
-    "reasonDetail": "This is a comment."
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/vm2/node_modules/acorn/dist/acorn.js",
-    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
     "reasonCategory": "falseMatch",
     "updated": "2022-02-16T15:30:35.122Z",
     "reasonDetail": "This is a comment."
