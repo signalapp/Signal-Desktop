@@ -7189,6 +7189,14 @@
         "message": "リアクションを送信しています...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "ストーリーズの共有と閲覧",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "このオプションをオフにすると、ストーリーズの共有や閲覧ができなくなります。",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "一時停止",
         "description": "Aria label for pausing a story"

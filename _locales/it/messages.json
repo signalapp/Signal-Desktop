@@ -7189,6 +7189,14 @@
         "message": "Invio reazione...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Condivisione e visualizzazione delle Storie",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Non potrai più condividere o visualizzare le Storie quando questa opzione è disattivata.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pausa",
         "description": "Aria label for pausing a story"

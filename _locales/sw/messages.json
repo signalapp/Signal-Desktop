@@ -7189,6 +7189,14 @@
         "message": "Tuma reaction ...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Shiriki & Tazama Stori",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Hutoweza tena kushirikisha wengine au kutazama stori wakati ambapo chaguo hili limezimwa.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Sitisha",
         "description": "Aria label for pausing a story"

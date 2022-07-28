@@ -7189,6 +7189,14 @@
         "message": "Reaksiya göndərilir...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Hekayələri paylaş və nəzərdən keçir",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Bu seçim bağlı olduqda hekayələrə baxa və ya onları paylaşa bilməyəcəksiniz.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Fasilə ver",
         "description": "Aria label for pausing a story"

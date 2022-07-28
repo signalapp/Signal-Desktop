@@ -7189,6 +7189,14 @@
         "message": "Reactie versturen...",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Verhalen delen en bekijken",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Zolang deze optie is uitgeschakeld kun je geen verhalen bekijken en delen.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pauzeren",
         "description": "Aria label for pausing a story"

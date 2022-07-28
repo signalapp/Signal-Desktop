@@ -28,7 +28,7 @@
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
-        "message": "&Фајл",
+        "message": "&Fajl",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
@@ -164,7 +164,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Копирај везу",
+        "message": "Kopiraj link",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -254,7 +254,7 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Изаберите фајл",
+        "message": "Izaberite fajl",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
@@ -484,7 +484,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
-        "message": "Копирај везу",
+        "message": "Kopiraj link",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
@@ -492,7 +492,7 @@
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Линк копиран",
+        "message": "Link je kopiran",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -600,7 +600,7 @@
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Неименована датотека",
+        "message": "Fajl bez naziva",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
@@ -616,7 +616,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Нацрт прегледа линка за $domain$",
+        "message": "Nacrt sličice prikaza linka za $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -626,7 +626,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Сличица прегледа линка за $domain$",
+        "message": "Sličica prikaza linka za $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "domain": {
@@ -676,7 +676,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Жао нам је, ваша датотека превазилази ограничење величине.",
+        "message": "Izabrani fajl prevazilazi ograničenja u pogledu veličine poruke.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -1352,7 +1352,7 @@
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
-        "message": "Икона датотеке",
+        "message": "Ikona fajla",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -2716,7 +2716,7 @@
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
-        "message": "Датотека",
+        "message": "Fajl",
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
@@ -3196,11 +3196,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Закачи фајл",
+        "message": "Zakačite fajl",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Уклоните преглед нацрта везе",
+        "message": "Ukloni nacrt prikaza linka",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -3392,7 +3392,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Кликните или превуците/испустите датотеку да бисте додали налепницу",
+        "message": "Kliknite ili prevucite/otpustite fajl da dodate nalepnicu",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3554,7 +3554,7 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Веза копирана",
+        "message": "Link je kopiran",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
@@ -4238,11 +4238,11 @@
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "Неисправна веза",
+        "message": "Neispravan link",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Ово није важећа веза до групе. Уверите се да је цела веза нетакнута и исправна пре него што покушате да се придружите.",
+        "message": "Ovaj link za grupu nije ispravan. Proverite da li je ceo link kompletan i ispravan pre nego što pokušate da se pridružite.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -4258,11 +4258,11 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Непозната верзија везе",
+        "message": "Nepoznata verzija linka",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "Ова верзија Signal Desktop-а не подржава ову везу.",
+        "message": "Ova verzija Signal Desktop-a ne podržava ovaj link.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
@@ -4270,7 +4270,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "Веза до групе није више активна.",
+        "message": "Link za grupu više nije ispravan.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-forbidden--title": {
@@ -4278,7 +4278,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Не можете да се придружите овој групи преко везе групе јер вас је администратор уклонио.",
+        "message": "Ne možete da se pridružite ovoj grupi preko linka za grupu jer vas je administrator uklonio.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -4338,7 +4338,7 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Грешка везе",
+        "message": "Greška sa linkom",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
@@ -4540,11 +4540,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Искључили сте одобрење администратора за везу до групе.",
+        "message": "Isključili ste obavezno odobrenje administratora za link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ је искључио/ла одобрење администратора за везу до групе.",
+        "message": "$adminName$ je isključio/la obavezno odobrenje administratora za link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4554,15 +4554,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Одобрење администратора за везу до групе је онемогућено.",
+        "message": "Isključeno je obavezno odobrenje administratora za link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Омогућили сте одобрење администратора за везу до групе.",
+        "message": "Uključili ste obavezno odobrenje administratora za link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ омогућио/ла одобрење администратора за везу до групе.",
+        "message": "$adminName$ je uključio/la obavezno odobrenje administratora za link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4572,7 +4572,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Одобрење администратора за везу до групе је омогућено.",
+        "message": "Uključeno je obavezno odobrenje administratora za link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4710,11 +4710,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "Придружили сте се групи преко везе до групе.",
+        "message": "Pridružili ste se grupi preko linka za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ се придружио/ла групи преко везе до групе.",
+        "message": "$memberName$ se pridružio/la grupi preko linka za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5264,7 +5264,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ је затражио/ла да се придружи преко везе до групе.",
+        "message": "$joinerName$ je zatražio/la da se pridruži grupi preko linka za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5316,7 +5316,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ затражио и отказао захтев за придруживање групи преко везе",
+        "message": "$joinerName$ je zatražio/la da se pridruži grupi preko linka za grupu i zatim otkazao/la zahtev da se pridruži.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5326,7 +5326,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ затражио и отказао $numberOfRequests$ захтева за придруживање групи преко везе",
+        "message": "$joinerName$ je zatražio/la da se pridruži grupi preko linka za grupu i zatim otkazao/la zahteve ($numberOfRequests$) da se pridruži.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5340,11 +5340,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Укључили сте везу до групе без одобрењем администратора.",
+        "message": "Uključili ste link za grupu bez obaveznog odobrenja administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ је укључио/ла везу до групе без одобрења администратора.",
+        "message": "$adminName$ je uključio/la link za grupu bez obaveznog odobrenja administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5354,15 +5354,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Веза до групе је укључена без одобрењем админитратора.",
+        "message": "Uključen je link za grupu bez obaveznog odobrenja administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Укључили сте везу до групе са одобрењем администратора.",
+        "message": "Uključili ste link za grupu sa obaveznim odobrenjem administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ је укључио/ла везу до групе са одобрења администратора.",
+        "message": "$adminName$ je uključio/la link za grupu sa obaveznim odobrenjem administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5372,15 +5372,15 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Веза до групе је укључена са одобрењем админитратора.",
+        "message": "Uključen je link za grupu sa obaveznim odobrenjem administratora.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Искључили сте везу до групе.",
+        "message": "Isključili ste link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ искључио/ла везу до групе.",
+        "message": "$adminName$ je isključio/la link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5390,15 +5390,15 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "Веза до групе је искључена.",
+        "message": "Link za grupu je isključen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Ресетовали сте везу до групе.",
+        "message": "Resetovali ste link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ ресетовао/ла везу до групе.",
+        "message": "$adminName$ je resetovao/la link za grupu.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5408,7 +5408,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "Веза до групе је ресетована.",
+        "message": "Link za grupu je resetovan.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -5638,7 +5638,7 @@
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Закачи фајл",
+        "message": "Zakači fajl",
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
@@ -5710,7 +5710,7 @@
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
-        "message": "Веза до групе",
+        "message": "Link za grupu",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -5874,19 +5874,19 @@
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Веза до групе копирана",
+        "message": "Link za grupu je kopiran.",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Копирај везу",
+        "message": "Kopiraj link",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Да ли сте сигурни да желите да укинете везу према групи? Особе више неће моћи да се придруже групи помоћу тренутне везе.",
+        "message": "Da li ste sigurni da želite da resetujete link za grupu? Ljudi više neće moći da se pridruže grupi preko trenutnog linka.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Ресетуј линк",
+        "message": "Resetuj link",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -5894,7 +5894,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Захтевајте од администратора да одобри придруживање нових чланова путем везе до групе",
+        "message": "Obavezno je da administrator odobri nove članove koji se pridružuju preko linka za grupu.",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5938,7 +5938,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Одбиј захтев од \"$name$\"? Неће моћи поново да затраже да се придруже преко линка групе.",
+        "message": "Želite li da odbijete zahtev koji šalje $name$? Neće više moći da pošalje zahtev da se pridruži preko linka za grupu.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -6024,7 +6024,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "Људи са ове листе покушавају да се придруже „$name$“ преко везе до групе.",
+        "message": "Osobe sa ove liste pokušavaju da se pridruže grupi „$name$“ preko linka za grupu.",
         "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -6046,7 +6046,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ неће моћи да се придружи или захтева да се придружи овој групи преко линка групе. И даље може се ручно додати у групу.",
+        "message": "$name$ neće moći da se pridruži grupi ili zatraži da se pridruži grupi preko linka za grupu. I dalje će moći ručno da se doda u grupu.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6264,7 +6264,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Пажљиво прегледајте захтеве. Signal је пронашао други контакт са истим називом. $link$",
+        "message": "Pažljivo razmatrajte zahteve. Signal je pronašao još jedan kontakt sa istim imenom. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -6274,7 +6274,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ чланови/а групе имају исто име. $link$",
+        "message": "Njih $count$ u grupi ima isto ime. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -6352,7 +6352,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Уклони \"$name$\" из групе? Неће моћи поново да се придруже преко везе групе.",
+        "message": "Želite li da uklonite korisnika ($name$) iz grupe? Neće moći ponovo da se pridruži grupi preko linka.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6840,7 +6840,7 @@
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
-        "message": "Креирати приказ линка",
+        "message": "Generisanje prikaza linka",
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
@@ -6964,11 +6964,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Декомпримовање датотека није успело. Покушајте поново да покренете инсталатер.",
+        "message": "Dekomprimovanje fajlova nije uspelo. Probajte ponovo da pokrenete instalacioni program.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Деинсталирање старих датотека апликације није успело. Покушајте поново да покренете инсталатер.",
+        "message": "Deinstaliranje starih fajlova aplikacije nije uspelo. Probajte ponovo da pokrenete instalacioni program.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7189,6 +7189,14 @@
         "message": "Slanje reakcije…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "Podelite i vidite priče",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Више нећете моћи да делите или гледате Приче када је ова опција искључена.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Паузирај",
         "description": "Aria label for pausing a story"
@@ -7314,7 +7322,7 @@
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "Посетите везу",
+        "message": "Posetite link",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {

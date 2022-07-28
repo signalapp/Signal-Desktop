@@ -48,7 +48,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&xuda",
+        "message": "&Axuda",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -64,7 +64,7 @@
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Ocultar outros",
+        "message": "Agochar outros",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -104,7 +104,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Escoller todo",
+        "message": "Seleccionar todo",
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -148,7 +148,7 @@
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Mudar ferramentas de desenvolvemento",
+        "message": "Cambiar ferramentas de desenvolvemento",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
@@ -246,7 +246,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Só se poden marcar 4 conversas",
+        "message": "Só se poden fixar 4 conversas",
         "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
@@ -286,7 +286,7 @@
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Escolla o cartafol e inténtao de novo",
+        "message": "Escolle o cartafol e inténtao de novo",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
@@ -298,11 +298,11 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Vincule este dispositivo co seu teléfono",
+        "message": "Vincula este dispositivo co teu teléfono",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "a súa información de localización",
+        "message": "a túa información de localización",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
@@ -354,11 +354,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Pola túa seguridade, o historial das conversas non se transfire aos novos dispositivos ligados.",
+        "message": "Pola túa seguridade, o historial das conversas non se transfire aos novos dispositivos vinculados.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Marcaches o teu Número de Seguranza con $name$ como verificado",
+        "message": "Marcaches o teu número de seguranza con $name$ como verificado",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Marcaches como sen verificar o teu número de seguranza con $name$",
+        "message": "Marcaches o teu número de seguranza con $name$ como non verificado",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -388,7 +388,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Marcaches como sen verificar o teu número de seguranza con $name$ desde outro dispositivo",
+        "message": "Marcaches o teu número de seguranza con $name$ como non verificado desde outro dispositivo",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -416,7 +416,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "As seguintes persoas pode que reinstalasen ou cambiasen de dispositivo. Comproba o número de seguranza con elas para garantir a privacidade.",
+        "message": "As seguintes persoas pode que volvesen instalar ou cambiasen de dispositivo. Comproba o número de seguranza con elas para garantir a privacidade.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages": {
@@ -492,15 +492,15 @@
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Copiouse a ligazón no portaretallos",
+        "message": "Copiouse a ligazón no portapapeis",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Contactar coa Axuda",
+        "message": "Contactar con Axuda",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Entendo",
+        "message": "Entendido!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -592,7 +592,7 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipo de anexo que non se acepta. Prema para gardar.",
+        "message": "O tipo de anexo non se acepta. Prema para gardar.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -608,7 +608,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Este tipo de anexos non se permite por motivos de seguridade.",
+        "message": "Este tipo de anexos non se permite por motivos de seguridade",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -664,7 +664,7 @@
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
-        "message": "Ao incluír un adxunto sen imaxe, o límite é dun anexo por mensaxe.",
+        "message": "Ao incluír un anexo sen imaxe, o límite é dun anexo por mensaxe.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
@@ -680,7 +680,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Non foi posíbel abrir o anexo escollido.",
+        "message": "Non se puido abrir o anexo escollido.",
         "description": ""
     },
     "disconnected": {
@@ -748,11 +748,11 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Creador de paquetes de iconas",
+        "message": "Creador de paquetes de stickers",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Sobre de Signal Desktop",
+        "message": "Sobre Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
@@ -792,7 +792,7 @@
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
-        "message": "Sen resultados para \"$searchTerm$\"",
+        "message": "Sen resultados para «$searchTerm$»",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -806,7 +806,7 @@
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
-        "message": "Sen resultados para \"$searchTerm$\" en $conversationName$",
+        "message": "Sen resultados para «$searchTerm$» en $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -876,7 +876,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "Esta persoa está nos seus contactos.",
+        "message": "Esta persoa está nos teus contactos.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -906,7 +906,7 @@
         "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
-        "message": "Correo electrónico",
+        "message": "correo electrónico",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
@@ -938,7 +938,7 @@
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Responder a mensaxe",
+        "message": "Responder á mensaxe",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -946,7 +946,7 @@
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "A mensaxe orixinal xa non está máis dispoñible",
+        "message": "A mensaxe orixinal xa non está dispoñible",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
@@ -1028,7 +1028,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Son",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -1048,7 +1048,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
-        "message": "Acalado",
+        "message": "Silenciado",
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
@@ -1154,7 +1154,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Esta mensaxe será eliminada para todos na conversa se están nunha versión recente de Signal. Poderán ver que eliminaches a mensaxe.",
+        "message": "Esta mensaxe eliminarase para todos na conversa se están nunha versión recente de Signal. Poderán ver que eliminaches a mensaxe.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1216,7 +1216,7 @@
         "description": "Generic label for back"
     },
     "goBack": {
-        "message": "Ir atrás",
+        "message": "Volver",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1248,7 +1248,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Quere borrar de xeito permanente a conversa seleccionada?",
+        "message": "Queres borrar de xeito permanente a conversa seleccionada?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -1268,7 +1268,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
-        "message": "Contactar coa Axuda",
+        "message": "Contactar con Axuda",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
@@ -1446,7 +1446,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Acabouse de ligar este teléfono",
+        "message": "Acabouse de vincular este teléfono",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1586,7 +1586,7 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__pre-call-info--empty-group": {
-        "message": "Ninguén máis aquí",
+        "message": "Non hai ninguén máis",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__pre-call-info--1-person-in-call": {
@@ -1774,7 +1774,7 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "Ninguén máis aquí",
+        "message": "Non hai ninguén máis",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
@@ -1802,7 +1802,7 @@
         }
     },
     "calling__block-info": {
-        "message": "Non recibirás o seu audio ou vídeo nin eles o teu.",
+        "message": "Non recibirás as súas mensaxes de son ou vídeos nin eles os teus.",
         "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
@@ -1948,7 +1948,7 @@
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Quere eliminar todos os datos?",
+        "message": "Queres eliminar todos os datos?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
@@ -1984,7 +1984,7 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Nome, contido e accions",
+        "message": "Nome, contido e accións",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
@@ -2046,7 +2046,7 @@
         }
     },
     "sendFailed": {
-        "message": "Fallou o envío",
+        "message": "Erro no envío",
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
@@ -2058,7 +2058,7 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Enviado parcialmente, toca para detalles",
+        "message": "Enviado parcialmente, preme para máis detalles",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
@@ -2114,7 +2114,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Erro ao importar. Asegúrate de que o teu ordenador e o teu teléfono está conectados a internet.",
+        "message": "Erro ao importar. Asegúrate de que o teu ordenador e o teu teléfono están conectados a Internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -2226,11 +2226,11 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
-        "message": "Desaparición das mensaxes",
+        "message": "Mensaxes temporais",
         "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
-        "message": "Desaparición das mensaxes desactivada",
+        "message": "Mensaxes temporais desactivadas",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
@@ -2248,7 +2248,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Desactivaches a desaparición das mensaxes.",
+        "message": "Desactivaches as mensaxes temporais.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -2310,7 +2310,7 @@
         }
     },
     "SafetyNumberModal__title": {
-        "message": "Verifica a chave de identificación",
+        "message": "Verifica o número de seguranza",
         "description": "Title for the modal for safety number verification"
     },
     "safetyNumberChanged": {
@@ -2332,11 +2332,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verifica a chave de identificación",
+        "message": "Verifica o número de seguranza",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Este usuario non pode ser verificado ata que intercambies mensaxes con el/a.",
+        "message": "Este usuario non pode verificarse ata que intercambiedes mensaxes.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -2366,7 +2366,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Podes engadir notas para ti mesmo nesta conversa. Se a conta ten dispositivos ligados, as notas tamén se sincronizan.",
+        "message": "Podes engadir notas para ti mesmo nesta conversa. Se a conta ten dispositivos vinculados, as notas tamén se sincronizan.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -2862,11 +2862,11 @@
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Adhesivos instalados",
+        "message": "Stickers instalados",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Sen adhesivos instalados",
+        "message": "Sen stickers instalados",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
@@ -2878,11 +2878,11 @@
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Adhesivos que recibiches",
+        "message": "Stickers que recibiches",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Os adhesivos das mensaxes entrantes aparecerán aquí",
+        "message": "Os stickers das mensaxes entrantes aparecerán aquí",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2984,7 +2984,7 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "Emoji",
+        "message": "Emoticona",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
@@ -3256,11 +3256,11 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Desprazarse ata o fondo da lista",
+        "message": "Desprazarse ata o principio da lista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Desprazarse ata a cima da lista",
+        "message": "Desprazarse ata o final da lista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -3272,11 +3272,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Conmutar silenciar",
+        "message": "Activar ou desactivar silencio",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Conmutar vídeo",
+        "message": "Activar ou desactivar vídeo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
@@ -3288,7 +3288,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
-        "message": "Iniciar chamada de audio",
+        "message": "Iniciar chamada de son",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-video-call": {
@@ -3328,15 +3328,15 @@
         "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversa de volta á caixa de entrada",
+        "message": "Devolveuse a conversa á caixa de entrada",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversa marcada como sen ler",
+        "message": "Marcouse a conversa como sen ler",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Creador de paquetes de iconas",
+        "message": "Creador de paquetes de stickers",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
@@ -3426,7 +3426,7 @@
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "Tratamento",
+        "message": "Título",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
@@ -3446,7 +3446,7 @@
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Enviar",
+        "message": "Subir",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
@@ -3524,7 +3524,7 @@
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Erro procesando a imaxe",
+        "message": "Erro ao procesar a imaxe",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
@@ -3610,7 +3610,7 @@
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Desbloquear este grupo e compartir cos seus membros o teu nome e fotografía? Non recibirás ningunha mensaxe ata que desbloquees.",
+        "message": "Desbloquear este grupo e compartir cos seus membros o teu nome e fotografía? Non recibirás ningunha mensaxe ata que o desbloquees.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3636,7 +3636,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Os membros do grupo poderán engadirte de volta.",
+        "message": "Os membros do grupo poderán engadirte de novo.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
@@ -3644,7 +3644,7 @@
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Denunciado como spam e bloqueado.",
+        "message": "Denunciado como correo lixo e bloqueado.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3658,7 +3658,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "As persoas bloqueadas non poderán chamarte ou enviarche mensaxes.",
+        "message": "As persoas bloqueadas non poderán chamarte nin enviarche mensaxes.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -3706,7 +3706,7 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Abandonarás este grupo e será eliminado de todos os teus dispositivos.",
+        "message": "Abandonarás este grupo e eliminarase de todos os teus dispositivos.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3742,11 +3742,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Saber máis",
+        "message": "Saber máis.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$ persoas",
+        "message": "$count$ membro",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -3756,7 +3756,7 @@
         }
     },
     "ConversationHero--members-1": {
-        "message": "1 persoa",
+        "message": "1 membro",
         "description": "Specifies the number of members in a group conversation when there is one member",
         "placeholders": {
             "count": {
@@ -3848,7 +3848,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ foi engadido/a ao grupo.",
+        "message": "$name$ engadiuse ao grupo.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3878,39 +3878,39 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "Rexeitaches unha chamada de audio",
+        "message": "Rexeitaches unha chamada de son",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "Rexeitaches unha chamada de video",
+        "message": "Rexeitaches unha chamada de vídeo",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Chamada de audio entrante",
+        "message": "Chamada entrante de son",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Chamada de vídeo entrante",
+        "message": "Chamada entrante de vídeo",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Chamada de audio perdida",
+        "message": "Chamada perdida de son",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Chamada de vídeo perdida",
+        "message": "Chamada perdida de vídeo",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Chamada de audio saínte",
+        "message": "Chamada  saínte de son",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Chamada de vídeo saínte",
+        "message": "Chamada saínte de vídeo",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Chamada de audio non respondida",
+        "message": "Chamada de son non respondida",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
@@ -3918,7 +3918,7 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Chamada de audio entrante...",
+        "message": "Chamada de son entrante...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
@@ -4020,7 +4020,7 @@
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
-        "message": "Únete",
+        "message": "Unirse",
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
@@ -4156,7 +4156,7 @@
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "Non hai dispositivos dispoñíbeis",
+        "message": "Non hai dispositivos dispoñibles",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -4210,7 +4210,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "Emoji",
+        "message": "Emoticona",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -4218,7 +4218,7 @@
         "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Inténtao de novo ou contacte co soporte.",
+        "message": "Inténtao de novo ou contacta co soporte.",
         "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -4246,7 +4246,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Quere participar neste grupo e compartir o seu nome e foto cos seus membros?",
+        "message": "Queres participar neste grupo e compartir o teu nome e foto cos seus membros?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -4286,7 +4286,7 @@
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
-        "message": "Únete",
+        "message": "Unirse",
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
@@ -4294,7 +4294,7 @@
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Cancelar Solicitude",
+        "message": "Cancelar solicitude",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
@@ -4310,11 +4310,11 @@
         "description": "Choosing not to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--member-count--single": {
-        "message": "1 persoa",
+        "message": "1 membro",
         "description": "Shown in the metadata section if group has just one member"
     },
     "GroupV2--join--member-count--multiple": {
-        "message": "$count$ persoas",
+        "message": "$count$ membros",
         "description": "Shown in the metadata section if group has more than one member",
         "placeholders": {
             "count": {
@@ -4358,7 +4358,7 @@
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Estase a actualizar…",
+        "message": "Actualizando…",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -4734,7 +4734,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "A túa solicitude para te unires ao grupo foi aprobada.",
+        "message": "A túa solicitude para te unires ao grupo aprobouse.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -4970,7 +4970,7 @@
         }
     },
     "GroupV2--pending-add--one--you--unknown": {
-        "message": "Fuches convidado ao grupo.",
+        "message": "Convidáronte ao grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
@@ -5028,7 +5028,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "Rexeitaches o convite para o grupo.",
+        "message": "Rexeitaches a invitación ao grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -5278,7 +5278,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "A túa solicitude para te unires ao grupo foi denegada por un administrador.",
+        "message": "Un administrador denegou a túa solicitude para te unires ao grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -5390,7 +5390,7 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "A ligazón ao grupo foi desactivada.",
+        "message": "Desactivouse a ligazón ao grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
@@ -5408,7 +5408,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "A ligazón ao grupo foi restablecida.",
+        "message": "Restableceuse a ligazón ao grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -5494,7 +5494,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "Este grupo actualizouse a Novo grupo.",
+        "message": "Este grupo actualizouse a Novo Grupo.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -5506,7 +5506,7 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "Que son os Novos grupos?",
+        "message": "Que son os Novos Grupos?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
@@ -5514,7 +5514,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Os Novos Grupos teñen características como as @mencións e administradores do grupo, e no futuro terán aínda máis ferramentas.",
+        "message": "Os Novos grupos teñen características como as @mencións e administradores do grupo, e no futuro terán aínda máis ferramentas.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -5522,11 +5522,11 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Todo o historial e multimedia vaise gardar antes de actualizar.",
+        "message": "Todo o historial e multimedia gardarase antes de actualizar.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Tes que aceptar o convite para unirte outra vez a este grupo, e non recibirás mensaxes do grupo ate que aceptes.",
+        "message": "Tes que aceptar a invitación para unirte outra vez a este grupo, e non recibirás mensaxes do grupo ata que aceptes.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -5538,27 +5538,27 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Estos membros non poden unirse aos Grupos Novos, e van ser eliminados do grupo:",
+        "message": "Estes membros non poden unirse aos Novos Grupos, e eliminaranse do grupo:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Este membro non pode unirse aos Grupos Novos, e vai ser eliminado do grupo:",
+        "message": "Este membro non pode unirse aos Novos Grupos, e eliminarase do grupo:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Os seguintes membros non se uniron ao Novo grupo e elimináronse:",
+        "message": "Os seguintes membros non se uniron a Novos Grupos e elimináronse:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Este membro non se uniu ao Novo grupo e eliminouse:",
+        "message": "Este membro non se uniu a Novos Grupos e eliminouse:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Non te puideron engadir ó Novo Grupo e fuches convidado a unirte.",
+        "message": "Non te puideron engadir ao Novo Grupo e enviáronche unha invitación.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ non se puido engadir ao Novo grupo e envióuselle unha invitación. ",
+        "message": "$contact$ non se puido engadir ao Novo Grupo e envióuselle unha invitación. ",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5568,7 +5568,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ membros non se puideron engadir ao Novo grupo e envióuselles unha invitación. ",
+        "message": "$count$ membros non se puideron engadir ao Novo Grupo e envióuselles unha invitación. ",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5630,7 +5630,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Preme \"Doar a Signal\" e subscríbete",
+        "message": "Preme «Doar a Signal» e subscríbete",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5666,7 +5666,7 @@
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Facer admin",
+        "message": "Facer administrador",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -5714,7 +5714,7 @@
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
-        "message": "Desaparición das mensaxes",
+        "message": "Mensaxes temporais",
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info--group": {
@@ -5786,7 +5786,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Desbloquear o grupo \"$groupName$\"?",
+        "message": "Desbloquear o grupo «$groupName$»?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5882,7 +5882,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Tes a certeza de querer restablecer a ligazón ao grupo? As persoas non poderán unirse ao grupo a través da ligazón actual.",
+        "message": "Seguro que queres restablecer a ligazón ao grupo? A xente xa non se poderá unirse ao grupo a través da ligazón actual.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -6206,23 +6206,23 @@
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
-        "message": "Reproducir mensaxe de son adxunta",
+        "message": "Reproducir mensaxe de son anexa",
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
-        "message": "Pausar mensaxe de son adxunta",
+        "message": "Pausar mensaxe de son anexa",
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
-        "message": "Descargar mensaxe de son adxunta",
+        "message": "Descargar mensaxe de son anexa",
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
-        "message": "Descargando mensaxe de son adxunta...",
+        "message": "Descargando mensaxe de son anexa...",
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "Duración da mensaxe de son adxunta",
+        "message": "Duración da mensaxe de son anexa",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
@@ -6366,11 +6366,11 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Axuda a previr o spam en Signal, por favor completa a verificación.",
+        "message": "Axuda a previr o correo lixo en Signal, por favor completa a verificación.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "Tras verificar poderás seguir conversando. Tódalas mensaxes en pausa serán enviadas automáticamente.",
+        "message": "Despois de verificar, poderás seguir conversando. Todas as mensaxes en pausa enviaranse automaticamente.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -6540,11 +6540,11 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Establece o período após o cal desaparecerán as mensaxes en novos chats que ti inicies.",
+        "message": "Establece a duración das mensaxes temporais nas novas conversas que ti inicies.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Establecer caducidade para os novos chats",
+        "message": "Establecer duración das novas conversas",
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
@@ -6736,7 +6736,7 @@
         "description": "A default bio option"
     },
     "Bio--taking-break": {
-        "message": "Tomando un descanso",
+        "message": "Descansando",
         "description": "A default bio option"
     },
     "ProfileEditorModal--profile": {
@@ -6840,7 +6840,7 @@
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
-        "message": "Crear vista previa de ligazóns",
+        "message": "Crear visualización de ligazóns",
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
@@ -7008,7 +7008,7 @@
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
-        "message": "Adhesivos",
+        "message": "Stickers",
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "Enviando reacción...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Compartir e ver historias",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Non poderás compartir ou ver historias cando esta opción estea desactivada.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Pausar",

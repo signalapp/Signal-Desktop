@@ -2656,7 +2656,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Razgovor s $title$, $unreadCount$ nepročitane/ih poruke/a, zadnja poruka: $lastMessage$",
+        "message": "Razgovor s $title$, $unreadCount$ nepročitane poruke, zadnja poruka: $lastMessage$",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "Slanje reakcije…",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Dijelite i gledajte priče",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Ako je ova opcija isključena, nećete moći dijeliti niti pregledavati priče.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Zaustavi",

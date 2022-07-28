@@ -7189,6 +7189,14 @@
         "message": "எதிர்வினை அனுப்பப்படுகிறது…",
         "description": "Toast message"
     },
+    "Stories__settings-toggle--title": {
+        "message": "ஸ்டோரீஸ்-ஐப் பகிரவும் & பார்க்கவும்",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "இந்த விருப்பத்தேர்வு முடக்கப்பட்டிருக்கும் போது உங்களால் இனி ஸ்டோரீக்களைப் பகிரவோ பார்க்கவோ முடியாது.",
+        "description": "Select box description for the stories on/off toggle"
+    },
     "StoryViewer__pause": {
         "message": "Pause",
         "description": "Aria label for pausing a story"

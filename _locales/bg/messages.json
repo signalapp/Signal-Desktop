@@ -218,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Тези разговори са архивирани и ще се показват във Входящата кутия само ако бъдат получени нови съобщения.",
+        "message": "Тези разговори са архивирани и ще се показват във Входящата кутия, само ако бъдат получени нови съобщения.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "noArchivedConversations": {
@@ -306,7 +306,7 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Подновяване на базата данни. Това може да отнеме извесно време...",
+        "message": "Подновяване на базата данни. Това може да отнеме известно време...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
@@ -398,11 +398,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Номерата ви за безопасност с тези членове от групата са се променили след последното ви потвърждение. Натиснете върху член от групата за да прегледате номера ви за сигурност с тях.",
+        "message": "Номерата ви за безопасност с тези членове от групата са се променили след последното ви потвърждение. Натиснете върху член от групата, за да прегледате номера ви за сигурност с тях.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Номерът за безопасност, който се опитвате да потвърдите, се е променил. Моля, прегледайте вашия номер за безопасност с $name1$. Запомнете, това може да означава, че някой се опитва да прихване комуникация ви или $name2$ просто е преинсталирал Signal.",
+        "message": "Номерът за безопасност, който се опитвате да потвърдите, се е променил. Моля, прегледайте вашия номер за безопасност с $name1$. Запомнете, това може да означава, че някой се опитва да прихване комуникацията ви или $name2$ просто е преинсталирал Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -548,7 +548,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Номера ви за безопасност с този контакт е променен. Това може да значи че някой се опитва да прихване комуникацията ви, или контакта ви просто е преинсталирал приложението. Потвърдете номерата по-долу.",
+        "message": "Номерът ви за безопасност с този контакт е променен. Това може да значи че някой се опитва да прихване комуникацията ви, или контакта ви просто е преинсталирал приложението. Потвърдете номера по-долу.",
         "description": ""
     },
     "incomingError": {
@@ -588,11 +588,11 @@
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Този Месец",
+        "message": "Този месец",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Неподдържан прикачен тип. Натиснете за да го запишете.",
+        "message": "Неподдържан прикачен тип. Натиснете, за да го запишете.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -680,7 +680,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Не може да се зареди избрания обект за прикачване.",
+        "message": "Не може да се зареди избраният обект за прикачване.",
         "description": ""
     },
     "disconnected": {
@@ -792,7 +792,7 @@
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
-        "message": "Нама резултати да \"$searchTerm$\"",
+        "message": "Няма резултати за \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -950,7 +950,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Оригиналното съобщение е намерено, но не е заредено.\nСкролнете по-нагоре за да го заредите.",
+        "message": "Оригиналното съобщение е намерено, но не е заредено.\nСкролнете по-нагоре, за да го заредите.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
@@ -1260,7 +1260,7 @@
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
-        "message": "Научи Още",
+        "message": "Научи повече",
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
@@ -1286,7 +1286,7 @@
         }
     },
     "DeliveryIssue--learnMore": {
-        "message": "Научи Още",
+        "message": "Научи повече",
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
@@ -1364,11 +1364,11 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkedDevices": {
-        "message": "Свързани Устройства",
+        "message": "Свързани устройства",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkNewDevice": {
-        "message": "Свържи Ново Устройство",
+        "message": "Свържи ново устройство",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
@@ -1438,7 +1438,7 @@
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
-        "message": "Име на Устройството",
+        "message": "Име на устройството",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
@@ -1466,7 +1466,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Обновете Signal на това устройство, за да свържете с телефона си.",
+        "message": "Обновете Signal на това устройство, за да го свържете с телефона си.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1490,7 +1490,7 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__call-back": {
-        "message": "Обратно Повикване",
+        "message": "Обратно повикване",
         "description": "Button to call someone back"
     },
     "calling__call-again": {
@@ -1570,7 +1570,7 @@
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Групата е твърде голяма за да звъннем на присъстващите.",
+        "message": "Групата е твърде голяма, за да звъннете на присъстващите.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -1604,7 +1604,7 @@
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
-        "message": "$first$и $second$са в този разговор",
+        "message": "$first$и $second$ са в този разговор",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1892,7 +1892,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Прехвърляне на всички обаждания през Signal сървърва, за да се прикрие IP адресът Ви от контатктът Ви. Активирането ще намали качеството на връзката.",
+        "message": "Прехвърляне на всички обаждания през Signal сървърва, за да се прикрие IP адресът Ви от контакта Ви. Активирането ще намали качеството на връзката.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1976,7 +1976,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Когато пристигнат съобщения, покажи известия които разкриват:",
+        "message": "Когато пристигнат съобщения, покажи известия, които разкриват:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -2070,15 +2070,15 @@
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Скрии подробностите",
+        "message": "Скрий подробностите",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Научете по-вече за потвърждението на номерата за безопасност.",
+        "message": "Научете повече за потвърждението на номерата за безопасност.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Тази версия на Сигнал за компютър вече е остаряла. Моля, обновете до последната версия за да можете да изпращате съобщения.",
+        "message": "Тази версия на Сигнал за компютър вече е остаряла. Моля, обновете до последната версия, за да можете да изпращате съобщения.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -2098,23 +2098,23 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Импортиране на всички Сигнал групи и контакти от Вашето мобилно устройство.",
+        "message": "Вкарване на всички Сигнал групи и контакти от Вашето мобилно устройство.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Последно са импортирани на ",
+        "message": "Последно са вкарани на ",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Импортирай сега",
+        "message": "Вкарай сега",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Импортиране...",
+        "message": "Вкарване...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Импортирането беше неуспешно. Убедете се че компютърът и телефонът Ви са свързани към интернет.",
+        "message": "Вкарването беше неуспешно. Убедете се, че компютърът и телефонът Ви са свързани към интернет.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -2150,7 +2150,7 @@
         }
     },
     "justNow": {
-        "message": "Току що",
+        "message": "Току-що",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -2170,7 +2170,7 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Отблокирай този контакт за да изпратиш съобщение.",
+        "message": "Отблокирай този контакт, за да изпратиш съобщение.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
@@ -2336,7 +2336,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Потребителя не може да бъде потвърден докато не обмените съобщения с него.",
+        "message": "Потребителят не може да бъде потвърден, докато не обмените съобщения с него.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -2370,7 +2370,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Фокусирай този прозорец когато се появи уведомление",
+        "message": "Фокусирай този прозорец, когато се появи уведомление",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -2524,7 +2524,7 @@
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Въведете телефонен номер за да добавите контакт.",
+        "message": "Въведете телефонен номер, за да добавите контакт.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -2568,7 +2568,7 @@
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Натиснете Рестарт на Signal за да валидирате промените.",
+        "message": "Натиснете Рестарт на Signal, за да валидирате промените.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -3476,11 +3476,11 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Имате достъп до Вашите нови стикери от иконата за стикери или споделете с Вашите приятели чрез линка по-долу.",
+        "message": "Отворете Вашите нови стикери от иконата за стикери или споделете с Вашите приятели чрез линка по-долу.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Използвайте хаш-таг $hashtag$ за да помогнете на хората да намерят адресите на пакети със стикерия, които искате да споделите публично.",
+        "message": "Използвайте хаш-таг $hashtag$, за да помогнете на хората да намерят адресите на пакети със стикери, които искате да споделите публично.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3582,11 +3582,11 @@
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
-        "message": "Lir'ur",
+        "message": "Всичко",
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Искате ли да получавате съобщения от $name$ и да виждат името и снимката Ви? Те няма да знаят, че сте видели съобщението им докато не приемете.",
+        "message": "Искате ли да получавате съобщения от $name$ и да виждат името и снимката Ви? Те няма да знаят, че сте видели съобщението им, докато не приемете.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3826,7 +3826,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Член на $group1$, $group2$, $group3$ или още $remainingCount$ други",
+        "message": "Член на $group1$, $group2$, $group3$ и още $remainingCount$ други",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -4450,7 +4450,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ премайна аватара на групата.",
+        "message": "$memberName$ премахна аватара на групата.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4610,7 +4610,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ при поканата за група от $inviterName$.",
+        "message": "$inviteeName$ прие поканата за група от $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4624,7 +4624,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ при поканата за група.",
+        "message": "$inviteeName$ прие поканата за група.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4906,7 +4906,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "Някой администратор премахна администраторските права на $memberName$.",
+        "message": "Администратор премахна администраторските права на $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4926,7 +4926,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "Някой администратор премахна Вашите администраторски права.",
+        "message": "Администратор премахна Вашите администраторски права.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
@@ -5144,7 +5144,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Администратор оттеглих поканата на $memberName$ за групата до 1 човек .",
+        "message": "Администратор оттегли поканата на $memberName$ за групата до 1 човек .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5394,7 +5394,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Нулирахте връзката на групата.",
+        "message": "Променихте връзката на групата.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -5408,7 +5408,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "Груповата връзка е нулирана.",
+        "message": "Груповата връзка е променена.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -5484,7 +5484,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Обновете групата, за да активирате нови функции като споменавания и администратори. Членове, които не са споделили името или снимката си с групата ще бъдат поканене. $learnMore$",
+        "message": "Обновете групата, за да активирате нови функции като споменавания и администратори. Членове, които не са споделили името или снимката си с групата, ще бъдат поканени. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5498,7 +5498,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "Научи Още",
+        "message": "Научи повече",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -5534,7 +5534,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Този члено трябва да приеме поканата за влизане в групата и няма да получава съобщения от групата докато не се съгласи.",
+        "message": "Този член трябва да приеме поканата за влизане в групата и няма да получава съобщения от групата докато не се съгласи.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -5698,7 +5698,7 @@
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
-        "message": "Настройки на Група",
+        "message": "Настройки на група",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "showConversationDetails--direct": {
@@ -5882,11 +5882,11 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Наистина ли искате да нулирате груповата връзка? Хората вече няма да могат да се присъединят към групата чрез текущата връзка.",
+        "message": "Наистина ли искате да промените груповата връзка? Хората вече няма да могат да се присъединят към групата чрез текущата връзка.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Нулиране на връзката",
+        "message": "Промяна на връзката",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -6366,7 +6366,7 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "С цел да преотвратим спам в Сигнал, моля потвърдете.",
+        "message": "С цел да предотвратим спам в Сигнал, моля потвърдете.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -6716,7 +6716,7 @@
         }
     },
     "ProfileEditor--learnMore": {
-        "message": "Научи Още",
+        "message": "Научи повече",
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
@@ -7188,6 +7188,14 @@
     "Stories__toast--sending-reaction": {
         "message": "Изпращане на реакция...",
         "description": "Toast message"
+    },
+    "Stories__settings-toggle--title": {
+        "message": "Споделяне и преглед на истории",
+        "description": "Select box title for the stories on/off toggle"
+    },
+    "Stories__settings-toggle--description": {
+        "message": "Когато тази опция е изключена, няма да можете да споделяте или разглеждате Истории.",
+        "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
         "message": "Пауза",
