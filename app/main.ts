@@ -607,6 +607,10 @@ if (OS.isWindows()) {
   windowIcon = join(__dirname, '../build/icons/png/512x512.png');
 }
 
+// The titlebar is hidden on:
+//   - Windows < 10 (7, 8)
+//   - macOS (but no custom titlebar is displayed, see
+//     `--title-bar-drag-area-height` in `stylesheets/_titlebar.scss`
 const mainTitleBarStyle =
   (OS.isMacOS() || OS.hasCustomTitleBar()) &&
   !isTestEnvironment(getEnvironment())
@@ -642,7 +646,7 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
     color,
     symbolColor,
 
-    // Should match stylesheets/components/TitleBarContainer.scss
+    // Should match `--titlebar-height` in stylesheets/_titlebar.scss
     height: 28 - 1,
   };
 }
