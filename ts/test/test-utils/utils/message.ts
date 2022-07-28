@@ -43,7 +43,7 @@ export function generateOpenGroupVisibleMessage(): OpenGroupVisibleMessage {
 
 export function generateOpenGroupV2RoomInfos(): OpenGroupRequestCommonType {
   // tslint:disable-next-line: no-http-string
-  return { roomId: 'main', serverUrl: 'http://116.203.70.33' };
+  return { roomId: 'main', serverUrl: 'http://open.getsession.org' };
 }
 
 export function generateClosedGroupMessage(groupId?: string): ClosedGroupVisibleMessage {
