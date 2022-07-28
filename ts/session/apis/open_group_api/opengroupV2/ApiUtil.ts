@@ -111,8 +111,8 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
   // If the server is run by Session then include all configurations in case one of the alternate configurations is used
   if (isSessionRunOpenGroup(serverLowerCase)) {
     serverOptions.add(defaultServerHost);
-    serverOptions.add(`http://${defaultServerHost})`);
-    serverOptions.add(`https://${defaultServerHost})`);
+    serverOptions.add(`http://${defaultServerHost}`);
+    serverOptions.add(`https://${defaultServerHost}`);
     serverOptions.add(legacyDefaultServerIP);
     serverOptions.add(`http://${legacyDefaultServerIP}`);
     serverOptions.add(`https://${legacyDefaultServerIP}`);

@@ -6,6 +6,7 @@ import { app, clipboard, dialog, Notification } from 'electron';
 
 import {
   chunk,
+  compact,
   difference,
   forEach,
   fromPairs,
@@ -15,6 +16,7 @@ import {
   isString,
   last,
   map,
+  pick,
 } from 'lodash';
 import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
@@ -32,6 +34,7 @@ import {
 } from './database_utility';
 
 import { UpdateLastHashType } from '../types/sqlSharedTypes';
+import { OpenGroupV2Room } from '../data/opengroups';
 // tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
 const openDbOptions = {
   // tslint:disable-next-line: no-constant-condition
@@ -774,6 +777,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion24,
   updateToLokiSchemaVersion25,
   updateToLokiSchemaVersion26,
+  updateToLokiSchemaVersion27,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1607,6 +1611,262 @@ function updateToLokiSchemaVersion26(currentVersion: number, db: BetterSqlite3.D
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
+function getRoomIdFromConversationAttributes(attributes?: ConversationAttributes | null) {
+  if (!attributes) {
+    return null;
+  }
+  const indexSemiColon = attributes.id.indexOf(':');
+  const indexAt = attributes.id.indexOf('@');
+  if (indexSemiColon < 0 || indexAt < 0 || indexSemiColon >= indexAt) {
+    return null;
+  }
+  const roomId = attributes.id.substring(indexSemiColon, indexAt);
+  if (roomId.length <= 0) {
+    return null;
+  }
+  return roomId;
+}
+
+function updateToLokiSchemaVersion27(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 27;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+  const domainNameToUse = 'open.getsession.org';
+  const urlToUse = `https://${domainNameToUse}`;
+
+  const ipToRemove = '116.203.70.33';
+
+  // defining this function here as this is very specific to this migration and used in a few places
+  function getNewConvoId(oldConvoId?: string) {
+    if (!oldConvoId) {
+      return null;
+    }
+    return (
+      oldConvoId
+        ?.replace(`https://${ipToRemove}`, urlToUse)
+        // tslint:disable-next-line: no-http-string
+        ?.replace(`http://${ipToRemove}`, urlToUse)
+        ?.replace(ipToRemove, urlToUse)
+    );
+  }
+
+  // tslint:disable-next-line: max-func-body-length
+  db.transaction(() => {
+    // We want to replace all the occurrences of the sogs server ip url (116.203.70.33 || http://116.203.70.33 || https://116.203.70.33) by its hostname: https://open.getsession.org
+    // This includes change the conversationTable, the openGroupRooms tables and every single message associated with them.
+    // Because the conversationId is used to link messages to conversation includes the ip/url in it...
+
+    /**
+     * First, remove duplicates for the v2 opengroup table, and replace the one without duplicates with their dns name syntax
+     */
+
+    // rooms to rename are: crypto, lokinet, oxen, session, session-updates
+    const allSessionV2RoomsIp = getAllV2OpenGroupRooms(db).filter(m =>
+      m.serverUrl.includes(ipToRemove)
+    );
+    const allSessionV2RoomsDns = getAllV2OpenGroupRooms(db).filter(m =>
+      m.serverUrl.includes(domainNameToUse)
+    );
+
+    const duplicatesRoomsIpAndDns = allSessionV2RoomsIp.filter(ip =>
+      allSessionV2RoomsDns.some(dns => dns.roomId === ip.roomId)
+    );
+
+    const withIpButNotDuplicateRoom = allSessionV2RoomsIp.filter(ip => {
+      return !duplicatesRoomsIpAndDns.some(dns => dns.roomId === ip.roomId);
+    });
+    console.info(
+      'allSessionV2RoomsIp',
+      allSessionV2RoomsIp.map(m => pick(m, ['serverUrl', 'roomId']))
+    );
+    console.info(
+      'allSessionV2RoomsDns',
+      allSessionV2RoomsDns.map(m => pick(m, ['serverUrl', 'roomId']))
+    );
+    console.info(
+      'duplicatesRoomsIpAndDns',
+      duplicatesRoomsIpAndDns.map(m => pick(m, ['serverUrl', 'roomId']))
+    );
+    console.info(
+      'withIpButNotDuplicateRoom',
+      withIpButNotDuplicateRoom.map(m => pick(m, ['serverUrl', 'roomId']))
+    );
+
+    console.info(
+      '========> before room update:',
+      getAllV2OpenGroupRooms(db)
+        .filter(m => m.serverUrl.includes(domainNameToUse) || m.serverUrl.includes(ipToRemove))
+        .map(m => pick(m, ['conversationId', 'serverUrl', 'roomId']))
+    );
+
+    // for those with duplicates, delete the one with the IP as we want to rely on the one with the DNS only now
+    // remove the ip ones completely which are in double.
+    // Note: this does also remove the ones not in double, but we are recreating them just below with `saveV2OpenGroupRoom`
+    db.exec(`DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE serverUrl LIKE '%${ipToRemove}%';`);
+
+    // for those without duplicates, override the value with the Domain Name
+    withIpButNotDuplicateRoom.forEach(r => {
+      const newConvoId = getNewConvoId(r.conversationId);
+      if (!newConvoId) {
+        return;
+      }
+      console.info(
+        `withIpButNotDuplicateRoom: renaming room old:${r.conversationId} with saveV2OpenGroupRoom() new- conversationId:${newConvoId}: serverUrl:${urlToUse}`
+      );
+      saveV2OpenGroupRoom({
+        ...r,
+        serverUrl: urlToUse,
+        conversationId: newConvoId,
+      });
+    });
+
+    console.info(
+      '<======== after room update:',
+      getAllV2OpenGroupRooms(db)
+        .filter(m => m.serverUrl.includes(domainNameToUse) || m.serverUrl.includes(ipToRemove))
+        .map(m => pick(m, ['conversationId', 'serverUrl', 'roomId']))
+    );
+
+    /**
+     * Then, update the conversations table by doing the same thing
+     */
+    const allSessionV2ConvosIp = compact(
+      getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(ipToRemove))
+    );
+    const allSessionV2ConvosDns = getAllOpenGroupV2Conversations(db).filter(m =>
+      m?.id.includes(domainNameToUse)
+    );
+
+    const duplicatesConvosIpAndDns = allSessionV2ConvosIp.filter(ip => {
+      const roomId = getRoomIdFromConversationAttributes(ip);
+      if (!roomId) {
+        return false;
+      }
+      return allSessionV2ConvosDns.some(dns => {
+        return getRoomIdFromConversationAttributes(dns) === roomId;
+      });
+    });
+    const withIpButNotDuplicateConvo = allSessionV2ConvosIp.filter(ip => {
+      const roomId = getRoomIdFromConversationAttributes(ip);
+      if (!roomId) {
+        return false;
+      }
+
+      return !allSessionV2ConvosDns.some(dns => {
+        return getRoomIdFromConversationAttributes(dns) === roomId;
+      });
+    });
+    console.info('========================================');
+    console.info(
+      'allSessionV2ConvosIp',
+      allSessionV2ConvosIp.map(m => m?.id)
+    );
+    console.info(
+      'allSessionV2ConvosDns',
+      allSessionV2ConvosDns.map(m => m?.id)
+    );
+    console.info(
+      'duplicatesConvosIpAndDns',
+      duplicatesConvosIpAndDns.map(m => m?.id)
+    );
+    console.info(
+      'withIpButNotDuplicateConvo',
+      withIpButNotDuplicateConvo.map(m => m?.id)
+    );
+    // for those with duplicates, delete the one with the IP as we want to rely on the one with the DNS only now
+    // remove the ip ones completely which are in double.
+    // Note: this does also remove the ones not in double, but we are recreating them just below with `saveConversation`
+    db.exec(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id LIKE '%${ipToRemove}%';`);
+
+    // for those without duplicates, override the value with the DNS
+    const convoIdsToMigrateFromIpToDns: Map<string, string> = new Map();
+    withIpButNotDuplicateConvo.forEach(r => {
+      if (!r) {
+        return;
+      }
+      const newConvoId = getNewConvoId(r.id);
+      if (!newConvoId) {
+        return;
+      }
+      console.info(
+        `withIpButNotDuplicateConvo: renaming convo old:${r.id} with saveConversation() new- conversationId:${newConvoId}`
+      );
+      convoIdsToMigrateFromIpToDns.set(r.id, newConvoId);
+      saveConversation({
+        ...r,
+        id: newConvoId,
+      });
+    });
+
+    console.info(
+      'after convos update:',
+      getAllOpenGroupV2Conversations(db)
+        .filter(m => m?.id.includes(domainNameToUse) || m?.id.includes(ipToRemove))
+        .map(m => m?.id)
+    );
+
+    /**
+     * Lastly, we need to take care of messages.
+     * For duplicated rooms, we drop all the messages from the IP one. (Otherwise we would need to compare each message id to not break the PRIMARY_KEY on the messageID and those are just sogs messages).
+     * For non duplicated rooms which got renamed to their dns ID, we override the stored conversationId in the message with the new conversationID
+     */
+    dropFtsAndTriggers(db);
+
+    // let's start with the non duplicateD ones, as doing so will make the duplicated one process easier
+    console.info('convoIdsToMigrateFromIpToDns', [...convoIdsToMigrateFromIpToDns.entries()]);
+    [...convoIdsToMigrateFromIpToDns.keys()].forEach(oldConvoId => {
+      const newConvoId = convoIdsToMigrateFromIpToDns.get(oldConvoId);
+      if (!newConvoId) {
+        return;
+      }
+      console.info(`About to migrate messages of ${oldConvoId} to ${newConvoId}`);
+
+      db.prepare(
+        `UPDATE ${MESSAGES_TABLE} SET
+        conversationId = $newConvoId,
+        json = json_set(json,'$.conversationId', $newConvoId)
+        WHERE conversationId = $oldConvoId;`
+      ).run({ oldConvoId, newConvoId });
+    });
+    // now, the duplicated ones. We just need to move every message with a convoId matching that ip, because we already took care of the one to migrate to the dns before
+    console.log(
+      'Count of messages to be migrated: ',
+      db
+        .prepare(
+          `SELECT COUNT(*) FROM ${MESSAGES_TABLE} WHERE conversationId LIKE '%${ipToRemove}%';`
+        )
+        .get()
+    );
+
+    const messageWithIdsToUpdate = db
+      .prepare(
+        `SELECT DISTINCT conversationId FROM ${MESSAGES_TABLE} WHERE conversationID LIKE '%${ipToRemove}%'`
+      )
+      .all();
+    console.info('messageWithConversationIdsToUpdate', messageWithIdsToUpdate);
+    messageWithIdsToUpdate.forEach(oldConvo => {
+      const newConvoId = getNewConvoId(oldConvo.conversationId);
+      if (!newConvoId) {
+        return;
+      }
+      console.info('oldConvo.conversationId', oldConvo.conversationId, newConvoId);
+      db.prepare(
+        `UPDATE ${MESSAGES_TABLE} SET
+        conversationId = $newConvoId,
+        json = json_set(json,'$.conversationId', $newConvoId)
+        WHERE conversationId = $oldConvoId;`
+      ).run({ oldConvoId: oldConvo.conversationId, newConvoId });
+    });
+
+    rebuildFtsTable(db);
+    console.log('... done');
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
 // function printTableColumns(table: string, db: BetterSqlite3.Database) {
 //   console.warn(db.pragma(`table_info('${table}');`));
 // }
@@ -1733,6 +1993,7 @@ async function initializeSql({
   if (!isObject(messages)) {
     throw new Error('initialize: message is required!');
   }
+
   _initializePaths(configDir);
 
   let db;
@@ -2187,11 +2448,11 @@ function getAllConversations() {
   return (rows || []).map(formatRowOfConversation);
 }
 
-function getAllOpenGroupV2Conversations() {
+function getAllOpenGroupV2Conversations(instance?: BetterSqlite3.Database) {
   // first _ matches all opengroupv1 (they are completely removed in a migration now),
   // second _ force a second char to be there, so it can only be opengroupv2 convos
 
-  const rows = assertGlobalInstance()
+  const rows = assertGlobalInstanceOrInstance(instance)
     .prepare(
       `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
@@ -3473,8 +3734,8 @@ function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string) {
 /**
  * Related to Opengroup V2
  */
-function getAllV2OpenGroupRooms() {
-  const rows = assertGlobalInstance()
+function getAllV2OpenGroupRooms(instance?: BetterSqlite3.Database): Array<OpenGroupV2Room> {
+  const rows = assertGlobalInstanceOrInstance(instance)
     .prepare(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`)
     .all();
 
@@ -3482,7 +3743,7 @@ function getAllV2OpenGroupRooms() {
     return [];
   }
 
-  return rows.map(r => jsonToObject(r.json));
+  return rows.map(r => jsonToObject(r.json)) as Array<OpenGroupV2Room>;
 }
 
 function getV2OpenGroupRoom(conversationId: string) {
@@ -3501,9 +3762,9 @@ function getV2OpenGroupRoom(conversationId: string) {
   return jsonToObject(row.json);
 }
 
-function saveV2OpenGroupRoom(opengroupsv2Room: any) {
+function saveV2OpenGroupRoom(opengroupsv2Room: OpenGroupV2Room, instance?: BetterSqlite3.Database) {
   const { serverUrl, roomId, conversationId } = opengroupsv2Room;
-  assertGlobalInstance()
+  assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${OPEN_GROUP_ROOMS_V2_TABLE} (
       serverUrl,
