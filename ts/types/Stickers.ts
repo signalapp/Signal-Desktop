@@ -57,7 +57,7 @@ export type DownloadMap = Record<
   }
 >;
 
-export const BLESSED_PACKS: Record<string, BlessedType> = {
+const BLESSED_PACKS: Record<string, BlessedType> = {
   '9acc9e8aba563d26a4994e69263e3b25': {
     key: 'Wm3/OUjCjvubeq+T7MN1xp/DFueAd+0mhnoU0QoPahI=',
     status: 'downloaded',
