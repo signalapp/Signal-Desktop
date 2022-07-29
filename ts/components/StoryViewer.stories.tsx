@@ -5,12 +5,13 @@ import type { Meta, Story } from '@storybook/react';
 import React from 'react';
 
 import type { PropsType } from './StoryViewer';
-import { StoryViewer } from './StoryViewer';
 import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { SendStatus } from '../messages/MessageSendState';
+import { StoryViewer } from './StoryViewer';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
+import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -135,7 +136,20 @@ export const YourStory = Template.bind({});
         ...storyView.sender,
         isMe: true,
       },
-      sendState: [],
+      sendState: [
+        {
+          recipient: getDefaultConversation(),
+          status: SendStatus.Viewed,
+        },
+        {
+          recipient: getDefaultConversation(),
+          status: SendStatus.Delivered,
+        },
+        {
+          recipient: getDefaultConversation(),
+          status: SendStatus.Pending,
+        },
+      ],
     },
   };
   YourStory.storyName = 'Your story';

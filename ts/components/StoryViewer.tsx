@@ -610,7 +610,7 @@ export const StoryViewer = ({
               ))}
             </div>
             <div className="StoryViewer__actions">
-              {canReply && (
+              {(canReply || sendState) && (
                 <button
                   className="StoryViewer__reply"
                   onClick={() => setHasStoryViewsNRepliesModal(true)}

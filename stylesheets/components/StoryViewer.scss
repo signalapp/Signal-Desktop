@@ -136,11 +136,11 @@
       content: '';
       display: inline-block;
       height: 20px;
-      margin-left: 12px;
+      margin-left: 6px;
       vertical-align: middle;
       width: 20px;
       @include color-svg(
-        '../images/icons/v2/chevron-right-24.svg',
+        '../images/icons/v2/chevron-right-20.svg',
         $color-white
       );
     }
