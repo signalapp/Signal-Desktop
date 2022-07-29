@@ -574,7 +574,7 @@ const getSelectedStoryDataForConversationId = (
   const { stories } = state.stories;
 
   const storiesByConversationId = stories.filter(
-    item => item.conversationId === conversationId
+    item => item.conversationId === conversationId && !item.deletedForEveryone
   );
 
   // Find the index of the storyId provided, or if none provided then find the
@@ -676,7 +676,9 @@ const viewStory: ViewStoryActionCreatorType = ({
     // If all stories from a user are viewed, opening the viewer should take
     //    you to their oldest story
 
-    const story = stories.find(item => item.messageId === storyId);
+    const story = stories.find(
+      item => item.messageId === storyId && !item.deletedForEveryone
+    );
 
     if (!story) {
       return;
@@ -754,7 +756,8 @@ const viewStory: ViewStoryActionCreatorType = ({
     // stories first. But only if we're going "next"
     if (viewDirection === StoryViewDirectionType.Next) {
       const unreadStory = stories.find(
-        item => item.readStatus === ReadStatus.Unread
+        item =>
+          item.readStatus === ReadStatus.Unread && !item.deletedForEveryone
       );
       if (unreadStory) {
         const nextSelectedStoryData = getSelectedStoryDataForConversationId(
@@ -992,6 +995,15 @@ export function reducer(
         return state;
       }
 
+      if (hasBeenDeleted) {
+        return {
+          ...state,
+          stories: state.stories.filter(
+            existingStory => existingStory.messageId !== newStory.messageId
+          ),
+        };
+      }
+
       return {
         ...state,
         stories: replaceIndex(state.stories, prevStoryIndex, newStory),
@@ -1119,20 +1131,11 @@ export function reducer(
   }
 
   if (action.type === DOE_STORY) {
-    const prevStoryIndex = state.stories.findIndex(
-      existingStory => existingStory.messageId === action.payload
-    );
-
-    if (prevStoryIndex < 0) {
-      return state;
-    }
-
     return {
       ...state,
-      stories: replaceIndex(state.stories, prevStoryIndex, {
-        ...state.stories[prevStoryIndex],
-        deletedForEveryone: true,
-      }),
+      stories: state.stories.filter(
+        existingStory => existingStory.messageId !== action.payload
+      ),
     };
   }
 
