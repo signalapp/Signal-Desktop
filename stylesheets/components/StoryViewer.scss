@@ -88,7 +88,7 @@
 
   &__caption {
     @include font-body-1;
-    color: $color-gray-05;
+    color: $color-white;
     padding: 4px 0;
     margin-bottom: 24px;
 
@@ -314,9 +314,9 @@
     }
 
     &--bottom {
-      background: linear-gradient($color-transparent, $color-black-alpha-40);
+      background: linear-gradient($color-transparent, $color-black-alpha-60);
       bottom: 0;
-      height: 180px;
+      height: 256px;
     }
   }
 }
