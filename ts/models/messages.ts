@@ -2074,7 +2074,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // First, check for duplicates. If we find one, stop processing here.
       const inMemoryMessage = window.MessageController.findBySender(
         this.getSenderIdentifier()
-      );
+      )?.attributes;
       if (inMemoryMessage) {
         log.info(
           `handleDataMessage/${idLog}: cache hit`,
@@ -2090,7 +2090,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         inMemoryMessage || (await getMessageBySender(this.attributes));
       const isUpdate = Boolean(data && data.isRecipientUpdate);
 
-      if (existingMessage && type === 'incoming') {
+      const isDuplicateMessage =
+        existingMessage &&
+        (type === 'incoming' ||
+          (type === 'story' &&
+            existingMessage.storyDistributionListId ===
+              this.attributes.storyDistributionListId));
+
+      if (isDuplicateMessage) {
         log.warn(
           `handleDataMessage/${idLog}: Received duplicate message`,
           this.idForLogging()

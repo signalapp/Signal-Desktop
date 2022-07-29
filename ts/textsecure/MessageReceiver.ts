@@ -2616,6 +2616,10 @@ export default class MessageReceiver
           return;
         }
 
+        log.info(
+          'MessageReceiver.handleSyncMessage: handling storyMessageRecipients isRecipientUpdate sync message',
+          getEnvelopeId(envelope)
+        );
         const ev = new StoryRecipientUpdateEvent(
           {
             destinationUuid: envelope.destinationUuid.toString(),
