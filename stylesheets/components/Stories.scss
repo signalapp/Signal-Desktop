@@ -22,20 +22,19 @@
     padding-top: calc(14px + var(--title-bar-drag-area-height));
 
     &__settings__button {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/more-horiz-24.svg',
+          $color-white
+        );
+      }
+      height: 22px;
       margin-left: 24px;
       opacity: 1;
       position: absolute;
-      right: 12px;
-      top: -6px;
-
-      &::after {
-        @include dark-theme {
-          @include color-svg(
-            '../images/icons/v2/more-horiz-24.svg',
-            $color-white
-          );
-        }
-      }
+      right: 14px;
+      top: 0px;
+      width: 22px;
     }
 
     &__header {
@@ -99,6 +98,8 @@
 
     &__list {
       @include scrollbar;
+      display: flex;
+      flex-direction: column;
       flex: 1;
       overflow-y: overlay;
       padding: 0 14px;
@@ -108,6 +109,7 @@
         align-items: center;
         color: $color-gray-45;
         display: flex;
+        flex: 1;
         flex-direction: column;
         justify-content: center;
       }
@@ -167,9 +169,5 @@
         );
       }
     }
-  }
-
-  &__my-stories {
-    padding: 0 10px;
   }
 }
