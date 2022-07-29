@@ -7213,6 +7213,10 @@
     "message": "Sending reaction...",
     "description": "Toast message"
   },
+  "Stories__toast--hasNoSound": {
+    "message": "This story has no sound",
+    "description": "Toast message"
+  },
   "StoriesSettings__title": {
     "message": "Story settings",
     "description": "Title for the story settings modal"

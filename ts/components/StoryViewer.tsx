@@ -37,6 +37,7 @@ import { ToastType } from '../state/ducks/toast';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
+import { isVideoAttachment } from '../types/Attachment';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
@@ -378,6 +379,24 @@ export const StoryViewer = ({
 
   const hasPrevNextArrows = storyViewMode !== StoryViewModeType.Single;
 
+  const canMuteStory = isVideoAttachment(attachment);
+  const isStoryMuted = hasAllStoriesMuted || !canMuteStory;
+
+  let muteClassName: string;
+  let muteAriaLabel: string;
+  if (canMuteStory) {
+    muteAriaLabel = hasAllStoriesMuted
+      ? i18n('StoryViewer__unmute')
+      : i18n('StoryViewer__mute');
+
+    muteClassName = hasAllStoriesMuted
+      ? 'StoryViewer__unmute'
+      : 'StoryViewer__mute';
+  } else {
+    muteAriaLabel = i18n('Stories__toast--hasNoSound');
+    muteClassName = 'StoryViewer__soundless';
+  }
+
   const contextMenuOptions: ReadonlyArray<ContextMenuOptionType<unknown>> =
     sendState
       ? [
@@ -454,7 +473,7 @@ export const StoryViewer = ({
               attachment={attachment}
               i18n={i18n}
               isPaused={shouldPauseViewing}
-              isMuted={hasAllStoriesMuted}
+              isMuted={isStoryMuted}
               label={i18n('lightboxImageAlt')}
               moduleClassName="StoryViewer__story"
               queueStoryDownload={queueStoryDownload}
@@ -565,17 +584,13 @@ export const StoryViewer = ({
                   type="button"
                 />
                 <button
-                  aria-label={
-                    hasAllStoriesMuted
-                      ? i18n('StoryViewer__unmute')
-                      : i18n('StoryViewer__mute')
+                  aria-label={muteAriaLabel}
+                  className={muteClassName}
+                  onClick={
+                    canMuteStory
+                      ? toggleHasAllStoriesMuted
+                      : () => showToast(ToastType.StoryMuted)
                   }
-                  className={
-                    hasAllStoriesMuted
-                      ? 'StoryViewer__unmute'
-                      : 'StoryViewer__mute'
-                  }
-                  onClick={toggleHasAllStoriesMuted}
                   type="button"
                 />
                 <ContextMenu

@@ -175,10 +175,7 @@
     height: 20px;
     margin: 0 24px;
     width: 20px;
-    @include color-svg(
-      '../images/icons/v2/speaker-on-solid-20.svg',
-      $color-white
-    );
+    @include color-svg('../images/icons/v2/sound-on.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -213,12 +210,22 @@
   &__unmute {
     @include button-reset;
     height: 20px;
-    margin: 0 18px;
+    margin: 0 24px;
     width: 20px;
-    @include color-svg(
-      '../images/icons/v2/speaker-off-solid-20.svg',
-      $color-white
-    );
+    @include color-svg('../images/icons/v2/sound-off.svg', $color-white);
+    @include keyboard-mode {
+      &:focus {
+        background-color: $color-white-alpha-80;
+      }
+    }
+  }
+
+  &__soundless {
+    @include button-reset;
+    height: 20px;
+    margin: 0 24px;
+    width: 20px;
+    @include color-svg('../images/icons/v2/sound-none.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;

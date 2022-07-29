@@ -8,6 +8,7 @@ import type { PropsType } from './StoryViewer';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewer } from './StoryViewer';
+import { VIDEO_MP4 } from '../types/MIME';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
@@ -49,6 +50,7 @@ export default {
     },
     queueStoryDownload: { action: true },
     renderEmojiPicker: { action: true },
+    showToast: { action: true },
     skinTone: {
       defaultValue: 0,
     },
@@ -92,7 +94,15 @@ export const MultiStory = Template.bind({});
 MultiStory.args = {
   currentIndex: 2,
   numStories: 7,
-  story: getFakeStoryView('/fixtures/snow.jpg'),
+  story: {
+    ...getFakeStoryView(),
+    attachment: fakeAttachment({
+      contentType: VIDEO_MP4,
+      fileName: 'pixabay-Soap-Bubble-7141.mp4',
+      url: '/fixtures/kitten-4-112-112.jpg',
+      screenshotPath: '/fixtures/kitten-4-112-112.jpg',
+    }),
+  },
 };
 MultiStory.story = {
   name: 'Multi story',

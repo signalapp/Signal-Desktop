@@ -55,6 +55,14 @@ export const ToastManager = ({
     );
   }
 
+  if (toastType === ToastType.StoryMuted) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('Stories__toast--hasNoSound')}
+      </Toast>
+    );
+  }
+
   strictAssert(
     toastType === undefined,
     `Unhandled toast of type: ${toastType}`

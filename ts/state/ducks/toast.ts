@@ -6,6 +6,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 export enum ToastType {
   Error = 'Error',
   MessageBodyTooLong = 'MessageBodyTooLong',
+  StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
   StoryReply = 'StoryReply',
 }
