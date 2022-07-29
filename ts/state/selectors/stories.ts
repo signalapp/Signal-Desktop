@@ -40,6 +40,11 @@ export const shouldShowStoriesView = createSelector(
   ({ isShowingStoriesView }): boolean => isShowingStoriesView
 );
 
+export const hasSelectedStoryData = createSelector(
+  getStoriesState,
+  ({ selectedStoryData }): boolean => Boolean(selectedStoryData)
+);
+
 export const getSelectedStoryData = createSelector(
   getStoriesState,
   ({ selectedStoryData }): SelectedStoryDataType | undefined =>
@@ -368,5 +373,27 @@ export const getHasStoriesSelector = createSelector(
       )
         ? HasStories.Unread
         : HasStories.Read;
+    }
+);
+
+export const getStoryByIdSelector = createSelector(
+  getStoriesState,
+  ({ stories }) =>
+    (
+      conversationSelector: GetConversationByIdType,
+      messageId: string
+    ):
+      | { conversationStory: ConversationStoryType; storyView: StoryViewType }
+      | undefined => {
+      const story = stories.find(item => item.messageId === messageId);
+
+      if (!story) {
+        return;
+      }
+
+      return {
+        conversationStory: getConversationStory(conversationSelector, story),
+        storyView: getStoryView(conversationSelector, story),
+      };
     }
 );

@@ -62,9 +62,9 @@ export type StoryDataType = {
 
 export type SelectedStoryDataType = {
   currentIndex: number;
+  messageId: string;
   numStories: number;
   shouldShowDetailsModal: boolean;
-  story: StoryDataType;
 };
 
 // State
@@ -631,9 +631,9 @@ function viewUserStories(
       payload: {
         selectedStoryData: {
           currentIndex,
+          messageId: story.messageId,
           numStories,
           shouldShowDetailsModal,
-          story,
         },
         storyViewMode: hasUnread
           ? StoryViewModeType.Unread
@@ -699,9 +699,9 @@ const viewStory: ViewStoryActionCreatorType = ({
         payload: {
           selectedStoryData: {
             currentIndex,
+            messageId: storyId,
             numStories,
             shouldShowDetailsModal,
-            story,
           },
           storyViewMode,
         },
@@ -722,9 +722,9 @@ const viewStory: ViewStoryActionCreatorType = ({
         payload: {
           selectedStoryData: {
             currentIndex: nextIndex,
+            messageId: nextStory.messageId,
             numStories,
             shouldShowDetailsModal: false,
-            story: nextStory,
           },
           storyViewMode,
         },
@@ -742,9 +742,9 @@ const viewStory: ViewStoryActionCreatorType = ({
         payload: {
           selectedStoryData: {
             currentIndex: nextIndex,
+            messageId: nextStory.messageId,
             numStories,
             shouldShowDetailsModal: false,
-            story: nextStory,
           },
           storyViewMode,
         },
@@ -771,9 +771,9 @@ const viewStory: ViewStoryActionCreatorType = ({
           payload: {
             selectedStoryData: {
               currentIndex: nextSelectedStoryData.currentIndex,
+              messageId: unreadStory.messageId,
               numStories: nextSelectedStoryData.numStories,
               shouldShowDetailsModal: false,
-              story: unreadStory,
             },
             storyViewMode,
           },
@@ -832,9 +832,10 @@ const viewStory: ViewStoryActionCreatorType = ({
         payload: {
           selectedStoryData: {
             currentIndex: 0,
+            messageId:
+              nextSelectedStoryData.storiesByConversationId[0].messageId,
             numStories: nextSelectedStoryData.numStories,
             shouldShowDetailsModal: false,
-            story: nextSelectedStoryData.storiesByConversationId[0],
           },
           storyViewMode,
         },
@@ -869,9 +870,10 @@ const viewStory: ViewStoryActionCreatorType = ({
         payload: {
           selectedStoryData: {
             currentIndex: 0,
+            messageId:
+              nextSelectedStoryData.storiesByConversationId[0].messageId,
             numStories: nextSelectedStoryData.numStories,
             shouldShowDetailsModal: false,
-            story: nextSelectedStoryData.storiesByConversationId[0],
           },
           storyViewMode,
         },

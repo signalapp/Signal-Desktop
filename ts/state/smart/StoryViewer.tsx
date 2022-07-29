@@ -20,10 +20,9 @@ import {
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
-  getConversationStory,
   getSelectedStoryData,
   getStoryReplies,
-  getStoryView,
+  getStoryByIdSelector,
 } from '../selectors/stories';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { strictAssert } from '../../util/assert';
@@ -57,11 +56,18 @@ export function SmartStoryViewer(): JSX.Element | null {
     getConversationSelector
   );
 
-  const storyView = getStoryView(conversationSelector, selectedStoryData.story);
-  const conversationStory = getConversationStory(
+  const getStoryById = useSelector(getStoryByIdSelector);
+
+  const storyInfo = getStoryById(
     conversationSelector,
-    selectedStoryData.story
+    selectedStoryData.messageId
   );
+  strictAssert(
+    storyInfo,
+    'StoryViewer: selected story does not exist in stories'
+  );
+  const { conversationStory, storyView } = storyInfo;
+
   const storyViewMode = useSelector<StateType, StoryViewModeType | undefined>(
     state => state.stories.storyViewMode
   );

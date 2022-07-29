@@ -25,7 +25,7 @@ import {
   getMenuOptions,
 } from '../selectors/user';
 import {
-  getSelectedStoryData,
+  hasSelectedStoryData,
   shouldShowStoriesView,
 } from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
@@ -65,7 +65,7 @@ const mapStateToProps = (state: StateType) => {
         <SmartStories />
       </ErrorBoundary>
     ),
-    selectedStoryData: getSelectedStoryData(state),
+    hasSelectedStoryData: hasSelectedStoryData(state),
     renderStoryViewer: () => (
       <ErrorBoundary>
         <SmartStoryViewer />

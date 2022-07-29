@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { LocaleMessagesType } from '../types/I18N';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
-import type { SelectedStoryDataType } from '../state/ducks/stories';
 import type { ToastType } from '../state/ducks/toast';
 import { AppViewType } from '../state/ducks/app';
 import { Inbox } from './Inbox';
@@ -30,7 +29,7 @@ type PropsType = {
   renderGlobalModalContainer: () => JSX.Element;
   isShowingStoriesView: boolean;
   renderStories: () => JSX.Element;
-  selectedStoryData?: SelectedStoryDataType;
+  hasSelectedStoryData: boolean;
   renderStoryViewer: () => JSX.Element;
   requestVerification: (
     type: 'sms' | 'voice',
@@ -59,6 +58,7 @@ export const App = ({
   executeMenuRole,
   getPreferredBadge,
   hasInitialLoadCompleted,
+  hasSelectedStoryData,
   hideMenuBar,
   hideToast,
   i18n,
@@ -81,7 +81,6 @@ export const App = ({
   requestVerification,
   selectedConversationId,
   selectedMessage,
-  selectedStoryData,
   showConversation,
   showWhatsNewModal,
   theme,
@@ -181,7 +180,7 @@ export const App = ({
         {renderGlobalModalContainer()}
         {renderCallManager()}
         {isShowingStoriesView && renderStories()}
-        {selectedStoryData && renderStoryViewer()}
+        {hasSelectedStoryData && renderStoryViewer()}
         {contents}
       </div>
     </TitleBarContainer>
