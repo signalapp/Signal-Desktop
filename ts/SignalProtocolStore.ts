@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 import {
   Direction,
-  IdentityKeyPair,
+  // IdentityKeyPair,
   PreKeyRecord,
   PrivateKey,
   PublicKey,
@@ -32,7 +32,7 @@ import type {
   IdentityKeyIdType,
   KeyPairType,
   OuterSignedPrekeyType,
-  PniKeyMaterialType,
+  // PniKeyMaterialType,
   PreKeyIdType,
   PreKeyType,
   SenderKeyIdType,
@@ -1978,35 +1978,34 @@ export class SignalProtocolStore extends EventsMixin {
     ]);
   }
 
-  async updateOurPniKeyMaterial(
-    pni: UUID,
-    {
-      identityKeyPair: identityBytes,
-      signedPreKey: signedPreKeyBytes,
-      registrationId,
-    }: PniKeyMaterialType
-  ): Promise<void> {
-    log.info(`SignalProtocolStore.updateOurPniKeyMaterial(${pni})`);
+  async updateOurPniKeyMaterial(pni: UUID): /* {
+    identityKeyPair: identityBytes,
+    signedPreKey: signedPreKeyBytes,
+    registrationId,
+  }: PniKeyMaterialType
+  */
+  Promise<void> {
+    throw new Error(
+      `TODO: SignalProtocolStore.updateOurPniKeyMaterial(${pni}) is not implemented!`
+    );
 
+    /*
+    log.info(`SignalProtocolStore.updateOurPniKeyMaterial(${pni})`);
     const identityKeyPair = IdentityKeyPair.deserialize(
       Buffer.from(identityBytes)
     );
     const signedPreKey = SignedPreKeyRecord.deserialize(
       Buffer.from(signedPreKeyBytes)
     );
-
     const { storage } = window;
-
     const pniPublicKey = identityKeyPair.publicKey.serialize();
     const pniPrivateKey = identityKeyPair.privateKey.serialize();
-
     // Update caches
     this.ourIdentityKeys.set(pni.toString(), {
       pubKey: pniPublicKey,
       privKey: pniPrivateKey,
     });
     this.ourRegistrationIds.set(pni.toString(), registrationId);
-
     // Update database
     await Promise.all([
       storage.put('identityKeyMap', {
@@ -2031,6 +2030,7 @@ export class SignalProtocolStore extends EventsMixin {
         signedPreKey.timestamp()
       ),
     ]);
+    */
   }
 
   async removeAllData(): Promise<void> {

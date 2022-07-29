@@ -1745,7 +1745,15 @@
     "@react-spring/shared" "~9.4.5"
     "@react-spring/types" "~9.4.5"
 
-"@signalapp/libsignal-client@0.19.1", "@signalapp/libsignal-client@^0.19.1":
+"@signalapp/libsignal-client@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.18.1.tgz#6b499cdcc952f1981c6367f68484cf3275be3b31"
+  integrity sha512-43NcTYpahImlWHBDaNFmn7QaeXZHkFkTtb4m+ZWgzU0mkS1M8V+orGen2XuDvNiu+9HQmW4Lg7FV1deXhWtIRA==
+  dependencies:
+    node-gyp-build "^4.2.3"
+    uuid "^8.3.0"
+
+"@signalapp/libsignal-client@^0.19.1":
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.19.1.tgz#ccc12f0f034fe522940ba176a4518b4a05162b6d"
   integrity sha512-x6qMjLxoq39oXnoUI8vA1Pd+fitEuYdA828LwBZIY0gxdBVv4D2DNB2kmyiGH2KtqHucnsRSz216gBOWbI2Q/g==
