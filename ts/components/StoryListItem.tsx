@@ -138,6 +138,7 @@ export const StoryListItem = ({
             </div>
             <MessageTimestamp
               i18n={i18n}
+              isRelativeTime
               module="StoryListItem__info--timestamp"
               timestamp={timestamp}
             />

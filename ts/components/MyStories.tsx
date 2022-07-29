@@ -109,6 +109,7 @@ export const MyStories = ({
                       ])}
                   <MessageTimestamp
                     i18n={i18n}
+                    isRelativeTime
                     module="MyStories__story__timestamp"
                     timestamp={story.timestamp}
                   />

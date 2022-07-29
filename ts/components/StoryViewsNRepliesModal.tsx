@@ -240,6 +240,7 @@ export const StoryViewsNRepliesModal = ({
                   {i18n('StoryViewsNRepliesModal__reacted')}
                   <MessageTimestamp
                     i18n={i18n}
+                    isRelativeTime
                     module="StoryViewsNRepliesModal__reply--timestamp"
                     timestamp={reply.timestamp}
                   />
