@@ -212,12 +212,17 @@ function deleteDistributionList(
       return;
     }
 
-    await dataInterface.modifyStoryDistribution({
-      ...storyDistribution,
-      deletedAtTimestamp,
-      name: '',
-      storageNeedsSync: true,
-    });
+    await dataInterface.modifyStoryDistributionWithMembers(
+      {
+        ...storyDistribution,
+        name: '',
+        storageNeedsSync: true,
+      },
+      {
+        toAdd: [],
+        toRemove: storyDistribution.members,
+      }
+    );
 
     log.info(
       'storyDistributionLists.deleteDistributionList: list deleted',
@@ -528,6 +533,7 @@ export function reducer(
       action.payload.listId,
       () => ({
         deletedAtTimestamp: action.payload.deletedAtTimestamp,
+        memberUuids: [],
         name: '',
       })
     );
