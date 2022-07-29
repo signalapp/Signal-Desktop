@@ -101,7 +101,7 @@
       @include scrollbar;
       flex: 1;
       overflow-y: overlay;
-      padding: 0 10px;
+      padding: 0 14px;
 
       &--empty {
         @include font-body-1;
