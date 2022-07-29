@@ -23,6 +23,7 @@ export default {
     conversationId: {
       defaultValue: getDefaultConversation().id,
     },
+    getPreferredBadge: { action: true },
     i18n: {
       defaultValue: i18n,
     },

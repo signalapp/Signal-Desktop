@@ -15,6 +15,7 @@ import type {
   StoryViewType,
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { ContextMenu } from './ContextMenu';
 import { MyStoriesButton } from './MyStoriesButton';
 import { SearchInput } from './SearchInput';
@@ -59,6 +60,7 @@ function getNewestMyStory(story: MyStoryType): StoryViewType {
 }
 
 export type PropsType = {
+  getPreferredBadge: PreferredBadgeSelectorType;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
   me: ConversationType;
@@ -75,6 +77,7 @@ export type PropsType = {
 };
 
 export const StoriesPane = ({
+  getPreferredBadge,
   hiddenStories,
   i18n,
   me,
@@ -164,6 +167,7 @@ export const StoriesPane = ({
         {renderedStories.map(story => (
           <StoryListItem
             conversationId={story.conversationId}
+            getPreferredBadge={getPreferredBadge}
             group={story.group}
             i18n={i18n}
             key={story.storyView.timestamp}
@@ -192,6 +196,7 @@ export const StoriesPane = ({
               hiddenStories.map(story => (
                 <StoryListItem
                   conversationId={story.conversationId}
+                  getPreferredBadge={getPreferredBadge}
                   key={story.storyView.timestamp}
                   i18n={i18n}
                   isHidden

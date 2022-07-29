@@ -11,6 +11,7 @@ import { SmartStoryCreator } from './StoryCreator';
 import { Stories } from '../../components/Stories';
 import { getMe } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getPreferredLeftPaneWidth } from '../selectors/items';
 import { getStories } from '../selectors/stories';
 import { saveAttachment } from '../../util/saveAttachment';
@@ -39,6 +40,7 @@ export function SmartStories(): JSX.Element | null {
   const preferredWidthFromStorage = useSelector<StateType, number>(
     getPreferredLeftPaneWidth
   );
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
 
   const { hiddenStories, myStories, stories } = useSelector(getStories);
 
@@ -50,6 +52,7 @@ export function SmartStories(): JSX.Element | null {
 
   return (
     <Stories
+      getPreferredBadge={getPreferredBadge}
       hiddenStories={hiddenStories}
       i18n={i18n}
       me={me}

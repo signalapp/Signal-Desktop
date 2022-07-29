@@ -3,18 +3,22 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
+import type { LocalizerType } from '../types/Util';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
 import { HasStories } from '../types/Stories';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
+import { ThemeType } from '../types/Util';
 import { getAvatarColor } from '../types/Colors';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   conversationId: string;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
@@ -26,8 +30,58 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   ) => unknown;
 };
 
+function StoryListItemAvatar({
+  acceptedMessageRequest,
+  avatarPath,
+  avatarStoryRing,
+  badges,
+  color,
+  getPreferredBadge,
+  i18n,
+  isMe,
+  name,
+  profileName,
+  sharedGroupNames,
+  title,
+}: Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'name'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+> & {
+  avatarStoryRing?: HasStories;
+  badges?: ConversationType['badges'];
+  getPreferredBadge: PreferredBadgeSelectorType;
+  i18n: LocalizerType;
+  isMe?: boolean;
+}): JSX.Element {
+  return (
+    <Avatar
+      acceptedMessageRequest={acceptedMessageRequest}
+      avatarPath={avatarPath}
+      badge={badges ? getPreferredBadge(badges) : undefined}
+      color={getAvatarColor(color)}
+      conversationType="direct"
+      i18n={i18n}
+      isMe={Boolean(isMe)}
+      name={name}
+      profileName={profileName}
+      sharedGroupNames={sharedGroupNames}
+      size={AvatarSize.FORTY_EIGHT}
+      storyRing={avatarStoryRing}
+      theme={ThemeType.dark}
+      title={title}
+    />
+  );
+}
+
 export const StoryListItem = ({
   conversationId,
+  getPreferredBadge,
   group,
   i18n,
   isHidden,
@@ -48,17 +102,7 @@ export const StoryListItem = ({
     timestamp,
   } = story;
 
-  const {
-    acceptedMessageRequest,
-    avatarPath,
-    color,
-    firstName,
-    isMe,
-    name,
-    profileName,
-    sharedGroupNames,
-    title,
-  } = sender;
+  const { firstName, title } = sender;
 
   let avatarStoryRing: HasStories | undefined;
   if (attachment) {
@@ -111,20 +155,11 @@ export const StoryListItem = ({
           strategy: 'absolute',
         }}
       >
-        <Avatar
-          acceptedMessageRequest={acceptedMessageRequest}
-          sharedGroupNames={sharedGroupNames}
-          avatarPath={avatarPath}
-          badge={undefined}
-          color={getAvatarColor(color)}
-          conversationType="direct"
+        <StoryListItemAvatar
+          avatarStoryRing={avatarStoryRing}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
-          isMe={Boolean(isMe)}
-          name={name}
-          profileName={profileName}
-          size={AvatarSize.FORTY_EIGHT}
-          storyRing={avatarStoryRing}
-          title={title}
+          {...(group || sender)}
         />
         <div className="StoryListItem__info">
           <>

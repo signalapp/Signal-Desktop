@@ -22,6 +22,7 @@ export default {
   component: Stories,
   argTypes: {
     deleteStoryForEveryone: { action: true },
+    getPreferredBadge: { action: true },
     hiddenStories: {
       defaultValue: [],
     },

@@ -14,6 +14,7 @@ import type {
   StoryViewType,
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as SmartStoryCreatorPropsType } from '../state/smart/StoryCreator';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { MyStories } from './MyStories';
@@ -23,6 +24,7 @@ import { getWidthFromPreferredWidth } from '../util/leftPaneWidth';
 
 export type PropsType = {
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
+  getPreferredBadge: PreferredBadgeSelectorType;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
   me: ConversationType;
@@ -43,6 +45,7 @@ export type PropsType = {
 
 export const Stories = ({
   deleteStoryForEveryone,
+  getPreferredBadge,
   hiddenStories,
   i18n,
   me,
@@ -88,6 +91,7 @@ export const Stories = ({
             />
           ) : (
             <StoriesPane
+              getPreferredBadge={getPreferredBadge}
               hiddenStories={hiddenStories}
               i18n={i18n}
               me={me}
