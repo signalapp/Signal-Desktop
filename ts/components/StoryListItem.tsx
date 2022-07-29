@@ -129,12 +129,7 @@ export const StoryListItem = ({
         <div className="StoryListItem__info">
           <>
             <div className="StoryListItem__info--title">
-              {group
-                ? i18n('Stories__from-to-group', {
-                    name: title,
-                    group: group.title,
-                  })
-                : title}
+              {group ? group.title : title}
             </div>
             <MessageTimestamp
               i18n={i18n}
