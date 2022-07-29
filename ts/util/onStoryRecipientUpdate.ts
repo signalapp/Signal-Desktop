@@ -13,6 +13,7 @@ import {
   getMessageIdForLogging,
 } from './idForLogging';
 import { isStory } from '../state/selectors/message';
+import { normalizeUuid } from './normalizeUuid';
 import { queueUpdateMessage } from './messageBatcher';
 
 export async function onStoryRecipientUpdate(
@@ -58,7 +59,11 @@ export async function onStoryRecipientUpdate(
 
       conversationIdToDistributionListIds.set(
         convo.id,
-        new Set(item.distributionListIds)
+        new Set(
+          item.distributionListIds.map(uuid =>
+            normalizeUuid(uuid, 'onStoryRecipientUpdate.distributionListId')
+          )
+        )
       );
       isAllowedToReply.set(convo.id, item.isAllowedToReply !== false);
     });

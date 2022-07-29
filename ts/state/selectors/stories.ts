@@ -282,7 +282,9 @@ export const getStories = createSelector(
         const list =
           story.storyDistributionListId === MY_STORIES_ID
             ? { id: MY_STORIES_ID, name: MY_STORIES_ID }
-            : distributionListSelector(story.storyDistributionListId);
+            : distributionListSelector(
+                story.storyDistributionListId.toLowerCase()
+              );
 
         if (!list) {
           return;

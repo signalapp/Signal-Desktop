@@ -1946,15 +1946,20 @@ export default class MessageReceiver
           return;
         }
 
+        const normalizedDestinationUuid = normalizeUuid(
+          destinationUuid,
+          'handleStoryMessage.destinationUuid'
+        );
+
         recipient.distributionListIds?.forEach(listId => {
           const sentUuids: Set<string> =
             distributionListToSentUuid.get(listId) || new Set();
-          sentUuids.add(destinationUuid);
+          sentUuids.add(normalizedDestinationUuid);
           distributionListToSentUuid.set(listId, sentUuids);
         });
 
         isAllowedToReply.set(
-          destinationUuid,
+          normalizedDestinationUuid,
           recipient.isAllowedToReply !== false
         );
       });
@@ -1975,7 +1980,10 @@ export default class MessageReceiver
             isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
             receivedAtCounter: envelope.receivedAtCounter,
             receivedAtDate: envelope.receivedAtDate,
-            storyDistributionListId: listId,
+            storyDistributionListId: normalizeUuid(
+              listId,
+              'storyDistributionListId'
+            ),
           },
           this.removeFromCache.bind(this, envelope)
         );
