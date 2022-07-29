@@ -33,13 +33,16 @@ import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 const mapStateToProps = (state: StateType) => {
+  const i18n = getIntl(state);
+
   return {
     ...state.app,
     conversationsStoppingSend: getConversationsStoppingSend(state),
     getPreferredBadge: getPreferredBadgeSelector(state),
-    i18n: getIntl(state),
+    i18n,
     localeMessages: getLocaleMessages(state),
     isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
     isMaximized: getIsMainWindowMaximized(state),
@@ -57,9 +60,17 @@ const mapStateToProps = (state: StateType) => {
       <SmartSafetyNumberViewer {...props} />
     ),
     isShowingStoriesView: shouldShowStoriesView(state),
-    renderStories: () => <SmartStories />,
+    renderStories: () => (
+      <ErrorBoundary>
+        <SmartStories />
+      </ErrorBoundary>
+    ),
     selectedStoryData: getSelectedStoryData(state),
-    renderStoryViewer: () => <SmartStoryViewer />,
+    renderStoryViewer: () => (
+      <ErrorBoundary>
+        <SmartStoryViewer />
+      </ErrorBoundary>
+    ),
     requestVerification: (
       type: 'sms' | 'voice',
       number: string,

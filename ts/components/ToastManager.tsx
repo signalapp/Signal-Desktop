@@ -20,6 +20,21 @@ export const ToastManager = ({
   i18n,
   toastType,
 }: PropsType): JSX.Element | null => {
+  if (toastType === ToastType.Error) {
+    return (
+      <Toast
+        autoDismissDisabled
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('Toast--error--action'),
+          onClick: () => window.showDebugLog(),
+        }}
+      >
+        {i18n('Toast--error')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.MessageBodyTooLong) {
     return <ToastMessageBodyTooLong i18n={i18n} onClose={hideToast} />;
   }

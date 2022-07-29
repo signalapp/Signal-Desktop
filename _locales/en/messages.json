@@ -2377,6 +2377,14 @@
     "message": "No conversations found",
     "description": "Label shown when there are no conversations to compose to"
   },
+  "Toast--error": {
+    "message": "An error has occurred",
+    "description": "Toast for general errors"
+  },
+  "Toast--error--action": {
+    "message": "Submit log",
+    "description": "Label for the error toast button"
+  },
   "Toast--failed-to-fetch-username": {
     "message": "Failed to fetch username. Check your connection and try again.",
     "description": "Shown if request to Signal servers to find username fails"
