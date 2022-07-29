@@ -33,6 +33,10 @@ export function getStoryBackground(attachment?: AttachmentType): string {
     return getBackgroundColor(attachment.textAttachment);
   }
 
+  if (attachment.screenshot && attachment.screenshot.url) {
+    return `url("${attachment.screenshot.url}")`;
+  }
+
   if (attachment.url) {
     return `url("${attachment.url}")`;
   }
