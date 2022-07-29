@@ -714,7 +714,9 @@ export const StoryViewer = ({
             onClose={() => setHasStoryViewsNRepliesModal(false)}
             onReact={emoji => {
               onReactToStory(emoji, story);
-              setHasStoryViewsNRepliesModal(false);
+              if (!isGroupStory) {
+                setHasStoryViewsNRepliesModal(false);
+              }
               setReactionEmoji(emoji);
               showToast(ToastType.StoryReact);
             }}
