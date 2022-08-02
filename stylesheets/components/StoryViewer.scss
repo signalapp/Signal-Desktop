@@ -4,10 +4,10 @@
 .StoryViewer {
   &__overlay {
     background-size: contain;
-    height: var(--window-height);
+    height: 100%;
     left: 0;
     position: absolute;
-    top: var(--titlebar-height);
+    top: 0;
     width: 100%;
     z-index: $z-index-popup-overlay;
   }
@@ -18,11 +18,11 @@
     background: $color-black-alpha-20;
     display: flex;
     flex-direction: column;
-    height: var(--window-height);
+    height: 100%;
     justify-content: center;
     left: 0;
     position: absolute;
-    top: var(--titlebar-height);
+    top: 0;
     width: 100%;
     z-index: $z-index-popup-overlay;
   }
@@ -31,7 +31,7 @@
     @include button-reset;
     @include modal-close-button;
     right: 28px;
-    top: var(--title-bar-drag-area-height);
+    top: 0;
     z-index: $z-index-above-above-base;
   }
 
@@ -245,7 +245,7 @@
   }
 
   &__animated-emojis {
-    height: var(--window-height);
+    height: 100%;
     position: absolute;
     width: 100%;
     z-index: $z-index-above-base;
@@ -255,7 +255,7 @@
     @include button-reset;
     align-items: center;
     display: flex;
-    height: var(--window-height);
+    height: 100%;
     position: absolute;
     width: 25%;
     z-index: $z-index-above-above-base;
