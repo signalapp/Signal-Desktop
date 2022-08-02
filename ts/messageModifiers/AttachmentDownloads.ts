@@ -195,9 +195,47 @@ async function _maybeStartJob(): Promise<void> {
     const job = jobs[i];
     const existing = _activeAttachmentDownloadJobs[job.id];
     if (existing) {
-      logger.warn(`_maybeStartJob: Job ${job.id} is already running`);
+      logger.warn(
+        `attachment_downloads/_maybeStartJob: Job ${job.id} is already running`
+      );
     } else {
-      _activeAttachmentDownloadJobs[job.id] = _runJob(job);
+      logger.info(
+        `attachment_downloads/_maybeStartJob: Starting job ${job.id}`
+      );
+      const promise = _runJob(job);
+      _activeAttachmentDownloadJobs[job.id] = promise;
+
+      const postProcess = async () => {
+        const logId = `attachment_downloads/_maybeStartJob/postProcess/${job.id}`;
+        try {
+          await promise;
+          if (_activeAttachmentDownloadJobs[job.id]) {
+            throw new Error(
+              `${logId}: Active attachments jobs list still has this job!`
+            );
+          }
+        } catch (error: unknown) {
+          log.error(
+            `${logId}: Download job threw an error, deleting.`,
+            Errors.toLogFormat(error)
+          );
+
+          delete _activeAttachmentDownloadJobs[job.id];
+          try {
+            await removeAttachmentDownloadJob(job.id);
+          } catch (deleteError) {
+            log.error(
+              `${logId}: Failed to delete attachment job`,
+              Errors.toLogFormat(error)
+            );
+          } finally {
+            _maybeStartJob();
+          }
+        }
+      };
+
+      // Note: intentionally not awaiting
+      postProcess();
     }
   }
 }
@@ -305,35 +343,30 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       Errors.toLogFormat(error)
     );
 
-    try {
-      // Remove `pending` flag from the attachment.
-      await _addAttachmentToMessage(
-        message,
-        {
-          ...attachment,
-          downloadJobId: id,
-        },
-        { type, index }
-      );
-      if (message) {
-        await saveMessage(message.attributes, {
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-        });
-      }
-
-      const failedJob = {
-        ...job,
-        pending: 0,
-        attempts: currentAttempt,
-        timestamp:
-          Date.now() + (RETRY_BACKOFF[currentAttempt] || RETRY_BACKOFF[3]),
-      };
-
-      await saveAttachmentDownloadJob(failedJob);
-    } finally {
-      delete _activeAttachmentDownloadJobs[id];
-      _maybeStartJob();
+    // Remove `pending` flag from the attachment.
+    await _addAttachmentToMessage(
+      message,
+      {
+        ...attachment,
+        downloadJobId: id,
+      },
+      { type, index }
+    );
+    if (message) {
+      await saveMessage(message.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
+
+    const failedJob = {
+      ...job,
+      pending: 0,
+      attempts: currentAttempt,
+      timestamp:
+        Date.now() + (RETRY_BACKOFF[currentAttempt] || RETRY_BACKOFF[3]),
+    };
+
+    await saveAttachmentDownloadJob(failedJob);
   }
 }
 
