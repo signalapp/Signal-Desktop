@@ -357,7 +357,6 @@ export default class MessageReceiver
 
           // Proto.Envelope fields
           type: decoded.type,
-          source: decoded.source,
           sourceUuid: decoded.sourceUuid
             ? normalizeUuid(
                 decoded.sourceUuid,
@@ -757,7 +756,7 @@ export default class MessageReceiver
 
         // Proto.Envelope fields
         type: decoded.type,
-        source: decoded.source || item.source,
+        source: item.source,
         sourceUuid: decoded.sourceUuid
           ? UUID.cast(decoded.sourceUuid)
           : item.sourceUuid,

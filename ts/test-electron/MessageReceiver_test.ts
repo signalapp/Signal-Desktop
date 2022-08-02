@@ -15,7 +15,6 @@ import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 
 describe('MessageReceiver', () => {
-  const number = '+19999999999';
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
   const deviceId = 1;
 
@@ -46,7 +45,6 @@ describe('MessageReceiver', () => {
 
       const body = Proto.Envelope.encode({
         type: Proto.Envelope.Type.CIPHERTEXT,
-        source: number,
         sourceUuid: uuid,
         sourceDevice: deviceId,
         timestamp: Long.fromNumber(Date.now()),
