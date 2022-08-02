@@ -69,6 +69,10 @@ export const isFailed = (status: SendStatus): boolean =>
  * The timestamp may be undefined if reading old data, which did not store a timestamp.
  */
 export type SendState = Readonly<{
+  // When sending a story to multiple distribution lists at once, we need to
+  // de-duplicate the recipients. The story should only be sent once to each
+  // recipient in the list so the recipient only sees it rendered once.
+  isAlreadyIncludedInAnotherDistributionList?: boolean;
   isAllowedToReplyToStory?: boolean;
   status:
     | SendStatus.Pending

@@ -1,0 +1,67 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.SendStoryModal {
+  &__distribution-list {
+    &__container {
+      justify-content: space-between;
+      margin: 8px 0;
+      user-select: none;
+      width: 100%;
+    }
+
+    &__info {
+      margin-left: 8px;
+    }
+
+    &__label {
+      align-items: center;
+      display: flex;
+      justify-content: flex-start;
+      flex: 1;
+    }
+
+    &__name {
+      @include font-body-1-bold;
+    }
+
+    &__description {
+      @include font-body-2;
+      color: $color-gray-60;
+    }
+  }
+
+  &__button-footer {
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__selected-lists {
+    @include font-body-2;
+    color: $color-gray-60;
+    max-width: 280px;
+    user-select: none;
+  }
+
+  &__send {
+    @include button-reset;
+    @include rounded-corners;
+    align-items: center;
+    background: $color-ultramarine;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+
+    &::disabled {
+      background: $color-gray-60;
+    }
+
+    &::after {
+      @include color-svg('../images/icons/v2/send-24.svg', $color-white);
+      content: '';
+      height: 24px;
+      width: 24px;
+    }
+  }
+}

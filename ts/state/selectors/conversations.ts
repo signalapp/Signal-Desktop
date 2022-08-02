@@ -37,6 +37,7 @@ import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
 import type { UUIDStringType } from '../../types/UUID';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { isSignalConnection } from '../../util/getSignalConnections';
 import { sortByTitle } from '../../util/sortByTitle';
 import {
   isDirectConversation,
@@ -125,6 +126,12 @@ export const getConversationsByUsername = createSelector(
 export const getAllConversations = createSelector(
   getConversationLookup,
   (lookup): Array<ConversationType> => Object.values(lookup)
+);
+
+export const getAllSignalConnections = createSelector(
+  getAllConversations,
+  (conversations): Array<ConversationType> =>
+    conversations.filter(isSignalConnection)
 );
 
 export const getConversationsByTitleSelector = createSelector(

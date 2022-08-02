@@ -3,17 +3,22 @@
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { isEqual, noop, pick } from 'lodash';
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AttachmentType,
+  TextAttachmentType,
+} from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
+  MessagesAddedActionType,
 } from './conversations';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
 import type { StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
+import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
 import { DAY } from '../../util/durations';
@@ -36,8 +41,12 @@ import {
 import { getConversationSelector } from '../selectors/conversations';
 import { getSendOptions } from '../../util/getSendOptions';
 import { getStories } from '../selectors/stories';
+import { getStoryDataFromMessageAttributes } from '../../services/storyLoader';
 import { isGroup } from '../../util/whatTypeOfConversation';
+import { isNotNil } from '../../util/isNotNil';
+import { isStory } from '../../messages/helpers';
 import { onStoryRecipientUpdate } from '../../util/onStoryRecipientUpdate';
+import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
@@ -147,6 +156,7 @@ export type StoriesActionType =
   | MarkStoryReadActionType
   | MessageChangedActionType
   | MessageDeletedActionType
+  | MessagesAddedActionType
   | ReplyToStoryActionType
   | ResolveAttachmentUrlActionType
   | StoryChangedActionType
@@ -542,6 +552,20 @@ function replyToStory(
   };
 }
 
+function sendStoryMessage(
+  listIds: Array<UUIDStringType>,
+  textAttachment: TextAttachmentType
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    await doSendStoryMessage(listIds, textAttachment);
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
 function storyChanged(story: StoryDataType): StoryChangedActionType {
   return {
     type: STORY_CHANGED,
@@ -896,6 +920,7 @@ export const actions = {
   queueStoryDownload,
   reactToStory,
   replyToStory,
+  sendStoryMessage,
   storyChanged,
   toggleStoriesView,
   viewUserStories,
@@ -1043,6 +1068,26 @@ export function reducer(
     return {
       ...state,
       replyState: action.payload,
+    };
+  }
+
+  if (action.type === 'MESSAGES_ADDED' && action.payload.isJustSent) {
+    const stories = action.payload.messages.filter(isStory);
+    if (!stories.length) {
+      return state;
+    }
+
+    const newStories = stories
+      .map(messageAttrs => getStoryDataFromMessageAttributes(messageAttrs))
+      .filter(isNotNil);
+
+    if (!newStories.length) {
+      return state;
+    }
+
+    return {
+      ...state,
+      stories: [...state.stories, ...newStories],
     };
   }
 

@@ -6,11 +6,13 @@ import React from 'react';
 
 import type { PropsType } from './StoriesSettingsModal';
 import enMessages from '../../_locales/en/messages.json';
-import { MY_STORIES_ID } from '../types/Stories';
 import { StoriesSettingsModal } from './StoriesSettingsModal';
-import { UUID } from '../types/UUID';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
+import {
+  getMyStories,
+  getFakeDistributionList,
+} from '../test-both/helpers/getFakeDistributionLists';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -46,60 +48,59 @@ export default {
 const Template: Story<PropsType> = args => <StoriesSettingsModal {...args} />;
 
 export const MyStories = Template.bind({});
-MyStories.args = {
-  distributionLists: [
-    {
-      allowsReplies: true,
-      id: MY_STORIES_ID,
-      isBlockList: false,
-      members: [],
-      name: MY_STORIES_ID,
-    },
-  ],
-};
+{
+  const myStories = getMyStories();
+  MyStories.args = {
+    distributionLists: [
+      {
+        ...myStories,
+        members: [],
+      },
+    ],
+  };
+}
 
 export const MyStoriesBlockList = Template.bind({});
-MyStoriesBlockList.args = {
-  distributionLists: [
-    {
-      allowsReplies: true,
-      id: MY_STORIES_ID,
-      isBlockList: true,
-      members: Array.from(Array(2), () => getDefaultConversation()),
-      name: MY_STORIES_ID,
-    },
-  ],
-};
+{
+  const myStories = getMyStories();
+  MyStoriesBlockList.args = {
+    distributionLists: [
+      {
+        ...myStories,
+        members: Array.from(Array(2), () => getDefaultConversation()),
+      },
+    ],
+  };
+}
 
 export const MyStoriesExclusive = Template.bind({});
-MyStoriesExclusive.args = {
-  distributionLists: [
-    {
-      allowsReplies: false,
-      id: MY_STORIES_ID,
-      isBlockList: false,
-      members: Array.from(Array(11), () => getDefaultConversation()),
-      name: MY_STORIES_ID,
-    },
-  ],
-};
+{
+  const myStories = getMyStories();
+  MyStoriesExclusive.args = {
+    distributionLists: [
+      {
+        ...myStories,
+        isBlockList: false,
+        members: Array.from(Array(11), () => getDefaultConversation()),
+      },
+    ],
+  };
+}
 
 export const SingleList = Template.bind({});
-SingleList.args = {
-  distributionLists: [
-    {
-      allowsReplies: true,
-      id: MY_STORIES_ID,
-      isBlockList: false,
-      members: [],
-      name: MY_STORIES_ID,
-    },
-    {
-      allowsReplies: true,
-      id: UUID.generate().toString(),
-      isBlockList: false,
-      members: Array.from(Array(4), () => getDefaultConversation()),
-      name: 'Thailand 2021',
-    },
-  ],
-};
+{
+  const myStories = getMyStories();
+  const fakeDistroList = getFakeDistributionList();
+  SingleList.args = {
+    distributionLists: [
+      {
+        ...myStories,
+        members: [],
+      },
+      {
+        ...fakeDistroList,
+        members: fakeDistroList.memberUuids.map(() => getDefaultConversation()),
+      },
+    ],
+  };
+}

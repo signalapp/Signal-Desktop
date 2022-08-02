@@ -835,11 +835,112 @@ export default class MessageSender {
 
   // Proto assembly
 
+  async getTextAttachmentProto(
+    attachmentAttrs: Attachment.TextAttachmentType
+  ): Promise<Proto.TextAttachment> {
+    const textAttachment = new Proto.TextAttachment();
+
+    if (attachmentAttrs.text) {
+      textAttachment.text = attachmentAttrs.text;
+    }
+
+    textAttachment.textStyle = attachmentAttrs.textStyle
+      ? Number(attachmentAttrs.textStyle)
+      : 0;
+
+    if (attachmentAttrs.textForegroundColor) {
+      textAttachment.textForegroundColor = attachmentAttrs.textForegroundColor;
+    }
+
+    if (attachmentAttrs.textBackgroundColor) {
+      textAttachment.textBackgroundColor = attachmentAttrs.textBackgroundColor;
+    }
+
+    if (attachmentAttrs.preview) {
+      const previewImage = attachmentAttrs.preview.image;
+      // This cast is OK because we're ensuring that previewImage.data is truthy
+      const image =
+        previewImage && previewImage.data
+          ? await this.makeAttachmentPointer(previewImage as AttachmentType)
+          : undefined;
+
+      textAttachment.preview = {
+        image,
+        title: attachmentAttrs.preview.title,
+        url: attachmentAttrs.preview.url,
+      };
+    }
+
+    if (attachmentAttrs.gradient) {
+      textAttachment.gradient = attachmentAttrs.gradient;
+      textAttachment.background = 'gradient';
+    } else {
+      textAttachment.color = attachmentAttrs.color;
+      textAttachment.background = 'color';
+    }
+
+    return textAttachment;
+  }
+
   async getDataMessage(
     options: Readonly<MessageOptionsType>
   ): Promise<Uint8Array> {
     const message = await this.getHydratedMessage(options);
     return message.encode();
+  }
+
+  async getStoryMessage({
+    allowsReplies,
+    fileAttachment,
+    groupV2,
+    profileKey,
+    textAttachment,
+  }: {
+    allowsReplies?: boolean;
+    fileAttachment?: AttachmentType;
+    groupV2?: GroupV2InfoType;
+    profileKey: Uint8Array;
+    textAttachment?: Attachment.TextAttachmentType;
+  }): Promise<Proto.StoryMessage> {
+    const storyMessage = new Proto.StoryMessage();
+    storyMessage.profileKey = profileKey;
+
+    if (fileAttachment) {
+      try {
+        const attachmentPointer = await this.makeAttachmentPointer(
+          fileAttachment
+        );
+        storyMessage.fileAttachment = attachmentPointer;
+      } catch (error) {
+        if (error instanceof HTTPError) {
+          throw new MessageError(message, error);
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    if (textAttachment) {
+      storyMessage.textAttachment = await this.getTextAttachmentProto(
+        textAttachment
+      );
+    }
+
+    if (groupV2) {
+      const groupV2Context = new Proto.GroupContextV2();
+      groupV2Context.masterKey = groupV2.masterKey;
+      groupV2Context.revision = groupV2.revision;
+
+      if (groupV2.groupChange) {
+        groupV2Context.groupChange = groupV2.groupChange;
+      }
+
+      storyMessage.group = groupV2Context;
+    }
+
+    storyMessage.allowsReplies = Boolean(allowsReplies);
+
+    return storyMessage;
   }
 
   async getContentMessage(
@@ -1232,6 +1333,7 @@ export default class MessageSender {
     isUpdate,
     urgent,
     options,
+    storyMessage,
     storyMessageRecipients,
   }: Readonly<{
     encodedDataMessage?: Uint8Array;
@@ -1244,6 +1346,7 @@ export default class MessageSender {
     isUpdate?: boolean;
     urgent: boolean;
     options?: SendOptionsType;
+    storyMessage?: Proto.StoryMessage;
     storyMessageRecipients?: Array<{
       destinationUuid: string;
       distributionListIds: Array<string>;
@@ -1269,6 +1372,9 @@ export default class MessageSender {
       sentMessage.expirationStartTimestamp = Long.fromNumber(
         expirationStartTimestamp
       );
+    }
+    if (storyMessage) {
+      sentMessage.storyMessage = storyMessage;
     }
     if (storyMessageRecipients) {
       sentMessage.storyMessageRecipients = storyMessageRecipients.map(

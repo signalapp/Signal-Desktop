@@ -7,9 +7,12 @@ import classNames from 'classnames';
 import { get, has } from 'lodash';
 import { usePopper } from 'react-popper';
 
+import type { ConversationType } from '../state/ducks/conversations';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import type { TextAttachmentType } from '../types/Attachment';
+import type { UUIDStringType } from '../types/UUID';
 
 import { Button, ButtonVariant } from './Button';
 import { ContextMenu } from './ContextMenu';
@@ -17,6 +20,7 @@ import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview';
 import { Input } from './Input';
 import { Slider } from './Slider';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
+import { SendStoryModal } from './SendStoryModal';
 import { TextAttachment } from './TextAttachment';
 import { Theme, themeClassName } from '../util/theme';
 import { getRGBA, getRGBANumber } from '../mediaEditor/util/color';
@@ -32,10 +36,16 @@ export type PropsType = {
     message: string,
     source: LinkPreviewSourceType
   ) => unknown;
+  distributionLists: Array<StoryDistributionListDataType>;
   i18n: LocalizerType;
   linkPreview?: LinkPreviewType;
+  me: ConversationType;
   onClose: () => unknown;
-  onNext: () => unknown;
+  onSend: (
+    listIds: Array<UUIDStringType>,
+    textAttachment: TextAttachmentType
+  ) => unknown;
+  signalConnections: Array<ConversationType>;
 };
 
 enum TextStyle {
@@ -92,10 +102,13 @@ function getBackground(
 
 export const StoryCreator = ({
   debouncedMaybeGrabLinkPreview,
+  distributionLists,
   i18n,
   linkPreview,
+  me,
   onClose,
-  onNext,
+  onSend,
+  signalConnections,
 }: PropsType): JSX.Element => {
   const [isEditingText, setIsEditingText] = useState(false);
   const [selectedBackground, setSelectedBackground] =
@@ -106,6 +119,7 @@ export const StoryCreator = ({
   );
   const [sliderValue, setSliderValue] = useState<number>(100);
   const [text, setText] = useState<string>('');
+  const [hasSendToModal, setHasSendToModal] = useState(false);
 
   const textEditorRef = useRef<HTMLInputElement | null>(null);
 
@@ -229,266 +243,289 @@ export const StoryCreator = ({
     textForegroundColor = COLOR_WHITE_INT;
   }
 
+  const textAttachment: TextAttachmentType = {
+    ...getBackground(selectedBackground),
+    text,
+    textStyle,
+    textForegroundColor,
+    textBackgroundColor,
+    preview: hasLinkPreviewApplied ? linkPreview : undefined,
+  };
+
+  const hasChanges = Boolean(text || hasLinkPreviewApplied);
+
   return (
-    <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
-      <div className="StoryCreator">
-        <div className="StoryCreator__container">
-          <TextAttachment
-            disableLinkPreviewPopup
-            i18n={i18n}
-            isEditingText={isEditingText}
-            onChange={setText}
-            onClick={() => {
-              if (!isEditingText) {
-                setIsEditingText(true);
-              }
-            }}
-            onRemoveLinkPreview={() => {
-              setHasLinkPreviewApplied(false);
-            }}
-            textAttachment={{
-              ...getBackground(selectedBackground),
-              text,
-              textStyle,
-              textForegroundColor,
-              textBackgroundColor,
-              preview: hasLinkPreviewApplied ? linkPreview : undefined,
-            }}
-          />
-        </div>
-        <div className="StoryCreator__toolbar">
-          {isEditingText ? (
-            <div className="StoryCreator__tools">
-              <Slider
-                handleStyle={{ backgroundColor: getRGBA(sliderValue) }}
-                label={i18n('CustomColorEditor__hue')}
-                moduleClassName="HueSlider StoryCreator__tools__tool"
-                onChange={setSliderValue}
-                value={sliderValue}
-              />
-              <ContextMenu
-                i18n={i18n}
-                menuOptions={[
-                  {
-                    icon: 'StoryCreator__icon--font-regular',
-                    label: i18n('StoryCreator__text--regular'),
-                    onClick: () => setTextStyle(TextStyle.Regular),
-                    value: TextStyle.Regular,
-                  },
-                  {
-                    icon: 'StoryCreator__icon--font-bold',
-                    label: i18n('StoryCreator__text--bold'),
-                    onClick: () => setTextStyle(TextStyle.Bold),
-                    value: TextStyle.Bold,
-                  },
-                  {
-                    icon: 'StoryCreator__icon--font-serif',
-                    label: i18n('StoryCreator__text--serif'),
-                    onClick: () => setTextStyle(TextStyle.Serif),
-                    value: TextStyle.Serif,
-                  },
-                  {
-                    icon: 'StoryCreator__icon--font-script',
-                    label: i18n('StoryCreator__text--script'),
-                    onClick: () => setTextStyle(TextStyle.Script),
-                    value: TextStyle.Script,
-                  },
-                  {
-                    icon: 'StoryCreator__icon--font-condensed',
-                    label: i18n('StoryCreator__text--condensed'),
-                    onClick: () => setTextStyle(TextStyle.Condensed),
-                    value: TextStyle.Condensed,
-                  },
-                ]}
-                moduleClassName={classNames('StoryCreator__tools__tool', {
-                  'StoryCreator__tools__button--font-regular':
-                    textStyle === TextStyle.Regular,
-                  'StoryCreator__tools__button--font-bold':
-                    textStyle === TextStyle.Bold,
-                  'StoryCreator__tools__button--font-serif':
-                    textStyle === TextStyle.Serif,
-                  'StoryCreator__tools__button--font-script':
-                    textStyle === TextStyle.Script,
-                  'StoryCreator__tools__button--font-condensed':
-                    textStyle === TextStyle.Condensed,
-                })}
-                theme={Theme.Dark}
-                value={textStyle}
-              />
-              <button
-                aria-label={i18n('StoryCreator__text-bg')}
-                className={classNames('StoryCreator__tools__tool', {
-                  'StoryCreator__tools__button--bg-none':
-                    textBackground === TextBackground.None,
-                  'StoryCreator__tools__button--bg':
-                    textBackground === TextBackground.Background,
-                  'StoryCreator__tools__button--bg-inverse':
-                    textBackground === TextBackground.Inverse,
-                })}
-                onClick={() => {
-                  if (textBackground === TextBackground.None) {
-                    setTextBackground(TextBackground.Background);
-                  } else if (textBackground === TextBackground.Background) {
-                    setTextBackground(TextBackground.Inverse);
-                  } else {
-                    setTextBackground(TextBackground.None);
-                  }
-                }}
-                type="button"
-              />
-            </div>
-          ) : (
-            <div className="StoryCreator__toolbar--space" />
-          )}
-          <div className="StoryCreator__toolbar--buttons">
-            <Button
-              onClick={onClose}
-              theme={Theme.Dark}
-              variant={ButtonVariant.Secondary}
-            >
-              {i18n('discard')}
-            </Button>
-            <div className="StoryCreator__controls">
-              <button
-                aria-label={i18n('StoryCreator__story-bg')}
-                className={classNames({
-                  StoryCreator__control: true,
-                  'StoryCreator__control--bg': true,
-                  'StoryCreator__control--bg--selected': isColorPickerShowing,
-                })}
-                onClick={() => setIsColorPickerShowing(!isColorPickerShowing)}
-                ref={setColorPickerPopperButtonRef}
-                style={{
-                  background: getBackgroundColor(
-                    getBackground(selectedBackground)
-                  ),
-                }}
-                type="button"
-              />
-              {isColorPickerShowing && (
-                <div
-                  className="StoryCreator__popper"
-                  ref={setColorPickerPopperRef}
-                  style={colorPickerPopper.styles.popper}
-                  {...colorPickerPopper.attributes.popper}
-                >
-                  <div
-                    data-popper-arrow
-                    className="StoryCreator__popper__arrow"
-                  />
-                  {objectMap<BackgroundStyleType>(
-                    BackgroundStyle,
-                    (bg, backgroundValue) => (
-                      <button
-                        aria-label={i18n('StoryCreator__story-bg')}
-                        className={classNames({
-                          StoryCreator__bg: true,
-                          'StoryCreator__bg--selected':
-                            selectedBackground === backgroundValue,
-                        })}
-                        key={String(bg)}
-                        onClick={() => {
-                          setSelectedBackground(backgroundValue);
-                          setIsColorPickerShowing(false);
-                        }}
-                        type="button"
-                        style={{
-                          background: getBackgroundColor(
-                            getBackground(backgroundValue)
-                          ),
-                        }}
-                      />
-                    )
-                  )}
-                </div>
-              )}
-              <button
-                aria-label={i18n('StoryCreator__control--draw')}
-                className={classNames({
-                  StoryCreator__control: true,
-                  'StoryCreator__control--text': true,
-                  'StoryCreator__control--selected': isEditingText,
-                })}
-                onClick={() => {
-                  setIsEditingText(!isEditingText);
-                }}
-                type="button"
-              />
-              <button
-                aria-label={i18n('StoryCreator__control--link')}
-                className="StoryCreator__control StoryCreator__control--link"
-                onClick={() =>
-                  setIsLinkPreviewInputShowing(!isLinkPreviewInputShowing)
+    <>
+      {hasSendToModal && (
+        <SendStoryModal
+          distributionLists={distributionLists}
+          i18n={i18n}
+          me={me}
+          onClose={() => setHasSendToModal(false)}
+          onSend={listIds => {
+            onSend(listIds, textAttachment);
+            setHasSendToModal(false);
+            onClose();
+          }}
+          signalConnections={signalConnections}
+        />
+      )}
+      <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+        <div className="StoryCreator">
+          <div className="StoryCreator__container">
+            <TextAttachment
+              disableLinkPreviewPopup
+              i18n={i18n}
+              isEditingText={isEditingText}
+              onChange={setText}
+              onClick={() => {
+                if (!isEditingText) {
+                  setIsEditingText(true);
                 }
-                ref={setLinkPreviewInputPopperButtonRef}
-                type="button"
-              />
-              {isLinkPreviewInputShowing && (
-                <div
-                  className={classNames(
-                    'StoryCreator__popper StoryCreator__link-preview-input-popper',
-                    themeClassName(Theme.Dark)
-                  )}
-                  ref={setLinkPreviewInputPopperRef}
-                  style={linkPreviewInputPopper.styles.popper}
-                  {...linkPreviewInputPopper.attributes.popper}
-                >
+              }}
+              onRemoveLinkPreview={() => {
+                setHasLinkPreviewApplied(false);
+              }}
+              textAttachment={textAttachment}
+            />
+          </div>
+          <div className="StoryCreator__toolbar">
+            {isEditingText ? (
+              <div className="StoryCreator__tools">
+                <Slider
+                  handleStyle={{ backgroundColor: getRGBA(sliderValue) }}
+                  label={i18n('CustomColorEditor__hue')}
+                  moduleClassName="HueSlider StoryCreator__tools__tool"
+                  onChange={setSliderValue}
+                  value={sliderValue}
+                />
+                <ContextMenu
+                  i18n={i18n}
+                  menuOptions={[
+                    {
+                      icon: 'StoryCreator__icon--font-regular',
+                      label: i18n('StoryCreator__text--regular'),
+                      onClick: () => setTextStyle(TextStyle.Regular),
+                      value: TextStyle.Regular,
+                    },
+                    {
+                      icon: 'StoryCreator__icon--font-bold',
+                      label: i18n('StoryCreator__text--bold'),
+                      onClick: () => setTextStyle(TextStyle.Bold),
+                      value: TextStyle.Bold,
+                    },
+                    {
+                      icon: 'StoryCreator__icon--font-serif',
+                      label: i18n('StoryCreator__text--serif'),
+                      onClick: () => setTextStyle(TextStyle.Serif),
+                      value: TextStyle.Serif,
+                    },
+                    {
+                      icon: 'StoryCreator__icon--font-script',
+                      label: i18n('StoryCreator__text--script'),
+                      onClick: () => setTextStyle(TextStyle.Script),
+                      value: TextStyle.Script,
+                    },
+                    {
+                      icon: 'StoryCreator__icon--font-condensed',
+                      label: i18n('StoryCreator__text--condensed'),
+                      onClick: () => setTextStyle(TextStyle.Condensed),
+                      value: TextStyle.Condensed,
+                    },
+                  ]}
+                  moduleClassName={classNames('StoryCreator__tools__tool', {
+                    'StoryCreator__tools__button--font-regular':
+                      textStyle === TextStyle.Regular,
+                    'StoryCreator__tools__button--font-bold':
+                      textStyle === TextStyle.Bold,
+                    'StoryCreator__tools__button--font-serif':
+                      textStyle === TextStyle.Serif,
+                    'StoryCreator__tools__button--font-script':
+                      textStyle === TextStyle.Script,
+                    'StoryCreator__tools__button--font-condensed':
+                      textStyle === TextStyle.Condensed,
+                  })}
+                  theme={Theme.Dark}
+                  value={textStyle}
+                />
+                <button
+                  aria-label={i18n('StoryCreator__text-bg')}
+                  className={classNames('StoryCreator__tools__tool', {
+                    'StoryCreator__tools__button--bg-none':
+                      textBackground === TextBackground.None,
+                    'StoryCreator__tools__button--bg':
+                      textBackground === TextBackground.Background,
+                    'StoryCreator__tools__button--bg-inverse':
+                      textBackground === TextBackground.Inverse,
+                  })}
+                  onClick={() => {
+                    if (textBackground === TextBackground.None) {
+                      setTextBackground(TextBackground.Background);
+                    } else if (textBackground === TextBackground.Background) {
+                      setTextBackground(TextBackground.Inverse);
+                    } else {
+                      setTextBackground(TextBackground.None);
+                    }
+                  }}
+                  type="button"
+                />
+              </div>
+            ) : (
+              <div className="StoryCreator__toolbar--space" />
+            )}
+            <div className="StoryCreator__toolbar--buttons">
+              <Button
+                onClick={onClose}
+                theme={Theme.Dark}
+                variant={ButtonVariant.Secondary}
+              >
+                {i18n('discard')}
+              </Button>
+              <div className="StoryCreator__controls">
+                <button
+                  aria-label={i18n('StoryCreator__story-bg')}
+                  className={classNames({
+                    StoryCreator__control: true,
+                    'StoryCreator__control--bg': true,
+                    'StoryCreator__control--bg--selected': isColorPickerShowing,
+                  })}
+                  onClick={() => setIsColorPickerShowing(!isColorPickerShowing)}
+                  ref={setColorPickerPopperButtonRef}
+                  style={{
+                    background: getBackgroundColor(
+                      getBackground(selectedBackground)
+                    ),
+                  }}
+                  type="button"
+                />
+                {isColorPickerShowing && (
                   <div
-                    data-popper-arrow
-                    className="StoryCreator__popper__arrow"
-                  />
-                  <Input
-                    disableSpellcheck
-                    i18n={i18n}
-                    moduleClassName="StoryCreator__link-preview-input"
-                    onChange={setLinkPreviewInputValue}
-                    placeholder={i18n('StoryCreator__link-preview-placeholder')}
-                    ref={el => el?.focus()}
-                    value={linkPreviewInputValue}
-                  />
-                  <div className="StoryCreator__link-preview-container">
-                    {linkPreview ? (
-                      <>
-                        <StagedLinkPreview
-                          domain={linkPreview.domain}
-                          i18n={i18n}
-                          image={linkPreview.image}
-                          moduleClassName="StoryCreator__link-preview"
-                          title={linkPreview.title}
-                          url={linkPreview.url}
-                        />
-                        <Button
-                          className="StoryCreator__link-preview-button"
+                    className="StoryCreator__popper"
+                    ref={setColorPickerPopperRef}
+                    style={colorPickerPopper.styles.popper}
+                    {...colorPickerPopper.attributes.popper}
+                  >
+                    <div
+                      data-popper-arrow
+                      className="StoryCreator__popper__arrow"
+                    />
+                    {objectMap<BackgroundStyleType>(
+                      BackgroundStyle,
+                      (bg, backgroundValue) => (
+                        <button
+                          aria-label={i18n('StoryCreator__story-bg')}
+                          className={classNames({
+                            StoryCreator__bg: true,
+                            'StoryCreator__bg--selected':
+                              selectedBackground === backgroundValue,
+                          })}
+                          key={String(bg)}
                           onClick={() => {
-                            setHasLinkPreviewApplied(true);
-                            setIsLinkPreviewInputShowing(false);
+                            setSelectedBackground(backgroundValue);
+                            setIsColorPickerShowing(false);
                           }}
-                          theme={Theme.Dark}
-                          variant={ButtonVariant.Primary}
-                        >
-                          {i18n('StoryCreator__add-link')}
-                        </Button>
-                      </>
-                    ) : (
-                      <div className="StoryCreator__link-preview-empty">
-                        <div className="StoryCreator__link-preview-empty__icon" />
-                        {i18n('StoryCreator__link-preview-empty')}
-                      </div>
+                          type="button"
+                          style={{
+                            background: getBackgroundColor(
+                              getBackground(backgroundValue)
+                            ),
+                          }}
+                        />
+                      )
                     )}
                   </div>
-                </div>
-              )}
+                )}
+                <button
+                  aria-label={i18n('StoryCreator__control--text')}
+                  className={classNames({
+                    StoryCreator__control: true,
+                    'StoryCreator__control--text': true,
+                    'StoryCreator__control--selected': isEditingText,
+                  })}
+                  onClick={() => {
+                    setIsEditingText(!isEditingText);
+                  }}
+                  type="button"
+                />
+                <button
+                  aria-label={i18n('StoryCreator__control--link')}
+                  className="StoryCreator__control StoryCreator__control--link"
+                  onClick={() =>
+                    setIsLinkPreviewInputShowing(!isLinkPreviewInputShowing)
+                  }
+                  ref={setLinkPreviewInputPopperButtonRef}
+                  type="button"
+                />
+                {isLinkPreviewInputShowing && (
+                  <div
+                    className={classNames(
+                      'StoryCreator__popper StoryCreator__link-preview-input-popper',
+                      themeClassName(Theme.Dark)
+                    )}
+                    ref={setLinkPreviewInputPopperRef}
+                    style={linkPreviewInputPopper.styles.popper}
+                    {...linkPreviewInputPopper.attributes.popper}
+                  >
+                    <div
+                      data-popper-arrow
+                      className="StoryCreator__popper__arrow"
+                    />
+                    <Input
+                      disableSpellcheck
+                      i18n={i18n}
+                      moduleClassName="StoryCreator__link-preview-input"
+                      onChange={setLinkPreviewInputValue}
+                      placeholder={i18n(
+                        'StoryCreator__link-preview-placeholder'
+                      )}
+                      ref={el => el?.focus()}
+                      value={linkPreviewInputValue}
+                    />
+                    <div className="StoryCreator__link-preview-container">
+                      {linkPreview ? (
+                        <>
+                          <StagedLinkPreview
+                            domain={linkPreview.domain}
+                            i18n={i18n}
+                            image={linkPreview.image}
+                            moduleClassName="StoryCreator__link-preview"
+                            title={linkPreview.title}
+                            url={linkPreview.url}
+                          />
+                          <Button
+                            className="StoryCreator__link-preview-button"
+                            onClick={() => {
+                              setHasLinkPreviewApplied(true);
+                              setIsLinkPreviewInputShowing(false);
+                            }}
+                            theme={Theme.Dark}
+                            variant={ButtonVariant.Primary}
+                          >
+                            {i18n('StoryCreator__add-link')}
+                          </Button>
+                        </>
+                      ) : (
+                        <div className="StoryCreator__link-preview-empty">
+                          <div className="StoryCreator__link-preview-empty__icon" />
+                          {i18n('StoryCreator__link-preview-empty')}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <Button
+                disabled={!hasChanges}
+                onClick={() => setHasSendToModal(true)}
+                theme={Theme.Dark}
+                variant={ButtonVariant.Primary}
+              >
+                {i18n('StoryCreator__next')}
+              </Button>
             </div>
-            <Button
-              onClick={onNext}
-              theme={Theme.Dark}
-              variant={ButtonVariant.Primary}
-            >
-              {i18n('StoryCreator__next')}
-            </Button>
           </div>
         </div>
-      </div>
-    </FocusTrap>
+      </FocusTrap>
+    </>
   );
 };

@@ -25,6 +25,7 @@ export const IMAGE_BMP = stringToMIMEType('image/bmp');
 export const VIDEO_MP4 = stringToMIMEType('video/mp4');
 export const VIDEO_QUICKTIME = stringToMIMEType('video/quicktime');
 export const LONG_MESSAGE = stringToMIMEType('text/x-signal-plain');
+export const TEXT_ATTACHMENT = stringToMIMEType('text/x-signal-story');
 
 export const isHeic = (value: string, fileName: string): boolean =>
   value === 'image/heic' ||

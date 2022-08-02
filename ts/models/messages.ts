@@ -194,6 +194,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   // Set when sending some sync messages, so we get the functionality of
   //   send(), without zombie messages going into the database.
   doNotSave?: boolean;
+  // Set when sending stories, so we get the functionality of send() but we are
+  //   able to send the sync message elsewhere.
+  doNotSendSyncMessage?: boolean;
 
   INITIAL_PROTOCOL_VERSION?: number;
 
@@ -1575,7 +1578,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     updateLeftPane();
 
-    if (sentToAtLeastOneRecipient) {
+    if (sentToAtLeastOneRecipient && !this.doNotSendSyncMessage) {
       promises.push(this.sendSyncMessage());
     }
 

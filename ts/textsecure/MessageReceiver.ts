@@ -114,7 +114,7 @@ import * as log from '../logging/log';
 import * as durations from '../util/durations';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME';
+import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
 
 const GROUPV1_ID_LENGTH = 16;
@@ -1884,7 +1884,7 @@ export default class MessageReceiver
       // TODO DESKTOP-3714 we should download the story link preview image
       attachments.push({
         size: text.length,
-        contentType: APPLICATION_OCTET_STREAM,
+        contentType: TEXT_ATTACHMENT,
         textAttachment: msg.textAttachment,
         blurHash: generateBlurHash(
           (msg.textAttachment.color ||

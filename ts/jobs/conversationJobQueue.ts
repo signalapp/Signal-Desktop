@@ -18,6 +18,7 @@ import { sendGroupUpdate } from './helpers/sendGroupUpdate';
 import { sendDeleteForEveryone } from './helpers/sendDeleteForEveryone';
 import { sendProfileKey } from './helpers/sendProfileKey';
 import { sendReaction } from './helpers/sendReaction';
+import { sendStory } from './helpers/sendStory';
 
 import type { LoggerType } from '../types/Logging';
 import { ConversationVerificationState } from '../state/ducks/conversationsEnums';
@@ -44,6 +45,7 @@ export const conversationQueueJobEnum = z.enum([
   'NormalMessage',
   'ProfileKey',
   'Reaction',
+  'Story',
 ]);
 
 const deleteForEveryoneJobDataSchema = z.object({
@@ -105,6 +107,17 @@ const reactionJobDataSchema = z.object({
 });
 export type ReactionJobData = z.infer<typeof reactionJobDataSchema>;
 
+const storyJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.Story),
+  conversationId: z.string(),
+  // Note: recipients are baked into the message itself
+  messageIds: z.string().array(),
+  textAttachment: z.any(), // TODO TextAttachmentType
+  timestamp: z.number(),
+  revision: z.number().optional(),
+});
+export type StoryJobData = z.infer<typeof storyJobDataSchema>;
+
 export const conversationQueueJobDataSchema = z.union([
   deleteForEveryoneJobDataSchema,
   expirationTimerUpdateJobDataSchema,
@@ -112,6 +125,7 @@ export const conversationQueueJobDataSchema = z.union([
   normalMessageSendJobDataSchema,
   profileKeyJobDataSchema,
   reactionJobDataSchema,
+  storyJobDataSchema,
 ]);
 export type ConversationQueueJobData = z.infer<
   typeof conversationQueueJobDataSchema
@@ -331,6 +345,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           break;
         case jobSet.Reaction:
           await sendReaction(conversation, jobBundle, data);
+          break;
+        case jobSet.Story:
+          await sendStory(conversation, jobBundle, data);
           break;
         default: {
           // Note: This should never happen, because the zod call in parseData wouldn't

@@ -8,6 +8,11 @@ import { getClassNamesFor } from '../util/getClassNamesFor';
 
 export type PropsType = {
   checked?: boolean;
+  children?: (childrenOpts: {
+    id: string;
+    checkboxNode: JSX.Element;
+    labelNode: JSX.Element;
+  }) => JSX.Element;
   description?: string;
   disabled?: boolean;
   isRadio?: boolean;
@@ -20,6 +25,7 @@ export type PropsType = {
 
 export const Checkbox = ({
   checked,
+  children,
   description,
   disabled,
   isRadio,
@@ -31,26 +37,41 @@ export const Checkbox = ({
 }: PropsType): JSX.Element => {
   const getClassName = getClassNamesFor('Checkbox', moduleClassName);
   const id = useMemo(() => `${name}::${uuid()}`, [name]);
+
+  const checkboxNode = (
+    <div className={getClassName('__checkbox')}>
+      <input
+        checked={Boolean(checked)}
+        disabled={disabled}
+        id={id}
+        name={name}
+        onChange={ev => onChange(ev.target.checked)}
+        onClick={onClick}
+        type={isRadio ? 'radio' : 'checkbox'}
+      />
+    </div>
+  );
+
+  const labelNode = (
+    <div>
+      <label htmlFor={id}>
+        <div>{label}</div>
+        <div className={getClassName('__description')}>{description}</div>
+      </label>
+    </div>
+  );
+
   return (
     <div className={getClassName('')}>
       <div className={getClassName('__container')}>
-        <div className={getClassName('__checkbox')}>
-          <input
-            checked={Boolean(checked)}
-            disabled={disabled}
-            id={id}
-            name={name}
-            onChange={ev => onChange(ev.target.checked)}
-            onClick={onClick}
-            type={isRadio ? 'radio' : 'checkbox'}
-          />
-        </div>
-        <div>
-          <label htmlFor={id}>
-            <div>{label}</div>
-            <div className={getClassName('__description')}>{description}</div>
-          </label>
-        </div>
+        {children ? (
+          children({ id, checkboxNode, labelNode })
+        ) : (
+          <>
+            {checkboxNode}
+            {labelNode}
+          </>
+        )}
       </div>
     </div>
   );
