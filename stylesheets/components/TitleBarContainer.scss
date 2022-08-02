@@ -60,5 +60,6 @@
   &__content {
     height: calc(100vh - var(--titlebar-height));
     position: relative;
+    overflow: hidden;
   }
 }
