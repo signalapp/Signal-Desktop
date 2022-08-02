@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Cds2Client } from '@signalapp/libsignal-client';
+import { Cds2Client } from '@signalapp/libsignal-client';
 
 import { strictAssert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
@@ -23,8 +23,6 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
     );
     this.state = CDSSocketState.Handshake;
 
-    throw new Error('TODO: CDSISocket: Cds2Client is not available!');
-    /*
     {
       const { done, value: attestationMessage } =
         await this.socketIterator.next();
@@ -42,7 +40,6 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
         earliestValidTimestamp
       );
     }
-    */
 
     this.socket.sendBytes(this.cdsClient.initialRequest());
 

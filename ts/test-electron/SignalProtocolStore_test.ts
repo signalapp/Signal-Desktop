@@ -7,12 +7,12 @@ import chai, { assert } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import {
   Direction,
-  // IdentityKeyPair,
-  // PrivateKey,
-  // PublicKey,
+  IdentityKeyPair,
+  PrivateKey,
+  PublicKey,
   SenderKeyRecord,
   SessionRecord,
-  // SignedPreKeyRecord,
+  SignedPreKeyRecord,
 } from '@signalapp/libsignal-client';
 
 import { signal } from '../protobuf/compiled';
@@ -20,12 +20,12 @@ import { sessionStructureToBytes } from '../util/sessionTranslation';
 import * as durations from '../util/durations';
 import { Zone } from '../util/Zone';
 
-// import * as Bytes from '../Bytes';
+import * as Bytes from '../Bytes';
 import { getRandomBytes, constantTimeEqual } from '../Crypto';
 import {
   clampPrivateKey,
   setPublicKeyTypeByte,
-  // generateSignedPreKey,
+  generateSignedPreKey,
 } from '../Curve';
 import type { SignalProtocolStore } from '../SignalProtocolStore';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
@@ -1774,7 +1774,6 @@ describe('SignalProtocolStore', () => {
       assert.strictEqual(items.length, 0);
     });
   });
-  /*
   describe('removeOurOldPni/updateOurPniKeyMaterial', () => {
     beforeEach(async () => {
       await store.storePreKey(ourUuid, 2, testKey);
@@ -1851,5 +1850,4 @@ describe('SignalProtocolStore', () => {
       // Note: signature is ignored.
     });
   });
-  */
 });

@@ -862,8 +862,8 @@ export default class AccountManager extends EventTarget {
 
     if (keyMaterial) {
       await storage.protocol.updateOurPniKeyMaterial(
-        new UUID(pni)
-        // keyMaterial
+        new UUID(pni),
+        keyMaterial
       );
 
       // Intentionally not awaiting since this is processed on encrypted queue
