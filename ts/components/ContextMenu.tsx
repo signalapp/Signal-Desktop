@@ -134,7 +134,12 @@ export function ContextMenu<T>({
   const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
   return (
-    <div className={theme ? themeClassName(theme) : undefined}>
+    <div
+      className={classNames(
+        getClassName('__container'),
+        theme ? themeClassName(theme) : undefined
+      )}
+    >
       <button
         aria-label={i18n('ContextMenu--button')}
         className={classNames(

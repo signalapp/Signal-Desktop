@@ -2,6 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .ContextMenu {
+  &__container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
   &__popper {
     @extend %module-composition-popper;
     margin: 0;
