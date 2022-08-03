@@ -1141,6 +1141,14 @@
         "message": "Готово",
         "description": "Label for done"
     },
+    "update": {
+        "message": "Обновить",
+        "description": ""
+    },
+    "next2": {
+        "message": "Далее",
+        "description": ""
+    },
     "on": {
         "message": "Включено",
         "description": "Label for when something is turned on"
@@ -3502,7 +3510,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Посмотрите на этот новый набор стикеров, который я создал для Signal. #makeprivacystick",
+        "message": "Посмотрите на этот новый набор стикеров, созданных мною для Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -4468,7 +4476,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ изменил(-а), кто может редактировать информацию группы, на «Только администраторы».",
+        "message": "$adminName$ изменил(-а) возможность редактировать информацию группы на «Только администраторы».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4478,15 +4486,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "Вы изменили, кто может редактировать информацию группы, на «Только администраторы».",
+        "message": "Вы изменили возможность редактировать информацию группы на «Только администраторы».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Один из администраторов изменил, кто может редактировать информацию группы, на «Только администраторы».",
+        "message": "Один из администраторов изменил возможность редактировать информацию группы на «Только администраторы».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ изменил(-а), кто может редактировать информацию группы, на «Все участники».",
+        "message": "$adminName$ изменил(-а) возможность редактировать информацию группы на «Все участники».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4496,15 +4504,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Вы изменили, кто может редактировать информацию группы, на «Все участники».",
+        "message": "Вы изменили возможность редактировать информацию группы на «Все участники».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Один из администраторов изменил, кто может редактировать информацию группы, на «Все участники».",
+        "message": "Один из администраторов изменил возможность редактировать информацию группы на «Все участники».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ изменил(-а), кто может редактировать членство в группе, на «Только администраторы».",
+        "message": "$adminName$ изменил(-а) возможность редактировать членство в группе на «Только администраторы».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4514,15 +4522,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "Вы изменили, кто может редактировать членство в группе, на «Только администраторы».",
+        "message": "Вы изменили возможность редактировать членство в группе на «Только администраторы».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "Один из администраторов изменил, кто может редактировать членство в группе, на «Только администраторы».",
+        "message": "Один из администраторов изменил возможность редактировать членство в группе на «Только администраторы».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ изменил(-а), кто может редактировать членство в группе, на «Все участники».",
+        "message": "$adminName$ изменил(-а) возможность редактировать членство в группе на «Все участники».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4532,11 +4540,11 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "Вы изменили, кто может редактировать членство в группе, на «Все участники».",
+        "message": "Вы изменили возможность редактировать членство в группе на «Все участники».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Один из администраторов изменил, кто может редактировать членство в группе, на «Все участники».",
+        "message": "Один из администраторов изменил возможность редактировать членство в группе на «Все участники».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
@@ -7143,6 +7151,36 @@
         "message": "Удалить эту историю? Она также будет удалена для всех, кто её получил.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Контакты Signal",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ — это люди, которым вы решили доверять одним из следующих способов:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "Начав разговор",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "Приняв запрос на общение",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "Имея их в своих системных контактах",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "Ваши контакты могут видеть ваше имя и фото, а также обновления истории «Моя история», если вы не скроете её от них",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "Истории",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "Отправляем реакцию…",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "Настройки историй",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "Новая частная история",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "Зрителей: $num$",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "Зрителей: $num$",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "Кто может видеть эту историю",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "Добавить зрителя",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "Удалить",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "Удалить $title$",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "Этот человек больше не будет видеть вашу историю.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "Ответы и реакции",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "Разрешить ответы и реакции",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "Разрешить людям, которые могут видеть вашу историю, реагировать и отвечать.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "Удалить частную историю",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "Удалить частную историю?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "Выберите зрителей",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "Назовите эту историю",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "Название истории (обязательно)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "Скрыть историю от",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Все контакты Signal",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "Поделиться со всеми контактами",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "Все контакты Signal, кроме...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ человек(-а) исключено",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "Поделиться только с...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "Поделиться только с конкретными людьми",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ человек(-а)",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "Выберите, кто может просмотреть вашу историю. Изменения не повлияют на истории, которые вы уже отправили. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "Узнать больше.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "Настройки историй",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "Делиться историями и просматривать их",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "Вкл. микрофон",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "Отправлено $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "Размер файла $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Копировать отметку времени",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Ещё нет ответов",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "Перейти к чату",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "Удалить",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "Информация",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "Скрыть историю? Новые истории от $name$ и их обновления больше не будут показываться сверху списка историй.",
@@ -7359,8 +7577,12 @@
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Для всех любителей темного режима в Windows у нас есть новая строка заголовка, соответствующая вашему стилю.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "Дополнительные небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "Если вы используете программу чтения с экрана JAWS, то теперь вы можете успешно воспроизводить голосовые заметки и получать доступ к более длинным сообщениям, которые можно сократить, нажав кнопку «подробнее».",
+        "description": "Release notes for v5.53"
     }
 }

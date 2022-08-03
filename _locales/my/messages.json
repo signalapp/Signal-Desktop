@@ -1141,6 +1141,14 @@
         "message": "ပြီးပါပြီ",
         "description": "Label for done"
     },
+    "update": {
+        "message": "အပ်ဒိတ် လုပ်",
+        "description": ""
+    },
+    "next2": {
+        "message": "နောက်ထက်",
+        "description": ""
+    },
     "on": {
         "message": "ဖွင့်ပါ",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "ဤစတိုရီကို ဖျက်မည်လား။ ၎င်းကို လက်ခံရရှိသူတိုင်းအတွက် ၎င်းကို ဖျက်သွားပါမည်။",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal အဆက်အသွယ်များ",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ သည် သင်ရွေးချယ်ထားသော ယုံကြည်ရသူများဖြစ်ပါသည်၊ သို့မဟုတ်-",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "စကားဝိုင်း စတင်ခြင်း",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "မက်ဆေ့ချ် တောင်းဆိုချက်ကို လက်ခံခြင်း",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "သင့်စနစ်ထဲရှိ အဆက်အသွယ်များတွင် ၎င်းတို့ ရှိပြီးခြင်း",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "သင့်အဆက်အသွယ်များက သင့်အမည်နှင့် ဓာတ်ပုံကို မြင်နိုင်ပြီး ၎င်းတို့အတွက် မဝှက်ထားပါက \"ကျွန်ုပ်၏ စတိုရီ\" ရှိ ပို့စ်များကို မြင်နိုင်ပါသည်",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "စတိုရီ",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "တုံ့ပြန်ချက် ပို့နေဆဲ...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "စတိုရီ ဆက်တင်",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "သီးသန့် စတိုရီ အသစ်",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "ကြည့်ရှုသူ $num$ ဦး",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "ကြည့်ရှုသူ $num$ ဦး",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "ဤစတိုရီကို ကြည့်နိုင်မည့်သူများ",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "ကြည့်ရှုသူ ပေါင်းထည့်ရန်",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "ဖယ်ရှားမယ်",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$ ကို ဖယ်ရှားရန်",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "ဤပုဂ္ဂိုလ်က သင့်စတိုရီကို မမြင်နိုင်တော့ပါ။",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "ပြန်စာများနှင့် တုံ့ပြန်မှုများ",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "ပြန်စာများနှင့် တုံ့ပြန်မှုများကို ခွင့်ပြုရန်",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "သင့်စတိုရီကို ကြည့်နိုင်သူများအား တုံ့ပြန်မှု ပေးရန်နှင့် ပြန်စာပို့ရန် ခွင့်ပြုပါ။",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "သီးသန့် စတိုရီကို ဖျက်ရန်",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "သီးသန့် စတိုရီကို ဖျက်မည်လား။",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "ကြည့်ရှုသူများ ရွေးရန်",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "ဤစတိုရီကို အမည်ပေးရန်",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "စတိုရီ အမည် (လိုအပ်ပါသည်)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "ဖော်ပြပါသူများမှ စတိုရီကို ဝှက်ရန်",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Signal အဆက်အသွယ်များ အားလုံး",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "အဆက်အသွယ်များ အားလုံးထံ ဝေမျှရန်",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "ဖော်ပြပါမှ Signal အဆက်အသွယ်များအားလုံး...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ ဦးကို ဖယ်ထားပါသည်",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "ဖော်ပြပါတို့ထံသာ ဝေမျှရန်...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "ရွေးထားသူများထံသာ ဝေမျှရန်",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ ဦး",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "သင့်စတိုရီကို မြင်နိုင်မည့်သူများအား ရွေးချယ်ပါ။ ပြောင်းလဲမှုများသည် သင်ပို့ထားပြီးဖြစ်သည့် စတိုရီများအပေါ် သက်ရောက်မှု မရှိပါ။ $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "ပိုမိုလေ့လာရန်။",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "စတိုရီ ဆက်တင်",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "စတိုရီများကို မျှဝေကြည့်ရှုရန်",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "အသံပြန်ဖွင့်မယ်",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "ပေးပို့ပြီး $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "ဖိုင်အရွယ်အစား $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Timestamp ကူးရန်",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ပြန်စာများ မရှိသေးပါ",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "ချက်(တ်)သို့ သွားရန်",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "ဖျက်ရန်",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "အချက်အလက် ",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "စတိုရီကို ဝှက်မည်လား။ စတိုရီ စာရင်း၏ ထိပ်ဆုံးတွင် $name$ ထံမှ စတိုရီအသစ် အပ်ဒိတ်များ ပေါ်လာတော့မည် မဟုတ်ပါ။",
@@ -7359,8 +7577,12 @@
         "message": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windows တွင် အမှောင်စနစ် သုံးစွဲသူများအတွက် သင့်စတိုင်နှင့် ကိုက်ညီမည့် ခေါင်းစီးဘားအသစ် ရှိထားပါပြီ။",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "နောက်ဆက်တွဲ အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "JAWS စခရင် ဖတ်ရှုမှု ပရိုဂရမ်ကို သုံးနေပါက သင်သည် ယခုအခါ အသံမီမိုများကို အောင်မြင်စွာ ဖွင့်နိုင်ပါမည်၊ \"ပိုမိုဖတ်ရှုရန်\" ခလုတ်၏ နောက်တွင် အတိုချုံးပေးထားသည့် မက်ဆေ့ချ်ရှည်များကို ဝင်ရောက်ကြည့်ရှုနိုင်ပါသည်။",
+        "description": "Release notes for v5.53"
     }
 }

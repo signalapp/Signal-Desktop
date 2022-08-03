@@ -1141,6 +1141,14 @@
         "message": "完成",
         "description": "Label for done"
     },
+    "update": {
+        "message": "更新",
+        "description": ""
+    },
+    "next2": {
+        "message": "下一步",
+        "description": ""
+    },
     "on": {
         "message": "開",
         "description": "Label for when something is turned on"
@@ -3140,7 +3148,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "專注編寫器",
+        "message": "專注輸入欄位",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
@@ -3264,7 +3272,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "關閉現有嘅對話",
+        "message": "關閉現有對話",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
@@ -3304,7 +3312,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "close-popup": {
-        "message": "關閉彈出視窗",
+        "message": "閂咗彈出視窗",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
@@ -3320,7 +3328,7 @@
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "對話已經存檔",
+        "message": "封存咗對話",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationArchivedUndo": {
@@ -3328,11 +3336,11 @@
         "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "對話已經移返去收件匣到",
+        "message": "對話已經移咗返去收件匣",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "對話已經標記做未讀取",
+        "message": "對話已經標記咗做未讀",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -3340,11 +3348,11 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "㩒一吓喺呢到加入或者放置圖像",
+        "message": "㩒一吓喺呢度加入或者放置圖像",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "喺呢到放置圖像",
+        "message": "喺呢度放置圖像",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
@@ -3384,7 +3392,7 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "加入您嘅貼圖",
+        "message": "加入你嘅貼圖",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
@@ -3396,7 +3404,7 @@
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
-        "message": "貼圖一定要用 512x512 像素同埋透明背景嘅 PNG、APNG 或者 WebP 格式。我哋建議嘅邊界係 16 像素。",
+        "message": "貼圖一定要用 512x512 像素同埋透明背景嘅 PNG、APNG 或者 WebP 格式。建議邊界係 16 像素。",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -3404,7 +3412,7 @@
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "新增 $count$ 或以上",
+        "message": "新增 $count$ 個或以上",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -3418,11 +3426,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "咁樣我哋就可以喺您傳送訊息嗰陣向您建議貼圖喇。",
+        "message": "咁我哋就可以喺你傳送訊息嘅時候建議貼圖俾你喇。",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "加多少少細節啫...",
+        "message": "要多少少細節...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3434,15 +3442,15 @@
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
-        "message": "封面圖像",
+        "message": "封面圖片",
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "當您分享貼圖包嗰陣會顯示呢張圖像",
+        "message": "呢張圖片會喺你分享貼圖包嘅時候顯示",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "您係咪肯定要上載貼圖包？",
+        "message": "你係咪確定要上載貼圖包？",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -3450,15 +3458,15 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "建立咗貼圖包之後，您就唔可以再編輯或者刪除佢架喇",
+        "message": "建立咗貼圖包之後，你就唔可以再編輯或者刪除佢㗎喇。",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "建立緊您嘅貼圖包",
+        "message": "建立緊你嘅貼圖包",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "上載咗 $total$ 個貼圖嘅其中 $count$ 個",
+        "message": "上載咗 $total$ 個貼圖，總共有 $count$ 個",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3472,11 +3480,11 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "恭喜您！您已經建立好貼圖包啦。",
+        "message": "恭喜你！你已經成功建立咗貼圖包喇。",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "您可以喺貼圖圖示嗰到用您嘅新貼圖，或者用下面嘅連結同好友分享。",
+        "message": "你可以喺貼圖圖示度搵到你嘅新貼圖，或者用下面條連結同朋友分享。",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -3520,7 +3528,7 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "您放置嘅圖像太大喇",
+        "message": "你放置嘅圖像太大喇",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
@@ -3558,23 +3566,23 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "淺色佈景主題嘅貼圖效果",
+        "message": "淺色主題嘅貼圖效果",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "深色佈景主題嘅貼圖效果",
+        "message": "深色主題嘅貼圖效果",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "如果要用貼圖包製作工具嘅話，就請您喺手機同埋桌面電腦都要設定 Signal。",
+        "message": "如果要用貼圖包製作工具嘅話，請你喺手機同桌面電腦設定 Signal。",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "移除回應",
+        "message": "移除心情回應",
         "description": ""
     },
     "Reactions--error": {
-        "message": "傳送唔到回應。請您再試過一次。",
+        "message": "傳送唔到心情回應。請你再試一次。",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -3586,7 +3594,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "您係咪要允許 $name$ 同您通訊，並且同佢哋分享您個名同埋張相？您要接受咗佢哋先會知道您睇咗佢哋嘅訊息未。",
+        "message": "你係咪要允許 $name$ 同你通訊，同埋同佢分享你個名同相呀？你要接受咗呢個請求，對方先會知你睇咗佢哋嘅訊息未㗎。",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3596,7 +3604,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "您係咪要允許 $name$ 同您通訊，並且同佢哋分享您個名同埋張相？您要解除封鎖先會收到佢哋嘅訊息。",
+        "message": "你係咪要允許 $name$ 同你通訊，同埋同佢分享你個名同相呀？你要解除咗封鎖先會收到對方嘅訊息㗎。",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3606,11 +3614,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "您係咪要加入群組，並且同群組成員分享您個名同埋張相？您要接受咗佢哋先會知道您睇咗佢哋嘅訊息未。",
+        "message": "你係咪要加入群組，同埋同群組成員分享你個名同相呀？你要接受咗呢個請求，佢哋先會知你睇咗佢哋嘅訊息未㗎。",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "您係咪要解除封鎖呢個群組，並且同群組成員分享您個名同埋張相？您要解除封鎖先會收到佢哋嘅訊息。",
+        "message": "你係咪要解除封鎖呢個群組，同埋同群組成員分享你個名同相呀？你要解除咗封鎖先會收到佢哋嘅訊息㗎。",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3622,7 +3630,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-title": {
-        "message": "係咪要對 $name$ 解除封鎖？",
+        "message": "係咪要解除封鎖 $name$ 呀？",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -3632,15 +3640,15 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "您就可以同佢互相傳送訊息同埋通話。",
+        "message": "你就可以同佢互相傳送訊息同埋通話。",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "群組成員就可以再將您加到呢個群組喇。",
+        "message": "群組成員就可以再將你加入呢個群組。",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "舉報垃圾訊息並且封鎖",
+        "message": "舉報垃圾訊息同埋封鎖",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -3648,7 +3656,7 @@
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "係咪要封鎖 $name$？",
+        "message": "係咪要封鎖 $name$ 呀？",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -3658,11 +3666,11 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "您封鎖咗嘅人唔可以打俾您或者寫訊息俾您。",
+        "message": "你封鎖咗嘅人唔會打到俾你或者傳送到訊息俾你。",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "係咪要封鎖同離開 $group$？",
+        "message": "係咪要封鎖然後離開 $group$ 呀？",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3672,7 +3680,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "您唔會再收到呢個群組嘅訊息同埋最新消息，而群組成員都無得再將您加入呢個群組到架啦。",
+        "message": "你唔會再收到呢個群組嘅訊息同最新消息，而群組成員都冇得再將你加入呢個群組㗎喇。",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3680,15 +3688,15 @@
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "係咪要刪除對話？",
+        "message": "係咪要刪除對話呀？",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "系統會喺您所有裝置到刪除呢個對話。",
+        "message": "系統會喺你所有裝置上面刪除呢個對話。",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "係咪要刪除同離開 $group$？",
+        "message": "係咪要刪除然後離開 $group$ 呀？",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3702,11 +3710,11 @@
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "刪除並且離開",
+        "message": "刪除然後離開",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "您將會離開呢個群組，而呢個群組亦都會喺您所有裝置上面被刪除。",
+        "message": "你將會離開呢個群組，而呢個群組亦都會喺你所有裝置上面刪除。",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3718,7 +3726,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "係咪要繼續同呢個群組對話，並且同群組成員分享您個名同埋張相？$learnMore$",
+        "message": "係咪要繼續同呢個群組對話，同埋同群組成員分享你個名同相呀？$learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3728,7 +3736,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "係咪要繼續同 $firstName$ 對話，並且同佢哋分享您個名同埋張相？$learnMore$",
+        "message": "係咪要繼續同 $firstName$ 對話，同埋同佢分享你個名同相呀？$learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3848,7 +3856,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ 將您加入咗群組。",
+        "message": "$name$ 將你加咗入群組。",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3862,7 +3870,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "冇共同嘅群組。請您仔細睇清楚啲請求。",
+        "message": "冇共同嘅群組。記得小心睇清楚啲請求。",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3878,11 +3886,11 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "您拒絕咗一個語音通話",
+        "message": "你拒絕咗一個語音通話",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "您拒絕咗一個視像通話",
+        "message": "你拒絕咗一個視像通話",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
@@ -3926,7 +3934,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ 打緊俾您",
+        "message": "$ringer$ 打緊俾你",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3936,7 +3944,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ 打緊俾您同埋 $otherMember$",
+        "message": "$ringer$ 打緊俾你同埋 $otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3950,7 +3958,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ 打緊俾您、$first$ 同埋 $second$",
+        "message": "$ringer$ 打緊俾你、$first$ 同埋 $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3968,7 +3976,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ 打緊俾您 $first$、$second$ 同埋另 1 個人",
+        "message": "$ringer$ 打緊俾你、$first$、$second$ 同埋另一個人",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3986,7 +3994,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ 打緊俾您 $first$、$second$ 同埋另外 $remaining$ 個人",
+        "message": "$ringer$ 打緊俾你、$first$、$second$ 同埋另外 $remaining$ 個人",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -7143,6 +7151,36 @@
         "message": "係咪要刪除呢個限時動態？系統會喺所有收到呢個限時動態嘅人到刪除埋佢架噃。",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal 人脈",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$係你透過以下方式揀過而值得信任嘅人：",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "同佢發起過對話",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "接受過佢嘅訊息請求",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "系統聯絡人入面有佢喺度",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "你嘅人脈可以見到你嘅名同相。如果你冇隱藏嘅話，對方仲可以睇到你嘅限時動態添",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "限時動態",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "傳送緊心情回應...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "是日花生設定",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "整多味私伙放送是日花生",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ 個瀏覽者",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ 個瀏覽者",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "邊個可以見到呢味是日花生",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "加位花生友",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "剷走佢",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "移除 $title$",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "呢位仁兄唔會再睇到您嘅是日花生個囉噃。",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "回覆同心情回應",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "允許回覆同心情回應",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "睇到你嘅限時動態嘅人都可以俾心情回應同回覆。",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "刪除私伙放送是日花生",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "係咪要刪除私人限時動態呀？",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "揀選瀏覽者",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "幫呢個限時動態起個名",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "是日花生名堂 (必填)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "隱藏是日花生唔俾佢睇",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "所有 Signal 人脈",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "同所有人脈分享",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "所有 Signal 人脈，除咗...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "排除咗 $num$ 個人",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "只係分享俾...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "只係同選定嘅人分享",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ 個人",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "選擇邊個可以睇到你嘅限時動態。呢個選擇唔會影響你喺更改前發送嘅限時動態。$learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "講多啲俾我聽。",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "是日花生設定",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "分享同睇吓限時動態",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "解除靜音",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "喺 $time$ 傳送",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "檔案容量係 $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "複製時間標記",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "未有回覆",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "跳去聊天",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "刪除",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "詳細",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "要隱藏限時動態？咁樣 $name$ 嘅限時動態消息唔會再喺限時動態清單嘅頂部到顯示架喇。",
@@ -7359,8 +7577,12 @@
         "message": "呢個版本包含咗少少調整同埋錯誤修復，等 Signal 可以暢順運作。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "如果您係 Windows 深色模式嘅用戶，我哋全新推出嘅標題列就可以完美配合您嘅個人風格。",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "我哋額外做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "如果你用緊 JAWS 螢幕閱讀程式嘅話，你而家可以播放語音備忘錄，同埋睇到有「閱讀更多」按鈕嘅長訊息。",
+        "description": "Release notes for v5.53"
     }
 }

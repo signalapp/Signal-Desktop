@@ -476,11 +476,11 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the URL below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "பிழைத்திருத்த பதிவு பதிவேற்றப்பட்டது. நீங்கள் உதவி மையத்தை தொடர்புகொள்ளும்போது, ​​கீழே உள்ள இணைப்பை நகலெடுத்து, நீங்கள் பார்த்த பிரச்சனையின் விளக்கத்தையும் அதை மீண்டும் உருவாக்குவதற்கான படிகளையும் இணைக்கவும்.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
-        "message": "... to see the full log, click Save",
+        "message": "… முழு பதிவையும் பார்க்க, சேமி என்பதை கிளிக் செய்யவும்",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
@@ -646,7 +646,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+        "message": "டெஸ்க்டாப்பில் $name$ , சாதனம் $deviceId$- இருந்து மறைகுறியாக்கப் பிழை ஏற்பட்டது",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -692,11 +692,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "மீண்டும் இணைக்க கிளிக் செய்யவும்.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "அதிகம் நீடிக்காது",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -836,7 +836,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by username",
+        "message": "பயனர் பெயர் மூலம் கண்டறியவும்",
         "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
     },
     "findByPhoneNumberHeader": {
@@ -858,7 +858,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "இந்த புதுப்பிப்பில் $whatsNew$ -ஐப் பார்க்கவும்",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -868,7 +868,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "புதிதாக என்ன உள்ளது ",
         "description": "Clickable link that displays the latest release notes"
     },
     "typingAlt": {
@@ -974,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
+        "message": "குரல் செய்திகள் ஒரு மணிநேரம் மட்டுமே. வேறு ஆப்களுக்கு மாறினால் ரெக்கார்டிங் நிறுத்தப்படும்.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -982,15 +982,15 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "குரல் ரெக்கார்டரில் பிழை.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "இணைப்பு சேமிக்கப்பட்டது.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "Show in folder",
+        "message": "கோப்புறையில் காட்டு",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1056,7 +1056,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. அதை கைமுறையாக நிறுவ$retry$ அல்லது $url$-ஐ பார்வையிடவும். பின்னர், இந்த பிரச்சனை பற்றி $support$",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. அதை கைமுறையாக நிறுவ $url$-ஐ பார்வையிடவும். பின்னர், இந்த பிரச்சனை பற்றி $support$",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -1141,6 +1141,14 @@
         "message": "முடிந்தது",
         "description": "Label for done"
     },
+    "update": {
+        "message": "புதுப்பிக்கப்பட்டது",
+        "description": ""
+    },
+    "next2": {
+        "message": "அடுத்தது",
+        "description": ""
+    },
     "on": {
         "message": "இயக்கு",
         "description": "Label for when something is turned on"
@@ -1198,7 +1206,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "$name$ உடன் உங்கள் எண்ட்-டு-எண்ட் என்க்ரிப்ஷனின் பாதுகாப்பைச் சரிபார்க்க, மேலே உள்ள எண்களை அவற்றின் சாதனத்துடன் ஒப்பிடவும்.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1228,7 +1236,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "retryDeleteForEveryone": {
-        "message": "Retry Delete for Everyone",
+        "message": "அனைவருக்கும் நீக்கு என்பதை மீண்டும் முயற்சிக்கவும்",
         "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
     },
     "forwardMessage": {
@@ -1314,7 +1322,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their phone number",
+        "message": "$sender$ அவர்களின் தொலைபேசி எண்ணை மாற்றியுள்ளார்",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1372,15 +1380,15 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "உங்கள் மொபைலில் உள்ள சிக்னல் பயன்பாட்டில் இந்தக் குறியீட்டை ஸ்கேன் செய்யவும்",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "உங்கள் மொபைலில் சிக்னல்-ஐத் திறக்கவும்",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "message": "$settings$-ஐத் தட்டவும், பிறகு $linkedDevices$-ஐத் தட்டவும் ",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1398,7 +1406,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "message": "$plusButton$ (ஆண்ட்ராய்டு) அல்லது $linkNewDevice$ (ஐ ஃபோன்)-ஐத் தட்டவும்",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1412,7 +1420,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "message": "க்யூ ஆர் குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும். $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1430,7 +1438,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "You'll see this name under \"Linked Devices\" on your phone",
+        "message": "உங்கள் மொபைலில் \"இணைக்கப்பட்ட சாதனங்கள்\" என்பதன் கீழ் இந்தப் பெயரைக் காண்பீர்கள்",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1510,7 +1518,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Microphone muted due to the size of the call",
+        "message": "அழைப்பின் அளவு காரணமாக மைக்ரோஃபோன் ஒலியடக்கப்பட்டது",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -1574,11 +1582,11 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "அறிவிக்கவும், அழைக்க வேண்டாம்",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "அழைப்பை இயக்கு",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1654,7 +1662,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "சிக்னல் $person$-ஐ அழைக்கும்",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1664,7 +1672,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "சிக்னல் $first$ மற்றும் $second$-ஐ அழைக்கும்",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1678,7 +1686,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "சிக்னல் $first$, $second$, மற்றும் $third$-ஐ அழைக்கும்",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1696,7 +1704,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "சிக்னல் $first$, $second$, மற்றும் $others$ பலரை அழைக்கும்",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1714,7 +1722,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ க்கு அறிவிக்கப்படும்",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1724,7 +1732,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ மற்றும் $second$ -க்கு அறிவிக்கப்படும் ",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1738,7 +1746,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$, மற்றும் $third$-க்கு அறிவிக்கப்படும்",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1756,7 +1764,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "$first$, $second$, மற்றும் $others$ பலருக்கு அறிவிக்கப்படும்",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1912,7 +1920,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "செய்தி தொகுப்பு பெட்டியில் உள்ளிடப்பட்டுள்ள எழுத்துப்பிழை சரிபார்ப்பு உரை",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -2050,7 +2058,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "deleteFailed": {
-        "message": "Delete failed",
+        "message": "நீக்குவது தோல்வியடைந்தது",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
     },
     "sendPaused": {
@@ -2062,7 +2070,7 @@
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "Partially deleted, click to retry",
+        "message": "ஓரளவு நீக்கப்பட்டது, மீண்டும் முயற்சிக்க கிளிக் செய்யவும்",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2082,7 +2090,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "signal.org/download -க்குச் செல்வதற்கு கிளிக் செய்யவும்",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2094,7 +2102,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "தொடர்புகளை இறக்குமதி செய்யவும்",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2158,11 +2166,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[இன்று] LT ",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[நேற்று] LT ",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2402,15 +2410,15 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "பயனர் பெயரைப் பெறுவதில் தோல்வி. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும்முயற்சிக்கவும்.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "Toast--failed-to-fetch-phone-number": {
-        "message": "Failed to fetch phone number. Check your connection and try again.",
+        "message": "தொலைபேசி எண்ணைப் பெறுவதில் தோல்வி. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும்முயற்சிக்கவும்.",
         "description": "Shown if request to Signal servers to find phone number fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "பயனர் கிடைக்கவில்லை. $atUsername$ ஒரு சிக்னல் பயனர் அல்ல; முழுமையான பயனர் பெயரை உள்ளிட்டுள்ளீர்கள் என்பதை உறுதிப்படுத்தவும்.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2420,7 +2428,7 @@
         }
     },
     "startConversation--phone-number-not-found": {
-        "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
+        "message": "பயனர் கிடைக்கவில்லை. \"$phoneNumber$\" ஒரு சிக்னல் பயனர் அல்ல.",
         "description": "Shown in dialog if phone number is not found.",
         "placeholders": {
             "phoneNumber": {
@@ -2430,7 +2438,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
+        "message": "பயனர் கிடைக்கவில்லை. \"$phoneNumber$\" ஒரு முறையான தொலைபேசி எண் அல்ல.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2532,7 +2540,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "செய்தி அனுப்புவதைத் தொடர, உங்கள் மொபைல் சாதனத்துடன் சிக்னல் டெஸ்க்டாப்பை மீண்டும் இணைக்க கிளிக் செய்யவும்.",
         "description": ""
     },
     "unlinked": {
@@ -2556,15 +2564,15 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "சிக்னலை மறுதொடக்கம் செய்ய கிளிக் செய்யவும்",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "புதுப்பிப்பைப் பதிவிறக்க கிளிக் செய்யவும்",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
-        "message": "Signal couldn’t update. Click to try again.",
+        "message": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. மீண்டும் முயற்சிக்க கிளிக் செய்யவும்.",
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
@@ -2580,7 +2588,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "புதுப்பிப்பைப் புறக்கணிக்கவும்",
         "description": ""
     },
     "leftTheGroup": {
@@ -2656,7 +2664,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "$title$ உடன் உரையாடல், $unreadCount$ புதிய செய்திகள், கடைசி செய்தி: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2674,11 +2682,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "கடைசி செய்தி நீக்கப்பட்டிருக்கலாம்.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "$title$ உடன் உரையாடலுக்குச் செல்லவும்",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2758,7 +2766,7 @@
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "message--giftBadge--unopened--incoming": {
-        "message": "View this message on mobile to open it",
+        "message": "இந்த செய்தியைத் திறக்க மொபைலில் பார்க்கவும்",
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--outgoing": {
@@ -2770,11 +2778,11 @@
         "description": "Shown in a message's bubble when you've received a gift badge from a contact"
     },
     "message--giftBadge--unopened--toast--incoming": {
-        "message": "Check your phone to open gift",
+        "message": "பரிசைத் திறக்க உங்கள் மொபைலைச் சரிபார்க்கவும்",
         "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
     },
     "message--giftBadge--unopened--toast--outgoing": {
-        "message": "Check your phone to view your gift",
+        "message": "உங்கள் பரிசைப் பார்க்க உங்கள் மொபைலைச் சரிபார்க்கவும்",
         "description": "Shown when you've clicked on an outgoing gift badge"
     },
     "message--giftBadge--preview--unopened": {
@@ -2786,7 +2794,7 @@
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "You sent a gift badge",
+        "message": "நீங்கள் ஒரு பரிசு பேட்ஜ்-ஐ அனுப்பியுள்ளீர்கள்",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
@@ -2798,7 +2806,7 @@
         "description": "Shown to label a gift badge you've replied to"
     },
     "message--giftBadge--remaining--days": {
-        "message": "$days$ days remaining",
+        "message": "$days$ நாட்கள் மீதம்",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
         "placeholders": {
             "days": {
@@ -2808,7 +2816,7 @@
         }
     },
     "message--giftBadge--remaining--hours": {
-        "message": "$hours$ hours remaining",
+        "message": "$hours$ மணிநேரம் மீதம் ",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
         "placeholders": {
             "hours": {
@@ -2818,7 +2826,7 @@
         }
     },
     "message--giftBadge--remaining--minutes": {
-        "message": "$minutes$ minutes remaining",
+        "message": "$minutes$ நிமிடங்கள் மீதம்",
         "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
         "placeholders": {
             "minutes": {
@@ -2828,7 +2836,7 @@
         }
     },
     "message--giftBadge--remaining--one-minute": {
-        "message": "1 minute remaining",
+        "message": "1 நிமிடம் மீதம்",
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
@@ -2848,7 +2856,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
+        "message": "$name$ க்கு ஒரு பேட்ஜ்-ஐப் பரிசளித்துள்ளீர்கள். அவர்கள் ஏற்றுக்கொண்டால், அவர்களின் பேட்ஜைக் காட்ட அல்லது மறைக்க அவர்களுக்கு விருப்பம் வழங்கப்படும்.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3280,11 +3288,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Accept call with video",
+        "message": "வீடியோவுடன் அழைப்பை ஏற்கவும்",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Accept call with audio",
+        "message": "ஆடியோவுடன் அழைப்பை ஏற்கவும்",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -3388,11 +3396,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "ஸ்டிக்கரை அகற்று",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "ஸ்டிக்கரைச் சேர்க்க கோப்பைக் கிளிக் செய்யவும் அல்லது இழுக்கவும்/விடவும்",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3570,7 +3578,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "எதிர்வினையை அகற்று",
         "description": ""
     },
     "Reactions--error": {
@@ -3808,7 +3816,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "$group1$, $group2$, $group3$ மற்றும் மேலும் ஒன்றின் உறுப்பினர்",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3926,7 +3934,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ உங்களை அழைக்கிறார்",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3936,7 +3944,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ உங்களை மற்றும் $otherMember$-ஐ அழைக்கிறார் ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3950,7 +3958,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ உங்களை, $first$, மற்றும் $second$-ஐ அழைக்கிறார்",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3968,7 +3976,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ உங்களை, $first$, $second$, மற்றும் வேறு ஒருவரை அழைக்கிறார் ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3986,7 +3994,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ உங்களை, $first$, $second$, மற்றும் $remaining$ நபர்களை அழைக்கிறார்  ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4122,7 +4130,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "பகிரத் தொடங்குங்கள்",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5316,7 +5324,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ requested and cancelled their request to join via the group link",
+        "message": "$joinerName$ குழு இணைப்பு மூலம் சேருவதற்கான அவர்களின் கோரிக்கையை விடுத்தார் மற்றும் ரத்து செய்தார் ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5326,7 +5334,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
+        "message": "$joinerName$ குழு இணைப்பு மூலம் சேருவதற்கான கோரிக்கையை விடுத்தார் மற்றும் $numberOfRequests$ கோரிக்கைகளை ரத்து செய்தார் ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5618,11 +5626,11 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "உங்களைப் போன்றவர்களால் சிக்னல் இயக்கப்படுகிறது. பங்களித்து ஒரு பேட்ஜைப் பெறுங்கள்.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "உங்கள் மொபைலில் சிக்னல்-ஐத் திறக்கவும்",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5654,7 +5662,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "பேட்ஜ் எண்ணிக்கையில் முடக்கிய உரையாடல்களைச் சேர்க்கவும்",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5680,7 +5688,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "$contact$-ஐ குழு நிர்வாகியிலிருந்து நீக்குவதா?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5706,7 +5714,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "இந்த அரட்டையை இயக்கவதா?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5722,7 +5730,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "இயக்கப்படும் போது, இந்த 1:1 அரட்டையில் அனுப்பப்பட்ட மற்றும் பெறப்பட்ட செய்திகள் பார்த்த பிறகு மறைந்துவிடும்.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5938,7 +5946,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
+        "message": "\"$name$\" இடமிருந்து கோரிக்கையை மறுப்பதா? அவர்கள் மீண்டும் குழு இணைப்பு வழியாக சேரக் கோர முடியாது.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5998,7 +6006,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "\"$name$\" அனுப்பிய $number$ அழைப்புகளைத் திரும்பப் பெறவதா?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6046,7 +6054,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
+        "message": "$name$ குழு இணைப்பு வழியாக இந்த குழுவில் சேரவோ அல்லது சேர கோரவோ முடியாது. அவர்கள் இன்னும் கைமுறையாக குழுவில் சேர்க்கப்படலாம்.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6056,7 +6064,7 @@
         }
     },
     "PendingRequests--block--confirm": {
-        "message": "Block Request",
+        "message": "கோரிக்கையை ரத்து செய்யவும் ",
         "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
     },
     "AvatarInput--no-photo-label--group": {
@@ -6172,7 +6180,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "$name$ தொடர்பைத் தேர்ந்தெடுக்கவும்",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -6182,7 +6190,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "$name$ தொடர்பைத் தேர்வுநீக்கவும்",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -6192,7 +6200,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "$name$ தொடர்பைத் தேர்ந்தெடுக்க முடியவில்லை",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6244,11 +6252,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd, MMM D",
+        "message": "ddd, MMM D ",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "MMM D, YYYY",
+        "message": "MMM தேதி, YYYY",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6352,7 +6360,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
+        "message": "குழுவிலிருந்து \"$name$\"-ஐ அகற்றவதா? குழு இணைப்பு மூலம் அவர்களால் மீண்டும் சேர முடியாது.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6500,11 +6508,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__label--value": {
-        "message": "Number",
+        "message": "எண் ",
         "description": "aria-label for the number select box"
     },
     "DisappearingTimeDialog__label--units": {
-        "message": "Unit of time",
+        "message": "நேரத்தின் அலகு",
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
@@ -6558,7 +6566,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "இந்தச் செய்தியைக் காட்ட முடியவில்லை. பிழைத்திருத்த பதிவைச் சமர்ப்பிக்க கிளிக் செய்யவும்.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6638,7 +6646,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "பயனர்பெயர்களில் a-z, 0-9 மற்றும் _ மட்டுமே இருக்கலாம்",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6646,7 +6654,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "பயனர்பெயர்களில் குறைந்தபட்சம் $min$ எழுத்துக்கள் இருக்க வேண்டும்.",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6656,7 +6664,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "பயனர்பெயர்களில் அதிகபட்சம் $max$ எழுத்துக்கள் இருக்க வேண்டும்.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6670,19 +6678,19 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "உங்கள் பயனர்பெயரை சேமிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "உங்கள் பயனர்பெயரை அகற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "பயனர் பெயரை நீக்கவும்",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "இது உங்கள் பயனர்பெயரை அகற்றி, பிற பயனர்கள் அதை உரிமைகோர அனுமதிக்கும். நீங்கள் உறுதியாக உள்ளீர்களா?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6752,7 +6760,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "உங்கள் அவதாரம்",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6818,7 +6826,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "கடைசியாக இறக்குமதி $date$ $time$ இல் ",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6836,7 +6844,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "பெரிதாக்கு நிலை",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6844,7 +6852,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "இந்த அமைப்பை மாற்ற, உங்கள் மொபைல் சாதனத்தில் சிக்னல் பயன்பாட்டைத் திறந்து, அமைப்புகள் > அரட்டைகள் என்பதற்குச் செல்லவும்",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6852,7 +6860,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "அறிவிப்பு உள்ளடக்கம்",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6860,7 +6868,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ தொடர்பு ",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6870,7 +6878,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ தொடர்புகள் ",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6884,7 +6892,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "இந்த அமைப்புகளை மாற்ற, உங்கள் மொபைல் சாதனத்தில் சிக்னல் பயன்பாட்டைத் திறந்து, அமைப்புகள் > தனியுரிமை என்பதற்குச் செல்லவும்",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6908,7 +6916,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "எனது தொலைபேசி எண் மூலம் என்னைக் கண்டறியுங்கள் ",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6920,15 +6928,15 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "புதுப்பிப்புகள் ",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "புதுப்பிப்புகளைத் தானாகப் பதிவிறக்கவும்",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "அறிவிப்புகளை இயக்கவும் ",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6936,7 +6944,7 @@
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": " பதிப்புக்குப் புதுப்பிக்கவும் $version$ கிடைக்கிறது",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6946,15 +6954,15 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "சிக்னலை மூட முடியாது.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "அதை கைமுறையாக மூடிவிட்டு, தொடர மீண்டும் முயற்சி என்பதைக் கிளிக் செய்யவும்.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
+        "message": "$appName$ ஓடிக்கொண்டிருக்கிறது.\nஅதை மூட சரி என்பதைக் கிளிக் செய்யவும்.\nஅது மூடவில்லை என்றால், அதை கைமுறையாக மூட முயற்சிக்கவும்.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6964,19 +6972,19 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Failed to decompress files. Please try running the installer again.",
+        "message": "கோப்புகளை குறைந்தளவாக்க முடியவில்லை. நிறுவியை மீண்டும் இயக்க முயற்சிக்கவும்.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Failed to uninstall old application files. Please try running the installer again.",
+        "message": "பழைய பயன்பாட்டுக் கோப்புகளை நீக்குவதில் தோல்வி. நிறுவியை மீண்டும் இயக்க முயற்சிக்கவும்.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
-        "message": "Application crashed",
+        "message": "செயல்பாடு செயலிழந்தது",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
+        "message": "செயலிழப்புக்குப் பிறகு சிக்னல் மறுதொடக்கம் செய்யப்பட்டது. சிக்னல் சிக்கலை விசாரிக்க உதவும் செயலிழப்பு அறிக்கையைச் சமர்ப்பிக்கலாம்.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6984,7 +6992,7 @@
         "description": "A button label for submission of the crash reporter data after a recent crash"
     },
     "CrashReportDialog__erase": {
-        "message": "Don't Send",
+        "message": "அனுப்ப வேண்டாம் ",
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
@@ -6992,11 +7000,11 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "ஈமோஜியை மாற்ற கிளிக் செய்யவும்",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "உங்கள் அமைப்புகளைச் சேமிக்கும் போது பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சி செய்க.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -7012,7 +7020,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "வெட்டு மற்றும் திருப்பு ",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -7024,35 +7032,35 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "ரெகுலர்",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "ஹைலைட்",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "அவுட்லைன் ",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "அடிக்கோடு ",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "பேனா ",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "ஹைலைட்டர் ",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "மெலிவு",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "ரெகுலர்",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -7060,7 +7068,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "கனம் ",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -7068,7 +7076,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "திருப்பு ",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -7080,7 +7088,7 @@
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "வெட்டு",
         "description": "Performs the crop"
     },
     "MyStories__title": {
@@ -7088,19 +7096,19 @@
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "Your story",
+        "message": "உங்கள் ஸ்டோரி ",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "Download story",
+        "message": "ஸ்டோரியைப் பதிவிறக்கவும் ",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
-        "message": "More options",
+        "message": "மேலும் விருப்பங்கள்",
         "description": "aria-label for the more button"
     },
     "MyStories__views--singular": {
-        "message": "$num$ view",
+        "message": "$num$ பார்வை ",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7110,7 +7118,7 @@
         }
     },
     "MyStories__views--plural": {
-        "message": "$num$ views",
+        "message": "$num$ பார்வைகள் ",
         "description": "Number of views your story has",
         "placeholders": {
             "num": {
@@ -7120,7 +7128,7 @@
         }
     },
     "MyStories__replies--singular": {
-        "message": "$num$ reply",
+        "message": "$num$ பதில் ",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7130,7 +7138,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ replies",
+        "message": "$num$ பதில்கள்",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7140,8 +7148,38 @@
         }
     },
     "MyStories__delete": {
-        "message": "Delete this story? It will also be deleted for everyone who received it.",
+        "message": "இந்தக் ஸ்டோரியை நீக்குவதா? அதைப் பெற்ற அனைவருக்கும் இது நீக்கப்படும்.",
         "description": "Confirmation dialog description text for deleting a story"
+    },
+    "SignalConnectionsModal__title": {
+        "message": "சிக்னல் இணைப்புகள்",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ நீங்கள் நம்புவதற்குத் தேர்ந்தெடுத்த நபர்கள், ஒன்று இதனால்:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "ஒரு உரையாடலைத் தொடங்குவது",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "செய்தி கோரிக்கையை ஏற்கிறது",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "உங்கள் அமைப்பு தொடர்புகளில் அவற்றை வைத்திருப்பது",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "உங்கள் இணைப்புகள் உங்கள் பெயரையும் படத்தையும் பார்க்க முடியும், மேலும் \"மை ஸ்டோரி\"க்கான இடுகைகளை நீங்கள் அவர்களிடம் இருந்து மறைக்காதவரை பார்க்க முடியும்",
+        "description": "Additional information about signal connections and the stories they can see"
     },
     "Stories__title": {
         "message": "ஸ்டோரீஸ்",
@@ -7160,15 +7198,15 @@
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "No recent stories to show right now",
+        "message": "தற்போது காண்பிக்க சமீபத்திய ஸ்டோரீஸ் எதுவும் இல்லை",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Click to view a story",
+        "message": "ஒரு கதையைப் பார்க்க கிளிக் செய்யவும்",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ to $group$",
+        "message": "$name$ -இருந்து $group$",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -7189,6 +7227,154 @@
         "message": "எதிர்வினை அனுப்பப்படுகிறது…",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "ஸ்டோரி அமைப்புகள்",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "புதிய தனிப்பட்ட ஸ்டோரி",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ பார்வையாளர்",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ பார்வையாளர்கள்",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "இந்த ஸ்டோரியை யார் பார்க்கலாம்",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "பார்வையாளரைச் சேர்க்கவும் ",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "நீக்கு",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$அகற்று ",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "இந்த நபர் இனி உங்கள் ஸ்டோரியைப் பார்க்க மாட்டார்.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "பதில்கள் & எதிர்வினைகள்",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "பதில்களையும் எதிர்வினைகளையும் அனுமதிக்கவும்",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "உங்கள் ஸ்டோரியைப் பார்க்கக்கூடியவர்கள் எதிர்வினையாற்றி பதிலளிக்கட்டும்.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "தனிப்பட்ட ஸ்டோரியை நீக்கவும்",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "தனிப்பட்ட ஸ்டோரியை நீக்குவதா?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "பார்வையாளர்களைத் தேர்ந்தெடுக்கவும்",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "இந்த ஸ்டோரிக்கு பெயரிடுங்கள்",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "ஸ்டோரி பெயர் (தேவை)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "-இடமிருந்து ஸ்டோரியை மறைக்கவும்",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "அனைத்து சிக்னல் இணைப்புகள்",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "அனைத்து இணைப்புகளுடனும் பகிரவும்",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "அனைத்து சிக்னல் இணைப்புகளும், இது தவிர...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$நபர்கள் விலக்கப்பட்டுள்ளனர்",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "இவர்களுடன் மட்டும் பகிரவும்...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "தேர்ந்தெடுக்கப்பட்டவர்களுடன் மட்டும் பகிரவும்",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ நபர்கள் ",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "உங்கள் ஸ்டோரியை யார் பார்க்கலாம் என்பதைத் தேர்வுசெய்யவும். நீங்கள் ஏற்கனவே அனுப்பிய செய்திகளை மாற்றங்கள் பாதிக்காது. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "மேலும் அறிக.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "ஸ்டோரி அமைப்புகள்",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "ஸ்டோரீஸ்-ஐப் பகிரவும் & பார்க்கவும்",
         "description": "Select box title for the stories on/off toggle"
@@ -7198,11 +7384,11 @@
         "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
-        "message": "Pause",
+        "message": "நிறுத்து ",
         "description": "Aria label for pausing a story"
     },
     "StoryViewer__play": {
-        "message": "Play",
+        "message": "இயக்கு ",
         "description": "Aria label for playing a story"
     },
     "StoryViewer__reply": {
@@ -7210,7 +7396,7 @@
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
-        "message": "Reply to Group",
+        "message": "குழுவிற்கு பதிலளிக்கவும் ",
         "description": "Button label to reply to a group story"
     },
     "StoryViewer__mute": {
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "ஒலியடக்கை நீக்கு",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "$time$ அனுப்பப்பட்டது ",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "கோப்பு அளவு $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "நேர முத்திரையை நகலெடுக்கவும்",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "இன்னும் பதில்கள் ஏதுமில்லை",
@@ -7234,7 +7444,7 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "React to story",
+        "message": "ஒரு ஸ்டோரிக்கு பதிலளிக்கவும் ",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
@@ -7242,11 +7452,11 @@
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "Story",
+        "message": "ஸ்டோரி ",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "Show stories",
+        "message": "ஸ்டோரீக்களைக் காட்டவும்",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
@@ -7257,8 +7467,16 @@
         "message": "சாட்டிற்குச் செல் ",
         "description": "Label for menu item to go to conversation"
     },
+    "StoryListItem__delete": {
+        "message": "நீக்கு",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "தகவல்",
+        "description": "Label for menu item to get a story's information"
+    },
     "StoryListItem__hide-modal--body": {
-        "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+        "message": "கதையை மறைக்கவா? $name$ -இருந்து புதிய ஸ்டோரி புதுப்பிப்புகள் இனி ஸ்டோரீஸ் பட்டியலில் மேலே தோன்றாது.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7266,7 +7484,7 @@
         "description": "Action button for the confirmation dialog to hide a story"
     },
     "StoryImage__error": {
-        "message": "Error displaying image",
+        "message": "படத்தைக் காண்பிப்பதில் பிழை",
         "description": "aria-label for image errors"
     },
     "StoryCreator__text-bg": {
@@ -7290,7 +7508,7 @@
         "description": "Placeholder to add text"
     },
     "StoryCreator__text--regular": {
-        "message": "Regular",
+        "message": "ரெகுலர்",
         "description": "Label for font"
     },
     "StoryCreator__text--bold": {
@@ -7326,11 +7544,11 @@
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
-        "message": "Story",
+        "message": "ஸ்டோரி ",
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Reacted to a story from $name$",
+        "message": "$name$-இடமிருந்து ஒரு ஸ்டோரிக்குப் பதிலளித்துள்ளார் ",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7348,19 +7566,23 @@
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
-        "message": "கான்டெக்ச்ட் பட்டியல்",
+        "message": "சூழல் மெனு",
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "புதிதாக என்ன உள்ளது ",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "இந்த பதிப்பில் சிக்னலை சீராக இயங்க வைக்க பல சிறிய மாற்றங்கள் மற்றும் பிழை திருத்தங்கள் உள்ளன.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "வின்டோஸில் உள்ள அனைத்து டார்க் மோட் பிரியர்களுக்கும், உங்கள் பாணியுடன் பொருந்தக்கூடிய புதிய தலைப்புப்பட்டியை நாங்கள் கொண்டுவந்துள்ளோம்.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "கூடுதல் சிறிய மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "நீங்கள் JAWS ஸ்கிரீன் ரீடிங் திட்டத்தைப் பயன்படுத்துகிறீர்கள் எனில், நீங்கள் இப்போது குரல் மெமோக்களை வெற்றிகரமாக இயக்கலாம் மற்றும் \"மேலும் படிக்க\" பட்டனின் பின்னால் சுருக்கப்படும் நீண்ட செய்திகளை அணுகலாம்.",
+        "description": "Release notes for v5.53"
     }
 }

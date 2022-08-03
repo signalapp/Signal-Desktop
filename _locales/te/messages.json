@@ -1141,6 +1141,14 @@
         "message": "పూర్తి",
         "description": "Label for done"
     },
+    "update": {
+        "message": "నవీకరణ ",
+        "description": ""
+    },
+    "next2": {
+        "message": "తరువాత",
+        "description": ""
+    },
     "on": {
         "message": "ఆన్",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "ఈ స్టోరీని డిలీట్ చేయాలా? దీనిని అందుకున్న ప్రతిఒక్కరి కొరకు కూడా ఇది డిలీట్ చేయబడుతుంది.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal కనెక్షన్‌లు",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$, మీరు వీటి ద్వారా విశ్వసించడానికి ఎంచుకున్న వ్యక్తులు:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "సంభాషణ ప్రారంభించడం",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "సందేశం అభ్యర్ధన ఆమోదించడం",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "మీ సిస్టమ్ కాంటాక్ట్‌ల్లో వారు ఉండటం",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "మీ కనెక్షన్‌లు మీ పేరు మరియు ఫోటోని చూడగలరు, వారి నుంచి మీరు దాచిపెట్టినట్లయితే తప్ప, ‘‘నా స్టోరీ’’కు చేసే పోస్ట్‌లను చూడవచ్చు",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "స్టోరీలు",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "రియాక్షన్ పంపుతోంది...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "స్టోరీ సెట్టింగ్‌లు",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "కొత్త ప్రైవేట్ స్టోరీ",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ వీక్షకుడు",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ వీక్షకులు",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "ఈ స్టోరీని ఎవరు చూడవచ్చు",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "వీక్షకుడిని జోడించండి",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "తొలగించు",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$ని తొలగించండి",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "ఈ వ్యక్తి మీ స్టోరీని ఇక ఏమాత్రం చూడలేడు.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "ప్రత్యుత్తరాలు & ప్రతిస్పందనలు",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "ప్రత్యుత్తరాలు & ప్రతిస్పందనలను అనుమతించండి",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "మీ స్టోరీని చూసే వ్యక్తులు ప్రతిస్పందించేందుకు మరియు ప్రత్యుత్తరాన్ని ఇవ్వనివ్వండి.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "ప్రైవేట్ స్టోరీని డిలీట్ చేయండి",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "ప్రైవేట్ స్టోరీని డిలీట్ చేయాలా?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "వీక్షకులను ఎంచుకోండి",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "ఈ స్టోరీకి పేరు పెట్టండి",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "స్టోరీ పేరు (అవసరం)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "దీని నుంచి స్టోరీని దాచిపెట్టండి",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "అన్ని Signal కనెక్షన్‌లు",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "అన్ని కనెక్షన్‌లతో పంచుకోవడం",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "ఇది మినహా అన్ని Signal కనెక్షన్‌లు...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ మంది వ్యక్తులు మినహాయించబడ్డారు",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "కేవలం వీరితో పంచుకోండి...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "ఎంపిక చేసిన వ్యక్తులతో మాత్రమే పంచుకోండి",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ మంది వ్యక్తులు",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "మీ స్టోరీని ఎవరు చూడవచ్చు అనేది ఎంచుకోండి. మీరు ఇప్పటికే పంపిన స్టోరీలకు మార్పులు వర్తించవు. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "ఇంకా నేర్చుకో.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "స్టోరీ సెట్టింగ్‌లు",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "స్టోరీస్ చూడండి & పంచుకోండి",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "మ్యూట్ తీసివేయి",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "$time$ సార్లు పంపారు",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "ఫైలు సైజు $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "టైమ్‌స్టాంప్ కాపీ చేయండి",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ఇంకా ఎలాంటి రిప్లైలు లేవు",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "చాట్‌కు వెళ్లండి",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "డిలీట్ చేయండి",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "సమాచారం",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "స్టోరిని దాచిపెట్టాలా? స్టోరీల యొక్క లిస్ట్‌పై $name$ నుంచి కొత్త స్టోరీ అప్‌డేట్‌లు ఇక ఏమాత్రం కనిపించవు.",
@@ -7359,8 +7577,12 @@
         "message": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windowsపై అన్ని డార్క్‌మోడ్ వ్యక్తుల కొరకు, మీ స్టైల్‌కు మ్యాచ్ అయ్యే కొత్త టైటిల్ బార్‌ని మేం పొందాం. ",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "అదనపు స్మాల్ ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగిస్తున్నందుకు ధన్యవాదాలు!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "మీరు JAWS స్క్రీన్ రీడింగ్ ప్రోగ్రామ్ ఉపయోగిస్తున్నట్లయితే, మీరు ఇప్పుడు విజయవంతంగా వాయిస్ మీమ్‌లను ప్లే చేయవచ్చు,  \"మరింత చదవండి\" బటన్ వెనుక కుదించబడే పొడవైన సందేశాలను యాక్సెస్ చేసుకోవచ్చు.",
+        "description": "Release notes for v5.53"
     }
 }

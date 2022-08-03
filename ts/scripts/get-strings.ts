@@ -7,20 +7,40 @@ import { execSync } from 'child_process';
 
 import { readJsonSync } from 'fs-extra';
 import type { LocaleMessagesType } from '../types/I18N';
+import * as Errors from '../types/errors';
 
 console.log('Getting latest strings!');
 
+// Note: we continue after tx failures so we always restore placeholders on json files
+let failed = false;
+
 console.log();
 console.log('Getting strings, allow for new ones over 80% translated');
-execSync('tx pull --all --use-git-timestamps --minimum-perc=80', {
-  stdio: [null, process.stdout, process.stderr],
-});
+try {
+  execSync('tx pull --all --use-git-timestamps --minimum-perc=80', {
+    stdio: [null, process.stdout, process.stderr],
+  });
+} catch (error: unknown) {
+  failed = true;
+  console.log(
+    'Failed first tx fetch, continuing...',
+    Errors.toLogFormat(error)
+  );
+}
 
 console.log();
 console.log('Getting strings, updating everything previously missed');
-execSync('tx pull --use-git-timestamps', {
-  stdio: [null, process.stdout, process.stderr],
-});
+try {
+  execSync('tx pull --use-git-timestamps', {
+    stdio: [null, process.stdout, process.stderr],
+  });
+} catch (error: unknown) {
+  failed = true;
+  console.log(
+    'Failed second tx fetch, continuing...',
+    Errors.toLogFormat(error)
+  );
+}
 
 const BASE_DIR = join(__dirname, '../../_locales');
 const en: LocaleMessagesType = readJsonSync(
@@ -51,3 +71,7 @@ locales.forEach((locale: string) => {
   console.log(`Writing ${target}`);
   writeFileSync(target, `${JSON.stringify(messages, null, 4)}\n`);
 });
+
+if (failed) {
+  process.exit(1);
+}

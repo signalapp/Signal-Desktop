@@ -1141,6 +1141,14 @@
         "message": "Hecho",
         "description": "Label for done"
     },
+    "update": {
+        "message": "Actualizar",
+        "description": ""
+    },
+    "next2": {
+        "message": "Siguiente",
+        "description": ""
+    },
     "on": {
         "message": "Activo",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "¿Eliminar esta historia? También se eliminará para quien la haya recibido.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Contactos de Signal",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ son personas en las cuales has indicado que confías, ya sea a través de:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "Has iniciado un chat con ellas",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "Has aceptado una solicitud de chat",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "Están entre tus contactos del sistema",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "Tus contactos pueden ver tu nombre y tu foto, y pueden ver lo que subas a \"Mi historia\" salvo que decidas ocultárselo.",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "Historias",
         "description": "Title for the stories list"
@@ -7182,15 +7220,163 @@
         }
     },
     "Stories__toast--sending-reply": {
-        "message": "Sending reply...",
+        "message": "Enviando respuesta...",
         "description": "Toast message"
     },
     "Stories__toast--sending-reaction": {
-        "message": "Sending reaction...",
+        "message": "Enviando reacción...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "Ajustes de historias",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "Nueva historia privada",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ espectador",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ espectadores",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "Quién puede ver esta historia",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "Añadir quién puede verla",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "Eliminar",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "Eliminar $title$",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "Esta persona ya no podrá ver tu historia.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "Respuestas y reacciones",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "Permitir respuestas y reacciones",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "Deja que las personas que ven tu historia puedan reaccionar y responder.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "Eliminar historia privada",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "¿Eliminar historia privada?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "Elegir espectadores",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "Pon título a esta historia",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "Título de la historia (necesario)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "Ocultar historia para",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Todos los contactos de Signal",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "Compartir con todos los contactos",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "Todos los contactos de Signal excepto...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ personas excluidas",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "Compartir solo con...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "Compartir solo con personas seleccionadas",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ personas",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas enviado. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "Saber más.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "Ajustes de historias",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
-        "message": "Share & View Stories",
+        "message": "Compartir y ver historias",
         "description": "Select box title for the stories on/off toggle"
     },
     "Stories__settings-toggle--description": {
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "No silenciar",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "Enviado a las $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "Tamaño del archivo $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Copiar timestamp",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Sin respuestas por ahora",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "Ir al chat",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "Eliminar",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "Detalles",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "¿Ocultar historia? Las nuevas historias de $name$ ya no aparecerán al principio de la lista.",
@@ -7348,7 +7566,7 @@
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
-        "message": "Context menu",
+        "message": "Menú de contexto",
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
@@ -7359,8 +7577,12 @@
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Los fans del modo oscuro que usáis Windows tenéis una nueva barra de cabecera que encaja con vuestro estilo.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "Hemos hecho algunos pequeños retoques, arreglado errores y mejorado el rendimiento. ¡Gracias por utilizar Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "Si utilizas la pantalla JAWS para leer el programa, ahora puedes reproducir las notas de voz sin contratiempos y acceder a los mensajes más largos que aparecen abreviados a través del botón \"leer más\".",
+        "description": "Release notes for v5.53"
     }
 }

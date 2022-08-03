@@ -1141,6 +1141,14 @@
         "message": "Tamam",
         "description": "Label for done"
     },
+    "update": {
+        "message": "Güncelle",
+        "description": ""
+    },
+    "next2": {
+        "message": "İleri",
+        "description": ""
+    },
     "on": {
         "message": "Açık",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "Bu hikaye silinsin mi? Aynı zamanda tüm alıcılardan silinecektir.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal Bağlantıları",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ aşağıdakilerden birine göre güvenmeyi seçtiğin kişilerdir.",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "Bir konuşma başlatmak",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "Bir mesaj isteğini kabul etmek",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "Bunları sistem bağlantılarınızda bulundurmak",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "Bağlantıların, adını ve fotoğrafını görebilir ve onlardan gizlemediğin sürece \"Hikayem\"deki gönderileri görüntüleyebilirler.",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "Hikayeler",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "Tepki gönderiliyor...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "Hikaye ayarları",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "Yeni özel hikaye",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ görüntüleyen",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ görüntüleyen",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "Bu hikayeyi kim görebilir",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "Görüntüleyen ekle",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "Kaldır",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$öğesini kaldır",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "Bu kişi artık hikayelerinizi göremeyecek.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "Yanıtlar ve tepkiler",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "Yanıtlara ve tepkilere izin ver",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "Hikayeni gören kişilerin tepki ve yanıt vermesine izin ver.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "Özel hikayeyi sil",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "Gizli hikaye silinsin mi?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "Görüntüleyenleri Seçin",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "Bu hikayeye bir isim verin",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "Hikaye adı (gerekli)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "Hikayeyi gizle",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Tüm Signal bağlantıları",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "Tüm bağlantılarla paylaş",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "Aşağıdakiler dışında tüm Signal bağlantıları:",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$kişi hariç tutuldu",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "Sadece aşağıdakilerle paylaş:",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "Yalnızca seçili kişilerle paylaş",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ kişi",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "Hikayeni kimlerin görüntüleyebileceğini seç. Yaptığın değişiklikler, daha önce gönderdiğin hikayeleri etkilemez.$learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "Dahasını öğrenin.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "Hikaye ayarları",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "Hikayeleri Paylaş ve Görüntüle",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "Sesi aç",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "$time$gönderildi",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "Dosya boyutu $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Zaman damgasını kopyala",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Henüz yanıt yok",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "Sohbete git",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "Sil",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "Bilgi",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "Hikaye gizlensin mi? $name$'den yeni hikaye güncellemeleri artık hikaye listesinin başında görünmeyecek.",
@@ -7359,8 +7577,12 @@
         "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windows karanlık mod severlerin tarzına uygun, yeni bir başlık çubuğumuz var.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": " İlave ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri. Signal'i kullandığın için teşekkürler!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "JAWS ekran okuma programını kullanıyorsan, artık sesli notları başarıyla oynatabilir ve \"devamını oku\" butonu ile kısaltılan uzun mesajlara erişebilirsin.",
+        "description": "Release notes for v5.53"
     }
 }
