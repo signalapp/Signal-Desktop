@@ -47,6 +47,10 @@
     max-height: 100%;
     outline: none;
     width: auto;
+
+    &__image {
+      object-fit: contain;
+    }
   }
 
   &__meta {
