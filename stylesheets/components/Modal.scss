@@ -223,6 +223,8 @@
     padding: 10px 12px 16px 12px;
 
     .module-Modal__header {
+      // Necessary because of the larger top margins for the title
+      align-items: start;
       padding: 0;
     }
 
@@ -239,7 +241,6 @@
       text-align: center;
       margin: 10px 0 22px 0;
 
-      flex-grow: 0;
       flex-shrink: 0;
 
       &--with-x-button {
