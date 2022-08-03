@@ -31,11 +31,7 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'WhatsNew__v5.53--1',
-      components: undefined,
-    },
-    {
-      key: 'WhatsNew__bugfixes--1',
+      key: 'WhatsNew__bugfixes--5',
       components: undefined,
     },
   ],

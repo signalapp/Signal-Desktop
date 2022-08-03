@@ -7587,6 +7587,26 @@
     "message": "Additional small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
+  "WhatsNew__bugfixes--2": {
+    "message": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon! ",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--3": {
+    "message": "Tweaks, bug fixes, and performance enhancements. Keep on texting, calling, and video chatting as usual.",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--4": {
+    "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you. ",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--5": {
+    "message": "Additional small tweaks, bug fixes, and assorted plans for the future.",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--6": {
+    "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
+    "description": "Release notes for releases that only include bug fixes"
+  },
   "WhatsNew__v5.53--1": {
     "message": "If you’re using the JAWS screen reading program, you can now successfully play voice memos and access longer messages that get shortened behind a “read more” button.",
     "description": "Release notes for v5.53"
