@@ -2357,4 +2357,36 @@ describe('SQL migrations test', () => {
       assert.strictEqual(payload.urgent, 1);
     });
   });
+
+  describe('updateToSchemaVersion65', () => {
+    it('initializes sticker pack positions', () => {
+      updateToVersion(64);
+
+      db.exec(
+        `
+        INSERT INTO sticker_packs
+          (id, key, lastUsed)
+          VALUES
+          ("a", "key-1", 1),
+          ("b", "key-2", 2),
+          ("c", "key-3", 3);
+        `
+      );
+
+      updateToVersion(65);
+
+      assert.deepStrictEqual(
+        db
+          .prepare(
+            'SELECT id, position FROM sticker_packs ORDER BY position DESC'
+          )
+          .all(),
+        [
+          { id: 'a', position: 2 },
+          { id: 'b', position: 1 },
+          { id: 'c', position: 0 },
+        ]
+      );
+    });
+  });
 });

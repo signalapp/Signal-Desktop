@@ -84,6 +84,7 @@ import type {
   SignedPreKeyType,
   StoredSignedPreKeyType,
   StickerPackStatusType,
+  StickerPackInfoType,
   StickerPackType,
   StickerType,
   StoryDistributionMemberType,
@@ -92,6 +93,7 @@ import type {
   StoryReadType,
   UnprocessedType,
   UnprocessedUpdateType,
+  UninstalledStickerPackType,
 } from './Interface';
 import Server from './Server';
 import { isCorruptionError } from './errors';
@@ -277,6 +279,7 @@ const dataInterface: ClientInterface = {
 
   createOrUpdateStickerPack,
   updateStickerPackStatus,
+  updateStickerPackInfo,
   createOrUpdateSticker,
   updateStickerLastUsed,
   addStickerPackReference,
@@ -284,6 +287,13 @@ const dataInterface: ClientInterface = {
   getStickerCount,
   deleteStickerPack,
   getAllStickerPacks,
+  addUninstalledStickerPack,
+  removeUninstalledStickerPack,
+  getInstalledStickerPacks,
+  getUninstalledStickerPacks,
+  installStickerPack,
+  uninstallStickerPack,
+  getStickerPackInfo,
   getAllStickers,
   getRecentStickers,
   clearAllErrorStickerPackAttempts,
@@ -1601,6 +1611,9 @@ async function updateStickerPackStatus(
 ): Promise<void> {
   await channels.updateStickerPackStatus(packId, status, options);
 }
+async function updateStickerPackInfo(info: StickerPackInfoType): Promise<void> {
+  await channels.updateStickerPackInfo(info);
+}
 async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
   await channels.createOrUpdateSticker(sticker);
 }
@@ -1609,7 +1622,7 @@ async function updateStickerLastUsed(
   stickerId: number,
   timestamp: number
 ): Promise<void> {
-  await channels.updateStickerLastUsed(packId, stickerId, timestamp);
+  return channels.updateStickerLastUsed(packId, stickerId, timestamp);
 }
 async function addStickerPackReference(
   messageId: string,
@@ -1624,14 +1637,45 @@ async function deleteStickerPackReference(
   return channels.deleteStickerPackReference(messageId, packId);
 }
 async function deleteStickerPack(packId: string): Promise<Array<string>> {
-  const paths = await channels.deleteStickerPack(packId);
-
-  return paths;
+  return channels.deleteStickerPack(packId);
 }
 async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
   const packs = await channels.getAllStickerPacks();
 
   return packs;
+}
+async function addUninstalledStickerPack(
+  pack: UninstalledStickerPackType
+): Promise<void> {
+  return channels.addUninstalledStickerPack(pack);
+}
+async function removeUninstalledStickerPack(packId: string): Promise<void> {
+  return channels.removeUninstalledStickerPack(packId);
+}
+async function getInstalledStickerPacks(): Promise<Array<StickerPackType>> {
+  return channels.getInstalledStickerPacks();
+}
+async function getUninstalledStickerPacks(): Promise<
+  Array<UninstalledStickerPackType>
+> {
+  return channels.getUninstalledStickerPacks();
+}
+async function installStickerPack(
+  packId: string,
+  timestamp: number
+): Promise<void> {
+  return channels.installStickerPack(packId, timestamp);
+}
+async function uninstallStickerPack(
+  packId: string,
+  timestamp: number
+): Promise<void> {
+  return channels.uninstallStickerPack(packId, timestamp);
+}
+async function getStickerPackInfo(
+  packId: string
+): Promise<StickerPackInfoType | undefined> {
+  return channels.getStickerPackInfo(packId);
 }
 async function getAllStickers(): Promise<Array<StickerType>> {
   const stickers = await channels.getAllStickers();

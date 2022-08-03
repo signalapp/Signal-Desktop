@@ -40,6 +40,7 @@ message ManifestRecord {
       GROUPV2 = 3;
       ACCOUNT = 4;
       STORY_DISTRIBUTION_LIST = 5;
+      STICKER_PACK = 6;
     }
 
     optional bytes raw  = 1;
@@ -59,6 +60,7 @@ message StorageRecord {
     GroupV2Record groupV2 = 3;
     AccountRecord account = 4;
     StoryDistributionListRecord storyDistributionList = 5;
+    StickerPackRecord stickerPack = 6;
   }
 }
 
@@ -157,4 +159,25 @@ message StoryDistributionListRecord {
   optional uint64 deletedAtTimestamp = 4;
   optional bool allowsReplies = 5;
   optional bool isBlockList = 6;
+}
+
+message StickerPackRecord {
+  optional bytes packId = 1; // 16 bytes
+  optional bytes packKey = 2; // 32 bytes, used to derive the AES-256 key
+                              // aesKey = HKDF(
+                              //   input = packKey,
+                              //   salt = 32 zero bytes,
+                              //   info = "Sticker Pack"
+                              // )
+  optional uint32 position = 3; // When displayed sticker packs should be first sorted
+                                // in descending order by zero-based `position` and
+                                // then by ascending `packId` (lexicographically,
+                                // packId can be treated as a hex string).
+                                // When installing a sticker pack the client should find
+                                // the maximum `position` among currently known stickers
+                                // and use `max_position + 1` as the value for the new
+                                // `position`.
+  optional uint64 deletedAtTimestamp = 4; // Timestamp in milliseconds. When present and
+                                          // non-zero - `packKey` and `position` should
+                                          // be unset
 }

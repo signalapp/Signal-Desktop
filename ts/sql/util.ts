@@ -6,7 +6,9 @@ import { isNumber, last } from 'lodash';
 
 export type EmptyQuery = [];
 export type ArrayQuery = Array<Array<null | number | bigint | string>>;
-export type Query = { [key: string]: null | number | bigint | string | Buffer };
+export type Query = {
+  [key: string]: null | number | bigint | string | Uint8Array;
+};
 export type JSONRows = Array<{ readonly json: string }>;
 
 export type TableType =

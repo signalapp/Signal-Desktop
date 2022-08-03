@@ -14,13 +14,13 @@ import {
   downloadStickerPack as externalDownloadStickerPack,
   maybeDeletePack,
 } from '../../types/Stickers';
+import { storageServiceUploadJob } from '../../services/storage';
 import { sendStickerPackSync } from '../../shims/textsecure';
 import { trigger } from '../../shims/events';
 
 import type { NoopActionType } from './noop';
 
-const { getRecentStickers, updateStickerLastUsed, updateStickerPackStatus } =
-  dataInterface;
+const { getRecentStickers, updateStickerLastUsed } = dataInterface;
 
 // State
 
@@ -204,7 +204,7 @@ function downloadStickerPack(
 function installStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync: boolean } | null = null
+  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
 ): InstallStickerPackAction {
   return {
     type: 'stickers/INSTALL_STICKER_PACK',
@@ -214,17 +214,20 @@ function installStickerPack(
 async function doInstallStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync: boolean } | null
+  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
 ): Promise<InstallStickerPackPayloadType> {
-  const { fromSync } = options || { fromSync: false };
+  const { fromSync = false, fromStorageService = false } = options;
 
-  const status = 'installed';
   const timestamp = Date.now();
-  await updateStickerPackStatus(packId, status, { timestamp });
+  await dataInterface.installStickerPack(packId, timestamp);
 
-  if (!fromSync) {
+  if (!fromSync && !fromStorageService) {
     // Kick this off, but don't wait for it
     sendStickerPackSync(packId, packKey, true);
+  }
+
+  if (!fromStorageService) {
+    storageServiceUploadJob();
   }
 
   const recentStickers = await getRecentStickers();
@@ -232,7 +235,7 @@ async function doInstallStickerPack(
   return {
     packId,
     fromSync,
-    status,
+    status: 'installed',
     installedAt: timestamp,
     recentStickers: recentStickers.map(item => ({
       packId: item.packId,
@@ -243,7 +246,7 @@ async function doInstallStickerPack(
 function uninstallStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync: boolean } | null = null
+  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
 ): UninstallStickerPackAction {
   return {
     type: 'stickers/UNINSTALL_STICKER_PACK',
@@ -253,19 +256,23 @@ function uninstallStickerPack(
 async function doUninstallStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync: boolean } | null
+  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
 ): Promise<UninstallStickerPackPayloadType> {
-  const { fromSync } = options || { fromSync: false };
+  const { fromSync = false, fromStorageService = false } = options;
 
-  const status = 'downloaded';
-  await updateStickerPackStatus(packId, status);
+  const timestamp = Date.now();
+  await dataInterface.uninstallStickerPack(packId, timestamp);
 
   // If there are no more references, it should be removed
   await maybeDeletePack(packId);
 
-  if (!fromSync) {
+  if (!fromSync && !fromStorageService) {
     // Kick this off, but don't wait for it
     sendStickerPackSync(packId, packKey, false);
+  }
+
+  if (!fromStorageService) {
+    storageServiceUploadJob();
   }
 
   const recentStickers = await getRecentStickers();
@@ -273,7 +280,7 @@ async function doUninstallStickerPack(
   return {
     packId,
     fromSync,
-    status,
+    status: 'downloaded',
     installedAt: undefined,
     recentStickers: recentStickers.map(item => ({
       packId: item.packId,
@@ -313,7 +320,7 @@ function stickerPackUpdated(
 function useSticker(
   packId: string,
   stickerId: number,
-  time = Date.now()
+  time?: number
 ): UseStickerAction {
   return {
     type: 'stickers/USE_STICKER',

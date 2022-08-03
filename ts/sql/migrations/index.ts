@@ -40,6 +40,7 @@ import updateToSchemaVersion61 from './61-distribution-list-storage';
 import updateToSchemaVersion62 from './62-add-urgent-to-send-log';
 import updateToSchemaVersion63 from './63-add-urgent-to-unprocessed';
 import updateToSchemaVersion64 from './64-uuid-column-for-pre-keys';
+import updateToSchemaVersion65 from './65-add-storage-id-to-stickers';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1943,6 +1944,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion62,
   updateToSchemaVersion63,
   updateToSchemaVersion64,
+  updateToSchemaVersion65,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

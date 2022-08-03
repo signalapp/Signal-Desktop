@@ -202,22 +202,49 @@ export const StickerPackStatuses = [
 
 export type StickerPackStatusType = typeof StickerPackStatuses[number];
 
-export type StickerPackType = Readonly<{
+export type StorageServiceFieldsType = Readonly<{
+  storageID?: string;
+  storageVersion?: number;
+  storageUnknownFields?: Uint8Array | null;
+  storageNeedsSync: boolean;
+}>;
+
+export type InstalledStickerPackType = Readonly<{
   id: string;
   key: string;
 
-  attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
-  author: string;
-  coverStickerId: number;
-  createdAt: number;
-  downloadAttempts: number;
-  installedAt?: number;
-  lastUsed?: number;
-  status: StickerPackStatusType;
-  stickerCount: number;
-  stickers: Record<string, StickerType>;
-  title: string;
-}>;
+  uninstalledAt?: undefined;
+  position?: number | null;
+}> &
+  StorageServiceFieldsType;
+
+export type UninstalledStickerPackType = Readonly<{
+  id: string;
+  key?: undefined;
+
+  uninstalledAt: number;
+  position?: undefined;
+}> &
+  StorageServiceFieldsType;
+
+export type StickerPackInfoType =
+  | InstalledStickerPackType
+  | UninstalledStickerPackType;
+
+export type StickerPackType = InstalledStickerPackType &
+  Readonly<{
+    attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
+    author: string;
+    coverStickerId: number;
+    createdAt: number;
+    downloadAttempts: number;
+    installedAt?: number;
+    lastUsed?: number;
+    status: StickerPackStatusType;
+    stickerCount: number;
+    stickers: Record<string, StickerType>;
+    title: string;
+  }>;
 
 export type UnprocessedType = {
   id: string;
@@ -267,12 +294,8 @@ export type StoryDistributionType = Readonly<{
   allowsReplies: boolean;
   isBlockList: boolean;
   senderKeyInfo: SenderKeyInfoType | undefined;
-
-  storageID?: string;
-  storageVersion?: number;
-  storageUnknownFields?: Uint8Array | null;
-  storageNeedsSync: boolean;
-}>;
+}> &
+  StorageServiceFieldsType;
 export type StoryDistributionMemberType = Readonly<{
   listId: UUIDStringType;
   uuid: UUIDStringType;
@@ -543,6 +566,7 @@ export type DataInterface = {
     status: StickerPackStatusType,
     options?: { timestamp: number }
   ) => Promise<void>;
+  updateStickerPackInfo: (info: StickerPackInfoType) => Promise<void>;
   createOrUpdateSticker: (sticker: StickerType) => Promise<void>;
   updateStickerLastUsed: (
     packId: string,
@@ -557,6 +581,17 @@ export type DataInterface = {
   getStickerCount: () => Promise<number>;
   deleteStickerPack: (packId: string) => Promise<Array<string>>;
   getAllStickerPacks: () => Promise<Array<StickerPackType>>;
+  addUninstalledStickerPack: (
+    pack: UninstalledStickerPackType
+  ) => Promise<void>;
+  removeUninstalledStickerPack: (packId: string) => Promise<void>;
+  getInstalledStickerPacks: () => Promise<Array<StickerPackType>>;
+  getUninstalledStickerPacks: () => Promise<Array<UninstalledStickerPackType>>;
+  installStickerPack: (packId: string, timestamp: number) => Promise<void>;
+  uninstallStickerPack: (packId: string, timestamp: number) => Promise<void>;
+  getStickerPackInfo: (
+    packId: string
+  ) => Promise<StickerPackInfoType | undefined>;
   getAllStickers: () => Promise<Array<StickerType>>;
   getRecentStickers: (options?: {
     limit?: number;

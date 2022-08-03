@@ -81,6 +81,7 @@ import type {
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   StoredIdentityKeyType,
+  InstalledStickerPackType,
   ItemKeyType,
   StoredItemType,
   ConversationMessageStatsType,
@@ -104,6 +105,7 @@ import type {
   SessionType,
   SignedPreKeyIdType,
   StoredSignedPreKeyType,
+  StickerPackInfoType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -111,6 +113,7 @@ import type {
   StoryDistributionType,
   StoryDistributionWithMembersType,
   StoryReadType,
+  UninstalledStickerPackType,
   UnprocessedType,
   UnprocessedUpdateType,
 } from './Interface';
@@ -268,6 +271,7 @@ const dataInterface: ServerInterface = {
 
   createOrUpdateStickerPack,
   updateStickerPackStatus,
+  updateStickerPackInfo,
   createOrUpdateSticker,
   updateStickerLastUsed,
   addStickerPackReference,
@@ -275,6 +279,13 @@ const dataInterface: ServerInterface = {
   getStickerCount,
   deleteStickerPack,
   getAllStickerPacks,
+  addUninstalledStickerPack,
+  removeUninstalledStickerPack,
+  getInstalledStickerPacks,
+  getUninstalledStickerPacks,
+  installStickerPack,
+  uninstallStickerPack,
+  getStickerPackInfo,
   getAllStickers,
   getRecentStickers,
   clearAllErrorStickerPackAttempts,
@@ -3446,6 +3457,10 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
     status,
     stickerCount,
     title,
+    storageID,
+    storageVersion,
+    storageUnknownFields,
+    storageNeedsSync,
   } = pack;
   if (!id) {
     throw new Error(
@@ -3453,7 +3468,22 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
     );
   }
 
-  const rows = db
+  let { position } = pack;
+
+  // Assign default position
+  if (!isNumber(position)) {
+    position = db
+      .prepare<EmptyQuery>(
+        `
+        SELECT IFNULL(MAX(position) + 1, 0)
+        FROM sticker_packs
+        `
+      )
+      .pluck()
+      .get();
+  }
+
+  const row = db
     .prepare<Query>(
       `
       SELECT id
@@ -3461,7 +3491,7 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
       WHERE id = $id;
       `
     )
-    .all({ id });
+    .get({ id });
   const payload = {
     attemptedStatus: attemptedStatus ?? null,
     author,
@@ -3475,9 +3505,14 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
     status,
     stickerCount,
     title,
+    position: position ?? 0,
+    storageID: storageID ?? null,
+    storageVersion: storageVersion ?? null,
+    storageUnknownFields: storageUnknownFields ?? null,
+    storageNeedsSync: storageNeedsSync ? 1 : 0,
   };
 
-  if (rows && rows.length) {
+  if (row) {
     db.prepare<Query>(
       `
       UPDATE sticker_packs SET
@@ -3491,7 +3526,12 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
         lastUsed = $lastUsed,
         status = $status,
         stickerCount = $stickerCount,
-        title = $title
+        title = $title,
+        position = $position,
+        storageID = $storageID,
+        storageVersion = $storageVersion,
+        storageUnknownFields = $storageUnknownFields,
+        storageNeedsSync = $storageNeedsSync
       WHERE id = $id;
       `
     ).run(payload);
@@ -3513,7 +3553,12 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
       lastUsed,
       status,
       stickerCount,
-      title
+      title,
+      position,
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      storageNeedsSync
     ) values (
       $attemptedStatus,
       $author,
@@ -3526,16 +3571,21 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
       $lastUsed,
       $status,
       $stickerCount,
-      $title
+      $title,
+      $position,
+      $storageID,
+      $storageVersion,
+      $storageUnknownFields,
+      $storageNeedsSync
     )
     `
   ).run(payload);
 }
-async function updateStickerPackStatus(
+function updateStickerPackStatusSync(
   id: string,
   status: StickerPackStatusType,
   options?: { timestamp: number }
-): Promise<void> {
+): void {
   const db = getInstance();
   const timestamp = options ? options.timestamp || Date.now() : Date.now();
   const installedAt = status === 'installed' ? timestamp : null;
@@ -3551,6 +3601,61 @@ async function updateStickerPackStatus(
     status,
     installedAt,
   });
+}
+async function updateStickerPackStatus(
+  id: string,
+  status: StickerPackStatusType,
+  options?: { timestamp: number }
+): Promise<void> {
+  return updateStickerPackStatusSync(id, status, options);
+}
+async function updateStickerPackInfo({
+  id,
+  storageID,
+  storageVersion,
+  storageUnknownFields,
+  storageNeedsSync,
+  uninstalledAt,
+}: StickerPackInfoType): Promise<void> {
+  const db = getInstance();
+
+  if (uninstalledAt) {
+    db.prepare<Query>(
+      `
+      UPDATE uninstalled_sticker_packs
+      SET
+        storageID = $storageID,
+        storageVersion = $storageVersion,
+        storageUnknownFields = $storageUnknownFields,
+        storageNeedsSync = $storageNeedsSync
+      WHERE id = $id;
+      `
+    ).run({
+      id,
+      storageID: storageID ?? null,
+      storageVersion: storageVersion ?? null,
+      storageUnknownFields: storageUnknownFields ?? null,
+      storageNeedsSync: storageNeedsSync ? 1 : 0,
+    });
+  } else {
+    db.prepare<Query>(
+      `
+      UPDATE sticker_packs
+      SET
+        storageID = $storageID,
+        storageVersion = $storageVersion,
+        storageUnknownFields = $storageUnknownFields,
+        storageNeedsSync = $storageNeedsSync
+      WHERE id = $id;
+      `
+    ).run({
+      id,
+      storageID: storageID ?? null,
+      storageVersion: storageVersion ?? null,
+      storageUnknownFields: storageUnknownFields ?? null,
+      storageNeedsSync: storageNeedsSync ? 1 : 0,
+    });
+  }
 }
 async function clearAllErrorStickerPackAttempts(): Promise<void> {
   const db = getInstance();
@@ -3823,12 +3928,159 @@ async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
     .prepare<EmptyQuery>(
       `
       SELECT * FROM sticker_packs
-      ORDER BY installedAt DESC, createdAt DESC
+      ORDER BY position ASC, id ASC
       `
     )
     .all();
 
   return rows || [];
+}
+function addUninstalledStickerPackSync(pack: UninstalledStickerPackType): void {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+        INSERT OR REPLACE INTO uninstalled_sticker_packs
+        (
+          id, uninstalledAt, storageID, storageVersion, storageUnknownFields,
+          storageNeedsSync
+        )
+        VALUES
+        (
+          $id, $uninstalledAt, $storageID, $storageVersion, $unknownFields,
+          $storageNeedsSync
+        )
+      `
+  ).run({
+    id: pack.id,
+    uninstalledAt: pack.uninstalledAt,
+    storageID: pack.storageID ?? null,
+    storageVersion: pack.storageVersion ?? null,
+    unknownFields: pack.storageUnknownFields ?? null,
+    storageNeedsSync: pack.storageNeedsSync ? 1 : 0,
+  });
+}
+async function addUninstalledStickerPack(
+  pack: UninstalledStickerPackType
+): Promise<void> {
+  return addUninstalledStickerPackSync(pack);
+}
+function removeUninstalledStickerPackSync(packId: string): void {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    'DELETE FROM uninstalled_sticker_packs WHERE id IS $id'
+  ).run({ id: packId });
+}
+async function removeUninstalledStickerPack(packId: string): Promise<void> {
+  return removeUninstalledStickerPackSync(packId);
+}
+async function getUninstalledStickerPacks(): Promise<
+  Array<UninstalledStickerPackType>
+> {
+  const db = getInstance();
+
+  const rows = db
+    .prepare<EmptyQuery>(
+      'SELECT * FROM uninstalled_sticker_packs ORDER BY id ASC'
+    )
+    .all();
+
+  return rows || [];
+}
+async function getInstalledStickerPacks(): Promise<Array<StickerPackType>> {
+  const db = getInstance();
+
+  // If sticker pack has a storageID - it is being downloaded and about to be
+  // installed so we better sync it back to storage service if asked.
+  const rows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT *
+      FROM sticker_packs
+      WHERE
+        status IS "installed" OR
+        storageID IS NOT NULL
+      ORDER BY id ASC
+      `
+    )
+    .all();
+
+  return rows || [];
+}
+async function getStickerPackInfo(
+  packId: string
+): Promise<StickerPackInfoType | undefined> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    const uninstalled = db
+      .prepare<Query>(
+        `
+        SELECT * FROM uninstalled_sticker_packs
+        WHERE id IS $packId
+        `
+      )
+      .get({ packId });
+    if (uninstalled) {
+      return uninstalled as UninstalledStickerPackType;
+    }
+
+    const installed = db
+      .prepare<Query>(
+        `
+        SELECT
+          id, key, position, storageID, storageVersion, storageUnknownFields
+        FROM sticker_packs
+        WHERE id IS $packId
+        `
+      )
+      .get({ packId });
+    if (installed) {
+      return installed as InstalledStickerPackType;
+    }
+
+    return undefined;
+  })();
+}
+async function installStickerPack(
+  packId: string,
+  timestamp: number
+): Promise<void> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const status = 'installed';
+    updateStickerPackStatusSync(packId, status, { timestamp });
+
+    removeUninstalledStickerPackSync(packId);
+  })();
+}
+async function uninstallStickerPack(
+  packId: string,
+  timestamp: number
+): Promise<void> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const status = 'downloaded';
+    updateStickerPackStatusSync(packId, status);
+
+    db.prepare<Query>(
+      `
+      UPDATE sticker_packs SET
+        storageID = NULL,
+        storageVersion = NULL,
+        storageUnknownFields = NULL,
+        storageNeedsSync = 0
+      WHERE id = $packId;
+      `
+    ).run({ packId });
+
+    addUninstalledStickerPackSync({
+      id: packId,
+      uninstalledAt: timestamp,
+      storageNeedsSync: true,
+    });
+  })();
 }
 async function getAllStickers(): Promise<Array<StickerType>> {
   const db = getInstance();

@@ -45,7 +45,11 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { UUIDStringType } from '../types/UUID';
 import { MY_STORIES_ID } from '../types/Stories';
-import type { StoryDistributionWithMembersType } from '../sql/Interface';
+import * as Stickers from '../types/Stickers';
+import type {
+  StoryDistributionWithMembersType,
+  StickerPackInfoType,
+} from '../sql/Interface';
 import dataInterface from '../sql/Client';
 
 type RecordClass =
@@ -409,6 +413,31 @@ export function toStoryDistributionListRecord(
   }
 
   return storyDistributionListRecord;
+}
+
+export function toStickerPackRecord(
+  stickerPack: StickerPackInfoType
+): Proto.StickerPackRecord {
+  const stickerPackRecord = new Proto.StickerPackRecord();
+
+  stickerPackRecord.packId = Bytes.fromHex(stickerPack.id);
+
+  if (stickerPack.uninstalledAt !== undefined) {
+    stickerPackRecord.deletedAtTimestamp = Long.fromNumber(
+      stickerPack.uninstalledAt
+    );
+  } else {
+    stickerPackRecord.packKey = Bytes.fromBase64(stickerPack.key);
+    if (stickerPack.position) {
+      stickerPackRecord.position = stickerPack.position;
+    }
+  }
+
+  if (stickerPack.storageUnknownFields) {
+    stickerPackRecord.__unknownFields = [stickerPack.storageUnknownFields];
+  }
+
+  return stickerPackRecord;
 }
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV1Record;
@@ -1347,6 +1376,121 @@ export async function mergeStoryDistributionListRecord(
       name: storyDistribution.name,
     });
   }
+
+  return {
+    details: [...details, ...conflictDetails],
+    hasConflict,
+    oldStorageID,
+    oldStorageVersion,
+  };
+}
+
+export async function mergeStickerPackRecord(
+  storageID: string,
+  storageVersion: number,
+  stickerPackRecord: Proto.IStickerPackRecord
+): Promise<MergeResultType> {
+  if (!stickerPackRecord.packId || Bytes.isEmpty(stickerPackRecord.packId)) {
+    throw new Error(`No stickerPackRecord identifier for ${storageID}`);
+  }
+
+  const details: Array<string> = [];
+  const id = Bytes.toHex(stickerPackRecord.packId);
+
+  const localStickerPack = await dataInterface.getStickerPackInfo(id);
+
+  if (stickerPackRecord.__unknownFields) {
+    details.push('adding unknown fields');
+  }
+  const storageUnknownFields = stickerPackRecord.__unknownFields
+    ? Bytes.concatenate(stickerPackRecord.__unknownFields)
+    : null;
+
+  let stickerPack: StickerPackInfoType;
+  if (stickerPackRecord.deletedAtTimestamp?.toNumber()) {
+    stickerPack = {
+      id,
+      uninstalledAt: stickerPackRecord.deletedAtTimestamp.toNumber(),
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      storageNeedsSync: false,
+    };
+  } else {
+    if (
+      !stickerPackRecord.packKey ||
+      Bytes.isEmpty(stickerPackRecord.packKey)
+    ) {
+      throw new Error(`No stickerPackRecord key for ${storageID}`);
+    }
+
+    stickerPack = {
+      id,
+      key: Bytes.toBase64(stickerPackRecord.packKey),
+      position:
+        'position' in stickerPackRecord
+          ? stickerPackRecord.position
+          : localStickerPack?.position ?? undefined,
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      storageNeedsSync: false,
+    };
+  }
+
+  const oldStorageID = localStickerPack?.storageID;
+  const oldStorageVersion = localStickerPack?.storageVersion;
+
+  const needsToClearUnknownFields =
+    !stickerPack.storageUnknownFields && localStickerPack?.storageUnknownFields;
+
+  if (needsToClearUnknownFields) {
+    details.push('clearing unknown fields');
+  }
+
+  const { hasConflict, details: conflictDetails } = doRecordsConflict(
+    toStickerPackRecord(stickerPack),
+    stickerPackRecord
+  );
+
+  const wasUninstalled = Boolean(localStickerPack?.uninstalledAt);
+  const isUninstalled = Boolean(stickerPack.uninstalledAt);
+
+  details.push(
+    `wasUninstalled=${wasUninstalled}`,
+    `isUninstalled=${isUninstalled}`,
+    `oldPosition=${localStickerPack?.position ?? '?'}`,
+    `newPosition=${stickerPack.position ?? '?'}`
+  );
+
+  if ((!localStickerPack || !wasUninstalled) && isUninstalled) {
+    assert(localStickerPack?.key, 'Installed sticker pack has no key');
+    window.reduxActions.stickers.uninstallStickerPack(
+      localStickerPack.id,
+      localStickerPack.key,
+      { fromStorageService: true }
+    );
+  } else if ((!localStickerPack || wasUninstalled) && !isUninstalled) {
+    assert(stickerPack.key, 'Sticker pack does not have key');
+
+    const status = Stickers.getStickerPackStatus(stickerPack.id);
+    if (status === 'downloaded') {
+      window.reduxActions.stickers.installStickerPack(
+        stickerPack.id,
+        stickerPack.key,
+        {
+          fromStorageService: true,
+        }
+      );
+    } else {
+      Stickers.downloadStickerPack(stickerPack.id, stickerPack.key, {
+        finalStatus: 'installed',
+        fromStorageService: true,
+      });
+    }
+  }
+
+  await dataInterface.updateStickerPackInfo(stickerPack);
 
   return {
     details: [...details, ...conflictDetails],
