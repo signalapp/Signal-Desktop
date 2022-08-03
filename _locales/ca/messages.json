@@ -1141,6 +1141,14 @@
         "message": "Fet",
         "description": "Label for done"
     },
+    "update": {
+        "message": "Actualitza-la",
+        "description": ""
+    },
+    "next2": {
+        "message": "Següent",
+        "description": ""
+    },
     "on": {
         "message": "Actiu",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "Voleu suprimir aquesta història? També s'eliminarà per a tothom que l'hagi rebuda.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Contactes de Signal",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ són persones en les quals has indicat que confies, ja sigui:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "començar una conversa",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "acceptar un missatge de sol·icitud",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "tenir-les als contactes del sistema",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "Els teus contactes poden veure el teu nom i la teva foto, i poden veure el que pugis a \"La meva història\" tret que decideixis ocultar-los-hi.",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "Històries",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "Enviant reacció...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "Configuració de la història",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "Història privada nova",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ espectador",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ espectadors",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "Qui pot veure aquesta història",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "Afegiu-hi un espectador",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "Suprimeix",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "Eliminar $title$",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "Aquesta persona ja no veurà la vostra història.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "Respostes i reaccions",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "Permetre respostes i reaccions",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "Deixa que les persones que veuen la teva història puguin reaccionar i respondre.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "Suprimeix la història privada",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "Eliminar història privada?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "Triar espectadors",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "Posa títol a aquesta història",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "Nom de la història (cal)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "Amaga la història de",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Tots els contactes de Signal",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "Compartir amb tots els contactes",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "Tots els contactes de Signal menys...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ persones excloses",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "Compartir només amb...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "Compartir només amb les persones seleccionades",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ persones",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "Tria qui pot veure la teva història. Aquests canvis no afectaran les històries que ja hagis enviat. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "Més informació",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "Configuració de la història",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "Compartir i veure històries",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "No silenciats",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "Enviat a les $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "Mida de l'arxiu $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Copiar timestamp",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Encara no té respostes",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "Ves a la conversa",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "Suprimits",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "Informació",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "Voleu amagar la història? Les actualitzacions noves de la història de $name$ ja no apareixeran a dalt de tot de la llista.",
@@ -7348,7 +7566,7 @@
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
-        "message": "Menú de contexto",
+        "message": "Menú de context",
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
@@ -7359,8 +7577,12 @@
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Els fans del mode fosc que feu servir Windows teniu una nova barra de capçalera que encaixa amb el vostre estil.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "Hem fet alguns petits retocs, arreglat errors i millorat el rendiment. Gràcies per utilitzar Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "Si utilitzes la pantalla JAWS per llegir el programa, ara podràs reproduir notes de veu sense entrebancs i accedir als missatges més llargs que apareixen abreujats a través del botó \"llegir més\".",
+        "description": "Release notes for v5.53"
     }
 }

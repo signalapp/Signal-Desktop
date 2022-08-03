@@ -1141,6 +1141,14 @@
         "message": "ہو گیا",
         "description": "Label for done"
     },
+    "update": {
+        "message": "اَپ ڈیٹ",
+        "description": ""
+    },
+    "next2": {
+        "message": "اگلا",
+        "description": ""
+    },
     "on": {
         "message": "چلائیں",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "یہ اسٹوری حذف کریں؟ اسے اس کو وصول کرنے والے ہر فرد کے لیے بھی حذف کر دیا جائے گا۔",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal کنکشنز",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ وہ افراد ہیں جن پر اعتماد کرنے کا آپ نے انتخاب کیا ہے، یا تو بذریعہ:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "گفتگو کا آغاز کرنے سے",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "پیغام کی درخواست قبول کرنے سے",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "اپنے سسٹم کے روابط میں انہیں رکھنے سے",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "آپ کے کنکشنز آپ کا نام اور تصویر دیکھ سکتے ہیں، اور \"میری اسٹوری\" پر موجود تصاویر دیکھ سکتے ہیں تاوقتیکہ آپ اسے ان سے چھپائیں",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "اسٹوریز",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "ردعمل بھیج رہے ہیں...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "اسٹوری کی ترتیبات",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "نئی نجی اسٹوری",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ ناظر",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ ناظرین",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "کون یہ اسٹوری دیکھ سکتا ہے",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "ناظر شامل کریں",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "ہٹا دیں",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$ ہٹائیں",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "یہ فرد مزید آپ کی اسٹوری نہیں دیکھے گا۔",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "جوابات اور ردعمل",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "جوابات اور ردعمل کی اجازت دیں",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "جو لوگ آپ کی اسٹوری دیکھ سکتے ہیں انہیں اس پر ردعمل دینے اور جواب دینے کی اجازت دیں۔",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "نجی اسٹوری حذف کریں",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "پرائیویٹ اسٹوری ڈیلیٹ کرنی ہے؟",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "ناظرین منتخب کریں",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "اس اسٹوری کو نام دیں",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "اسٹوری کا نام (درکار ہے)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "اس سے اسٹوری مخفی کریں ",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "تمام Signal کنکشنز",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "تمام کنکشنز کے ساتھ شیئر کریں",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "تمام Signal کنکشنز ماسوائے...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ افراد خارج ہیں",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "صرف ان کے ساتھ شیئر کریں...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "صرف منتخب لوگوں کے ساتھ شیئر کریں",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ لوگ",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "انتخاب کریں کہ آپ کی اسٹوری کون دیکھ سکتا ہے۔ تبدیلیاں آپ کی جانب سے پہلے بھیجی گئی سٹوریز کو متاثر نہیں کریں گی۔ $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "اورجانیے.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "اسٹوری کی ترتیبات",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "سٹوریز شیئر کریں اور دیکھیں",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "غیر خاموش",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "$time$ بھیجیں",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "فائل کا سائز $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "ٹائم اسٹیمپ کاپی کریں",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ابھی تک کوئی جوابات نہیں",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "چیٹ پر جائیں",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "حذف کریں",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "معلومات",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "اسٹوری مخفی کریں؟ اسٹوریز کی فہرست کے بالائی حصے میں $name$ کی جانب سے نئی اسٹوری کی اپ ڈیٹس مزید سامنے نہیں آئیں گی۔",
@@ -7359,8 +7577,12 @@
         "message": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windows پر تاریک موڈ کے تمام شائقین کی خاطر، اب ہم آپ کے اسٹائل سے میچ کرنے کے لیے نیا ٹائٹل بار لائے ہیں",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "اضافی چھوٹے نقائص، بگ کی درستگیاں، اور کارکردگی میں اضافہ جات۔ Signal استعمال کرنے کا شکریہ!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "اگر آپ JAWS اسکرین ریڈنگ پروگرام استعمال کر رہے ہیں، تو آپ کامیابی سے آواز کے میموز پلے کر سکتے ہیں اور ایسے طویل پیغامات تک رسائی کر سکتے ہیں جو \"مزید پڑھیں\" بٹن کے پیچھے مختصر ہو جاتے ہیں۔",
+        "description": "Release notes for v5.53"
     }
 }

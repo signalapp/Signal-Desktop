@@ -1141,6 +1141,14 @@
         "message": "Tehtud",
         "description": "Label for done"
     },
+    "update": {
+        "message": "Uuenda",
+        "description": ""
+    },
+    "next2": {
+        "message": "Edasi",
+        "description": ""
+    },
     "on": {
         "message": "Sees",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "Kas kustutada see lugu? See kustutatakse ka kõigi jaoks, kellele see saadeti.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signali kontaktid",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ on inimesed, keda oled otsustanud usaldada, kas siis …",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "alustades vestlust",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "võttes vastu sõnumitaotluse",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "olles salvestanud nende kontakti oma telefoni",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "Sinu kontaktid näevad sinu nime ja fotot ning postitusi „Minu loosse“, kui sa seda infot nende eest ei peida",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "Lood",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "Reaktsiooni saatmine …",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "Loo sätted",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "Uus privaatne lugu",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ vaataja",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ vaatajat",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "Kes seda lugu näevad",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "Lisa vaataja",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "Eemalda",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "Eemalda $title$",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "See isik ei näe enam sinu lugu.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "Vastused ja reaktsioonid",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "Luba vastuseid ja reaktsioone",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "Luba inimestel, kes su lugu näevad, sellele reageerida ja vastata.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "Kustuta privaatne lugu",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "Kas kustutada privaatne lugu?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "Vali vaatajad",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "Anna sellele loole nimi",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "Loo nimi (kohustuslik)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "Peida lugu kasutaja(te) eest",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Kõik Signali kontaktid",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "Jaga kõigi kontaktidega",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "Kõik Signali kontaktid, välja arvatud …",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ inimest välja arvatud",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "Jaga ainult nendega:",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "Jaga ainult valitud isikutega",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ inimest",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "Vali, kes saavad sinu lugu vaadata. Muudatused ei mõjuta lugusid, mida oled juba saatnud. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "Rohkem infot",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "Loo sätted",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "Jaga ja vaata lugusid",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "Eemalda vaigistus",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "Saadetud $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "Faili suurus $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Kopeeri ajatempel",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Vastuseid veel pole",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "Mine vestlusse",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "Kustuta",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "Teave",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "Kas peita lugu? Kasutaja $name$ lugude uuendusi ei  kuvata enam esimeste lugude seas.",
@@ -7359,8 +7577,12 @@
         "message": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windowsi tumeda režiimi armastajatele on meil uus tiitliriba.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "Täiendavad väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "Kui kasutad ekraanilugemisprogrammi JAWS, saad nüüd edukalt häälsõnumeid ette mängida ja avada pikemaid sõnumeid, mis on lühendatud ja millele on lisatud nupp „loe edasi“",
+        "description": "Release notes for v5.53"
     }
 }

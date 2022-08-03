@@ -1141,6 +1141,14 @@
         "message": "ਮੁਕੰਮਲ",
         "description": "Label for done"
     },
+    "update": {
+        "message": "ਅੱਪਡੇਟ ਕਰੋ",
+        "description": ""
+    },
+    "next2": {
+        "message": "ਅੱਗੇ",
+        "description": ""
+    },
     "on": {
         "message": "ਚਾਲੂ",
         "description": "Label for when something is turned on"
@@ -7088,11 +7096,11 @@
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
-        "message": "ਤੁਹਾਡੀ ਕਹਾਣੀ",
+        "message": "ਤੁਹਾਡੀ ਸਟੋਰੀ",
         "description": "aria-label for each one of your stories"
     },
     "MyStories__download": {
-        "message": "ਕਹਾਣੀ ਡਾਊਨਲੋਡ ਕਰੋ",
+        "message": "ਸਟੋਰੀ ਡਾਊਨਲੋਡ ਕਰੋ",
         "description": "aria-label for the download button"
     },
     "MyStories__more": {
@@ -7140,8 +7148,38 @@
         }
     },
     "MyStories__delete": {
-        "message": "ਕੀ ਇਸ ਕਹਾਣੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਇਹ ਕਹਾਣੀ ਜਿਹਨਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਹੋਈ ਹੈ, ਉਹਨਾਂ ਸਭ ਲਈ ਵੀ ਹਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
+        "message": "ਕੀ ਇਸ ਸਟੋਰੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਇਹ ਸਟੋਰੀ ਜਿਹਨਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਹੋਈ ਹੈ, ਉਹਨਾਂ ਸਭ ਲਈ ਵੀ ਹਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
         "description": "Confirmation dialog description text for deleting a story"
+    },
+    "SignalConnectionsModal__title": {
+        "message": "Signal ਕਨੈਕਸ਼ਨ",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ ਉਹ ਲੋਕ ਹਨ ਜਿਹਨਾਂ ਨੂੰ ਤੁਸੀਂ ਨਿਮਨਲਿਖਤ ਅਨੁਸਾਰ ਭਰੋਸਾ ਕਰਨ ਲਈ ਚੁਣਿਆ ਹੈ:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "ਚੈਟ ਸ਼ੁਰੂ ਕਰਕੇ",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "ਸੁਨੇਹੇ ਦੀ ਬੇਨਤੀ ਮਨਜ਼ੂਰ ਕਰਕੇ",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "ਉਹਨਾਂ ਨੂੰ ਆਪਣੇ ਸਿਸਟਮ ਦੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਕੇ",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "ਤੁਹਾਡੇ ਕਨੈਕਸ਼ਨ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਫ਼ੋਟੋ ਦੇਖ ਸਕਦੇ ਹਨ, ਅਤੇ \"ਮੇਰੀ ਸਟੋਰੀ\" ਵਿਚਲੀਆਂ ਪੋਸਟਾਂ ਦੇਖ ਸਕਦੇ ਹਨ, ਬਸ਼ਰਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਕੋਲੋਂ ਇਸ ਨੂੰ ਲੁਕਾਇਆ ਨਾ ਹੋਵੇ",
+        "description": "Additional information about signal connections and the stories they can see"
     },
     "Stories__title": {
         "message": "ਕਹਾਣੀਆਂ",
@@ -7152,19 +7190,19 @@
         "description": "Label for your stories"
     },
     "Stories__add": {
-        "message": "ਕਹਾਣੀ ਸ਼ਾਮਲ ਕਰੋ",
+        "message": "ਸਟੋਰੀ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "Description hint to add a story"
     },
     "Stories__hidden-stories": {
-        "message": "ਲੁਕੀਆਂ ਹੋਈਆਂ ਕਹਾਣੀਆਂ",
+        "message": "ਲੁਕੀਆਂ ਹੋਈਆਂ ਸਟੋਰੀਆਂ",
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "ਇਸ ਵੇਲੇ ਦਿਖਾਉਣ ਲਈ ਕੋਈ ਵੀ ਨਵੀਂ ਕਹਾਣੀ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
+        "message": "ਇਸ ਵੇਲੇ ਦਿਖਾਉਣ ਲਈ ਕੋਈ ਵੀ ਨਵੀਂ ਸਟੋਰੀ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "ਕਹਾਣੀ ਦੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+        "message": "ਸਟੋਰੀ ਦੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
@@ -7188,6 +7226,154 @@
     "Stories__toast--sending-reaction": {
         "message": "ਪ੍ਰਤੀਕਿਰਿਆ ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ…",
         "description": "Toast message"
+    },
+    "StoriesSettings__title": {
+        "message": "ਸਟੋਰੀ ਦੀਆਂ ਸੈਟਿੰਗਾਂ",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "ਨਵੀਂ ਨਿੱਜੀ ਸਟੋਰੀ",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ ਦਰਸ਼ਕ",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ ਦਰਸ਼ਕ",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "ਇਸ ਸਟੋਰੀ ਨੂੰ ਕੌਣ ਦੇਖ ਸਕਦਾ ਹੈ",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "ਦਰਸ਼ਕ ਸ਼ਾਮਲ ਕਰੋ",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "ਹਟਾਓ",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$ ਨੂੰ ਹਟਾਓ",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਹੁਣ ਤੁਹਾਡੀ ਸਟੋਰੀ ਦਿਖਾਈ ਨਹੀਂ ਦੇਵੇਗੀ।",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "ਜਵਾਬ ਅਤੇ ਰਿਐਕਸ਼ਨ",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "ਜਵਾਬ ਅਤੇ ਰਿਐਕਸ਼ਨ ਭੇਜਣ ਦੀ ਮਨਜ਼ੂਰੀ ਦਿਓ",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "ਜਿਹੜੇ ਲੋਕ ਤੁਹਾਡੀ ਸਟੋਰੀ ਦੇਖ ਸਕਦੇ ਹਨ, ਉਹਨਾਂ ਨੂੰ ਜਵਾਬ ਅਤੇ ਰਿਐਕਸ਼ਨ ਭੇਜਣ ਦੀ ਸਹੂਲਤ ਦਿਓ।",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "ਨਿੱਜੀ ਸਟੋਰੀ ਹਟਾਓ",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "ਕੀ ਨਿੱਜੀ ਸਟੋਰੀ ਹਟਾਉਣੀ ਹੈ?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "ਦਰਸ਼ਕ ਚੁਣੋ",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "ਇਸ ਸਟੋਰੀ ਨੂੰ ਨਾਮ ਦਿਓ",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "ਸਟੋਰੀ ਦਾ ਨਾਮ (ਲਾਜ਼ਮੀ ਹੈ)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "ਸਟੋਰੀ ਇਹਨਾਂ ਤੋਂ ਲੁਕਾਓ",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "ਸਾਰੇ Signal ਕਨੈਕਸ਼ਨ",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "ਸਾਰੇ ਕਨੈਕਸ਼ਨਾਂ ਨਾਲ ਸਾਂਝਾ ਕਰੋ",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "ਸਾਰੇ Signal ਕਨੈਕਸ਼ਨ, ਬਜਾਏ ਇਹਨਾਂ ਦੇ…",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ ਲੋਕਾਂ ਨੂੰ ਬਾਹਰ ਰੱਖਿਆ ਗਿਆ",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "ਸਿਰਫ਼ ਇਹਨਾਂ ਨਾਲ ਸਾਂਝਾ ਕਰੋ…",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "ਸਿਰਫ਼ ਚੁਣੇ ਹੋਏ ਲੋਕਾਂ ਨਾਲ ਸਾਂਝਾ ਕਰੋ",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ ਲੋਕ",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "ਚੁਣੋ ਕਿ ਤੁਹਾਡੀ ਕਹਾਣੀ ਕੌਣ ਦੇਖ ਸਕਦਾ ਹੈ। ਤਬਦੀਲੀਆਂ ਉਹਨਾਂ ਸਟੋਰੀਆਂ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਨਹੀਂ ਕਰਨਗੀਆਂ ਜੋ ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਭੇਜ ਚੁੱਕੇ ਹੋ। $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "ਹੋਰ ਜਾਣੋ।",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "ਸਟੋਰੀ ਦੀਆਂ ਸੈਟਿੰਗਾਂ",
+        "description": "Button label to get to story settings"
     },
     "Stories__settings-toggle--title": {
         "message": "ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰੋ ਅਤੇ ਦੇਖੋ",
@@ -7221,6 +7407,30 @@
         "message": "ਅਣ-ਮਿਊਟ ਕਰੋ",
         "description": "Aria label for unmuting stories"
     },
+    "StoryDetailsModal__sent-time": {
+        "message": "$time$ ਨੂੰ ਭੇਜਿਆ ਗਿਆ",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "ਫਾਈਲ ਦਾ ਆਕਾਰ $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "ਟਾਈਮਸਟੈਂਪ ਕਾਪੀ ਕਰੋ",
+        "description": "Context menu item to help debugging"
+    },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ਅਜੇ ਤੱਕ ਕਿਸੇ ਨੇ ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ",
         "description": "Placeholder text for when there are no replies"
@@ -7234,31 +7444,39 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "ਕਹਾਣੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿਓ",
+        "message": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿਓ",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "ਕਹਾਣੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
+        "message": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
-        "message": "ਕਹਾਣੀ",
+        "message": "ਸਟੋਰੀ",
         "description": "aria-label for the story list button"
     },
     "StoryListItem__unhide": {
-        "message": "ਕਹਾਣੀਆਂ ਦਿਖਾਓ",
+        "message": "ਸਟੋਰੀਆਂ ਦਿਖਾਓ",
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "ਕਹਾਣੀ ਲੁਕਾਓ",
+        "message": "ਸਟੋਰੀ ਲੁਕਾਓ",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
         "message": "ਚੈਟ 'ਤੇ ਜਾਓ",
         "description": "Label for menu item to go to conversation"
     },
+    "StoryListItem__delete": {
+        "message": "ਹਟਾਓ",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "ਜਾਣਕਾਰੀ",
+        "description": "Label for menu item to get a story's information"
+    },
     "StoryListItem__hide-modal--body": {
-        "message": "ਕੀ ਕਹਾਣੀ ਨੂੰ ਲੁਕਾਉਣਾ ਹੈ? $name$ ਦੀਆਂ ਨਵੀਆਂ ਕਹਾਣੀ ਅੱਪਡੇਟਾਂ ਹੁਣ ਕਹਾਣੀਆਂ ਦੀ ਸੂਚੀ ਵਿੱਚ ਸਿਖਰ 'ਤੇ ਦਿਖਾਈ ਨਹੀਂ ਦੇਣਗੀਆਂ।",
+        "message": "ਕੀ ਸਟੋਰੀ ਨੂੰ ਲੁਕਾਉਣਾ ਹੈ? $name$ ਦੀਆਂ ਨਵੀਆਂ ਸਟੋਰੀਆਂ ਹੁਣ ਸਟੋਰੀਆਂ ਦੀ ਸੂਚੀ ਵਿੱਚ ਸਿਖਰ 'ਤੇ ਦਿਖਾਈ ਨਹੀਂ ਦੇਣਗੀਆਂ।",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7274,7 +7492,7 @@
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
-        "message": "ਕਹਾਣੀ ਦੀ ਬੈਕਗਰਾਊਂਡ ਦਾ ਰੰਗ ਬਦਲੋ",
+        "message": "ਸਟੋਰੀ ਦੀ ਬੈਕਗਰਾਊਂਡ ਦਾ ਰੰਗ ਬਦਲੋ",
         "description": "Button label"
     },
     "StoryCreator__next": {
@@ -7314,7 +7532,7 @@
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
-        "message": "ਆਪਣੀ ਕਹਾਣੀ ਦੇ ਦਰਸ਼ਕਾਂ ਲਈ ਇੱਕ ਲਿੰਕ ਸ਼ਾਮਲ ਕਰੋ",
+        "message": "ਆਪਣੀ ਸਟੋਰੀ ਦੇ ਦਰਸ਼ਕਾਂ ਲਈ ਇੱਕ ਲਿੰਕ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "Empty state for the link preview"
     },
     "TextAttachment__placeholder": {
@@ -7326,11 +7544,11 @@
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
-        "message": "ਕਹਾਣੀ",
+        "message": "ਸਟੋਰੀ",
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "$name$ ਦੀ ਕਹਾਣੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
+        "message": "$name$ ਦੀ ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7340,7 +7558,7 @@
         }
     },
     "Quote__story-reaction--single": {
-        "message": "ਕਿਸੇ ਕਹਾਣੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
+        "message": "ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
@@ -7359,8 +7577,12 @@
         "message": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windows ਵਿੱਚ ਡਾਰਕ ਮੋਡ ਵਰਤਣ ਵਾਲੇ ਲੋਕਾਂ ਲਈ, ਅਸੀਂ ਉਹਨਾਂ ਦੇ ਸਟਾਇਲ ਨਾਲ ਮੇਲ ਖਾਂਦੀ ਸਿਰਲੇਖ ਪੱਟੀ ਸ਼ਾਮਲ ਕੀਤੀ ਹੈ।",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਫਿਕਸ ਕੀਤੇ ਗਏ ਹਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "ਜੇਕਰ ਤੁਸੀਂ JAWS ਸਕ੍ਰੀਨ ਰੀਡਿੰਗ ਪ੍ਰੋਗਰਾਮ ਦੀ ਵਰਤੋਂ ਕਰ ਰਹੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਹੁਣ ਸਫਲਤਾਪੂਰਵਕ ਵੌਇਸ ਮੈਮੋ ਚਲਾ ਸਕਦੇ ਹੋ ਅਤੇ ਲੰਬੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਪੜ੍ਹ ਸਕਦੇ ਹੋ ਜੋ \"ਹੋਰ ਪੜ੍ਹੋ\" ਬਟਨ ਦੇ ਪਿੱਛੇ ਲੁਕ ਜਾਂਦੇ ਹਨ।",
+        "description": "Release notes for v5.53"
     }
 }

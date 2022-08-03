@@ -1141,6 +1141,14 @@
         "message": "ಮುಗಿದಿದೆ",
         "description": "Label for done"
     },
+    "update": {
+        "message": "ನವೀಕರಿಸಿ",
+        "description": ""
+    },
+    "next2": {
+        "message": "ಮುಂದೆ",
+        "description": ""
+    },
     "on": {
         "message": "ಆನ್",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal ಸಂಪರ್ಕಗಳು",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "$connections$ ಅವರು ಈ ಮೂಲಕ ನೀವು ವಿಶ್ವಾಸಾರ್ಹರೆಂದು ಆಯ್ಕೆ ಮಾಡಿದ ಜನರಾಗಿದ್ದಾರೆ:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "ಸಂಭಾಷಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲಾಗುತ್ತಿದೆ",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "ಒಂದು ಮೆಸೇಜ್ ವಿನಂತಿ ಸ್ವೀಕರಿಸಲಾಗುತ್ತಿದೆ",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "ನಿಮ್ಮ ಸಿಸ್ಟಮ್ ಸಂಪರ್ಕಗಳಲ್ಲಿ ಅವರನ್ನು ಹೊಂದಲಾಗುತ್ತಿದೆ",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ‌ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್‌ಗಳನ್ನು ನೋಡಬಹುದು",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "ಸ್ಟೋರೀಸ್",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "ಹೊಸ ಖಾಸಗಿ ಸ್ಟೋರಿ",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ ವೀಕ್ಷಕ",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ ವೀಕ್ಷಕರು",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "ಈ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ನೋಡಬಹುದು",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "ವೀಕ್ಷಕರನ್ನು ಸೇರಿಸಿ",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "ತೆಗೆದುಹಾಕಿ",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "$title$ ತೆಗೆದುಹಾಕಿ",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "ಈ ವ್ಯಕ್ತಿ ಇನ್ನು ಮುಂದೆ ನಿಮ್ಮ ಸ್ಟೋರಿ ನೋಡುವುದಿಲ್ಲ.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "ಉತ್ತರಗಳು ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಗಳು",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "ಉತ್ತರಗಳು ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಗಳಿಗೆ ಅನುಮತಿಸಿ",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "ನಿಮ್ಮ ಸ್ಟೋರಿ ನೋಡಬಹುದಾದ ಜನರು ಪ್ರತಿಕ್ರಿಯಿಸಲಿ ಮತ್ತು ಉತ್ತರಿಸಲಿ.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸಿ",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸುವುದೇ?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "ವೀಕ್ಷಕರನ್ನು ಆಯ್ಕೆ ಮಾಡಿ",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "ಈ ಸ್ಟೋರಿಯನ್ನು ಹೆಸರಿಸಿ",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "ಸ್ಟೋರಿ ಹೆಸರು (ಅಗತ್ಯವಿದೆ)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "ಇವರಿಂದ ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡಿ",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "ಎಲ್ಲಾ Signal ಸಂಪರ್ಕಗಳು",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "ಎಲ್ಲಾ ಸಂಪರ್ಕಗಳೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಿ",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "ಇದರ ಹೊರತಾದ ಎಲ್ಲಾ Signal ಸಂಪರ್ಕಗಳು...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ ಜನರನ್ನು ಹೊರತುಪಡಿಸಲಾಗಿದೆ",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "ಇವರೊಂದಿಗೆ ಮಾತ್ರ ಹಂಚಿಕೊಳ್ಳಿ…",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "ಆಯ್ದ ಜನರೊಂದಿಗೆ ಮಾತ್ರ ಹಂಚಿಕೊಳ್ಳಿ",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ ಜನರು",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂದು ಆಯ್ಕೆ ಮಾಡಿ. ಬದಲಾವಣೆಗಳು ನೀವು ಈಗಾಗಲೇ ಕಳುಹಿಸಿದ ಸ್ಟೋರೀಸ್ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವುದಿಲ್ಲ. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ವೀಕ್ಷಿಸಿ",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಿ",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "ಕಳುಹಿಸಿ ಆಗಿರುವ$time$ ",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "ಫೈಲ್ ಗಾತ್ರ $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "ಟೈಂಸ್ಟಾಂಪ್ ನಕಲಿಸಿ",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ಇನ್ನೂ ಯಾವುದೇ ಉತ್ತರಗಳಿಲ್ಲ",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "ಚಾಟ್‌ಗೆ ಹೋಗಿ",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "ಅಳಿಸಿ",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "ಮಾಹಿತಿ",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡುವುದೇ? $name$ ಅವರ ಹೊಸ ಸ್ಟೋರಿ ಅಪ್‌ಡೇಟ್‌ಗಳು ಇನ್ನುಮುಂದೆ ಸ್ಟೋರೀಸ್ ಪಟ್ಟಿಯಲ್ಲಿ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಕಾಣಿಸುವುದಿಲ್ಲ.",
@@ -7359,8 +7577,12 @@
         "message": " Signal ಅನ್ನು ಸರಾಗವಾಗಿ ಚಾಲ್ತಿಯಲ್ಲಿಡಲು ಈ ಆವೃತ್ತಿಯು ಸಾಕಷ್ಟು ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳನ್ನು ಹೊಂದಿದೆ ಮತ್ತು ಬಗ್ ಫಿಕ್ಸ್‌ಗಳನ್ನು ಹೊಂದಿದೆ.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "ವಿಂಡೋಸ್‌ನಲ್ಲಿನ ಎಲ್ಲಾ ಡಾರ್ಕ್ ಮೋಡ್ ಮಂದಿಗಾಗಿ, ನಿಮ್ಮ ಸ್ಟೈಲ್‌ಗೆ ಸಾಟಿಯಾಗುವ ಹೊಚ್ಚಹೊಸ ಟೈಟಲ್‌ಬಾರ್ ಅನ್ನು ನಾವು ಪಡೆದಿದ್ದೇವೆ.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "ಹೆಚ್ಚುವರಿ ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "JAWS ಸ್ಕ್ರೀನ್ ರೀಡಿಂಗ್ ಪ್ರೋಗ್ರಾಂ ಅನ್ನು ನೀವು ಬಳಸುತ್ತಿದ್ದರೆ, ನೀವು ಯಶಸ್ವಿಯಾಗಿ ವಾಯ್ಸ್ ಮೆಮೋಸ್ ಪ್ಲೇ ಮಾಡಬಹುದು ಮತ್ತು “ಇನ್ನಷ್ಟು ಓದಿ” ಬಟನ್ ಹಿಂದೆ ಸಂಕ್ಷಿಪ್ತಗೊಳಿಸಲ್ಪಟ್ಟ‌ ದೀರ್ಘವಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಪ್ರವೇಶಿಸಬಹುದು.",
+        "description": "Release notes for v5.53"
     }
 }

@@ -1141,6 +1141,14 @@
         "message": "ചെയ്‌തു",
         "description": "Label for done"
     },
+    "update": {
+        "message": "അപ്‌ഡേറ്റ്",
+        "description": ""
+    },
+    "next2": {
+        "message": "അടുത്തത്",
+        "description": ""
+    },
     "on": {
         "message": "ഓൺ",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "ഈ സ്റ്റോറി ഇല്ലാതാക്കണോ? ഇത് ലഭിച്ച എല്ലാവർക്കും ഇല്ലാതാക്കപ്പെടും.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Signal കണക്ഷനുകൾ",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "ഇനിപ്പറയുന്നവയിൽ ഏതെങ്കിലും ഒരു മാർഗ്ഗത്തിലൂടെ വിശ്വാസ്യത ഉള്ളവരാണെന്ന് നിങ്ങൾ തിരഞ്ഞെടുത്തവരാണ് $connections$:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "ഒരു സംഭാഷണം ആരംഭിച്ച്",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "സന്ദേശ അഭ്യർത്ഥന സ്വീകരിച്ച്",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "നിങ്ങളുടെ സിസ്റ്റം കോൺടാക്റ്റുകളിൽ ചേർത്ത്",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "നിങ്ങളുടെ കണക്ഷനുകൾക്ക് നിങ്ങളുടെ പേരും ഫോട്ടോയും കാണാനാകും, മാത്രമല്ല മറയ്ക്കാത്ത പക്ഷം \"എന്‍റെ സ്റ്റോറിയിൽ\" നിങ്ങൾ ചേർക്കുന്ന പോസ്റ്റുകളും അവർക്ക് കാണാനാകും.",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "സ്റ്റോറീസ്",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "പ്രതികരണം അയയ്ക്കുന്നു...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "പുതിയ സ്വകാര്യ സ്റ്റോറി",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ ആൾ കണ്ടു",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ കാഴ്‌ചക്കാർ",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "ആർക്കൊക്കെ ഈ സ്റ്റോറി കാണാനാകും",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "കാഴ്ച്ചക്കാരെ ചേർക്കുക",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "നീക്കം ചെയ്യുക",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": " $title$ എന്നയാളെ നീക്കം ചെയ്യുക",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "ഈ വ്യക്തിക്ക് ഇനി നിങ്ങളുടെ സ്റ്റോറി കാണാനാകില്ല.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "മറുപടികളും പ്രതികരണങ്ങളും",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "മറുപടികളും പ്രതികരണങ്ങളും അനുവദിക്കുക",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "നിങ്ങളുടെ സ്റ്റോറി കാണാൻ കഴിയുന്ന ആളുകളെ പ്രതികരിക്കാനും മറുപടി നൽകാനും അനുവദിക്കുക.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "സ്വകാര്യ സ്റ്റോറി ഇല്ലാതാക്കുക",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "സ്വകാര്യ സ്റ്റോറി ഇല്ലാതാക്കണോ?",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "കാഴ്‌ചക്കാരെ തിരഞ്ഞെടുക്കുക",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "ഈ സ്റ്റോറിക്ക് പേര് നൽകുക",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "സ്റ്റോറിയുടെ പേര് (ആവശ്യമാണ്)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "ഇനിപ്പറയുന്നയാളിൽ നിന്ന് സ്റ്റോറി മറയ്ക്കുക",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "എല്ലാ Signal കണക്ഷനുകളും",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "എല്ലാ കണക്ഷനുകളുമായും പങ്കിടുക",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "ഇനിപ്പറയുന്നവ ഒഴികെ എല്ലാ Signal കണക്ഷനുകളും...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ പേരെ ഒഴിവാക്കി",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "ഇനിപ്പറയുന്നവരുമായി മാത്രം പങ്കിടുക...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "തിരഞ്ഞെടുത്തവരുമായി മാത്രം പങ്കിടുക",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ പേർ",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "ആർക്കൊക്കെ നിങ്ങളുടെ സ്റ്റോറി കാണാൻ കഴിയുമെന്ന് തിരഞ്ഞെടുക്കുക. നിങ്ങൾ ഇതിനകം അയച്ചിട്ടുള്ള സ്റ്റോറികളെ മാറ്റങ്ങൾ ബാധിക്കില്ല. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "കൂടുതൽ അറിയുക.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "ശബ്‌ദിപ്പിക്കുക",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "അയച്ചു $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "ഫയൽ വലുപ്പം $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "ടൈംസ്റ്റാമ്പ് പകർത്തുക",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ഇതുവരെ മറുപടികളൊന്നുമില്ല",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "ചാറ്റിലേക്ക് പോകുക",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "ഇല്ലാതാക്കൂ",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "വിവരം",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$-ൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്‌റ്റോറീസ് ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
@@ -7359,8 +7577,12 @@
         "message": "Signal സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഏതാനും ചെറിയ മാറ്റങ്ങളും ബഗ് ഫിക്‌സുകളും ഈ പതിപ്പിൽ അടങ്ങിയിട്ടുണ്ട്.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Windows-ലെ എല്ലാ ഡാർക്ക് മോഡ് പ്രേക്ഷകരോടും, നിങ്ങളുടെ ശൈലിയുമായി യോജിക്കുന്ന ഒരു പുതിയ ടൈറ്റിൽബാർ ഞങ്ങൾ കൊണ്ടുവന്നിട്ടുണ്ട്.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "കൂടുതൽ ചെറിയ മാറ്റങ്ങൾ, ബഗ് പരിഹരിക്കലുകൾ, പ്രകടനം മെച്ചപ്പെടുത്തലുകൾ. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "നിങ്ങൾ JAWS സ്‌ക്രീൻ റീഡിംഗ് പ്രോഗ്രാമാണ് ഉപയോഗിക്കുന്നതെങ്കിൽ, വിജയകരമായി വോയ്‌സ് മെമ്മോകൾ പ്ലേ ചെയ്യാനും \"കൂടുതൽ വായിക്കുക\" എന്ന ബട്ടണിന് പിന്നിൽ ചുരുക്കിയിരിക്കുന്ന ദൈർഘ്യമേറിയ സന്ദേശങ്ങൾ ആക്‌സസ് ചെയ്യാനും നിങ്ങൾക്ക് ഇപ്പോൾ കഴിയുന്നതാണ്.",
+        "description": "Release notes for v5.53"
     }
 }

@@ -1141,6 +1141,14 @@
         "message": "Τέλος",
         "description": "Label for done"
     },
+    "update": {
+        "message": "Ενημέρωση",
+        "description": ""
+    },
+    "next2": {
+        "message": "Επόμενο",
+        "description": ""
+    },
     "on": {
         "message": "Ενεργό",
         "description": "Label for when something is turned on"
@@ -7143,6 +7151,36 @@
         "message": "Διαγραφή της ιστορίας; Θα διαγραφεί και για όλους όσους την έχουν λάβει.",
         "description": "Confirmation dialog description text for deleting a story"
     },
+    "SignalConnectionsModal__title": {
+        "message": "Επαφές Signal",
+        "description": "The phrase/term: 'Signal Connections'"
+    },
+    "SignalConnectionsModal__header": {
+        "message": "Οι $connections$ είναι άτομα που έχεις επιλέξει να εμπιστευτείς με κάποιον από τους εξής τρόπους:",
+        "description": "The beginning sentence to list the different ways a signal connection is formed",
+        "placeholders": {
+            "connections": {
+                "content": "$1",
+                "example": "Signal Connections"
+            }
+        }
+    },
+    "SignalConnectionsModal__bullet--1": {
+        "message": "Έχετε ξεκινήσει μια συνομιλία",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--2": {
+        "message": "Έχεις αποδεχτεί ένα αίτημα μηνύματος",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__bullet--3": {
+        "message": "Τα έχεις στις επαφές της συσκευής σου",
+        "description": "A way that signal connection is formed"
+    },
+    "SignalConnectionsModal__footer": {
+        "message": "Οι επαφές σου μπορούν να δουν το όνομα και τη φωτογραφία σου, και μπορούν να δουν δημοσιεύσεις στην ενότητα \"Η ιστορία μου\", εκτός αν την κρύψεις από αυτούς.",
+        "description": "Additional information about signal connections and the stories they can see"
+    },
     "Stories__title": {
         "message": "Ιστορίες",
         "description": "Title for the stories list"
@@ -7189,6 +7227,154 @@
         "message": "Γίνεται αποστολή αντίδρασης...",
         "description": "Toast message"
     },
+    "StoriesSettings__title": {
+        "message": "Ρυθμίσεις ιστορίας",
+        "description": "Title for the story settings modal"
+    },
+    "StoriesSettings__new-list": {
+        "message": "Νέα ιδιωτική ιστορία",
+        "description": "Label to create a new private story list"
+    },
+    "StoriesSettings__viewers--singular": {
+        "message": "$num$ προβολή",
+        "description": "A single viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "StoriesSettings__viewers--plural": {
+        "message": "$num$ προβολές",
+        "description": "More than one viewer",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "14"
+            }
+        }
+    },
+    "StoriesSettings__who-can-see": {
+        "message": "Ποιοι μπορούν να δουν αυτή την ιστορία",
+        "description": "Title for the who can see this story section"
+    },
+    "StoriesSettings__add-viewer": {
+        "message": "Προσθήκη θεατή",
+        "description": "Button label to add a viewer to a story"
+    },
+    "StoriesSettings__remove--action": {
+        "message": "Αφαίρεση",
+        "description": "Button to remove a member from a private list"
+    },
+    "StoriesSettings__remove--title": {
+        "message": "Αφαίρεση $title$",
+        "description": "Title of the confirmation dialog, has a person's name",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Aahron Lee"
+            }
+        }
+    },
+    "StoriesSettings__remove--body": {
+        "message": "Αυτό το άτομο δεν θα βλέπει πλέον την ιστορία σου.",
+        "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    },
+    "StoriesSettings__replies-reactions--title": {
+        "message": "Απαντήσεις και αντιδράσεις",
+        "description": "Title for the replies & reactions section"
+    },
+    "StoriesSettings__replies-reactions--label": {
+        "message": "Να επιτρέπονται απαντήσεις και αντιδράσεις",
+        "description": "Checkbox label to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__replies-reactions--description": {
+        "message": "Δώσε τη δυνατότητα στα άτομα που μπορούν να δουν την ιστορία σου να αντιδρούν και να απαντούν.",
+        "description": "Description of checkbox to allow or disallow replies to your stories"
+    },
+    "StoriesSettings__delete-list": {
+        "message": "Διαγραφή ιδιωτικής ιστορίας",
+        "description": "Button label to delete a private distribution list"
+    },
+    "StoriesSettings__delete-list--confirm": {
+        "message": "Διαγραφή ιδιωτικής ιστορίας;",
+        "description": "Confirmation text to delete a private distribution list"
+    },
+    "StoriesSettings__choose-viewers": {
+        "message": "Επιλογή θεατών",
+        "description": "Modal title when choosing to add a viewer to a private distribution list"
+    },
+    "StoriesSettings__name-story": {
+        "message": "Δώσε όνομα σε αυτήν την ιστορία",
+        "description": "Modal title when naming a private distribution list"
+    },
+    "StoriesSettings__name-placeholder": {
+        "message": "Όνομα ιστορίας (υποχρεωτικό)",
+        "description": "Placeholder for input field"
+    },
+    "StoriesSettings__hide-story": {
+        "message": "Απόκρυψη ιστορίας από",
+        "description": "Modal title when hiding people from my stories"
+    },
+    "StoriesSettings__mine__all--label": {
+        "message": "Όλες οι επαφές Signal",
+        "description": "Input label to describe all signal connections"
+    },
+    "StoriesSettings__mine__all--description": {
+        "message": "Κοινοποίηση σε όλες τις επαφές",
+        "description": "Description of button StoriesSettings__mine__all--label"
+    },
+    "StoriesSettings__mine__exclude--label": {
+        "message": "Όλες οι επαφές Signal εκτός από...",
+        "description": "Input label to create a block list"
+    },
+    "StoriesSettings__mine__exclude--description": {
+        "message": "$num$ αποκλεισμένα άτομα",
+        "description": "Description of how many people are excluded in a list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+    "StoriesSettings__mine__only--label": {
+        "message": "Κοινοποίηση μόνο σε...",
+        "description": "Input label to create an exclusive allow list"
+    },
+    "StoriesSettings__mine__only--description": {
+        "message": "Κοινοποίηση μόνο σε συγκεκριμένα άτομα",
+        "description": "Description of button StoriesSettings__mine__only--label"
+    },
+    "StoriesSettings__mine__only--description--people": {
+        "message": "$num$ άτομα",
+        "description": "Description of how many people are in the exclusive allow list",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "7"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer": {
+        "message": "Επίλεξε ποια άτομα μπορούν να δουν την ιστορία σου. Οι αλλαγές δεν επηρεάζουν ιστορίες που έχεις στείλει ήδη. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "StoriesSettings__mine__disclaimer--learn-more": {
+        "message": "Μάθε περισσότερα.",
+        "description": "Learn more link to learn about who can view your story"
+    },
+    "StoriesSettings__context-menu": {
+        "message": "Ρυθμίσεις ιστορίας",
+        "description": "Button label to get to story settings"
+    },
     "Stories__settings-toggle--title": {
         "message": "Κοινοποίηση και προβολή ιστοριών",
         "description": "Select box title for the stories on/off toggle"
@@ -7220,6 +7406,30 @@
     "StoryViewer__unmute": {
         "message": "Αποσίγαση",
         "description": "Aria label for unmuting stories"
+    },
+    "StoryDetailsModal__sent-time": {
+        "message": "Εστάλη $time$",
+        "description": "Sent timestamp",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "Today 5:33pm"
+            }
+        }
+    },
+    "StoryDetailsModal__file-size": {
+        "message": "Μέγεθος φακέλου $size$",
+        "description": "File size description",
+        "placeholders": {
+            "size": {
+                "content": "$1",
+                "example": "100kb"
+            }
+        }
+    },
+    "StoryDetailsModal__copy-timestamp": {
+        "message": "Αντιγραφή χρονικής σήμανσης",
+        "description": "Context menu item to help debugging"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Καμία απάντηση ακόμα",
@@ -7256,6 +7466,14 @@
     "StoryListItem__go-to-chat": {
         "message": "Μετάβαση στη συνομιλία",
         "description": "Label for menu item to go to conversation"
+    },
+    "StoryListItem__delete": {
+        "message": "Διαγραφή",
+        "description": "Label for menu item to delete a story"
+    },
+    "StoryListItem__info": {
+        "message": "Πληροφορίες",
+        "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
         "message": "Απόκρυψη ιστορίας; Νέες ιστορίες από τον/την $name$ δεν θα εμφανίζονται πλέον στη κορυφή της λίστας ιστοριών.",
@@ -7359,8 +7577,12 @@
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.47--1": {
-        "message": "Για τα άτομα που χρησιμοποιούν το σκούρο θέμα στα Windows, έχουμε μια νέα γραμμή τίτλου που θα ταιριάξει με το στιλ σας.",
-        "description": "Release notes for v5.47"
+    "WhatsNew__bugfixes--1": {
+        "message": "Πρόσθετες μικρές τροποποιήσεις, διορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.53--1": {
+        "message": "Εάν χρησιμοποιείς το πρόγραμμα ανάγνωσης οθόνης JAWS, μπορείς πλέον να αναπαράγεις με επιτυχία φωνητικές σημειώσεις και να έχεις πρόσβαση σε μεγαλύτερα μηνύματα που γίνονται συντόμευση πίσω από ένα κουμπί \"διάβασε περισσότερα\".",
+        "description": "Release notes for v5.53"
     }
 }
