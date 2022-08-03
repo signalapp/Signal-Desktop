@@ -239,7 +239,8 @@ async function _promiseAjax(
   const redactedURL = options.redactUrl ? options.redactUrl(url) : url;
 
   const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
-  log.info(`${options.type} ${logType} ${redactedURL}${unauthLabel}`);
+  const logId = `${options.type} ${logType} ${redactedURL}${unauthLabel}`;
+  log.info(logId);
 
   const timeout = typeof options.timeout === 'number' ? options.timeout : 10000;
 
@@ -343,13 +344,13 @@ async function _promiseAjax(
       result = await response.textConverted();
     }
   } catch (e) {
-    log.error(options.type, logType, redactedURL, 0, 'Error');
+    log.error(logId, 0, 'Error');
     const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
   }
 
   if (!isSuccess(response.status)) {
-    log.error(options.type, logType, redactedURL, response.status, 'Error');
+    log.error(logId, response.status, 'Error');
 
     throw makeHTTPError(
       'promiseAjax: error response',
@@ -366,7 +367,7 @@ async function _promiseAjax(
   ) {
     if (options.validateResponse) {
       if (!_validateResponse(result, options.validateResponse)) {
-        log.error(options.type, logType, redactedURL, response.status, 'Error');
+        log.error(logId, response.status, 'Error');
         throw makeHTTPError(
           'promiseAjax: invalid response',
           response.status,
@@ -378,7 +379,7 @@ async function _promiseAjax(
     }
   }
 
-  log.info(options.type, logType, redactedURL, response.status, 'Success');
+  log.info(logId, response.status, 'Success');
 
   if (options.responseType === 'byteswithdetails') {
     assert(result instanceof Uint8Array, 'Expected Uint8Array result');
