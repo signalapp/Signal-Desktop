@@ -5,11 +5,15 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from './isInSystemContacts';
+import { isDirectConversation } from './whatTypeOfConversation';
 
 export function isSignalConnection(
   conversation: ConversationType | ConversationAttributesType
 ): boolean {
-  return conversation.profileSharing || isInSystemContacts(conversation);
+  return (
+    isDirectConversation(conversation) &&
+    (conversation.profileSharing || isInSystemContacts(conversation))
+  );
 }
 
 export function getSignalConnections(): Array<ConversationModel> {
