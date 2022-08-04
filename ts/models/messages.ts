@@ -2383,6 +2383,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         findStoryMessage(conversation.id, initialMessage.storyContext),
       ]);
 
+      if (initialMessage.storyContext && !storyQuote) {
+        log.warn(
+          `handleDataMessage/${idLog}: Received storyContext message but no matching story. Dropping.`
+        );
+
+        confirm();
+        return;
+      }
+
       const withQuoteReference = {
         ...message.attributes,
         ...initialMessage,
