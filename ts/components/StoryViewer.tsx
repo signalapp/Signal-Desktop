@@ -471,6 +471,7 @@ export const StoryViewer = ({
           <div className="StoryViewer__container">
             <StoryImage
               attachment={attachment}
+              firstName={firstName || title}
               i18n={i18n}
               isPaused={shouldPauseViewing}
               isMuted={isStoryMuted}

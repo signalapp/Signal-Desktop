@@ -92,7 +92,9 @@ export const MyStories = ({
                   >
                     <StoryImage
                       attachment={story.attachment}
+                      firstName={i18n('you')}
                       i18n={i18n}
+                      isMe
                       isThumbnail
                       label={i18n('MyStories__story')}
                       moduleClassName="MyStories__story__preview"

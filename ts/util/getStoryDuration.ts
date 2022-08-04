@@ -3,6 +3,7 @@
 
 import type { AttachmentType } from '../types/Attachment';
 import {
+  hasFailed,
   hasNotResolved,
   isDownloaded,
   isGIF,
@@ -18,6 +19,10 @@ const MIN_TEXT_DURATION = 3 * SECOND;
 export async function getStoryDuration(
   attachment: AttachmentType
 ): Promise<number | undefined> {
+  if (hasFailed(attachment)) {
+    return DEFAULT_DURATION;
+  }
+
   if (!isDownloaded(attachment) || hasNotResolved(attachment)) {
     return;
   }

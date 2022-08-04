@@ -7481,9 +7481,19 @@
     "message": "Hide",
     "description": "Action button for the confirmation dialog to hide a story"
   },
-  "StoryImage__error": {
-    "message": "Error displaying image",
-    "description": "aria-label for image errors"
+  "StoryImage__error2": {
+    "message": "Can’t download story. $name$ will need to share it again.",
+    "description": "Description for image errors",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Clara"
+      }
+    }
+  },
+  "StoryImage__error--you": {
+    "message": "Can’t download story. You will need to share it again.",
+    "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__text-bg": {
     "message": "Toggle text background color",

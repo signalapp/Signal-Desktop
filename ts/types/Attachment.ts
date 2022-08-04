@@ -768,6 +768,10 @@ export function isDownloading(attachment?: AttachmentType): boolean {
   return Boolean(attachment && attachment.downloadJobId && attachment.pending);
 }
 
+export function hasFailed(attachment?: AttachmentType): boolean {
+  return Boolean(attachment && attachment.error);
+}
+
 export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {
   const firstAttachment = attachments ? attachments[0] : null;
 

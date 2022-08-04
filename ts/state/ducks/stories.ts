@@ -34,6 +34,7 @@ import { replaceIndex } from '../../util/replaceIndex';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import { showToast } from '../../util/showToast';
 import {
+  hasFailed,
   hasNotResolved,
   isDownloaded,
   isDownloading,
@@ -378,7 +379,10 @@ function markStoryRead(
       return;
     }
 
-    if (!isDownloaded(matchingStory.attachment)) {
+    if (
+      !isDownloaded(matchingStory.attachment) &&
+      !hasFailed(matchingStory.attachment)
+    ) {
       return;
     }
 
@@ -446,6 +450,10 @@ function queueStoryDownload(
       log.warn('queueStoryDownload: No attachment found for story', {
         storyId,
       });
+      return;
+    }
+
+    if (hasFailed(attachment)) {
       return;
     }
 
@@ -1001,6 +1009,8 @@ export function reducer(
       const hasAttachmentDownloaded =
         !isDownloaded(prevStory.attachment) &&
         isDownloaded(newStory.attachment);
+      const hasAttachmentFailed =
+        hasFailed(newStory.attachment) && !hasFailed(prevStory.attachment);
       const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
       const reactionsChanged =
         prevStory.reactions?.length !== newStory.reactions?.length;
@@ -1014,6 +1024,7 @@ export function reducer(
       const shouldReplace =
         isDownloadingAttachment ||
         hasAttachmentDownloaded ||
+        hasAttachmentFailed ||
         hasBeenDeleted ||
         hasSendStateChanged ||
         readStatusChanged ||

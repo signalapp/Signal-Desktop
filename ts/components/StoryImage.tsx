@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
@@ -13,6 +13,7 @@ import { TextAttachment } from './TextAttachment';
 import { ThemeType } from '../types/Util';
 import {
   defaultBlurHash,
+  hasFailed,
   hasNotResolved,
   isDownloaded,
   isDownloading,
@@ -24,7 +25,9 @@ import { isVideoTypeSupported } from '../util/GoogleChrome';
 export type PropsType = {
   readonly attachment?: AttachmentType;
   readonly children?: ReactNode;
+  readonly firstName: string;
   readonly i18n: LocalizerType;
+  readonly isMe?: boolean;
   readonly isMuted?: boolean;
   readonly isPaused?: boolean;
   readonly isThumbnail?: boolean;
@@ -37,7 +40,9 @@ export type PropsType = {
 export const StoryImage = ({
   attachment,
   children,
+  firstName,
   i18n,
+  isMe,
   isMuted,
   isPaused,
   isThumbnail,
@@ -50,6 +55,7 @@ export const StoryImage = ({
     (!isDownloaded(attachment) && !isDownloading(attachment)) ||
     hasNotResolved(attachment);
 
+  const [hasImgError, setHasImgError] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -74,8 +80,10 @@ export const StoryImage = ({
     return null;
   }
 
-  const isPending = Boolean(attachment.pending) && !attachment.textAttachment;
-  const isNotReadyToShow = hasNotResolved(attachment) || isPending;
+  const hasError = hasImgError || hasFailed(attachment);
+  const isPending =
+    Boolean(attachment.pending) && !attachment.textAttachment && !hasError;
+  const isNotReadyToShow = hasNotResolved(attachment) || isPending || hasError;
   const isSupportedVideo = isVideoTypeSupported(attachment.contentType);
 
   const getClassName = getClassNamesFor('StoryImage', moduleClassName);
@@ -118,6 +126,7 @@ export const StoryImage = ({
       <img
         alt={label}
         className={getClassName('__image')}
+        onError={() => setHasImgError(true)}
         src={
           isThumbnail && attachment.thumbnail
             ? attachment.thumbnail.url
@@ -136,6 +145,17 @@ export const StoryImage = ({
         </div>
       </div>
     );
+  } else if (hasError) {
+    let content = <div className="StoryImage__error" />;
+    if (!isThumbnail) {
+      if (isMe) {
+        content = <>{i18n('StoryImage__error--you')}</>;
+      } else {
+        content = <>{i18n('StoryImage__error2', [firstName])}</>;
+      }
+    }
+
+    overlay = <div className="StoryImage__overlay-container">{content}</div>;
   }
 
   return (

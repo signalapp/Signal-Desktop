@@ -83,7 +83,9 @@ export const MyStoriesButton = ({
           {newestStory ? (
             <StoryImage
               attachment={newestStory.attachment}
+              firstName={i18n('you')}
               i18n={i18n}
+              isMe
               isThumbnail
               label=""
               moduleClassName="StoryListItem__previews--image"

@@ -27,6 +27,7 @@ function getDefaultProps(): PropsType {
       url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
       thumbnail: fakeThumbnail('/fixtures/nathan-anderson-316188-unsplash.jpg'),
     }),
+    firstName: 'Charlie',
     i18n,
     label: 'A story',
     queueStoryDownload: action('queueStoryDownload'),
@@ -126,6 +127,42 @@ export const Video = (): JSX.Element => (
     attachment={fakeAttachment({
       contentType: VIDEO_MP4,
       url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+    })}
+  />
+);
+
+export const ErrorImage = (): JSX.Element => (
+  <StoryImage
+    {...getDefaultProps()}
+    attachment={fakeAttachment({
+      error: true,
+      url: '/this/path/does/not/exist.jpg',
+    })}
+  />
+);
+
+export const ErrorImageThumbnail = (): JSX.Element => (
+  <StoryImage
+    {...getDefaultProps()}
+    attachment={fakeAttachment({
+      error: true,
+      url: '/this/path/does/not/exist.jpg',
+    })}
+    isThumbnail
+  />
+);
+
+ErrorImageThumbnail.story = {
+  name: 'Error Image (thumbnail)',
+};
+
+export const ErrorImageYou = (): JSX.Element => (
+  <StoryImage
+    {...getDefaultProps()}
+    isMe
+    attachment={fakeAttachment({
+      error: true,
+      url: '/this/path/does/not/exist.jpg',
     })}
   />
 );

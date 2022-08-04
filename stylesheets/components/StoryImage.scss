@@ -33,6 +33,18 @@
     width: 100%;
   }
 
+  &__error {
+    @include color-svg(
+      '../images/full-screen-flow/alert-outline.svg',
+      $color-white
+    );
+    align-items: center;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+  }
+
   &__spinner-bubble {
     align-items: center;
     background-color: $color-gray-75;

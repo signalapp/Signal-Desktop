@@ -179,6 +179,7 @@ export const StoryListItem = ({
         <div className="StoryListItem__previews">
           <StoryImage
             attachment={attachment}
+            firstName={firstName || title}
             i18n={i18n}
             isThumbnail
             label=""

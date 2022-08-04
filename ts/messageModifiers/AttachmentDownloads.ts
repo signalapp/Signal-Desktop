@@ -222,7 +222,7 @@ async function _maybeStartJob(): Promise<void> {
 
           delete _activeAttachmentDownloadJobs[job.id];
           try {
-            await removeAttachmentDownloadJob(job.id);
+            await _markAttachmentAsFailed(job);
           } catch (deleteError) {
             log.error(
               `${logId}: Failed to delete attachment job`,
@@ -261,20 +261,10 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);
 
-    message = window.MessageController.getById(messageId);
-    if (!message) {
-      const messageAttributes = await getMessageById(messageId);
-      if (!messageAttributes) {
-        logger.error(
-          `attachment_downloads/_runJob(${id}): ` +
-            'Source message not found, deleting job'
-        );
-        await _finishJob(null, id);
-        return;
-      }
+    message = await _getMessageById(id, messageId);
 
-      strictAssert(messageId === messageAttributes.id, 'message id mismatch');
-      message = window.MessageController.register(messageId, messageAttributes);
+    if (!message) {
+      return;
     }
 
     await _addAttachmentToMessage(
@@ -368,6 +358,48 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
 
     await saveAttachmentDownloadJob(failedJob);
   }
+}
+
+async function _markAttachmentAsFailed(
+  job: AttachmentDownloadJobType
+): Promise<void> {
+  const { id, messageId, attachment, type, index } = job;
+  const message = await _getMessageById(id, messageId);
+
+  if (!message) {
+    return;
+  }
+
+  await _addAttachmentToMessage(
+    message,
+    _markAttachmentAsPermanentError(attachment),
+    { type, index }
+  );
+  await _finishJob(message, id);
+}
+
+async function _getMessageById(
+  id: string,
+  messageId: string
+): Promise<MessageModel | undefined> {
+  const message = window.MessageController.getById(messageId);
+
+  if (message) {
+    return message;
+  }
+
+  const messageAttributes = await getMessageById(messageId);
+  if (!messageAttributes) {
+    logger.error(
+      `attachment_downloads/_runJob(${id}): ` +
+        'Source message not found, deleting job'
+    );
+    await _finishJob(null, id);
+    return;
+  }
+
+  strictAssert(messageId === messageAttributes.id, 'message id mismatch');
+  return window.MessageController.register(messageId, messageAttributes);
 }
 
 async function _finishJob(
