@@ -84,7 +84,7 @@ export async function sendStoryMessage(
               return acc;
             }
 
-            const uuid = UUID.fromString(id);
+            const uuid = UUID.cast(id);
             if (inBlockList.has(uuid)) {
               return acc;
             }

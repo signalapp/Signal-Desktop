@@ -44,13 +44,15 @@ import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { UUIDStringType } from '../types/UUID';
-import { MY_STORIES_ID } from '../types/Stories';
 import * as Stickers from '../types/Stickers';
 import type {
   StoryDistributionWithMembersType,
   StickerPackInfoType,
 } from '../sql/Interface';
 import dataInterface from '../sql/Client';
+import { MY_STORIES_ID } from '../types/Stories';
+
+const MY_STORIES_BYTES = uuidToBytes(MY_STORIES_ID);
 
 type RecordClass =
   | Proto.IAccountRecord
@@ -1265,10 +1267,12 @@ export async function mergeStoryDistributionListRecord(
 
   const details: Array<string> = [];
 
-  const listId =
-    storyDistributionListRecord.name === MY_STORIES_ID
-      ? MY_STORIES_ID
-      : bytesToUuid(storyDistributionListRecord.identifier);
+  const listId = Bytes.areEqual(
+    MY_STORIES_BYTES,
+    storyDistributionListRecord.identifier
+  )
+    ? MY_STORIES_ID
+    : bytesToUuid(storyDistributionListRecord.identifier);
 
   if (!listId) {
     throw new Error('Could not parse distribution list id');
@@ -1279,7 +1283,7 @@ export async function mergeStoryDistributionListRecord(
 
   const remoteListMembers: Array<UUIDStringType> = (
     storyDistributionListRecord.recipientUuids || []
-  ).map(UUID.fromString);
+  ).map(UUID.cast);
 
   if (storyDistributionListRecord.__unknownFields) {
     details.push('adding unknown fields');

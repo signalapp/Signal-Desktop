@@ -2715,7 +2715,7 @@ export async function startApp(): Promise<void> {
 
     const partialConversation: ValidateConversationType = {
       e164: details.number,
-      uuid: UUID.fromString(details.uuid),
+      uuid: UUID.cast(details.uuid),
       type: 'private',
     };
 
@@ -3454,9 +3454,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: data.source,
       sourceDevice: data.sourceDevice,
-      sourceUuid: data.sourceUuid
-        ? UUID.fromString(data.sourceUuid)
-        : undefined,
+      sourceUuid: data.sourceUuid ? UUID.cast(data.sourceUuid) : undefined,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,

@@ -239,9 +239,7 @@ export const StoriesSettingsModal = ({
         return undefined;
       }
 
-      const isSelected = selectedConversationUuids.has(
-        UUID.fromString(contact.uuid)
-      );
+      const isSelected = selectedConversationUuids.has(UUID.cast(contact.uuid));
 
       return {
         type: RowType.ContactCheckbox,
