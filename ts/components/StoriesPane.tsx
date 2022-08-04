@@ -65,7 +65,7 @@ export type PropsType = {
   i18n: LocalizerType;
   me: ConversationType;
   myStories: Array<MyStoryType>;
-  onAddStory: () => unknown;
+  onAddStory: (file?: File) => unknown;
   onMyStoriesClicked: () => unknown;
   onStoriesSettings: () => unknown;
   queueStoryDownload: (storyId: string) => unknown;
@@ -118,18 +118,45 @@ export const StoriesPane = ({
         <div className="Stories__pane__header--title">
           {i18n('Stories__title')}
         </div>
-        <button
-          aria-label={i18n('Stories__add')}
-          className="Stories__pane__header--camera"
-          onClick={onAddStory}
-          type="button"
+        <ContextMenu
+          i18n={i18n}
+          menuOptions={[
+            {
+              label: i18n('Stories__add-story--media'),
+              onClick: () => {
+                const input = document.createElement('input');
+                input.accept = 'image/*,video/*';
+                input.type = 'file';
+                input.onchange = () => {
+                  const file = input.files ? input.files[0] : undefined;
+
+                  if (!file) {
+                    return;
+                  }
+
+                  onAddStory(file);
+                };
+                input.click();
+              },
+            },
+            {
+              label: i18n('Stories__add-story--text'),
+              onClick: () => onAddStory(),
+            },
+          ]}
+          moduleClassName="Stories__pane__add-story"
+          popperOptions={{
+            placement: 'bottom',
+            strategy: 'absolute',
+          }}
+          theme={Theme.Dark}
         />
         <ContextMenu
           i18n={i18n}
           menuOptions={[
             {
-              onClick: () => onStoriesSettings(),
               label: i18n('StoriesSettings__context-menu'),
+              onClick: () => onStoriesSettings(),
             },
           ]}
           moduleClassName="Stories__pane__settings"

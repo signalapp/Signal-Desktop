@@ -599,7 +599,7 @@ export const StoriesSettingsModal = ({
 
             <span className="StoriesSettingsModal__list__viewers">
               {list.members.length === 1
-                ? i18n('StoriesSettingsModal__list__viewers--singular', ['1'])
+                ? i18n('StoriesSettings__viewers--singular', ['1'])
                 : i18n('StoriesSettings__viewers--plural', [
                     String(list.members.length),
                   ])}

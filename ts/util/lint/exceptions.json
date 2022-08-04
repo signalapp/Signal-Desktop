@@ -9205,7 +9205,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryCreator.tsx",
+    "path": "ts/components/TextStoryCreator.tsx",
     "line": "  const textEditorRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"

@@ -3,10 +3,7 @@
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { isEqual, noop, pick } from 'lodash';
-import type {
-  AttachmentType,
-  TextAttachmentType,
-} from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
@@ -562,10 +559,10 @@ function replyToStory(
 
 function sendStoryMessage(
   listIds: Array<UUIDStringType>,
-  textAttachment: TextAttachmentType
+  attachment: AttachmentType
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
-    await doSendStoryMessage(listIds, textAttachment);
+    await doSendStoryMessage(listIds, attachment);
 
     dispatch({
       type: 'NOOP',

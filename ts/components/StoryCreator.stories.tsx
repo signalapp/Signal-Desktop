@@ -24,11 +24,18 @@ export default {
       defaultValue: undefined,
     },
     i18n: { defaultValue: i18n },
+    installedPacks: {
+      defaultValue: [],
+    },
     me: {
       defaultValue: getDefaultConversation(),
     },
     onClose: { action: true },
     onSend: { action: true },
+    processAttachment: { action: true },
+    recentStickers: {
+      defaultValue: [],
+    },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },

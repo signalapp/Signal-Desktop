@@ -36,7 +36,7 @@ function getListViewers(
   }
 
   return memberCount === 1
-    ? i18n('StoriesSettingsModal__list__viewers--singular', ['1'])
+    ? i18n('StoriesSettingsModal__viewers--singular', ['1'])
     : i18n('StoriesSettings__viewers--plural', [String(memberCount)]);
 }
 

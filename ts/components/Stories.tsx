@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import FocusTrap from 'focus-trap-react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import type {
@@ -43,6 +42,14 @@ export type PropsType = {
   viewStory: ViewStoryActionCreatorType;
 };
 
+type AddStoryType =
+  | {
+      type: 'Media';
+      file: File;
+    }
+  | { type: 'Text' }
+  | undefined;
+
 export const Stories = ({
   deleteStoryForEveryone,
   getPreferredBadge,
@@ -67,54 +74,57 @@ export const Stories = ({
     requiresFullWidth: true,
   });
 
-  const [isShowingStoryCreator, setIsShowingStoryCreator] = useState(false);
+  const [addStoryData, setAddStoryData] = useState<AddStoryType>();
   const [isMyStories, setIsMyStories] = useState(false);
 
   return (
     <div className={classNames('Stories', themeClassName(Theme.Dark))}>
-      {isShowingStoryCreator &&
+      {addStoryData &&
         renderStoryCreator({
-          onClose: () => setIsShowingStoryCreator(false),
+          file: addStoryData.type === 'Media' ? addStoryData.file : undefined,
+          onClose: () => setAddStoryData(undefined),
         })}
-      <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
-        <div className="Stories__pane" style={{ width }}>
-          {isMyStories && myStories.length ? (
-            <MyStories
-              i18n={i18n}
-              myStories={myStories}
-              onBack={() => setIsMyStories(false)}
-              onDelete={deleteStoryForEveryone}
-              onForward={onForwardStory}
-              onSave={onSaveStory}
-              queueStoryDownload={queueStoryDownload}
-              viewStory={viewStory}
-            />
-          ) : (
-            <StoriesPane
-              getPreferredBadge={getPreferredBadge}
-              hiddenStories={hiddenStories}
-              i18n={i18n}
-              me={me}
-              myStories={myStories}
-              onAddStory={() => setIsShowingStoryCreator(true)}
-              onMyStoriesClicked={() => {
-                if (myStories.length) {
-                  setIsMyStories(true);
-                } else {
-                  setIsShowingStoryCreator(true);
-                }
-              }}
-              onStoriesSettings={showStoriesSettings}
-              queueStoryDownload={queueStoryDownload}
-              showConversation={showConversation}
-              stories={stories}
-              toggleHideStories={toggleHideStories}
-              toggleStoriesView={toggleStoriesView}
-              viewUserStories={viewUserStories}
-            />
-          )}
-        </div>
-      </FocusTrap>
+      <div className="Stories__pane" style={{ width }}>
+        {isMyStories && myStories.length ? (
+          <MyStories
+            i18n={i18n}
+            myStories={myStories}
+            onBack={() => setIsMyStories(false)}
+            onDelete={deleteStoryForEveryone}
+            onForward={onForwardStory}
+            onSave={onSaveStory}
+            queueStoryDownload={queueStoryDownload}
+            viewStory={viewStory}
+          />
+        ) : (
+          <StoriesPane
+            getPreferredBadge={getPreferredBadge}
+            hiddenStories={hiddenStories}
+            i18n={i18n}
+            me={me}
+            myStories={myStories}
+            onAddStory={file =>
+              file
+                ? setAddStoryData({ type: 'Media', file })
+                : setAddStoryData({ type: 'Text' })
+            }
+            onMyStoriesClicked={() => {
+              if (myStories.length) {
+                setIsMyStories(true);
+              } else {
+                setAddStoryData({ type: 'Text' });
+              }
+            }}
+            onStoriesSettings={showStoriesSettings}
+            queueStoryDownload={queueStoryDownload}
+            showConversation={showConversation}
+            stories={stories}
+            toggleHideStories={toggleHideStories}
+            toggleStoriesView={toggleStoriesView}
+            viewUserStories={viewUserStories}
+          />
+        )}
+      </div>
       <div className="Stories__placeholder">
         <div className="Stories__placeholder__stories" />
         {i18n('Stories__placeholder--text')}

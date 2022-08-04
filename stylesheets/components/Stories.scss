@@ -21,6 +21,15 @@
     width: 380px;
     padding-top: calc(14px + var(--title-bar-drag-area-height));
 
+    &__add-story__button {
+      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
+      height: 22px;
+      position: absolute;
+      right: 63px;
+      top: 0px;
+      width: 22px;
+    }
+
     &__settings__button {
       @include dark-theme {
         @include color-svg(
@@ -59,18 +68,6 @@
       &--centered .Stories__pane__header--title {
         text-align: center;
         width: 100%;
-      }
-
-      &--camera {
-        @include button-reset;
-        @include color-svg(
-          '../images/icons/v2/camera-outline-24.svg',
-          $color-white
-        );
-        height: 22px;
-        position: absolute;
-        right: 63px;
-        width: 22px;
       }
 
       &--back {

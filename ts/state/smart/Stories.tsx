@@ -20,9 +20,10 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 
 function renderStoryCreator({
+  file,
   onClose,
 }: SmartStoryCreatorPropsType): JSX.Element {
-  return <SmartStoryCreator onClose={onClose} />;
+  return <SmartStoryCreator file={file} onClose={onClose} />;
 }
 
 export function SmartStories(): JSX.Element | null {

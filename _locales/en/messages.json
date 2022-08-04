@@ -7179,6 +7179,14 @@
     "message": "Add a story",
     "description": "Description hint to add a story"
   },
+  "Stories__add-story--text": {
+    "message": "Text story",
+    "description": "Label to create a new text story"
+  },
+  "Stories__add-story--media": {
+    "message": "Photo or video",
+    "description": "Label to create a new multimedia story"
+  },
   "Stories__hidden-stories": {
     "message": "Hidden stories",
     "description": "Button label to go to hidden stories pane"
@@ -7495,8 +7503,16 @@
     "message": "Can’t download story. You will need to share it again.",
     "description": "Description for image errors but when it is your own image"
   },
-  "StoryCreator__text-bg": {
-    "message": "Toggle text background color",
+  "StoryCreator__text-bg--background": {
+    "message": "Text has a white background color",
+    "description": "Button label"
+  },
+  "StoryCreator__text-bg--inverse": {
+    "message": "Text has selected color as the background color",
+    "description": "Button label"
+  },
+  "StoryCreator__text-bg--none": {
+    "message": "Text has no background color",
     "description": "Button label"
   },
   "StoryCreator__story-bg": {

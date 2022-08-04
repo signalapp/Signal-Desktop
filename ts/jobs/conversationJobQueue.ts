@@ -112,7 +112,6 @@ const storyJobDataSchema = z.object({
   conversationId: z.string(),
   // Note: recipients are baked into the message itself
   messageIds: z.string().array(),
-  textAttachment: z.any(), // TODO TextAttachmentType
   timestamp: z.number(),
   revision: z.number().optional(),
 });

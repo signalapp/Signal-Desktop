@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { AttachmentType } from '../types/Attachment';
 import type { MessageAttributesType } from '../model-types.d';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
-import type { TextAttachmentType } from '../types/Attachment';
 import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
@@ -12,7 +12,6 @@ import { MY_STORIES_ID } from '../types/Stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
 import { SendStatus } from '../messages/MessageSendState';
-import { TEXT_ATTACHMENT } from '../types/MIME';
 import { UUID } from '../types/UUID';
 import {
   conversationJobQueue,
@@ -25,7 +24,7 @@ import { isNotNil } from './isNotNil';
 
 export async function sendStoryMessage(
   listIds: Array<string>,
-  textAttachment: TextAttachmentType
+  attachment: AttachmentType
 ): Promise<void> {
   const { messaging } = window.textsecure;
 
@@ -124,6 +123,8 @@ export async function sendStoryMessage(
       sendStateByListId.set(distributionList.id, sendStateByConversationId);
     });
 
+  const attachments: Array<AttachmentType> = [attachment];
+
   // * Gather all the job data we'll be sending to the sendStory job
   // * Create the message for each distribution list
   const messagesToSave: Array<MessageAttributesType> = await Promise.all(
@@ -140,13 +141,7 @@ export async function sendStoryMessage(
       }
 
       return window.Signal.Migrations.upgradeMessageSchema({
-        attachments: [
-          {
-            contentType: TEXT_ATTACHMENT,
-            textAttachment,
-            size: textAttachment.text?.length || 0,
-          },
-        ],
+        attachments,
         conversationId: ourConversation.id,
         expireTimer: DAY / SECOND,
         id: UUID.generate().toString(),
@@ -189,7 +184,6 @@ export async function sendStoryMessage(
       type: conversationQueueJobEnum.enum.Story,
       conversationId: ourConversation.id,
       messageIds: messagesToSave.map(m => m.id),
-      textAttachment,
       timestamp,
     },
     async jobToInsert => {

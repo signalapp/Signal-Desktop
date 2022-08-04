@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
+import type {
+  AttachmentWithHydratedData,
+  TextAttachmentType,
+} from '../../types/Attachment';
 import type { ConversationModel } from '../../models/conversations';
 import type {
   ConversationQueueJobBundle,
@@ -42,7 +46,7 @@ export async function sendStory(
   }: ConversationQueueJobBundle,
   data: StoryJobData
 ): Promise<void> {
-  const { messageIds, textAttachment, timestamp } = data;
+  const { messageIds, timestamp } = data;
 
   const profileKey = await ourProfileKeyService.get();
 
@@ -51,14 +55,57 @@ export async function sendStory(
     return;
   }
 
-  // Some distribution lists need allowsReplies false, some need it set to true
-  // we create this proto (for the sync message) and also to re-use some of the
-  // attributes inside it.
-  const originalStoryMessage = await messaging.getStoryMessage({
-    allowsReplies: true,
-    textAttachment,
-    profileKey,
-  });
+  // We want to generate the StoryMessage proto once at the top level so we
+  // can reuse it but first we'll need textAttachment | fileAttachment.
+  // This function pulls off the attachment and generates the proto from the
+  // first message on the list prior to continuing.
+  const originalStoryMessage = await (async (): Promise<
+    Proto.StoryMessage | undefined
+  > => {
+    const [messageId] = messageIds;
+    const message = await getMessageById(messageId);
+    if (!message) {
+      log.info(
+        `stories.sendStory: message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
+      );
+      return;
+    }
+
+    const attachments = message.get('attachments') || [];
+    const [attachment] = attachments;
+
+    if (!attachment) {
+      log.info(
+        `stories.sendStory: message ${messageId} does not have any attachments to send. Giving up on sending it`
+      );
+      return;
+    }
+
+    let textAttachment: TextAttachmentType | undefined;
+    let fileAttachment: AttachmentWithHydratedData | undefined;
+
+    if (attachment.textAttachment) {
+      textAttachment = attachment.textAttachment;
+    } else {
+      fileAttachment = await window.Signal.Migrations.loadAttachmentData(
+        attachment
+      );
+    }
+
+    // Some distribution lists need allowsReplies false, some need it set to true
+    // we create this proto (for the sync message) and also to re-use some of the
+    // attributes inside it.
+    return messaging.getStoryMessage({
+      allowsReplies: true,
+      fileAttachment,
+      textAttachment,
+      profileKey,
+    });
+  })();
+
+  if (!originalStoryMessage) {
+    return;
+  }
 
   const accSendStateByConversationId = new Map<string, SendState>();
   const canReplyUuids = new Set<string>();
