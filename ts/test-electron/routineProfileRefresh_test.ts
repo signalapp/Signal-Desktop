@@ -89,6 +89,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: UUID.generate().toString(),
       storage,
       getProfileFn,
+      id: 1,
     });
 
     sinon.assert.notCalled(getProfileFn);
@@ -104,6 +105,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
       getProfileFn,
+      id: 1,
     });
 
     sinon.assert.calledWith(
@@ -130,6 +132,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
       getProfileFn,
+      id: 1,
     });
 
     sinon.assert.calledOnce(getProfileFn);
@@ -159,6 +162,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: me.id,
       storage: makeStorage(),
       getProfileFn,
+      id: 1,
     });
 
     sinon.assert.calledWith(getProfileFn, notMe.get('uuid'), notMe.get('e164'));
@@ -176,6 +180,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
       getProfileFn,
+      id: 1,
     });
 
     sinon.assert.calledOnce(getProfileFn);
@@ -219,6 +224,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
       getProfileFn,
+      id: 1,
     });
 
     sinon.assert.calledWith(
@@ -288,6 +294,7 @@ describe('routineProfileRefresh', () => {
       ourConversationId: me.id,
       storage: makeStorage(),
       getProfileFn,
+      id: 1,
     });
 
     [...activeConversations, ...inactiveGroupMembers].forEach(conversation => {
