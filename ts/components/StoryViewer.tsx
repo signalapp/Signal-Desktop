@@ -56,6 +56,7 @@ export type PropsType = {
     | 'sharedGroupNames'
     | 'title'
   >;
+  hasActiveCall?: boolean;
   hasAllStoriesMuted: boolean;
   i18n: LocalizerType;
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
@@ -103,6 +104,7 @@ export const StoryViewer = ({
   deleteStoryForEveryone,
   getPreferredBadge,
   group,
+  hasActiveCall,
   hasAllStoriesMuted,
   i18n,
   loadStoryReplies,
@@ -276,6 +278,7 @@ export const StoryViewer = ({
   const [pauseStory, setPauseStory] = useState(false);
 
   const shouldPauseViewing =
+    hasActiveCall ||
     hasConfirmHideStory ||
     hasExpandedCaption ||
     hasStoryDetailsModal ||

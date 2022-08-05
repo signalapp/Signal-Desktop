@@ -7482,7 +7482,7 @@ button.module-image__border-overlay:focus {
   left: var(--window-border);
   top: var(--titlebar-height);
   position: fixed;
-  z-index: $z-index-popup-overlay;
+  z-index: $z-index-modal-host;
 }
 
 .module-modal-host__overlay-container {
@@ -7496,7 +7496,7 @@ button.module-image__border-overlay:focus {
   overflow: hidden;
   padding: 20px;
   position: fixed;
-  z-index: $z-index-popup-overlay;
+  z-index: $z-index-modal-host;
 }
 
 .module-modal-host--on-top-of-everything {

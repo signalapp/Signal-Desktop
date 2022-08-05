@@ -24,6 +24,7 @@ import {
   getStoryReplies,
   getStoryByIdSelector,
 } from '../selectors/stories';
+import { isInFullScreenCall } from '../selectors/calling';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { strictAssert } from '../../util/assert';
 import { useActions as useEmojisActions } from '../ducks/emojis';
@@ -79,11 +80,14 @@ export function SmartStoryViewer(): JSX.Element | null {
     getHasAllStoriesMuted
   );
 
+  const hasActiveCall = useSelector(isInFullScreenCall);
+
   return (
     <StoryViewer
       currentIndex={selectedStoryData.currentIndex}
       getPreferredBadge={getPreferredBadge}
       group={conversationStory.group}
+      hasActiveCall={hasActiveCall}
       hasAllStoriesMuted={hasAllStoriesMuted}
       i18n={i18n}
       numStories={selectedStoryData.numStories}

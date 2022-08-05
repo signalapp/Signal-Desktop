@@ -265,8 +265,9 @@ $z-index-window-controls: 10000;
 // popups, tooltips, toasts, and other items should stack above it.
 $z-index-story-meta: 3;
 $z-index-scroll-down-button: 10;
-$z-index-stories: 97;
-$z-index-calling: 98;
+$z-index-stories: 98;
+$z-index-calling: 100;
+$z-index-modal-host: 101;
 $z-index-above-popup: 101;
 $z-index-calling-pip: 103;
 $z-index-above-context-menu: 126;
