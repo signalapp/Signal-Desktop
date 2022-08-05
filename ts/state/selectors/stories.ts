@@ -364,7 +364,10 @@ export const getUnreadStorySenderCount = createSelector(
   ({ stories }): number => {
     return new Set(
       stories
-        .filter(story => story.readStatus === ReadStatus.Unread)
+        .filter(
+          story =>
+            story.readStatus === ReadStatus.Unread && !story.deletedForEveryone
+        )
         .map(story => story.conversationId)
     ).size;
   }
@@ -388,7 +391,8 @@ export const getHasStoriesSelector = createSelector(
       }
 
       return conversationStories.some(
-        story => story.readStatus === ReadStatus.Unread
+        story =>
+          story.readStatus === ReadStatus.Unread && !story.deletedForEveryone
       )
         ? HasStories.Unread
         : HasStories.Read;
