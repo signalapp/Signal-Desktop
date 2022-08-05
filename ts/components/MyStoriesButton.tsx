@@ -15,6 +15,7 @@ export type PropsType = {
   i18n: LocalizerType;
   me: ConversationType;
   newestStory?: StoryViewType;
+  onAddStory: () => unknown;
   onClick: () => unknown;
   queueStoryDownload: (storyId: string) => unknown;
 };
@@ -24,6 +25,7 @@ export const MyStoriesButton = ({
   i18n,
   me,
   newestStory,
+  onAddStory,
   onClick,
   queueStoryDownload,
 }: PropsType): JSX.Element => {
@@ -40,66 +42,96 @@ export const MyStoriesButton = ({
 
   return (
     <div className="Stories__my-stories">
-      <button
-        aria-label={i18n('StoryListItem__label')}
-        className="StoryListItem__button"
-        onClick={onClick}
-        tabIndex={0}
-        type="button"
-      >
-        <Avatar
-          acceptedMessageRequest={acceptedMessageRequest}
-          sharedGroupNames={sharedGroupNames}
-          avatarPath={avatarPath}
-          badge={undefined}
-          color={getAvatarColor(color)}
-          conversationType="direct"
-          i18n={i18n}
-          isMe={Boolean(isMe)}
-          name={name}
-          profileName={profileName}
-          size={AvatarSize.FORTY_EIGHT}
-          title={title}
-        />
-        <div className="StoryListItem__info">
-          <>
-            <div className="StoryListItem__info--title">
-              {i18n('Stories__mine')}
-            </div>
-            {!newestStory && (
-              <div className="StoryListItem__info--timestamp">
-                {i18n('Stories__add')}
-              </div>
-            )}
-          </>
+      <div className="StoryListItem__button">
+        <div className="MyStories__avatar-container">
+          <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPath={avatarPath}
+            badge={undefined}
+            color={getAvatarColor(color)}
+            conversationType="direct"
+            i18n={i18n}
+            isMe={Boolean(isMe)}
+            name={name}
+            onClick={onAddStory}
+            profileName={profileName}
+            sharedGroupNames={sharedGroupNames}
+            size={AvatarSize.FORTY_EIGHT}
+            title={title}
+          />
+          <div
+            aria-label={i18n('Stories__add')}
+            className="MyStories__avatar__add-story"
+            onClick={ev => {
+              onAddStory();
+              ev.stopPropagation();
+              ev.preventDefault();
+            }}
+            onKeyDown={ev => {
+              if (ev.key === 'Enter') {
+                onAddStory();
+                ev.stopPropagation();
+                ev.preventDefault();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+          />
         </div>
-
         <div
-          className={classNames('StoryListItem__previews', {
-            'StoryListItem__previews--multiple': hasMultiple,
-          })}
+          className="StoryListItem__click-container"
+          onClick={onClick}
+          onKeyDown={ev => {
+            if (ev.key === 'Enter') {
+              onClick();
+              ev.stopPropagation();
+              ev.preventDefault();
+            }
+          }}
+          role="button"
+          tabIndex={0}
         >
-          {hasMultiple && <div className="StoryListItem__previews--more" />}
-          {newestStory ? (
-            <StoryImage
-              attachment={newestStory.attachment}
-              firstName={i18n('you')}
-              i18n={i18n}
-              isMe
-              isThumbnail
-              label=""
-              moduleClassName="StoryListItem__previews--image"
-              queueStoryDownload={queueStoryDownload}
-              storyId={newestStory.messageId}
-            />
-          ) : (
-            <div
-              aria-label={i18n('Stories__add')}
-              className="StoryListItem__previews--add StoryListItem__previews--image"
-            />
-          )}
+          <div className="StoryListItem__info">
+            <>
+              <div className="StoryListItem__info--title">
+                {i18n('Stories__mine')}
+              </div>
+              {!newestStory && (
+                <div className="StoryListItem__info--timestamp">
+                  {i18n('Stories__add')}
+                </div>
+              )}
+            </>
+          </div>
+
+          <div
+            aria-label={i18n('StoryListItem__label')}
+            className={classNames('StoryListItem__previews', {
+              'StoryListItem__previews--multiple': hasMultiple,
+            })}
+          >
+            {hasMultiple && <div className="StoryListItem__previews--more" />}
+            {newestStory ? (
+              <StoryImage
+                attachment={newestStory.attachment}
+                firstName={i18n('you')}
+                i18n={i18n}
+                isMe
+                isThumbnail
+                label=""
+                moduleClassName="StoryListItem__previews--image"
+                queueStoryDownload={queueStoryDownload}
+                storyId={newestStory.messageId}
+              />
+            ) : (
+              <div
+                aria-label={i18n('Stories__add')}
+                className="StoryListItem__previews--add StoryListItem__previews--image"
+              />
+            )}
+          </div>
         </div>
-      </button>
+      </div>
     </div>
   );
 };

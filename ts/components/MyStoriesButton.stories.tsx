@@ -33,12 +33,9 @@ export default {
     newestStory: {
       defaultValue: getFakeStoryView(),
     },
-    onClick: {
-      action: true,
-    },
-    queueStoryDownload: {
-      action: true,
-    },
+    onAddStory: { action: true },
+    onClick: { action: true },
+    queueStoryDownload: { action: true },
   },
 } as Meta;
 
@@ -49,6 +46,10 @@ const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
   canvasElement,
 }) => {
   const canvas = within(canvasElement);
+  const [btnAddStory] = canvas.getAllByLabelText('Add a story');
+  await userEvent.click(btnAddStory);
+  await expect(args.onAddStory).toHaveBeenCalled();
+
   const [btnStory] = canvas.getAllByLabelText('Story');
   await userEvent.click(btnStory);
   await expect(args.onClick).toHaveBeenCalled();

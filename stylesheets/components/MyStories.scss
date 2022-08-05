@@ -101,4 +101,31 @@
       );
     }
   }
+
+  &__avatar-container {
+    position: relative;
+  }
+
+  &__avatar__add-story {
+    @include button-reset;
+    @include rounded-corners;
+    align-items: center;
+    background: $color-ultramarine-dawn;
+    border: 2px solid $color-gray-80;
+    bottom: -2px;
+    display: flex;
+    height: 20px;
+    justify-content: center;
+    position: absolute;
+    right: -4px;
+    width: 20px;
+    z-index: $z-index-base;
+
+    &::after {
+      content: '';
+      @include color-svg('../images/icons/v2/plus-20.svg', $color-white);
+      height: 10px;
+      width: 10px;
+    }
+  }
 }

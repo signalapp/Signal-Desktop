@@ -187,6 +187,7 @@ export const StoriesPane = ({
             newestStory={
               myStories.length ? getNewestMyStory(myStories[0]) : undefined
             }
+            onAddStory={onAddStory}
             onClick={onMyStoriesClicked}
             queueStoryDownload={queueStoryDownload}
           />

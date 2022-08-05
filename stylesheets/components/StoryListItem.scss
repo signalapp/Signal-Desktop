@@ -22,10 +22,28 @@
     }
   }
 
+  &__click-container {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-ultramarine;
+      }
+    }
+  }
+
   &__info {
     display: flex;
-    flex: 1;
     flex-direction: column;
+    flex: 1;
+    justify-content: center;
     margin-left: 12px;
     margin-right: 12px;
 
