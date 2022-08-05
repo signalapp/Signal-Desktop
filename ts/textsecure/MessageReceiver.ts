@@ -1932,6 +1932,24 @@ export default class MessageReceiver
       timestamp: envelope.timestamp,
     };
 
+    if (sentMessage && message.groupV2) {
+      const ev = new SentEvent(
+        {
+          destinationUuid: envelope.destinationUuid.toString(),
+          isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
+          message,
+          receivedAtCounter: envelope.receivedAtCounter,
+          receivedAtDate: envelope.receivedAtDate,
+          serverTimestamp: envelope.serverTimestamp,
+          timestamp: envelope.timestamp,
+          unidentifiedStatus: sentMessage.unidentifiedStatus,
+        },
+        this.removeFromCache.bind(this, envelope)
+      );
+      this.dispatchAndWait(ev);
+      return;
+    }
+
     if (sentMessage) {
       const { storyMessageRecipients } = sentMessage;
       const recipients = storyMessageRecipients ?? [];

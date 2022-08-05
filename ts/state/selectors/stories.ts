@@ -283,35 +283,47 @@ export const getStories = createSelector(
         return;
       }
 
-      if (story.sendStateByConversationId && story.storyDistributionListId) {
-        const list =
-          story.storyDistributionListId === MY_STORIES_ID
-            ? { id: MY_STORIES_ID, name: MY_STORIES_ID }
-            : distributionListSelector(
-                story.storyDistributionListId.toLowerCase()
-              );
+      const conversationStory = getConversationStory(
+        conversationSelector,
+        story
+      );
 
-        if (!list) {
+      if (story.sendStateByConversationId) {
+        let sentId = story.conversationId;
+        let sentName = conversationStory.group?.title;
+
+        if (story.storyDistributionListId) {
+          const list =
+            story.storyDistributionListId === MY_STORIES_ID
+              ? { id: MY_STORIES_ID, name: MY_STORIES_ID }
+              : distributionListSelector(
+                  story.storyDistributionListId.toLowerCase()
+                );
+
+          if (!list) {
+            return;
+          }
+
+          sentId = list.id;
+          sentName = list.name;
+        }
+
+        if (!sentName) {
           return;
         }
 
         const storyView = getStoryView(conversationSelector, story);
 
-        const existingMyStory = myStoriesById.get(list.id) || { stories: [] };
+        const existingMyStory = myStoriesById.get(sentId) || { stories: [] };
 
-        myStoriesById.set(list.id, {
-          distributionId: list.id,
-          distributionName: list.name,
+        myStoriesById.set(sentId, {
+          id: sentId,
+          name: sentName,
           stories: [...existingMyStory.stories, storyView],
         });
 
         return;
       }
-
-      const conversationStory = getConversationStory(
-        conversationSelector,
-        story
-      );
 
       let storiesMap: Map<string, ConversationStoryType>;
 

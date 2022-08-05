@@ -85,8 +85,8 @@ export type StoryViewType = {
 };
 
 export type MyStoryType = {
-  distributionId: string;
-  distributionName: string;
+  id: string;
+  name: string;
   stories: Array<StoryViewType>;
 };
 

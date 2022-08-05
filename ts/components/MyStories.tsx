@@ -68,12 +68,12 @@ export const MyStories = ({
       </div>
       <div className="Stories__pane__list">
         {myStories.map(list => (
-          <div className="MyStories__distribution" key={list.distributionId}>
+          <div className="MyStories__distribution" key={list.id}>
             <div className="MyStories__distribution__title">
               <StoryDistributionListName
                 i18n={i18n}
-                id={list.distributionId}
-                name={list.distributionName}
+                id={list.id}
+                name={list.name}
               />
             </div>
             {list.stories.map(story => (

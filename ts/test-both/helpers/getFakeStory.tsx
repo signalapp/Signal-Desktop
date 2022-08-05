@@ -27,9 +27,8 @@ export function getFakeMyStory(id?: string, name?: string): MyStoryType {
   const storyCount = casual.integer(2, 6);
 
   return {
-    distributionId: id || UUID.generate().toString(),
-    distributionName:
-      name || id === MY_STORIES_ID ? 'My Stories' : casual.catch_phrase,
+    id: id || UUID.generate().toString(),
+    name: name || id === MY_STORIES_ID ? 'My Stories' : casual.catch_phrase,
     stories: Array.from(Array(storyCount), () => ({
       ...getFakeStoryView(),
       sendState: [],
