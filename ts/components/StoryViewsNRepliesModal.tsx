@@ -16,7 +16,7 @@ import { CompositionInput } from './CompositionInput';
 import { ContactName } from './conversation/ContactName';
 import { EmojiButton } from './emoji/EmojiButton';
 import { Emojify } from './conversation/Emojify';
-import { MessageBody } from './conversation/MessageBody';
+import { Message, TextDirection } from './conversation/Message';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { Modal } from './Modal';
 import { Quote } from './conversation/Quote';
@@ -24,8 +24,58 @@ import { ReactionPicker } from './conversation/ReactionPicker';
 import { Tabs } from './Tabs';
 import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
+import { WidthBreakpoint } from './_util';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryReplyText } from '../util/getStoryReplyText';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
+
+// Menu is disabled so these actions are inaccessible. We also don't support
+// link previews, tap to view messages, attachments, or gifts. Just regular
+// text messages and reactions.
+const MESSAGE_DEFAULT_PROPS = {
+  canDeleteForEveryone: false,
+  canDownload: false,
+  canReact: false,
+  canReply: false,
+  canRetry: false,
+  canRetryDeleteForEveryone: false,
+  checkForAccount: shouldNeverBeCalled,
+  clearSelectedMessage: shouldNeverBeCalled,
+  containerWidthBreakpoint: WidthBreakpoint.Medium,
+  deleteMessage: shouldNeverBeCalled,
+  deleteMessageForEveryone: shouldNeverBeCalled,
+  displayTapToViewMessage: shouldNeverBeCalled,
+  doubleCheckMissingQuoteReference: shouldNeverBeCalled,
+  downloadAttachment: shouldNeverBeCalled,
+  isBlocked: false,
+  isMessageRequestAccepted: true,
+  kickOffAttachmentDownload: shouldNeverBeCalled,
+  markAttachmentAsCorrupted: shouldNeverBeCalled,
+  markViewed: shouldNeverBeCalled,
+  messageExpanded: shouldNeverBeCalled,
+  openConversation: shouldNeverBeCalled,
+  openGiftBadge: shouldNeverBeCalled,
+  openLink: shouldNeverBeCalled,
+  previews: [],
+  reactToMessage: shouldNeverBeCalled,
+  renderAudioAttachment: () => <div />,
+  renderEmojiPicker: () => <div />,
+  renderReactionPicker: () => <div />,
+  replyToMessage: shouldNeverBeCalled,
+  retryDeleteForEveryone: shouldNeverBeCalled,
+  retrySend: shouldNeverBeCalled,
+  scrollToQuotedMessage: shouldNeverBeCalled,
+  showContactDetail: shouldNeverBeCalled,
+  showContactModal: shouldNeverBeCalled,
+  showExpiredIncomingTapToViewToast: shouldNeverBeCalled,
+  showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
+  showForwardMessageModal: shouldNeverBeCalled,
+  showMessageDetail: shouldNeverBeCalled,
+  showVisualAttachment: shouldNeverBeCalled,
+  startConversation: shouldNeverBeCalled,
+  theme: ThemeType.dark,
+  viewStory: shouldNeverBeCalled,
+};
 
 enum Tab {
   Replies = 'Replies',
@@ -79,6 +129,7 @@ export const StoryViewsNRepliesModal = ({
   storyPreviewAttachment,
   views,
 }: PropsType): JSX.Element | null => {
+  const containerElementRef = useRef<HTMLDivElement | null>(null);
   const inputApiRef = useRef<InputApi | undefined>();
   const [bottom, setBottom] = useState<HTMLDivElement | null>(null);
   const [messageBodyText, setMessageBodyText] = useState('');
@@ -211,30 +262,34 @@ export const StoryViewsNRepliesModal = ({
 
   if (replies.length) {
     repliesElement = (
-      <div className="StoryViewsNRepliesModal__replies">
-        {replies.map(reply =>
+      <div
+        className="StoryViewsNRepliesModal__replies"
+        ref={containerElementRef}
+      >
+        {replies.map((reply, index) =>
           reply.reactionEmoji ? (
             <div className="StoryViewsNRepliesModal__reaction" key={reply.id}>
               <div className="StoryViewsNRepliesModal__reaction--container">
                 <Avatar
-                  acceptedMessageRequest={reply.acceptedMessageRequest}
-                  avatarPath={reply.avatarPath}
-                  badge={undefined}
-                  color={getAvatarColor(reply.color)}
+                  acceptedMessageRequest={reply.author.acceptedMessageRequest}
+                  avatarPath={reply.author.avatarPath}
+                  badge={getPreferredBadge(reply.author.badges)}
+                  color={getAvatarColor(reply.author.color)}
                   conversationType="direct"
                   i18n={i18n}
-                  isMe={Boolean(reply.isMe)}
-                  name={reply.name}
-                  profileName={reply.profileName}
-                  sharedGroupNames={reply.sharedGroupNames || []}
+                  isMe={Boolean(reply.author.isMe)}
+                  name={reply.author.name}
+                  profileName={reply.author.profileName}
+                  sharedGroupNames={reply.author.sharedGroupNames || []}
                   size={AvatarSize.TWENTY_EIGHT}
-                  title={reply.title}
+                  theme={ThemeType.dark}
+                  title={reply.author.title}
                 />
                 <div className="StoryViewsNRepliesModal__reaction--body">
                   <div className="StoryViewsNRepliesModal__reply--title">
                     <ContactName
                       contactNameColor={reply.contactNameColor}
-                      title={reply.title}
+                      title={reply.author.title}
                     />
                   </div>
                   {i18n('StoryViewsNRepliesModal__reacted')}
@@ -249,54 +304,34 @@ export const StoryViewsNRepliesModal = ({
               <Emojify text={reply.reactionEmoji} />
             </div>
           ) : (
-            <div className="StoryViewsNRepliesModal__reply" key={reply.id}>
-              <Avatar
-                acceptedMessageRequest={reply.acceptedMessageRequest}
-                avatarPath={reply.avatarPath}
-                badge={undefined}
-                color={getAvatarColor(reply.color)}
-                conversationType="direct"
+            <div key={reply.id}>
+              <Message
+                {...MESSAGE_DEFAULT_PROPS}
+                author={reply.author}
+                containerElementRef={containerElementRef}
+                conversationColor="ultramarine"
+                conversationId={reply.conversationId}
+                conversationTitle={reply.author.title}
+                conversationType="group"
+                direction="incoming"
+                disableMenu
+                getPreferredBadge={getPreferredBadge}
                 i18n={i18n}
-                isMe={Boolean(reply.isMe)}
-                name={reply.name}
-                profileName={reply.profileName}
-                sharedGroupNames={reply.sharedGroupNames || []}
-                size={AvatarSize.TWENTY_EIGHT}
-                title={reply.title}
+                id={reply.id}
+                interactionMode="mouse"
+                readStatus={reply.readStatus}
+                renderingContext="StoryViewsNRepliesModal"
+                shouldCollapseAbove={
+                  reply.conversationId === replies[index - 1]?.conversationId
+                }
+                shouldCollapseBelow={
+                  reply.conversationId === replies[index + 1]?.conversationId
+                }
+                shouldHideMetadata={false}
+                text={reply.body}
+                textDirection={TextDirection.Default}
+                timestamp={reply.timestamp}
               />
-              <div
-                className={classNames(
-                  'StoryViewsNRepliesModal__message-bubble',
-                  {
-                    'StoryViewsNRepliesModal__message-bubble--doe': Boolean(
-                      reply.deletedForEveryone
-                    ),
-                  }
-                )}
-              >
-                <div className="StoryViewsNRepliesModal__reply--title">
-                  <ContactName
-                    contactNameColor={reply.contactNameColor}
-                    title={reply.title}
-                  />
-                </div>
-
-                <MessageBody
-                  disableJumbomoji
-                  i18n={i18n}
-                  text={
-                    reply.deletedForEveryone
-                      ? i18n('message--deletedForEveryone')
-                      : String(reply.body)
-                  }
-                />
-
-                <MessageTimestamp
-                  i18n={i18n}
-                  module="StoryViewsNRepliesModal__reply--timestamp"
-                  timestamp={reply.timestamp}
-                />
-              </div>
             </div>
           )
         )}

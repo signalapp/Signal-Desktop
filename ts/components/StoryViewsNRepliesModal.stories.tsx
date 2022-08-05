@@ -10,6 +10,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { IMAGE_JPEG } from '../types/MIME';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
+import { UUID } from '../types/UUID';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
@@ -69,6 +70,9 @@ function getViewsAndReplies() {
   const p3 = getDefaultConversation();
   const p4 = getDefaultConversation();
   const p5 = getDefaultConversation();
+  const p6 = getDefaultConversation({
+    isMe: true,
+  });
 
   const views = [
     {
@@ -100,19 +104,51 @@ function getViewsAndReplies() {
 
   const replies = [
     {
-      ...p2,
+      author: p2,
       body: 'So cute ❤️',
+      conversationId: p2.id,
+      id: UUID.generate().toString(),
       timestamp: Date.now() - 24 * durations.MINUTE,
     },
     {
-      ...p3,
+      author: p3,
       body: "That's awesome",
+      conversationId: p3.id,
+      id: UUID.generate().toString(),
       timestamp: Date.now() - 13 * durations.MINUTE,
     },
     {
-      ...p4,
+      author: p3,
+      body: 'Very awesome',
+      conversationId: p3.id,
+      id: UUID.generate().toString(),
+      timestamp: Date.now() - 13 * durations.MINUTE,
+    },
+    {
+      author: p3,
+      body: 'Did I mention how awesome this is?',
+      conversationId: p3.id,
+      id: UUID.generate().toString(),
+      timestamp: Date.now() - 12 * durations.MINUTE,
+    },
+    {
+      author: p4,
+      conversationId: p4.id,
+      id: UUID.generate().toString(),
       reactionEmoji: '❤️',
       timestamp: Date.now() - 5 * durations.MINUTE,
+    },
+    {
+      author: p6,
+      body: 'Thanks everyone!',
+      conversationId: p6.id,
+      id: UUID.generate().toString(),
+      sendStateByConversationId: {
+        [p1.id]: {
+          status: SendStatus.Pending,
+        },
+      },
+      timestamp: Date.now(),
     },
   ];
 

@@ -5,25 +5,31 @@ import type { AttachmentType } from './Attachment';
 import type { ContactNameColorType } from './Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from './Util';
+import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStatus } from '../messages/MessageSendState';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 
-export type ReplyType = Pick<
-  ConversationType,
-  | 'acceptedMessageRequest'
-  | 'avatarPath'
-  | 'color'
-  | 'isMe'
-  | 'name'
-  | 'profileName'
-  | 'sharedGroupNames'
-  | 'title'
-> & {
+export type ReplyType = {
+  author: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'badges'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
   body?: string;
   contactNameColor?: ContactNameColorType;
+  conversationId: string;
   deletedForEveryone?: boolean;
   id: string;
   reactionEmoji?: string;
+  readStatus?: ReadStatus;
   timestamp: number;
 };
 

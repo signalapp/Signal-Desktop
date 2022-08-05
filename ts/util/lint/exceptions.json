@@ -9233,6 +9233,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const containerElementRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-08-04T00:52:01.080Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
     "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",

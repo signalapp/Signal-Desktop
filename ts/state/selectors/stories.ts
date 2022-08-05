@@ -80,8 +80,10 @@ function getAvatarData(
   ConversationType,
   | 'acceptedMessageRequest'
   | 'avatarPath'
+  | 'badges'
   | 'color'
   | 'isMe'
+  | 'id'
   | 'name'
   | 'profileName'
   | 'sharedGroupNames'
@@ -90,8 +92,10 @@ function getAvatarData(
   return pick(conversation, [
     'acceptedMessageRequest',
     'avatarPath',
+    'badges',
     'color',
     'isMe',
+    'id',
     'name',
     'profileName',
     'sharedGroupNames',
@@ -212,11 +216,12 @@ export const getStoryReplies = createSelector(
           const conversation = conversationSelector(reaction.fromId);
 
           return {
-            ...getAvatarData(conversation),
+            author: getAvatarData(conversation),
             contactNameColor: contactNameColorSelector(
               foundStory.conversationId,
               conversation.id
             ),
+            conversationId: reaction.fromId,
             id: getReactionUniqueId(reaction),
             reactionEmoji: reaction.emoji,
             timestamp: reaction.timestamp,
@@ -231,12 +236,14 @@ export const getStoryReplies = createSelector(
           : conversationSelector(reply.sourceUuid || reply.source);
 
       return {
-        ...getAvatarData(conversation),
+        author: getAvatarData(conversation),
         ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
         contactNameColor: contactNameColorSelector(
           reply.conversationId,
           conversation.id
         ),
+        conversationId: conversation.id,
+        readStatus: reply.readStatus,
       };
     });
 

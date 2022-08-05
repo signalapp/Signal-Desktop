@@ -13,6 +13,7 @@
 
   &__replies {
     flex: 1;
+    margin: 0 -16px;
     max-height: 75vh;
     overflow-y: overlay;
 
@@ -127,7 +128,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 12px 16px;
 
     &--container {
       display: flex;

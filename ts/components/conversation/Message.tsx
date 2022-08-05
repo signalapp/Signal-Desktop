@@ -263,7 +263,7 @@ export type PropsData = {
   isTapToViewExpired?: boolean;
   isTapToViewError?: boolean;
 
-  readStatus: ReadStatus;
+  readStatus?: ReadStatus;
 
   expirationLength?: number;
   expirationTimestamp?: number;
