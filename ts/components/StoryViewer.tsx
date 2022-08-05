@@ -196,6 +196,9 @@ export const StoryViewer = ({
     setHasExpandedCaption(false);
   }, [messageId]);
 
+  // messageId is set as a dependency so that we can reset the story duration
+  // when a new story is selected in case the same story (and same attachment)
+  // are sequentially posted.
   useEffect(() => {
     let shouldCancel = false;
     (async function hydrateStoryDuration() {
@@ -218,7 +221,7 @@ export const StoryViewer = ({
     return () => {
       shouldCancel = true;
     };
-  }, [attachment]);
+  }, [attachment, messageId]);
 
   const unmountRef = useRef<boolean>(false);
   useEffect(() => {
