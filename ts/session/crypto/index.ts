@@ -10,7 +10,9 @@ import libsodiumwrappers from 'libsodium-wrappers-sumo';
 import { toHex } from '../utils/String';
 import { ECKeyPair } from '../../receiver/keypairs';
 
-export async function getSodiumRenderer(): Promise<typeof libsodiumwrappers> {
+export type LibSodiumWrappers = typeof libsodiumwrappers;
+
+export async function getSodiumRenderer(): Promise<LibSodiumWrappers> {
   await libsodiumwrappers.ready;
   return libsodiumwrappers;
 }

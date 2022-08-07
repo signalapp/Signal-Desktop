@@ -1,32 +1,22 @@
 import Backbone from 'backbone';
-import _ from 'lodash';
+import _, { isArray, isEmpty, isNumber, isString } from 'lodash';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
-import { MessageModel } from './message';
+import { MessageModel, sliceQuoteText } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 import autoBind from 'auto-bind';
-import {
-  getLastMessagesByConversation,
-  getMessageCountByType,
-  getMessagesByConversation,
-  getUnreadByConversation,
-  getUnreadCountByConversation,
-  removeMessage as dataRemoveMessage,
-  saveMessages,
-  updateConversation,
-} from '../../ts/data/data';
+import { Data } from '../../ts/data/data';
 import { toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
   conversationsChanged,
-  LastMessageStatusType,
   MessageModelPropsWithoutConvoProps,
   ReduxConversationType,
 } from '../state/ducks/conversations';
@@ -61,136 +51,31 @@ import {
   getAbsoluteAttachmentPath,
   loadAttachmentData,
 } from '../types/MessageAttachment';
-import { getOurPubKeyStrFromCache } from '../session/utils/User';
-import { MessageRequestResponse } from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
+import { getOurProfile } from '../session/utils/User';
+import {
+  MessageRequestResponse,
+  MessageRequestResponseParams,
+} from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
+import {
+  ConversationAttributes,
+  ConversationNotificationSetting,
+  ConversationTypeEnum,
+  fillConvoAttributesWithDefaults,
+} from './conversationAttributes';
 
-export enum ConversationTypeEnum {
-  GROUP = 'group',
-  PRIVATE = 'private',
-}
-
-/**
- * all: all  notifications enabled, the default
- * disabled: no notifications at all
- * mentions_only: trigger a notification only on mentions of ourself
- */
-export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
-export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
-
-export interface ConversationAttributes {
-  profileName?: string;
-  id: string;
-  name?: string;
-  // members are all members for this group. zombies excluded
-  members: Array<string>;
-  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin
-  left: boolean;
-  expireTimer: number;
-  mentionedUs: boolean;
-  unreadCount: number;
-  lastMessageStatus: LastMessageStatusType;
-  lastMessage: string | null;
-
-  active_at: number;
-  lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group
-  groupAdmins?: Array<string>;
-  isKickedFromGroup?: boolean;
-  avatarPath?: string;
-  isMe?: boolean;
-  subscriberCount?: number;
-  is_medium_group?: boolean;
-  type: string;
-  avatarPointer?: string;
-  avatar?: any;
-  /* Avatar hash is currently used for opengroupv2. it's sha256 hash of the base64 avatar data. */
-  avatarHash?: string;
-  server?: any;
-  nickname?: string;
-  profile?: any;
-  profileAvatar?: any;
-  /**
-   * Consider this being a hex string if it set
-   */
-  profileKey?: string;
-  triggerNotificationsFor: ConversationNotificationSettingType;
-  isTrustedForAttachmentDownload: boolean;
-  isPinned: boolean;
-  isApproved: boolean;
-  didApproveMe: boolean;
-}
-
-export interface ConversationAttributesOptionals {
-  profileName?: string;
-  id: string;
-  name?: string;
-  members?: Array<string>;
-  zombies?: Array<string>;
-  left?: boolean;
-  expireTimer?: number;
-  mentionedUs?: boolean;
-  unreadCount?: number;
-  lastMessageStatus?: LastMessageStatusType;
-  lastMessage: string | null;
-  active_at?: number;
-  timestamp?: number; // timestamp of what?
-  lastJoinedTimestamp?: number;
-  groupAdmins?: Array<string>;
-  isKickedFromGroup?: boolean;
-  avatarPath?: string;
-  isMe?: boolean;
-  subscriberCount?: number;
-  is_medium_group?: boolean;
-  type: string;
-  avatarPointer?: string;
-  avatar?: any;
-  avatarHash?: string;
-  server?: any;
-  nickname?: string;
-  profile?: any;
-  profileAvatar?: any;
-  /**
-   * Consider this being a hex string if it set
-   */
-  profileKey?: string;
-  triggerNotificationsFor?: ConversationNotificationSettingType;
-  isTrustedForAttachmentDownload?: boolean;
-  isPinned: boolean;
-  isApproved?: boolean;
-  didApproveMe?: boolean;
-}
-
-/**
- * This function mutates optAttributes
- * @param optAttributes the entry object attributes to set the defaults to.
- */
-export const fillConvoAttributesWithDefaults = (
-  optAttributes: ConversationAttributesOptionals
-): ConversationAttributes => {
-  return _.defaults(optAttributes, {
-    members: [],
-    zombies: [],
-    left: false,
-    unreadCount: 0,
-    lastMessageStatus: null,
-    lastJoinedTimestamp: new Date('1970-01-01Z00:00:00:000').getTime(),
-    groupAdmins: [],
-    isKickedFromGroup: false,
-    isMe: false,
-    subscriberCount: 0,
-    is_medium_group: false,
-    lastMessage: null,
-    expireTimer: 0,
-    mentionedUs: false,
-    active_at: 0,
-    triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
-    isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
-    isPinned: false,
-    isApproved: false,
-    didApproveMe: false,
-  });
-};
+import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
+import { from_hex } from 'libsodium-wrappers-sumo';
+import { OpenGroupData } from '../data/opengroups';
+import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
+import { addMessagePadding } from '../session/crypto/BufferPadding';
+import { getSodiumRenderer } from '../session/crypto';
+import {
+  findCachedOurBlindedPubkeyOrLookItUp,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -206,7 +91,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   private pending?: Promise<any>;
 
-  constructor(attributes: ConversationAttributesOptionals) {
+  constructor(attributes: ConversationAttributes) {
     super(fillConvoAttributesWithDefaults(attributes));
 
     // This may be overridden by getConversationController().getOrCreate, and signify
@@ -220,7 +105,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       leading: true,
     });
 
-    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
+    this.throttledNotify = _.debounce(this.notify, 2000, { maxWait: 2000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
       leading: true,
@@ -247,7 +132,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   /**
-   * Method to evalute if a convo contains the right values
+   * Method to evaluate if a convo contains the right values
    * @param values Required properties to evaluate if this is a message request
    */
   public static hasValidIncomingRequestValues({
@@ -255,13 +140,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     isApproved,
     isBlocked,
     isPrivate,
+    activeAt,
   }: {
     isMe?: boolean;
     isApproved?: boolean;
     isBlocked?: boolean;
     isPrivate?: boolean;
+    activeAt?: number;
   }): boolean {
-    return Boolean(!isMe && !isApproved && isPrivate && !isBlocked);
+    // if a convo is not active, it means we didn't get any messages nor sent any.
+    const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
+    return Boolean(isPrivate && !isMe && !isApproved && !isBlocked && isActive);
   }
 
   public static hasValidOutgoingRequestValues({
@@ -351,9 +240,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return groupAdmins && groupAdmins?.length > 0 ? groupAdmins : [];
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
   public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
+    // tslint:disable-next-line: cyclomatic-complexity
     const isPublic = this.isPublic();
 
     const members = this.isGroup() && !isPublic ? this.get('members') : [];
@@ -365,8 +255,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const weAreAdmin = this.isAdmin(ourNumber);
     const isMe = this.isMe();
     const isTyping = !!this.typingTimer;
-    const name = this.getName();
-    const profileName = this.getProfileName();
     const unreadCount = this.get('unreadCount') || undefined;
     const mentionedUs = this.get('mentionedUs') || undefined;
     const isBlocked = this.isBlocked();
@@ -379,6 +267,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const left = !!this.get('left');
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
+    const displayNameInProfile = this.get('displayNameInProfile');
+    const nickname = this.get('nickname');
 
     // To reduce the redux store size, only set fields which cannot be undefined.
     // For instance, a boolean can usually be not set if false, etc
@@ -418,12 +308,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
-    if (name) {
-      toRet.name = name;
+    if (displayNameInProfile) {
+      toRet.displayNameInProfile = displayNameInProfile;
     }
 
-    if (profileName) {
-      toRet.profileName = profileName;
+    if (nickname) {
+      toRet.nickname = nickname;
     }
 
     if (unreadCount) {
@@ -493,15 +383,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return toRet;
   }
 
-  public async updateGroupAdmins(groupAdmins: Array<string>) {
+  public async updateGroupAdmins(groupAdmins: Array<string>, shouldCommit: boolean) {
     const existingAdmins = _.uniq(_.sortBy(this.getGroupAdmins()));
     const newAdmins = _.uniq(_.sortBy(groupAdmins));
 
     if (_.isEqual(existingAdmins, newAdmins)) {
-      return;
+      return false;
     }
     this.set({ groupAdmins });
-    await this.commit();
+    if (shouldCommit) {
+      await this.commit();
+    }
+    return true;
   }
 
   public async onReadMessage(message: MessageModel, readAt: number) {
@@ -525,11 +418,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async getUnread() {
-    return getUnreadByConversation(this.id);
+    return Data.getUnreadByConversation(this.id);
   }
 
   public async getUnreadCount() {
-    const unreadCount = await getUnreadCountByConversation(this.id);
+    const unreadCount = await Data.getUnreadCountByConversation(this.id);
 
     return unreadCount;
   }
@@ -619,11 +512,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.warn('tried to make a quote without a sent_at timestamp');
       return null;
     }
+    let msgSource = quotedMessage.getSource();
+    if (this.isPublic()) {
+      const room = OpenGroupData.getV2OpenGroupRoom(this.id);
+      if (room && roomHasBlindEnabled(room) && msgSource === UserUtils.getOurPubKeyStrFromCache()) {
+        // this room should send message with blinded pubkey, so we need to make the quote with them too.
+        // when we make a quote to ourself on a blind sogs, that message has a sender being our naked pubkey
+        const sodium = await getSodiumRenderer();
+        msgSource = await findCachedOurBlindedPubkeyOrLookItUp(room.serverPublicKey, sodium);
+      }
+    }
     return {
-      author: quotedMessage.getSource(),
+      author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',
       // no need to quote the full message length.
-      text: body?.slice(0, 100),
+      text: sliceQuoteText(body),
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,
@@ -639,12 +542,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
     try {
-      const uploads = await message.uploadData();
+      const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
       const { id } = message;
       const destination = this.id;
 
       const sentAt = message.get('sent_at');
-
       if (!sentAt) {
         throw new Error('sendMessageJob() sent_at must be set.');
       }
@@ -654,19 +556,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
-        body: uploads.body,
+        body,
         identifier: id,
         timestamp: sentAt,
-        attachments: uploads.attachments,
+        attachments,
         expireTimer,
-        preview: uploads.preview,
-        quote: uploads.quote,
+        preview: preview ? [preview] : [],
+        quote,
         lokiProfile: UserUtils.getOurProfile(),
       };
 
       const shouldApprove = !this.isApproved() && this.isPrivate();
-      const incomingMessageCount = await getMessageCountByType(this.id, MessageDirection.incoming);
+      const incomingMessageCount = await Data.getMessageCountByType(
+        this.id,
+        MessageDirection.incoming
+      );
       const hasIncomingMessages = incomingMessageCount > 0;
+
+      if (this.id.startsWith('15')) {
+        window.log.info('Sending a blinded message to this user: ', this.id);
+        await this.sendBlindedMessageRequest(chatMessageParams);
+        return;
+      }
       if (shouldApprove) {
         await this.setIsApproved(true);
         if (hasIncomingMessages) {
@@ -676,7 +587,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             await this.setDidApproveMe(true);
           }
           // should only send once
-          await this.sendMessageRequestResponse(true);
+          await this.sendMessageRequestResponse();
           void forceSyncConfigurationNowIfNeeded();
         }
       }
@@ -687,9 +598,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         if (!roomInfos) {
           throw new Error('Could not find this room in db');
         }
-
-        // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos);
+        const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
+        // send with blinding if we need to
+        await getMessageQueue().sendToOpenGroupV2(
+          chatMessageOpenGroupV2,
+          roomInfos,
+          Boolean(roomHasBlindEnabled(openGroup)),
+          fileIdsToLink
+        );
         return;
       }
 
@@ -804,18 +720,81 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.updateLastMessage();
   }
 
-  public async sendMessageRequestResponse(isApproved: boolean) {
+  public async sendBlindedMessageRequest(messageParams: VisibleMessageParams) {
+    const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
+    const groupUrl = this.getSogsOriginMessage();
+
+    if (!PubKey.hasBlindedPrefix(this.id)) {
+      window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
+      return;
+    }
+
+    if (!messageParams.body) {
+      window?.log?.warn('sendBlindedMessageRequest - needs a body');
+      return;
+    }
+
+    // include our profile (displayName + avatar url + key for the recipient)
+    messageParams.lokiProfile = getOurProfile();
+
+    if (!ourSignKeyBytes || !groupUrl) {
+      window?.log?.error(
+        'sendBlindedMessageRequest - Cannot get required information for encrypting blinded message.'
+      );
+      return;
+    }
+
+    const roomInfo = OpenGroupData.getV2OpenGroupRoom(groupUrl);
+
+    if (!roomInfo || !roomInfo.serverPublicKey) {
+      ToastUtils.pushToastError('no-sogs-matching', window.i18n('couldntFindServerMatching'));
+      window?.log?.error('Could not find room with matching server url', groupUrl);
+      throw new Error(`Could not find room with matching server url: ${groupUrl}`);
+    }
+
+    const sogsVisibleMessage = new OpenGroupVisibleMessage(messageParams);
+    const paddedBody = addMessagePadding(sogsVisibleMessage.plainTextBuffer());
+
+    const serverPubKey = roomInfo.serverPublicKey;
+
+    const encryptedMsg = await SogsBlinding.encryptBlindedMessage({
+      rawData: paddedBody,
+      senderSigningKey: ourSignKeyBytes,
+      serverPubKey: from_hex(serverPubKey),
+      recipientBlindedPublicKey: from_hex(this.id.slice(2)),
+    });
+
+    if (!encryptedMsg) {
+      throw new Error('encryptBlindedMessage failed');
+    }
+    if (!messageParams.identifier) {
+      throw new Error('encryptBlindedMessage messageParams needs an identifier');
+    }
+
+    this.set({ active_at: Date.now(), isApproved: true });
+
+    await getMessageQueue().sendToOpenGroupV2BlindedRequest(
+      encryptedMsg,
+      roomInfo,
+      sogsVisibleMessage,
+      this.id
+    );
+  }
+
+  /**
+   * Sends an accepted message request response.
+   * Currently, we never send anything for denied message requests.
+   */
+  public async sendMessageRequestResponse() {
     if (!this.isPrivate()) {
       return;
     }
 
-    const publicKey = getOurPubKeyStrFromCache();
     const timestamp = Date.now();
 
-    const messageRequestResponseParams = {
+    const messageRequestResponseParams: MessageRequestResponseParams = {
       timestamp,
-      publicKey,
-      isApproved,
+      // lokiProfile: UserUtils.getOurProfile(), // we can't curently include our profile in that response
     };
 
     const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
@@ -845,7 +824,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       attachments,
       sent_at: networkTimestamp,
       expireTimer,
-      serverTimestamp: this.isPublic() ? Date.now() : undefined,
+      serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
       groupInvitation,
     });
 
@@ -867,34 +846,51 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     await this.commit();
 
-    await this.queueJob(async () => {
+    void this.queueJob(async () => {
       await this.sendMessageJob(messageModel, expireTimer);
     });
   }
 
   public async bouncyUpdateLastMessage() {
-    if (!this.id) {
+    if (!this.id || !this.get('active_at')) {
       return;
     }
-    if (!this.get('active_at')) {
+    const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
+
+    if (!messages || !messages.length) {
       return;
     }
-    const messages = await getLastMessagesByConversation(this.id, 1, true);
     const lastMessageModel = messages.at(0);
-    const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
     const lastMessageStatusModel = lastMessageModel
       ? lastMessageModel.getMessagePropStatus()
       : undefined;
     const lastMessageUpdate = createLastMessageUpdate({
-      currentTimestamp: this.get('active_at'),
-      lastMessage: lastMessageJSON,
       lastMessageStatus: lastMessageStatusModel,
       lastMessageNotificationText: lastMessageModel
         ? lastMessageModel.getNotificationText()
         : undefined,
     });
-    this.set(lastMessageUpdate);
-    await this.commit();
+
+    if (
+      lastMessageUpdate.lastMessage !== this.get('lastMessage') ||
+      lastMessageUpdate.lastMessageStatus !== this.get('lastMessageStatus')
+    ) {
+      const lastMessageAttribute = this.get('lastMessage');
+      if (
+        lastMessageUpdate.lastMessageStatus === this.get('lastMessageStatus') &&
+        lastMessageUpdate.lastMessage &&
+        lastMessageUpdate.lastMessage.length > 40 &&
+        lastMessageAttribute &&
+        lastMessageAttribute.length > 40 &&
+        lastMessageUpdate.lastMessage.startsWith(lastMessageAttribute)
+      ) {
+        // if status is the same, and text has a long length which starts with the db status, do not trigger an update.
+        // we only store the first 60 chars in the db for the lastMessage attributes (see sql.ts)
+        return;
+      }
+      this.set(lastMessageUpdate);
+      await this.commit();
+    }
   }
 
   public async updateExpireTimer(
@@ -1013,7 +1009,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async commit() {
     perfStart(`conversationCommit-${this.attributes.id}`);
     // write to DB
-    await updateConversation(this.attributes);
+    await Data.saveConversation(this.attributes);
     this.triggerUIRefresh();
     perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
@@ -1024,10 +1020,32 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       'conversationId' | 'source' | 'type' | 'direction' | 'received_at' | 'unread'
     >
   ) {
+    let sender = UserUtils.getOurPubKeyStrFromCache();
+    if (this.isPublic()) {
+      const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
+      if (openGroup && openGroup.serverPublicKey && roomHasBlindEnabled(openGroup)) {
+        const signingKeys = await UserUtils.getUserED25519KeyPairBytes();
+
+        if (!signingKeys) {
+          throw new Error('addSingleOutgoingMessage: getUserED25519KeyPairBytes returned nothing');
+        }
+
+        const sodium = await getSodiumRenderer();
+
+        const ourBlindedPubkeyForCurrentSogs = await findCachedOurBlindedPubkeyOrLookItUp(
+          openGroup.serverPublicKey,
+          sodium
+        );
+
+        if (ourBlindedPubkeyForCurrentSogs) {
+          sender = ourBlindedPubkeyForCurrentSogs;
+        }
+      }
+    }
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,
-      source: UserUtils.getOurPubKeyStrFromCache(),
+      source: sender,
       type: 'outgoing',
       direction: 'outgoing',
       unread: 0, // an outgoing message must be read right?
@@ -1095,7 +1113,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
     if (oldUnreadNowReadAttrs?.length) {
-      await saveMessages(oldUnreadNowReadAttrs);
+      await Data.saveMessages(oldUnreadNowReadAttrs);
     }
     const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
@@ -1174,7 +1192,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setNickname(nickname?: string) {
+  public async setNickname(nickname: string | null) {
     if (!this.isPrivate()) {
       window.log.info('cannot setNickname to a non private conversation.');
       return;
@@ -1185,49 +1203,96 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     // make sure to save the lokiDisplayName as name in the db. so a search of conversation returns it.
     // (we look for matches in name too)
-    const realUserName = this.getLokiProfile()?.displayName;
+    const realUserName = this.getRealSessionUsername();
 
     if (!trimmed || !trimmed.length) {
-      this.set({ nickname: undefined, name: realUserName });
+      this.set({ nickname: undefined, displayNameInProfile: realUserName });
     } else {
-      this.set({ nickname: trimmed, name: realUserName });
+      this.set({ nickname: trimmed, displayNameInProfile: realUserName });
     }
 
     await this.commit();
-
-    await this.updateProfileName();
   }
-  public async setLokiProfile(newProfile: {
+
+  public async setSessionProfile(newProfile: {
     displayName?: string | null;
-    avatar?: string;
-    avatarHash?: string;
+    avatarPath?: string | null;
+    avatarImageId?: number;
   }) {
-    if (!_.isEqual(this.get('profile'), newProfile)) {
-      this.set({ profile: newProfile });
-      await this.commit();
+    let changes = false;
+
+    const existingSessionName = this.getRealSessionUsername();
+    if (newProfile.displayName !== existingSessionName && newProfile.displayName) {
+      this.set({
+        displayNameInProfile: newProfile.displayName,
+      });
+      changes = true;
     }
 
     // a user cannot remove an avatar. Only change it
-    // if you change this behavior, double check all setLokiProfile calls (especially the one in EditProfileDialog)
-    if (newProfile.avatar) {
-      await this.setProfileAvatar({ path: newProfile.avatar }, newProfile.avatarHash);
+    // if you change this behavior, double check all setSessionProfile calls (especially the one in EditProfileDialog)
+    if (newProfile.avatarPath) {
+      const originalAvatar = this.get('avatarInProfile');
+      if (!_.isEqual(originalAvatar, newProfile.avatarPath)) {
+        this.set({ avatarInProfile: newProfile.avatarPath });
+        changes = true;
+      }
+      const existingImageId = this.get('avatarImageId');
+
+      if (existingImageId !== newProfile.avatarImageId) {
+        this.set({ avatarImageId: newProfile.avatarImageId });
+        changes = true;
+      }
     }
 
-    await this.updateProfileName();
+    if (changes) {
+      await this.commit();
+    }
   }
-  public async updateProfileName() {
-    // Prioritise nickname over the profile display name
-    const nickname = this.getNickname();
-    const displayName = this.getLokiProfile()?.displayName;
 
-    const profileName = nickname || displayName || null;
-    await this.setProfileName(profileName);
+  public setSessionDisplayNameNoCommit(newDisplayName?: string | null) {
+    const existingSessionName = this.getRealSessionUsername();
+    if (newDisplayName && newDisplayName !== existingSessionName) {
+      this.set({ displayNameInProfile: newDisplayName });
+    }
   }
-  public getLokiProfile() {
-    return this.get('profile');
+
+  /**
+   * @returns `displayNameInProfile` - the real username as defined by that user/group
+   */
+  public getRealSessionUsername(): string | undefined {
+    return this.get('displayNameInProfile');
   }
-  public getNickname() {
-    return this.get('nickname');
+
+  /**
+   * @returns `nickname` - the nickname we forced for that user. For a group, this returns undefined
+   */
+  public getNickname(): string | undefined {
+    return this.isPrivate() ? this.get('nickname') : undefined;
+  }
+
+  /**
+   * @returns `getNickname` - the nickname if a private convo and a nickname is set, or `getRealSessionUsername`
+   */
+  public getNicknameOrRealUsername(): string | undefined {
+    return this.getNickname() || this.getRealSessionUsername();
+  }
+
+  /**
+   * @returns `getNickname` if a private convo and a nickname is set, or `getRealSessionUsername`
+   *
+   * Can also a localized 'Anonymous' for an unknown private chat and localized 'Unknown' for an unknown group (open/closed)
+   */
+  public getNicknameOrRealUsernameOrPlaceholder(): string {
+    const nickOrReal = this.getNickname() || this.getRealSessionUsername();
+
+    if (nickOrReal) {
+      return nickOrReal;
+    }
+    if (this.isPrivate()) {
+      return window.i18n('anonymous');
+    }
+    return window.i18n('unknown');
   }
 
   public isAdmin(pubKey?: string) {
@@ -1239,14 +1304,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const groupAdmins = this.getGroupAdmins();
     return Array.isArray(groupAdmins) && groupAdmins.includes(pubKey);
-  }
-
-  public async setProfileName(name: string) {
-    const profileName = this.get('profileName');
-    if (profileName !== name) {
-      this.set({ profileName: name });
-      await this.commit();
-    }
   }
 
   public async setIsPinned(value: boolean) {
@@ -1284,6 +1341,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  public async setOriginConversationID(conversationIdOrigin: string) {
+    if (conversationIdOrigin === this.get('conversationIdOrigin')) {
+      return;
+    }
+    this.set({
+      conversationIdOrigin,
+    });
+    await this.commit();
+  }
+
   public async setSubscriberCount(count: number) {
     if (this.get('subscriberCount') !== count) {
       this.set({ subscriberCount: count });
@@ -1292,24 +1359,81 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // Not sure if we care about updating the database
   }
 
-  public async setProfileAvatar(avatar: null | { path: string }, avatarHash?: string) {
-    const profileAvatar = this.get('avatar');
-    const existingHash = this.get('avatarHash');
-    let shouldCommit = false;
-    if (!_.isEqual(profileAvatar, avatar)) {
-      this.set({ avatar });
-      shouldCommit = true;
+  /**
+   * Saves the infos of that room directly on the conversation table.
+   * This does not write anything to the db if no changes are detected
+   */
+  public async setPollInfo(infos?: {
+    subscriberCount: number;
+    read: boolean;
+    write: boolean;
+    upload: boolean;
+    details: {
+      admins?: Array<string>;
+      image_id?: number;
+    };
+  }) {
+    if (!infos || isEmpty(infos)) {
+      return;
+    }
+    let hasChange = false;
+    const { read, write, upload, subscriberCount, details } = infos;
+    if (
+      isNumber(infos.subscriberCount) &&
+      infos.subscriberCount !== 0 &&
+      this.get('subscriberCount') !== subscriberCount
+    ) {
+      hasChange = true;
+      this.set('subscriberCount', subscriberCount);
     }
 
-    if (existingHash !== avatarHash) {
-      this.set({ avatarHash });
-      shouldCommit = true;
+    if (Boolean(this.get('readCapability')) !== Boolean(read)) {
+      hasChange = true;
+      this.set('readCapability', Boolean(read));
     }
 
-    if (shouldCommit) {
+    if (Boolean(this.get('writeCapability')) !== Boolean(write)) {
+      hasChange = true;
+      this.set('writeCapability', Boolean(write));
+    }
+
+    if (Boolean(this.get('uploadCapability')) !== Boolean(upload)) {
+      hasChange = true;
+      this.set('uploadCapability', Boolean(upload));
+    }
+
+    if (details.admins && isArray(details.admins)) {
+      const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
+      const ourBlindedPubkeyForThisSogs =
+        roomInfos && roomHasBlindEnabled(roomInfos)
+          ? await findCachedOurBlindedPubkeyOrLookItUp(
+              roomInfos?.serverPublicKey,
+              await getSodiumRenderer()
+            )
+          : UserUtils.getOurPubKeyStrFromCache();
+      const replacedWithOurRealSessionId = details.admins.map(m =>
+        m === ourBlindedPubkeyForThisSogs ? UserUtils.getOurPubKeyStrFromCache() : m
+      );
+
+      const adminChanged = await this.updateGroupAdmins(replacedWithOurRealSessionId, false);
+      if (adminChanged) {
+        hasChange = adminChanged;
+      }
+    }
+
+    if (this.isOpenGroupV2() && details.image_id && isNumber(details.image_id)) {
+      const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
+      if (roomInfos) {
+        void sogsV3FetchPreviewAndSaveIt({ ...roomInfos, imageID: `${details.image_id}` });
+      }
+    }
+
+    // only trigger a write to the db if a change is detected
+    if (hasChange) {
       await this.commit();
     }
   }
+
   /**
    * profileKey MUST be a hex string
    * @param profileKey MUST be a hex string
@@ -1342,7 +1466,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async removeMessage(messageId: any) {
-    await dataRemoveMessage(messageId);
+    await Data.removeMessage(messageId);
     this.updateLastMessage();
 
     window.inboxStore?.dispatch(
@@ -1351,13 +1475,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         messageId,
       })
     );
-  }
-
-  public getName() {
-    if (this.isPrivate()) {
-      return this.get('name');
-    }
-    return this.get('name') || window.i18n('unknown');
   }
 
   public isPinned() {
@@ -1373,14 +1490,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public getTitle() {
-    if (this.isPrivate()) {
-      const profileName = this.getProfileName();
-      const number = this.getNumber();
-      const name = profileName ? `${profileName} (${PubKey.shorten(number)})` : number;
-
-      return this.get('name') || name;
-    }
-    return this.get('name') || 'Unknown group';
+    return this.getNicknameOrRealUsernameOrPlaceholder();
   }
 
   /**
@@ -1396,59 +1506,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
     }
 
-    const profileName = this.get('profileName');
     const pubkey = this.id;
     if (UserUtils.isUsFromCache(pubkey)) {
       return window.i18n('you');
     }
+
+    const profileName = this.get('displayNameInProfile');
+
     return profileName || PubKey.shorten(pubkey);
-  }
-
-  /**
-   * For a private convo, returns the loki profilename if set, or a full length
-   * version of the contact pubkey.
-   * Throws an error if called on a group convo.
-   */
-  public getContactProfileNameOrFullPubKey() {
-    if (!this.isPrivate()) {
-      throw new Error(
-        'getContactProfileNameOrFullPubKey() cannot be called with a non private convo.'
-      );
-    }
-    const profileName = this.get('profileName');
-    const pubkey = this.id;
-    if (UserUtils.isUsFromCache(pubkey)) {
-      return window.i18n('you');
-    }
-    return profileName || pubkey;
-  }
-
-  public getProfileName() {
-    if (this.isPrivate()) {
-      return this.get('profileName');
-    }
-    return undefined;
-  }
-
-  public getNumber() {
-    if (!this.isPrivate()) {
-      return '';
-    }
-    return this.id;
   }
 
   public isPrivate() {
     return this.get('type') === ConversationTypeEnum.PRIVATE;
   }
 
-  public getAvatarPath() {
-    const avatar = this.get('avatar') || this.get('profileAvatar');
-    if (typeof avatar === 'string') {
+  public getAvatarPath(): string | null {
+    const avatar = this.get('avatarInProfile');
+    if (isString(avatar)) {
       return avatar;
     }
 
-    if (typeof avatar?.path === 'string') {
-      return getAbsoluteAttachmentPath(avatar.path);
+    if (avatar) {
+      throw new Error('avatarInProfile must be a string as we do not allow the {path: xxx} syntax');
     }
 
     return null;
@@ -1457,17 +1536,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async getNotificationIcon() {
     const avatarUrl = this.getAvatarPath();
     const noIconUrl = 'images/session/session_icon_32.png';
-    if (avatarUrl) {
-      const decryptedAvatarUrl = await getDecryptedMediaUrl(avatarUrl, IMAGE_JPEG, true);
 
-      if (!decryptedAvatarUrl) {
-        window.log.warn('Could not decrypt avatar stored locally for getNotificationIcon..');
-        return noIconUrl;
-      }
-      return decryptedAvatarUrl;
-    } else {
+    if (!avatarUrl) {
       return noIconUrl;
     }
+    const decryptedAvatarUrl = await getDecryptedMediaUrl(avatarUrl, IMAGE_JPEG, true);
+
+    if (!decryptedAvatarUrl) {
+      window.log.warn('Could not decrypt avatar stored locally for getNotificationIcon..');
+      return noIconUrl;
+    }
+    return decryptedAvatarUrl;
   }
 
   public async notify(message: MessageModel) {
@@ -1491,7 +1570,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await getMessagesByConversation(this.id, { messageId: null })).length === 1;
+        (await Data.getMessagesByConversation(this.id, { messageId: null })).length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {
@@ -1514,7 +1593,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
       const text = message.get('body');
       const mentions = text?.match(regex) || ([] as Array<string>);
-      const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
+      const mentionMe = mentions && mentions.some(m => isUsAnySogsFromCache(m.slice(1)));
 
       const quotedMessageAuthor = message.get('quote')?.author;
 
@@ -1542,11 +1621,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageId = message.id;
     const isExpiringMessage = this.isExpiringMessage(messageJSON);
 
-    // window?.log?.info('Add notification', {
-    //   conversationId: this.idForLogging(),
-    //   isExpiringMessage,
-    //   messageSentAt,
-    // });
     Notifications.addNotification({
       conversationId,
       iconUrl,
@@ -1582,9 +1656,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId,
       iconUrl,
       isExpiringMessage: false,
-      message: window.i18n('incomingCallFrom', this.getTitle()),
+      message: window.i18n('incomingCallFrom', [
+        this.getNicknameOrRealUsername() || window.i18n('anonymous'),
+      ]),
       messageSentAt: now,
-      title: this.getTitle(),
+      title: this.getNicknameOrRealUsernameOrPlaceholder(),
     });
   }
 
@@ -1610,8 +1686,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       : null;
   }
 
+  /**
+   *
+   * @returns The open group conversationId this conversation originated from
+   */
+  private getSogsOriginMessage() {
+    return this.get('conversationIdOrigin');
+  }
+
   private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
-    const model = new MessageModel(messageAttributes);
+    const voiceMessageFlags = messageAttributes.attachments?.[0]?.isVoiceMessage
+      ? SignalService.AttachmentPointer.Flags.VOICE_MESSAGE
+      : undefined;
+    const model = new MessageModel({ ...messageAttributes, flags: voiceMessageFlags });
 
     // no need to trigger a UI update now, we trigger a messagesAdded just below
     const messageId = await model.commit(false);
@@ -1770,7 +1857,7 @@ export class ConversationCollection extends Backbone.Collection<ConversationMode
   constructor(models?: Array<ConversationModel>) {
     super(models);
     this.comparator = (m: ConversationModel) => {
-      return -m.get('active_at');
+      return -(m.get('active_at') || 0);
     };
   }
 }

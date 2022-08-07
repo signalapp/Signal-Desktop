@@ -10,7 +10,7 @@ import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
-import * as Data from '../../data/data';
+import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
 
 const deleteDbLocally = async () => {

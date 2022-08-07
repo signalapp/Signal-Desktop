@@ -3,12 +3,9 @@ import { getConversationController } from '../../session/conversations';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 
 import {
-  generateAttachmentKeyIfEmpty,
-  getAllOpenGroupV1Conversations,
-  getItemById,
+  Data,
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
-  removeConversation,
 } from '../../data/data';
 import { getMessageQueue } from '../../session/sending';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +26,7 @@ import { SectionType, setOverlayMode, showLeftPaneSection } from '../../state/du
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 
 import { DURATION } from '../../session/constants';
-import { conversationChanged, conversationRemoved } from '../../state/ducks/conversations';
+
 import {
   editProfileModal,
   onionPathModal,
@@ -54,12 +51,12 @@ import { IncomingCallDialog } from '../calling/IncomingCallDialog';
 import { SessionIconButton } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
-import { getLatestDesktopReleaseFileToFsV2 } from '../../session/apis/file_server_api/FileServerApiV2';
 import { ipcRenderer } from 'electron';
 import { UserUtils } from '../../session/utils';
 
 import { Storage } from '../../util/storage';
 import { SettingsKey } from '../../data/settings-key';
+import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -173,7 +170,7 @@ const Section = (props: { type: SectionType }) => {
 
 const cleanUpMediasInterval = DURATION.MINUTES * 60;
 
-// every 10 minutes we fetch from the fileserver to check for a new release
+// every 1 minute we fetch from the fileserver to check for a new release
 // * if there is none, no request to github are made.
 // * if there is a version on the fileserver more recent than our current, we fetch github to get the UpdateInfos and trigger an update as usual (asking user via dialog)
 const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
@@ -195,37 +192,18 @@ const triggerSyncIfNeeded = async () => {
   await getConversationController()
     .get(UserUtils.getOurPubKeyStrFromCache())
     .setDidApproveMe(true, true);
+  await getConversationController()
+    .get(UserUtils.getOurPubKeyStrFromCache())
+    .setIsApproved(true, true);
   const didWeHandleAConfigurationMessageAlready =
-    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+    (await Data.getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
     await syncConfigurationIfNeeded();
   }
 };
 
-const removeAllV1OpenGroups = async () => {
-  const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
-  // do not remove messages of opengroupv1 for now. We have to find a way of doing it without making the whole app extremely slow
-  // tslint:disable-next-line: prefer-for-of
-  for (let index = 0; index < allV1Convos.length; index++) {
-    const v1Convo = allV1Convos[index];
-    try {
-      await removeConversation(v1Convo.id);
-      window.log.info(`deleting v1convo : ${v1Convo.id}`);
-      getConversationController().unsafeDelete(v1Convo);
-      if (window.inboxStore) {
-        window.inboxStore?.dispatch(conversationRemoved(v1Convo.id));
-        window.inboxStore?.dispatch(
-          conversationChanged({ id: v1Convo.id, data: v1Convo.getConversationModelProps() })
-        );
-      }
-    } catch (e) {
-      window.log.warn(`failed to delete opengroupv1 ${v1Convo.id}`, e);
-    }
-  }
-};
-
 const triggerAvatarReUploadIfNeeded = async () => {
-  const lastTimeStampAvatarUpload = (await getItemById(lastAvatarUploadTimestamp))?.value || 0;
+  const lastTimeStampAvatarUpload = (await Data.getItemById(lastAvatarUploadTimestamp))?.value || 0;
 
   if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');
@@ -243,12 +221,8 @@ const doAppStartUp = () => {
   void getMessageQueue().processAllPending();
 
   void setupTheme();
-
-  // keep that one to make sure our users upgrade to new sessionIDS
-  void removeAllV1OpenGroups();
-
   // this generates the key to encrypt attachments locally
-  void generateAttachmentKeyIfEmpty();
+  void Data.generateAttachmentKeyIfEmpty();
   void getOpenGroupManager().startPolling();
   // trigger a sync message if needed for our other devices
 
@@ -276,8 +250,8 @@ async function fetchReleaseFromFSAndUpdateMain() {
   try {
     window.log.info('[updater] about to fetchReleaseFromFSAndUpdateMain');
 
-    const latest = await getLatestDesktopReleaseFileToFsV2();
-    window.log.info('[updater] fetched latest release from fsv2: ', latest);
+    const latest = await getLatestReleaseFromFileServer();
+    window.log.info('[updater] fetched latest release from fileserver: ', latest);
 
     if (isString(latest) && !isEmpty(latest)) {
       ipcRenderer.send('set-release-from-file-server', latest);

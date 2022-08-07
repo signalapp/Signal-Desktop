@@ -214,7 +214,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = getDefaultState();
+    this.state = getDefaultState(props.selectedConversationKey);
 
     this.textarea = React.createRef();
     this.fileInput = React.createRef();
@@ -504,7 +504,10 @@ class CompositionBoxInner extends React.Component<Props, State> {
     }
   }
 
-  private fetchUsersForClosedGroup(query: any, callback: any) {
+  private fetchUsersForClosedGroup(
+    query: string,
+    callback: (data: Array<SuggestionDataItem>) => void
+  ) {
     const { selectedConversation } = this.props;
     if (!selectedConversation) {
       return;
@@ -516,10 +519,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     const allMembers = allPubKeys.map(pubKey => {
       const conv = getConversationController().get(pubKey);
-      let profileName = 'Anonymous';
-      if (conv) {
-        profileName = conv.getProfileName() || 'Anonymous';
-      }
+      const profileName =
+        conv?.getNicknameOrRealUsernameOrPlaceholder() || window.i18n('anonymous');
+
       return {
         id: pubKey,
         authorProfileName: profileName,

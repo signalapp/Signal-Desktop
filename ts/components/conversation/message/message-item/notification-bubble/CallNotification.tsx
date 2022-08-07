@@ -41,8 +41,8 @@ export const CallNotification = (props: PropsForCallNotification) => {
   const selectedConvoProps = useSelector(getSelectedConversation);
 
   const displayName =
-    selectedConvoProps?.profileName ||
-    selectedConvoProps?.name ||
+    selectedConvoProps?.nickname ||
+    selectedConvoProps?.displayNameInProfile ||
     (selectedConvoProps?.id && PubKey.shorten(selectedConvoProps?.id));
 
   const styleItem = style[notificationType];

@@ -23,7 +23,7 @@ import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
 import { MessageSender } from '../../sending';
 import { DURATION } from '../../constants';
-import { hasConversationOutgoingMessage } from '../../../data/data';
+import { Data } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
 import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
@@ -1027,7 +1027,7 @@ async function isUserApprovedOrWeSentAMessage(user: string) {
     return true;
   }
 
-  return hasConversationOutgoingMessage(user);
+  return Data.hasConversationOutgoingMessage(user);
 }
 
 export async function handleCallTypeOffer(
@@ -1137,7 +1137,7 @@ export async function handleMissedCall(
 
   const displayname =
     incomingCallConversation?.getNickname() ||
-    incomingCallConversation?.getProfileName() ||
+    incomingCallConversation?.getRealSessionUsername() ||
     'Unknown';
 
   switch (reason) {

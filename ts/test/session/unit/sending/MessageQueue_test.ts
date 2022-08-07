@@ -4,7 +4,6 @@ import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
 import { randomBytes } from 'crypto';
-import * as Data from '../../../../../ts/data/data';
 
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../../test/test-utils';
@@ -17,6 +16,7 @@ import { ClosedGroupMessage } from '../../../../session/messages/outgoing/contro
 
 import chaiAsPromised from 'chai-as-promised';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
+import { stubData } from '../../../test-utils/utils';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -51,15 +51,15 @@ describe('MessageQueue', () => {
     // Message Sender Stubs
     sendStub = Sinon.stub(MessageSender, 'send');
     messageSentHandlerFailedStub = Sinon.stub(
-      MessageSentHandler as any,
+      MessageSentHandler,
       'handleMessageSentFailure'
     ).resolves();
     messageSentHandlerSuccessStub = Sinon.stub(
-      MessageSentHandler as any,
+      MessageSentHandler,
       'handleMessageSentSuccess'
     ).resolves();
     messageSentPublicHandlerSuccessStub = Sinon.stub(
-      MessageSentHandler as any,
+      MessageSentHandler,
       'handlePublicMessageSentSuccess'
     ).resolves();
 
@@ -118,7 +118,7 @@ describe('MessageQueue', () => {
 
     describe('events', () => {
       it('should send a success event if message was sent', done => {
-        Sinon.stub(Data, 'getMessageById').resolves();
+        stubData('getMessageById').resolves();
         const message = TestUtils.generateVisibleMessage();
 
         sendStub.resolves({ effectiveTimestamp: Date.now(), wrappedEnvelope: randomBytes(10) });
@@ -223,26 +223,25 @@ describe('MessageQueue', () => {
           const message = TestUtils.generateOpenGroupVisibleMessage();
           const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
-          await messageQueueStub.sendToOpenGroupV2(message, roomInfos);
+          await messageQueueStub.sendToOpenGroupV2(message, roomInfos, false, []);
           expect(sendToOpenGroupV2Stub.callCount).to.equal(1);
         });
 
         it('should emit a success event when send was successful', async () => {
           sendToOpenGroupV2Stub.resolves({
             serverId: 5125,
-            sentTimestamp: 5126,
+            sentTimestamp: 5127,
           });
 
           const message = TestUtils.generateOpenGroupVisibleMessage();
           const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
-          await messageQueueStub.sendToOpenGroupV2(message, roomInfos);
+          await messageQueueStub.sendToOpenGroupV2(message, roomInfos, false, []);
+
           expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
-          expect(messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier).to.equal(
-            message.identifier
-          );
+          expect(messageSentPublicHandlerSuccessStub.lastCall.args[0]).to.equal(message.identifier);
           expect(messageSentPublicHandlerSuccessStub.lastCall.args[1].serverId).to.equal(5125);
           expect(messageSentPublicHandlerSuccessStub.lastCall.args[1].serverTimestamp).to.equal(
-            5126
+            5127
           );
         });
 
@@ -251,7 +250,7 @@ describe('MessageQueue', () => {
           const message = TestUtils.generateOpenGroupVisibleMessage();
           const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
-          await messageQueueStub.sendToOpenGroupV2(message, roomInfos);
+          await messageQueueStub.sendToOpenGroupV2(message, roomInfos, false, []);
           expect(messageSentHandlerFailedStub.callCount).to.equal(1);
           expect(messageSentHandlerFailedStub.lastCall.args[0].identifier).to.equal(
             message.identifier

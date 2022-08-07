@@ -25,7 +25,7 @@ import _ from 'lodash';
 // tslint:disable-next-line: no-empty-interface
 export type ConversationListItemProps = Pick<
   ReduxConversationType,
-  'id' | 'isSelected' | 'isBlocked' | 'mentionedUs' | 'unreadCount' | 'profileName'
+  'id' | 'isSelected' | 'isBlocked' | 'mentionedUs' | 'unreadCount' | 'displayNameInProfile'
 >;
 
 /**

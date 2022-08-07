@@ -1,31 +1,43 @@
 import { RenderTextCallbackType } from '../../types/Util';
-import classNames from 'classnames';
 import { PubKey } from '../../session/types';
-import { UserUtils } from '../../session/utils';
 import { getConversationController } from '../../session/conversations';
 import React from 'react';
+import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import styled from 'styled-components';
 
 interface MentionProps {
   key: string;
   text: string;
 }
 
+const StyledMentionAnother = styled.span`
+  border-radius: 4px;
+  margin: 2px;
+  padding: 2px;
+  user-select: none;
+  font-weight: bold;
+`;
+
+const StyledMentionedUs = styled(StyledMentionAnother)`
+  background-color: var(--color-text-accent);
+  color: black;
+  border-radius: 5px;
+`;
+
 const Mention = (props: MentionProps) => {
-  const foundConvo = getConversationController().get(props.text.slice(1));
-  let us = false;
-  if (foundConvo) {
-    us = UserUtils.isUsFromCache(foundConvo.id);
+  const blindedOrNotPubkey = props.text.slice(1);
+  const foundConvo = getConversationController().get(blindedOrNotPubkey);
+
+  // this call takes care of finding if we have a blindedId of ourself on any sogs we have joined.
+  if (isUsAnySogsFromCache(blindedOrNotPubkey)) {
+    return <StyledMentionedUs>@{window.i18n('you')}</StyledMentionedUs>;
   }
 
-  if (foundConvo) {
-    // TODO: We don't have to search the database of message just to know that the message is for us!
-    const className = classNames('mention-profile-name', us && 'mention-profile-name-us');
-
-    const displayedName = foundConvo.getContactProfileNameOrShortenedPubKey();
-    return <span className={className}>@{displayedName}</span>;
-  } else {
-    return <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>;
-  }
+  return (
+    <StyledMentionAnother>
+      @{foundConvo?.getContactProfileNameOrShortenedPubKey() || PubKey.shorten(props.text)}
+    </StyledMentionAnother>
+  );
 };
 
 type Props = {
@@ -38,7 +50,6 @@ const defaultRenderOther = ({ text }: { text: string }) => <>{text}</>;
 
 export const AddMentions = (props: Props): JSX.Element => {
   const { text, renderOther, isGroup } = props;
-
   const results: Array<JSX.Element> = [];
   const FIND_MENTIONS = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
 
@@ -47,7 +58,6 @@ export const AddMentions = (props: Props): JSX.Element => {
   let match = FIND_MENTIONS.exec(text);
   let last = 0;
   let count = 1000;
-
   if (!match) {
     return renderWith({ text, key: 0, isGroup });
   }
@@ -60,8 +70,8 @@ export const AddMentions = (props: Props): JSX.Element => {
       results.push(renderWith({ text: otherText, key, isGroup }));
     }
 
-    const pubkey = text.slice(match.index, FIND_MENTIONS.lastIndex);
-    results.push(<Mention text={pubkey} key={`${key}`} />);
+    const pubkeyWithAt = text.slice(match.index, FIND_MENTIONS.lastIndex);
+    results.push(<Mention text={pubkeyWithAt} key={`${key}`} />);
 
     last = FIND_MENTIONS.lastIndex;
     match = FIND_MENTIONS.exec(text);

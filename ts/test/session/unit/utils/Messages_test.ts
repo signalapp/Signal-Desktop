@@ -17,6 +17,14 @@ import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgo
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import Sinon from 'sinon';
+import { getCurrentConfigurationMessage } from '../../../../session/utils/syncUtils';
+import { getConversationController } from '../../../../session/conversations';
+import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
+import { ConversationCollection } from '../../../../models/conversation';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
+import { beforeEach } from 'mocha';
+import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 
 const { expect } = chai;
 
@@ -34,11 +42,15 @@ describe('Message Utils', () => {
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
       expect(Object.keys(rawMessage)).to.have.length(5);
+
+      // do not believe tslint. those calls to.exist are actually correct here
+      // tslint:disable: no-unused-expression
       expect(rawMessage.identifier).to.exist;
       expect(rawMessage.device).to.exist;
       expect(rawMessage.encryption).to.exist;
       expect(rawMessage.plainTextBuffer).to.exist;
       expect(rawMessage.ttl).to.exist;
+      // tslint:enable: no-unused-expression
 
       expect(rawMessage.identifier).to.equal(message.identifier);
       expect(rawMessage.device).to.equal(device.key);
@@ -211,53 +223,75 @@ describe('Message Utils', () => {
   describe('getCurrentConfigurationMessage', () => {
     const ourNumber = TestUtils.generateFakePubKey().key;
 
-    // let convos: Array<ConversationModel>;
-    // const mockValidOpenGroup = new MockConversation({
-    //   type: ConversationTypeEnum.GROUP,
-    //   id: `${openGroupPrefix}1@chat-dev.lokinet.org`,
-    // });
-
-    // const mockValidOpenGroup2 = new MockConversation({
-    //   type: ConversationTypeEnum.GROUP,
-    //   id: `${openGroupPrefix}1@chat-dev2.lokinet.org`,
-    // });
-
-    // const mockValidClosedGroup = new MockConversation({
-    //   type: ConversationTypeEnum.GROUP,
-    // });
-
-    // const mockValidPrivate = {
-    //   id: TestUtils.generateFakePubKey(),
-    //   isMediumGroup: () => false,
-    //   isPublic: () => false,
-    // };
-
-    beforeEach(() => {
-      // convos = [];
+    beforeEach(async () => {
       Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
       Sinon.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
+      stubData('getAllConversations').resolves(new ConversationCollection([]));
+      stubData('saveConversation').resolves();
+      stubOpenGroupData('getAllV2OpenGroupRooms').resolves();
+      getConversationController().reset();
+
+      await getConversationController().load();
     });
 
-    beforeEach(() => {
-      // convos = [];
+    afterEach(() => {
       Sinon.restore();
     });
 
-    // it('filter out non active open groups', async () => {
-    //   // override the first open group and make it inactive
-    //   (mockValidOpenGroup as any).attributes.active_at = undefined;
+    // open groups are actually removed when we leave them so this doesn't make much sense, but just in case we break something later
+    it('filter out non active open groups', async () => {
+      await getConversationController().getOrCreateAndWait(
+        '05123456789',
+        ConversationTypeEnum.PRIVATE
+      );
+      await getConversationController().getOrCreateAndWait(
+        '0512345678',
+        ConversationTypeEnum.PRIVATE
+      );
 
-    //   convos.push(
-    //     mockValidOpenGroup as any,
-    //     mockValidOpenGroup as any,
-    //     mockValidPrivate as any,
-    //     mockValidClosedGroup as any,
-    //     mockValidOpenGroup2 as any
-    //   );
+      const convoId3 = getOpenGroupV2ConversationId('chat-dev2.lokinet.org', 'fish');
+      const convoId4 = getOpenGroupV2ConversationId('chat-dev3.lokinet.org', 'fish2');
 
-    //   const configMessage = await getCurrentConfigurationMessage(convos);
-    //   expect(configMessage.activeOpenGroups.length).to.equal(1);
-    //   expect(configMessage.activeOpenGroups[0]).to.equal('chat-dev2.lokinet.org');
-    // });
+      const convo3 = await getConversationController().getOrCreateAndWait(
+        convoId3,
+        ConversationTypeEnum.GROUP
+      );
+      convo3.set({ active_at: Date.now() });
+
+      stubOpenGroupData('getV2OpenGroupRoom')
+        .returns(null)
+        .withArgs(convoId3)
+        .returns({
+          serverUrl: 'chat-dev2.lokinet.org',
+          roomId: 'fish',
+          serverPublicKey: 'serverPublicKey',
+        } as OpenGroupV2Room);
+
+      const convo4 = await getConversationController().getOrCreateAndWait(
+        convoId4,
+        ConversationTypeEnum.GROUP
+      );
+      convo4.set({ active_at: undefined });
+
+      await OpenGroupData.opengroupRoomsLoad();
+      const convo5 = await getConversationController().getOrCreateAndWait(
+        convoId4,
+        ConversationTypeEnum.GROUP
+      );
+      convo5.set({ active_at: 0 });
+
+      await getConversationController().getOrCreateAndWait(
+        '051234567',
+        ConversationTypeEnum.PRIVATE
+      );
+      const convos = getConversationController().getConversations();
+
+      const configMessage = await getCurrentConfigurationMessage(convos);
+      expect(configMessage.activeOpenGroups.length).to.equal(1);
+      expect(configMessage.activeOpenGroups[0]).to.equal(
+        // tslint:disable-next-line: no-http-string
+        'chat-dev2.lokinet.org/fish?public_key=serverPublicKey'
+      );
+    });
   });
 });

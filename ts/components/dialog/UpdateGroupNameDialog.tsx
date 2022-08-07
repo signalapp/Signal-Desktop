@@ -35,7 +35,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     this.convo = getConversationController().get(props.conversationId);
 
     this.state = {
-      groupName: this.convo.getName(),
+      groupName: this.convo.getRealSessionUsername(),
       errorDisplayed: false,
       errorMessage: 'placeholder',
       oldAvatarPath: this.convo.getAvatarPath(),
@@ -60,7 +60,10 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       return;
     }
 
-    if (trimmedGroupName !== this.convo.getName() || newAvatarObjecturl !== oldAvatarPath) {
+    if (
+      trimmedGroupName !== this.convo.getRealSessionUsername() ||
+      newAvatarObjecturl !== oldAvatarPath
+    ) {
       if (this.convo.isPublic()) {
         void initiateOpenGroupUpdate(this.convo.id, trimmedGroupName, {
           objectUrl: newAvatarObjecturl,
@@ -78,7 +81,9 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   public render() {
     const okText = window.i18n('ok');
     const cancelText = window.i18n('cancel');
-    const titleText = window.i18n('updateGroupDialogTitle', [this.convo.getName() || 'Unknown']);
+    const titleText = window.i18n('updateGroupDialogTitle', [
+      this.convo.getRealSessionUsername() || 'Unknown',
+    ]);
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(

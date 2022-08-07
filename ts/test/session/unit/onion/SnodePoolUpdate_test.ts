@@ -7,11 +7,15 @@ import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
 import { Onions, SnodePool } from '../../../../session/apis/snode_api';
-import * as Data from '../../../../data/data';
+import { Snode } from '../../../../data/data';
 
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
-import { generateFakeSnodes, generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
+import {
+  generateFakeSnodes,
+  generateFakeSnodeWithEdKey,
+  stubData,
+} from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -22,7 +26,7 @@ const guard1ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f916153
 const guard2ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615349';
 const guard3ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f9161534a';
 
-const fakeSnodePool: Array<Data.Snode> = [
+const fakeSnodePool: Array<Snode> = [
   ...generateFakeSnodes(12),
   generateFakeSnodeWithEdKey(guard1ed),
   generateFakeSnodeWithEdKey(guard2ed),
@@ -54,7 +58,7 @@ describe('OnionPaths', () => {
       Sinon.restore();
     });
     it('if the cached snode pool has at least 12 snodes, just return it without fetching from seed', async () => {
-      getSnodePoolFromDb = Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      getSnodePoolFromDb = stubData('getSnodePoolFromDb').resolves(fakeSnodePool);
       fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
         SnodePool,
         'TEST_fetchFromSeedWithRetriesAndWriteToDb'
@@ -70,9 +74,9 @@ describe('OnionPaths', () => {
     it('if the cached snode pool 12 or less snodes, trigger a fetch from the seed nodes', async () => {
       const length12 = fakeSnodePool.slice(0, 12);
       expect(length12.length).to.eq(12);
-      getSnodePoolFromDb = Sinon.stub(Data, 'getSnodePoolFromDb').resolves(length12);
+      getSnodePoolFromDb = stubData('getSnodePoolFromDb').resolves(length12);
 
-      Sinon.stub(Data, 'updateSnodePoolOnDb').resolves();
+      stubData('updateSnodePoolOnDb').resolves();
       fetchFromSeedWithRetriesAndWriteToDb = Sinon.stub(
         SnodePool,
         'TEST_fetchFromSeedWithRetriesAndWriteToDb'

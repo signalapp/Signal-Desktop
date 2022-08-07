@@ -4,26 +4,19 @@ import React, { useState } from 'react';
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard';
 
 import useKey from 'react-use/lib/useKey';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
-import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
+import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SpacerLG } from '../basic/Text';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
-type Props = {
-  conversationId: string;
-  authorAvatarPath: string | null;
-  userName: string;
-};
-
-export const UserDetailsDialog = (props: Props) => {
+export const UserDetailsDialog = (props: UserDetailsModalState) => {
   const [isEnlargedImageShown, setIsEnlargedImageShown] = useState(false);
-  const convo = getConversationController().get(props.conversationId);
 
   const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
 
@@ -34,12 +27,18 @@ export const UserDetailsDialog = (props: Props) => {
   }
 
   async function onClickStartConversation() {
+    if (!props) {
+      return;
+    }
+    const convo = getConversationController().get(props.conversationId);
+
     const conversation = await getConversationController().getOrCreateAndWait(
       convo.id,
       ConversationTypeEnum.PRIVATE
     );
 
     await openConversationWithMessages({ conversationKey: conversation.id, messageId: null });
+
     closeDialog();
   }
 
@@ -49,8 +48,12 @@ export const UserDetailsDialog = (props: Props) => {
       void onClickStartConversation();
     },
     undefined,
-    [props.conversationId]
+    [props?.conversationId]
   );
+
+  if (!props) {
+    return null;
+  }
 
   return (
     <SessionWrapperModal title={props.userName} onClose={closeDialog} showExitIcon={true}>
@@ -67,7 +70,7 @@ export const UserDetailsDialog = (props: Props) => {
       </div>
 
       <SpacerLG />
-      <SessionIdEditable editable={false} text={convo.id} />
+      <SessionIdEditable editable={false} text={props.conversationId} />
 
       <div className="session-modal__button-group__center">
         <SessionButton

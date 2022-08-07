@@ -2,7 +2,7 @@ import React from 'react';
 
 import { missingCaseError } from '../../util';
 import { ToastUtils } from '../../session/utils';
-import { getPasswordHash } from '../../data/data';
+import { Data } from '../../data/data';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
@@ -121,7 +121,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
   public async validatePasswordHash(password: string | null) {
     // Check if the password matches the hash we have stored
-    const hash = await getPasswordHash();
+    const hash = await Data.getPasswordHash();
     if (hash && !matchesHash(password, hash)) {
       return false;
     }

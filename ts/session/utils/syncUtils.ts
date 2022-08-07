@@ -1,11 +1,7 @@
-import {
-  createOrUpdateItem,
-  getItemById,
-  getLatestClosedGroupEncryptionKeyPair,
-} from '../../../ts/data/data';
+import { Data } from '../../../ts/data/data';
 import { getMessageQueue } from '..';
 import { getConversationController } from '../conversations';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import {
@@ -24,19 +20,20 @@ import {
   VisibleMessage,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
-import { getV2OpenGroupRoom } from '../../data/opengroups';
+import { OpenGroupData } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../apis/open_group_api/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
+import { PubKey } from '../types';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
 const getLastSyncTimestampFromDb = async (): Promise<number | undefined> =>
-  (await getItemById(ITEM_ID_LAST_SYNC_TIMESTAMP))?.value;
+  (await Data.getItemById(ITEM_ID_LAST_SYNC_TIMESTAMP))?.value;
 
 const writeLastSyncTimestampToDb = async (timestamp: number) =>
-  createOrUpdateItem({ id: ITEM_ID_LAST_SYNC_TIMESTAMP, value: timestamp });
+  Data.createOrUpdateItem({ id: ITEM_ID_LAST_SYNC_TIMESTAMP, value: timestamp });
 
 /**
  * Conditionally Syncs user configuration with other devices linked.
@@ -107,7 +104,7 @@ const getActiveOpenGroupV2CompleteUrls = async (
 
   const urls = await Promise.all(
     openGroupsV2ConvoIds.map(async opengroup => {
-      const roomInfos = await getV2OpenGroupRoom(opengroup);
+      const roomInfos = OpenGroupData.getV2OpenGroupRoom(opengroup);
       if (roomInfos) {
         return getCompleteUrlFromRoom(roomInfos);
       }
@@ -130,20 +127,20 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
       !c.get('left') &&
       !c.get('isKickedFromGroup') &&
       !c.isBlocked() &&
-      c.get('name')
+      c.get('displayNameInProfile')
   );
 
   const closedGroups = await Promise.all(
     closedGroupModels.map(async c => {
       const groupPubKey = c.get('id');
-      const fetchEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(groupPubKey);
+      const fetchEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(groupPubKey);
       if (!fetchEncryptionKeyPair) {
         return null;
       }
 
       return new ConfigurationMessageClosedGroup({
         publicKey: groupPubKey,
-        name: c.get('name') || '',
+        name: c.get('displayNameInProfile') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],
         encryptionKeyPair: ECKeyPair.fromHexKeyPair(fetchEncryptionKeyPair),
@@ -159,8 +156,14 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
 
 const getValidContacts = (convos: Array<ConversationModel>) => {
   // Filter contacts
+  // blindedId are synced with the outbox logic.
   const contactsModels = convos.filter(
-    c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate()
+    c =>
+      !!c.get('active_at') &&
+      c.getRealSessionUsername() &&
+      c.isPrivate() &&
+      c.isApproved() &&
+      !PubKey.hasBlindedPrefix(c.get('id'))
   );
 
   const contacts = contactsModels.map(c => {
@@ -193,7 +196,7 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
 
       return new ConfigurationMessageContact({
         publicKey: c.id as string,
-        displayName: c.getLokiProfile()?.displayName,
+        displayName: c.getRealSessionUsername() || 'Anonymous',
         profilePictureURL: c.get('avatarPointer'),
         profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
         isApproved: c.isApproved(),
@@ -229,12 +232,12 @@ export const getCurrentConfigurationMessage = async (
   const profileKey = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : undefined;
 
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
-  const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;
+  const displayName = ourConvo?.getRealSessionUsername() || 'Anonymous'; // this should never be undefined, but well...
 
   const activeOpenGroups = [...opengroupV2CompleteUrls];
 
   return new ConfigurationMessage({
-    identifier: uuid(),
+    identifier: uuidv4(),
     timestamp: Date.now(),
     activeOpenGroups,
     activeClosedGroups: onlyValidClosedGroup,

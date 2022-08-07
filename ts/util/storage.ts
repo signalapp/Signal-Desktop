@@ -1,8 +1,9 @@
-import { createOrUpdateItem, getAllItems, removeItemById } from '../data/channelsItem';
+import { Data } from '../data/data';
+import { SessionKeyPair } from '../receiver/keypairs';
 
 let ready = false;
 
-type ValueType = string | number | boolean;
+type ValueType = string | number | boolean | SessionKeyPair;
 type InsertedValueType = { id: string; value: ValueType };
 let items: Record<string, InsertedValueType>;
 let callbacks: Array<() => void> = [];
@@ -20,7 +21,7 @@ async function put(key: string, value: ValueType) {
   const data: InsertedValueType = { id: key, value };
 
   items[key] = data;
-  await createOrUpdateItem(data);
+  await Data.createOrUpdateItem(data);
 }
 
 function get(key: string, defaultValue?: ValueType) {
@@ -43,7 +44,7 @@ async function remove(key: string) {
 
   // tslint:disable-next-line: no-dynamic-delete
   delete items[key];
-  await removeItemById(key);
+  await Data.removeItemById(key);
 }
 
 function onready(callback: () => void) {
@@ -65,7 +66,7 @@ function callListeners() {
 
 async function fetch() {
   reset();
-  const array = await getAllItems();
+  const array = await Data.getAllItems();
 
   // tslint:disable-next-line: one-variable-per-declaration
   for (let i = 0, max = array.length; i < max; i += 1) {
@@ -87,7 +88,7 @@ export async function setLocalPubKey(pubkey: string) {
   await put('number_id', `${pubkey}.1`);
 }
 
-export function getNumber() {
+export function getOurPubKeyStrFromStorage() {
   const numberId = get('number_id') as string | undefined;
   if (numberId === undefined) {
     return undefined;

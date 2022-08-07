@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { ConversationTypeEnum } from '../../../../models/conversation';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 
 import { ConversationLookupType } from '../../../../state/ducks/conversations';
 import {
@@ -16,7 +16,7 @@ describe('state/selectors/conversations', () => {
         id1: {
           id: 'id1',
           activeAt: 0,
-          name: 'No timestamp',
+          displayNameInProfile: 'No timestamp',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -38,14 +38,13 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           expireTimer: 0,
           isPinned: false,
         },
         id2: {
           id: 'id2',
           activeAt: 20,
-          name: 'B',
+          displayNameInProfile: 'B',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -67,14 +66,13 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           expireTimer: 0,
           isPinned: false,
         },
         id3: {
           id: 'id3',
           activeAt: 20,
-          name: 'C',
+          displayNameInProfile: 'C',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -96,14 +94,13 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           expireTimer: 0,
           isPinned: false,
         },
         id4: {
           id: 'id4',
           activeAt: 20,
-          name: 'Á',
+          displayNameInProfile: 'Á',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -126,13 +123,12 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: false,
         },
         id5: {
           id: 'id5',
           activeAt: 30,
-          name: 'First!',
+          displayNameInProfile: 'First!',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -155,17 +151,16 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: false,
         },
       };
       const comparator = _getConversationComparator(i18n);
       const conversations = _getSortedConversations(data, comparator);
 
-      assert.strictEqual(conversations[0].name, 'First!');
-      assert.strictEqual(conversations[1].name, 'Á');
-      assert.strictEqual(conversations[2].name, 'B');
-      assert.strictEqual(conversations[3].name, 'C');
+      assert.strictEqual(conversations[0].displayNameInProfile, 'First!');
+      assert.strictEqual(conversations[1].displayNameInProfile, 'Á');
+      assert.strictEqual(conversations[2].displayNameInProfile, 'B');
+      assert.strictEqual(conversations[3].displayNameInProfile, 'C');
     });
   });
 
@@ -177,7 +172,7 @@ describe('state/selectors/conversations', () => {
         id1: {
           id: 'id1',
           activeAt: 0,
-          name: 'No timestamp',
+          displayNameInProfile: 'No timestamp',
 
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
@@ -199,7 +194,6 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: false,
           hasNickname: false,
           isPublic: false,
@@ -207,7 +201,7 @@ describe('state/selectors/conversations', () => {
         id2: {
           id: 'id2',
           activeAt: 20,
-          name: 'B',
+          displayNameInProfile: 'B',
 
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
@@ -229,7 +223,6 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: false,
           hasNickname: false,
           isPublic: false,
@@ -237,7 +230,6 @@ describe('state/selectors/conversations', () => {
         id3: {
           id: 'id3',
           activeAt: 20,
-          name: 'C',
 
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
@@ -254,12 +246,12 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
+          displayNameInProfile: 'C',
 
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: true,
           hasNickname: false,
           isPublic: false,
@@ -267,7 +259,7 @@ describe('state/selectors/conversations', () => {
         id4: {
           id: 'id4',
           activeAt: 20,
-          name: 'Á',
+          displayNameInProfile: 'Á',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -288,7 +280,6 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: true,
           hasNickname: false,
           isPublic: false,
@@ -296,7 +287,7 @@ describe('state/selectors/conversations', () => {
         id5: {
           id: 'id5',
           activeAt: 30,
-          name: 'First!',
+          displayNameInProfile: 'First!',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -318,7 +309,6 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          profileName: 'df',
           isPinned: false,
           hasNickname: false,
           isPublic: false,
@@ -327,10 +317,10 @@ describe('state/selectors/conversations', () => {
       const comparator = _getConversationComparator(i18n);
       const conversations = _getSortedConversations(data, comparator);
 
-      assert.strictEqual(conversations[0].name, 'Á');
-      assert.strictEqual(conversations[1].name, 'C');
-      assert.strictEqual(conversations[2].name, 'First!');
-      assert.strictEqual(conversations[3].name, 'B');
+      assert.strictEqual(conversations[0].displayNameInProfile, 'Á');
+      assert.strictEqual(conversations[1].displayNameInProfile, 'C');
+      assert.strictEqual(conversations[2].displayNameInProfile, 'First!');
+      assert.strictEqual(conversations[3].displayNameInProfile, 'B');
     });
   });
 });

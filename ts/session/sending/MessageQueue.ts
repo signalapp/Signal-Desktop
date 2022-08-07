@@ -62,26 +62,74 @@ export class MessageQueue {
    * group to return.
    * So there is no need for a sendCb callback
    *
+   *
+   * fileIds is the array of ids this message is linked to. If we upload files as part of a message but do not link them with this, the files will be deleted much sooner
    */
   public async sendToOpenGroupV2(
     message: OpenGroupVisibleMessage,
-    roomInfos: OpenGroupRequestCommonType
+    roomInfos: OpenGroupRequestCommonType,
+    blinded: boolean,
+    filesToLink: Array<number>
   ) {
-    // No queue needed for Open Groups v2; send directly
-    const error = new Error('Failed to send message to open group.');
+    // Skipping the queue for Open Groups v2; the message is sent directly
 
     try {
-      const { sentTimestamp, serverId } = await MessageSender.sendToOpenGroupV2(message, roomInfos);
+      const { sentTimestamp, serverId } = await MessageSender.sendToOpenGroupV2(
+        message,
+        roomInfos,
+        blinded,
+        filesToLink
+      );
       if (!serverId || serverId === -1) {
         throw new Error(`Invalid serverId returned by server: ${serverId}`);
       }
-      void MessageSentHandler.handlePublicMessageSentSuccess(message, {
+      await MessageSentHandler.handlePublicMessageSentSuccess(message.identifier, {
         serverId: serverId,
         serverTimestamp: sentTimestamp,
       });
     } catch (e) {
-      window?.log?.warn(`Failed to send message to open group: ${roomInfos}`, e);
-      void MessageSentHandler.handleMessageSentFailure(message, e || error);
+      window?.log?.warn(
+        `Failed to send message to open group: ${roomInfos.serverUrl}:${roomInfos.roomId}:`,
+        e
+      );
+      await MessageSentHandler.handleMessageSentFailure(
+        message,
+        e || new Error('Failed to send message to open group.')
+      );
+    }
+  }
+
+  public async sendToOpenGroupV2BlindedRequest(
+    encryptedContent: Uint8Array,
+    roomInfos: OpenGroupRequestCommonType,
+    message: OpenGroupVisibleMessage,
+    recipientBlindedId: string
+  ) {
+    try {
+      if (!PubKey.hasBlindedPrefix(recipientBlindedId)) {
+        throw new Error('sendToOpenGroupV2BlindedRequest needs a blindedId');
+      }
+      const { serverTimestamp, serverId } = await MessageSender.sendToOpenGroupV2BlindedRequest(
+        encryptedContent,
+        roomInfos,
+        recipientBlindedId
+      );
+      if (!serverId || serverId === -1) {
+        throw new Error(`Invalid serverId returned by server: ${serverId}`);
+      }
+      await MessageSentHandler.handlePublicMessageSentSuccess(message.identifier, {
+        serverId,
+        serverTimestamp,
+      });
+    } catch (e) {
+      window?.log?.warn(
+        `Failed to send message to open group: ${roomInfos.serverUrl}:${roomInfos.roomId}:`,
+        e.message
+      );
+      await MessageSentHandler.handleMessageSentFailure(
+        message,
+        e || new Error('Failed to send message to open group.')
+      );
     }
   }
 

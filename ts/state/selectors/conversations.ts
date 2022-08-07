@@ -14,7 +14,7 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationModel } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
 import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import _ from 'lodash';
@@ -34,6 +34,7 @@ import { LightBoxOptions } from '../../components/conversation/SessionConversati
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -157,6 +158,16 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
     const sortedMessage = sortMessages(messages, isPublic);
 
     return updateFirstMessageOfSeries(sortedMessage);
+  }
+);
+
+export const hasSelectedConversationIncomingMessages = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): boolean => {
+    if (messages.length === 0) {
+      return false;
+    }
+    return Boolean(messages.filter(m => m.propsForMessage.direction === 'incoming').length);
   }
 );
 
@@ -288,8 +299,8 @@ function getConversationTitle(
   conversation: ReduxConversationType,
   testingi18n?: LocalizerType
 ): string {
-  if (conversation.name) {
-    return conversation.name;
+  if (conversation.displayNameInProfile) {
+    return conversation.displayNameInProfile;
   }
 
   if (conversation.type === 'group') {
@@ -411,7 +422,10 @@ export const _getSortedConversations = (
     }
 
     // Add Open Group to list as soon as the name has been set
-    if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
+    if (
+      conversation.isPublic &&
+      (!conversation.displayNameInProfile || conversation.displayNameInProfile === 'Unknown group')
+    ) {
       continue;
     }
 
@@ -443,12 +457,13 @@ const _getConversationRequests = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return _.filter(sortedConversations, conversation => {
-    const { isApproved, isBlocked, isPrivate, isMe } = conversation;
+    const { isApproved, isBlocked, isPrivate, isMe, activeAt } = conversation;
     const isRequest = ConversationModel.hasValidIncomingRequestValues({
       isApproved,
       isBlocked,
       isPrivate,
       isMe,
+      activeAt,
     });
     return isRequest;
   });
@@ -534,8 +549,6 @@ export const getConversationHeaderTitleProps = createSelector(getSelectedConvers
     isMe: !!state.isMe,
     members: state.members || [],
     isPublic: !!state.isPublic,
-    profileName: state.profileName,
-    name: state.name,
     subscriberCount: state.subscriberCount,
     isGroup: state.type === 'group',
     currentNotificationSetting: state.currentNotificationSetting,
@@ -574,6 +587,16 @@ export const getIsSelectedBlocked = createSelector(
   getSelectedConversation,
   (selectedProps): boolean => {
     return selectedProps?.isBlocked || false;
+  }
+);
+
+/**
+ * Returns true if the currently selected conversation is active (has an active_at field > 0)
+ */
+export const getIsSelectedActive = createSelector(
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return Boolean(selectedProps?.activeAt);
   }
 );
 
@@ -771,6 +794,7 @@ export const getMessagePropsByMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
   getConversationLookup,
   getMessageId,
+  // tslint:disable-next-line: cyclomatic-complexity
   (
     _convoState,
     messages: Array<SortedMessageModelProps>,
@@ -816,8 +840,13 @@ export const getMessagePropsByMessageId = createSelector(
     const isSenderAdmin = groupAdmins.includes(sender);
     const senderIsUs = sender === ourPubkey;
 
-    const authorName = foundSenderConversation.name || null;
-    const authorProfileName = senderIsUs ? window.i18n('you') : foundSenderConversation.profileName;
+    const authorName =
+      foundSenderConversation.nickname || foundSenderConversation.displayNameInProfile || null;
+    const authorProfileName = senderIsUs
+      ? window.i18n('you')
+      : foundSenderConversation.nickname ||
+        foundSenderConversation.displayNameInProfile ||
+        window.i18n('anonymous');
 
     const messageProps: MessageModelPropsWithConvoProps = {
       ...foundMessageProps,

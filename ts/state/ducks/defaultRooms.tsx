@@ -27,7 +27,7 @@ const defaultRoomsSlice = createSlice({
   initialState: initialDefaultRoomState,
   reducers: {
     updateDefaultRooms(state, action) {
-      window?.log?.info('updating default rooms', action.payload);
+      // window?.log?.info('updating default rooms', action.payload);
       const rooms = action.payload as Array<OpenGroupV2InfoJoinable>;
       return { ...state, rooms: rooms };
     },

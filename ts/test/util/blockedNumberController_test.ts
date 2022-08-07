@@ -13,11 +13,11 @@ describe('BlockedNumberController', () => {
   beforeEach(() => {
     memoryDB = {};
 
-    TestUtils.stubDataItem('createOrUpdateItem').callsFake(data => {
+    TestUtils.stubData('createOrUpdateItem').callsFake(data => {
       memoryDB[data.id] = data.value;
     });
 
-    TestUtils.stubDataItem('getItemById').callsFake(id => {
+    TestUtils.stubData('getItemById').callsFake(id => {
       if (!memoryDB[id]) {
         return undefined;
       }

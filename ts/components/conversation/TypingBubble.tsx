@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TypingAnimation } from './TypingAnimation';
 import styled from 'styled-components';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 interface TypingBubbleProps {
   avatarPath?: string;

@@ -4,10 +4,11 @@ import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { contextMenu } from 'react-contexify';
 import styled from 'styled-components';
-import { ConversationNotificationSettingType } from '../../models/conversation';
+import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
 import {
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
+  getIsSelectedActive,
   getIsSelectedBlocked,
   getIsSelectedNoteToSelf,
   getIsSelectedPrivate,
@@ -36,6 +37,7 @@ import {
   useConversationUsername,
   useExpireTimer,
   useIsKickedFromGroup,
+  useIsRequest,
 } from '../../hooks/useParamSelector';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
@@ -138,7 +140,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
     return null;
   }
   return (
-    <div
+    <TripleDotContainer
       role="button"
       onClick={(e: any) => {
         contextMenu.show({
@@ -149,9 +151,15 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
       data-testid="three-dots-conversation-options"
     >
       <SessionIconButton iconType="ellipses" iconSize="medium" />
-    </div>
+    </TripleDotContainer>
   );
 };
+
+const TripleDotContainer = styled.div`
+  user-select: none;
+  flex-grow: 0;
+  flex-shrink: 0;
+`;
 
 const ExpirationLength = (props: { expirationSettingName?: string }) => {
   const { expirationSettingName } = props;
@@ -217,6 +225,7 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
 const CallButton = () => {
   const isPrivate = useSelector(getIsSelectedPrivate);
   const isBlocked = useSelector(getIsSelectedBlocked);
+  const activeAt = useSelector(getIsSelectedActive);
   const isMe = useSelector(getIsSelectedNoteToSelf);
   const selectedConvoKey = useSelector(getSelectedConversationKey);
 
@@ -224,7 +233,9 @@ const CallButton = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  if (!isPrivate || isMe || !selectedConvoKey || isBlocked) {
+  const isRequest = useIsRequest(selectedConvoKey);
+
+  if (!isPrivate || isMe || !selectedConvoKey || isBlocked || !activeAt || isRequest) {
     return null;
   }
 
@@ -245,7 +256,7 @@ export const StyledSubtitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   span:last-child {
     margin-bottom: 0;
@@ -254,14 +265,12 @@ export const StyledSubtitleContainer = styled.div`
 
 export type ConversationHeaderTitleProps = {
   conversationKey: string;
-  profileName?: string;
   isMe: boolean;
   isGroup: boolean;
   isPublic: boolean;
   members: Array<any>;
   subscriberCount?: number;
   isKickedFromGroup: boolean;
-  name?: string;
   currentNotificationSetting?: ConversationNotificationSettingType;
 };
 
@@ -368,16 +377,22 @@ export const ConversationHeaderWithDetails = () => {
           }}
           showBackButton={isMessageDetailOpened}
         />
+        <TripleDotsMenu triggerId={triggerId} showBackButton={isMessageDetailOpened} />
 
         <div className="module-conversation-header__title-container">
           <div className="module-conversation-header__title-flex">
-            <TripleDotsMenu triggerId={triggerId} showBackButton={isMessageDetailOpened} />
             <ConversationHeaderTitle />
           </div>
         </div>
 
         {!isSelectionMode && (
-          <Flex container={true} flexDirection="row" alignItems="center">
+          <Flex
+            container={true}
+            flexDirection="row"
+            alignItems="center"
+            flexGrow={0}
+            flexShrink={0}
+          >
             {!isKickedFromGroup && (
               <ExpirationLength expirationSettingName={expirationSettingName} />
             )}

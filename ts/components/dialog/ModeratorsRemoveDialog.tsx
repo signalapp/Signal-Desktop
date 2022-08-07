@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { ApiV2 } from '../../session/apis/open_group_api/opengroupV2';
 import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
-import _ from 'lodash';
+import { compact } from 'lodash';
 import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -12,6 +11,7 @@ import { SessionSpinner } from '../basic/SessionSpinner';
 import { MemberListItem } from '../MemberListItem';
 import { useDispatch } from 'react-redux';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
+import { sogsV3RemoveAdmins } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
 
 type Props = {
   conversationId: string;
@@ -29,14 +29,8 @@ async function removeMods(convoId: string, modsToRemove: Array<string>) {
     const convo = getConversationController().get(convoId);
 
     const roomInfos = convo.toOpenGroupV2();
-    const modsToRemovePubkey = _.compact(modsToRemove.map(m => PubKey.from(m)));
-    res = await Promise.all(
-      modsToRemovePubkey.map(async m => {
-        return ApiV2.removeModerator(m, roomInfos);
-      })
-    );
-    // all moderators are removed means all promise resolved with bool= true
-    res = res.every(r => !!r);
+    const modsToRemovePubkey = compact(modsToRemove.map(m => PubKey.from(m)));
+    res = await sogsV3RemoveAdmins(modsToRemovePubkey, roomInfos);
 
     if (!res) {
       window?.log?.warn('failed to remove moderators:', res);
@@ -83,7 +77,7 @@ export const RemoveModeratorsDialog = (props: Props) => {
   const existingMods = convoProps.groupAdmins || [];
   const hasMods = existingMods.length !== 0;
 
-  const title = `${i18n('removeModerators')}: ${convoProps.name}`;
+  const title = `${i18n('removeModerators')}: ${convoProps.displayNameInProfile}`;
   return (
     <SessionWrapperModal title={title} onClose={closeDialog}>
       <Flex container={true} flexDirection="column" alignItems="center">
@@ -108,7 +102,6 @@ export const RemoveModeratorsDialog = (props: Props) => {
         ) : (
           <p>{i18n('noModeratorsToRemove')}</p>
         )}
-        <SessionSpinner loading={removingInProgress} />
 
         <div className="session-modal__button-group">
           <SessionButton

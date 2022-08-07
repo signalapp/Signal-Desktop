@@ -1,18 +1,19 @@
-import _ from 'lodash';
+import { omit, startsWith } from 'lodash';
 
 import { MessageModel } from '../models/message';
-import { saveMessage } from '../../ts/data/data';
+import { Data } from '../../ts/data/data';
 import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
-import {
-  downloadFileOpenGroupV2,
-  downloadFileOpenGroupV2ByUrl,
-} from '../session/apis/open_group_api/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { FSv2 } from '../session/apis/file_server_api';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 import { decryptAttachment } from '../util/crypto/attachmentsEncrypter';
 import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
+import { sogsV3FetchFileByFileID } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
+import { OpenGroupData } from '../data/opengroups';
+import {
+  downloadFileFromFileServer,
+  fileServerURL,
+} from '../session/apis/file_server_api/FileServerApi';
 
 export async function downloadAttachment(attachment: {
   url: string;
@@ -25,24 +26,24 @@ export async function downloadAttachment(attachment: {
   const asURL = new URL(attachment.url);
   const serverUrl = asURL.origin;
 
-  // is it an attachment hosted on the file server v2 ?
-  const defaultFsV2 = _.startsWith(serverUrl, FSv2.fileServerV2URL);
+  // is it an attachment hosted on the file server
+  const defaultFileServer = startsWith(serverUrl, fileServerURL);
 
   let res: ArrayBuffer | null = null;
 
-  if (defaultFsV2) {
+  if (defaultFileServer) {
     let attachmentId = attachment.id;
     if (!attachmentId) {
       // try to get the fileId from the end of the URL
       attachmentId = attachment.url;
     }
     window?.log?.info('Download v2 file server attachment', attachmentId);
-    res = await FSv2.downloadFileFromFSv2(attachmentId);
+    res = await downloadFileFromFileServer(attachmentId);
   } else {
     window.log.warn(
-      `downloadAttachment attachment is neither opengroup attachment nor fsv2... Dropping it ${asURL.href}`
+      `downloadAttachment attachment is neither opengroup attachment nor fileserver... Dropping it ${asURL.href}`
     );
-    throw new Error('Attachment url is not opengroupv2 nor fileserver v2. Unsupported');
+    throw new Error('Attachment url is not opengroupv2 nor fileserver. Unsupported');
   }
 
   if (!res?.byteLength) {
@@ -81,44 +82,43 @@ export async function downloadAttachment(attachment: {
   }
 
   return {
-    ..._.omit(attachment, 'digest', 'key'),
+    ...omit(attachment, 'digest', 'key'),
     data,
   };
 }
 
 /**
- * This method should only be used when you know
- */
-export async function downloadDataFromOpenGroupV2(
-  fileUrl: string,
-  roomInfos: OpenGroupRequestCommonType
-) {
-  const dataUintFromUrl = await downloadFileOpenGroupV2ByUrl(fileUrl, roomInfos);
-
-  if (!dataUintFromUrl?.length) {
-    window?.log?.error('Failed to download attachment. Length is 0');
-    throw new Error(`Failed to download attachment. Length is 0 for ${fileUrl}`);
-  }
-  return dataUintFromUrl;
-}
-
-/**
+ *
+ * Download the attachment based on the url.
+ * The only time where the size should be set to null, is when downloading the image for a sogs room (as we do not have the size for it).
  *
  * @param attachment Either the details of the attachment to download (on a per room basis), or the pathName to the file you want to get
  */
-export async function downloadAttachmentOpenGroupV2(
+export async function downloadAttachmentSogsV3(
   attachment: {
     id: number;
     url: string;
-    size: number;
+    size: number | null;
   },
   roomInfos: OpenGroupRequestCommonType
 ) {
-  const dataUint = await downloadFileOpenGroupV2(attachment.id, roomInfos);
+  const roomDetails = OpenGroupData.getV2OpenGroupRoomByRoomId(roomInfos);
+  if (!roomDetails) {
+    throw new Error(`Didn't find such a room ${roomInfos.serverUrl}: ${roomInfos.roomId}`);
+  }
+
+  const dataUint = await sogsV3FetchFileByFileID(roomDetails, `${attachment.id}`);
 
   if (!dataUint?.length) {
     window?.log?.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
+  }
+
+  if (attachment.size === null) {
+    return {
+      ...omit(attachment, 'digest', 'key'),
+      data: dataUint.buffer,
+    };
   }
 
   let data = dataUint;
@@ -139,7 +139,7 @@ export async function downloadAttachmentOpenGroupV2(
   }
 
   return {
-    ..._.omit(attachment, 'digest', 'key'),
+    ...omit(attachment, 'digest', 'key'),
     data: data.buffer,
   };
 }
@@ -258,6 +258,6 @@ export async function queueAttachmentDownloads(
   count += await processQuoteAttachments(message, conversation);
 
   if (count > 0) {
-    await saveMessage(message.attributes);
+    await Data.saveMessage(message.attributes);
   }
 }

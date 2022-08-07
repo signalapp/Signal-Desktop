@@ -10,7 +10,7 @@ import { BlockedUserSettings } from './BlockedUserSettings';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { getPasswordHash } from '../../data/data';
+import { Data } from '../../data/data';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { matchesHash } from '../../util/passwordUtils';
 
@@ -168,7 +168,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     }
 
     // Check if the password matches the hash we have stored
-    const hash = await getPasswordHash();
+    const hash = await Data.getPasswordHash();
     if (hash && !matchesHash(enteredPassword, hash)) {
       this.setState({
         pwdLockError: window.i18n('invalidPassword'),
@@ -220,7 +220,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
   }
 
   public async hasPassword() {
-    const hash = await getPasswordHash();
+    const hash = await Data.getPasswordHash();
 
     this.setState({
       hasPassword: !!hash,

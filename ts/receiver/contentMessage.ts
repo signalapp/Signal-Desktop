@@ -3,8 +3,8 @@ import { handleSwarmDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import _, * as Lodash from 'lodash';
-import { PubKey } from '../session/types';
+import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
+import { KeyPrefixType, PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
@@ -18,14 +18,15 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
-import { ConversationTypeEnum } from '../models/conversation';
 import { ReadReceipts } from '../util/readReceipts';
 import { Storage } from '../util/storage';
-import { getMessageBySenderAndTimestamp } from '../data/data';
+import { Data } from '../data/data';
 import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -36,8 +37,9 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
-    const sentAtTimestamp = _.toNumber(envelope.timestamp);
-
+    const sentAtTimestamp = toNumber(envelope.timestamp);
+    // swarm messages already comes with a timestamp is milliseconds, so this sentAtTimestamp is correct.
+    // the sogs messages do not come as milliseconds but just seconds, so we override it
     await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } catch (e) {
     window?.log?.warn(e);
@@ -143,7 +145,7 @@ export async function decryptWithSessionProtocol(
   const recipientX25519PrivateKey = x25519KeyPair.privateKeyData;
   const hex = toHex(new Uint8Array(x25519KeyPair.publicKeyData));
 
-  const recipientX25519PublicKey = PubKey.remove05PrefixIfNeeded(hex);
+  const recipientX25519PublicKey = PubKey.removePrefixIfNeeded(hex);
 
   const sodium = await getSodiumRenderer();
   const signatureSize = sodium.crypto_sign_BYTES;
@@ -192,9 +194,9 @@ export async function decryptWithSessionProtocol(
 
   // set the sender identity on the envelope itself.
   if (isClosedGroup) {
-    envelope.senderIdentity = `05${toHex(senderX25519PublicKey)}`;
+    envelope.senderIdentity = `${KeyPrefixType.standard}${toHex(senderX25519PublicKey)}`;
   } else {
-    envelope.source = `05${toHex(senderX25519PublicKey)}`;
+    envelope.source = `${KeyPrefixType.standard}${toHex(senderX25519PublicKey)}`;
   }
   perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
 
@@ -305,13 +307,13 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   }
 
   // first check that dataMessage is the only field set in the Content
-  let msgWithoutDataMessage = Lodash.pickBy(
+  let msgWithoutDataMessage = pickBy(
     content,
     (_value, key) => key !== 'dataMessage' && key !== 'toJSON'
   );
-  msgWithoutDataMessage = Lodash.pickBy(msgWithoutDataMessage, Lodash.identity);
+  msgWithoutDataMessage = pickBy(msgWithoutDataMessage, identity);
 
-  const isMessageDataMessageOnly = Lodash.isEmpty(msgWithoutDataMessage);
+  const isMessageDataMessageOnly = isEmpty(msgWithoutDataMessage);
   if (!isMessageDataMessageOnly) {
     return true;
   }
@@ -336,11 +338,11 @@ export async function innerHandleSwarmContentMessage(
   try {
     perfStart(`SignalService.Content.decode-${envelope.id}`);
     window.log.info('innerHandleSwarmContentMessage');
+    perfStart(`isBlocked-${envelope.id}`);
 
     const content = SignalService.Content.decode(new Uint8Array(plaintext));
     perfEnd(`SignalService.Content.decode-${envelope.id}`, 'SignalService.Content.decode');
 
-    perfStart(`isBlocked-${envelope.id}`);
     const blocked = await isBlocked(envelope.source);
     perfEnd(`isBlocked-${envelope.id}`, 'isBlocked');
     if (blocked) {
@@ -379,6 +381,7 @@ export async function innerHandleSwarmContentMessage(
     }
 
     if (content.dataMessage) {
+      // because typescript is funky with incoming protobufs
       if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
         content.dataMessage.profileKey = null;
       }
@@ -472,11 +475,7 @@ async function handleReceiptMessage(
   const results = [];
   if (type === SignalService.ReceiptMessage.Type.READ) {
     for (const ts of timestamp) {
-      const promise = onReadReceipt(
-        Lodash.toNumber(envelope.timestamp),
-        Lodash.toNumber(ts),
-        envelope.source
-      );
+      const promise = onReadReceipt(toNumber(envelope.timestamp), toNumber(ts), envelope.source);
       results.push(promise);
     }
   }
@@ -500,8 +499,8 @@ async function handleTypingMessage(
   }
 
   if (envelope.timestamp && timestamp) {
-    const envelopeTimestamp = Lodash.toNumber(envelope.timestamp);
-    const typingTimestamp = Lodash.toNumber(timestamp);
+    const envelopeTimestamp = toNumber(envelope.timestamp);
+    const typingTimestamp = toNumber(timestamp);
 
     if (typingTimestamp !== envelopeTimestamp) {
       window?.log?.warn(
@@ -552,9 +551,9 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
     return;
   }
-  const messageToDelete = await getMessageBySenderAndTimestamp({
+  const messageToDelete = await Data.getMessageBySenderAndTimestamp({
     source: messageAuthor,
-    timestamp: Lodash.toNumber(timestamp),
+    timestamp: toNumber(timestamp),
   });
   const messageHash = messageToDelete?.get('messageHash');
   //#endregion
@@ -599,21 +598,88 @@ async function handleMessageRequestResponse(
     return;
   }
 
-  const convoId = envelope.source;
-  const conversationToApprove = getConversationController().get(convoId);
+  const sodium = await getSodiumRenderer();
+
+  const convosToMerge = findCachedBlindedMatchOrLookupOnAllServers(envelope.source, sodium);
+  const unblindedConvoId = envelope.source;
+
+  const conversationToApprove = await getConversationController().getOrCreateAndWait(
+    unblindedConvoId,
+    ConversationTypeEnum.PRIVATE
+  );
+  const mostRecentActiveAt =
+    Math.max(...compact(convosToMerge.map(m => m.get('active_at')))) || Date.now();
+  conversationToApprove.set({
+    active_at: mostRecentActiveAt,
+    isApproved: true,
+    didApproveMe: true,
+    isTrustedForAttachmentDownload: true,
+  });
+
+  if (convosToMerge.length) {
+    // merge fields we care by hand
+    conversationToApprove.set({
+      profileKey: convosToMerge[0].get('profileKey'),
+      displayNameInProfile: convosToMerge[0].get('displayNameInProfile'),
+
+      avatarInProfile: convosToMerge[0].get('avatarInProfile'),
+      avatarPointer: convosToMerge[0].get('avatarPointer'), // don't set the avatar pointer
+      // nickname might be set already in conversationToApprove, so don't overwrite it
+    });
+
+    // we have to merge all of those to a single conversation under the unblinded. including the messages
+    window.log.info(
+      `We just found out ${unblindedConvoId} matches some blinded conversations. Merging them together:`,
+      convosToMerge.map(m => m.id)
+    );
+    // get all the messages from each conversations we have to merge
+    const allMessagesCollections = await Promise.all(
+      convosToMerge.map(async convoToMerge =>
+        // this call will fetch like 60 messages for each conversation. I don't think we want to merge an unknown number of messages
+        // so lets stick to this behavior
+        Data.getMessagesByConversation(convoToMerge.id, {
+          skipTimerInit: undefined,
+          messageId: null,
+        })
+      )
+    );
+
+    const allMessageModels = flatten(allMessagesCollections.map(m => m.models));
+    allMessageModels.forEach(messageModel => {
+      messageModel.set({ conversationId: unblindedConvoId });
+
+      if (messageModel.get('source') !== UserUtils.getOurPubKeyStrFromCache()) {
+        messageModel.set({ source: unblindedConvoId });
+      }
+    });
+    // this is based on the messageId as  primary key. So this should overwrite existing messages with new merged data
+    await Data.saveMessages(allMessageModels.map(m => m.attributes));
+
+    // tslint:disable-next-line: prefer-for-of
+    for (let index = 0; index < convosToMerge.length; index++) {
+      const element = convosToMerge[index];
+      await getConversationController().deleteBlindedContact(element.id);
+    }
+  }
+
   if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
+    if (conversationToApprove) {
+      await conversationToApprove.commit();
+    }
     window?.log?.info(
       'Conversation already contains the correct value for the didApproveMe field.'
     );
+    await removeFromCache(envelope);
+
     return;
   }
 
-  await conversationToApprove.setDidApproveMe(isApproved);
+  await conversationToApprove.setDidApproveMe(isApproved, true);
   if (isApproved === true) {
     // Conversation was not approved before so a sync is needed
     await conversationToApprove.addIncomingApprovalMessage(
-      _.toNumber(envelope.timestamp),
-      envelope.source
+      toNumber(envelope.timestamp),
+      unblindedConvoId
     );
   }
 
@@ -650,8 +716,8 @@ export async function handleDataExtractionNotification(
   }
 
   if (timestamp) {
-    const envelopeTimestamp = Lodash.toNumber(timestamp);
-    const referencedAttachmentTimestamp = Lodash.toNumber(referencedAttachment);
+    const envelopeTimestamp = toNumber(timestamp);
+    const referencedAttachmentTimestamp = toNumber(referencedAttachment);
 
     await convo.addSingleIncomingMessage({
       source,

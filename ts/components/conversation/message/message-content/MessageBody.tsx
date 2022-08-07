@@ -30,13 +30,12 @@ const renderMentions: RenderTextCallbackType = ({ text, key, isGroup }) => (
 export const renderTextDefault: RenderTextCallbackType = ({ text }) => <>{text}</>;
 
 const renderNewLines: RenderTextCallbackType = ({ text: textWithNewLines, key, isGroup }) => {
-  const renderOther = isGroup ? renderMentions : renderTextDefault;
-
   return (
+    // tslint:disable-next-line: use-simple-attributes
     <AddNewLines
       key={key}
       text={textWithNewLines}
-      renderNonNewLine={renderOther}
+      renderNonNewLine={isGroup ? renderMentions : renderTextDefault}
       isGroup={isGroup}
     />
   );
@@ -80,6 +79,11 @@ const JsxSelectable = (jsx: JSX.Element): JSX.Element => {
         e.stopPropagation();
         return false;
       }}
+      onDragEnd={(e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }}
     >
       {jsx}
     </span>
@@ -102,7 +106,7 @@ export const MessageBody = (props: Props) => {
     );
   }
 
-  if (text && text.startsWith('```') && text.endsWith('```')) {
+  if (text && text.startsWith('```') && text.endsWith('```') && text.length > 6) {
     return <pre className="text-selectable">{text.substring(4, text.length - 3)}</pre>;
   }
 

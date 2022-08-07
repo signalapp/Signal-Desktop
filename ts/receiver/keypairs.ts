@@ -1,3 +1,4 @@
+import { KeyPair } from 'libsodium-wrappers-sumo';
 import { fromHexToArray, toHex } from '../session/utils/String';
 
 export type HexKeyPair = {
@@ -6,8 +7,17 @@ export type HexKeyPair = {
 };
 
 export type SessionKeyPair = {
-  pubKey: ArrayBuffer;
-  privKey: ArrayBuffer;
+  /**
+   * The curve25519 pubkey with prepended 5
+   */
+  pubKey: ArrayBufferLike;
+
+  /**
+   * The curve25519 secret key
+   */
+  privKey: ArrayBufferLike;
+
+  ed25519KeyPair: KeyPair;
 };
 
 export class ECKeyPair {

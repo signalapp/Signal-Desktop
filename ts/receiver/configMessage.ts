@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { createOrUpdateItem, getItemById, hasSyncedInitialConfigurationItem } from '../data/data';
-import { ConversationTypeEnum } from '../models/conversation';
+import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
@@ -18,6 +17,7 @@ import { EnvelopePlus } from './types';
 import { ConversationInteraction } from '../interactions';
 import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
 import { appendFetchAvatarAndProfileJob, updateOurProfileSync } from './userProfileImageUpdates';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
 
 async function handleOurProfileUpdate(
   sentAt: number | Long,
@@ -50,7 +50,7 @@ async function handleGroupsAndContactsFromConfigMessage(
   configMessage: SignalService.ConfigurationMessage
 ) {
   const envelopeTimestamp = _.toNumber(envelope.timestamp);
-  const lastConfigUpdate = await getItemById(hasSyncedInitialConfigurationItem);
+  const lastConfigUpdate = await Data.getItemById(hasSyncedInitialConfigurationItem);
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
   const isNewerConfig =
     !lastConfigTimestamp || (lastConfigTimestamp && lastConfigTimestamp < envelopeTimestamp);
@@ -60,7 +60,7 @@ async function handleGroupsAndContactsFromConfigMessage(
     return;
   }
 
-  await createOrUpdateItem({
+  await Data.createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
     timestamp: envelopeTimestamp,
@@ -151,9 +151,9 @@ const handleContactFromConfig = async (
       toHex(contactReceived.publicKey),
       ConversationTypeEnum.PRIVATE
     );
-    const profile = {
+    const profileInDataMessage: SignalService.DataMessage.ILokiProfile = {
       displayName: contactReceived.name,
-      profilePictre: contactReceived.profilePicture,
+      profilePicture: contactReceived.profilePicture,
     };
 
     const existingActiveAt = contactConvo.get('active_at');
@@ -185,7 +185,11 @@ const handleContactFromConfig = async (
       await BlockedNumberController.unblock(contactConvo.id);
     }
 
-    void appendFetchAvatarAndProfileJob(contactConvo, profile, contactReceived.profileKey);
+    void appendFetchAvatarAndProfileJob(
+      contactConvo,
+      profileInDataMessage,
+      contactReceived.profileKey
+    );
   } catch (e) {
     window?.log?.warn('failed to handle  a new closed group from configuration message');
   }

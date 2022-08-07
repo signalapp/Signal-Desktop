@@ -1,13 +1,15 @@
 import { isArrayBuffer } from 'lodash';
 import { fromHexToArray } from '../session/utils/String';
 import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
-import { getItemById } from '../data/channelsItem';
+import { Data } from '../data/data';
 
 export const encryptAttachmentBufferRenderer = async (bufferIn: ArrayBuffer) => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
-  const key = (await getItemById('local_attachment_encrypted_key'))?.value as string | undefined;
+  const key = (await Data.getItemById('local_attachment_encrypted_key'))?.value as
+    | string
+    | undefined;
   if (!key) {
     throw new TypeError(
       "'encryptAttachmentBuffer' needs a key set in local_attachment_encrypted_key"
@@ -23,7 +25,7 @@ export const decryptAttachmentBufferRenderer = async (
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
-  const key = (await getItemById('local_attachment_encrypted_key'))?.value as string;
+  const key = (await Data.getItemById('local_attachment_encrypted_key'))?.value as string;
   if (!key) {
     throw new TypeError(
       "'decryptAttachmentBuffer' needs a key set in local_attachment_encrypted_key"

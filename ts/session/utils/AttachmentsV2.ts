@@ -8,18 +8,17 @@ import {
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { uploadFileOpenGroupV2 } from '../apis/open_group_api/opengroupV2/OpenGroupAPIV2';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 import { RawPreview, RawQuote } from './Attachments';
 import _ from 'lodash';
-import { AttachmentsV2Utils } from '.';
+import { uploadFileToRoomSogs3 } from '../apis/open_group_api/sogsv3/sogsV3SendFile';
 
 interface UploadParamsV2 {
   attachment: Attachment;
   openGroup: OpenGroupRequestCommonType;
 }
 
-export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointerWithUrl> {
+async function uploadV3(params: UploadParamsV2): Promise<AttachmentPointerWithUrl> {
   const { attachment, openGroup } = params;
   if (typeof attachment !== 'object' || attachment == null) {
     throw new Error('Invalid attachment passed.');
@@ -43,10 +42,10 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
     ? addAttachmentPadding(attachment.data)
     : attachment.data;
 
-  const fileDetails = await uploadFileOpenGroupV2(new Uint8Array(paddedAttachment), openGroup);
+  const fileDetails = await uploadFileToRoomSogs3(new Uint8Array(paddedAttachment), openGroup);
 
   if (!fileDetails) {
-    throw new Error(`upload to fileopengroupv2 of ${attachment.fileName} failed`);
+    throw new Error(`upload to fileopengroupv3 of ${attachment.fileName} failed`);
   }
 
   return {
@@ -56,12 +55,12 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
   };
 }
 
-export async function uploadAttachmentsV2(
+export async function uploadAttachmentsV3(
   attachments: Array<Attachment>,
   openGroup: OpenGroupRequestCommonType
 ): Promise<Array<AttachmentPointerWithUrl>> {
   const promises = (attachments || []).map(async attachment =>
-    AttachmentsV2Utils.uploadV2({
+    uploadV3({
       attachment,
       openGroup,
     })
@@ -70,32 +69,29 @@ export async function uploadAttachmentsV2(
   return Promise.all(promises);
 }
 
-export async function uploadLinkPreviewsV2(
-  previews: Array<RawPreview>,
+export async function uploadLinkPreviewsV3(
+  preview: RawPreview | null,
   openGroup: OpenGroupRequestCommonType
-): Promise<Array<PreviewWithAttachmentUrl>> {
-  const promises = (previews || []).map(async preview => {
-    // some links does not have an image associated, and it makes the whole message fail to send
-    if (!preview.image) {
-      window.log.warn('tried to upload file to opengroupv2 without image.. skipping');
+): Promise<PreviewWithAttachmentUrl | undefined> {
+  // some links does not have an image associated, and it makes the whole message fail to send
+  if (!preview?.image) {
+    window.log.warn('tried to upload preview to opengroupv2 without image.. skipping');
 
-      return undefined;
-    }
-    const image = await AttachmentsV2Utils.uploadV2({
-      attachment: preview.image,
-      openGroup,
-    });
-    return {
-      ...preview,
-      image,
-      url: preview.url || (image.url as string),
-      id: image.id as number,
-    };
+    return undefined;
+  }
+  const image = await uploadV3({
+    attachment: preview.image,
+    openGroup,
   });
-  return _.compact(await Promise.all(promises));
+  return {
+    ...preview,
+    image,
+    url: preview.url || image.url,
+    id: image.id,
+  };
 }
 
-export async function uploadQuoteThumbnailsV2(
+export async function uploadQuoteThumbnailsV3(
   openGroup: OpenGroupRequestCommonType,
   quote?: RawQuote
 ): Promise<Quote | undefined> {
@@ -106,7 +102,7 @@ export async function uploadQuoteThumbnailsV2(
   const promises = (quote.attachments ?? []).map(async attachment => {
     let thumbnail: QuotedAttachment | undefined;
     if (attachment.thumbnail) {
-      thumbnail = (await AttachmentsV2Utils.uploadV2({
+      thumbnail = (await uploadV3({
         attachment: attachment.thumbnail,
         openGroup,
       })) as any;

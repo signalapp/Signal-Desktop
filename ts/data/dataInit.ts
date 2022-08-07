@@ -5,11 +5,11 @@ import { channels } from './channels';
 const channelsToMakeForOpengroupV2 = [
   'getAllV2OpenGroupRooms',
   'getV2OpenGroupRoom',
-  'getV2OpenGroupRoomByRoomId',
   'saveV2OpenGroupRoom',
   'removeV2OpenGroupRoom',
   'getAllOpenGroupV2Conversations',
 ];
+
 const channelsToMake = new Set([
   'shutdown',
   'close',
@@ -25,12 +25,9 @@ const channelsToMake = new Set([
   'updateSwarmNodesForPubkey',
   'saveConversation',
   'getConversationById',
-  'updateConversation',
   'removeConversation',
   'getAllConversations',
-  'getAllOpenGroupV1Conversations',
   'getPubkeysInPublicConversation',
-  'getAllGroupsInvolvingId',
   'searchConversations',
   'searchMessages',
   'searchMessagesInConversation',
@@ -96,20 +93,20 @@ const SQL_CHANNEL_KEY = 'sql-channel';
 let _shutdownPromise: any = null;
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
-export const _jobs = Object.create(null);
+export const jobs = Object.create(null);
 const _DEBUG = false;
 let _jobCounter = 0;
 let _shuttingDown = false;
 let _shutdownCallback: any = null;
 
-export async function _shutdown() {
+export async function shutdown() {
   if (_shutdownPromise) {
     return _shutdownPromise;
   }
 
   _shuttingDown = true;
 
-  const jobKeys = Object.keys(_jobs);
+  const jobKeys = Object.keys(jobs);
   window?.log?.info(`data.shutdown: starting process. ${jobKeys.length} jobs outstanding`);
 
   // No outstanding jobs, return immediately
@@ -133,24 +130,24 @@ export async function _shutdown() {
   return _shutdownPromise;
 }
 
-function _getJob(id: number) {
-  return _jobs[id];
+function getJob(id: number) {
+  return jobs[id];
 }
 
 function makeChannel(fnName: string) {
   channels[fnName] = async (...args: any) => {
-    const jobId = _makeJob(fnName);
+    const jobId = makeJob(fnName);
 
     return new Promise((resolve, reject) => {
       ipcRenderer.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
 
-      _updateJob(jobId, {
+      updateJob(jobId, {
         resolve,
         reject,
         args: _DEBUG ? args : null,
       });
 
-      _jobs[jobId].timer = setTimeout(
+      jobs[jobId].timer = setTimeout(
         // tslint:disable: no-void-expression
         () => reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
@@ -185,7 +182,7 @@ export function initData() {
   channelsToMake.forEach(makeChannel);
 
   ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (_event, jobId, errorForDisplay, result) => {
-    const job = _getJob(jobId);
+    const job = getJob(jobId);
     if (!job) {
       throw new Error(
         `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
@@ -204,15 +201,15 @@ export function initData() {
   });
 }
 
-function _updateJob(id: number, data: any) {
+function updateJob(id: number, data: any) {
   const { resolve, reject } = data;
-  const { fnName, start } = _jobs[id];
+  const { fnName, start } = jobs[id];
 
-  _jobs[id] = {
-    ..._jobs[id],
+  jobs[id] = {
+    ...jobs[id],
     ...data,
     resolve: (value: any) => {
-      _removeJob(id);
+      removeJob(id);
       if (_DEBUG) {
         const end = Date.now();
         const delta = end - start;
@@ -223,7 +220,7 @@ function _updateJob(id: number, data: any) {
       return resolve(value);
     },
     reject: (error: any) => {
-      _removeJob(id);
+      removeJob(id);
       const end = Date.now();
       window?.log?.warn(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
       return reject(error);
@@ -231,29 +228,29 @@ function _updateJob(id: number, data: any) {
   };
 }
 
-function _removeJob(id: number) {
+function removeJob(id: number) {
   if (_DEBUG) {
-    _jobs[id].complete = true;
+    jobs[id].complete = true;
     return;
   }
 
-  if (_jobs[id].timer) {
-    global.clearTimeout(_jobs[id].timer);
-    _jobs[id].timer = null;
+  if (jobs[id].timer) {
+    global.clearTimeout(jobs[id].timer);
+    jobs[id].timer = null;
   }
 
   // tslint:disable-next-line: no-dynamic-delete
-  delete _jobs[id];
+  delete jobs[id];
 
   if (_shutdownCallback) {
-    const keys = Object.keys(_jobs);
+    const keys = Object.keys(jobs);
     if (keys.length === 0) {
       _shutdownCallback();
     }
   }
 }
 
-function _makeJob(fnName: string) {
+function makeJob(fnName: string) {
   if (_shuttingDown && fnName !== 'close') {
     throw new Error(`Rejecting SQL channel job (${fnName}); application is shutting down`);
   }
@@ -264,7 +261,7 @@ function _makeJob(fnName: string) {
   if (_DEBUG) {
     window?.log?.debug(`SQL channel job ${id} (${fnName}) started`);
   }
-  _jobs[id] = {
+  jobs[id] = {
     fnName,
     start: Date.now(),
   };

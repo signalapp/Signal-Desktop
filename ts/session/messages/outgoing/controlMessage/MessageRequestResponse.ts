@@ -2,19 +2,17 @@ import { SignalService } from '../../../../protobuf';
 import { ContentMessage } from '../ContentMessage';
 import { MessageParams } from '../Message';
 
-interface MessageRequestResponseParams extends MessageParams {
-  isApproved: boolean;
-}
+// tslint:disable-next-line: no-empty-interface
+export interface MessageRequestResponseParams extends MessageParams {}
 
 export class MessageRequestResponse extends ContentMessage {
-  private readonly isApproved: boolean;
+  // we actually send a response only if it is an accept
+  // private readonly isApproved: boolean;
 
   constructor(params: MessageRequestResponseParams) {
     super({
       timestamp: params.timestamp,
-      isApproved: params.isApproved,
     } as MessageRequestResponseParams);
-    this.isApproved = params.isApproved;
   }
 
   public contentProto(): SignalService.Content {
@@ -25,7 +23,7 @@ export class MessageRequestResponse extends ContentMessage {
 
   public messageRequestResponseProto(): SignalService.MessageRequestResponse {
     return new SignalService.MessageRequestResponse({
-      isApproved: this.isApproved,
+      isApproved: true,
     });
   }
 }
