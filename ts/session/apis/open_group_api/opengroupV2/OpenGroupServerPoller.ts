@@ -34,6 +34,9 @@ export type OpenGroupMessageV4 = {
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 
+export const invalidAuthRequiresBlinding =
+  'Invalid authentication: this server requires the use of blinded ids';
+
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
  * have only have one OpenGroupServerPollerV2 per opengroup polling.
@@ -295,9 +298,7 @@ export class OpenGroupServerPoller {
       ) {
         const bodyPlainText = (batchPollResults.body as any).plainText;
         // this is temporary (as of 27/06/2022) as we want to not support unblinded sogs after some time
-        if (
-          bodyPlainText === 'Invalid authentication: this server requires the use of blinded ids'
-        ) {
+        if (bodyPlainText === invalidAuthRequiresBlinding) {
           await fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl(this.serverUrl);
           throw new Error('batchPollResults just detected switch to blinded enforced.');
         }
