@@ -29,6 +29,7 @@ export type OpenGroupMessageV4 = {
   posted: number;
   id: number;
   data: string;
+  deleted: boolean;
 };
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
