@@ -28,6 +28,9 @@ describe('filterAndSortConversationsByRecent', () => {
       e164: '+16505559876',
       activeAt: 2,
     }),
+    getDefaultConversation({
+      title: 'A long title ending with burrito',
+    }),
   ];
 
   it('sorts by recency when no search term is provided', () => {
@@ -42,6 +45,16 @@ describe('filterAndSortConversationsByRecent', () => {
       'Boxing Club',
       'Abraham Lincoln',
       'Not recent',
+      'A long title ending with burrito',
     ]);
+  });
+
+  it('finds a conversation when the search term is at the end of a long title', () => {
+    const titles = filterAndSortConversationsByRecent(
+      conversations,
+      'burrito',
+      'US'
+    ).map(convo => convo.title);
+    assert.deepEqual(titles, ['A long title ending with burrito']);
   });
 });

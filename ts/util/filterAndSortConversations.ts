@@ -19,6 +19,9 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
   useExtendedSearch: true,
   // We sort manually anyway
   shouldSort: true,
+  // the default of 100 is not enough to catch a word at the end of a convo/group title
+  // 150 is about right
+  distance: 150,
   keys: [
     {
       name: 'searchableTitle',
