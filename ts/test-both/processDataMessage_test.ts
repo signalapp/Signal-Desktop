@@ -299,6 +299,7 @@ describe('processDataMessage', () => {
         packId: new Uint8Array([1, 2, 3]),
         packKey: new Uint8Array([4, 5, 6]),
         stickerId: 1,
+        emoji: '💯',
         data: UNPROCESSED_ATTACHMENT,
       },
     });
@@ -307,6 +308,7 @@ describe('processDataMessage', () => {
       packId: '010203',
       packKey: 'BAUG',
       stickerId: 1,
+      emoji: '💯',
       data: PROCESSED_ATTACHMENT,
     });
   });

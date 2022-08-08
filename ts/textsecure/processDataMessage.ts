@@ -212,6 +212,7 @@ export function processSticker(
     packId: sticker.packId ? Bytes.toHex(sticker.packId) : undefined,
     packKey: sticker.packKey ? Bytes.toBase64(sticker.packKey) : undefined,
     stickerId: dropNull(sticker.stickerId),
+    emoji: dropNull(sticker.emoji),
     data: processAttachment(sticker.data),
   };
 }

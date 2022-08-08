@@ -184,10 +184,17 @@ window.encryptAndUpload = async (
 
     return s;
   });
-  const coverSticker = new Proto.StickerPack.Sticker();
-  coverSticker.id =
+
+  const coverStickerId =
     uniqueStickers.length === stickers.length ? 0 : uniqueStickers.length - 1;
-  coverSticker.emoji = '';
+  const coverStickerData = stickers[coverStickerId];
+  const coverSticker = new Proto.StickerPack.Sticker();
+  coverSticker.id = coverStickerId;
+  if (coverStickerData.emoji) {
+    coverSticker.emoji = coverStickerData.emoji;
+  } else {
+    coverSticker.emoji = '';
+  }
   manifestProto.cover = coverSticker;
 
   const encryptedManifest = await encrypt(

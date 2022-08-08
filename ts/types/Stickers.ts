@@ -449,6 +449,12 @@ export async function downloadEphemeralPack(
       proto.stickers,
       sticker => !isNumber(sticker.id) || sticker.id === coverStickerId
     );
+    const coverSticker = proto.stickers.filter(
+      sticker => isNumber(sticker.id) && sticker.id === coverStickerId
+    );
+    if (coverSticker[0] && !coverProto.emoji) {
+      coverProto.emoji = coverSticker[0].emoji;
+    }
 
     const coverIncludedInList = nonCoverStickers.length < stickerCount;
 
@@ -652,6 +658,12 @@ async function doDownloadStickerPack(
       proto.stickers,
       sticker => !isNumber(sticker.id) || sticker.id === coverStickerId
     );
+    const coverSticker = proto.stickers.filter(
+      sticker => isNumber(sticker.id) && sticker.id === coverStickerId
+    );
+    if (coverSticker[0] && !coverProto.emoji) {
+      coverProto.emoji = coverSticker[0].emoji;
+    }
 
     coverIncludedInList = nonCoverStickers.length < stickerCount;
 

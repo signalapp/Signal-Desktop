@@ -731,11 +731,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const stickerData = this.get('sticker');
     if (stickerData) {
-      const sticker = Stickers.getSticker(
-        stickerData.packId,
-        stickerData.stickerId
-      );
-      const { emoji } = sticker || {};
+      const emoji =
+        Stickers.getSticker(stickerData.packId, stickerData.stickerId)?.emoji ||
+        stickerData?.emoji;
+
       if (!emoji) {
         log.warn('Unable to get emoji for sticker');
       }

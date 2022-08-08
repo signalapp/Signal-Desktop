@@ -171,6 +171,7 @@ export type ProcessedSticker = {
   packId?: string;
   packKey?: string;
   stickerId?: number;
+  emoji?: string;
   data?: ProcessedAttachment;
 };
 
