@@ -143,8 +143,9 @@ const handleSogsV3DeletedMessages = async (
   serverUrl: string,
   roomId: string
 ) => {
-  const deletions = messages.filter(m => m.data === null);
-  const exceptDeletion = messages.filter(m => m.data !== null);
+  // FIXME those 2 `m.data === null` test should be removed when we add support for emoji-reacts
+  const deletions = messages.filter(m => Boolean(m.deleted) || m.data === null);
+  const exceptDeletion = messages.filter(m => !m.deleted && !m.data === null);
   if (!deletions.length) {
     return messages;
   }
