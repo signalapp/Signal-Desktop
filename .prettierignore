@@ -26,3 +26,4 @@ playwright.config.js
 release/**
 .nyc_output/
 coverage/
+stylesheets/dist/**

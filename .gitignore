@@ -47,3 +47,4 @@ test-results/
 
 .nyc_output
 coverage/
+stylesheets/dist/
