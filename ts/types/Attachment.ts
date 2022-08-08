@@ -1001,7 +1001,7 @@ export const getSuggestedFilename = ({
   index?: number;
 }): string => {
   const { fileName } = attachment;
-  if (fileName) {
+  if (fileName && (!isNumber(index) || index === 1)) {
     return fileName;
   }
 
