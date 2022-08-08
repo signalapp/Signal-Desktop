@@ -1,4 +1,4 @@
-import { default as insecureNodeFetch, RequestInit } from 'node-fetch';
+import { default as insecureNodeFetch, RequestInit, Response } from 'node-fetch';
 import https from 'https';
 
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
@@ -7,15 +7,17 @@ import { OnionPaths } from '../../onions';
 import { toHex } from '../../utils/String';
 import pRetry from 'p-retry';
 import { ed25519Str, incrementBadPathCountOrDrop } from '../../onions/onionPath';
-import _ from 'lodash';
+import { cloneDeep, isEmpty, isString, omit } from 'lodash';
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
 let snodeFailureCount: Record<string, number> = {};
 
 import { Snode } from '../../../data/data';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
-import { Onions } from '.';
-import { hrefPnServerDev, hrefPnServerProd } from '../push_notification_api/PnServer';
+import { hrefPnServerProd } from '../push_notification_api/PnServer';
 import { callUtilsWorker } from '../../../webworker/workers/util_worker_interface';
+import { encodeV4Request } from '../../onions/onionv4';
+import { AbortSignal } from 'abort-controller';
+import { to_string } from 'libsodium-wrappers-sumo';
 
 export const resetSnodeFailureCount = () => {
   snodeFailureCount = {};
@@ -33,8 +35,15 @@ export const OXEN_SERVER_ERROR = 'Oxen Server error';
  * But if the request reaches the destination node and it fails to process the request (bad node for this pubkey), you will get a 200 on the request itself, but the json you get will contain the real status.
  */
 export interface SnodeResponse {
+  bodyBinary: Uint8Array | null;
   body: string;
-  status: number;
+  status?: number;
+}
+
+// v4 onion request have a weird string and binary content, so better get it as binary to extract just the string part
+export interface SnodeResponseV4 {
+  bodyBinary: Uint8Array | null;
+  status?: number;
 }
 
 export const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
@@ -44,13 +53,30 @@ export const ERROR_421_HANDLED_RETRY_REQUEST =
 export const CLOCK_OUT_OF_SYNC_MESSAGE_ERROR =
   'Your clock is out of sync with the network. Check your clock.';
 
+export type EncodeV4OnionRequestInfos = {
+  headers: Record<string, any> | null | undefined;
+  body?: string | Uint8Array | null;
+  method: string;
+  endpoint: string;
+};
+
+async function encryptOnionV4RequestForPubkey(
+  pubKeyX25519hex: string,
+  requestInfo: EncodeV4OnionRequestInfos
+) {
+  const plaintext = encodeV4Request(requestInfo);
+
+  return callUtilsWorker('encryptForPubkey', pubKeyX25519hex, plaintext) as Promise<
+    DestinationContext
+  >;
+}
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
-async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<DestinationContext> {
-  const reqStr = JSON.stringify(reqObj);
-
-  const textEncoder = new TextEncoder();
-  const plaintext = textEncoder.encode(reqStr);
+async function encryptForPubKey(
+  pubKeyX25519hex: string,
+  requestInfo: any
+): Promise<DestinationContext> {
+  const plaintext = new TextEncoder().encode(JSON.stringify(requestInfo));
 
   return callUtilsWorker('encryptForPubkey', pubKeyX25519hex, plaintext) as Promise<
     DestinationContext
@@ -109,6 +135,7 @@ function encodeCiphertextPlusJson(
 async function buildOnionCtxs(
   nodePath: Array<Snode>,
   destCtx: DestinationContext,
+  useV4: boolean,
   targetED25519Hex?: string,
   finalRelayOptions?: FinalRelayOptions
 ) {
@@ -124,20 +151,14 @@ async function buildOnionCtxs(
     const relayingToFinalDestination = i === firstPos; // if last position
 
     if (relayingToFinalDestination && finalRelayOptions) {
-      let target = '/loki/v2/lsrpc';
-
-      const isCallToPn =
-        finalRelayOptions?.host === hrefPnServerDev || finalRelayOptions?.host === hrefPnServerProd;
-      if (!isCallToPn) {
-        target = '/loki/v3/lsrpc';
-      }
+      const isCallToPn = finalRelayOptions?.host === hrefPnServerProd;
+      const target = !isCallToPn && !useV4 ? '/loki/v3/lsrpc' : '/oxen/v4/lsrpc';
 
       dest = {
         host: finalRelayOptions.host,
         target,
         method: 'POST',
       };
-      // FIXME http open groups v2 are not working
       // tslint:disable-next-line: no-http-string
       if (finalRelayOptions?.protocol === 'http') {
         dest.protocol = finalRelayOptions.protocol;
@@ -185,10 +206,11 @@ async function buildOnionCtxs(
 async function buildOnionGuardNodePayload(
   nodePath: Array<Snode>,
   destCtx: DestinationContext,
+  useV4: boolean,
   targetED25519Hex?: string,
   finalRelayOptions?: FinalRelayOptions
 ) {
-  const ctxes = await buildOnionCtxs(nodePath, destCtx, targetED25519Hex, finalRelayOptions);
+  const ctxes = await buildOnionCtxs(nodePath, destCtx, useV4, targetED25519Hex, finalRelayOptions);
 
   // this is the OUTER side of the onion, the one encoded with multiple layer
   // So the one we will send to the first guard node.
@@ -205,9 +227,10 @@ async function buildOnionGuardNodePayload(
 
 /**
  * 406 is a clock out of sync error
+ * 425 is the new 406 (too-early status code)
  */
-function process406Error(statusCode: number) {
-  if (statusCode === 406) {
+function process406Or425Error(statusCode: number) {
+  if (statusCode === 406 || statusCode === 425) {
     // clock out of sync
     // this will make the pRetry stop
     throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
@@ -228,11 +251,11 @@ async function process421Error(
   statusCode: number,
   body: string,
   associatedWith?: string,
-  lsrpcEd25519Key?: string
+  destinationSnodeEd25519?: string
 ) {
   if (statusCode === 421) {
     await handle421InvalidSwarm({
-      snodeEd25519: lsrpcEd25519Key,
+      destinationSnodeEd25519,
       body,
       associatedWith,
     });
@@ -248,12 +271,12 @@ async function process421Error(
 async function processOnionRequestErrorAtDestination({
   statusCode,
   body,
-  destinationEd25519,
+  destinationSnodeEd25519,
   associatedWith,
 }: {
   statusCode: number;
   body: string;
-  destinationEd25519?: string;
+  destinationSnodeEd25519?: string;
   associatedWith?: string;
 }) {
   if (statusCode === 200) {
@@ -263,11 +286,16 @@ async function processOnionRequestErrorAtDestination({
     `processOnionRequestErrorAtDestination. statusCode nok: ${statusCode}: "${body}"`
   );
 
-  process406Error(statusCode);
-  await process421Error(statusCode, body, associatedWith, destinationEd25519);
+  process406Or425Error(statusCode);
+  await process421Error(statusCode, body, associatedWith, destinationSnodeEd25519);
   processOxenServerError(statusCode, body);
-  if (destinationEd25519) {
-    await processAnyOtherErrorAtDestination(statusCode, body, destinationEd25519, associatedWith);
+  if (destinationSnodeEd25519) {
+    await processAnyOtherErrorAtDestination(
+      statusCode,
+      body,
+      destinationSnodeEd25519,
+      associatedWith
+    );
   }
 }
 
@@ -360,17 +388,33 @@ async function processAnyOtherErrorAtDestination(
 
 async function processOnionRequestErrorOnPath(
   httpStatusCode: number, // this is the one on the response object, not inside the json response
-  ciphertext: string,
+  ciphertext: string | ArrayBuffer,
   guardNodeEd25519: string,
-  lsrpcEd25519Key?: string,
+  destinationEd25519Key?: string,
   associatedWith?: string
 ) {
-  if (httpStatusCode !== 200) {
-    window?.log?.warn('errorONpath:', ciphertext);
+  let cipherAsString: string = '';
+  if (isString(ciphertext)) {
+    cipherAsString = ciphertext;
+  } else {
+    try {
+      cipherAsString = to_string(new Uint8Array(ciphertext));
+    } catch (e) {
+      // we might actually end up often in this case here often (for all calls to a non snode, so with onionv4 we will get binary data, and the to_string above won't work as it has a custom onion v4 encoding)
+      cipherAsString = '';
+    }
   }
-  process406Error(httpStatusCode);
-  await process421Error(httpStatusCode, ciphertext, associatedWith, lsrpcEd25519Key);
-  await processAnyOtherErrorOnPath(httpStatusCode, guardNodeEd25519, ciphertext, associatedWith);
+  if (httpStatusCode !== 200) {
+    window?.log?.warn('processOnionRequestErrorOnPath:', ciphertext);
+  }
+  process406Or425Error(httpStatusCode);
+  await process421Error(httpStatusCode, cipherAsString, associatedWith, destinationEd25519Key);
+  await processAnyOtherErrorOnPath(
+    httpStatusCode,
+    guardNodeEd25519,
+    cipherAsString,
+    associatedWith
+  );
 }
 
 function processAbortedRequest(abortSignal?: AbortSignal) {
@@ -386,7 +430,14 @@ const debug = false;
 /**
  * Only exported for testing purpose
  */
-export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: string) {
+async function decodeOnionResult(
+  symmetricKey: ArrayBuffer,
+  ciphertext: string
+): Promise<{
+  ciphertextBuffer: Uint8Array;
+  plaintext: string;
+  plaintextBuffer: ArrayBuffer;
+}> {
   let parsedCiphertext = ciphertext;
   try {
     const jsonRes = JSON.parse(ciphertext);
@@ -402,25 +453,34 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
     new Uint8Array(ciphertextBuffer)
   )) as ArrayBuffer;
 
-  return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
+  return {
+    ciphertextBuffer,
+    plaintext: new TextDecoder().decode(plaintextBuffer),
+    plaintextBuffer,
+  };
 }
 
-const STATUS_NO_STATUS = 8888;
+export const STATUS_NO_STATUS = 8888;
+
 /**
- * Only exported for testing purpose
+ *
+ * Process a non v4 onion request and throw the corresponding errors if needed, depending on the status code or the content of the body.
+ *
+ * This function will handle dropping a snode from the swarm, the snode list and the path if it believes it needs to be dropped, and just increment the failure, etc.
+ * Note: Only exported for testing purpose
  */
-export async function processOnionResponse({
+async function processOnionResponse({
   response,
   symmetricKey,
   guardNode,
   abortSignal,
   associatedWith,
-  lsrpcEd25519Key,
+  destinationSnodeEd25519,
 }: {
   response?: { text: () => Promise<string>; status: number };
   symmetricKey?: ArrayBuffer;
   guardNode: Snode;
-  lsrpcEd25519Key?: string;
+  destinationSnodeEd25519?: string;
   abortSignal?: AbortSignal;
   associatedWith?: string;
 }): Promise<SnodeResponse> {
@@ -438,7 +498,7 @@ export async function processOnionResponse({
     response?.status || STATUS_NO_STATUS,
     ciphertext,
     guardNode.pubkey_ed25519,
-    lsrpcEd25519Key,
+    destinationSnodeEd25519,
     associatedWith
   );
 
@@ -453,7 +513,10 @@ export async function processOnionResponse({
   let ciphertextBuffer;
 
   try {
-    const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext);
+    if (!symmetricKey) {
+      throw new Error('Decoding onion requests needs a symmetricKey');
+    }
+    const decoded = await Onions.decodeOnionResult(symmetricKey, ciphertext);
 
     plaintext = decoded.plaintext;
     ciphertextBuffer = decoded.ciphertextBuffer;
@@ -487,10 +550,11 @@ export async function processOnionResponse({
     }) as Record<string, any>;
 
     const status = jsonRes.status_code || jsonRes.status;
+
     await processOnionRequestErrorAtDestination({
       statusCode: status,
-      body: jsonRes?.body, // this is really important. the `.body`. the .body should be a string. for isntance for nodeNotFound but is most likely a dict (Record<string,any>))
-      destinationEd25519: lsrpcEd25519Key,
+      body: jsonRes?.body, // this is really important. the `.body`. the .body should be a string. for instance for nodeNotFound but is most likely a dict (Record<string,any>))
+      destinationSnodeEd25519,
       associatedWith,
     });
 
@@ -503,10 +567,72 @@ export async function processOnionResponse({
   }
 }
 
+async function processOnionResponseV4({
+  response,
+  symmetricKey,
+  abortSignal,
+  guardNode,
+  destinationSnodeEd25519,
+  associatedWith,
+}: {
+  response?: Response;
+  symmetricKey?: ArrayBuffer;
+  guardNode: Snode;
+  destinationSnodeEd25519?: string;
+  abortSignal?: AbortSignal;
+  associatedWith?: string;
+}): Promise<SnodeResponseV4 | undefined> {
+  processAbortedRequest(abortSignal);
+
+  if (!symmetricKey) {
+    window?.log?.error('No symmetric key to decode response.');
+    return undefined;
+  }
+  const cipherText = (await response?.arrayBuffer()) || new ArrayBuffer(0);
+
+  if (!cipherText) {
+    window?.log?.warn(
+      '[path] sessionRpc::processOnionResponseV4 - Target node/path return empty ciphertext'
+    );
+    throw new Error('Target node return empty ciphertext');
+  }
+
+  // before trying to decrypt the message with the symmetric key,
+  // we have to make sure the content is not a path error.
+  // This is because an error on path won't be encrypted with our symmetric key at all, but we still need to take care of it.
+  await processOnionRequestErrorOnPath(
+    response?.status || STATUS_NO_STATUS,
+    cipherText,
+    guardNode.pubkey_ed25519,
+    destinationSnodeEd25519,
+    associatedWith
+  );
+
+  const plaintextBuffer = await callUtilsWorker(
+    'DecryptAESGCM',
+    new Uint8Array(symmetricKey),
+    new Uint8Array(cipherText)
+  );
+
+  const bodyBinary: Uint8Array = new Uint8Array(plaintextBuffer);
+
+  // Handling of the status code of the destination is done on the calling function, because the content of the onion response needs first to be decoded.
+  // Also, we actually do not care much about the status code of the destination here, because the destination cannot be a service node (we do not support onion v4 to a snode destination, only *through* them), so there is no rebuilding of the path for a destination case possible.
+
+  return {
+    bodyBinary,
+  };
+}
+
 export const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
+/**
+ * As far as I know, FinalRelayOptions is only used for contacting non service node. So PN server, opengroups, fileserver, etc.
+ * It contains the details the last service node of the onion path needs to use to contact who we need to contact.
+ * So things, like the ip/port and protocol of the opengroup server/fileserver/PN server.
+ */
 export type FinalRelayOptions = {
   host: string;
   protocol?: 'http' | 'https'; // default to https
@@ -521,20 +647,20 @@ export type DestinationContext = {
 
 /**
  * Handle a 421. The body is supposed to be the new swarm nodes for this publickey.
- * @param snodeEd25519 the snode gaving the reply
+ * @param destinationSnodeEd25519 the snode gaving the reply
  * @param body the new swarm not parsed. If an error happens while parsing this we will drop the snode.
  * @param associatedWith the specific publickey associated with this call
  */
 async function handle421InvalidSwarm({
   body,
-  snodeEd25519,
+  destinationSnodeEd25519,
   associatedWith,
 }: {
   body: string;
-  snodeEd25519?: string;
+  destinationSnodeEd25519?: string;
   associatedWith?: string;
 }) {
-  if (!snodeEd25519 || !associatedWith) {
+  if (!destinationSnodeEd25519 || !associatedWith) {
     // The snode isn't associated with the given public key anymore
     // this does not make much sense to have a 421 without a publicKey set.
     throw new Error('status 421 without a final destination or no associatedWith makes no sense');
@@ -556,7 +682,7 @@ async function handle421InvalidSwarm({
       throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
     }
     // remove this node from the swarm of this pubkey
-    await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+    await dropSnodeFromSwarmIfNeeded(associatedWith, destinationSnodeEd25519);
   } catch (e) {
     if (e.message !== ERROR_421_HANDLED_RETRY_REQUEST) {
       window?.log?.warn(
@@ -564,10 +690,13 @@ async function handle421InvalidSwarm({
         e
       );
       // could not parse result. Consider that this snode as invalid
-      await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+      await dropSnodeFromSwarmIfNeeded(associatedWith, destinationSnodeEd25519);
     }
   }
-  await Onions.incrementBadSnodeCountOrDrop({ snodeEd25519, associatedWith });
+  await Onions.incrementBadSnodeCountOrDrop({
+    snodeEd25519: destinationSnodeEd25519,
+    associatedWith,
+  });
 
   // this is important we throw so another retry is made and we exit the handling of that reponse
   throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
@@ -585,7 +714,7 @@ async function handle421InvalidSwarm({
  * @param associatedWith if set, we will drop this snode from the swarm of the pubkey too
  * @param isNodeNotFound if set, we will drop this snode right now as this is an invalid node for the network.
  */
-export async function incrementBadSnodeCountOrDrop({
+async function incrementBadSnodeCountOrDrop({
   snodeEd25519,
   associatedWith,
 }: {
@@ -620,68 +749,145 @@ export async function incrementBadSnodeCountOrDrop({
  * This call tries to send the request via onion. If we get a bad path, it handles the snode removing of the swarm and snode pool.
  * But the caller needs to handle the retry (and rebuild the path on his side if needed)
  */
-export const sendOnionRequestHandlingSnodeEject = async ({
-  destX25519Any,
+async function sendOnionRequestHandlingSnodeEject({
+  destSnodeX25519,
   finalDestOptions,
   nodePath,
   abortSignal,
   associatedWith,
   finalRelayOptions,
+  useV4,
+  throwErrors,
 }: {
   nodePath: Array<Snode>;
-  destX25519Any: string;
-  finalDestOptions: {
-    destination_ed25519_hex?: string;
-    headers?: Record<string, string>;
-    body?: string;
-  };
+  destSnodeX25519: string;
+  finalDestOptions: FinalDestOptions;
   finalRelayOptions?: FinalRelayOptions;
   abortSignal?: AbortSignal;
   associatedWith?: string;
-}): Promise<SnodeResponse> => {
-  // this sendOnionRequest() call has to be the only one like this.
+  useV4: boolean;
+  throwErrors: boolean;
+}): Promise<SnodeResponse | SnodeResponseV4 | undefined> {
+  // this sendOnionRequestNoRetries() call has to be the only one like this.
   // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
   let response;
   let decodingSymmetricKey;
   try {
-    // this might throw a timeout error
-    const result = await sendOnionRequest({
+    // this might throw
+    const result = await sendOnionRequestNoRetries({
       nodePath,
-      destX25519Any,
+      destSnodeX25519,
       finalDestOptions,
       finalRelayOptions,
       abortSignal,
+      useV4,
     });
-
     response = result.response;
     if (
-      !_.isEmpty(finalRelayOptions) &&
+      !isEmpty(finalRelayOptions) &&
       response.status === 502 &&
       response.statusText === 'Bad Gateway'
     ) {
-      // it's an opengroup server and his is not responding. Consider this as a ENETUNREACH
+      // it's an opengroup server and it is not responding. Consider this as a ENETUNREACH
       throw new pRetry.AbortError('ENETUNREACH');
     }
     decodingSymmetricKey = result.decodingSymmetricKey;
   } catch (e) {
-    window?.log?.warn('sendOnionRequest error message: ', e.message);
-    if (e.code === 'ENETUNREACH' || e.message === 'ENETUNREACH') {
+    window?.log?.warn('sendOnionRequestNoRetries error message: ', e.message);
+    if (e.code === 'ENETUNREACH' || e.message === 'ENETUNREACH' || throwErrors) {
       throw e;
     }
   }
-  // this call will handle the common onion failure logic.
+
+  const destinationSnodeEd25519 =
+    (isFinalDestinationSnode(finalDestOptions) && finalDestOptions?.destination_ed25519_hex) ||
+    undefined;
+
+  // those calls will handle the common onion failure logic.
   // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
-  const processed = await processOnionResponse({
+  if (useV4) {
+    return Onions.processOnionResponseV4({
+      response,
+      symmetricKey: decodingSymmetricKey,
+      guardNode: nodePath[0],
+      destinationSnodeEd25519,
+      abortSignal,
+      associatedWith,
+    });
+  }
+
+  return Onions.processOnionResponse({
     response,
     symmetricKey: decodingSymmetricKey,
     guardNode: nodePath[0],
-    lsrpcEd25519Key: finalDestOptions?.destination_ed25519_hex,
+    destinationSnodeEd25519,
     abortSignal,
     associatedWith,
   });
+}
 
-  return processed;
+function throwIfInvalidV4RequestInfos(request: FinalDestOptions): EncodeV4OnionRequestInfos {
+  if (isFinalDestinationSnode(request)) {
+    // a snode request cannot be v4 currently as they do not support it
+    throw new Error('v4onion request needs endpoint pubkey and method at least');
+  }
+
+  const { body, endpoint, headers, method } = request;
+
+  if (!endpoint || !method) {
+    throw new Error('v4onion request needs endpoint pubkey and method at least');
+  }
+
+  const requestInfos: EncodeV4OnionRequestInfos = {
+    endpoint,
+    headers,
+    method,
+    body,
+  };
+
+  return requestInfos;
+}
+
+/**
+ * For a snode request, the body already contains the method and the args with our custom formatting in json
+ */
+export type FinalDestSnodeOptions = {
+  destination_ed25519_hex: string;
+  headers?: Record<string, string>;
+  body: string | null;
 };
+
+/**
+ * For a non snode request (so fileserver or sogs), the body can be binary (for an upload of a file or a string) but we also need a method, endpoint and headers
+ */
+export type FinalDestNonSnodeOptions = {
+  headers: Record<string, string | number>;
+  body: string | null | Uint8Array;
+  method: string;
+  endpoint: string;
+};
+
+export type FinalDestOptions = FinalDestSnodeOptions | FinalDestNonSnodeOptions;
+
+/**
+ * Typescript guard to be used to separate between a snode destination options and a non snode one.
+ *
+ * A non snode destination needs a `.method` to be set
+ */
+function isFinalDestinationNonSnode(
+  options: FinalDestOptions
+): options is FinalDestNonSnodeOptions {
+  return (options as any).method !== undefined;
+}
+
+/**
+ * Typescript guard to be used to separate between a snode destination options and a non snode one.
+ *
+ * A snode destination request needs a `.destination_ed25519_hex` to be set
+ */
+function isFinalDestinationSnode(options: FinalDestOptions): options is FinalDestSnodeOptions {
+  return (options as any).destination_ed25519_hex !== undefined;
+}
 
 /**
  *
@@ -689,91 +895,106 @@ export const sendOnionRequestHandlingSnodeEject = async ({
  * Sender -> 1 -> 2 -> 3 -> Receiver
  * 1, 2, 3 = onion Snodes
  *
+ * This function does not retry, and is not meant to be used directly.
+ *
  *
  * @param nodePath the onion path to use to send the request
- * @param finalDestOptions those are the options for the request from 3 to R. It contains for instance the payload and headers.
- * @param finalRelayOptions  those are the options 3 will use to make a request to R. It contains for instance the host to make the request to
+ * @param finalDestOptions those are the options for the request from 3 to Receiver. It contains for instance the payload and headers.
+ * @param finalRelayOptions  those are the options 3 will use to make a request to R. It contains the host and port to make the request to, if the target is not a snode
  */
-const sendOnionRequest = async ({
+const sendOnionRequestNoRetries = async ({
   nodePath,
-  destX25519Any,
-  finalDestOptions,
+  destSnodeX25519: destX25519hex,
+  finalDestOptions: finalDestOptionsOri,
   finalRelayOptions,
   abortSignal,
+  useV4,
 }: {
   nodePath: Array<Snode>;
-  destX25519Any: string;
-  finalDestOptions: {
-    destination_ed25519_hex?: string;
-    headers?: Record<string, string>;
-    body?: string;
-  };
-  finalRelayOptions?: FinalRelayOptions;
+  destSnodeX25519: string;
+  finalDestOptions: FinalDestOptions;
+  finalRelayOptions?: FinalRelayOptions; // use only when the target is not a snode
   abortSignal?: AbortSignal;
+  useV4: boolean;
 }) => {
-  // get destination pubkey in array buffer format
-  let destX25519hex = destX25519Any;
-
-  // Warning be sure to do a copy otherwise the delete below creates issue with retries
-  const copyFinalDestOptions = _.cloneDeep(finalDestOptions);
+  // Warning: be sure to do a copy otherwise the delete below creates issue with retries
+  // we want to forward the destination_ed25519_hex explicitly so remove it from the copy directly
+  const finalDestOptions = cloneDeep(omit(finalDestOptionsOri, ['destination_ed25519_hex']));
   if (typeof destX25519hex !== 'string') {
-    // convert AB to hex
     window?.log?.warn('destX25519hex was not a string');
-    destX25519hex = toHex(destX25519Any as any);
+    throw new Error('sendOnionRequestNoRetries: destX25519hex was not a string');
   }
 
-  // safely build destination
-  let targetEd25519hex;
+  finalDestOptions.headers = finalDestOptions.headers || {};
 
-  if (copyFinalDestOptions.destination_ed25519_hex) {
-    // snode destination
-    targetEd25519hex = copyFinalDestOptions.destination_ed25519_hex;
-    // eslint-disable-next-line no-param-reassign
-    delete copyFinalDestOptions.destination_ed25519_hex;
-  }
-
-  const options = copyFinalDestOptions; // lint
-  // do we need this?
-  options.headers = options.headers || {};
-
-  const isLsrpc = !!finalRelayOptions;
+  // finalRelayOptions is set only if we try to communicate with something else than a service node as end target of the request.
+  // so if that field is set, we are trying to communicate with a file server or an opengroup or whatever,
+  // and if that field is not set, we are trying to communicate with a service node (for a retrieve/send/whatever request)
+  const isRequestToSnode = !finalRelayOptions;
 
   let destCtx: DestinationContext;
   try {
-    if (!isLsrpc) {
-      const body = options.body || '';
-      delete options.body;
+    const bodyString = isString(finalDestOptions.body) ? finalDestOptions.body : null;
+    const bodyBinary =
+      !isString(finalDestOptions.body) && finalDestOptions.body ? finalDestOptions.body : null;
+    if (isRequestToSnode) {
+      if (useV4) {
+        throw new Error('snoderpc calls cannot be v4 for now.');
+      }
+      if (!isString(finalDestOptions.body)) {
+        window.log.warn(
+          'snoderpc calls should only take body as string: ',
+          typeof finalDestOptions.body
+        );
+        throw new Error('snoderpc calls should only take body as string.');
+      }
+      // delete finalDestOptions.body;
+      // not sure if that's strictly the same thing in this context
+      finalDestOptions.body = null;
 
       const textEncoder = new TextEncoder();
-      const bodyEncoded = textEncoder.encode(body);
+      const bodyEncoded = bodyString ? textEncoder.encode(bodyString) : bodyBinary;
+      if (!bodyEncoded) {
+        throw new Error('bodyEncoded is empty after encoding');
+      }
 
-      const plaintext = encodeCiphertextPlusJson(bodyEncoded, options);
+      // snode requests do not support v4 onion requests, sadly
       destCtx = (await callUtilsWorker(
         'encryptForPubkey',
         destX25519hex,
-        plaintext
+        encodeCiphertextPlusJson(bodyEncoded, finalDestOptions)
       )) as DestinationContext;
     } else {
-      destCtx = await encryptForPubKey(destX25519hex, options);
+      // request to something else than a snode, fileserver or a sogs, we do support v4 for those (and actually only for those for now)
+      destCtx = useV4
+        ? await encryptOnionV4RequestForPubkey(
+            destX25519hex,
+            throwIfInvalidV4RequestInfos(finalDestOptions)
+          )
+        : await encryptForPubKey(destX25519hex, finalDestOptions);
     }
   } catch (e) {
     window?.log?.error(
-      'loki_rpc::sendOnionRequest - encryptForPubKey failure [',
+      'sendOnionRequestNoRetries - encryptForPubKey failure [',
       e.code,
       e.message,
       '] destination X25519',
-      destX25519hex.substr(0, 32),
+      destX25519hex.substring(0, 32),
       '...',
-      destX25519hex.substr(32),
-      'options',
-      options
+      destX25519hex.substring(32)
     );
     throw e;
   }
 
+  // if a snode destination is set, use it
+  const targetEd25519hex =
+    (isFinalDestinationSnode(finalDestOptionsOri) && finalDestOptionsOri.destination_ed25519_hex) ||
+    undefined;
+
   const payload = await buildOnionGuardNodePayload(
     nodePath,
     destCtx,
+    useV4,
     targetEd25519hex,
     finalRelayOptions
   );
@@ -793,12 +1014,12 @@ const sendOnionRequest = async ({
   };
 
   if (abortSignal) {
-    guardFetchOptions.signal = abortSignal as any;
+    guardFetchOptions.signal = abortSignal;
   }
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
-  // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNode
-  // window?.log?.info('insecureNodeFetch => plaintext for sendOnionRequest');
+  // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNodes
+  // window?.log?.info('insecureNodeFetch => plaintext for sendOnionRequestNoRetries');
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
   return { response, decodingSymmetricKey: destCtx.symmetricKey };
@@ -807,34 +1028,41 @@ const sendOnionRequest = async ({
 async function sendOnionRequestSnodeDest(
   onionPath: Array<Snode>,
   targetNode: Snode,
-  plaintext?: string,
+  headers: Record<string, any>,
+
+  plaintext: string | null,
   associatedWith?: string
 ) {
-  return sendOnionRequestHandlingSnodeEject({
+  return Onions.sendOnionRequestHandlingSnodeEject({
     nodePath: onionPath,
-    destX25519Any: targetNode.pubkey_x25519,
+    destSnodeX25519: targetNode.pubkey_x25519,
     finalDestOptions: {
       destination_ed25519_hex: targetNode.pubkey_ed25519,
       body: plaintext,
+      headers,
     },
     associatedWith,
+    useV4: false, // sadly, request to snode do not support v4 yet
+    throwErrors: false,
   });
 }
 
-export function getPathString(pathObjArr: Array<{ ip: string; port: number }>): string {
+function getPathString(pathObjArr: Array<{ ip: string; port: number }>): string {
   return pathObjArr.map(node => `${node.ip}:${node.port}`).join(', ');
 }
 
 /**
  * If the fetch throws a retryable error we retry this call with a new path at most 3 times. If another error happens, we return it. If we have a result we just return it.
  */
-export async function lokiOnionFetch({
+async function lokiOnionFetch({
   targetNode,
   associatedWith,
   body,
+  headers,
 }: {
   targetNode: Snode;
-  body?: string;
+  headers: Record<string, any>;
+  body: string | null;
   associatedWith?: string;
 }): Promise<SnodeResponse | undefined> {
   try {
@@ -842,7 +1070,13 @@ export async function lokiOnionFetch({
       async () => {
         // Get a path excluding `targetNode`:
         const path = await OnionPaths.getOnionPath({ toExclude: targetNode });
-        const result = await sendOnionRequestSnodeDest(path, targetNode, body, associatedWith);
+        const result = await sendOnionRequestSnodeDest(
+          path,
+          targetNode,
+          headers,
+          body,
+          associatedWith
+        );
         return result;
       },
       {
@@ -857,7 +1091,7 @@ export async function lokiOnionFetch({
       }
     );
 
-    return retriedResult;
+    return retriedResult as SnodeResponse | undefined;
   } catch (e) {
     window?.log?.warn('onionFetchRetryable failed ', e.message);
     if (e?.errno === 'ENETUNREACH') {
@@ -871,3 +1105,16 @@ export async function lokiOnionFetch({
     throw e;
   }
 }
+
+export const Onions = {
+  sendOnionRequestHandlingSnodeEject,
+  incrementBadSnodeCountOrDrop,
+  decodeOnionResult,
+  lokiOnionFetch,
+  getPathString,
+  sendOnionRequestSnodeDest,
+  processOnionResponse,
+  processOnionResponseV4,
+  isFinalDestinationSnode,
+  isFinalDestinationNonSnode,
+};

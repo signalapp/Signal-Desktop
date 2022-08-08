@@ -5,12 +5,12 @@ import { getEnvelopeId } from './common';
 
 import { PubKey } from '../session/types';
 import { handleMessageJob, toRegularMessage } from './queuedJob';
-import _ from 'lodash';
+import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
-import { getMessageBySenderAndSentAt } from '../../ts/data/data';
-import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { Data } from '../../ts/data/data';
+import { ConversationModel } from '../models/conversation';
 
 import {
   createSwarmMessageSentFromNotUs,
@@ -20,10 +20,11 @@ import { MessageModel } from '../models/message';
 import { isUsFromCache } from '../session/utils/User';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
 
 function cleanAttachment(attachment: any) {
   return {
-    ..._.omit(attachment, 'thumbnail'),
+    ...omit(attachment, 'thumbnail'),
     id: attachment.id.toString(),
     key: attachment.key ? StringUtils.decode(attachment.key, 'base64') : null,
     digest:
@@ -38,10 +39,9 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
 
   // Here we go from binary to string/base64 in all AttachmentPointer digest/key fields
 
-  if (group && group.type === SignalService.GroupContext.Type.UPDATE) {
-    if (group.avatar !== null) {
-      group.avatar = cleanAttachment(group.avatar);
-    }
+  // we do not care about group.avatar on Session
+  if (group && group.avatar !== null) {
+    group.avatar = null;
   }
 
   decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment);
@@ -60,7 +60,7 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
 
   if (quote) {
     if (quote.id) {
-      quote.id = _.toNumber(quote.id);
+      quote.id = toNumber(quote.id);
     }
 
     quote.attachments = (quote.attachments || []).map((item: any) => {
@@ -85,21 +85,21 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
     !flags &&
     // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
     isBodyEmpty(body) &&
-    _.isEmpty(attachments) &&
-    _.isEmpty(group) &&
-    _.isEmpty(quote) &&
-    _.isEmpty(preview) &&
-    _.isEmpty(openGroupInvitation)
+    isEmpty(attachments) &&
+    isEmpty(group) &&
+    isEmpty(quote) &&
+    isEmpty(preview) &&
+    isEmpty(openGroupInvitation)
   );
 }
 
 function isBodyEmpty(body: string) {
-  return _.isEmpty(body);
+  return isEmpty(body);
 }
 
-async function cleanIncomingDataMessage(
-  envelope: EnvelopePlus,
-  rawDataMessage: SignalService.DataMessage
+export function cleanIncomingDataMessage(
+  rawDataMessage: SignalService.DataMessage,
+  envelope?: EnvelopePlus
 ) {
   /* tslint:disable:no-bitwise */
   const FLAGS = SignalService.DataMessage.Flags;
@@ -125,7 +125,6 @@ async function cleanIncomingDataMessage(
   const attachmentCount = rawDataMessage?.attachments?.length || 0;
   const ATTACHMENT_MAX = 32;
   if (attachmentCount > ATTACHMENT_MAX) {
-    await removeFromCache(envelope);
     throw new Error(
       `Too many attachments: ${attachmentCount} included in one message, max is ${ATTACHMENT_MAX}`
     );
@@ -133,7 +132,7 @@ async function cleanIncomingDataMessage(
   cleanAttachments(rawDataMessage);
 
   // if the decrypted dataMessage timestamp is not set, copy the one from the envelope
-  if (!_.isFinite(rawDataMessage?.timestamp)) {
+  if (!isFinite(rawDataMessage?.timestamp) && envelope) {
     rawDataMessage.timestamp = envelope.timestamp;
   }
 
@@ -161,7 +160,7 @@ export async function handleSwarmDataMessage(
 ): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
-  const cleanDataMessage = await cleanIncomingDataMessage(envelope, rawDataMessage);
+  const cleanDataMessage = cleanIncomingDataMessage(rawDataMessage, envelope);
   // we handle group updates from our other devices in handleClosedGroupControlMessage()
   if (cleanDataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
@@ -262,7 +261,7 @@ export async function isSwarmMessageDuplicate({
   sentAt: number;
 }) {
   try {
-    const result = await getMessageBySenderAndSentAt({
+    const result = await Data.getMessageBySenderAndSentAt({
       source,
       sentAt,
     });
@@ -274,7 +273,23 @@ export async function isSwarmMessageDuplicate({
   }
 }
 
-// tslint:disable:cyclomatic-complexity max-func-body-length */
+export async function handleOutboxMessageModel(
+  msgModel: MessageModel,
+  messageHash: string,
+  sentAt: number,
+  rawDataMessage: SignalService.DataMessage,
+  convoToAddMessageTo: ConversationModel
+) {
+  return handleSwarmMessage(
+    msgModel,
+    messageHash,
+    sentAt,
+    rawDataMessage,
+    convoToAddMessageTo,
+    noop
+  );
+}
+
 async function handleSwarmMessage(
   msgModel: MessageModel,
   messageHash: string,

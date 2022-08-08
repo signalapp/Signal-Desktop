@@ -35,9 +35,7 @@ export const MessageAuthorText = (props: Props) => {
     return null;
   }
 
-  const shortenedPubkey = PubKey.shorten(sender);
-
-  const displayedPubkey = authorProfileName ? shortenedPubkey : sender;
+  const displayedPubkey = authorProfileName ? PubKey.shorten(sender) : sender;
 
   return (
     <Flex container={true}>

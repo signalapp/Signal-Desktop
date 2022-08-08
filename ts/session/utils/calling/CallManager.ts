@@ -23,7 +23,7 @@ import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
 import { MessageSender } from '../../sending';
 import { DURATION } from '../../constants';
-import { hasConversationOutgoingMessage } from '../../../data/data';
+import { Data } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
 import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
@@ -1027,7 +1027,7 @@ async function isUserApprovedOrWeSentAMessage(user: string) {
     return true;
   }
 
-  return hasConversationOutgoingMessage(user);
+  return Data.hasConversationOutgoingMessage(user);
 }
 
 export async function handleCallTypeOffer(
@@ -1043,6 +1043,7 @@ export async function handleCallTypeOffer(
     window.log.info('handling callMessage OFFER with uuid: ', remoteCallUUID);
 
     if (!getCallMediaPermissionsSettings()) {
+      // we still add it to the cache so if user toggles settings in the next 60 sec, he can still reply to it
       const cachedMsg = getCachedMessageFromCallMessage(callMessage, incomingOfferTimestamp);
       pushCallMessageToCallCache(sender, remoteCallUUID, cachedMsg);
 
@@ -1056,6 +1057,12 @@ export async function handleCallTypeOffer(
       pushCallMessageToCallCache(sender, remoteCallUUID, cachedMsg);
 
       await handleMissedCall(sender, incomingOfferTimestamp, 'not-approved');
+      return;
+    }
+
+    // if the offer is more than the call timeout, don't try to handle it (as the sender would have already closed it)
+    if (incomingOfferTimestamp <= Date.now() - callTimeoutMs) {
+      await handleMissedCall(sender, incomingOfferTimestamp, 'too-old-timestamp');
       return;
     }
 
@@ -1124,13 +1131,13 @@ export async function handleCallTypeOffer(
 export async function handleMissedCall(
   sender: string,
   incomingOfferTimestamp: number,
-  reason: 'not-approved' | 'permissions' | 'another-call-ongoing'
+  reason: 'not-approved' | 'permissions' | 'another-call-ongoing' | 'too-old-timestamp'
 ) {
   const incomingCallConversation = getConversationController().get(sender);
 
   const displayname =
     incomingCallConversation?.getNickname() ||
-    incomingCallConversation?.getProfileName() ||
+    incomingCallConversation?.getRealSessionUsername() ||
     'Unknown';
 
   switch (reason) {
@@ -1142,6 +1149,9 @@ export async function handleMissedCall(
       break;
     case 'not-approved':
       ToastUtils.pushedMissedCallNotApproved(displayname);
+      break;
+    case 'too-old-timestamp':
+      //no toast for this case, the missed call notification is enough
       break;
     default:
   }

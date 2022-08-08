@@ -1,27 +1,42 @@
-import _, { noop } from 'lodash';
+import { noop } from 'lodash';
 import {
   createPublicMessageSentFromNotUs,
   createPublicMessageSentFromUs,
 } from '../models/messageFactory';
 import { SignalService } from '../protobuf';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { OpenGroupMessageV2 } from '../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { OpenGroupMessageV4 } from '../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getConversationController } from '../session/conversations';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromBase64ToArray } from '../session/utils/String';
+import { cleanIncomingDataMessage, isMessageEmpty } from './dataMessage';
 import { handleMessageJob, toRegularMessage } from './queuedJob';
 
-export async function handleOpenGroupV2Message(
-  message: OpenGroupMessageV2,
+export const handleOpenGroupV4Message = async (
+  message: OpenGroupMessageV4,
   roomInfos: OpenGroupRequestCommonType
-) {
-  const { base64EncodedData, sentTimestamp, sender, serverId } = message;
+) => {
+  const { data, id, posted, session_id } = message;
+
+  await handleOpenGroupMessage(roomInfos, data, posted, session_id, id);
+};
+
+/**
+ * Common checks and decoding that takes place for both v2 and v4 message types.
+ */
+const handleOpenGroupMessage = async (
+  roomInfos: OpenGroupRequestCommonType,
+  base64EncodedData: string,
+  sentTimestamp: number,
+  sender: string,
+  serverId: number
+) => {
   const { serverUrl, roomId } = roomInfos;
   if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
-    window?.log?.warn('Invalid data passed to handleOpenGroupV2Message.', message);
+    window?.log?.warn('Invalid data passed to handleOpenGroupV2Message.');
     return;
   }
 
@@ -45,6 +60,12 @@ export async function handleOpenGroupV2Message(
     return;
   }
 
+  if (isMessageEmpty(idataMessage as SignalService.DataMessage)) {
+    // empty message, drop it
+    window.log.info('received an empty message for sogs');
+    return;
+  }
+
   if (
     !getConversationController()
       .get(conversationId)
@@ -64,6 +85,7 @@ export async function handleOpenGroupV2Message(
   void groupConvo.queueJob(async () => {
     const isMe = UserUtils.isUsFromCache(sender);
 
+    // this timestamp has already been forced to ms by the handleMessagesResponseV4() function
     const commonAttributes = { serverTimestamp: sentTimestamp, serverId, conversationId };
     const attributesForNotUs = { ...commonAttributes, sender };
     // those lines just create an empty message only in-memory with some basic stuff set.
@@ -77,10 +99,10 @@ export async function handleOpenGroupV2Message(
     await handleMessageJob(
       msgModel,
       groupConvo,
-      toRegularMessage(decoded?.dataMessage as SignalService.DataMessage),
+      toRegularMessage(cleanIncomingDataMessage(decoded?.dataMessage as SignalService.DataMessage)),
       noop,
       sender,
       ''
     );
   });
-}
+};

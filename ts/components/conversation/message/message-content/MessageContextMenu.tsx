@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { animation, Item, Menu } from 'react-contexify';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getMessageById } from '../../../../data/data';
+import { Data } from '../../../../data/data';
 import { MessageInteraction } from '../../../../interactions';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
 import {
@@ -88,7 +88,7 @@ export const MessageContextMenu = (props: Props) => {
   }, []);
 
   const onShowDetail = async () => {
-    const found = await getMessageById(messageId);
+    const found = await Data.getMessageById(messageId);
     if (found) {
       const messageDetailsProps = await found.getPropsForMessageDetail();
       dispatch(showMessageDetailsView(messageDetailsProps));
@@ -149,7 +149,7 @@ export const MessageContextMenu = (props: Props) => {
   }, [text]);
 
   const onRetry = useCallback(async () => {
-    const found = await getMessageById(messageId);
+    const found = await Data.getMessageById(messageId);
     if (found) {
       await found.retrySend();
     }

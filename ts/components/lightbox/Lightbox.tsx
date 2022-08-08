@@ -107,6 +107,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     marginLeft: CONTROLS_SPACING,
+    justifyContent: 'space-between',
   } as React.CSSProperties,
   navigationContainer: {
     flexShrink: 0,
@@ -258,8 +259,7 @@ export const LightboxObject = ({
     return <Icon url={iconUrl} onClick={onObjectClick} />;
   }
 
-  // tslint:disable-next-line no-console
-  console.log('Lightbox: Unexpected content type', { contentType });
+  window.log.info('Lightbox: Unexpected content type', { contentType });
 
   return <Icon onClick={onObjectClick} url="images/file.svg" />;
 };
@@ -299,7 +299,7 @@ export const Lightbox = (props: Props) => {
           </div>
         </div>
         <div style={styles.controls as any}>
-          <Flex flex="1 1 auto">
+          <Flex container={true}>
             <IconButton
               type="close"
               onClick={() => {

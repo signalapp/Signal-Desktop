@@ -11,6 +11,7 @@ describe('DecryptedAttachmentsManager', () => {
     DecryptedAttachmentsManager.resetDecryptedUrlForTesting();
     TestUtils.stubWindowLog();
     Sinon.stub(DecryptedAttachmentsManager, 'getLocalAttachmentPath').returns('/local/attachment');
+    Sinon.stub(DecryptedAttachmentsManager, 'getAbsoluteAttachmentPath').returns;
   });
 
   afterEach(() => {
@@ -52,7 +53,7 @@ describe('DecryptedAttachmentsManager', () => {
         readFileContent = Sinon.stub(DecryptedAttachmentsManager, 'readFileContent').resolves(
           Buffer.from('this is a test')
         );
-        getItemById = TestUtils.stubDataItem('getItemById')
+        getItemById = TestUtils.stubData('getItemById')
           .withArgs('local_attachment_encrypted_key')
           .callsFake(async () => {
             return { value: 'dfdf' };

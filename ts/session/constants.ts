@@ -55,3 +55,6 @@ export const UI = {
     GREEN: '#00F782',
   },
 };
+
+// we keep 150 chars, because quoting someone with 66 hex chars need to be kept in full so we can render it in the quote with its name
+export const QUOTED_TEXT_MAX_LENGTH = 150;

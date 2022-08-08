@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { getSnodePoolFromSnodes, requestSnodesForPubkey } from './SNodeAPI';
 
-import * as Data from '../../../data/data';
+import { Data, Snode } from '../../../data/data';
 
 import pRetry from 'p-retry';
 import { ed25519Str } from '../../onions/onionPath';
@@ -34,7 +34,7 @@ export const minSnodePoolCountBeforeRefreshFromSnodes = minSnodePoolCount * 2;
  */
 export const requiredSnodesForAgreement = 24;
 
-let randomSnodePool: Array<Data.Snode> = [];
+let randomSnodePool: Array<Snode> = [];
 
 // tslint:disable-next-line: function-name
 export function TEST_resetState() {
@@ -68,7 +68,7 @@ export async function dropSnodeFromSnodePool(snodeEd25519: string) {
  * excludingEd25519Snode can be used to exclude some nodes from the random list.
  * Useful to rebuild a path excluding existing node already in a path
  */
-export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Promise<Data.Snode> {
+export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Promise<Snode> {
   // make sure we have a few snodes in the pool excluding the one passed as args
   const requiredCount = minSnodePoolCount + (excludingEd25519Snode?.length || 0);
   if (randomSnodePool.length < requiredCount) {
@@ -86,7 +86,7 @@ export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Pro
   }
   // We know the pool can't be empty at this point
   if (!excludingEd25519Snode) {
-    return _.sample(randomSnodePool) as Data.Snode;
+    return _.sample(randomSnodePool) as Snode;
   }
 
   // we have to double check even after removing the nodes to exclude we still have some nodes in the list
@@ -97,14 +97,14 @@ export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Pro
     // used for tests
     throw new Error(`Not enough snodes with excluding length ${excludingEd25519Snode.length}`);
   }
-  return _.sample(snodePoolExcluding) as Data.Snode;
+  return _.sample(snodePoolExcluding) as Snode;
 }
 
 /**
  * This function force the snode poll to be refreshed from a random seed node or snodes if we have enough of them.
  * This should be called once in a day or so for when the app it kept on.
  */
-export async function forceRefreshRandomSnodePool(): Promise<Array<Data.Snode>> {
+export async function forceRefreshRandomSnodePool(): Promise<Array<Snode>> {
   try {
     await getSnodePoolFromDBOrFetchFromSeed();
 
@@ -143,7 +143,7 @@ export async function forceRefreshRandomSnodePool(): Promise<Array<Data.Snode>> 
  */
 export async function getSnodePoolFromDBOrFetchFromSeed(
   countToAddToRequirement = 0
-): Promise<Array<Data.Snode>> {
+): Promise<Array<Snode>> {
   if (randomSnodePool && randomSnodePool.length > minSnodePoolCount + countToAddToRequirement) {
     return randomSnodePool;
   }
@@ -165,7 +165,7 @@ export async function getSnodePoolFromDBOrFetchFromSeed(
   return randomSnodePool;
 }
 
-export async function getRandomSnodePool(): Promise<Array<Data.Snode>> {
+export async function getRandomSnodePool(): Promise<Array<Snode>> {
   if (randomSnodePool.length <= minSnodePoolCount) {
     await getSnodePoolFromDBOrFetchFromSeed();
   }
@@ -270,8 +270,8 @@ export async function dropSnodeFromSwarmIfNeeded(
   await internalUpdateSwarmFor(pubkey, updatedSwarm);
 }
 
-export async function updateSwarmFor(pubkey: string, snodes: Array<Data.Snode>): Promise<void> {
-  const edkeys = snodes.map((sn: Data.Snode) => sn.pubkey_ed25519);
+export async function updateSwarmFor(pubkey: string, snodes: Array<Snode>): Promise<void> {
+  const edkeys = snodes.map((sn: Snode) => sn.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);
 }
 
@@ -300,14 +300,12 @@ export async function getSwarmFromCacheOrDb(pubkey: string): Promise<Array<strin
  * This call fetch from cache or db the swarm and extract only the one currently reachable.
  * If not enough snodes valid are in the swarm, if fetches new snodes for this pubkey from the network.
  */
-export async function getSwarmFor(pubkey: string): Promise<Array<Data.Snode>> {
+export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
   const nodes = await getSwarmFromCacheOrDb(pubkey);
 
   // See how many are actually still reachable
   // the nodes still reachable are the one still present in the snode pool
-  const goodNodes = randomSnodePool.filter(
-    (n: Data.Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1
-  );
+  const goodNodes = randomSnodePool.filter((n: Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1);
 
   if (goodNodes.length >= minSwarmSnodeCount) {
     return goodNodes;
@@ -316,7 +314,7 @@ export async function getSwarmFor(pubkey: string): Promise<Array<Data.Snode>> {
   // Request new node list from the network
   const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
 
-  const edkeys = freshNodes.map((n: Data.Snode) => n.pubkey_ed25519);
+  const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);
 
   return freshNodes;

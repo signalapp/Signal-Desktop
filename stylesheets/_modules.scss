@@ -289,16 +289,13 @@
 }
 
 .module-conversation-header__title-container {
-  flex-grow: 1;
-  flex-shrink: 1;
   min-width: 0;
   display: block;
   text-align: center;
+  flex-grow: 1;
 }
 
 .module-conversation-header__title-flex {
-  margin-inline-start: auto;
-  margin-inline-end: auto;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -1177,64 +1174,6 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-
-.module-caption-editor__bottom-bar {
-  flex-grow: 0;
-  flex-shrink: 0;
-  height: 52px;
-  width: 100%;
-  justify-content: center;
-
-  display: inline-flex;
-  flex-direction: row;
-
-  margin-inline-start: auto;
-  margin-inline-end: auto;
-}
-
-.module-caption-editor__input-container {
-  display: flex;
-
-  input::placeholder {
-    color: rgba(black, 0.6);
-  }
-
-  .session-input-with-label-container {
-    background-color: #fcfcfc;
-    color: black;
-
-    width: 30vw;
-    border-radius: 100px;
-    #session-input-floating-label {
-      padding: $session-margin-sm;
-      color: black;
-    }
-
-    label.session-input-with-label-container.filled {
-      visibility: hidden;
-    }
-
-    hr {
-      visibility: hidden;
-    }
-  }
-
-  .session-button {
-    height: 90%;
-    padding: 10px;
-  }
-}
-
-.module-caption-editor__caption-input {
-  height: 36px;
-  font-size: 14px;
-
-  border-radius: 18px;
-  padding: 9px;
-  padding-inline-start: 12px;
-  padding-inline-end: 65px;
-}
-
 // Module: Staged Placeholder Attachment
 
 .module-staged-placeholder-attachment {

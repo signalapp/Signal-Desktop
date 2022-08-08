@@ -1,19 +1,15 @@
-import { getAllConversations, removeConversation, saveConversation } from '../../data/data';
-import {
-  ConversationAttributes,
-  ConversationCollection,
-  ConversationModel,
-  ConversationTypeEnum,
-} from '../../models/conversation';
+import { Data } from '../../data/data';
+import { ConversationCollection, ConversationModel } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
-import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
+import { OpenGroupData } from '../../data/opengroups';
 import _ from 'lodash';
 import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 let instance: ConversationController | null;
 
@@ -64,10 +60,6 @@ export class ConversationController {
     return this.conversations.get(id);
   }
 
-  public dangerouslyCreateAndAdd(attributes: ConversationAttributes) {
-    return this.conversations.add(attributes);
-  }
-
   public getOrCreate(id: string, type: ConversationTypeEnum) {
     if (typeof id !== 'string') {
       throw new TypeError("'id' must be a string");
@@ -89,12 +81,11 @@ export class ConversationController {
     conversation = this.conversations.add({
       id,
       type,
-      version: 2,
-    } as any);
+    });
 
     const create = async () => {
       try {
-        await saveConversation(conversation.attributes);
+        await Data.saveConversation(conversation.attributes);
       } catch (error) {
         window?.log?.error(
           'Conversation save failed! ',
@@ -137,14 +128,6 @@ export class ConversationController {
     return conversation.getContactProfileNameOrShortenedPubKey();
   }
 
-  public getContactProfileNameOrFullPubKey(pubKey: string): string {
-    const conversation = this.conversations.get(pubKey);
-    if (!conversation) {
-      return pubKey;
-    }
-    return conversation.getContactProfileNameOrFullPubKey();
-  }
-
   public isMediumGroup(hexEncodedGroupPublicKey: string): boolean {
     const convo = this.conversations.get(hexEncodedGroupPublicKey);
     if (convo) {
@@ -174,9 +157,37 @@ export class ConversationController {
     });
   }
 
+  /**
+   * Usually, we want to mark private contact deleted as inactive (active_at = undefined).
+   * That way we can still have the username and avatar for them, but they won't appear in search results etc.
+   * For the blinded contact deletion though, we want to delete it completely because we merged it to an unblinded convo.
+   */
+  public async deleteBlindedContact(blindedId: string) {
+    if (!this._initialFetchComplete) {
+      throw new Error(
+        'getConversationController().deleteBlindedContact() needs complete initial fetch'
+      );
+    }
+    if (!PubKey.hasBlindedPrefix(blindedId)) {
+      throw new Error('deleteBlindedContact allow accepts blinded id');
+    }
+    window.log.info(`deleteBlindedContact with ${blindedId}`);
+    const conversation = this.conversations.get(blindedId);
+    if (!conversation) {
+      window.log.warn(`deleteBlindedContact no such convo ${blindedId}`);
+      return;
+    }
+
+    // we remove the messages left in this convo. The caller has to merge them if needed
+    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
+
+    conversation.set({ didApproveMe: false, isApproved: false });
+    await conversation.commit();
+  }
+
   public async deleteContact(id: string) {
     if (!this._initialFetchComplete) {
-      throw new Error('getConversationController().get() needs complete initial fetch');
+      throw new Error('getConversationController().deleteContact() needs complete initial fetch');
     }
 
     window.log.info(`deleteContact with ${id}`);
@@ -194,13 +205,13 @@ export class ConversationController {
       // open group v2
     } else if (conversation.isOpenGroupV2()) {
       window?.log?.info('leaving open group v2', conversation.id);
-      const roomInfos = await getV2OpenGroupRoom(conversation.id);
+      const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
         getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
 
         // remove the roomInfos locally for this open group room
         try {
-          await removeV2OpenGroupRoom(conversation.id);
+          await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
         } catch (e) {
           window?.log?.info('removeV2OpenGroupRoom failed:', e);
         }
@@ -226,7 +237,7 @@ export class ConversationController {
     } else {
       window.log.info(`deleteContact !isPrivate, removing convo from DB: ${id}`);
 
-      await removeConversation(id);
+      await Data.removeConversation(id);
       window.log.info(`deleteContact !isPrivate, convo removed from DB: ${id}`);
 
       this.conversations.remove(conversation);
@@ -252,8 +263,6 @@ export class ConversationController {
   }
 
   public async load() {
-    window?.log?.info('ConversationController: starting initial fetch');
-
     if (this.conversations.length) {
       throw new Error('ConversationController: Already loaded!');
     }
@@ -261,7 +270,7 @@ export class ConversationController {
     const load = async () => {
       try {
         const start = Date.now();
-        const collection = await getAllConversations();
+        const collection = await Data.getAllConversations();
 
         this.conversations.add(collection.models);
 
@@ -272,8 +281,6 @@ export class ConversationController {
             // tslint:disable-next-line: no-void-expression
             promises.push(conversation.updateLastMessage());
           }
-
-          promises.concat([conversation.updateProfileName()]);
         });
 
         await Promise.all(promises);

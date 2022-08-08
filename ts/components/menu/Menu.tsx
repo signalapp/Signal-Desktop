@@ -6,6 +6,8 @@ import {
   useAvatarPath,
   useConversationUsername,
   useHasNickname,
+  useIsActive,
+  useIsBlinded,
   useIsBlocked,
   useIsKickedFromGroup,
   useIsLeft,
@@ -38,7 +40,7 @@ import {
 import {
   ConversationNotificationSetting,
   ConversationNotificationSettingType,
-} from '../../models/conversation';
+} from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import {
@@ -62,9 +64,10 @@ function showTimerOptions(
   isKickedFromGroup: boolean,
   left: boolean,
   isBlocked: boolean,
-  isRequest: boolean
+  isRequest: boolean,
+  isActive: boolean
 ): boolean {
-  return !isPublic && !left && !isKickedFromGroup && !isBlocked && !isRequest;
+  return !isPublic && !left && !isKickedFromGroup && !isBlocked && !isRequest && isActive;
 }
 
 function showNotificationConvo(
@@ -86,7 +89,7 @@ function showClearNickname(
   isPrivate: boolean,
   isRequest: boolean
 ): boolean {
-  return !isMe && hasNickname && isPrivate && isRequest;
+  return !isMe && hasNickname && isPrivate && !isRequest;
 }
 
 function showChangeNickname(isMe: boolean, isPrivate: boolean, isRequest: boolean) {
@@ -94,8 +97,8 @@ function showChangeNickname(isMe: boolean, isPrivate: boolean, isRequest: boolea
 }
 
 // we want to show the copyId for open groups and private chats only
-function showCopyId(isPublic: boolean, isPrivate: boolean): boolean {
-  return isPrivate || isPublic;
+function showCopyId(isPublic: boolean, isPrivate: boolean, isBlinded: boolean): boolean {
+  return (isPrivate && !isBlinded) || isPublic;
 }
 
 function showDeleteContact(
@@ -274,8 +277,9 @@ export const ShowUserDetailsMenuItem = () => {
   const isPrivate = useIsPrivate(convoId);
   const avatarPath = useAvatarPath(convoId);
   const userName = useConversationUsername(convoId) || convoId;
+  const isBlinded = useIsBlinded(convoId);
 
-  if (isPrivate) {
+  if (isPrivate && !isBlinded) {
     return (
       <Item
         onClick={() => {
@@ -400,8 +404,9 @@ export const CopyMenuItem = (): JSX.Element | null => {
   const convoId = useContext(ContextConversationId);
   const isPublic = useIsPublic(convoId);
   const isPrivate = useIsPrivate(convoId);
+  const isBlinded = useIsBlinded(convoId);
 
-  if (showCopyId(isPublic, isPrivate)) {
+  if (showCopyId(isPublic, isPrivate, isBlinded)) {
     const copyIdLabel = isPublic ? window.i18n('copyOpenGroupURL') : window.i18n('copySessionID');
     return <Item onClick={() => copyPublicKeyByConvoId(convoId)}>{copyIdLabel}</Item>;
   }
@@ -423,6 +428,7 @@ export const MarkAllReadMenuItem = (): JSX.Element | null => {
 export const DisappearingMessageMenuItem = (): JSX.Element | null => {
   const convoId = useContext(ContextConversationId);
   const isBlocked = useIsBlocked(convoId);
+  const isActive = useIsActive(convoId);
   const isPublic = useIsPublic(convoId);
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
@@ -435,7 +441,8 @@ export const DisappearingMessageMenuItem = (): JSX.Element | null => {
       Boolean(isKickedFromGroup),
       Boolean(isLeft),
       Boolean(isBlocked),
-      isRequest
+      isRequest,
+      isActive
     )
   ) {
     // const isRtlMode = isRtlBody();

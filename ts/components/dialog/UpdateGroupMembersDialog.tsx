@@ -156,7 +156,11 @@ async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
     memberAfterUpdate => !_.includes(membersToRemove, memberAfterUpdate)
   );
 
-  void initiateClosedGroupUpdate(convoId, convoProps.name || 'Unknown', filteredMembers);
+  void initiateClosedGroupUpdate(
+    convoId,
+    convoProps.displayNameInProfile || 'Unknown',
+    filteredMembers
+  );
 }
 
 export const UpdateGroupMembersDialog = (props: Props) => {
@@ -221,7 +225,7 @@ export const UpdateGroupMembersDialog = (props: Props) => {
   const showNoMembersMessage = existingMembers.length === 0;
   const okText = window.i18n('ok');
   const cancelText = window.i18n('cancel');
-  const titleText = window.i18n('updateGroupDialogTitle', [convoProps.name || '']);
+  const titleText = window.i18n('updateGroupDialogTitle', [convoProps.displayNameInProfile || '']);
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>

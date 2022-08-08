@@ -1,7 +1,7 @@
 import React from 'react';
 
 import _ from 'lodash';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import { getGenericReadableMessageSelectorProps } from '../../../../state/selectors/conversations';
 import { GenericReadableMessage } from './GenericReadableMessage';
@@ -19,7 +19,7 @@ export const Message = (props: Props) => {
     getGenericReadableMessageSelectorProps(state as any, props.messageId)
   );
 
-  const ctxMenuID = `ctx-menu-message-${uuid()}`;
+  const ctxMenuID = `ctx-menu-message-${uuidv4()}`;
 
   if (msgProps?.isDeleted && msgProps.direction === 'outgoing') {
     return null;

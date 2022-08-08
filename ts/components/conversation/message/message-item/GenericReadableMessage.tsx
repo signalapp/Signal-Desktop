@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import _ from 'lodash';
-import { removeMessage } from '../../../../data/data';
+import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { messageExpired } from '../../../../state/ducks/conversations';
@@ -64,7 +64,7 @@ function useIsExpired(props: ExpiringProps) {
     }
 
     if (isExpired || now >= expirationTimestamp) {
-      await removeMessage(messageId);
+      await Data.removeMessage(messageId);
       if (convoId) {
         dispatch(
           messageExpired({

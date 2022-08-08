@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { SessionMessagesList } from './SessionMessagesList';
 import autoBind from 'auto-bind';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import {
   quotedMessageToAnimate,

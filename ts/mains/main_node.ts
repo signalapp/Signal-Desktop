@@ -3,6 +3,7 @@
 import {
   app,
   BrowserWindow,
+  dialog,
   ipcMain as ipc,
   Menu,
   protocol as electronProtocol,
@@ -12,6 +13,7 @@ import {
 } from 'electron';
 
 import path, { join } from 'path';
+import { platform as osPlatform } from 'process';
 import url from 'url';
 import os from 'os';
 import fs from 'fs';
@@ -290,8 +292,11 @@ async function createWindow() {
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
     },
+    // only set icon for Linux, the executable one will be used by default for other platforms
+    icon:
+      (osPlatform === 'linux' && path.join(getAppRootPath(), 'images/session/session_icon.png')) ||
+      undefined,
     ...picked,
-    // don't setup icon, the executable one will be used by default
   };
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < minWidth) {
@@ -645,6 +650,7 @@ async function showDebugLogWindow() {
     title: locale.messages.debugLog,
     autoHideMenuBar: true,
     backgroundColor: '#000',
+    shadow: true,
     show: false,
     modal: true,
     webPreferences: {
@@ -668,8 +674,35 @@ async function showDebugLogWindow() {
   });
 
   debugLogWindow.once('ready-to-show', () => {
+    debugLogWindow?.setBackgroundColor('#000');
     debugLogWindow?.show();
   });
+}
+
+async function saveDebugLog(_event: any, logText: any) {
+  const options: Electron.SaveDialogOptions = {
+    title: 'Save debug log',
+    defaultPath: path.join(app.getPath('desktop'), `session_debug_${Date.now()}.txt`),
+    properties: ['createDirectory'],
+  };
+
+  try {
+    const result = await dialog.showSaveDialog(options);
+    const outputPath = result.filePath;
+    console.info(`Trying to save logs to ${outputPath}`);
+    if (result === undefined || outputPath === undefined || outputPath === '') {
+      throw Error("User clicked Save button but didn't create a file");
+    }
+    // tslint:disable: non-literal-fs-path
+    fs.writeFile(outputPath, logText, err => {
+      if (err) {
+        throw Error(`${err}`);
+      }
+      console.info(`Saved log - ${outputPath}`);
+    });
+  } catch (err) {
+    console.error('Error saving debug log', err);
+  }
 }
 
 // This method will be called when Electron has finished
@@ -752,8 +785,6 @@ async function showMainWindow(sqlKey: string, passwordAttempt = false) {
   });
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   sqlChannels.initializeSqlChannel();
-
-  sqlNode.cleanUpOldOpengroups();
 
   await initAttachmentsChannel({
     userDataPath,
@@ -1020,20 +1051,7 @@ ipc.on('close-debug-log', () => {
     debugLogWindow.close();
   }
 });
-ipc.on('save-debug-log', (_event, logText) => {
-  const osSpecificDesktopFolder = app.getPath('desktop');
-  console.info(`Trying to save logs to log Desktop ${osSpecificDesktopFolder}`);
-
-  const outputPath = path.join(osSpecificDesktopFolder, `session_debug_${Date.now()}.log`);
-  // tslint:disable: non-literal-fs-path
-  fs.writeFile(outputPath, logText, err => {
-    if (err) {
-      console.error(`Error saving debug log to ${outputPath}`);
-      return;
-    }
-    console.info(`Saved log - ${outputPath}`);
-  });
-});
+ipc.on('save-debug-log', saveDebugLog);
 
 // This should be called with an ipc sendSync
 ipc.on('get-media-permissions', event => {

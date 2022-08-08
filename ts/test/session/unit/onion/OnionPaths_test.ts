@@ -7,12 +7,15 @@ import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
 import * as SNodeAPI from '../../../../session/apis/snode_api';
-import * as Data from '../../../../../ts/data/data';
 
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
-import { Snode } from '../../../../data/data';
-import { generateFakeSnodes, generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
+import { GuardNode, Snode } from '../../../../data/data';
+import {
+  generateFakeSnodes,
+  generateFakeSnodeWithEdKey,
+  stubData,
+} from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -33,7 +36,7 @@ const fakeSnodePool: Array<Snode> = [
 
 const fakeGuardNodesEd25519 = [guard1ed, guard2ed, guard3ed];
 const fakeGuardNodes = fakeSnodePool.filter(m => fakeGuardNodesEd25519.includes(m.pubkey_ed25519));
-const fakeGuardNodesFromDB: Array<Data.GuardNode> = fakeGuardNodesEd25519.map(ed25519PubKey => {
+const fakeGuardNodesFromDB: Array<GuardNode> = fakeGuardNodesEd25519.map(ed25519PubKey => {
   return {
     ed25519PubKey,
   };
@@ -51,7 +54,7 @@ describe('OnionPaths', () => {
 
       Sinon.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
       Sinon.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(fakeGuardNodes);
-      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      stubData('getSnodePoolFromDb').resolves(fakeSnodePool);
 
       TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesFromDB);
       TestUtils.stubData('createOrUpdateItem').resolves();

@@ -63,7 +63,7 @@ describe('getTimerBucketIcon', () => {
     });
 
     it('delta > length by a little', () => {
-      expect(getTimerBucketIcon(Date.now() + 101, 100)).to.be.equal(
+      expect(getTimerBucketIcon(Date.now() + 105, 100)).to.be.equal(
         'timer00',
         'should have return timer00'
       );

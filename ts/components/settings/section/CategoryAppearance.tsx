@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
-import { createOrUpdateItem, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
+import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
@@ -19,7 +19,7 @@ async function toggleLinkPreviews() {
   const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);
   window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
   if (!newValue) {
-    await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
   } else {
     window.inboxStore?.dispatch(
       updateConfirmModal({

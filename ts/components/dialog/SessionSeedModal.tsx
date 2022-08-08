@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
-import { getPasswordHash } from '../../data/data';
+import { Data } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
@@ -159,7 +159,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
       return;
     }
 
-    const hash = await getPasswordHash();
+    const hash = await Data.getPasswordHash();
     setHasPassword(!!hash);
     setPasswordHash(hash || '');
     setLoadingPassword(false);

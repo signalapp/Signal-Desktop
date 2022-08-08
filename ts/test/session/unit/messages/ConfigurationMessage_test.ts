@@ -225,7 +225,7 @@ describe('ConfigurationMessage', () => {
       expect(() => new ConfigurationMessageContact(params2)).to.throw();
     });
 
-    it('throw if the contact has a profileAvatar set but empty', () => {
+    it('throw if the contact has a profilePictureURL set but empty', () => {
       const params = {
         publicKey: TestUtils.generateFakePubKey().key,
         displayName: 'contactDisplayName',

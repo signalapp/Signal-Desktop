@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversationInteractions';
 import _ from 'lodash';
 import { VALIDATION } from '../../session/constants';
@@ -31,7 +31,7 @@ const submitForOpenGroup = async (conversationId: string, pubkeys: Array<string>
   }
   const groupInvitation = {
     url: completeUrl,
-    name: convo.getName() || 'Unknown',
+    name: convo.getNicknameOrRealUsernameOrPlaceholder(),
   };
   pubkeys.forEach(async pubkeyStr => {
     const privateConvo = await getConversationController().getOrCreateAndWait(
@@ -83,9 +83,9 @@ const submitForClosedGroup = async (convoId: string, pubkeys: Array<string>) => 
     const uniqMembers = _.uniq(allMembers);
 
     const groupId = convo.get('id');
-    const groupName = convo.get('name');
+    const groupName = convo.getNicknameOrRealUsernameOrPlaceholder();
 
-    await initiateClosedGroupUpdate(groupId, groupName || window.i18n('unknown'), uniqMembers);
+    await initiateClosedGroupUpdate(groupId, groupName, uniqMembers);
   }
 };
 
@@ -116,7 +116,7 @@ const InviteContactsDialogInner = (props: Props) => {
     );
   }
 
-  const chatName = convoProps.name;
+  const chatName = convoProps.displayNameInProfile || window.i18n('unknown');
   const isPublicConvo = convoProps.isPublic;
 
   const closeDialog = () => {

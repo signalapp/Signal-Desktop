@@ -35,7 +35,9 @@ function handleTimestampOffset(_request: string, snodeTimestamp: number) {
   if (snodeTimestamp && _.isNumber(snodeTimestamp) && snodeTimestamp > 1609419600 * 1000) {
     // first january 2021. Arbitrary, just want to make sure the return timestamp is somehow valid and not some crazy low value
     const now = Date.now();
-    // window?.log?.info(`timestamp offset from request ${request}:  ${now - snodeTimestamp}ms`);
+    if (latestTimestampOffset === Number.MAX_SAFE_INTEGER) {
+      window?.log?.info(`first timestamp offset received:  ${now - snodeTimestamp}ms`);
+    }
     latestTimestampOffset = now - snodeTimestamp;
   }
 }
@@ -537,7 +539,7 @@ export async function retrieveNextMessages(
   }
 
   if (result.status !== 200) {
-    window?.log?.warn('retrieve result is not 200');
+    window?.log?.warn('retrieveNextMessages result is not 200');
     throw new Error(
       `_retrieveNextMessages - retrieve result is not 200 with ${targetNode.ip}:${targetNode.port}`
     );
@@ -571,7 +573,10 @@ export async function retrieveNextMessages(
  */
 // tslint:disable-next-line: variable-name
 export const getNetworkTime = async (snode: Snode): Promise<string | number> => {
-  const response: any = await snodeRpc({ method: 'info', params: {}, targetNode: snode });
+  const response = await snodeRpc({ method: 'info', params: {}, targetNode: snode });
+  if (!response || !response.body) {
+    throw new Error('getNetworkTime returned empty response or body');
+  }
   const body = JSON.parse(response.body);
   const timestamp = body?.timestamp;
   if (!timestamp) {

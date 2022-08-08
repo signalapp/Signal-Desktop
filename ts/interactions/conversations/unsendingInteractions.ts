@@ -1,8 +1,7 @@
 import { compact } from 'lodash';
-import { getMessageById } from '../../data/data';
+import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
-import { ApiV2 } from '../../session/apis/open_group_api/opengroupV2';
 import { getMessageQueue } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
@@ -13,6 +12,7 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../../components/basic/SessionButton';
+import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.
@@ -259,7 +259,7 @@ const doDeleteSelectedMessagesInSOGS = async (
   }
   await Promise.all(
     toDeleteLocallyIds.map(async id => {
-      const msgToDeleteLocally = await getMessageById(id);
+      const msgToDeleteLocally = await Data.getMessageById(id);
       if (msgToDeleteLocally) {
         return deleteMessageLocallyOnly({
           conversation,
@@ -333,7 +333,7 @@ export async function deleteMessagesByIdForEveryone(
 ) {
   const conversation = getConversationController().getOrThrow(conversationId);
   const selectedMessages = compact(
-    await Promise.all(messageIds.map(m => getMessageById(m, false)))
+    await Promise.all(messageIds.map(m => Data.getMessageById(m, false)))
   );
 
   const messageCount = selectedMessages.length;
@@ -362,7 +362,7 @@ export async function deleteMessagesByIdForEveryone(
 export async function deleteMessagesById(messageIds: Array<string>, conversationId: string) {
   const conversation = getConversationController().getOrThrow(conversationId);
   const selectedMessages = compact(
-    await Promise.all(messageIds.map(m => getMessageById(m, false)))
+    await Promise.all(messageIds.map(m => Data.getMessageById(m, false)))
   );
 
   const messageCount = selectedMessages.length;
@@ -427,7 +427,7 @@ async function deleteOpenGroupMessages(
 
   let allMessagesAreDeleted: boolean = false;
   if (validServerIdsToRemove.length) {
-    allMessagesAreDeleted = await ApiV2.deleteMessageByServerIds(validServerIdsToRemove, roomInfos);
+    allMessagesAreDeleted = await deleteSogsMessageByServerIds(validServerIdsToRemove, roomInfos);
   }
   // remove only the messages we managed to remove on the server
   if (allMessagesAreDeleted) {

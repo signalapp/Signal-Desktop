@@ -3,6 +3,8 @@
 const { ipcRenderer } = require('electron');
 const url = require('url');
 
+const os = require('os');
+
 const i18n = require('./ts/util/i18n');
 
 const config = url.parse(window.location.toString(), true).query;
@@ -25,7 +27,6 @@ window.getNodeVersion = () => config.node_version;
 window.getEnvironment = () => config.environment;
 
 require('./ts/util/logging');
-const os = require('os');
 
 window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;
 window.getCommitHash = () => config.commitHash;

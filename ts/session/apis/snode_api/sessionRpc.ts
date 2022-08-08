@@ -4,17 +4,15 @@ import { HTTPError, NotFoundError } from '../../utils/errors';
 import { Snode } from '../../../data/data';
 import { getStoragePubKey } from '../../types';
 
-import {
-  ERROR_421_HANDLED_RETRY_REQUEST,
-  lokiOnionFetch,
-  snodeHttpsAgent,
-  SnodeResponse,
-} from './onions';
+import { ERROR_421_HANDLED_RETRY_REQUEST, Onions, snodeHttpsAgent, SnodeResponse } from './onions';
+import { APPLICATION_JSON } from '../../../types/MIME';
+import https from 'https';
 
-interface FetchOptions {
-  method: string;
-  body?: string;
-  agent?: any;
+export interface LokiFetchOptions {
+  method: 'GET' | 'POST';
+  body: string | null;
+  agent: https.Agent | null;
+  headers: Record<string, string>;
 }
 
 /**
@@ -29,7 +27,7 @@ async function lokiFetch({
   timeout,
 }: {
   url: string;
-  options: FetchOptions;
+  options: LokiFetchOptions;
   targetNode?: Snode;
   associatedWith?: string;
   timeout: number;
@@ -50,9 +48,10 @@ async function lokiFetch({
         ? true
         : window.sessionFeatureFlags?.useOnionRequests;
     if (useOnionRequests && targetNode) {
-      const fetchResult = await lokiOnionFetch({
+      const fetchResult = await Onions.lokiOnionFetch({
         targetNode,
         body: fetchOptions.body,
+        headers: fetchOptions.headers,
         associatedWith,
       });
       if (!fetchResult) {
@@ -66,15 +65,19 @@ async function lokiFetch({
       fetchOptions.agent = snodeHttpsAgent;
     }
 
-    (fetchOptions as any).headers = {
+    fetchOptions.headers = {
       'User-Agent': 'WhatsApp',
       'Accept-Language': 'en-us',
+      'Content-Type': APPLICATION_JSON,
     };
 
     window?.log?.warn(`insecureNodeFetch => lokiFetch of ${url}`);
 
-    const response = await insecureNodeFetch(url, fetchOptions);
-
+    const response = await insecureNodeFetch(url, {
+      ...fetchOptions,
+      body: fetchOptions.body || undefined,
+      agent: fetchOptions.agent || undefined,
+    });
     if (!response.ok) {
       throw new HTTPError('Loki_rpc error', response);
     }
@@ -83,6 +86,7 @@ async function lokiFetch({
     return {
       body: result,
       status: response.status,
+      bodyBinary: null,
     };
   } catch (e) {
     if (e.code === 'ENOTFOUND') {
@@ -131,17 +135,15 @@ export async function snodeRpc(
 
   const body = {
     jsonrpc: '2.0',
-    id: '0',
     method,
     params,
   };
 
-  const fetchOptions = {
+  const fetchOptions: LokiFetchOptions = {
     method: 'POST',
     body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': APPLICATION_JSON },
+    agent: null,
   };
 
   return lokiFetch({

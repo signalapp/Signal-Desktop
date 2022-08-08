@@ -1,12 +1,11 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
-import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
-import { getMessageCountByType, getMessagesBySentAt } from '../../ts/data/data';
+import { Data } from '../../ts/data/data';
 
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
@@ -15,6 +14,8 @@ import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -50,14 +51,14 @@ async function copyFromQuotedMessage(
   // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
   // this will return an array of sent message by id we have locally.
 
-  const collection = await getMessagesBySentAt(id);
+  const collection = await Data.getMessagesBySentAt(id);
   // we now must make sure this is the sender we expect
   const found = collection.find(message => {
-    return Boolean(author === message.getSource());
+    return Boolean(author === message.get('source'));
   });
 
   if (!found) {
-    window?.log?.warn(`We did not found quoted message ${id}.`);
+    window?.log?.warn(`We did not found quoted message ${id} with author ${author}.`);
     quoteLocal.referencedMessageNotFound = true;
     msg.set({ quote: quoteLocal });
     return;
@@ -65,7 +66,6 @@ async function copyFromQuotedMessage(
 
   window?.log?.info(`Found quoted message id: ${id}`);
   quoteLocal.referencedMessageNotFound = false;
-
   quoteLocal.text = sliceQuoteText(found.get('body') || '');
 
   // no attachments, just save the quote with the body
@@ -142,13 +142,17 @@ async function processProfileKeyNoCommit(
   }
 }
 
+/**
+ * Mark the conversation as mentionedUs, if the content of the message matches our id in this conversation
+ * @param ourIdInThisConversation can be a blinded or our naked id, depending on the case
+ */
 function handleMentions(
   message: MessageModel,
   conversation: ConversationModel,
-  ourPrimaryNumber: PubKey
+  ourIdInThisConversation: string
 ) {
   const body = message.get('body');
-  if (body && body.indexOf(`@${ourPrimaryNumber.key}`) !== -1) {
+  if (body && body.indexOf(`@${ourIdInThisConversation}`) !== -1) {
     conversation.set({ mentionedUs: true });
   }
 }
@@ -221,7 +225,7 @@ async function handleRegularMessage(
 
   message.set({
     flags: rawDataMessage.flags,
-    quote: rawDataMessage.quote,
+    // quote: rawDataMessage.quote, // do not do this copy here, it must be done only in copyFromQuotedMessage()
     attachments: rawDataMessage.attachments,
     body: rawDataMessage.body,
     conversationId: conversation.id,
@@ -236,14 +240,15 @@ async function handleRegularMessage(
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
 
-  const ourPubKey = UserUtils.getOurPubKeyFromCache();
+  const ourIdInThisConversation =
+    getUsBlindedInThatServer(conversation.id) || UserUtils.getOurPubKeyStrFromCache();
 
-  handleMentions(message, conversation, ourPubKey);
+  handleMentions(message, conversation, ourIdInThisConversation);
 
   if (type === 'incoming') {
     if (conversation.isPrivate()) {
       updateReadStatus(message);
-      const incomingMessageCount = await getMessageCountByType(
+      const incomingMessageCount = await Data.getMessageCountByType(
         conversation.id,
         MessageDirection.incoming
       );
@@ -370,6 +375,9 @@ export async function handleMessageJob(
 
     const unreadCount = await conversation.getUnreadCount();
     conversation.set({ unreadCount });
+    conversation.set({
+      active_at: Math.max(conversation.attributes.active_at, messageModel.get('sent_at') || 0),
+    });
     // this is a throttled call and will only run once every 1 sec at most
     conversation.updateLastMessage();
     await conversation.commit();
