@@ -21,6 +21,7 @@ import {
 import { AbortSignal } from 'abort-controller';
 import { pnServerPubkeyHex, pnServerUrl } from '../apis/push_notification_api/PnServer';
 import { fileServerPubKey, fileServerURL } from '../apis/file_server_api/FileServerApi';
+import { invalidAuthRequiresBlinding } from '../apis/open_group_api/opengroupV2/OpenGroupServerPoller';
 
 export type OnionFetchOptions = {
   method: string;
@@ -162,6 +163,18 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
         // the pn server replies with the decodedV4?.metadata as any)?.code syntax too since onion v4
         const foundStatusCode = decodedV4?.metadata?.code || STATUS_NO_STATUS;
         if (foundStatusCode < 200 || foundStatusCode > 299) {
+          // this is temporary (as of 27/06/2022) as we want to not support unblinded sogs after some time
+
+          if (
+            foundStatusCode === 400 &&
+            (decodedV4?.body as any).plainText === invalidAuthRequiresBlinding
+          ) {
+            return {
+              status_code: foundStatusCode,
+              body: decodedV4?.body || null,
+              bodyBinary: decodedV4?.bodyBinary || null,
+            };
+          }
           // we consider those cases as an error, and trigger a retry (if possible), by throwing a non-abortable error
           throw new Error(
             `sendViaOnionV4ToNonSnodeWithRetries failed with status code: ${foundStatusCode}. Retrying...`

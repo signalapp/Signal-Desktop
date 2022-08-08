@@ -1979,6 +1979,7 @@ function getConversationCount() {
 }
 
 // tslint:disable-next-line: max-func-body-length
+// tslint:disable-next-line: cyclomatic-complexity
 function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
   const formatted = assertValidConversationAttributes(data);
 
@@ -2107,9 +2108,9 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
       isKickedFromGroup: toSqliteBoolean(isKickedFromGroup),
       subscriberCount,
-      readCapability,
-      writeCapability,
-      uploadCapability,
+      readCapability: toSqliteBoolean(readCapability),
+      writeCapability: toSqliteBoolean(writeCapability),
+      uploadCapability: toSqliteBoolean(uploadCapability),
 
       is_medium_group: toSqliteBoolean(is_medium_group),
       avatarPointer,
