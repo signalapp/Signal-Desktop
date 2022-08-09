@@ -2409,6 +2409,14 @@
         "message": "Inga konversationer hittades",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Ett fel har inträffat",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Skicka in logg",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Det gick inte att hämta användarnamnet. Kontrollera din anslutning och försök igen.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "Skickar reaktion ...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Berättelsen har inget ljud",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Berättelse inställningar",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Berättelse inställningar",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Skicka till",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Skicka berättelse",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Dela och visa Stories",
@@ -7527,6 +7547,14 @@
         "message": "Condensed",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Lägg till berättelsetext",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Lägg till en länk",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Skriv eller klistra in en webbadress",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Ytterligare små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "En handfull buggfixar som gör att din app fortsätter fungera bra. Fler spännande ändringar kommer!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Justeringar, buggfixar och prestandaförbättringar. Fortsätt som vanligt med röst- och videosamtal, och att skicka meddelanden.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Vi jobbar hårt med buggfixar och att göra andra prestandaförbättringar för att appen ska fortsätta fungera bra för dig.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Ytterligare små justeringar, buggfixar och diverse planer för framtiden.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

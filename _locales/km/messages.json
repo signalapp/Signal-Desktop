@@ -2409,6 +2409,14 @@
         "message": "រកមិនឃើញការសន្ទនា",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "បញ្ហាមួយបានកើតឡើង",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "ដាក់បញ្ជូនកំណត់ហេតុ",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "មិនអាចស្រង់រកឈ្មោះអ្នកប្រើបាន។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "កំពុង​ផ្ញើ​ប្រតិកម្ម…",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "រឿងរ៉ាវនេះមិនមានសំឡេងទេ",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "ការកំណត់រឿងរ៉ាវ",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "ការកំណត់រឿងរ៉ាវ",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "ផ្ញើទៅ",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "ផ្ញើរឿងរ៉ាវ",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
@@ -7527,6 +7547,14 @@
         "message": "តូចចង្អៀត",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "បញ្ចូលអត្ថបទរឿងរ៉ាវ",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "បញ្ចូលតំណ",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "វាយបញ្ចូល ឬបិទភ្ជាប់តំណ",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "ការកែប្រែបន្តិចបន្តួចបន្ថែម ការដោះស្រាយបញ្ហា និងការកែលម្អប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "បញ្ហាមួយចំនួនតូចត្រូវបានដោះស្រាយដើម្បីរក្សា​ឲ្យ​កម្មវិធី​របស់​អ្នក​ដំណើរការ​ដោយ​រលូន។ នឹងមានការផ្លាស់ប្តូរដ៏គួរឲ្យរំភើបរីករាយបន្ថែមទៀតនាពេលខាងមុខនេះ!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "ការកែប្រែ ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ បន្តការផ្ញើសារ ការហៅទូរសព្ទ និងការជជែកជាវីដេអូដូចធម្មតា។",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "ការកែប្រែបន្តិចបន្តួចបន្ថែម ការដោះស្រាយបញ្ហា និងគម្រោងចម្រុះសម្រាប់ពេលអនាគត។",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

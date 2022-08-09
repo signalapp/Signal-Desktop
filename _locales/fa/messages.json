@@ -2409,6 +2409,14 @@
         "message": "هیچ مکالمه‌‌ای یافت نشد",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "خطایی رخ داده است",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "ثبت گزارش",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "خطا در دریافت نام کاربری. اینترنت خود را بررسی کنید و مجددا تلاش کنید.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -3148,7 +3156,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "تمرکز روی پیام‌نگار",
+        "message": "پیام‌نگار فوکوس",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
@@ -7227,6 +7235,10 @@
         "message": "در حال ارسال واکنش...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "این استوری صدا ندارد",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "تنظیمات استوری",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "تنظیمات استوری",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "ارسال به",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "ارسال استوری",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "اشتراک‌گذاری و نمایش استوری‌ها",
@@ -7527,6 +7547,14 @@
         "message": "فشرده",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "افزودن متن استوری",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "افزودن پیوند",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "تایپ یا جایگذاری URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "تغییرات کوچک، رفع اشکالات و بهبود بیشتر عملکرد. از شما بابت استفاده از سیگنال سپاسگزاریم!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "چند رفع اشکال برای اجرای روان برنامه. تغییرات هیجان‌انگیزتری در راه است!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. مثل همیشه به ارسال پیامک، تماس صوتی و تصویری ادامه دهید.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "سخت در تلاش برای رفع اشکالات و ایجاد سایر بهبودهای عملکردی به‌منظور حفظ عملکرد روان برنامه برای شما.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "تغییرات کوچک، رفع اشکالات و برنامه‌های متنوع بیشتر برای آینده.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

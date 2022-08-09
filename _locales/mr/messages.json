@@ -2409,6 +2409,14 @@
         "message": "कुठलेही संभाषण सापडले नाहीत",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "त्रुटी उद्भवली",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "लॉग सादर करा",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "वापरकर्तानाव प्राप्त करता आले नाही. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "प्रतिक्रिया पाठवत आहे...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "या स्टोरीला ध्वनी नाही",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "स्टोरी सेटिंग्ज",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "स्टोरी सेटिंग्ज",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "यांना पाठवा",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "स्टोरी पाठवा",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "स्टोरीज शेअर करा व पहा",
@@ -7527,6 +7547,14 @@
         "message": "कंडेन्स्ड",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "स्टोरी मजकूर जोडा",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "एक लिंक जोडा",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "URL टाइप करा किंवा पेस्ट करा",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "अतिरिक्त लहान ट्वविक्स, बग फिक्सेस, आणि प्रदर्शन सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "आपले अ‍ॅप सुरळीतपणे सुरू राहण्यासाठी काही दोष दूर करण्यात आले आहेत. पुढे काही अफलातून बदल आपली वाट पाहत आहेत!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": " ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा.  नेहमी प्रमाणे संदेश पाठवणे, कॉल करणे आणि व्हिडिओ चॅटिंग करणे सुरु ठेवा.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "आपल्यासाठी अ‍ॅप सुरळीतपणे सुरु ठेवण्यासाठी दोष निवारणाचे काम करणे आणि इतर कामगिरींमध्ये सुधारणा करणे यावर कठोर परिश्रम घेत आहे.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "अतिरिक्त लहान ट्विक्स, दोष निवारण, आणि भविष्यासाठी विविध प्रकारच्या योजना.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

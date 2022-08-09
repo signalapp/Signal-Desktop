@@ -2409,6 +2409,14 @@
         "message": "Nebyly nalezeny žádné konverzace",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Vyskytla se chyba",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Odeslat protokol",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Nepodařilo se načíst uživatelské jméno. Zkontrolujte připojení a zkuste to znovu.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -6944,7 +6952,7 @@
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Aktualizace na verzi $version$ je k dispozici",
+        "message": "K dispozici je aktualizace na verzi $version$ ",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6954,15 +6962,15 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Aplikaci Signal se nepodařilo zavřít.",
+        "message": "Aplikaci Signal nelze zavřít.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Zavřete ji ručně a poté klikněte na Opakovat pro pokračování.",
+        "message": "Zavřete ji ručně a pro pokračování klikněte na Opakovat.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__appRunning": {
-        "message": "$appName$ běží.\nPotvrďte zavření stisknutím OK.\nPokud se aplikace nezavře sama, zavřete ji ručně.",
+        "message": "Je spuštěna aplikace $appName$.\nKliknutím na OK ji zavřete.\nPokud se nezavře, zavřete ji ručně.",
         "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
         "placeholders": {
             "appName": {
@@ -6972,11 +6980,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Nepodařilo se rozbalit soubory. Zkuste prosím instalátor spustit znovu.",
+        "message": "Nepodařilo se rozbalit soubory. Zkuste prosím spustit instalační program znovu. ",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Nepodařilo se odinstalovat staré soubory aplikace. Zkuste prosím instalátor spustit znovu.",
+        "message": "Nepodařilo se odinstalovat staré soubory aplikace. Zkuste prosím spustit instalační program znovu. ",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -6984,7 +6992,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal se restartoval po selhání. Můžete odeslat zprávu o selhání a pomoci tím daný problém vyřešit.",
+        "message": "Aplikace Signal se po spadnutí znovu spustila. Můžete odeslat zprávu o spadnutí a pomoci tak problém prověřit.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6996,15 +7004,15 @@
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
-        "message": "Přizpůsobení reakcí",
+        "message": "Přizpůsobit reakce",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Klepněte pro nahrazení smajlíka",
+        "message": "Kliknutím nahradíte emoji",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "Objevila se chyba při ukládání nastavení. Zkuste to prosím znovu.",
+        "message": "Při ukládání nastavení se vyskytla chyba. Zkuste to prosím znovu.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -7092,7 +7100,7 @@
         "description": "Performs the crop"
     },
     "MyStories__title": {
-        "message": "Mé příběhy",
+        "message": "Moje příběhy",
         "description": "Title for the my stories list"
     },
     "MyStories__story": {
@@ -7138,7 +7146,7 @@
         }
     },
     "MyStories__replies--plural": {
-        "message": "$num$ odpovědi/í",
+        "message": "$num$ odpovědí",
         "description": "Number of replies your story has",
         "placeholders": {
             "num": {
@@ -7148,7 +7156,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "Smazat tento příběh? Bude smazán i pro všechny, kteří jej obdrželi.",
+        "message": "Smazat tento příběh? Smaže se také všem, kteří jej obdrželi.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "SignalConnectionsModal__title": {
@@ -7174,7 +7182,7 @@
         "description": "A way that signal connection is formed"
     },
     "SignalConnectionsModal__bullet--3": {
-        "message": "Uložením do vašeho seznamu kontaktů",
+        "message": "Uložením do svého seznamu kontaktů",
         "description": "A way that signal connection is formed"
     },
     "SignalConnectionsModal__footer": {
@@ -7186,7 +7194,7 @@
         "description": "Title for the stories list"
     },
     "Stories__mine": {
-        "message": "Mé příběhy",
+        "message": "Moje příběhy",
         "description": "Label for your stories"
     },
     "Stories__add": {
@@ -7198,11 +7206,11 @@
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "Žádné poslední příběhy k zobrazení",
+        "message": "Žádné nové příběhy k zobrazení",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
-        "message": "Klikněte pro zobrazení příběhu",
+        "message": "Kliknutím zobrazíte příběh ",
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
@@ -7225,6 +7233,10 @@
     },
     "Stories__toast--sending-reaction": {
         "message": "Odesílám reakci...",
+        "description": "Toast message"
+    },
+    "Stories__toast--hasNoSound": {
+        "message": "Tento příběh není ozvučený",
         "description": "Toast message"
     },
     "StoriesSettings__title": {
@@ -7256,11 +7268,11 @@
         }
     },
     "StoriesSettings__who-can-see": {
-        "message": "Kdo může zobrazit tento příběh",
+        "message": "Kdo může vidět tento příběh",
         "description": "Title for the who can see this story section"
     },
     "StoriesSettings__add-viewer": {
-        "message": "Přidat sledovače",
+        "message": "Přidat sledujícího",
         "description": "Button label to add a viewer to a story"
     },
     "StoriesSettings__remove--action": {
@@ -7278,7 +7290,7 @@
         }
     },
     "StoriesSettings__remove--body": {
-        "message": "Tato osoba nadále neuvidí váš příběh.",
+        "message": "Tato osoba již váš příběh neuvidí.",
         "description": "Body of the confirmation dialog to remove someone from a private distribution list"
     },
     "StoriesSettings__replies-reactions--title": {
@@ -7310,11 +7322,11 @@
         "description": "Modal title when naming a private distribution list"
     },
     "StoriesSettings__name-placeholder": {
-        "message": "Jméno příběhu (požadováno)",
+        "message": "Název příběhu (povinné)",
         "description": "Placeholder for input field"
     },
     "StoriesSettings__hide-story": {
-        "message": "Skrýt příběhy od",
+        "message": "Skrýt příběh před",
         "description": "Modal title when hiding people from my stories"
     },
     "StoriesSettings__mine__all--label": {
@@ -7375,6 +7387,14 @@
         "message": "Nastavení příběhu",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__title": {
+        "message": "Odeslat",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Odeslat příběh",
+        "description": "aria-label for the send story button"
+    },
     "Stories__settings-toggle--title": {
         "message": "Sdílet a zobrazit příběhy",
         "description": "Select box title for the stories on/off toggle"
@@ -7384,7 +7404,7 @@
         "description": "Select box description for the stories on/off toggle"
     },
     "StoryViewer__pause": {
-        "message": "Zastavit",
+        "message": "Pozastavit",
         "description": "Aria label for pausing a story"
     },
     "StoryViewer__play": {
@@ -7392,7 +7412,7 @@
         "description": "Aria label for playing a story"
     },
     "StoryViewer__reply": {
-        "message": "Odpověď",
+        "message": "Odpovědět",
         "description": "Button label to reply to a story"
     },
     "StoryViewer__reply-group": {
@@ -7448,7 +7468,7 @@
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Reagoval(a) na příběh",
+        "message": "Reagoval/a na příběh",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7460,11 +7480,11 @@
         "description": "Label for menu item to un-hide the story"
     },
     "StoryListItem__hide": {
-        "message": "Schovat příběh",
+        "message": "Skrýt příběh",
         "description": "Label for menu item to hide the story"
     },
     "StoryListItem__go-to-chat": {
-        "message": "Jít do konverzace",
+        "message": "Přejít na konverzaci",
         "description": "Label for menu item to go to conversation"
     },
     "StoryListItem__delete": {
@@ -7527,8 +7547,16 @@
         "message": "Zhuštěné",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Přidat k příběhu text",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Přidat odkaz",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
-        "message": "Napište nebo vložte URL",
+        "message": "Zadejte nebo vložte adresu URL",
         "description": "Placeholder for the URL input for link previews"
     },
     "StoryCreator__link-preview-empty": {
@@ -7548,7 +7576,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "Reakce na příběh od $name$",
+        "message": "Reagoval/a na příběh od $name$",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7558,11 +7586,11 @@
         }
     },
     "Quote__story-reaction--single": {
-        "message": "Reakce na příběh",
+        "message": "Reagoval/a na příběh",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
-        "message": "Není již dostupný",
+        "message": "Již není k dispozici",
         "description": "Label for when a story is not found"
     },
     "ContextMenu--button": {
@@ -7574,11 +7602,31 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
+        "message": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--1": {
         "message": "Další drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Několik oprav chyb, aby aplikace fungovala bez problémů. Další vzrušující změny na obzoru!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Změny, opravy chyb a vylepšení výkonu. Psát, volat a videochatovat můžete stejně jako dřív.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Usilovně pracujeme na opravách chyb a na dalším zvyšování výkonu, aby vám aplikace fungovala bez problémů.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Další drobná vylepšení, opravy chyb a nové plány do budoucna.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

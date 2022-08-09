@@ -496,7 +496,7 @@
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Кардарларды тейлеген кызматка кайрылуу",
+        "message": "Кардарларды колдоо кызматына кайрылуу",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -934,7 +934,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "Билдирүүгө мамиле билдирүү",
+        "message": "Билдирүүгө реакция кылуу",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -1276,7 +1276,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
-        "message": "Кардарларды тейлеген кызматка кайрылуу",
+        "message": "Кардарларды колдоо кызматына кайрылуу",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
@@ -2022,7 +2022,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ билдирүүңүзгө $emoji$ мамилесин билдирди",
+        "message": "$sender$ билдирүүңүзгө $emoji$ реакция кылды",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2036,7 +2036,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ $message$ үчүн $emoji$ мамилесин билдирди",
+        "message": "$sender$ $message$ үчүн $emoji$ реакция кылды",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2409,6 +2409,14 @@
         "message": "Сүйлөшүү табылган жок",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Ката кетти",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Журналды тапшыруу",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Колдонуучунун аты алынбай калды. Интернет менен байланышыңызды текшерип, кайра аракет кылыңыз.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -2560,7 +2568,7 @@
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "Кардарларды тейлеген кызматка кайрылуу",
+        "message": "Кардарларды колдоо кызматына кайрылуу",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -2790,11 +2798,11 @@
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "Белекке төшбелги алдыңыз",
+        "message": "Белек төшбелги алдыңыз",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
-        "message": "Белекке төшбелги жөнөттүңүз",
+        "message": "Белек төшбелги жөнөттүңүз",
         "description": "Shown to label a gift badge you've sent in notifications and the left pane"
     },
     "message--giftBadge": {
@@ -4226,7 +4234,7 @@
         "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Кайра аракет кылыңыз же кардарларды тейлеген кызматка кайрылыңыз.",
+        "message": "Кайра аракет кылыңыз же кардарларды колдоо кызматына кайрылыңыз.",
         "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -7227,6 +7235,10 @@
         "message": "Реакция жөнөтүлүүдө...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Бул окуянын үнү жок",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Окуя орнотуулары",
         "description": "Title for the story settings modal"
@@ -7290,7 +7302,7 @@
         "description": "Checkbox label to allow or disallow replies to your stories"
     },
     "StoriesSettings__replies-reactions--description": {
-        "message": "Окуяңызды көрө алган адамдарга жооп берип, мамилесин билдирүүгө мүмкүнчүлүк берүү.",
+        "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана реакция кылууга мүмкүнчүлүк берүү.",
         "description": "Description of checkbox to allow or disallow replies to your stories"
     },
     "StoriesSettings__delete-list": {
@@ -7375,6 +7387,14 @@
         "message": "Окуя орнотуулары",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__title": {
+        "message": "Жөнөтүү",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Окуяны жөнөтүү",
+        "description": "aria-label for the send story button"
+    },
     "Stories__settings-toggle--title": {
         "message": "Окуяларды бөлүшүү жана көрүү",
         "description": "Select box title for the stories on/off toggle"
@@ -7444,11 +7464,11 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "Окуяга мамиле билдирүү",
+        "message": "Окуяга реакция кылуу",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "Окуяга мамиле билдирди",
+        "message": "Окуяга реакция кылды",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7527,6 +7547,14 @@
         "message": "Кысылган",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Окуянын текстин кошуу",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Шилтеме кошуу",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "URL дарегин териңиз же чаптаңыз",
         "description": "Placeholder for the URL input for link previews"
@@ -7548,7 +7576,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "$name$ окуясына мамилесин билдирди",
+        "message": "$name$ окуясына реакция кылды",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7558,7 +7586,7 @@
         }
     },
     "Quote__story-reaction--single": {
-        "message": "Окуяга мамилесин билдирди",
+        "message": "Окуяга реакция кылды",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Кошумча майда өзгөртүүлөр, мүчүлүштүктөрдү оңдоо жана өндүрүмдүүлүгүн жогорулатуу. Signal колдонгонуңуз үчүн рахмат!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Колдонмоңуздун үзгүлтүксүз иштеши үчүн көптөгөн мүчүлүштүктөрдү оңдоолор. Сизди алдыда дагы кызыктуу өзгөрүүлөр күтүп турат!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Толуктоолор, мүчүлүштүктөрдү оңдоолор жана иштин майнаптуулугун жогорулатуу. Адаттагыдай жазышууну, чалууларды жана видео маектешүүнү уланта бериңиз.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Колдонмонун сиз үчүн үзгүлтүксүз иштешин камсыз кылуу үчүн мүчүлүштүктөрдү оңдоо жана башка майнаптуулукту жогорулатуу боюнча талыкпай иштеп жатабыз.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Кошумча майда толуктоолор, мүчүлүштүктөрдү оңдоолор жана келечек үчүн ар түрдүү пландар.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Майда толуктоолор, мүчүлүштүктөрдү оңдоолор жана майнаптуулукту жогорулатуу. Signal колдонгонуңуз үчүн рахмат!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

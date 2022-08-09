@@ -2409,6 +2409,14 @@
         "message": "대화 찾을 수 없음",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "오류가 발생했습니다",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "로그 제출",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "사용자명을 가져오지 못했습니다. 연결을 확인하고 다시 시도하세요.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "반응 전송 중...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "소리가 없는 스토리입니다",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "스토리 설정",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "스토리 설정",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "다음으로 보내기",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "스토리 보내기",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "스토리 공유 및 보기",
@@ -7527,6 +7547,14 @@
         "message": "좁게",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "스토리 텍스트 추가",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "링크 추가",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "URL 입력 또는 붙여넣기",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "추가적인 사소한 변경 사항과 버그 수정, 성능 업데이트가 적용되었습니다. Signal을 이용해 주셔서 감사합니다!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "앱의 원활한 사용을 위해 몇 가지 수정 사항을 적용했습니다. 앞으로 있을 더 많은 변경 사항을 기대해 주세요!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "사소한 변경 사항과 버그 수정 및 성능 개선. 계속해서 평소처럼 문자와 통화, 화상 통화를 즐기세요.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "앱의 원활한 실행을 위한 버그 수정과 성능 개선에 최선을 다하고 있습니다.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "사소한 추가 변경 사항과 버그 수정, 다양한 미래 계획.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

@@ -696,7 +696,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Burde ikke ta så lang tid",
+        "message": "Burde ikke ta lang tid",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -868,7 +868,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "se det nyeste",
+        "message": "siste nytt",
         "description": "Clickable link that displays the latest release notes"
     },
     "typingAlt": {
@@ -982,7 +982,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "Det oppsto et problem med opptaket.",
+        "message": "Det oppstod et problem med opptaket.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
@@ -1420,7 +1420,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "QR-koden kunne ikke lastes. Sjekk nettilkoblingen din og prøv igjen. $learnMore$",
+        "message": "QR-koden kunne ikke lastes inn. Sjekk internettilkoblingen og prøv igjen. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1438,7 +1438,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "Du finner dette navnet under \"Tilkoblede enheter\" på mobilen din",
+        "message": "Du finner dette navnet under «Tilkoblede enheter» på telefonen din",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1482,7 +1482,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "En uventet feil oppsto. Prøv igjen.",
+        "message": "En uventet feil oppstod. Prøv igjen.",
         "description": ""
     },
     "installTryAgain": {
@@ -1586,7 +1586,7 @@
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Skru på anrop",
+        "message": "Slå på ringing",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1932,11 +1932,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimer til varslingsfeltet",
+        "message": "Minimer til systemstatusfeltet",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimert i varslingsfeltet",
+        "message": "Start minimert i systemstatusfeltet",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -2166,11 +2166,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[I dag]",
+        "message": "[I dag] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[I går]",
+        "message": "[I går] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2409,6 +2409,14 @@
         "message": "Ingen samtaler funnet",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "En feil har oppstått",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Send inn logg",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Kunne ikke hente brukernavnet. Sjekk internettilkoblingen og prøv igjen.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -2540,7 +2548,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Trykk for å koble Signal Desktop til mobilenheten din for å fortsette samtalene.",
+        "message": "Klikk for å koble Signal Desktop til mobilenheten din for å fortsette samtalene.",
         "description": ""
     },
     "unlinked": {
@@ -3288,11 +3296,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--accept-video-call": {
-        "message": "Ta imot samtalen med video",
+        "message": "Godta samtalen med video",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--accept-audio-call": {
-        "message": "Ta imot samtalen med lyd",
+        "message": "Godta samtalen med lyd",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--start-audio-call": {
@@ -3400,7 +3408,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Trykk eller dra og slipp en fil for å legge til et klistremerke",
+        "message": "Klikk eller dra og slipp en fil for å legge til et klistremerke",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3816,7 +3824,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Medlem av $group1$, $group2$, $group3$og 1 til",
+        "message": "Medlem av $group1$, $group2$, $group3$og én til",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3976,7 +3984,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ ringer deg, $first$, $second$ og 1 annen",
+        "message": "$ringer$ ringer deg, $first$, $second$ og én annen",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -5626,7 +5634,7 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal drives av personer som deg. Gi penger og få et merke.",
+        "message": "Signal drives av personer som deg. Bidra og få et merke.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -5638,7 +5646,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Trykk på \"Gi en pengegave til Signal\" for å abonnere",
+        "message": "Trykk på «Gi penger til Signal» for å abonnere",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5662,7 +5670,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Tell med samtaler satt på lydløs i merketallet",
+        "message": "Inkluder samtaler satt på lydløs i merketellingen",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5688,7 +5696,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Fjerne $contact$som gruppeadmin?",
+        "message": "Vil du fjerne $contact$som gruppeadmin?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5714,7 +5722,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Vil du skru på lyden på samtalen?",
+        "message": "Vil du slå på lyden for denne samtalen?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5758,7 +5766,7 @@
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Velg hvem som kan sende meldinger til gruppa.",
+        "message": "Velg hvem som kan sende meldinger til gruppen.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5794,7 +5802,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--unblock-group-modal-title": {
-        "message": "Vil du fjerne blokkeringen av gruppa $groupName$?",
+        "message": "Vil du fjerne blokkeringen av gruppen «$groupName$»?",
         "description": "This is the modal title for confirming unblock of a group",
         "placeholders": {
             "groupName": {
@@ -5822,7 +5830,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsActions--unblock-group-modal-content": {
-        "message": "Kontaktene dine vil kunne legge deg til i denne gruppa.",
+        "message": "Kontaktene dine vil kunne legge deg til i denne gruppen.",
         "description": "This is the modal content for confirming unblock of a group"
     },
     "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -6252,11 +6260,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd, D, MMM",
+        "message": "ddd, D. MMM",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "D, MMM, YYYY",
+        "message": "D. MMM, YYYY",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6324,7 +6332,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ gruppemedlemmer har like navn. Se gjennom medlemmene nedenfor, eller velg en handling.",
+        "message": "$count$ gruppemedlemmer har like navn. Se gjennom medlemsliten nedenfor, eller velg en handling.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -6566,7 +6574,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Kunne ikke vise meldingen. Trykk for å sende inn en feilsøkingslogg.",
+        "message": "Kunne ikke vise meldingen. Klikk for å sende inn en feilsøkingslogg.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6582,7 +6590,7 @@
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Velg opplastingskvalitet",
+        "message": "Velg mediekvalitet",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
@@ -6646,7 +6654,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Brukernavn kan bare inneholde a-z, 0-9, og _",
+        "message": "Brukernavn kan bare inneholde a-z, 0-9 og _",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6678,11 +6686,11 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Brukernavnet ditt kunne ikke lagres. Sjekk nettilkoblingen din og prøv igjen.",
+        "message": "Brukernavnet ditt kunne ikke lagres. Sjekk internettilkoblingen og prøv igjen.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Brukernavnet ditt kunne ikke fjernes. Sjekk nettilkoblingen din og prøv igjen.",
+        "message": "Brukernavnet ditt kunne ikke fjernes. Sjekk internettilkoblingen og prøv igjen.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6698,7 +6706,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Skriv noe om deg selv...",
+        "message": "Skriv noe om deg selv ...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6714,7 +6722,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Profilen din er ende-til-ende kryptert. Profilen din, og endringer i den, vil være synlige for kontaktene dine og når du starter eller godtar nye samtaler. $learnMore$",
+        "message": "Profilen din er kryptert. Profilen din, og endringer i den, vil være synlige for kontaktene dine og når du starter eller godtar nye samtaler. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6798,7 +6806,7 @@
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Gruppe-ikon",
+        "message": "Gruppeikon",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6826,7 +6834,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Sist synkronisert $date$ $time$",
+        "message": "Siste import $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6844,7 +6852,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom",
+        "message": "Zoomnivå",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6972,11 +6980,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "Kunne ikke pakke ut filene. Kjør programmet på nytt.",
+        "message": "Kunne ikke dekomprimere filene. Kjør installasjonsprogrammet på nytt.",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "Kunne ikke avinstallere de gamle programfilene. Kjør programmet på nytt.",
+        "message": "Kunne ikke avinstallere de gamle programfilene. Kjør installasjonsprogrammet på nytt.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7198,7 +7206,7 @@
         "description": "Button label to go to hidden stories pane"
     },
     "Stories__list-empty": {
-        "message": "Ingen nylige stories å vise",
+        "message": "Ingen nylige storyer å vise",
         "description": "Description for when there are no stories to show"
     },
     "Stories__placeholder--text": {
@@ -7225,6 +7233,10 @@
     },
     "Stories__toast--sending-reaction": {
         "message": "Sender reaksjon ...",
+        "description": "Toast message"
+    },
+    "Stories__toast--hasNoSound": {
+        "message": "Denne storyen har ikke lyd",
         "description": "Toast message"
     },
     "StoriesSettings__title": {
@@ -7375,6 +7387,14 @@
         "message": "Innstillinger for story",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__title": {
+        "message": "Send til",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Send story",
+        "description": "aria-label for the send story button"
+    },
     "Stories__settings-toggle--title": {
         "message": "Del og se storyer",
         "description": "Select box title for the stories on/off toggle"
@@ -7476,7 +7496,7 @@
         "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "Vil du skjule denne? Nye oppdateringer fra $name$ vil ikke havne øverst på listen over stories lengre.",
+        "message": "Vil du skjule storyen? Nye oppdateringer fra $name$ vises ikke øverst på listen over storyer lenger.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7527,6 +7547,14 @@
         "message": "Condensed",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Legg til tekst",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Legg til en lenke",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Skriv eller lim inn en nettadresse",
         "description": "Placeholder for the URL input for link previews"
@@ -7570,7 +7598,7 @@
         "description": "Default aria-label for the context menu buttons"
     },
     "WhatsNew__modal-title": {
-        "message": "Det nyeste",
+        "message": "Siste nytt",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
@@ -7578,6 +7606,26 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--1": {
+        "message": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Et knippe andre feilrettinger som sørger for at appen fungerer optimalt. Flere spennende oppdateringer er i vente!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Justeringer, feilrettinger og ytelsesforbedringer. Du kan fortsette å tekste, ringe og videochatte som vanlig.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Jobber iherdig med å fikse opp i feil og andre ytelsesforbedringer som sørger for at appen skal fungere optimalt.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Et par ekstra justeringer, feilrettinger og diverse planer for fremtiden.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
         "message": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },

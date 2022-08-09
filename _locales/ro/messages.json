@@ -2409,6 +2409,14 @@
         "message": "Nu s-au găsit conversații",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "A apărut o eroare",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Trimite jurnalul",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Nu s-a găsit numele de utilizator. Verifică conexiunea și încearcă din nou.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -5638,7 +5646,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Atinge „Donează către Signal” și abonează-te",
+        "message": "Atinge „Donează pentru Signal” și abonează-te",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -7227,6 +7235,10 @@
         "message": "Se trimite reacția…",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Povestea nu are sunet",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Setări poveste",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Setări poveste",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Trimite către",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Trimite povestea",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Trimite și Vizualizează Poveștile",
@@ -7527,6 +7547,14 @@
         "message": "Condensed",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Adaugă text la poveste",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Adaugă un link",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Tastează sau lipește un URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Reparări de bug-uri, mici ajustări și îmbunătățiri ale performanței. Îți mulțumim că folosești Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Mai multe soluționări ale bug-urilor pentru ca tu să ai o aplicație care funcționează perfect. Urmează și alte schimbări super utile în viitor!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Ajustări, soluționări ale bug-urilor și îmbunătățiri ale performanței. Continuă să trimiți mesaje, să suni și să conversezi video ca de obicei.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Lucrăm din greu să soluționăm bug-uri și să îmbunătățim performanța pentru ca aplicația să funcționeze perfect.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Mici ajustări suplimentare, soluționări de bug-uri și planuri pentru viitor.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

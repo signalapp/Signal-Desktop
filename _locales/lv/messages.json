@@ -2409,6 +2409,14 @@
         "message": "Nav atrasta neviena saruna",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Ir radusies kļūda.",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Ieniegt žurnālu",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Neizdevās ielādēt lietotājvārdu. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "Tiek nosūtīta reakcija...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Šim stāstam nav skaņas",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Stāsta iestatījumi",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Stāsta iestatījumi",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Sūtīt",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Nosūtīt stāstu",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Kopīgot un skatīt stāstus",
@@ -7527,6 +7547,14 @@
         "message": "Saspiests",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Pievienot stāstam tekstu",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Pievienot saiti",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Uzrakstiet vai ielīmējiet URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Papildu nelielas izmaiņas, kļūdu labojumi un veiktspējas uzlabojumi. Paldies, ka lietojat Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Vairāki kļūdu labojumi vienmērīgai lietotnes darbībai. Vairāk aizraujošu izmaiņu jau tuvākajā nākotnē!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Izmaiņas, kļūdu labojumi un darbības uzlabojumi. Turpiniet izmantot sarakstes, zvanu un video zvanu funkcijas kā ierasts.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Nelielas papildu izmaiņas un kļūdu labojumi, kā arī virkne nākotnes plānu.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

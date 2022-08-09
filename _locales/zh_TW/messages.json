@@ -2409,6 +2409,14 @@
         "message": "找不到對話",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "發生錯誤",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "上傳日誌",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "取得使用者名稱失敗。檢查你的網路連接並重試。",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "正在傳送反應…",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "此限動沒有聲音",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "限時動態設定",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "限時動態設定",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "傳送給",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "傳送限動",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "分享及瀏覽限動",
@@ -7527,6 +7547,14 @@
         "message": "窄體",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "新增限動文字",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "新增連結",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "輸入或貼上 URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "其他細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "修復了多項問題，提升 App 運作的順暢度。未來，還有許多精彩的更新內容待你挖掘！",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "進行了細微調整、問題修復和效能改善，方便大家持續享有順暢的簡訊、通話及視訊聊天功能。",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "其他細微的調整、問題修復，以及未來的功能規劃。",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

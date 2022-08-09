@@ -2409,6 +2409,14 @@
         "message": "Не се пронајдени разговори",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Настана грешка",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Испрати запис",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Неуспешно пронаоѓање на корисничко име. Проверете ја интернет врската и обидете се повторно.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "Испраќање на реакција…",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Оваа приказна нема звук",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Поставувања за приказна",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Поставувања за приказна",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Испрати на",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Испрати ја приказната",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Споделувајте и гледајте приказни",
@@ -7527,6 +7547,14 @@
         "message": "Тесен (збиен) фонт",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Додај текст на приказна",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Додај линк",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Внеси или залепи URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Дополнителни мали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Грст решени багови за апликацијата да продолжи да функционира беспрекорно. Повеќе интересни промени на повидок!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Mали подобрувања, решени багови и подобрувања на перформансот. Продолжете со испраќање пораки, јавувања и видео разговори како и обично.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Напорно работиме за да ги решиме баговите и да го подобриме перформансот за апликацијата да продолжи да работи беспрекорно за вас.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Дополнителни мали подобрувања, решени багови и средени планови за иднината.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {
