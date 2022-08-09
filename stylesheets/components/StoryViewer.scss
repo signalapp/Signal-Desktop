@@ -33,6 +33,7 @@
     @include light-theme {
       @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
     }
+    top: var(--title-bar-drag-area-height);
     right: 28px;
     z-index: $z-index-above-above-base;
   }
