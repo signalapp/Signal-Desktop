@@ -1,4 +1,4 @@
 {
   "storageProfile": "test",
-  "openDevTools": false
+  "openDevTools": true
 }

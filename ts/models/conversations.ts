@@ -1275,11 +1275,11 @@ export class ConversationModel extends window.Backbone
     const e164 = message.get('source');
     const sourceDevice = message.get('sourceDevice');
 
-    const sourceId = window.ConversationController.ensureContactIds({
+    const source = window.ConversationController.lookupOrCreate({
       uuid,
       e164,
     });
-    const typingToken = `${sourceId}.${sourceDevice}`;
+    const typingToken = `${source?.id}.${sourceDevice}`;
 
     // Clear typing indicator for a given contact if we receive a message from them
     this.clearContactTypingTimer(typingToken);
@@ -1869,10 +1869,10 @@ export class ConversationModel extends window.Backbone
 
   updateE164(e164?: string | null): void {
     const oldValue = this.get('e164');
-    if (e164 && e164 !== oldValue) {
-      this.set('e164', e164);
+    if (e164 !== oldValue) {
+      this.set('e164', e164 || undefined);
 
-      if (oldValue) {
+      if (oldValue && e164) {
         this.addChangeNumberNotification(oldValue, e164);
       }
 
@@ -1883,10 +1883,29 @@ export class ConversationModel extends window.Backbone
 
   updateUuid(uuid?: string): void {
     const oldValue = this.get('uuid');
-    if (uuid && uuid !== oldValue) {
-      this.set('uuid', UUID.cast(uuid.toLowerCase()));
+    if (uuid !== oldValue) {
+      this.set('uuid', uuid ? UUID.cast(uuid.toLowerCase()) : undefined);
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'uuid', oldValue);
+    }
+  }
+
+  updatePni(pni?: string): void {
+    const oldValue = this.get('pni');
+    if (pni !== oldValue) {
+      this.set('pni', pni ? UUID.cast(pni.toLowerCase()) : undefined);
+
+      if (
+        oldValue &&
+        pni &&
+        (!this.get('uuid') || this.get('uuid') === oldValue)
+      ) {
+        // TODO: DESKTOP-3974
+        this.addKeyChange(UUID.checkedLookup(oldValue));
+      }
+
+      window.Signal.Data.updateConversation(this.attributes);
+      this.trigger('idUpdated', this, 'pni', oldValue);
     }
   }
 
@@ -5389,6 +5408,9 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
           if (idProp === 'uuid') {
             delete this._byUuid[oldValue];
           }
+          if (idProp === 'pni') {
+            delete this._byPni[oldValue];
+          }
           if (idProp === 'groupId') {
             delete this._byGroupId[oldValue];
           }
@@ -5400,6 +5422,10 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
         const uuid = model.get('uuid');
         if (uuid) {
           this._byUuid[uuid] = model;
+        }
+        const pni = model.get('pni');
+        if (pni) {
+          this._byPni[pni] = model;
         }
         const groupId = model.get('groupId');
         if (groupId) {
@@ -5441,6 +5467,16 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
         }
       }
 
+      const pni = model.get('pni');
+      if (pni) {
+        const existing = this._byPni[pni];
+
+        // Prefer the contact with both uuid and pni
+        if (!existing || (existing && !existing.get('uuid'))) {
+          this._byPni[pni] = model;
+        }
+      }
+
       const groupId = model.get('groupId');
       if (groupId) {
         this._byGroupId[groupId] = model;
@@ -5451,6 +5487,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
   eraseLookups() {
     this._byE164 = Object.create(null);
     this._byUuid = Object.create(null);
+    this._byPni = Object.create(null);
     this._byGroupId = Object.create(null);
   },
 
@@ -5510,6 +5547,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
       this._byE164[id] ||
       this._byE164[`+${id}`] ||
       this._byUuid[id] ||
+      this._byPni[id] ||
       this._byGroupId[id] ||
       window.Backbone.Collection.prototype.get.call(this, id)
     );

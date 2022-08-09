@@ -15,7 +15,7 @@ export async function updateConversationsWithUuidLookup({
 }: Readonly<{
   conversationController: Pick<
     ConversationController,
-    'ensureContactIds' | 'get'
+    'maybeMergeContacts' | 'get'
   >;
   conversations: ReadonlyArray<ConversationModel>;
   messaging: Pick<SendMessage, 'getUuidsForE164s' | 'checkAccountExistence'>;
@@ -40,14 +40,12 @@ export async function updateConversationsWithUuidLookup({
 
       const uuidFromServer = getOwn(serverLookup, e164);
       if (uuidFromServer) {
-        const finalConversationId = conversationController.ensureContactIds({
-          e164,
-          uuid: uuidFromServer,
-          highTrust: true,
-          reason: 'updateConversationsWithUuidLookup',
-        });
         const maybeFinalConversation =
-          conversationController.get(finalConversationId);
+          conversationController.maybeMergeContacts({
+            aci: uuidFromServer,
+            e164,
+            reason: 'updateConversationsWithUuidLookup',
+          });
         assert(
           maybeFinalConversation,
           'updateConversationsWithUuidLookup: expected a conversation to be found or created'

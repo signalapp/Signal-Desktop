@@ -89,10 +89,10 @@ export async function markConversationRead(
       originalReadStatus: messageSyncData.originalReadStatus,
       senderE164: messageSyncData.source,
       senderUuid: messageSyncData.sourceUuid,
-      senderId: window.ConversationController.ensureContactIds({
+      senderId: window.ConversationController.lookupOrCreate({
         e164: messageSyncData.source,
         uuid: messageSyncData.sourceUuid,
-      }),
+      })?.id,
       timestamp: messageSyncData.sent_at,
       hasErrors: message ? hasErrors(message.attributes) : false,
     };

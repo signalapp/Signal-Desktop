@@ -616,18 +616,9 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
 
   scheduleSessionReset(senderUuid, senderDevice);
 
-  const conversationId = window.ConversationController.ensureContactIds({
+  const conversation = window.ConversationController.lookupOrCreate({
     uuid: senderUuid,
   });
-
-  if (!conversationId) {
-    log.warn(
-      'onLightSessionReset: No conversation id, cannot add message to timeline'
-    );
-    return;
-  }
-  const conversation = window.ConversationController.get(conversationId);
-
   if (!conversation) {
     log.warn(
       'onLightSessionReset: No conversation, cannot add message to timeline'

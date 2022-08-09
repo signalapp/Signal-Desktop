@@ -215,6 +215,7 @@ const dataInterface: ClientInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
+  _removeAllConversations,
   updateAllConversationColors,
   removeAllProfileKeyCredentials,
 
@@ -1082,6 +1083,10 @@ async function removeConversation(id: string): Promise<void> {
       deleteAttachmentData: window.Signal.Migrations.deleteAttachmentData,
     });
   }
+}
+
+async function _removeAllConversations(): Promise<void> {
+  await channels._removeAllConversations();
 }
 
 async function eraseStorageServiceStateFromConversations(): Promise<void> {

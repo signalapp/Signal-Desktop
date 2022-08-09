@@ -36,7 +36,7 @@ export function isQuoteAMatch(
   }
 
   const { authorUuid, id } = quote;
-  const authorConversationId = window.ConversationController.ensureContactIds({
+  const authorConversation = window.ConversationController.lookupOrCreate({
     e164: 'author' in quote ? quote.author : undefined,
     uuid: authorUuid,
   });
@@ -44,7 +44,7 @@ export function isQuoteAMatch(
   return (
     message.sent_at === id &&
     message.conversationId === conversationId &&
-    getContactId(message) === authorConversationId
+    getContactId(message) === authorConversation?.id
   );
 }
 
@@ -58,10 +58,11 @@ export function getContactId(
     return window.ConversationController.getOurConversationId();
   }
 
-  return window.ConversationController.ensureContactIds({
+  const conversation = window.ConversationController.lookupOrCreate({
     e164: source,
     uuid: sourceUuid,
   });
+  return conversation?.id;
 }
 
 export function getContact(

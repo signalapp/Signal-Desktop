@@ -414,6 +414,7 @@ export type DataInterface = {
   // updateConversation is a normal data method on Server, a sync batch-add on Client
   updateConversations: (array: Array<ConversationType>) => Promise<void>;
   // removeConversation handles either one id or an array on Server, and one id on Client
+  _removeAllConversations: () => Promise<void>;
   updateAllConversationColors: (
     conversationColor?: ConversationColorType,
     customColorData?: {

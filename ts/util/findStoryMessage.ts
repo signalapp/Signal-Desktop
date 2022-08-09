@@ -68,14 +68,14 @@ function isStoryAMatch(
     return false;
   }
 
-  const authorConversationId = window.ConversationController.ensureContactIds({
+  const authorConversation = window.ConversationController.lookupOrCreate({
     e164: undefined,
     uuid: authorUuid,
   });
 
   return (
     message.sent_at === sentTimestamp &&
-    getContactId(message) === authorConversationId &&
+    getContactId(message) === authorConversation?.id &&
     (message.conversationId === conversationId ||
       message.conversationId === ourConversationId)
   );

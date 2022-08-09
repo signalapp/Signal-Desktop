@@ -63,21 +63,21 @@ export async function sendReceipts({
         return result;
       }
 
-      const senderId = window.ConversationController.ensureContactIds({
+      const sender = window.ConversationController.lookupOrCreate({
         e164: senderE164,
         uuid: senderUuid,
       });
-      if (!senderId) {
+      if (!sender) {
         throw new Error(
           'no conversation found with that E164/UUID. Cannot send this receipt'
         );
       }
 
-      const existingGroup = result.get(senderId);
+      const existingGroup = result.get(sender.id);
       if (existingGroup) {
         existingGroup.push(receipt);
       } else {
-        result.set(senderId, [receipt]);
+        result.set(sender.id, [receipt]);
       }
 
       return result;

@@ -103,12 +103,10 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         conversation = window.ConversationController.get(groupId);
       }
       if (!conversation && (threadE164 || threadUuid)) {
-        conversation = window.ConversationController.get(
-          window.ConversationController.ensureContactIds({
-            e164: threadE164,
-            uuid: threadUuid,
-          })
-        );
+        conversation = window.ConversationController.lookupOrCreate({
+          e164: threadE164,
+          uuid: threadUuid,
+        });
       }
 
       if (!conversation) {

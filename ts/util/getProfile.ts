@@ -4,15 +4,11 @@
 import * as log from '../logging/log';
 import { profileService } from '../services/profiles';
 
-export async function getProfile(
-  providedUuid?: string,
-  providedE164?: string
-): Promise<void> {
-  const id = window.ConversationController.ensureContactIds({
-    uuid: providedUuid,
-    e164: providedE164,
+export async function getProfile(uuid?: string, e164?: string): Promise<void> {
+  const c = window.ConversationController.lookupOrCreate({
+    uuid,
+    e164,
   });
-  const c = window.ConversationController.get(id);
   if (!c) {
     log.error('getProfile: failed to find conversation; doing nothing');
     return;

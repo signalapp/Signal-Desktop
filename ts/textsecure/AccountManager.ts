@@ -615,10 +615,9 @@ export default class AccountManager extends EventTarget {
     // This needs to be done very early, because it changes how things are saved in the
     //   database. Your identity, for example, in the saveIdentityWithAttributes call
     //   below.
-    const conversationId = window.ConversationController.ensureContactIds({
+    const conversationId = window.ConversationController.maybeMergeContacts({
+      aci: ourUuid,
       e164: number,
-      uuid: ourUuid,
-      highTrust: true,
       reason: 'createAccount',
     });
 

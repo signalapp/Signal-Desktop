@@ -58,13 +58,13 @@ export class ReadSyncs extends Collection {
   }
 
   forMessage(message: MessageModel): ReadSyncModel | null {
-    const senderId = window.ConversationController.ensureContactIds({
+    const sender = window.ConversationController.lookupOrCreate({
       e164: message.get('source'),
       uuid: message.get('sourceUuid'),
     });
     const sync = this.find(item => {
       return (
-        item.get('senderId') === senderId &&
+        item.get('senderId') === sender?.id &&
         item.get('timestamp') === message.get('sent_at')
       );
     });
@@ -84,12 +84,12 @@ export class ReadSyncs extends Collection {
       );
 
       const found = messages.find(item => {
-        const senderId = window.ConversationController.ensureContactIds({
+        const sender = window.ConversationController.lookupOrCreate({
           e164: item.source,
           uuid: item.sourceUuid,
         });
 
-        return isIncoming(item) && senderId === sync.get('senderId');
+        return isIncoming(item) && sender?.id === sync.get('senderId');
       });
 
       if (!found) {

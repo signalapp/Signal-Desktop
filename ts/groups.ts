@@ -2501,11 +2501,11 @@ export function buildMigrationBubble(
     ...(newAttributes.membersV2 || []).map(item => item.uuid),
     ...(newAttributes.pendingMembersV2 || []).map(item => item.uuid),
   ].map(uuid => {
-    const conversationId = window.ConversationController.ensureContactIds({
+    const conversation = window.ConversationController.lookupOrCreate({
       uuid,
     });
-    strictAssert(conversationId, `Conversation not found for ${uuid}`);
-    return conversationId;
+    strictAssert(conversation, `Conversation not found for ${uuid}`);
+    return conversation.id;
   });
   const droppedMemberIds: Array<string> = difference(
     previousGroupV1MembersIds,

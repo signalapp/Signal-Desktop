@@ -863,21 +863,15 @@ export async function mergeContactRecord(
     return { hasConflict: false, shouldDrop: true, details: ['our own uuid'] };
   }
 
-  const id = window.ConversationController.ensureContactIds({
+  const conversation = window.ConversationController.maybeMergeContacts({
+    aci: uuid,
     e164,
-    uuid,
-    highTrust: true,
     reason: 'mergeContactRecord',
   });
 
-  if (!id) {
-    throw new Error(`No ID for ${storageID}`);
+  if (!conversation) {
+    throw new Error(`No conversation for ${storageID}`);
   }
-
-  const conversation = await window.ConversationController.getOrCreateAndWait(
-    id,
-    'private'
-  );
 
   let needsProfileFetch = false;
   if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
@@ -1129,32 +1123,32 @@ export async function mergeAccountRecord(
 
     const remotelyPinnedConversationPromises = pinnedConversations.map(
       async ({ contact, legacyGroupId, groupMasterKey }) => {
-        let conversationId: string | undefined;
+        let conversation: ConversationModel | undefined;
 
         if (contact) {
-          conversationId =
-            window.ConversationController.ensureContactIds(contact);
+          conversation = window.ConversationController.lookupOrCreate(contact);
         } else if (legacyGroupId && legacyGroupId.length) {
-          conversationId = Bytes.toBinary(legacyGroupId);
+          const groupId = Bytes.toBinary(legacyGroupId);
+          conversation = window.ConversationController.get(groupId);
         } else if (groupMasterKey && groupMasterKey.length) {
           const groupFields = deriveGroupFields(groupMasterKey);
           const groupId = Bytes.toBase64(groupFields.id);
 
-          conversationId = groupId;
+          conversation = window.ConversationController.get(groupId);
         } else {
           log.error(
             'storageService.mergeAccountRecord: Invalid identifier received'
           );
         }
 
-        if (!conversationId) {
+        if (!conversation) {
           log.error(
             'storageService.mergeAccountRecord: missing conversation id.'
           );
           return undefined;
         }
 
-        return window.ConversationController.get(conversationId);
+        return conversation;
       }
     );
 

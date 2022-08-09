@@ -73,24 +73,23 @@ export async function lookupConversationWithoutUuid(
       const serverLookup = await messaging.getUuidsForE164s([options.e164]);
 
       if (serverLookup[options.e164]) {
-        conversationId = window.ConversationController.ensureContactIds({
+        const convo = window.ConversationController.maybeMergeContacts({
+          aci: serverLookup[options.e164] || undefined,
           e164: options.e164,
-          uuid: serverLookup[options.e164],
-          highTrust: true,
           reason: 'startNewConversationWithoutUuid(e164)',
         });
+        conversationId = convo?.id;
       }
     } else {
       const foundUsername = await checkForUsername(options.username);
       if (foundUsername) {
-        conversationId = window.ConversationController.ensureContactIds({
+        const convo = window.ConversationController.lookupOrCreate({
           uuid: foundUsername.uuid,
-          highTrust: true,
-          reason: 'startNewConversationWithoutUuid(username)',
         });
 
-        const convo = window.ConversationController.get(conversationId);
         strictAssert(convo, 'We just ensured conversation existence');
+
+        conversationId = convo.id;
 
         convo.set({ username: foundUsername.username });
       }

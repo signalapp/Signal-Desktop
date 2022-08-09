@@ -322,6 +322,7 @@ export type ConversationAttributesType = {
 
   // Private core info
   uuid?: UUIDStringType;
+  pni?: UUIDStringType;
   e164?: string;
 
   // Private other fields

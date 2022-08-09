@@ -1045,11 +1045,11 @@ export class SignalProtocolStore extends EventsMixin {
       }
       const { uuid, deviceId } = qualifiedAddress;
 
-      const conversationId = window.ConversationController.ensureContactIds({
+      const conversation = window.ConversationController.lookupOrCreate({
         uuid: uuid.toString(),
       });
       strictAssert(
-        conversationId !== undefined,
+        conversation !== undefined,
         'storeSession: Ensure contact ids failed'
       );
       const id = qualifiedAddress.toString();
@@ -1059,7 +1059,7 @@ export class SignalProtocolStore extends EventsMixin {
           id,
           version: 2,
           ourUuid: qualifiedAddress.ourUuid.toString(),
-          conversationId,
+          conversationId: conversation.id,
           uuid: uuid.toString(),
           deviceId,
           record: record.serialize().toString('base64'),
@@ -1376,12 +1376,9 @@ export class SignalProtocolStore extends EventsMixin {
       const { uuid } = qualifiedAddress;
 
       // First, fetch this conversation
-      const conversationId = window.ConversationController.ensureContactIds({
+      const conversation = window.ConversationController.lookupOrCreate({
         uuid: uuid.toString(),
       });
-      assert(conversationId, `lightSessionReset/${id}: missing conversationId`);
-
-      const conversation = window.ConversationController.get(conversationId);
       assert(conversation, `lightSessionReset/${id}: missing conversation`);
 
       log.warn(`lightSessionReset/${id}: Resetting session`);

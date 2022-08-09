@@ -35,13 +35,13 @@ export class ViewSyncs extends Collection {
   }
 
   forMessage(message: MessageModel): Array<ViewSyncModel> {
-    const senderId = window.ConversationController.ensureContactIds({
+    const sender = window.ConversationController.lookupOrCreate({
       e164: message.get('source'),
       uuid: message.get('sourceUuid'),
     });
     const syncs = this.filter(item => {
       return (
-        item.get('senderId') === senderId &&
+        item.get('senderId') === sender?.id &&
         item.get('timestamp') === message.get('sent_at')
       );
     });
@@ -63,12 +63,12 @@ export class ViewSyncs extends Collection {
       );
 
       const found = messages.find(item => {
-        const senderId = window.ConversationController.ensureContactIds({
+        const sender = window.ConversationController.lookupOrCreate({
           e164: item.source,
           uuid: item.sourceUuid,
         });
 
-        return senderId === sync.get('senderId');
+        return sender?.id === sync.get('senderId');
       });
 
       if (!found) {

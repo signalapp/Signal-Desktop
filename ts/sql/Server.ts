@@ -207,6 +207,7 @@ const dataInterface: ServerInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
+  _removeAllConversations,
   updateAllConversationColors,
   removeAllProfileKeyCredentials,
 
@@ -1476,6 +1477,11 @@ async function removeConversation(id: Array<string> | string): Promise<void> {
   }
 
   batchMultiVarQuery(db, id, removeConversationsSync);
+}
+
+async function _removeAllConversations(): Promise<void> {
+  const db = getInstance();
+  db.prepare<EmptyQuery>('DELETE from conversations;').run();
 }
 
 async function getConversationById(

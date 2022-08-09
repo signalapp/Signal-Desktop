@@ -121,10 +121,10 @@ const mapStateToActiveCallProp = (
   const conversationSelectorByUuid = memoize<
     (uuid: UUIDStringType) => undefined | ConversationType
   >(uuid => {
-    const conversationId = window.ConversationController.ensureContactIds({
+    const convoForUuid = window.ConversationController.lookupOrCreate({
       uuid,
     });
-    return conversationId ? conversationSelector(conversationId) : undefined;
+    return convoForUuid ? conversationSelector(convoForUuid.id) : undefined;
   });
 
   const baseResult = {

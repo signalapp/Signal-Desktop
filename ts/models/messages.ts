@@ -291,12 +291,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sourceDevice = this.get('sourceDevice');
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const sourceId = window.ConversationController.ensureContactIds({
+    const conversation = window.ConversationController.lookupOrCreate({
       e164: source,
       uuid: sourceUuid,
     })!;
 
-    return `${sourceId}.${sourceDevice}-${sentAt}`;
+    return `${conversation?.id}.${sourceDevice}-${sentAt}`;
   }
 
   getReceivedAt(): number {
@@ -2137,14 +2137,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 return;
               }
 
-              const destinationConversationId =
-                window.ConversationController.ensureContactIds({
-                  uuid: destinationUuid,
-                  e164: destination,
-                  highTrust: true,
+              const destinationConversation =
+                window.ConversationController.maybeMergeContacts({
+                  aci: destinationUuid,
+                  e164: destination || undefined,
                   reason: `handleDataMessage(${initialMessage.timestamp})`,
                 });
-              if (!destinationConversationId) {
+              if (!destinationConversation) {
                 return;
               }
 
@@ -2155,9 +2154,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
               const previousSendState = getOwn(
                 sendStateByConversationId,
-                destinationConversationId
+                destinationConversation.id
               );
-              sendStateByConversationId[destinationConversationId] =
+              sendStateByConversationId[destinationConversation.id] =
                 previousSendState
                   ? sendStateReducer(previousSendState, {
                       type: SendActionType.Sent,
@@ -2274,7 +2273,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         UUIDKind.ACI
       );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const senderId = window.ConversationController.ensureContactIds({
+      const sender = window.ConversationController.lookupOrCreate({
         e164: source,
         uuid: sourceUuid,
       })!;
@@ -2348,7 +2347,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // Drop incoming messages to announcement only groups where sender is not admin
       if (
         conversation.get('announcementsOnly') &&
-        !conversation.isAdmin(UUID.checkedLookup(senderId))
+        !conversation.isAdmin(UUID.checkedLookup(sender?.id))
       ) {
         confirm();
         return;
@@ -2565,8 +2564,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 conversation.set({ addedBy: getContactId(message.attributes) });
               }
             } else if (initialMessage.group.type === GROUP_TYPES.QUIT) {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              const sender = window.ConversationController.get(senderId)!;
               const inGroup = Boolean(
                 sender &&
                   (conversation.get('members') || []).includes(sender.id)
@@ -2682,14 +2679,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             } else if (isDirectConversation(conversation.attributes)) {
               conversation.setProfileKey(profileKey);
             } else {
-              const localId = window.ConversationController.ensureContactIds({
+              const local = window.ConversationController.lookupOrCreate({
                 e164: source,
                 uuid: sourceUuid,
               });
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              window.ConversationController.get(localId)!.setProfileKey(
-                profileKey
-              );
+              local?.setProfileKey(profileKey);
             }
           }
 
