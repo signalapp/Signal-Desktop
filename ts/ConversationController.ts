@@ -1,27 +1,29 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, uniq, without } from 'lodash';
+import { debounce, pick, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 
-import dataInterface from './sql/Client';
 import type {
   ConversationModelCollectionType,
   ConversationAttributesType,
   ConversationAttributesTypeType,
 } from './model-types.d';
 import type { ConversationModel } from './models/conversations';
+import type { MessageModel } from './models/messages';
+import type { UUIDStringType } from './types/UUID';
+
+import dataInterface from './sql/Client';
+import * as log from './logging/log';
+import * as Errors from './types/errors';
 import { getContactId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert, strictAssert } from './util/assert';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
 import { UUID, isValidUuid, UUIDKind } from './types/UUID';
-import type { UUIDStringType } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
-import * as log from './logging/log';
-import * as Errors from './types/errors';
 import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
 import { MINUTE, SECOND } from './util/durations';
@@ -87,7 +89,7 @@ function applyChangeToConversation(
   // Note: we don't do a conversation.set here, because change is limited to these fields
 }
 
-async function mergeConversations({
+async function safeCombineConversations({
   logId,
   oldConversation,
   newConversation,
@@ -101,12 +103,6 @@ async function mergeConversations({
       newConversation,
       oldConversation
     );
-
-    // If the old conversation was currently displayed, we load the new one
-    window.Whisper.events.trigger('refreshConversation', {
-      newId: newConversation.get('id'),
-      oldId: oldConversation.get('id'),
-    });
   } catch (error) {
     log.warn(
       `${logId}: error combining contacts: ${Errors.toLogFormat(error)}`
@@ -421,7 +417,7 @@ export class ConversationController {
     e164,
     pni: providedPni,
     reason,
-    mergeOldAndNew = mergeConversations,
+    mergeOldAndNew = safeCombineConversations,
   }: {
     aci?: string;
     e164?: string;
@@ -453,10 +449,6 @@ export class ConversationController {
       throw new Error(
         `${logId}: Need to provide at least one of: aci, e164, pni`
       );
-    }
-
-    if (pni && !e164) {
-      throw new Error(`${logId}: Cannot provide pni without an e164`);
     }
 
     const identifier = aci || e164 || pni;
@@ -575,7 +567,7 @@ export class ConversationController {
         }
       } else if (targetConversation && !targetConversation?.get(key)) {
         // This is mostly for the situation where PNI was erased when updating e164
-        // log.debug(`${logId}: Re-adding ${key} on target conversation`);
+        log.debug(`${logId}: Re-adding ${key} on target conversation`);
         applyChangeToConversation(targetConversation, {
           [key]: value,
         });
@@ -821,36 +813,61 @@ export class ConversationController {
     current: ConversationModel,
     obsolete: ConversationModel
   ): Promise<void> {
+    const logId = `combineConversations/${obsolete.id}->${current.id}`;
+
     return this._combineConversationsQueue.add(async () => {
       const conversationType = current.get('type');
 
       if (!this.get(obsolete.id)) {
-        log.warn(
-          `combineConversations: Already combined obsolete conversation ${obsolete.id}`
-        );
+        log.warn(`${logId}: Already combined obsolete conversation`);
       }
 
       if (obsolete.get('type') !== conversationType) {
         assert(
           false,
-          'combineConversations cannot combine a private and group conversation. Doing nothing'
+          `${logId}: cannot combine a private and group conversation. Doing nothing`
         );
         return;
       }
 
+      const dataToCopy: Partial<ConversationAttributesType> = pick(
+        obsolete.attributes,
+        [
+          'conversationColor',
+          'customColor',
+          'customColorId',
+          'draftAttachments',
+          'draftBodyRanges',
+          'draftTimestamp',
+          'messageCount',
+          'messageRequestResponseType',
+          'quotedMessageId',
+          'sentMessageCount',
+        ]
+      );
+
+      const keys = Object.keys(dataToCopy) as Array<
+        keyof ConversationAttributesType
+      >;
+      keys.forEach(key => {
+        if (current.get(key) === undefined) {
+          current.set(key, dataToCopy[key]);
+
+          // To ensure that any files on disk don't get deleted out from under us
+          if (key === 'draftAttachments') {
+            obsolete.set(key, undefined);
+          }
+        }
+      });
+
       const obsoleteId = obsolete.get('id');
       const obsoleteUuid = obsolete.getUuid();
       const currentId = current.get('id');
-      log.warn('combineConversations: Combining two conversations', {
-        obsolete: obsoleteId,
-        current: currentId,
-      });
+      log.warn(`${logId}: Combining two conversations...`);
 
       if (conversationType === 'private' && obsoleteUuid) {
         if (!current.get('profileKey') && obsolete.get('profileKey')) {
-          log.warn(
-            'combineConversations: Copying profile key from old to new contact'
-          );
+          log.warn(`${logId}: Copying profile key from old to new contact`);
 
           const profileKey = obsolete.get('profileKey');
 
@@ -859,28 +876,33 @@ export class ConversationController {
           }
         }
 
-        log.warn(
-          'combineConversations: Delete all sessions tied to old conversationId'
-        );
-        const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-        const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-          {
-            ourUuid,
-            identifier: obsoleteUuid.toString(),
-          }
-        );
+        log.warn(`${logId}: Delete all sessions tied to old conversationId`);
+        const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
+        const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
         await Promise.all(
-          deviceIds.map(async deviceId => {
-            const addr = new QualifiedAddress(
-              ourUuid,
-              new Address(obsoleteUuid, deviceId)
+          [ourACI, ourPNI].map(async ourUuid => {
+            if (!ourUuid) {
+              return;
+            }
+            const deviceIds =
+              await window.textsecure.storage.protocol.getDeviceIds({
+                ourUuid,
+                identifier: obsoleteUuid.toString(),
+              });
+            await Promise.all(
+              deviceIds.map(async deviceId => {
+                const addr = new QualifiedAddress(
+                  ourUuid,
+                  new Address(obsoleteUuid, deviceId)
+                );
+                await window.textsecure.storage.protocol.removeSession(addr);
+              })
             );
-            await window.textsecure.storage.protocol.removeSession(addr);
           })
         );
 
         log.warn(
-          'combineConversations: Delete all identity information tied to old conversationId'
+          `${logId}: Delete all identity information tied to old conversationId`
         );
 
         if (obsoleteUuid) {
@@ -890,7 +912,7 @@ export class ConversationController {
         }
 
         log.warn(
-          'combineConversations: Ensure that all V1 groups have new conversationId instead of old'
+          `${logId}: Ensure that all V1 groups have new conversationId instead of old`
         );
         const groups = await this.getAllGroupsInvolvingUuid(obsoleteUuid);
         groups.forEach(group => {
@@ -907,24 +929,34 @@ export class ConversationController {
 
       // Note: we explicitly don't want to update V2 groups
 
-      log.warn(
-        'combineConversations: Delete the obsolete conversation from the database'
-      );
+      log.warn(`${logId}: Delete the obsolete conversation from the database`);
       await removeConversation(obsoleteId);
 
-      log.warn('combineConversations: Update messages table');
+      log.warn(`${logId}: Update cached messages in MessageController`);
+      window.MessageController.update((message: MessageModel) => {
+        if (message.get('conversationId') === obsoleteId) {
+          message.set({ conversationId: currentId });
+        }
+      });
+
+      log.warn(`${logId}: Update messages table`);
       await migrateConversationMessages(obsoleteId, currentId);
 
       log.warn(
-        'combineConversations: Eliminate old conversation from ConversationController lookups'
+        `${logId}: Emit refreshConversation event to close old/open new`
+      );
+      window.Whisper.events.trigger('refreshConversation', {
+        newId: currentId,
+        oldId: obsoleteId,
+      });
+
+      log.warn(
+        `${logId}: Eliminate old conversation from ConversationController lookups`
       );
       this._conversations.remove(obsolete);
       this._conversations.resetLookups();
 
-      log.warn('combineConversations: Complete!', {
-        obsolete: obsoleteId,
-        current: currentId,
-      });
+      log.warn(`${logId}: Complete!`);
     });
   }
 

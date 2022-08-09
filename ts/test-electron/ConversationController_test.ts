@@ -43,25 +43,13 @@ describe('ConversationController', () => {
       };
     });
 
-    // Verifying incoming data
-    describe('data validation', () => {
-      it('throws when provided no data', () => {
-        assert.throws(() => {
-          window.ConversationController.maybeMergeContacts({
-            mergeOldAndNew,
-            reason,
-          });
-        }, 'Need to provide at least one');
-      });
-      it('throws when provided a pni with no e164', () => {
-        assert.throws(() => {
-          window.ConversationController.maybeMergeContacts({
-            mergeOldAndNew,
-            pni: PNI_1,
-            reason,
-          });
-        }, 'Cannot provide pni without an e164');
-      });
+    it('throws when provided no data', () => {
+      assert.throws(() => {
+        window.ConversationController.maybeMergeContacts({
+          mergeOldAndNew,
+          reason,
+        });
+      }, 'Need to provide at least one');
     });
 
     function create(
@@ -300,6 +288,32 @@ describe('ConversationController', () => {
 
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
+      it('adds ACI (via ACI+PNI) to conversation with e164+PNI', () => {
+        const initial = create('initial', {
+          uuid: PNI_1,
+          e164: E164_1,
+        });
+
+        expectPropsAndLookups(initial, 'initial', {
+          uuid: PNI_1,
+          e164: E164_1,
+        });
+
+        const result = window.ConversationController.maybeMergeContacts({
+          mergeOldAndNew,
+          aci: ACI_1,
+          pni: PNI_1,
+          reason,
+        });
+        expectPropsAndLookups(result, 'result', {
+          uuid: ACI_1,
+          e164: E164_1,
+          pni: PNI_1,
+        });
+
+        assert.strictEqual(initial?.id, result?.id, 'result and initial match');
+      });
+
       it('adds e164+PNI to conversation with just ACI', () => {
         const initial = create('initial', {
           uuid: ACI_1,

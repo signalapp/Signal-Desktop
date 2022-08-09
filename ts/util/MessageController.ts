@@ -3,6 +3,7 @@
 
 import type { MessageModel } from '../models/messages';
 import * as durations from './durations';
+import * as log from '../logging/log';
 import { map, filter } from './iterables';
 import { isNotNil } from './isNotNil';
 import type { MessageAttributesType } from '../model-types.d';
@@ -119,6 +120,14 @@ export class MessageController {
       return undefined;
     }
     return this.getById(id);
+  }
+
+  update(predicate: (message: MessageModel) => void): void {
+    const values = Object.values(this.messageLookup);
+    log.info(
+      `MessageController.update: About to process ${values.length} messages`
+    );
+    values.forEach(({ message }) => predicate(message));
   }
 
   _get(): LookupType {
