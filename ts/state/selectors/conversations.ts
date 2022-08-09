@@ -826,16 +826,21 @@ export const getMessagePropsByMessageId = createSelector(
 
     const groupAdmins = (isGroup && foundMessageConversation.groupAdmins) || [];
     const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
+
+    const groupModerators = (isGroup && foundMessageConversation.groupModerators) || [];
+    const weAreModerator = groupModerators.includes(ourPubkey) || false;
     // A message is deletable if
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)
-    // or the convo is public and we are an admin
-    const isDeletable = sender === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
+    // or the convo is public and we are an admin or moderator
+    const isDeletable =
+      sender === ourPubkey || !isPublic || (isPublic && (weAreAdmin || weAreModerator));
 
     // A message is deletable for everyone if
     // either we sent it no matter what the conversation type,
-    // or the convo is public and we are an admin
-    const isDeletableForEveryone = sender === ourPubkey || (isPublic && !!weAreAdmin) || false;
+    // or the convo is public and we are an admin or moderator
+    const isDeletableForEveryone =
+      sender === ourPubkey || (isPublic && (weAreAdmin || weAreModerator)) || false;
 
     const isSenderAdmin = groupAdmins.includes(sender);
     const senderIsUs = sender === ourPubkey;

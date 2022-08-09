@@ -29,6 +29,11 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
+  debug: {
+    debugFileServerRequests: false,
+    debugNonSnodeRequests: false,
+    debugOnionRequests: false,
+  },
 };
 
 window.versionInfo = {

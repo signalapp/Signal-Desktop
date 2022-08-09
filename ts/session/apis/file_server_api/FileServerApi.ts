@@ -73,12 +73,18 @@ export const downloadFileFromFileServer = async (
     return null;
   }
 
+  const urlToGet = `${POST_GET_FILE_ENDPOINT}/${fileId}`;
+  if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
+    window.log.info(`about to try to download fsv2: "${urlToGet}"`);
+  }
   const result = await OnionSending.getBinaryViaOnionV4FromFileServer({
     abortSignal: new AbortController().signal,
-    endpoint: `${POST_GET_FILE_ENDPOINT}/${fileId}`,
+    endpoint: urlToGet,
     method: 'GET',
   });
-
+  if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
+    window.log.info(`download fsv2: "${urlToGet} got result:`, JSON.stringify(result));
+  }
   if (!result) {
     return null;
   }
