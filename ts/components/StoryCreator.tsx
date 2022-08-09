@@ -36,6 +36,7 @@ export type PropsType = {
   onClose: () => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
+    conversationIds: Array<string>,
     attachment: AttachmentType
   ) => unknown;
   processAttachment: (
@@ -104,7 +105,7 @@ export const StoryCreator = ({
           me={me}
           onClose={() => setDraftAttachment(undefined)}
           onSend={listIds => {
-            onSend(listIds, draftAttachment);
+            onSend(listIds, [], draftAttachment);
             setDraftAttachment(undefined);
             onClose();
           }}

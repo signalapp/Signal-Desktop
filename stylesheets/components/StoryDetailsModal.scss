@@ -10,6 +10,10 @@
     justify-content: flex-end;
   }
 
+  &__debugger__container {
+    justify-content: flex-start;
+  }
+
   &__debugger__button {
     color: $color-gray-25;
     display: block;

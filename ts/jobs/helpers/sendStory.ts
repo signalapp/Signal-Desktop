@@ -29,7 +29,7 @@ import {
 } from '../../util/getSendOptions';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
-import { isMe } from '../../util/whatTypeOfConversation';
+import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { isNotNil } from '../../util/isNotNil';
 import { isSent } from '../../messages/MessageSendState';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
@@ -66,7 +66,7 @@ export async function sendStory(
     const message = await getMessageById(messageId);
     if (!message) {
       log.info(
-        `stories.sendStory: message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
+        `stories.sendStory(${messageId}): message was not found, maybe because it was deleted. Giving up on sending it`
       );
       return;
     }
@@ -76,7 +76,7 @@ export async function sendStory(
 
     if (!attachment) {
       log.info(
-        `stories.sendStory: message ${messageId} does not have any attachments to send. Giving up on sending it`
+        `stories.sendStory(${messageId}): message does not have any attachments to send. Giving up on sending it`
       );
       return;
     }
@@ -107,15 +107,16 @@ export async function sendStory(
     return;
   }
 
-  const accSendStateByConversationId = new Map<string, SendState>();
   const canReplyUuids = new Set<string>();
   const recipientsByUuid = new Map<string, Set<string>>();
+  const sentConversationIds = new Map<string, SendState>();
+  const sentUuids = new Set<string>();
 
   // This function is used to keep track of all the recipients so once we're
   // done with our send we can build up the storyMessageRecipients object for
   // sending in the sync message.
-  function processStoryMessageRecipient(
-    listId: string,
+  function addDistributionListToUuidSent(
+    listId: string | undefined,
     uuid: string,
     canReply?: boolean
   ): void {
@@ -125,44 +126,15 @@ export async function sendStory(
 
     const distributionListIds = recipientsByUuid.get(uuid) || new Set<string>();
 
-    recipientsByUuid.set(uuid, new Set([...distributionListIds, listId]));
+    if (listId) {
+      recipientsByUuid.set(uuid, new Set([...distributionListIds, listId]));
+    } else {
+      recipientsByUuid.set(uuid, distributionListIds);
+    }
 
     if (canReply) {
       canReplyUuids.add(uuid);
     }
-  }
-
-  // Since some contacts will be duplicated across lists but we won't be sending
-  // duplicate messages we need to ensure that sendStateByConversationId is kept
-  // in sync across all messages.
-  async function maybeUpdateMessageSendState(
-    message: MessageModel
-  ): Promise<void> {
-    const oldSendStateByConversationId =
-      message.get('sendStateByConversationId') || {};
-
-    const newSendStateByConversationId = Object.keys(
-      oldSendStateByConversationId
-    ).reduce((acc, conversationId) => {
-      const sendState = accSendStateByConversationId.get(conversationId);
-      if (sendState) {
-        return {
-          ...acc,
-          [conversationId]: sendState,
-        };
-      }
-
-      return acc;
-    }, {} as SendStateByConversationId);
-
-    if (isEqual(oldSendStateByConversationId, newSendStateByConversationId)) {
-      return;
-    }
-
-    message.set('sendStateByConversationId', newSendStateByConversationId);
-    await window.Signal.Data.saveMessage(message.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-    });
   }
 
   let isSyncMessageUpdate = false;
@@ -173,7 +145,7 @@ export async function sendStory(
       const message = await getMessageById(messageId);
       if (!message) {
         log.info(
-          `stories.sendStory: message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
+          `stories.sendStory(${messageId}): message was not found, maybe because it was deleted. Giving up on sending it`
         );
         return;
       }
@@ -188,29 +160,26 @@ export async function sendStory(
 
       if (message.isErased() || message.get('deletedForEveryone')) {
         log.info(
-          `stories.sendStory: message ${messageId} was erased. Giving up on sending it`
+          `stories.sendStory(${messageId}): message was erased. Giving up on sending it`
         );
         return;
       }
 
       const listId = message.get('storyDistributionListId');
+      const receiverId = isGroupV2(messageConversation.attributes)
+        ? messageConversation.id
+        : listId;
 
-      if (!listId) {
+      if (!receiverId) {
         log.info(
-          `stories.sendStory: message ${messageId} does not have a storyDistributionListId. Giving up on sending it`
+          `stories.sendStory(${messageId}): did not get a valid recipient ID for message. Giving up on sending it`
         );
         return;
       }
 
-      const distributionList =
-        await dataInterface.getStoryDistributionWithMembers(listId);
-
-      if (!distributionList) {
-        log.info(
-          `stories.sendStory: Distribution list ${listId} was not found. Giving up on sending message ${messageId}`
-        );
-        return;
-      }
+      const distributionList = isGroupV2(messageConversation.attributes)
+        ? undefined
+        : await dataInterface.getStoryDistributionWithMembers(receiverId);
 
       let messageSendErrors: Array<Error> = [];
 
@@ -230,7 +199,7 @@ export async function sendStory(
 
       if (!shouldContinue) {
         log.info(
-          `stories.sendStory: message ${messageId} ran out of time. Giving up on sending it`
+          `stories.sendStory(${messageId}): ran out of time. Giving up on sending it`
         );
         await markMessageFailed(message, [
           new Error('Message send ran out of time'),
@@ -241,10 +210,10 @@ export async function sendStory(
       let originalError: Error | undefined;
 
       const {
-        allRecipientIdentifiers,
+        allRecipientIds,
         allowedReplyByUuid,
-        recipientIdentifiersWithoutMe,
-        sentRecipientIdentifiers,
+        pendingSendRecipientIds,
+        sentRecipientIds,
         untrustedUuids,
       } = getMessageRecipients({
         log,
@@ -260,39 +229,31 @@ export async function sendStory(
             }
           );
           throw new Error(
-            `stories.sendStory: Message ${messageId} sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
+            `stories.sendStory(${messageId}): sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
           );
         }
 
-        if (
-          !allRecipientIdentifiers.length ||
-          !recipientIdentifiersWithoutMe.length
-        ) {
-          log.info(
-            `stories.sendStory: trying to send message ${messageId} but it looks like it was already sent to everyone.`
-          );
-          sentRecipientIdentifiers.forEach(uuid =>
-            processStoryMessageRecipient(
+        if (!pendingSendRecipientIds.length) {
+          allRecipientIds.forEach(uuid =>
+            addDistributionListToUuidSent(
               listId,
               uuid,
               allowedReplyByUuid.get(uuid)
             )
           );
-          await maybeUpdateMessageSendState(message);
           return;
         }
 
         const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-        const recipientsSet = new Set(recipientIdentifiersWithoutMe);
+        const recipientsSet = new Set(pendingSendRecipientIds);
 
         const sendOptions = await getSendOptionsForRecipients(
-          recipientIdentifiersWithoutMe
+          pendingSendRecipientIds
         );
 
         log.info(
-          'stories.sendStory: sending story to distribution list',
-          listId
+          `stories.sendStory(${messageId}): sending story to ${receiverId}`
         );
 
         const storyMessage = new Proto.StoryMessage();
@@ -300,7 +261,29 @@ export async function sendStory(
         storyMessage.fileAttachment = originalStoryMessage.fileAttachment;
         storyMessage.textAttachment = originalStoryMessage.textAttachment;
         storyMessage.group = originalStoryMessage.group;
-        storyMessage.allowsReplies = Boolean(distributionList.allowsReplies);
+        storyMessage.allowsReplies =
+          isGroupV2(messageConversation.attributes) ||
+          Boolean(distributionList?.allowsReplies);
+
+        const sendTarget = distributionList
+          ? {
+              getGroupId: () => undefined,
+              getMembers: () =>
+                pendingSendRecipientIds
+                  .map(uuid => window.ConversationController.get(uuid))
+                  .filter(isNotNil),
+              hasMember: (uuid: UUIDStringType) => recipientsSet.has(uuid),
+              idForLogging: () => `dl(${receiverId})`,
+              isGroupV2: () => true,
+              isValid: () => true,
+              getSenderKeyInfo: () => distributionList.senderKeyInfo,
+              saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) =>
+                dataInterface.modifyStoryDistribution({
+                  ...distributionList,
+                  senderKeyInfo,
+                }),
+            }
+          : conversation.toSenderKeyTarget();
 
         const contentMessage = new Proto.Content();
         contentMessage.storyMessage = storyMessage;
@@ -310,25 +293,9 @@ export async function sendStory(
           contentMessage,
           isPartialSend: false,
           messageId: undefined,
-          recipients: recipientIdentifiersWithoutMe,
+          recipients: pendingSendRecipientIds,
           sendOptions,
-          sendTarget: {
-            getGroupId: () => undefined,
-            getMembers: () =>
-              recipientIdentifiersWithoutMe
-                .map(uuid => window.ConversationController.get(uuid))
-                .filter(isNotNil),
-            hasMember: (uuid: UUIDStringType) => recipientsSet.has(uuid),
-            idForLogging: () => `dl(${listId})`,
-            isGroupV2: () => true,
-            isValid: () => true,
-            getSenderKeyInfo: () => distributionList.senderKeyInfo,
-            saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) =>
-              dataInterface.modifyStoryDistribution({
-                ...distributionList,
-                senderKeyInfo,
-              }),
-          },
+          sendTarget,
           sendType: 'story',
           timestamp,
           urgent: false,
@@ -369,16 +336,30 @@ export async function sendStory(
           message.get('sendStateByConversationId') || {};
         Object.entries(sendStateByConversationId).forEach(
           ([recipientConversationId, sendState]) => {
-            if (accSendStateByConversationId.has(recipientConversationId)) {
+            if (!isSent(sendState.status)) {
               return;
             }
 
-            accSendStateByConversationId.set(
-              recipientConversationId,
-              sendState
+            sentConversationIds.set(recipientConversationId, sendState);
+
+            const recipient = window.ConversationController.get(
+              recipientConversationId
             );
+            const uuid = recipient?.get('uuid');
+            if (!uuid) {
+              return;
+            }
+            sentUuids.add(uuid);
           }
         );
+
+        allRecipientIds.forEach(uuid => {
+          addDistributionListToUuidSent(
+            listId,
+            uuid,
+            allowedReplyByUuid.get(uuid)
+          );
+        });
 
         const didFullySend =
           !messageSendErrors.length || didSendToEveryone(message);
@@ -400,21 +381,59 @@ export async function sendStory(
           toThrow: originalError || thrownError,
         });
       } finally {
-        recipientIdentifiersWithoutMe.forEach(uuid =>
-          processStoryMessageRecipient(
-            listId,
-            uuid,
-            allowedReplyByUuid.get(uuid)
-          )
-        );
-        // Greater than 1 because our own conversation will always count as "sent"
-        isSyncMessageUpdate = sentRecipientIdentifiers.length > 1;
-        await maybeUpdateMessageSendState(message);
+        isSyncMessageUpdate = sentRecipientIds.length > 0;
       }
     })
   );
 
-  // Send the sync message
+  // Some contacts are duplicated across lists and we don't send duplicate
+  // messages but we still want to make sure that the sendStateByConversationId
+  // is kept in sync across all messages.
+  await Promise.all(
+    messageIds.map(async messageId => {
+      const message = await getMessageById(messageId);
+      if (!message) {
+        return;
+      }
+
+      const oldSendStateByConversationId =
+        message.get('sendStateByConversationId') || {};
+
+      const newSendStateByConversationId = Object.keys(
+        oldSendStateByConversationId
+      ).reduce((acc, conversationId) => {
+        const sendState = sentConversationIds.get(conversationId);
+        if (sendState) {
+          return {
+            ...acc,
+            [conversationId]: sendState,
+          };
+        }
+
+        return acc;
+      }, {} as SendStateByConversationId);
+
+      if (isEqual(oldSendStateByConversationId, newSendStateByConversationId)) {
+        return;
+      }
+
+      message.set('sendStateByConversationId', newSendStateByConversationId);
+      return window.Signal.Data.saveMessage(message.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
+    })
+  );
+
+  // Remove any unsent recipients
+  recipientsByUuid.forEach((_value, uuid) => {
+    if (sentUuids.has(uuid)) {
+      return;
+    }
+
+    recipientsByUuid.delete(uuid);
+  });
+
+  // Build up the sync message's storyMessageRecipients and send it
   const storyMessageRecipients: Array<{
     destinationUuid: string;
     distributionListIds: Array<string>;
@@ -452,24 +471,20 @@ function getMessageRecipients({
   log: LoggerType;
   message: MessageModel;
 }>): {
-  allRecipientIdentifiers: Array<string>;
+  allRecipientIds: Array<string>;
   allowedReplyByUuid: Map<string, boolean>;
-  recipientIdentifiersWithoutMe: Array<string>;
-  sentRecipientIdentifiers: Array<string>;
+  pendingSendRecipientIds: Array<string>;
+  sentRecipientIds: Array<string>;
   untrustedUuids: Array<string>;
 } {
-  const allRecipientIdentifiers: Array<string> = [];
-  const recipientIdentifiersWithoutMe: Array<string> = [];
-  const untrustedUuids: Array<string> = [];
-  const sentRecipientIdentifiers: Array<string> = [];
+  const allRecipientIds: Array<string> = [];
   const allowedReplyByUuid = new Map<string, boolean>();
+  const pendingSendRecipientIds: Array<string> = [];
+  const sentRecipientIds: Array<string> = [];
+  const untrustedUuids: Array<string> = [];
 
   Object.entries(message.get('sendStateByConversationId') || {}).forEach(
     ([recipientConversationId, sendState]) => {
-      if (sendState.isAlreadyIncludedInAnotherDistributionList) {
-        return;
-      }
-
       const recipient = window.ConversationController.get(
         recipientConversationId
       );
@@ -478,6 +493,9 @@ function getMessageRecipients({
       }
 
       const isRecipientMe = isMe(recipient.attributes);
+      if (isRecipientMe) {
+        return;
+      }
 
       if (recipient.isUntrusted()) {
         const uuid = recipient.get('uuid');
@@ -494,33 +512,35 @@ function getMessageRecipients({
         return;
       }
 
-      const recipientIdentifier = recipient.getSendTarget();
-      if (!recipientIdentifier) {
+      const recipientSendTarget = recipient.getSendTarget();
+      if (!recipientSendTarget) {
         return;
       }
 
       allowedReplyByUuid.set(
-        recipientIdentifier,
+        recipientSendTarget,
         Boolean(sendState.isAllowedToReplyToStory)
       );
+      allRecipientIds.push(recipientSendTarget);
 
-      if (isSent(sendState.status)) {
-        sentRecipientIdentifiers.push(recipientIdentifier);
+      if (sendState.isAlreadyIncludedInAnotherDistributionList) {
         return;
       }
 
-      allRecipientIdentifiers.push(recipientIdentifier);
-      if (!isRecipientMe) {
-        recipientIdentifiersWithoutMe.push(recipientIdentifier);
+      if (isSent(sendState.status)) {
+        sentRecipientIds.push(recipientSendTarget);
+        return;
       }
+
+      pendingSendRecipientIds.push(recipientSendTarget);
     }
   );
 
   return {
-    allRecipientIdentifiers,
+    allRecipientIds,
     allowedReplyByUuid,
-    recipientIdentifiersWithoutMe,
-    sentRecipientIdentifiers,
+    pendingSendRecipientIds,
+    sentRecipientIds,
     untrustedUuids,
   };
 }
@@ -539,7 +559,9 @@ async function markMessageFailed(
 function didSendToEveryone(message: Readonly<MessageModel>): boolean {
   const sendStateByConversationId =
     message.get('sendStateByConversationId') || {};
-  return Object.values(sendStateByConversationId).every(sendState =>
-    isSent(sendState.status)
+  return Object.values(sendStateByConversationId).every(
+    sendState =>
+      sendState.isAlreadyIncludedInAnotherDistributionList ||
+      isSent(sendState.status)
   );
 }

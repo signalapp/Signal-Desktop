@@ -559,10 +559,11 @@ function replyToStory(
 
 function sendStoryMessage(
   listIds: Array<UUIDStringType>,
+  conversationIds: Array<string>,
   attachment: AttachmentType
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
-    await doSendStoryMessage(listIds, attachment);
+    await doSendStoryMessage(listIds, conversationIds, attachment);
 
     dispatch({
       type: 'NOOP',
