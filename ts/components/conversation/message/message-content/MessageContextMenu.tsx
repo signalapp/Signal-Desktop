@@ -61,7 +61,6 @@ export const MessageContextMenu = (props: Props) => {
     isDeletable,
     isDeletableForEveryone,
     isPublic,
-    isOpenGroupV2,
     weAreAdmin,
     isSenderAdmin,
     text,
@@ -208,9 +207,7 @@ export const MessageContextMenu = (props: Props) => {
         </>
       ) : null}
       {weAreAdmin && isPublic ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
-      {weAreAdmin && isOpenGroupV2 ? (
-        <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
-      ) : null}
+      {weAreAdmin && isPublic ? <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item> : null}
       {weAreAdmin && isPublic && !isSenderAdmin ? (
         <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
       ) : null}
