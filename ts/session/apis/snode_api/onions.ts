@@ -782,6 +782,16 @@ async function sendOnionRequestHandlingSnodeEject({
       abortSignal,
       useV4,
     });
+
+    if (window.sessionFeatureFlags?.debug.debugOnionRequests) {
+      window.log.info(
+        `sendOnionRequestHandlingSnodeEject: sendOnionRequestNoRetries: useV4:${useV4} destSnodeX25519:${destSnodeX25519}; \nfinalDestOptions:${JSON.stringify(
+          finalDestOptions
+        )}; \nfinalRelayOptions:${JSON.stringify(finalRelayOptions)}\n\n result: ${JSON.stringify(
+          result
+        )}`
+      );
+    }
     response = result.response;
     if (
       !isEmpty(finalRelayOptions) &&
