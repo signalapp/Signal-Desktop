@@ -9,3 +9,4 @@ ts/**/*.js
 
 playwright.config.js
 preload.js
+stylesheets/dist/
