@@ -1123,6 +1123,7 @@ export function initialize({
         async putAttestation(auth, publicKey) {
           const data = JSON.stringify({
             clientPublic: Bytes.toBase64(publicKey),
+            iasVersion: 4,
           });
           const result = (await _outerAjax(null, {
             certificateAuthority,
