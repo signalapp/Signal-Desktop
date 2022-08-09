@@ -38,6 +38,11 @@ declare global {
     sessionFeatureFlags: {
       useOnionRequests: boolean;
       useTestNet: boolean;
+      debug: {
+        debugFileServerRequests: boolean;
+        debugNonSnodeRequests: boolean;
+        debugOnionRequests: boolean;
+      };
     };
     SessionSnodeAPI: SessionSnodeAPI;
     onLogin: any;

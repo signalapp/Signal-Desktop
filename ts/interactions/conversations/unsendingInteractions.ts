@@ -245,8 +245,9 @@ const doDeleteSelectedMessagesInSOGS = async (
   //#region open group v2 deletion
   // Get our Moderator status
   const isAdmin = conversation.isAdmin(ourDevicePubkey);
+  const isModerator = conversation.isModerator(ourDevicePubkey);
 
-  if (!isAllOurs && !isAdmin) {
+  if (!isAllOurs && !(isAdmin || isModerator)) {
     ToastUtils.pushMessageDeleteForbidden();
     window.inboxStore?.dispatch(resetSelectedMessageIds());
     return;

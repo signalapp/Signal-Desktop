@@ -102,6 +102,13 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
   }
 
   const payloadObj = buildSendViaOnionPayload(url, fetchOptions);
+
+  if (window.sessionFeatureFlags?.debug.debugNonSnodeRequests) {
+    window.log.info(
+      'sendViaOnionV4ToNonSnodeWithRetries: buildSendViaOnionPayload returned ',
+      JSON.stringify(payloadObj)
+    );
+  }
   // if protocol is forced to 'http:' => just use http (without the ':').
   // otherwise use https as protocol (this is the default)
   const forcedHttp = url.protocol === PROTOCOLS.HTTP;
@@ -121,7 +128,12 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
     result = await pRetry(
       async () => {
         const pathNodes = await OnionSending.getOnionPathForSending();
-
+        if (window.sessionFeatureFlags?.debug.debugNonSnodeRequests) {
+          window.log.info(
+            'sendViaOnionV4ToNonSnodeWithRetries: getOnionPathForSending returned',
+            JSON.stringify(pathNodes)
+          );
+        }
         if (!pathNodes) {
           throw new Error('getOnionPathForSending is emtpy');
         }
@@ -140,6 +152,12 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
           useV4: true,
           throwErrors,
         });
+        if (window.sessionFeatureFlags?.debug.debugNonSnodeRequests) {
+          window.log.info(
+            'sendViaOnionV4ToNonSnodeWithRetries: sendOnionRequestHandlingSnodeEject returned: ',
+            JSON.stringify(onionV4Response)
+          );
+        }
 
         if (abortSignal?.aborted) {
           // if the request was aborted, we just want to stop retries.
@@ -174,6 +192,12 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
               body: decodedV4?.body || null,
               bodyBinary: decodedV4?.bodyBinary || null,
             };
+          }
+          if (foundStatusCode === 404) {
+            // this is most likely that a 404 won't fix itself. So just stop right here retries by throwing a non retryable error
+            throw new pRetry.AbortError(
+              `Got 404 while sendViaOnionV4ToNonSnodeWithRetries with url:${url}. Stopping retries`
+            );
           }
           // we consider those cases as an error, and trigger a retry (if possible), by throwing a non-abortable error
           throw new Error(
@@ -419,6 +443,9 @@ async function getBinaryViaOnionV4FromFileServer(sendOptions: {
   }
   const builtUrl = new URL(`${fileServerURL}${endpoint}`);
 
+  if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
+    window.log.info(`getBinaryViaOnionV4FromFileServer fsv2: "${builtUrl} `);
+  }
   const res = await OnionSending.sendViaOnionV4ToNonSnodeWithRetries(
     fileServerPubKey,
     builtUrl,
@@ -432,6 +459,12 @@ async function getBinaryViaOnionV4FromFileServer(sendOptions: {
     abortSignal
   );
 
+  if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
+    window.log.info(
+      `getBinaryViaOnionV4FromFileServer fsv2: "${builtUrl}; got:`,
+      JSON.stringify(res)
+    );
+  }
   return res as OnionV4BinarySnodeResponse;
 }
 
