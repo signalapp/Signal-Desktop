@@ -73,13 +73,13 @@ async function handlePollInfoResponse(
     token: string;
     upload: boolean;
     write: boolean;
-    details: { admins?: Array<string>; image_id: number };
+    details: { admins?: Array<string>; image_id: number; moderators?: Array<string> };
   },
   serverUrl: string,
   roomIdsStillPolled: Set<string>
 ) {
   if (statusCode !== 200) {
-    window.log.info('handlePollInfoResponse subRequest status code is not 200');
+    window.log.info('handlePollInfoResponse subRequest status code is not 200:', statusCode);
     return;
   }
 
@@ -109,7 +109,7 @@ async function handlePollInfoResponse(
     write,
     upload,
     subscriberCount: active_users,
-    details: pick(details, 'admins', 'image_id'),
+    details: pick(details, 'admins', 'image_id', 'moderators'),
   });
 }
 
@@ -190,7 +190,11 @@ const handleMessagesResponseV4 = async (
     }
     const convoId = getOpenGroupV2ConversationId(serverUrl, roomId);
 
-    const roomInfos = await getRoomAndUpdateLastFetchTimestamp(convoId, messages);
+    const roomInfos = await getRoomAndUpdateLastFetchTimestamp(
+      convoId,
+      messages,
+      subrequestOption.messages
+    );
     if (!roomInfos || !roomInfos.conversationId) {
       return;
     }

@@ -121,12 +121,16 @@ export type SubrequestOptionType = 'capabilities' | 'messages' | 'pollInfo' | 'i
 
 export type SubRequestCapabilitiesType = { type: 'capabilities' };
 
+export type SubRequestMessagesObjectType =
+  | {
+      roomId: string;
+      sinceSeqNo?: number;
+    }
+  | undefined;
+
 export type SubRequestMessagesType = {
   type: 'messages';
-  messages?: {
-    roomId: string;
-    sinceSeqNo?: number;
-  };
+  messages?: SubRequestMessagesObjectType;
 };
 
 export type SubRequestPollInfoType = {

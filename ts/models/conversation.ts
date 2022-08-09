@@ -1,5 +1,19 @@
 import Backbone from 'backbone';
-import _, { isArray, isEmpty, isNumber, isString } from 'lodash';
+import {
+  debounce,
+  defaults,
+  filter,
+  includes,
+  isArray,
+  isEmpty,
+  isEqual,
+  isNumber,
+  isString,
+  map,
+  sortBy,
+  throttle,
+  uniq,
+} from 'lodash';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
@@ -99,15 +113,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.initialPromise = Promise.resolve();
     autoBind(this);
 
-    this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
-    this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
+    this.throttledBumpTyping = throttle(this.bumpTyping, 300);
+    this.updateLastMessage = throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
       trailing: true,
       leading: true,
     });
 
-    this.throttledNotify = _.debounce(this.notify, 2000, { maxWait: 2000, trailing: true });
+    this.throttledNotify = debounce(this.notify, 2000, { maxWait: 2000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
-    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
+    const markReadDebounced = debounce(this.markReadBouncy, 1000, {
       leading: true,
       trailing: true,
     });
@@ -240,9 +254,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return groupAdmins && groupAdmins?.length > 0 ? groupAdmins : [];
   }
 
+  /**
+   * Get the list of moderators in that room, or an empty array
+   * Only to be called for opengroup conversations.
+   * This makes no sense for a private chat or an closed group, as closed group admins must be stored with getGroupAdmins
+   * @returns the list of moderators for the conversation if the conversation is public, or []
+   */
+  public getGroupModerators(): Array<string> {
+    const groupModerators = this.get('groupModerators') as Array<string> | undefined;
+
+    return this.isPublic() && groupModerators && groupModerators?.length > 0 ? groupModerators : [];
+  }
+
   // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
   public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
+    const groupModerators = this.getGroupModerators();
     // tslint:disable-next-line: cyclomatic-complexity
     const isPublic = this.isPublic();
 
@@ -253,6 +280,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isPrivate = this.isPrivate();
     const isGroup = !isPrivate;
     const weAreAdmin = this.isAdmin(ourNumber);
+    const weAreModerator = this.isModerator(ourNumber); // only used for sogs
     const isMe = this.isMe();
     const isTyping = !!this.typingTimer;
     const unreadCount = this.get('unreadCount') || undefined;
@@ -288,6 +316,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (weAreAdmin) {
       toRet.weAreAdmin = true;
+    }
+
+    if (weAreModerator) {
+      toRet.weAreModerator = true;
     }
 
     if (isMe) {
@@ -343,21 +375,29 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (didApproveMe) {
       toRet.didApproveMe = didApproveMe;
     }
+
     if (isApproved) {
       toRet.isApproved = isApproved;
     }
+
     if (subscriberCount) {
       toRet.subscriberCount = subscriberCount;
     }
+
     if (groupAdmins && groupAdmins.length) {
-      toRet.groupAdmins = _.uniq(groupAdmins);
+      toRet.groupAdmins = uniq(groupAdmins);
     }
+
+    if (groupModerators && groupModerators.length) {
+      toRet.groupModerators = uniq(groupModerators);
+    }
+
     if (members && members.length) {
-      toRet.members = _.uniq(members);
+      toRet.members = uniq(members);
     }
 
     if (zombies && zombies.length) {
-      toRet.zombies = _.uniq(zombies);
+      toRet.zombies = uniq(zombies);
     }
 
     if (expireTimer) {
@@ -384,13 +424,30 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>, shouldCommit: boolean) {
-    const existingAdmins = _.uniq(_.sortBy(this.getGroupAdmins()));
-    const newAdmins = _.uniq(_.sortBy(groupAdmins));
+    const existingAdmins = uniq(sortBy(this.getGroupAdmins()));
+    const newAdmins = uniq(sortBy(groupAdmins));
 
-    if (_.isEqual(existingAdmins, newAdmins)) {
+    if (isEqual(existingAdmins, newAdmins)) {
       return false;
     }
     this.set({ groupAdmins });
+    if (shouldCommit) {
+      await this.commit();
+    }
+    return true;
+  }
+
+  public async updateGroupModerators(groupModerators: Array<string>, shouldCommit: boolean) {
+    if (!this.isPublic()) {
+      throw new Error('group moderators are only possible on SOGS');
+    }
+    const existingModerators = uniq(sortBy(this.getGroupModerators()));
+    const newModerators = uniq(sortBy(groupModerators));
+
+    if (isEqual(existingModerators, newModerators)) {
+      return false;
+    }
+    this.set({ groupModerators: newModerators });
     if (shouldCommit) {
       await this.commit();
     }
@@ -819,7 +876,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const messageModel = await this.addSingleOutgoingMessage({
       body,
-      quote: _.isEmpty(quote) ? undefined : quote,
+      quote: isEmpty(quote) ? undefined : quote,
       preview,
       attachments,
       sent_at: networkTimestamp,
@@ -905,7 +962,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let expireTimer = providedExpireTimer;
     let source = providedSource;
 
-    _.defaults(options, { fromSync: false });
+    defaults(options, { fromSync: false });
 
     if (!expireTimer) {
       expireTimer = 0;
@@ -1088,7 +1145,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     const options = providedOptions || {};
-    _.defaults(options, { sendReadReceipts: true });
+    defaults(options, { sendReadReceipts: true });
 
     const conversationId = this.id;
     Notifications.clearByConversationID(conversationId);
@@ -1125,7 +1182,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
     }
     // Some messages we're marking read are local notifications with no sender
-    read = _.filter(read, m => Boolean(m.sender));
+    read = filter(read, m => Boolean(m.sender));
     const realUnreadCount = await this.getUnreadCount();
     if (read.length === 0) {
       const cachedUnreadCountOnConvo = this.get('unreadCount');
@@ -1165,7 +1222,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     read = read.filter(item => !item.hasErrors);
 
     if (read.length && options.sendReadReceipts) {
-      const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
+      const timestamps = map(read, 'timestamp').filter(t => !!t) as Array<number>;
       await this.sendReadReceiptsIfNeeded(timestamps);
     }
   }
@@ -1233,7 +1290,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // if you change this behavior, double check all setSessionProfile calls (especially the one in EditProfileDialog)
     if (newProfile.avatarPath) {
       const originalAvatar = this.get('avatarInProfile');
-      if (!_.isEqual(originalAvatar, newProfile.avatarPath)) {
+      if (!isEqual(originalAvatar, newProfile.avatarPath)) {
         this.set({ avatarInProfile: newProfile.avatarPath });
         changes = true;
       }
@@ -1306,6 +1363,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return Array.isArray(groupAdmins) && groupAdmins.includes(pubKey);
   }
 
+  /**
+   * Check if the provided pubkey is a moderator.
+   * Being a moderator only makes sense for a sogs as closed groups have their admin under the groupAdmins property
+   */
+  public isModerator(pubKey?: string) {
+    if (!pubKey) {
+      throw new Error('isModerator() pubKey is falsy');
+    }
+    if (!this.isPublic()) {
+      return false;
+    }
+
+    const groupModerators = this.getGroupModerators();
+    return Array.isArray(groupModerators) && groupModerators.includes(pubKey);
+  }
+
   public async setIsPinned(value: boolean) {
     if (value !== this.isPinned()) {
       this.set({
@@ -1363,6 +1436,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Saves the infos of that room directly on the conversation table.
    * This does not write anything to the db if no changes are detected
    */
+  // tslint:disable-next-line: cyclomatic-complexity
   public async setPollInfo(infos?: {
     subscriberCount: number;
     read: boolean;
@@ -1371,6 +1445,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     details: {
       admins?: Array<string>;
       image_id?: number;
+      moderators?: Array<string>;
     };
   }) {
     if (!infos || isEmpty(infos)) {
@@ -1403,21 +1478,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (details.admins && isArray(details.admins)) {
-      const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
-      const ourBlindedPubkeyForThisSogs =
-        roomInfos && roomHasBlindEnabled(roomInfos)
-          ? await findCachedOurBlindedPubkeyOrLookItUp(
-              roomInfos?.serverPublicKey,
-              await getSodiumRenderer()
-            )
-          : UserUtils.getOurPubKeyStrFromCache();
-      const replacedWithOurRealSessionId = details.admins.map(m =>
-        m === ourBlindedPubkeyForThisSogs ? UserUtils.getOurPubKeyStrFromCache() : m
-      );
-
+      const replacedWithOurRealSessionId = await this.replaceWithOurRealSessionId(details.admins);
       const adminChanged = await this.updateGroupAdmins(replacedWithOurRealSessionId, false);
       if (adminChanged) {
         hasChange = adminChanged;
+      }
+    }
+
+    if (details.moderators && isArray(details.moderators)) {
+      const replacedWithOurRealSessionId = await this.replaceWithOurRealSessionId(
+        details.moderators
+      );
+      const moderatorsChanged = await this.updateGroupModerators(
+        replacedWithOurRealSessionId,
+        false
+      );
+      if (moderatorsChanged) {
+        hasChange = moderatorsChanged;
       }
     }
 
@@ -1458,7 +1535,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public hasMember(pubkey: string) {
-    return _.includes(this.get('members'), pubkey);
+    return includes(this.get('members'), pubkey);
   }
   // returns true if this is a closed/medium or open group
   public isGroup() {
@@ -1836,9 +1913,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       .sendToPubKey(device, typingMessage)
       .catch(window?.log?.error);
   }
+
+  private async replaceWithOurRealSessionId(toReplace: Array<string>) {
+    const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
+    const sodium = await getSodiumRenderer();
+    const ourBlindedPubkeyForThisSogs =
+      roomInfos && roomHasBlindEnabled(roomInfos)
+        ? await findCachedOurBlindedPubkeyOrLookItUp(roomInfos?.serverPublicKey, sodium)
+        : UserUtils.getOurPubKeyStrFromCache();
+    const replacedWithOurRealSessionId = toReplace.map(m =>
+      m === ourBlindedPubkeyForThisSogs ? UserUtils.getOurPubKeyStrFromCache() : m
+    );
+    return replacedWithOurRealSessionId;
+  }
 }
 
-const throttledAllConversationsDispatch = _.debounce(
+const throttledAllConversationsDispatch = debounce(
   () => {
     if (updatesToDispatch.size === 0) {
       return;

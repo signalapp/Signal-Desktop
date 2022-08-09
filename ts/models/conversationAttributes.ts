@@ -42,7 +42,8 @@ export interface ConversationAttributes {
    */
   lastMessage: string | null;
   lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group
-  groupAdmins: Array<string>;
+  groupAdmins: Array<string>; // for sogs and closed group: the admins of that group.
+  groupModerators: Array<string>; // for sogs only, this is the moderator in that room.
   isKickedFromGroup: boolean;
 
   subscriberCount: number;

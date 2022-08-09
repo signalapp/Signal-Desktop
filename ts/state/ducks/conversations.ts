@@ -238,6 +238,7 @@ export interface ReduxConversationType {
   isGroup?: boolean;
   isPrivate?: boolean;
   weAreAdmin?: boolean;
+  weAreModerator?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
   isSelected?: boolean;
@@ -249,7 +250,8 @@ export interface ReduxConversationType {
   subscriberCount?: number;
   left?: boolean;
   avatarPath?: string | null; // absolute filepath to the avatar
-  groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
+  groupAdmins?: Array<string>; // admins for closed groups and admins for open groups
+  groupModerators?: Array<string>; // only for opengroups: moderators
   members?: Array<string>; // members for closed groups only
   zombies?: Array<string>; // members for closed groups only
 

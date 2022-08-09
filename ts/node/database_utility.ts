@@ -28,6 +28,7 @@ export function toSqliteBoolean(val: boolean): number {
 // this is used to make sure when storing something in the database you remember to add the wrapping for it in formatRowOfConversation
 const allowedKeysFormatRowOfConversation = [
   'groupAdmins',
+  'groupModerators',
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
@@ -80,7 +81,7 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
 
   const convo: ConversationAttributes = omit(row, 'json') as ConversationAttributes;
 
-  // if the stringified array of admins/members/zombies length is less than 5,
+  // if the stringified array of admins/moderators/members/zombies length is less than 5,
   // we consider there is nothing to parse and just return []
   const minLengthNoParsing = 5;
 
@@ -88,6 +89,11 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     row.groupAdmins?.length && row.groupAdmins.length > minLengthNoParsing
       ? jsonToArray(row.groupAdmins)
       : [];
+  convo.groupModerators =
+    row.groupModerators?.length && row.groupModerators.length > minLengthNoParsing
+      ? jsonToArray(row.groupModerators)
+      : [];
+
   convo.members =
     row.members?.length && row.members.length > minLengthNoParsing ? jsonToArray(row.members) : [];
   convo.zombies =
@@ -147,6 +153,7 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
 
 const allowedKeysOfConversationAttributes = [
   'groupAdmins',
+  'groupModerators',
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
