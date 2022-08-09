@@ -431,6 +431,7 @@ function validateAttestationSignatureBody(
     version: number;
     isvEnclaveQuoteBody: string;
     isvEnclaveQuoteStatus: string;
+    advisoryIDs: ReadonlyArray<string>;
   },
   encodedQuote: string
 ) {
@@ -440,14 +441,20 @@ function validateAttestationSignatureBody(
   const signatureTime = new Date(utcTimestamp).getTime();
 
   const now = Date.now();
-  if (signatureBody.version !== 3) {
+  if (signatureBody.version !== 4) {
     throw new Error('Attestation signature invalid version!');
   }
   if (!encodedQuote.startsWith(signatureBody.isvEnclaveQuoteBody)) {
     throw new Error('Attestion signature mismatches quote!');
   }
-  if (signatureBody.isvEnclaveQuoteStatus !== 'OK') {
-    throw new Error('Attestation signature status not "OK"!');
+  if (signatureBody.isvEnclaveQuoteStatus !== 'SW_HARDENING_NEEDED') {
+    throw new Error('Attestation signature status not "SW_HARDENING_NEEDED"!');
+  }
+  if (
+    signatureBody.advisoryIDs.length !== 1 ||
+    signatureBody.advisoryIDs[0] !== 'INTEL-SA-00334'
+  ) {
+    throw new Error('Attestation advisory ids are incorrect');
   }
   if (signatureTime < now - 24 * 60 * 60 * 1000) {
     throw new Error('Attestation signature timestamp older than 24 hours!');
