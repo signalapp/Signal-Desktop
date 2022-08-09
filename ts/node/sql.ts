@@ -773,6 +773,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion23,
   updateToLokiSchemaVersion24,
   updateToLokiSchemaVersion25,
+  updateToLokiSchemaVersion26,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1588,6 +1589,24 @@ function updateToLokiSchemaVersion25(currentVersion: number, db: BetterSqlite3.D
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
+function updateToLokiSchemaVersion26(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 26;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+       ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN groupModerators TEXT DEFAULT "[]"; -- those are for sogs only (for closed groups we only need the groupAdmins)
+       `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
 // function printTableColumns(table: string, db: BetterSqlite3.Database) {
 //   console.warn(db.pragma(`table_info('${table}');`));
 // }
@@ -1999,6 +2018,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     lastMessage,
     lastJoinedTimestamp,
     groupAdmins,
+    groupModerators,
     isKickedFromGroup,
     subscriberCount,
     readCapability,
@@ -2039,6 +2059,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
   lastMessage,
   lastJoinedTimestamp,
   groupAdmins,
+  groupModerators,
   isKickedFromGroup,
   subscriberCount,
   readCapability,
@@ -2071,6 +2092,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       $lastMessage,
       $lastJoinedTimestamp,
       $groupAdmins,
+      $groupModerators,
       $isKickedFromGroup,
       $subscriberCount,
       $readCapability,
@@ -2106,6 +2128,8 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
 
       lastJoinedTimestamp,
       groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
+      groupModerators:
+        groupModerators && groupModerators.length ? arrayStrToJson(groupModerators) : '[]',
       isKickedFromGroup: toSqliteBoolean(isKickedFromGroup),
       subscriberCount,
       readCapability: toSqliteBoolean(readCapability),
@@ -3789,6 +3813,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       didApproveMe: false,
       expireTimer: 0,
       groupAdmins: [],
+      groupModerators: [],
       isApproved: false,
       isKickedFromGroup: false,
       isPinned: false,
