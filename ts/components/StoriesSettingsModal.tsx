@@ -67,6 +67,17 @@ enum Page {
   HideStoryFrom = 'HideStoryFrom',
 }
 
+function filterConversations(
+  conversations: ReadonlyArray<ConversationType>,
+  searchTerm: string
+) {
+  return filterAndSortConversationsByRecent(
+    conversations,
+    searchTerm,
+    undefined
+  ).filter(conversation => conversation.uuid);
+}
+
 export const StoriesSettingsModal = ({
   candidateConversations,
   distributionLists,
@@ -99,11 +110,7 @@ export const StoriesSettingsModal = ({
   const [searchTerm, setSearchTerm] = useState('');
 
   const [filteredConversations, setFilteredConversations] = useState(
-    filterAndSortConversationsByRecent(
-      candidateConversations,
-      searchTerm,
-      undefined
-    )
+    filterConversations(candidateConversations, searchTerm)
   );
 
   const [selectedContacts, setSelectedContacts] = useState<
@@ -145,11 +152,7 @@ export const StoriesSettingsModal = ({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
-        filterAndSortConversationsByRecent(
-          candidateConversations,
-          normalizedSearchTerm,
-          undefined
-        )
+        filterConversations(candidateConversations, normalizedSearchTerm)
       );
     }, 200);
     return () => {
