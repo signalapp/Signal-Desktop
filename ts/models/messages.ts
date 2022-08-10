@@ -81,6 +81,7 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import {
+  getAttachmentsForMessage,
   getMessagePropStatus,
   getPropsForCallHistory,
   getPropsForMessage,
@@ -357,7 +358,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const attachments = message.get('attachments');
+    const attachments = getAttachmentsForMessage({ ...message.attributes });
 
     this.set({
       storyReplyContext: {
@@ -2443,6 +2444,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           sticker: dataMessage.sticker,
           storyId: dataMessage.storyId,
         });
+
+        if (storyQuote) {
+          await this.hydrateStoryContext(storyQuote);
+        }
 
         const isSupported = !isUnsupportedMessage(message.attributes);
         if (!isSupported) {
