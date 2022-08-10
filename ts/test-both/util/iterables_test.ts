@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 
 import {
+  collect,
   concat,
   every,
   filter,
@@ -248,6 +249,52 @@ describe('iterable utilities', () => {
       const result: Iterable<string> = filter(input, isString);
 
       assert.deepEqual([...result], ['two', 'four']);
+    });
+  });
+
+  describe('collect', () => {
+    it('returns an empty iterable when passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.deepEqual([...collect([], fn)], []);
+      assert.deepEqual([...collect(new Set(), fn)], []);
+      assert.deepEqual([...collect(new Map(), fn)], []);
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('returns a new iterator with some values removed', () => {
+      const getB = sinon.fake((v: { a: string; b?: number }) => v.b);
+      const result = collect(
+        [{ a: 'n' }, { a: 'm', b: 0 }, { a: 'o' }, { a: 'p', b: 1 }],
+        getB
+      );
+
+      sinon.assert.notCalled(getB);
+
+      assert.deepEqual([...result], [0, 1]);
+      assert.notInstanceOf(result, Array);
+
+      sinon.assert.callCount(getB, 4);
+    });
+
+    it('can collect an infinite iterable', () => {
+      const everyNumber = {
+        *[Symbol.iterator]() {
+          for (let i = 0; true; i += 1) {
+            yield { a: 'x', ...(i % 2 ? { b: i } : {}) };
+          }
+        },
+      };
+
+      const getB = sinon.fake((v: { a: string; b?: number }) => v.b);
+      const result = collect(everyNumber, getB);
+      const iterator = result[Symbol.iterator]();
+
+      assert.deepEqual(iterator.next(), { value: 1, done: false });
+      assert.deepEqual(iterator.next(), { value: 3, done: false });
+      assert.deepEqual(iterator.next(), { value: 5, done: false });
+      assert.deepEqual(iterator.next(), { value: 7, done: false });
     });
   });
 

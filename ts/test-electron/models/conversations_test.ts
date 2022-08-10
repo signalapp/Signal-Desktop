@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { SendStatus } from '../../messages/MessageSendState';
+import { IMAGE_PNG } from '../../types/MIME';
 import { UUID } from '../../types/UUID';
 
 describe('Conversations', () => {
@@ -103,5 +104,52 @@ describe('Conversations', () => {
     await conversation.updateLastMessage();
 
     assert.strictEqual(conversation.get('lastMessage'), '');
+  });
+
+  it('only produces attachments on a quote with an image', async () => {
+    // Creating a fake conversation
+    const conversation = new window.Whisper.Conversation({
+      avatars: [],
+      id: UUID.generate().toString(),
+      e164: '+15551234567',
+      uuid: UUID.generate().toString(),
+      type: 'private',
+      inbox_position: 0,
+      isPinned: false,
+      markedUnread: false,
+      lastMessageDeletedForEveryone: false,
+      messageCount: 0,
+      sentMessageCount: 0,
+      profileSharing: true,
+      version: 0,
+    });
+
+    const resultNoImage = await conversation.getQuoteAttachment(
+      [],
+      [
+        {
+          url: 'https://sometest.signal.org/',
+        },
+      ]
+    );
+
+    assert.deepEqual(resultNoImage, []);
+
+    const [resultWithImage] = await conversation.getQuoteAttachment(
+      [],
+      [
+        {
+          url: 'https://sometest.signal.org/',
+          image: {
+            contentType: IMAGE_PNG,
+            size: 100,
+            data: new Uint8Array(),
+          },
+        },
+      ]
+    );
+
+    assert.equal(resultWithImage.contentType, 'image/png');
+    assert.equal(resultWithImage.fileName, null);
   });
 });

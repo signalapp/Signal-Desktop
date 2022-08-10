@@ -101,6 +101,50 @@ class FilterIterator<T> implements Iterator<T> {
   }
 }
 
+/**
+ * Filter and transform (map) that produces a new type
+ * useful when traversing through fields that might be undefined
+ */
+export function collect<T, S>(
+  iterable: Iterable<T>,
+  fn: (value: T) => S | undefined
+): Iterable<S> {
+  return new CollectIterable(iterable, fn);
+}
+
+class CollectIterable<T, S> implements Iterable<S> {
+  constructor(
+    private readonly iterable: Iterable<T>,
+    private readonly fn: (value: T) => S | undefined
+  ) {}
+
+  [Symbol.iterator](): Iterator<S> {
+    return new CollectIterator(this.iterable[Symbol.iterator](), this.fn);
+  }
+}
+
+class CollectIterator<T, S> implements Iterator<S> {
+  constructor(
+    private readonly iterator: Iterator<T>,
+    private readonly fn: (value: T) => S | undefined
+  ) {}
+
+  next(): IteratorResult<S> {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const nextIteration = this.iterator.next();
+      if (nextIteration.done) return nextIteration;
+      const nextValue = this.fn(nextIteration.value);
+      if (nextValue !== undefined) {
+        return {
+          done: false,
+          value: nextValue,
+        };
+      }
+    }
+  }
+}
+
 export function find<T>(
   iterable: Iterable<T>,
   predicate: (value: T) => unknown

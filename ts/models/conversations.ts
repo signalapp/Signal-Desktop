@@ -80,6 +80,7 @@ import {
   take,
   repeat,
   zipObject,
+  collect,
 } from '../util/iterables';
 import * as universalExpireTimer from '../util/universalExpireTimer';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
@@ -3640,22 +3641,11 @@ export class ConversationModel extends window.Backbone
     }
 
     if (preview && preview.length) {
-      const previewsToUse = take(preview, 1);
+      const previewImages = collect(preview, prev => prev.image);
+      const previewImagesToUse = take(previewImages, 1);
 
       return Promise.all(
-        map(previewsToUse, async attachment => {
-          const { image } = attachment;
-
-          if (!image) {
-            return {
-              contentType: IMAGE_JPEG,
-              // Our protos library complains about these fields being undefined, so we
-              //   force them to null
-              fileName: null,
-              thumbnail: null,
-            };
-          }
-
+        map(previewImagesToUse, async image => {
           const { contentType } = image;
 
           return {
