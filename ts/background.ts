@@ -1834,6 +1834,10 @@ export async function startApp(): Promise<void> {
       server.authenticate(
         window.textsecure.storage.user.getWebAPICredentials()
       );
+
+      // Cancel throttled calls to refreshRemoteConfig since our auth changed.
+      window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
+
       connect(true);
     });
 
