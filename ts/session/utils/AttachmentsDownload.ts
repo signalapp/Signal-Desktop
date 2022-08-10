@@ -10,7 +10,7 @@ import { initializeAttachmentLogic, processNewAttachment } from '../../types/Mes
 import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 
 // this cause issues if we increment that value to > 1.
-const MAX_ATTACHMENT_JOB_PARALLELISM = 1;
+const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
 const TICK_INTERVAL = Constants.DURATION.MINUTES;
 // tslint:disable: function-name
@@ -231,7 +231,11 @@ async function _runJob(job: any) {
       );
       found = await Data.getMessageById(messageId);
 
-      _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+      try {
+        _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+      } catch (e) {
+        // just swallow any exceptions here, as it would be an unhandled one
+      }
       await _finishJob(found || null, id);
 
       return;
