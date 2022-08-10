@@ -132,6 +132,7 @@
   }
 
   &__body {
+    @include scrollbar;
     @include font-body-1;
     margin: 0;
   }

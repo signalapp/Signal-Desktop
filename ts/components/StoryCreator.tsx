@@ -12,6 +12,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LinkPreviewSourceType } from '../types/LinkPreview';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import type { UUIDStringType } from '../types/UUID';
@@ -24,16 +25,24 @@ import { MediaEditor } from './MediaEditor';
 import { TextStoryCreator } from './TextStoryCreator';
 
 export type PropsType = {
+  candidateConversations: Array<ConversationType>;
   debouncedMaybeGrabLinkPreview: (
     message: string,
     source: LinkPreviewSourceType
   ) => unknown;
   distributionLists: Array<StoryDistributionListDataType>;
   file?: File;
+  getPreferredBadge: PreferredBadgeSelectorType;
+  groupConversations: Array<ConversationType>;
+  groupStories: Array<ConversationType>;
   i18n: LocalizerType;
   linkPreview?: LinkPreviewType;
   me: ConversationType;
   onClose: () => unknown;
+  onDistributionListCreated: (
+    name: string,
+    viewerUuids: Array<UUIDStringType>
+  ) => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
     conversationIds: Array<string>,
@@ -43,21 +52,28 @@ export type PropsType = {
     file: File
   ) => Promise<void | InMemoryAttachmentDraftType>;
   signalConnections: Array<ConversationType>;
+  tagGroupsAsNewGroupStory: (cids: Array<string>) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'>;
 
 export const StoryCreator = ({
+  candidateConversations,
   debouncedMaybeGrabLinkPreview,
   distributionLists,
   file,
+  getPreferredBadge,
+  groupConversations,
+  groupStories,
   i18n,
   installedPacks,
   linkPreview,
   me,
   onClose,
+  onDistributionListCreated,
   onSend,
   processAttachment,
   recentStickers,
   signalConnections,
+  tagGroupsAsNewGroupStory,
 }: PropsType): JSX.Element => {
   const [draftAttachment, setDraftAttachment] = useState<
     AttachmentType | undefined
@@ -100,20 +116,27 @@ export const StoryCreator = ({
     <>
       {draftAttachment && (
         <SendStoryModal
+          candidateConversations={candidateConversations}
           distributionLists={distributionLists}
+          getPreferredBadge={getPreferredBadge}
+          groupConversations={groupConversations}
+          groupStories={groupStories}
           i18n={i18n}
           me={me}
           onClose={() => setDraftAttachment(undefined)}
-          onSend={listIds => {
-            onSend(listIds, [], draftAttachment);
+          onDistributionListCreated={onDistributionListCreated}
+          onSend={(listIds, groupIds) => {
+            onSend(listIds, groupIds, draftAttachment);
             setDraftAttachment(undefined);
             onClose();
           }}
           signalConnections={signalConnections}
+          tagGroupsAsNewGroupStory={tagGroupsAsNewGroupStory}
         />
       )}
       {attachmentUrl && (
         <MediaEditor
+          doneButtonLabel={i18n('next2')}
           i18n={i18n}
           imageSrc={attachmentUrl}
           installedPacks={installedPacks}

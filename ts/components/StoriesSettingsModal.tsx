@@ -59,7 +59,7 @@ export type PropsType = {
   toggleSignalConnectionsModal: () => unknown;
 };
 
-enum Page {
+export enum Page {
   DistributionLists = 'DistributionLists',
   AddViewer = 'AddViewer',
   ChooseViewers = 'ChooseViewers',
@@ -105,72 +105,14 @@ export const StoriesSettingsModal = ({
 
   const [page, setPage] = useState<Page>(Page.DistributionLists);
 
-  const [storyName, setStoryName] = useState('');
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const [filteredConversations, setFilteredConversations] = useState(
-    filterConversations(candidateConversations, searchTerm)
-  );
-
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
   >([]);
 
-  const contactLookup = useMemo(() => {
-    const map = new Map();
-    candidateConversations.forEach(contact => {
-      map.set(contact.id, contact);
-    });
-    return map;
-  }, [candidateConversations]);
-
-  const toggleSelectedConversation = useCallback(
-    (conversationId: string) => {
-      let removeContact = false;
-      const nextSelectedContacts = selectedContacts.filter(contact => {
-        if (contact.id === conversationId) {
-          removeContact = true;
-          return false;
-        }
-        return true;
-      });
-      if (removeContact) {
-        setSelectedContacts(nextSelectedContacts);
-        return;
-      }
-      const selectedContact = contactLookup.get(conversationId);
-      if (selectedContact) {
-        setSelectedContacts([...nextSelectedContacts, selectedContact]);
-      }
-    },
-    [contactLookup, selectedContacts, setSelectedContacts]
-  );
-
-  const normalizedSearchTerm = searchTerm.trim();
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setFilteredConversations(
-        filterConversations(candidateConversations, normalizedSearchTerm)
-      );
-    }, 200);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [candidateConversations, normalizedSearchTerm, setFilteredConversations]);
-
   const resetChooseViewersScreen = useCallback(() => {
     setSelectedContacts([]);
-    setSearchTerm('');
     setPage(Page.DistributionLists);
   }, []);
-
-  const selectedConversationUuids: Set<UUIDStringType> = useMemo(
-    () =>
-      new Set(selectedContacts.map(contact => contact.uuid).filter(isNotNil)),
-    [selectedContacts]
-  );
 
   const [confirmDeleteListId, setConfirmDeleteListId] = useState<
     string | undefined
@@ -184,158 +126,37 @@ export const StoriesSettingsModal = ({
       }
   >();
 
-  let content: JSX.Element;
-  if (page === Page.NameStory) {
+  let content: JSX.Element | null;
+
+  if (page !== Page.DistributionLists) {
     content = (
-      <>
-        <div className="StoriesSettingsModal__name-story-avatar-container">
-          <div className="StoriesSettingsModal__list__avatar--private StoriesSettingsModal__list__avatar--private--large" />
-        </div>
+      <EditDistributionList
+        candidateConversations={candidateConversations}
+        getPreferredBadge={getPreferredBadge}
+        i18n={i18n}
+        onDone={(name, uuids) => {
+          onDistributionListCreated(name, uuids);
+          resetChooseViewersScreen();
+        }}
+        onViewersUpdated={uuids => {
+          if (listToEditId && page === Page.AddViewer) {
+            onViewersUpdated(listToEditId, uuids);
+            resetChooseViewersScreen();
+          }
 
-        <Input
-          i18n={i18n}
-          onChange={setStoryName}
-          placeholder={i18n('StoriesSettings__name-placeholder')}
-          value={storyName}
-        />
+          if (page === Page.ChooseViewers) {
+            setPage(Page.NameStory);
+          }
 
-        <div className="StoriesSettingsModal__title">
-          {i18n('StoriesSettings__who-can-see')}
-        </div>
-
-        {selectedContacts.map(contact => (
-          <div
-            className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer"
-            key={contact.id}
-          >
-            <span className="StoriesSettingsModal__list__left">
-              <Avatar
-                acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
-                badge={getPreferredBadge(contact.badges)}
-                color={contact.color}
-                conversationType={contact.type}
-                i18n={i18n}
-                isMe
-                sharedGroupNames={contact.sharedGroupNames}
-                size={AvatarSize.THIRTY_SIX}
-                theme={ThemeType.dark}
-                title={contact.title}
-              />
-              <span className="StoriesSettingsModal__list__title">
-                {contact.title}
-              </span>
-            </span>
-          </div>
-        ))}
-      </>
-    );
-  } else if (
-    page === Page.AddViewer ||
-    page === Page.ChooseViewers ||
-    page === Page.HideStoryFrom
-  ) {
-    const rowCount = filteredConversations.length;
-    const getRow = (index: number): undefined | Row => {
-      const contact = filteredConversations[index];
-      if (!contact || !contact.uuid) {
-        return undefined;
-      }
-
-      const isSelected = selectedConversationUuids.has(UUID.cast(contact.uuid));
-
-      return {
-        type: RowType.ContactCheckbox,
-        contact,
-        isChecked: isSelected,
-      };
-    };
-
-    content = (
-      <>
-        <SearchInput
-          disabled={candidateConversations.length === 0}
-          i18n={i18n}
-          placeholder={i18n('contactSearchPlaceholder')}
-          moduleClassName="StoriesSettingsModal__search"
-          onChange={event => {
-            setSearchTerm(event.target.value);
-          }}
-          value={searchTerm}
-        />
-        {selectedContacts.length ? (
-          <div className="StoriesSettingsModal__tags">
-            {selectedContacts.map(contact => (
-              <div className="StoriesSettingsModal__tag" key={contact.id}>
-                <Avatar
-                  acceptedMessageRequest={contact.acceptedMessageRequest}
-                  avatarPath={contact.avatarPath}
-                  badge={getPreferredBadge(contact.badges)}
-                  color={contact.color}
-                  conversationType={contact.type}
-                  i18n={i18n}
-                  isMe={contact.isMe}
-                  sharedGroupNames={contact.sharedGroupNames}
-                  size={AvatarSize.TWENTY_EIGHT}
-                  theme={ThemeType.dark}
-                  title={contact.title}
-                />
-                <span className="StoriesSettingsModal__tag__name">
-                  {contact.firstName ||
-                    contact.profileName ||
-                    contact.phoneNumber}
-                </span>
-                <button
-                  aria-label={i18n('StoriesSettings__remove--title', [
-                    contact.title,
-                  ])}
-                  className="StoriesSettingsModal__tag__remove"
-                  onClick={() => toggleSelectedConversation(contact.id)}
-                  type="button"
-                />
-              </div>
-            ))}
-          </div>
-        ) : undefined}
-        {candidateConversations.length ? (
-          <Measure bounds>
-            {({ contentRect, measureRef }: MeasuredComponentProps) => (
-              <div
-                className="StoriesSettingsModal__conversation-list"
-                ref={measureRef}
-              >
-                <ConversationList
-                  dimensions={contentRect.bounds}
-                  getPreferredBadge={getPreferredBadge}
-                  getRow={getRow}
-                  i18n={i18n}
-                  onClickArchiveButton={shouldNeverBeCalled}
-                  onClickContactCheckbox={(conversationId: string) => {
-                    toggleSelectedConversation(conversationId);
-                  }}
-                  lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
-                  showConversation={shouldNeverBeCalled}
-                  showUserNotFoundModal={shouldNeverBeCalled}
-                  setIsFetchingUUID={shouldNeverBeCalled}
-                  onSelectConversation={shouldNeverBeCalled}
-                  renderMessageSearchResult={() => {
-                    shouldNeverBeCalled();
-                    return <div />;
-                  }}
-                  rowCount={rowCount}
-                  shouldRecomputeRowHeights={false}
-                  showChooseGroupMembers={shouldNeverBeCalled}
-                  theme={ThemeType.dark}
-                />
-              </div>
-            )}
-          </Measure>
-        ) : (
-          <div className="module-ForwardMessageModal__no-candidate-contacts">
-            {i18n('noContactsFound')}
-          </div>
-        )}
-      </>
+          if (page === Page.HideStoryFrom) {
+            onHideMyStoriesFrom(uuids);
+            resetChooseViewersScreen();
+          }
+        }}
+        page={page}
+        selectedContacts={selectedContacts}
+        setSelectedContacts={setSelectedContacts}
+      />
     );
   } else if (listToEdit) {
     const isMyStories = listToEdit.id === MY_STORIES_ID;
@@ -662,61 +483,6 @@ export const StoriesSettingsModal = ({
         title={modalTitle}
       >
         {content}
-        {isChoosingViewers && (
-          <Modal.ButtonFooter>
-            <Button
-              disabled={selectedContacts.length === 0}
-              onClick={() => {
-                if (listToEdit && page === Page.AddViewer) {
-                  onViewersUpdated(
-                    listToEdit.id,
-                    Array.from(selectedConversationUuids)
-                  );
-                  resetChooseViewersScreen();
-                }
-
-                if (page === Page.ChooseViewers) {
-                  setPage(Page.NameStory);
-                }
-              }}
-              variant={ButtonVariant.Primary}
-            >
-              {page === Page.AddViewer ? i18n('done') : i18n('next2')}
-            </Button>
-          </Modal.ButtonFooter>
-        )}
-        {page === Page.NameStory && (
-          <Modal.ButtonFooter>
-            <Button
-              disabled={!storyName}
-              onClick={() => {
-                onDistributionListCreated(
-                  storyName,
-                  Array.from(selectedConversationUuids)
-                );
-                setStoryName('');
-                resetChooseViewersScreen();
-              }}
-              variant={ButtonVariant.Primary}
-            >
-              {i18n('done')}
-            </Button>
-          </Modal.ButtonFooter>
-        )}
-        {page === Page.HideStoryFrom && (
-          <Modal.ButtonFooter>
-            <Button
-              disabled={selectedContacts.length === 0}
-              onClick={() => {
-                onHideMyStoriesFrom(Array.from(selectedConversationUuids));
-                resetChooseViewersScreen();
-              }}
-              variant={ButtonVariant.Primary}
-            >
-              {i18n('update')}
-            </Button>
-          </Modal.ButtonFooter>
-        )}
       </Modal>
       {confirmDeleteListId && (
         <ConfirmationDialog
@@ -764,4 +530,290 @@ export const StoriesSettingsModal = ({
       )}
     </>
   );
+};
+
+type EditDistributionListPropsType = {
+  onDone: (name: string, viewerUuids: Array<UUIDStringType>) => unknown;
+  onViewersUpdated: (viewerUuids: Array<UUIDStringType>) => unknown;
+  page: Page;
+  selectedContacts: Array<ConversationType>;
+  setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+} & Pick<PropsType, 'candidateConversations' | 'getPreferredBadge' | 'i18n'>;
+
+export const EditDistributionList = ({
+  candidateConversations,
+  getPreferredBadge,
+  i18n,
+  onDone,
+  onViewersUpdated,
+  page,
+  selectedContacts,
+  setSelectedContacts,
+}: EditDistributionListPropsType): JSX.Element | null => {
+  const [storyName, setStoryName] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const normalizedSearchTerm = searchTerm.trim();
+
+  const [filteredConversations, setFilteredConversations] = useState(
+    filterConversations(candidateConversations, normalizedSearchTerm)
+  );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilteredConversations(
+        filterConversations(candidateConversations, normalizedSearchTerm)
+      );
+    }, 200);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [candidateConversations, normalizedSearchTerm, setFilteredConversations]);
+
+  const isEditingDistributionList =
+    page === Page.AddViewer ||
+    page === Page.ChooseViewers ||
+    page === Page.NameStory ||
+    page === Page.HideStoryFrom;
+
+  useEffect(() => {
+    if (!isEditingDistributionList) {
+      setSearchTerm('');
+    }
+  }, [isEditingDistributionList]);
+
+  const contactLookup = useMemo(() => {
+    const map = new Map();
+    candidateConversations.forEach(contact => {
+      map.set(contact.id, contact);
+    });
+    return map;
+  }, [candidateConversations]);
+
+  const selectedConversationUuids: Set<UUIDStringType> = useMemo(
+    () =>
+      new Set(selectedContacts.map(contact => contact.uuid).filter(isNotNil)),
+    [selectedContacts]
+  );
+
+  const toggleSelectedConversation = useCallback(
+    (conversationId: string) => {
+      let removeContact = false;
+      const nextSelectedContacts = selectedContacts.filter(contact => {
+        if (contact.id === conversationId) {
+          removeContact = true;
+          return false;
+        }
+        return true;
+      });
+      if (removeContact) {
+        setSelectedContacts(nextSelectedContacts);
+        return;
+      }
+      const selectedContact = contactLookup.get(conversationId);
+      if (selectedContact) {
+        setSelectedContacts([...nextSelectedContacts, selectedContact]);
+      }
+    },
+    [contactLookup, selectedContacts, setSelectedContacts]
+  );
+
+  const isChoosingViewers =
+    page === Page.ChooseViewers || page === Page.AddViewer;
+
+  if (page === Page.NameStory) {
+    return (
+      <>
+        <div className="StoriesSettingsModal__name-story-avatar-container">
+          <div className="StoriesSettingsModal__list__avatar--private StoriesSettingsModal__list__avatar--private--large" />
+        </div>
+
+        <Input
+          i18n={i18n}
+          onChange={setStoryName}
+          placeholder={i18n('StoriesSettings__name-placeholder')}
+          value={storyName}
+        />
+
+        <div className="StoriesSettingsModal__title">
+          {i18n('StoriesSettings__who-can-see')}
+        </div>
+
+        {selectedContacts.map(contact => (
+          <div
+            className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer"
+            key={contact.id}
+          >
+            <span className="StoriesSettingsModal__list__left">
+              <Avatar
+                acceptedMessageRequest={contact.acceptedMessageRequest}
+                avatarPath={contact.avatarPath}
+                badge={getPreferredBadge(contact.badges)}
+                color={contact.color}
+                conversationType={contact.type}
+                i18n={i18n}
+                isMe
+                sharedGroupNames={contact.sharedGroupNames}
+                size={AvatarSize.THIRTY_SIX}
+                theme={ThemeType.dark}
+                title={contact.title}
+              />
+              <span className="StoriesSettingsModal__list__title">
+                {contact.title}
+              </span>
+            </span>
+          </div>
+        ))}
+        <Modal.ButtonFooter>
+          <Button
+            disabled={!storyName}
+            onClick={() => {
+              onDone(storyName, Array.from(selectedConversationUuids));
+              setStoryName('');
+            }}
+            variant={ButtonVariant.Primary}
+          >
+            {i18n('done')}
+          </Button>
+        </Modal.ButtonFooter>
+      </>
+    );
+  }
+
+  if (
+    page === Page.AddViewer ||
+    page === Page.ChooseViewers ||
+    page === Page.HideStoryFrom
+  ) {
+    const rowCount = filteredConversations.length;
+    const getRow = (index: number): undefined | Row => {
+      const contact = filteredConversations[index];
+      if (!contact || !contact.uuid) {
+        return undefined;
+      }
+
+      const isSelected = selectedConversationUuids.has(UUID.cast(contact.uuid));
+
+      return {
+        type: RowType.ContactCheckbox,
+        contact,
+        isChecked: isSelected,
+      };
+    };
+
+    return (
+      <>
+        <SearchInput
+          disabled={candidateConversations.length === 0}
+          i18n={i18n}
+          placeholder={i18n('contactSearchPlaceholder')}
+          moduleClassName="StoriesSettingsModal__search"
+          onChange={event => {
+            setSearchTerm(event.target.value);
+          }}
+          value={searchTerm}
+        />
+        {selectedContacts.length ? (
+          <div className="StoriesSettingsModal__tags">
+            {selectedContacts.map(contact => (
+              <div className="StoriesSettingsModal__tag" key={contact.id}>
+                <Avatar
+                  acceptedMessageRequest={contact.acceptedMessageRequest}
+                  avatarPath={contact.avatarPath}
+                  badge={getPreferredBadge(contact.badges)}
+                  color={contact.color}
+                  conversationType={contact.type}
+                  i18n={i18n}
+                  isMe={contact.isMe}
+                  sharedGroupNames={contact.sharedGroupNames}
+                  size={AvatarSize.TWENTY_EIGHT}
+                  theme={ThemeType.dark}
+                  title={contact.title}
+                />
+                <span className="StoriesSettingsModal__tag__name">
+                  {contact.firstName ||
+                    contact.profileName ||
+                    contact.phoneNumber}
+                </span>
+                <button
+                  aria-label={i18n('StoriesSettings__remove--title', [
+                    contact.title,
+                  ])}
+                  className="StoriesSettingsModal__tag__remove"
+                  onClick={() => toggleSelectedConversation(contact.id)}
+                  type="button"
+                />
+              </div>
+            ))}
+          </div>
+        ) : undefined}
+        {candidateConversations.length ? (
+          <Measure bounds>
+            {({ contentRect, measureRef }: MeasuredComponentProps) => (
+              <div
+                className="StoriesSettingsModal__conversation-list"
+                ref={measureRef}
+              >
+                <ConversationList
+                  dimensions={contentRect.bounds}
+                  getPreferredBadge={getPreferredBadge}
+                  getRow={getRow}
+                  i18n={i18n}
+                  onClickArchiveButton={shouldNeverBeCalled}
+                  onClickContactCheckbox={(conversationId: string) => {
+                    toggleSelectedConversation(conversationId);
+                  }}
+                  lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                  showConversation={shouldNeverBeCalled}
+                  showUserNotFoundModal={shouldNeverBeCalled}
+                  setIsFetchingUUID={shouldNeverBeCalled}
+                  onSelectConversation={shouldNeverBeCalled}
+                  renderMessageSearchResult={() => {
+                    shouldNeverBeCalled();
+                    return <div />;
+                  }}
+                  rowCount={rowCount}
+                  shouldRecomputeRowHeights={false}
+                  showChooseGroupMembers={shouldNeverBeCalled}
+                  theme={ThemeType.dark}
+                />
+              </div>
+            )}
+          </Measure>
+        ) : (
+          <div className="module-ForwardMessageModal__no-candidate-contacts">
+            {i18n('noContactsFound')}
+          </div>
+        )}
+        {isChoosingViewers && (
+          <Modal.ButtonFooter>
+            <Button
+              disabled={selectedContacts.length === 0}
+              onClick={() => {
+                onViewersUpdated(Array.from(selectedConversationUuids));
+              }}
+              variant={ButtonVariant.Primary}
+            >
+              {page === Page.AddViewer ? i18n('done') : i18n('next2')}
+            </Button>
+          </Modal.ButtonFooter>
+        )}
+        {page === Page.HideStoryFrom && (
+          <Modal.ButtonFooter>
+            <Button
+              disabled={selectedContacts.length === 0}
+              onClick={() => {
+                onViewersUpdated(Array.from(selectedConversationUuids));
+              }}
+              variant={ButtonVariant.Primary}
+            >
+              {i18n('update')}
+            </Button>
+          </Modal.ButtonFooter>
+        )}
+      </>
+    );
+  }
+
+  return null;
 };

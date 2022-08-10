@@ -35,6 +35,7 @@ import {
 } from '../mediaEditor/util/getTextStyleAttributes';
 
 export type PropsType = {
+  doneButtonLabel?: string;
   i18n: LocalizerType;
   imageSrc: string;
   onClose: () => unknown;
@@ -84,6 +85,7 @@ function isCmdOrCtrl(ev: KeyboardEvent): boolean {
 }
 
 export const MediaEditor = ({
+  doneButtonLabel,
   i18n,
   imageSrc,
   onClose,
@@ -1065,7 +1067,7 @@ export const MediaEditor = ({
             theme={Theme.Dark}
             variant={ButtonVariant.Primary}
           >
-            {i18n('save')}
+            {doneButtonLabel || i18n('save')}
           </Button>
         </div>
       </div>

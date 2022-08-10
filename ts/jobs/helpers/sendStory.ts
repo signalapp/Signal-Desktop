@@ -71,6 +71,14 @@ export async function sendStory(
       return;
     }
 
+    const messageConversation = message.getConversation();
+    if (messageConversation !== conversation) {
+      log.error(
+        `stories.sendStory(${messageId}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+      );
+      return;
+    }
+
     const attachments = message.get('attachments') || [];
     const [attachment] = attachments;
 
@@ -92,12 +100,17 @@ export async function sendStory(
       );
     }
 
+    const groupV2 = isGroupV2(conversation.attributes)
+      ? conversation.getGroupV2Info()
+      : undefined;
+
     // Some distribution lists need allowsReplies false, some need it set to true
     // we create this proto (for the sync message) and also to re-use some of the
     // attributes inside it.
     return messaging.getStoryMessage({
       allowsReplies: true,
       fileAttachment,
+      groupV2,
       textAttachment,
       profileKey,
     });
@@ -153,7 +166,7 @@ export async function sendStory(
       const messageConversation = message.getConversation();
       if (messageConversation !== conversation) {
         log.error(
-          `stories.sendStory: Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+          `stories.sendStory(${messageId}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
         );
         return;
       }
@@ -301,7 +314,9 @@ export async function sendStory(
           urgent: false,
         });
 
-        message.doNotSendSyncMessage = true;
+        // Do not send sync messages for distribution lists since that's sent
+        // in bulk at the end.
+        message.doNotSendSyncMessage = Boolean(distributionList);
 
         const messageSendPromise = message.send(
           handleMessageSend(innerPromise, {

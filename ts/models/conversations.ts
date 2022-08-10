@@ -1807,6 +1807,7 @@ export class ConversationModel extends window.Backbone
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
+      isGroupStorySendReady: Boolean(this.get('isGroupStorySendReady')),
       hideStory: Boolean(this.get('hideStory')),
       inboxPosition,
       isArchived: this.get('isArchived'),

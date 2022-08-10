@@ -517,6 +517,20 @@ export const getComposableGroups = createSelector(
     )
 );
 
+export const getNonGroupStories = createSelector(
+  getComposableGroups,
+  (groups: Array<ConversationType>): Array<ConversationType> =>
+    groups.filter(group => !group.isGroupStorySendReady)
+);
+
+export const getGroupStories = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      conversation => conversation.isGroupStorySendReady
+    )
+);
+
 const getNormalizedComposerConversationSearchTerm = createSelector(
   getComposerConversationSearchTerm,
   (searchTerm: string): string => searchTerm.trim()

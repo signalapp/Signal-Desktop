@@ -42,6 +42,39 @@ export function getDefaultConversation(
   };
 }
 
+export function getDefaultGroup(
+  overrideProps: Partial<ConversationType> = {}
+): ConversationType {
+  const memberships = Array.from(Array(casual.integer(1, 20)), () => ({
+    uuid: UUID.generate().toString(),
+    isAdmin: Boolean(casual.coin_flip),
+  }));
+
+  return {
+    acceptedMessageRequest: true,
+    announcementsOnly: false,
+    avatarPath: getAvatarPath(),
+    badges: [],
+    color: getRandomColor(),
+    conversationColor: ConversationColors[0],
+    groupDescription: casual.sentence,
+    groupId: UUID.generate().toString(),
+    groupLink: casual.url,
+    groupVersion: 2,
+    id: UUID.generate().toString(),
+    isMe: false,
+    lastUpdated: casual.unix_time,
+    markedUnread: Boolean(overrideProps.markedUnread),
+    membersCount: memberships.length,
+    memberships,
+    sharedGroupNames: [],
+    title: casual.title,
+    type: 'group' as const,
+    uuid: UUID.generate().toString(),
+    ...overrideProps,
+  };
+}
+
 export function getDefaultConversationWithUuid(
   overrideProps: Partial<ConversationType> = {},
   uuid: UUIDStringType = UUID.generate().toString()

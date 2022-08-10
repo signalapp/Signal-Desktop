@@ -2,13 +2,71 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .StoriesSettingsModal {
-  &__modal {
-    .module-conversation-list {
-      padding: 0;
+  &__conversation-list {
+    .module-conversation-list,
+    .module-conversation-list__item--contact-or-conversation {
+      padding-left: 0;
+      padding-right: 0;
     }
 
-    .module-conversation-list__item--contact-or-conversation {
-      padding: 0;
+    .module-conversation-list__item--contact-or-conversation__checkbox--container {
+      height: 20px;
+      margin-right: 8px;
+      position: relative;
+      width: 20px;
+    }
+
+    input[type='checkbox'] {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: block;
+      height: 0;
+      margin: 0;
+      min-width: 0;
+      position: absolute;
+      width: 0;
+
+      @include keyboard-mode {
+        &:focus {
+          &::before {
+            border-color: $color-ultramarine;
+          }
+          outline: none;
+        }
+      }
+
+      &::before {
+        @include rounded-corners;
+        background: inherit;
+        border: 1.5px solid $color-gray-60;
+        content: '';
+        display: block;
+        height: 20px;
+        position: absolute;
+        width: 20px;
+      }
+
+      &:checked {
+        &::before {
+          -webkit-mask: none;
+          background: $color-ultramarine;
+          border: 1.5px solid $color-ultramarine;
+        }
+
+        &::after {
+          border: solid $color-white;
+          border-width: 0 2px 2px 0;
+          content: '';
+          display: block;
+          height: 11px;
+          left: 7px;
+          position: absolute;
+          top: 3px;
+          transform: rotate(45deg);
+          width: 6px;
+        }
+      }
     }
   }
 
@@ -57,11 +115,21 @@
       }
 
       &--private {
-        @include avatar('../images/icons/v2/group-solid-24.svg');
+        @include avatar('../images/icons/v2/lock-outline-24.svg');
+
+        &::after {
+          height: 16px;
+          width: 12px;
+        }
 
         &--large {
           height: 64px;
           width: 64px;
+
+          &::after {
+            height: 24px;
+            width: 18px;
+          }
         }
       }
     }

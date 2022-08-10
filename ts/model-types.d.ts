@@ -343,6 +343,7 @@ export type ConversationAttributesType = {
   //   to leave a group.
   left?: boolean;
   groupVersion?: number;
+  isGroupStorySendReady?: boolean;
 
   // GroupV1 only
   members?: Array<string>;

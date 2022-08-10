@@ -7,7 +7,10 @@ import React from 'react';
 import type { PropsType } from './SendStoryModal';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStoryModal } from './SendStoryModal';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultGroup,
+} from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import {
   getMyStories,
@@ -20,8 +23,18 @@ export default {
   title: 'Components/SendStoryModal',
   component: SendStoryModal,
   argTypes: {
+    candidateConversations: {
+      defaultValue: Array.from(Array(100), () => getDefaultConversation()),
+    },
     distributionLists: {
       defaultValue: [getMyStories()],
+    },
+    getPreferredBadge: { action: true },
+    groupConversations: {
+      defaultValue: Array.from(Array(7), getDefaultGroup),
+    },
+    groupStories: {
+      defaultValue: Array.from(Array(2), getDefaultGroup),
     },
     i18n: {
       defaultValue: i18n,
@@ -30,10 +43,12 @@ export default {
       defaultValue: getDefaultConversation(),
     },
     onClose: { action: true },
+    onDistributionListCreated: { action: true },
     onSend: { action: true },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },
+    tagGroupsAsNewGroupStory: { action: true },
   },
 } as Meta;
 

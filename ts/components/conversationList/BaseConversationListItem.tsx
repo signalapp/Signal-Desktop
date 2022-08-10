@@ -28,6 +28,7 @@ export const HEADER_CONTACT_NAME_CLASS_NAME = `${HEADER_NAME_CLASS_NAME}__contac
 export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
 const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
+const CHECKBOX_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox--container`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
 
@@ -131,20 +132,22 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
         ariaLabel = i18n('selectContact', [title]);
       }
       actionNode = (
-        <input
-          aria-label={ariaLabel}
-          checked={checked}
-          className={CHECKBOX_CLASS_NAME}
-          disabled={disabled}
-          id={htmlId}
-          onChange={onClick}
-          onKeyDown={event => {
-            if (onClick && !disabled && event.key === 'Enter') {
-              onClick();
-            }
-          }}
-          type="checkbox"
-        />
+        <div className={CHECKBOX_CONTAINER_CLASS_NAME}>
+          <input
+            aria-label={ariaLabel}
+            checked={checked}
+            className={CHECKBOX_CLASS_NAME}
+            disabled={disabled}
+            id={htmlId}
+            onChange={onClick}
+            onKeyDown={event => {
+              if (onClick && !disabled && event.key === 'Enter') {
+                onClick();
+              }
+            }}
+            type="checkbox"
+          />
+        </div>
       );
     }
 

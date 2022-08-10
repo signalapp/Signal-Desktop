@@ -8,7 +8,10 @@ import type { PropsType } from './StoryCreator';
 import enMessages from '../../_locales/en/messages.json';
 import { StoryCreator } from './StoryCreator';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultGroup,
+} from '../test-both/helpers/getDefaultConversation';
 import { getFakeDistributionLists } from '../test-both/helpers/getFakeDistributionLists';
 import { setupI18n } from '../util/setupI18n';
 
@@ -18,19 +21,30 @@ export default {
   title: 'Components/StoryCreator',
   component: StoryCreator,
   argTypes: {
+    candidateConversations: {
+      defaultValue: Array.from(Array(100), getDefaultConversation),
+    },
     debouncedMaybeGrabLinkPreview: { action: true },
     distributionLists: { defaultValue: getFakeDistributionLists() },
-    linkPreview: {
-      defaultValue: undefined,
+    getPreferredBadge: { action: true },
+    groupConversations: {
+      defaultValue: Array.from(Array(7), getDefaultGroup),
+    },
+    groupStories: {
+      defaultValue: Array.from(Array(4), getDefaultGroup),
     },
     i18n: { defaultValue: i18n },
     installedPacks: {
       defaultValue: [],
     },
+    linkPreview: {
+      defaultValue: undefined,
+    },
     me: {
       defaultValue: getDefaultConversation(),
     },
     onClose: { action: true },
+    onDistributionListCreated: { action: true },
     onSend: { action: true },
     processAttachment: { action: true },
     recentStickers: {

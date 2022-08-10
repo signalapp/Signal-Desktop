@@ -22,6 +22,7 @@ type PropsType = {
   hasStickyButtons?: boolean;
   hasXButton?: boolean;
   i18n: LocalizerType;
+  modalFooter?: JSX.Element;
   moduleClassName?: string;
   onBackButtonClick?: () => unknown;
   onClose?: () => void;
@@ -41,12 +42,13 @@ export function Modal({
   hasStickyButtons,
   hasXButton,
   i18n,
+  modalFooter,
   moduleClassName,
   noMouseClose,
   onBackButtonClick,
   onClose = noop,
-  title,
   theme,
+  title,
   useFocusTrap,
 }: Readonly<ModalPropsType>): ReactElement {
   const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
@@ -71,6 +73,7 @@ export function Modal({
           hasStickyButtons={hasStickyButtons}
           hasXButton={hasXButton}
           i18n={i18n}
+          modalFooter={modalFooter}
           moduleClassName={moduleClassName}
           onBackButtonClick={onBackButtonClick}
           onClose={close}
@@ -88,6 +91,7 @@ export function ModalWindow({
   hasStickyButtons,
   hasXButton,
   i18n,
+  modalFooter,
   moduleClassName,
   onBackButtonClick,
   onClose = noop,
@@ -192,6 +196,7 @@ export function ModalWindow({
             </div>
           )}
         </Measure>
+        {modalFooter}
       </div>
     </>
   );

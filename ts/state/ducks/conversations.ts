@@ -195,6 +195,7 @@ export type ConversationType = {
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
+  isGroupStorySendReady?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest: boolean;
   secretParams?: string;
@@ -852,6 +853,7 @@ export const actions = {
   showConversation,
   startComposing,
   startSettingGroupMetadata,
+  tagGroupsAsNewGroupStory,
   toggleAdmin,
   toggleConversationInChooseMembers,
   toggleComposeEditingAvatar,
@@ -1946,6 +1948,29 @@ function removeMemberFromGroup(
         task: () => conversationModel.removeFromGroupV2(contactId),
       });
     }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function tagGroupsAsNewGroupStory(
+  conversationIds: Array<string>
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    await Promise.all(
+      conversationIds.map(async conversationId => {
+        const conversation = window.ConversationController.get(conversationId);
+        if (!conversation) {
+          return;
+        }
+
+        conversation.set({ isGroupStorySendReady: true });
+        await window.Signal.Data.updateConversation(conversation.attributes);
+      })
+    );
+
     dispatch({
       type: 'NOOP',
       payload: null,

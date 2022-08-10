@@ -2,6 +2,52 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .SendStoryModal {
+  &__top-bar {
+    align-items: center;
+    display: flex;
+    min-height: 40px;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  &__new-story {
+    &__container {
+      &::before {
+        @include color-svg('../images/icons/v2/plus-20.svg', $color-white);
+        content: '';
+        height: 16px;
+        margin-right: 8px;
+        width: 16px;
+      }
+    }
+
+    &__option--description {
+      color: $color-gray-25;
+    }
+  }
+
+  &__icon {
+    &--lock {
+      @include color-svg(
+        '../images/icons/v2/lock-outline-24.svg',
+        $color-white
+      );
+      height: 14px;
+      margin-top: 4px;
+      width: 11px;
+    }
+
+    &--group {
+      @include color-svg(
+        '../images/icons/v2/group-outline-24.svg',
+        $color-white
+      );
+      height: 14px;
+      margin-top: 2px;
+      width: 14px;
+    }
+  }
+
   &__distribution-list {
     &__container {
       justify-content: space-between;
@@ -29,18 +75,87 @@
       @include font-body-2;
       color: $color-gray-60;
     }
-  }
 
-  &__button-footer {
-    align-items: center;
-    justify-content: space-between;
+    &__checkbox {
+      margin-right: 0;
+      position: relative;
+    }
+
+    &__checkbox input[type='checkbox'] {
+      cursor: pointer;
+      height: 0;
+      position: absolute;
+      width: 0;
+
+      @include keyboard-mode {
+        &:focus {
+          &::before {
+            border-color: $color-ultramarine;
+          }
+          outline: none;
+        }
+      }
+
+      &::before {
+        @include rounded-corners;
+        background: inherit;
+        border: 1.5px solid $color-gray-60;
+        content: '';
+        display: block;
+        height: 20px;
+        position: absolute;
+        width: 20px;
+      }
+
+      &:checked {
+        &::before {
+          background: $color-ultramarine;
+          border: 1.5px solid $color-ultramarine;
+        }
+
+        &::after {
+          border: solid $color-white;
+          border-width: 0 2px 2px 0;
+          content: '';
+          display: block;
+          height: 11px;
+          left: 7px;
+          position: absolute;
+          top: 3px;
+          transform: rotate(45deg);
+          width: 6px;
+        }
+      }
+    }
   }
 
   &__selected-lists {
     @include font-body-2;
-    color: $color-gray-60;
+    color: $color-gray-15;
     max-width: 280px;
     user-select: none;
+  }
+
+  &__ok {
+    @include button-reset;
+    @include rounded-corners;
+    align-items: center;
+    background: $color-ultramarine;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+
+    &::disabled {
+      background: $color-gray-60;
+    }
+
+    &::after {
+      @include color-svg('../images/icons/v2/check-24.svg', $color-white);
+      content: '';
+      height: 18px;
+      width: 18px;
+    }
   }
 
   &__send {
@@ -49,9 +164,9 @@
     align-items: center;
     background: $color-ultramarine;
     display: flex;
-    height: 40px;
+    height: 32px;
     justify-content: center;
-    width: 40px;
+    width: 32px;
 
     &::disabled {
       background: $color-gray-60;
@@ -60,8 +175,16 @@
     &::after {
       @include color-svg('../images/icons/v2/send-24.svg', $color-white);
       content: '';
-      height: 24px;
-      width: 24px;
+      height: 18px;
+      width: 18px;
     }
   }
+}
+
+.module-Modal--sticky-buttons .SendStoryModal__button-footer {
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0;
+  padding-left: 16px;
+  padding-right: 16px;
 }

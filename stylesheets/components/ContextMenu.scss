@@ -11,7 +11,7 @@
   &__popper {
     @extend %module-composition-popper;
     margin: 0;
-    padding: 6px 0;
+    padding: 6px 2px;
     width: auto;
 
     &--single-item {
@@ -40,8 +40,8 @@
     display: flex;
     justify-content: space-between;
     padding: 6px;
-    margin: 0 2px;
     min-width: 150px;
+    width: 100%;
 
     &--container {
       display: flex;
