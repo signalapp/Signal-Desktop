@@ -1880,6 +1880,7 @@ export class ConversationModel extends window.Backbone
 
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'e164', oldValue);
+      this.captureChange('updateE164');
     }
   }
 
@@ -1889,6 +1890,7 @@ export class ConversationModel extends window.Backbone
       this.set('uuid', uuid ? UUID.cast(uuid.toLowerCase()) : undefined);
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'uuid', oldValue);
+      this.captureChange('updateUuid');
     }
   }
 
@@ -1908,6 +1910,7 @@ export class ConversationModel extends window.Backbone
 
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'pni', oldValue);
+      this.captureChange('updatePni');
     }
   }
 

@@ -664,7 +664,6 @@ export class ConversationController {
     log.info('checkForConflicts: starting...');
     const byUuid = Object.create(null);
     const byE164 = Object.create(null);
-    const byPni = Object.create(null);
     const byGroupV2Id = Object.create(null);
     // We also want to find duplicate GV1 IDs. You might expect to see a "byGroupV1Id" map
     //   here. Instead, we check for duplicates on the derived GV2 ID.
@@ -706,18 +705,18 @@ export class ConversationController {
       }
 
       if (pni) {
-        const existing = byPni[pni];
+        const existing = byUuid[pni];
         if (!existing) {
-          byPni[pni] = conversation;
+          byUuid[pni] = conversation;
         } else {
           log.warn(`checkForConflicts: Found conflict with pni ${pni}`);
 
-          // Keep the newer one if it has a uuid, otherwise keep existing
-          if (conversation.get('uuid')) {
+          // Keep the newer one if it has additional data, otherwise keep existing
+          if (conversation.get('e164') || conversation.get('pni')) {
             // Keep new one
             // eslint-disable-next-line no-await-in-loop
             await this.combineConversations(conversation, existing);
-            byPni[pni] = conversation;
+            byUuid[pni] = conversation;
           } else {
             // Keep existing - note that this applies if neither had an e164
             // eslint-disable-next-line no-await-in-loop
@@ -860,10 +859,21 @@ export class ConversationController {
         }
       });
 
+      if (obsolete.get('isPinned')) {
+        obsolete.unpin();
+
+        if (!current.get('isPinned')) {
+          current.pin();
+        }
+      }
+
       const obsoleteId = obsolete.get('id');
       const obsoleteUuid = obsolete.getUuid();
       const currentId = current.get('id');
-      log.warn(`${logId}: Combining two conversations...`);
+      log.warn(
+        `${logId}: Combining two conversations -`,
+        `old: ${obsolete.idForLogging()} -> new: ${current.idForLogging()}`
+      );
 
       if (conversationType === 'private' && obsoleteUuid) {
         if (!current.get('profileKey') && obsolete.get('profileKey')) {
@@ -955,6 +965,8 @@ export class ConversationController {
       );
       this._conversations.remove(obsolete);
       this._conversations.resetLookups();
+
+      current.captureChange('combineConversations');
 
       log.warn(`${logId}: Complete!`);
     });

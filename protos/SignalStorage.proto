@@ -73,6 +73,7 @@ message ContactRecord {
 
   optional string        serviceUuid         = 1;
   optional string        serviceE164         = 2;
+  optional string        pni                 = 15;
   optional bytes         profileKey          = 3;
   optional bytes         identityKey         = 4;
   optional IdentityState identityState       = 5;
@@ -85,6 +86,7 @@ message ContactRecord {
   optional bool          markedUnread        = 12;
   optional uint64        mutedUntilTimestamp = 13;
   optional bool          hideStory           = 14;
+  // Next ID: 16
 }
 
 message GroupV1Record {

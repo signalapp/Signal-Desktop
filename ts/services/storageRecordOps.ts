@@ -137,6 +137,10 @@ export async function toContactRecord(
   if (e164) {
     contactRecord.serviceE164 = e164;
   }
+  const pni = conversation.get('pni');
+  if (pni) {
+    contactRecord.pni = pni;
+  }
   const profileKey = conversation.get('profileKey');
   if (profileKey) {
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
@@ -849,6 +853,7 @@ export async function mergeContactRecord(
 
   const e164 = dropNull(contactRecord.serviceE164);
   const uuid = dropNull(contactRecord.serviceUuid);
+  const pni = dropNull(contactRecord.pni);
 
   // All contacts must have UUID
   if (!uuid) {
@@ -866,11 +871,26 @@ export async function mergeContactRecord(
   const conversation = window.ConversationController.maybeMergeContacts({
     aci: uuid,
     e164,
+    pni,
     reason: 'mergeContactRecord',
   });
 
   if (!conversation) {
     throw new Error(`No conversation for ${storageID}`);
+  }
+
+  // We're going to ignore this; it's likely a PNI-only contact we've already merged
+  if (conversation.get('uuid') !== uuid) {
+    log.warn(
+      `mergeContactRecord: ${conversation.idForLogging()} ` +
+        `with storageId ${conversation.get('storageID')} ` +
+        `had uuid that didn't match provided uuid ${uuid}`
+    );
+    return {
+      hasConflict: false,
+      shouldDrop: true,
+      details: [],
+    };
   }
 
   let needsProfileFetch = false;
