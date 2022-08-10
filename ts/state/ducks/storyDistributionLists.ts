@@ -215,6 +215,7 @@ function deleteDistributionList(
     await dataInterface.modifyStoryDistributionWithMembers(
       {
         ...storyDistribution,
+        deletedAtTimestamp,
         name: '',
         storageNeedsSync: true,
       },
