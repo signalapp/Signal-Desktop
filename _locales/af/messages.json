@@ -2409,6 +2409,14 @@
         "message": "Geen gesprekke gevind nie",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "'n Fout het voorgekom",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Dien log in",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Kon nie gebruikersnaam herroep nie. Kontroleer jou verbinding en probeer weer.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "Besig om reaksie te stuur…",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Hierdie storie het geen klank nie",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Storie-instellings",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Storie-instellings",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Stuur na",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Stuur storie",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Deel & Kyk na Stories",
@@ -7527,6 +7547,14 @@
         "message": "Gekondenseerde letters",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Voeg storieteks by",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Voeg 'n skakel by",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Tik of plak 'n URL in",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Bykomende klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal Gebruik!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "'n Handvol foutregstellings om jou toepassing glad te laat werk. Nog meer opwindende veranderings is op die horison!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Klein veranderings, foutregstellings en prestasieverbeterings. Hou aan teksboodskappe stuur, oproepe maak en videoklets soos gewoonlik.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Hard aan die werk om foute reg te stel en ander prestasieverbeterings aan te bring om die toepassing vir jou glad te laat werk.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Bykomende klein veranderings, foutregstellings en 'n verskeidenheid planne vir die toekoms.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

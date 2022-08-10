@@ -48,7 +48,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&bi",
+        "message": "&Abi",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -246,7 +246,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Saad kinnitad kuni 4 vestlust",
+        "message": "Saad kinnitada kuni 4 vestlust",
         "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
@@ -2408,6 +2408,14 @@
     "noConversationsFound": {
         "message": "Vestlusi ei leitud",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--error": {
+        "message": "Tekkis viga",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Postita logi",
+        "description": "Label for the error toast button"
     },
     "Toast--failed-to-fetch-username": {
         "message": "Kasutajanimega ei saadud ühendust. Kontrolli oma ühendust ja proovi uuesti.",
@@ -7227,6 +7235,10 @@
         "message": "Reaktsiooni saatmine …",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Sellel lool puudub heli",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Loo sätted",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Loo sätted",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Saaja",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Saada lugu",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Jaga ja vaata lugusid",
@@ -7527,6 +7547,14 @@
         "message": "Tihendatud",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Lisa loo tekst",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Lisa link",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Sisesta või kleebi URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Täiendavad väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Mõned veaparandused, mis aitavad rakendusel sujuvamalt töötada. Silmapiiril on veel põnevaid muudatusi!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Jätka sõnumite saatmist, helistamist ja videovestlusi tavapärasel viisil.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Anname endast parima, et vigu parandada ning jõudlust suurendada, muutes nii rakenduse tööd sujuvamaks.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Täiendavad väikesed muudatused, vigade parandused ja erinevad plaanid tulevikuks.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

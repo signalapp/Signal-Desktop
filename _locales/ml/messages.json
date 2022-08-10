@@ -476,7 +476,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "ഡീബഗ് ലോഗ് അപ്‌ലോഡ് ചെയ്‌തു. നിങ്ങൾ പിന്തുണയുമായി ബന്ധപ്പെടുമ്പോൾ, ചുവടെ നൽകിയിട്ടുള്ള URL-ഉം നിങ്ങൾ കണ്ട പ്രശ്‌നത്തിന്റെയും അത് പുനർനിർമ്മിക്കുന്നതിനുള്ള ഘട്ടങ്ങളുടെയും ഒരു വിവരണവും അറ്റാച്ച് ചെയ്യുക.",
+        "message": "ഡീബഗ് ലോഗ് അപ്‌ലോഡ് ചെയ്‌തു. നിങ്ങൾ പിന്തുണയുമായി ബന്ധപ്പെടുമ്പോൾ, ചുവടെ നൽകിയിട്ടുള്ള URL-ഉം നിങ്ങൾ കണ്ട പ്രശ്‌നത്തിന്റെയും അതിലേക്ക് എത്തിച്ചേരാനുള്ള ഘട്ടങ്ങളുടെയും വിവരണവും അറ്റാച്ച് ചെയ്യുക.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogLogIsIncomplete": {
@@ -974,7 +974,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "ശബ്‌ദ സന്ദേശങ്ങളുടെ പരിധി ഒരു മണിക്കൂറാണ്. നിങ്ങൾ മറ്റൊരു ആപ്പിലേക്ക് മാറിയാൽ റെക്കോർഡിംഗ് നിലയ്‌ക്കും.",
+        "message": "ശബ്‌ദ സന്ദേശങ്ങളുടെ പരിധി ഒരു മണിക്കൂറാണ്. നിങ്ങൾ മറ്റൊരു ആപ്പിലേക്ക് മാറിയാൽ റെക്കോർഡിംഗ് അവസാനിക്കും.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1662,7 +1662,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal  $person$-നെ റിംഗ് ചെയ്യും",
+        "message": "Signal  $person$ എന്നയാളെ വിളിക്കും",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1704,7 +1704,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal  $first$, $second$ എന്നിവരെയും മറ്റ് $others$ പേരെയും റിംഗ് ചെയ്യും",
+        "message": "Signal  $first$, $second$ എന്നിവരെയും മറ്റ് $others$ പേരെയും വിളിക്കും",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1722,7 +1722,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$-നെ  അറിയിക്കും",
+        "message": "$person$ എന്നയാളെ  അറിയിക്കും",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -2409,6 +2409,14 @@
         "message": "സംഭാഷണങ്ങളൊന്നും കണ്ടെത്തിയില്ല",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "ഒരു പിശക് സംഭവിച്ചു",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "ലോഗ് സമർപ്പിക്കുക",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "ഉപയോക്തൃനാമം കണ്ടെത്താനായില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -2664,7 +2672,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "$title$-മായുള്ള സംഭാഷണം, $unreadCount$ പുതിയ സന്ദേശങ്ങൾ, അവസാന സന്ദേശം: $lastMessage$.",
+        "message": "$title$ എന്നയാളുമായുള്ള സംഭാഷണം, $unreadCount$ പുതിയ സന്ദേശങ്ങൾ, അവസാന സന്ദേശം: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2686,7 +2694,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": " $title$-മായുള്ള സംഭാഷണത്തിലേക്ക് പോകുക",
+        "message": " $title$ എന്നയാളുമായുള്ള സംഭാഷണത്തിലേക്ക് പോകുക",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2856,7 +2864,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "നിങ്ങൾ $name$-ന് ഒരു ബാഡ്‌ജ് സമ്മാനിച്ചു. ബാഡ്‌ജ് സ്വീകരിക്കുമ്പോൾ, അത് പ്രദർശിപ്പിക്കാനോ ഒളിപ്പിക്കാനോ അവര്‍ക്ക് തിരഞ്ഞെടുക്കാം.",
+        "message": "നിങ്ങൾ $name$ എന്നയാൾക്ക് ഒരു ബാഡ്‌ജ് സമ്മാനിച്ചു. ബാഡ്‌ജ് സ്വീകരിക്കുമ്പോൾ, അത് പ്രദർശിപ്പിക്കാനോ മറയ്ക്കാനോ അവര്‍ക്ക് തിരഞ്ഞെടുക്കാം.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -3400,7 +3408,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "സ്റ്റിക്കർ ചേർക്കാൻ ഒരു ഫയലിൽ ക്ലിക്ക് ചെയ്യുക അല്ലെങ്കിൽ വലിച്ചിടുക",
+        "message": "സ്റ്റിക്കർ ചേർക്കാൻ ഒരു ഫയലിൽ ക്ലിക്ക് ചെയ്യുക അല്ലെങ്കിൽ അത് വലിച്ചിടുക",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3944,7 +3952,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ നിങ്ങളെയും $otherMember$-നെയും  വിളിക്കുന്നു",
+        "message": "$ringer$ നിങ്ങളെയും $otherMember$എന്നയാളെയും  വിളിക്കുന്നു",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3976,7 +3984,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ നിങ്ങളെയും $first$, $second$ എന്നിവരെയും വേറെ 1 ആളെയും വിളിക്കുന്നു",
+        "message": "$ringer$ നിങ്ങളെയും $first$, $second$ എന്നിവരെയും മറ്റൊരാളെയും വിളിക്കുന്നു",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -5688,7 +5696,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": " $contact$-നെ  ഗ്രൂപ്പ് അഡ്‌മിൻ പദവിയിൽ നിന്ന് നീക്കം ചെയ്യണോ?",
+        "message": " $contact$ എന്നയാളെ  ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5730,7 +5738,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "പ്രവർത്തനക്ഷമമാക്കിയാല്‍, ഈ 1:1 ചാറ്റിൽ അയച്ചതും സ്വീകരിച്ചതുമായ സന്ദേശങ്ങൾ അവ കണ്ടുകഴിഞ്ഞാല്‍ അപ്രത്യക്ഷമാകുന്നതാണ്.",
+        "message": "പ്രവർത്തനക്ഷമമാക്കിയാല്‍, ഈ 1:1 ചാറ്റിൽ അയച്ചതും ലഭിച്ചതുമായ സന്ദേശങ്ങൾ അവ കണ്ടുകഴിഞ്ഞാല്‍ അപ്രത്യക്ഷമാകും.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5946,7 +5954,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "\"$name$\"-യുടെ അഭ്യർത്ഥന നിരസിക്കണോ? അവർക്ക് വീണ്ടും ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ചേരാൻ അഭ്യർത്ഥിക്കാനാകില്ല.",
+        "message": "\"$name$\" എന്നയാളുടെ അഭ്യർത്ഥന നിരസിക്കണോ? അവർക്ക് വീണ്ടും ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ചേരാൻ അഭ്യർത്ഥിക്കാനാകില്ല.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -6054,7 +6062,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$-ന് ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ഈ ഗ്രൂപ്പിൽ ചേരാനോ ഗ്രൂപ്പിൽ ചേരാൻ അഭ്യർത്ഥിക്കാനോ  കഴിയില്ല.എന്നാല്‍ അവരെ ഗ്രൂപ്പിലേക്ക് മാനുവലായി ചേര്‍ക്കാം.",
+        "message": "$name$ എന്നയാൾക്ക് ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ഈ ഗ്രൂപ്പിൽ ചേരാനോ ഗ്രൂപ്പിൽ ചേരാൻ അഭ്യർത്ഥിക്കാനോ കഴിയില്ല. എന്നാല്‍ അവരെ ഗ്രൂപ്പിലേക്ക് മാനുവലായി ചേര്‍ക്കാം.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6360,7 +6368,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "\"$name$\"-നെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യണോ? അവർക്ക് ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് വീണ്ടും ചേരാൻ കഴിയില്ല.",
+        "message": "\"$name$\" എന്നയാളെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യണോ? അവർക്ക് ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് വീണ്ടും ചേരാൻ കഴിയില്ല.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6690,7 +6698,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "ഇത് നിങ്ങളുടെ ഉപയോക്തൃനാമം നീക്കം ചെയ്യും, അതോടെ മറ്റ് ഉപയോക്താക്കൾക്ക് അത് അവകാശപ്പെടാം. നിങ്ങൾക്ക് ഉറപ്പാണോ?",
+        "message": "ഇത് നിങ്ങളുടെ ഉപയോക്തൃനാമം നീക്കം ചെയ്യും, അതോടെ മറ്റ് ഉപയോക്താക്കൾക്ക് അത് അവകാശപ്പെടാനാകും. നിങ്ങൾക്ക് ഉറപ്പാണോ?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6932,7 +6940,7 @@
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "അപ്‌ഡേറ്റുകൾ സ്വപ്രേരിതമായി ഡൗൺലോഡ് ചെയ്യുക",
+        "message": "അപ്‌ഡേറ്റുകൾ സ്വയമേല ഡൗൺലോഡ് ചെയ്യുക",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
@@ -6972,11 +6980,11 @@
         }
     },
     "NSIS__decompressionFailed": {
-        "message": "ഫയലുകൾ ഡീകംപ്രസ് ചെയ്യാനായില്ല. ഇൻസ്റ്റാളർ വീണ്ടും പ്രവർത്തിപ്പിച്ചുനോക്കുക",
+        "message": "ഫയലുകൾ ഡീകംപ്രസ് ചെയ്യാനായില്ല. ഇൻസ്റ്റാളർ വീണ്ടും പ്രവർത്തിപ്പിച്ചു നോക്കുക",
         "description": "Displayed when Windows installer cannot decompress application files"
     },
     "NSIS__uninstallFailed": {
-        "message": "പഴയ ആപ്ലിക്കേഷൻ ഫയലുകൾ അൺഇൻസ്റ്റാൾ ചെയ്യാനായില്ല. ഇൻസ്റ്റാളർ വീണ്ടും പ്രവർത്തിപ്പിച്ചുനോക്കുക.",
+        "message": "പഴയ ആപ്ലിക്കേഷൻ ഫയലുകൾ അൺഇൻസ്റ്റാൾ ചെയ്യാനായില്ല. ഇൻസ്റ്റാളർ വീണ്ടും പ്രവർത്തിപ്പിച്ചു നോക്കുക.",
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
@@ -7148,7 +7156,7 @@
         }
     },
     "MyStories__delete": {
-        "message": "ഈ സ്റ്റോറി ഇല്ലാതാക്കണോ? ഇത് ലഭിച്ച എല്ലാവർക്കും ഇല്ലാതാക്കപ്പെടും.",
+        "message": "ഈ സ്റ്റോറി ഇല്ലാതാക്കണോ? ഇത് ലഭിച്ച എല്ലാവരിൽ നിന്നും ഇത് ഇല്ലാതാക്കും.",
         "description": "Confirmation dialog description text for deleting a story"
     },
     "SignalConnectionsModal__title": {
@@ -7225,6 +7233,10 @@
     },
     "Stories__toast--sending-reaction": {
         "message": "പ്രതികരണം അയയ്ക്കുന്നു...",
+        "description": "Toast message"
+    },
+    "Stories__toast--hasNoSound": {
+        "message": "ഈ സ്റ്റോറിയിൽ ശബ്‌ദമൊന്നുമില്ല",
         "description": "Toast message"
     },
     "StoriesSettings__title": {
@@ -7375,6 +7387,14 @@
         "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__title": {
+        "message": "അയക്കുക",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "സ്റ്റോറി അയയ്ക്കുക",
+        "description": "aria-label for the send story button"
+    },
     "Stories__settings-toggle--title": {
         "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
         "description": "Select box title for the stories on/off toggle"
@@ -7476,7 +7496,7 @@
         "description": "Label for menu item to get a story's information"
     },
     "StoryListItem__hide-modal--body": {
-        "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$-ൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്‌റ്റോറീസ് ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
+        "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$ എന്നയാളിൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്‌റ്റോറീസ് ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
         "description": "Body for the confirmation dialog for hiding a story"
     },
     "StoryListItem__hide-modal--confirm": {
@@ -7527,6 +7547,14 @@
         "message": "കണ്ടൻസ്‌ഡ്",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "സ്റ്റോറി ടെക്സ്റ്റ് ചേർക്കുക",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "ഒരു ലിങ്ക് ചേർക്കുക",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "ഒരു യുആർഎൽ ടൈപ്പ് ചെയ്യുകയോ ഒട്ടിക്കുകയോ ചെയ്യുക",
         "description": "Placeholder for the URL input for link previews"
@@ -7548,7 +7576,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "$name$-ന്റെ സ്റ്റോറിയോട് പ്രതികരിച്ചു",
+        "message": "$name$ എന്നയാളുടെ സ്റ്റോറിയോട് പ്രതികരിച്ചു",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "കൂടുതൽ ചെറിയ മാറ്റങ്ങൾ, ബഗ് പരിഹരിക്കലുകൾ, പ്രകടനം മെച്ചപ്പെടുത്തലുകൾ. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "നിങ്ങളുടെ ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഒരുപറ്റം ബഗ് പരിഹരിക്കലുകൾ. കൂടുതൽ ആവേശകരമായ മാറ്റങ്ങൾ ഉടൻ!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "ട്വീക്കുകളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. പതിവ് പോലെ ടെക്‌സ്റ്റ് ചെയ്യുന്നതും കോൾ ചെയ്യുന്നതും വീഡിയോ ചാറ്റ് ചെയ്യുന്നതും തുടരുക.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "ഭാവിയിലേക്കുള്ള അധിക ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും വിവിധ പ്ലാനുകളും.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

@@ -2409,6 +2409,14 @@
         "message": "მიმოწერების მოძებნა ვერ მოხერხდა",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "ხარვეზი მოხდა",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "რეესტრის გაგზავნა",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "მომხმარებლის სახელის მიღება ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "მიმდინარეობს რეაქციის გაგზავნა...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "ამ Story-ის ხმა არ აქვს",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Story-ის პარამეტრები",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Story-ის პარამეტრები",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "გაეგზავნოთ ჩამოთვლილებს",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Story-ის გაგზავნა",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "გააზიარე და ნახე Stories-ები",
@@ -7527,6 +7547,14 @@
         "message": "შედედებული",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Story-ის ტექსტის დამატება",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "ბმულის დამატება",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "ჩაწერე ან ჩააკოპირე URL-ი",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "დამატებითი პატარა შესწორებები, ბაგების გამართვები და წარმადობის გაუმჯობესებები. მადლობა, რომ Signal-ს იყენებ!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "შენი აპის შეუფერხებლად მუშაობისთვის უამრავი ბაგი გამოვასწორეთ. ჰორიზონტზე უფრო საინტერესო ცვლილებები გელოდება!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "შესწორებები, ბაგების გამოსწორებები და წარმადობის გაუმჯობესება. ჩვეულებისამებრ შეგიძლია განაგრძო ტექსტური შეტყობინებების გაგზავნა, დარეკვა და ვიდეო ჩატი.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "ხარვეზების გამოსწორებასა და წარმადობის სხვამხრივ გაუმჯობესებაზე დაუღალავად ვშრომობთ, რათა შენმა აპმა შეუფერხებლად იმუშაოს.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "დამატებითი მცირე შესწორებები, ბაგების  გამოსწორება და სხვადასხვა გეგმები მომავლისთვის.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

@@ -2409,6 +2409,14 @@
         "message": "No se encontraron chats",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Un error ha ocurrido",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Enviar el registro de depuración",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Fallo al recuperar el alias. Comprueba tu conexión e inténtalo de nuevo.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "Enviando reacción...",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Esta historia no tiene sonido",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Ajustes de historias",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Ajustes de historias",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Enviar a",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Enviar historia",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Compartir y ver historias",
@@ -7527,6 +7547,14 @@
         "message": "Condensada",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Agregar texto de la historia",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Agregar enlace",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Escribe o añade una URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Hemos hecho algunos pequeños retoques, arreglado errores y mejorado el rendimiento. ¡Gracias por utilizar Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Varios errores solucionados para mantener tu app funcionando sin problema. ¡Se vienen más cambios emocionantes!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Ajustes, soluciones a errores y mejoras al desempeño. Sigue texteando, llamando y chateando en video como siempre.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Trabajando duro para solucionar errores y hacer otras mejoras al desempeño para que la app te funcione sin problema.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Pequeños ajustes adicionales, soluciones a errores y diversos planes para el futuro.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

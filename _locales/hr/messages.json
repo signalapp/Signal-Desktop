@@ -2409,6 +2409,14 @@
         "message": "Nema razgovora",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "Došlo je do pogreške",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Pošalji zapisnik",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Dohvaćanje korisničkog imena nije uspjelo. Provjerite internetsku vezu i pokušajte ponovo.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7227,6 +7235,10 @@
         "message": "Slanje reakcije…",
         "description": "Toast message"
     },
+    "Stories__toast--hasNoSound": {
+        "message": "Ova priča nema zvuk",
+        "description": "Toast message"
+    },
     "StoriesSettings__title": {
         "message": "Postavke priče",
         "description": "Title for the story settings modal"
@@ -7374,6 +7386,14 @@
     "StoriesSettings__context-menu": {
         "message": "Postavke priče",
         "description": "Button label to get to story settings"
+    },
+    "SendStoryModal__title": {
+        "message": "Poslati",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Pošalji priču",
+        "description": "aria-label for the send story button"
     },
     "Stories__settings-toggle--title": {
         "message": "Dijelite i gledajte priče",
@@ -7527,6 +7547,14 @@
         "message": "Zgusnuto",
         "description": "Label for font"
     },
+    "StoryCreator__control--text": {
+        "message": "Dodaj tekst priče",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Dodaj link",
+        "description": "aria-label for adding a link preview"
+    },
     "StoryCreator__link-preview-placeholder": {
         "message": "Upišite ili zalijepite URL",
         "description": "Placeholder for the URL input for link previews"
@@ -7579,6 +7607,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Dodatna mala podešavanja, ispravci bugova i poboljšanje performansa aplikacije. Hvala vam što koristite Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Ispravili smo greške za nesmetano korištenje aplikacije. Uskoro slijedi još uzbudljivih promjena!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Podešavanja, ispravci grešaka i poboljšanja performansi. Nastavite s dopisivanjem, pozivima i videochatovima kao i do sada.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Vrijedno radimo na ispravljanju grešaka i drugim poboljšanjima za nesmetano korištenje aplikacije.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Dodatna mala podešavanja, ispravci grešaka i buduća poboljšanja.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {
