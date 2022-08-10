@@ -39,6 +39,7 @@ import { Spinner } from './Spinner';
 import { UsernameSaveState } from '../state/ducks/conversationsEnums';
 import { MAX_USERNAME, MIN_USERNAME } from '../types/Username';
 import { isWhitespace, trim } from '../util/whitespaceStringUtil';
+import { Emojify } from './conversation/Emojify';
 
 export enum EditState {
   None = 'None',
@@ -736,7 +737,7 @@ export const ProfileEditor = ({
           icon={
             <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--name" />
           }
-          label={getFullNameText()}
+          label={<Emojify text={getFullNameText()} />}
           onClick={() => {
             setEditState(EditState.ProfileName);
           }}
@@ -786,7 +787,9 @@ export const ProfileEditor = ({
               <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--bio" />
             )
           }
-          label={fullBio.aboutText || i18n('ProfileEditor--about')}
+          label={
+            <Emojify text={fullBio.aboutText || i18n('ProfileEditor--about')} />
+          }
           onClick={() => {
             setEditState(EditState.Bio);
           }}

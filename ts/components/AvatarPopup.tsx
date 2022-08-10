@@ -9,6 +9,7 @@ import { Avatar } from './Avatar';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 import type { LocalizerType, ThemeType } from '../types/Util';
+import { Emojify } from './conversation/Emojify';
 
 export type Props = {
   readonly i18n: LocalizerType;
@@ -59,7 +60,7 @@ export const AvatarPopup = (props: Props): JSX.Element => {
         <Avatar {...props} size={52} />
         <div className="module-avatar-popup__profile__text">
           <div className="module-avatar-popup__profile__name">
-            {profileName || title}
+            <Emojify text={profileName || title} />
           </div>
           {shouldShowNumber ? (
             <div className="module-avatar-popup__profile__number">
