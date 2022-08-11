@@ -2060,6 +2060,16 @@ export async function startApp(): Promise<void> {
         );
         window.addEventListener('online', onOnline);
         onEmpty(); // this ensures that the loading screen is dismissed
+
+        // Switch to inbox view even if contact sync is still running
+        if (
+          window.reduxStore.getState().app.appView === AppViewType.Installer
+        ) {
+          log.info('firstRun: offline, opening inbox');
+          window.reduxActions.app.openInbox();
+        } else {
+          log.info('firstRun: offline, not opening inbox');
+        }
         return;
       }
 
