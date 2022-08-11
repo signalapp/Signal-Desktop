@@ -14,7 +14,6 @@ import { SECOND } from './durations';
 
 const DEFAULT_DURATION = 5 * SECOND;
 const MAX_VIDEO_DURATION = 30 * SECOND;
-const MIN_TEXT_DURATION = 3 * SECOND;
 
 export async function getStoryDuration(
   attachment: AttachmentType
@@ -58,7 +57,7 @@ export async function getStoryDuration(
   }
 
   if (attachment.textAttachment && attachment.textAttachment.text) {
-    // Minimum 3 seconds. +1 second for every 15 characters past the first
+    // Minimum 5 seconds. +1 second for every 15 characters past the first
     // 15 characters (round up).
     // For text stories that include a link, +2 seconds to the playback time.
     const length = count(attachment.textAttachment.text);
@@ -66,7 +65,13 @@ export async function getStoryDuration(
     const linkPreviewSeconds = attachment.textAttachment.preview
       ? 2 * SECOND
       : 0;
-    return MIN_TEXT_DURATION + additionalSeconds + linkPreviewSeconds;
+    return DEFAULT_DURATION + additionalSeconds + linkPreviewSeconds;
+  }
+
+  if (attachment.caption) {
+    const length = count(attachment.caption);
+    const additionalSeconds = (Math.ceil(length / 15) - 1) * SECOND;
+    return DEFAULT_DURATION + additionalSeconds;
   }
 
   return DEFAULT_DURATION;
