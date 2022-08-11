@@ -2226,6 +2226,7 @@ export async function startApp(): Promise<void> {
               senderKey: true,
               changeNumber: true,
               stories: true,
+              pnpChangeNumber: true,
             }),
             updateOurUsernameAndPni(),
           ]);
