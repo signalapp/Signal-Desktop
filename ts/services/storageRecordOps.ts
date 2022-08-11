@@ -1281,10 +1281,12 @@ export async function mergeStoryDistributionListRecord(
 
   const details: Array<string> = [];
 
-  const listId = Bytes.areEqual(
+  const isMyStories = Bytes.areEqual(
     MY_STORIES_BYTES,
     storyDistributionListRecord.identifier
-  )
+  );
+
+  const listId = isMyStories
     ? MY_STORIES_ID
     : bytesToUuid(storyDistributionListRecord.identifier);
 
@@ -1306,9 +1308,9 @@ export async function mergeStoryDistributionListRecord(
   const storyDistribution: StoryDistributionWithMembersType = {
     id: listId,
     name: String(storyDistributionListRecord.name),
-    deletedAtTimestamp: getTimestampFromLong(
-      storyDistributionListRecord.deletedAtTimestamp
-    ),
+    deletedAtTimestamp: isMyStories
+      ? undefined
+      : getTimestampFromLong(storyDistributionListRecord.deletedAtTimestamp),
     allowsReplies: Boolean(storyDistributionListRecord.allowsReplies),
     isBlockList: Boolean(storyDistributionListRecord.isBlockList),
     members: remoteListMembers,
