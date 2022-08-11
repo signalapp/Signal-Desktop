@@ -202,8 +202,8 @@ describe('both/state/ducks/stories', () => {
       await queueStoryDownload(storyId)(dispatch, getState, null);
 
       sinon.assert.calledWith(dispatch, {
-        type: 'NOOP',
-        payload: null,
+        type: 'stories/QUEUE_STORY_DOWNLOAD',
+        payload: storyId,
       });
     });
   });

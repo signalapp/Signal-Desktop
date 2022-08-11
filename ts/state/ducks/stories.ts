@@ -52,6 +52,7 @@ import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 export type StoryDataType = {
   attachment?: AttachmentType;
   messageId: string;
+  startedDownload?: boolean;
 } & Pick<
   MessageAttributesType,
   | 'canReplyToStory'
@@ -92,6 +93,7 @@ export type StoriesStateType = {
 const DOE_STORY = 'stories/DOE';
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
+const QUEUE_STORY_DOWNLOAD = 'stories/QUEUE_STORY_DOWNLOAD';
 const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
@@ -113,6 +115,11 @@ type LoadStoryRepliesActionType = {
 
 type MarkStoryReadActionType = {
   type: typeof MARK_STORY_READ;
+  payload: string;
+};
+
+type QueueStoryDownloadActionType = {
+  type: typeof QUEUE_STORY_DOWNLOAD;
   payload: string;
 };
 
@@ -155,6 +162,7 @@ export type StoriesActionType =
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
+  | QueueStoryDownloadActionType
   | ReplyToStoryActionType
   | ResolveAttachmentUrlActionType
   | StoryChangedActionType
@@ -431,7 +439,7 @@ function queueStoryDownload(
   void,
   RootStateType,
   unknown,
-  NoopActionType | ResolveAttachmentUrlActionType
+  NoopActionType | QueueStoryDownloadActionType | ResolveAttachmentUrlActionType
 > {
   return async (dispatch, getState) => {
     const { stories } = getState().stories;
@@ -477,7 +485,11 @@ function queueStoryDownload(
       return;
     }
 
-    if (isDownloading(attachment)) {
+    // isDownloading checks for the downloadJobId which is set by
+    // queueAttachmentDownloads but we optimistically set story.startedDownload
+    // in redux to prevent race conditions from queuing up multiple attachment
+    // downloads before the attachment save takes place.
+    if (isDownloading(attachment) || story.startedDownload) {
       return;
     }
 
@@ -488,7 +500,13 @@ function queueStoryDownload(
       // completed attachment download.
       message.set({ storyReplyContext: undefined });
 
+      dispatch({
+        type: QUEUE_STORY_DOWNLOAD,
+        payload: storyId,
+      });
+
       await queueAttachmentDownloads(message.attributes);
+      return;
     }
 
     dispatch({
@@ -1202,6 +1220,26 @@ export function reducer(
       ...state,
       selectedStoryData,
       storyViewMode,
+    };
+  }
+
+  if (action.type === QUEUE_STORY_DOWNLOAD) {
+    const storyIndex = state.stories.findIndex(
+      story => story.messageId === action.payload
+    );
+
+    if (storyIndex < 0) {
+      return state;
+    }
+
+    const existingStory = state.stories[storyIndex];
+
+    return {
+      ...state,
+      stories: replaceIndex(state.stories, storyIndex, {
+        ...existingStory,
+        startedDownload: true,
+      }),
     };
   }
 
