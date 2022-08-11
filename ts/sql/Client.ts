@@ -1746,6 +1746,10 @@ async function _deleteAllStoryDistributions(): Promise<void> {
 async function createNewStoryDistribution(
   distribution: StoryDistributionWithMembersType
 ): Promise<void> {
+  strictAssert(
+    distribution.name,
+    'Distribution list does not have a valid name'
+  );
   await channels.createNewStoryDistribution(distribution);
 }
 async function getAllStoryDistributionsWithMembers(): Promise<
@@ -1761,6 +1765,17 @@ async function getStoryDistributionWithMembers(
 async function modifyStoryDistribution(
   distribution: StoryDistributionType
 ): Promise<void> {
+  if (distribution.deletedAtTimestamp) {
+    strictAssert(
+      !distribution.name,
+      'Attempt to delete distribution list but still has a name'
+    );
+  } else {
+    strictAssert(
+      distribution.name,
+      'Cannot clear distribution list name without deletedAtTimestamp set'
+    );
+  }
   await channels.modifyStoryDistribution(distribution);
 }
 async function modifyStoryDistributionMembers(
@@ -1779,6 +1794,17 @@ async function modifyStoryDistributionWithMembers(
     toRemove: Array<UUIDStringType>;
   }
 ): Promise<void> {
+  if (distribution.deletedAtTimestamp) {
+    strictAssert(
+      !distribution.name,
+      'Attempt to delete distribution list but still has a name'
+    );
+  } else {
+    strictAssert(
+      distribution.name,
+      'Cannot clear distribution list name without deletedAtTimestamp set'
+    );
+  }
   await channels.modifyStoryDistributionWithMembers(distribution, options);
 }
 async function deleteStoryDistribution(id: UUIDStringType): Promise<void> {

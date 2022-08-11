@@ -1305,12 +1305,14 @@ export async function mergeStoryDistributionListRecord(
     details.push('adding unknown fields');
   }
 
+  const deletedAtTimestamp = getTimestampFromLong(
+    storyDistributionListRecord.deletedAtTimestamp
+  );
+
   const storyDistribution: StoryDistributionWithMembersType = {
     id: listId,
     name: String(storyDistributionListRecord.name),
-    deletedAtTimestamp: isMyStories
-      ? undefined
-      : getTimestampFromLong(storyDistributionListRecord.deletedAtTimestamp),
+    deletedAtTimestamp: isMyStories ? undefined : deletedAtTimestamp,
     allowsReplies: Boolean(storyDistributionListRecord.allowsReplies),
     isBlockList: Boolean(storyDistributionListRecord.isBlockList),
     members: remoteListMembers,
@@ -1350,6 +1352,14 @@ export async function mergeStoryDistributionListRecord(
 
   if (needsToClearUnknownFields) {
     details.push('clearing unknown fields');
+  }
+
+  const isBadRemoteData = !deletedAtTimestamp && !storyDistribution.name;
+  if (isBadRemoteData) {
+    Object.assign(storyDistribution, {
+      name: localStoryDistributionList.name,
+      members: localStoryDistributionList.members,
+    });
   }
 
   const { hasConflict, details: conflictDetails } = doRecordsConflict(
