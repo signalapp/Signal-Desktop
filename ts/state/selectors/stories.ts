@@ -153,6 +153,7 @@ export function getStoryView(
   return {
     attachment,
     canReply: canReply(story, undefined, conversationSelector),
+    isHidden: Boolean(sender.hideStory),
     isUnread: story.readStatus === ReadStatus.Unread,
     messageId: story.messageId,
     sender,

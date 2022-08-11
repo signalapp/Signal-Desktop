@@ -78,6 +78,7 @@ export type StoryViewType = {
     | 'badges'
     | 'color'
     | 'firstName'
+    | 'hideStory'
     | 'id'
     | 'isMe'
     | 'name'

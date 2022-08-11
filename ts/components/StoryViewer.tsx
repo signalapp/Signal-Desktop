@@ -765,7 +765,10 @@ export const StoryViewer = ({
           <ConfirmationDialog
             actions={[
               {
-                action: () => onHideStory(id),
+                action: () => {
+                  onHideStory(id);
+                  onClose();
+                },
                 style: 'affirmative',
                 text: i18n('StoryListItem__hide-modal--confirm'),
               },
