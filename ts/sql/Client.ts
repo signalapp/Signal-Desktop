@@ -26,7 +26,7 @@ import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesD
 import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../types/Message2';
 import { createBatcher } from '../util/batcher';
-import { assert, strictAssert } from '../util/assert';
+import { assert, softAssert, strictAssert } from '../util/assert';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
 import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
 import { cleanDataForIpc } from './cleanDataForIpc';
@@ -38,6 +38,7 @@ import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
+import { isValidUuid } from '../types/UUID';
 
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
@@ -1168,6 +1169,8 @@ async function saveMessage(
     ...options,
     jobToInsert: options.jobToInsert && formatJobForInsert(options.jobToInsert),
   });
+
+  softAssert(isValidUuid(id), 'saveMessage: messageId is not a UUID');
 
   expiringMessagesDeletionService.update();
   tapToViewMessagesDeletionService.update();
