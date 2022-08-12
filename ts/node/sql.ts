@@ -1735,8 +1735,8 @@ function updateToLokiSchemaVersion27(currentVersion: number, db: BetterSqlite3.D
     const allSessionV2ConvosIp = compact(
       getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(ipToRemove))
     );
-    const allSessionV2ConvosDns = getAllOpenGroupV2Conversations(db).filter(m =>
-      m?.id.includes(domainNameToUse)
+    const allSessionV2ConvosDns = compact(
+      getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(domainNameToUse))
     );
 
     const duplicatesConvosIpAndDns = allSessionV2ConvosIp.filter(ip => {
@@ -1861,9 +1861,21 @@ function updateToLokiSchemaVersion27(currentVersion: number, db: BetterSqlite3.D
     });
 
     rebuildFtsTable(db);
-    console.log('... done');
+
+    console.info(
+      'removing lastMessageDeletedServerID & lastMessageFetchedServerID from rooms table'
+    );
+    db.exec(
+      `UPDATE ${OPEN_GROUP_ROOMS_V2_TABLE} SET
+      json = json_remove(json, '$.lastMessageDeletedServerID', '$.lastMessageFetchedServerID', '$.token' );`
+    );
+    console.info(
+      'removing lastMessageDeletedServerID & lastMessageFetchedServerID from rooms table. done'
+    );
     writeLokiSchemaVersion(targetVersion, db);
+    console.log('... done');
   })();
+
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
@@ -3912,6 +3924,7 @@ function cleanUpOldOpengroupsOnStart() {
     console.info('cleanUpOldOpengroups: v2Convos is empty');
     return;
   }
+  console.info(`Count of v2 opengroup convos to clean: ${v2ConvosIds.length}`);
 
   // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
   // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
@@ -3957,6 +3970,10 @@ function cleanUpOldOpengroupsOnStart() {
           convoProps.unreadCount = unreadCount;
           saveConversation(convoProps);
         }
+      } else {
+        console.info(
+          `Not cleaning messages older than 6 months in public convo: ${convoId}. message count: ${messagesInConvoBefore}`
+        );
       }
     });
 

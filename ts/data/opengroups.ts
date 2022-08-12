@@ -35,10 +35,6 @@ export type OpenGroupV2Room = {
   lastOutboxIdFetched?: number;
 
   /**
-   * This value represents the rowId of the last message deleted. Not the id of the last message ID
-   */
-  lastMessageDeletedServerID?: number;
-  /**
    * This value is set with the current timestamp whenever we get new messages.
    */
   lastFetchTimestamp?: number;

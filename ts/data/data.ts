@@ -46,11 +46,6 @@ export type SwarmNode = Snode & {
   address: string;
 };
 
-export type ServerToken = {
-  serverUrl: string;
-  token: string;
-};
-
 export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 export const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
