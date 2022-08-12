@@ -9,7 +9,7 @@ import { downloadAttachment, downloadAttachmentSogsV3 } from '../../receiver/att
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
 import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 
-// this cause issues if we increment that value to > 1.
+// this may cause issues if we increment that value to > 1, but only having one job will block the whole queue while one attachment is downloading
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
 const TICK_INTERVAL = Constants.DURATION.MINUTES;
@@ -26,7 +26,7 @@ let timeout: any;
 let logger: any;
 const _activeAttachmentDownloadJobs: any = {};
 
-// FIXME audric, type those `any` field
+// TODO type those `any` properties
 
 export async function start(options: any = {}) {
   ({ logger } = options);
@@ -190,6 +190,10 @@ async function _runJob(job: any) {
         );
 
         await _finishJob(found, id);
+
+        // Make sure to fetch the message from DB here right before writing it.
+        // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
+        // and tries to update the same message.
         found = await Data.getMessageById(messageId);
 
         _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
@@ -207,6 +211,10 @@ async function _runJob(job: any) {
       fileName: attachment.fileName,
       contentType: attachment.contentType,
     });
+
+    // Make sure to fetch the message from DB here right before writing it.
+    // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
+    // and tries to update the same message.
     found = await Data.getMessageById(messageId);
     if (found) {
       const {
@@ -229,8 +237,11 @@ async function _runJob(job: any) {
         `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permament error:`,
         error && error.stack ? error.stack : error
       );
-      found = await Data.getMessageById(messageId);
 
+      // Make sure to fetch the message from DB here right before writing it.
+      // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
+      // and tries to update the same message.
+      found = await Data.getMessageById(messageId);
       try {
         _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
       } catch (e) {

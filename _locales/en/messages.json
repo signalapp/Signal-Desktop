@@ -324,7 +324,7 @@
   "linkDevice": "Link Device",
   "restoreUsingRecoveryPhrase": "Restore your account",
   "or": "or",
-  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/terms-of-service\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/terms-of-service \">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy\" target=\"_blank\">Privacy Policy</a>",
   "beginYourSession": "Begin your Session.",
   "welcomeToYourSession": "Welcome to your Session",
   "newSession": "New Session",

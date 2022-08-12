@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
+import { OpenGroupV2Room } from '../../../../data/opengroups';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
 
@@ -10,6 +10,7 @@ import {
   prefixify,
   publicKeyParam,
 } from '../utils/OpenGroupUtils';
+import { hasExistingOpenGroup } from './ApiUtil';
 import { getOpenGroupManager } from './OpenGroupManagerV2';
 // tslint:disable: variable-name
 
@@ -66,11 +67,11 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
   const publicKey = room.serverPublicKey.toLowerCase();
   const prefixedServer = prefixify(serverUrl);
 
-  const alreadyExist = OpenGroupData.getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
+  const alreadyExist = hasExistingOpenGroup(serverUrl, roomId);
   const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
   const existingConvo = getConversationController().get(conversationId);
 
-  if (alreadyExist && existingConvo) {
+  if (alreadyExist) {
     window?.log?.warn('Skipping join opengroupv2: already exists');
     return;
   } else if (existingConvo) {
@@ -130,8 +131,9 @@ export async function joinOpenGroupV2WithUIEvents(
       }
       return false;
     }
+    const alreadyExist = hasExistingOpenGroup(parsedRoom.serverUrl, parsedRoom.roomId);
     const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
-    if (getConversationController().get(conversationID)) {
+    if (alreadyExist || getConversationController().get(conversationID)) {
       if (showToasts) {
         ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
       }

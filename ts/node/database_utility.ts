@@ -1,6 +1,23 @@
 import { difference, omit, pick } from 'lodash';
 import { ConversationAttributes } from '../models/conversationAttributes';
 
+import * as BetterSqlite3 from 'better-sqlite3';
+
+export const CONVERSATIONS_TABLE = 'conversations';
+export const MESSAGES_TABLE = 'messages';
+export const MESSAGES_FTS_TABLE = 'messages_fts';
+export const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
+export const OPEN_GROUP_ROOMS_V2_TABLE = 'openGroupRoomsV2';
+export const IDENTITY_KEYS_TABLE = 'identityKeys';
+export const GUARD_NODE_TABLE = 'guardNodes';
+export const ITEMS_TABLE = 'items';
+export const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
+export const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
+export const LAST_HASHES_TABLE = 'lastHashes';
+
+export const HEX_KEY = /[^0-9A-Fa-f]/;
+// tslint:disable: no-console
+
 export function objectToJSON(data: Record<any, any>) {
   return JSON.stringify(data);
 }
@@ -210,4 +227,50 @@ export function assertValidConversationAttributes(
   }
 
   return pick(data, allowedKeysOfConversationAttributes) as ConversationAttributes;
+}
+
+export function dropFtsAndTriggers(db: BetterSqlite3.Database) {
+  console.info('dropping fts5 table');
+
+  db.exec(`
+        DROP TRIGGER IF EXISTS messages_on_insert;
+        DROP TRIGGER IF EXISTS messages_on_delete;
+        DROP TRIGGER IF EXISTS messages_on_update;
+        DROP TABLE IF EXISTS ${MESSAGES_FTS_TABLE};
+      `);
+}
+
+export function rebuildFtsTable(db: BetterSqlite3.Database) {
+  console.info('rebuildFtsTable');
+  db.exec(`
+          -- Then we create our full-text search table and populate it
+          CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
+            USING fts5(id UNINDEXED, body);
+          INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
+            SELECT id, body FROM ${MESSAGES_TABLE};
+          -- Then we set up triggers to keep the full-text search table up to date
+          CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
+            INSERT INTO ${MESSAGES_FTS_TABLE} (
+              id,
+              body
+            ) VALUES (
+              new.id,
+              new.body
+            );
+          END;
+          CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
+            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+          END;
+          CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
+            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+            INSERT INTO ${MESSAGES_FTS_TABLE}(
+              id,
+              body
+            ) VALUES (
+              new.id,
+              new.body
+            );
+          END;
+          `);
+  console.info('rebuildFtsTable built');
 }

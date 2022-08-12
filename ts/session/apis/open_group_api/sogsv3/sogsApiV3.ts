@@ -145,7 +145,7 @@ const handleSogsV3DeletedMessages = async (
 ) => {
   // FIXME those 2 `m.data === null` test should be removed when we add support for emoji-reacts
   const deletions = messages.filter(m => Boolean(m.deleted) || m.data === null);
-  const exceptDeletion = messages.filter(m => !m.deleted && !m.data === null);
+  const exceptDeletion = messages.filter(m => !(Boolean(m.deleted) || m.data === null));
   if (!deletions.length) {
     return messages;
   }
@@ -170,6 +170,7 @@ const handleSogsV3DeletedMessages = async (
   return exceptDeletion;
 };
 
+// tslint:disable-next-line: cyclomatic-complexity
 const handleMessagesResponseV4 = async (
   messages: Array<OpenGroupMessageV4>,
   serverUrl: string,
@@ -268,7 +269,6 @@ const handleMessagesResponseV4 = async (
       roomInfosRefreshed.maxMessageFetchedSeqNo = maxNewMessageSeqNo;
     }
     roomInfosRefreshed.lastFetchTimestamp = Date.now();
-
     await OpenGroupData.saveV2OpenGroupRoom(roomInfosRefreshed);
   } catch (e) {
     window?.log?.warn('handleNewMessages failed:', e);
@@ -455,43 +455,48 @@ export const handleBatchPollResults = async (
   await handleCapabilities(subrequestOptionsLookup, batchPollResults, serverUrl);
 
   if (batchPollResults && isArray(batchPollResults.body)) {
-    await Promise.all(
-      batchPollResults.body.map(async (subResponse: any, index: number) => {
-        // using subreqOptions as request type lookup,
-        //assumes batch subresponse order matches the subrequest order
-        const subrequestOption = subrequestOptionsLookup[index];
-        const responseType = subrequestOption.type;
+    /**
+     * We run those calls sequentially rather than with a Promise.all call because if we were running those in parallel
+     * one call might overwrite the changes to the DB of the other one,
+     * Doing those sequentially makes sure that the cache got from the second call is up to date, before writing it.
+     */
+    for (let index = 0; index < batchPollResults.body.length; index++) {
+      const subResponse = batchPollResults.body[index] as any;
+      // using subreqOptions as request type lookup,
+      //assumes batch subresponse order matches the subrequest order
+      const subrequestOption = subrequestOptionsLookup[index];
+      const responseType = subrequestOption.type;
 
-        switch (responseType) {
-          case 'capabilities':
-            // capabilities are handled in handleCapabilities and are skipped here just to avoid the default case below
-            break;
-          case 'messages':
-            // this will also include deleted messages explicitly with `data: null` & edited messages with a new data field & react changes with data not existing
-            return handleMessagesResponseV4(
-              subResponse.body,
-              serverUrl,
-              subrequestOption,
-              roomIdsStillPolled
-            );
-          case 'pollInfo':
-            await handlePollInfoResponse(
-              subResponse.code,
-              subResponse.body,
-              serverUrl,
-              roomIdsStillPolled
-            );
-            break;
-          case 'inbox':
-            await handleInboxOutboxMessages(subResponse.body, serverUrl, false);
-            break;
-          case 'outbox':
-            await handleInboxOutboxMessages(subResponse.body, serverUrl, true);
-            break;
-          default:
-            window.log.error('No matching subrequest response body for type: ', responseType);
-        }
-      })
-    );
+      switch (responseType) {
+        case 'capabilities':
+          // capabilities are handled in handleCapabilities and are skipped here just to avoid the default case below
+          break;
+        case 'messages':
+          // this will also include deleted messages explicitly with `data: null` & edited messages with a new data field & react changes with data not existing
+          await handleMessagesResponseV4(
+            subResponse.body,
+            serverUrl,
+            subrequestOption,
+            roomIdsStillPolled
+          );
+          break;
+        case 'pollInfo':
+          await handlePollInfoResponse(
+            subResponse.code,
+            subResponse.body,
+            serverUrl,
+            roomIdsStillPolled
+          );
+          break;
+        case 'inbox':
+          await handleInboxOutboxMessages(subResponse.body, serverUrl, false);
+          break;
+        case 'outbox':
+          await handleInboxOutboxMessages(subResponse.body, serverUrl, true);
+          break;
+        default:
+          window.log.error('No matching subrequest response body for type: ', responseType);
+      }
+    }
   }
 };
