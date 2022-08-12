@@ -3153,6 +3153,10 @@ export class ConversationModel extends window.Backbone
 
     this.trigger('newmessage', model);
     this.updateUnread();
+
+    if (this.get('isArchived')) {
+      this.setArchived(false);
+    }
   }
 
   /**
