@@ -63,6 +63,30 @@ export const ToastManager = ({
     );
   }
 
+  if (toastType === ToastType.StoryVideoTooLong) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('StoryCreator__error--video-too-long')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StoryVideoUnsupported) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('StoryCreator__error--video-unsupported')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StoryVideoError) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('StoryCreator__error--video-error')}
+      </Toast>
+    );
+  }
+
   strictAssert(
     toastType === undefined,
     `Unhandled toast of type: ${toastType}`

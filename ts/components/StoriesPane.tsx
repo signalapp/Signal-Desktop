@@ -16,12 +16,18 @@ import type {
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import type { ShowToastActionCreatorType } from '../state/ducks/toast';
 import { ContextMenu } from './ContextMenu';
 import { MyStoriesButton } from './MyStoriesButton';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
 import { Theme } from '../util/theme';
+import { ToastType } from '../state/ducks/toast';
 import { isNotNil } from '../util/isNotNil';
+import {
+  isVideoGoodForStories,
+  ReasonVideoNotGood,
+} from '../util/isVideoGoodForStories';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
@@ -70,6 +76,7 @@ export type PropsType = {
   onStoriesSettings: () => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
+  showToast: ShowToastActionCreatorType;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
@@ -87,6 +94,7 @@ export const StoriesPane = ({
   onStoriesSettings,
   queueStoryDownload,
   showConversation,
+  showToast,
   stories,
   toggleHideStories,
   toggleStoriesView,
@@ -125,12 +133,32 @@ export const StoriesPane = ({
               label: i18n('Stories__add-story--media'),
               onClick: () => {
                 const input = document.createElement('input');
-                input.accept = 'image/*,video/*';
+                input.accept = 'image/*,video/mp4';
                 input.type = 'file';
-                input.onchange = () => {
+                input.onchange = async () => {
                   const file = input.files ? input.files[0] : undefined;
 
                   if (!file) {
+                    return;
+                  }
+
+                  const result = await isVideoGoodForStories(file);
+
+                  if (
+                    result === ReasonVideoNotGood.UnsupportedCodec ||
+                    result === ReasonVideoNotGood.UnsupportedContainer
+                  ) {
+                    showToast(ToastType.StoryVideoUnsupported);
+                    return;
+                  }
+
+                  if (result === ReasonVideoNotGood.TooLong) {
+                    showToast(ToastType.StoryVideoTooLong);
+                    return;
+                  }
+
+                  if (result !== ReasonVideoNotGood.AllGoodNevermind) {
+                    showToast(ToastType.StoryVideoError);
                     return;
                   }
 

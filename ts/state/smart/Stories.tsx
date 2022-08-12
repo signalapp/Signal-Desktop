@@ -18,6 +18,7 @@ import { saveAttachment } from '../../util/saveAttachment';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
+import { useToastActions } from '../ducks/toast';
 
 function renderStoryCreator({
   file,
@@ -31,6 +32,7 @@ export function SmartStories(): JSX.Element | null {
   const { showConversation, toggleHideStories } = useConversationsActions();
   const { showStoriesSettings, toggleForwardMessageModal } =
     useGlobalModalActions();
+  const { showToast } = useToastActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
@@ -70,6 +72,7 @@ export function SmartStories(): JSX.Element | null {
       renderStoryCreator={renderStoryCreator}
       showConversation={showConversation}
       showStoriesSettings={showStoriesSettings}
+      showToast={showToast}
       stories={stories}
       toggleHideStories={toggleHideStories}
       {...storiesActions}

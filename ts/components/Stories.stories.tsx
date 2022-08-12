@@ -48,6 +48,7 @@ export default {
     renderStoryViewer: { action: true },
     showConversation: { action: true },
     showStoriesSettings: { action: true },
+    showToast: { action: true },
     stories: {
       defaultValue: [],
     },

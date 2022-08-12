@@ -9,6 +9,9 @@ export enum ToastType {
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
   StoryReply = 'StoryReply',
+  StoryVideoError = 'StoryVideoError',
+  StoryVideoTooLong = 'StoryVideoTooLong',
+  StoryVideoUnsupported = 'StoryVideoUnsupported',
 }
 
 // State

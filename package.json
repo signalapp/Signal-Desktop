@@ -127,6 +127,7 @@
     "memoizee": "0.4.14",
     "mkdirp": "0.5.2",
     "moment": "2.29.4",
+    "mp4box": "0.5.2",
     "mustache": "2.3.0",
     "node-fetch": "2.6.7",
     "node-forge": "1.3.0",

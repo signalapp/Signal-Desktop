@@ -50,3 +50,18 @@ export const MessageBodyTooLong = Template.bind({});
 MessageBodyTooLong.args = {
   toastType: ToastType.MessageBodyTooLong,
 };
+
+export const StoryVideoTooLong = Template.bind({});
+StoryVideoTooLong.args = {
+  toastType: ToastType.StoryVideoTooLong,
+};
+
+export const StoryVideoUnsupported = Template.bind({});
+StoryVideoUnsupported.args = {
+  toastType: ToastType.StoryVideoUnsupported,
+};
+
+export const StoryVideoError = Template.bind({});
+StoryVideoError.args = {
+  toastType: ToastType.StoryVideoError,
+};
