@@ -978,11 +978,14 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
       console.info(
         `withIpButNotDuplicateRoom: renaming room old:${r.conversationId} with saveV2OpenGroupRoom() new- conversationId:${newConvoId}: serverUrl:${urlToUse}`
       );
-      sqlNode.saveV2OpenGroupRoom({
-        ...r,
-        serverUrl: urlToUse,
-        conversationId: newConvoId,
-      });
+      sqlNode.saveV2OpenGroupRoom(
+        {
+          ...r,
+          serverUrl: urlToUse,
+          conversationId: newConvoId,
+        },
+        db
+      );
     });
 
     console.info(
@@ -1058,10 +1061,13 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
         `withIpButNotDuplicateConvo: renaming convo old:${r.id} with saveConversation() new- conversationId:${newConvoId}`
       );
       convoIdsToMigrateFromIpToDns.set(r.id, newConvoId);
-      sqlNode.saveConversation({
-        ...r,
-        id: newConvoId,
-      });
+      sqlNode.saveConversation(
+        {
+          ...r,
+          id: newConvoId,
+        },
+        db
+      );
     });
 
     console.info(
