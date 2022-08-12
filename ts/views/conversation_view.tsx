@@ -18,7 +18,6 @@ import type { ConversationModel } from '../models/conversations';
 import type {
   GroupV2PendingMemberType,
   MessageAttributesType,
-  ConversationModelCollectionType,
   QuotedMessageType,
 } from '../model-types.d';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
@@ -2322,9 +2321,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async isCallSafe(): Promise<boolean> {
     const contacts = await this.getUntrustedContacts();
-    if (contacts && contacts.length) {
+    if (contacts.length) {
       const callAnyway = await this.showSendAnywayDialog(
-        contacts.models,
+        contacts,
         window.i18n('callAnyway')
       );
       if (!callAnyway) {
@@ -2366,8 +2365,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     try {
       const contacts = await this.getUntrustedContacts(options);
 
-      if (contacts && contacts.length) {
-        const sendAnyway = await this.showSendAnywayDialog(contacts.models);
+      if (contacts.length) {
+        const sendAnyway = await this.showSendAnywayDialog(contacts);
         if (sendAnyway) {
           this.sendStickerMessage({ ...options, force: true });
         }
@@ -2388,7 +2387,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async getUntrustedContacts(
     options: { force?: boolean } = {}
-  ): Promise<null | ConversationModelCollectionType> {
+  ): Promise<Array<ConversationModel>> {
     const { model }: { model: ConversationModel } = this;
 
     // This will go to the trust store for the latest identity key information,
@@ -2398,7 +2397,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     if (options.force) {
       if (unverifiedContacts.length) {
-        await markAllAsVerifiedDefault(unverifiedContacts.models);
+        await markAllAsVerifiedDefault(unverifiedContacts);
         // We only want force to break us through one layer of checks
         // eslint-disable-next-line no-param-reassign
         options.force = false;
@@ -2411,13 +2410,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     if (options.force) {
       if (untrustedContacts.length) {
-        await markAllAsApproved(untrustedContacts.models);
+        await markAllAsApproved(untrustedContacts);
       }
     } else if (untrustedContacts.length) {
       return untrustedContacts;
     }
 
-    return null;
+    return [];
   }
 
   async setQuoteMessage(messageId: null | string): Promise<void> {
@@ -2560,8 +2559,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.disableMessageField();
       const contacts = await this.getUntrustedContacts(options);
 
-      if (contacts && contacts.length) {
-        const sendAnyway = await this.showSendAnywayDialog(contacts.models);
+      if (contacts.length) {
+        const sendAnyway = await this.showSendAnywayDialog(contacts);
         if (sendAnyway) {
           this.sendMessage(message, mentions, { force: true, timestamp });
           return;

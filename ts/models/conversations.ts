@@ -8,7 +8,6 @@ import { v4 as generateGuid } from 'uuid';
 import type {
   ConversationAttributesType,
   ConversationLastProfileType,
-  ConversationModelCollectionType,
   LastMessageStatus,
   MessageAttributesType,
   QuotedMessageType,
@@ -2783,19 +2782,17 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  getUnverified(): ConversationModelCollectionType {
+  getUnverified(): Array<ConversationModel> {
     if (isDirectConversation(this.attributes)) {
-      return this.isUnverified()
-        ? new window.Whisper.ConversationCollection([this])
-        : new window.Whisper.ConversationCollection();
+      return this.isUnverified() ? [this] : [];
     }
-    return new window.Whisper.ConversationCollection(
+    return (
       this.contactCollection?.filter(contact => {
         if (isMe(contact.attributes)) {
           return false;
         }
         return contact.isUnverified();
-      })
+      }) || []
     );
   }
 
@@ -2844,22 +2841,21 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  getUntrusted(): ConversationModelCollectionType {
+  getUntrusted(): Array<ConversationModel> {
     if (isDirectConversation(this.attributes)) {
       if (this.isUntrusted()) {
-        return new window.Whisper.ConversationCollection([this]);
+        return [this];
       }
-      return new window.Whisper.ConversationCollection();
+      return [];
     }
 
-    return new window.Whisper.ConversationCollection(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.filter(contact => {
+    return (
+      this.contactCollection?.filter(contact => {
         if (isMe(contact.attributes)) {
           return false;
         }
         return contact.isUntrusted();
-      })
+      }) || []
     );
   }
 
