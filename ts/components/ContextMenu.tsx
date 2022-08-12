@@ -35,6 +35,8 @@ export type PropsType<T> = {
   readonly value?: T;
 };
 
+let closeCurrentOpenContextMenu: undefined | (() => unknown);
+
 export function ContextMenu<T>({
   children,
   i18n,
@@ -77,6 +79,7 @@ export function ContextMenu<T>({
     const handleOutsideClick = (event: MouseEvent) => {
       if (!referenceElement?.contains(event.target as Node)) {
         setIsMenuShowing(false);
+        closeCurrentOpenContextMenu = undefined;
         event.stopPropagation();
         event.preventDefault();
       }
@@ -120,12 +123,15 @@ export function ContextMenu<T>({
         focusedOption.onClick(focusedOption.value);
       }
       setIsMenuShowing(false);
+      closeCurrentOpenContextMenu = undefined;
       ev.stopPropagation();
       ev.preventDefault();
     }
   };
 
   const handleClick = (ev: KeyboardEvent | React.MouseEvent) => {
+    closeCurrentOpenContextMenu?.();
+    closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
     setIsMenuShowing(true);
     ev.stopPropagation();
     ev.preventDefault();
@@ -187,6 +193,7 @@ export function ContextMenu<T>({
                   onClick={() => {
                     option.onClick(option.value);
                     setIsMenuShowing(false);
+                    closeCurrentOpenContextMenu = undefined;
                   }}
                 >
                   <div className={getClassName('__option--container')}>
