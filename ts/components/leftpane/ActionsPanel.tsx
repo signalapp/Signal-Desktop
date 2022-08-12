@@ -223,10 +223,14 @@ const doAppStartUp = () => {
   void setupTheme();
   // this generates the key to encrypt attachments locally
   void Data.generateAttachmentKeyIfEmpty();
-  void getOpenGroupManager().startPolling();
+  global.setTimeout(() => {
+    void getOpenGroupManager().startPolling();
+  }, 10000);
   // trigger a sync message if needed for our other devices
 
-  void triggerSyncIfNeeded();
+  global.setTimeout(() => {
+    void triggerSyncIfNeeded();
+  }, 20000);
   void getSwarmPollingInstance().start();
 
   void loadDefaultRooms();
