@@ -223,9 +223,13 @@ const doAppStartUp = () => {
   void setupTheme();
   // this generates the key to encrypt attachments locally
   void Data.generateAttachmentKeyIfEmpty();
-  void getOpenGroupManager().startPolling();
-  // trigger a sync message if needed for our other devices
 
+  /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */
+  global.setTimeout(() => {
+    void getOpenGroupManager().startPolling();
+  }, 5000);
+
+  // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();
   void getSwarmPollingInstance().start();
 
