@@ -291,6 +291,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
         onEscape={handleBackOrClose}
         onClose={close}
         overlayStyles={overlayStyles}
+        useFocusTrap={false}
       >
         <animated.div
           className="module-ForwardMessageModal"
