@@ -20,8 +20,8 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
   // We sort manually anyway
   shouldSort: true,
   // the default of 100 is not enough to catch a word at the end of a convo/group title
-  // 150 is about right
-  distance: 150,
+  // 200 is about right (contact names can get longer than the max for group titles)
+  distance: 200,
   keys: [
     {
       name: 'searchableTitle',

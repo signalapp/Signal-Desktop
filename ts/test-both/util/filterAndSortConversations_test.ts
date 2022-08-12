@@ -29,7 +29,7 @@ describe('filterAndSortConversationsByRecent', () => {
       activeAt: 2,
     }),
     getDefaultConversation({
-      title: 'A long title ending with burrito',
+      title: 'A long long long title ending with burrito',
     }),
   ];
 
@@ -45,7 +45,7 @@ describe('filterAndSortConversationsByRecent', () => {
       'Boxing Club',
       'Abraham Lincoln',
       'Not recent',
-      'A long title ending with burrito',
+      'A long long long title ending with burrito',
     ]);
   });
 
@@ -55,6 +55,6 @@ describe('filterAndSortConversationsByRecent', () => {
       'burrito',
       'US'
     ).map(convo => convo.title);
-    assert.deepEqual(titles, ['A long title ending with burrito']);
+    assert.deepEqual(titles, ['A long long long title ending with burrito']);
   });
 });
