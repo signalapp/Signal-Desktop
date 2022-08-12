@@ -62,7 +62,7 @@ export function isSessionRunOpenGroup(server: string): boolean {
       throw new Error('Could not parse URL from serverURL');
     }
   } catch (e) {
-    // plain ip are not recognized are url, but we want to allow the,
+    // plain ip are not recognized are url, but we want to allow them
     serverHost = lowerCased;
   }
 

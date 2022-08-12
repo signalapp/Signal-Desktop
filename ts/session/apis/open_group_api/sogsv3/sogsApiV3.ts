@@ -455,6 +455,11 @@ export const handleBatchPollResults = async (
   await handleCapabilities(subrequestOptionsLookup, batchPollResults, serverUrl);
 
   if (batchPollResults && isArray(batchPollResults.body)) {
+    /**
+     * We run those calls sequentially rather than with a Promise.all call because if we were running those in parallel
+     * one call might overwrite the changes to the DB of the other one,
+     * Doing those sequentially makes sure that the cache got from the second call is up to date, before writing it.
+     */
     for (let index = 0; index < batchPollResults.body.length; index++) {
       const subResponse = batchPollResults.body[index] as any;
       // using subreqOptions as request type lookup,
