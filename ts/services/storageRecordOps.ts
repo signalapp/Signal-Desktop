@@ -1493,8 +1493,8 @@ export async function mergeStickerPackRecord(
     `newPosition=${stickerPack.position ?? '?'}`
   );
 
-  if ((!localStickerPack || !wasUninstalled) && isUninstalled) {
-    assert(localStickerPack?.key, 'Installed sticker pack has no key');
+  if (localStickerPack && !wasUninstalled && isUninstalled) {
+    assert(localStickerPack.key, 'Installed sticker pack has no key');
     window.reduxActions.stickers.uninstallStickerPack(
       localStickerPack.id,
       localStickerPack.key,
