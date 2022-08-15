@@ -14,6 +14,7 @@ import * as log from '../logging/log';
 import { getContactId, getContact } from '../messages/helpers';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import { isOutgoing, isStory } from '../state/selectors/message';
+import { getMessageIdForLogging } from '../util/idForLogging';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}
 
@@ -186,6 +187,15 @@ export class Reactions extends Collection<ReactionModel> {
             }),
             generatedMessage.hydrateStoryContext(message),
           ]);
+
+          log.info('Reactions.onReaction adding reaction to story', {
+            reactionMessageId: getMessageIdForLogging(
+              generatedMessage.attributes
+            ),
+            storyId: getMessageIdForLogging(targetMessage),
+            targetTimestamp: reaction.get('targetTimestamp'),
+            timestamp: reaction.get('timestamp'),
+          });
 
           generatedMessage.set({ id: generatedMessageId });
 
