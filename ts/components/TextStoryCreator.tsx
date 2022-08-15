@@ -214,9 +214,19 @@ export const TextStoryCreator = ({
     };
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsColorPickerShowing(false);
-        event.preventDefault();
-        event.stopPropagation();
+        if (
+          isColorPickerShowing ||
+          isEditingText ||
+          isLinkPreviewInputShowing
+        ) {
+          setIsColorPickerShowing(false);
+          setIsEditingText(false);
+          setIsLinkPreviewInputShowing(false);
+          event.preventDefault();
+          event.stopPropagation();
+        } else {
+          onClose();
+        }
       }
     };
 
@@ -227,7 +237,13 @@ export const TextStoryCreator = ({
       document.removeEventListener('click', handleOutsideClick);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isColorPickerShowing, colorPickerPopperButtonRef]);
+  }, [
+    isColorPickerShowing,
+    isEditingText,
+    isLinkPreviewInputShowing,
+    colorPickerPopperButtonRef,
+    onClose,
+  ]);
 
   const sliderColorNumber = getRGBANumber(sliderValue);
 

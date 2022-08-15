@@ -26,6 +26,7 @@ export type OwnProps = {
   readonly knownPacks: ReadonlyArray<StickerPackType>;
   readonly installedPack?: StickerPackType | null;
   readonly recentStickers: ReadonlyArray<StickerType>;
+  readonly onOpenStateChanged?: (isOpen: boolean) => void;
   readonly clearInstalledStickerPack: () => unknown;
   readonly onClickAddPack?: () => unknown;
   readonly onPickSticker: (
@@ -51,6 +52,7 @@ export const StickerButton = React.memo(
     onClickAddPack,
     onPickSticker,
     recentStickers,
+    onOpenStateChanged,
     receivedPacks,
     installedPack,
     installedPacks,
@@ -63,7 +65,16 @@ export const StickerButton = React.memo(
     position = 'top-end',
     theme,
   }: Props) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, internalSetOpen] = React.useState(false);
+
+    const setOpen = React.useCallback(
+      (value: boolean) => {
+        internalSetOpen(value);
+        if (onOpenStateChanged) onOpenStateChanged(value);
+      },
+      [internalSetOpen, onOpenStateChanged]
+    );
+
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
@@ -110,7 +121,7 @@ export const StickerButton = React.memo(
         clearShowPickerHint();
       }
       onClickAddPack?.();
-    }, [onClickAddPack, showPickerHint, clearShowPickerHint]);
+    }, [onClickAddPack, showPickerHint, setOpen, clearShowPickerHint]);
 
     const handleClearIntroduction = React.useCallback(() => {
       clearInstalledStickerPack();

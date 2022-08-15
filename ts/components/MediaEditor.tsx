@@ -97,6 +97,8 @@ export const MediaEditor = ({
 }: PropsType): JSX.Element | null => {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
+  const [isStickerPopperOpen, setIsStickerPopperOpen] =
+    useState<boolean>(false);
 
   const canvasId = useUniqueId();
 
@@ -147,6 +149,8 @@ export const MediaEditor = ({
     };
   }, [canvasId, fabricCanvas, imageSrc, onClose, takeSnapshot]);
 
+  const [editMode, setEditMode] = useState<EditMode | undefined>();
+
   // Keyboard support
   useEffect(() => {
     if (!fabricCanvas) {
@@ -173,7 +177,19 @@ export const MediaEditor = ({
       [
         ev => ev.key === 'Escape',
         () => {
-          setEditMode(undefined);
+          // close window if the user is not in the middle of something
+          if (editMode === undefined) {
+            // if the stickers popper is open,
+            // it will use the escape key to close itself
+            //
+            // there's no easy way to prevent an ESC meant for the
+            // sticker-picker from hitting this handler first
+            if (!isStickerPopperOpen) {
+              onClose();
+            }
+          } else {
+            setEditMode(undefined);
+          }
 
           if (fabricCanvas.getActiveObject()) {
             fabricCanvas.discardActiveObject();
@@ -307,7 +323,14 @@ export const MediaEditor = ({
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [fabricCanvas, redoIfPossible, undoIfPossible]);
+  }, [
+    fabricCanvas,
+    editMode,
+    isStickerPopperOpen,
+    onClose,
+    redoIfPossible,
+    undoIfPossible,
+  ]);
 
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
@@ -349,7 +372,6 @@ export const MediaEditor = ({
   const [cropAspectRatioLock, setCropAspectRatioLock] = useState(false);
   const [drawTool, setDrawTool] = useState<DrawTool>(DrawTool.Pen);
   const [drawWidth, setDrawWidth] = useState<DrawWidth>(DrawWidth.Regular);
-  const [editMode, setEditMode] = useState<EditMode | undefined>();
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [textStyle, setTextStyle] = useState<TextStyle>(TextStyle.Regular);
 
@@ -921,6 +943,9 @@ export const MediaEditor = ({
                 MediaEditor__control: true,
                 'MediaEditor__control--sticker': true,
               })}
+              onOpenStateChanged={value => {
+                setIsStickerPopperOpen(value);
+              }}
               clearInstalledStickerPack={noop}
               clearShowIntroduction={() => {
                 // We're using this as a callback for when the sticker button
