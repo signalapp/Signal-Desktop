@@ -76,6 +76,7 @@ import type {
   ConversationMetricsType,
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
+  DeleteSentProtoRecipientResultType,
   EmojiType,
   GetConversationRangeCenteredOnMessageResultType,
   GetUnreadByConversationAndMarkReadResultType,
@@ -855,17 +856,20 @@ async function insertSentProto(
         contentHint,
         proto,
         timestamp,
-        urgent
+        urgent,
+        hasPniSignatureMessage
       ) VALUES (
         $contentHint,
         $proto,
         $timestamp,
-        $urgent
+        $urgent,
+        $hasPniSignatureMessage
       );
       `
     ).run({
       ...proto,
       urgent: proto.urgent ? 1 : 0,
+      hasPniSignatureMessage: proto.hasPniSignatureMessage ? 1 : 0,
     });
     const id = parseIntOrThrow(
       info.lastInsertRowid,
@@ -999,7 +1003,7 @@ async function deleteSentProtoRecipient(
   options:
     | DeleteSentProtoRecipientOptionsType
     | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
-): Promise<void> {
+): Promise<DeleteSentProtoRecipientResultType> {
   const db = getInstance();
 
   const items = Array.isArray(options) ? options : [options];
@@ -1007,7 +1011,9 @@ async function deleteSentProtoRecipient(
   // Note: we use `pluck` in this function to fetch only the first column of
   // returned row.
 
-  db.transaction(() => {
+  return db.transaction(() => {
+    const successfulPhoneNumberShares = new Array<string>();
+
     for (const item of items) {
       const { timestamp, recipientUuid, deviceId } = item;
 
@@ -1015,7 +1021,8 @@ async function deleteSentProtoRecipient(
       const rows = prepare(
         db,
         `
-        SELECT sendLogPayloads.id FROM sendLogPayloads
+        SELECT sendLogPayloads.id, sendLogPayloads.hasPniSignatureMessage
+        FROM sendLogPayloads
         INNER JOIN sendLogRecipients
           ON sendLogRecipients.payloadId = sendLogPayloads.id
         WHERE
@@ -1032,10 +1039,9 @@ async function deleteSentProtoRecipient(
           'deleteSentProtoRecipient: More than one payload matches ' +
             `recipient and timestamp ${timestamp}. Using the first.`
         );
-        continue;
       }
 
-      const { id } = rows[0];
+      const { id, hasPniSignatureMessage } = rows[0];
 
       // 2. Delete the recipient/device combination in question.
       prepare(
@@ -1050,32 +1056,61 @@ async function deleteSentProtoRecipient(
       ).run({ id, recipientUuid, deviceId });
 
       // 3. See how many more recipient devices there were for this payload.
-      const remaining = prepare(
+      const remainingDevices = prepare(
+        db,
+        `
+        SELECT count(*) FROM sendLogRecipients
+        WHERE payloadId = $id AND recipientUuid = $recipientUuid;
+        `
+      )
+        .pluck(true)
+        .get({ id, recipientUuid });
+
+      // 4. If there are no remaining devices for this recipient and we included
+      //    the pni signature in the proto - return the recipient to the caller.
+      if (remainingDevices === 0 && hasPniSignatureMessage) {
+        logger.info(
+          'deleteSentProtoRecipient: ' +
+            `Successfully shared phone number with ${recipientUuid} ` +
+            `through message ${timestamp}`
+        );
+        successfulPhoneNumberShares.push(recipientUuid);
+      }
+
+      strictAssert(
+        isNumber(remainingDevices),
+        'deleteSentProtoRecipient: select count() returned non-number!'
+      );
+
+      // 5. See how many more recipients there were for this payload.
+      const remainingTotal = prepare(
         db,
         'SELECT count(*) FROM sendLogRecipients WHERE payloadId = $id;'
       )
         .pluck(true)
         .get({ id });
 
-      if (!isNumber(remaining)) {
-        throw new Error(
-          'deleteSentProtoRecipient: select count() returned non-number!'
-        );
-      }
+      strictAssert(
+        isNumber(remainingTotal),
+        'deleteSentProtoRecipient: select count() returned non-number!'
+      );
 
-      if (remaining > 0) {
+      if (remainingTotal > 0) {
         continue;
       }
 
-      // 4. Delete the entire payload if there are no more recipients left.
+      // 6. Delete the entire payload if there are no more recipients left.
       logger.info(
         'deleteSentProtoRecipient: ' +
           `Deleting proto payload for timestamp ${timestamp}`
       );
+
       prepare(db, 'DELETE FROM sendLogPayloads WHERE id = $id;').run({
         id,
       });
     }
+
+    return { successfulPhoneNumberShares };
   })();
 }
 
@@ -1122,6 +1157,9 @@ async function getSentProtoByRecipient({
   return {
     ...row,
     urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+    hasPniSignatureMessage: isNumber(row.hasPniSignatureMessage)
+      ? Boolean(row.hasPniSignatureMessage)
+      : true,
     messageIds: messageIds ? messageIds.split(',') : [],
   };
 }
@@ -1136,6 +1174,9 @@ async function getAllSentProtos(): Promise<Array<SentProtoType>> {
   return rows.map(row => ({
     ...row,
     urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+    hasPniSignatureMessage: isNumber(row.hasPniSignatureMessage)
+      ? Boolean(row.hasPniSignatureMessage)
+      : true,
   }));
 }
 async function _getAllSentProtoRecipients(): Promise<

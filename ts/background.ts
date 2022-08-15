@@ -55,7 +55,7 @@ import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
-import { getContact } from './messages/helpers';
+import { getContact, isIncoming } from './messages/helpers';
 import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
@@ -102,7 +102,6 @@ import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
 import type { BadgesStateType } from './state/ducks/badges';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
-import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
 import {
@@ -2948,7 +2947,9 @@ export async function startApp(): Promise<void> {
 
     const messageDescriptor = getMessageDescriptor({
       confirm,
-      ...data,
+      message: data.message,
+      source: data.source,
+      sourceUuid: data.sourceUuid,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
       destinationUuid: data.sourceUuid,
@@ -2967,19 +2968,28 @@ export async function startApp(): Promise<void> {
 
     const message = initIncomingMessage(data, messageDescriptor);
 
-    if (
-      isIncoming(message.attributes) &&
-      !message.get('unidentifiedDeliveryReceived')
-    ) {
+    if (isIncoming(message.attributes)) {
       const sender = getContact(message.attributes);
+      strictAssert(sender, 'MessageModel has no sender');
 
-      if (!sender) {
-        throw new Error('MessageModel has no sender.');
+      const uuidKind = window.textsecure.storage.user.getOurUuidKind(
+        new UUID(data.destinationUuid)
+      );
+
+      if (uuidKind === UUIDKind.PNI && !sender.get('shareMyPhoneNumber')) {
+        log.info(
+          'onMessageReceived: setting shareMyPhoneNumber ' +
+            `for ${sender.idForLogging()}`
+        );
+        sender.set({ shareMyPhoneNumber: true });
+        window.Signal.Data.updateConversation(sender.attributes);
       }
 
-      profileKeyResponseQueue.add(() => {
-        respondWithProfileKeyBatcher.add(sender);
-      });
+      if (!message.get('unidentifiedDeliveryReceived')) {
+        profileKeyResponseQueue.add(() => {
+          respondWithProfileKeyBatcher.add(sender);
+        });
+      }
     }
 
     if (data.message.reaction) {
@@ -3731,8 +3741,14 @@ export async function startApp(): Promise<void> {
     logTitle: string;
     type: MessageReceiptType.Read | MessageReceiptType.View;
   }>): void {
-    const { envelopeTimestamp, timestamp, source, sourceUuid, sourceDevice } =
-      event.receipt;
+    const {
+      envelopeTimestamp,
+      timestamp,
+      source,
+      sourceUuid,
+      sourceDevice,
+      wasSentEncrypted,
+    } = event.receipt;
     const sourceConversation = window.ConversationController.maybeMergeContacts(
       {
         aci: sourceUuid,
@@ -3770,6 +3786,7 @@ export async function startApp(): Promise<void> {
       sourceUuid,
       sourceDevice,
       type,
+      wasSentEncrypted,
     };
     const receipt = MessageReceipts.getSingleton().add(attributes);
 
@@ -3856,8 +3873,14 @@ export async function startApp(): Promise<void> {
 
   function onDeliveryReceipt(ev: DeliveryEvent) {
     const { deliveryReceipt } = ev;
-    const { envelopeTimestamp, sourceUuid, source, sourceDevice, timestamp } =
-      deliveryReceipt;
+    const {
+      envelopeTimestamp,
+      sourceUuid,
+      source,
+      sourceDevice,
+      timestamp,
+      wasSentEncrypted,
+    } = deliveryReceipt;
 
     ev.confirm();
 
@@ -3902,6 +3925,7 @@ export async function startApp(): Promise<void> {
       sourceUuid,
       sourceDevice,
       type: MessageReceiptType.Delivery,
+      wasSentEncrypted,
     };
     const receipt = MessageReceipts.getSingleton().add(attributes);
 

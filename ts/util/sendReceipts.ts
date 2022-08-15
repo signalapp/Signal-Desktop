@@ -122,11 +122,15 @@ export async function sendReceipts({
         map(batches, async batch => {
           const timestamps = batch.map(receipt => receipt.timestamp);
           const messageIds = batch.map(receipt => receipt.messageId);
+          const isDirectConversation = batch.some(
+            receipt => receipt.isDirectConversation
+          );
 
           await handleMessageSend(
             messaging[methodName]({
               senderE164: sender.get('e164'),
               senderUuid: sender.get('uuid'),
+              isDirectConversation,
               timestamps,
               options: sendOptions,
             }),

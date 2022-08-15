@@ -410,6 +410,7 @@ function markStoryRead(
       senderE164: message.attributes.source,
       senderUuid: message.attributes.sourceUuid,
       timestamp: message.attributes.sent_at,
+      isDirectConversation: false,
     };
     const viewSyncs: Array<SyncType> = [viewedReceipt];
 

@@ -283,6 +283,7 @@ export async function sendNormalMessage(
           storyContext,
           timestamp: messageTimestamp,
           urgent: true,
+          includePniSignatureMessage: true,
         });
       }
 

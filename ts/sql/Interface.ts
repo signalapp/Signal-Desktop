@@ -119,6 +119,7 @@ export type SentProtoType = {
   proto: Uint8Array;
   timestamp: number;
   urgent: boolean;
+  hasPniSignatureMessage: boolean;
 };
 export type SentProtoWithMessageIdsType = SentProtoType & {
   messageIds: Array<string>;
@@ -287,6 +288,10 @@ export type DeleteSentProtoRecipientOptionsType = Readonly<{
   deviceId: number;
 }>;
 
+export type DeleteSentProtoRecipientResultType = Readonly<{
+  successfulPhoneNumberShares: ReadonlyArray<string>;
+}>;
+
 export type StoryDistributionType = Readonly<{
   id: UUIDStringType;
   name: string;
@@ -381,7 +386,7 @@ export type DataInterface = {
     options:
       | DeleteSentProtoRecipientOptionsType
       | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
-  ) => Promise<void>;
+  ) => Promise<DeleteSentProtoRecipientResultType>;
   getSentProtoByRecipient: (options: {
     now: number;
     recipientUuid: string;

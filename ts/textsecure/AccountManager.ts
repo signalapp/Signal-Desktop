@@ -107,7 +107,7 @@ export default class AccountManager extends EventTarget {
   async decryptDeviceName(base64: string): Promise<string> {
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
     const identityKey =
-      await window.textsecure.storage.protocol.getIdentityKeyPair(ourUuid);
+      window.textsecure.storage.protocol.getIdentityKeyPair(ourUuid);
     if (!identityKey) {
       throw new Error('decryptDeviceName: No identity key pair!');
     }
@@ -132,7 +132,7 @@ export default class AccountManager extends EventTarget {
     }
     const { storage } = window.textsecure;
     const deviceName = storage.user.getDeviceName();
-    const identityKeyPair = await storage.protocol.getIdentityKeyPair(
+    const identityKeyPair = storage.protocol.getIdentityKeyPair(
       storage.user.getCheckedUuid()
     );
     strictAssert(
@@ -362,7 +362,7 @@ export default class AccountManager extends EventTarget {
 
       let identityKey: KeyPairType | undefined;
       try {
-        identityKey = await store.getIdentityKeyPair(ourUuid);
+        identityKey = store.getIdentityKeyPair(ourUuid);
       } catch (error) {
         // We swallow any error here, because we don't want to get into
         //   a loop of repeated retries.
@@ -788,8 +788,7 @@ export default class AccountManager extends EventTarget {
     }
 
     const store = storage.protocol;
-    const identityKey =
-      maybeIdentityKey ?? (await store.getIdentityKeyPair(ourUuid));
+    const identityKey = maybeIdentityKey ?? store.getIdentityKeyPair(ourUuid);
     strictAssert(identityKey, 'generateKeys: No identity key pair!');
 
     const result: Omit<GeneratedKeysType, 'signedPreKey'> = {

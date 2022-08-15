@@ -2373,6 +2373,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             senderE164: source,
             senderUuid: sourceUuid,
             timestamp: this.get('sent_at'),
+            isDirectConversation: isDirectConversation(conversation.attributes),
           });
         });
       }

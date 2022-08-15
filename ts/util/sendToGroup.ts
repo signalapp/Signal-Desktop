@@ -225,6 +225,7 @@ export async function sendContentMessageToGroup({
     sendType,
     timestamp,
     urgent,
+    hasPniSignatureMessage: false,
   });
   const groupId = sendTarget.isGroupV2() ? sendTarget.getGroupId() : undefined;
   return window.textsecure.messaging.sendGroupProto({
@@ -544,6 +545,7 @@ export async function sendToGroupViaSenderKey(options: {
           proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
           timestamp,
           urgent,
+          hasPniSignatureMessage: false,
         },
         {
           recipients: senderKeyRecipientsWithDevices,

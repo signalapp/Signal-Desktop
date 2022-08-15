@@ -33,6 +33,7 @@ import type {
   KeyPairType,
   OuterSignedPrekeyType,
   PniKeyMaterialType,
+  PniSignatureMessageType,
   PreKeyIdType,
   PreKeyType,
   SenderKeyIdType,
@@ -108,9 +109,15 @@ type MapFields =
   | 'sessions'
   | 'signedPreKeys';
 
-export type SessionTransactionOptions = {
-  readonly zone?: Zone;
-};
+export type SessionTransactionOptions = Readonly<{
+  zone?: Zone;
+}>;
+
+export type VerifyAlternateIdentityOptionsType = Readonly<{
+  aci: UUID;
+  pni: UUID;
+  signature: Uint8Array;
+}>;
 
 export const GLOBAL_ZONE = new Zone('GLOBAL_ZONE');
 
@@ -213,6 +220,8 @@ export class SignalProtocolStore extends EventsMixin {
 
   private ourRegistrationIds = new Map<UUIDStringType, number>();
 
+  private cachedPniSignatureMessage: PniSignatureMessageType | undefined;
+
   identityKeys?: Map<
     IdentityKeyIdType,
     CacheEntryType<IdentityKeyType, PublicKey>
@@ -301,7 +310,7 @@ export class SignalProtocolStore extends EventsMixin {
     ]);
   }
 
-  async getIdentityKeyPair(ourUuid: UUID): Promise<KeyPairType | undefined> {
+  getIdentityKeyPair(ourUuid: UUID): KeyPairType | undefined {
     return this.ourIdentityKeys.get(ourUuid.toString());
   }
 
@@ -999,7 +1008,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     const ourUuid = new UUID(session.ourUuid);
 
-    const keyPair = await this.getIdentityKeyPair(ourUuid);
+    const keyPair = this.getIdentityKeyPair(ourUuid);
     if (!keyPair) {
       throw new Error('_maybeMigrateSession: No identity key for ourself!');
     }
@@ -2047,6 +2056,69 @@ export class SignalProtocolStore extends EventsMixin {
 
     window.storage.reset();
     await window.storage.fetch();
+  }
+
+  signAlternateIdentity(): PniSignatureMessageType | undefined {
+    const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+    if (!ourPNI) {
+      log.error('signAlternateIdentity: No local pni');
+      return undefined;
+    }
+
+    if (this.cachedPniSignatureMessage?.pni === ourPNI.toString()) {
+      return this.cachedPniSignatureMessage;
+    }
+
+    const aciKeyPair = this.getIdentityKeyPair(ourACI);
+    const pniKeyPair = this.getIdentityKeyPair(ourPNI);
+    if (!aciKeyPair) {
+      log.error('signAlternateIdentity: No local ACI key pair');
+      return undefined;
+    }
+    if (!pniKeyPair) {
+      log.error('signAlternateIdentity: No local PNI key pair');
+      return undefined;
+    }
+
+    const pniIdentity = new IdentityKeyPair(
+      PublicKey.deserialize(Buffer.from(pniKeyPair.pubKey)),
+      PrivateKey.deserialize(Buffer.from(pniKeyPair.privKey))
+    );
+    const aciPubKey = PublicKey.deserialize(Buffer.from(aciKeyPair.pubKey));
+    this.cachedPniSignatureMessage = {
+      pni: ourPNI.toString(),
+      signature: pniIdentity.signAlternateIdentity(aciPubKey),
+    };
+
+    return this.cachedPniSignatureMessage;
+  }
+
+  async verifyAlternateIdentity({
+    aci,
+    pni,
+    signature,
+  }: VerifyAlternateIdentityOptionsType): Promise<boolean> {
+    const logId = `SignalProtocolStore.verifyAlternateIdentity(${aci}, ${pni})`;
+    const aciPublicKeyBytes = await this.loadIdentityKey(aci);
+    if (!aciPublicKeyBytes) {
+      log.warn(`${logId}: no ACI public key`);
+      return false;
+    }
+
+    const pniPublicKeyBytes = await this.loadIdentityKey(pni);
+    if (!pniPublicKeyBytes) {
+      log.warn(`${logId}: no PNI public key`);
+      return false;
+    }
+
+    const aciPublicKey = PublicKey.deserialize(Buffer.from(aciPublicKeyBytes));
+    const pniPublicKey = PublicKey.deserialize(Buffer.from(pniPublicKeyBytes));
+
+    return pniPublicKey.verifyAlternateIdentity(
+      aciPublicKey,
+      Buffer.from(signature)
+    );
   }
 
   private _getAllSessions(): Array<SessionCacheEntry> {

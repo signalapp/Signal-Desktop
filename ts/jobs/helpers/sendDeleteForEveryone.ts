@@ -188,6 +188,7 @@ export async function sendDeleteForEveryone(
                 profileKey,
                 options: sendOptions,
                 urgent: true,
+                includePniSignatureMessage: true,
               }),
             sendType,
             timestamp,

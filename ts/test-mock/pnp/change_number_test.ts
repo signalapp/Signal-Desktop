@@ -10,7 +10,7 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:change-number');
 
-describe('change number', function needsName() {
+describe('PNP change number', function needsName() {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;

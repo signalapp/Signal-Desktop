@@ -10,13 +10,8 @@ import * as Bytes from '../Bytes';
 import { getRandomBytes } from '../Crypto';
 import { getConversationMembers } from './getConversationMembers';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
-import { isInSystemContacts } from './isInSystemContacts';
-import { missingCaseError } from './missingCaseError';
 import { senderCertificateService } from '../services/senderCertificate';
-import {
-  PhoneNumberSharingMode,
-  parsePhoneNumberSharingMode,
-} from './phoneNumberSharingMode';
+import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode';
 import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
 import { SenderCertificateMode } from '../textsecure/OutgoingMessage';
 import { isNotNil } from './isNotNil';
@@ -146,25 +141,11 @@ function getSenderCertificateForDirectConversation(
     );
   }
 
-  const phoneNumberSharingMode = parsePhoneNumberSharingMode(
-    window.storage.get('phoneNumberSharingMode')
-  );
-
   let certificateMode: SenderCertificateMode;
-  switch (phoneNumberSharingMode) {
-    case PhoneNumberSharingMode.Everybody:
-      certificateMode = SenderCertificateMode.WithE164;
-      break;
-    case PhoneNumberSharingMode.ContactsOnly:
-      certificateMode = isInSystemContacts(conversationAttrs)
-        ? SenderCertificateMode.WithE164
-        : SenderCertificateMode.WithoutE164;
-      break;
-    case PhoneNumberSharingMode.Nobody:
-      certificateMode = SenderCertificateMode.WithoutE164;
-      break;
-    default:
-      throw missingCaseError(phoneNumberSharingMode);
+  if (shouldSharePhoneNumberWith(conversationAttrs)) {
+    certificateMode = SenderCertificateMode.WithE164;
+  } else {
+    certificateMode = SenderCertificateMode.WithoutE164;
   }
 
   return senderCertificateService.get(certificateMode);

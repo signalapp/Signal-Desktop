@@ -44,8 +44,7 @@ describe('AccountManager', () => {
 
       window.textsecure.storage.user.getUuid = () => ourUuid;
 
-      window.textsecure.storage.protocol.getIdentityKeyPair = async () =>
-        identityKey;
+      window.textsecure.storage.protocol.getIdentityKeyPair = () => identityKey;
       window.textsecure.storage.protocol.loadSignedPreKeys = async () =>
         signedPreKeys;
     });

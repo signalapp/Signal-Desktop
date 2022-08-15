@@ -267,6 +267,7 @@ export interface CallbackResultType {
   timestamp?: number;
   recipients?: Record<string, Array<number>>;
   urgent?: boolean;
+  hasPniSignatureMessage?: boolean;
 }
 
 export interface IRequestHandler {
@@ -277,4 +278,9 @@ export type PniKeyMaterialType = Readonly<{
   identityKeyPair: Uint8Array;
   signedPreKey: Uint8Array;
   registrationId: number;
+}>;
+
+export type PniSignatureMessageType = Readonly<{
+  pni: UUIDStringType;
+  signature: Uint8Array;
 }>;

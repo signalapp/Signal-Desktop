@@ -45,7 +45,7 @@ import { normalizeUuid } from '../util/normalizeUuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto';
+import { deriveMasterKeyFromGroupV1, bytesToUuid } from '../Crypto';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -122,7 +122,8 @@ const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 type UnsealedEnvelope = Readonly<
-  ProcessedEnvelope & {
+  Omit<ProcessedEnvelope, 'sourceUuid'> & {
+    sourceUuid: UUIDStringType;
     unidentifiedDeliveryReceived?: boolean;
     contentHint?: number;
     groupId?: string;
@@ -133,10 +134,16 @@ type UnsealedEnvelope = Readonly<
   }
 >;
 
-type DecryptResult = Readonly<{
-  envelope: UnsealedEnvelope;
-  plaintext?: Uint8Array;
-}>;
+type DecryptResult = Readonly<
+  | {
+      envelope: UnsealedEnvelope;
+      plaintext: Uint8Array;
+    }
+  | {
+      envelope?: UnsealedEnvelope;
+      plaintext?: undefined;
+    }
+>;
 
 type DecryptSealedSenderResult = Readonly<{
   plaintext?: Uint8Array;
@@ -757,9 +764,9 @@ export default class MessageReceiver
         // Proto.Envelope fields
         type: decoded.type,
         source: item.source,
-        sourceUuid: decoded.sourceUuid
-          ? UUID.cast(decoded.sourceUuid)
-          : item.sourceUuid,
+        sourceUuid:
+          item.sourceUuid ||
+          (decoded.sourceUuid ? UUID.cast(decoded.sourceUuid) : undefined),
         sourceDevice: decoded.sourceDevice || item.sourceDevice,
         destinationUuid: new UUID(
           decoded.destinationUuid || item.destinationUuid || ourUuid.toString()
@@ -787,10 +794,21 @@ export default class MessageReceiver
           throw new Error('Cached decrypted value was not a string!');
         }
 
+        strictAssert(
+          envelope.sourceUuid,
+          'Decrypted envelope must have source uuid'
+        );
+
+        // Pacify typescript
+        const decryptedEnvelope = {
+          ...envelope,
+          sourceUuid: envelope.sourceUuid,
+        };
+
         // Maintain invariant: encrypted queue => decrypted queue
         this.addToQueue(
           async () => {
-            this.queueDecryptedEnvelope(envelope, payloadPlaintext);
+            this.queueDecryptedEnvelope(decryptedEnvelope, payloadPlaintext);
           },
           'queueDecryptedEnvelope',
           TaskType.Encrypted
@@ -1088,7 +1106,7 @@ export default class MessageReceiver
             `Rejecting envelope ${getEnvelopeId(envelope)}, ` +
             `unknown uuid: ${destinationUuid}`
         );
-        return { plaintext: undefined, envelope };
+        return { plaintext: undefined, envelope: undefined };
       }
 
       const unsealedEnvelope = await this.unsealEnvelope(
@@ -1099,7 +1117,7 @@ export default class MessageReceiver
 
       // Dropped early
       if (!unsealedEnvelope) {
-        return { plaintext: undefined, envelope };
+        return { plaintext: undefined, envelope: undefined };
       }
 
       logId = getEnvelopeId(unsealedEnvelope);
@@ -1185,8 +1203,13 @@ export default class MessageReceiver
     }
 
     if (envelope.type !== Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
+      strictAssert(
+        envelope.sourceUuid,
+        'Unsealed envelope must have source uuid'
+      );
       return {
         ...envelope,
+        sourceUuid: envelope.sourceUuid,
         cipherTextBytes: envelope.content,
         cipherTextType: envelopeTypeToCiphertextType(envelope.type),
       };
@@ -1259,6 +1282,10 @@ export default class MessageReceiver
     }
 
     if (envelope.type === Proto.Envelope.Type.RECEIPT) {
+      strictAssert(
+        envelope.sourceUuid,
+        'Unsealed delivery receipt must have sourceUuid'
+      );
       await this.onDeliveryReceipt(envelope);
       return { plaintext: undefined, envelope };
     }
@@ -1291,6 +1318,7 @@ export default class MessageReceiver
     //   sender key to decrypt the next message in the queue!
     let isGroupV2 = false;
 
+    let inProgressMessageType = '';
     try {
       const content = Proto.Content.decode(plaintext);
 
@@ -1300,6 +1328,7 @@ export default class MessageReceiver
         content.senderKeyDistributionMessage &&
         Bytes.isNotEmpty(content.senderKeyDistributionMessage)
       ) {
+        inProgressMessageType = 'sender key distribution';
         await this.handleSenderKeyDistributionMessage(
           stores,
           envelope,
@@ -1307,22 +1336,35 @@ export default class MessageReceiver
         );
       }
 
+      if (content.pniSignatureMessage) {
+        inProgressMessageType = 'pni signature';
+        await this.handlePniSignatureMessage(
+          envelope,
+          content.pniSignatureMessage
+        );
+      }
+
       // Some sync messages have to be fully processed in the middle of
       // decryption queue since subsequent envelopes use their key material.
       const { syncMessage } = content;
       if (syncMessage?.pniIdentity) {
+        inProgressMessageType = 'pni identity';
         await this.handlePNIIdentity(envelope, syncMessage.pniIdentity);
         return { plaintext: undefined, envelope };
       }
 
       if (syncMessage?.pniChangeNumber) {
+        inProgressMessageType = 'pni change number';
         await this.handlePNIChangeNumber(envelope, syncMessage.pniChangeNumber);
         return { plaintext: undefined, envelope };
       }
+
+      inProgressMessageType = '';
     } catch (error) {
       log.error(
-        'MessageReceiver.decryptEnvelope: Failed to process sender ' +
-          `key distribution message: ${Errors.toLogFormat(error)}`
+        'MessageReceiver.decryptEnvelope: ' +
+          `Failed to process ${inProgressMessageType} ` +
+          `message: ${Errors.toLogFormat(error)}`
       );
     }
 
@@ -1412,6 +1454,7 @@ export default class MessageReceiver
           source: envelope.source,
           sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
+          wasSentEncrypted: false,
         },
         this.removeFromCache.bind(this, envelope)
       )
@@ -1549,7 +1592,7 @@ export default class MessageReceiver
 
   private async innerDecrypt(
     stores: LockedStores,
-    envelope: ProcessedEnvelope,
+    envelope: UnsealedEnvelope,
     ciphertext: Uint8Array,
     uuidKind: UUIDKind
   ): Promise<Uint8Array | undefined> {
@@ -2014,6 +2057,7 @@ export default class MessageReceiver
         source: envelope.source,
         sourceUuid: envelope.sourceUuid,
         sourceDevice: envelope.sourceDevice,
+        destinationUuid: envelope.destinationUuid.toString(),
         timestamp: envelope.timestamp,
         serverGuid: envelope.serverGuid,
         serverTimestamp: envelope.serverTimestamp,
@@ -2138,6 +2182,7 @@ export default class MessageReceiver
         source: envelope.source,
         sourceUuid: envelope.sourceUuid,
         sourceDevice: envelope.sourceDevice,
+        destinationUuid: envelope.destinationUuid.toString(),
         timestamp: envelope.timestamp,
         serverGuid: envelope.serverGuid,
         serverTimestamp: envelope.serverTimestamp,
@@ -2154,8 +2199,8 @@ export default class MessageReceiver
   }
 
   private async maybeUpdateTimestamp(
-    envelope: ProcessedEnvelope
-  ): Promise<ProcessedEnvelope> {
+    envelope: UnsealedEnvelope
+  ): Promise<UnsealedEnvelope> {
     const { retryPlaceholders } = window.Signal.Services;
     if (!retryPlaceholders) {
       log.warn('maybeUpdateTimestamp: retry placeholders not available!');
@@ -2209,7 +2254,7 @@ export default class MessageReceiver
   }
 
   private async innerHandleContentMessage(
-    incomingEnvelope: ProcessedEnvelope,
+    incomingEnvelope: UnsealedEnvelope,
     plaintext: Uint8Array
   ): Promise<void> {
     const content = Proto.Content.decode(plaintext);
@@ -2311,7 +2356,7 @@ export default class MessageReceiver
 
   private async handleSenderKeyDistributionMessage(
     stores: LockedStores,
-    envelope: ProcessedEnvelope,
+    envelope: UnsealedEnvelope,
     distributionMessage: Uint8Array
   ): Promise<void> {
     const envelopeId = getEnvelopeId(envelope);
@@ -2324,11 +2369,6 @@ export default class MessageReceiver
 
     const identifier = envelope.sourceUuid;
     const { sourceDevice } = envelope;
-    if (!identifier) {
-      throw new Error(
-        `handleSenderKeyDistributionMessage: No identifier for envelope ${envelopeId}`
-      );
-    }
     if (!isNumber(sourceDevice)) {
       throw new Error(
         `handleSenderKeyDistributionMessage: Missing sourceDevice for envelope ${envelopeId}`
@@ -2358,8 +2398,44 @@ export default class MessageReceiver
     );
   }
 
+  private async handlePniSignatureMessage(
+    envelope: UnsealedEnvelope,
+    pniSignatureMessage: Proto.IPniSignatureMessage
+  ): Promise<void> {
+    const envelopeId = getEnvelopeId(envelope);
+    const logId = `handlePniSignatureMessage/${envelopeId}`;
+    log.info(logId);
+
+    // Note: we don't call removeFromCache here because this message can be combined
+    //   with a dataMessage, for example. That processing will dictate cache removal.
+
+    const aci = envelope.sourceUuid;
+
+    const { pni: pniBytes, signature } = pniSignatureMessage;
+    strictAssert(Bytes.isNotEmpty(pniBytes), `${logId}: missing PNI bytes`);
+    const pni = bytesToUuid(pniBytes);
+    strictAssert(pni, `${logId}: missing PNI`);
+    strictAssert(Bytes.isNotEmpty(signature), `${logId}: empty signature`);
+
+    const isValid = await this.storage.protocol.verifyAlternateIdentity({
+      aci: new UUID(aci),
+      pni: new UUID(pni),
+      signature,
+    });
+
+    if (isValid) {
+      log.info(`${logId}: merging pni=${pni} aci=${aci}`);
+      window.ConversationController.maybeMergeContacts({
+        pni,
+        aci,
+        e164: window.ConversationController.get(pni)?.get('e164'),
+        reason: logId,
+      });
+    }
+  }
+
   private async handleCallingMessage(
-    envelope: ProcessedEnvelope,
+    envelope: UnsealedEnvelope,
     callingMessage: Proto.ICallingMessage
   ): Promise<void> {
     logUnexpectedUrgentValue(envelope, 'callingMessage');
@@ -2372,7 +2448,7 @@ export default class MessageReceiver
   }
 
   private async handleReceiptMessage(
-    envelope: ProcessedEnvelope,
+    envelope: UnsealedEnvelope,
     receiptMessage: Proto.IReceiptMessage
   ): Promise<void> {
     strictAssert(receiptMessage.timestamp, 'Receipt message without timestamp');
@@ -2409,6 +2485,7 @@ export default class MessageReceiver
             source: envelope.source,
             sourceUuid: envelope.sourceUuid,
             sourceDevice: envelope.sourceDevice,
+            wasSentEncrypted: true,
           },
           this.removeFromCache.bind(this, envelope)
         );
@@ -2418,7 +2495,7 @@ export default class MessageReceiver
   }
 
   private async handleTypingMessage(
-    envelope: ProcessedEnvelope,
+    envelope: UnsealedEnvelope,
     typingMessage: Proto.ITypingMessage
   ): Promise<void> {
     this.removeFromCache(envelope);
@@ -2475,7 +2552,7 @@ export default class MessageReceiver
     );
   }
 
-  private handleNullMessage(envelope: ProcessedEnvelope): void {
+  private handleNullMessage(envelope: UnsealedEnvelope): void {
     log.info('MessageReceiver.handleNullMessage', getEnvelopeId(envelope));
 
     logUnexpectedUrgentValue(envelope, 'nullMessage');
@@ -2591,7 +2668,7 @@ export default class MessageReceiver
   }
 
   private async handleSyncMessage(
-    envelope: ProcessedEnvelope,
+    envelope: UnsealedEnvelope,
     syncMessage: ProcessedSyncMessage
   ): Promise<void> {
     const ourNumber = this.storage.user.getNumber();

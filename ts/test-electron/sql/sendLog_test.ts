@@ -40,6 +40,7 @@ describe('sql/sendLog', () => {
       proto: bytes,
       timestamp,
       urgent: false,
+      hasPniSignatureMessage: false,
     };
     await insertSentProto(proto, {
       messageIds: [getUuid()],
@@ -56,6 +57,10 @@ describe('sql/sendLog', () => {
     assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
     assert.strictEqual(actual.timestamp, proto.timestamp);
     assert.strictEqual(actual.urgent, proto.urgent);
+    assert.strictEqual(
+      actual.hasPniSignatureMessage,
+      proto.hasPniSignatureMessage
+    );
 
     await removeAllSentProtos();
 
@@ -74,6 +79,7 @@ describe('sql/sendLog', () => {
       proto: bytes,
       timestamp,
       urgent: true,
+      hasPniSignatureMessage: true,
     };
     await insertSentProto(proto, {
       messageIds: [getUuid(), getUuid()],
@@ -91,6 +97,10 @@ describe('sql/sendLog', () => {
     assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
     assert.strictEqual(actual.timestamp, proto.timestamp);
     assert.strictEqual(actual.urgent, proto.urgent);
+    assert.strictEqual(
+      actual.hasPniSignatureMessage,
+      proto.hasPniSignatureMessage
+    );
 
     assert.lengthOf(await _getAllSentProtoMessageIds(), 2);
     assert.lengthOf(await _getAllSentProtoRecipients(), 3);
@@ -127,6 +137,7 @@ describe('sql/sendLog', () => {
       proto: bytes,
       timestamp,
       urgent: false,
+      hasPniSignatureMessage: false,
     };
     await insertSentProto(proto, {
       messageIds: [id],
@@ -159,12 +170,14 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       const proto2 = {
         contentHint: 9,
         proto: getRandomBytes(128),
         timestamp,
         urgent: false,
+        hasPniSignatureMessage: true,
       };
 
       assert.lengthOf(await getAllSentProtos(), 0);
@@ -195,6 +208,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
 
       assert.lengthOf(await getAllSentProtos(), 0);
@@ -234,18 +248,21 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp: timestamp + 10,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       const proto2 = {
         contentHint: 2,
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       const proto3 = {
         contentHint: 0,
         proto: getRandomBytes(128),
         timestamp: timestamp - 15,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto1, {
         messageIds: [getUuid()],
@@ -298,18 +315,21 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       const proto2 = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp: timestamp - 10,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       const proto3 = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp: timestamp - 20,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto1, {
         messageIds: [messageId, getUuid()],
@@ -354,6 +374,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -366,11 +387,12 @@ describe('sql/sendLog', () => {
       assert.lengthOf(await getAllSentProtos(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 3);
 
-      await deleteSentProtoRecipient({
+      const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
         timestamp,
         recipientUuid: recipientUuid1,
         deviceId: 1,
       });
+      assert.lengthOf(successfulPhoneNumberShares, 0);
 
       assert.lengthOf(await getAllSentProtos(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 2);
@@ -386,6 +408,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -398,29 +421,98 @@ describe('sql/sendLog', () => {
       assert.lengthOf(await getAllSentProtos(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 3);
 
-      await deleteSentProtoRecipient({
-        timestamp,
-        recipientUuid: recipientUuid1,
-        deviceId: 1,
-      });
+      {
+        const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 1,
+        });
+        assert.lengthOf(successfulPhoneNumberShares, 0);
+      }
 
       assert.lengthOf(await getAllSentProtos(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 2);
 
-      await deleteSentProtoRecipient({
-        timestamp,
-        recipientUuid: recipientUuid1,
-        deviceId: 2,
-      });
+      {
+        const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 2,
+        });
+        assert.lengthOf(successfulPhoneNumberShares, 0);
+      }
 
       assert.lengthOf(await getAllSentProtos(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 1);
 
-      await deleteSentProtoRecipient({
+      {
+        const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid: recipientUuid2,
+          deviceId: 1,
+        });
+        assert.lengthOf(successfulPhoneNumberShares, 0);
+      }
+
+      assert.lengthOf(await getAllSentProtos(), 0);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 0);
+    });
+
+    it('returns deleted recipients when pni signature was sent', async () => {
+      const timestamp = Date.now();
+
+      const recipientUuid1 = getUuid();
+      const recipientUuid2 = getUuid();
+      const proto = {
+        contentHint: 1,
+        proto: getRandomBytes(128),
         timestamp,
-        recipientUuid: recipientUuid2,
-        deviceId: 1,
+        urgent: true,
+        hasPniSignatureMessage: true,
+      };
+      await insertSentProto(proto, {
+        messageIds: [getUuid()],
+        recipients: {
+          [recipientUuid1]: [1, 2],
+          [recipientUuid2]: [1],
+        },
       });
+
+      assert.lengthOf(await getAllSentProtos(), 1);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 3);
+
+      {
+        const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 1,
+        });
+        assert.lengthOf(successfulPhoneNumberShares, 0);
+      }
+
+      assert.lengthOf(await getAllSentProtos(), 1);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 2);
+
+      {
+        const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 2,
+        });
+        assert.deepStrictEqual(successfulPhoneNumberShares, [recipientUuid1]);
+      }
+
+      assert.lengthOf(await getAllSentProtos(), 1);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 1);
+
+      {
+        const { successfulPhoneNumberShares } = await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid: recipientUuid2,
+          deviceId: 1,
+        });
+        assert.deepStrictEqual(successfulPhoneNumberShares, [recipientUuid2]);
+      }
 
       assert.lengthOf(await getAllSentProtos(), 0);
       assert.lengthOf(await _getAllSentProtoRecipients(), 0);
@@ -436,6 +528,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -448,7 +541,7 @@ describe('sql/sendLog', () => {
       assert.lengthOf(await getAllSentProtos(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 3);
 
-      await deleteSentProtoRecipient([
+      const { successfulPhoneNumberShares } = await deleteSentProtoRecipient([
         {
           timestamp,
           recipientUuid: recipientUuid1,
@@ -465,6 +558,7 @@ describe('sql/sendLog', () => {
           deviceId: 1,
         },
       ]);
+      assert.lengthOf(successfulPhoneNumberShares, 0);
 
       assert.lengthOf(await getAllSentProtos(), 0);
       assert.lengthOf(await _getAllSentProtoRecipients(), 0);
@@ -482,6 +576,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds,
@@ -518,6 +613,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [],
@@ -554,6 +650,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -583,6 +680,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],
@@ -613,6 +711,7 @@ describe('sql/sendLog', () => {
         proto: getRandomBytes(128),
         timestamp,
         urgent: true,
+        hasPniSignatureMessage: false,
       };
       await insertSentProto(proto, {
         messageIds: [getUuid()],

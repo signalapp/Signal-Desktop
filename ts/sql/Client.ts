@@ -53,6 +53,7 @@ import type {
   ConversationType,
   ConversationMetricsType,
   DeleteSentProtoRecipientOptionsType,
+  DeleteSentProtoRecipientResultType,
   EmojiType,
   GetUnreadByConversationAndMarkReadResultType,
   GetConversationRangeCenteredOnMessageResultType,
@@ -952,8 +953,8 @@ async function deleteSentProtoRecipient(
   options:
     | DeleteSentProtoRecipientOptionsType
     | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
-): Promise<void> {
-  await channels.deleteSentProtoRecipient(options);
+): Promise<DeleteSentProtoRecipientResultType> {
+  return channels.deleteSentProtoRecipient(options);
 }
 
 async function getSentProtoByRecipient(options: {

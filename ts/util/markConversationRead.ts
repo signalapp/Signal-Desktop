@@ -10,7 +10,7 @@ import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
 import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
-import { isGroup } from './whatTypeOfConversation';
+import { isGroup, isDirectConversation } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -94,6 +94,7 @@ export async function markConversationRead(
         uuid: messageSyncData.sourceUuid,
       })?.id,
       timestamp: messageSyncData.sent_at,
+      isDirectConversation: isDirectConversation(conversationAttrs),
       hasErrors: message ? hasErrors(message.attributes) : false,
     };
   });

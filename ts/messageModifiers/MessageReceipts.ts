@@ -39,6 +39,7 @@ export type MessageReceiptAttributesType = {
   sourceConversationId: string;
   sourceDevice: number;
   type: MessageReceiptType;
+  wasSentEncrypted: boolean;
 };
 
 class MessageReceiptModel extends Model<MessageReceiptAttributesType> {}
@@ -53,7 +54,25 @@ const deleteSentProtoBatcher = createWaitBatcher({
     log.info(
       `MessageReceipts: Batching ${items.length} sent proto recipients deletes`
     );
-    await deleteSentProtoRecipient(items);
+    const { successfulPhoneNumberShares } = await deleteSentProtoRecipient(
+      items
+    );
+
+    for (const uuid of successfulPhoneNumberShares) {
+      const convo = window.ConversationController.get(uuid);
+      if (!convo) {
+        continue;
+      }
+
+      log.info(
+        'MessageReceipts: unsetting shareMyPhoneNumber ' +
+          `for ${convo.idForLogging()}`
+      );
+
+      // `deleteSentProtoRecipient` has already updated the database so there
+      // is no need in calling `updateConversation`
+      convo.unset('shareMyPhoneNumber');
+    }
   },
 });
 
@@ -193,7 +212,8 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
     if (
       (type === MessageReceiptType.Delivery &&
-        wasDeliveredWithSealedSender(sourceConversationId, message)) ||
+        wasDeliveredWithSealedSender(sourceConversationId, message) &&
+        receipt.get('wasSentEncrypted')) ||
       type === MessageReceiptType.Read
     ) {
       const recipient = window.ConversationController.get(sourceConversationId);
@@ -201,11 +221,17 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
       const deviceId = receipt.get('sourceDevice');
 
       if (recipientUuid && deviceId) {
-        await deleteSentProtoBatcher.add({
-          timestamp: messageSentAt,
-          recipientUuid,
-          deviceId,
-        });
+        await Promise.all([
+          deleteSentProtoBatcher.add({
+            timestamp: messageSentAt,
+            recipientUuid,
+            deviceId,
+          }),
+
+          // We want the above call to not be delayed when testing with
+          // CI.
+          window.CI ? deleteSentProtoBatcher.flushAndWait() : Promise.resolve(),
+        ]);
       } else {
         log.warn(
           `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
@@ -249,6 +275,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
             'No message for receipt',
             type,
             sourceConversationId,
+            sourceUuid,
             messageSentAt
           );
           return;

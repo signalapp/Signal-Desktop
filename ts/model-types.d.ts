@@ -335,6 +335,7 @@ export type ConversationAttributesType = {
   profileLastFetchedAt?: number;
   pendingUniversalTimer?: string;
   username?: string;
+  shareMyPhoneNumber?: boolean;
 
   // Group-only
   groupId?: string;

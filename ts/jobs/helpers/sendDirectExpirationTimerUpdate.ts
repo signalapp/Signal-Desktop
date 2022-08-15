@@ -82,6 +82,7 @@ export async function sendDirectExpirationTimerUpdate(
     profileKey,
     recipients: conversation.getRecipients(),
     timestamp,
+    includePniSignatureMessage: true,
   });
 
   if (!proto.dataMessage) {

@@ -34,7 +34,10 @@ import type {
 } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import MessageSender from '../textsecure/SendMessage';
-import type { CallbackResultType } from '../textsecure/Types.d';
+import type {
+  CallbackResultType,
+  PniSignatureMessageType,
+} from '../textsecure/Types.d';
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
   AvatarColorType,
@@ -2023,6 +2026,7 @@ export class ConversationModel extends window.Backbone
             senderE164: m.source,
             senderUuid: m.sourceUuid,
             timestamp: m.sent_at,
+            isDirectConversation: isDirectConversation(this.attributes),
           }))
         );
       }
@@ -5376,6 +5380,13 @@ export class ConversationModel extends window.Backbone
         Errors.toLogFormat(error)
       );
     }
+  }
+
+  getPniSignatureMessage(): PniSignatureMessageType | undefined {
+    if (!this.get('shareMyPhoneNumber')) {
+      return undefined;
+    }
+    return window.textsecure.storage.protocol.signAlternateIdentity();
   }
 }
 

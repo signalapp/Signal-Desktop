@@ -51,16 +51,18 @@ describe('gv2', function needsName() {
     pniContact = await server.createPrimaryDevice({
       profileName: 'My profile is a secret',
     });
-    state = state.addContact(pniContact, {
-      identityState: Proto.ContactRecord.IdentityState.VERIFIED,
-      whitelisted: true,
+    state = state.addContact(
+      pniContact,
+      {
+        identityState: Proto.ContactRecord.IdentityState.VERIFIED,
+        whitelisted: true,
 
-      identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
+        identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
 
-      // Give PNI as the uuid!
-      serviceUuid: pniContact.device.pni,
-      givenName: 'PNI Contact',
-    });
+        givenName: 'PNI Contact',
+      },
+      UUIDKind.PNI
+    );
 
     state = state.addRecord({
       type: IdentifierType.STORY_DISTRIBUTION_LIST,

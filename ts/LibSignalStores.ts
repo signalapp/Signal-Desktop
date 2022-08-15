@@ -111,7 +111,7 @@ export class IdentityKeys extends IdentityKeyStore {
   }
 
   async getIdentityKey(): Promise<PrivateKey> {
-    const keyPair = await window.textsecure.storage.protocol.getIdentityKeyPair(
+    const keyPair = window.textsecure.storage.protocol.getIdentityKeyPair(
       this.ourUuid
     );
     if (!keyPair) {

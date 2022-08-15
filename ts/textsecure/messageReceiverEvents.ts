@@ -132,6 +132,7 @@ export type DeliveryEventData = Readonly<{
   source?: string;
   sourceUuid?: UUIDStringType;
   sourceDevice?: number;
+  wasSentEncrypted: boolean;
 }>;
 
 export class DeliveryEvent extends ConfirmableEvent {
@@ -220,8 +221,9 @@ export class ProfileKeyUpdateEvent extends ConfirmableEvent {
 
 export type MessageEventData = Readonly<{
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceUuid: UUIDStringType;
   sourceDevice?: number;
+  destinationUuid: UUIDStringType;
   timestamp: number;
   serverGuid?: string;
   serverTimestamp?: number;
@@ -246,6 +248,7 @@ export type ReadOrViewEventData = Readonly<{
   source?: string;
   sourceUuid?: UUIDStringType;
   sourceDevice?: number;
+  wasSentEncrypted: true;
 }>;
 
 export class ReadEvent extends ConfirmableEvent {

@@ -794,6 +794,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             senderE164,
             senderUuid,
             timestamp,
+            isDirectConversation: isDirectConversation(this.model.attributes),
           },
         });
       }

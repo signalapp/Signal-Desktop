@@ -129,6 +129,7 @@ export async function sendProfileKey(
       profileKey,
       recipients: conversation.getRecipients(),
       timestamp,
+      includePniSignatureMessage: true,
     });
     sendPromise = messaging.sendIndividualProto({
       contentHint,

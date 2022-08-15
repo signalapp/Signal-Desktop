@@ -8,6 +8,7 @@ export const receiptSchema = z.object({
   senderE164: z.string().optional(),
   senderUuid: z.string().optional(),
   timestamp: z.number(),
+  isDirectConversation: z.boolean().optional(),
 });
 
 export enum ReceiptType {

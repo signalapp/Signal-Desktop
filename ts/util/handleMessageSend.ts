@@ -236,7 +236,14 @@ async function maybeSaveToSendLog(
     sendType: SendTypesType;
   }
 ): Promise<void> {
-  const { contentHint, contentProto, recipients, timestamp, urgent } = result;
+  const {
+    contentHint,
+    contentProto,
+    recipients,
+    timestamp,
+    urgent,
+    hasPniSignatureMessage,
+  } = result;
 
   if (!shouldSaveProto(sendType)) {
     return;
@@ -268,6 +275,7 @@ async function maybeSaveToSendLog(
       proto: Buffer.from(contentProto),
       contentHint,
       urgent: isBoolean(urgent) ? urgent : true,
+      hasPniSignatureMessage: Boolean(hasPniSignatureMessage),
     },
     {
       messageIds,

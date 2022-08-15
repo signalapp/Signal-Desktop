@@ -240,6 +240,7 @@ export async function sendReaction(
               }
             : undefined,
           urgent: true,
+          includePniSignatureMessage: true,
         });
       } else {
         log.info('sending group reaction message');

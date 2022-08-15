@@ -166,7 +166,7 @@ describe('SignalProtocolStore', () => {
   describe('getIdentityKeyPair', () => {
     it('retrieves my identity key', async () => {
       await store.hydrateCaches();
-      const key = await store.getIdentityKeyPair(ourUuid);
+      const key = store.getIdentityKeyPair(ourUuid);
       if (!key) {
         throw new Error('Missing key!');
       }
@@ -1810,13 +1810,13 @@ describe('SignalProtocolStore', () => {
       });
 
       // Old data has to be removed
-      assert.isUndefined(await store.getIdentityKeyPair(oldPni));
+      assert.isUndefined(store.getIdentityKeyPair(oldPni));
       assert.isUndefined(await store.getLocalRegistrationId(oldPni));
       assert.isUndefined(await store.loadPreKey(oldPni, 2));
       assert.isUndefined(await store.loadSignedPreKey(oldPni, 3));
 
       // New data has to be added
-      const storedIdentity = await store.getIdentityKeyPair(newPni);
+      const storedIdentity = store.getIdentityKeyPair(newPni);
       if (!storedIdentity) {
         throw new Error('New identity not found');
       }
