@@ -198,23 +198,23 @@ export function getDatesForRequest(
   data?: CredentialsDataType
 ): RequestDatesType | undefined {
   const today = toDayMillis(Date.now());
-  const oneWeekOut = today + durations.WEEK;
+  const sixDaysOut = today + 6 * durations.DAY;
 
   const lastCredential = last(data);
   if (!lastCredential || lastCredential.redemptionTime < today) {
     return {
       startDayInMs: today,
-      endDayInMs: oneWeekOut,
+      endDayInMs: sixDaysOut,
     };
   }
 
-  if (lastCredential.redemptionTime >= oneWeekOut) {
+  if (lastCredential.redemptionTime >= sixDaysOut) {
     return undefined;
   }
 
   return {
     startDayInMs: lastCredential.redemptionTime + durations.DAY,
-    endDayInMs: oneWeekOut,
+    endDayInMs: sixDaysOut,
   };
 }
 
