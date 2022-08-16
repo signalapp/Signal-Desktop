@@ -51,6 +51,7 @@ import type {
 } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import { MY_STORIES_ID } from '../types/Stories';
+import * as RemoteConfig from '../RemoteConfig';
 
 const MY_STORIES_BYTES = uuidToBytes(MY_STORIES_ID);
 
@@ -138,7 +139,7 @@ export async function toContactRecord(
     contactRecord.serviceE164 = e164;
   }
   const pni = conversation.get('pni');
-  if (pni) {
+  if (pni && RemoteConfig.isEnabled('desktop.pnp.storageService')) {
     contactRecord.pni = pni;
   }
   const profileKey = conversation.get('profileKey');
@@ -851,9 +852,11 @@ export async function mergeContactRecord(
       : undefined,
   };
 
+  const isPniSupported = RemoteConfig.isEnabled('desktop.pnp.storageService');
+
   const e164 = dropNull(contactRecord.serviceE164);
   const uuid = dropNull(contactRecord.serviceUuid);
-  const pni = dropNull(contactRecord.pni);
+  const pni = isPniSupported ? dropNull(contactRecord.pni) : undefined;
 
   // All contacts must have UUID
   if (!uuid) {

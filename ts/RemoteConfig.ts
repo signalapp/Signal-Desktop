@@ -16,6 +16,7 @@ export type ConfigKeyType =
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
   | 'desktop.messageRequests'
+  | 'desktop.pnp.storageService'
   | 'desktop.retryReceiptLifespan'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.senderKey.retry'
