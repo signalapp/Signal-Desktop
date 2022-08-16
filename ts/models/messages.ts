@@ -3021,18 +3021,36 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    if (
-      isStory(message.attributes) &&
-      !message.get('expirationStartTimestamp')
-    ) {
-      message.set(
-        'expirationStartTimestamp',
-        Math.min(
-          message.get('serverTimestamp') || message.get('timestamp'),
-          Date.now()
-        )
-      );
-      changed = true;
+    if (isStory(message.attributes)) {
+      const viewSyncs = ViewSyncs.getSingleton().forMessage(message);
+
+      if (viewSyncs.length !== 0) {
+        message.set({
+          readStatus: ReadStatus.Viewed,
+          seenStatus: SeenStatus.Seen,
+        });
+        changed = true;
+
+        const markReadAt = Math.min(
+          Date.now(),
+          ...viewSyncs.map(sync => sync.get('viewedAt'))
+        );
+        this.pendingMarkRead = Math.min(
+          this.pendingMarkRead ?? Date.now(),
+          markReadAt
+        );
+      }
+
+      if (!message.get('expirationStartTimestamp')) {
+        message.set(
+          'expirationStartTimestamp',
+          Math.min(
+            message.get('serverTimestamp') || message.get('timestamp'),
+            Date.now()
+          )
+        );
+        changed = true;
+      }
     }
 
     // Does this message have any pending, previously-received associated reactions?
