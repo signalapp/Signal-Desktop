@@ -333,30 +333,35 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       Errors.toLogFormat(error)
     );
 
-    // Remove `pending` flag from the attachment.
-    await _addAttachmentToMessage(
-      message,
-      {
-        ...attachment,
-        downloadJobId: id,
-      },
-      { type, index }
-    );
-    if (message) {
-      await saveMessage(message.attributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-      });
+    try {
+      // Remove `pending` flag from the attachment.
+      await _addAttachmentToMessage(
+        message,
+        {
+          ...attachment,
+          downloadJobId: id,
+        },
+        { type, index }
+      );
+      if (message) {
+        await saveMessage(message.attributes, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        });
+      }
+
+      const failedJob = {
+        ...job,
+        pending: 0,
+        attempts: currentAttempt,
+        timestamp:
+          Date.now() + (RETRY_BACKOFF[currentAttempt] || RETRY_BACKOFF[3]),
+      };
+
+      await saveAttachmentDownloadJob(failedJob);
+    } finally {
+      delete _activeAttachmentDownloadJobs[id];
+      _maybeStartJob();
     }
-
-    const failedJob = {
-      ...job,
-      pending: 0,
-      attempts: currentAttempt,
-      timestamp:
-        Date.now() + (RETRY_BACKOFF[currentAttempt] || RETRY_BACKOFF[3]),
-    };
-
-    await saveAttachmentDownloadJob(failedJob);
   }
 }
 

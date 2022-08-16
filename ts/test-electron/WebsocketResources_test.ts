@@ -230,8 +230,8 @@ describe('WebSocket-Resource', () => {
         assert.strictEqual(message.request?.path, '/');
         assert.strictEqual(
           Date.now(),
-          startTime + 60000,
-          'keepalive time should be one minute'
+          startTime + 30000 + 5000,
+          'keepalive time should be 35s'
         );
         done();
       });
