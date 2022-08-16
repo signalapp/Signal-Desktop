@@ -208,7 +208,6 @@ export class OpenGroupServerPoller {
         pollInfo: {
           roomId,
           infoUpdated: 0,
-          // infoUpdated: -1,
         },
       });
 

@@ -1446,6 +1446,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       admins?: Array<string>;
       image_id?: number;
       moderators?: Array<string>;
+      hidden_admins?: Array<string>;
+      hidden_moderators?: Array<string>;
     };
   }) {
     if (!infos || isEmpty(infos)) {
@@ -1477,26 +1479,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set('uploadCapability', Boolean(upload));
     }
 
-    if (details.admins && isArray(details.admins)) {
-      const replacedWithOurRealSessionId = await this.replaceWithOurRealSessionId(details.admins);
-      const adminChanged = await this.updateGroupAdmins(replacedWithOurRealSessionId, false);
-      if (adminChanged) {
-        hasChange = adminChanged;
-      }
-    }
+    const adminChanged = await this.handleModsOrAdminsChanges({
+      modsOrAdmins: details.admins,
+      hiddenModsOrAdmins: details.hidden_admins,
+      type: 'admins',
+    });
 
-    if (details.moderators && isArray(details.moderators)) {
-      const replacedWithOurRealSessionId = await this.replaceWithOurRealSessionId(
-        details.moderators
-      );
-      const moderatorsChanged = await this.updateGroupModerators(
-        replacedWithOurRealSessionId,
-        false
-      );
-      if (moderatorsChanged) {
-        hasChange = moderatorsChanged;
-      }
-    }
+    hasChange = hasChange || adminChanged;
+
+    const modsChanged = await this.handleModsOrAdminsChanges({
+      modsOrAdmins: details.moderators,
+      hiddenModsOrAdmins: details.hidden_moderators,
+      type: 'mods',
+    });
+
+    hasChange = hasChange || modsChanged;
 
     if (this.isOpenGroupV2() && details.image_id && isNumber(details.image_id)) {
       const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
@@ -1925,6 +1922,34 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       m === ourBlindedPubkeyForThisSogs ? UserUtils.getOurPubKeyStrFromCache() : m
     );
     return replacedWithOurRealSessionId;
+  }
+
+  private async handleModsOrAdminsChanges({
+    modsOrAdmins,
+    hiddenModsOrAdmins,
+    type,
+  }: {
+    modsOrAdmins?: Array<string>;
+    hiddenModsOrAdmins?: Array<string>;
+    type: 'mods' | 'admins';
+  }) {
+    if (modsOrAdmins && isArray(modsOrAdmins)) {
+      const localModsOrAdmins = [...modsOrAdmins];
+      if (hiddenModsOrAdmins && isArray(hiddenModsOrAdmins)) {
+        localModsOrAdmins.push(...hiddenModsOrAdmins);
+      }
+
+      const replacedWithOurRealSessionId = await this.replaceWithOurRealSessionId(
+        uniq(localModsOrAdmins)
+      );
+
+      const moderatorsOrAdminsChanged =
+        type === 'admins'
+          ? await this.updateGroupAdmins(replacedWithOurRealSessionId, false)
+          : await this.updateGroupModerators(replacedWithOurRealSessionId, false);
+      return moderatorsOrAdminsChanged;
+    }
+    return false;
   }
 }
 
