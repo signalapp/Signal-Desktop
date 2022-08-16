@@ -323,6 +323,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --font-size-xs:  11px;
     --font-size-sm:  13px;
     --font-size-md:  15px;
+    --font-size-lg:  17px;
 
     /* MARGINS */
     --margins-xs:  5px;
@@ -331,7 +332,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --margins-lg:  20px;
 
     /* ANIMATIONS */
-    --default-duration: '0.25s';
+    --default-duration: 0.25s;
     /* FILTERS */
     --filter-session-text: ${lightFilterSessionText};
     /* BORDERS */

@@ -12,12 +12,11 @@ import {
   SortedMessageModelProps,
 } from '../ducks/conversations';
 
-import { getIntl, getOurNumber } from './user';
+import { getIntl } from './user';
 import { BlockedNumberController } from '../../util';
 import { ConversationModel } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
 import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
-import _ from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
@@ -35,6 +34,7 @@ import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { filter, isEmpty, sortBy } from 'lodash';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -456,7 +456,7 @@ export const getSortedConversations = createSelector(
 const _getConversationRequests = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
-  return _.filter(sortedConversations, conversation => {
+  return filter(sortedConversations, conversation => {
     const { isApproved, isBlocked, isPrivate, isMe, activeAt } = conversation;
     const isRequest = ConversationModel.hasValidIncomingRequestValues({
       isApproved,
@@ -477,7 +477,7 @@ export const getConversationRequests = createSelector(
 const _getUnreadConversationRequests = (
   sortedConversationRequests: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
-  return _.filter(sortedConversationRequests, conversation => {
+  return filter(sortedConversationRequests, conversation => {
     return conversation && conversation.unreadCount && conversation.unreadCount > 0;
   });
 };
@@ -490,7 +490,7 @@ export const getUnreadConversationRequests = createSelector(
 const _getPrivateContactsPubkeys = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<string> => {
-  return _.filter(sortedConversations, conversation => {
+  return filter(sortedConversations, conversation => {
     return (
       conversation.isPrivate &&
       !conversation.isBlocked &&
@@ -517,13 +517,6 @@ export const getPrivateContactsPubkeys = createSelector(
 
 export const getLeftPaneLists = createSelector(getSortedConversations, _getLeftPaneLists);
 
-export const getMe = createSelector(
-  [getConversationLookup, getOurNumber],
-  (lookup: ConversationLookupType, ourNumber: string): ReduxConversationType => {
-    return lookup[ourNumber];
-  }
-);
-
 export const getDirectContacts = createSelector(
   getLeftPaneLists,
   (state: {
@@ -536,6 +529,36 @@ export const getDirectContacts = createSelector(
 export const getDirectContactsCount = createSelector(
   getDirectContacts,
   (contacts: Array<ReduxConversationType>) => contacts.length
+);
+
+export type DirectContactsByNameType = {
+  displayName?: string;
+  id: string;
+};
+
+// make sure that createSelector is called here so this function is memoized
+export const getDirectContactsByName = createSelector(
+  getDirectContacts,
+  (contacts: Array<ReduxConversationType>): Array<DirectContactsByNameType> => {
+    const extractedContacts = contacts
+      .filter(m => m.id !== UserUtils.getOurPubKeyStrFromCache())
+      .map(m => {
+        return {
+          id: m.id,
+          displayName: m.nickname || m.displayNameInProfile,
+        };
+      });
+    const extractedContactsNoDisplayName = sortBy(
+      extractedContacts.filter(m => !m.displayName),
+      'id'
+    );
+    const extractedContactsWithDisplayName = sortBy(
+      extractedContacts.filter(m => Boolean(m.displayName)),
+      'displayName'
+    );
+
+    return [...extractedContactsWithDisplayName, ...extractedContactsNoDisplayName];
+  }
 );
 
 export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
@@ -885,7 +908,7 @@ export const getMessagePropsByMessageId = createSelector(
 export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageAvatarSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -920,7 +943,7 @@ export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, 
 export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId, (props):
   | MessagePreviewSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -937,7 +960,7 @@ export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId,
 export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageQuoteSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -954,7 +977,7 @@ export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (
 export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageStatusSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -971,7 +994,7 @@ export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, 
 export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageTextSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -991,7 +1014,7 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
 export const getMessageContextMenuProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageContextMenuSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -1037,7 +1060,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
 export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageAuthorSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -1058,7 +1081,7 @@ export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, 
 export const getMessageIsDeletable = createSelector(
   getMessagePropsByMessageId,
   (props): boolean => {
-    if (!props || _.isEmpty(props)) {
+    if (!props || isEmpty(props)) {
       return false;
     }
 
@@ -1069,7 +1092,7 @@ export const getMessageIsDeletable = createSelector(
 export const getMessageAttachmentProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageAttachmentSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -1099,7 +1122,7 @@ export const getIsMessageSelected = createSelector(
   getMessagePropsByMessageId,
   getSelectedMessageIds,
   (props, selectedIds): boolean => {
-    if (!props || _.isEmpty(props)) {
+    if (!props || isEmpty(props)) {
       return false;
     }
 
@@ -1112,7 +1135,7 @@ export const getIsMessageSelected = createSelector(
 export const getMessageContentSelectorProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageContentSelectorProps
   | undefined => {
-  if (!props || _.isEmpty(props)) {
+  if (!props || isEmpty(props)) {
     return undefined;
   }
 
@@ -1145,7 +1168,7 @@ export const getMessageContentSelectorProps = createSelector(getMessagePropsByMe
 export const getMessageContentWithStatusesSelectorProps = createSelector(
   getMessagePropsByMessageId,
   (props): MessageContentWithStatusSelectorProps | undefined => {
-    if (!props || _.isEmpty(props)) {
+    if (!props || isEmpty(props)) {
       return undefined;
     }
 
@@ -1170,7 +1193,7 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
 export const getGenericReadableMessageSelectorProps = createSelector(
   getMessagePropsByMessageId,
   (props): GenericReadableMessageSelectorProps | undefined => {
-    if (!props || _.isEmpty(props)) {
+    if (!props || isEmpty(props)) {
       return undefined;
     }
 

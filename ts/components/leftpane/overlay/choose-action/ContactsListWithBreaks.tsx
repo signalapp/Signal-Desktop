@@ -1,13 +1,15 @@
+import { isString } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { AutoSizer, List, ListRowProps } from 'react-virtualized';
+import { AutoSizer, Index, List, ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
 import {
-  getDirectContacts,
+  DirectContactsByNameType,
+  getDirectContactsByName,
   getDirectContactsCount,
 } from '../../../../state/selectors/conversations';
-import { MemoConversationListItemWithDetails } from '../../conversation-list-item/ConversationListItem';
 import { StyledLeftPaneList } from '../../LeftPaneList';
+import { ContactRow, ContactRowBreak } from './ContactRow';
 import { StyledChooseActionTitle } from './OverlayChooseAction';
 // tslint:disable: use-simple-attributes no-submodule-imports
 
@@ -16,23 +18,45 @@ const renderRow = (props: ListRowProps) => {
 
   // ugly, but it seems react-viurtualized do not support very well functional components just yet
   // https://stackoverflow.com/questions/54488954/how-to-pass-prop-into-rowrender-of-react-virtualized
-  const directContacts = (parent as any).props.directContacts;
-  const item = directContacts?.[index];
+  const directContactsByNameWithBreaks = (parent as any).props
+    .directContactsByNameWithBreaks as Array<DirectContactsByNameType | string>;
+  const item = directContactsByNameWithBreaks?.[index];
   if (!item) {
     return null;
   }
 
-  return <MemoConversationListItemWithDetails style={style} key={key} {...item} />;
+  if (isString(item)) {
+    return <ContactRowBreak style={style} key={key} char={item} />;
+  }
+
+  return <ContactRow style={style} key={key} {...item} />;
 };
 
-const ContactListItemSection = () => {
-  const directContacts = useSelector(getDirectContacts);
+const unknownSection = 'unknown';
 
-  if (!directContacts) {
+const ContactListItemSection = () => {
+  const directContactsByName = useSelector(getDirectContactsByName);
+
+  if (!directContactsByName) {
     return null;
   }
 
-  const length = Number(directContacts.length);
+  // add a break wherever needed
+  let currentChar = '';
+  // if the item is a string we consider it to be a break of that string
+  const directContactsByNameWithBreaks: Array<DirectContactsByNameType | string> = [];
+  directContactsByName.forEach(m => {
+    if (m.displayName && m.displayName[0] !== currentChar) {
+      currentChar = m.displayName[0];
+      directContactsByNameWithBreaks.push(currentChar.toUpperCase());
+    } else if (!m.displayName && currentChar !== unknownSection) {
+      currentChar = unknownSection;
+      directContactsByNameWithBreaks.push(window.i18n('unknown'));
+    }
+    directContactsByNameWithBreaks.push(m);
+  });
+
+  const length = Number(directContactsByNameWithBreaks.length);
 
   return (
     <StyledLeftPaneList key={0} style={{ width: '100%' }}>
@@ -43,8 +67,11 @@ const ContactListItemSection = () => {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
-              rowHeight={64}
-              directContacts={directContacts}
+              rowHeight={
+                (params: Index) =>
+                  isString(directContactsByNameWithBreaks[params.index]) ? 25 : 64 // should also be changed in `ContactRowBreak`
+              }
+              directContactsByNameWithBreaks={directContactsByNameWithBreaks}
               rowRenderer={renderRow}
               width={300} // the same as session-left-pane-width
               autoHeight={false}

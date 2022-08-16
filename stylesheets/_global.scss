@@ -55,6 +55,7 @@ audio {
 button {
   cursor: pointer;
   font-size: inherit;
+  border: none;
 
   &[disabled='disabled'] {
     &,
