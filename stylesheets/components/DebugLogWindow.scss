@@ -17,17 +17,24 @@
     justify-content: center;
   }
 
-  &__textarea {
-    font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
-    font-size: 12px;
-    height: 100%;
-    resize: none;
-    width: 100%;
+  &__scroll_area {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 100%;
+
+    border: 1px solid $color-gray-45;
 
     @include dark-theme {
       background-color: $color-gray-90;
-      border: 1px solid $color-gray-45;
       color: $color-gray-02;
+    }
+
+    &__text {
+      font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
+      font-size: 12px;
+      margin: 0;
+      user-select: none;
+      white-space: pre-line;
     }
   }
 

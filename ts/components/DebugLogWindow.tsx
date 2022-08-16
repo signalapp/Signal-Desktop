@@ -199,19 +199,17 @@ export const DebugLogWindow = ({
             {i18n('debugLogExplanation')}
           </p>
         </div>
-        <div className="DebugLogWindow__container">
-          {isLoading ? (
+        {isLoading ? (
+          <div className="DebugLogWindow__container">
             <Spinner svgSize="normal" />
-          ) : (
-            <textarea
-              className="DebugLogWindow__textarea"
-              readOnly
-              rows={5}
-              spellCheck={false}
-              value={textAreaValue}
-            />
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="DebugLogWindow__scroll_area">
+            <pre className="DebugLogWindow__scroll_area__text">
+              {textAreaValue}
+            </pre>
+          </div>
+        )}
         <div className="DebugLogWindow__footer">
           <Button
             disabled={!canSave}
