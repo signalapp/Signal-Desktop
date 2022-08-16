@@ -79,6 +79,7 @@ const validRecordTypes = new Set([
   3, // GROUPV2
   4, // ACCOUNT
   5, // STORY_DISTRIBUTION_LIST
+  6, // STICKER_PACK
 ]);
 
 const backOff = new BackOff([
