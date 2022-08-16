@@ -93,7 +93,7 @@ export type PropsType = {
   stopRingtone: () => unknown;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
-  hangUpActiveCall: () => void;
+  hangUpActiveCall: (reason: string) => void;
   theme: ThemeType;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
@@ -186,6 +186,10 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     },
     [setGroupCallVideoRequest, conversation.id]
   );
+
+  const onSafetyNumberDialogCancel = useCallback(() => {
+    hangUpActiveCall('safety number dialog cancel');
+  }, [hangUpActiveCall]);
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
@@ -351,7 +355,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           contacts={activeCall.conversationsWithSafetyNumberChanges}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
-          onCancel={hangUpActiveCall}
+          onCancel={onSafetyNumberDialogCancel}
           onConfirm={() => {
             keyChangeOk({ conversationId: activeCall.conversation.id });
           }}

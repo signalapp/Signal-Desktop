@@ -51,7 +51,7 @@ export type PropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
-  hangUpActiveCall: () => void;
+  hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
   joinedAt?: number;
   me: ConversationType;
@@ -180,6 +180,10 @@ export const CallScreen: React.FC<PropsType> = ({
       getPresentingSources();
     }
   }, [getPresentingSources, presentingSource, setPresenting]);
+
+  const hangUp = useCallback(() => {
+    hangUpActiveCall('button click');
+  }, [hangUpActiveCall]);
 
   const [controlsHover, setControlsHover] = useState(false);
 
@@ -521,7 +525,7 @@ export const CallScreen: React.FC<PropsType> = ({
             i18n={i18n}
             onMouseEnter={onControlsMouseEnter}
             onMouseLeave={onControlsMouseLeave}
-            onClick={hangUpActiveCall}
+            onClick={hangUp}
           />
         </div>
         <div className="module-ongoing-call__footer__local-preview">

@@ -23,7 +23,7 @@ function isCtrlOrAlt(ev: KeyboardEvent): boolean {
 }
 
 export function useActiveCallShortcuts(
-  hangUp: () => unknown
+  hangUp: (reason: string) => unknown
 ): KeyboardShortcutHandlerType {
   return useCallback(
     ev => {
@@ -34,7 +34,7 @@ export function useActiveCallShortcuts(
         ev.preventDefault();
         ev.stopPropagation();
 
-        hangUp();
+        hangUp('Keyboard shortcut');
         return true;
       }
 

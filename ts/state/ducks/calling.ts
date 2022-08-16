@@ -873,12 +873,9 @@ function groupCallStateChange(
   };
 }
 
-function hangUpActiveCall(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  HangUpActionType
-> {
+function hangUpActiveCall(
+  reason: string
+): ThunkAction<void, RootStateType, unknown, HangUpActionType> {
   return async (dispatch, getState) => {
     const state = getState();
 
@@ -889,7 +886,7 @@ function hangUpActiveCall(): ThunkAction<
 
     const { conversationId } = activeCall;
 
-    calling.hangup(conversationId);
+    calling.hangup(conversationId, reason);
 
     dispatch({
       type: HANG_UP,

@@ -292,7 +292,7 @@ export class CallingClass {
 
     ipcRenderer.on('quit', () => {
       for (const conversationId of Object.keys(this.callsByConversation)) {
-        this.hangup(conversationId);
+        this.hangup(conversationId, 'ipcRenderer quit');
       }
     });
 
@@ -1067,8 +1067,8 @@ export class CallingClass {
     );
   }
 
-  hangup(conversationId: string): void {
-    log.info('CallingClass.hangup()');
+  hangup(conversationId: string, reason: string): void {
+    log.info(`CallingClass.hangup(${conversationId}): ${reason}`);
 
     const specificCall = getOwn(this.callsByConversation, conversationId);
     if (!specificCall) {

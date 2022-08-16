@@ -51,7 +51,7 @@ type SnapCandidate = {
 export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
-  hangUpActiveCall: () => void;
+  hangUpActiveCall: (reason: string) => void;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
@@ -99,6 +99,10 @@ export const CallingPip = ({
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
   }, [setLocalPreview]);
+
+  const hangUp = React.useCallback(() => {
+    hangUpActiveCall('pip button click');
+  }, [hangUpActiveCall]);
 
   const handleMouseMove = React.useCallback(
     (ev: MouseEvent) => {
@@ -294,7 +298,7 @@ export const CallingPip = ({
         <button
           aria-label={i18n('calling__hangup')}
           className="module-calling-pip__button--hangup"
-          onClick={hangUpActiveCall}
+          onClick={hangUp}
           type="button"
         />
         <button

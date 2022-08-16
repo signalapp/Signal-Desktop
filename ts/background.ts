@@ -1709,7 +1709,7 @@ export async function startApp(): Promise<void> {
   });
 
   window.Whisper.events.on('powerMonitorLockScreen', () => {
-    window.reduxActions.calling.hangUpActiveCall();
+    window.reduxActions.calling.hangUpActiveCall('powerMonitorLockScreen');
   });
 
   const reconnectToWebSocketQueue = new LatestQueue();
