@@ -77,6 +77,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion25,
   updateToSessionSchemaVersion26,
   updateToSessionSchemaVersion27,
+  updateToSessionSchemaVersion28,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1143,6 +1144,28 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
     console.info(
       'removing lastMessageDeletedServerID & lastMessageFetchedServerID from rooms table. done'
     );
+
+    writeSessionSchemaVersion(targetVersion, db);
+    console.log('... done');
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion28(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 28;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  // some very old databases have the column friendRequestStatus still there but we are not using it anymore. So drop it if we find it.
+  db.transaction(() => {
+    const rows = db.pragma(`table_info(${CONVERSATIONS_TABLE});`);
+    if (rows.some((m: any) => m.name === 'friendRequestStatus')) {
+      console.info('found column friendRequestStatus. Dropping it');
+      db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN friendRequestStatus;`);
+    }
     writeSessionSchemaVersion(targetVersion, db);
     console.log('... done');
   })();
