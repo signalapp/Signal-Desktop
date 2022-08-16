@@ -137,42 +137,6 @@ $session-compose-margin: 20px;
       padding: 13px;
     }
 
-    h2 {
-      margin-top: 0px;
-    }
-    h3,
-    h2 {
-      text-align: center;
-    }
-
-    h3 {
-      padding-top: 22px;
-      position: relative;
-      margin-bottom: 6px;
-
-      .green-border {
-        position: absolute;
-        color: var(--color-accent);
-        background-color: var(--color-accent);
-
-        height: 5px;
-        left: -10px;
-        right: -10px;
-        margin-top: 7px;
-        border: none;
-        z-index: 1;
-      }
-    }
-
-    .white-border {
-      width: $session-left-pane-width;
-      position: relative;
-      height: 1px;
-      opacity: 0.3;
-      margin-top: 2px;
-      margin-bottom: 40px;
-    }
-
     .exit {
       margin-top: 10px;
       margin-inline-start: 13px;
@@ -182,13 +146,6 @@ $session-compose-margin: 20px;
     .session-search-input {
       margin: 10px $session-compose-margin 0 $session-compose-margin;
       width: -webkit-fill-available;
-    }
-
-    .session-description-long {
-      font-size: $session-font-sm;
-      line-height: $session-font-h3;
-      margin: 0px 20px;
-      font-family: $session-font-default;
     }
 
     .session-id-editable {
@@ -211,22 +168,6 @@ $session-compose-margin: 20px;
       margin-bottom: 3rem;
       flex-shrink: 0;
     }
-  }
-}
-
-.module-conversations-list-content {
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  transition: none;
-
-  background: var(--color-conversation-list);
-
-  .left-pane-contact-bottom-buttons .session-button {
-    vertical-align: middle;
-    white-space: normal;
-    text-align: center;
   }
 }
 
@@ -348,14 +289,6 @@ $session-compose-margin: 20px;
       }
     }
   }
-
-  &-bottom-buttons {
-    @include bottom-buttons();
-
-    .session-button {
-      height: 57px;
-    }
-  }
 }
 
 .left-pane-setting {
@@ -445,31 +378,5 @@ $session-compose-margin: 20px;
       height: 50px;
       // line-height: 50px;
     }
-  }
-}
-
-.panel-text-divider {
-  width: 100%;
-  text-align: center;
-  display: flex;
-  margin: 50px 0 50px;
-
-  .panel-text-divider-line {
-    border-bottom: 1px solid var(--color-pill-divider);
-
-    line-height: 0.1em;
-    flex-grow: 1;
-    height: 1px;
-    align-self: center;
-  }
-
-  span {
-    padding: 5px 10px;
-    border-radius: 50px;
-    color: var(--color-pill-divider-text);
-    border: 1px solid var(--color-pill-divider);
-
-    font-family: $session-font-default;
-    font-size: $session-font-sm;
   }
 }

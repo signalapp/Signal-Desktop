@@ -175,7 +175,7 @@
     }
   }
 
-  &-description-long {
+  session-description-long {
     padding-top: 0;
     padding-bottom: 20px;
     @include session-color-subtle(var(--color-text));
@@ -196,7 +196,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 13px;
     border: 1px solid subtle(#353535);
     margin-bottom: 20px;
 

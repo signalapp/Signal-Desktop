@@ -1,6 +1,5 @@
 export type LocalizerKeys =
   | 'removePassword'
-  | 'newClosedGroup'
   | 'userUnbanFailed'
   | 'changePassword'
   | 'saved'
@@ -131,7 +130,6 @@ export type LocalizerKeys =
   | 'banUserAndDeleteAll'
   | 'joinOpenGroupAfterInvitationConfirmationDesc'
   | 'invalidNumberError'
-  | 'newSession'
   | 'contextMenuNoSuggestions'
   | 'recoveryPhraseRevealButtonText'
   | 'banUser'
@@ -231,6 +229,7 @@ export type LocalizerKeys =
   | 'displayName'
   | 'invalidSessionId'
   | 'audioPermissionNeeded'
+  | 'createGroup'
   | 'add'
   | 'messageRequests'
   | 'show'

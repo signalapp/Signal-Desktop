@@ -11,7 +11,6 @@ import autoBind from 'auto-bind';
 import _ from 'lodash';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSearchInput } from '../SessionSearchInput';
 import { RowRendererParamsType } from './LeftPane';
 import { OverlayOpenGroup } from './overlay/OverlayOpenGroup';
@@ -19,6 +18,8 @@ import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
 import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
+import { OverlayChooseAction } from './overlay/OverlayChooseAction';
+import styled from 'styled-components';
 
 export interface Props {
   contacts: Array<ReduxConversationType>;
@@ -26,8 +27,18 @@ export interface Props {
   searchResults?: SearchResultsProps;
 
   messageRequestsEnabled?: boolean;
-  overlayMode: OverlayMode;
+  overlayMode: OverlayMode | undefined;
 }
+
+const StyledConversationListContent = styled.div`
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  transition: none;
+
+  background: var(--color-conversation-list);
+`;
 
 export class LeftPaneMessageSection extends React.Component<Props> {
   public constructor(props: Props) {
@@ -96,11 +107,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
 
     return (
       <div className="session-left-pane-section-content">
-        <LeftPaneSectionHeader
-          buttonClicked={() => {
-            window.inboxStore?.dispatch(setOverlayMode('message'));
-          }}
-        />
+        <LeftPaneSectionHeader />
         {overlayMode ? this.renderClosableOverlay() : this.renderConversations()}
       </div>
     );
@@ -108,7 +115,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
 
   public renderConversations() {
     return (
-      <div className="module-conversations-list-content">
+      <StyledConversationListContent>
         <SessionSearchInput />
         <MessageRequestsBanner
           handleOnClick={() => {
@@ -116,8 +123,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
           }}
         />
         {this.renderList()}
-        {this.renderBottomButtons()}
-      </div>
+      </StyledConversationListContent>
     );
   }
 
@@ -125,11 +131,12 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     const { overlayMode } = this.props;
 
     switch (overlayMode) {
+      case 'choose-action':
+        return <OverlayChooseAction />;
       case 'open-group':
         return <OverlayOpenGroup />;
       case 'closed-group':
         return <OverlayClosedGroup />;
-
       case 'message':
         return <OverlayMessage />;
       case 'message-requests':
@@ -137,31 +144,5 @@ export class LeftPaneMessageSection extends React.Component<Props> {
       default:
         return null;
     }
-  }
-
-  private renderBottomButtons(): JSX.Element {
-    const joinOpenGroup = window.i18n('joinOpenGroup');
-    const newClosedGroup = window.i18n('newClosedGroup');
-
-    return (
-      <div className="left-pane-contact-bottom-buttons">
-        <SessionButton
-          text={joinOpenGroup}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.Green}
-          onClick={() => {
-            window.inboxStore?.dispatch(setOverlayMode('open-group'));
-          }}
-        />
-        <SessionButton
-          text={newClosedGroup}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.White}
-          onClick={() => {
-            window.inboxStore?.dispatch(setOverlayMode('closed-group'));
-          }}
-        />
-      </div>
-    );
   }
 }

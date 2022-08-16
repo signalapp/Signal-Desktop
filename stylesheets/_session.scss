@@ -1048,6 +1048,7 @@ label {
 
   &.session-id-editable-textarea:placeholder-shown {
     padding: 10px 5px 0px 5px;
+    font-family: var(--font-default);
   }
 
   &.group-id-editable-textarea {

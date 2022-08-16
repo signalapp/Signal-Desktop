@@ -9,7 +9,7 @@ import { MemberListItem } from '../../MemberListItem';
 import { OverlayHeader } from './OverlayHeader';
 // tslint:disable: no-submodule-imports use-simple-attributes
 
-import { setOverlayMode } from '../../../state/ducks/section';
+import { resetOverlayMode } from '../../../state/ducks/section';
 import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
 import { SpacerLG } from '../../basic/Text';
 import { MainViewController } from '../../MainViewController';
@@ -24,7 +24,7 @@ export const OverlayClosedGroup = () => {
   const [selectedMemberIds, setSelectedMemberIds] = useState<Array<string>>([]);
 
   function closeOverlay() {
-    dispatch(setOverlayMode(undefined));
+    dispatch(resetOverlayMode());
   }
 
   function handleSelectMember(memberId: string) {
@@ -59,7 +59,7 @@ export const OverlayClosedGroup = () => {
 
   useKey('Escape', closeOverlay);
 
-  const title = window.i18n('newClosedGroup');
+  const title = window.i18n('createGroup');
   const buttonText = window.i18n('done');
   const subtitle = window.i18n('createClosedGroupNamePrompt');
   const placeholder = window.i18n('createClosedGroupPlaceholder');

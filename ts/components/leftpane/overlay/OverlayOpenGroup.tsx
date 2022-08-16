@@ -8,7 +8,7 @@ import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
 import { useDispatch } from 'react-redux';
-import { setOverlayMode } from '../../../state/ducks/section';
+import { resetOverlayMode } from '../../../state/ducks/section';
 import { joinOpenGroupV2WithUIEvents } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { ToastUtils } from '../../../session/utils';
@@ -32,7 +32,7 @@ export const OverlayOpenGroup = () => {
   const [groupUrl, setGroupUrl] = useState('');
 
   function closeOverlay() {
-    dispatch(setOverlayMode(undefined));
+    dispatch(resetOverlayMode());
   }
 
   async function onEnterPressed() {

@@ -21,7 +21,7 @@ import {
 import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
 import { clearSearch } from '../../state/ducks/search';
-import { SectionType, setOverlayMode, showLeftPaneSection } from '../../state/ducks/section';
+import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 
@@ -90,7 +90,7 @@ const Section = (props: { type: SectionType }) => {
       // message section
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
-      dispatch(setOverlayMode(undefined));
+      dispatch(resetOverlayMode());
     }
   };
 

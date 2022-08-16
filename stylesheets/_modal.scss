@@ -246,25 +246,6 @@
     align-items: center;
     flex-direction: column;
 
-    .panel-text-divider {
-      margin-top: 35px;
-      margin-bottom: 35px;
-    }
-
-    &-display {
-      user-select: text;
-      text-align: center;
-      word-break: break-all;
-      font-size: $session-font-md;
-      padding: 0px $session-margin-lg;
-      font-family: $session-font-default;
-      font-weight: 100;
-      color: var(--color-text);
-
-      font-size: $session-font-md;
-      padding: 0px $session-margin-sm;
-    }
-
     .session-button {
       width: 148px;
     }

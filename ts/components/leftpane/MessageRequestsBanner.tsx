@@ -20,7 +20,7 @@ const StyledMessageRequestBanner = styled.div`
 
   background: var(--color-request-banner-background);
 
-  transition: var(--session-transition-duration);
+  transition: var(--default-duration);
 
   &:hover {
     background: var(--color-clickable-hovered);
