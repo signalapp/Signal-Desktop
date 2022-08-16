@@ -391,6 +391,7 @@ export type LocalizerKeys =
   | 'closedGroupMaxSize'
   | 'messagesHeader'
   | 'joinOpenGroup'
+  | 'join'
   | 'callMediaPermissionsDialogContent'
   | 'timerOption_1_day_abbreviated'
   | 'about'

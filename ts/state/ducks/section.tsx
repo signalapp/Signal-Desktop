@@ -9,7 +9,6 @@ export const RESET_OVERLAY_MODE = 'RESET_OVERLAY_MODE';
 export enum SectionType {
   Profile,
   Message,
-  Contact,
   Settings,
   Moon,
   PathIndicator,
@@ -95,7 +94,7 @@ export const initialSectionState: SectionStateType = {
   focusedSection: SectionType.Message,
   focusedSettingsSection: undefined,
   isAppFocused: false,
-  overlayMode: 'message',
+  overlayMode: 'choose-action',
 };
 
 export type SectionStateType = {

@@ -2,18 +2,19 @@ import React from 'react';
 // tslint:disable: use-simple-attributes no-submodule-imports
 
 import { useDispatch } from 'react-redux';
-import { resetOverlayMode, setOverlayMode } from '../../../state/ducks/section';
+import { resetOverlayMode, setOverlayMode } from '../../../../state/ducks/section';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
-import { SessionIcon, SessionIconType } from '../../icon';
+import { SessionIcon, SessionIconType } from '../../../icon';
+import { ContactsListWithBreaks } from './ContactsListWithBreaks';
 
 const StyledActionRow = styled.button`
   border: none;
-  width: 100%;
   display: flex;
   align-items: center;
   border-bottom: 1px var(--color-session-border) solid;
   transition-duration: 0.25s;
+  width: 100%;
 
   &:first-child {
     border-top: 1px var(--color-session-border) solid;
@@ -24,7 +25,7 @@ const StyledActionRow = styled.button`
   }
 `;
 
-const StyledActionText = styled.span`
+export const StyledChooseActionTitle = styled.span`
   color: var(--color-text);
   font-size: 18px;
   padding: 5px 0px 5px 10px;
@@ -67,16 +68,17 @@ export const OverlayChooseAction = () => {
     <div className="module-left-pane-overlay">
       <StyledActionRow onClick={openNewMessage}>
         <IconOnActionRow iconType="chatBubble" />
-        <StyledActionText>{window.i18n('newMessage')}</StyledActionText>
+        <StyledChooseActionTitle>{window.i18n('newMessage')}</StyledChooseActionTitle>
       </StyledActionRow>
       <StyledActionRow onClick={openCreateGroup}>
         <IconOnActionRow iconType="group" />
-        <StyledActionText>{window.i18n('createGroup')}</StyledActionText>
+        <StyledChooseActionTitle>{window.i18n('createGroup')}</StyledChooseActionTitle>
       </StyledActionRow>
       <StyledActionRow onClick={openJoinCommunity}>
         <IconOnActionRow iconType="communities" />
-        <StyledActionText>{window.i18n('joinOpenGroup')}</StyledActionText>
+        <StyledChooseActionTitle>{window.i18n('joinOpenGroup')}</StyledChooseActionTitle>
       </StyledActionRow>
+      <ContactsListWithBreaks />
     </div>
   );
 };

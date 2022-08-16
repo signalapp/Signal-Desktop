@@ -533,6 +533,11 @@ export const getDirectContacts = createSelector(
   }) => state.contacts
 );
 
+export const getDirectContactsCount = createSelector(
+  getDirectContacts,
+  (contacts: Array<ReduxConversationType>) => contacts.length
+);
+
 export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
   return state.unreadCount;
 });

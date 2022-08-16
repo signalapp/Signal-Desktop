@@ -114,7 +114,12 @@ export const OverlayMessage = () => {
         <YourSessionIDPill />
         <SpacerMD />
       </Flex>
-      <Flex container={true} justifyContent="space-between" alignItems="center">
+      <Flex
+        container={true}
+        justifyContent="space-between"
+        alignItems="center"
+        padding="0 15px 0 0 " // YourSessionIDSelectable already has a left margin of 15px
+      >
         <YourSessionIDSelectable />
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
       </Flex>

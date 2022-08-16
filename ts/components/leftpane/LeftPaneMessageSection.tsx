@@ -1,5 +1,5 @@
 import React from 'react';
-import { AutoSizer, List } from 'react-virtualized';
+import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
@@ -12,14 +12,16 @@ import _ from 'lodash';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
 import { SessionSearchInput } from '../SessionSearchInput';
-import { RowRendererParamsType } from './LeftPane';
-import { OverlayOpenGroup } from './overlay/OverlayOpenGroup';
+import { OverlayCommunity } from './overlay/OverlayCommunity';
 import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
 import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
-import { OverlayChooseAction } from './overlay/OverlayChooseAction';
+import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { getOverlayMode } from '../../state/selectors/section';
+import { StyledLeftPaneList } from './LeftPaneList';
 
 export interface Props {
   contacts: Array<ReduxConversationType>;
@@ -40,6 +42,25 @@ const StyledConversationListContent = styled.div`
   background: var(--color-conversation-list);
 `;
 
+const ClosableOverlay = () => {
+  const overlayMode = useSelector(getOverlayMode);
+
+  switch (overlayMode) {
+    case 'choose-action':
+      return <OverlayChooseAction />;
+    case 'open-group':
+      return <OverlayCommunity />;
+    case 'closed-group':
+      return <OverlayClosedGroup />;
+    case 'message':
+      return <OverlayMessage />;
+    case 'message-requests':
+      return <OverlayMessageRequest />;
+    default:
+      return null;
+  }
+};
+
 export class LeftPaneMessageSection extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
@@ -47,7 +68,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     autoBind(this);
   }
 
-  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
+  public renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
     const { conversations } = this.props;
 
     //assume conversations that have been marked unapproved should be filtered out by selector.
@@ -63,7 +84,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
   };
 
-  public renderList(): JSX.Element | Array<JSX.Element | null> {
+  public renderList(): JSX.Element {
     const { conversations, searchResults } = this.props;
 
     if (searchResults) {
@@ -76,12 +97,12 @@ export class LeftPaneMessageSection extends React.Component<Props> {
 
     const length = conversations.length;
 
-    const listKey = 0;
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
-    const list = (
-      <div className="module-left-pane__list" key={listKey}>
+
+    return (
+      <StyledLeftPaneList key={0}>
         <AutoSizer>
           {({ height, width }) => (
             <List
@@ -96,10 +117,8 @@ export class LeftPaneMessageSection extends React.Component<Props> {
             />
           )}
         </AutoSizer>
-      </div>
+      </StyledLeftPaneList>
     );
-
-    return [list];
   }
 
   public render(): JSX.Element {
@@ -108,7 +127,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     return (
       <div className="session-left-pane-section-content">
         <LeftPaneSectionHeader />
-        {overlayMode ? this.renderClosableOverlay() : this.renderConversations()}
+        {overlayMode ? <ClosableOverlay /> : this.renderConversations()}
       </div>
     );
   }
@@ -125,24 +144,5 @@ export class LeftPaneMessageSection extends React.Component<Props> {
         {this.renderList()}
       </StyledConversationListContent>
     );
-  }
-
-  private renderClosableOverlay() {
-    const { overlayMode } = this.props;
-
-    switch (overlayMode) {
-      case 'choose-action':
-        return <OverlayChooseAction />;
-      case 'open-group':
-        return <OverlayOpenGroup />;
-      case 'closed-group':
-        return <OverlayClosedGroup />;
-      case 'message':
-        return <OverlayMessage />;
-      case 'message-requests':
-        return <OverlayMessageRequest />;
-      default:
-        return null;
-    }
   }
 }

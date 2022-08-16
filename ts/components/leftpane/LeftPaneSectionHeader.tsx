@@ -32,9 +32,6 @@ export const LeftPaneSectionHeader = () => {
   const showBackButton = isMessageRequestOverlay && isMessageSection;
 
   switch (focusedSection) {
-    case SectionType.Contact:
-      label = window.i18n('contactsHeader');
-      break;
     case SectionType.Settings:
       label = window.i18n('settingsHeader');
       break;

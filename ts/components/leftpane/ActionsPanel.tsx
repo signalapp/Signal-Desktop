@@ -120,18 +120,6 @@ const Section = (props: { type: SectionType }) => {
           isSelected={isSelected}
         />
       );
-    case SectionType.Contact:
-      return (
-        <SessionIconButton
-          iconSize="medium"
-          dataTestId="contact-section"
-          iconType={'users'}
-          iconColor={undefined}
-          notificationCount={unreadToShow}
-          onClick={handleClick}
-          isSelected={isSelected}
-        />
-      );
     case SectionType.Settings:
       return (
         <SessionIconButton
@@ -357,7 +345,6 @@ export const ActionsPanel = () => {
       <LeftPaneSectionContainer data-testid="leftpane-section-container">
         <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />
-        <Section type={SectionType.Contact} />
         <Section type={SectionType.Settings} />
 
         <SessionToastContainer />

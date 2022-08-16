@@ -15,6 +15,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SessionIcon } from '../icon';
 import { SessionSettingCategory } from '../settings/SessionSettings';
 import { resetConversationExternal } from '../../state/ducks/conversations';
+import { StyledLeftPaneList } from './LeftPaneList';
 
 const getCategories = () => {
   return [
@@ -89,13 +90,13 @@ const LeftPaneSettingsCategories = () => {
   const categories = getCategories();
 
   return (
-    <div className="module-left-pane__list" key={0}>
+    <StyledLeftPaneList key={0}>
       <div className="left-pane-setting-category-list">
         {categories.map(item => {
           return <LeftPaneSettingsCategoryRow key={item.id} item={item} />;
         })}
       </div>
-    </div>
+    </StyledLeftPaneList>
   );
 };
 

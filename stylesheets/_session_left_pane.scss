@@ -119,10 +119,6 @@ $session-compose-margin: 20px;
     flex-grow: 1;
   }
 
-  &__list {
-    height: -webkit-fill-available;
-  }
-
   &-overlay {
     background: var(--color-left-pane-overlay-background);
 
@@ -259,35 +255,6 @@ $session-compose-margin: 20px;
     height: $composition-container-height;
 
     border: var(--border-session);
-  }
-}
-
-.left-pane-contact {
-  &-section,
-  &-content {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    flex: 1;
-
-    .module-conversation-list-item {
-      &__header__date,
-      &__message {
-        display: none;
-      }
-
-      &__buttons {
-        display: flex;
-
-        .session-button {
-          font-size: 11px;
-          padding: 6px;
-          height: auto;
-          margin: 0px;
-          line-height: 14px;
-        }
-      }
-    }
   }
 }
 

@@ -26,7 +26,7 @@ async function joinOpenGroup(serverUrl: string) {
   }
 }
 
-export const OverlayOpenGroup = () => {
+export const OverlayCommunity = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [groupUrl, setGroupUrl] = useState('');
@@ -56,7 +56,7 @@ export const OverlayOpenGroup = () => {
   useKey('Escape', closeOverlay);
 
   const title = window.i18n('joinOpenGroup');
-  const buttonText = window.i18n('next');
+  const buttonText = window.i18n('join');
   const subtitle = window.i18n('openGroupURL');
   const placeholder = window.i18n('enterAnOpenGroupURL');
 
@@ -78,12 +78,14 @@ export const OverlayOpenGroup = () => {
 
       <SessionSpinner loading={loading} />
       <SessionJoinableRooms onRoomClicked={closeOverlay} />
-      <SessionButton
-        buttonColor={SessionButtonColor.Green}
-        buttonType={SessionButtonType.BrandOutline}
-        text={buttonText}
-        onClick={onEnterPressed}
-      />
+      {groupUrl && (
+        <SessionButton
+          buttonColor={SessionButtonColor.White}
+          buttonType={SessionButtonType.BrandOutline}
+          text={buttonText}
+          onClick={onEnterPressed}
+        />
+      )}
     </div>
   );
 };
