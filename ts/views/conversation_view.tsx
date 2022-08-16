@@ -51,7 +51,6 @@ import { getTheme } from '../state/selectors/user';
 import { ReactWrapperView } from './ReactWrapperView';
 import type { Lightbox } from '../components/Lightbox';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
-import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import * as log from '../logging/log';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
@@ -84,8 +83,6 @@ import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpir
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
-import { markAllAsApproved } from '../util/markAllAsApproved';
-import { markAllAsVerifiedDefault } from '../util/markAllAsVerifiedDefault';
 import { retryMessageSend } from '../util/retryMessageSend';
 import { isNotNil } from '../util/isNotNil';
 import { markViewed } from '../services/MessageUpdater';
@@ -114,6 +111,8 @@ import { closeLightbox, showLightbox } from '../util/showLightbox';
 import { saveAttachment } from '../util/saveAttachment';
 import { sendDeleteForEveryoneMessage } from '../util/sendDeleteForEveryoneMessage';
 import { SECOND } from '../util/durations';
+import { blockSendUntilConversationsAreVerified } from '../util/blockSendUntilConversationsAreVerified';
+import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 
 type AttachmentOptions = {
   messageId: string;
@@ -2321,57 +2320,33 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async isCallSafe(): Promise<boolean> {
-    const contacts = await this.getUntrustedContacts();
-    if (contacts.length) {
-      const callAnyway = await this.showSendAnywayDialog(
-        contacts,
-        window.i18n('callAnyway')
+    const callAnyway = await blockSendUntilConversationsAreVerified(
+      [this.model],
+      SafetyNumberChangeSource.Calling
+    );
+
+    if (!callAnyway) {
+      log.info(
+        'Safety number change dialog not accepted, new call not allowed.'
       );
-      if (!callAnyway) {
-        log.info(
-          'Safety number change dialog not accepted, new call not allowed.'
-        );
-        return false;
-      }
+      return false;
     }
 
     return true;
   }
 
-  showSendAnywayDialog(
-    contacts: Array<ConversationModel>,
-    confirmText?: string
-  ): Promise<boolean> {
-    return new Promise(resolve => {
-      showSafetyNumberChangeDialog({
-        confirmText,
-        contacts,
-        reject: () => {
-          resolve(false);
-        },
-        resolve: () => {
-          resolve(true);
-        },
-      });
-    });
-  }
-
   async sendStickerMessage(options: {
     packId: string;
     stickerId: number;
-    force?: boolean;
   }): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     try {
-      const contacts = await this.getUntrustedContacts(options);
-
-      if (contacts.length) {
-        const sendAnyway = await this.showSendAnywayDialog(contacts);
-        if (sendAnyway) {
-          this.sendStickerMessage({ ...options, force: true });
-        }
-
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        [this.model],
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
         return;
       }
 
@@ -2384,40 +2359,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     } catch (error) {
       log.error('clickSend error:', error && error.stack ? error.stack : error);
     }
-  }
-
-  async getUntrustedContacts(
-    options: { force?: boolean } = {}
-  ): Promise<Array<ConversationModel>> {
-    const { model }: { model: ConversationModel } = this;
-
-    // This will go to the trust store for the latest identity key information,
-    //   and may result in the display of a new banner for this conversation.
-    await model.updateVerified();
-    const unverifiedContacts = model.getUnverified();
-
-    if (options.force) {
-      if (unverifiedContacts.length) {
-        await markAllAsVerifiedDefault(unverifiedContacts);
-        // We only want force to break us through one layer of checks
-        // eslint-disable-next-line no-param-reassign
-        options.force = false;
-      }
-    } else if (unverifiedContacts.length) {
-      return unverifiedContacts;
-    }
-
-    const untrustedContacts = model.getUntrusted();
-
-    if (options.force) {
-      if (untrustedContacts.length) {
-        await markAllAsApproved(untrustedContacts);
-      }
-    } else if (untrustedContacts.length) {
-      return untrustedContacts;
-    }
-
-    return [];
   }
 
   async setQuoteMessage(messageId: null | string): Promise<void> {
@@ -2546,7 +2487,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     mentions: BodyRangesType = [],
     options: {
       draftAttachments?: ReadonlyArray<AttachmentType>;
-      force?: boolean;
       timestamp?: number;
       voiceNoteAttachment?: AttachmentType;
     } = {}
@@ -2558,15 +2498,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     try {
       this.disableMessageField();
-      const contacts = await this.getUntrustedContacts(options);
 
-      if (contacts.length) {
-        const sendAnyway = await this.showSendAnywayDialog(contacts);
-        if (sendAnyway) {
-          this.sendMessage(message, mentions, { force: true, timestamp });
-          return;
-        }
-
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        [this.model],
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
         this.enableMessageField();
         return;
       }

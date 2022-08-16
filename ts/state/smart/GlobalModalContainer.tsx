@@ -3,14 +3,16 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
-import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import type { StateType } from '../reducer';
+import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { SmartContactModal } from './ContactModal';
 import { SmartForwardMessageModal } from './ForwardMessageModal';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
+import { SmartSendAnywayDialog } from './SendAnywayDialog';
 import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
+import { getConversationsStoppingSend } from '../selectors/conversations';
+import { mapDispatchToProps } from '../actions';
 
 import { getIntl } from '../selectors/user';
 
@@ -30,11 +32,16 @@ function renderStoriesSettings(): JSX.Element {
   return <SmartStoriesSettingsModal />;
 }
 
+function renderSendAnywayDialog(): JSX.Element {
+  return <SmartSendAnywayDialog />;
+}
+
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
 
   return {
     ...state.globalModals,
+    hasSafetyNumberChangeModal: getConversationsStoppingSend(state).length > 0,
     i18n,
     renderContactModal,
     renderForwardMessageModal,
@@ -45,6 +52,7 @@ const mapStateToProps = (state: StateType) => {
         contactID={String(state.globalModals.safetyNumberModalContactId)}
       />
     ),
+    renderSendAnywayDialog,
   };
 };
 

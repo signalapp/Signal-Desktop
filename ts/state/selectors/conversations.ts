@@ -24,7 +24,6 @@ import {
   ConversationVerificationState,
 } from '../ducks/conversationsEnums';
 import { getOwn } from '../../util/getOwn';
-import { isNotNil } from '../../util/isNotNil';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
@@ -1020,20 +1019,6 @@ export const getConversationIdsStoppedForVerification = createSelector(
   getConversationVerificationData,
   (verificationDataByConversation): Array<string> =>
     Object.keys(verificationDataByConversation)
-);
-
-export const getConversationsStoppedForVerification = createSelector(
-  getConversationByIdSelector,
-  getConversationIdsStoppedForVerification,
-  (
-    conversationSelector: (id: string) => undefined | ConversationType,
-    conversationIds: ReadonlyArray<string>
-  ): Array<ConversationType> => {
-    const conversations = conversationIds
-      .map(conversationId => conversationSelector(conversationId))
-      .filter(isNotNil);
-    return sortByTitle(conversations);
-  }
 );
 
 export const getConversationUuidsStoppingSend = createSelector(

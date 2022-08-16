@@ -28,11 +28,9 @@ import {
   getContactNameColorSelector,
   getConversationByIdSelector,
   getConversationUuidsStoppingSend,
-  getConversationIdsStoppedForVerification,
   getConversationsByTitleSelector,
   getConversationSelector,
   getConversationsStoppingSend,
-  getConversationsStoppedForVerification,
   getFilteredCandidateContactsForNewGroup,
   getFilteredComposeContacts,
   getFilteredComposeGroups,
@@ -329,49 +327,6 @@ describe('both/state/selectors/conversations', () => {
       assert.sameDeepMembers(getConversationsStoppingSend(state), [
         convo1,
         convo2,
-      ]);
-    });
-  });
-
-  describe('#getConversationStoppedForVerification', () => {
-    it('returns an empty array if there are no conversations stopping send', () => {
-      const state = getEmptyRootState();
-
-      assert.isEmpty(getConversationsStoppingSend(state));
-    });
-
-    it('returns all conversations stopping send', () => {
-      const convoA = makeConversation('convo a');
-      const convoB = makeConversation('convo b');
-      const state: StateType = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          conversationLookup: {
-            'convo a': convoA,
-            'convo b': convoB,
-          },
-          verificationDataByConversation: {
-            'convo a': {
-              type: ConversationVerificationState.PendingVerification as const,
-              uuidsNeedingVerification: ['abc'],
-            },
-            'convo b': {
-              type: ConversationVerificationState.PendingVerification as const,
-              uuidsNeedingVerification: ['def', 'abc'],
-            },
-          },
-        },
-      };
-
-      assert.sameDeepMembers(getConversationIdsStoppedForVerification(state), [
-        'convo a',
-        'convo b',
-      ]);
-
-      assert.sameDeepMembers(getConversationsStoppedForVerification(state), [
-        convoA,
-        convoB,
       ]);
     });
   });

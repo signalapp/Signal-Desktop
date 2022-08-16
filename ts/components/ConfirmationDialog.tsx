@@ -25,6 +25,7 @@ export type OwnProps = Readonly<{
   hasXButton?: boolean;
   i18n: LocalizerType;
   moduleClassName?: string;
+  noMouseClose?: boolean;
   onCancel?: () => unknown;
   onClose: () => unknown;
   onTopOfEverything?: boolean;
@@ -56,18 +57,19 @@ function getButtonVariant(
 
 export const ConfirmationDialog = React.memo(
   ({
-    moduleClassName,
     actions = [],
+    cancelButtonVariant,
     cancelText,
     children,
+    hasXButton,
     i18n,
+    moduleClassName,
+    noMouseClose,
     onCancel,
     onClose,
+    onTopOfEverything,
     theme,
     title,
-    hasXButton,
-    cancelButtonVariant,
-    onTopOfEverything,
   }: Props) => {
     const { close, overlayStyles, modalStyles } = useAnimated(onClose, {
       getFrom: () => ({ opacity: 0, transform: 'scale(0.25)' }),
@@ -94,10 +96,11 @@ export const ConfirmationDialog = React.memo(
 
     return (
       <ModalHost
-        onTopOfEverything={onTopOfEverything}
+        noMouseClose={noMouseClose}
         onClose={close}
-        theme={theme}
+        onTopOfEverything={onTopOfEverything}
         overlayStyles={overlayStyles}
+        theme={theme}
       >
         <animated.div style={modalStyles}>
           <ModalWindow

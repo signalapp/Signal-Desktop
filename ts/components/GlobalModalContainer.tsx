@@ -6,6 +6,7 @@ import type {
   ContactModalStateType,
   ForwardMessagePropsType,
   UserNotFoundModalStateType,
+  SafetyNumberChangedBlockingDataType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
@@ -35,6 +36,10 @@ type PropsType = {
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
   renderStoriesSettings: () => JSX.Element;
+  // SendAnywayDialog
+  hasSafetyNumberChangeModal: boolean;
+  safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
+  renderSendAnywayDialog: () => JSX.Element;
   // UserNotFoundModal
   hideUserNotFoundModal: () => unknown;
   userNotFoundModalState?: UserNotFoundModalStateType;
@@ -63,6 +68,10 @@ export const GlobalModalContainer = ({
   // StoriesSettings
   isStoriesSettingsVisible,
   renderStoriesSettings,
+  // SendAnywayDialog
+  hasSafetyNumberChangeModal,
+  safetyNumberChangedBlockingData,
+  renderSendAnywayDialog,
   // UserNotFoundModal
   hideUserNotFoundModal,
   userNotFoundModalState,
@@ -70,6 +79,12 @@ export const GlobalModalContainer = ({
   hideWhatsNewModal,
   isWhatsNewVisible,
 }: PropsType): JSX.Element | null => {
+  // We want the send anyway dialog to supersede most modals since this is an
+  // immediate action the user needs to take.
+  if (hasSafetyNumberChangeModal || safetyNumberChangedBlockingData) {
+    return renderSendAnywayDialog();
+  }
+
   if (safetyNumberModalContactId) {
     return renderSafetyNumber();
   }

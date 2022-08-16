@@ -52,11 +52,8 @@ type PropsType = {
 
 export const App = ({
   appView,
-  cancelConversationVerification,
-  conversationsStoppingSend,
   executeMenuAction,
   executeMenuRole,
-  getPreferredBadge,
   hasInitialLoadCompleted,
   hasSelectedStoryData,
   hideMenuBar,
@@ -75,7 +72,6 @@ export const App = ({
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
   renderLeftPane,
-  renderSafetyNumber,
   renderStories,
   renderStoryViewer,
   requestVerification,
@@ -86,7 +82,6 @@ export const App = ({
   theme,
   titleBarDoubleClick,
   toastType,
-  verifyConversationsStoppingSend,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -107,23 +102,17 @@ export const App = ({
   } else if (appView === AppViewType.Inbox) {
     contents = (
       <Inbox
-        cancelConversationVerification={cancelConversationVerification}
-        conversationsStoppingSend={conversationsStoppingSend}
         hasInitialLoadCompleted={hasInitialLoadCompleted}
-        getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         isCustomizingPreferredReactions={isCustomizingPreferredReactions}
         renderCustomizingPreferredReactionsModal={
           renderCustomizingPreferredReactionsModal
         }
         renderLeftPane={renderLeftPane}
-        renderSafetyNumber={renderSafetyNumber}
         selectedConversationId={selectedConversationId}
         selectedMessage={selectedMessage}
         showConversation={showConversation}
         showWhatsNewModal={showWhatsNewModal}
-        theme={theme}
-        verifyConversationsStoppingSend={verifyConversationsStoppingSend}
       />
     );
   }

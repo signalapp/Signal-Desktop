@@ -5,57 +5,39 @@ import type { ReactNode } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import type { ConversationModel } from '../models/conversations';
-import type {
-  ConversationType,
-  ShowConversationType,
-} from '../state/ducks/conversations';
+import type { ShowConversationType } from '../state/ducks/conversations';
 import type { ConversationView } from '../views/conversation_view';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
+import type { LocalizerType } from '../types/Util';
 
 import * as log from '../logging/log';
 import { SECOND } from '../util/durations';
-import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import { ToastStickerPackInstallFailed } from './ToastStickerPackInstallFailed';
 import { WhatsNewLink } from './WhatsNewLink';
 import { showToast } from '../util/showToast';
 import { strictAssert } from '../util/assert';
 
 export type PropsType = {
-  cancelConversationVerification: () => void;
-  conversationsStoppingSend: Array<ConversationType>;
   hasInitialLoadCompleted: boolean;
-  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isCustomizingPreferredReactions: boolean;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderLeftPane: () => JSX.Element;
-  renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
   selectedConversationId?: string;
   selectedMessage?: string;
   showConversation: ShowConversationType;
   showWhatsNewModal: () => unknown;
-  theme: ThemeType;
-  verifyConversationsStoppingSend: () => void;
 };
 
 export const Inbox = ({
-  cancelConversationVerification,
-  conversationsStoppingSend,
   hasInitialLoadCompleted,
-  getPreferredBadge,
   i18n,
   isCustomizingPreferredReactions,
   renderCustomizingPreferredReactionsModal,
   renderLeftPane,
-  renderSafetyNumber,
   selectedConversationId,
   selectedMessage,
   showConversation,
   showWhatsNewModal,
-  theme,
-  verifyConversationsStoppingSend,
 }: PropsType): JSX.Element => {
   const [loadingMessageCount, setLoadingMessageCount] = useState(0);
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
@@ -226,21 +208,7 @@ export const Inbox = ({
   }
 
   let activeModal: ReactNode;
-  if (conversationsStoppingSend.length) {
-    activeModal = (
-      <SafetyNumberChangeDialog
-        confirmText={i18n('safetyNumberChangeDialog__pending-messages')}
-        contacts={conversationsStoppingSend}
-        getPreferredBadge={getPreferredBadge}
-        i18n={i18n}
-        onCancel={cancelConversationVerification}
-        onConfirm={verifyConversationsStoppingSend}
-        renderSafetyNumber={renderSafetyNumber}
-        theme={theme}
-      />
-    );
-  }
-  if (!activeModal && isCustomizingPreferredReactions) {
+  if (isCustomizingPreferredReactions) {
     activeModal = renderCustomizingPreferredReactionsModal();
   }
 

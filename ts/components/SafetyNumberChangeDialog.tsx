@@ -14,6 +14,11 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 
+export enum SafetyNumberChangeSource {
+  Calling = 'Calling',
+  MessageSend = 'MessageSend',
+}
+
 export type SafetyNumberProps = {
   contactID: string;
   onClose: () => void;
@@ -75,6 +80,7 @@ export const SafetyNumberChangeDialog = ({
         },
       ]}
       i18n={i18n}
+      noMouseClose
       onCancel={onClose}
       onClose={noop}
       title={i18n('safetyNumberChanges')}

@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
-import type { StateType as RootStateType } from '../reducer';
+import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import type { PropsForMessage } from '../selectors/message';
+import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
+import type { StateType as RootStateType } from '../reducer';
+import type { UUIDStringType } from '../../types/UUID';
+import * as SingleServePromise from '../../services/singleServePromise';
 import { getMessageById } from '../../messages/getMessageById';
 import { getMessagePropsSelector } from '../selectors/message';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -11,15 +15,20 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 // State
 
 export type ForwardMessagePropsType = Omit<PropsForMessage, 'renderingContext'>;
+export type SafetyNumberChangedBlockingDataType = {
+  readonly promiseUuid: UUIDStringType;
+  readonly source?: SafetyNumberChangeSource;
+};
 
 export type GlobalModalsStateType = {
   readonly contactModalState?: ContactModalStateType;
   readonly forwardMessageProps?: ForwardMessagePropsType;
   readonly isProfileEditorVisible: boolean;
-  readonly isStoriesSettingsVisible: boolean;
   readonly isSignalConnectionsVisible: boolean;
+  readonly isStoriesSettingsVisible: boolean;
   readonly isWhatsNewVisible: boolean;
   readonly profileEditorHasError: boolean;
+  readonly safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   readonly safetyNumberModalContactId?: string;
   readonly userNotFoundModalState?: UserNotFoundModalStateType;
 };
@@ -42,6 +51,8 @@ export const TOGGLE_PROFILE_EDITOR_ERROR =
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
+export const SHOW_SEND_ANYWAY_DIALOG = 'globalModals/SHOW_SEND_ANYWAY_DIALOG';
+const HIDE_SEND_ANYWAY_DIALOG = 'globalModals/HIDE_SEND_ANYWAY_DIALOG';
 
 export type ContactModalStateType = {
   contactId: string;
@@ -114,6 +125,17 @@ type HideStoriesSettingsActionType = {
   type: typeof HIDE_STORIES_SETTINGS;
 };
 
+export type ShowSendAnywayDialogActiontype = {
+  type: typeof SHOW_SEND_ANYWAY_DIALOG;
+  payload: SafetyNumberChangedBlockingDataType & {
+    conversationsToPause: Map<string, Set<string>>;
+  };
+};
+
+type HideSendAnywayDialogActiontype = {
+  type: typeof HIDE_SEND_ANYWAY_DIALOG;
+};
+
 export type GlobalModalsActionType =
   | HideContactModalActionType
   | ShowContactModalActionType
@@ -123,6 +145,8 @@ export type GlobalModalsActionType =
   | ShowUserNotFoundModalActionType
   | HideStoriesSettingsActionType
   | ShowStoriesSettingsActionType
+  | HideSendAnywayDialogActiontype
+  | ShowSendAnywayDialogActiontype
   | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
@@ -140,6 +164,8 @@ export const actions = {
   showUserNotFoundModal,
   hideStoriesSettings,
   showStoriesSettings,
+  hideBlockingSafetyNumberChangeDialog,
+  showBlockingSafetyNumberChangeDialog,
   toggleForwardMessageModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
@@ -262,6 +288,31 @@ function toggleSignalConnectionsModal(): ToggleSignalConnectionsModalActionType 
   };
 }
 
+function showBlockingSafetyNumberChangeDialog(
+  conversationsToPause: Map<string, Set<string>>,
+  explodedPromise: ExplodePromiseResultType<boolean>,
+  source?: SafetyNumberChangeSource
+): ThunkAction<void, RootStateType, unknown, ShowSendAnywayDialogActiontype> {
+  const promiseUuid = SingleServePromise.set<boolean>(explodedPromise);
+
+  return dispatch => {
+    dispatch({
+      type: SHOW_SEND_ANYWAY_DIALOG,
+      payload: {
+        conversationsToPause,
+        promiseUuid,
+        source,
+      },
+    });
+  };
+}
+
+function hideBlockingSafetyNumberChangeDialog(): HideSendAnywayDialogActiontype {
+  return {
+    type: HIDE_SEND_ANYWAY_DIALOG,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
@@ -368,6 +419,25 @@ export function reducer(
     return {
       ...state,
       isSignalConnectionsVisible: !state.isSignalConnectionsVisible,
+    };
+  }
+
+  if (action.type === SHOW_SEND_ANYWAY_DIALOG) {
+    const { promiseUuid, source } = action.payload;
+
+    return {
+      ...state,
+      safetyNumberChangedBlockingData: {
+        promiseUuid,
+        source,
+      },
+    };
+  }
+
+  if (action.type === HIDE_SEND_ANYWAY_DIALOG) {
+    return {
+      ...state,
+      safetyNumberChangedBlockingData: undefined,
     };
   }
 

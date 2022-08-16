@@ -21,8 +21,14 @@ import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assert, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
-import type { ToggleProfileEditorErrorActionType } from './globalModals';
-import { TOGGLE_PROFILE_EDITOR_ERROR } from './globalModals';
+import type {
+  ShowSendAnywayDialogActiontype,
+  ToggleProfileEditorErrorActionType,
+} from './globalModals';
+import {
+  SHOW_SEND_ANYWAY_DIALOG,
+  TOGGLE_PROFILE_EDITOR_ERROR,
+} from './globalModals';
 import { isRecord } from '../../util/isRecord';
 import type {
   UUIDFetchStateKeyType,
@@ -782,6 +788,7 @@ export type ConversationActionType =
   | ShowArchivedConversationsActionType
   | ShowChooseGroupMembersActionType
   | ShowInboxActionType
+  | ShowSendAnywayDialogActiontype
   | StartComposingActionType
   | StartSettingGroupMetadataActionType
   | ToggleConversationInChooseMembersActionType
@@ -2162,6 +2169,45 @@ function closeComposerModal(
   };
 }
 
+function getVerificationDataForConversation(
+  state: Readonly<ConversationsStateType>,
+  conversationId: string,
+  untrustedUuids: ReadonlyArray<string>
+): Record<string, ConversationVerificationData> {
+  const { verificationDataByConversation } = state;
+  const existingPendingState = getOwn(
+    verificationDataByConversation,
+    conversationId
+  );
+
+  if (
+    !existingPendingState ||
+    existingPendingState.type ===
+      ConversationVerificationState.VerificationCancelled
+  ) {
+    return {
+      [conversationId]: {
+        type: ConversationVerificationState.PendingVerification as const,
+        uuidsNeedingVerification: untrustedUuids,
+      },
+    };
+  }
+
+  const uuidsNeedingVerification: ReadonlyArray<string> = Array.from(
+    new Set([
+      ...existingPendingState.uuidsNeedingVerification,
+      ...untrustedUuids,
+    ])
+  );
+
+  return {
+    [conversationId]: {
+      type: ConversationVerificationState.PendingVerification as const,
+      uuidsNeedingVerification,
+    },
+  };
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType>
@@ -2510,45 +2556,39 @@ export function reducer(
   if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
     const { conversationId, untrustedUuids } = action.payload;
 
-    const { verificationDataByConversation } = state;
-    const existingPendingState = getOwn(
-      verificationDataByConversation,
-      conversationId
-    );
-
-    if (
-      !existingPendingState ||
-      existingPendingState.type ===
-        ConversationVerificationState.VerificationCancelled
-    ) {
-      return {
-        ...state,
-        verificationDataByConversation: {
-          ...verificationDataByConversation,
-          [conversationId]: {
-            type: ConversationVerificationState.PendingVerification as const,
-            uuidsNeedingVerification: untrustedUuids,
-          },
-        },
-      };
-    }
-
-    const uuidsNeedingVerification: ReadonlyArray<string> = Array.from(
-      new Set([
-        ...existingPendingState.uuidsNeedingVerification,
-        ...untrustedUuids,
-      ])
+    const nextVerificationData = getVerificationDataForConversation(
+      state,
+      conversationId,
+      untrustedUuids
     );
 
     return {
       ...state,
       verificationDataByConversation: {
-        ...verificationDataByConversation,
-        [conversationId]: {
-          type: ConversationVerificationState.PendingVerification as const,
-          uuidsNeedingVerification,
-        },
+        ...state.verificationDataByConversation,
+        ...nextVerificationData,
       },
+    };
+  }
+  if (action.type === SHOW_SEND_ANYWAY_DIALOG) {
+    const verificationDataByConversation = {
+      ...state.verificationDataByConversation,
+    };
+
+    action.payload.conversationsToPause.forEach(
+      (untrustedUuids, conversationId) => {
+        const nextVerificationData = getVerificationDataForConversation(
+          state,
+          conversationId,
+          Array.from(untrustedUuids)
+        );
+        Object.assign(verificationDataByConversation, nextVerificationData);
+      }
+    );
+
+    return {
+      ...state,
+      verificationDataByConversation,
     };
   }
   if (action.type === 'MESSAGE_CHANGED') {

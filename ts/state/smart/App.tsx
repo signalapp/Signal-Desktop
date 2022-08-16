@@ -11,11 +11,9 @@ import { SmartCallManager } from './CallManager';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLeftPane } from './LeftPane';
-import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { SmartStories } from './Stories';
 import { SmartStoryViewer } from './StoryViewer';
 import type { StateType } from '../reducer';
-import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getIntl,
   getLocaleMessages,
@@ -29,10 +27,8 @@ import {
   shouldShowStoriesView,
 } from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
-import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 const mapStateToProps = (state: StateType) => {
@@ -40,8 +36,6 @@ const mapStateToProps = (state: StateType) => {
 
   return {
     ...state.app,
-    conversationsStoppingSend: getConversationsStoppingSend(state),
-    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n,
     localeMessages: getLocaleMessages(state),
     isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
@@ -56,9 +50,6 @@ const mapStateToProps = (state: StateType) => {
     ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
     renderLeftPane: () => <SmartLeftPane />,
-    renderSafetyNumber: (props: SafetyNumberProps) => (
-      <SmartSafetyNumberViewer {...props} />
-    ),
     isShowingStoriesView: shouldShowStoriesView(state),
     renderStories: () => (
       <ErrorBoundary>

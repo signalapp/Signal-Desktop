@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentType } from '../types/Attachment';
-import type { ConversationModel } from '../models/conversations';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { MessageAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
+import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
+import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
 import { getMessageIdForLogging } from './idForLogging';
-import { markAllAsApproved } from './markAllAsApproved';
-import { markAllAsVerifiedDefault } from './markAllAsVerifiedDefault';
+import { isNotNil } from './isNotNil';
 import { resetLinkPreview } from '../services/LinkPreview';
-import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 
 export async function maybeForwardMessage(
   messageAttributes: MessageAttributesType,
@@ -29,9 +28,9 @@ export async function maybeForwardMessage(
     });
   }
 
-  const conversations = conversationIds.map(id =>
-    window.ConversationController.get(id)
-  );
+  const conversations = conversationIds
+    .map(id => window.ConversationController.get(id))
+    .filter(isNotNil);
 
   const cannotSend = conversations.some(
     conversation =>
@@ -42,69 +41,16 @@ export async function maybeForwardMessage(
   }
 
   // Verify that all contacts that we're forwarding
-  // to are verified and trusted
-  const unverifiedContacts: Array<ConversationModel> = [];
-  const untrustedContacts: Array<ConversationModel> = [];
-  await Promise.all(
-    conversations.map(async conversation => {
-      if (conversation) {
-        await conversation.updateVerified();
-        const unverifieds = conversation.getUnverified();
-        if (unverifieds.length) {
-          unverifieds.forEach(unverifiedConversation =>
-            unverifiedContacts.push(unverifiedConversation)
-          );
-        }
-
-        const untrusted = conversation.getUntrusted();
-        if (untrusted.length) {
-          untrusted.forEach(untrustedConversation =>
-            untrustedContacts.push(untrustedConversation)
-          );
-        }
-      }
-    })
-  );
-
+  // to are verified and trusted.
   // If there are any unverified or untrusted contacts, show the
   // SendAnywayDialog and if we're fine with sending then mark all as
   // verified and trusted and continue the send.
-  const iffyConversations = [...unverifiedContacts, ...untrustedContacts];
-  if (iffyConversations.length) {
-    const forwardMessageModal = document.querySelector<HTMLElement>(
-      '.module-ForwardMessageModal'
-    );
-    if (forwardMessageModal) {
-      forwardMessageModal.style.display = 'none';
-    }
-    const sendAnyway = await new Promise(resolve => {
-      showSafetyNumberChangeDialog({
-        contacts: iffyConversations,
-        reject: () => {
-          resolve(false);
-        },
-        resolve: () => {
-          resolve(true);
-        },
-      });
-    });
-
-    if (!sendAnyway) {
-      if (forwardMessageModal) {
-        forwardMessageModal.style.display = 'block';
-      }
-      return false;
-    }
-
-    let verifyPromise: Promise<void> | undefined;
-    let approvePromise: Promise<void> | undefined;
-    if (unverifiedContacts.length) {
-      verifyPromise = markAllAsVerifiedDefault(unverifiedContacts);
-    }
-    if (untrustedContacts.length) {
-      approvePromise = markAllAsApproved(untrustedContacts);
-    }
-    await Promise.all([verifyPromise, approvePromise]);
+  const canSend = await blockSendUntilConversationsAreVerified(
+    conversations,
+    SafetyNumberChangeSource.MessageSend
+  );
+  if (!canSend) {
+    return false;
   }
 
   const sendMessageOptions = { dontClearDraft: true };
