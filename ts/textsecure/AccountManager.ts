@@ -617,6 +617,7 @@ export default class AccountManager extends EventTarget {
     //   below.
     const conversationId = window.ConversationController.maybeMergeContacts({
       aci: ourUuid,
+      pni: ourPni,
       e164: number,
       reason: 'createAccount',
     });
