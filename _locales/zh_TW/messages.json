@@ -7201,6 +7201,14 @@
         "message": "新增一個報導",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "文字限動",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "照片或影片",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "已隱藏的限時動態",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "傳送限動",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "新的限動",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "新增個人限時動態",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "新增個人限時動態",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "新的群組限動",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "分享至現有的群組",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "選擇群組",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "分享及瀏覽限動",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "隱藏",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "顯示影像錯誤",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "無法下載限動。$name$ 必須再次分享該限動。 ",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "切換文字背景顏色",
+    "StoryImage__error--you": {
+        "message": "無法下載限動。你必須再次分享該限動。",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "文字背景為白色",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "文字背景顏色為所選的顏色",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "文字沒有背景顏色",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

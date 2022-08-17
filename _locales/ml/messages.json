@@ -7201,6 +7201,14 @@
         "message": "ഒരു സ്റ്റോറി ചേർക്കുക",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "ടെക്സ്റ്റ് സ്റ്റോറി",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "ഫോട്ടോ അല്ലെങ്കിൽ വീഡിയോ",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "മറച്ച സ്റ്റോറീസ്",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "സ്റ്റോറി അയയ്ക്കുക",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "പുതിയ സ്റ്റോറി",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "പുതിയ സ്വകാര്യ സ്റ്റോറി",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "നിർദ്ദിഷ്ട ആളുകൾക്ക് മാത്രമെ കാണാനാകൂ",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "പുതിയ ഗ്രൂപ്പ് സ്റ്റോറി",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "നിലവിലുള്ളൊരു ഗ്രൂപ്പിലേക്ക് പങ്കിടുക",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "ഗ്രൂപ്പുകൾ തിരഞ്ഞെടുക്കുക",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "മറയ്ക്കുക",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "ചിത്രം പ്രദർശിപ്പിക്കുന്നതിൽ പിശക്",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "സ്റ്റോറി ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല. $name$ അത് വീണ്ടും പങ്കിടേണ്ടതുണ്ട്.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "ടെക്സ്റ്റ് പശ്ചാത്തല നിറം ടോഗിൾ ചെയ്യുക",
+    "StoryImage__error--you": {
+        "message": "സ്റ്റോറി ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല. നിങ്ങൾ അത് വീണ്ടും പങ്കിടേണ്ടതുണ്ട്.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "ടെക്‌സ്റ്റിന് ഒരു വെളുത്ത പശ്ചാത്തല വർണ്ണമുണ്ട്",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "ടെക്‌സ്റ്റ് പശ്ചാത്തല വർണ്ണമായി നിറം തിരഞ്ഞെടുത്തു",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "ടെക്‌സ്റ്റിന് പശ്ചാത്തല വർണ്ണമില്ല",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

@@ -7201,6 +7201,14 @@
         "message": "បញ្ចូលរឿងរ៉ាវ",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "រឿងរ៉ាវអត្ថបទ",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "រូបថត ឬវីដេអូ",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "រឿងរ៉ាវដែលបានលាក់",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "ផ្ញើរឿងរ៉ាវ",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "រឿងរ៉ាវថ្មី",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "រឿងរ៉ាវឯកជនថ្មី",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "អាចមើលឃើញតែចំពោះមនុស្សជាក់លាក់ប៉ុណ្ណោះ",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "រឿងរ៉ាវក្រុមថ្មី",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "ចែករំលែកទៅក្រុមដែលមានស្រាប់",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "ជ្រើសរើសក្រុម",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "លាក់",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "មានបញ្ហាក្នុងការបង្ហាញរូបភាព",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "មិនអាចទាញយករឿងរ៉ាវបានទេ។ $name$ នឹងត្រូវចែករំលែកវាម្តងទៀត។",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "បិទ/បើកពណ៌ផ្ទៃខាងក្រោយអត្ថបទ",
+    "StoryImage__error--you": {
+        "message": "មិនអាចទាញយករឿងរ៉ាវបានទេ។ អ្នកនឹងត្រូវចែករំលែកវាម្តងទៀត។",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "អត្ថបទមានផ្ទៃខាងក្រោយពណ៌ស",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "អត្ថបទមានពណ៌ដែលបានជ្រើសរើសជាពណ៌ផ្ទៃខាងក្រោយ",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "អត្ថបទមិនមានពណ៌ផ្ទៃខាងក្រោយទេ",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

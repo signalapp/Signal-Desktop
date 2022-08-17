@@ -3036,7 +3036,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Кененирээк маалымат",
+        "message": "Дагы",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -7164,7 +7164,7 @@
         "description": "The phrase/term: 'Signal Connections'"
     },
     "SignalConnectionsModal__header": {
-        "message": "$connections$ - төмөнкү жолдор менен сиз ишенген адамдар:",
+        "message": "$connections$ - төмөнкү жолдордун бири аркылуу ишенген адамдарыңыз:",
         "description": "The beginning sentence to list the different ways a signal connection is formed",
         "placeholders": {
             "connections": {
@@ -7186,7 +7186,7 @@
         "description": "A way that signal connection is formed"
     },
     "SignalConnectionsModal__footer": {
-        "message": "Сиздин байланыштарыңыз аты-жөнүңүздү жана сүрөтүңүздү көрө алат жана алардан жашырбасаңыз, \"Менин окуям\" постторун көрө алышат",
+        "message": "Байланыштарыңыз аты-жөнүңүздү жана сүрөтүңүздү, \"Менин окуям\" бөлүмүндөгү постторду көрө алышат (эгер аларды жашырып койбосоңуз)",
         "description": "Additional information about signal connections and the stories they can see"
     },
     "Stories__title": {
@@ -7200,6 +7200,14 @@
     "Stories__add": {
         "message": "Окуя кошуу",
         "description": "Description hint to add a story"
+    },
+    "Stories__add-story--text": {
+        "message": "Текст түрүндөгү окуя",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Сүрөт же видео",
+        "description": "Label to create a new multimedia story"
     },
     "Stories__hidden-stories": {
         "message": "Жашыруун окуялар",
@@ -7248,7 +7256,7 @@
         "description": "Label to create a new private story list"
     },
     "StoriesSettings__viewers--singular": {
-        "message": "$num$ көрүүчү",
+        "message": "$num$ жолу көрүлдү",
         "description": "A single viewer",
         "placeholders": {
             "num": {
@@ -7258,7 +7266,7 @@
         }
     },
     "StoriesSettings__viewers--plural": {
-        "message": "$num$ көрүүчү",
+        "message": "$num$ жолу көрүлдү",
         "description": "More than one viewer",
         "placeholders": {
             "num": {
@@ -7294,15 +7302,15 @@
         "description": "Body of the confirmation dialog to remove someone from a private distribution list"
     },
     "StoriesSettings__replies-reactions--title": {
-        "message": "Жооптор жана реакциялар",
+        "message": "Жооптор жана сезимдер",
         "description": "Title for the replies & reactions section"
     },
     "StoriesSettings__replies-reactions--label": {
-        "message": "Жоопторго жана реакцияларга уруксат берүү",
+        "message": "Жооп берүүгө жана сезимин билдирүүгө уруксат берүү",
         "description": "Checkbox label to allow or disallow replies to your stories"
     },
     "StoriesSettings__replies-reactions--description": {
-        "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана реакция кылууга мүмкүнчүлүк берүү.",
+        "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана сезимин билдирүүгө уруксат берүү.",
         "description": "Description of checkbox to allow or disallow replies to your stories"
     },
     "StoriesSettings__delete-list": {
@@ -7310,7 +7318,7 @@
         "description": "Button label to delete a private distribution list"
     },
     "StoriesSettings__delete-list--confirm": {
-        "message": "Жеке окуя өчүрүлсүнбү?",
+        "message": "Жеке окуяны өчүрөсүзбү?",
         "description": "Confirmation text to delete a private distribution list"
     },
     "StoriesSettings__choose-viewers": {
@@ -7318,7 +7326,7 @@
         "description": "Modal title when choosing to add a viewer to a private distribution list"
     },
     "StoriesSettings__name-story": {
-        "message": "Бул окуяны атоо",
+        "message": "Бул окуянын аталышын коюңуз",
         "description": "Modal title when naming a private distribution list"
     },
     "StoriesSettings__name-placeholder": {
@@ -7342,7 +7350,7 @@
         "description": "Input label to create a block list"
     },
     "StoriesSettings__mine__exclude--description": {
-        "message": "$num$ адамдан тышкары",
+        "message": "$num$ адам чыгарылды",
         "description": "Description of how many people are excluded in a list",
         "placeholders": {
             "num": {
@@ -7352,7 +7360,7 @@
         }
     },
     "StoriesSettings__mine__only--label": {
-        "message": "Төмөнкүлөр менен гана бөлүшүү...",
+        "message": "Ушулар менен гана бөлүшүү...",
         "description": "Input label to create an exclusive allow list"
     },
     "StoriesSettings__mine__only--description": {
@@ -7395,6 +7403,30 @@
         "message": "Окуяны жөнөтүү",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Жаңы окуя",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Жаңы жеке окуя",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Белгилүү адамдарга гана көрүнөт",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Жаңы топтук окуя",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Бар болгон топ менен бөлүшүү",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Топторду тандоо",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Окуяларды бөлүшүү жана көрүү",
         "description": "Select box title for the stories on/off toggle"
@@ -7428,7 +7460,7 @@
         "description": "Aria label for unmuting stories"
     },
     "StoryDetailsModal__sent-time": {
-        "message": "$time$ жөнөтүлдү",
+        "message": "Качан жөнөтүлдү: $time$",
         "description": "Sent timestamp",
         "placeholders": {
             "time": {
@@ -7503,12 +7535,30 @@
         "message": "Жашыруу",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Сүрөттү көрсөтүүдө ката кетти",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Окуя жүктөлүп алынган жок. $name$ аны кайра бөлүшүшү керек.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Тексттин фонунун түсүн өзгөртүү",
+    "StoryImage__error--you": {
+        "message": "Окуя жүктөлүп алынган жок. Аны кайра бөлүшүшүңүз керек.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Тексттин фону ак",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Тексттин фонуна түс тандалды",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Тексттин фонунун түсү жок",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
@@ -7606,31 +7656,31 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--1": {
-        "message": "Кошумча майда өзгөртүүлөр, мүчүлүштүктөрдү оңдоо жана өндүрүмдүүлүгүн жогорулатуу. Signal колдонгонуңуз үчүн рахмат!",
+        "message": "Кызматка майда-барат өзгөрүүлөр киргизилип, мүчүлүштүктөр оңдолуп, иштеши жакшырды. Signal колдонгонуңуз үчүн чоң рахмат!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--2": {
-        "message": "Колдонмоңуздун үзгүлтүксүз иштеши үчүн көптөгөн мүчүлүштүктөрдү оңдоолор. Сизди алдыда дагы кызыктуу өзгөрүүлөр күтүп турат!",
+        "message": "Колдонмоңуздун үзгүлтүксүз иштеши үчүн бир катар мүчүлүштүктөр оңдолду. Алдыда мындан дагы кызыктуу өзгөрүүлөр күтүп турат!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--3": {
-        "message": "Толуктоолор, мүчүлүштүктөрдү оңдоолор жана иштин майнаптуулугун жогорулатуу. Адаттагыдай жазышууну, чалууларды жана видео маектешүүнү уланта бериңиз.",
+        "message": "Өзгөрүүлөр киргизилип, мүчүлүштүктөр оңдолуп, колдонмонун иштеши жакшырды. Адаттагыдай эле жазышып, чалышып, видео режиминде маектеше бериңиз.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--4": {
-        "message": "Колдонмонун сиз үчүн үзгүлтүксүз иштешин камсыз кылуу үчүн мүчүлүштүктөрдү оңдоо жана башка майнаптуулукту жогорулатуу боюнча талыкпай иштеп жатабыз.",
+        "message": "Колдонмо үзгүлтүксүз иштеши үчүн мүчүлүштүктөрдү оңдоп, иштин майнаптуулугун арттыруучу өзгөрүүлөрдү киргизип, талыкпай эмгектенип жатабыз.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--5": {
-        "message": "Кошумча майда толуктоолор, мүчүлүштүктөрдү оңдоолор жана келечек үчүн ар түрдүү пландар.",
+        "message": "Кошумча майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, келечекке ар кандай пландарды түзүүдөбүз.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--6": {
-        "message": "Майда толуктоолор, мүчүлүштүктөрдү оңдоолор жана майнаптуулукту жогорулатуу. Signal колдонгонуңуз үчүн рахмат!",
+        "message": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {
-        "message": "Эгер сиз JAWS экран окугучун колдонсоңуз, эми үн эскертмелерин ийгиликтүү ойнотуп, \"кененирээк маалымат\" баскычынан кийин кыскартылган узун билдирүүлөргө кире аласыз.",
+        "message": "JAWS экрандан окугучту колдонсоңуз, үн эскертмелерин ойнотуп, узун билдирүүлөрдү окуй аласыз (\"дагы\" дегендин аркасында жашырылган).",
         "description": "Release notes for v5.53"
     }
 }

@@ -7201,6 +7201,14 @@
         "message": "স্টোরি যোগ করুন",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "টেক্সট স্টোরি",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "ছবি বা ভিডিও",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "লুকানো স্টোরি",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "স্টোরি পাঠান",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "নতুন স্টোরি",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "নতুন ব্যক্তিগত স্টোরি",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "শুধু নির্দিষ্ট কিছু ব্যক্তির কাছে দৃশ্যমান",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "নতুন গ্ৰুপ স্টোরি",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "একটি বিদ্যমান গ্ৰুপে শেয়ার করুন",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "গ্ৰুপ বেছে নিন",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "স্টোরি শেয়ার করুন এবং দেখুন",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "লুকান",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "ছবি দেখাতে ত্রুটি দেখা দিয়েছে",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "স্টোরি ডাউনলোড করা যাচ্ছে না। $name$-কে এটি আবারো শেয়ার করতে হবে।",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "টেক্সট ব্যাকগ্রাউন্ডের রং পরিবর্তন করুন",
+    "StoryImage__error--you": {
+        "message": "স্টোরি ডাউনলোড করা যাচ্ছে না। আপনাকে এটি আবারো শেয়ার করতে হবে।",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "টেক্সটটির সাদা রঙের ব্যাকগ্রাউন্ড রয়েছে",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "টেক্সটটি ব্যাকগ্রাউন্ডের রং হিসেবে একটি রং বেছে নিয়েছে",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "টেক্সটটির ব্যাকগ্রাউন্ডে কোনো রং নেই",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

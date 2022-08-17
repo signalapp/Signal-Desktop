@@ -7201,6 +7201,14 @@
         "message": "ਸਟੋਰੀ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "ਲਿਖਤੀ ਸਟੋਰੀ",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "ਫ਼ੋਟੋ ਜਾਂ ਵੀਡੀਓ",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "ਲੁਕੀਆਂ ਹੋਈਆਂ ਸਟੋਰੀਆਂ",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "ਸਟੋਰੀ ਭੇਜੋ",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "ਨਵੀਂ ਸਟੋਰੀ",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "ਨਵੀਂ ਨਿੱਜੀ ਸਟੋਰੀ",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "ਸਿਰਫ਼ ਕੁਝ ਖਾਸ ਲੋਕਾਂ ਨੂੰ ਦਿਖਾਈ ਦਿੰਦੀ ਹੈ",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "ਨਵੀਂ ਗਰੁੱਪ ਸਟੋਰੀ",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "ਕਿਸੇ ਮੌਜੂਦਾ ਗਰੁੱਪ ਵਿੱਚ ਸਾਂਝਾ ਕਰੋ",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "ਗਰੁੱਪ ਚੁਣੋ",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰੋ ਅਤੇ ਦੇਖੋ",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "ਲੁਕਾਓ",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "ਚਿੱਤਰ ਦਿਖਾਉਣ ਵੇਲੇ ਕੋਈ ਗੜਬੜੀ ਆਈ",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "ਸਟੋਰੀ ਡਾਊਨਲੋਡ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ। $name$ ਨੂੰ ਸਟੋਰੀ ਦੁਬਾਰਾ ਸਾਂਝੀ ਕਰਨੀ ਪਵੇਗੀ।",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "ਟੈਕਸਟ ਦੀ ਬੈਕਗਰਾਊਂਡ ਦਾ ਰੰਗ ਬਦਲੋ",
+    "StoryImage__error--you": {
+        "message": "ਸਟੋਰੀ ਡਾਊਨਲੋਡ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ। ਤੁਹਾਨੂੰ ਸਟੋਰੀ ਦੁਬਾਰਾ ਸਾਂਝੀ ਕਰਨੀ ਪਵੇਗੀ।",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "ਲਿਖਤ ਦੀ ਬੈਕਗਰਾਊਂਡ ਦਾ ਰੰਗ ਚਿੱਟਾ ਹੈ",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "ਲਿਖਤ ਦੀ ਬੈਕਗਰਾਊਂਡ ਦਾ ਰੰਗ ਚੁਣਿਆ ਹੋਇਆ ਰੰਗ ਹੈ",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "ਲਿਖਤ ਦੀ ਬੈਕਗਰਾਊਂਡ ਦਾ ਕੋਈ ਰੰਗ ਨਹੀਂ ਹੈ",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

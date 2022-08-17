@@ -7201,6 +7201,14 @@
         "message": "Bir hekayə əlavə et",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Mətn hekayəsi",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Şəkil və ya video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Gizli hekayələr",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Hekayə göndər",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Yeni hekayə",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Yeni şəxsi hekayə",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Yalnız müəyyən şəxslərə görünən",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Yeni qrup hekayəsi",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Mövcud bir qrupla paylaş",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Qrupları seç",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Hekayələri paylaş və nəzərdən keçir",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Gizlət",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Təsvirin görüntülənmə xətası",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Hekayəni endirmək mümkün olmadı. $name$ onu yenidən paylaşmalı olacaq.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Mətnin arxa fon rəngini dəyişdirin",
+    "StoryImage__error--you": {
+        "message": "Hekayəni endirmək mümkün olmadı. Onu yenidən paylaşmalı olacaqsınız.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Mətnin arxa fonu ağ rəngdədir",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Mətnin arxa fon rəngi kimi seçilmiş rəngi var",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Mətnin arxa fon rəngi yoxdur",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

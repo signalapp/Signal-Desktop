@@ -7201,6 +7201,14 @@
         "message": "Adaugă o poveste",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Textul poveștii",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto sau video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Povești ascunse",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Trimite povestea",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Poveste nouă",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Poveste privată nouă",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Vizibil doar la persoane specifice",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Poveste nouă de grup",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Distribuie la un grup existent",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Alege grupurile",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Trimite și Vizualizează Poveștile",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Ascunde",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Eroare la afișarea imaginii",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Nu se poate descărca povestea. $name$ va trebuie să o distribuie din nou.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Schimbă culoarea de fundal a textului",
+    "StoryImage__error--you": {
+        "message": "Nu se poate descărca povestea. Va trebui să o distribui din nou.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Textul are un fundal de culoare albă",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Textul are culoarea selectată pentru fundal",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Textul nu are nicio culoare de fundal",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

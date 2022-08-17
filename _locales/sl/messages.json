@@ -7201,6 +7201,14 @@
         "message": "Dodaj zgodbo",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Zgodba z besedilom",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Fotografija ali video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Skrite zgodbe",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Pošlji Zgodbo",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Nova Zgodba",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Nova zasebna zgodba",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Vidna le določenim ljudem",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Nova Zgodba skupine",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Deli z obstoječo skupino",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Izberi skupine",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Deljenje & Ogled Zgodb",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Skrij",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Napaka pri prikazovanju slike",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Zgodbe ni bilo mogoče prenesti. Uporabnik_ca $name$ jo bo moral_a ponovno deliti.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Vklopi barvno ozadje teksta",
+    "StoryImage__error--you": {
+        "message": "Zgodbe ni bilo mogoče prenesti. Morali jo boste ponovno deliti.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Besedilo ima belo barvo ozadja",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Besedilo ima izbrano barvo za barvo ozadja",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Besedilo nima barve ozadja",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

@@ -7201,6 +7201,14 @@
         "message": "Добавьте историю",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Текстовая история",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Фото или видео",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Скрытые истории",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Отправить историю",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Новая история",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Новая частная история",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Видна только определённым людям",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Новая история группы",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Поделитесь с существующей группой",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Выберите группы",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Делиться историями и просматривать их",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Скрыть",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Ошибка при показе изображения",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Невозможно загрузить историю. Пользователю$name$ нужно поделиться ею снова.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Переключить фоновый цвет текста",
+    "StoryImage__error--you": {
+        "message": "Невозможно загрузить историю. Вам нужно поделиться ею снова.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Текст имеет белый фон",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Текст имеет выбранный цвет в качестве цвета фона",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Текст не имеет цвета фона",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

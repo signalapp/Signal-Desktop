@@ -7160,7 +7160,7 @@
         "description": "Confirmation dialog description text for deleting a story"
     },
     "SignalConnectionsModal__title": {
-        "message": "Signal-anslutningar",
+        "message": "Signal-förbindelser",
         "description": "The phrase/term: 'Signal Connections'"
     },
     "SignalConnectionsModal__header": {
@@ -7186,7 +7186,7 @@
         "description": "A way that signal connection is formed"
     },
     "SignalConnectionsModal__footer": {
-        "message": "Dina anslutningar kan se ditt namn och foto, och kan se inlägg på \"Din berättelse\" om du inte döljer det från dem.",
+        "message": "Dina förbindelser kan se ditt namn och foto, och kan se inlägg på \"Din berättelse\" om du inte döljer det från dem.",
         "description": "Additional information about signal connections and the stories they can see"
     },
     "Stories__title": {
@@ -7200,6 +7200,14 @@
     "Stories__add": {
         "message": "Lägg till en berättelse",
         "description": "Description hint to add a story"
+    },
+    "Stories__add-story--text": {
+        "message": "Textberättelse",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto eller video",
+        "description": "Label to create a new multimedia story"
     },
     "Stories__hidden-stories": {
         "message": "Dolda berättelser",
@@ -7330,15 +7338,15 @@
         "description": "Modal title when hiding people from my stories"
     },
     "StoriesSettings__mine__all--label": {
-        "message": "Alla Signal-anslutningar",
+        "message": "Alla Signal-förbindelser",
         "description": "Input label to describe all signal connections"
     },
     "StoriesSettings__mine__all--description": {
-        "message": "Dela med alla kontakter",
+        "message": "Dela med alla förbindelser",
         "description": "Description of button StoriesSettings__mine__all--label"
     },
     "StoriesSettings__mine__exclude--label": {
-        "message": "Alla Signal-anslutningar utom ...",
+        "message": "Alla Signal-förbindelser utom ...",
         "description": "Input label to create a block list"
     },
     "StoriesSettings__mine__exclude--description": {
@@ -7394,6 +7402,30 @@
     "SendStoryModal__send": {
         "message": "Skicka berättelse",
         "description": "aria-label for the send story button"
+    },
+    "SendStoryModal__new": {
+        "message": "Ny berättelse",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Ny privat berättelse",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Synlig endast för specifika personer",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Ny gruppberättelse",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Dela till en befintlig grupp",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Välj grupper",
+        "description": "Modal title when choosing groups"
     },
     "Stories__settings-toggle--title": {
         "message": "Dela och visa Stories",
@@ -7503,12 +7535,30 @@
         "message": "Dölj",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Det gick inte att visa bilden",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Det gick inte att hämta berättelse. $name$ behöver dela den igen.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Växla textbakgrundsfärg",
+    "StoryImage__error--you": {
+        "message": "Det gick inte att hämta berättelse. Du behöver dela den igen.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Text har vit bakgrundsfärg",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Text har vald färg som bakgrundsfärg",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Text har ingen bakgrundsfärg",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

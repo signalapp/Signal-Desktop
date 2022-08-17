@@ -7201,6 +7201,14 @@
         "message": "સ્ટોરી ઉમેરો",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "ટેક્સ્ટ સ્ટોરી",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "ફોટો અથવા વિડીયો",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "છુપાવેલ સ્ટોરી",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "સ્ટોરી મોકલો",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "નવી સ્ટોરી",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "નવી ખાનગી સ્ટોરી",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "ફક્ત ચોક્કસ લોકોને જ દેખાઈ શકે છે",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "નવી ગ્રુપ સ્ટોરી",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "કોઈ વર્તમાન ગ્રુપમાં શેર કરો",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "ગ્રુપ પસંદ કરો",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "સ્ટોરી જુઓ અને શેર કરો",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "છુપાવો",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "ઇમેજ દર્શાવવામાં ત્રુટિ",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "સ્ટોરી ડાઉનલોડ કરી શકતા નથી. $name$એ તેને ફરીથી શેર કરવાની જરૂર છે.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "ટેક્સ્ટ બેકગ્રાઉંડ કલર ફેરવો",
+    "StoryImage__error--you": {
+        "message": "સ્ટોરી ડાઉનલોડ કરી શકતા નથી. તમારે તેને ફરીથી શેર કરવાની જરૂર છે.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "ટેક્સ્ટમાં સફેદ બૅકગ્રાઉન્ડ કલર છે",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "ટેક્સ્ટમાં પસંદ કરેલ બૅકગ્રાઉન્ડ કલર તરીકે છે",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "ટેક્સ્ટમાં બૅકગ્રાઉન્ડ કલર નથી",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

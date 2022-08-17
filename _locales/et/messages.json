@@ -7201,6 +7201,14 @@
         "message": "Lisa lugu",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Tekstilugu",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto või video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Peidetud lood",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Saada lugu",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Uus lugu",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Uus privaatne lugu",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Nähtav ainult konkreetsetele isikutele",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Uus grupilugu",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Jaga olemasoleva grupiga",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Vali grupid",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Jaga ja vaata lugusid",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Peida",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Tõrge pildi kuvamisel",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Lugu ei saa alla laadida. $name$ peab seda uuesti jagama.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Muuda teksti taustavärvi",
+    "StoryImage__error--you": {
+        "message": "Lugu ei saa alla laadida. Pead seda uuesti jagama.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Tekstil on valge taust",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Tekstil on valitud värvi taust",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Tekstil ei ole taustavärvi",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
