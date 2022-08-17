@@ -485,6 +485,9 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         );
         c.set({ profileKeyCredential, profileKeyCredentialExpiration });
       } else {
+        log.warn(
+          'getProfile: Included credential request, but got no credential. Clearing profileKeyCredential.'
+        );
         c.unset('profileKeyCredential');
       }
     }

@@ -386,8 +386,8 @@ export type KeepAliveOptionsType = {
   disconnect?: boolean;
 };
 
-const KEEPALIVE_INTERVAL_MS = 55000; // 55 seconds + 5 seconds for closing the
-// socket above.
+// 30 seconds + 5 seconds for closing the socket above.
+const KEEPALIVE_INTERVAL_MS = 30 * durations.SECOND;
 const MAX_KEEPALIVE_INTERVAL_MS = 5 * durations.MINUTE;
 
 class KeepAlive {
