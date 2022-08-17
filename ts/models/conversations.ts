@@ -1873,6 +1873,11 @@ export class ConversationModel extends window.Backbone
     if (e164 !== oldValue) {
       this.set('e164', e164 || undefined);
 
+      // When our own number has changed - reset pniCredential
+      if (isMe(this.attributes)) {
+        this.set({ pniCredential: null });
+      }
+
       if (oldValue && e164) {
         this.addChangeNumberNotification(oldValue, e164);
       }
