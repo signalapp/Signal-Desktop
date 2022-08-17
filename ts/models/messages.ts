@@ -3042,13 +3042,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       if (!message.get('expirationStartTimestamp')) {
-        message.set(
-          'expirationStartTimestamp',
-          Math.min(
-            message.get('serverTimestamp') || message.get('timestamp'),
-            Date.now()
-          )
-        );
+        message.set('expirationStartTimestamp', message.get('timestamp'));
         changed = true;
       }
     }

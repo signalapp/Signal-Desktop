@@ -1949,9 +1949,7 @@ export default class MessageReceiver
     }
 
     const expireTimer = Math.min(
-      Math.floor(
-        (envelope.serverTimestamp + durations.DAY - Date.now()) / 1000
-      ),
+      Math.floor((envelope.timestamp + durations.DAY - Date.now()) / 1000),
       durations.DAY / 1000
     );
 
@@ -1964,7 +1962,7 @@ export default class MessageReceiver
       return;
     }
 
-    const message = {
+    const message: ProcessedDataMessage = {
       attachments,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer,

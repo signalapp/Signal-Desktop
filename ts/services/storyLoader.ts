@@ -80,10 +80,7 @@ async function repairUnexpiredStories(): Promise<void> {
     )
     .map(story => ({
       ...story,
-      expirationStartTimestamp: Math.min(
-        story.serverTimestamp || story.timestamp,
-        Date.now()
-      ),
+      expirationStartTimestamp: Math.min(story.timestamp, Date.now()),
       expireTimer: Math.min(
         Math.floor((story.timestamp + durations.DAY - Date.now()) / 1000),
         DAY_AS_SECONDS
