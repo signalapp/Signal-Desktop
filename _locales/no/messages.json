@@ -2409,6 +2409,14 @@
         "message": "No conversations found",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--error": {
+        "message": "An error has occurred",
+        "description": "Toast for general errors"
+    },
+    "Toast--error--action": {
+        "message": "Submit log",
+        "description": "Label for the error toast button"
+    },
     "Toast--failed-to-fetch-username": {
         "message": "Failed to fetch username. Check your connection and try again.",
         "description": "Shown if request to Signal servers to find username fails"
@@ -7193,6 +7201,14 @@
         "message": "Add a story",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Text story",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Photo or video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Hidden stories",
         "description": "Button label to go to hidden stories pane"
@@ -7225,6 +7241,10 @@
     },
     "Stories__toast--sending-reaction": {
         "message": "Sender reaksjon...",
+        "description": "Toast message"
+    },
+    "Stories__toast--hasNoSound": {
+        "message": "This story has no sound",
         "description": "Toast message"
     },
     "StoriesSettings__title": {
@@ -7375,6 +7395,38 @@
         "message": "Story settings",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__title": {
+        "message": "Send to",
+        "description": "Title for the send story modal"
+    },
+    "SendStoryModal__send": {
+        "message": "Send story",
+        "description": "aria-label for the send story button"
+    },
+    "SendStoryModal__new": {
+        "message": "New story",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "New private story",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Visible only to specific people",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "New group story",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Share to an existing group",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Choose groups",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Del og se stories",
         "description": "Select box title for the stories on/off toggle"
@@ -7483,12 +7535,30 @@
         "message": "Skjul",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Error displaying image",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Can’t download story. $name$ will need to share it again.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Bytt bakgrunnsfarge på teksten",
+    "StoryImage__error--you": {
+        "message": "Can’t download story. You will need to share it again.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Text has a white background color",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Text has selected color as the background color",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Text has no background color",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
@@ -7526,6 +7596,14 @@
     "StoryCreator__text--condensed": {
         "message": "Komprimert",
         "description": "Label for font"
+    },
+    "StoryCreator__control--text": {
+        "message": "Add story text",
+        "description": "aria-label for edit text button"
+    },
+    "StoryCreator__control--link": {
+        "message": "Add a link",
+        "description": "aria-label for adding a link preview"
     },
     "StoryCreator__link-preview-placeholder": {
         "message": "Type or paste a URL",
@@ -7579,6 +7657,26 @@
     },
     "WhatsNew__bugfixes--1": {
         "message": "Additional small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--2": {
+        "message": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon! ",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--3": {
+        "message": "Tweaks, bug fixes, and performance enhancements. Keep on texting, calling, and video chatting as usual.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--4": {
+        "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you. ",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--5": {
+        "message": "Additional small tweaks, bug fixes, and assorted plans for the future.",
+        "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__bugfixes--6": {
+        "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.53--1": {

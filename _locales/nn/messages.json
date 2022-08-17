@@ -7201,6 +7201,14 @@
         "message": "Lag historie",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Text story",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Photo or video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Gøymde historier",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Send story",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "New story",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Ny privat historie",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Berre vist til visse personar",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "New group story",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Del i ei eksisterande gruppe",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Vel grupper",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Share & View Stories",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Skjul",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Error displaying image",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Can’t download story. $name$ will need to share it again.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Toggle text background color",
+    "StoryImage__error--you": {
+        "message": "Can’t download story. You will need to share it again.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Text has a white background color",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Text has selected color as the background color",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Text has no background color",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

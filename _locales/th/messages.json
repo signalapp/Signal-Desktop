@@ -7201,6 +7201,14 @@
         "message": "เพิ่มสตอรี่",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "สตอรี่แบบข้อความ",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "รูปภาพหรือวิดีโอ",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "สตอรี่ที่ซ่อนไว้",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "ส่งสตอรี่",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "สตอรี่ใหม่",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "สตอรี่ส่วนตัวใหม่",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "เห็นได้เป็นบางคนเท่านั้น",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "สตอรี่กลุ่มใหม่",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "แชร์ไปยังกลุ่มที่มีอยู่",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "เลือกกลุ่ม",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "แชร์และดูสตอรี่",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "ซ่อน",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "เกิดข้อผิดพลาดระหว่างแสดงภาพ",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "ไม่สามารถดาวน์โหลดสตอรี่ได้ $name$ จะต้องแชร์ใหม่อีกครั้ง",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "สลับสีพื้นหลังของตัวอักษร",
+    "StoryImage__error--you": {
+        "message": "ไม่สามารถดาวน์โหลดสตอรี่ได้ คุณจะต้องแชร์ใหม่อีกครั้ง",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "ตัวอักษรมีพื้นหลังเป็นสีขาว",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "ตัวอักษรมีพื้นหลังเป็นสีที่เลือก",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "ตัวอักษรไม่มีสีพื้นหลัง",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

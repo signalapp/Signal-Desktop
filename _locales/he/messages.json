@@ -7201,6 +7201,14 @@
         "message": "הוסף סיפור",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "סטורי כתוב",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "תמונה או סרטון",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "סיפורים מוסתרים",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "שליחת סטורי",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "סטורי חדש",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "סיפור פרטי חדש",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "גלוי רק אל אנשים מסוימים",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "סטורי קבוצתי חדש",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "שתף אל קבוצה קיימת",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "בחר קבוצות",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "שיתוף וצפיה בסטוריז",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "הסתר",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "שגיאה בהצגת תמונה",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "הורדת סטורי נכשלה. $name$ יצטרך/תצטרך לשתף אותו שוב.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "שינוי צבע הרקע של טקסט",
+    "StoryImage__error--you": {
+        "message": "הורדת סטורי נכשלה. צריך לשתף אותו שוב.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "לטקסט יש צבע רקע לבן",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "צבע הרקע של הטקסט הוא הצבע שנבחר",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "לטקסט אין צבע רקע",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

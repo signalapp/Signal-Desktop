@@ -7201,6 +7201,14 @@
         "message": "Voeg 'n storie by",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Teksstorie",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto of video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Versteekte stories",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Stuur storie",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Nuwe storie",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Nuwe privaatstorie",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Slegs sigbaar vir spesifieke mense",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Nuwe groepstorie",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Deel in 'n bestaande groep",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Kies groepe",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Deel & Kyk na Stories",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Versteek",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Fout met vertoon van beeld",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Kan nie storie aflaai nie. $name$ sal dit weer moet deel.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Wissel agtergrondkleur",
+    "StoryImage__error--you": {
+        "message": "Kan nie storie aflaai nie. Jy sal dit weer moet deel.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Teks het 'n wit agtergrondkleur",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Teks het die geselekteerde kleur as agtergrondkleur",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Teks het geen agtergrondkleur nie",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

@@ -7201,6 +7201,14 @@
         "message": "Eine Story hinzufügen",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Text-Story",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto oder Video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Ausgeblendete Stories",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Story senden",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Neue Story",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Neue private Story",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Nur für bestimmte Personen sichtbar",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Neue Gruppen-Story",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Mit einer bestehenden Gruppe teilen",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Gruppen wählen",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Storys teilen & betrachten",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Ausblenden",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Fehler bei Bildanzeige",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Die Story lässt sich nicht herunterladen. $name$wird sie erneut teilen müssen.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Texthintergrundfarbe umschalten",
+    "StoryImage__error--you": {
+        "message": "Die Story lässt sich nicht herunterladen. Du wirst sie erneut teilen müssen.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Der Text hat eine weiße Hintergrundfarbe",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Der Text hat die gewählte Farbe als Hintergrundfarbe",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Der Text hat keine Hintergrundfarbe",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
@@ -7614,7 +7664,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--3": {
-        "message": "Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Schreibe weiterhin wie gewohnt SMS, rufe an und führe Videochats durch.",
+        "message": "Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Schreibe weiterhin wie gewohnt Nachrichten, rufe an und führe Videochats durch.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--4": {

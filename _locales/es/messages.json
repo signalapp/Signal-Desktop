@@ -7201,6 +7201,14 @@
         "message": "Añade una historia",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Historia de texto",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto o vídeo",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Historias ocultas",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Enviar historia",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Nueva historia",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Nueva historia privada",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Solo visible para personas concretas",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Nueva historia de grupo",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Compartir con un grupo existente",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Seleccionar grupos",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Compartir y ver historias",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Ocultar",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Fallo al mostrar la imagen",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "No se puede descargar la historia. $name$ tendrá que compartirla de nuevo.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Cambiar el color de fondo del texto",
+    "StoryImage__error--you": {
+        "message": "No se puede descargar la historia. Tendrás que compartirla de nuevo.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "El texto tiene un fondo de color blanco",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "El texto tiene color seleccionado como color de fondo",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "El texto no tiene color de fondo",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

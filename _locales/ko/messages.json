@@ -7201,6 +7201,14 @@
         "message": "스토리 추가",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "텍스트 스토리",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "사진 또는 동영상",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "숨겨진 스토리",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "스토리 보내기",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "새 스토리",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "새 비공개 스토리",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "특정 사용자만 볼 수 있음",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "새 그룹 스토리",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "기존 그룹과 공유",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "그룹 선택",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "스토리 공유 및 보기",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "숨기기",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "이미지 표시 오류",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "스토리를 다운로드할 수 없습니다. $name$ 님이 다시 공유해야 합니다.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "텍스트 배경 색 전환",
+    "StoryImage__error--you": {
+        "message": "스토리를 다운로드할 수 없습니다. 다시 공유해 주세요.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "텍스트에 흰색을 배경 색으로 사용",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "텍스트에 선택한 색을 배경 색으로 사용",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "텍스트에 배경 색이 없음",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

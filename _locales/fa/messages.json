@@ -7201,6 +7201,14 @@
         "message": "افزودن استوری",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "استوری متنی",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "عکس یا ویدئو",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "استوری‌های پنهان",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "ارسال استوری",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "استوری جدید",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "استوری خصوصی جدید",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "فقط قابل مشاهده برای افرادی خاص",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "استوری گروهی جدید",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "اشتراک‌گذاری برای یکی از گروه‌های موجود",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "انتخاب گروه‌ها",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "اشتراک‌گذاری و نمایش استوری‌ها",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "مخفی‌سازی",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "خطا در نمایش تصویر",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "استوری دانلود نمی‌شود. $name$ باید آن را دوباره به اشتراک بگذارد.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "تغییر رنگ پس‌زمینه متن",
+    "StoryImage__error--you": {
+        "message": "استوری دانلود نمی‌شود. باید آن را دوباره به اشتراک بگذارید.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "متن، رنگ پس‌زمینه سفید دارد",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "متن، رنگی انتخابی به عنوان رنگ پس‌زمینه دارد",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "متن، رنگ پس‌زمینه ندارد",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

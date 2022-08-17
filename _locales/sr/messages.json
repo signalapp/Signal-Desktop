@@ -7201,6 +7201,14 @@
         "message": "Додај причу",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Tekstualna priča",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Fotografija ili video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Сакривене приче",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Pošalji priču",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Nova priča",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Нова приватна приче",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Видљиво само одређеним људима",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Nova grupna priča",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Делити са целом групом",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Одабрати групу",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Podelite i vidite priče",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Сакриј",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Грешка при приказивања слике",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Preuzimanje priče nije uspelo. $name$ će morati ponovo da je podeli.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Uključi boju pozadine teksta",
+    "StoryImage__error--you": {
+        "message": "Preuzimanje priče nije uspelo. Moraćete ponovo da je podelite.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Tekst ima belu pozadinu",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Tekst ima izabranu boju pozadine",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Tekst nema boju pozadine",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

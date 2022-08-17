@@ -7201,6 +7201,14 @@
         "message": "Lisää tarina",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Tekstitarina",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Kuva tai video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Piilotetut tarinat",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Lähetä tarina",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Uusi tarina",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Uusi yksityinen tarina",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Näkyy vain tietyille henkilöille",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Uusi ryhmätarina",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Jaa olemassaolevaan ryhmään",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Valitse ryhmät",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Jaa ja katso tarinoita",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Piilota",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Kuvan näyttämisessä tapahtui virhe",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Tarinaa ei voi ladata. Käyttäjän $name$ on jaettava se uudelleen.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Vaihda tekstin taustaväri",
+    "StoryImage__error--you": {
+        "message": "Tarinaa ei voi ladata. Sinun on jaettava se uudelleen.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Tekstin taustaväri on valkoinen",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Tekstin taustaväri on valittu väri",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Tekstillä ei ole taustaväriä",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

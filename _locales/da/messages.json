@@ -7201,6 +7201,14 @@
         "message": "Tilføj en historie",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Teksthistorie",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Billede eller video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Skjulte historier",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Send historie",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Ny historie",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Ny privat historie",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Kun synlig for bestemte personer",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Ny gruppehistorie",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Del med en eksisterende gruppe",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Vælg grupper",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Del og se Historier",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Skjul",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Fejl ved visning af billede",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Historie kan ikke downloades. $name$ skal dele den igen.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Skift baggrundsfarve til teksten",
+    "StoryImage__error--you": {
+        "message": "Historie kan ikke downloades. Du skal dele den igen.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "Tekst har en hvid baggrundsfarve",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "Tekst har den valgte farve som baggrundsfarve",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "Tekst har ingen baggrundsfarve",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

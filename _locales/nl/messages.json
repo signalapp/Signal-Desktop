@@ -7201,6 +7201,14 @@
         "message": "Een verhaal toevoegen",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "Tekstverhaal",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "Foto of video",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "Verborgen verhalen",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "Verhaal sturen",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "Nieuw verhaal",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "Nieuw privéverhaal",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "Alleen zichtbaar voor specifieke personen",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "Nieuw groepsverhaal",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "Doorsturen naar een bestaande Signal-groep",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "Groepen kiezen",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "Verhalen delen en bekijken",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "Verbergen",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "Fout bij weergeven van afbeelding",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "Kan verhaal niet downloaden. $name$ moet het opnieuw delen.",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "Toggle tekst achtergrondkleur",
+    "StoryImage__error--you": {
+        "message": "Kan verhaal niet downloaden. Deel het opnieuw.",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "De tekst heeft een witte achtergrondkleur",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "De tekst heeft de gekozen kleur als achtergrondkleur",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "De tekst heeft geen achtergrondkleur",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {

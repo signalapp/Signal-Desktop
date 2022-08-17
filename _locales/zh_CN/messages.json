@@ -7201,6 +7201,14 @@
         "message": "添加动态",
         "description": "Description hint to add a story"
     },
+    "Stories__add-story--text": {
+        "message": "文本动态",
+        "description": "Label to create a new text story"
+    },
+    "Stories__add-story--media": {
+        "message": "照片或视频",
+        "description": "Label to create a new multimedia story"
+    },
     "Stories__hidden-stories": {
         "message": "隐藏的动态",
         "description": "Button label to go to hidden stories pane"
@@ -7395,6 +7403,30 @@
         "message": "发送动态",
         "description": "aria-label for the send story button"
     },
+    "SendStoryModal__new": {
+        "message": "新动态",
+        "description": "button to create a new distribution list to send story to"
+    },
+    "SendStoryModal__new-private--title": {
+        "message": "新私密动态",
+        "description": "Create a new distribution list"
+    },
+    "SendStoryModal__new-private--description": {
+        "message": "仅对特定用户可见",
+        "description": "Description of what a distribution list would do"
+    },
+    "SendStoryModal__new-group--title": {
+        "message": "新群组动态",
+        "description": "Select a group to send a story to"
+    },
+    "SendStoryModal__new-group--description": {
+        "message": "分享给一个现有群组",
+        "description": "Description of what selecting a group would do"
+    },
+    "SendStoryModal__choose-groups": {
+        "message": "选择群组",
+        "description": "Modal title when choosing groups"
+    },
     "Stories__settings-toggle--title": {
         "message": "分享和浏览动态",
         "description": "Select box title for the stories on/off toggle"
@@ -7503,12 +7535,30 @@
         "message": "隐藏",
         "description": "Action button for the confirmation dialog to hide a story"
     },
-    "StoryImage__error": {
-        "message": "显示图片出错",
-        "description": "aria-label for image errors"
+    "StoryImage__error2": {
+        "message": "无法下载动态。$name$需要再分享一遍。",
+        "description": "Description for image errors",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Clara"
+            }
+        }
     },
-    "StoryCreator__text-bg": {
-        "message": "切换文本背景颜色",
+    "StoryImage__error--you": {
+        "message": "无法下载动态。您需要再分享一遍。",
+        "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__text-bg--background": {
+        "message": "文本使用白色作为背景色",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--inverse": {
+        "message": "文本使用选定的颜色作为背景色",
+        "description": "Button label"
+    },
+    "StoryCreator__text-bg--none": {
+        "message": "文本无背景色",
         "description": "Button label"
     },
     "StoryCreator__story-bg": {
