@@ -804,6 +804,7 @@ async function sendOnionRequestHandlingSnodeEject({
     decodingSymmetricKey = result.decodingSymmetricKey;
   } catch (e) {
     window?.log?.warn('sendOnionRequestNoRetries error message: ', e.message);
+    // const isTimeout = (e.message && isString(e.message) && (e.message as string).toLowerCase().includes('network timeout at'))
     if (e.code === 'ENETUNREACH' || e.message === 'ENETUNREACH' || throwErrors) {
       throw e;
     }

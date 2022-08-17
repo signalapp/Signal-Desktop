@@ -124,10 +124,6 @@ $session-font-h4: 16px;
   display: inline-block;
 }
 
-@mixin session-color-subtle($color) {
-  color: subtle($color);
-}
-
 @mixin pulse-color($color, $duration, $repetition) {
   animation: pulseColor $duration $repetition;
 

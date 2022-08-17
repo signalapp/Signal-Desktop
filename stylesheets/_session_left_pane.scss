@@ -1,18 +1,12 @@
 $session-compose-margin: 20px;
 
-.gutter {
-  width: 380px !important;
-  transition: none;
-  background: var(--color-cell-background);
-}
-
 .module-conversation {
   // default conversation list item text color
   &__user__profile {
     &-number,
     &-name {
       font-weight: bold;
-      font-size: 15px;
+      font-size: var(--font-size-md);
 
       color: var(--color-text-subtle);
     }
@@ -305,7 +299,7 @@ $session-compose-margin: 20px;
       display: flex;
 
       .session-button {
-        font-size: 11px;
+        font-size: var(--font-size-xs);
         padding: 6px;
         height: auto;
         margin: 0px;

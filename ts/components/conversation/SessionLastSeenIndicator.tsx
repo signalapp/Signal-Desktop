@@ -24,7 +24,7 @@ const LastSeenBar = styled.div`
 
 const LastSeenText = styled.div`
   margin-top: 3px;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 26px;
   letter-spacing: 0.3px;
   text-transform: uppercase;

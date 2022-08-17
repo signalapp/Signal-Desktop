@@ -14,6 +14,7 @@ import { getPrivateContactsPubkeys } from '../../../state/selectors/conversation
 import { SpacerLG } from '../../basic/Text';
 import { MainViewController } from '../../MainViewController';
 import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 
 export const OverlayClosedGroup = () => {
   const dispatch = useDispatch();
@@ -85,9 +86,11 @@ export const OverlayClosedGroup = () => {
       <SessionSpinner loading={loading} />
 
       <SpacerLG />
-      <div className="group-member-list__container">
+      <StyledGroupMemberListContainer>
         {noContactsForClosedGroup ? (
-          <div className="group-member-list__no-contacts">{window.i18n('noContactsForGroup')}</div>
+          <StyledMemberListNoContacts>
+            {window.i18n('noContactsForGroup')}
+          </StyledMemberListNoContacts>
         ) : (
           <div className="group-member-list__selection">
             {privateContactsPubkeys.map((memberPubkey: string) => (
@@ -105,7 +108,7 @@ export const OverlayClosedGroup = () => {
             ))}
           </div>
         )}
-      </div>
+      </StyledGroupMemberListContainer>
 
       <SpacerLG />
 
@@ -120,3 +123,18 @@ export const OverlayClosedGroup = () => {
     </div>
   );
 };
+
+const StyledMemberListNoContacts = styled.div`
+  font-family: var(--font-font-mono);
+  background: var(--color-cell-background);
+  text-align: center;
+  padding: 20px;
+`;
+
+const StyledGroupMemberListContainer = styled.div`
+  padding: 2px 0px;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  border: var(--border-session);
+`;

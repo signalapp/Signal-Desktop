@@ -14,7 +14,7 @@ type Props = {
 const UPDATE_FREQUENCY = 60 * 1000;
 
 const TimestampContainerNotListItem = styled.div`
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;

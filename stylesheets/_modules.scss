@@ -136,7 +136,7 @@
 }
 
 .module-message__generic-attachment__file-size {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
   margin-top: 3px;
@@ -233,7 +233,7 @@
 .module-message__author {
   margin-top: $session-margin-sm;
   margin-bottom: $session-margin-xs;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   font-weight: 300;
   line-height: 18px;
   overflow-x: hidden;
@@ -655,7 +655,7 @@
   top: -6px;
 
   font-weight: 300;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   letter-spacing: 0.25px;
 
   height: 16px;
@@ -717,7 +717,7 @@
   flex-grow: 1;
   flex-shrink: 1;
 
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   line-height: 18px;
 
   color: $color-gray-25;
@@ -1252,7 +1252,7 @@
 .module-staged-link-preview__location {
   margin-top: 4px;
   color: $color-gray-60;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   height: 16px;
   letter-spacing: 0.25px;
   text-transform: uppercase;

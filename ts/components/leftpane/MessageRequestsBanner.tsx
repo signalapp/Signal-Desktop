@@ -29,7 +29,7 @@ const StyledMessageRequestBanner = styled.div`
 
 const StyledMessageRequestBannerHeader = styled.span`
   font-weight: bold;
-  font-size: 15px;
+  font-size: var(--font-size-md);
   color: var(--color-text-subtle);
   padding-left: var(--margins-xs);
   margin-inline-start: 12px;

@@ -99,7 +99,7 @@ const StyledContactSection = styled.div`
     display: flex;
 
     .session-button {
-      font-size: 11px;
+      font-size: var(--font-size-xs);
       padding: 6px;
       height: auto;
       margin: 0px;

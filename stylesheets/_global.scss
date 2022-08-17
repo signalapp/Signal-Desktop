@@ -115,23 +115,6 @@ a {
   }
 }
 
-.new-group-update {
-  .summary {
-    margin: 10px;
-  }
-
-  .members .contact {
-    box-shadow: none;
-    border-bottom: 1px solid #eee;
-    .last-message,
-    .last-timestamp {
-      display: none;
-    }
-  }
-}
-
-$unread-badge-size: 21px;
-
 .banner {
   z-index: 100;
 
