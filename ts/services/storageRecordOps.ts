@@ -139,7 +139,7 @@ export async function toContactRecord(
     contactRecord.serviceE164 = e164;
   }
   const pni = conversation.get('pni');
-  if (pni && RemoteConfig.isEnabled('desktop.pnp.storageService')) {
+  if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
     contactRecord.pni = pni;
   }
   const profileKey = conversation.get('profileKey');
@@ -852,7 +852,7 @@ export async function mergeContactRecord(
       : undefined,
   };
 
-  const isPniSupported = RemoteConfig.isEnabled('desktop.pnp.storageService');
+  const isPniSupported = RemoteConfig.isEnabled('desktop.pnp');
 
   const e164 = dropNull(contactRecord.serviceE164);
   const uuid = dropNull(contactRecord.serviceUuid);
