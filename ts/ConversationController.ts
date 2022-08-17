@@ -451,9 +451,6 @@ export class ConversationController {
       );
     }
 
-    const identifier = aci || e164 || pni;
-    strictAssert(identifier, `${logId}: identifier must be truthy!`);
-
     const matches: Array<ConvoMatchType> = [
       {
         key: 'uuid',
@@ -591,6 +588,12 @@ export class ConversationController {
     );
 
     log.info(`${logId}: Creating a new conversation with all inputs`);
+
+    // This is not our precedence for lookup, but it ensures that the PNI gets into the
+    //   uuid slot if we have no ACI.
+    const identifier = aci || pni || e164;
+    strictAssert(identifier, `${logId}: identifier must be truthy!`);
+
     return this.getOrCreate(identifier, 'private', { e164, pni });
   }
 

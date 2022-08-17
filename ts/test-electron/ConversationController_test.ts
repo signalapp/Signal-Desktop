@@ -190,6 +190,35 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, second?.id, 'result and second match');
       });
+      it('creates a new conversation with e164+PNI if no matches', () => {
+        const result = window.ConversationController.maybeMergeContacts({
+          mergeOldAndNew,
+          e164: E164_1,
+          pni: PNI_1,
+          reason,
+        });
+
+        expectPropsAndLookups(result, 'result', {
+          aci: PNI_1,
+          e164: E164_1,
+          pni: PNI_1,
+        });
+
+        const second = window.ConversationController.maybeMergeContacts({
+          mergeOldAndNew,
+          e164: E164_1,
+          pni: PNI_1,
+          reason,
+        });
+
+        expectPropsAndLookups(second, 'second', {
+          aci: PNI_1,
+          e164: E164_1,
+          pni: PNI_1,
+        });
+
+        assert.strictEqual(result?.id, second?.id, 'result and second match');
+      });
       it('creates a new conversation with all data if no matches', () => {
         const result = window.ConversationController.maybeMergeContacts({
           mergeOldAndNew,
