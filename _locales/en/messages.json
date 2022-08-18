@@ -6223,6 +6223,22 @@
     "message": "Playback time of audio attachment",
     "description": "Aria label for audio attachment's playback time slider"
   },
+  "MessageAudio--playbackRate1x": {
+    "message": "1x",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  },
+  "MessageAudio--playbackRate1p5x": {
+    "message": "1.5x",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  },
+  "MessageAudio--playbackRate2x": {
+    "message": "2x",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  },
+  "MessageAudio--playbackRatep5x": {
+    "message": ".5x",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  },
   "emptyInboxMessage": {
     "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
     "description": "Shown in the left-pane when the inbox is empty",

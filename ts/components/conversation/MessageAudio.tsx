@@ -85,6 +85,8 @@ const REWIND_BAR_COUNT = 2;
 const SMALL_INCREMENT = 1;
 const BIG_INCREMENT = 5;
 
+const PLAYBACK_RATES = [1, 1.5, 2, 0.5];
+
 // Utils
 
 const timeToText = (time: number): string => {
@@ -144,6 +146,7 @@ type StateType = Readonly<{
   isPlaying: boolean;
   currentTime: number;
   lastAriaTime: number;
+  playbackRate: number;
 }>;
 
 type ActionType = Readonly<
@@ -153,6 +156,10 @@ type ActionType = Readonly<
     }
   | {
       type: 'SET_CURRENT_TIME';
+      value: number;
+    }
+  | {
+      type: 'SET_PLAYBACK_RATE';
       value: number;
     }
 >;
@@ -167,6 +174,9 @@ function reducer(state: StateType, action: ActionType): StateType {
   }
   if (action.type === 'SET_CURRENT_TIME') {
     return { ...state, currentTime: action.value };
+  }
+  if (action.type === 'SET_PLAYBACK_RATE') {
+    return { ...state, playbackRate: action.value };
   }
   throw missingCaseError(action);
 }
@@ -222,14 +232,13 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     activeAudioID === id && activeAudioContext === renderingContext;
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
-  const [{ isPlaying, currentTime, lastAriaTime }, dispatch] = useReducer(
-    reducer,
-    {
+  const [{ isPlaying, currentTime, lastAriaTime, playbackRate }, dispatch] =
+    useReducer(reducer, {
       isPlaying: isActive && !(audio.paused || audio.ended),
       currentTime: isActive ? audio.currentTime : 0,
       lastAriaTime: isActive ? audio.currentTime : 0,
-    }
-  );
+      playbackRate: isActive ? audio.playbackRate : 1,
+    });
 
   const setIsPlaying = useCallback(
     (value: boolean) => {
@@ -241,6 +250,13 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   const setCurrentTime = useCallback(
     (value: number) => {
       dispatch({ type: 'SET_CURRENT_TIME', value });
+    },
+    [dispatch]
+  );
+
+  const setPlaybackRate = useCallback(
+    (value: number) => {
+      dispatch({ type: 'SET_PLAYBACK_RATE', value });
     },
     [dispatch]
   );
@@ -397,6 +413,8 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       return;
     }
 
+    audio.playbackRate = playbackRate;
+
     if (isPlaying) {
       if (!audio.paused) {
         return;
@@ -411,7 +429,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       log.info('MessageAudio: pausing playback for', id);
       audio.pause();
     }
-  }, [id, audio, isActive, isPlaying, currentTime]);
+  }, [id, audio, isActive, isPlaying, currentTime, playbackRate]);
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
@@ -590,6 +608,20 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
   const countDown = Math.max(0, duration - currentTime);
 
+  const nextPlaybackRate = (currentRate: number): number => {
+    // cycle through the rates
+    return PLAYBACK_RATES[
+      (PLAYBACK_RATES.indexOf(currentRate) + 1) % PLAYBACK_RATES.length
+    ];
+  };
+
+  const playbackRateLabels: { [key: number]: string } = {
+    1: i18n('MessageAudio--playbackRate1x'),
+    1.5: i18n('MessageAudio--playbackRate1p5x'),
+    2: i18n('MessageAudio--playbackRate2x'),
+    0.5: i18n('MessageAudio--playbackRatep5x'),
+  };
+
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
       <div
@@ -602,21 +634,38 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         {timeToText(countDown)}
       </div>
       {!withContentBelow && !collapseMetadata && (
-        <MessageMetadata
-          direction={direction}
-          expirationLength={expirationLength}
-          expirationTimestamp={expirationTimestamp}
-          hasText={withContentBelow}
-          i18n={i18n}
-          id={id}
-          isShowingImage={false}
-          isSticker={false}
-          isTapToViewExpired={false}
-          showMessageDetail={showMessageDetail}
-          status={status}
-          textPending={textPending}
-          timestamp={timestamp}
-        />
+        <>
+          <div className={`${CSS_BASE}__controls`}>
+            {isPlaying && (
+              <button
+                type="button"
+                className={classNames(`${CSS_BASE}__playback-rate-button`)}
+                onClick={ev => {
+                  ev.stopPropagation();
+                  setPlaybackRate(nextPlaybackRate(playbackRate));
+                }}
+                tabIndex={0}
+              >
+                {playbackRateLabels[playbackRate]}
+              </button>
+            )}
+          </div>
+          <MessageMetadata
+            direction={direction}
+            expirationLength={expirationLength}
+            expirationTimestamp={expirationTimestamp}
+            hasText={withContentBelow}
+            i18n={i18n}
+            id={id}
+            isShowingImage={false}
+            isSticker={false}
+            isTapToViewExpired={false}
+            showMessageDetail={showMessageDetail}
+            status={status}
+            textPending={textPending}
+            timestamp={timestamp}
+          />
+        </>
       )}
     </div>
   );

@@ -28,6 +28,7 @@ $audio-attachment-button-margin-small: 4px;
     @include light-theme {
       border-color: $color-black-alpha-20;
     }
+
     @include dark-theme {
       border-color: $color-white-alpha-20;
     }
@@ -40,6 +41,25 @@ $audio-attachment-button-margin-small: 4px;
 
 .module-message__audio-attachment--with-content-above {
   margin-top: 6px;
+}
+
+.module-message__audio-attachment__controls {
+  display: flex;
+  flex: 1;
+  justify-content: right;
+  padding: 0 4px;
+}
+
+.module-message__audio-attachment__playback-rate-button {
+  @include button-reset;
+  @include font-body-2-bold;
+
+  border-radius: 4px;
+  font-size: 12px; /* tiny override */
+  padding: 1px 7px;
+  margin: -1px 4px;
+  background: $color-white-alpha-20;
+  line-height: 16px;
 }
 
 .module-message__audio-attachment__button,
@@ -91,6 +111,7 @@ $audio-attachment-button-margin-small: 4px;
 
       @include all-audio-icons($color-gray-60);
     }
+
     @include dark-theme {
       background: $color-gray-60;
 
@@ -115,6 +136,7 @@ $audio-attachment-button-margin-small: 4px;
 }
 
 .module-message__audio-attachment__button,
+.module-message__audio-attachment__playback-rate-button,
 .module-message__audio-attachment__spinner,
 .module-message__audio-attachment__waveform {
   &:focus {
@@ -146,12 +168,15 @@ $audio-attachment-button-margin-small: 4px;
   .module-message__audio-attachment--incoming & {
     @include light-theme {
       background: $color-black-alpha-40;
+
       &--active {
         background: $color-black-alpha-80;
       }
     }
+
     @include dark-theme {
       background: $color-white-alpha-40;
+
       &--active {
         background: $color-white-alpha-70;
       }
@@ -160,6 +185,7 @@ $audio-attachment-button-margin-small: 4px;
 
   .module-message__audio-attachment--outgoing & {
     background: $color-white-alpha-40;
+
     &--active {
       background: $color-white-alpha-80;
     }
@@ -205,13 +231,16 @@ $audio-attachment-button-margin-small: 4px;
     @include light-theme {
       $color: $color-black-alpha-60;
       color: $color;
+
       &--unplayed:after {
         background: $color;
       }
     }
+
     @include dark-theme {
       $color: $color-white-alpha-80;
       color: $color;
+
       &--unplayed:after {
         background: $color;
       }
