@@ -85,28 +85,20 @@ export abstract class CDSSocketBase<
 
     const aciUakPairs = new Array<Uint8Array>();
 
-    let version: 1 | 2;
-    if (acis) {
-      strictAssert(accessKeys, 'accessKeys are required when acis are present');
+    const version = 2;
+    strictAssert(
+      acis.length === accessKeys.length,
+      `Number of ACIs ${acis.length} is different ` +
+        `from number of access keys ${accessKeys.length}`
+    );
 
-      strictAssert(
-        acis.length === accessKeys.length,
-        `Number of ACIs ${acis.length} is different ` +
-          `from number of access keys ${accessKeys.length}`
+    for (let i = 0; i < acis.length; i += 1) {
+      aciUakPairs.push(
+        Bytes.concatenate([
+          uuidToBytes(acis[i]),
+          Bytes.fromBase64(accessKeys[i]),
+        ])
       );
-
-      version = 2;
-
-      for (let i = 0; i < acis.length; i += 1) {
-        aciUakPairs.push(
-          Bytes.concatenate([
-            uuidToBytes(acis[i]),
-            Bytes.fromBase64(accessKeys[i]),
-          ])
-        );
-      }
-    } else {
-      version = 1;
     }
 
     const request = Proto.CDSClientRequest.encode({

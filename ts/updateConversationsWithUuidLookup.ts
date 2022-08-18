@@ -3,22 +3,22 @@
 
 import type { ConversationController } from './ConversationController';
 import type { ConversationModel } from './models/conversations';
-import type SendMessage from './textsecure/SendMessage';
+import type { WebAPIType } from './textsecure/WebAPI';
 import { assert } from './util/assert';
-import { getOwn } from './util/getOwn';
 import { isNotNil } from './util/isNotNil';
+import { getUuidsForE164s } from './util/getUuidsForE164s';
 
 export async function updateConversationsWithUuidLookup({
   conversationController,
   conversations,
-  messaging,
+  server,
 }: Readonly<{
   conversationController: Pick<
     ConversationController,
     'maybeMergeContacts' | 'get'
   >;
   conversations: ReadonlyArray<ConversationModel>;
-  messaging: Pick<SendMessage, 'getUuidsForE164s' | 'checkAccountExistence'>;
+  server: Pick<WebAPIType, 'cdsLookup' | 'checkAccountExistence'>;
 }>): Promise<void> {
   const e164s = conversations
     .map(conversation => conversation.get('e164'))
@@ -27,7 +27,7 @@ export async function updateConversationsWithUuidLookup({
     return;
   }
 
-  const serverLookup = await messaging.getUuidsForE164s(e164s);
+  const serverLookup = await getUuidsForE164s(server, e164s);
 
   await Promise.all(
     conversations.map(async conversation => {
@@ -38,11 +38,12 @@ export async function updateConversationsWithUuidLookup({
 
       let finalConversation: ConversationModel;
 
-      const uuidFromServer = getOwn(serverLookup, e164);
-      if (uuidFromServer) {
+      const pairFromServer = serverLookup.get(e164);
+      if (pairFromServer) {
         const maybeFinalConversation =
           conversationController.maybeMergeContacts({
-            aci: uuidFromServer,
+            aci: pairFromServer.aci,
+            pni: pairFromServer.pni,
             e164,
             reason: 'updateConversationsWithUuidLookup',
           });
@@ -59,10 +60,8 @@ export async function updateConversationsWithUuidLookup({
       // they can't be looked up by a phone number. Check that uuid still exists,
       // and if not - drop it.
       let finalUuid = finalConversation.getUuid();
-      if (!uuidFromServer && finalUuid) {
-        const doesAccountExist = await messaging.checkAccountExistence(
-          finalUuid
-        );
+      if (!pairFromServer && finalUuid) {
+        const doesAccountExist = await server.checkAccountExistence(finalUuid);
         if (!doesAccountExist) {
           finalConversation.updateUuid(undefined);
           finalUuid = undefined;

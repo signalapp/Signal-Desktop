@@ -9,7 +9,7 @@
   "directoryV2PublicKey": null,
   "directoryV2CodeHashes": null,
   "directoryV3Url": "https://cdsi.staging.signal.org",
-  "directoryV3MRENCLAVE": "7b75dd6e862decef9b37132d54be082441917a7790e82fe44f9cf653de03a75f",
+  "directoryV3MRENCLAVE": "ddc7b9b1cbcc932e24b9905e26c4ecbea3f9b7effd033f9e96488c2e8449f64e",
   "cdn": {
     "0": "https://cdn-staging.signal.org",
     "2": "https://cdn2-staging.signal.org"

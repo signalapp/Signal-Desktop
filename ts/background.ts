@@ -2128,15 +2128,16 @@ export async function startApp(): Promise<void> {
                   !c.isEverUnregistered()
               )
             );
+          strictAssert(window.textsecure.server, 'server must be initialized');
           await updateConversationsWithUuidLookup({
             conversationController: window.ConversationController,
             conversations: lonelyE164Conversations,
-            messaging: window.textsecure.messaging,
+            server: window.textsecure.server,
           });
         } catch (error) {
           log.error(
             'connect: Error fetching UUIDs for lonely e164s:',
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
         }
       }

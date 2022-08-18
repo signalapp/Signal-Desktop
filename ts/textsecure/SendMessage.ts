@@ -5,7 +5,6 @@
 /* eslint-disable max-classes-per-file */
 
 import { z } from 'zod';
-import type { Dictionary } from 'lodash';
 import Long from 'long';
 import PQueue from 'p-queue';
 import type { PlaintextContent } from '@signalapp/libsignal-client';
@@ -25,7 +24,7 @@ import { SenderKeys } from '../LibSignalStores';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MIMETypeToString } from '../types/MIME';
 import type * as Attachment from '../types/Attachment';
-import type { UUID, UUIDStringType } from '../types/UUID';
+import type { UUID } from '../types/UUID';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -49,7 +48,6 @@ import type {
   SendLogCallbackType,
 } from './OutgoingMessage';
 import OutgoingMessage from './OutgoingMessage';
-import type { CDSResponseType } from './cds/Types.d';
 import * as Bytes from '../Bytes';
 import { getRandomBytes, getZeroes, encryptAttachment } from '../Crypto';
 import {
@@ -2447,32 +2445,10 @@ export default class MessageSender {
     return this.server.getProfile(uuid.toString(), options);
   }
 
-  async checkAccountExistence(uuid: UUID): Promise<boolean> {
-    return this.server.checkAccountExistence(uuid);
-  }
-
   async getProfileForUsername(
     username: string
   ): ReturnType<WebAPIType['getProfileForUsername']> {
     return this.server.getProfileForUsername(username);
-  }
-
-  async getUuidsForE164s(
-    numbers: ReadonlyArray<string>
-  ): Promise<Dictionary<UUIDStringType | null>> {
-    return this.server.getUuidsForE164s(numbers);
-  }
-
-  async getUuidsForE164sV2(
-    e164s: ReadonlyArray<string>,
-    acis: ReadonlyArray<UUIDStringType>,
-    accessKeys: ReadonlyArray<string>
-  ): Promise<CDSResponseType> {
-    return this.server.getUuidsForE164sV2({
-      e164s,
-      acis,
-      accessKeys,
-    });
   }
 
   async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {

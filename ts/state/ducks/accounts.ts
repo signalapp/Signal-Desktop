@@ -8,6 +8,7 @@ import * as log from '../../logging/log';
 
 import type { StateType as RootStateType } from '../reducer';
 import type { UUIDStringType } from '../../types/UUID';
+import { getUuidsForE164s } from '../../util/getUuidsForE164s';
 
 import type { NoopActionType } from './noop';
 
@@ -44,7 +45,8 @@ function checkForAccount(
   AccountUpdateActionType | NoopActionType
 > {
   return async (dispatch, getState) => {
-    if (!window.textsecure.messaging) {
+    const { server } = window.textsecure;
+    if (!server) {
       dispatch({
         type: 'NOOP',
         payload: null,
@@ -77,16 +79,24 @@ function checkForAccount(
         type: 'NOOP',
         payload: null,
       });
+      return;
     }
 
     let uuid: UUIDStringType | undefined;
 
     log.info(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
-      const uuidLookup = await window.textsecure.messaging.getUuidsForE164s([
-        phoneNumber,
-      ]);
-      uuid = uuidLookup[phoneNumber] || undefined;
+      const uuidLookup = await getUuidsForE164s(server, [phoneNumber]);
+      const maybePair = uuidLookup.get(phoneNumber);
+
+      if (maybePair) {
+        uuid = window.ConversationController.maybeMergeContacts({
+          aci: maybePair.aci,
+          pni: maybePair.pni,
+          e164: phoneNumber,
+          reason: 'checkForAccount',
+        })?.get('uuid');
+      }
     } catch (error) {
       log.error('checkForAccount:', Errors.toLogFormat(error));
     }

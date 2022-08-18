@@ -7,7 +7,7 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
-import type SendMessage from '../textsecure/SendMessage';
+import type { WebAPIType } from '../textsecure/WebAPI';
 import { UUID } from '../types/UUID';
 
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
@@ -137,22 +137,19 @@ describe('updateConversationsWithUuidLookup', () => {
 
   let sinonSandbox: sinon.SinonSandbox;
 
-  let fakeGetUuidsForE164s: sinon.SinonStub;
+  let fakeCdsLookup: sinon.SinonStub;
   let fakeCheckAccountExistence: sinon.SinonStub;
-  let fakeMessaging: Pick<
-    SendMessage,
-    'getUuidsForE164s' | 'checkAccountExistence'
-  >;
+  let fakeServer: Pick<WebAPIType, 'cdsLookup' | 'checkAccountExistence'>;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();
 
     sinonSandbox.stub(window.Signal.Data, 'updateConversation');
 
-    fakeGetUuidsForE164s = sinonSandbox.stub().resolves({});
+    fakeCdsLookup = sinonSandbox.stub().resolves(new Map());
     fakeCheckAccountExistence = sinonSandbox.stub().resolves(false);
-    fakeMessaging = {
-      getUuidsForE164s: fakeGetUuidsForE164s,
+    fakeServer = {
+      cdsLookup: fakeCdsLookup,
       checkAccountExistence: fakeCheckAccountExistence,
     };
   });
@@ -165,10 +162,10 @@ describe('updateConversationsWithUuidLookup', () => {
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController(),
       conversations: [],
-      messaging: fakeMessaging,
+      server: fakeServer,
     });
 
-    sinon.assert.notCalled(fakeMessaging.getUuidsForE164s as sinon.SinonStub);
+    sinon.assert.notCalled(fakeServer.cdsLookup as sinon.SinonStub);
   });
 
   it('does nothing when called with an array of conversations that lack E164s', async () => {
@@ -178,10 +175,10 @@ describe('updateConversationsWithUuidLookup', () => {
         createConversation(),
         createConversation({ uuid: UUID.generate().toString() }),
       ],
-      messaging: fakeMessaging,
+      server: fakeServer,
     });
 
-    sinon.assert.notCalled(fakeMessaging.getUuidsForE164s as sinon.SinonStub);
+    sinon.assert.notCalled(fakeServer.cdsLookup as sinon.SinonStub);
   });
 
   it('updates conversations with their UUID', async () => {
@@ -194,10 +191,12 @@ describe('updateConversationsWithUuidLookup', () => {
     const uuid1 = UUID.generate().toString();
     const uuid2 = UUID.generate().toString();
 
-    fakeGetUuidsForE164s.resolves({
-      '+13215559876': uuid1,
-      '+16545559876': uuid2,
-    });
+    fakeCdsLookup.resolves(
+      new Map([
+        ['+13215559876', { aci: uuid1, pni: undefined }],
+        ['+16545559876', { aci: uuid2, pni: undefined }],
+      ])
+    );
 
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController([
@@ -205,7 +204,7 @@ describe('updateConversationsWithUuidLookup', () => {
         conversation2,
       ]),
       conversations: [conversation1, conversation2],
-      messaging: fakeMessaging,
+      server: fakeServer,
     });
 
     assert.strictEqual(conversation1.get('uuid'), uuid1);
@@ -219,12 +218,10 @@ describe('updateConversationsWithUuidLookup', () => {
       'Test was not set up correctly'
     );
 
-    fakeGetUuidsForE164s.resolves({ '+13215559876': null });
-
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController([conversation]),
       conversations: [conversation],
-      messaging: fakeMessaging,
+      server: fakeServer,
     });
 
     assert.approximately(
@@ -245,13 +242,12 @@ describe('updateConversationsWithUuidLookup', () => {
       'Test was not set up correctly'
     );
 
-    fakeGetUuidsForE164s.resolves({ '+13215559876': null });
     fakeCheckAccountExistence.resolves(true);
 
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController([conversation]),
       conversations: [conversation],
-      messaging: fakeMessaging,
+      server: fakeServer,
     });
 
     assert.strictEqual(conversation.get('uuid'), existingUuid);
@@ -269,13 +265,12 @@ describe('updateConversationsWithUuidLookup', () => {
       'Test was not set up correctly'
     );
 
-    fakeGetUuidsForE164s.resolves({ '+13215559876': null });
     fakeCheckAccountExistence.resolves(false);
 
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController([conversation]),
       conversations: [conversation],
-      messaging: fakeMessaging,
+      server: fakeServer,
     });
 
     assert.isUndefined(conversation.get('uuid'));

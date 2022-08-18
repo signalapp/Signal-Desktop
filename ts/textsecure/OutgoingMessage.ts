@@ -671,9 +671,9 @@ export default class OutgoingMessage {
       if (isValidUuid(identifier)) {
         // We're good!
       } else if (isValidNumber(identifier)) {
-        if (!window.textsecure.messaging) {
+        if (!window.textsecure.server) {
           throw new Error(
-            'sendToIdentifier: window.textsecure.messaging is not available!'
+            'sendToIdentifier: window.textsecure.server is not available!'
           );
         }
 
@@ -683,7 +683,7 @@ export default class OutgoingMessage {
             conversations: [
               window.ConversationController.getOrCreate(identifier, 'private'),
             ],
-            messaging: window.textsecure.messaging,
+            server: window.textsecure.server,
           });
 
           const uuid =

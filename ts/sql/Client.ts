@@ -837,10 +837,6 @@ async function removeAllSignedPreKeys(): Promise<void> {
 // Items
 
 const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
-  senderCertificate: ['value.serialized'],
-  senderCertificateNoE164: ['value.serialized'],
-  subscriberId: ['value'],
-  profileKey: ['value'],
   identityKeyMap: {
     key: 'value',
     valueSpec: {
@@ -848,6 +844,10 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
       valueSpec: ['privKey', 'pubKey'],
     },
   },
+  profileKey: ['value'],
+  senderCertificate: ['value.serialized'],
+  senderCertificateNoE164: ['value.serialized'],
+  subscriberId: ['value'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>

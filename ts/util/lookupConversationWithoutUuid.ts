@@ -13,6 +13,7 @@ import { HTTPError } from '../textsecure/Errors';
 import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
+import { getUuidsForE164s } from './getUuidsForE164s';
 
 export type LookupConversationWithoutUuidActionsType = Readonly<{
   lookupConversationWithoutUuid: typeof lookupConversationWithoutUuid;
@@ -62,19 +63,22 @@ export async function lookupConversationWithoutUuid(
   const { showUserNotFoundModal, setIsFetchingUUID } = options;
   setIsFetchingUUID(identifier, true);
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('messaging is not available!');
+  const { server } = window.textsecure;
+  if (!server) {
+    throw new Error('server is not available!');
   }
 
   try {
     let conversationId: string | undefined;
     if (options.type === 'e164') {
-      const serverLookup = await messaging.getUuidsForE164s([options.e164]);
+      const serverLookup = await getUuidsForE164s(server, [options.e164]);
 
-      if (serverLookup[options.e164]) {
+      const maybePair = serverLookup.get(options.e164);
+
+      if (maybePair) {
         const convo = window.ConversationController.maybeMergeContacts({
-          aci: serverLookup[options.e164] || undefined,
+          aci: maybePair.aci,
+          pni: maybePair.pni,
           e164: options.e164,
           reason: 'startNewConversationWithoutUuid(e164)',
         });

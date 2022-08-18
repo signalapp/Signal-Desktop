@@ -17,7 +17,6 @@ import {
 } from '../../Crypto';
 import { calculateAgreement, generateKeyPair } from '../../Curve';
 import * as Bytes from '../../Bytes';
-import { strictAssert } from '../../util/assert';
 import { UUID } from '../../types/UUID';
 import type { CDSBaseOptionsType } from './CDSBase';
 import { CDSBase } from './CDSBase';
@@ -125,11 +124,7 @@ function getSgxConstants() {
 export class LegacyCDS extends CDSBase<LegacyCDSOptionsType> {
   public override async request({
     e164s,
-    acis,
-    accessKeys,
   }: CDSRequestOptionsType): Promise<CDSResponseType> {
-    strictAssert(!acis && !accessKeys, 'LegacyCDS does not support PNP');
-
     const directoryAuth = await this.getAuth();
     const attestationResult = await this.putAttestation(directoryAuth);
 

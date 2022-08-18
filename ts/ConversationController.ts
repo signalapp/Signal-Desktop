@@ -27,6 +27,7 @@ import { QualifiedAddress } from './types/QualifiedAddress';
 import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
 import { MINUTE, SECOND } from './util/durations';
+import { getUuidsForE164s } from './util/getUuidsForE164s';
 
 type ConvoMatchType =
   | {
@@ -1104,7 +1105,9 @@ export class ConversationController {
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
     strictAssert(server, 'Server must be initialized');
-    const { [e164]: pni } = await server.getUuidsForE164s([e164]);
+    const uuidMap = await getUuidsForE164s(server, [e164]);
+
+    const pni = uuidMap.get(e164)?.pni;
 
     log.info(`ConversationController: forgetting e164=${e164} pni=${pni}`);
 

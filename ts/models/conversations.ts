@@ -1033,8 +1033,8 @@ export class ConversationModel extends window.Backbone
   }
 
   async fetchSMSOnlyUUID(): Promise<void> {
-    const { messaging } = window.textsecure;
-    if (!messaging) {
+    const { server } = window.textsecure;
+    if (!server) {
       return;
     }
     if (!this.isSMSOnly()) {
@@ -1053,7 +1053,7 @@ export class ConversationModel extends window.Backbone
       await updateConversationsWithUuidLookup({
         conversationController: window.ConversationController,
         conversations: [this],
-        messaging,
+        server,
       });
     } finally {
       // No redux update here

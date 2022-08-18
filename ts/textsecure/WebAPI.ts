@@ -11,7 +11,6 @@ import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
-import type { Dictionary } from 'lodash';
 import { escapeRegExp, isNumber } from 'lodash';
 import is from '@sindresorhus/is';
 import PQueue from 'p-queue';
@@ -767,10 +766,10 @@ export type ConfirmCodeResultType = Readonly<{
   deviceId?: number;
 }>;
 
-export type GetUuidsForE164sV2OptionsType = Readonly<{
+export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
-  acis: ReadonlyArray<UUIDStringType>;
-  accessKeys: ReadonlyArray<string>;
+  acis?: ReadonlyArray<UUIDStringType>;
+  accessKeys?: ReadonlyArray<string>;
 }>;
 
 type GetProfileCommonOptionsType = Readonly<
@@ -812,6 +811,7 @@ export type GetGroupCredentialsResultType = Readonly<{
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
+  cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
   confirmCode: (
     number: string,
     code: string,
@@ -880,12 +880,6 @@ export type WebAPIType = {
   getStorageCredentials: MessageSender['getStorageCredentials'];
   getStorageManifest: MessageSender['getStorageManifest'];
   getStorageRecords: MessageSender['getStorageRecords'];
-  getUuidsForE164s: (
-    e164s: ReadonlyArray<string>
-  ) => Promise<Dictionary<UUIDStringType | null>>;
-  getUuidsForE164sV2: (
-    options: GetUuidsForE164sV2OptionsType
-  ) => Promise<CDSResponseType>;
   fetchLinkPreviewMetadata: (
     href: string,
     abortSignal: AbortSignal
@@ -1251,6 +1245,7 @@ export function initialize({
       unregisterRequestHandler,
       authenticate,
       logout,
+      cdsLookup,
       checkAccountExistence,
       confirmCode,
       createGroup,
@@ -1285,8 +1280,6 @@ export function initialize({
       getStorageCredentials,
       getStorageManifest,
       getStorageRecords,
-      getUuidsForE164s,
-      getUuidsForE164sV2,
       makeProxiedRequest,
       makeSfuRequest,
       modifyGroup,
@@ -2858,25 +2851,11 @@ export function initialize({
       return socketManager.getProvisioningResource(handler);
     }
 
-    async function getUuidsForE164s(
-      e164s: ReadonlyArray<string>
-    ): Promise<Dictionary<UUIDStringType | null>> {
-      const map = await cds.request({
-        e164s,
-      });
-
-      const result: Dictionary<UUIDStringType | null> = {};
-      for (const [key, value] of map) {
-        result[key] = value.pni ?? value.aci ?? null;
-      }
-      return result;
-    }
-
-    async function getUuidsForE164sV2({
+    async function cdsLookup({
       e164s,
-      acis,
-      accessKeys,
-    }: GetUuidsForE164sV2OptionsType): Promise<CDSResponseType> {
+      acis = [],
+      accessKeys = [],
+    }: CdsLookupOptionsType): Promise<CDSResponseType> {
       return cds.request({
         e164s,
         acis,
