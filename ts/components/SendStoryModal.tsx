@@ -482,6 +482,7 @@ export const SendStoryModal = ({
       }
       onClose={onClose}
       title={modalTitle}
+      theme={Theme.Dark}
     >
       {content}
     </Modal>
