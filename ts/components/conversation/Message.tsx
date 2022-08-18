@@ -773,13 +773,15 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   private canRenderStickerLikeEmoji(): boolean {
-    const { text, quote, attachments, previews } = this.props;
+    const { text, quote, storyReplyContext, attachments, previews } =
+      this.props;
 
     return Boolean(
       text &&
         isEmojiOnlyText(text) &&
         getEmojiCount(text) < 6 &&
         !quote &&
+        !storyReplyContext &&
         (!attachments || !attachments.length) &&
         (!previews || !previews.length)
     );
