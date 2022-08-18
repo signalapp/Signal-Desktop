@@ -1,12 +1,11 @@
 import { _electron, expect, Page, test } from '@playwright/test';
 import { openAppAndWait } from './setup/open';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { clickOnTestIdWithText, waitForTestIdWithText } from './utils';
 
 let window: Page | undefined;
 
-test.beforeEach(cleanUpOtherTest);
 test.afterEach(async () => {
   if (window) {
     await forceCloseAllWindows([window]);
@@ -14,7 +13,7 @@ test.afterEach(async () => {
 });
 
 test('Change profile picture/avatar', async () => {
-  window = await openAppAndWait('1');
+  window = await openAppAndWait(`1`);
 
   await newUser(window, 'userA');
   // Open profile

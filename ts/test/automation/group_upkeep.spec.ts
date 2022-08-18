@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsNoNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
 import { logIn } from './setup/log_in';
@@ -10,8 +10,6 @@ import {
   testContactTwo,
   testUser,
 } from './setup/test_user';
-
-test.beforeEach(cleanUpOtherTest);
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));

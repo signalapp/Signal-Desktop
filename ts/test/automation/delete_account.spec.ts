@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers, openAppsNoNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
 import {
@@ -11,8 +11,6 @@ import {
   // waitForTestIdWithText,
 } from './utils';
 import { sleepFor } from '../../session/utils/Promise';
-
-test.beforeEach(cleanUpOtherTest);
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));
@@ -65,8 +63,8 @@ test('Delete account from swarm', async () => {
       throw e;
     }
   }
-  await clickOnTestIdWithText(restoringWindow, 'contact-section');
-  // Expect contacts list to be empty
+
+  await clickOnTestIdWithText(restoringWindow, 'new-conversation-button'); // Expect contacts list to be empty
 
   const errorDesc2 = 'Should not be found';
   try {

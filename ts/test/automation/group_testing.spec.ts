@@ -1,5 +1,5 @@
 import { _electron, expect, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 // import { recoverFromSeed } from './setup/recovery_using_seed';
 import {
   clickOnMatchingText,
@@ -12,8 +12,6 @@ import {
 import { renameGroup } from './rename_group';
 import { leaveGroup } from './leave_group';
 import { createGroup } from './setup/create_group';
-
-test.beforeEach(cleanUpOtherTest);
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));

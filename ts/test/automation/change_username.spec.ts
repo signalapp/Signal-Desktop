@@ -1,11 +1,10 @@
 import { _electron, expect, Page, test } from '@playwright/test';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { clickOnTestIdWithText, typeIntoInput } from './utils';
 let window: Page | undefined;
 
-test.beforeEach(cleanUpOtherTest);
 test.afterEach(async () => {
   if (window) {
     await forceCloseAllWindows([window]);
@@ -14,7 +13,7 @@ test.afterEach(async () => {
 
 test('Change username', async () => {
   // Open App
-  window = await openAppAndWait('1');
+  window = await openAppAndWait(`1`);
   // Create user
   await newUser(window, 'userA');
   // Open Profile

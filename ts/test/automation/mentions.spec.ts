@@ -1,9 +1,7 @@
 import { _electron, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './utils';
 import { createGroup } from './setup/create_group';
-
-test.beforeEach(cleanUpOtherTest);
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));

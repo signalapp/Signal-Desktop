@@ -36,6 +36,7 @@ export async function clickOnTestIdWithText(window: Page, dataTestId: string, te
   }
 
   const builtSelector = `css=[data-testid=${dataTestId}]`;
+  await window.waitForSelector(builtSelector);
   return window.click(builtSelector);
 }
 

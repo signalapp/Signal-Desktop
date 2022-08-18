@@ -2,11 +2,10 @@ import { _electron, Page, test } from '@playwright/test';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
 import { sleepFor } from '../../session/utils/Promise';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
 
 let window: Page | undefined;
-test.beforeEach(cleanUpOtherTest);
 test.afterEach(async () => {
   if (window) {
     await forceCloseAllWindows([window]);
@@ -14,7 +13,7 @@ test.afterEach(async () => {
 });
 test('Create User', async () => {
   // Launch Electron app.
-  window = await openAppAndWait('1');
+  window = await openAppAndWait(`1`);
   // // Create User
   const userA = await newUser(window, 'userA');
   // Open profile tab
