@@ -4,11 +4,12 @@
 import Quill from 'quill';
 import Delta from 'quill-delta';
 import React from 'react';
-import _ from 'lodash';
+import _, { isNumber } from 'lodash';
 
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
+import type { VirtualElement } from '@popperjs/core';
 import type { EmojiData } from '../../components/emoji/lib';
 import {
   search,
@@ -19,7 +20,7 @@ import {
 import { Emoji } from '../../components/emoji/Emoji';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
-import { sameWidthModifier } from '../../util/popperUtil';
+import * as log from '../../logging/log';
 
 const Keyboard = Quill.import('modules/keyboard');
 
@@ -265,8 +266,47 @@ export class EmojiCompletion {
       return;
     }
 
+    // a virtual reference to the text we are trying to auto-complete
+    const reference: VirtualElement = {
+      getBoundingClientRect() {
+        const selection = window.getSelection();
+        // there's a selection and at least one range
+        if (selection !== null && selection.rangeCount !== 0) {
+          // grab the first range, the one the user is actually on right now
+          // clone it so we don't actually modify the user's selection/caret position
+          const range = selection.getRangeAt(0).cloneRange();
+
+          // if for any reason the range is a selection (not just a caret)
+          // collapse it to just a caret, so we can walk it back to the :word
+          range.collapse(true);
+
+          // if we can, position the popper at the beginning of the emoji text (:word)
+          const endContainerTextContent = range.endContainer.textContent;
+          const startOfEmojiText = endContainerTextContent?.lastIndexOf(':');
+          if (
+            endContainerTextContent &&
+            isNumber(startOfEmojiText) &&
+            startOfEmojiText !== -1
+          ) {
+            range.setStart(
+              range.endContainer,
+              range.endOffset -
+                (endContainerTextContent.length - startOfEmojiText)
+            );
+          } else {
+            log.warn(
+              `Could not find the beginning of the emoji word to be completed. startOfEmojiText=${startOfEmojiText}, endContainerTextContent.length=${endContainerTextContent?.length}, range.offsets=${range.startOffset}-${range.endOffset}`
+            );
+          }
+          return range.getClientRects()[0];
+        }
+        log.warn('No selection range when auto-completing emoji');
+        return new DOMRect(); // don't crash just because we couldn't get a rectangle
+      },
+    };
+
     const element = createPortal(
-      <Popper placement="top-start" modifiers={[sameWidthModifier]}>
+      <Popper placement="top-start" referenceElement={reference}>
         {({ ref, style }) => (
           <div
             ref={ref}
@@ -312,7 +352,7 @@ export class EmojiCompletion {
           </div>
         )}
       </Popper>,
-      this.root
+      document.body
     );
 
     this.options.setEmojiPickerElement(element);

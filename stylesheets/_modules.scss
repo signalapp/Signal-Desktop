@@ -6800,7 +6800,7 @@ button.module-image__border-overlay:focus {
     padding: 0;
     margin-bottom: 6px;
     border-radius: 8px;
-    z-index: $z-index-popup;
+    z-index: $z-index-above-popup;
     overflow: hidden;
 
     &--scroller {
