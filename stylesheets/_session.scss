@@ -1126,65 +1126,6 @@ input {
   }
 }
 
-.session-member-item.compact {
-  height: 40px;
-}
-
-.session-member-item {
-  cursor: pointer;
-  flex-shrink: 0;
-  font-family: $session-font-default;
-  padding: 0px $session-margin-sm;
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  transition: $session-transition-duration;
-
-  &:not(:last-child) {
-    border-bottom: var(--border-session);
-  }
-
-  &.selected {
-    background-color: var(--color-conversation-item-selected) !important;
-  }
-
-  &.zombie {
-    opacity: 0.5;
-  }
-
-  &__checkmark {
-    opacity: 0;
-    transition: $session-transition-duration;
-
-    &.selected {
-      opacity: 1;
-      svg {
-        fill: var(--color-accent) !important;
-      }
-    }
-  }
-
-  &__info,
-  &__checkmark {
-    display: flex;
-    align-items: center;
-  }
-
-  &__name {
-    font-weight: bold;
-    margin-inline-start: $session-margin-md;
-    margin-inline-end: $session-margin-md;
-  }
-  &__pubkey {
-    margin-inline-start: 5px;
-    opacity: 0.8;
-  }
-
-  &__avatar > div {
-    margin-bottom: 0px !important;
-  }
-}
-
 .module-message-detail {
   .module-message {
     pointer-events: none;
@@ -1193,21 +1134,4 @@ input {
 
 .module-message__text {
   white-space: pre-wrap;
-}
-
-.speedButton {
-  padding: $session-margin-xs;
-  opacity: 0.6;
-  transition: none;
-  &:hover {
-    opacity: 1;
-  }
-
-  .session-button {
-    transition: none;
-
-    &:hover {
-      color: var(--color-text-opposite);
-    }
-  }
 }

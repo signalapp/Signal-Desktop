@@ -66,15 +66,15 @@ export const OverlayChooseAction = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      <StyledActionRow onClick={openNewMessage}>
+      <StyledActionRow onClick={openNewMessage} data-testid="chooser-new-conversation-button">
         <IconOnActionRow iconType="chatBubble" />
         <StyledChooseActionTitle>{window.i18n('newMessage')}</StyledChooseActionTitle>
       </StyledActionRow>
-      <StyledActionRow onClick={openCreateGroup}>
+      <StyledActionRow onClick={openCreateGroup} data-testid="chooser-new-group">
         <IconOnActionRow iconType="group" />
         <StyledChooseActionTitle>{window.i18n('createGroup')}</StyledChooseActionTitle>
       </StyledActionRow>
-      <StyledActionRow onClick={openJoinCommunity}>
+      <StyledActionRow onClick={openJoinCommunity} data-testid="chooser-new-community">
         <IconOnActionRow iconType="communities" />
         <StyledChooseActionTitle>{window.i18n('joinOpenGroup')}</StyledChooseActionTitle>
       </StyledActionRow>

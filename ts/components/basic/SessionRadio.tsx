@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from '../basic/Flex';
 // tslint:disable: react-unused-props-and-state
@@ -8,7 +8,7 @@ type Props = {
   value: string;
   active: boolean;
   inputName?: string;
-  onClick: (value: string) => void;
+  onClick?: (value: string) => void;
 };
 
 const StyledInput = styled.input`
@@ -30,17 +30,15 @@ const StyledLabel = styled.label`
   :before {
     content: '';
     display: inline-block;
-    width: var(--filled-size);
-    height: var(--filled-size);
-    margin-inline-end: var(--margin-end);
+    margin-inline-end: var(--filled-size);
     border-radius: 100%;
 
     transition: var(--default-duration);
-    padding: 7px;
-    outline-offset: var(--outline-offset);
+    padding: calc(var(--filled-size) / 2);
+    outline-offset: 3px;
     outline: var(--color-text) solid 1px;
     border: none;
-    margin-top: 5px;
+    margin-top: var(--filled-size);
 
     :hover {
       background: var(--color-accent);
@@ -51,9 +49,12 @@ const StyledLabel = styled.label`
 export const SessionRadio = (props: Props) => {
   const { label, inputName, value, active, onClick } = props;
 
-  function clickHandler(e: any) {
-    e.stopPropagation();
-    onClick(value);
+  function clickHandler(e: ChangeEvent<any>) {
+    if (onClick) {
+      // let something else catch the event if our click handler is not set
+      e.stopPropagation();
+      onClick?.(value);
+    }
   }
 
   return (
@@ -63,8 +64,6 @@ export const SessionRadio = (props: Props) => {
       style={
         {
           '--filled-size': '15px',
-          '--margin-end': '1rem',
-          '--outline-offset': '3px',
         } as CSSProperties
       }
     >
@@ -76,30 +75,10 @@ export const SessionRadio = (props: Props) => {
         checked={active}
         onChange={clickHandler}
       />
+
       <StyledLabel role="button" onClick={clickHandler}>
         {label}
       </StyledLabel>
     </Flex>
-  );
-};
-
-export const SessionRadioInput = (
-  props: Pick<Props, 'active' | 'inputName' | 'onClick' | 'value'>
-) => {
-  const { active, onClick, inputName, value } = props;
-  function clickHandler(e: any) {
-    e.stopPropagation();
-    onClick(value);
-  }
-
-  return (
-    <StyledInput
-      type="radio"
-      name={inputName || ''}
-      value={value}
-      aria-checked={active}
-      checked={active}
-      onChange={clickHandler}
-    />
   );
 };

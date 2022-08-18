@@ -94,7 +94,7 @@ export const initialSectionState: SectionStateType = {
   focusedSection: SectionType.Message,
   focusedSettingsSection: undefined,
   isAppFocused: false,
-  overlayMode: 'choose-action',
+  overlayMode: undefined,
 };
 
 export type SectionStateType = {

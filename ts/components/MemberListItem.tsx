@@ -1,10 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Avatar, AvatarSize, CrownIcon } from './avatar/Avatar';
-import { Constants } from '../session';
-import { SessionIcon } from './icon';
 import { useConversationUsernameOrShorten } from '../hooks/useParamSelector';
 import styled from 'styled-components';
+import { SessionRadio } from './basic/SessionRadio';
 
 const AvatarContainer = styled.div`
   position: relative;
@@ -20,12 +18,52 @@ const AvatarItem = (props: { memberPubkey: string; isAdmin: boolean }) => {
   );
 };
 
+const StyledSessionMemberItem = styled.div<{
+  inMentions?: boolean;
+  zombie?: boolean;
+  selected?: boolean;
+}>`
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: var(--font-default);
+  padding: 0px var(--margins-sm);
+  height: ${props => (props.inMentions ? '40px' : '50px')};
+  display: flex;
+  justify-content: space-between;
+  transition: var(--default-duration);
+
+  opacity: ${props => (props.zombie ? 0.5 : 1)};
+
+  :not(:last-child) {
+    border-bottom: var(--border-session);
+  }
+
+  background-color: ${props =>
+    props.selected ? 'var(--color-conversation-item-selected) !important' : null};
+`;
+
+const StyledInfo = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledName = styled.span`
+  font-weight: bold;
+  margin-inline-start: var(--margins-md);
+  margin-inline-end: var(--margins-md);
+`;
+
+const StyledCheckContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const MemberListItem = (props: {
   pubkey: string;
   isSelected: boolean;
   // this bool is used to make a zombie appear with less opacity than a normal member
   isZombie?: boolean;
-  disableBg?: boolean;
+  inMentions?: boolean; // set to true if we are rendering members but in the Mentions picker
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
@@ -38,7 +76,7 @@ export const MemberListItem = (props: {
     isAdmin,
     onSelect,
     onUnselect,
-    disableBg,
+    inMentions,
     dataTestId,
   } = props;
 
@@ -46,18 +84,12 @@ export const MemberListItem = (props: {
 
   return (
     // tslint:disable-next-line: use-simple-attributes
-    <div
-      className={classNames(
-        'session-member-item',
-        isSelected && 'selected',
-        isZombie && 'zombie',
-        disableBg && 'compact'
-      )}
+    <StyledSessionMemberItem
       onClick={() => {
         isSelected ? onUnselect?.(pubkey) : onSelect?.(pubkey);
       }}
       style={
-        !disableBg
+        !inMentions
           ? {
               backgroundColor: 'var(--color-cell-background)',
             }
@@ -65,16 +97,21 @@ export const MemberListItem = (props: {
       }
       role="button"
       data-testid={dataTestId}
+      zombie={isZombie}
+      inMentions={inMentions}
+      selected={isSelected}
     >
-      <div className="session-member-item__info">
-        <span className="session-member-item__avatar">
-          <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
-        </span>
-        <span className="session-member-item__name">{memberName}</span>
-      </div>
-      <span className={classNames('session-member-item__checkmark', isSelected && 'selected')}>
-        <SessionIcon iconType="check" iconSize="medium" iconColor={Constants.UI.COLORS.GREEN} />
-      </span>
-    </div>
+      <StyledInfo>
+        <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
+
+        <StyledName>{memberName}</StyledName>
+      </StyledInfo>
+
+      {!inMentions && (
+        <StyledCheckContainer>
+          <SessionRadio active={isSelected} value="tet" inputName="wewee" label="" />
+        </StyledCheckContainer>
+      )}
+    </StyledSessionMemberItem>
   );
 };

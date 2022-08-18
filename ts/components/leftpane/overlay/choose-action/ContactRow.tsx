@@ -70,7 +70,9 @@ export const ContactRow = (props: Props) => {
       onClick={() => openConversationWithMessages({ conversationKey: id, messageId: null })}
     >
       <AvatarItem id={id} displayName={displayName} />
-      <StyledContactRowName>{displayName || id}</StyledContactRowName>
+      <StyledContactRowName data-testid="module-conversation__user__profile-name">
+        {displayName || id}
+      </StyledContactRowName>
     </StyledRowContainer>
   );
 };

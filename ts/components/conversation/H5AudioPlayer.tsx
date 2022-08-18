@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { setNextMessageToPlayId } from '../../state/ducks/conversations';
 import {
@@ -100,7 +101,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
       ref={player}
       customControlsSection={[
         RHAP_UI.MAIN_CONTROLS,
-        <div className="speedButton" key="togglePlaybackSpeed">
+        <StyledSpeedButton key="togglePlaybackSpeed">
           <SessionButton
             text={`${playbackSpeed}x`}
             onClick={() => {
@@ -109,7 +110,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
             buttonType={SessionButtonType.Simple}
             buttonColor={SessionButtonColor.None}
           />
-        </div>,
+        </StyledSpeedButton>,
       ]}
       customIcons={{
         play: (
@@ -122,3 +123,21 @@ export const AudioPlayerWithEncryptedFile = (props: {
     />
   );
 };
+
+const StyledSpeedButton = styled.div`
+  padding: var(--margins-xs);
+  opacity: 0.6;
+  transition: none;
+
+  :hover {
+    opacity: 1;
+  }
+
+  .session-button {
+    transition: none;
+
+    &:hover {
+      color: var(--color-text-opposite);
+    }
+  }
+`;
