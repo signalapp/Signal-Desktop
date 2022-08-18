@@ -109,7 +109,7 @@ export const MemberListItem = (props: {
 
       {!inMentions && (
         <StyledCheckContainer>
-          <SessionRadio active={isSelected} value="tet" inputName="wewee" label="" />
+          <SessionRadio active={isSelected} value={pubkey} inputName={pubkey} label="" />
         </StyledCheckContainer>
       )}
     </StyledSessionMemberItem>

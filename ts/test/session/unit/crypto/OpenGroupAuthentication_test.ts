@@ -405,7 +405,7 @@ describe('OpenGroupAuthentication', () => {
     it.skip('Should decode bencoded response successfully', () => {
       // TODO: update input and expected output
       // const bencoded = decodeV4Response(responseToDecode);
-      // console.warn({ bencoded });
+      // console.error({ bencoded });
     });
   });
 });

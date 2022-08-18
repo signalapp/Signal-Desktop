@@ -13,7 +13,7 @@ test.afterEach(async () => {
 });
 
 test('Change profile picture/avatar', async () => {
-  window = await openAppAndWait(`1`);
+  window = await openAppAndWait('1');
 
   await newUser(window, 'userA');
   // Open profile

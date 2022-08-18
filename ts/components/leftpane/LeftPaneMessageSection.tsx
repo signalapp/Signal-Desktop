@@ -125,10 +125,10 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     const { overlayMode } = this.props;
 
     return (
-      <div className="session-left-pane-section-content">
+      <StyledLeftPaneContent>
         <LeftPaneSectionHeader />
         {overlayMode ? <ClosableOverlay /> : this.renderConversations()}
-      </div>
+      </StyledLeftPaneContent>
     );
   }
 
@@ -146,3 +146,10 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     );
   }
 }
+
+const StyledLeftPaneContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+`;

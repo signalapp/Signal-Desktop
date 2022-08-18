@@ -23,7 +23,7 @@ const newTestPassword = '789101112';
 test.describe('Password checks', () => {
   test('Set Password', async () => {
     // open Electron
-    window = await openAppAndWait(`1`);
+    window = await openAppAndWait('1');
     // Create user
     await newUser(window, 'userA');
     // Click on settings tab
@@ -79,7 +79,7 @@ test.describe('Password checks', () => {
   });
   test('Wrong password', async () => {
     // Check if incorrect password works
-    window = await openAppAndWait(`1`);
+    window = await openAppAndWait('1');
     // Create user
     await newUser(window, 'userA');
     // Click on settings tab

@@ -5,6 +5,7 @@ import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './u
 
 const windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));
+// tslint:disable: no-console
 
 test('linking device', async () => {
   const { windowA1, windowA2, userA } = await linkedDevice();
@@ -22,7 +23,7 @@ test('linking device', async () => {
   try {
     const elemShouldNotBeFound = windowA2.locator('[data-testid=reveal-recovery-phrase]');
     if (elemShouldNotBeFound) {
-      console.warn('Element not found');
+      console.error('Element not found');
       throw new Error(errorDesc);
     }
   } catch (e) {

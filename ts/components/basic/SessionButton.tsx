@@ -28,11 +28,12 @@ type Props = {
   buttonColor: SessionButtonColor;
   onClick: any;
   children?: ReactNode;
+  margin?: string;
   dataTestId?: string;
 };
 
 export const SessionButton = (props: Props) => {
-  const { buttonType, dataTestId, buttonColor, text, disabled, onClick } = props;
+  const { buttonType, dataTestId, buttonColor, text, disabled, onClick, margin } = props;
 
   const clickHandler = (e: any) => {
     if (onClick) {
@@ -55,6 +56,7 @@ export const SessionButton = (props: Props) => {
       role="button"
       onClick={onClickFn}
       data-testid={dataTestId}
+      style={{ margin }}
     >
       {props.children || text}
     </div>

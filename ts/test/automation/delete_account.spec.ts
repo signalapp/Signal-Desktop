@@ -2,15 +2,9 @@ import { _electron, Page, test } from '@playwright/test';
 import { forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers, openAppsNoNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
-import {
-  clickOnMatchingText,
-  clickOnTestIdWithText,
-  typeIntoInput,
-  // waitForTestIdWithText,
-  // waitForMatchingText,
-  // waitForTestIdWithText,
-} from './utils';
+import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utils';
 import { sleepFor } from '../../session/utils/Promise';
+// tslint:disable: no-console
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));
@@ -55,7 +49,7 @@ test('Delete account from swarm', async () => {
   try {
     const elemShouldNotBeFound = restoringWindow.locator(testMessage);
     if (elemShouldNotBeFound) {
-      console.warn('Test message was not found');
+      console.error('Test message was not found');
       throw new Error(errorDesc);
     }
   } catch (e) {
@@ -70,7 +64,7 @@ test('Delete account from swarm', async () => {
   try {
     const elemShouldNotBeFound = restoringWindow.locator(userB.userName);
     if (elemShouldNotBeFound) {
-      console.warn('Contact not found');
+      console.error('Contact not found');
       throw new Error(errorDesc2);
     }
   } catch (e) {

@@ -13,7 +13,7 @@ test.afterEach(async () => {
 });
 test('Create User', async () => {
   // Launch Electron app.
-  window = await openAppAndWait(`1`);
+  window = await openAppAndWait('1');
   // // Create User
   const userA = await newUser(window, 'userA');
   // Open profile tab

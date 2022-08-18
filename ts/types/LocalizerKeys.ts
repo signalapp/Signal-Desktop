@@ -230,6 +230,7 @@ export type LocalizerKeys =
   | 'invalidSessionId'
   | 'audioPermissionNeeded'
   | 'createGroup'
+  | 'create'
   | 'add'
   | 'messageRequests'
   | 'show'
@@ -449,6 +450,7 @@ export type LocalizerKeys =
   | 'trustThisContactDialogDescription'
   | 'unknownCountry'
   | 'searchFor...'
+  | 'searchForContactsOnly'
   | 'joinedTheGroup'
   | 'editGroupName'
   | 'reportIssue';

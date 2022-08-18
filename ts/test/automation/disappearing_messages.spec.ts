@@ -13,6 +13,7 @@ import {
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));
+// tslint:disable: no-console
 
 const testMessage = 'Test-Message- (A -> B) ';
 const testReply = 'Reply-Test-Message- (B -> A)';
@@ -59,7 +60,7 @@ test('Disappearing Messages', async () => {
   try {
     const elemShouldNotBeFound = windowA.locator(sentMessage);
     if (elemShouldNotBeFound) {
-      console.warn('Sent message not found in window A');
+      console.error('Sent message not found in window A');
       throw new Error(errorDesc);
     }
   } catch (e) {
@@ -90,7 +91,7 @@ test('Disappearing Messages', async () => {
   try {
     const elemShouldNotBeFound = windowA.locator(sentMessage);
     if (elemShouldNotBeFound) {
-      console.warn('Sent message not found in window B');
+      console.error('Sent message not found in window B');
       throw new Error(errorDesc2);
     }
   } catch (e) {

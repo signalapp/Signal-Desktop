@@ -1954,7 +1954,7 @@ function getEntriesCountInTable(tbl: string) {
       .get();
     return row['count(*)'];
   } catch (e) {
-    console.warn(e);
+    console.error(e);
     return 0;
   }
 }
@@ -2256,7 +2256,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       saveConversation(convoObjToAdd);
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
   // eslint-disable-next-line no-plusplus

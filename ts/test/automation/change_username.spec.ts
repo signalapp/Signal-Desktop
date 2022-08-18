@@ -13,7 +13,7 @@ test.afterEach(async () => {
 
 test('Change username', async () => {
   // Open App
-  window = await openAppAndWait(`1`);
+  window = await openAppAndWait('1');
   // Create user
   await newUser(window, 'userA');
   // Open Profile

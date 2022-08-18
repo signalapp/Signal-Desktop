@@ -4,13 +4,14 @@ import { getAppRootPath } from '../../../node/getRootPath';
 
 export const NODE_ENV = 'production';
 export const MULTI_PREFIX = 'test-integration-testnet-';
+// tslint:disable: no-console
 
 export const openElectronAppOnly = async (multi: string) => {
   process.env.NODE_APP_INSTANCE = `${MULTI_PREFIX}-${Date.now()}-${multi}`;
   process.env.NODE_ENV = NODE_ENV;
 
-  console.warn(' NODE_ENV', process.env.NODE_ENV);
-  console.warn(' NODE_APP_INSTANCE', process.env.NODE_APP_INSTANCE);
+  console.info(' NODE_ENV', process.env.NODE_ENV);
+  console.info(' NODE_APP_INSTANCE', process.env.NODE_APP_INSTANCE);
   const electronApp = await _electron.launch({
     args: [join(getAppRootPath(), 'ts', 'mains', 'main_node.js')],
   });

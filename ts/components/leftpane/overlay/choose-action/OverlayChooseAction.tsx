@@ -28,7 +28,7 @@ const StyledActionRow = styled.button`
 export const StyledChooseActionTitle = styled.span`
   color: var(--color-text);
   font-size: 18px;
-  padding: 5px 0px 5px 10px;
+  padding: var(--margins-xs) var(--margins-lg);
 `;
 
 const StyledIcon = styled.div`

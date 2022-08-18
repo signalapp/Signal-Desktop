@@ -161,49 +161,6 @@ $session-compose-margin: 20px;
   }
 }
 
-.session-left-pane-section-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
-.user-search-dropdown {
-  width: 100%;
-  min-height: 34px;
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-.session-search-input {
-  height: $session-search-input-height;
-  width: 100%;
-  margin-inline-end: 1px;
-  margin-bottom: 10px;
-  display: inline-flex;
-  flex-shrink: 0;
-
-  .session-icon-button {
-    margin: auto 10px;
-  }
-
-  input {
-    width: inherit;
-    height: inherit;
-    border: none;
-    flex-grow: 1;
-    font-size: $session-font-sm;
-    font-family: $session-font-default;
-    text-overflow: ellipsis;
-    background: none;
-    color: var(--color-text);
-
-    &:focus {
-      outline: none !important;
-    }
-  }
-}
-
 .conversation.placeholder {
   margin: auto;
   .container {
