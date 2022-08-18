@@ -7,6 +7,10 @@
         "message": "使用条件とプライバシーポリシー",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Appleシリコン",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "エラーメッセージをコピーして終了します",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"

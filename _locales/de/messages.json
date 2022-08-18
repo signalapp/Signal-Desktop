@@ -7,6 +7,10 @@
         "message": "Bedingungen & Datenschutzerklärung",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+      "message": "Apple Prozessoren",
+      "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Fehler kopieren und beenden",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"

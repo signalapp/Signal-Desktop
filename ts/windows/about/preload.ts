@@ -24,7 +24,7 @@ contextBridge.exposeInMainWorld('SignalContext', {
     let platform = '';
     if (process.platform === 'darwin') {
       if (process.arch === 'arm64') {
-        platform = ' (M1)';
+        platform = ` (${SignalContext.i18n('appleSilicon')})`;
       } else {
         platform = ' (Intel)';
       }
