@@ -43,6 +43,7 @@ export type PropsType = {
     name: string,
     viewerUuids: Array<UUIDStringType>
   ) => unknown;
+  onSelectedStoryList: (memberUuids: Array<string>) => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
     conversationIds: Array<string>,
@@ -51,6 +52,7 @@ export type PropsType = {
   processAttachment: (
     file: File
   ) => Promise<void | InMemoryAttachmentDraftType>;
+  sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
   signalConnections: Array<ConversationType>;
   tagGroupsAsNewGroupStory: (cids: Array<string>) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'>;
@@ -69,9 +71,11 @@ export const StoryCreator = ({
   me,
   onClose,
   onDistributionListCreated,
+  onSelectedStoryList,
   onSend,
   processAttachment,
   recentStickers,
+  sendStoryModalOpenStateChanged,
   signalConnections,
   tagGroupsAsNewGroupStory,
 }: PropsType): JSX.Element => {
@@ -112,6 +116,10 @@ export const StoryCreator = ({
     };
   }, [file, processAttachment]);
 
+  useEffect(() => {
+    sendStoryModalOpenStateChanged(Boolean(draftAttachment));
+  }, [draftAttachment, sendStoryModalOpenStateChanged]);
+
   return (
     <>
       {draftAttachment && (
@@ -125,6 +133,7 @@ export const StoryCreator = ({
           me={me}
           onClose={() => setDraftAttachment(undefined)}
           onDistributionListCreated={onDistributionListCreated}
+          onSelectedStoryList={onSelectedStoryList}
           onSend={(listIds, groupIds) => {
             onSend(listIds, groupIds, draftAttachment);
             setDraftAttachment(undefined);

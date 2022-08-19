@@ -37,7 +37,7 @@ export const getStoriesState = (state: StateType): StoriesStateType =>
 
 export const shouldShowStoriesView = createSelector(
   getStoriesState,
-  ({ isShowingStoriesView }): boolean => isShowingStoriesView
+  ({ openedAtTimestamp }): boolean => Boolean(openedAtTimestamp)
 );
 
 export const hasSelectedStoryData = createSelector(

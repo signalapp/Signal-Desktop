@@ -1,10 +1,11 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { isEqual, noop, pick } from 'lodash';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
+import type { ConversationModel } from '../../models/conversations';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
   MessageChangedActionType,
@@ -20,9 +21,12 @@ import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
 import { DAY } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { StoryRecipientUpdateEvent } from '../../textsecure/messageReceiverEvents';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
+import { assert } from '../../util/assert';
+import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
 import { markViewed } from '../../services/MessageUpdater';
@@ -46,6 +50,7 @@ import { isStory } from '../../messages/helpers';
 import { onStoryRecipientUpdate } from '../../util/onStoryRecipientUpdate';
 import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 
@@ -78,12 +83,16 @@ export type SelectedStoryDataType = {
 // State
 
 export type StoriesStateType = {
-  readonly isShowingStoriesView: boolean;
+  readonly openedAtTimestamp: number | undefined;
   readonly replyState?: {
     messageId: string;
     replies: Array<MessageAttributesType>;
   };
   readonly selectedStoryData?: SelectedStoryDataType;
+  readonly sendStoryModalData?: {
+    untrustedUuids: Array<string>;
+    verifiedUuids: Array<string>;
+  };
   readonly stories: Array<StoryDataType>;
   readonly storyViewMode?: StoryViewModeType;
 };
@@ -91,11 +100,14 @@ export type StoriesStateType = {
 // Actions
 
 const DOE_STORY = 'stories/DOE';
+const LIST_MEMBERS_VERIFIED = 'stories/LIST_MEMBERS_VERIFIED';
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
 const QUEUE_STORY_DOWNLOAD = 'stories/QUEUE_STORY_DOWNLOAD';
 const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
+const SEND_STORY_MODAL_OPEN_STATE_CHANGED =
+  'stories/SEND_STORY_MODAL_OPEN_STATE_CHANGED';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
 const VIEW_STORY = 'stories/VIEW_STORY';
@@ -103,6 +115,14 @@ const VIEW_STORY = 'stories/VIEW_STORY';
 type DOEStoryActionType = {
   type: typeof DOE_STORY;
   payload: string;
+};
+
+type ListMembersVerified = {
+  type: typeof LIST_MEMBERS_VERIFIED;
+  payload: {
+    untrustedUuids: Array<string>;
+    verifiedUuids: Array<string>;
+  };
 };
 
 type LoadStoryRepliesActionType = {
@@ -136,6 +156,11 @@ type ResolveAttachmentUrlActionType = {
   };
 };
 
+type SendStoryModalOpenStateChanged = {
+  type: typeof SEND_STORY_MODAL_OPEN_STATE_CHANGED;
+  payload: number | undefined;
+};
+
 type StoryChangedActionType = {
   type: typeof STORY_CHANGED;
   payload: StoryDataType;
@@ -157,6 +182,7 @@ type ViewStoryActionType = {
 
 export type StoriesActionType =
   | DOEStoryActionType
+  | ListMembersVerified
   | LoadStoryRepliesActionType
   | MarkStoryReadActionType
   | MessageChangedActionType
@@ -165,6 +191,7 @@ export type StoriesActionType =
   | QueueStoryDownloadActionType
   | ReplyToStoryActionType
   | ResolveAttachmentUrlActionType
+  | SendStoryModalOpenStateChanged
   | StoryChangedActionType
   | ToggleViewActionType
   | ViewStoryActionType;
@@ -580,14 +607,52 @@ function sendStoryMessage(
   listIds: Array<UUIDStringType>,
   conversationIds: Array<string>,
   attachment: AttachmentType
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async dispatch => {
-    await doSendStoryMessage(listIds, conversationIds, attachment);
+): ThunkAction<void, RootStateType, unknown, SendStoryModalOpenStateChanged> {
+  return async (dispatch, getState) => {
+    const { stories } = getState();
+    const { openedAtTimestamp, sendStoryModalData } = stories;
+    assert(
+      openedAtTimestamp,
+      'sendStoryMessage: openedAtTimestamp is undefined, cannot send'
+    );
+    assert(
+      sendStoryModalData,
+      'sendStoryMessage: sendStoryModalData is not defined, cannot send'
+    );
 
     dispatch({
-      type: 'NOOP',
-      payload: null,
+      type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
+      payload: undefined,
     });
+
+    if (sendStoryModalData.untrustedUuids.length) {
+      log.info('sendStoryMessage: SN changed for some conversations');
+
+      const conversationsNeedingVerification: Array<ConversationModel> =
+        sendStoryModalData.untrustedUuids
+          .map(uuid => window.ConversationController.get(uuid))
+          .filter(isNotNil);
+
+      if (!conversationsNeedingVerification.length) {
+        log.warn(
+          'sendStoryMessage: Could not retrieve conversations for untrusted uuids'
+        );
+        return;
+      }
+
+      const result = await blockSendUntilConversationsAreVerified(
+        conversationsNeedingVerification,
+        SafetyNumberChangeSource.Story,
+        Date.now() - openedAtTimestamp
+      );
+
+      if (!result) {
+        log.info('sendStoryMessage: did not send');
+        return;
+      }
+    }
+
+    await doSendStoryMessage(listIds, conversationIds, attachment);
   };
 }
 
@@ -598,9 +663,66 @@ function storyChanged(story: StoryDataType): StoryChangedActionType {
   };
 }
 
+function sendStoryModalOpenStateChanged(
+  value: boolean
+): ThunkAction<void, RootStateType, unknown, SendStoryModalOpenStateChanged> {
+  return (dispatch, getState) => {
+    const { stories } = getState();
+
+    if (!stories.sendStoryModalData && value) {
+      dispatch({
+        type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
+        payload: Date.now(),
+      });
+    }
+
+    if (stories.sendStoryModalData && !value) {
+      dispatch({
+        type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
+        payload: undefined,
+      });
+    }
+  };
+}
+
 function toggleStoriesView(): ToggleViewActionType {
   return {
     type: TOGGLE_VIEW,
+  };
+}
+
+function verifyStoryListMembers(
+  memberUuids: Array<string>
+): ThunkAction<void, RootStateType, unknown, ListMembersVerified> {
+  return async (dispatch, getState) => {
+    const { stories } = getState();
+    const { sendStoryModalData } = stories;
+
+    if (!sendStoryModalData) {
+      return;
+    }
+
+    const alreadyVerifiedUuids = new Set([...sendStoryModalData.verifiedUuids]);
+
+    const uuidsNeedingVerification = memberUuids.filter(
+      uuid => !alreadyVerifiedUuids.has(uuid)
+    );
+
+    if (!uuidsNeedingVerification.length) {
+      return;
+    }
+
+    const { untrustedUuids, verifiedUuids } = await doVerifyStoryListMembers(
+      uuidsNeedingVerification
+    );
+
+    dispatch({
+      type: LIST_MEMBERS_VERIFIED,
+      payload: {
+        untrustedUuids: Array.from(untrustedUuids),
+        verifiedUuids: Array.from(verifiedUuids),
+      },
+    });
   };
 }
 
@@ -946,8 +1068,10 @@ export const actions = {
   reactToStory,
   replyToStory,
   sendStoryMessage,
+  sendStoryModalOpenStateChanged,
   storyChanged,
   toggleStoriesView,
+  verifyStoryListMembers,
   viewUserStories,
   viewStory,
 };
@@ -960,7 +1084,7 @@ export function getEmptyState(
   overrideState: Partial<StoriesStateType> = {}
 ): StoriesStateType {
   return {
-    isShowingStoriesView: false,
+    openedAtTimestamp: undefined,
     stories: [],
     ...overrideState,
   };
@@ -971,15 +1095,17 @@ export function reducer(
   action: Readonly<StoriesActionType>
 ): StoriesStateType {
   if (action.type === TOGGLE_VIEW) {
+    const isShowingStoriesView = Boolean(state.openedAtTimestamp);
+
     return {
       ...state,
-      isShowingStoriesView: !state.isShowingStoriesView,
-      selectedStoryData: state.isShowingStoriesView
+      openedAtTimestamp: isShowingStoriesView ? undefined : Date.now(),
+      replyState: undefined,
+      sendStoryModalData: undefined,
+      selectedStoryData: isShowingStoriesView
         ? undefined
         : state.selectedStoryData,
-      storyViewMode: state.isShowingStoriesView
-        ? undefined
-        : state.storyViewMode,
+      storyViewMode: isShowingStoriesView ? undefined : state.storyViewMode,
     };
   }
 
@@ -1241,6 +1367,53 @@ export function reducer(
         ...existingStory,
         startedDownload: true,
       }),
+    };
+  }
+
+  if (action.type === SEND_STORY_MODAL_OPEN_STATE_CHANGED) {
+    if (action.payload) {
+      return {
+        ...state,
+        sendStoryModalData: {
+          untrustedUuids: [],
+          verifiedUuids: [],
+        },
+      };
+    }
+
+    return {
+      ...state,
+      sendStoryModalData: undefined,
+    };
+  }
+
+  if (action.type === LIST_MEMBERS_VERIFIED) {
+    const sendStoryModalData = {
+      untrustedUuids: [],
+      verifiedUuids: [],
+      ...(state.sendStoryModalData || {}),
+    };
+
+    const untrustedUuids = Array.from(
+      new Set([
+        ...sendStoryModalData.untrustedUuids,
+        ...action.payload.untrustedUuids,
+      ])
+    );
+    const verifiedUuids = Array.from(
+      new Set([
+        ...sendStoryModalData.verifiedUuids,
+        ...action.payload.verifiedUuids,
+      ])
+    );
+
+    return {
+      ...state,
+      sendStoryModalData: {
+        ...sendStoryModalData,
+        untrustedUuids,
+        verifiedUuids,
+      },
     };
   }
 

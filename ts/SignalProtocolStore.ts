@@ -17,7 +17,7 @@ import {
 } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
-import { constantTimeEqual } from './Crypto';
+import { constantTimeEqual, sha256 } from './Crypto';
 import { assert, strictAssert } from './util/assert';
 import { isNotNil } from './util/isNotNil';
 import { Zone } from './util/Zone';
@@ -1565,6 +1565,23 @@ export class SignalProtocolStore extends EventsMixin {
     return undefined;
   }
 
+  async getFingerprint(uuid: UUID): Promise<string | undefined> {
+    if (uuid === null || uuid === undefined) {
+      throw new Error('loadIdentityKey: uuid was undefined/null');
+    }
+
+    const pubKey = await this.loadIdentityKey(uuid);
+
+    if (!pubKey) {
+      return;
+    }
+
+    const hash = sha256(pubKey);
+    const fingerprint = hash.slice(0, 4);
+
+    return Bytes.toBase64(fingerprint);
+  }
+
   private async _saveIdentityKey(data: IdentityKeyType): Promise<void> {
     if (!this.identityKeys) {
       throw new Error('_saveIdentityKey: this.identityKeys not yet cached!');
@@ -1831,7 +1848,7 @@ export class SignalProtocolStore extends EventsMixin {
     return false;
   }
 
-  isUntrusted(uuid: UUID): boolean {
+  isUntrusted(uuid: UUID, timestampThreshold = TIMESTAMP_THRESHOLD): boolean {
     if (uuid === null || uuid === undefined) {
       throw new Error('isUntrusted: uuid was undefined/null');
     }
@@ -1842,7 +1859,7 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (
-      isMoreRecentThan(identityRecord.timestamp, TIMESTAMP_THRESHOLD) &&
+      isMoreRecentThan(identityRecord.timestamp, timestampThreshold) &&
       !identityRecord.nonblockingApproval &&
       !identityRecord.firstUse
     ) {

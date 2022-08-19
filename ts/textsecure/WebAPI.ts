@@ -486,6 +486,7 @@ const URL_CALLS = {
   accountExistence: 'v1/accounts/account',
   attachmentId: 'v2/attachments/form/upload',
   attestation: 'v1/attestation',
+  batchIdentityCheck: 'v1/profile/identity_check/batch',
   boostBadges: 'v1/subscription/boost/badges',
   challenge: 'v1/challenge',
   config: 'v1/config',
@@ -782,6 +783,20 @@ export type GetGroupCredentialsResultType = Readonly<{
   credentials: ReadonlyArray<GroupCredentialType>;
 }>;
 
+const verifyAciResponse = z
+  .object({
+    elements: z.array(
+      z.object({
+        aci: z.string(),
+        identityKey: z.string(),
+      })
+    ),
+  })
+  .passthrough();
+
+export type VerifyAciRequestType = Array<{ aci: string; fingerprint: string }>;
+export type VerifyAciResponseType = z.infer<typeof verifyAciResponse>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -878,6 +893,9 @@ export type WebAPIType = {
     inviteLinkBase64?: string
   ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
+  postBatchIdentityCheck: (
+    elements: VerifyAciRequestType
+  ) => Promise<VerifyAciResponseType>;
   putAttachment: (encryptedBin: Uint8Array) => Promise<string>;
   putProfile: (
     jsonData: ProfileRequestDataType
@@ -1272,6 +1290,7 @@ export function initialize({
       makeSfuRequest,
       modifyGroup,
       modifyStorageRecords,
+      postBatchIdentityCheck,
       putAttachment,
       putProfile,
       putStickers,
@@ -1557,6 +1576,28 @@ export function initialize({
         httpType: 'PUT',
         jsonData: capabilities,
       });
+    }
+
+    async function postBatchIdentityCheck(elements: VerifyAciRequestType) {
+      const res = await _ajax({
+        data: JSON.stringify({ elements }),
+        call: 'batchIdentityCheck',
+        httpType: 'POST',
+        responseType: 'json',
+      });
+
+      const result = verifyAciResponse.safeParse(res);
+
+      if (result.success) {
+        return result.data;
+      }
+
+      log.warn(
+        'WebAPI: invalid response from postBatchIdentityCheck',
+        toLogFormat(result.error)
+      );
+
+      throw result.error;
     }
 
     function getProfileUrl(

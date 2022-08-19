@@ -9,7 +9,8 @@ import { getConversationIdForLogging } from './idForLogging';
 
 export async function blockSendUntilConversationsAreVerified(
   conversations: Array<ConversationModel>,
-  source?: SafetyNumberChangeSource
+  source?: SafetyNumberChangeSource,
+  timestampThreshold?: number
 ): Promise<boolean> {
   const conversationsToPause = new Map<string, Set<string>>();
 
@@ -33,7 +34,7 @@ export async function blockSendUntilConversationsAreVerified(
         });
       }
 
-      const untrusted = conversation.getUntrusted();
+      const untrusted = conversation.getUntrusted(timestampThreshold);
       if (untrusted.length) {
         untrusted.forEach(untrustedConversation => {
           const uuid = untrustedConversation.get('uuid');

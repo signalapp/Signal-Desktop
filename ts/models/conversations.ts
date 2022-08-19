@@ -2822,19 +2822,22 @@ export class ConversationModel extends window.Backbone
     return window.textsecure.storage.protocol.setApproval(uuid, true);
   }
 
-  safeIsUntrusted(): boolean {
+  safeIsUntrusted(timestampThreshold?: number): boolean {
     try {
       const uuid = this.getUuid();
       strictAssert(uuid, `No uuid for conversation: ${this.id}`);
-      return window.textsecure.storage.protocol.isUntrusted(uuid);
+      return window.textsecure.storage.protocol.isUntrusted(
+        uuid,
+        timestampThreshold
+      );
     } catch (err) {
       return false;
     }
   }
 
-  isUntrusted(): boolean {
+  isUntrusted(timestampThreshold?: number): boolean {
     if (isDirectConversation(this.attributes)) {
-      return this.safeIsUntrusted();
+      return this.safeIsUntrusted(timestampThreshold);
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (!this.contactCollection!.length) {
@@ -2846,13 +2849,13 @@ export class ConversationModel extends window.Backbone
       if (isMe(contact.attributes)) {
         return false;
       }
-      return contact.safeIsUntrusted();
+      return contact.safeIsUntrusted(timestampThreshold);
     });
   }
 
-  getUntrusted(): Array<ConversationModel> {
+  getUntrusted(timestampThreshold?: number): Array<ConversationModel> {
     if (isDirectConversation(this.attributes)) {
-      if (this.isUntrusted()) {
+      if (this.isUntrusted(timestampThreshold)) {
         return [this];
       }
       return [];
@@ -2863,7 +2866,7 @@ export class ConversationModel extends window.Backbone
         if (isMe(contact.attributes)) {
           return false;
         }
-        return contact.isUntrusted();
+        return contact.isUntrusted(timestampThreshold);
       }) || []
     );
   }

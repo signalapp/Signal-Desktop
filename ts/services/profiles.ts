@@ -12,6 +12,7 @@ import type {
   GetProfileOptionsType,
   GetProfileUnauthOptionsType,
 } from '../textsecure/WebAPI';
+import type { UUID } from '../types/UUID';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -359,20 +360,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     }
 
     if (profile.identityKey) {
-      const identityKey = Bytes.fromBase64(profile.identityKey);
-      const changed = await window.textsecure.storage.protocol.saveIdentity(
-        new Address(uuid, 1),
-        identityKey,
-        false
-      );
-      if (changed) {
-        // save identity will close all sessions except for .1, so we
-        // must close that one manually.
-        const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-        await window.textsecure.storage.protocol.archiveSession(
-          new QualifiedAddress(ourUuid, new Address(uuid, 1))
-        );
-      }
+      await updateIdentityKey(profile.identityKey, uuid);
     }
 
     // Update accessKey to prevent race conditions. Since we run asynchronous
@@ -654,4 +642,28 @@ async function maybeGetPNICredential(
   c.set({ pniCredential });
 
   log.info('maybeGetPNICredential: updated PNI credential');
+}
+
+export async function updateIdentityKey(
+  identityKey: string,
+  uuid: UUID
+): Promise<void> {
+  if (!identityKey) {
+    return;
+  }
+
+  const identityKeyBytes = Bytes.fromBase64(identityKey);
+  const changed = await window.textsecure.storage.protocol.saveIdentity(
+    new Address(uuid, 1),
+    identityKeyBytes,
+    false
+  );
+  if (changed) {
+    // save identity will close all sessions except for .1, so we
+    // must close that one manually.
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    await window.textsecure.storage.protocol.archiveSession(
+      new QualifiedAddress(ourUuid, new Address(uuid, 1))
+    );
+  }
 }

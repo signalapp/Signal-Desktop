@@ -39,7 +39,11 @@ export function SmartStoryCreator({
   onClose,
 }: PropsType): JSX.Element | null {
   const { debouncedMaybeGrabLinkPreview } = useLinkPreviewActions();
-  const { sendStoryMessage } = useStoriesActions();
+  const {
+    sendStoryModalOpenStateChanged,
+    sendStoryMessage,
+    verifyStoryListMembers,
+  } = useStoriesActions();
   const { tagGroupsAsNewGroupStory } = useConversationsActions();
   const { createDistributionList } = useStoryDistributionListsActions();
 
@@ -70,9 +74,11 @@ export function SmartStoryCreator({
       me={me}
       onClose={onClose}
       onDistributionListCreated={createDistributionList}
+      onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}
       processAttachment={processAttachment}
       recentStickers={recentStickers}
+      sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       signalConnections={signalConnections}
       tagGroupsAsNewGroupStory={tagGroupsAsNewGroupStory}
     />

@@ -22,6 +22,7 @@ import { MY_STORIES_ID, getStoryDistributionListName } from '../types/Stories';
 import { Modal } from './Modal';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { Theme } from '../util/theme';
+import { isNotNil } from '../util/isNotNil';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
@@ -36,6 +37,7 @@ export type PropsType = {
     name: string,
     viewerUuids: Array<UUIDStringType>
   ) => unknown;
+  onSelectedStoryList: (memberUuids: Array<string>) => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
     conversationIds: Array<string>
@@ -55,6 +57,21 @@ const Page = {
 };
 
 type PageType = SendStoryPage | StoriesSettingsPage;
+
+function getListMemberUuids(
+  list: StoryDistributionListDataType,
+  signalConnections: Array<ConversationType>
+): Array<string> {
+  if (list.id === MY_STORIES_ID && list.isBlockList) {
+    const excludeUuids = new Set<string>(list.memberUuids);
+    return signalConnections
+      .map(conversation => conversation.uuid)
+      .filter(isNotNil)
+      .filter(uuid => !excludeUuids.has(uuid));
+  }
+
+  return list.memberUuids;
+}
 
 function getListViewers(
   list: StoryDistributionListDataType,
@@ -85,6 +102,7 @@ export const SendStoryModal = ({
   onClose,
   onDistributionListCreated,
   onSend,
+  onSelectedStoryList,
   signalConnections,
   tagGroupsAsNewGroupStory,
 }: PropsType): JSX.Element => {
@@ -300,6 +318,11 @@ export const SendStoryModal = ({
                 }
                 return new Set([...listIds]);
               });
+              if (value) {
+                onSelectedStoryList(
+                  getListMemberUuids(list, signalConnections)
+                );
+              }
             }}
           >
             {({ id, checkboxNode }) => (
@@ -352,6 +375,10 @@ export const SendStoryModal = ({
             moduleClassName="SendStoryModal__distribution-list"
             name="SendStoryModal__distribution-list"
             onChange={(value: boolean) => {
+              if (!group.memberships) {
+                return;
+              }
+
               setSelectedGroupIds(groupIds => {
                 if (value) {
                   groupIds.add(group.id);
@@ -360,6 +387,9 @@ export const SendStoryModal = ({
                 }
                 return new Set([...groupIds]);
               });
+              if (value) {
+                onSelectedStoryList(group.memberships.map(({ uuid }) => uuid));
+              }
             }}
           >
             {({ id, checkboxNode }) => (

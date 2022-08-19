@@ -17,6 +17,7 @@ import { isInSystemContacts } from '../util/isInSystemContacts';
 export enum SafetyNumberChangeSource {
   Calling = 'Calling',
   MessageSend = 'MessageSend',
+  Story = 'Story',
 }
 
 export type SafetyNumberProps = {

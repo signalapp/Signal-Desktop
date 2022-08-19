@@ -13,7 +13,7 @@ import { getMe } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getPreferredLeftPaneWidth } from '../selectors/items';
-import { getStories } from '../selectors/stories';
+import { getStories, shouldShowStoriesView } from '../selectors/stories';
 import { saveAttachment } from '../../util/saveAttachment';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -37,7 +37,7 @@ export function SmartStories(): JSX.Element | null {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
   const isShowingStoriesView = useSelector<StateType, boolean>(
-    (state: StateType) => state.stories.isShowingStoriesView
+    shouldShowStoriesView
   );
 
   const preferredWidthFromStorage = useSelector<StateType, number>(
