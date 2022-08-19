@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { KeyboardEvent, ReactNode } from 'react';
-import type { Options } from '@popperjs/core';
+import type { Options, VirtualElement } from '@popperjs/core';
 import FocusTrap from 'focus-trap-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import { noop } from 'lodash';
@@ -23,6 +23,7 @@ export type ContextMenuOptionType<T> = {
 };
 
 export type PropsType<T> = {
+  readonly ariaLabel?: string;
   readonly children?: ReactNode;
   readonly i18n: LocalizerType;
   readonly menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
@@ -37,7 +38,27 @@ export type PropsType<T> = {
 
 let closeCurrentOpenContextMenu: undefined | (() => unknown);
 
+// https://popper.js.org/docs/v2/virtual-elements/
+// Generating a virtual element here so that we can make the menu pop up
+// right under the mouse cursor.
+function generateVirtualElement(x: number, y: number): VirtualElement {
+  return {
+    getBoundingClientRect: () => ({
+      bottom: y,
+      height: 0,
+      left: x,
+      right: x,
+      toJSON: () => ({ x, y }),
+      top: y,
+      width: 0,
+      x,
+      y,
+    }),
+  };
+}
+
 export function ContextMenu<T>({
+  ariaLabel,
   children,
   i18n,
   menuOptions,
@@ -56,14 +77,21 @@ export function ContextMenu<T>({
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null
   );
+
+  const virtualElement = useRef<VirtualElement>(generateVirtualElement(0, 0));
+
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
 
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'top-start',
-    strategy: 'fixed',
-    ...popperOptions,
-  });
+  const { styles, attributes } = usePopper(
+    virtualElement.current,
+    popperElement,
+    {
+      placement: 'top-start',
+      strategy: 'fixed',
+      ...popperOptions,
+    }
+  );
 
   useEffect(() => {
     if (onMenuShowingChanged) {
@@ -129,9 +157,10 @@ export function ContextMenu<T>({
     }
   };
 
-  const handleClick = (ev: KeyboardEvent | React.MouseEvent) => {
+  const handleClick = (ev: React.MouseEvent) => {
     closeCurrentOpenContextMenu?.();
     closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
+    virtualElement.current = generateVirtualElement(ev.clientX, ev.clientY);
     setIsMenuShowing(true);
     ev.stopPropagation();
     ev.preventDefault();
@@ -147,7 +176,7 @@ export function ContextMenu<T>({
       )}
     >
       <button
-        aria-label={i18n('ContextMenu--button')}
+        aria-label={ariaLabel || i18n('ContextMenu--button')}
         className={classNames(
           getClassName('__button'),
           isMenuShowing ? getClassName('__button--active') : undefined

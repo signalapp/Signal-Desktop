@@ -20,14 +20,10 @@ import type { ShowToastActionCreatorType } from '../state/ducks/toast';
 import { ContextMenu } from './ContextMenu';
 import { MyStoriesButton } from './MyStoriesButton';
 import { SearchInput } from './SearchInput';
+import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { StoryListItem } from './StoryListItem';
 import { Theme } from '../util/theme';
-import { ToastType } from '../state/ducks/toast';
 import { isNotNil } from '../util/isNotNil';
-import {
-  isVideoGoodForStories,
-  ReasonVideoNotGood,
-} from '../util/isVideoGoodForStories';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
@@ -126,58 +122,11 @@ export const StoriesPane = ({
         <div className="Stories__pane__header--title">
           {i18n('Stories__title')}
         </div>
-        <ContextMenu
+        <StoriesAddStoryButton
           i18n={i18n}
-          menuOptions={[
-            {
-              label: i18n('Stories__add-story--media'),
-              onClick: () => {
-                const input = document.createElement('input');
-                input.accept = 'image/*,video/mp4';
-                input.type = 'file';
-                input.onchange = async () => {
-                  const file = input.files ? input.files[0] : undefined;
-
-                  if (!file) {
-                    return;
-                  }
-
-                  const result = await isVideoGoodForStories(file);
-
-                  if (
-                    result === ReasonVideoNotGood.UnsupportedCodec ||
-                    result === ReasonVideoNotGood.UnsupportedContainer
-                  ) {
-                    showToast(ToastType.StoryVideoUnsupported);
-                    return;
-                  }
-
-                  if (result === ReasonVideoNotGood.TooLong) {
-                    showToast(ToastType.StoryVideoTooLong);
-                    return;
-                  }
-
-                  if (result !== ReasonVideoNotGood.AllGoodNevermind) {
-                    showToast(ToastType.StoryVideoError);
-                    return;
-                  }
-
-                  onAddStory(file);
-                };
-                input.click();
-              },
-            },
-            {
-              label: i18n('Stories__add-story--text'),
-              onClick: () => onAddStory(),
-            },
-          ]}
           moduleClassName="Stories__pane__add-story"
-          popperOptions={{
-            placement: 'bottom',
-            strategy: 'absolute',
-          }}
-          theme={Theme.Dark}
+          onAddStory={onAddStory}
+          showToast={showToast}
         />
         <ContextMenu
           i18n={i18n}
@@ -218,6 +167,7 @@ export const StoriesPane = ({
             onAddStory={onAddStory}
             onClick={onMyStoriesClicked}
             queueStoryDownload={queueStoryDownload}
+            showToast={showToast}
           />
           {renderedStories.map(story => (
             <StoryListItem

@@ -8961,6 +8961,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ContextMenu.tsx",
+    "line": "  const virtualElement = useRef<VirtualElement>(generateVirtualElement(0, 0));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-08-19T17:09:38.534Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ConversationList.tsx",
     "line": "  const listRef = useRef<null | List>(null);",
     "reasonCategory": "usageTrusted",
@@ -9205,13 +9212,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TextStoryCreator.tsx",
-    "line": "  const textEditorRef = useRef<HTMLInputElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-06-16T23:23:32.306Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/StoryImage.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -9249,6 +9249,13 @@
     "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
     "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/TextStoryCreator.tsx",
+    "line": "  const textEditorRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
   },

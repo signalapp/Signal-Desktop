@@ -83,15 +83,6 @@
     position: relative;
     width: 46px;
 
-    &--add {
-      &::after {
-        content: '';
-        @include color-svg('../images/icons/v2/plus-20.svg', $color-gray-15);
-        height: 18px;
-        width: 18px;
-      }
-    }
-
     &--image {
       @include button-reset;
 

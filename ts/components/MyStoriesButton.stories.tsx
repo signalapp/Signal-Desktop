@@ -36,6 +36,7 @@ export default {
     onAddStory: { action: true },
     onClick: { action: true },
     queueStoryDownload: { action: true },
+    showToast: { action: true },
   },
 } as Meta;
 
@@ -50,7 +51,7 @@ const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
   await userEvent.click(btnAddStory);
   await expect(args.onAddStory).toHaveBeenCalled();
 
-  const [btnStory] = canvas.getAllByLabelText('Story');
+  const [btnStory] = canvas.getAllByText('My Stories');
   await userEvent.click(btnStory);
   await expect(args.onClick).toHaveBeenCalled();
 };
