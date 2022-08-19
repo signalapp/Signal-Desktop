@@ -80,7 +80,7 @@ export const OverlayCommunity = () => {
       <SessionJoinableRooms onRoomClicked={closeOverlay} />
       {groupUrl && (
         <SessionButton
-          buttonColor={SessionButtonColor.White}
+          buttonColor={SessionButtonColor.Green}
           buttonType={SessionButtonType.BrandOutline}
           text={buttonText}
           onClick={onEnterPressed}

@@ -80,11 +80,9 @@ export const OverlayClosedGroup = () => {
   let sharedWithResults: Array<string> = [];
 
   if (searchResults && searchResults.contactsAndGroups.length) {
-    const privateSearchResults = searchResults.contactsAndGroups.filter(convo => convo.isPrivate);
-
-    sharedWithResults = privateContactsPubkeys.filter(m =>
-      privateSearchResults.find(convo => convo.id === m)
-    );
+    sharedWithResults = searchResults.contactsAndGroups
+      .filter(convo => convo.isPrivate)
+      .map(convo => convo.id);
   }
   const contactsToRender = isSearch ? sharedWithResults : privateContactsPubkeys;
 
