@@ -9,7 +9,7 @@
   align-items: center;
 
   &-header {
-    margin-top: $session-margin-lg;
+    margin-top: var(--margins-lg);
     margin-inline-start: $session-margin-sm;
     margin-inline-end: $session-margin-sm;
     width: -webkit-fill-available;

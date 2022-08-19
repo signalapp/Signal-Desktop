@@ -33,7 +33,7 @@ export const SessionSettingsItemWrapper = (props: {
   inline: boolean;
   title?: string;
   description?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   return (
     <div className={classNames('session-settings-item', props.inline && 'inline')}>

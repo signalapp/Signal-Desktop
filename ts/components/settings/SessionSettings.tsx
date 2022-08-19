@@ -6,13 +6,15 @@ import { SessionIconButton } from '../icon';
 import autoBind from 'auto-bind';
 import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
 // tslint:disable-next-line: no-submodule-imports
-import { BlockedUserSettings } from './BlockedUserSettings';
+import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { Data } from '../../data/data';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { matchesHash } from '../../util/passwordUtils';
+import { SettingsCategoryPermissions } from './section/CategoryPermissions';
+import { SettingsCategoryHelp } from './section/CategoryHelp';
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -23,11 +25,17 @@ export function getCallMediaPermissionsSettings() {
 }
 
 export enum SessionSettingCategory {
-  Appearance = 'appearance',
   Privacy = 'privacy',
   Notifications = 'notifications',
+
+  Conversations = 'conversations',
   MessageRequests = 'messageRequests',
-  Blocked = 'blocked',
+
+  Appearance = 'appearance',
+  Permissions = 'permissions',
+  Help = 'help',
+  RecoveryPhrase = 'recoveryPhrase',
+  ClearData = 'ClearData',
 }
 
 export interface SettingsViewProps {
@@ -130,28 +138,34 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     if (this.state.hasPassword === null) {
       return null;
     }
-    if (category === SessionSettingCategory.Blocked) {
+    const hasPassword = this.state.hasPassword;
+    switch (category) {
       // special case for blocked user
-      return <BlockedUserSettings />;
-    }
+      case SessionSettingCategory.Conversations:
+        return <CategoryConversations />;
+      case SessionSettingCategory.Appearance:
+        return <SettingsCategoryAppearance hasPassword={hasPassword} />;
+      case SessionSettingCategory.Notifications:
+        return <SessionNotificationGroupSettings hasPassword={hasPassword} />;
+      case SessionSettingCategory.Privacy:
+        return (
+          <SettingsCategoryPrivacy
+            onPasswordUpdated={this.onPasswordUpdated}
+            hasPassword={hasPassword}
+          />
+        );
+      case SessionSettingCategory.Help:
+        return <SettingsCategoryHelp hasPassword={hasPassword} />;
+      case SessionSettingCategory.Permissions:
+        return <SettingsCategoryPermissions hasPassword={hasPassword} />;
 
-    if (category === SessionSettingCategory.Appearance) {
-      return <SettingsCategoryAppearance hasPassword={this.state.hasPassword} />;
+      // those three down there have no options, they are just a button
+      case SessionSettingCategory.ClearData:
+      case SessionSettingCategory.MessageRequests:
+      case SessionSettingCategory.RecoveryPhrase:
+      default:
+        return null;
     }
-
-    if (category === SessionSettingCategory.Notifications) {
-      return <SessionNotificationGroupSettings hasPassword={this.state.hasPassword} />;
-    }
-
-    if (category === SessionSettingCategory.Privacy) {
-      return (
-        <SettingsCategoryPrivacy
-          onPasswordUpdated={this.onPasswordUpdated}
-          hasPassword={this.state.hasPassword}
-        />
-      );
-    }
-    return null;
   }
 
   public async validatePasswordLock() {
@@ -192,7 +206,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     const categoryLocalized: LocalizerKeys =
       category === SessionSettingCategory.Appearance
         ? 'appearanceSettingsTitle'
-        : category === SessionSettingCategory.Blocked
+        : category === SessionSettingCategory.Conversations
         ? 'blockedSettingsTitle'
         : category === SessionSettingCategory.Notifications
         ? 'notificationsSettingsTitle'
