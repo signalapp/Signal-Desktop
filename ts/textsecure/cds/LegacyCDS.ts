@@ -170,8 +170,8 @@ export class LegacyCDS extends CDSBase<LegacyCDSOptionsType> {
     for (const [i, e164] of e164s.entries()) {
       const uuid = uuids[i];
       result.set(e164, {
-        aci: undefined,
-        pni: uuid ? UUID.cast(uuid) : undefined,
+        aci: uuid ? UUID.cast(uuid) : undefined,
+        pni: undefined,
       });
     }
 

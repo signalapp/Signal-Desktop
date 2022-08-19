@@ -19,5 +19,6 @@ export type CDSRequestOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
   acis: ReadonlyArray<UUIDStringType>;
   accessKeys: ReadonlyArray<string>;
+  returnAcisWithoutUaks?: boolean;
   timeout?: number;
 }>;

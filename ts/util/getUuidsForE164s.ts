@@ -5,6 +5,7 @@ import type { CDSResponseType } from '../textsecure/cds/Types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
+import { isEnabled } from '../RemoteConfig';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 
 export async function getUuidsForE164s(
@@ -37,9 +38,20 @@ export async function getUuidsForE164s(
     accessKeys.push(accessKey);
   }
 
+  const returnAcisWithoutUaks = isEnabled('desktop.cdsi.returnAcisWithoutUaks');
+  const isCDSI = isEnabled('desktop.cdsi');
+  const isMirroring = isEnabled('desktop.cdsi.mirroring');
+
   log.info(
     `getUuidsForE164s(${e164s}): acis=${acis.length} ` +
       `accessKeys=${accessKeys.length}`
   );
-  return server.cdsLookup({ e164s, acis, accessKeys });
+  return server.cdsLookup({
+    e164s,
+    acis,
+    accessKeys,
+    returnAcisWithoutUaks,
+    isLegacy: !isCDSI,
+    isMirroring,
+  });
 }

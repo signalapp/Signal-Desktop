@@ -33,13 +33,18 @@ import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import type { UUID, UUIDStringType } from '../types/UUID';
 import { UUIDKind } from '../types/UUID';
+import type { DirectoryConfigType } from '../types/RendererConfig';
 import * as Bytes from '../Bytes';
 import { getRandomValue } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
 import { SocketManager } from './SocketManager';
-import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
+import type {
+  CDSAuthType,
+  CDSRequestOptionsType,
+  CDSResponseType,
+} from './cds/Types.d';
 import type { CDSBase } from './cds/CDSBase';
 import { LegacyCDS } from './cds/LegacyCDS';
 import type { LegacyCDSPutAttestationResponseType } from './cds/LegacyCDS';
@@ -548,40 +553,6 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'storageToken',
 ]);
 
-type DirectoryV1OptionsType = Readonly<{
-  directoryVersion: 1;
-  directoryUrl: string;
-  directoryEnclaveId: string;
-  directoryTrustAnchor: string;
-}>;
-
-type DirectoryV2OptionsType = Readonly<{
-  directoryVersion: 2;
-  directoryV2Url: string;
-  directoryV2PublicKey: string;
-  directoryV2CodeHashes: ReadonlyArray<string>;
-}>;
-
-type DirectoryV3OptionsType = Readonly<{
-  directoryVersion: 3;
-  directoryV3Url: string;
-  directoryV3MRENCLAVE: string;
-}>;
-
-type OptionalDirectoryFieldsType = {
-  directoryUrl?: unknown;
-  directoryEnclaveId?: unknown;
-  directoryTrustAnchor?: unknown;
-  directoryV2Url?: unknown;
-  directoryV2PublicKey?: unknown;
-  directoryV2CodeHashes?: unknown;
-  directoryV3Url?: unknown;
-  directoryV3MRENCLAVE?: unknown;
-};
-
-type DirectoryOptionsType = OptionalDirectoryFieldsType &
-  (DirectoryV1OptionsType | DirectoryV2OptionsType | DirectoryV3OptionsType);
-
 type InitializeOptionsType = {
   url: string;
   storageUrl: string;
@@ -594,7 +565,7 @@ type InitializeOptionsType = {
   contentProxyUrl: string;
   proxyUrl: string | undefined;
   version: string;
-  directoryConfig: DirectoryOptionsType;
+  directoryConfig: DirectoryConfigType;
 };
 
 export type MessageType = Readonly<{
@@ -770,6 +741,9 @@ export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
   acis?: ReadonlyArray<UUIDStringType>;
   accessKeys?: ReadonlyArray<string>;
+  returnAcisWithoutUaks?: boolean;
+  isLegacy: boolean;
+  isMirroring: boolean;
 }>;
 
 type GetProfileCommonOptionsType = Readonly<
@@ -1105,12 +1079,17 @@ export function initialize({
       socketManager.authenticate({ username, password });
     }
 
-    let cds: CDSBase;
-    if (directoryConfig.directoryVersion === 1) {
-      const { directoryUrl, directoryEnclaveId, directoryTrustAnchor } =
-        directoryConfig;
+    const {
+      directoryType,
+      directoryUrl,
+      directoryEnclaveId,
+      directoryTrustAnchor,
+    } = directoryConfig;
 
-      cds = new LegacyCDS({
+    let legacyCDS: LegacyCDS | undefined;
+    let cds: CDSBase;
+    if (directoryType === 'legacy' || directoryType === 'mirrored-cdsi') {
+      legacyCDS = new LegacyCDS({
         logger: log,
         directoryEnclaveId,
         directoryTrustAnchor,
@@ -1183,17 +1162,20 @@ export function initialize({
           })) as CDSAuthType;
         },
       });
-    } else if (directoryConfig.directoryVersion === 2) {
-      const { directoryV2Url, directoryV2PublicKey, directoryV2CodeHashes } =
-        directoryConfig;
 
-      cds = new CDSH({
+      if (directoryType === 'legacy') {
+        cds = legacyCDS;
+      }
+    }
+    if (directoryType === 'cdsi' || directoryType === 'mirrored-cdsi') {
+      const { directoryCDSIUrl, directoryCDSIMRENCLAVE } = directoryConfig;
+
+      cds = new CDSI({
         logger: log,
         proxyUrl,
 
-        url: directoryV2Url,
-        publicKey: directoryV2PublicKey,
-        codeHashes: directoryV2CodeHashes,
+        url: directoryCDSIUrl,
+        mrenclave: directoryCDSIMRENCLAVE,
         certificateAuthority,
         version,
 
@@ -1205,15 +1187,21 @@ export function initialize({
           })) as CDSAuthType;
         },
       });
-    } else if (directoryConfig.directoryVersion === 3) {
-      const { directoryV3Url, directoryV3MRENCLAVE } = directoryConfig;
+    }
+    if (directoryType === 'cdsh') {
+      const {
+        directoryCDSHUrl,
+        directoryCDSHPublicKey,
+        directoryCDSHCodeHashes,
+      } = directoryConfig;
 
-      cds = new CDSI({
+      cds = new CDSH({
         logger: log,
         proxyUrl,
 
-        url: directoryV3Url,
-        mrenclave: directoryV3MRENCLAVE,
+        url: directoryCDSHUrl,
+        publicKey: directoryCDSHPublicKey,
+        codeHashes: directoryCDSHCodeHashes,
         certificateAuthority,
         version,
 
@@ -2851,16 +2839,64 @@ export function initialize({
       return socketManager.getProvisioningResource(handler);
     }
 
+    async function mirroredCdsLookup(
+      requestOptions: CDSRequestOptionsType,
+      expectedMapPromise: Promise<CDSResponseType>
+    ): Promise<void> {
+      try {
+        log.info('cdsLookup: sending mirrored request');
+        const actualMap = await cds.request(requestOptions);
+
+        const expectedMap = await expectedMapPromise;
+        let matched = 0;
+        for (const [e164, { aci }] of actualMap) {
+          if (!aci) {
+            continue;
+          }
+
+          const expectedACI = expectedMap.get(e164)?.aci;
+          if (expectedACI === aci) {
+            matched += 1;
+          } else {
+            log.warn(
+              `cdsLookup: mirrored request has aci=${aci} for ${e164}, while ` +
+                `expected aci=${expectedACI}`
+            );
+          }
+        }
+
+        log.info(`cdsLookup: mirrored request success, matched=${matched}`);
+      } catch (error) {
+        log.error('cdsLookup: mirrored request error', toLogFormat(error));
+      }
+    }
+
     async function cdsLookup({
       e164s,
       acis = [],
       accessKeys = [],
+      returnAcisWithoutUaks,
+      isLegacy,
+      isMirroring,
     }: CdsLookupOptionsType): Promise<CDSResponseType> {
-      return cds.request({
+      const requestOptions = {
         e164s,
         acis,
         accessKeys,
-      });
+        returnAcisWithoutUaks,
+      };
+      if (!isLegacy || !legacyCDS) {
+        return cds.request(requestOptions);
+      }
+
+      const legacyRequest = legacyCDS.request(requestOptions);
+
+      if (legacyCDS !== cds && isMirroring) {
+        // Intentionally not awaiting
+        mirroredCdsLookup(requestOptions, legacyRequest);
+      }
+
+      return legacyRequest;
     }
   }
 }

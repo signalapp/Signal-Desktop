@@ -375,20 +375,22 @@ async function prepareUrl(
   const theme = await getResolvedThemeSetting();
 
   const directoryConfig = directoryConfigSchema.safeParse({
-    directoryVersion: config.get<number | undefined>('directoryVersion') || 1,
+    directoryType: config.get<string | undefined>('directoryType') || 'legacy',
     directoryUrl: config.get<string | null>('directoryUrl') || undefined,
     directoryEnclaveId:
       config.get<string | null>('directoryEnclaveId') || undefined,
     directoryTrustAnchor:
       config.get<string | null>('directoryTrustAnchor') || undefined,
-    directoryV2Url: config.get<string | null>('directoryV2Url') || undefined,
-    directoryV2PublicKey:
-      config.get<string | null>('directoryV2PublicKey') || undefined,
-    directoryV2CodeHashes:
-      config.get<Array<string> | null>('directoryV2CodeHashes') || undefined,
-    directoryV3Url: config.get<string | null>('directoryV3Url') || undefined,
-    directoryV3MRENCLAVE:
-      config.get<string | null>('directoryV3MRENCLAVE') || undefined,
+    directoryCDSIUrl:
+      config.get<string | null>('directoryCDSIUrl') || undefined,
+    directoryCDSIMRENCLAVE:
+      config.get<string | null>('directoryCDSIMRENCLAVE') || undefined,
+    directoryCDSHUrl:
+      config.get<string | null>('directoryCDSHUrl') || undefined,
+    directoryCDSHPublicKey:
+      config.get<string | null>('directoryCDSHPublicKey') || undefined,
+    directoryCDSHCodeHashes:
+      config.get<Array<string> | null>('directoryCDSHCodeHashes') || undefined,
   });
   if (!directoryConfig.success) {
     throw new Error(

@@ -326,9 +326,9 @@ export class Bootstrap {
       },
       updatesEnabled: false,
 
-      directoryVersion: 3,
-      directoryV3Url: url,
-      directoryV3MRENCLAVE:
+      directoreType: 'cdsi',
+      directoryCDSIUrl: url,
+      directoryCDSIMRENCLAVE:
         '51133fecb3fa18aaf0c8f64cb763656d3272d9faaacdb26ae7df082e414fb142',
 
       ...this.options.extraConfig,

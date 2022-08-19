@@ -70,6 +70,7 @@ export abstract class CDSSocketBase<
     e164s,
     acis,
     accessKeys,
+    returnAcisWithoutUaks = false,
   }: CDSRequestOptionsType): Promise<CDSSocketResponseType> {
     const log = this.logger;
 
@@ -109,6 +110,7 @@ export abstract class CDSSocketBase<
         })
       ),
       aciUakPairs: Buffer.concat(aciUakPairs),
+      returnAcisWithoutUaks,
     }).finish();
 
     log.info(`CDSSocket.request(): sending version=${version} request`);

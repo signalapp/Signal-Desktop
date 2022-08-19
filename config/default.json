@@ -1,15 +1,15 @@
 {
   "serverUrl": "https://chat.staging.signal.org",
   "storageUrl": "https://storage-staging.signal.org",
-  "directoryVersion": 3,
+  "directoryType": "cdsi",
   "directoryUrl": null,
   "directoryEnclaveId": null,
   "directoryTrustAnchor": null,
-  "directoryV2Url": null,
-  "directoryV2PublicKey": null,
-  "directoryV2CodeHashes": null,
-  "directoryV3Url": "https://cdsi.staging.signal.org",
-  "directoryV3MRENCLAVE": "ddc7b9b1cbcc932e24b9905e26c4ecbea3f9b7effd033f9e96488c2e8449f64e",
+  "directoryCDSIUrl": "https://cdsi.staging.signal.org",
+  "directoryCDSIMRENCLAVE": "ef4787a56a154ac6d009138cac17155acd23cfe4329281252365dd7c252e7fbf",
+  "directoryCDSHUrl": null,
+  "directoryCDSHPublicKey": null,
+  "directoryCDSHCodeHashes": null,
   "cdn": {
     "0": "https://cdn-staging.signal.org",
     "2": "https://cdn2-staging.signal.org"

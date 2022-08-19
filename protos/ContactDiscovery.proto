@@ -1,4 +1,4 @@
-// Copyright 2021-2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 package signalservice;
@@ -25,6 +25,10 @@ message CDSClientRequest {
   // After receiving a new token from the server, send back a message just
   // containing a token_ack.
   optional bool token_ack = 7;
+
+  // Request that, if the server allows, both ACI and PNI be returned even
+  // if the aci_uak_pairs don't match.
+  optional bool return_acis_without_uaks = 8;
 }
 
 message CDSClientResponse {
