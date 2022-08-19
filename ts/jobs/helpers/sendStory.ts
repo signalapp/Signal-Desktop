@@ -310,7 +310,7 @@ export async function sendStory(
           sendOptions,
           sendTarget,
           sendType: 'story',
-          timestamp,
+          timestamp: message.get('timestamp'),
           urgent: false,
         });
 

@@ -170,7 +170,7 @@ export async function sendStoryMessage(
   >();
 
   await Promise.all(
-    conversationIds.map(async conversationId => {
+    conversationIds.map(async (conversationId, index) => {
       const group = window.ConversationController.get(conversationId);
 
       if (!group) {
@@ -189,10 +189,12 @@ export async function sendStoryMessage(
         return;
       }
 
+      const groupTimestamp = timestamp + index;
+
       const myId = window.ConversationController.getOurConversationIdOrThrow();
       const sendState = {
         status: SendStatus.Pending,
-        updatedAt: timestamp,
+        updatedAt: groupTimestamp,
       };
 
       const sendStateByConversationId = getRecipients(group.attributes).reduce(
@@ -220,13 +222,13 @@ export async function sendStoryMessage(
           id: UUID.generate().toString(),
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),
-          received_at_ms: timestamp,
+          received_at_ms: groupTimestamp,
           seenStatus: SeenStatus.NotApplicable,
           sendStateByConversationId,
-          sent_at: timestamp,
+          sent_at: groupTimestamp,
           source: window.textsecure.storage.user.getNumber(),
           sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
-          timestamp,
+          timestamp: groupTimestamp,
           type: 'story',
         });
 
