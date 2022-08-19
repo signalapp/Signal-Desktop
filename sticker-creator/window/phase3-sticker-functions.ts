@@ -185,16 +185,25 @@ window.encryptAndUpload = async (
     return s;
   });
 
-  const coverStickerId =
-    uniqueStickers.length === stickers.length ? 0 : uniqueStickers.length - 1;
+  const coverStickerId = 0;
   const coverStickerData = stickers[coverStickerId];
+
+  if (!coverStickerData) {
+    window.SignalContext.log.warn(
+      'encryptAndUpload: No coverStickerData with ' +
+        `index ${coverStickerId} and ${stickers.length} total stickers`
+    );
+  }
+
   const coverSticker = new Proto.StickerPack.Sticker();
   coverSticker.id = coverStickerId;
-  if (coverStickerData.emoji) {
+
+  if (coverStickerData?.emoji && coverSticker) {
     coverSticker.emoji = coverStickerData.emoji;
   } else {
     coverSticker.emoji = '';
   }
+
   manifestProto.cover = coverSticker;
 
   const encryptedManifest = await encrypt(

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
+import type { ReactNode, ErrorInfo } from 'react';
 import React from 'react';
 
 import * as Errors from '../types/errors';
@@ -10,6 +10,8 @@ import { ToastType } from '../state/ducks/toast';
 
 export type Props = {
   children: ReactNode;
+  name: string;
+  closeView?: () => unknown;
 };
 
 export type State = {
@@ -24,14 +26,23 @@ export class ErrorBoundary extends React.PureComponent<Props, State> {
   }
 
   public static getDerivedStateFromError(error: Error): State {
+    return { error };
+  }
+
+  public override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    const { closeView, name } = this.props;
+
     log.error(
-      'ErrorBoundary: captured rendering error',
-      Errors.toLogFormat(error)
+      `ErrorBoundary/${name}: ` +
+        `captured rendering error ${Errors.toLogFormat(error)}` +
+        `\nerrorInfo: ${errorInfo.componentStack}`
     );
     if (window.reduxActions) {
       window.reduxActions.toast.showToast(ToastType.Error);
     }
-    return { error };
+    if (closeView) {
+      closeView();
+    }
   }
 
   public override render(): ReactNode {

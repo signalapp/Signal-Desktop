@@ -10,6 +10,7 @@ import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { LocaleMessagesType } from '../types/I18N';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { ToastType } from '../state/ducks/toast';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { AppViewType } from '../state/ducks/app';
 import { Inbox } from './Inbox';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
@@ -28,9 +29,9 @@ type PropsType = {
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   isShowingStoriesView: boolean;
-  renderStories: () => JSX.Element;
+  renderStories: (closeView: () => unknown) => JSX.Element;
   hasSelectedStoryData: boolean;
-  renderStoryViewer: () => JSX.Element;
+  renderStoryViewer: (closeView: () => unknown) => JSX.Element;
   requestVerification: (
     type: 'sms' | 'voice',
     number: string,
@@ -48,6 +49,8 @@ type PropsType = {
   titleBarDoubleClick: () => void;
   toastType?: ToastType;
   hideToast: () => unknown;
+  toggleStoriesView: () => unknown;
+  viewStory: ViewStoryActionCreatorType;
 } & ComponentProps<typeof Inbox>;
 
 export const App = ({
@@ -82,6 +85,8 @@ export const App = ({
   theme,
   titleBarDoubleClick,
   toastType,
+  toggleStoriesView,
+  viewStory,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -168,8 +173,9 @@ export const App = ({
         <ToastManager hideToast={hideToast} i18n={i18n} toastType={toastType} />
         {renderGlobalModalContainer()}
         {renderCallManager()}
-        {isShowingStoriesView && renderStories()}
-        {hasSelectedStoryData && renderStoryViewer()}
+        {isShowingStoriesView && renderStories(toggleStoriesView)}
+        {hasSelectedStoryData &&
+          renderStoryViewer(() => viewStory({ closeViewer: true }))}
         {contents}
       </div>
     </TitleBarContainer>

@@ -5,6 +5,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 import type { PropsType } from '../smart/ConversationView';
 import { SmartConversationView } from '../smart/ConversationView';
@@ -14,6 +15,16 @@ export const createConversationView = (
   props: PropsType
 ): React.ReactElement => (
   <Provider store={store}>
-    <SmartConversationView {...props} />
+    <ErrorBoundary
+      name="createConversationView"
+      closeView={() => {
+        window.reduxActions.conversations.showConversation({
+          conversationId: undefined,
+          messageId: undefined,
+        });
+      }}
+    >
+      <SmartConversationView {...props} />
+    </ErrorBoundary>
   </Provider>
 );

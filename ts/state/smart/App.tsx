@@ -51,14 +51,14 @@ const mapStateToProps = (state: StateType) => {
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
     renderLeftPane: () => <SmartLeftPane />,
     isShowingStoriesView: shouldShowStoriesView(state),
-    renderStories: () => (
-      <ErrorBoundary>
+    renderStories: (closeView: () => unknown) => (
+      <ErrorBoundary name="App/renderStories" closeView={closeView}>
         <SmartStories />
       </ErrorBoundary>
     ),
     hasSelectedStoryData: hasSelectedStoryData(state),
-    renderStoryViewer: () => (
-      <ErrorBoundary>
+    renderStoryViewer: (closeView: () => unknown) => (
+      <ErrorBoundary name="App/renderStoryViewer" closeView={closeView}>
         <SmartStoryViewer />
       </ErrorBoundary>
     ),

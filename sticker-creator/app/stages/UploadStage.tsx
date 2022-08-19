@@ -12,6 +12,7 @@ import { Button } from '../../elements/Button';
 import { stickersDuck } from '../../store';
 import { encryptAndUpload } from '../../util/preload';
 import { useI18n } from '../../util/i18n';
+import * as Errors from '../../../ts/types/errors';
 
 const handleCancel = () => {
   history.push('/add-meta');
@@ -42,7 +43,10 @@ export const UploadStage: React.ComponentType = () => {
         actions.setPackMeta(packMeta);
         history.push('/share');
       } catch (e) {
-        window.SignalContext.log.error('Error uploading image:', e);
+        window.SignalContext.log.error(
+          'Error uploading pack:',
+          Errors.toLogFormat(e)
+        );
         actions.addToast({
           key: 'StickerCreator--Toasts--errorUploading',
           subs: [e.message],

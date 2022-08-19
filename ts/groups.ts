@@ -4633,13 +4633,17 @@ function extractDiffs({
       Boolean(current.expireTimer) &&
       old.expireTimer !== current.expireTimer)
   ) {
+    const expireTimer = current.expireTimer || 0;
+    log.info(
+      `extractDiffs/${logId}: generating change notifcation for new ${expireTimer} timer`
+    );
     timerNotification = {
       ...generateBasicMessage(),
       type: 'timer-notification',
       sourceUuid,
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
-        expireTimer: current.expireTimer || 0,
+        expireTimer,
         sourceUuid,
       },
     };
