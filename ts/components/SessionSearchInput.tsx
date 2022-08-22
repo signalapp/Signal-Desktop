@@ -8,6 +8,35 @@ import { getOverlayMode } from '../state/selectors/section';
 import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
 
+const StyledSearchInput = styled.div`
+  height: var(--search-input-height);
+  width: 100%;
+  margin-inline-end: 1px;
+  margin-bottom: 10px;
+  display: inline-flex;
+  flex-shrink: 0;
+
+  .session-icon-button {
+    margin: auto 10px;
+  }
+`;
+
+const StyledInput = styled.input`
+  width: inherit;
+  height: inherit;
+  border: none;
+  flex-grow: 1;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-default);
+  text-overflow: ellipsis;
+  background: none;
+  color: var(--color-text);
+
+  &:focus {
+    outline: none !important;
+  }
+`;
+
 const doTheSearch = (dispatch: Dispatch<any>, cleanedTerm: string) => {
   dispatch(search(cleanedTerm));
 };
@@ -74,32 +103,3 @@ export const SessionSearchInput = () => {
     </StyledSearchInput>
   );
 };
-
-const StyledSearchInput = styled.div`
-  height: 34px; // $session-search-input-height
-  width: 100%;
-  margin-inline-end: 1px;
-  margin-bottom: 10px;
-  display: inline-flex;
-  flex-shrink: 0;
-
-  .session-icon-button {
-    margin: auto 10px;
-  }
-`;
-
-const StyledInput = styled.input`
-  width: inherit;
-  height: inherit;
-  border: none;
-  flex-grow: 1;
-  font-size: var(--font-size-sm);
-  font-family: var(--font-default);
-  text-overflow: ellipsis;
-  background: none;
-  color: var(--color-text);
-
-  &:focus {
-    outline: none !important;
-  }
-`;

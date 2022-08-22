@@ -14,6 +14,24 @@ import { getAudioAutoplay } from '../../state/selectors/userConfig';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIcon } from '../icon';
 
+const StyledSpeedButton = styled.div`
+  padding: var(--margins-xs);
+  opacity: 0.6;
+  transition: none;
+
+  :hover {
+    opacity: 1;
+  }
+
+  .session-button {
+    transition: none;
+
+    &:hover {
+      color: var(--color-text-opposite);
+    }
+  }
+`;
+
 export const AudioPlayerWithEncryptedFile = (props: {
   src: string;
   contentType: string;
@@ -123,21 +141,3 @@ export const AudioPlayerWithEncryptedFile = (props: {
     />
   );
 };
-
-const StyledSpeedButton = styled.div`
-  padding: var(--margins-xs);
-  opacity: 0.6;
-  transition: none;
-
-  :hover {
-    opacity: 1;
-  }
-
-  .session-button {
-    transition: none;
-
-    &:hover {
-      color: var(--color-text-opposite);
-    }
-  }
-`;

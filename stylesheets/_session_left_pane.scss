@@ -274,8 +274,8 @@ $session-compose-margin: 20px;
     justify-content: center;
     align-items: center;
 
-    height: $session-search-input-height;
-    width: $session-search-input-height;
+    height: var(--search-input-height);
+    width: var(--search-input-height);
 
     padding: 0px;
     margin: 0px;

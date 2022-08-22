@@ -18,6 +18,21 @@ import styled from 'styled-components';
 import { SessionSearchInput } from '../../SessionSearchInput';
 import { getSearchResults, isSearching } from '../../../state/selectors/search';
 
+const StyledMemberListNoContacts = styled.div`
+  font-family: var(--font-font-mono);
+  background: var(--color-cell-background);
+  text-align: center;
+  padding: 20px;
+`;
+
+const StyledGroupMemberListContainer = styled.div`
+  padding: 2px 0px;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  border: var(--border-session);
+`;
+
 const NoContacts = () => {
   return (
     <StyledMemberListNoContacts>{window.i18n('noContactsForGroup')}</StyledMemberListNoContacts>
@@ -143,18 +158,3 @@ export const OverlayClosedGroup = () => {
     </div>
   );
 };
-
-const StyledMemberListNoContacts = styled.div`
-  font-family: var(--font-font-mono);
-  background: var(--color-cell-background);
-  text-align: center;
-  padding: 20px;
-`;
-
-const StyledGroupMemberListContainer = styled.div`
-  padding: 2px 0px;
-  width: 100%;
-  max-height: 400px;
-  overflow-y: auto;
-  border: var(--border-session);
-`;

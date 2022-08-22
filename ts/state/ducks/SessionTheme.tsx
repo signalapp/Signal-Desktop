@@ -345,6 +345,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* CONSTANTS */
     --compositionContainerHeight: 60px;
+    --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
     --color-warning:  ${warning};

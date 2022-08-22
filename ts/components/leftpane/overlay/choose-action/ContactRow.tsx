@@ -38,7 +38,6 @@ const StyledContactRowName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* font-weight: 600; */
   font-size: var(--font-size-lg);
 `;
 
@@ -46,10 +45,8 @@ const StyledRowContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 var(--margins-lg);
-
   transition: background-color var(--default-duration) linear;
   cursor: pointer;
-
   border-bottom: 1px var(--color-session-border) solid;
 
   &:first-child {
@@ -60,22 +57,6 @@ const StyledRowContainer = styled.div`
     background-color: var(--color-clickable-hovered);
   }
 `;
-
-export const ContactRow = (props: Props) => {
-  const { id, style, displayName } = props;
-
-  return (
-    <StyledRowContainer
-      style={style}
-      onClick={() => openConversationWithMessages({ conversationKey: id, messageId: null })}
-    >
-      <AvatarItem id={id} displayName={displayName} />
-      <StyledContactRowName data-testid="module-conversation__user__profile-name">
-        {displayName || id}
-      </StyledContactRowName>
-    </StyledRowContainer>
-  );
-};
 
 const StyledBreak = styled.div`
   display: flex;
@@ -95,5 +76,21 @@ export const ContactRowBreak = (props: { char: string; key: string; style: CSSPr
     <StyledBreak key={key} style={style}>
       {char}
     </StyledBreak>
+  );
+};
+
+export const ContactRow = (props: Props) => {
+  const { id, style, displayName } = props;
+
+  return (
+    <StyledRowContainer
+      style={style}
+      onClick={() => openConversationWithMessages({ conversationKey: id, messageId: null })}
+    >
+      <AvatarItem id={id} displayName={displayName} />
+      <StyledContactRowName data-testid="module-conversation__user__profile-name">
+        {displayName || id}
+      </StyledContactRowName>
+    </StyledRowContainer>
   );
 };
