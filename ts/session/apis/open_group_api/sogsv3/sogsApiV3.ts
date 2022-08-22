@@ -34,6 +34,7 @@ import { handleOutboxMessageModel } from '../../../../receiver/dataMessage';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { createSwarmMessageSentFromUs } from '../../../../models/messageFactory';
 import { Data } from '../../../../data/data';
+import { handleOpenGroupMessageReactions } from '../../../../util/reactions';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -73,7 +74,13 @@ async function handlePollInfoResponse(
     token: string;
     upload: boolean;
     write: boolean;
-    details: { admins?: Array<string>; image_id: number; moderators?: Array<string> };
+    details: {
+      admins?: Array<string>;
+      image_id: number;
+      moderators?: Array<string>;
+      hidden_admins?: Array<string>;
+      hidden_moderators?: Array<string>;
+    };
   },
   serverUrl: string,
   roomIdsStillPolled: Set<string>
@@ -109,7 +116,14 @@ async function handlePollInfoResponse(
     write,
     upload,
     subscriberCount: active_users,
-    details: pick(details, 'admins', 'image_id', 'moderators'),
+    details: pick(
+      details,
+      'admins',
+      'image_id',
+      'moderators',
+      'hidden_admins',
+      'hidden_moderators'
+    ),
   });
 }
 
@@ -143,9 +157,8 @@ const handleSogsV3DeletedMessages = async (
   serverUrl: string,
   roomId: string
 ) => {
-  // FIXME those 2 `m.data === null` test should be removed when we add support for emoji-reacts
-  const deletions = messages.filter(m => Boolean(m.deleted) || m.data === null);
-  const exceptDeletion = messages.filter(m => !(Boolean(m.deleted) || m.data === null));
+  const deletions = messages.filter(m => Boolean(m.deleted));
+  const exceptDeletion = messages.filter(m => !m.deleted);
   if (!deletions.length) {
     return messages;
   }
@@ -156,6 +169,7 @@ const handleSogsV3DeletedMessages = async (
     const messageIds = await Data.getMessageIdsFromServerIds(allIdsRemoved, convo.id);
 
     // we shouldn't get too many messages to delete at a time, so no need to add a function to remove multiple messages for now
+
     await Promise.all(
       (messageIds || []).map(async id => {
         if (convo) {
@@ -205,13 +219,28 @@ const handleMessagesResponseV4 = async (
       return;
     }
 
+    const messagesWithoutReactionOnlyUpdates = messages.filter(m => {
+      const keys = Object.keys(m);
+      if (
+        keys.length === 3 &&
+        keys.includes('id') &&
+        keys.includes('seqno') &&
+        keys.includes('reactions')
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+    // Incoming messages from sogvs v3 are returned in descending order from the latest seqno, we need to sort it chronologically
     // Incoming messages for sogs v3 have a timestamp in seconds and not ms.
     // Session works with timestamp in ms, for a lot of things, so first, lets fix this.
-
-    const messagesWithMsTimestamp = messages.map(m => ({
-      ...m,
-      posted: Math.floor(m.posted * 1000),
-    }));
+    const messagesWithMsTimestamp = messagesWithoutReactionOnlyUpdates
+      .sort((a, b) => (a.seqno < b.seqno ? -1 : a.seqno > b.seqno ? 1 : 0))
+      .map(m => ({
+        ...m,
+        posted: m.posted ? Math.floor(m.posted * 1000) : undefined,
+      }));
 
     const messagesWithoutDeleted = await handleSogsV3DeletedMessages(
       messagesWithMsTimestamp,
@@ -235,16 +264,21 @@ const handleMessagesResponseV4 = async (
     const messagesWithResolvedBlindedIdsIfFound = [];
     for (let index = 0; index < messagesFilteredBlindedIds.length; index++) {
       const newMessage = messagesFilteredBlindedIds[index];
-      const unblindedIdFound = getCachedNakedKeyFromBlindedNoServerPubkey(newMessage.session_id);
+      if (newMessage.session_id) {
+        const unblindedIdFound = getCachedNakedKeyFromBlindedNoServerPubkey(newMessage.session_id);
 
-      // override the sender in the message itself if we are the sender
-      if (unblindedIdFound && UserUtils.isUsFromCache(unblindedIdFound)) {
-        newMessage.session_id = unblindedIdFound;
+        // override the sender in the message itself if we are the sender
+        if (unblindedIdFound && UserUtils.isUsFromCache(unblindedIdFound)) {
+          newMessage.session_id = unblindedIdFound;
+        }
+        messagesWithResolvedBlindedIdsIfFound.push(newMessage);
+      } else {
+        throw Error('session_id is missing so we cannot resolve the blinded id');
       }
-      messagesWithResolvedBlindedIdsIfFound.push(newMessage);
     }
 
     // we use the unverified newMessages seqno and id as last polled because we actually did poll up to those ids.
+
     const incomingMessageSeqNo = compact(messages.map(n => n.seqno));
     const maxNewMessageSeqNo = Math.max(...incomingMessageSeqNo);
     for (let index = 0; index < messagesWithResolvedBlindedIdsIfFound.length; index++) {
@@ -270,6 +304,19 @@ const handleMessagesResponseV4 = async (
     }
     roomInfosRefreshed.lastFetchTimestamp = Date.now();
     await OpenGroupData.saveV2OpenGroupRoom(roomInfosRefreshed);
+
+    const messagesWithReactions = messages.filter(m => m.reactions !== undefined);
+    if (messagesWithReactions.length > 0) {
+      const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
+      const groupConvo = getConversationController().get(conversationId);
+      if (groupConvo && groupConvo.isOpenGroupV2()) {
+        for (const message of messagesWithReactions) {
+          void groupConvo.queueJob(async () => {
+            await handleOpenGroupMessageReactions(message.reactions, message.id);
+          });
+        }
+      }
+    }
   } catch (e) {
     window?.log?.warn('handleNewMessages failed:', e);
   }

@@ -198,6 +198,15 @@ export type SubRequestUpdateRoomType = {
   };
 };
 
+export type SubRequestDeleteReactionType = {
+  type: 'deleteReaction';
+  deleteReaction: {
+    reaction: string;
+    messageId: number;
+    roomId: string;
+  };
+};
+
 export type OpenGroupBatchRow =
   | SubRequestCapabilitiesType
   | SubRequestMessagesType
@@ -208,7 +217,8 @@ export type OpenGroupBatchRow =
   | SubRequestAddRemoveModeratorType
   | SubRequestBanUnbanUserType
   | SubRequestDeleteAllUserPostsType
-  | SubRequestUpdateRoomType;
+  | SubRequestUpdateRoomType
+  | SubRequestDeleteReactionType;
 
 /**
  *
@@ -228,8 +238,9 @@ const makeBatchRequestPayload = (
       if (options.messages) {
         return {
           method: 'GET',
+          // TODO Consistency across platforms with fetching reactors
           path: isNumber(options.messages.sinceSeqNo)
-            ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}`
+            ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}?t=r`
             : `/room/${options.messages.roomId}/messages/recent`,
         };
       }
@@ -302,6 +313,11 @@ const makeBatchRequestPayload = (
         method: 'PUT',
         path: `/room/${options.updateRoom.roomId}`,
         json: { image: options.updateRoom.imageId },
+      };
+    case 'deleteReaction':
+      return {
+        method: 'DELETE',
+        path: `/room/${options.deleteReaction.roomId}/reactions/${options.deleteReaction.messageId}/${options.deleteReaction.reaction}`,
       };
     default:
       throw new Error('Invalid batch request row');
@@ -394,7 +410,7 @@ const sendSogsBatchRequestOnionV4 = async (
   if (isObject(batchResponse.body)) {
     return batchResponse as BatchSogsReponse;
   }
-  window?.log?.warn('sogsbatch: batch response decoded body is not object. Returning null');
 
+  window?.log?.warn('sogsbatch: batch response decoded body is not object. Returning null');
   return null;
 };

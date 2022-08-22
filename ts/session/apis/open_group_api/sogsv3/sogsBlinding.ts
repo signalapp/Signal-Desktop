@@ -1,4 +1,4 @@
-import { fromUInt8ArrayToBase64, stringToUint8Array, toHex } from '../../../utils/String';
+import { encode, fromUInt8ArrayToBase64, stringToUint8Array, toHex } from '../../../utils/String';
 import { concatUInt8Array, getSodiumRenderer, LibSodiumWrappers } from '../../../crypto';
 import { crypto_hash_sha512, from_hex, to_hex } from 'libsodium-wrappers-sumo';
 import { ByteKeyPair } from '../../../utils/User';
@@ -12,6 +12,7 @@ import {
   toX25519,
 } from '../../../utils/SodiumUtils';
 import { isEqual } from 'lodash';
+import { OnionSending } from '../../../onions/onionSend';
 
 async function getSogsSignature({
   blinded,
@@ -67,14 +68,18 @@ async function getOpenGroupHeaders(data: {
     pubkey = `${KeyPrefixType.unblinded}${toHex(signingKeys.pubKeyBytes)}`;
   }
 
+  const rawPath = OnionSending.endpointRequiresDecoding(path); // this gets a string of the path wioth potentially emojis in it
+  const encodedPath = new Uint8Array(encode(rawPath, 'utf8')); // this gets the binary content of that utf8 string
+
   // SERVER_PUBKEY || NONCE || TIMESTAMP || METHOD || PATH || HASHED_BODY
   let toSign = concatUInt8Array(
     serverPK,
     nonce,
     stringToUint8Array(timestamp.toString()),
     stringToUint8Array(method),
-    stringToUint8Array(path)
+    encodedPath
   );
+
   if (body) {
     const bodyHashed = sodium.crypto_generichash(64, body);
 

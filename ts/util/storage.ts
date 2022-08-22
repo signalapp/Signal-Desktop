@@ -1,5 +1,6 @@
 import { Data } from '../data/data';
 import { SessionKeyPair } from '../receiver/keypairs';
+import { DEFAULT_RECENT_REACTS } from '../session/constants';
 
 let ready = false;
 
@@ -134,6 +135,19 @@ export function getCurrentRecoveryPhrase() {
 
 export async function saveRecoveryPhrase(mnemonic: string) {
   return Storage.put('mnemonic', mnemonic);
+}
+
+export function getRecentReactions(): Array<string> {
+  const reactions = Storage.get('recent_reactions') as string;
+  if (reactions) {
+    return reactions.split(' ');
+  } else {
+    return DEFAULT_RECENT_REACTS;
+  }
+}
+
+export async function saveRecentReations(reactions: Array<string>) {
+  return Storage.put('recent_reactions', reactions.join(' '));
 }
 
 export const Storage = { fetch, put, get, remove, onready, reset };

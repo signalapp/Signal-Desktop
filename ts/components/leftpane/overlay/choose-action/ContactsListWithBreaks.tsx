@@ -11,12 +11,36 @@ import {
 import { StyledLeftPaneList } from '../../LeftPaneList';
 import { ContactRow, ContactRowBreak } from './ContactRow';
 import { StyledChooseActionTitle } from './OverlayChooseAction';
-// tslint:disable: use-simple-attributes no-submodule-imports
+
+const StyledContactSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+
+  .module-conversation-list-item __header__date,
+  .module-conversation-list-item __message {
+    display: none;
+  }
+
+  .module-conversation-list-item __buttons {
+    display: flex;
+
+    .session-button {
+      font-size: var(--font-size-xs);
+      padding: 6px;
+      height: auto;
+      margin: 0px;
+      line-height: 14px;
+    }
+  }
+`;
 
 const renderRow = (props: ListRowProps) => {
   const { index, key, style, parent } = props;
 
-  // ugly, but it seems react-viurtualized do not support very well functional components just yet
+  // ugly, but it seems react-virtualized does not support very well functional components just yet
   // https://stackoverflow.com/questions/54488954/how-to-pass-prop-into-rowrender-of-react-virtualized
   const directContactsByNameWithBreaks = (parent as any).props
     .directContactsByNameWithBreaks as Array<DirectContactsByNameType | string>;
@@ -82,31 +106,6 @@ const ContactListItemSection = () => {
     </StyledLeftPaneList>
   );
 };
-
-const StyledContactSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  flex: 1;
-  width: 100%;
-
-  .module-conversation-list-item __header__date,
-  .module-conversation-list-item __message {
-    display: none;
-  }
-
-  .module-conversation-list-item __buttons {
-    display: flex;
-
-    .session-button {
-      font-size: var(--font-size-xs);
-      padding: 6px;
-      height: auto;
-      margin: 0px;
-      line-height: 14px;
-    }
-  }
-`;
 
 const ContactsTitle = () => {
   const contactsCount = useSelector(getDirectContactsCount);
