@@ -86,7 +86,7 @@ $session-compose-margin: 20px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: $main-view-header-height;
+    height: var(--main-view-header-height);
     padding-inline-end: 7px;
     transition: var(--default-duration);
   }

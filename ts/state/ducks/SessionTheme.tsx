@@ -331,6 +331,9 @@ export const SessionGlobalStyles = createGlobalStyle`
     --margins-md:  15px;
     --margins-lg:  20px;
 
+    /* SIZES */
+    --main-view-header-height: 63px;
+
     /* ANIMATIONS */
     --default-duration: 0.25s;
     /* FILTERS */

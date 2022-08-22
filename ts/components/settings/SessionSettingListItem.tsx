@@ -1,8 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
+import styled from 'styled-components';
 
 type ButtonSettingsProps = {
   title?: string;
@@ -13,20 +13,32 @@ type ButtonSettingsProps = {
   onClick: () => void;
 };
 
+const StyledDescription = styled.div`
+  font-family: var(--font-default);
+  font-size: var(--font-size-sm);
+  font-weight: 100;
+  max-width: 700px;
+  color: var(--color-text-subtle);
+`;
+
+const StyledTitle = styled.div`
+  line-height: 1.7;
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+`;
+
+const StyledInfo = styled.div`
+  padding-inline-end: var(--margins-lg);
+`;
+
 const SettingsTitleAndDescription = (props: { title?: string; description?: string }) => {
   return (
-    <div className="session-settings-item__info">
-      <div className="session-settings-item__title">{props.title}</div>
+    <StyledInfo>
+      <StyledTitle>{props.title}</StyledTitle>
 
-      {props.description && (
-        <div className="session-settings-item__description">{props.description}</div>
-      )}
-    </div>
+      {props.description && <StyledDescription>{props.description}</StyledDescription>}
+    </StyledInfo>
   );
-};
-
-const SessionSettingsContent = (props: { children: React.ReactNode }) => {
-  return <div className="session-settings-item__content">{props.children}</div>;
 };
 
 export const SessionSettingsItemWrapper = (props: {
@@ -35,13 +47,30 @@ export const SessionSettingsItemWrapper = (props: {
   description?: string;
   children?: React.ReactNode;
 }) => {
+  const ComponentToRender = props.inline ? StyledSettingItemInline : StyledSettingItem;
   return (
-    <div className={classNames('session-settings-item', props.inline && 'inline')}>
+    <ComponentToRender>
       <SettingsTitleAndDescription title={props.title} description={props.description} />
-      <SessionSettingsContent>{props.children}</SessionSettingsContent>
-    </div>
+      <div>{props.children}</div>
+    </ComponentToRender>
   );
 };
+
+const StyledSettingItem = styled.div`
+  font-size: var(--font-size-md);
+  padding: var(--margins-lg);
+  margin-bottom: 20px;
+
+  background: var(--color-cell-background);
+  color: var(--color-text);
+  border-bottom: var(--border-session);
+`;
+
+const StyledSettingItemInline = styled(StyledSettingItem)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export const SessionToggleWithDescription = (props: {
   title?: string;

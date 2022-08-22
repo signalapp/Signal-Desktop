@@ -67,7 +67,7 @@
     padding: 0px var(--margins-md);
     align-items: center;
     justify-content: space-between;
-    height: $main-view-header-height;
+    height: var(--main-view-header-height);
     background: var(--color-cell-background);
 
     .close-button {
