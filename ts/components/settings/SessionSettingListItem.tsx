@@ -58,7 +58,6 @@ export const SessionSettingsItemWrapper = (props: {
   inline: boolean;
   title?: string;
   description?: string;
-  isTypingMessageItem?: boolean;
   children?: React.ReactNode;
   childrenDescription?: React.ReactNode;
 }) => {

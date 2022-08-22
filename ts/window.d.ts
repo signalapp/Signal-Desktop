@@ -31,7 +31,7 @@ declare global {
     clipboard: any;
     dcodeIO: any;
     getSettingValue: (id: string, comparisonValue?: any) => any;
-    setSettingValue: (id: string, value: any) => void;
+    setSettingValue: (id: string, value: any) => Promise<void>;
 
     i18n: LocalizerType;
     log: any;

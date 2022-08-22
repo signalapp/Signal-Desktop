@@ -275,14 +275,6 @@ async function start() {
   const prevLaunchCount = window.getSettingValue('launch-count');
   // tslint:disable-next-line: restrict-plus-operands
   const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
-  window.setSettingValue('launch-count', launchCount);
-
-  // On first launch
-  if (launchCount === 1) {
-    // Initialise default settings
-    window.setSettingValue('hide-menu-bar', true);
-    window.setSettingValue('link-preview-setting', false);
-  }
 
   window.setTheme = newTheme => {
     window.Events.setThemeSetting(newTheme);
@@ -351,6 +343,14 @@ async function start() {
       openInbox();
     }
   };
+  await window.setSettingValue('launch-count', launchCount);
+
+  // On first launch
+  if (launchCount === 1) {
+    // Initialise default settings
+    await window.setSettingValue('hide-menu-bar', true);
+    await window.setSettingValue('link-preview-setting', false);
+  }
 
   WhisperEvents.on('openInbox', () => {
     openInbox();

@@ -257,7 +257,7 @@ async function fetchReleaseFromFSAndUpdateMain() {
 async function askEnablingOpengroupPruningIfNeeded() {
   if (Storage.get(SettingsKey.settingsOpengroupPruning) === undefined) {
     const setSettingsAndCloseDialog = async (valueToSetPruningTo: boolean) => {
-      window.setSettingValue(SettingsKey.settingsOpengroupPruning, valueToSetPruningTo);
+      await window.setSettingValue(SettingsKey.settingsOpengroupPruning, valueToSetPruningTo);
       await window.setOpengroupPruning(valueToSetPruningTo);
       window.inboxStore?.dispatch(updateConfirmModal(null));
     };

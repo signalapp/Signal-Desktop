@@ -37,7 +37,7 @@ async function toggleStartInTray() {
     const newValue = !(await window.getStartInTray());
 
     // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
-    window.setSettingValue(SettingsKey.settingsStartInTray, newValue);
+    await window.setSettingValue(SettingsKey.settingsStartInTray, newValue);
     await window.setStartInTray(newValue);
     if (!newValue) {
       ToastUtils.pushRestartNeeded();
@@ -73,9 +73,9 @@ export const SettingsCategoryPermissions = (props: { hasPassword: boolean | null
           active={Boolean(window.getCallMediaPermissions())}
         />
         <SessionToggleWithDescription
-          onClickToggle={() => {
+          onClickToggle={async () => {
             const old = Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate));
-            window.setSettingValue(SettingsKey.settingsAutoUpdate, !old);
+            await window.setSettingValue(SettingsKey.settingsAutoUpdate, !old);
             forceUpdate();
           }}
           title={window.i18n('autoUpdateSettingTitle')}

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { debounce, last } from 'lodash';
 import { getStatus } from '../notifications';
 import { UserSetting } from '../notifications/getStatus';
 import { isMacOS } from '../OS';
@@ -41,7 +41,7 @@ let currentNotifications: Array<SessionNotification> = [];
 //   to manually close them. This introduces a minimum amount of time between calls,
 //   and batches up the quick successive update() calls we get from an incoming
 //   read sync, which might have a number of messages referenced inside of it.
-const debouncedUpdate = _.debounce(update, 2000);
+const debouncedUpdate = debounce(update, 2000);
 const fastUpdate = update;
 
 function clear() {
@@ -156,7 +156,7 @@ function update() {
     return;
   }
 
-  const lastNotification = _.last(currentNotifications);
+  const lastNotification = last(currentNotifications);
 
   if (!lastNotification) {
     return;

@@ -21,7 +21,7 @@ async function toggleCommunitiesPruning() {
     const newValue = !(await window.getOpengroupPruning());
 
     // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
-    window.setSettingValue(SettingsKey.settingsOpengroupPruning, newValue);
+    await window.setSettingValue(SettingsKey.settingsOpengroupPruning, newValue);
     await window.setOpengroupPruning(newValue);
     ToastUtils.pushRestartNeeded();
   } catch (e) {

@@ -28,7 +28,7 @@ function displayPasswordModal(
 
 async function toggleLinkPreviews() {
   const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);
-  window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
+  await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
   if (!newValue) {
     await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
   } else {
@@ -63,9 +63,9 @@ export const SettingsCategoryPrivacy = (props: {
     return (
       <>
         <SessionToggleWithDescription
-          onClickToggle={() => {
+          onClickToggle={async () => {
             const old = Boolean(window.getSettingValue(SettingsKey.settingsReadReceipt));
-            window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
+            await window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
             forceUpdate();
           }}
           title={window.i18n('readReceiptSettingTitle')}
@@ -73,9 +73,9 @@ export const SettingsCategoryPrivacy = (props: {
           active={window.getSettingValue(SettingsKey.settingsReadReceipt)}
         />
         <SessionToggleWithDescription
-          onClickToggle={() => {
+          onClickToggle={async () => {
             const old = Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator));
-            window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
+            await window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
             forceUpdate();
           }}
           title={window.i18n('typingIndicatorsSettingTitle')}
