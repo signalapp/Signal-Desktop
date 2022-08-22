@@ -425,7 +425,7 @@ function markStoryRead(
 
     const storyReadDate = Date.now();
 
-    markViewed(message.attributes, storyReadDate);
+    message.set(markViewed(message.attributes, storyReadDate));
 
     const viewedReceipt = {
       messageId,
