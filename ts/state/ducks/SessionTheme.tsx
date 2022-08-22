@@ -320,10 +320,14 @@ export const SessionGlobalStyles = createGlobalStyle`
     --font-default:  'Roboto';
     --font-font-accent:  'Loor';
     --font-font-mono:  'SpaceMono';
-    --font-size-xs:  11px;
-    --font-size-sm:  13px;
-    --font-size-md:  15px;
-    --font-size-lg:  17px;
+    --font-size-xs: 11px;
+    --font-size-sm: 13px;
+    --font-size-md: 15px;
+    --font-size-lg: 17px;
+    --font-size-h1: 30px;
+    --font-size-h2: 24px;
+    --font-size-h3: 20px;
+    --font-size-h4: 16px;
 
     /* MARGINS */
     --margins-xs:  5px;
@@ -338,6 +342,9 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* BORDERS */
     --border-unread: ${lightUnreadBorder};
     --border-session:  ${lightColorSessionBorder};
+
+    /* CONSTANTS */
+    --compositionContainerHeight: 60px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
     --color-warning:  ${warning};

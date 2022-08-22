@@ -200,12 +200,20 @@ describe('MessageSender', () => {
 
       stubUtilWorker('arrayBufferToStringBase64', 'ba64');
       Sinon.stub(OnionSending, 'getOnionPathForSending').resolves([{}] as any);
+      Sinon.stub(OnionSending, 'endpointRequiresDecoding').returnsArg(0);
 
       stubData('getGuardNodes').resolves([]);
 
       Sinon.stub(OpenGroupPollingUtils, 'getAllValidRoomInfos').returns([
         { roomId: 'room', serverPublicKey: 'whatever', serverUrl: 'serverUrl' },
       ]);
+      Sinon.stub(OpenGroupPollingUtils, 'getOurOpenGroupHeaders').resolves({
+        'X-SOGS-Pubkey': '00bac6e71efd7dfa4a83c98ed24f254ab2c267f9ccdb172a5280a0444ad24e89cc',
+        'X-SOGS-Timestamp': '1642472103',
+        'X-SOGS-Nonce': 'CdB5nyKVmQGCw6s0Bvv8Ww==',
+        'X-SOGS-Signature':
+          'gYqpWZX6fnF4Gb2xQM3xaXs0WIYEI49+B8q4mUUEg8Rw0ObaHUWfoWjMHMArAtP9QlORfiydsKWz1o6zdPVeCQ==',
+      });
       stubCreateObjectUrl();
 
       Sinon.stub(OpenGroupMessageV2, 'fromJson').resolves();

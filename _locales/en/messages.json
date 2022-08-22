@@ -109,6 +109,7 @@
   "moreInformation": "More information",
   "resend": "Resend",
   "deleteConversationConfirmation": "Permanently delete the messages in this conversation?",
+  "clear": "Clear",
   "clearAllData": "Clear All Data",
   "deleteAccountWarning": "This will permanently delete your messages, and contacts.",
   "deleteContactConfirmation": "Are you sure you want to delete this conversation?",
@@ -452,5 +453,11 @@
   "clearAllConfirmationTitle": "Clear All Message Requests",
   "clearAllConfirmationBody": "Are you sure you want to clear all message requests?",
   "hideBanner": "Hide",
-  "openMessageRequestInboxDescription": "View your Message Request inbox"
+  "openMessageRequestInboxDescription": "View your Message Request inbox",
+  "clearAllReactions": "Are you sure you want to clear all $emoji$ ?",
+  "reactionTooltip": "reacted with",
+  "expandedReactionsText": "Show Less",
+  "reactionNotification": "Reacts to a message with $emoji$",
+  "readableListCounterSingular": "other",
+  "readableListCounterPlural": "others"
 }

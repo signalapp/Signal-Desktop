@@ -21,6 +21,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { handleMessageReaction } from '../util/reactions';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -79,7 +80,16 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
 }
 
 export function isMessageEmpty(message: SignalService.DataMessage) {
-  const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
+  const {
+    flags,
+    body,
+    attachments,
+    group,
+    quote,
+    preview,
+    openGroupInvitation,
+    reaction,
+  } = message;
 
   return (
     !flags &&
@@ -89,7 +99,8 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
     isEmpty(group) &&
     isEmpty(quote) &&
     isEmpty(preview) &&
-    isEmpty(openGroupInvitation)
+    isEmpty(openGroupInvitation) &&
+    isEmpty(reaction)
   );
 }
 
@@ -218,6 +229,7 @@ export async function handleSwarmDataMessage(
       cleanDataMessage.profileKey
     );
   }
+
   if (isMessageEmpty(cleanDataMessage)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
@@ -306,15 +318,28 @@ async function handleSwarmMessage(
 
   void convoToAddMessageTo.queueJob(async () => {
     // this call has to be made inside the queueJob!
+    if (!msgModel.get('isPublic') && rawDataMessage.reaction && rawDataMessage.syncTarget) {
+      await handleMessageReaction(
+        rawDataMessage.reaction,
+        msgModel.get('source'),
+        false,
+        messageHash
+      );
+      confirm();
+      return;
+    }
+
     const isDuplicate = await isSwarmMessageDuplicate({
       source: msgModel.get('source'),
       sentAt,
     });
+
     if (isDuplicate) {
       window?.log?.info('Received duplicate message. Dropping it.');
       confirm();
       return;
     }
+
     await handleMessageJob(
       msgModel,
       convoToAddMessageTo,

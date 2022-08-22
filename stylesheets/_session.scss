@@ -426,6 +426,7 @@ label {
   background-color: var(--color-modal-background);
   color: var(--color-text);
   border: var(--border-session);
+  border-radius: 14px;
   box-shadow: var(--color-session-shadow);
 
   overflow: hidden;
@@ -602,10 +603,14 @@ label {
   z-index: 30;
   min-width: 200px;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
-  background: var(--color-cell-background);
+  background-color: var(--color-received-message-background);
+
+  &.react-contexify__theme--dark {
+    background-color: var(--color-received-message-background);
+  }
 
   .react-contexify__item {
-    background: var(--color-cell-background);
+    background: var(--color-received-message-background);
   }
 
   .react-contexify__item:not(.react-contexify__item--disabled):hover
@@ -880,7 +885,7 @@ label {
     &__description {
       font-family: $session-font-default;
       font-size: $session-font-sm;
-      font-weight: 100;
+      font-weight: 400;
       max-width: 700px;
       color: var(--color-text-subtle);
     }

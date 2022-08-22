@@ -19,18 +19,20 @@ import {
   fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl,
   roomHasBlindEnabled,
 } from '../sogsv3/sogsV3Capabilities';
+import { OpenGroupReaction } from '../../../../types/Reaction';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
   seqno: number;
-  session_id: string;
+  session_id?: string;
   /** base64 */
-  signature: string;
+  signature?: string;
   /** timestamp number with decimal */
-  posted: number;
+  posted?: number;
   id: number;
-  data: string;
-  deleted: boolean;
+  data?: string;
+  deleted?: boolean;
+  reactions: Record<string, OpenGroupReaction>;
 };
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
@@ -208,7 +210,6 @@ export class OpenGroupServerPoller {
         pollInfo: {
           roomId,
           infoUpdated: 0,
-          // infoUpdated: -1,
         },
       });
 

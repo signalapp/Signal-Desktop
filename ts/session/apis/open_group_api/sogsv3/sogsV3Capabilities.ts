@@ -76,6 +76,10 @@ export function capabilitiesListHasBlindEnabled(caps?: Array<string> | null) {
   return Boolean(caps?.includes('blind'));
 }
 
+export function roomHasReactionsEnabled(openGroup?: OpenGroupV2Room) {
+  return Boolean(openGroup?.capabilities?.includes('reactions'));
+}
+
 export async function fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl(serverUrl: string) {
   let relatedRooms = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl);
   if (!relatedRooms || relatedRooms.length === 0) {

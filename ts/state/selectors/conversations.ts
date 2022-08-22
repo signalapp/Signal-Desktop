@@ -34,7 +34,9 @@ import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { filter, isEmpty, sortBy } from 'lodash';
+
+import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
+import { filter, isEmpty, pick, sortBy } from 'lodash';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -912,32 +914,46 @@ export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, 
     return undefined;
   }
 
-  const {
-    authorAvatarPath,
-    authorName,
-    sender,
-    authorProfileName,
-    conversationType,
-    direction,
-    isPublic,
-    isSenderAdmin,
-  } = props.propsForMessage;
-
-  const { lastMessageOfSeries } = props;
-
   const messageAvatarProps: MessageAvatarSelectorProps = {
-    authorAvatarPath,
-    authorName,
-    sender,
-    authorProfileName,
-    conversationType,
-    direction,
-    isPublic,
-    isSenderAdmin,
-    lastMessageOfSeries,
+    lastMessageOfSeries: props.lastMessageOfSeries,
+    ...pick(props.propsForMessage, [
+      'authorAvatarPath',
+      'authorName',
+      'sender',
+      'authorProfileName',
+      'conversationType',
+      'direction',
+      'isPublic',
+      'isSenderAdmin',
+    ]),
   };
 
   return messageAvatarProps;
+});
+
+export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageReactsSelectorProps
+  | undefined => {
+  if (!props || isEmpty(props)) {
+    return undefined;
+  }
+
+  const msgProps: MessageReactsSelectorProps = pick(props.propsForMessage, [
+    'convoId',
+    'conversationType',
+    'isPublic',
+    'reacts',
+    'serverId',
+  ]);
+
+  if (msgProps.reacts) {
+    const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
+      return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
+    });
+    msgProps.sortedReacts = sortedReacts;
+  }
+
+  return msgProps;
 });
 
 export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId, (props):
@@ -947,12 +963,10 @@ export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId,
     return undefined;
   }
 
-  const { attachments, previews } = props.propsForMessage;
-
-  const msgProps: MessagePreviewSelectorProps = {
-    attachments,
-    previews,
-  };
+  const msgProps: MessagePreviewSelectorProps = pick(props.propsForMessage, [
+    'attachments',
+    'previews',
+  ]);
 
   return msgProps;
 });
@@ -964,12 +978,7 @@ export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (
     return undefined;
   }
 
-  const { direction, quote } = props.propsForMessage;
-
-  const msgProps: MessageQuoteSelectorProps = {
-    direction,
-    quote,
-  };
+  const msgProps: MessageQuoteSelectorProps = pick(props.propsForMessage, ['direction', 'quote']);
 
   return msgProps;
 });
@@ -981,12 +990,7 @@ export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, 
     return undefined;
   }
 
-  const { direction, status } = props.propsForMessage;
-
-  const msgProps: MessageStatusSelectorProps = {
-    direction,
-    status,
-  };
+  const msgProps: MessageStatusSelectorProps = pick(props.propsForMessage, ['direction', 'status']);
 
   return msgProps;
 });
@@ -998,15 +1002,13 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     return undefined;
   }
 
-  const { direction, status, text, isDeleted, conversationType } = props.propsForMessage;
-
-  const msgProps: MessageTextSelectorProps = {
-    direction,
-    status,
-    text,
-    isDeleted,
-    conversationType,
-  };
+  const msgProps: MessageTextSelectorProps = pick(props.propsForMessage, [
+    'direction',
+    'status',
+    'text',
+    'isDeleted',
+    'conversationType',
+  ]);
 
   return msgProps;
 });
@@ -1018,41 +1020,23 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
     return undefined;
   }
 
-  const {
-    attachments,
-    sender,
-    convoId,
-    direction,
-    status,
-    isDeletable,
-    isPublic,
-    isOpenGroupV2,
-    weAreAdmin,
-    isSenderAdmin,
-    text,
-    serverTimestamp,
-    timestamp,
-    isBlocked,
-    isDeletableForEveryone,
-  } = props.propsForMessage;
-
-  const msgProps: MessageContextMenuSelectorProps = {
-    attachments,
-    sender,
-    convoId,
-    direction,
-    status,
-    isDeletable,
-    isPublic,
-    isOpenGroupV2,
-    weAreAdmin,
-    isSenderAdmin,
-    text,
-    serverTimestamp,
-    timestamp,
-    isBlocked,
-    isDeletableForEveryone,
-  };
+  const msgProps: MessageContextMenuSelectorProps = pick(props.propsForMessage, [
+    'attachments',
+    'sender',
+    'convoId',
+    'direction',
+    'status',
+    'isDeletable',
+    'isPublic',
+    'isOpenGroupV2',
+    'weAreAdmin',
+    'isSenderAdmin',
+    'text',
+    'serverTimestamp',
+    'timestamp',
+    'isBlocked',
+    'isDeletableForEveryone',
+  ]);
 
   return msgProps;
 });
@@ -1064,15 +1048,9 @@ export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, 
     return undefined;
   }
 
-  const { authorName, sender, authorProfileName, direction } = props.propsForMessage;
-  const { firstMessageOfSeries } = props;
-
   const msgProps: MessageAuthorSelectorProps = {
-    authorName,
-    sender,
-    authorProfileName,
-    direction,
-    firstMessageOfSeries,
+    firstMessageOfSeries: props.firstMessageOfSeries,
+    ...pick(props.propsForMessage, ['authorName', 'sender', 'authorProfileName', 'direction']),
   };
 
   return msgProps;
@@ -1096,23 +1074,16 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     return undefined;
   }
 
-  const {
-    attachments,
-    direction,
-    isTrustedForAttachmentDownload,
-    timestamp,
-    serverTimestamp,
-    sender,
-    convoId,
-  } = props.propsForMessage;
   const msgProps: MessageAttachmentSelectorProps = {
-    attachments: attachments || [],
-    direction,
-    isTrustedForAttachmentDownload,
-    timestamp,
-    serverTimestamp,
-    sender,
-    convoId,
+    attachments: props.propsForMessage.attachments || [],
+    ...pick(props.propsForMessage, [
+      'direction',
+      'isTrustedForAttachmentDownload',
+      'timestamp',
+      'serverTimestamp',
+      'sender',
+      'convoId',
+    ]),
   };
 
   return msgProps;
@@ -1139,27 +1110,18 @@ export const getMessageContentSelectorProps = createSelector(getMessagePropsByMe
     return undefined;
   }
 
-  const {
-    text,
-    direction,
-    timestamp,
-    serverTimestamp,
-    previews,
-    attachments,
-    quote,
-  } = props.propsForMessage;
-
-  const { firstMessageOfSeries, lastMessageOfSeries } = props;
   const msgProps: MessageContentSelectorProps = {
-    direction,
-    firstMessageOfSeries,
-    lastMessageOfSeries,
-    serverTimestamp,
-    text,
-    timestamp,
-    previews,
-    quote,
-    attachments,
+    firstMessageOfSeries: props.firstMessageOfSeries,
+    lastMessageOfSeries: props.lastMessageOfSeries,
+    ...pick(props.propsForMessage, [
+      'direction',
+      'serverTimestamp',
+      'text',
+      'timestamp',
+      'previews',
+      'quote',
+      'attachments',
+    ]),
   };
 
   return msgProps;
@@ -1172,18 +1134,9 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
-    const {
-      direction,
-      isDeleted,
-      attachments,
-      isTrustedForAttachmentDownload,
-    } = props.propsForMessage;
-
     const msgProps: MessageContentWithStatusSelectorProps = {
-      direction,
-      isDeleted,
-      hasAttachments: Boolean(attachments?.length) || false,
-      isTrustedForAttachmentDownload,
+      hasAttachments: Boolean(props.propsForMessage.attachments?.length) || false,
+      ...pick(props.propsForMessage, ['direction', 'isDeleted', 'isTrustedForAttachmentDownload']),
     };
 
     return msgProps;
@@ -1197,30 +1150,18 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       return undefined;
     }
 
-    const {
-      direction,
-      conversationType,
-      expirationLength,
-      expirationTimestamp,
-      isExpired,
-      isUnread,
-      receivedAt,
-      isKickedFromGroup,
-      isDeleted,
-    } = props.propsForMessage;
-
-    const msgProps: GenericReadableMessageSelectorProps = {
-      direction,
-      conversationType,
-      expirationLength,
-      expirationTimestamp,
-      isUnread,
-      isExpired,
-      convoId: props.propsForMessage.convoId,
-      receivedAt,
-      isKickedFromGroup,
-      isDeleted,
-    };
+    const msgProps: GenericReadableMessageSelectorProps = pick(props.propsForMessage, [
+      'convoId',
+      'direction',
+      'conversationType',
+      'expirationLength',
+      'expirationTimestamp',
+      'isExpired',
+      'isUnread',
+      'receivedAt',
+      'isKickedFromGroup',
+      'isDeleted',
+    ]);
 
     return msgProps;
   }

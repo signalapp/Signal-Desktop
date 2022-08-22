@@ -1,17 +1,21 @@
 import classNames from 'classnames';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
+import { updateReactListModal } from '../../../../state/ducks/modalDialog';
 import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
+import { sendMessageReaction } from '../../../../util/reactions';
 
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
+import { MessageReactions, StyledMessageReactions } from './MessageReactions';
 import { MessageStatus } from './MessageStatus';
 
 export type MessageContentWithStatusSelectorProps = Pick<
@@ -24,7 +28,20 @@ type Props = {
   ctxMenuID: string;
   isDetailView?: boolean;
   dataTestId?: string;
+  enableReactions: boolean;
 };
+
+const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: ${props => (props.direction === 'left' ? 'flex-start' : 'flex-end')};
+  width: 100%;
+
+  ${StyledMessageReactions} {
+    margin-right: var(--margins-sm);
+  }
+`;
 
 export const MessageContentWithStatuses = (props: Props) => {
   const contentProps = useSelector(state =>
@@ -63,38 +80,72 @@ export const MessageContentWithStatuses = (props: Props) => {
     }
   };
 
-  const { messageId, ctxMenuID, isDetailView, dataTestId } = props;
+  const { messageId, ctxMenuID, isDetailView, dataTestId, enableReactions } = props;
   if (!contentProps) {
     return null;
   }
   const { direction, isDeleted, hasAttachments, isTrustedForAttachmentDownload } = contentProps;
   const isIncoming = direction === 'incoming';
 
-  return (
-    <div
-      className={classNames('module-message', `module-message--${direction}`)}
-      role="button"
-      onClick={onClickOnMessageOuterContainer}
-      onDoubleClickCapture={onDoubleClickReplyToMessage}
-      style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
-      data-testid={dataTestId}
-    >
-      <MessageStatus
-        dataTestId="msg-status-incoming"
-        messageId={messageId}
-        isCorrectSide={isIncoming}
-      />
-      <div>
-        <MessageAuthorText messageId={messageId} />
+  const [popupReaction, setPopupReaction] = useState('');
 
-        <MessageContent messageId={messageId} isDetailView={isDetailView} />
+  const handleMessageReaction = async (emoji: string) => {
+    await sendMessageReaction(messageId, emoji);
+  };
+
+  const handlePopupClick = () => {
+    dispatch(updateReactListModal({ reaction: popupReaction, messageId }));
+  };
+
+  return (
+    <StyledMessageContentContainer
+      direction={isIncoming ? 'left' : 'right'}
+      onMouseLeave={() => {
+        setPopupReaction('');
+      }}
+    >
+      <div
+        className={classNames('module-message', `module-message--${direction}`)}
+        role="button"
+        onClick={onClickOnMessageOuterContainer}
+        onDoubleClickCapture={onDoubleClickReplyToMessage}
+        style={{
+          width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto',
+        }}
+        data-testid={dataTestId}
+      >
+        <MessageStatus
+          dataTestId="msg-status-incoming"
+          messageId={messageId}
+          isCorrectSide={isIncoming}
+        />
+        <div>
+          <MessageAuthorText messageId={messageId} />
+
+          <MessageContent messageId={messageId} isDetailView={isDetailView} />
+        </div>
+        <MessageStatus
+          dataTestId="msg-status-outgoing"
+          messageId={messageId}
+          isCorrectSide={!isIncoming}
+        />
+        {!isDeleted && (
+          <MessageContextMenu
+            messageId={messageId}
+            contextMenuId={ctxMenuID}
+            enableReactions={enableReactions}
+          />
+        )}
       </div>
-      <MessageStatus
-        dataTestId="msg-status-outgoing"
-        messageId={messageId}
-        isCorrectSide={!isIncoming}
-      />
-      {!isDeleted && <MessageContextMenu messageId={messageId} contextMenuId={ctxMenuID} />}
-    </div>
+      {enableReactions && (
+        <MessageReactions
+          messageId={messageId}
+          onClick={handleMessageReaction}
+          popupReaction={popupReaction}
+          setPopupReaction={setPopupReaction}
+          onPopupClick={handlePopupClick}
+        />
+      )}
+    </StyledMessageContentContainer>
   );
 };
