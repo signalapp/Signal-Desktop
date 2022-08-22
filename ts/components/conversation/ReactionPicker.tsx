@@ -54,7 +54,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
     // Handle escape key
     React.useEffect(() => {
       const handler = (e: KeyboardEvent) => {
-        if (onClose && e.key === 'Escape') {
+        if (onClose && e.key === 'Escape' && !pickingOther) {
           onClose();
         }
       };
@@ -64,7 +64,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       return () => {
         document.removeEventListener('keydown', handler);
       };
-    }, [onClose]);
+    }, [onClose, pickingOther]);
 
     // Handle EmojiPicker::onPickEmoji
     const onPickEmoji: EmojiPickerProps['onPickEmoji'] = React.useCallback(

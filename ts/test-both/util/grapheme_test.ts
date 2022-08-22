@@ -1,9 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 
-import { getGraphemes, count } from '../../util/grapheme';
+import { getGraphemes, count, isSingleGrapheme } from '../../util/grapheme';
 
 describe('grapheme utilities', () => {
   describe('getGraphemes', () => {
@@ -61,6 +61,22 @@ describe('grapheme utilities', () => {
       assert.strictEqual(count('Z͑ͫ̓ͪ̂ͫ̽͏̴̙̤̞͉͚̯̞̠͍A̴̵̜̰͔ͫ͗͢L̠ͨͧͩ͘G̴̻͈͍͔̹̑͗̎̅͛́Ǫ̵̹̻̝̳͂̌̌͘'), 5);
       assert.strictEqual(count('H҉̸̧͘͠A͢͞V̛̛I̴̸N͏̕͏G҉̵͜͏͢ ̧̧́T̶̛͘͡R̸̵̨̢̀O̷̡U͡҉B̶̛͢͞L̸̸͘͢͟É̸ ̸̛͘͏R͟È͠͞A̸͝Ḑ̕͘͜I̵͘҉͜͞N̷̡̢͠G̴͘͠ ͟͞T͏̢́͡È̀X̕҉̢̀T̢͠?̕͏̢͘͢'), 28);
       assert.strictEqual(count('L̷̳͔̲͝Ģ̵̮̯̤̩̙͍̬̟͉̹̘̹͍͈̮̦̰̣͟͝O̶̴̮̻̮̗͘͡!̴̷̟͓͓'), 4);
+    });
+  });
+
+  describe('isSingleGrapheme', () => {
+    it('returns false for the empty string', () => {
+      assert.isFalse(isSingleGrapheme(''));
+    });
+    it('returns true for single graphemes', () => {
+      assert.isTrue(isSingleGrapheme('a'));
+      assert.isTrue(isSingleGrapheme('å'));
+      assert.isTrue(isSingleGrapheme('😍'));
+    });
+    it('returns false for multiple graphemes', () => {
+      assert.isFalse(isSingleGrapheme('ab'));
+      assert.isFalse(isSingleGrapheme('a😍'));
+      assert.isFalse(isSingleGrapheme('😍a'));
     });
   });
 });

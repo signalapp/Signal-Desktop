@@ -23,6 +23,7 @@ import FocusTrap from 'focus-trap-react';
 import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
 import type { LocalizerType } from '../../types/Util';
+import { isSingleGrapheme } from '../../util/grapheme';
 
 export type EmojiPickDataType = {
   skinTone?: number;
@@ -152,35 +153,45 @@ export const EmojiPicker = React.memo(
         [doSend, onPickEmoji, selectedTone]
       );
 
-      // Handle escape key
+      // Handle key presses, particularly Escape
       React.useEffect(() => {
         const handler = (event: KeyboardEvent) => {
-          if (searchMode && event.key === 'Escape') {
-            setScrollToRow(0);
-            setSearchText('');
-            setSearchMode(false);
-
-            event.preventDefault();
-            event.stopPropagation();
-          } else if (
-            !searchMode &&
-            !event.ctrlKey &&
-            ![
-              'ArrowUp',
-              'ArrowDown',
-              'ArrowLeft',
-              'ArrowRight',
-              'Shift',
-              'Tab',
-              ' ', // Space
-            ].includes(event.key)
-          ) {
-            if (onClose) {
-              onClose();
+          if (event.key === 'Escape') {
+            if (searchMode) {
+              setScrollToRow(0);
+              setSearchText('');
+              setSearchMode(false);
+            } else {
+              onClose?.();
             }
-
             event.preventDefault();
             event.stopPropagation();
+          } else if (!searchMode && !event.ctrlKey && !event.metaKey) {
+            if (
+              [
+                'ArrowUp',
+                'ArrowDown',
+                'ArrowLeft',
+                'ArrowRight',
+                'Enter',
+                'Shift',
+                'Tab',
+                ' ', // Space
+              ].includes(event.key)
+            ) {
+              // Do nothing, these can be used to navigate around the picker.
+            } else if (isSingleGrapheme(event.key)) {
+              // A single grapheme means the user is typing text. Switch to search mode.
+              setSelectedCategory(categories[0]);
+              setSearchMode(true);
+              // Continue propagation, typing the first letter for search.
+            } else {
+              // For anything else, assume it's a special key that isn't one of the ones
+              // above (such as Delete or ContextMenu).
+              onClose?.();
+              event.preventDefault();
+              event.stopPropagation();
+            }
           }
         };
 
@@ -189,7 +200,7 @@ export const EmojiPicker = React.memo(
         return () => {
           document.removeEventListener('keydown', handler);
         };
-      }, [onClose, searchMode]);
+      }, [onClose, searchMode, setSearchMode]);
 
       const [, ...renderableCategories] = categories;
 
