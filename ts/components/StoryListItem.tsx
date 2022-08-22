@@ -7,6 +7,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
@@ -24,10 +25,7 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   onHideStory: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   story: StoryViewType;
-  viewUserStories: (
-    conversationId: string,
-    shouldShowDetailsModal?: boolean
-  ) => unknown;
+  viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
 function StoryListItemAvatar({
@@ -138,7 +136,8 @@ export const StoryListItem = ({
           {
             icon: 'StoryListItem__icon--info',
             label: i18n('StoryListItem__info'),
-            onClick: () => viewUserStories(conversationId, true),
+            onClick: () =>
+              viewUserStories({ conversationId, shouldShowDetailsModal: true }),
           },
           {
             icon: 'StoryListItem__icon--chat',
@@ -149,7 +148,7 @@ export const StoryListItem = ({
         moduleClassName={classNames('StoryListItem', {
           'StoryListItem--hidden': isHidden,
         })}
-        onClick={() => viewUserStories(conversationId)}
+        onClick={() => viewUserStories({ conversationId })}
         popperOptions={{
           placement: 'bottom',
           strategy: 'absolute',

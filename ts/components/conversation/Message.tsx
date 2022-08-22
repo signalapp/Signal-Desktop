@@ -1556,6 +1556,9 @@ export class Message extends React.PureComponent<Props, State> {
           isViewOnce={false}
           moduleClassName="StoryReplyQuote"
           onClick={() => {
+            if (!storyReplyContext.storyId) {
+              return;
+            }
             viewStory({
               storyId: storyReplyContext.storyId,
               storyViewMode: StoryViewModeType.Single,

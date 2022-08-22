@@ -21,6 +21,8 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
 import type { HasStories } from '../../types/Stories';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
+import { StoryViewModeType } from '../../types/Stories';
 import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -90,7 +92,7 @@ export type PropsActionsType = {
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
-  viewUserStories: (cid: string) => unknown;
+  viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
 export type PropsHousekeepingType = {
@@ -232,7 +234,10 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           onClick={
             hasStories
               ? () => {
-                  viewUserStories(id);
+                  viewUserStories({
+                    conversationId: id,
+                    storyViewMode: StoryViewModeType.User,
+                  });
                 }
               : undefined
           }

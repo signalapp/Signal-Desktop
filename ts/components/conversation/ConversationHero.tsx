@@ -10,6 +10,8 @@ import { GroupDescription } from './GroupDescription';
 import { SharedGroupNames } from '../SharedGroupNames';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { HasStories } from '../../types/Stories';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
+import { StoryViewModeType } from '../../types/Stories';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
@@ -30,7 +32,7 @@ export type Props = {
   unblurredAvatarPath?: string;
   updateSharedGroups: () => unknown;
   theme: ThemeType;
-  viewUserStories: (cid: string) => unknown;
+  viewUserStories: ViewUserStoriesActionCreatorType;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
 const renderMembershipRow = ({
@@ -146,7 +148,10 @@ export const ConversationHero = ({
     avatarOnClick = unblurAvatar;
   } else if (hasStories) {
     avatarOnClick = () => {
-      viewUserStories(id);
+      viewUserStories({
+        conversationId: id,
+        storyViewMode: StoryViewModeType.User,
+      });
     };
   }
 

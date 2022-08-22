@@ -104,10 +104,16 @@ export enum StoryViewDirectionType {
   Previous = 'Previous',
 }
 
+// Type of stories to view before closing the viewer
+// All = All the stories in order
+// Single = A single story. Like when clicking on a qouted story
+// Unread = View only unread stories
+// User = All of a user's stories
 export enum StoryViewModeType {
-  Unread = 'Unread',
   All = 'All',
   Single = 'Single',
+  Unread = 'Unread',
+  User = 'User',
 }
 
 export type StoryDistributionListWithMembersDataType = Omit<

@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 import type { GetConversationByIdType } from '../selectors/conversations';
 import type { LocalizerType } from '../../types/Util';
-import type { StoryViewModeType } from '../../types/Stories';
 import type { StateType } from '../reducer';
 import type { SelectedStoryDataType } from '../ducks/stories';
 import { StoryViewer } from '../../components/StoryViewer';
@@ -69,10 +68,6 @@ export function SmartStoryViewer(): JSX.Element | null {
   );
   const { conversationStory, storyView } = storyInfo;
 
-  const storyViewMode = useSelector<StateType, StoryViewModeType | undefined>(
-    state => state.stories.storyViewMode
-  );
-
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
   const replyState = useSelector(getStoryReplies);
@@ -120,7 +115,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       showToast={showToast}
       skinTone={skinTone}
       story={storyView}
-      storyViewMode={storyViewMode}
+      storyViewMode={selectedStoryData.storyViewMode}
       toggleHasAllStoriesMuted={toggleHasAllStoriesMuted}
       {...storiesActions}
     />

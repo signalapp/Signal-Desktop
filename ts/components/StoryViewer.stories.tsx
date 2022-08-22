@@ -7,6 +7,7 @@ import React from 'react';
 import type { PropsType } from './StoryViewer';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
+import { StoryViewModeType } from '../types/Stories';
 import { StoryViewer } from './StoryViewer';
 import { VIDEO_MP4 } from '../types/MIME';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
@@ -56,6 +57,9 @@ export default {
     },
     story: {
       defaultValue: getFakeStoryView(),
+    },
+    storyViewMode: {
+      defaultValue: StoryViewModeType.All,
     },
     toggleHasAllStoriesMuted: { action: true },
     viewStory: { action: true },

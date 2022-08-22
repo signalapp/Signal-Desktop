@@ -263,25 +263,15 @@ export const getStories = createSelector(
   getConversationSelector,
   getDistributionListSelector,
   getStoriesState,
-  shouldShowStoriesView,
   (
     conversationSelector,
     distributionListSelector,
-    { stories }: Readonly<StoriesStateType>,
-    isShowingStoriesView
+    { stories }: Readonly<StoriesStateType>
   ): {
     hiddenStories: Array<ConversationStoryType>;
     myStories: Array<MyStoryType>;
     stories: Array<ConversationStoryType>;
   } => {
-    if (!isShowingStoriesView) {
-      return {
-        hiddenStories: [],
-        myStories: [],
-        stories: [],
-      };
-    }
-
     const hiddenStoriesById = new Map<string, ConversationStoryType>();
     const myStoriesById = new Map<string, MyStoryType>();
     const storiesById = new Map<string, ConversationStoryType>();

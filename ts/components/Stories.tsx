@@ -16,7 +16,10 @@ import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as SmartStoryCreatorPropsType } from '../state/smart/StoryCreator';
 import type { ShowToastActionCreatorType } from '../state/ducks/toast';
-import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
+import type {
+  ViewUserStoriesActionCreatorType,
+  ViewStoryActionCreatorType,
+} from '../state/ducks/stories';
 import { MyStories } from './MyStories';
 import { StoriesPane } from './StoriesPane';
 import { Theme, themeClassName } from '../util/theme';
@@ -40,7 +43,7 @@ export type PropsType = {
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
-  viewUserStories: (conversationId: string) => unknown;
+  viewUserStories: ViewUserStoriesActionCreatorType;
   viewStory: ViewStoryActionCreatorType;
 };
 

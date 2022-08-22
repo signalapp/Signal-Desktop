@@ -11,6 +11,8 @@ import type {
 import type { BadgeType } from '../../badges/types';
 import type { HasStories } from '../../types/Stories';
 import type { LocalizerType, ThemeType } from '../../types/Util';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
+import { StoryViewModeType } from '../../types/Stories';
 import * as log from '../../logging/log';
 import { About } from './About';
 import { Avatar } from '../Avatar';
@@ -42,7 +44,7 @@ type PropsActionType = {
   toggleAdmin: (conversationId: string, contactId: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   updateConversationModelSharedGroups: (conversationId: string) => void;
-  viewUserStories: (cid: string) => unknown;
+  viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
 export type PropsType = PropsDataType & PropsActionType;
@@ -179,7 +181,10 @@ export const ContactModal = ({
               name={contact.name}
               onClick={() => {
                 if (conversation && hasStories) {
-                  viewUserStories(conversation.id);
+                  viewUserStories({
+                    conversationId: conversation.id,
+                    storyViewMode: StoryViewModeType.User,
+                  });
                 } else {
                   setView(ContactModalView.ShowingAvatar);
                 }

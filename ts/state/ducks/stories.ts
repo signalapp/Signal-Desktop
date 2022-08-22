@@ -78,6 +78,7 @@ export type SelectedStoryDataType = {
   messageId: string;
   numStories: number;
   shouldShowDetailsModal: boolean;
+  storyViewMode: StoryViewModeType;
 };
 
 // State
@@ -94,7 +95,6 @@ export type StoriesStateType = {
     verifiedUuids: Array<string>;
   };
   readonly stories: Array<StoryDataType>;
-  readonly storyViewMode?: StoryViewModeType;
 };
 
 // Actions
@@ -172,12 +172,7 @@ type ToggleViewActionType = {
 
 type ViewStoryActionType = {
   type: typeof VIEW_STORY;
-  payload:
-    | {
-        selectedStoryData: SelectedStoryDataType;
-        storyViewMode: StoryViewModeType;
-      }
-    | undefined;
+  payload: SelectedStoryDataType | undefined;
 };
 
 export type StoriesActionType =
@@ -787,10 +782,17 @@ const getSelectedStoryDataForConversationId = (
   };
 };
 
-function viewUserStories(
-  conversationId: string,
-  shouldShowDetailsModal = false
-): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> {
+export type ViewUserStoriesActionCreatorType = (opts: {
+  conversationId: string;
+  shouldShowDetailsModal?: boolean;
+  storyViewMode?: StoryViewModeType;
+}) => unknown;
+
+const viewUserStories: ViewUserStoriesActionCreatorType = ({
+  conversationId,
+  shouldShowDetailsModal = false,
+  storyViewMode,
+}): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
   return (dispatch, getState) => {
     const { currentIndex, hasUnread, numStories, storiesByConversationId } =
       getSelectedStoryDataForConversationId(dispatch, getState, conversationId);
@@ -800,43 +802,49 @@ function viewUserStories(
     dispatch({
       type: VIEW_STORY,
       payload: {
-        selectedStoryData: {
-          currentIndex,
-          messageId: story.messageId,
-          numStories,
-          shouldShowDetailsModal,
-        },
-        storyViewMode: hasUnread
-          ? StoryViewModeType.Unread
-          : StoryViewModeType.All,
+        currentIndex,
+        messageId: story.messageId,
+        numStories,
+        shouldShowDetailsModal,
+        storyViewMode:
+          storyViewMode ||
+          (hasUnread ? StoryViewModeType.Unread : StoryViewModeType.All),
       },
     });
   };
-}
+};
 
-export type ViewStoryActionCreatorType = (opts: {
-  closeViewer?: boolean;
-  storyId?: string;
-  storyViewMode?: StoryViewModeType;
-  viewDirection?: StoryViewDirectionType;
-  shouldShowDetailsModal?: boolean;
-}) => unknown;
+export type ViewStoryActionCreatorType = (
+  opts:
+    | {
+        closeViewer: true;
+      }
+    | {
+        storyId: string;
+        storyViewMode: StoryViewModeType;
+        viewDirection?: StoryViewDirectionType;
+        shouldShowDetailsModal?: boolean;
+      }
+) => unknown;
 
-const viewStory: ViewStoryActionCreatorType = ({
-  closeViewer,
-  shouldShowDetailsModal = false,
-  storyId,
-  storyViewMode,
-  viewDirection,
-}): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
+const viewStory: ViewStoryActionCreatorType = (
+  opts
+): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
   return (dispatch, getState) => {
-    if (closeViewer || !storyId || !storyViewMode) {
+    if ('closeViewer' in opts) {
       dispatch({
         type: VIEW_STORY,
         payload: undefined,
       });
       return;
     }
+
+    const {
+      shouldShowDetailsModal = false,
+      storyId,
+      storyViewMode,
+      viewDirection,
+    } = opts;
 
     const state = getState();
     const { stories } = state.stories;
@@ -852,6 +860,11 @@ const viewStory: ViewStoryActionCreatorType = ({
     );
 
     if (!story) {
+      log.warn('stories.viewStory: No story found', storyId);
+      dispatch({
+        type: VIEW_STORY,
+        payload: undefined,
+      });
       return;
     }
 
@@ -868,12 +881,10 @@ const viewStory: ViewStoryActionCreatorType = ({
       dispatch({
         type: VIEW_STORY,
         payload: {
-          selectedStoryData: {
-            currentIndex,
-            messageId: storyId,
-            numStories,
-            shouldShowDetailsModal,
-          },
+          currentIndex,
+          messageId: storyId,
+          numStories,
+          shouldShowDetailsModal,
           storyViewMode,
         },
       });
@@ -891,12 +902,10 @@ const viewStory: ViewStoryActionCreatorType = ({
       dispatch({
         type: VIEW_STORY,
         payload: {
-          selectedStoryData: {
-            currentIndex: nextIndex,
-            messageId: nextStory.messageId,
-            numStories,
-            shouldShowDetailsModal: false,
-          },
+          currentIndex: nextIndex,
+          messageId: nextStory.messageId,
+          numStories,
+          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });
@@ -911,14 +920,21 @@ const viewStory: ViewStoryActionCreatorType = ({
       dispatch({
         type: VIEW_STORY,
         payload: {
-          selectedStoryData: {
-            currentIndex: nextIndex,
-            messageId: nextStory.messageId,
-            numStories,
-            shouldShowDetailsModal: false,
-          },
+          currentIndex: nextIndex,
+          messageId: nextStory.messageId,
+          numStories,
+          shouldShowDetailsModal: false,
           storyViewMode,
         },
+      });
+      return;
+    }
+
+    // We were just viewing a single user's stories. Close the viewer.
+    if (storyViewMode === StoryViewModeType.User) {
+      dispatch({
+        type: VIEW_STORY,
+        payload: undefined,
       });
       return;
     }
@@ -940,12 +956,10 @@ const viewStory: ViewStoryActionCreatorType = ({
         dispatch({
           type: VIEW_STORY,
           payload: {
-            selectedStoryData: {
-              currentIndex: nextSelectedStoryData.currentIndex,
-              messageId: unreadStory.messageId,
-              numStories: nextSelectedStoryData.numStories,
-              shouldShowDetailsModal: false,
-            },
+            currentIndex: nextSelectedStoryData.currentIndex,
+            messageId: unreadStory.messageId,
+            numStories: nextSelectedStoryData.numStories,
+            shouldShowDetailsModal: false,
             storyViewMode,
           },
         });
@@ -959,6 +973,13 @@ const viewStory: ViewStoryActionCreatorType = ({
     );
 
     if (conversationStoryIndex < 0) {
+      log.warn('stories.viewStory: No stories found for conversation', {
+        storiesLength: conversationStories.length,
+      });
+      dispatch({
+        type: VIEW_STORY,
+        payload: undefined,
+      });
       return;
     }
 
@@ -1001,13 +1022,10 @@ const viewStory: ViewStoryActionCreatorType = ({
       dispatch({
         type: VIEW_STORY,
         payload: {
-          selectedStoryData: {
-            currentIndex: 0,
-            messageId:
-              nextSelectedStoryData.storiesByConversationId[0].messageId,
-            numStories: nextSelectedStoryData.numStories,
-            shouldShowDetailsModal: false,
-          },
+          currentIndex: 0,
+          messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
+          numStories: nextSelectedStoryData.numStories,
+          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });
@@ -1039,13 +1057,10 @@ const viewStory: ViewStoryActionCreatorType = ({
       dispatch({
         type: VIEW_STORY,
         payload: {
-          selectedStoryData: {
-            currentIndex: 0,
-            messageId:
-              nextSelectedStoryData.storiesByConversationId[0].messageId,
-            numStories: nextSelectedStoryData.numStories,
-            shouldShowDetailsModal: false,
-          },
+          currentIndex: 0,
+          messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
+          numStories: nextSelectedStoryData.numStories,
+          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });
@@ -1105,7 +1120,6 @@ export function reducer(
       selectedStoryData: isShowingStoriesView
         ? undefined
         : state.selectedStoryData,
-      storyViewMode: isShowingStoriesView ? undefined : state.storyViewMode,
     };
   }
 
@@ -1341,12 +1355,9 @@ export function reducer(
   }
 
   if (action.type === VIEW_STORY) {
-    const { selectedStoryData, storyViewMode } = action.payload || {};
-
     return {
       ...state,
-      selectedStoryData,
-      storyViewMode,
+      selectedStoryData: action.payload,
     };
   }
 
