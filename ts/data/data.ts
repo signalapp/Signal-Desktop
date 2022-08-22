@@ -143,6 +143,7 @@ export const Data = {
   getMessageIdsFromServerIds,
   getMessageById,
   getMessageBySenderAndSentAt,
+  getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,
   getMessageBySenderAndTimestamp,
   getUnreadByConversation,
@@ -431,6 +432,21 @@ async function getMessageBySenderAndSentAt({
   }
 
   return new MessageModel(messages[0]);
+}
+
+async function getMessageByServerId(
+  serverId: number,
+  skipTimerInit: boolean = false
+): Promise<MessageModel | null> {
+  const message = await channels.getMessageByServerId(serverId);
+  if (!message) {
+    return null;
+  }
+  if (skipTimerInit) {
+    message.skipTimerInit = skipTimerInit;
+  }
+
+  return new MessageModel(message);
 }
 
 async function filterAlreadyFetchedOpengroupMessage(

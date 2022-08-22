@@ -78,18 +78,23 @@ import {
   ConversationTypeEnum,
   fillConvoAttributesWithDefaults,
 } from './conversationAttributes';
-
 import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { OpenGroupData } from '../data/opengroups';
-import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
+import {
+  roomHasBlindEnabled,
+  roomHasReactionsEnabled,
+} from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
 import { addMessagePadding } from '../session/crypto/BufferPadding';
 import { getSodiumRenderer } from '../session/crypto';
 import {
   findCachedOurBlindedPubkeyOrLookItUp,
+  getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
+import { Reaction } from '../types/Reaction';
+import { handleMessageReaction } from '../util/reactions';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -635,6 +640,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
       }
+
       if (shouldApprove) {
         await this.setIsApproved(true);
         if (hasIncomingMessages) {
@@ -667,6 +673,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       const destinationPubkey = new PubKey(destination);
+
       if (this.isPrivate()) {
         if (this.isMe()) {
           chatMessageParams.syncTarget = this.id;
@@ -675,7 +682,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           await getMessageQueue().sendSyncMessage(chatMessageMe);
           return;
         }
-        // Handle Group Invitation Message
+
         if (message.get('groupInvitation')) {
           const groupInvitation = message.get('groupInvitation');
           const groupInvitMessage = new GroupInvitationMessage({
@@ -714,6 +721,120 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
     } catch (e) {
       await message.saveErrors(e);
+      return null;
+    }
+  }
+
+  public async sendReactionJob(sourceMessage: MessageModel, reaction: Reaction) {
+    try {
+      const destination = this.id;
+
+      const sentAt = sourceMessage.get('sent_at');
+      if (!sentAt) {
+        throw new Error('sendReactMessageJob() sent_at must be set.');
+      }
+
+      if (this.isPublic() && !this.isOpenGroupV2()) {
+        throw new Error('Only opengroupv2 are supported now');
+      }
+
+      let sender = UserUtils.getOurPubKeyStrFromCache();
+
+      // an OpenGroupV2 message is just a visible message
+      const chatMessageParams: VisibleMessageParams = {
+        body: '',
+        timestamp: sentAt,
+        reaction,
+        lokiProfile: UserUtils.getOurProfile(),
+      };
+
+      const shouldApprove = !this.isApproved() && this.isPrivate();
+      const incomingMessageCount = await Data.getMessageCountByType(
+        this.id,
+        MessageDirection.incoming
+      );
+      const hasIncomingMessages = incomingMessageCount > 0;
+
+      if (this.id.startsWith('15')) {
+        window.log.info('Sending a blinded message to this user: ', this.id);
+        // TODO confirm this works with Reacts
+        await this.sendBlindedMessageRequest(chatMessageParams);
+        return;
+      }
+
+      if (shouldApprove) {
+        await this.setIsApproved(true);
+        if (hasIncomingMessages) {
+          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
+          await this.addOutgoingApprovalMessage(Date.now());
+          if (!this.didApproveMe()) {
+            await this.setDidApproveMe(true);
+          }
+          // should only send once
+          await this.sendMessageRequestResponse();
+          void forceSyncConfigurationNowIfNeeded();
+        }
+      }
+
+      if (this.isOpenGroupV2()) {
+        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
+        const roomInfos = this.toOpenGroupV2();
+        if (!roomInfos) {
+          throw new Error('Could not find this room in db');
+        }
+        const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
+        const blinded = Boolean(roomHasBlindEnabled(openGroup));
+
+        if (blinded) {
+          const blindedSender = getUsBlindedInThatServer(this);
+          if (blindedSender) {
+            sender = blindedSender;
+          }
+        }
+
+        await handleMessageReaction(reaction, sender, true);
+
+        // send with blinding if we need to
+        await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos, blinded, []);
+        return;
+      } else {
+        await handleMessageReaction(reaction, sender, false);
+      }
+
+      const destinationPubkey = new PubKey(destination);
+
+      if (this.isPrivate()) {
+        // TODO is this still fine without isMe?
+        const chatMessageMe = new VisibleMessage({
+          ...chatMessageParams,
+          syncTarget: this.id,
+        });
+        await getMessageQueue().sendSyncMessage(chatMessageMe);
+
+        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
+        await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
+
+        return;
+      }
+
+      if (this.isMediumGroup()) {
+        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
+        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
+          chatMessage: chatMessageMediumGroup,
+          groupId: destination,
+        });
+        // we need the return await so that errors are caught in the catch {}
+        await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+        return;
+      }
+
+      if (this.isClosedGroup()) {
+        throw new Error('Legacy group are not supported anymore. You need to recreate this group.');
+      }
+
+      throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
+    } catch (e) {
+      window.log.error(`Reaction job failed id:${reaction.id} error:`, e);
       return null;
     }
   }
@@ -905,6 +1026,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     void this.queueJob(async () => {
       await this.sendMessageJob(messageModel, expireTimer);
+    });
+  }
+
+  public async sendReaction(sourceId: string, reaction: Reaction) {
+    const sourceMessage = await Data.getMessageById(sourceId);
+
+    if (!sourceMessage) {
+      return;
+    }
+
+    void this.queueJob(async () => {
+      await this.sendReactionJob(sourceMessage, reaction);
     });
   }
 
@@ -1309,27 +1442,27 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public setSessionDisplayNameNoCommit(newDisplayName?: string | null) {
     const existingSessionName = this.getRealSessionUsername();
-    if (newDisplayName && newDisplayName !== existingSessionName) {
+    if (newDisplayName !== existingSessionName && newDisplayName) {
       this.set({ displayNameInProfile: newDisplayName });
     }
   }
 
   /**
-   * @returns `displayNameInProfile` - the real username as defined by that user/group
+   * @returns `displayNameInProfile` so the real username as defined by that user/group
    */
   public getRealSessionUsername(): string | undefined {
     return this.get('displayNameInProfile');
   }
 
   /**
-   * @returns `nickname` - the nickname we forced for that user. For a group, this returns undefined
+   * @returns `nickname` so the nickname we forced for that user. For a group, this returns `undefined`
    */
   public getNickname(): string | undefined {
     return this.isPrivate() ? this.get('nickname') : undefined;
   }
 
   /**
-   * @returns `getNickname` - the nickname if a private convo and a nickname is set, or `getRealSessionUsername`
+   * @returns `getNickname` if a private convo and a nickname is set, or `getRealSessionUsername`
    */
   public getNicknameOrRealUsername(): string | undefined {
     return this.getNickname() || this.getRealSessionUsername();
@@ -1537,6 +1670,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public hasMember(pubkey: string) {
     return includes(this.get('members'), pubkey);
   }
+
+  public hasReactions() {
+    // message requests should not have reactions
+    if (this.isPrivate() && !this.isApproved()) {
+      return false;
+    }
+    // older open group conversations won't have reaction support
+    if (this.isOpenGroupV2()) {
+      const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
+      return roomHasReactionsEnabled(openGroup);
+    } else {
+      return true;
+    }
+  }
+
   // returns true if this is a closed/medium or open group
   public isGroup() {
     return this.get('type') === ConversationTypeEnum.GROUP;

@@ -52,12 +52,14 @@ export const filterDuplicatesFromDbAndIncomingV4 = async (
       a.posted === b.posted
     );
     // make sure a sender is set, as we cast it just below
-  }).filter(m => Boolean(m.session_id));
+  }).filter(m => Boolean(m.session_id && m.posted));
 
   // now, check database to make sure those messages are not already fetched
   const filteredInDb = await Data.filterAlreadyFetchedOpengroupMessage(
     filtered.map(m => {
-      return { sender: m.session_id as string, serverTimestamp: m.posted };
+      // We have confirmed these exist by filtering above.
+      // tslint:disable-next-line no-non-null-assertion
+      return { sender: m.session_id! as string, serverTimestamp: m.posted! };
     })
   );
 

@@ -22,6 +22,7 @@ import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/A
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
+import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -74,15 +75,23 @@ export class MessageQueue {
     // Skipping the queue for Open Groups v2; the message is sent directly
 
     try {
-      const { sentTimestamp, serverId } = await MessageSender.sendToOpenGroupV2(
+      const result = await MessageSender.sendToOpenGroupV2(
         message,
         roomInfos,
         blinded,
         filesToLink
       );
+
+      // NOTE Reactions are handled in the MessageSender
+      if (message.reaction) {
+        return;
+      }
+
+      const { sentTimestamp, serverId } = result as OpenGroupMessageV2;
       if (!serverId || serverId === -1) {
         throw new Error(`Invalid serverId returned by server: ${serverId}`);
       }
+
       await MessageSentHandler.handlePublicMessageSentSuccess(message.identifier, {
         serverId: serverId,
         serverTimestamp: sentTimestamp,

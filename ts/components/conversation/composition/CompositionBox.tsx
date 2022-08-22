@@ -3,7 +3,7 @@ import _, { debounce, isEmpty } from 'lodash';
 
 import * as MIME from '../../../types/MIME';
 
-import { SessionEmojiPanel } from '../SessionEmojiPanel';
+import { SessionEmojiPanel, StyledEmojiPanel } from '../SessionEmojiPanel';
 import { SessionRecording } from '../SessionRecording';
 
 import {
@@ -55,6 +55,8 @@ import {
 } from './UserMentions';
 import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
 import { LinkPreviews } from '../../../util/linkPreviews';
+import styled from 'styled-components';
+import { FixedBaseEmoji } from '../../../types/Reaction';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -202,6 +204,59 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   // for now, just append it to the end
   return Number.MAX_SAFE_INTEGER;
 };
+
+const StyledEmojiPanelContainer = styled.div`
+  ${StyledEmojiPanel} {
+    position: absolute;
+    bottom: 68px;
+    right: 0px;
+  }
+`;
+
+const StyledSendMessageInput = styled.div`
+  cursor: text;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  min-height: var(--compositionContainerHeight);
+  padding: var(--margins-xs) 0;
+  z-index: 1;
+  background-color: inherit;
+
+  ul {
+    max-height: 70vh;
+    overflow: auto;
+  }
+
+  textarea {
+    font-family: var(--font-default);
+    min-height: calc(var(--compositionContainerHeight) / 3);
+    max-height: 3 * var(--compositionContainerHeight);
+    margin-right: var(--margins-md);
+    color: var(--color-text);
+
+    background: transparent;
+    resize: none;
+    display: flex;
+    flex-grow: 1;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    line-height: var(--font-size-h2);
+    letter-spacing: 0.5px;
+  }
+
+  &__emoji-overlay {
+    // Should have identical properties to the textarea above to line up perfectly.
+    position: absolute;
+    font-size: 14px;
+    font-family: var(--font-default);
+    margin-left: 2px;
+    line-height: var(--font-size-h2);
+    letter-spacing: 0.5px;
+    color: rgba(0, 0, 0, 0);
+  }
+`;
 
 class CompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
@@ -369,8 +424,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
         {typingEnabled && <StartRecordingButton onClick={this.onLoadVoiceNoteView} />}
 
-        <div
-          className="send-message-input"
+        <StyledSendMessageInput
           role="main"
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
@@ -379,19 +433,22 @@ class CompositionBoxInner extends React.Component<Props, State> {
           data-testid="message-input"
         >
           {this.renderTextArea()}
-        </div>
+        </StyledSendMessageInput>
 
         {typingEnabled && (
           <ToggleEmojiButton ref={this.emojiPanelButton} onClick={this.toggleEmojiPanel} />
         )}
         <SendMessageButton onClick={this.onSendMessage} />
 
-        {typingEnabled && (
-          <div ref={this.emojiPanel} onKeyDown={this.onKeyDown} role="button">
-            {showEmojiPanel && (
-              <SessionEmojiPanel onEmojiClicked={this.onEmojiClick} show={showEmojiPanel} />
-            )}
-          </div>
+        {typingEnabled && showEmojiPanel && (
+          <StyledEmojiPanelContainer role="button">
+            <SessionEmojiPanel
+              ref={this.emojiPanel}
+              show={showEmojiPanel}
+              onEmojiClicked={this.onEmojiClick}
+              onKeyDown={this.onKeyDown}
+            />
+          </StyledEmojiPanelContainer>
         )}
       </>
     );
@@ -978,7 +1035,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     updateDraftForConversation({ conversationKey: this.props.selectedConversationKey, draft });
   }
 
-  private onEmojiClick({ native }: any) {
+  private onEmojiClick(emoji: FixedBaseEmoji) {
     if (!this.props.selectedConversationKey) {
       throw new Error('selectedConversationKey is needed');
     }
@@ -996,7 +1053,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const before = draft.slice(0, realSelectionStart);
     const end = draft.slice(realSelectionStart);
 
-    const newMessage = `${before}${native}${end}`;
+    const newMessage = `${before}${emoji.native}${end}`;
     this.setState({ draft: newMessage });
     updateDraftForConversation({
       conversationKey: this.props.selectedConversationKey,

@@ -24,6 +24,7 @@ import {
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { TypingBubble } from './TypingBubble';
+import styled from 'styled-components';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
@@ -51,6 +52,39 @@ type Props = SessionMessageListProps & {
   animateQuotedMessageId: string | undefined;
   scrollToNow: () => Promise<void>;
 };
+
+const StyledMessagesContainer = styled.div<{}>`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column-reverse;
+  position: relative;
+  overflow-x: hidden;
+  min-width: 370px;
+  scrollbar-width: 4px;
+  padding: var(--margins-sm) 0 var(--margins-lg);
+
+  .session-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    background-color: var(--color-cell-background);
+    box-shadow: var(--color-session-shadow);
+
+    svg path {
+      transition: var(--default-duration);
+      opacity: 0.6;
+      fill: var(--color-text);
+    }
+
+    &:hover svg path {
+      opacity: 1;
+    }
+  }
+`;
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
@@ -101,7 +135,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
 
     return (
-      <div
+      <StyledMessagesContainer
         className="messages-container"
         id={messageContainerDomID}
         onScroll={this.handleScroll}
@@ -135,7 +169,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           onClickScrollBottom={this.props.scrollToNow}
           key="scroll-down-button"
         />
-      </div>
+      </StyledMessagesContainer>
     );
   }
 

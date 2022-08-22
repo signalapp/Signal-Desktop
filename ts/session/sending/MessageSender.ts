@@ -26,6 +26,7 @@ import {
   sendSogsMessageOnionV4,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
 import { AbortController } from 'abort-controller';
+import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -278,7 +279,7 @@ export async function sendToOpenGroupV2(
   roomInfos: OpenGroupRequestCommonType,
   blinded: boolean,
   filesToLink: Array<number>
-): Promise<OpenGroupMessageV2> {
+): Promise<OpenGroupMessageV2 | boolean> {
   // we agreed to pad message for opengroupv2
   const paddedBody = addMessagePadding(rawMessage.plainTextBuffer());
   const v2Message = new OpenGroupMessageV2({
@@ -287,14 +288,25 @@ export async function sendToOpenGroupV2(
     filesToLink,
   });
 
-  const msg = await sendSogsMessageOnionV4(
-    roomInfos.serverUrl,
-    roomInfos.roomId,
-    new AbortController().signal,
-    v2Message,
-    blinded
-  );
-  return msg;
+  if (rawMessage.reaction) {
+    const msg = await sendSogsReactionOnionV4(
+      roomInfos.serverUrl,
+      roomInfos.roomId,
+      new AbortController().signal,
+      rawMessage.reaction,
+      blinded
+    );
+    return msg;
+  } else {
+    const msg = await sendSogsMessageOnionV4(
+      roomInfos.serverUrl,
+      roomInfos.roomId,
+      new AbortController().signal,
+      v2Message,
+      blinded
+    );
+    return msg;
+  }
 }
 
 /**

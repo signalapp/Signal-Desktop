@@ -15,6 +15,7 @@ import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversationAttributes';
+import { ReactionList } from '../../types/Reaction';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 export type PropsForCallNotification = {
@@ -175,6 +176,8 @@ export type PropsForMessageWithoutConvoProps = {
   serverId?: number;
   status?: LastMessageStatusType;
   attachments?: Array<PropsForAttachment>;
+  reacts?: ReactionList;
+  reactsIndex?: number;
   previews?: Array<any>;
   quote?: {
     text?: string;

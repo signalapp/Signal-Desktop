@@ -59,7 +59,20 @@ import { OpenGroupData } from '../data/opengroups';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import _, { isEmpty, uniq } from 'lodash';
+import _, {
+  cloneDeep,
+  debounce,
+  groupBy,
+  isEmpty,
+  map,
+  partition,
+  pick,
+  reduce,
+  reject,
+  size as lodashSize,
+  sortBy,
+  uniq,
+} from 'lodash';
 import { SettingsKey } from '../data/settings-key';
 import {
   deleteExternalMessageFiles,
@@ -80,6 +93,7 @@ import {
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
+import { ReactionList } from '../types/Reaction';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -361,7 +375,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public getPropsForGroupUpdateMessage(): PropsForGroupUpdate | null {
     const groupUpdate = this.getGroupUpdateAsArray();
 
-    if (!groupUpdate || _.isEmpty(groupUpdate)) {
+    if (!groupUpdate || isEmpty(groupUpdate)) {
       return null;
     }
 
@@ -495,6 +509,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (previews && previews.length) {
       props.previews = previews;
     }
+    const reacts = this.getPropsForReacts();
+    if (reacts && Object.keys(reacts).length) {
+      props.reacts = reacts;
+    }
     const quote = this.getPropsForQuote(options);
     if (quote) {
       props.quote = quote;
@@ -516,8 +534,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const nbsp = '\xa0';
     const regex = /(\S)( +)(\S+\s*)$/;
     return text.replace(regex, (_match, start, spaces, end) => {
-      const newSpaces =
-        end.length < 12 ? _.reduce(spaces, accumulator => accumulator + nbsp, '') : spaces;
+      const newSpaces: any =
+        end.length < 12 ? reduce(spaces, accumulator => accumulator + nbsp, '') : spaces;
       return `${start}${newSpaces}${end}`;
     });
   }
@@ -565,6 +583,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         image,
       };
     });
+  }
+
+  public getPropsForReacts(): ReactionList | null {
+    return this.get('reacts') || null;
   }
 
   public getPropsForQuote(_options: any = {}) {
@@ -702,8 +724,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // If an error has a specific number it's associated with, we'll show it next to
     //   that contact. Otherwise, it will be a standalone entry.
-    const errors = _.reject(allErrors, error => Boolean(error.number));
-    const errorsGroupedById = _.groupBy(allErrors, 'number');
+    const errors = reject(allErrors, error => Boolean(error.number));
+    const errorsGroupedById = groupBy(allErrors, 'number');
     const finalContacts = await Promise.all(
       (phoneNumbers || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
@@ -725,7 +747,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // The prefix created here ensures that contacts with errors are listed
     //   first; otherwise it's alphabetical
-    const sortedContacts = _.sortBy(
+    const sortedContacts = sortBy(
       finalContacts,
       contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.pubkey}`
     );
@@ -827,6 +849,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       hasVisualMediaAttachments: 0,
       attachments: undefined,
       preview: undefined,
+      reacts: undefined,
+      reactsIndex: undefined,
     });
     await this.markRead(Date.now());
     await this.commit();
@@ -884,6 +908,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         expireTimer: this.get('expireTimer'),
         attachments,
         preview: preview ? [preview] : [],
+        reacts: this.get('reacts'),
         quote,
         lokiProfile: UserUtils.getOurProfile(),
       };
@@ -925,7 +950,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public removeOutgoingErrors(number: string) {
-    const errors = _.partition(
+    const errors = partition(
       this.get('errors'),
       e => e.number === number && e.name === 'SendMessageNetworkError'
     );
@@ -966,7 +991,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public hasErrors() {
-    return _.size(this.get('errors')) > 0;
+    return lodashSize(this.get('errors')) > 0;
   }
 
   public getStatus(pubkey: string) {
@@ -1048,7 +1073,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         e.constructor === TypeError ||
         e.constructor === ReferenceError
       ) {
-        return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
+        return pick(e, 'name', 'message', 'code', 'number', 'reason');
       }
       return e;
     });
@@ -1065,7 +1090,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     perfStart(`messageCommit-${this.attributes.id}`);
     // because the saving to db calls _cleanData which mutates the field for cleaning, we need to save a copy
-    const id = await Data.saveMessage(_.cloneDeep(this.attributes));
+    const id = await Data.saveMessage(cloneDeep(this.attributes));
     if (triggerUIUpdate) {
       this.dispatchMessageUpdate();
     }
@@ -1182,12 +1207,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
 
-  private findAndFormatContact(pubkey: string): FindAndFormatContactType {
+  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
     const contactModel = getConversationController().get(pubkey);
     let profileName: string | null = null;
     let isMe = false;
 
-    if (pubkey === UserUtils.getOurPubKeyStrFromCache()) {
+    if (
+      pubkey === UserUtils.getOurPubKeyStrFromCache() ||
+      (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
+    ) {
       profileName = window.i18n('you');
       isMe = true;
     } else {
@@ -1215,7 +1243,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
    */
   private getGroupUpdateAsArray() {
     const groupUpdate = this.get('group_update');
-    if (!groupUpdate || _.isEmpty(groupUpdate)) {
+    if (!groupUpdate || isEmpty(groupUpdate)) {
       return undefined;
     }
     const left: Array<string> | undefined = Array.isArray(groupUpdate.left)
@@ -1288,7 +1316,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       if (groupUpdate.kicked && groupUpdate.kicked.length) {
-        const names = _.map(
+        const names = map(
           groupUpdate.kicked,
           getConversationController().getContactProfileNameOrShortenedPubKey
         );
@@ -1337,6 +1365,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('answeredACall', [displayName]);
       }
     }
+    if (this.get('reaction')) {
+      const reaction = this.get('reaction');
+      if (reaction && reaction.emoji && reaction.emoji !== '') {
+        return window.i18n('reactionNotification', [reaction.emoji]);
+      }
+    }
     return this.get('body');
   }
 }
@@ -1349,7 +1383,7 @@ export function sliceQuoteText(quotedText: string | undefined | null) {
   return quotedText.slice(0, QUOTED_TEXT_MAX_LENGTH);
 }
 
-const throttledAllMessagesDispatch = _.debounce(
+const throttledAllMessagesDispatch = debounce(
   () => {
     if (updatesToDispatch.size === 0) {
       return;
