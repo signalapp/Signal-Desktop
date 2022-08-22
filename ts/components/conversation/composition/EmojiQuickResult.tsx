@@ -1,7 +1,9 @@
 import React from 'react';
 import { SuggestionDataItem } from 'react-mentions';
 import styled from 'styled-components';
-import { BaseEmoji, emojiIndex } from 'emoji-mart';
+// @ts-ignore
+import { SearchIndex } from '../../../../node_modules/emoji-mart/dist/index.cjs';
+import { searchSync } from '../../../util/emoji.js';
 
 const EmojiQuickResult = styled.span`
   width: 100%;
@@ -25,22 +27,24 @@ export const renderEmojiQuickResultRow = (suggestion: SuggestionDataItem) => {
 };
 
 export const searchEmojiForQuery = (query: string): Array<SuggestionDataItem> => {
-  if (query.length === 0 || !emojiIndex) {
+  if (query.length === 0 || !SearchIndex) {
     return [];
   }
-  const results1 = emojiIndex.search(`:${query}`) || [];
-  const results2 = emojiIndex.search(query) || [];
+
+  const results1 = searchSync(`:${query}`);
+  const results2 = searchSync(query);
   const results = [...new Set(results1.concat(results2))];
   if (!results || !results.length) {
     return [];
   }
-  return results
-    .map(o => {
-      const onlyBaseEmoji = o as BaseEmoji;
+
+  const cleanResults = results
+    .map(emoji => {
       return {
-        id: onlyBaseEmoji.native,
-        display: onlyBaseEmoji.colons,
+        id: emoji.skins[0].native,
+        display: `:${emoji.id}:`,
       };
     })
     .slice(0, 8);
+  return cleanResults;
 };

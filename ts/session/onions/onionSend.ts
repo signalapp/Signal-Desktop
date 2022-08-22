@@ -30,14 +30,30 @@ export type OnionFetchOptions = {
   useV4: boolean;
 };
 
+// NOTE some endpoints require decoded strings
+const endpointExceptions = ['/reaction'];
+const endpointRequiresDecoding = (url: string): string => {
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < endpointExceptions.length; i++) {
+    if (url.includes(endpointExceptions[i])) {
+      return decodeURIComponent(url);
+    }
+  }
+  return url;
+};
+
 const buildSendViaOnionPayload = (
   url: URL,
   fetchOptions: OnionFetchOptions
 ): FinalDestNonSnodeOptions => {
+  const endpoint = OnionSending.endpointRequiresDecoding(
+    url.search ? `${url.pathname}${url.search}` : url.pathname
+  );
+
   const payloadObj: FinalDestNonSnodeOptions = {
     method: fetchOptions.method || 'GET',
     body: fetchOptions.body,
-    endpoint: url.search ? `${url.pathname}${url.search}` : url.pathname,
+    endpoint,
     headers: fetchOptions.headers || {},
   };
 
@@ -86,6 +102,7 @@ export type OnionV4BinarySnodeResponse = {
  * Build & send an onion v4 request to a non snode, and handle retries.
  * We actually can only send v4 request to non snode, as the snodes themselves do not support v4 request as destination.
  */
+// tslint:disable-next-line: max-func-body-length
 const sendViaOnionV4ToNonSnodeWithRetries = async (
   destinationX25519Key: string,
   url: URL,
@@ -152,6 +169,7 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
           useV4: true,
           throwErrors,
         });
+
         if (window.sessionFeatureFlags?.debug.debugNonSnodeRequests) {
           window.log.info(
             'sendViaOnionV4ToNonSnodeWithRetries: sendOnionRequestHandlingSnodeEject returned: ',
@@ -285,6 +303,7 @@ async function sendJsonViaOnionV4ToSogs(sendOptions: {
     return null;
   }
   headersWithSogsHeadersIfNeeded = { ...includedHeaders, ...headersWithSogsHeadersIfNeeded };
+
   const res = await OnionSending.sendViaOnionV4ToNonSnodeWithRetries(
     serverPubkey,
     builtUrl,
@@ -500,7 +519,9 @@ async function sendJsonViaOnionV4ToFileServer(sendOptions: {
   return res as OnionV4JSONSnodeResponse;
 }
 
+// we export these methods for stubbing during testing
 export const OnionSending = {
+  endpointRequiresDecoding,
   sendViaOnionV4ToNonSnodeWithRetries,
   getOnionPathForSending,
   sendJsonViaOnionV4ToSogs,

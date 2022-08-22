@@ -103,24 +103,6 @@
   }
 }
 
-.session-message-wrapper {
-  letter-spacing: 0.03em;
-  margin-top: 3px;
-  display: flex;
-  align-items: center;
-  &.message-highlighted {
-    animation: highlightedMessageAnimation 1s ease-in-out;
-  }
-
-  &.message-selected {
-    .module-message {
-      &__container {
-        box-shadow: var(--color-session-shadow);
-      }
-    }
-  }
-}
-
 .inbox {
   background: var(--color-inbox-background);
   color: var(--color-text);

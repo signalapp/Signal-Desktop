@@ -20,8 +20,11 @@ export const handleOpenGroupV4Message = async (
   roomInfos: OpenGroupRequestCommonType
 ) => {
   const { data, id, posted, session_id } = message;
-
-  await handleOpenGroupMessage(roomInfos, data, posted, session_id, id);
+  if (data && posted && session_id) {
+    await handleOpenGroupMessage(roomInfos, data, posted, session_id, id);
+  } else {
+    throw Error('Missing data passed to handleOpenGroupV4Message.');
+  }
 };
 
 /**

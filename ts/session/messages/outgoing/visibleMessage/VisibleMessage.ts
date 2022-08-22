@@ -2,6 +2,7 @@ import ByteBuffer from 'bytebuffer';
 import { DataMessage } from '..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
+import { Reaction } from '../../../../types/Reaction';
 import { MessageParams } from '../Message';
 
 interface AttachmentPointerCommon {
@@ -67,11 +68,13 @@ export interface VisibleMessageParams extends MessageParams {
   expireTimer?: number;
   lokiProfile?: LokiProfile;
   preview?: Array<PreviewWithAttachmentUrl>;
+  reaction?: Reaction;
   syncTarget?: string; // undefined means it is not a synced message
 }
 
 export class VisibleMessage extends DataMessage {
   public readonly expireTimer?: number;
+  public readonly reaction?: Reaction;
 
   private readonly attachments?: Array<AttachmentPointerWithUrl>;
   private readonly body?: string;
@@ -107,6 +110,7 @@ export class VisibleMessage extends DataMessage {
     this.displayName = params.lokiProfile && params.lokiProfile.displayName;
     this.avatarPointer = params.lokiProfile && params.lokiProfile.avatarPointer;
     this.preview = params.preview;
+    this.reaction = params.reaction;
     this.syncTarget = params.syncTarget;
   }
 
@@ -125,6 +129,9 @@ export class VisibleMessage extends DataMessage {
 
     if (this.preview) {
       dataMessage.preview = this.preview;
+    }
+    if (this.reaction) {
+      dataMessage.reaction = this.reaction;
     }
     if (this.syncTarget) {
       dataMessage.syncTarget = this.syncTarget;

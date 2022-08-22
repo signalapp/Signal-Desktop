@@ -15,6 +15,7 @@ export enum SessionButtonColor {
   Green = 'green',
   White = 'white',
   Primary = 'primary',
+  Secondary = 'secondary',
   Success = 'success',
   Danger = 'danger',
   Warning = 'warning',

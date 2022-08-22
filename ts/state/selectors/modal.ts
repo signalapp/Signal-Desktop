@@ -12,6 +12,7 @@ import {
   InviteContactModalState,
   ModalState,
   OnionPathModalState,
+  ReactModalsState,
   RecoveryPhraseModalState,
   RemoveModeratorsModalState,
   SessionPasswordModalState,
@@ -97,4 +98,14 @@ export const getSessionPasswordDialog = createSelector(
 export const getDeleteAccountModalState = createSelector(
   getModal,
   (state: ModalState): DeleteAccountModalState => state.deleteAccountModal
+);
+
+export const getReactListDialog = createSelector(
+  getModal,
+  (state: ModalState): ReactModalsState => state.reactListModalState
+);
+
+export const getReactClearAllDialog = createSelector(
+  getModal,
+  (state: ModalState): ReactModalsState => state.reactClearAllModalState
 );
