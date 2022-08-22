@@ -10,8 +10,8 @@
 
   &-header {
     margin-top: var(--margins-lg);
-    margin-inline-start: $session-margin-sm;
-    margin-inline-end: $session-margin-sm;
+    margin-inline-start: var(--margins-sm);
+    margin-inline-end: var(--margins-sm);
     width: -webkit-fill-available;
     display: flex;
     flex-direction: row;
@@ -27,7 +27,7 @@
   }
 
   .description {
-    margin: $session-margin-md 0;
+    margin: var(--margins-md) 0;
     min-height: 4rem;
     width: inherit;
     color: var(--color-text);
@@ -49,8 +49,8 @@
     border-bottom: var(--border-session);
 
     width: -webkit-fill-available;
-    padding: 0 $session-margin-md;
-    transition: $session-transition-duration;
+    padding: 0 var(--margins-md);
+    transition: var(--default-duration);
     cursor: pointer;
 
     &:hover {
@@ -121,7 +121,7 @@
       }
 
       &__content {
-        padding: $session-margin-xs;
+        padding: var(--margins-xs);
         margin-bottom: 1vh;
 
         .module-media-grid-item__image,

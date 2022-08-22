@@ -60,7 +60,7 @@
       align-items: center;
 
       svg {
-        margin-right: $session-margin-xs;
+        margin-right: var(--margins-xs);
       }
 
       a {

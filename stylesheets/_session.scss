@@ -92,7 +92,7 @@ textarea {
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
   background-color: rgba(0, 0, 0, 0);
 
   &.disabled {
@@ -196,7 +196,7 @@ textarea {
     min-width: 165px;
     height: 45px;
     align-items: center;
-    padding: 0px $session-margin-lg;
+    padding: 0px var(--margins-lg);
     font-size: $session-font-md;
     font-family: $session-font-accent;
     border-radius: 500px;
@@ -229,7 +229,7 @@ textarea {
 
 .session-label {
   color: $session-color-white;
-  padding: $session-margin-sm;
+  padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
   text-align: center;
@@ -260,7 +260,7 @@ textarea {
   &:hover {
     opacity: 1;
   }
-  transition: opacity $session-transition-duration;
+  transition: opacity var(--default-duration);
 
   &.no-opacity {
     opacity: 1;
@@ -324,7 +324,7 @@ textarea {
 
 pre {
   backdrop-filter: brightness(0.8);
-  padding: $session-margin-xs;
+  padding: var(--margins-xs);
 }
 
 .module-message__container {
@@ -371,7 +371,7 @@ label {
 
 .module-conversation-header {
   position: relative;
-  padding: 0px $session-margin-lg 0px $session-margin-sm;
+  padding: 0px var(--margins-lg) 0px var(--margins-sm);
 }
 
 .title-wrapper {
@@ -416,7 +416,7 @@ label {
 }
 
 .session-modal {
-  animation: fadein $session-transition-duration;
+  animation: fadein var(--default-duration);
   z-index: 150;
   min-width: 300px;
   box-sizing: border-box;
@@ -438,7 +438,7 @@ label {
     justify-content: space-between;
     align-items: center;
 
-    padding: $session-margin-lg;
+    padding: var(--margins-lg);
 
     font-family: $session-font-default;
     text-align: center;
@@ -469,7 +469,7 @@ label {
     }
     &__close > div {
       float: left;
-      padding: $session-margin-xs;
+      padding: var(--margins-xs);
       margin: 0px;
     }
     &__icons > div {
@@ -479,7 +479,7 @@ label {
   }
 
   &__body {
-    padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
+    padding: 0px var(--margins-lg) var(--margins-lg) var(--margins-lg);
     font-family: $session-font-default;
     line-height: $session-font-md;
     font-size: $session-font-md;
@@ -514,7 +514,7 @@ label {
     justify-content: flex-end;
 
     .session-button {
-      margin: $session-margin-xs;
+      margin: var(--margins-xs);
     }
 
     &__center {
@@ -522,7 +522,7 @@ label {
       justify-content: center;
 
       .session-button {
-        margin: $session-margin-xs;
+        margin: var(--margins-xs);
       }
     }
   }
@@ -546,7 +546,7 @@ label {
 .session-confirm {
   &-wrapper {
     .session-modal__body .session-modal__centered {
-      margin: $session-margin-lg;
+      margin: var(--margins-lg);
       text-align: center;
     }
   }
@@ -583,8 +583,8 @@ label {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
       0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
 
-    transition: transform $session-transition-duration ease,
-      background-color $session-transition-duration ease;
+    transition: transform var(--default-duration) ease,
+      background-color var(--default-duration) ease;
   }
 
   &.active {
@@ -614,7 +614,7 @@ label {
     color: var(--color-text-menu-highlighted);
   }
   .react-contexify__item__content {
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
     color: var(--color-text);
   }
 
@@ -637,7 +637,7 @@ label {
     align-items: center;
     justify-content: space-between;
     height: 50px;
-    padding: 0px $session-margin-md;
+    padding: 0px var(--margins-md);
     font-size: $session-font-sm;
 
     color: var(--color-text);
@@ -668,13 +668,13 @@ label {
     align-items: center;
     justify-content: center;
     height: 35px;
-    padding: 0 $session-margin-md;
+    padding: 0 var(--margins-md);
     background: var(--color-cell-background);
     color: var(--color-text);
 
     font-size: 0.8rem;
     width: -webkit-fill-available;
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
 
     &:first-child {
       border-top: var(--border-session);
@@ -724,7 +724,7 @@ label {
   border-radius: 100%;
   background-color: rgba($session-color-black, 0.72);
   opacity: 0;
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
 
   &:after {
     content: 'Edit';
@@ -745,7 +745,7 @@ label {
     width: 135px;
     height: 135px;
     border-radius: 3px;
-    padding: $session-margin-xs;
+    padding: var(--margins-xs);
     background-color: $session-color-white;
   }
 }
@@ -841,20 +841,20 @@ label {
     &-title {
       line-height: $main-view-header-height;
       font-weight: bold;
-      font-size: $session-font-lg;
+      font-size: var(--font-size-lg);
       text-align: center;
       flex-grow: 1;
     }
 
     .session-button,
     .session-icon-button {
-      margin-inline-end: $session-margin-lg;
+      margin-inline-end: var(--margins-lg);
     }
   }
 
   &-item {
     font-size: $session-font-md;
-    padding: $session-margin-lg;
+    padding: var(--margins-lg);
     margin-bottom: 20px;
 
     background: var(--color-cell-background);
@@ -868,12 +868,12 @@ label {
     }
 
     &__info {
-      padding-inline-end: $session-margin-lg;
+      padding-inline-end: var(--margins-lg);
     }
 
     &__title {
       line-height: 1.7;
-      font-size: $session-font-lg;
+      font-size: var(--font-size-lg);
       font-weight: bold;
     }
 
@@ -887,7 +887,7 @@ label {
 
     &__selection {
       .session-toggle {
-        transition: $session-transition-duration;
+        transition: var(--default-duration);
       }
     }
   }
@@ -904,13 +904,13 @@ label {
     display: flex;
     justify-content: space-between;
 
-    padding: $session-margin-sm $session-margin-md;
+    padding: var(--margins-sm) var(--margins-md);
     background: none;
     font-size: $session-font-xs;
 
     span {
       opacity: 0.4;
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
 
       &:hover {
         opacity: 1;
@@ -941,7 +941,7 @@ label {
 
       h3 {
         padding: 0px;
-        margin-bottom: $session-margin-lg;
+        margin-bottom: var(--margins-lg);
       }
 
       input {
@@ -949,13 +949,13 @@ label {
         background: var(--color-input-background);
         color: var(--color-text);
 
-        padding: $session-margin-xs $session-margin-md;
-        margin-bottom: $session-margin-lg;
+        padding: var(--margins-xs) var(--margins-md);
+        margin-bottom: var(--margins-lg);
         outline: none;
         border: none;
         border-radius: 2px;
         text-align: center;
-        font-size: $session-font-xl;
+        font-size: 24px;
         letter-spacing: 5px;
         font-family: $session-font-default;
       }
@@ -967,17 +967,17 @@ label {
 .qr-image svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
-  padding: $session-margin-xs;
+  padding: var(--margins-xs);
   background-color: $session-color-white;
   border-radius: 3px;
 }
 
 .messages li {
-  transition: $session-transition-duration !important;
+  transition: var(--default-duration) !important;
 }
 
 .session-id-editable {
-  padding: $session-margin-lg;
+  padding: var(--margins-lg);
 
   textarea {
     width: 30vh;
@@ -1028,7 +1028,7 @@ input {
 .onion__node-list {
   display: flex;
   flex-direction: column;
-  margin: $session-margin-sm;
+  margin: var(--margins-sm);
   align-items: center;
   min-width: 10vw;
   position: relative;
@@ -1037,7 +1037,7 @@ input {
     display: flex;
     flex-grow: 1;
     align-items: center;
-    margin: $session-margin-xs;
+    margin: var(--margins-xs);
 
     &:nth-child(2) {
       margin-top: 0;
@@ -1048,7 +1048,7 @@ input {
     }
 
     .session-icon-button {
-      margin: $session-margin-sm !important;
+      margin: var(--margins-sm) !important;
     }
   }
 
@@ -1056,7 +1056,7 @@ input {
     position: relative;
   }
   .onion__node__country {
-    margin: $session-margin-sm;
+    margin: var(--margins-sm);
     min-width: 150px;
   }
 
@@ -1089,7 +1089,7 @@ input {
     box-shadow: var(--color-session-shadow);
 
     svg path {
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
       opacity: 0.6;
       fill: var(--color-text);
     }

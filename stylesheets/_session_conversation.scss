@@ -64,7 +64,7 @@
     display: flex;
     left: 0px;
     right: 0px;
-    padding: 0px $session-margin-md;
+    padding: 0px var(--margins-md);
     align-items: center;
     justify-content: space-between;
     height: $main-view-header-height;
@@ -96,7 +96,7 @@
 
   .selection-mode {
     .messages-container > *:not(.message-selected) {
-      animation: toShadow $session-transition-duration;
+      animation: toShadow var(--default-duration);
       opacity: 0.4;
     }
   }
@@ -150,21 +150,21 @@
   overflow-x: hidden;
   min-width: 370px;
   scrollbar-width: 4px;
-  padding: $session-margin-sm $session-margin-lg $session-margin-lg;
+  padding: var(--margins-sm) var(--margins-lg) var(--margins-lg);
 }
 
 .composition-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px $session-margin-md;
+  padding: 0px var(--margins-md);
   min-height: min-content;
   background: var(--color-cell-background);
   border-top: var(--border-session);
   z-index: 1;
 
   .session-icon-button {
-    margin-right: $session-margin-sm;
+    margin-right: var(--margins-sm);
 
     display: flex;
     justify-content: center;
@@ -174,11 +174,11 @@
     &:hover {
       opacity: 1;
       filter: brightness(0.9);
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
     }
 
     .send {
-      padding: $session-margin-xs;
+      padding: var(--margins-xs);
       border-radius: 50%;
       height: 30px;
       width: 30px;
@@ -191,7 +191,7 @@
     align-items: center;
     flex-grow: 1;
     min-height: $composition-container-height;
-    padding: $session-margin-xs 0;
+    padding: var(--margins-xs) 0;
     z-index: 1;
     background-color: inherit;
 
@@ -204,7 +204,7 @@
       font-family: $session-font-default;
       min-height: calc($composition-container-height / 3);
       max-height: 3 * $composition-container-height;
-      margin-right: $session-margin-md;
+      margin-right: var(--margins-md);
       color: var(--color-text);
 
       background: transparent;
@@ -235,12 +235,12 @@
   position: absolute;
   bottom: 68px;
   right: 0px;
-  padding: $session-margin-lg;
+  padding: var(--margins-lg);
 
   z-index: 5;
   opacity: 0;
   visibility: hidden;
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
 
   button:focus {
     outline: none;
@@ -257,14 +257,14 @@
     background-color: var(--color-cell-background);
     border: 1px solid var(--color-session-border);
     border-radius: 8px;
-    padding-bottom: $session-margin-sm;
+    padding-bottom: var(--margins-sm);
 
     .emoji-mart-category-label {
       top: -2px;
 
       span {
         font-family: $session-font-default;
-        padding-top: $session-margin-sm;
+        padding-top: var(--margins-sm);
         background-color: var(--color-cell-background);
       }
     }
@@ -324,7 +324,7 @@
 }
 
 .send-message-button {
-  animation: fadein $session-transition-duration;
+  animation: fadein var(--default-duration);
 
   &---scale {
     animation: scaling 2s ease-in-out;
@@ -363,11 +363,11 @@
     border-radius: 50%;
 
     .session-button {
-      animation: fadein $session-transition-duration;
+      animation: fadein var(--default-duration);
     }
 
     .session-icon-button {
-      animation: fadein $session-transition-duration;
+      animation: fadein var(--default-duration);
       border-radius: 50%;
       width: $actions-element-size;
       height: $actions-element-size;
@@ -389,7 +389,7 @@
     canvas {
       position: absolute;
       width: 100%;
-      padding: 0px $session-margin-lg;
+      padding: 0px var(--margins-lg);
     }
   }
 
@@ -400,7 +400,7 @@
     left: 0;
     z-index: 2;
     right: 0;
-    bottom: $composition-container-height + $session-margin-md;
+    bottom: $composition-container-height + var(--margins-md);
 
     .session-button {
       display: flex;
@@ -434,7 +434,7 @@
     flex-shrink: 0;
 
     &.playback-timer {
-      animation: fadein $session-transition-duration;
+      animation: fadein var(--default-duration);
 
       @media (-webkit-min-device-pixel-ratio: 1.6) {
         margin-left: auto;
@@ -442,11 +442,11 @@
     }
 
     &-light {
-      height: $session-margin-sm;
-      width: $session-margin-sm;
+      height: var(--margins-sm);
+      width: var(--margins-sm);
       border-radius: 50%;
       background-color: $session-color-danger-alt;
-      margin: 0 $session-margin-sm;
+      margin: 0 var(--margins-sm);
 
       @include pulse-color($session-color-danger-alt, 1s, infinite);
     }
@@ -477,7 +477,7 @@ $rhap_font-family: inherit !default;
   box-shadow: none;
 
   svg {
-    transition: fill $session-transition-duration;
+    transition: fill var(--default-duration);
 
     &:hover path {
       fill: #ffffff;

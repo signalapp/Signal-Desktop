@@ -13,7 +13,7 @@ $session-compose-margin: 20px;
   }
 
   &-list-item {
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
 
     &:hover {
       background: var(--color-clickable-hovered);
@@ -88,13 +88,13 @@ $session-compose-margin: 20px;
     align-items: center;
     height: $main-view-header-height;
     padding-inline-end: 7px;
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
   }
 
   &__title {
-    padding-inline-end: $session-margin-sm;
-    padding-inline-start: $session-margin-sm;
-    transition: $session-transition-duration;
+    padding-inline-end: var(--margins-sm);
+    padding-inline-start: var(--margins-sm);
+    transition: var(--default-duration);
     flex-grow: 1;
   }
 

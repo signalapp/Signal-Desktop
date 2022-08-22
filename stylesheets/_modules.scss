@@ -231,8 +231,8 @@
 }
 .module-conversation__user,
 .module-message__author {
-  margin-top: $session-margin-sm;
-  margin-bottom: $session-margin-xs;
+  margin-top: var(--margins-sm);
+  margin-bottom: var(--margins-xs);
   font-size: var(--font-size-sm);
   font-weight: 300;
   line-height: 18px;
@@ -675,7 +675,7 @@
   overflow: hidden;
 
   .session-icon-button:first-child {
-    margin-right: $session-margin-sm;
+    margin-right: var(--margins-sm);
   }
 }
 
@@ -1214,7 +1214,7 @@
   align-items: flex-start;
 
   min-height: 65px;
-  margin: $session-margin-xs;
+  margin: var(--margins-xs);
 }
 
 .module-staged-link-preview--is-loading {
@@ -1232,11 +1232,11 @@
 
 .module-staged-link-preview__icon-container {
   margin-inline-end: 8px;
-  padding: $session-margin-sm;
+  padding: var(--margins-sm);
 }
 .module-staged-link-preview__content {
   margin-inline-end: 20px;
-  padding: $session-margin-sm;
+  padding: var(--margins-sm);
 }
 .module-staged-link-preview__title {
   color: $color-gray-90;

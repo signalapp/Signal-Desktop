@@ -95,7 +95,7 @@
     color: var(--color-text);
 
     padding: 2px 0 2px 0;
-    transition: opacity $session-transition-duration;
+    transition: opacity var(--default-duration);
     opacity: 1;
     position: relative;
 
@@ -151,7 +151,7 @@
   }
 
   &-terms-conditions-agreement {
-    padding-top: $session-margin-md;
+    padding-top: var(--margins-md);
 
     color: var(--color-text-subtle);
     text-align: center;
@@ -163,7 +163,7 @@
       text-decoration: none;
 
       color: var(--color-text-subtle);
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
 
       &:visited &:link {
         color: var(--color-text-subtle);

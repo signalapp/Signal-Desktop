@@ -162,7 +162,7 @@
 
 .edit-profile-dialog {
   .session-modal__header__title {
-    font-size: $session-font-lg;
+    font-size: var(--font-size-lg);
   }
 
   .session-modal {
@@ -191,7 +191,7 @@
       width: 30px;
       border-radius: 50%;
       background-color: $session-color-white;
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
 
       &:hover {
         filter: brightness(90%);
@@ -216,7 +216,7 @@
   .profile-name {
     display: flex;
     justify-content: center;
-    margin-top: $session-margin-lg;
+    margin-top: var(--margins-lg);
 
     input {
       height: 38px;
@@ -235,7 +235,7 @@
 
       p {
         font-size: $session-font-md;
-        padding: 0px $session-margin-sm;
+        padding: 0px var(--margins-sm);
       }
 
       .session-icon-button {
@@ -247,7 +247,7 @@
 
 .onion-status-dialog {
   .session-modal__header__title {
-    font-size: $session-font-lg;
+    font-size: var(--font-size-lg);
   }
 
   .session-modal {
