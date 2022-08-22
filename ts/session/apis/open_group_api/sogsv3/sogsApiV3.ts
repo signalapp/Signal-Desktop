@@ -74,7 +74,13 @@ async function handlePollInfoResponse(
     token: string;
     upload: boolean;
     write: boolean;
-    details: { admins?: Array<string>; image_id: number; moderators?: Array<string> };
+    details: {
+      admins?: Array<string>;
+      image_id: number;
+      moderators?: Array<string>;
+      hidden_admins?: Array<string>;
+      hidden_moderators?: Array<string>;
+    };
   },
   serverUrl: string,
   roomIdsStillPolled: Set<string>
@@ -110,7 +116,14 @@ async function handlePollInfoResponse(
     write,
     upload,
     subscriberCount: active_users,
-    details: pick(details, 'admins', 'image_id', 'moderators'),
+    details: pick(
+      details,
+      'admins',
+      'image_id',
+      'moderators',
+      'hidden_admins',
+      'hidden_moderators'
+    ),
   });
 }
 
