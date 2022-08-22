@@ -3,6 +3,7 @@ import React from 'react';
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { SettingsKey } from '../../data/settings-key';
+import { Notifications } from '../../util/notifications';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { SpacerLG } from '../basic/Text';
@@ -34,12 +35,6 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
 
   const notificationsAreEnabled = initialItem && initialItem !== NOTIFICATION.OFF;
 
-  const onClickPreview = () => {
-    if (!notificationsAreEnabled) {
-      return;
-    }
-  };
-
   const items = [
     {
       label: window.i18n('nameAndMessage'),
@@ -54,6 +49,23 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
       value: NOTIFICATION.COUNT,
     },
   ];
+
+  const onClickPreview = () => {
+    if (!notificationsAreEnabled) {
+      return;
+    }
+    Notifications.addNotification(
+      {
+        conversationId: `preview-notification-${Date.now()}`,
+        message: items.find(m => m.value === initialItem)?.label || 'Message body',
+        title: window.i18n('notificationPreview'),
+        iconUrl: null,
+        isExpiringMessage: false,
+        messageSentAt: Date.now(),
+      },
+      true
+    );
+  };
 
   return (
     <>
