@@ -27,10 +27,8 @@ export function getCallMediaPermissionsSettings() {
 export enum SessionSettingCategory {
   Privacy = 'privacy',
   Notifications = 'notifications',
-
   Conversations = 'conversations',
   MessageRequests = 'messageRequests',
-
   Appearance = 'appearance',
   Permissions = 'permissions',
   Help = 'help',

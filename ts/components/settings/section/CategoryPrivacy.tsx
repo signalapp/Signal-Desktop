@@ -3,8 +3,11 @@ import React from 'react';
 import useUpdate from 'react-use/lib/useUpdate';
 import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
+import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SpacerLG } from '../../basic/Text';
+import { TypingBubble } from '../../conversation/TypingBubble';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
@@ -39,6 +42,16 @@ async function toggleLinkPreviews() {
   }
 }
 
+const TypingBubbleItem = () => {
+  return (
+    <>
+      <SpacerLG />
+
+      <TypingBubble conversationType={ConversationTypeEnum.PRIVATE} isTyping={true} />
+    </>
+  );
+};
+
 export const SettingsCategoryPrivacy = (props: {
   hasPassword: boolean | null;
   onPasswordUpdated: (action: string) => void;
@@ -68,6 +81,7 @@ export const SettingsCategoryPrivacy = (props: {
           title={window.i18n('typingIndicatorsSettingTitle')}
           description={window.i18n('typingIndicatorsSettingDescription')}
           active={Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator))}
+          childrenDescription={<TypingBubbleItem />}
         />
         <SessionToggleWithDescription
           onClickToggle={async () => {

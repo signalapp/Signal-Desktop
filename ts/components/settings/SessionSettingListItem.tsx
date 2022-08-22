@@ -32,12 +32,24 @@ const StyledInfo = styled.div`
   padding-inline-end: var(--margins-lg);
 `;
 
-const SettingsTitleAndDescription = (props: { title?: string; description?: string }) => {
+const StyledDescriptionContainer = styled(StyledDescription)`
+  display: flex;
+  align-items: center;
+`;
+
+const SettingsTitleAndDescription = (props: {
+  title?: string;
+  description?: string;
+  childrenDescription?: React.ReactNode;
+}) => {
+  const { description, childrenDescription, title } = props;
   return (
     <StyledInfo>
-      <StyledTitle>{props.title}</StyledTitle>
-
-      {props.description && <StyledDescription>{props.description}</StyledDescription>}
+      <StyledTitle>{title}</StyledTitle>
+      <StyledDescriptionContainer>
+        {description && <StyledDescription>{description}</StyledDescription>}
+        <>{childrenDescription}</>
+      </StyledDescriptionContainer>
     </StyledInfo>
   );
 };
@@ -46,13 +58,20 @@ export const SessionSettingsItemWrapper = (props: {
   inline: boolean;
   title?: string;
   description?: string;
+  isTypingMessageItem?: boolean;
   children?: React.ReactNode;
+  childrenDescription?: React.ReactNode;
 }) => {
-  const ComponentToRender = props.inline ? StyledSettingItemInline : StyledSettingItem;
+  const { inline, children, description, title, childrenDescription } = props;
+  const ComponentToRender = inline ? StyledSettingItemInline : StyledSettingItem;
   return (
     <ComponentToRender>
-      <SettingsTitleAndDescription title={props.title} description={props.description} />
-      <div>{props.children}</div>
+      <SettingsTitleAndDescription
+        title={title}
+        description={description}
+        childrenDescription={childrenDescription}
+      />
+      <div>{children}</div>
     </ComponentToRender>
   );
 };
@@ -79,11 +98,24 @@ export const SessionToggleWithDescription = (props: {
   active: boolean;
   onClickToggle: () => void;
   confirmationDialogParams?: SessionConfirmDialogProps;
+  childrenDescription?: React.ReactNode; // if set, those elements will be appended next to description field (only used for typing message settings as of now)
 }) => {
-  const { title, description, active, onClickToggle, confirmationDialogParams } = props;
+  const {
+    title,
+    description,
+    active,
+    onClickToggle,
+    confirmationDialogParams,
+    childrenDescription,
+  } = props;
 
   return (
-    <SessionSettingsItemWrapper title={title} description={description} inline={true}>
+    <SessionSettingsItemWrapper
+      title={title}
+      description={description}
+      inline={true}
+      childrenDescription={childrenDescription}
+    >
       <SessionToggle
         active={active}
         onClick={onClickToggle}
