@@ -1,6 +1,6 @@
 import { ipcRenderer, shell } from 'electron';
 import React from 'react';
-import { SessionButtonColor } from '../../basic/SessionButton';
+import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem } from '../SessionSettingListItem';
 
@@ -12,12 +12,14 @@ export const SettingsCategoryHelp = (props: { hasPassword: boolean | null }) => 
           title={window.i18n('surveyTitle')}
           onClick={() => void shell.openExternal('https://getsession.org/survey')}
           buttonColor={SessionButtonColor.Primary}
+          buttonType={SessionButtonType.Square}
           buttonText={window.i18n('goToOurSurvey')}
         />
         <SessionSettingButtonItem
           title={window.i18n('helpUsTranslateSession')}
           onClick={() => void shell.openExternal('https://crowdin.com/project/session-desktop/')}
           buttonColor={SessionButtonColor.Primary}
+          buttonType={SessionButtonType.Square}
           buttonText={window.i18n('translation')}
         />
         <SessionSettingButtonItem
@@ -25,6 +27,7 @@ export const SettingsCategoryHelp = (props: { hasPassword: boolean | null }) => 
             ipcRenderer.send('show-debug-log');
           }}
           buttonColor={SessionButtonColor.Primary}
+          buttonType={SessionButtonType.Square}
           buttonText={window.i18n('showDebugLog')}
         />
       </>

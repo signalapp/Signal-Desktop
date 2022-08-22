@@ -1,5 +1,5 @@
 import React from 'react';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ type ButtonSettingsProps = {
   title?: string;
   description?: string;
   buttonColor: SessionButtonColor;
+  buttonType: SessionButtonType;
   buttonText: string;
   dataTestId?: string;
   onClick: () => void;
@@ -16,7 +17,7 @@ type ButtonSettingsProps = {
 const StyledDescription = styled.div`
   font-family: var(--font-default);
   font-size: var(--font-size-sm);
-  font-weight: 100;
+  font-weight: 400;
   max-width: 700px;
   color: var(--color-text-subtle);
 `;
@@ -93,7 +94,7 @@ export const SessionToggleWithDescription = (props: {
 };
 
 export const SessionSettingButtonItem = (props: ButtonSettingsProps) => {
-  const { title, description, buttonColor, buttonText, dataTestId, onClick } = props;
+  const { title, description, buttonColor, buttonType, buttonText, dataTestId, onClick } = props;
 
   return (
     <SessionSettingsItemWrapper title={title} description={description} inline={true}>
@@ -102,6 +103,7 @@ export const SessionSettingButtonItem = (props: ButtonSettingsProps) => {
         text={buttonText}
         buttonColor={buttonColor}
         onClick={onClick}
+        buttonType={buttonType}
       />
     </SessionSettingsItemWrapper>
   );

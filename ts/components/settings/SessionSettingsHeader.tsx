@@ -15,7 +15,7 @@ export const SettingsHeader = (props: Props) => {
       categoryLocalized = 'appearanceSettingsTitle';
       break;
     case SessionSettingCategory.Conversations:
-      categoryLocalized = 'blockedSettingsTitle';
+      categoryLocalized = 'conversationsSettingsTitle';
       break;
     case SessionSettingCategory.Notifications:
       categoryLocalized = 'notificationsSettingsTitle';

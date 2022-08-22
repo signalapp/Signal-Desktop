@@ -40,7 +40,7 @@ const StyledYourSessionIDSelectable = styled.p`
   word-break: break-all;
 
   padding: 0px var(--margins-lg);
-  font-weight: 100;
+  font-weight: 300;
   color: var(--color-text);
 
   font-size: var(--font-size-sm);

@@ -8,7 +8,7 @@ import { ToastUtils } from '../../../session/utils';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getBlockedPubkeys } from '../../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
-import { SessionButtonColor } from '../../basic/SessionButton';
+import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
 
 import {
   SessionSettingButtonItem,
@@ -100,6 +100,7 @@ const BlockedEntry = (props: { blockedEntry: string; title: string }) => {
     <SessionSettingButtonItem
       key={props.blockedEntry}
       buttonColor={SessionButtonColor.Danger}
+      buttonType={SessionButtonType.Square}
       buttonText={window.i18n('unblockUser')}
       title={props.title}
       onClick={async () => {

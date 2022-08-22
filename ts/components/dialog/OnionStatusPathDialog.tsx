@@ -20,6 +20,7 @@ import useHover from 'react-use/lib/useHover';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import styled from 'styled-components';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -27,19 +28,30 @@ export type StatusLightType = {
   color?: string;
 };
 
-const OnionCountryDisplay = ({
-  index,
-  labelText,
-  snodeIp,
-}: {
-  snodeIp?: string;
-  labelText: string;
-  index: number;
-}) => {
+const StyledCountry = styled.div`
+  margin: var(--margins-sm);
+  min-width: 150px;
+`;
+
+const StyledOnionNodeList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: var(--margins-sm);
+  align-items: center;
+  min-width: 10vw;
+  position: relative;
+`;
+
+const StyledOnionDescription = styled.p`
+  min-width: 400px;
+  width: 0;
+`;
+
+const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelText: string }) => {
   const element = (hovered: boolean) => (
-    <div className="onion__node__country" key={`country-${index}`}>
+    <StyledCountry key={`country-${snodeIp}`}>
       {hovered && snodeIp ? snodeIp : labelText}
-    </div>
+    </StyledCountry>
   );
   const [hoverable] = useHover(element);
 
@@ -67,11 +79,13 @@ const OnionPathModalInner = () => {
 
   return (
     <>
-      <p className="onion__description">{window.i18n('onionPathIndicatorDescription')}</p>
-      <div className="onion__node-list">
+      <StyledOnionDescription>
+        {window.i18n('onionPathIndicatorDescription')}
+      </StyledOnionDescription>
+      <StyledOnionNodeList>
         <Flex container={true}>
-          <div className="onion__node-list-lights">
-            <div className="onion__vertical-line" />
+          <StyledLightsContainer>
+            <StyledVerticalLine />
 
             <Flex container={true} flexDirection="column" alignItems="center" height="100%">
               {nodes.map((_snode: Snode | any, index: number) => {
@@ -84,9 +98,9 @@ const OnionPathModalInner = () => {
                 );
               })}
             </Flex>
-          </div>
+          </StyledLightsContainer>
           <Flex container={true} flexDirection="column" alignItems="flex-start">
-            {nodes.map((snode: Snode | any, index: number) => {
+            {nodes.map((snode: Snode | any) => {
               let labelText = snode.label
                 ? snode.label
                 : `${countryLookup.byIso(ip2country(snode.ip))?.country}`;
@@ -94,15 +108,34 @@ const OnionPathModalInner = () => {
                 labelText = window.i18n('unknownCountry');
               }
               return labelText ? (
-                <OnionCountryDisplay index={index} labelText={labelText} snodeIp={snode.ip} />
+                <OnionCountryDisplay labelText={labelText} snodeIp={snode.ip} />
               ) : null;
             })}
           </Flex>
         </Flex>
-      </div>
+      </StyledOnionNodeList>
     </>
   );
 };
+
+const StyledVerticalLine = styled.div`
+  background: rgba(#7a7a7a, 0.6);
+  position: absolute;
+  height: calc(100% - 2 * 15px);
+  margin: 15px calc(100% / 2 - 1px);
+
+  width: 1px;
+`;
+
+const StyledLightsContainer = styled.div`
+  position: relative;
+`;
+
+const StyledGrowingIcon = styled.div`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+`;
 
 export type OnionNodeStatusLightType = {
   glowStartDelay: number;
@@ -131,7 +164,7 @@ export const ModalStatusLight = (props: StatusLightType) => {
   const { glowStartDelay, glowDuration, color } = props;
 
   return (
-    <div className="onion__growing-icon">
+    <StyledGrowingIcon>
       <SessionIcon
         borderRadius={'50px'}
         iconColor={color}
@@ -140,7 +173,7 @@ export const ModalStatusLight = (props: StatusLightType) => {
         iconType="circle"
         iconSize={'tiny'}
       />
-    </div>
+    </StyledGrowingIcon>
   );
 };
 

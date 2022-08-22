@@ -55,21 +55,20 @@ const StyledKnob = styled.div<{ active: boolean }>`
   position: absolute;
   top: 0.5px;
   left: 0.5px;
-  height: 27px;
-  width: 27px;
+  height: 21px;
+  width: 21px;
   border-radius: 28px;
   background-color: white;
-  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
-    0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: -2px 1px 3px rgba(0, 0, 0, 0.15);
 
   transition: transform var(--default-duration) ease, background-color var(--default-duration) ease;
 
-  transform: ${props => (props.active ? 'translateX(20px)' : '')};
+  transform: ${props => (props.active ? 'translateX(25px)' : '')};
 `;
 
 const StyledSessionToggle = styled.div<{ active: boolean }>`
   width: 51px;
-  height: 31px;
+  height: 25px;
   border: 1.5px solid #e5e5ea;
   border-radius: 16px;
   position: relative;
