@@ -2,16 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
-import { unblockConvoById } from '../../../interactions/conversationInteractions';
-import { getConversationController } from '../../../session/conversations';
+import { useSet } from '../../../hooks/useSet';
 import { ToastUtils } from '../../../session/utils';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getBlockedPubkeys } from '../../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
-import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { MemberListItem } from '../../MemberListItem';
 
 import {
-  SessionSettingButtonItem,
   SessionSettingsItemWrapper,
   SessionToggleWithDescription,
 } from '../SessionSettingListItem';
@@ -95,31 +93,34 @@ const NoBlockedContacts = () => {
   );
 };
 
-const BlockedEntry = (props: { blockedEntry: string; title: string }) => {
-  return (
-    <SessionSettingButtonItem
-      key={props.blockedEntry}
-      buttonColor={SessionButtonColor.Danger}
-      buttonType={SessionButtonType.Square}
-      buttonText={window.i18n('unblockUser')}
-      title={props.title}
-      onClick={async () => {
-        await unblockConvoById(props.blockedEntry);
-      }}
-    />
-  );
-};
-
 const BlockedContactsList = (props: { blockedNumbers: Array<string> }) => {
-  const blockedEntries = props.blockedNumbers.map(blockedEntry => {
-    const currentModel = getConversationController().get(blockedEntry);
-    const title =
-      currentModel?.getNicknameOrRealUsernameOrPlaceholder() || window.i18n('anonymous');
+  const {
+    uniqueValues: selectedIds,
+    addTo: addToSelected,
+    removeFrom: removeFromSelected,
+  } = useSet<string>([]);
 
-    return <BlockedEntry key={blockedEntry} blockedEntry={blockedEntry} title={title} />;
+  const blockedEntries = props.blockedNumbers.map(blockedEntry => {
+    return (
+      <MemberListItem
+        pubkey={blockedEntry}
+        isSelected={selectedIds.includes(blockedEntry)}
+        key={blockedEntry}
+        onSelect={addToSelected}
+        onUnselect={removeFromSelected}
+      />
+    );
   });
 
-  return <>{blockedEntries}</>;
+  return (
+    <>
+      <SessionSettingsItemWrapper
+        title={window.i18n('blockedSettingsTitle')}
+        inline={false}
+        children={blockedEntries}
+      />
+    </>
+  );
 };
 
 export const CategoryConversations = () => {

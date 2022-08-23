@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 
 export function useSet<T>(initialValues: Array<T> = []) {
   const [uniqueValues, setUniqueValues] = useState<Array<T>>(initialValues);
@@ -18,7 +18,7 @@ export function useSet<T>(initialValues: Array<T> = []) {
       if (!uniqueValues.includes(valueToRemove)) {
         return;
       }
-      setUniqueValues(uniqueValues.filter(v => !_.isEqual(v, valueToRemove)));
+      setUniqueValues(uniqueValues.filter(v => !isEqual(v, valueToRemove)));
     },
     [uniqueValues, setUniqueValues]
   );
