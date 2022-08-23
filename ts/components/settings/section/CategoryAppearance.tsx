@@ -18,7 +18,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
 
     return (
       <>
-        {/* add theme switching here */}
+        {/* TODO: add theme switching here */}
         <ZoomingSessionSlider />
         {isHideMenuBarSupported() && (
           <SessionToggleWithDescription

@@ -15,7 +15,7 @@ export const StyledEmojiPanel = styled.div<{ isModal: boolean; theme: 'light' | 
   z-index: 5;
   opacity: 0;
   visibility: hidden;
-  transition: var(--default-duration);
+  /* transition: var(--default-duration); */
 
   button:focus {
     outline: none;

@@ -3,6 +3,36 @@ import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+const StyledKnob = styled.div<{ active: boolean }>`
+  position: absolute;
+  top: 0.5px;
+  left: 0.5px;
+  height: 21px;
+  width: 21px;
+  border-radius: 28px;
+  background-color: white;
+  box-shadow: -2px 1px 3px rgba(0, 0, 0, 0.15);
+
+  transition: transform var(--default-duration) ease, background-color var(--default-duration) ease;
+
+  transform: ${props => (props.active ? 'translateX(25px)' : '')};
+`;
+
+const StyledSessionToggle = styled.div<{ active: boolean }>`
+  width: 51px;
+  height: 25px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 16px;
+  position: relative;
+
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+  transition: var(--default-duration);
+
+  background-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
+  border-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
+`;
+
 type Props = {
   active: boolean;
   onClick: () => void;
@@ -50,33 +80,3 @@ export const SessionToggle = (props: Props) => {
     </StyledSessionToggle>
   );
 };
-
-const StyledKnob = styled.div<{ active: boolean }>`
-  position: absolute;
-  top: 0.5px;
-  left: 0.5px;
-  height: 21px;
-  width: 21px;
-  border-radius: 28px;
-  background-color: white;
-  box-shadow: -2px 1px 3px rgba(0, 0, 0, 0.15);
-
-  transition: transform var(--default-duration) ease, background-color var(--default-duration) ease;
-
-  transform: ${props => (props.active ? 'translateX(25px)' : '')};
-`;
-
-const StyledSessionToggle = styled.div<{ active: boolean }>`
-  width: 51px;
-  height: 25px;
-  border: 1.5px solid #e5e5ea;
-  border-radius: 16px;
-  position: relative;
-
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
-  transition: var(--default-duration);
-
-  background-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
-  border-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
-`;

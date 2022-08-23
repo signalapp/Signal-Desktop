@@ -49,9 +49,7 @@ const StyledOnionDescription = styled.p`
 
 const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelText: string }) => {
   const element = (hovered: boolean) => (
-    <StyledCountry key={`country-${snodeIp}`}>
-      {hovered && snodeIp ? snodeIp : labelText}
-    </StyledCountry>
+    <StyledCountry>{hovered && snodeIp ? snodeIp : labelText}</StyledCountry>
   );
   const [hoverable] = useHover(element);
 
@@ -108,7 +106,11 @@ const OnionPathModalInner = () => {
                 labelText = window.i18n('unknownCountry');
               }
               return labelText ? (
-                <OnionCountryDisplay labelText={labelText} snodeIp={snode.ip} />
+                <OnionCountryDisplay
+                  labelText={labelText}
+                  snodeIp={snode.ip}
+                  key={`country-${snode.ip}`}
+                />
               ) : null;
             })}
           </Flex>

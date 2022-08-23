@@ -46,7 +46,6 @@ const TypingBubbleItem = () => {
   return (
     <>
       <SpacerLG />
-
       <TypingBubble conversationType={ConversationTypeEnum.PRIVATE} isTyping={true} />
     </>
   );

@@ -70,7 +70,7 @@ export const SessionSettingsItemWrapper = (props: {
         description={description}
         childrenDescription={childrenDescription}
       />
-      <div>{children}</div>
+      {children}
     </ComponentToRender>
   );
 };
