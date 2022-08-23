@@ -16,7 +16,6 @@ const sessionBlack = '#282829';
 const avatarBorderColor = '#00000059';
 
 // Blacks
-const blackColor = '#000000';
 
 // Blues
 const lightBlueColor = '#a2d2f4';
@@ -27,6 +26,7 @@ const sessionGreenColor = accentDarkTheme;
 // Grays
 const grayColor = '#616161';
 const lightGrayColor = '#8b8e91';
+const lighterGrayColor = '#e9e9e9';
 const lightestGrayColor = '#f3f3f3';
 
 // DARK COLORS
@@ -97,14 +97,12 @@ export const switchHtmlToDarkTheme = () => {
   );
   document.documentElement.style.setProperty('--color-sent-message-text', sessionBlack);
   document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
-  document.documentElement.style.setProperty(
-    '--color-light-black-color',
-    `rgba(${blackColor}, 0.2)`
-  );
+  document.documentElement.style.setProperty('--color-light-black-color', `rgba(${black}, 0.2)`);
   document.documentElement.style.setProperty('--color-session-green-color', sessionGreenColor);
 
   document.documentElement.style.setProperty('--color-gray-color', grayColor);
   document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
+  document.documentElement.style.setProperty('--color-lighter-gray-color', lighterGrayColor);
   document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);
   document.documentElement.style.setProperty('--color-light-blue-color', lightBlueColor);
   document.documentElement.style.setProperty(
@@ -256,13 +254,11 @@ export const switchHtmlToLightTheme = () => {
   // TODO: This might be wrong. Didn't merge correctly.
   document.documentElement.style.setProperty('--color-sent-message-text', black);
   document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
-  document.documentElement.style.setProperty(
-    '--color-light-black-color',
-    `rgba(${blackColor}, 0.2)`
-  );
+  document.documentElement.style.setProperty('--color-light-black-color', `rgba(${black}, 0.2)`);
   document.documentElement.style.setProperty('--color-session-green-color', sessionGreenColor);
   document.documentElement.style.setProperty('--color-gray-color', grayColor);
   document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
+  document.documentElement.style.setProperty('--color-lighter-gray-color', lighterGrayColor);
   document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);
   document.documentElement.style.setProperty('--color-light-blue-color', lightBlueColor);
   document.documentElement.style.setProperty(

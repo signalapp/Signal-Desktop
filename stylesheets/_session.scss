@@ -226,7 +226,7 @@ textarea {
 }
 
 .session-label {
-  color: $session-color-white;
+  color: white;
   padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
@@ -714,7 +714,7 @@ label {
     height: 135px;
     border-radius: 3px;
     padding: var(--margins-xs);
-    background-color: $session-color-white;
+    background-color: white;
   }
 }
 
@@ -835,7 +835,7 @@ label {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: var(--margins-xs);
-  background-color: $session-color-white;
+  background-color: white;
   border-radius: 3px;
 }
 
