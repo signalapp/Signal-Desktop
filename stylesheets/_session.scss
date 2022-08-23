@@ -141,10 +141,10 @@ textarea {
       background-color: $session-color-success;
     }
     &.danger {
-      background-color: $session-color-danger;
+      background-color: var(--color-destructive);
     }
     &.danger-alt {
-      background-color: $session-color-danger-alt;
+      background-color: var(--color-destructive-alt);
     }
     &.warning {
       background-color: $session-color-warning;
@@ -169,7 +169,7 @@ textarea {
       @include transparent-background($session-color-secondary);
     }
     &.danger {
-      @include transparent-background($session-color-danger);
+      @include transparent-background(var(--color-destructive));
     }
     &.warning {
       @include transparent-background($session-color-warning-alt);
@@ -241,7 +241,7 @@ textarea {
     background-color: $session-color-success;
   }
   &.danger {
-    background-color: $session-color-danger;
+    background-color: var(--color-destructive);
   }
   &.warning {
     background-color: $session-color-warning-alt;
@@ -668,7 +668,7 @@ label {
     }
 
     &.danger {
-      color: $session-color-danger;
+      color: var(--color-destructive);
     }
   }
 

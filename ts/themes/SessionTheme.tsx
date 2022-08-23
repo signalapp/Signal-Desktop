@@ -6,6 +6,7 @@ const white = '#ffffff';
 const black = '#000000';
 const warning = '#e7b100';
 const destructive = '#ff453a';
+const destructiveAlt = '#ff4538';
 const accentLightTheme = '#00e97b';
 const accentDarkTheme = '#00f782';
 const borderLightThemeColor = '#f1f1f1';
@@ -28,6 +29,7 @@ const grayColor = '#616161';
 const lightGrayColor = '#8b8e91';
 const lighterGrayColor = '#e9e9e9';
 const lightestGrayColor = '#f3f3f3';
+const darkerGrayColor = '#17191d';
 
 // DARK COLORS
 const darkColorAccent = accentDarkTheme;
@@ -96,15 +98,6 @@ export const switchHtmlToDarkTheme = () => {
     darkColorSentMessageBg
   );
   document.documentElement.style.setProperty('--color-sent-message-text', sessionBlack);
-  document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
-  document.documentElement.style.setProperty('--color-light-black-color', `rgba(${black}, 0.2)`);
-  document.documentElement.style.setProperty('--color-session-green-color', sessionGreenColor);
-
-  document.documentElement.style.setProperty('--color-gray-color', grayColor);
-  document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
-  document.documentElement.style.setProperty('--color-lighter-gray-color', lighterGrayColor);
-  document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);
-  document.documentElement.style.setProperty('--color-light-blue-color', lightBlueColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     darkColorClickableHovered
@@ -253,14 +246,6 @@ export const switchHtmlToLightTheme = () => {
   );
   // TODO: This might be wrong. Didn't merge correctly.
   document.documentElement.style.setProperty('--color-sent-message-text', black);
-  document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
-  document.documentElement.style.setProperty('--color-light-black-color', `rgba(${black}, 0.2)`);
-  document.documentElement.style.setProperty('--color-session-green-color', sessionGreenColor);
-  document.documentElement.style.setProperty('--color-gray-color', grayColor);
-  document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
-  document.documentElement.style.setProperty('--color-lighter-gray-color', lighterGrayColor);
-  document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);
-  document.documentElement.style.setProperty('--color-light-blue-color', lightBlueColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     lightColorClickableHovered
@@ -383,8 +368,21 @@ export const SessionGlobalStyles = createGlobalStyle`
     --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
+    --color-light-black-color: ${`rgba(${black}, 0.2)`};
+    --color-lighter-black-color: ${`rgba(${black}, 0.15)`};
+    --color-session-green-color: ${sessionGreenColor};
+
+    --color-white-color: ${white};
+    --color-gray-color: ${grayColor};
+    --color-light-gray-color: ${lightGrayColor};
+    --color-lighter-gray-color: ${lighterGrayColor};
+    --color-lightest-gray-color: ${lightestGrayColor};
+    --color-darker-gray-color: ${darkerGrayColor};
+    --color-light-blue-color: ${lightBlueColor};
+
     --color-warning:  ${warning};
     --color-destructive:  ${destructive};
+    --color-destructive-alt:  ${destructiveAlt};
     /* COLORS */
     --color-accent: ${lightColorAccent};
     --color-accent-button:  ${lightColorAccentButton};
@@ -421,7 +419,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-background-primary: ${lightBackgroundPrimary};
     --color-button-green: ${lightButtonGreen};
     --color-modal-background: ${lightModalBackground};
-
+    --color-avatar-border-color: ${avatarBorderColor};
 
   };
 `;

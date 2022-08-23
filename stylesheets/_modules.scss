@@ -42,7 +42,7 @@
   display: inline-block;
   position: absolute;
   bottom: 4px;
-  @include color-svg('../images/error.svg', $session-color-danger);
+  @include color-svg('../images/error.svg', var(--color-destructive));
 }
 
 .module-message__error--outgoing {
@@ -104,7 +104,7 @@
   white-space: nowrap;
   text-overflow: clip;
 
-  color: $color-gray-90;
+  color: var(--color-darker-gray-color);
 }
 
 .module-message__generic-attachment__text {
@@ -115,7 +115,7 @@
 }
 
 .module-message__generic-attachment__file-name {
-  color: $color-gray-90;
+  color: var(--color-darker-gray-color);
   font-size: 14px;
   line-height: 18px;
   font-weight: 300;
@@ -151,11 +151,11 @@
 
 .module-message__link-preview__content {
   padding: 8px;
-  background-color: $color-white;
+  background-color: var(--color-white-color);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  border: 1px solid $color-black-015;
+  border: 1px solid var(--color-lighter-black-color);
 }
 
 .module-message__link-preview__image_container {
@@ -208,7 +208,7 @@
 }
 
 .module-message__link-preview__title {
-  color: $color-gray-90;
+  color: var(--color-darker-gray-color);
   font-size: 16px;
   font-weight: 300;
   letter-spacing: 0.15px;
@@ -393,8 +393,8 @@
 .module-message-detail__delete-button {
   @include button-reset;
 
-  background-color: $session-color-danger;
-  color: $color-white;
+  background-color: var(--color-destructive);
+  color: var(--color-white-color);
   box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
   border-radius: 5px;
   border: solid 1px $color-light-35;
@@ -421,7 +421,7 @@
 }
 
 .module-message-detail__contact__error {
-  color: $session-color-danger;
+  color: var(--color-destructive);
   font-weight: 300;
 }
 
@@ -584,7 +584,7 @@
 
   width: 42px;
   height: 42px;
-  background-color: $color-white;
+  background-color: var(--color-white-color);
   border-radius: 21px;
 }
 
@@ -642,7 +642,7 @@
 }
 
 .module-conversation-list-item__unread-count {
-  color: $color-white;
+  color: var(--color-white-color);
   background-color: $color-loki-green;
   text-align: center;
 
@@ -807,7 +807,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  background-color: $color-black-015;
+  background-color: var(--color-lighter-black-color);
 }
 
 .module-image__image {
@@ -842,7 +842,7 @@
 
   width: 48px;
   height: 48px;
-  background-color: $color-white;
+  background-color: var(--color-white-color);
   border-radius: 24px;
 }
 
@@ -865,7 +865,7 @@
   bottom: 0;
   z-index: 2;
 
-  color: $color-white;
+  color: var(--color-white-color);
 
   font-size: 20px;
   font-weight: normal;
@@ -932,7 +932,7 @@
 
 .module-typing-animation__dot--light {
   border-radius: 50%;
-  background-color: $color-white;
+  background-color: var(--color-white-color);
 
   height: 6px;
   width: 6px;
@@ -997,7 +997,7 @@
 // Module: Attachments
 
 .module-attachments {
-  border-top: 1px solid $color-black-015;
+  border-top: 1px solid var(--color-lighter-black-color);
 }
 
 .module-attachments__header {
@@ -1038,7 +1038,7 @@
   display: inline-block;
   position: relative;
   border-radius: 4px;
-  box-shadow: inset 0px 0px 0px 1px $color-black-015;
+  box-shadow: inset 0px 0px 0px 1px var(--color-lighter-black-color);
   background-color: $color-gray-05;
   vertical-align: middle;
 }
@@ -1087,7 +1087,7 @@
   white-space: nowrap;
   text-overflow: clip;
 
-  color: $color-gray-90;
+  color: var(--color-darker-gray-color);
 }
 
 .module-staged-generic-attachment__filename {
@@ -1239,7 +1239,7 @@
   padding: var(--margins-sm);
 }
 .module-staged-link-preview__title {
-  color: $color-gray-90;
+  color: var(--color-darker-gray-color);
   font-weight: 300;
   font-size: 14px;
   line-height: 18px;

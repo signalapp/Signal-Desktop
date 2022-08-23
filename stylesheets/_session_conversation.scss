@@ -20,15 +20,15 @@
 
 @keyframes pulseLight {
   0% {
-    box-shadow: 0px 0px 0px 0px $session-color-danger-alt;
+    box-shadow: 0px 0px 0px 0px var(--color-destructive-alt);
   }
 
   50% {
-    box-shadow: 0px 0px 12px 0px rgba($session-color-danger-alt, 1);
+    box-shadow: 0px 0px 12px 0px rgba(var(--color-destructive-alt), 1);
   }
 
   100% {
-    box-shadow: 0px 0px 0px 0px rgba($session-color-danger-alt, 1);
+    box-shadow: 0px 0px 0px 0px rgba(var(--color-destructive-alt), 1);
   }
 }
 
@@ -424,10 +424,10 @@
       height: var(--margins-sm);
       width: var(--margins-sm);
       border-radius: 50%;
-      background-color: $session-color-danger-alt;
+      background-color: var(--color-destructive-alt);
       margin: 0 var(--margins-sm);
 
-      @include pulse-color($session-color-danger-alt, 1s, infinite);
+      @include pulse-color(var(--color-destructive-alt), 1s, infinite);
     }
   }
 }

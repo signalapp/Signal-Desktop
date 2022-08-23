@@ -119,7 +119,7 @@
   // Module: Message
 
   .module-message__error {
-    @include color-svg('../images/error.svg', $session-color-danger);
+    @include color-svg('../images/error.svg', var(--color-destructive));
   }
 
   .module-message__img-border-overlay {
@@ -152,11 +152,11 @@
   }
 
   .module-message__broken-image--incoming {
-    color: $color-white;
+    color: var(--color-white-color);
   }
 
   .module-message__video-overlay__circle {
-    background-color: $color-white;
+    background-color: var(--color-white-color);
   }
 
   .module-message__video-overlay__play-icon {
@@ -184,7 +184,7 @@
 
   .module-contact-detail__send-message {
     background-color: $blue;
-    color: $color-white;
+    color: var(--color-white-color);
   }
 
   .module-contact-detail__additional-contact {
@@ -204,14 +204,14 @@
   // Module: Message Detail
 
   .module-message-detail__delete-button {
-    background-color: $session-color-danger;
-    color: $color-white;
+    background-color: var(--color-destructive);
+    color: var(--color-white-color);
     box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
     border: solid 1px $color-light-35;
   }
 
   .module-message-detail__contact__error {
-    color: $session-color-danger;
+    color: var(--color-destructive);
   }
 
   // Module: Media Gallery
@@ -264,7 +264,7 @@
   }
 
   .module-conversation-list-item__unread-count {
-    color: $color-white;
+    color: var(--color-white-color);
     background-color: $color-loki-green;
     box-shadow: 0px 0px 0px 1px $color-dark-85;
   }
@@ -316,11 +316,11 @@
   // Module: Typing Animation
 
   .module-typing-animation__dot {
-    background-color: $color-white;
+    background-color: var(--color-white-color);
   }
 
   .module-typing-animation__dot--light {
-    background-color: $color-white;
+    background-color: var(--color-white-color);
   }
 
   // Module: Attachments
@@ -350,7 +350,7 @@
   }
 
   .module-staged-generic-attachment__icon__extension {
-    color: $color-gray-90;
+    color: var(--color-darker-gray-color);
   }
 
   // Module: Staged Placeholder Attachment
