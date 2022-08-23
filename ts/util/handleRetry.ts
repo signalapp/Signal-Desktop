@@ -8,6 +8,7 @@ import {
 import { isBoolean, isNumber } from 'lodash';
 
 import * as Bytes from '../Bytes';
+import dataInterface from '../sql/Client';
 import { isProduction } from './version';
 import { strictAssert } from './assert';
 import { getSendOptions } from './getSendOptions';
@@ -142,6 +143,38 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     requesterUuid,
     timestamp,
   });
+
+  // Assert that the requesting UUID is still part of a distribution list that
+  // the message was sent to.
+  if (contentProto.storyMessage) {
+    const { storyDistributionLists } = window.reduxStore.getState();
+    const membersByListId = new Map<string, Set<string>>();
+    storyDistributionLists.distributionLists.forEach(list => {
+      membersByListId.set(list.id, new Set(list.memberUuids));
+    });
+
+    const messages = await dataInterface.getMessagesBySentAt(timestamp);
+    const isInDistributionList = messages.some(message => {
+      if (!message.storyDistributionListId) {
+        return false;
+      }
+
+      const members = membersByListId.get(message.storyDistributionListId);
+      if (!members) {
+        return false;
+      }
+
+      return members.has(requesterUuid);
+    });
+
+    if (!isInDistributionList) {
+      log.warn(
+        `onRetryRequest/${logId}: requesterUuid is not in distribution list`
+      );
+      confirm();
+      return;
+    }
+  }
 
   const recipientConversation = window.ConversationController.getOrCreate(
     requesterUuid,
