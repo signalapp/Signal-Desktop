@@ -350,14 +350,16 @@ export const getStories = createSelector(
   }
 );
 
-export const getUnreadStorySenderCount = createSelector(
+export const getStoriesNotificationCount = createSelector(
   getStoriesState,
-  ({ stories }): number => {
+  ({ lastOpenedAtTimestamp, stories }): number => {
     return new Set(
       stories
         .filter(
           story =>
-            story.readStatus === ReadStatus.Unread && !story.deletedForEveryone
+            story.readStatus === ReadStatus.Unread &&
+            !story.deletedForEveryone &&
+            story.timestamp > (lastOpenedAtTimestamp || 0)
         )
         .map(story => story.conversationId)
     ).size;

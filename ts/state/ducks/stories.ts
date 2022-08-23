@@ -84,6 +84,7 @@ export type SelectedStoryDataType = {
 // State
 
 export type StoriesStateType = {
+  readonly lastOpenedAtTimestamp: number | undefined;
   readonly openedAtTimestamp: number | undefined;
   readonly replyState?: {
     messageId: string;
@@ -1099,6 +1100,7 @@ export function getEmptyState(
   overrideState: Partial<StoriesStateType> = {}
 ): StoriesStateType {
   return {
+    lastOpenedAtTimestamp: undefined,
     openedAtTimestamp: undefined,
     stories: [],
     ...overrideState,
@@ -1114,6 +1116,9 @@ export function reducer(
 
     return {
       ...state,
+      lastOpenedAtTimestamp: !isShowingStoriesView
+        ? state.openedAtTimestamp || Date.now()
+        : state.lastOpenedAtTimestamp,
       openedAtTimestamp: isShowingStoriesView ? undefined : Date.now(),
       replyState: undefined,
       sendStoryModalData: undefined,
