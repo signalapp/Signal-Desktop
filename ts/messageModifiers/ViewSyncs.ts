@@ -8,8 +8,10 @@ import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
+import { isDownloaded } from '../types/Attachment';
 import { isIncoming } from '../state/selectors/message';
 import { notificationService } from '../services/notifications';
+import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import * as log from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
 
@@ -88,6 +90,11 @@ export class ViewSyncs extends Collection {
 
       if (message.get('readStatus') !== ReadStatus.Viewed) {
         message.set(markViewed(message.attributes, sync.get('viewedAt')));
+
+        const attachments = message.get('attachments');
+        if (!attachments?.every(isDownloaded)) {
+          queueAttachmentDownloads(message.attributes);
+        }
       }
 
       const giftBadge = message.get('giftBadge');
