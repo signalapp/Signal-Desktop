@@ -3,6 +3,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import styled from 'styled-components';
+import { SessionIconButton } from '../icon';
 
 type ButtonSettingsProps = {
   title?: string;
@@ -35,6 +36,30 @@ const StyledInfo = styled.div`
 const StyledDescriptionContainer = styled(StyledDescription)`
   display: flex;
   align-items: center;
+`;
+
+const StyledSettingItem = styled.div`
+  font-size: var(--font-size-md);
+  padding: var(--margins-lg);
+  margin-bottom: 20px;
+
+  background: var(--color-cell-background);
+  color: var(--color-text);
+  border-bottom: var(--border-session);
+`;
+
+const StyledSettingItemInline = styled(StyledSettingItem)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--default-duration);
+`;
+
+const StyledSettingItemClickable = styled(StyledSettingItemInline)`
+  :hover {
+    background: var(--color-clickable-hovered);
+    cursor: pointer;
+  }
 `;
 
 const SettingsTitleAndDescription = (props: {
@@ -75,21 +100,15 @@ export const SessionSettingsItemWrapper = (props: {
   );
 };
 
-const StyledSettingItem = styled.div`
-  font-size: var(--font-size-md);
-  padding: var(--margins-lg);
-  margin-bottom: 20px;
-
-  background: var(--color-cell-background);
-  color: var(--color-text);
-  border-bottom: var(--border-session);
-`;
-
-const StyledSettingItemInline = styled(StyledSettingItem)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+export const SessionSettingsTitleWithLink = (props: { title: string; onClick: () => void }) => {
+  const { onClick, title } = props;
+  return (
+    <StyledSettingItemClickable onClick={onClick}>
+      <SettingsTitleAndDescription title={title} />
+      <SessionIconButton iconSize={'large'} iconType="chevron" iconRotation={270} />
+    </StyledSettingItemClickable>
+  );
+};
 
 export const SessionToggleWithDescription = (props: {
   title?: string;

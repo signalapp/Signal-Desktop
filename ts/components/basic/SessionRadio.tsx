@@ -35,7 +35,7 @@ const StyledLabel = styled.label`
 
     transition: var(--default-duration);
     padding: calc(var(--filled-size) / 2);
-    outline-offset: 3px;
+    outline-offset: 2px;
     outline: var(--color-text) solid 1px;
     border: none;
     margin-top: var(--filled-size);
