@@ -50,6 +50,7 @@ export type ConversationStoryType = {
     | 'name'
     | 'profileName'
     | 'sharedGroupNames'
+    | 'sortedGroupMembers'
     | 'title'
   >;
   isHidden?: boolean;

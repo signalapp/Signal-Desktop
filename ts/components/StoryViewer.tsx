@@ -54,6 +54,7 @@ export type PropsType = {
     | 'name'
     | 'profileName'
     | 'sharedGroupNames'
+    | 'sortedGroupMembers'
     | 'title'
   >;
   hasActiveCall?: boolean;
@@ -774,6 +775,7 @@ export const StoryViewer = ({
             renderEmojiPicker={renderEmojiPicker}
             replies={replies}
             skinTone={skinTone}
+            sortedGroupMembers={group?.sortedGroupMembers}
             storyPreviewAttachment={attachment}
             views={views}
           />

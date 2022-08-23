@@ -180,6 +180,7 @@ export function getConversationStory(
     'name',
     'profileName',
     'sharedGroupNames',
+    'sortedGroupMembers',
     'title',
   ]);
 

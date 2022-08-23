@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import type { AttachmentType } from '../types/Attachment';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { InputApi } from './CompositionInput';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
@@ -104,6 +105,7 @@ export type PropsType = {
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: Array<ReplyType>;
   skinTone?: number;
+  sortedGroupMembers?: Array<ConversationType>;
   storyPreviewAttachment?: AttachmentType;
   views: Array<StorySendStateType>;
 };
@@ -126,6 +128,7 @@ export const StoryViewsNRepliesModal = ({
   renderEmojiPicker,
   replies,
   skinTone,
+  sortedGroupMembers,
   storyPreviewAttachment,
   views,
 }: PropsType): JSX.Element | null => {
@@ -210,6 +213,7 @@ export const StoryViewsNRepliesModal = ({
                   ? i18n('StoryViewer__reply-group')
                   : i18n('StoryViewer__reply')
               }
+              sortedGroupMembers={sortedGroupMembers}
               theme={ThemeType.dark}
             >
               <EmojiButton
