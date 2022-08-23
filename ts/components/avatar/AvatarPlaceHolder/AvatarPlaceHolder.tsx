@@ -21,7 +21,6 @@ const sha512FromPubkey = async (pubkey: string): Promise<string> => {
 const cachedHashes = new Map<string, number>();
 
 const avatarPlaceholderColors = ['#5ff8b0', '#26cdb9', '#f3c615', '#fcac5a'];
-const avatarBorderColor = '#00000059';
 
 function useHashBasedOnPubkey(pubkey: string) {
   const [hash, setHash] = useState<number | undefined>(undefined);
@@ -89,7 +88,7 @@ export const AvatarPlaceHolder = (props: Props) => {
             r={rWithoutBorder}
             fill="#d2d2d3"
             shapeRendering="geometricPrecision"
-            stroke={avatarBorderColor}
+            stroke={'var(--color-avatar-border-color)'}
             strokeWidth="1"
           />
         </g>
@@ -114,7 +113,7 @@ export const AvatarPlaceHolder = (props: Props) => {
           r={rWithoutBorder}
           fill={bgColor}
           shapeRendering="geometricPrecision"
-          stroke={avatarBorderColor}
+          stroke={'var(--color-avatar-border-color)'}
           strokeWidth="1"
         />
         <text

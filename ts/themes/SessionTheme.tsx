@@ -13,6 +13,7 @@ const borderDarkThemeColor = '#ffffff0F';
 
 // THEME INDEPEDENT COLORS
 const sessionBlack = '#282829';
+const avatarBorderColor = '#00000059';
 
 // DARK COLORS
 const darkColorAccent = accentDarkTheme;
@@ -81,6 +82,7 @@ export const switchHtmlToDarkTheme = () => {
     darkColorSentMessageBg
   );
   document.documentElement.style.setProperty('--color-sent-message-text', sessionBlack);
+  document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     darkColorClickableHovered
@@ -229,6 +231,7 @@ export const switchHtmlToLightTheme = () => {
   );
   // TODO: This might be wrong. Didn't merge correctly.
   document.documentElement.style.setProperty('--color-sent-message-text', black);
+  document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     lightColorClickableHovered

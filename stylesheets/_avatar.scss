@@ -1,8 +1,4 @@
 // Module: Avatar
-$borderAvatarColor: unquote(
-  '#00000059'
-); // search for references on ts TODO: make this exposed on ts
-
 .module-avatar {
   position: relative;
   vertical-align: middle;
@@ -13,7 +9,7 @@ $borderAvatarColor: unquote(
   img {
     object-fit: cover;
     border-radius: 50%;
-    border: 1px solid $borderAvatarColor;
+    border: 1px solid var(--color-avatar-border-color);
   }
 }
 
