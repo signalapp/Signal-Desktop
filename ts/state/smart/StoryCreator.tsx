@@ -21,10 +21,12 @@ import {
   getInstalledStickerPacks,
   getRecentStickers,
 } from '../selectors/stickers';
+import { getHasSetMyStoriesPrivacy } from '../selectors/items';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { processAttachment } from '../../util/processAttachment';
 import { useConversationsActions } from '../ducks/conversations';
+import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { useStoriesActions } from '../ducks/stories';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
@@ -45,13 +47,20 @@ export function SmartStoryCreator({
     verifyStoryListMembers,
   } = useStoriesActions();
   const { tagGroupsAsNewGroupStory } = useConversationsActions();
-  const { createDistributionList } = useStoryDistributionListsActions();
+  const {
+    createDistributionList,
+    hideMyStoriesFrom,
+    setMyStoriesToAllSignalConnections,
+    updateStoryViewers,
+  } = useStoryDistributionListsActions();
+  const { toggleSignalConnectionsModal } = useGlobalModalActions();
 
   const candidateConversations = useSelector(getCandidateContactsForNewGroup);
   const distributionLists = useSelector(getDistributionLists);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const groupConversations = useSelector(getNonGroupStories);
   const groupStories = useSelector(getGroupStories);
+  const hasSetMyStoriesPrivacy = useSelector(getHasSetMyStoriesPrivacy);
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const installedPacks = useSelector(getInstalledStickerPacks);
   const linkPreviewForSource = useSelector(getLinkPreview);
@@ -68,19 +77,24 @@ export function SmartStoryCreator({
       getPreferredBadge={getPreferredBadge}
       groupConversations={groupConversations}
       groupStories={groupStories}
+      hasFirstStoryPostExperience={!hasSetMyStoriesPrivacy}
       i18n={i18n}
       installedPacks={installedPacks}
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
       me={me}
       onClose={onClose}
       onDistributionListCreated={createDistributionList}
+      onHideMyStoriesFrom={hideMyStoriesFrom}
       onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}
+      onViewersUpdated={updateStoryViewers}
       processAttachment={processAttachment}
       recentStickers={recentStickers}
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
+      setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
       tagGroupsAsNewGroupStory={tagGroupsAsNewGroupStory}
+      toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );
 }

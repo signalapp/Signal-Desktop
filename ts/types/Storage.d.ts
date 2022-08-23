@@ -65,6 +65,7 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
+  hasSetMyStoriesPrivacy: boolean;
   hasStoriesEnabled: boolean;
   identityKeyMap: IdentityKeyMap;
   lastHeartbeat: number;

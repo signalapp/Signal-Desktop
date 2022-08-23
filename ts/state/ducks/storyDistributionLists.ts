@@ -282,6 +282,8 @@ function hideMyStoriesFrom(
 
     storageServiceUploadJob();
 
+    window.storage.put('hasSetMyStoriesPrivacy', true);
+
     dispatch({
       type: HIDE_MY_STORIES_FROM,
       payload: memberUuids,
@@ -378,6 +380,8 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
       storageServiceUploadJob();
     }
 
+    window.storage.put('hasSetMyStoriesPrivacy', true);
+
     dispatch({
       type: RESET_MY_STORIES,
     });
@@ -431,6 +435,10 @@ function updateStoryViewers(
     );
 
     storageServiceUploadJob();
+
+    if (listId === MY_STORIES_ID) {
+      window.storage.put('hasSetMyStoriesPrivacy', true);
+    }
 
     dispatch({
       type: VIEWERS_CHANGED,
@@ -599,7 +607,7 @@ export function reducer(
       state.distributionLists,
       MY_STORIES_ID,
       () => ({
-        isBlockList: false,
+        isBlockList: true,
         memberUuids: [],
       })
     );

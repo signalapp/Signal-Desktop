@@ -7393,6 +7393,10 @@
     "message": "Story settings",
     "description": "Button label to get to story settings"
   },
+  "SendStoryModal__choose-who-can-view": {
+    "message": "Choose who can view your story",
+    "description": "Shown during the first time posting a story"
+  },
   "SendStoryModal__title": {
     "message": "Send to",
     "description": "Title for the send story modal"
@@ -7424,6 +7428,20 @@
   "SendStoryModal__choose-groups": {
     "message": "Choose groups",
     "description": "Modal title when choosing groups"
+  },
+  "SendStoryModal__my-stories-privacy": {
+    "message": "My stories privacy",
+    "description": "Modal title for setting privacy for My Stories"
+  },
+  "SendStoryModal__privacy-disclaimer": {
+    "message": "Choose which Signal connections can view your story. You can always change this in privacy settings. $learnMore$",
+    "description": "Disclaimer on how changes to story settings work",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "<a>Learn more</a>"
+      }
+    }
   },
   "Stories__settings-toggle--title": {
     "message": "Share & View Stories",

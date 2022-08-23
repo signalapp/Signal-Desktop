@@ -36,6 +36,9 @@ export default {
     groupStories: {
       defaultValue: Array.from(Array(2), getDefaultGroup),
     },
+    hasFirstStoryPostExperience: {
+      defaultValue: false,
+    },
     i18n: {
       defaultValue: i18n,
     },
@@ -44,11 +47,15 @@ export default {
     },
     onClose: { action: true },
     onDistributionListCreated: { action: true },
+    onHideMyStoriesFrom: { action: true },
     onSend: { action: true },
+    onViewersUpdated: { action: true },
+    setMyStoriesToAllSignalConnections: { action: true },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },
     tagGroupsAsNewGroupStory: { action: true },
+    toggleSignalConnectionsModal: { action: true },
   },
 } as Meta;
 
@@ -57,4 +64,11 @@ const Template: Story<PropsType> = args => <SendStoryModal {...args} />;
 export const Modal = Template.bind({});
 Modal.args = {
   distributionLists: getFakeDistributionLists(),
+};
+
+export const FirstTime = Template.bind({});
+FirstTime.args = {
+  distributionLists: [getMyStories()],
+  groupStories: [],
+  hasFirstStoryPostExperience: true,
 };

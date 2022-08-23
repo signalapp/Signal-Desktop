@@ -8,13 +8,11 @@ import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
-import type { ConversationType } from '../state/ducks/conversations';
 import type { LinkPreviewSourceType } from '../types/LinkPreview';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
+import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
 import type { UUIDStringType } from '../types/UUID';
 
 import { IMAGE_JPEG, TEXT_ATTACHMENT } from '../types/MIME';
@@ -25,24 +23,14 @@ import { MediaEditor } from './MediaEditor';
 import { TextStoryCreator } from './TextStoryCreator';
 
 export type PropsType = {
-  candidateConversations: Array<ConversationType>;
   debouncedMaybeGrabLinkPreview: (
     message: string,
     source: LinkPreviewSourceType
   ) => unknown;
-  distributionLists: Array<StoryDistributionListDataType>;
   file?: File;
-  getPreferredBadge: PreferredBadgeSelectorType;
-  groupConversations: Array<ConversationType>;
-  groupStories: Array<ConversationType>;
   i18n: LocalizerType;
   linkPreview?: LinkPreviewType;
-  me: ConversationType;
   onClose: () => unknown;
-  onDistributionListCreated: (
-    name: string,
-    viewerUuids: Array<UUIDStringType>
-  ) => unknown;
   onSelectedStoryList: (memberUuids: Array<string>) => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
@@ -53,9 +41,24 @@ export type PropsType = {
     file: File
   ) => Promise<void | InMemoryAttachmentDraftType>;
   sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
-  signalConnections: Array<ConversationType>;
-  tagGroupsAsNewGroupStory: (cids: Array<string>) => unknown;
-} & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'>;
+} & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
+  Pick<
+    SendStoryModalPropsType,
+    | 'candidateConversations'
+    | 'distributionLists'
+    | 'getPreferredBadge'
+    | 'groupConversations'
+    | 'groupStories'
+    | 'hasFirstStoryPostExperience'
+    | 'me'
+    | 'onDistributionListCreated'
+    | 'onHideMyStoriesFrom'
+    | 'onViewersUpdated'
+    | 'setMyStoriesToAllSignalConnections'
+    | 'signalConnections'
+    | 'tagGroupsAsNewGroupStory'
+    | 'toggleSignalConnectionsModal'
+  >;
 
 export const StoryCreator = ({
   candidateConversations,
@@ -65,19 +68,24 @@ export const StoryCreator = ({
   getPreferredBadge,
   groupConversations,
   groupStories,
+  hasFirstStoryPostExperience,
   i18n,
   installedPacks,
   linkPreview,
   me,
   onClose,
   onDistributionListCreated,
+  onHideMyStoriesFrom,
   onSelectedStoryList,
   onSend,
+  onViewersUpdated,
   processAttachment,
   recentStickers,
   sendStoryModalOpenStateChanged,
+  setMyStoriesToAllSignalConnections,
   signalConnections,
   tagGroupsAsNewGroupStory,
+  toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [draftAttachment, setDraftAttachment] = useState<
     AttachmentType | undefined
@@ -129,18 +137,25 @@ export const StoryCreator = ({
           getPreferredBadge={getPreferredBadge}
           groupConversations={groupConversations}
           groupStories={groupStories}
+          hasFirstStoryPostExperience={hasFirstStoryPostExperience}
           i18n={i18n}
           me={me}
           onClose={() => setDraftAttachment(undefined)}
           onDistributionListCreated={onDistributionListCreated}
+          onHideMyStoriesFrom={onHideMyStoriesFrom}
           onSelectedStoryList={onSelectedStoryList}
           onSend={(listIds, groupIds) => {
             onSend(listIds, groupIds, draftAttachment);
             setDraftAttachment(undefined);
             onClose();
           }}
+          onViewersUpdated={onViewersUpdated}
+          setMyStoriesToAllSignalConnections={
+            setMyStoriesToAllSignalConnections
+          }
           signalConnections={signalConnections}
           tagGroupsAsNewGroupStory={tagGroupsAsNewGroupStory}
+          toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         />
       )}
       {attachmentUrl && (

@@ -8,6 +8,7 @@ import type { LocalizerType } from './Util';
 import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStatus } from '../messages/MessageSendState';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
+import type { UUIDStringType } from './UUID';
 
 export type ReplyType = {
   author: Pick<
@@ -97,7 +98,8 @@ export type MyStoryType = {
   stories: Array<StoryViewType>;
 };
 
-export const MY_STORIES_ID = '00000000-0000-0000-0000-000000000000';
+export const MY_STORIES_ID: UUIDStringType =
+  '00000000-0000-0000-0000-000000000000';
 
 export enum StoryViewDirectionType {
   Next = 'Next',

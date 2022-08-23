@@ -187,79 +187,22 @@ export const StoriesSettingsModal = ({
         </div>
 
         {isMyStories && (
-          <>
-            <Checkbox
-              checked={!listToEdit.members.length}
-              description={i18n('StoriesSettings__mine__all--description')}
-              isRadio
-              label={i18n('StoriesSettings__mine__all--label')}
-              moduleClassName="StoriesSettingsModal__checkbox"
-              name="share"
-              onChange={() => {
-                setMyStoriesToAllSignalConnections();
-              }}
-            />
-
-            <Checkbox
-              checked={listToEdit.isBlockList && listToEdit.members.length > 0}
-              description={i18n('StoriesSettings__mine__exclude--description', [
-                listToEdit.isBlockList
-                  ? String(listToEdit.members.length)
-                  : '0',
-              ])}
-              isRadio
-              label={i18n('StoriesSettings__mine__exclude--label')}
-              moduleClassName="StoriesSettingsModal__checkbox"
-              name="share"
-              onChange={noop}
-              onClick={() => {
-                if (listToEdit.isBlockList) {
-                  setSelectedContacts(listToEdit.members);
-                }
-                setPage(Page.HideStoryFrom);
-              }}
-            />
-
-            <Checkbox
-              checked={!listToEdit.isBlockList && listToEdit.members.length > 0}
-              description={
-                !listToEdit.isBlockList && listToEdit.members.length
-                  ? i18n('StoriesSettings__mine__only--description--people', [
-                      String(listToEdit.members.length),
-                    ])
-                  : i18n('StoriesSettings__mine__only--description')
-              }
-              isRadio
-              label={i18n('StoriesSettings__mine__only--label')}
-              moduleClassName="StoriesSettingsModal__checkbox"
-              name="share"
-              onChange={noop}
-              onClick={() => {
-                if (!listToEdit.isBlockList) {
-                  setSelectedContacts(listToEdit.members);
-                }
-                setPage(Page.AddViewer);
-              }}
-            />
-
-            <div className="StoriesSettingsModal__disclaimer">
-              <Intl
-                components={{
-                  learnMore: (
-                    <button
-                      className="StoriesSettingsModal__disclaimer__learn-more"
-                      onClick={toggleSignalConnectionsModal}
-                      type="button"
-                    >
-                      {i18n('StoriesSettings__mine__disclaimer--learn-more')}
-                    </button>
-                  ),
-                }}
-                i18n={i18n}
-                id="StoriesSettings__mine__disclaimer"
-              />
-            </div>
-          </>
+          <EditMyStoriesPrivacy
+            i18n={i18n}
+            learnMore="StoriesSettings__mine_disclaimer"
+            myStories={listToEdit}
+            onClickExclude={() => {
+              setPage(Page.HideStoryFrom);
+            }}
+            onClickOnlyShareWith={() => {
+              setPage(Page.AddViewer);
+            }}
+            setSelectedContacts={setSelectedContacts}
+            setMyStoriesToAllSignalConnections={
+              setMyStoriesToAllSignalConnections
+            }
+            toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+          />
         )}
 
         {!isMyStories && (
@@ -528,6 +471,111 @@ export const StoriesSettingsModal = ({
           {i18n('StoriesSettings__remove--body')}
         </ConfirmationDialog>
       )}
+    </>
+  );
+};
+
+type EditMyStoriesPrivacyPropsType = {
+  hasDisclaimerAbove?: boolean;
+  i18n: LocalizerType;
+  learnMore: string;
+  myStories: StoryDistributionListWithMembersDataType;
+  onClickExclude: () => unknown;
+  onClickOnlyShareWith: () => unknown;
+  setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+} & Pick<
+  PropsType,
+  'setMyStoriesToAllSignalConnections' | 'toggleSignalConnectionsModal'
+>;
+
+export const EditMyStoriesPrivacy = ({
+  hasDisclaimerAbove,
+  i18n,
+  learnMore,
+  myStories,
+  onClickExclude,
+  onClickOnlyShareWith,
+  setSelectedContacts,
+  setMyStoriesToAllSignalConnections,
+  toggleSignalConnectionsModal,
+}: EditMyStoriesPrivacyPropsType): JSX.Element => {
+  const disclaimerElement = (
+    <div className="StoriesSettingsModal__disclaimer">
+      <Intl
+        components={{
+          learnMore: (
+            <button
+              className="StoriesSettingsModal__disclaimer__learn-more"
+              onClick={toggleSignalConnectionsModal}
+              type="button"
+            >
+              {i18n('StoriesSettings__mine__disclaimer--learn-more')}
+            </button>
+          ),
+        }}
+        i18n={i18n}
+        id={learnMore}
+      />
+    </div>
+  );
+
+  return (
+    <>
+      {hasDisclaimerAbove && disclaimerElement}
+
+      <Checkbox
+        checked={!myStories.members.length}
+        description={i18n('StoriesSettings__mine__all--description')}
+        isRadio
+        label={i18n('StoriesSettings__mine__all--label')}
+        moduleClassName="StoriesSettingsModal__checkbox"
+        name="share"
+        onChange={() => {
+          setMyStoriesToAllSignalConnections();
+        }}
+      />
+
+      <Checkbox
+        checked={myStories.isBlockList && myStories.members.length > 0}
+        description={i18n('StoriesSettings__mine__exclude--description', [
+          myStories.isBlockList ? String(myStories.members.length) : '0',
+        ])}
+        isRadio
+        label={i18n('StoriesSettings__mine__exclude--label')}
+        moduleClassName="StoriesSettingsModal__checkbox"
+        name="share"
+        onChange={noop}
+        onClick={() => {
+          if (myStories.isBlockList) {
+            setSelectedContacts(myStories.members);
+          }
+          onClickExclude();
+        }}
+      />
+
+      <Checkbox
+        checked={!myStories.isBlockList && myStories.members.length > 0}
+        description={
+          !myStories.isBlockList && myStories.members.length
+            ? i18n('StoriesSettings__mine__only--description--people', [
+                String(myStories.members.length),
+              ])
+            : i18n('StoriesSettings__mine__only--description')
+        }
+        isRadio
+        label={i18n('StoriesSettings__mine__only--label')}
+        moduleClassName="StoriesSettingsModal__checkbox"
+        name="share"
+        onChange={noop}
+        onClick={() => {
+          if (!myStories.isBlockList) {
+            setSelectedContacts(myStories.members);
+          }
+          onClickOnlyShareWith();
+        }}
+      />
+
+      {!hasDisclaimerAbove && disclaimerElement}
     </>
   );
 };

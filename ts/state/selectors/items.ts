@@ -125,3 +125,8 @@ export const getHideMenuBar = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state['hide-menu-bar'])
 );
+
+export const getHasSetMyStoriesPrivacy = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.hasSetMyStoriesPrivacy)
+);

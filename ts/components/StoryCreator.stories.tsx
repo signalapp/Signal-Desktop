@@ -33,6 +33,9 @@ export default {
     groupStories: {
       defaultValue: Array.from(Array(4), getDefaultGroup),
     },
+    hasFirstStoryPostExperience: {
+      defaultValue: false,
+    },
     i18n: { defaultValue: i18n },
     installedPacks: {
       defaultValue: [],
@@ -45,14 +48,18 @@ export default {
     },
     onClose: { action: true },
     onDistributionListCreated: { action: true },
+    onHideMyStoriesFrom: { action: true },
     onSend: { action: true },
+    onViewersUpdated: { action: true },
     processAttachment: { action: true },
     recentStickers: {
       defaultValue: [],
     },
+    setMyStoriesToAllSignalConnections: { action: true },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },
+    toggleSignalConnectionsModal: { action: true },
   },
 } as Meta;
 
@@ -77,4 +84,12 @@ LinkPreview.args = {
 };
 LinkPreview.story = {
   name: 'with Link Preview ready to be applied',
+};
+
+export const FirstTime = Template.bind({});
+FirstTime.args = {
+  hasFirstStoryPostExperience: true,
+};
+FirstTime.story = {
+  name: 'First time posting a story',
 };
