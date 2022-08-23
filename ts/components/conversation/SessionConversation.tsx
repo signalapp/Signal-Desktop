@@ -33,7 +33,7 @@ import {
   updateMentionsMembers,
 } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SessionTheme } from '../../state/ducks/SessionTheme';
+import { SessionTheme } from '../../themes/SessionTheme';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 import { SectionType } from '../../state/ducks/section';
-import { SessionTheme } from '../../state/ducks/SessionTheme';
+import { SessionTheme } from '../../themes/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
 import { getSearchResults, isSearching } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';

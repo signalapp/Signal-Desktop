@@ -4,7 +4,7 @@ import {
   SessionTheme,
   switchHtmlToDarkTheme,
   switchHtmlToLightTheme,
-} from '../state/ducks/SessionTheme';
+} from '../themes/SessionTheme';
 import { fetch } from '../util/logging';
 import { SessionButton } from './basic/SessionButton';
 

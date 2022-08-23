@@ -4,7 +4,7 @@ import { AccentText } from './AccentText';
 import { RegistrationStages } from './RegistrationStages';
 import { SessionIcon } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
-import { SessionTheme } from '../../state/ducks/SessionTheme';
+import { SessionTheme } from '../../themes/SessionTheme';
 import { Flex } from '../basic/Flex';
 import { setSignInByLinking } from '../../util/storage';
 
