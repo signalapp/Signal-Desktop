@@ -800,7 +800,7 @@
 }
 
 .module-image__border-overlay--dark {
-  background-color: $color-black-02;
+  background-color: var(--color-light-black-color);
 }
 
 .module-image__loading-placeholder {
