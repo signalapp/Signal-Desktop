@@ -111,6 +111,10 @@ const ReactionSenders = (props: ReactionSendersProps) => {
 
   const handleRemoveReaction = async () => {
     await sendMessageReaction(messageId, currentReact);
+
+    if (senders.length <= 1) {
+      dispatch(updateReactListModal(null));
+    }
   };
 
   return (
