@@ -14,6 +14,10 @@ const borderDarkThemeColor = '#ffffff0F';
 // THEME INDEPEDENT COLORS
 const sessionBlack = '#282829';
 const avatarBorderColor = '#00000059';
+const grayColor = '#616161';
+const lightGrayColor = '#8b8e91';
+const lightestGrayColor = '#f3f3f3';
+const lightBlueColor = '#a2d2f4';
 
 // DARK COLORS
 const darkColorAccent = accentDarkTheme;
@@ -83,6 +87,10 @@ export const switchHtmlToDarkTheme = () => {
   );
   document.documentElement.style.setProperty('--color-sent-message-text', sessionBlack);
   document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
+  document.documentElement.style.setProperty('--color-gray-color', grayColor);
+  document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
+  document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);
+  document.documentElement.style.setProperty('--color-light-blue-color', lightBlueColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     darkColorClickableHovered
@@ -232,6 +240,10 @@ export const switchHtmlToLightTheme = () => {
   // TODO: This might be wrong. Didn't merge correctly.
   document.documentElement.style.setProperty('--color-sent-message-text', black);
   document.documentElement.style.setProperty('--color-avatar-border-color', avatarBorderColor);
+  document.documentElement.style.setProperty('--color-gray-color', grayColor);
+  document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
+  document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);
+  document.documentElement.style.setProperty('--color-light-blue-color', lightBlueColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     lightColorClickableHovered

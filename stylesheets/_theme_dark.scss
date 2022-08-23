@@ -39,12 +39,12 @@
 
   button.grey {
     border: solid 1px #ccc;
-    color: $grey;
-    background: $grey_l;
-    box-shadow: 0 0 10px -5px rgba($grey, 0.5);
+    color: var(--color-gray-color);
+    background: var(--color-lightest-gray-color);
+    box-shadow: 0 0 10px -5px rgba(var(--color-gray-color), 0.5);
 
     &:hover {
-      box-shadow: 0 0 10px -3px rgba($grey, 0.7);
+      box-shadow: 0 0 10px -3px rgba(var(--color-gray-color), 0.7);
     }
   }
 
@@ -52,7 +52,7 @@
     position: relative;
     &::before {
       border: solid 3px;
-      border-color: $blue_l $blue_l $grey_l $grey_l !important;
+      border-color: var(--color-light-blue-color) var(--color-light-blue-color) var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
     }
   }
 
@@ -192,7 +192,7 @@
   }
 
   .module-contact-detail__additional-contact__type {
-    color: $color-light-45;
+    color: var(--color-light-gray-color);
   }
 
   // Module: Contact List Item

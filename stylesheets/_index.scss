@@ -34,7 +34,7 @@
 
   .message {
     font-style: italic;
-    color: $grey;
+    color: var(--color-gray-color);
     font-size: 12px;
     margin-bottom: 16px;
   }

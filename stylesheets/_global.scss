@@ -28,7 +28,7 @@ body {
   border: solid 2px var(--color-text-opposite);
 
   &:hover {
-    background: $color-light-45;
+    background: var(--color-light-gray-color);
   }
 }
 ::-webkit-scrollbar-track {
@@ -73,12 +73,12 @@ button.grey {
   margin: 1em auto;
   padding: 1em;
   font-family: inherit;
-  color: $grey;
-  background: $grey_l;
-  box-shadow: 0 0 10px -5px rgba($grey, 0.5);
+  color: var(--color-gray-color);
+  background: var(--color-lightest-gray-color);
+  box-shadow: 0 0 10px -5px rgba(var(--color-gray-color), 0.5);
 
   &:hover {
-    box-shadow: 0 0 10px -3px rgba($grey, 0.7);
+    box-shadow: 0 0 10px -3px rgba(var(--color-gray-color), 0.7);
   }
 
   &[disabled='disabled'] {
@@ -119,7 +119,7 @@ a {
   z-index: 100;
 
   // what's the right color?
-  background-color: $blue_l;
+  background-color: var(--color-light-blue-color);
   color: black;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
 
@@ -166,7 +166,7 @@ $loading-height: 16px;
     width: $loading-height;
     border-radius: 2 * $loading-height;
     border: solid 3px;
-    border-color: $blue_l $blue_l $grey_l $grey_l !important;
+    border-color: var(--color-light-blue-color) var(--color-light-blue-color) var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
     animation: rotate 1s linear infinite;
   }
 
@@ -185,7 +185,7 @@ $loading-height: 16px;
   width: 22px;
   height: 22px;
   padding: 3px;
-  background: $grey;
+  background: var(--color-gray-color);
 
   &:before {
     content: '';
@@ -238,7 +238,7 @@ $loading-height: 16px;
   .dot {
     width: 14px;
     height: 14px;
-    border: 3px solid $color-white;
+    border: 3px solid white;
     border-radius: 50%;
     float: left;
     margin: 0 6px;

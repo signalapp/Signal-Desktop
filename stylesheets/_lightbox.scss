@@ -33,7 +33,7 @@
   }
 
   &:hover {
-    background: $grey;
+    background: var(--color-gray-color);
   }
 
   &.save {

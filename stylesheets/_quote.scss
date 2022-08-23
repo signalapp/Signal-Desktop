@@ -161,7 +161,7 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
-  @include color-svg('../images/x.svg', $grey);
+  @include color-svg('../images/x.svg', var(--color-gray-color));
 }
 
 .module-quote__icon-container {
