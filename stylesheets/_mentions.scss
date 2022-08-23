@@ -26,5 +26,5 @@
 }
 
 .module-conversation-list-item--mentioned-us {
-  border-left: 4px solid $session-color-green !important;
+  border-left: 4px solid var(--color-session-green-color) !important;
 }

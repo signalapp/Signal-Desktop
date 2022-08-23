@@ -302,27 +302,6 @@
   }
 }
 
-.session-progress {
-  position: relative;
-  z-index: 100;
-
-  &__progress {
-    will-change: transform;
-
-    width: 100%;
-    position: absolute;
-    left: 0px;
-    font-size: 0px;
-    height: 1px;
-
-    background-color: $session-color-green;
-
-    &.fade {
-      opacity: 0;
-    }
-  }
-}
-
 .send-message-button {
   animation: fadein var(--default-duration);
 
@@ -550,7 +529,7 @@ $rhap_font-family: inherit !default;
   height: 15px;
   top: -5px;
   margin-left: -10px;
-  background: $session-color-green;
+  background: var(--color-session-green-color);
   box-shadow: none;
   box-shadow: rgba($rhap_theme-color, 0.5) 0 0 5px;
 }

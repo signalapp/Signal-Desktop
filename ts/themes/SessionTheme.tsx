@@ -21,6 +21,9 @@ const blackColor = '#000000';
 // Blues
 const lightBlueColor = '#a2d2f4';
 
+// Greens
+const sessionGreenColor = accentDarkTheme;
+
 // Grays
 const grayColor = '#616161';
 const lightGrayColor = '#8b8e91';
@@ -98,6 +101,7 @@ export const switchHtmlToDarkTheme = () => {
     '--color-light-black-color',
     `rgba(${blackColor}, 0.2)`
   );
+  document.documentElement.style.setProperty('--color-session-green-color', sessionGreenColor);
 
   document.documentElement.style.setProperty('--color-gray-color', grayColor);
   document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
@@ -256,6 +260,7 @@ export const switchHtmlToLightTheme = () => {
     '--color-light-black-color',
     `rgba(${blackColor}, 0.2)`
   );
+  document.documentElement.style.setProperty('--color-session-green-color', sessionGreenColor);
   document.documentElement.style.setProperty('--color-gray-color', grayColor);
   document.documentElement.style.setProperty('--color-light-gray-color', lightGrayColor);
   document.documentElement.style.setProperty('--color-lightest-gray-color', lightestGrayColor);

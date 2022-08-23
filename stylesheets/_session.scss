@@ -527,7 +527,7 @@ label {
   }
 
   &__text-highlight {
-    @include text-highlight($session-color-green);
+    @include text-highlight(var(--color-session-green-color));
 
     color: black;
 
@@ -558,13 +558,6 @@ label {
   &-sub-message {
     text-align: center;
     margin-top: 20px;
-  }
-}
-
-.session-toggle {
-  &.active {
-    background-color: $session-color-green;
-    border-color: $session-color-green;
   }
 }
 
@@ -749,7 +742,7 @@ label {
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: $session-color-green;
+    background: var(--color-session-green-color);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   div:nth-child(1) {

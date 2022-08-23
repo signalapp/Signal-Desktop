@@ -278,7 +278,7 @@
   }
 }
 
-$session-highlight-message-shadow: 0px 0px 10px 1px $session-color-green;
+$session-highlight-message-shadow: 0px 0px 10px 1px var(--color-session-green-color);
 
 @keyframes remove-box-shadow {
   0% {

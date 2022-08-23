@@ -57,7 +57,7 @@
   touch-action: pan-x;
 }
 .rc-slider-handle:focus {
-  border-color: $session-color-green;
+  border-color: var(--color-session-green-color);
   box-shadow: 0 0 0 5px rgba($session-color-white, 0.2);
   outline: none;
 }
@@ -66,10 +66,10 @@
   box-shadow: unset;
 }
 .rc-slider-handle:hover {
-  border-color: $session-color-green;
+  border-color: var(--color-session-green-color);
 }
 .rc-slider-handle:active {
-  border-color: $session-color-green;
+  border-color: var(--color-session-green-color);
   box-shadow: 0 0 5px rgba($session-color-white, 0.2);
   cursor: -webkit-grabbing;
   cursor: grabbing;
