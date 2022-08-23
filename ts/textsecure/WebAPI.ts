@@ -48,7 +48,6 @@ import type {
 import type { CDSBase } from './cds/CDSBase';
 import { LegacyCDS } from './cds/LegacyCDS';
 import type { LegacyCDSPutAttestationResponseType } from './cds/LegacyCDS';
-import { CDSH } from './cds/CDSH';
 import { CDSI } from './cds/CDSI';
 import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
@@ -1194,32 +1193,6 @@ export function initialize({
 
         url: directoryCDSIUrl,
         mrenclave: directoryCDSIMRENCLAVE,
-        certificateAuthority,
-        version,
-
-        async getAuth() {
-          return (await _ajax({
-            call: 'directoryAuthV2',
-            httpType: 'GET',
-            responseType: 'json',
-          })) as CDSAuthType;
-        },
-      });
-    }
-    if (directoryType === 'cdsh') {
-      const {
-        directoryCDSHUrl,
-        directoryCDSHPublicKey,
-        directoryCDSHCodeHashes,
-      } = directoryConfig;
-
-      cds = new CDSH({
-        logger: log,
-        proxyUrl,
-
-        url: directoryCDSHUrl,
-        publicKey: directoryCDSHPublicKey,
-        codeHashes: directoryCDSHCodeHashes,
         certificateAuthority,
         version,
 

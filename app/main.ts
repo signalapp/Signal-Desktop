@@ -385,12 +385,6 @@ async function prepareUrl(
       config.get<string | null>('directoryCDSIUrl') || undefined,
     directoryCDSIMRENCLAVE:
       config.get<string | null>('directoryCDSIMRENCLAVE') || undefined,
-    directoryCDSHUrl:
-      config.get<string | null>('directoryCDSHUrl') || undefined,
-    directoryCDSHPublicKey:
-      config.get<string | null>('directoryCDSHPublicKey') || undefined,
-    directoryCDSHCodeHashes:
-      config.get<Array<string> | null>('directoryCDSHCodeHashes') || undefined,
   });
   if (!directoryConfig.success) {
     throw new Error(

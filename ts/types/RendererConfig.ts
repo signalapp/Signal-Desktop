@@ -42,13 +42,6 @@ const directoryMirroredCDSIConfigSchema = z.object({
   directoryCDSIMRENCLAVE: configRequiredStringSchema,
 });
 
-const directoryCDSHConfigSchema = z.object({
-  directoryType: z.literal('cdsh'),
-  directoryCDSHCodeHashes: z.array(z.string().nonempty()),
-  directoryCDSHPublicKey: configRequiredStringSchema,
-  directoryCDSHUrl: configRequiredStringSchema,
-});
-
 export const directoryConfigSchema = z
   .object({
     // Unknown defaults
@@ -58,16 +51,11 @@ export const directoryConfigSchema = z
 
     directoryCDSIUrl: configOptionalUnknownSchema,
     directoryCDSIMRENCLAVE: configOptionalUnknownSchema,
-
-    directoryCDSHCodeHashes: configOptionalUnknownSchema,
-    directoryCDSHPublicKey: configOptionalUnknownSchema,
-    directoryCDSHUrl: configOptionalUnknownSchema,
   })
   .and(
     directoryLegacyConfigSchema
       .or(directoryMirroredCDSIConfigSchema)
       .or(directoryCDSIConfigSchema)
-      .or(directoryCDSHConfigSchema)
   );
 
 export type DirectoryConfigType = z.infer<typeof directoryConfigSchema>;

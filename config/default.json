@@ -7,9 +7,6 @@
   "directoryTrustAnchor": null,
   "directoryCDSIUrl": "https://cdsi.staging.signal.org",
   "directoryCDSIMRENCLAVE": "ef4787a56a154ac6d009138cac17155acd23cfe4329281252365dd7c252e7fbf",
-  "directoryCDSHUrl": null,
-  "directoryCDSHPublicKey": null,
-  "directoryCDSHCodeHashes": null,
   "cdn": {
     "0": "https://cdn-staging.signal.org",
     "2": "https://cdn2-staging.signal.org"
