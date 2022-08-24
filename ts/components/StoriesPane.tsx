@@ -59,7 +59,7 @@ function search(
 }
 
 function getNewestMyStory(story: MyStoryType): StoryViewType {
-  return story.stories[story.stories.length - 1];
+  return story.stories[0];
 }
 
 export type PropsType = {

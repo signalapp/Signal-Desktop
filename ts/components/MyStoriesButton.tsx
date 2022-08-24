@@ -10,6 +10,7 @@ import type { StoryViewType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { StoryImage } from './StoryImage';
 import { getAvatarColor } from '../types/Colors';
+import { MessageTimestamp } from './conversation/MessageTimestamp';
 
 import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 
@@ -129,11 +130,15 @@ export const MyStoriesButton = ({
         tabIndex={0}
       >
         <div className="StoryListItem__info">
-          <>
-            <div className="StoryListItem__info--title">
-              {i18n('Stories__mine')}
-            </div>
-          </>
+          <div className="StoryListItem__info--title">
+            {i18n('Stories__mine')}
+          </div>
+          <MessageTimestamp
+            i18n={i18n}
+            isRelativeTime
+            module="StoryListItem__info--timestamp"
+            timestamp={newestStory.timestamp}
+          />
         </div>
         <div
           aria-label={i18n('StoryListItem__label')}
