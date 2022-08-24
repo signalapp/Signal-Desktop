@@ -145,8 +145,12 @@
 
   &--with-story {
     border-radius: 100%;
-    border: 2px solid $color-white-alpha-40;
+    border: 2px solid $color-black-alpha-40;
     padding: 3px;
+
+    @include dark-theme {
+      border-color: $color-white-alpha-40;
+    }
 
     &--unread {
       border-color: $color-ultramarine-dawn;
