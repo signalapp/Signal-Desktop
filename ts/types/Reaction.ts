@@ -124,20 +124,20 @@ export type ReactionList = Record<
     count: number;
     index: number; // relies on reactsIndex in the message model
     senders: Record<string, string>; // <sender pubkey, messageHash or serverId>
+    you?: boolean; // whether you are in the senders because sometimes we dont have the full list of senders yet.
   }
 >;
 
 // used when rendering reactions to guarantee sorted order using the index
 export type SortedReactionList = Array<
-  [string, { count: number; index: number; senders: Record<string, string> }]
+  [string, { count: number; index: number; senders: Record<string, string>; you?: boolean }]
 >;
 
 export interface OpenGroupReaction {
   index: number;
   count: number;
-  first: number;
-  reactors: Array<string>;
   you: boolean;
+  reactors: Array<string>;
 }
 
 export type OpenGroupReactionList = Record<string, OpenGroupReaction>;

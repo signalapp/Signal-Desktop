@@ -2,7 +2,10 @@ import { isEmpty } from 'lodash';
 import { Data } from '../data/data';
 import { MessageModel } from '../models/message';
 import { SignalService } from '../protobuf';
-import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import {
+  getUsBlindedInThatServer,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
@@ -219,11 +222,34 @@ export const handleOpenGroupMessageReactions = async (
     const reacts: ReactionList = {};
     Object.keys(reactions).forEach(key => {
       const emoji = decodeURI(key);
+      const you = reactions[key].you || false;
+
+      if (you) {
+        if (reactions[key].reactors && reactions[key].reactors.length > 0) {
+          const reactorsWithoutMe = reactions[key].reactors.filter(
+            reactor => !isUsAnySogsFromCache(reactor)
+          );
+
+          const conversationModel = originalMessage?.getConversation();
+          if (conversationModel) {
+            const me =
+              getUsBlindedInThatServer(conversationModel) || UserUtils.getOurPubKeyStrFromCache();
+            reactions[key].reactors = [me, ...reactorsWithoutMe];
+          }
+        }
+      }
+
       const senders: Record<string, string> = {};
       reactions[key].reactors.forEach(reactor => {
         senders[reactor] = String(serverId);
       });
-      reacts[emoji] = { count: reactions[key].count, index: reactions[key].index, senders };
+
+      reacts[emoji] = {
+        count: reactions[key].count,
+        index: reactions[key].index,
+        senders,
+        you,
+      };
     });
 
     originalMessage.set({
