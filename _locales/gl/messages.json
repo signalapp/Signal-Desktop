@@ -7549,6 +7549,18 @@
         "message": "Non se pode descargar a historia. Tes que volver compartila.",
         "description": "Description for image errors but when it is your own image"
     },
+    "StoryCreator__error--video-too-long": {
+        "message": "Non se pode publicar o vídeo na túa historia porque é demasiado longo",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "Non se pode publicar o vídeo na túa historia porque ten un formato non compatible",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "Erro ao cargar o vídeo",
+        "description": "Error string for when a video post to story fails"
+    },
     "StoryCreator__text-bg--background": {
         "message": "O texto ten un fondo branco",
         "description": "Button label"

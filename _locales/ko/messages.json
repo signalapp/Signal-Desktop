@@ -1074,7 +1074,7 @@
         }
     },
     "cannotUpdateRequireManualDetail": {
-        "message": "Signal을 업데이트하지 못했습니다. $url$을(를) 방문하여 수도으로 설치하세요. 그다음 $support$에 이 문제에 관해 문의하세요.",
+        "message": "Signal을 업데이트하지 못했습니다. $url$을(를) 방문하여 수동으로 설치하세요. 그다음 $support$에 이 문제에 관해 문의하세요.",
         "description": "Shown if a general error happened while trying to install update package and manual update is required",
         "placeholders": {
             "url": {
@@ -7548,6 +7548,18 @@
     "StoryImage__error--you": {
         "message": "스토리를 다운로드할 수 없습니다. 다시 공유해 주세요.",
         "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__error--video-too-long": {
+        "message": "동영상이 너무 길어 스토리에 게시할 수 없습니다.",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "동영상이 지원되지 않는 파일 형식을 사용하여 스토리에 게시할 수 없습니다.",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "동영상을 로드하지 못했습니다.",
+        "description": "Error string for when a video post to story fails"
     },
     "StoryCreator__text-bg--background": {
         "message": "텍스트에 흰색을 배경 색으로 사용",

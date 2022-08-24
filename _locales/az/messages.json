@@ -7549,6 +7549,18 @@
         "message": "Hekayəni endirmək mümkün olmadı. Onu yenidən paylaşmalı olacaqsınız.",
         "description": "Description for image errors but when it is your own image"
     },
+    "StoryCreator__error--video-too-long": {
+        "message": "Video çox uzun olduğundan onu hekayədə paylaşmaq mümkün deyil",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "Video faylının formatı dəstəklənmədiyi üçün onu hekayədə paylaşmaq mümkün deyil",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "Videonu yükləmək alınmadı",
+        "description": "Error string for when a video post to story fails"
+    },
     "StoryCreator__text-bg--background": {
         "message": "Mətnin arxa fonu ağ rəngdədir",
         "description": "Button label"

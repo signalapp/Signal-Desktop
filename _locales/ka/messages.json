@@ -1340,7 +1340,7 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "ვიდეოს სქრინი შეტყობინებაზეა მიბმული",
+        "message": "ვიდეოს სქრინშოტი შეტყობინებაზეა მიბმული",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -1360,7 +1360,7 @@
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
-        "message": "საქაღალდის ხატულა",
+        "message": "ფაილის ხატულა",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1438,7 +1438,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "ამ სახელს შენი ტელეფონის \"დაკავშირებული მოწყობილობების\" ქვეშ დაინახავ",
+        "message": "ამ სახელს შენს ტელეფონზე \"დაკავშირებული მოწყობილობების\" ქვეშ დაინახავ",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1458,11 +1458,11 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "ვასინქრონებთ კონტაქტებსა და ჯგუფებს",
+        "message": "მიმდინარეობს კონტაქტებისა და ჯგუფების სინქრონიზაცია",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "შენიშვნა: შენი ჩატის ისტორია არ იქნება სინქრონიზებული ამ მოწყობილობასთან",
+        "message": "შენიშვნა: შენი ჩატის ისტორია ამ მოწყობილობასთან არ დასინქრონიზირდება",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1474,7 +1474,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "განაახლე Signal-ი ამ მოწყობილობაში, რომ შენს ტელეფონს დაუკავშირო.",
+        "message": "განაახლე Signal-ი ამ მოწყობილობაზე, რომ შენს ტელეფონს დაუკავშირო.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1482,7 +1482,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "მოულოდნელი ხარვეზი გაჩნდა. გთხოვთ, სცადო ისევ.",
+        "message": "მოულოდნელ ხარვეზს გადავაწყდით. გთხოვთ, თავიდან სცადე.",
         "description": ""
     },
     "installTryAgain": {
@@ -1510,7 +1510,7 @@
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "ზარში შესვლა",
+        "message": "ზარზე შესვლა",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
@@ -1582,7 +1582,7 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "მამცნობე, არ დარეკო",
+        "message": "შეატყობინე, არ დარეკო",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
@@ -1598,7 +1598,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__pre-call-info--1-person-in-call": {
-        "message": "$first$ ამ ზარშია",
+        "message": "$first$ ამ ზარზეა",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1608,11 +1608,11 @@
         }
     },
     "calling__pre-call-info--another-device-in-call": {
-        "message": "შენი ერთ-ერთი მოწყობილობა ამ ზარშია",
+        "message": "შენი ერთ-ერთი მოწყობილობა ამ ზარზეა",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
-        "message": "$first$ და $second$ ამ ზარში არიან",
+        "message": "$first$ და $second$ ამ ზარზე არიან",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1626,7 +1626,7 @@
         }
     },
     "calling__pre-call-info--3-people-in-call": {
-        "message": "$first$, $second$, და $third$ ამ ზარში არიან",
+        "message": "$first$, $second$, და $third$ ამ ზარზე არიან",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1644,7 +1644,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$, და $others$ სხვა ამ ზარში არიან",
+        "message": "$first$, $second$, და $others$ სხვვები ამ ზარზე არიან",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1704,7 +1704,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal-ი $first$-ს, $second$-სა და $others$ სხვას დაურეკავს",
+        "message": "Signal-ი $first$-ს, $second$-სა და $others$ სხვებს დაურეკავს",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1722,7 +1722,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$-ს ვამცნობებთ",
+        "message": "$person$-ს შევატყობინებთ",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1732,7 +1732,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$-სა და $second$-ს ვამცნობებთ",
+        "message": "$first$-სა და $second$-ს შევატყობინებთ",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1746,7 +1746,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$-ს, $second$-სა და $third$-ს ვამცნობებთ",
+        "message": "$first$-ს, $second$-სა და $third$-ს შევატყობინებთ",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1764,7 +1764,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$-ს, $second$-სა და $others$ სხვას ვამცნობებთ",
+        "message": "$first$-ს, $second$-სა და $others$ სხვებს შევატყობინებთ",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1786,11 +1786,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "ამ ზარში · 1 ადამიანი",
+        "message": "ამ ზარზეა · 1 ადამიანი",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "ამ ზარში · $people$ ადამიანი",
+        "message": "ამ ზარზეა · $people$ ადამიანი",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1826,7 +1826,7 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "დააწკაპუნე აქ ზარზე დასაბრუნებლად, როცა მზად იქნები შეწყვიტო პრეზენტირება.",
+        "message": "დააწკაპუნე ამ ზარზე დასაბრუნებლად, როცა მზად იქნები შეწყვიტო პრეზენტირება.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1872,7 +1872,7 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal-ს შენი კომპიუტერის ეკრანის ჩანაწერზე წვდომისთვის ნებართვა სჭირდება.",
+        "message": "Signal-ს შენი კომპიუტერის ეკრანის ჩანაწერისთვის  ნებართვა სჭირდება.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -1884,7 +1884,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "მარჯვნივ, მონიშნე ყუთი Signal-ის გვერდით. თუ სიაში ვერ ხედავ Signal-ს, დააწკაპუნე + -ზე მის დასამატებლად.",
+        "message": "მარჯვნივ, Signal-ის გვერდით ფანჯარა მონიშნე. თუ სიაში ვერ ხედავ Signal-ს, დააჭირე + -ზე მის დასამატებლად.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1892,15 +1892,15 @@
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
-        "message": "გათავისუფლება",
+        "message": "გაუქმება",
         "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
-        "message": "ყოველთვის გადაიტანე ზარები",
+        "message": "ზარების ყოველთვის გადამისამართება",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "გადაიტანე ყველა ზარი Signal-ის სერვერის მეშვეობით, რათა თავიდან აიცილო შენი IP მისამართის გამოჩენა შენს კონტაქტზე. ამის ჩართვა შეამცირებს ზარის ხარისხს.",
+        "message": "გადაამისამართე ყველა ზარი Signal-ის სერვერზე, რათა აირიდო შენი IP მისამართის გამოჩენა შენს კონტაქტთან. ამის ჩართვა შეამცირებს ზარის ხარისხს.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1924,23 +1924,23 @@
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "მართლწერის შემოწმება ჩაირთვება Signal-ის გაშვების შემდეგ.",
+        "message": "მართლწერის შემოწმება ჩაირთვება Signal-ის შემდეგი გაშვებისას.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "მართლწერის შემოწმება გამოირთვება Signal-ის გაშვების შემდეგ.",
+        "message": "მართლწერის შემოწმება გამოირთვება Signal-ის შემდეგი გაშვებისას.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "მინიმიზაცია სისტემის უჯრამდე",
+        "message": "სისტემურ უჯრამდე დაპატარავება",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start-ი მინიმიზდა უჯრამდე",
+        "message": "დაპატარავებული უჯრით დაწყება",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "გახსენით კომპიუტერში შესვლისას",
+        "message": "კომპიუტერში შესვლისას გახსნა",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1960,7 +1960,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "შენ აპირებ წაშალო ამ აპლიკაციის ყველა შენახული ინფორმაცია ანგარიშზე, მათ შორის ყველა კონტაქტი და ყველა შეტყობინება. ყოველთვის შეგიძლია თავიდან დაუკავშირდე შენს მობილურ მოწყობილობას, მაგრამ ეს არ აღადგენს წაშლილ შეტყობინებებს.",
+        "message": "შენ აპირებ წაშალო ამ აპლიკაციაში შენახული პროფილის სრული ინფორმაცია, მათ შორის ყველა კონტაქტი და ყველა შეტყობინება. ყოველთვის შეგიძლია თავიდან დაუკავშირდე შენი მობილური მოწყობილობით, მაგრამ წაშლილ შეტყობინებებს ვეღარ აღადგენ.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -2022,7 +2022,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$-მა  შენი შეტყობინება $emoji$-ით დაარეაქტა",
+        "message": "$sender$-ი შენს შეტყობინებას $emoji$-ით გამოეხმაურა",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2036,7 +2036,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$-მა $message$ $emoji$-ით დაარეაქტა",
+        "message": "$sender$-ი $message$-ს $emoji$-ით გამოეხმაურა",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2066,11 +2066,11 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "ნაწილობრივ გაიგზავნა, დააწკაპუნე დეტალებისთვის",
+        "message": "ნაწილობრივ გაიგზავნა, დააჭირე დეტალებისთვის",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "partiallyDeleted": {
-        "message": "ნაწილობრივ წაიშალა, დააწკაპუნე თავიდან საცდელად",
+        "message": "ნაწილობრივ წაიშალა, დააჭირე თავიდან საცდელად",
         "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
     },
     "showMore": {
@@ -2090,11 +2090,11 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": " დააწკაპუნე signal.org/download-ზე გადასასვლელად",
+        "message": " დააჭირე signal.org/download-ზე გადასასვლელად",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "მედია-ფაილის შემცველი შეტყობინება",
+        "message": "მედია შეტყობინება",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -2138,7 +2138,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ ს",
+        "message": "$hours$ სთ",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -2148,7 +2148,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ წ",
+        "message": "$minutes$ წთ",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -2186,7 +2186,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "გაქრობადი შეტყობინების წამზომი $time$-ზე დააყენე.",
+        "message": "გაქრობადი შეტყობინების ტაიმერი $time$ -ზე დააყენე.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -2196,7 +2196,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "გაქრობადი შეტყობინების წამზომი გახდა $time$.",
+        "message": "გაქრობადი შეტყობინების ტაიმერი განახლდა $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -2206,7 +2206,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "წევრმა გაქრობადი შეტყობინების წამზომი $time$-ზე დააყენა.",
+        "message": "წევრმა გაქრობადი შეტყობინების ტაიმერი $time$ -ზე დააყენა.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2216,7 +2216,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$-მა გაქრობადი შეტყობინების წამზომი $time$-ზე დააყენა.",
+        "message": "$name$ -მა გაქრობადი შეტყობინების ტაიმერი $time$ -ზე დააყენა.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -2446,7 +2446,7 @@
         }
     },
     "startConversation--phone-number-not-valid": {
-        "message": "მომხმარებელი ვერ მოიძებნა. \"$phoneNumber$\" მობილურის მოქმედი ნომერი არაა.",
+        "message": "მომხმარებელი ვერ მოიძებნა. \"$phoneNumber$\" მობილურის ნომერი მოქმედი არაა.",
         "description": "Shown in dialog if phone number is not valid.",
         "placeholders": {
             "phoneNumber": {
@@ -2572,11 +2572,11 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "დააწკაპუნე Signal-ის დასარესტარტებლად",
+        "message": "დააჭირე Signal-ის გადასატვირტად",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "დააწკაპუნე განახლების გადმოსაწერად",
+        "message": "დააჭირე განახლების გადმოსაწერად",
         "description": ""
     },
     "downloadFullNewVersionMessage": {
@@ -2584,7 +2584,7 @@
         "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "დააჭირე Signal-ის დარესტარტებას, რომ განახლებები გამოიყენო.",
+        "message": "დააჭირე Signal-ის გადატვირთვას, რომ განახლებები გააქტიურო.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -2596,11 +2596,11 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "განახლების დაიგნორება",
+        "message": "განახლების იგნორირება",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$-მა ჯგუფი დატოვა.",
+        "message": "$name$ -მა ჯგუფი დატოვა.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -2610,7 +2610,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$-მა ჯგუფი დატოვა.",
+        "message": "$name$ -მა ჯგუფი დატოვა.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -2620,7 +2620,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$-მა ჯგუფი განაახლა.",
+        "message": "$name$ -მა ჯგუფი განაახლა.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -2652,7 +2652,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "ჯგუფს $name$ შემოუერთდა.",
+        "message": "ჯგუფს $name$ შეუერთდა.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2662,7 +2662,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "ჯგუფს $names$ შემოუერთდა.",
+        "message": "ჯგუფს $names$ შეუერთდა.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2672,7 +2672,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "$title$-სთან მიმოწერა, $unreadCount$ახალი შეტყობინება, ბოლო შეტყობინება: $lastMessage$.",
+        "message": "$title$ -სთან მიმოწერა, $unreadCount$ ახალი შეტყობინება, ბოლო შეტყობინება: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2694,7 +2694,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "$title$-თან მიმოწერაზე გადასვლა",
+        "message": "$title$ -სთან მიმოწერაზე გადასვლა",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2704,7 +2704,7 @@
         }
     },
     "ConversationListItem--message-request": {
-        "message": "შეტყობინების მოთხოვნა",
+        "message": "მოთხოვნა მიმოწერაზე",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
@@ -2736,7 +2736,7 @@
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
-        "message": "სტიკერ-შეტყობინება",
+        "message": "სტიკერიანი შეტყობინება",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getNotificationText--text-with-emoji": {
@@ -2798,7 +2798,7 @@
         "description": "Shown to label the gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--redeemed": {
-        "message": "შენ გამოიყენე საჩუქრის ემბლემა",
+        "message": "შენ გამოიყენე სასაჩუქრე ემბლემა",
         "description": "Shown to label the redeemed gift badge in notifications and the left pane"
     },
     "message--giftBadge--preview--sent": {
@@ -2848,7 +2848,7 @@
         "description": "Describes how long remains for the gift badge you've redeemed on another device"
     },
     "message--giftBadge--expired": {
-        "message": "ვადა გაუვიდა",
+        "message": "ვადა ამოიწურა",
         "description": "Shows that a gift badge is expired"
     },
     "message--giftBadge--view": {
@@ -2864,7 +2864,7 @@
         "description": "The title of the outgoing gift badge detail dialog"
     },
     "modal--giftBadge--description": {
-        "message": "$name$-ს ემბლემა აჩუქე. როცა ის ამას დაეთანხმება, მას მიეცემა არჩევანი, აჩვენოს ან დამალოს ემბლემა.",
+        "message": "$name$ -ს ემბლემა აჩუქე. როცა ის ამას დაეთანხმება, მას მიეცემა არჩევანი, აჩვენოს ან დამალოს ემბლემა.",
         "description": "The description of the outgoing gift badge detail dialog",
         "placeholders": {
             "name": {
@@ -2874,11 +2874,11 @@
         }
     },
     "stickers--toast--InstallFailed": {
-        "message": "სტიკერების დასტის გადმოწერა ვერ მოხერხდა",
+        "message": "სტიკერების ნაკრების გადმოწერა ვერ მოხერხდა",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "დაყენებული სტიკერები",
+        "message": "გადმოწერილი სტიკერები",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2886,11 +2886,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signal-ის არტისტების სტიკერების სერიები",
+        "message": "Signal-ის მხატვრების სტიკერების სერიები",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Signal-ის არტისტების სტიკერები არაა ხელმისაწვდომი",
+        "message": "Signal-ის მხატვრების სტიკერები არაა ხელმისაწვდომი",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2906,11 +2906,11 @@
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "დეინსტალაცია",
+        "message": "წაშლა",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "ამ სტიკერების დასტის ხელახლა ინსტალაცია შეიძლება ვერ შეძლო, თუ წყაროს შეტყობინება აღარ გაქვს.",
+        "message": "ამ სტიკერების ნაკრების ხელახლა გადმოწერა შეიძლება ვერ შეძლო, თუ მათი შემცველი შეტყობინება აღარ გაქვს.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
@@ -2930,7 +2930,7 @@
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "სტიკერების დასტის დამატება",
+        "message": "სტიკერების ნაკრების დამატება",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
@@ -2950,7 +2950,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "მიმდინარეობს სტიკერების დასტის დაყენება...",
+        "message": "მიმდინარეობს სტიკერების ნაკრების გადმოწერა...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -2958,11 +2958,11 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "შენი შეტყობინებებიდან ახალი სტიკერების პაკეტები ხელმისაწვდომია დასაინსტალირებლად",
+        "message": "შენი შეტყობინებებიდან ახალი სტიკერების ნაკრებები ხელმისაწვდომია გადმოსაწერად",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "სტიკერების დასტის მოძებნა ვერ მოხერხდა",
+        "message": "სტიკერების ნაკრებების მოძებნა ვერ მოხერხდა",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
@@ -2970,19 +2970,19 @@
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "სტიკერების დასტა",
+        "message": "სტიკერების ნაკრები",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "სტიკერების დასტის გახსნისას ხარვეზი მოხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
+        "message": "სტიკერების ნაკრების გახსნისას ხარვეზი მოხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "ემოჯი არ მოიძებნა",
+        "message": "emoji არ მოიძებნა",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "ემოჯის მოძებნა",
+        "message": "Emoji-ს მოძებნა",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -3000,7 +3000,7 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "ემოჯი",
+        "message": "Emoji",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
@@ -3040,7 +3040,7 @@
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
-        "message": "$contact$-მა გამოგიგზავნა შეტყობინება, რომლის დამუშავება ან ჩვენება შეუძლებელია, რადგან ის Signal-ის ახალ ფუნქციას იყენებს.",
+        "message": "$contact$ -მა გამოგიგზავნა შეტყობინება, რომლის დამუშავება ან ჩვენება შეუძლებელია, რადგან ის Signal-ის ახალ ფუნქციას იყენებს.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3050,7 +3050,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "შეგიძლია $contact$-ს სთხოვო თავიდან გამოგიგზავნოს ეს შეტყობინება ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ.",
+        "message": "შეგიძლია $contact$ -ს სთხოვო თავიდან გამოგიგზავნოს ეს შეტყობინება ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -3060,11 +3060,11 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "შენმა ერთ-ერთმა მოწყობილობამ გაგზავნა შეტყობინება, რომლის დამუშავება ან ჩვენება შეუძლებელია, რადგან ის იყენებს Signal-ის ახალ ფუნქციას.",
+        "message": "შენი ერთ-ერთი მოწყობილობიდან გაგზავნილი შეტყობინების დამუშავება ან ჩვენება შეუძლებელია, რადგან იქ გამოყენებულია Signal-ის ახალ ფუნქცია.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ, მსგავსი შეტყობინებები სინქრონიზებული იქნება.",
+        "message": "ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ, მსგავსი შეტყობინებები დასინქრონიზირდება.",
         "description": ""
     },
     "Message--update-signal": {
@@ -3152,7 +3152,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "მიმოწერის მოძებნა",
+        "message": "მიმოწერაში მოძებნა",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
@@ -3164,7 +3164,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "ემოჯის ამომრჩევის გახსნა",
+        "message": "emoji-ის ამომრჩევის გახსნა",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
@@ -3184,11 +3184,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "შერჩეულ შეტყობინებაზე პასუხზე გადართვა",
+        "message": "პასუხზე გადართვა შერჩეული შეტყობინებისთვის ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "შერჩეულ შეტყობინებაზე emoji-ით დარეაქტებაზე გადართვა",
+        "message": "შერჩეული შეტყობინებისთვის emoji-ით რეაგირებაზე გადართვა",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -3200,7 +3200,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "შეტყობინებაზე ახალი ხაზის დამატება",
+        "message": "შეტყობინებაში ახალი ხაზის დამატება",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -3220,7 +3220,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "ყველა დანართის მონახაზის წაშლა",
+        "message": "ყველა დანართის მონახაზების წაშლა",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -3228,7 +3228,7 @@
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
-        "message": "Ctrl კლავიში",
+        "message": "Ctrl ღილაკი",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
@@ -3236,23 +3236,23 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
-        "message": "Alt კლავიში",
+        "message": "Alt ღილაკი",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--shift": {
-        "message": "Shift კლავიში",
+        "message": "Shift ღილაკი",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Enter კლავიში",
+        "message": "Enter ღილაკი",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
-        "message": "Tab კლავიში",
+        "message": "Tab ღილაკი",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1-დან 9-ის ჩათვლით",
+        "message": "1-დან 9-მდე",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
@@ -3312,7 +3312,7 @@
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--decline-call": {
-        "message": "ზარის დაკიდება",
+        "message": "ზარის უარყოფა",
         "description": "Shown in the calling keyboard shortcuts guide"
     },
     "Keyboard--hang-up": {
@@ -3352,19 +3352,19 @@
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "სტიკერების დასტის შემქმნელი",
+        "message": "სტიკერების ნაკრების შემქმნელი",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "სურათების დასამატებლად დააწკაპუნე ან აქ გადმოყარე",
+        "message": "სურათების დასამატებლად დააჭირე ან აქ გადმოიტანე",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "გადმოყარე სურათები აქ",
+        "message": "გადმოიტანე სურათები აქ",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "სტიკერების დასტა",
+        "message": "სტიკერების ნაკრები",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -3372,7 +3372,7 @@
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
-        "message": "ჩაკოპირება",
+        "message": "დაკოპირება",
         "description": "The text which appears on the copy button for the sticker creator share screen"
     },
     "StickerCreator--ShareButtons--facebook": {
@@ -3408,7 +3408,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "დააწკაპუნე ან გადმოიტანე/გადმოაგდე ფაილი, რომ სტიკერი დაამატო",
+        "message": "დააჭირე ან გადმოიტანე/გადმოაგდე ფაილი, რომ სტიკერი დაამატო",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3416,7 +3416,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "მინდვრების ჩვენება",
+        "message": "საზღვრების ჩვენება",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
@@ -3454,11 +3454,11 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "ეს არის სურათი, რომელიც გამოჩნდება შენი სტიკერების პაკეტის გაზიარებისას",
+        "message": "ეს არის სურათი, რომელიც გამოჩნდება შენი სტიკერების ნაკრების გაზიარებისას",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "დარწმუნებული ხარ, რომ გსურს შენი სტიკერების დასტის ატვირთვა?",
+        "message": "დარწმუნებული ხარ, რომ გსურს შენი სტიკერების ნაკრების ატვირთვა?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -3466,15 +3466,15 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "სტიკერების პაკეტის შექმნის შემდეგ მათ რედაქტირებას ან წაშლას ვეღარ შეძლებ.",
+        "message": "სტიკერების ნაკრების შექმნის შემდეგ მათ რედაქტირებას ან წაშლას ვეღარ შეძლებ.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "შენი სტიკერების დასტის შექმნა",
+        "message": "შენი სტიკერების ნაკრების შექმნა",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": " $total$-დან $count$ აიტვირთა",
+        "message": " $total$ -დან $count$ აიტვირთა",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3488,7 +3488,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "გილოცავთ! შენი სტიკერების დასტა შექმენი.",
+        "message": "გილოცავთ! შენ შექმენი სტიკერების ნაკრები.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -3496,7 +3496,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "გამოიყენე ჰეშთეგი $hashtag$, რათა დაეხმარო სხვა ადამიანებს იპოვონ URL-ები ნებისმიერი მორგებული სტიკერების პაკეტებისთვის, რომლებიც გსურს საჯაროდ ხელმისაწვდომი გახადო.",
+        "message": "გამოიყენე ჰეშთეგი $hashtag$ , რათა დაეხმარო სხვა ადამიანებს იპოვონ URL-ები ნებისმიერი პერსონალიზირებული სტიკერების ნაკრებისთვის, რომლებიც გსურს საჯაროდ ხელმისაწვდომი გახადო.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3506,7 +3506,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "სტიკერების დასტის URL-ი",
+        "message": "სტიკერების ნაკრების URL-ი",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -3514,11 +3514,11 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "სხვა სტიკერების დასტის შექმნა",
+        "message": "სხვა სტიკერების ნაკრების შექმნა",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "ნახე სტიკერების ეს დასტა, რომელიც Signal-ისთვის შევქმენი. #makeprivacystick",
+        "message": "ნახე სტიკერების ეს ნაკრები, რომელიც Signal-ისთვის შევქმენი. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -3574,15 +3574,15 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "ჩემი სტიკერი ნათელ ფონზე",
+        "message": "ჩემი სტიკერი ღია ფერებში",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "ჩემი სტიკერი ბნელ ფონზე",
+        "message": "ჩემი სტიკერი მუქ ფერებში",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "გთხოვთ, დააყენო Signal-ი შენს მობილურსა და დესკტოპზე სტიკერების დასტის კრეატორის გამოსაყენებლად",
+        "message": "გთხოვთ, დააყენო Signal-ი შენს მობილურსა და კომპიუტერზე Sticker Pack Creator გამოსაყენებლად",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -3602,7 +3602,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "მივცეთ ნება $name$-ს გამოგიგზავნოს შეტყობინება და გავუზიაროთ მას შენი სახელი და ფოტო? ის ვერ გაიგებს, რომ მისი შეტყობინებები ნახე, სანამ ამას არ დაეთანხმები.",
+        "message": "მივცეთ ნება $name$ -ს გამოგიგზავნოს შეტყობინება და გავუზიაროთ მას შენი სახელი და ფოტო? ის ვერ გაიგებს, რომ მისი შეტყობინებები ნახე, სანამ მას არ დაეთანხმები.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3612,7 +3612,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "მივცეთ ნება $name$-ს გამოგიგზავნოს შეტყობინება და გავუზიაროთ მას შენი სახელი და ფოტო? შეტყობინებებს არ მიიღებ, სანამ მას არ განბლოკავ.",
+        "message": "მივცეთ ნება $name$ -ს გამოგიგზავნოს შეტყობინება და გავუზიაროთ მას შენი სახელი და ფოტო? შეტყობინებებს არ მიიღებ, სანამ მას არ განბლოკავ.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3660,7 +3660,7 @@
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "დარეპორტდა, როგორც სპამი და დაბლოკილია.",
+        "message": "აღნიშნულია, როგორც სპამი და დაბლოკილია.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3678,7 +3678,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "გსურს დაბლოკო $group$ და დატოვო ის?",
+        "message": "გსურს დაბლოკო და დატოვო $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3688,7 +3688,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "ამ ჯგუფიდან შეტყობინებებს ან განახლებებს აღარ მიიღებ და წევრები ვეღარ შეძლებენ შენს დამატებას ამ ჯგუფში.",
+        "message": "ამ ჯგუფიდან შეტყობინებებს ან განახლებებს აღარ მიიღებ, და წევრები ვეღარ შეძლებენ შენს დამატებას ამ ჯგუფში.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3744,7 +3744,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "გსურს $firstName$-თან მიმოწერა განაგრძო და მას შენი სახელი და ფოტო გაუზიარო? $learnMore$",
+        "message": "გსურს $firstName$ -თან მიმოწერა განაგრძო და მას შენი სახელი და ფოტო გაუზიარო? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3782,7 +3782,7 @@
         }
     },
     "member-of-1-group": {
-        "message": "$group$-ის წევრი",
+        "message": "$group$ -ის წევრი",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -3792,7 +3792,7 @@
         }
     },
     "member-of-2-groups": {
-        "message": "$group1$-ისა და $group2$-ის წევრი",
+        "message": "$group1$ -ისა და $group2$ -ის წევრი",
         "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
@@ -3806,7 +3806,7 @@
         }
     },
     "member-of-3-groups": {
-        "message": "$group1$-ის, $group2$-ისა და $group3$-ის წევრი",
+        "message": "$group1$ -ის, $group2$ -ისა და $group3$ -ის წევრი",
         "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
@@ -3824,7 +3824,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "$group1$-ის, $group2$-ის,$group3$-ისა და კიდევ ერთის წევრი",
+        "message": "$group1$ -ის, $group2$ -ის,$group3$ -ისა და კიდევ ერთის წევრი",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3842,7 +3842,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "$group1$-ის, $group2$-ის, $group3$-ისა და $remainingCount$ სხვის წევრი",
+        "message": "$group1$ -ის, $group2$ -ის, $group3$ -ისა და $remainingCount$ სხვის წევრი",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -3864,7 +3864,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$-მა ჯგუფში დაგამატა.",
+        "message": "$name$ -მა ჯგუფში დაგამატა.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3882,15 +3882,15 @@
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
-        "message": "აღება",
+        "message": "ზარის მიღება",
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
-        "message": "ვიდეოს გარეშე აღება",
+        "message": "ზარის მიღება ვიდეოს გარეშე",
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "დაკიდება",
+        "message": "უარყოფა",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -3952,7 +3952,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ შენ და $otherMember$-ს გირეკავთ",
+        "message": "$ringer$ შენ და $otherMember$ -ს გირეკავთ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3966,7 +3966,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ შენ, $first$-სა და$second$-ს გირეკავთ",
+        "message": "$ringer$ შენ, $first$ -სა და$second$ -ს გირეკავთ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3984,7 +3984,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ შენ, $first$-ს, $second$-სა და კიდევ 1-ს გირეკავთ",
+        "message": "$ringer$ შენ, $first$ -ს, $second$ -სა და კიდევ ერთს გირეკავთ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4002,7 +4002,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ შენ, $first$-ს, $second$-სა და $remaining$ სხვას გირეკავთ",
+        "message": "$ringer$ შენ, $first$ -ს, $second$ -სა და $remaining$ სხვებს გირეკავთ",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -4050,7 +4050,7 @@
         }
     },
     "callReconnecting": {
-        "message": "ვცდილობთ ხელახლა დაკავშირებას...",
+        "message": "ხელახლა დაკავშირება...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -4078,19 +4078,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "ჯგუფის ზარი დასრულებულია",
+        "message": "ჯგუფური ზარი დასრულებულია",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "ჯგუფის ზარი დაიწყო",
+        "message": "ჯგუფური ზარი დაიწყო",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "შენ დაიწყე ჯგუფის ზარი",
+        "message": "შენ დაიწყე ჯგუფური ზარი",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$-მა ჯგუფის ზარი დაიწყო",
+        "message": "$name$ -მა ჯგუფური ზარი დაიწყო",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -4114,19 +4114,19 @@
         }
     },
     "calling__pip--on": {
-        "message": "ზარის დაპატარავება",
+        "message": "ზარის ფანჯრის დაპატარავება",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "ზარის მთელს ეკრანზე გადიდება",
+        "message": "ზარის ფანჯრის მთელს ეკრანზე გადიდება",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "ბადის ხედზე გადართვა",
+        "message": "ბადისებრ ხედზე გადართვა",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "სპიკერის ხედზე გადართვა",
+        "message": "სპიკერზე გადართვა",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -4168,11 +4168,11 @@
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "სპიკერები",
+        "message": "დინამიკები",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "მოწყობილობები ხელმისაწვდომი არ არის",
+        "message": "ხელმისაწვდომი მოწყობილობები არ არის",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -4204,7 +4204,7 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "ყოველთვის დადუმება",
+        "message": "სამუდამოდ დადუმება",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -4212,11 +4212,11 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "ყოველთვის დადუმებული",
+        "message": "სამუდამოდ დადუმებული",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "$duration$-მდე დადუმებული",
+        "message": "$duration$ -მდე დადუმებული",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -4226,7 +4226,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "ემოჯი",
+        "message": "Emoji",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -4250,7 +4250,7 @@
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "მხოლოდ ამ ჯგუფის ადმინისტრატორებს შეუძლიათ ზარის წამოწყება.",
+        "message": "მხოლოდ ამ ჯგუფის ადმინებს შეუძლიათ ზარის წამოწყება.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -4258,7 +4258,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "ეს არ არის ჯგუფის სწორი ბმული. გაწევრიანების მცდელობამდე დარწმუნდი, რომ ბმული მთლიანად ხელუხლებელი და სწორია.",
+        "message": "ეს არ არის ჯგუფის სწორი ბმული. გაწევრიანების მცდელობამდე დარწმუნდი, რომ ბმული სრულად არის ასახული და სწორია.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -4294,15 +4294,15 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "ამ ჯგუფს ჯგუფის ბმულით ვერ შეუერთდები, რადგან ადმინმა წაგშალა.",
+        "message": "ამ ჯგუფის ბმულით ჯგუფს ვერ შეუერთდები, რადგან ადმინმა წაგშალა.",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "ამ ჯგუფის ადმინისტრატორმა უნდა დაადასტუროს შენი მოთხოვნა, სანამ ამ ჯგუფს შეუერთდები. დადასტურების შემთხვევაში, შენი სახელი და ფოტო მის წევრებთან გაზიარდება.",
+        "message": "ამ ჯგუფის ადმინმა უნდა დაადასტუროს შენი მოთხოვნა, სანამ ამ ჯგუფს შეუერთდები. დადასტურების შემთხვევაში, შენი სახელი და ფოტო მის წევრებთან გაზიარდება.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
-        "message": "შემოუერთდი",
+        "message": "შეუერთდი",
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
@@ -4350,7 +4350,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "შენი გაწევრიანების მოთხოვნა გაეგზავნა ჯგუფის ადმინისტრატორს.  შეტყობინებას მიიღებ, როცა ის რამეს მოიმოქმედებს.",
+        "message": "შენი გაწევრიანების მოთხოვნა გაეგზავნა ჯგუფის ადმინებს. შეტყობინებას მიიღებ, როცა ისინი რამეს მოიმოქმედებენ.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -4362,11 +4362,11 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
-        "message": "ადმინისტრატორი",
+        "message": "ადმინი",
         "description": "Label for a group administrator"
     },
     "GroupV2--only-admins": {
-        "message": "მხოლოდ ადმინისტრატორები",
+        "message": "მხოლოდ ადმინები",
         "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
@@ -4378,11 +4378,11 @@
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "შენ ჯგუფი შექმენი.",
+        "message": "შენ შექმენი ჯგუფი.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$-მა ჯგუფი შექმნა.",
+        "message": "$memberName$ -მა ჯგუფი შექმნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4396,7 +4396,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$-მა ჯგუფის სახელად \"$newTitle$\" დააყენა.",
+        "message": "$memberName$ -მა ჯგუფის სახელად \"$newTitle$\" დააყენა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4420,7 +4420,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "წევრმა ჯგუფი სახელად \"$newTitle$\" დააყენა.",
+        "message": "წევრმა ჯგუფის სახელად \"$newTitle$\" დააყენა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4430,7 +4430,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$-მა ჯგუფის სახელი წაშალა.",
+        "message": "$memberName$ -მა ჯგუფის სახელი წაშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4440,7 +4440,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "ჯგუფის სახელი წაშალე.",
+        "message": "შენ ჯგუფის სახელი წაშალე.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -4448,7 +4448,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$-მა ჯგუფის ავატარი შეცვალა.",
+        "message": "$memberName$ -მა ჯგუფის ავატარი შეცვალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4466,7 +4466,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$-მა ჯგუფის ავატარი წაშალა.",
+        "message": "$memberName$ -მა ჯგუფის ავატარი წაშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4476,7 +4476,7 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "ჯგუფის ავატარი წაშალე.",
+        "message": "შენ ჯგუფის ავატარი წაშალე.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
@@ -4484,7 +4484,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$-მა ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება „მხოლოდ ადმინისტრატორებზე“ დააყენა.",
+        "message": "$adminName$-მა შეცვალა ჯგუფის ინფორმაციის რედაქტირების უფლება „მხოლოდ ადმინები“-ზე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4494,11 +4494,11 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება \"მხოლოდ ადმინისტრატორებზე\" დააყენე.",
+        "message": "შენ მიანიჭე ჯგუფის ინფორმაციის რედაქტირების უფლება „მხოლოდ ადმინებს“.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "ადმინისტრატორმა ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება \"მხოლოდ ადმინისტრატორებზე\" დააყენა.",
+        "message": "ადმინმა შეცვალა ჯგუფის ინფორმაციის რედაქტირების უფლება „მხოლოდ ადმინებს“-ზე..",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
@@ -7548,6 +7548,18 @@
     "StoryImage__error--you": {
         "message": "Story-ის ჩამოტვირთვა ვერ მოხერხდა. მისი გაზიარება თავიდან მოგიწევს.",
         "description": "Description for image errors but when it is your own image"
+    },
+    "StoryCreator__error--video-too-long": {
+        "message": "ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან ის ზედმეტად ხანგრძლივია",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან მისი ფაილის ფორმატს მხარდაჭერა არ აქვს",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "ვიდეოს ჩატვირთვა ვერ მოხერხდა",
+        "description": "Error string for when a video post to story fails"
     },
     "StoryCreator__text-bg--background": {
         "message": "ტექსტს თეთრი ფერის ფონი აქვს",
