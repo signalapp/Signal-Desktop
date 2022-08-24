@@ -108,18 +108,18 @@
   // button {
   //   float: right;
   //   margin-inline-start: 10px;
-  //   background-color: $color-loki-green;
+  //   background-color: var(--color-session-green-color);
   //   border-radius: 100px;
   //   padding: 5px 15px;
-  //   border: 1px solid $color-loki-green;
+  //   border: 1px solid var(--color-session-green-color);
   //   color: white;
   //   outline: none;
   //   user-select: none;
 
   //   &:hover,
   //   &:disabled {
-  //     background-color: $color-loki-green-dark;
-  //     border-color: $color-loki-green-dark;
+  //     background-color: var(--color-session-green-color)-dark;
+  //     border-color: var(--color-session-green-color)-dark;
   //   }
 
   //   &:disabled {

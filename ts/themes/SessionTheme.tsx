@@ -29,6 +29,7 @@ const grayColor = '#616161';
 const lightGrayColor = '#8b8e91';
 const lighterGrayColor = '#e9e9e9';
 const lightestGrayColor = '#f3f3f3';
+const darkGrayColor = '#414347';
 const darkerGrayColor = '#17191d';
 
 // DARK COLORS
@@ -368,6 +369,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
+    --color-black-color: ${black};
     --color-light-black-color: ${`rgba(${black}, 0.2)`};
     --color-lighter-black-color: ${`rgba(${black}, 0.15)`};
     --color-session-green-color: ${sessionGreenColor};
@@ -377,6 +379,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-light-gray-color: ${lightGrayColor};
     --color-lighter-gray-color: ${lighterGrayColor};
     --color-lightest-gray-color: ${lightestGrayColor};
+    --color-dark-gray-color: ${darkGrayColor};
     --color-darker-gray-color: ${darkerGrayColor};
     --color-light-blue-color: ${lightBlueColor};
 

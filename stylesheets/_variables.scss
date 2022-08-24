@@ -1,17 +1,11 @@
 // Loki colors
 $color-loki-dark-gray: #323232;
 $color-loki-extra-dark-gray: #101010;
-$color-loki-green: #3bd110;
 $color-loki-green-dark: #32b10e;
 $color-loki-green-gradient: linear-gradient(to right, rgb(120, 190, 32) 0%, rgb(0, 133, 34) 100%);
 
-$color-gray-05: #eeefef;
-$color-gray-25: #bbbdbe;
-$color-gray-45: #898a8c;
-$color-gray-60: #6b6d70;
 $color-gray-75: #3d3e44;
 $color-gray-95: #0f1012;
-$color-black: #000000;
 
 $color-white-015: rgba(var(--color-white-color), 0.15);
 $color-white-02: rgba(var(--color-white-color), 0.2);
@@ -22,28 +16,22 @@ $color-white-07: rgba(var(--color-white-color), 0.7);
 $color-white-075: rgba(var(--color-white-color), 0.75);
 $color-white-08: rgba(var(--color-white-color), 0.8);
 $color-white-085: rgba(var(--color-white-color), 0.85);
-$color-light-02: #f9fafa;
-$color-light-10: #eeefef;
 $color-light-20: #c1c5cd;
-$color-light-35: #a4a6a9;
 $color-light-60: #62656a;
 $color-light-90: #070c14;
 
-$color-dark-05: #efefef;
 $color-dark-30: #a8a9aa;
 $color-dark-55: #88898c;
 $color-dark-60: #797a7c;
-$color-dark-70: #414347;
 $color-dark-72: #31343c;
-$color-dark-85: #1a1c20;
 $color-dark-90: #121417;
-$color-black-008: rgba($color-black, 0.08);
-$color-black-005: rgba($color-black, 0.05);
+$color-black-008: rgba(var(--color-black-color), 0.08);
+$color-black-005: rgba(var(--color-black-color), 0.05);
 $color-black-008-no-tranparency: #ededed;
 $color-black-016-no-tranparency: #d9d9d9;
-$color-black-012: rgba($color-black, 0.12);
-$color-black-04: rgba($color-black, 0.4);
-$color-black-06: rgba($color-black, 0.6);
+$color-black-012: rgba(var(--color-black-color), 0.12);
+$color-black-04: rgba(var(--color-black-color), 0.4);
+$color-black-06: rgba(var(--color-black-color), 0.6);
 
 // Old colors
 

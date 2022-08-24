@@ -54,27 +54,27 @@
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-loki-green);
+  @include color-svg('../images/file.svg', var(--color-session-green-color));
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-loki-green);
+  @include color-svg('../images/image.svg', var(--color-session-green-color));
 }
 .module-quote__icon-container__icon--microphone {
-  @include color-svg('../images/microphone.svg', $color-loki-green);
+  @include color-svg('../images/microphone.svg', var(--color-session-green-color));
 }
 .module-quote__icon-container__icon--play {
-  @include color-svg('../images/play.svg', $color-loki-green);
+  @include color-svg('../images/play.svg', var(--color-session-green-color));
 }
 .module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', $color-loki-green);
+  @include color-svg('../images/movie.svg', var(--color-session-green-color));
 }
 
 .module-quote__generic-file__text {
-  color: $color-dark-05;
+  color: var(--color-lighter-gray-color);
 }
 
 .module-quote__reference-warning {
-  background-color: $color-black-06;
+  background-color: var(--color-black-color)-06;
 }
 
 .module-quote__reference-warning__icon {
@@ -82,7 +82,7 @@
 }
 
 .module-quote__reference-warning__text {
-  color: $color-dark-05;
+  color: var(--color-lighter-gray-color);
 }
 
 .module-quote-container {
@@ -207,19 +207,19 @@
   height: 24px;
 
   &--file {
-    @include color-svg('../images/file.svg', $color-loki-green);
+    @include color-svg('../images/file.svg', var(--color-session-green-color));
   }
   &--image {
-    @include color-svg('../images/image.svg', $color-loki-green);
+    @include color-svg('../images/image.svg', var(--color-session-green-color));
   }
   &--microphone {
-    @include color-svg('../images/microphone.svg', $color-loki-green);
+    @include color-svg('../images/microphone.svg', var(--color-session-green-color));
   }
   &--play {
-    @include color-svg('../images/play.svg', $color-loki-green);
+    @include color-svg('../images/play.svg', var(--color-session-green-color));
   }
   &--movie {
-    @include color-svg('../images/movie.svg', $color-loki-green);
+    @include color-svg('../images/movie.svg', var(--color-session-green-color));
   }
 }
 
@@ -267,7 +267,7 @@
   &-warning__icon {
     height: 16px;
     width: 16px;
-    @include color-svg('../images/broken-link.svg', $color-gray-60);
+    @include color-svg('../images/broken-link.svg', var(--color-gray-color));
   }
 
   &-warning__text {
