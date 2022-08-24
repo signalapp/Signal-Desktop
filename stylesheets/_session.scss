@@ -163,7 +163,7 @@ textarea {
       @include transparent-background(var(--color-text));
     }
     &.primary {
-      @include transparent-background($session-color-primary);
+      @include transparent-background(var(--color-dark-gray-color));
     }
     &.secondary {
       @include transparent-background($session-color-secondary);
@@ -232,7 +232,7 @@ textarea {
   border-radius: 2px;
   text-align: center;
   &.primary {
-    background-color: $session-color-primary;
+    background-color: var(--color-dark-gray-color);
   }
   &.secondary {
     background-color: $session-color-secondary;
