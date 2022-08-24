@@ -52,7 +52,7 @@ $session-compose-margin: 20px;
     }
 
     &__message__text {
-      color: $session-shade-17;
+      color: var(--color-light-gray-color);
       &--has-unread {
         color: var(--color-text);
       }

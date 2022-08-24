@@ -690,7 +690,7 @@ label {
   width: 80px;
   height: 80px;
   border-radius: 100%;
-  background-color: rgba($session-color-black, 0.72);
+  background-color: rgba(var(--color-black-color), 0.72);
   opacity: 0;
   transition: var(--default-duration);
 

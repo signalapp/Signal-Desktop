@@ -112,18 +112,15 @@ $session-shade-13: #474646;
 $session-shade-14: #535865;
 $session-shade-15: #5b6c72;
 $session-shade-16: #979797;
-$session-shade-17: #a0a0a0;
 $session-shade-18: #141414;
 
-$session-color-light-grey: #a0a0a0;
 $session-color-dark-grey: #353535;
-$session-color-black: #000;
 
 // Semantic Colors
 $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
 $session-color-error: #edd422;
-$session-color-warning: $session-shade-17;
+$session-color-warning: var(--color-light-gray-color);
 $session-color-warning-alt: #ff9d00;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-6;
