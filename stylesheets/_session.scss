@@ -824,7 +824,7 @@ label {
       background: var(--color-cell-background);
       color: var(--color-text);
 
-      border: 1px solid $session-shade-8;
+      border: 1px solid var(--color-darker-gray-color);
       border-radius: 5px;
     }
   }
