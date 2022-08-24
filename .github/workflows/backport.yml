@@ -1,4 +1,4 @@
-# Copyright 2021 Signal Messenger, LLC
+# Copyright 2021-2022 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
 name: Backport
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
           repository: signalapp/Signal-Backport-Action-Private
