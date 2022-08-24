@@ -45,12 +45,16 @@ const StyledSessionMemberItem = styled.div<{
 const StyledInfo = styled.div`
   display: flex;
   align-items: center;
+  min-width: 0;
 `;
 
 const StyledName = styled.span`
   font-weight: bold;
   margin-inline-start: var(--margins-md);
   margin-inline-end: var(--margins-md);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const StyledCheckContainer = styled.div`

@@ -64,7 +64,7 @@ const StyledBreak = styled.div`
   padding: 0 var(--margins-lg);
   color: var(--color-text-subtle);
   font-size: var(--font-size-md);
-  height: 25px; // should also be changed in rowHeight
+  height: 30px; // should also be changed in rowHeight
 
   border-bottom: 1px var(--color-session-border) solid;
 `;

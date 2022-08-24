@@ -41,8 +41,7 @@ const darkInputBackground = darkColorCellBackground;
 const darkFilterSessionText = 'none';
 const darkUnreadBorder = `4px solid ${accentDarkTheme}`;
 
-const darkScrollbarThumb = '#474646';
-const darkScrollbarTrack = '#1b1b1b';
+const darkScrollbarThumb = '#767676';
 const darkFakeChatBubbleBg = '#212121';
 
 const darkInboxBackground = '#171717';
@@ -116,7 +115,6 @@ export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--border-unread', darkUnreadBorder);
 
   document.documentElement.style.setProperty('--color-scroll-bar-thumb', darkScrollbarThumb);
-  document.documentElement.style.setProperty('--color-scroll-bar-track', darkScrollbarTrack);
   document.documentElement.style.setProperty(
     '--color-fake-chat-bubble-background',
     darkFakeChatBubbleBg
@@ -188,8 +186,7 @@ const lightInputBackground = '#efefef';
 const lightFilterSessionText = 'brightness(0) saturate(100%)';
 const lightUnreadBorder = `4px solid ${accentLightTheme}`;
 
-const lightScrollbarThumb = '#474646';
-const lightScrollbarTrack = '#fcfcfc';
+const lightScrollbarThumb = '#6D6D6D';
 const lightFakeChatBubbleBg = '#f5f5f5';
 
 const lightInboxBackground = white;
@@ -269,7 +266,6 @@ export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--border-unread', lightUnreadBorder);
 
   document.documentElement.style.setProperty('--color-scroll-bar-thumb', lightScrollbarThumb);
-  document.documentElement.style.setProperty('--color-scroll-bar-track', lightScrollbarTrack);
   document.documentElement.style.setProperty(
     '--color-fake-chat-bubble-background',
     lightFakeChatBubbleBg
@@ -374,7 +370,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-pill-divider-text:  ${lightColorPillDividerText};
     --color-input-background: ${lightInputBackground};
     --color-scroll-bar-thumb: ${lightScrollbarThumb};
-    --color-scroll-bar-track: ${lightScrollbarTrack};
     --color-fake-chat-bubble-background: ${lightFakeChatBubbleBg};
     --color-inbox-background: ${lightInboxBackground};
     --color-left-pane-overlay-background: ${lightLeftPaneOverlayBg};

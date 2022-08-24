@@ -93,7 +93,7 @@ const ContactListItemSection = () => {
               rowCount={length}
               rowHeight={
                 (params: Index) =>
-                  isString(directContactsByNameWithBreaks[params.index]) ? 25 : 64 // should also be changed in `ContactRowBreak`
+                  isString(directContactsByNameWithBreaks[params.index]) ? 30 : 64 // should also be changed in `ContactRowBreak`
               }
               directContactsByNameWithBreaks={directContactsByNameWithBreaks}
               rowRenderer={renderRow}

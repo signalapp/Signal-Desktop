@@ -144,7 +144,7 @@ export const OverlayClosedGroup = () => {
         )}
       </StyledGroupMemberListContainer>
 
-      <SpacerLG />
+      <SpacerLG style={{ flexShrink: 0 }} />
 
       <SessionButton
         buttonColor={SessionButtonColor.Green}

@@ -19,20 +19,20 @@ body {
 
 // scrollbars
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-scroll-bar-thumb);
-  border: solid 2px var(--color-text-opposite);
+  border-radius: 20px;
 
   &:hover {
     background: $color-light-45;
   }
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-scroll-bar-track);
+  background: none;
 }
 
 audio {

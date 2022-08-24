@@ -118,7 +118,8 @@ export const OverlayMessage = () => {
         container={true}
         justifyContent="space-between"
         alignItems="center"
-        padding="0 15px 0 0 " // YourSessionIDSelectable already has a left margin of 15px
+        width="100%"
+        padding="0 var(--margins-md)  " // YourSessionIDSelectable already has a left margin of 15px
       >
         <YourSessionIDSelectable />
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />

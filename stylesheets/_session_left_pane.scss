@@ -89,6 +89,7 @@ $session-compose-margin: 20px;
     height: $main-view-header-height;
     padding-inline-end: 7px;
     transition: $session-transition-duration;
+    margin-bottom: var(--margins-md);
 
     .session-button {
       margin-inline-start: auto;
