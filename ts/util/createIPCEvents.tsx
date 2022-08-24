@@ -489,8 +489,13 @@ export function createIPCEvents(
 
       const maybeE164 = parseE164FromSignalDotMeHash(hash);
       if (maybeE164) {
-        trigger('showConversation', maybeE164);
-        return;
+        const convo = window.ConversationController.lookupOrCreate({
+          e164: maybeE164,
+        });
+        if (convo) {
+          trigger('showConversation', convo.id);
+          return;
+        }
       }
 
       log.info('showConversationViaSignalDotMe: invalid E164');
