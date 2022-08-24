@@ -372,9 +372,12 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-black-color: ${black};
     --color-light-black-color: ${`rgba(${black}, 0.2)`};
     --color-lighter-black-color: ${`rgba(${black}, 0.15)`};
+    --color-darkest-black-color: ${`rgba(${black}, 0.6)`};
     --color-session-green-color: ${sessionGreenColor};
 
     --color-white-color: ${white};
+    --color-darkest-white-color: ${`rgba(${white}, 0.85)`};
+
     --color-gray-color: ${grayColor};
     --color-light-gray-color: ${lightGrayColor};
     --color-lighter-gray-color: ${lighterGrayColor};

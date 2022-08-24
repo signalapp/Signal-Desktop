@@ -74,11 +74,11 @@
 }
 
 .module-quote__reference-warning {
-  background-color: var(--color-black-color)-06;
+  background-color: var(--color-darkest-black-color);
 }
 
 .module-quote__reference-warning__icon {
-  @include color-svg('../images/broken-link.svg', $color-dark-30);
+  @include color-svg('../images/broken-link.svg', var(--color-light-gray-color));
 }
 
 .module-quote__reference-warning__text {
@@ -258,7 +258,7 @@
     flex-direction: row;
     align-items: center;
 
-    background-color: $color-white-085;
+    background-color: var(--color-darkest-white-color);
     padding-inline-start: 8px;
     padding-inline-end: 8px;
     margin-inline-end: 8px;

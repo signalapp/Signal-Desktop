@@ -198,7 +198,7 @@
   // Module: Contact List Item
 
   .module-contact-list-item {
-    color: $color-dark-30;
+    color: var(--color-light-gray-color);
   }
 
   // Module: Message Detail
