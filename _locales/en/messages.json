@@ -7707,8 +7707,12 @@
     "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.53--1": {
-    "message": "If you’re using the JAWS screen reading program, you can now successfully play voice memos and access longer messages that get shortened behind a “read more” button.",
-    "description": "Release notes for v5.53"
+  "WhatsNew__v5.57--1": {
+    "message": "Change the speed of audio messages to either get to the point or catch the details.",
+    "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.57--2": {
+    "message": "Streamline your emoji searching. Once you’ve pulled up the emoji picker, skip the 🔍 and just start typing keywords.",
+    "description": "Release notes for v5.57"
   }
 }
