@@ -649,7 +649,6 @@ export type CapabilitiesType = {
   senderKey: boolean;
   changeNumber: boolean;
   stories: boolean;
-  pnpChangeNumber: boolean;
 };
 export type CapabilitiesUploadType = {
   announcementGroup: true;
@@ -659,7 +658,6 @@ export type CapabilitiesUploadType = {
   senderKey: true;
   changeNumber: true;
   stories: true;
-  pnpChangeNumber: true;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -1844,7 +1842,6 @@ export function initialize({
         senderKey: true,
         changeNumber: true,
         stories: true,
-        pnpChangeNumber: true,
       };
 
       const { accessKey } = options;
