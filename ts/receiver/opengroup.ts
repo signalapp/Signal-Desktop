@@ -12,7 +12,7 @@ import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromBase64ToArray } from '../session/utils/String';
-import { cleanIncomingDataMessage, isMessageEmpty } from './dataMessage';
+import { cleanIncomingDataMessage, isMessageEmptyNoReaction } from './dataMessage';
 import { handleMessageJob, toRegularMessage } from './queuedJob';
 
 export const handleOpenGroupV4Message = async (
@@ -63,7 +63,7 @@ const handleOpenGroupMessage = async (
     return;
   }
 
-  if (isMessageEmpty(idataMessage as SignalService.DataMessage)) {
+  if (isMessageEmptyNoReaction(idataMessage as SignalService.DataMessage)) {
     // empty message, drop it
     window.log.info('received an empty message for sogs');
     return;

@@ -93,8 +93,7 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
 
   return (
     !flags &&
-    // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
-    isBodyEmpty(body) &&
+    isEmpty(body) &&
     isEmpty(attachments) &&
     isEmpty(group) &&
     isEmpty(quote) &&
@@ -104,8 +103,21 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
   );
 }
 
-function isBodyEmpty(body: string) {
-  return isEmpty(body);
+/**
+ * Incoming sogs messages without reaction must be dropped when they are empty, so we had to separate this function and `isMessageEmpty`
+ */
+export function isMessageEmptyNoReaction(message: SignalService.DataMessage) {
+  const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
+
+  return (
+    !flags &&
+    isEmpty(body) &&
+    isEmpty(attachments) &&
+    isEmpty(group) &&
+    isEmpty(quote) &&
+    isEmpty(preview) &&
+    isEmpty(openGroupInvitation)
+  );
 }
 
 export function cleanIncomingDataMessage(
