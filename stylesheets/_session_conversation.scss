@@ -459,7 +459,7 @@ $rhap_font-family: inherit !default;
     transition: fill var(--default-duration);
 
     &:hover path {
-      fill: #ffffff;
+      fill: var(--color-white-color);
     }
   }
 }
