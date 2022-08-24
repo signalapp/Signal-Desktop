@@ -22,7 +22,7 @@ const StyledKnob = styled.div<{ active: boolean }>`
 const StyledSessionToggle = styled.div<{ active: boolean }>`
   width: 51px;
   height: 25px;
-  border: 1.5px solid #e5e5ea;
+  border: 1px solid #e5e5ea;
   border-radius: 16px;
   position: relative;
 
@@ -31,8 +31,8 @@ const StyledSessionToggle = styled.div<{ active: boolean }>`
   transition: var(--default-duration);
 
   background-color: ${props =>
-    props.active ? 'var(--color-accent)' : 'var(--color-cell-background)'};
-  border-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
+    props.active ? 'var(--color-accent)' : 'var(--color-clickable-hovered)'};
+  border-color: ${props => (props.active ? 'var(--color-accent)' : 'var(--color-cell-background)')};
 `;
 
 type Props = {

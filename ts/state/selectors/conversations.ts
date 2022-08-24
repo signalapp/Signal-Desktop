@@ -51,14 +51,6 @@ export const getConversationsCount = createSelector(getConversationLookup, (stat
   return Object.values(state).length;
 });
 
-export const getBlockedPubkeys = createSelector(
-  // make sure to extends this selector to we are rerun on conversation changes
-  getConversationLookup,
-
-  (_state): Array<string> => {
-    return BlockedNumberController.getBlockedNumbers();
-  }
-);
 
 export const getSelectedConversationKey = createSelector(
   getConversations,

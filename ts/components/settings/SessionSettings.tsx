@@ -172,6 +172,21 @@ const SettingInCategory = (props: {
   }
 };
 
+const StyledSettingsView = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+`;
+
+const StyledSettingsList = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+`;
+
 export class SessionSettingsView extends React.Component<SettingsViewProps, State> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
@@ -248,23 +263,23 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
       <div className="session-settings">
         <SettingsHeader category={category} />
 
-        <div className="session-settings-view">
+        <StyledSettingsView>
           {shouldRenderPasswordLock ? (
             <PasswordLock
               pwdLockError={this.state.pwdLockError}
               validatePasswordLock={this.validatePasswordLock}
             />
           ) : (
-            <div ref={this.settingsViewRef} className="session-settings-list">
+            <StyledSettingsList ref={this.settingsViewRef}>
               <SettingInCategory
                 category={category}
                 onPasswordUpdated={this.onPasswordUpdated}
                 hasPassword={Boolean(this.state.hasPassword)}
               />
-            </div>
+            </StyledSettingsList>
           )}
           <SessionInfo />
-        </div>
+        </StyledSettingsView>
       </div>
     );
   }

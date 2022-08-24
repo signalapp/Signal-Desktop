@@ -38,10 +38,9 @@ const StyledDescriptionContainer = styled(StyledDescription)`
   align-items: center;
 `;
 
-const StyledSettingItem = styled.div`
+export const StyledSettingItem = styled.div`
   font-size: var(--font-size-md);
   padding: var(--margins-lg);
-  margin-bottom: 20px;
 
   background: var(--color-cell-background);
   color: var(--color-text);
@@ -62,7 +61,7 @@ const StyledSettingItemClickable = styled(StyledSettingItemInline)`
   }
 `;
 
-const SettingsTitleAndDescription = (props: {
+export const SettingsTitleAndDescription = (props: {
   title?: string;
   description?: string;
   childrenDescription?: React.ReactNode;
