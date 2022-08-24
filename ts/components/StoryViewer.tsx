@@ -756,16 +756,16 @@ export const StoryViewer = ({
               onReactToStory(emoji, story);
               if (!isGroupStory) {
                 setHasStoryViewsNRepliesModal(false);
+                showToast(ToastType.StoryReact);
               }
               setReactionEmoji(emoji);
-              showToast(ToastType.StoryReact);
             }}
             onReply={(message, mentions, replyTimestamp) => {
               if (!isGroupStory) {
                 setHasStoryViewsNRepliesModal(false);
+                showToast(ToastType.StoryReply);
               }
               onReplyToStory(message, mentions, replyTimestamp, story);
-              showToast(ToastType.StoryReply);
             }}
             onSetSkinTone={onSetSkinTone}
             onTextTooLong={onTextTooLong}
