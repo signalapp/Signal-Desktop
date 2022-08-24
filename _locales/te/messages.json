@@ -7549,6 +7549,18 @@
         "message": "కథను డౌన్‌లోడ్ చేయలేను. మీరు దానిని మళ్లీ పంచాల్సి ఉంటుంది.",
         "description": "Description for image errors but when it is your own image"
     },
+    "StoryCreator__error--video-too-long": {
+        "message": "ఇది చాలా పొడవు ఉండటం వల్ల కథకు వీడియోని పోస్ట్ చేయలేము",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "ఇది మద్దతు లేని ఫైల్ ఫార్మెట్‌ కావడం వల్ల కథకు వీడియోని పోస్ట్ చేయలేము",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "వీడియోను లోడ్ చేసేందుకు విఫలమైంది",
+        "description": "Error string for when a video post to story fails"
+    },
     "StoryCreator__text-bg--background": {
         "message": "టెక్స్టకు తెల్ల బ్యాక్‌గ్రౌండ్ రంగు ఉంది",
         "description": "Button label"

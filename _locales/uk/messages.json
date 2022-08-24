@@ -7549,6 +7549,18 @@
         "message": "Не вдалося завантажити сторі. Потрібно буде поділитися нею ще раз.",
         "description": "Description for image errors but when it is your own image"
     },
+    "StoryCreator__error--video-too-long": {
+        "message": "Неможливо опублікувати відео в сторі, тому що воно занадто довге",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "Неможливо опублікувати відео в сторі, тому що цей формат файлу не підтримується",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "Не вдалося завантажити відео",
+        "description": "Error string for when a video post to story fails"
+    },
     "StoryCreator__text-bg--background": {
         "message": "Текст має білий фон",
         "description": "Button label"

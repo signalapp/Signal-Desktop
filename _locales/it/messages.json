@@ -7549,6 +7549,18 @@
         "message": "Impossibile scaricare la Storia. Dovrai condividerla di nuovo.",
         "description": "Description for image errors but when it is your own image"
     },
+    "StoryCreator__error--video-too-long": {
+        "message": "Impossibile pubblicare il video nella Storia perché è troppo lungo",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "Impossibile pubblicare il video nella Storia perché il file video è in un formato non supportato",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "Caricamento del video non riuscito",
+        "description": "Error string for when a video post to story fails"
+    },
     "StoryCreator__text-bg--background": {
         "message": "Il testo ha uno sfondo bianco",
         "description": "Button label"

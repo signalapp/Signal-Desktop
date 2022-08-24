@@ -7549,6 +7549,18 @@
         "message": "Nepavyksta atsisiųsti istorijos. Tu turėsi dar kartą ją bendrinti.",
         "description": "Description for image errors but when it is your own image"
     },
+    "StoryCreator__error--video-too-long": {
+        "message": "Negalima paskelbti vaizdo įrašo istorijoje: per ilgas",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-unsupported": {
+        "message": "Negalima paskelbti vaizdo įrašo istorijoje: nepalaikomas failo formatas",
+        "description": "Error string for when a video post to story fails"
+    },
+    "StoryCreator__error--video-error": {
+        "message": "Nepavyko įkelti vaizdo įrašo",
+        "description": "Error string for when a video post to story fails"
+    },
     "StoryCreator__text-bg--background": {
         "message": "Teksto fono spalva yra balta",
         "description": "Button label"
