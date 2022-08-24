@@ -316,3 +316,24 @@ export const LinkPreviewWRJ = (): JSX.Element => (
 LinkPreviewWRJ.story = {
   name: 'Link Preview w/ R&J',
 };
+
+export const TextBackgroundAndLinkPreview = (): JSX.Element => (
+  <TextAttachment
+    {...getDefaultProps()}
+    textAttachment={{
+      gradient: {
+        angle: 175,
+        endColor: 4294859832,
+        startColor: 4294950980,
+      },
+      text: 'Check out this neat video I found',
+      textBackgroundColor: 4294967295,
+      textForegroundColor: 4278249037,
+      textStyle: 1,
+      preview: {
+        title: 'A really long title so that the we can test the margins',
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+    }}
+  />
+);

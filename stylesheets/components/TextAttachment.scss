@@ -27,13 +27,15 @@
   &__text {
     border-radius: 36px;
     padding: 28px;
-    margin-left: 72px;
-    margin-right: 72px;
+    margin-left: 56px;
+    margin-right: 56px;
+
+    &--with-bg {
+      margin-left: 36px;
+      margin-right: 36px;
+    }
 
     &__container {
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 13;
-      display: -webkit-box;
       overflow: hidden;
       user-select: none;
     }
@@ -60,8 +62,9 @@
 
   &__preview-container {
     position: relative;
-    margin-left: 72px;
-    margin-right: 72px;
+    margin-top: 36px;
+    margin-left: 56px;
+    margin-right: 56px;
   }
 
   &__preview {
@@ -70,9 +73,32 @@
     border-radius: 28px;
     display: flex;
     flex-direction: row;
-    height: 122px;
+    height: 112px;
     justify-content: center;
-    padding: 34px;
+    padding: 16px;
+
+    &__no-image {
+      margin-right: 16px;
+    }
+
+    &__location {
+      color: $color-white;
+      font: bold 22px Inter;
+      max-width: 422px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include dark-theme {
+        color: $color-white;
+      }
+
+      .TextAttachment__preview-container--large & {
+        color: $color-white-alpha-60;
+        font: 18px Inter;
+        max-width: 352px;
+      }
+    }
 
     &__remove {
       backdrop-filter: blur(26px);
@@ -97,13 +123,13 @@
     }
 
     .TextAttachment__preview-container--large & {
-      height: 192px;
+      height: 140px;
     }
 
     &__no-image {
       .TextAttachment__preview-container--large & {
-        height: 144px;
-        width: 144px;
+        height: 105px;
+        width: 105px;
       }
     }
 
@@ -123,24 +149,13 @@
     &__title {
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
-      color: $color-gray-05;
-      display: -webkit-box;
-      font: bold 30px Inter;
-      overflow: hidden;
-    }
-
-    &__location {
       color: $color-white;
-      font: bold 30px Inter;
-      max-width: 422px;
+      display: -webkit-box;
+      font: bold 22px Inter;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
 
-      .TextAttachment__preview-container--large & {
-        color: $color-white-alpha-60;
-        font: 24px Inter;
-        max-width: 352px;
+      @include dark-theme {
+        color: $color-white;
       }
     }
 

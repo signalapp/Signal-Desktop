@@ -30,7 +30,7 @@ const renderNewLines: RenderTextCallbackType = ({
 
 const CHAR_LIMIT_TEXT_LARGE = 50;
 const CHAR_LIMIT_TEXT_MEDIUM = 200;
-const FONT_SIZE_LARGE = 64;
+const FONT_SIZE_LARGE = 59;
 const FONT_SIZE_MEDIUM = 42;
 const FONT_SIZE_SMALL = 32;
 
@@ -161,7 +161,11 @@ export const TextAttachment = ({
           >
             {(textContent || onChange) && (
               <div
-                className="TextAttachment__text"
+                className={classNames('TextAttachment__text', {
+                  'TextAttachment__text--with-bg': Boolean(
+                    textAttachment.textBackgroundColor
+                  ),
+                })}
                 style={{
                   backgroundColor: textAttachment.textBackgroundColor
                     ? getHexFromNumber(textAttachment.textBackgroundColor)
