@@ -30,7 +30,8 @@ const lightGrayColor = '#8b8e91';
 const lighterGrayColor = '#e9e9e9';
 const lightestGrayColor = '#f3f3f3';
 const darkGrayColor = '#414347';
-const darkerGrayColor = '#17191d';
+const darkerGrayColor = '#2f2f2f';
+const darkestGrayColor = '#17191d';
 
 // DARK COLORS
 const darkColorAccent = accentDarkTheme;
@@ -384,6 +385,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-lightest-gray-color: ${lightestGrayColor};
     --color-dark-gray-color: ${darkGrayColor};
     --color-darker-gray-color: ${darkerGrayColor};
+    --color-darkest-gray-color: ${darkestGrayColor};
     --color-light-blue-color: ${lightBlueColor};
 
     --color-warning:  ${warning};

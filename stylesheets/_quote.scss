@@ -107,7 +107,7 @@
   font-size: var(--font-size-sm);
   line-height: 18px;
   font-weight: 300;
-  color: var(--color-darker-gray-color);
+  color: var(--color-darkest-gray-color);
   margin-bottom: 5px;
 
   overflow-x: hidden;
@@ -137,7 +137,7 @@
 
 .module-quote__primary__type-label {
   font-style: italic;
-  color: var(--color-darker-gray-color);
+  color: var(--color-darkest-gray-color);
   font-size: var(--font-size-sm);
   line-height: 18px;
 }
@@ -242,7 +242,7 @@
   &-file__text {
     font-size: 14px;
     line-height: 18px;
-    color: var(--color-darker-gray-color);
+    color: var(--color-darkest-gray-color);
 
     max-width: calc(100% - 26px);
     overflow-x: hidden;
@@ -272,7 +272,7 @@
 
   &-warning__text {
     margin-inline-start: 6px;
-    color: var(--color-darker-gray-color);
+    color: var(--color-darkest-gray-color);
     font-size: var(--font-size-sm);
     line-height: 18px;
   }

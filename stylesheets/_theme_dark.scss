@@ -5,7 +5,7 @@
     &.modal {
       .content {
         textarea {
-          background-color: var(--color-darker-gray-color);
+          background-color: var(--color-darkest-gray-color);
           border: 1px solid $color-dark-60;
           color: var(--color-lighter-gray-color);
         }
@@ -15,7 +15,7 @@
     .result {
       .open {
         border: solid 1px $color-dark-60;
-        background-color: var(--color-darker-gray-color);
+        background-color: var(--color-darkest-gray-color);
         color: var(--color-lighter-gray-color);
 
         &:before {
@@ -27,7 +27,7 @@
         color: var(--color-lighter-gray-color);
         border: solid 1px $color-dark-60;
         border-right: none;
-        background-color: var(--color-darker-gray-color);
+        background-color: var(--color-darkest-gray-color);
       }
     }
   }
@@ -217,7 +217,7 @@
   // Module: Media Gallery
 
   .module-media-gallery__tab {
-    background-color: var(--color-darker-gray-color);
+    background-color: var(--color-darkest-gray-color);
   }
 
   .module-media-gallery__tab--active {
@@ -237,7 +237,7 @@
   // Module: Media Grid Item
 
   .module-media-grid-item {
-    background-color: var(--color-darker-gray-color);
+    background-color: var(--color-darkest-gray-color);
   }
 
   .module-media-grid-item__icon-image {
@@ -266,7 +266,7 @@
   .module-conversation-list-item__unread-count {
     color: var(--color-white-color);
     background-color: var(--color-session-green-color);
-    box-shadow: 0px 0px 0px 1px var(--color-darker-gray-color);
+    box-shadow: 0px 0px 0px 1px var(--color-darkest-gray-color);
   }
 
   .module-conversation-list-item__header__name {
@@ -350,7 +350,7 @@
   }
 
   .module-staged-generic-attachment__icon__extension {
-    color: var(--color-darker-gray-color);
+    color: var(--color-darkest-gray-color);
   }
 
   // Module: Staged Placeholder Attachment
