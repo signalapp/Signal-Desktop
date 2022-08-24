@@ -3042,6 +3042,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       if (!message.get('expirationStartTimestamp')) {
+        log.info(
+          `modifyTargetMessage/${this.idForLogging()}: setting story expiration`,
+          {
+            expirationStartTimestamp: message.get('timestamp'),
+            expireTimer: message.get('expireTimer'),
+          }
+        );
         message.set('expirationStartTimestamp', message.get('timestamp'));
         changed = true;
       }
