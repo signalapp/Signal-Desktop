@@ -6,6 +6,7 @@
 import { ipcRenderer as ipc } from 'electron';
 import fs from 'fs-extra';
 import pify from 'pify';
+import PQueue from 'p-queue';
 
 import {
   compact,
@@ -1490,7 +1491,7 @@ async function removeAllMessagesInConversation(
     log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    const queue = new window.PQueue({ concurrency: 3, timeout: MINUTE * 30 });
+    const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
     queue.addAll(
       messages.map(
         (message: MessageType) => async () => cleanupMessage(message)

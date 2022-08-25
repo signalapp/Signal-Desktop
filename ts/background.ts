@@ -6,6 +6,7 @@ import { isNumber } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
+import PQueue from 'p-queue';
 
 import MessageReceiver from './textsecure/MessageReceiver';
 import type {
@@ -21,7 +22,6 @@ import type {
   MessageAttributesType,
   ConversationAttributesType,
   ReactionAttributesType,
-  ValidateConversationType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
@@ -64,6 +64,7 @@ import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { notificationService } from './services/notifications';
 import { areWeASubscriberService } from './services/areWeASubscriber';
+import { onContactSync, setIsInitialSync } from './services/contactSync';
 import { startTimeTravelDetector } from './util/startTimeTravelDetector';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { LatestQueue } from './util/LatestQueue';
@@ -71,7 +72,6 @@ import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { getProfile } from './util/getProfile';
 import type {
   ConfigurationEvent,
-  ContactEvent,
   DecryptionErrorEvent,
   DeliveryEvent,
   EnvelopeEvent,
@@ -153,7 +153,6 @@ import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
-import { validateConversation } from './util/validateConversation';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -315,12 +314,8 @@ export async function startApp(): Promise<void> {
       queuedEventListener(onDeliveryReceipt)
     );
     messageReceiver.addEventListener(
-      'contact',
-      queuedEventListener(onContactReceived, false)
-    );
-    messageReceiver.addEventListener(
       'contactSync',
-      queuedEventListener(onContactSyncComplete)
+      queuedEventListener(onContactSync)
     );
     messageReceiver.addEventListener(
       'group',
@@ -430,26 +425,26 @@ export async function startApp(): Promise<void> {
     areWeASubscriberService.update(window.storage, server);
   });
 
-  const eventHandlerQueue = new window.PQueue({
+  const eventHandlerQueue = new PQueue({
     concurrency: 1,
     timeout: durations.MINUTE * 30,
   });
 
   // Note: this queue is meant to allow for stop/start of tasks, not limit parallelism.
-  const profileKeyResponseQueue = new window.PQueue();
+  const profileKeyResponseQueue = new PQueue();
   profileKeyResponseQueue.pause();
 
-  const lightSessionResetQueue = new window.PQueue({ concurrency: 1 });
+  const lightSessionResetQueue = new PQueue({ concurrency: 1 });
   window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
   lightSessionResetQueue.pause();
 
-  const onDecryptionErrorQueue = new window.PQueue({ concurrency: 1 });
+  const onDecryptionErrorQueue = new PQueue({ concurrency: 1 });
   onDecryptionErrorQueue.pause();
 
-  const onRetryRequestQueue = new window.PQueue({ concurrency: 1 });
+  const onRetryRequestQueue = new PQueue({ concurrency: 1 });
   onRetryRequestQueue.pause();
 
-  window.Whisper.deliveryReceiptQueue = new window.PQueue({
+  window.Whisper.deliveryReceiptQueue = new PQueue({
     concurrency: 1,
     timeout: durations.MINUTE * 30,
   });
@@ -2022,10 +2017,6 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  // When true - we are running the very first storage and contact sync after
-  // linking.
-  let isInitialSync = false;
-
   let connectCount = 0;
   let connecting = false;
   async function connect(firstRun?: boolean) {
@@ -2040,7 +2031,7 @@ export async function startApp(): Promise<void> {
       connecting = true;
 
       // Reset the flag and update it below if needed
-      isInitialSync = false;
+      setIsInitialSync(false);
 
       log.info('connect', { firstRun, connectCount });
 
@@ -2286,7 +2277,7 @@ export async function startApp(): Promise<void> {
         const contactSyncComplete = waitForEvent('contactSync:complete');
 
         log.info('firstRun: requesting initial sync');
-        isInitialSync = true;
+        setIsInitialSync(true);
 
         // Request configuration, block, GV1 sync messages, contacts
         // (only avatars and inboxPosition),and Storage Service sync.
@@ -2321,7 +2312,7 @@ export async function startApp(): Promise<void> {
         }
 
         log.info('firstRun: initial sync complete');
-        isInitialSync = false;
+        setIsInitialSync(false);
 
         // Switch to inbox view even if contact sync is still running
         if (
@@ -2713,92 +2704,6 @@ export async function startApp(): Promise<void> {
             fromSync: true,
           });
         }
-      }
-    });
-  }
-
-  async function onContactSyncComplete() {
-    log.info('onContactSyncComplete');
-    await window.storage.put('synced_at', Date.now());
-    window.Whisper.events.trigger('contactSync:complete');
-  }
-
-  // Note: Like the handling for incoming/outgoing messages, this method is synchronous,
-  //   deferring its async logic to the function passed to conversation.queueJob().
-  function onContactReceived(ev: ContactEvent) {
-    const details = ev.contactDetails;
-
-    const partialConversation: ValidateConversationType = {
-      e164: details.number,
-      uuid: UUID.cast(details.uuid),
-      type: 'private',
-    };
-
-    const validationError = validateConversation(partialConversation);
-    if (validationError) {
-      log.error(
-        'Invalid contact received:',
-        Errors.toLogFormat(validationError)
-      );
-      return;
-    }
-
-    const conversation = window.ConversationController.maybeMergeContacts({
-      e164: details.number,
-      aci: details.uuid,
-      reason: 'onContactReceived',
-    });
-    strictAssert(conversation, 'need conversation to queue the job!');
-
-    // It's important to use queueJob here because we might update the expiration timer
-    //   and we don't want conflicts with incoming message processing happening on the
-    //   conversation queue.
-    conversation.queueJob('onContactReceived', async () => {
-      try {
-        conversation.set({
-          name: details.name,
-          inbox_position: details.inboxPosition,
-        });
-
-        // Update the conversation avatar only if new avatar exists and hash differs
-        const { avatar } = details;
-        if (avatar && avatar.data) {
-          const newAttributes = await Conversation.maybeUpdateAvatar(
-            conversation.attributes,
-            avatar.data,
-            {
-              writeNewAttachmentData,
-              deleteAttachmentData,
-              doesAttachmentExist,
-            }
-          );
-          conversation.set(newAttributes);
-        } else {
-          const { attributes } = conversation;
-          if (attributes.avatar && attributes.avatar.path) {
-            await deleteAttachmentData(attributes.avatar.path);
-          }
-          conversation.set({ avatar: null });
-        }
-
-        window.Signal.Data.updateConversation(conversation.attributes);
-
-        // expireTimer isn't in Storage Service so we have to rely on contact sync.
-        const { expireTimer } = details;
-        const isValidExpireTimer = typeof expireTimer === 'number';
-        if (isValidExpireTimer) {
-          await conversation.updateExpirationTimer(expireTimer, {
-            source: window.ConversationController.getOurConversationId(),
-            receivedAt: ev.receivedAtCounter,
-            fromSync: true,
-            isInitialSync,
-            reason: 'contact sync',
-          });
-        }
-
-        window.Whisper.events.trigger('incrementProgress');
-      } catch (error) {
-        log.error('onContactReceived error:', Errors.toLogFormat(error));
       }
     });
   }

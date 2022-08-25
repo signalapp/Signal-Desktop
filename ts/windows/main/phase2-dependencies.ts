@@ -7,7 +7,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as moment from 'moment';
 import 'moment/min/locales.min';
-import PQueue from 'p-queue';
 
 import { textsecure } from '../../textsecure';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
@@ -44,7 +43,6 @@ window.libphonenumberFormat = PhoneNumberFormat;
 
 window.React = React;
 window.ReactDOM = ReactDOM;
-window.PQueue = PQueue;
 
 const { locale } = config;
 moment.updateLocale(locale, {

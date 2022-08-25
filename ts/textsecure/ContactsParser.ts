@@ -30,10 +30,12 @@ export type ModifiedGroupDetails = MessageWithAvatar<Proto.GroupDetails>;
 
 export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
 
-class ParserBase<
+abstract class ParserBase<
   Message extends OptionalAvatar,
-  Decoder extends DecoderBase<Message>
-> {
+  Decoder extends DecoderBase<Message>,
+  Result
+> implements Iterable<Result>
+{
   protected readonly reader: protobuf.Reader;
 
   constructor(bytes: Uint8Array, private readonly decoder: Decoder) {
@@ -83,17 +85,28 @@ class ParserBase<
       return undefined;
     }
   }
+
+  public abstract next(): Result | undefined;
+
+  *[Symbol.iterator](): Iterator<Result> {
+    let result = this.next();
+    while (result !== undefined) {
+      yield result;
+      result = this.next();
+    }
+  }
 }
 
 export class GroupBuffer extends ParserBase<
   Proto.GroupDetails,
-  typeof Proto.GroupDetails
+  typeof Proto.GroupDetails,
+  ModifiedGroupDetails
 > {
   constructor(arrayBuffer: Uint8Array) {
     super(arrayBuffer, Proto.GroupDetails);
   }
 
-  public next(): ModifiedGroupDetails | undefined {
+  public override next(): ModifiedGroupDetails | undefined {
     const proto = this.decodeDelimited();
     if (!proto) {
       return undefined;
@@ -120,13 +133,14 @@ export class GroupBuffer extends ParserBase<
 
 export class ContactBuffer extends ParserBase<
   Proto.ContactDetails,
-  typeof Proto.ContactDetails
+  typeof Proto.ContactDetails,
+  ModifiedContactDetails
 > {
   constructor(arrayBuffer: Uint8Array) {
     super(arrayBuffer, Proto.ContactDetails);
   }
 
-  public next(): ModifiedContactDetails | undefined {
+  public override next(): ModifiedContactDetails | undefined {
     const proto = this.decodeDelimited();
     if (!proto) {
       return undefined;

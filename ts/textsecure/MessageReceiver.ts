@@ -104,7 +104,6 @@ import {
   StickerPackEvent,
   ReadSyncEvent,
   ViewSyncEvent,
-  ContactEvent,
   ContactSyncEvent,
   GroupEvent,
   GroupSyncEvent,
@@ -559,11 +558,6 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'viewSync',
     handler: (ev: ViewSyncEvent) => void
-  ): void;
-
-  public override addEventListener(
-    name: 'contact',
-    handler: (ev: ContactEvent) => void
   ): void;
 
   public override addEventListener(
@@ -2748,6 +2742,9 @@ export default class MessageReceiver
       return this.handleSentMessage(envelope, sentMessage);
     }
     if (syncMessage.contacts) {
+      // Note: we do not return here because we don't want to block the next
+      //   message on this attachment download and a lot of processing of that
+      //   attachment.
       this.handleContacts(envelope, syncMessage.contacts);
       return;
     }
@@ -3068,26 +3065,14 @@ export default class MessageReceiver
 
     this.removeFromCache(envelope);
 
-    // Note: we do not return here because we don't want to block the next message on
-    //   this attachment download and a lot of processing of that attachment.
     const attachmentPointer = await this.handleAttachment(blob);
-    const results = [];
     const contactBuffer = new ContactBuffer(attachmentPointer.data);
-    let contactDetails = contactBuffer.next();
-    while (contactDetails !== undefined) {
-      const contactEvent = new ContactEvent(
-        contactDetails,
-        envelope.receivedAtCounter
-      );
-      results.push(this.dispatchAndWait(contactEvent));
 
-      contactDetails = contactBuffer.next();
-    }
-
-    await Promise.all(results);
-
-    const finalEvent = new ContactSyncEvent();
-    await this.dispatchAndWait(finalEvent);
+    const contactSync = new ContactSyncEvent(
+      Array.from(contactBuffer),
+      envelope.receivedAtCounter
+    );
+    await this.dispatchAndWait(contactSync);
 
     log.info('handleContacts: finished');
   }

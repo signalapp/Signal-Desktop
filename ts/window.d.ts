@@ -243,8 +243,6 @@ declare global {
     getAutoLaunch: () => Promise<boolean>;
     setAutoLaunch: (value: boolean) => Promise<void>;
 
-    PQueue: typeof PQueue;
-    PQueueType: PQueue;
     Mustache: {
       render: (template: string, data: any, partials?: any) => string;
       parse: (template: string) => void;

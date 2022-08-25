@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import PQueue from 'p-queue';
 import Backbone from 'backbone';
 
 import { ipcRenderer as ipc } from 'electron';
@@ -17,7 +16,6 @@ window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.getEnvironment = getEnvironment;
 window.getVersion = () => window.SignalContext.config.version;
 
-window.PQueue = PQueue;
 window.Backbone = Backbone;
 
 window.localeMessages = ipc.sendSync('locale-data');
