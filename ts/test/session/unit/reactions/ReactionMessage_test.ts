@@ -54,9 +54,7 @@ describe('ReactionMessage', () => {
     // Handling reaction
     const updatedMessage = await handleMessageReaction(
       reaction as SignalService.DataMessage.IReaction,
-      ourNumber,
-      false,
-      originalMessage.get('id')
+      ourNumber
     );
 
     expect(updatedMessage?.get('reacts'), 'original message should have reacts').to.not.be
@@ -65,7 +63,7 @@ describe('ReactionMessage', () => {
     expect(updatedMessage?.get('reacts')!['😄'], 'reacts should have 😄 key').to.not.be.undefined;
     // tslint:disable: no-non-null-assertion
     expect(
-      Object.keys(updatedMessage!.get('reacts')!['😄'].senders)[0],
+      updatedMessage!.get('reacts')!['😄'].senders[0],
       'sender pubkey should match'
     ).to.be.equal(ourNumber);
     expect(updatedMessage!.get('reacts')!['😄'].count, 'count should be 1').to.be.equal(1);
@@ -87,9 +85,7 @@ describe('ReactionMessage', () => {
     // Handling reaction
     const updatedMessage = await handleMessageReaction(
       reaction as SignalService.DataMessage.IReaction,
-      ourNumber,
-      false,
-      originalMessage.get('id')
+      ourNumber
     );
 
     expect(updatedMessage?.get('reacts'), 'original message reacts should be undefined').to.be

@@ -918,6 +918,16 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
   ]);
 
   if (msgProps.reacts) {
+    // TODO we don't want to render reactions that have 'senders' as an object this is a deprecated type used during development 25/08/2022
+    const oldReactions = Object.values(msgProps.reacts).filter(
+      reaction => !Array.isArray(reaction.senders)
+    );
+
+    if (oldReactions.length > 0) {
+      msgProps.reacts = undefined;
+      return msgProps;
+    }
+
     const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
       return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
     });
