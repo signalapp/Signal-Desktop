@@ -23,6 +23,13 @@
     }
   }
 
+  &--active-opacity,
+  &--active-opacity__button {
+    &:active {
+      opacity: 0.3;
+    }
+  }
+
   &__click-container {
     align-items: center;
     display: flex;
@@ -138,5 +145,15 @@
         $color-white
       );
     }
+  }
+
+  &__chevron::after {
+    content: '';
+    display: inline-block;
+    height: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+    width: 12px;
+    @include color-svg('../images/icons/v2/chevron-right-20.svg', $color-white);
   }
 }
