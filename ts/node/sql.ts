@@ -1094,7 +1094,7 @@ function getUnreadByConversation(conversationId: string) {
       conversationId,
     });
 
-  return rows;
+  return map(rows, row => jsonToObject(row.json));
 }
 
 function getUnreadCountByConversation(conversationId: string) {
