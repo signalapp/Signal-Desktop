@@ -858,6 +858,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       author,
       contactNameColor,
+      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -879,7 +880,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className={moduleName}>
         <ContactName
           contactNameColor={contactNameColor}
-          title={author.title}
+          title={author.isMe ? i18n('you') : author.title}
           module={moduleName}
         />
       </div>

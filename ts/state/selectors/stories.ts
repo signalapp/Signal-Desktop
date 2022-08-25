@@ -341,7 +341,11 @@ export const getStories = createSelector(
           stories: [storyView, ...existingMyStory.stories],
         });
 
-        return;
+        // If it's a group story we still want it to render as part of regular
+        // stories or hidden stories.
+        if (story.storyDistributionListId) {
+          return;
+        }
       }
 
       let storiesMap: Map<string, ConversationStoryType>;

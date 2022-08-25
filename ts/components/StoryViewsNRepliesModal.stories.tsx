@@ -31,9 +31,6 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
-    isMyStory: {
-      defaultValue: false,
-    },
     onClose: { action: true },
     onSetSkinTone: { action: true },
     onReact: { action: true },
@@ -168,7 +165,6 @@ CanReply.storyName = 'Can reply';
 
 export const ViewsOnly = Template.bind({});
 ViewsOnly.args = {
-  isMyStory: true,
   views: getViewsAndReplies().views,
 };
 ViewsOnly.storyName = 'Views only';

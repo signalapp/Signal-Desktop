@@ -89,7 +89,6 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isGroupStory?: boolean;
-  isMyStory?: boolean;
   onClose: () => unknown;
   onReact: (emoji: string) => unknown;
   onReply: (
@@ -116,7 +115,6 @@ export const StoryViewsNRepliesModal = ({
   getPreferredBadge,
   i18n,
   isGroupStory,
-  isMyStory,
   onClose,
   onReact,
   onReply,
@@ -173,7 +171,7 @@ export const StoryViewsNRepliesModal = ({
 
   let composerElement: JSX.Element | undefined;
 
-  if (!isMyStory && canReply) {
+  if (canReply) {
     composerElement = (
       <>
         {!isGroupStory && (
@@ -293,7 +291,9 @@ export const StoryViewsNRepliesModal = ({
                   <div className="StoryViewsNRepliesModal__reply--title">
                     <ContactName
                       contactNameColor={reply.contactNameColor}
-                      title={reply.author.title}
+                      title={
+                        reply.author.isMe ? i18n('you') : reply.author.title
+                      }
                     />
                   </div>
                   {i18n('StoryViewsNRepliesModal__reacted')}
@@ -312,6 +312,7 @@ export const StoryViewsNRepliesModal = ({
               <Message
                 {...MESSAGE_DEFAULT_PROPS}
                 author={reply.author}
+                contactNameColor={reply.contactNameColor}
                 containerElementRef={containerElementRef}
                 conversationColor="ultramarine"
                 conversationId={reply.conversationId}
@@ -326,10 +327,12 @@ export const StoryViewsNRepliesModal = ({
                 readStatus={reply.readStatus}
                 renderingContext="StoryViewsNRepliesModal"
                 shouldCollapseAbove={
-                  reply.conversationId === replies[index - 1]?.conversationId
+                  reply.conversationId === replies[index - 1]?.conversationId &&
+                  !replies[index - 1]?.reactionEmoji
                 }
                 shouldCollapseBelow={
-                  reply.conversationId === replies[index + 1]?.conversationId
+                  reply.conversationId === replies[index + 1]?.conversationId &&
+                  !replies[index + 1]?.reactionEmoji
                 }
                 shouldHideMetadata={false}
                 text={reply.body}

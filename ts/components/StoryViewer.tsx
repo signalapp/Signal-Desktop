@@ -675,7 +675,7 @@ export const StoryViewer = ({
                               components={[<strong>{viewCount}</strong>]}
                             />
                           ))}
-                        {viewCount > 0 && replyCount > 0 && ' '}
+                        {(sendState || viewCount > 0) && replyCount > 0 && ' '}
                         {replyCount > 0 &&
                           (replyCount === 1 ? (
                             <Intl
@@ -751,7 +751,6 @@ export const StoryViewer = ({
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             isGroupStory={isGroupStory}
-            isMyStory={isMe}
             onClose={() => setHasStoryViewsNRepliesModal(false)}
             onReact={emoji => {
               onReactToStory(emoji, story);

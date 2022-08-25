@@ -217,6 +217,7 @@ export async function sendStoryMessage(
       const messageAttributes =
         await window.Signal.Migrations.upgradeMessageSchema({
           attachments,
+          canReplyToStory: true,
           conversationId,
           expireTimer: DAY / SECOND,
           id: UUID.generate().toString(),
