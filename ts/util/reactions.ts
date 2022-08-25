@@ -11,9 +11,27 @@ import { UserUtils } from '../session/utils';
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
 import { getRecentReactions, saveRecentReations } from '../util/storage';
 
+export const SOGSReactorsFetchCount = 5;
 const rateCountLimit = 20;
 const rateTimeLimit = 60 * 1000;
 const latestReactionTimestamps: Array<number> = [];
+
+export function hitRateLimit(): boolean {
+  const timestamp = Date.now();
+  latestReactionTimestamps.push(timestamp);
+
+  if (latestReactionTimestamps.length > rateCountLimit) {
+    const firstTimestamp = latestReactionTimestamps[0];
+    if (timestamp - firstTimestamp < rateTimeLimit) {
+      latestReactionTimestamps.pop();
+      window.log.warn('Only 20 reactions are allowed per minute');
+      return true;
+    } else {
+      latestReactionTimestamps.shift();
+    }
+  }
+  return false;
+}
 
 /**
  * Retrieves the original message of a reaction
@@ -46,7 +64,7 @@ const getMessageByReaction = async (
 };
 
 /**
- * Sends a Reaction Data Message, don't use for OpenGroups
+ * Sends a Reaction Data Message
  */
 export const sendMessageReaction = async (messageId: string, emoji: string) => {
   const found = await Data.getMessageById(messageId);
@@ -62,27 +80,23 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
       return;
     }
 
-    // TODO need to add rate limiting to SOGS function
-    const timestamp = Date.now();
-    latestReactionTimestamps.push(timestamp);
-
-    if (latestReactionTimestamps.length > rateCountLimit) {
-      const firstTimestamp = latestReactionTimestamps[0];
-      if (timestamp - firstTimestamp < rateTimeLimit) {
-        latestReactionTimestamps.pop();
-        return;
-      } else {
-        latestReactionTimestamps.shift();
-      }
-    }
-
-    if (found?.get('isPublic')) {
-      window.log.warn("sendMessageReaction() shouldn't be used in opengroups");
+    if (hitRateLimit()) {
       return;
     }
 
-    const id = Number(found.get('sent_at'));
-    const me = UserUtils.getOurPubKeyStrFromCache();
+    let me = UserUtils.getOurPubKeyStrFromCache();
+    let id = Number(found.get('sent_at'));
+
+    if (found.get('isPublic')) {
+      if (found.get('serverId')) {
+        id = found.get('serverId') || id;
+        me = getUsBlindedInThatServer(conversationModel) || me;
+      } else {
+        window.log.warn(`Server Id was not found in message ${messageId} for opengroup reaction`);
+        return;
+      }
+    }
+
     const author = found.get('source');
     let action: Action = Action.REACT;
 
@@ -230,6 +244,11 @@ export const handleOpenGroupMessageReactions = async (
           const reactorsWithoutMe = reactions[key].reactors.filter(
             reactor => !isUsAnySogsFromCache(reactor)
           );
+
+          // If you aren't included in the reactors then remove the extra reactor to match with the SOGSReactorsFetchCount.
+          if (reactorsWithoutMe.length === SOGSReactorsFetchCount) {
+            reactorsWithoutMe.pop();
+          }
 
           const conversationModel = originalMessage?.getConversation();
           if (conversationModel) {
