@@ -78,18 +78,18 @@ export const MyStories = ({
             </div>
             {list.stories.map(story => (
               <div className="MyStories__story" key={story.timestamp}>
-                {story.attachment && (
-                  <button
-                    aria-label={i18n('MyStories__story')}
-                    className="MyStories__story__preview"
-                    onClick={() =>
-                      viewStory({
-                        storyId: story.messageId,
-                        storyViewMode: StoryViewModeType.User,
-                      })
-                    }
-                    type="button"
-                  >
+                <button
+                  aria-label={i18n('MyStories__story')}
+                  className="StoryListItem__button MyStories__story-button"
+                  onClick={() =>
+                    viewStory({
+                      storyId: story.messageId,
+                      storyViewMode: StoryViewModeType.User,
+                    })
+                  }
+                  type="button"
+                >
+                  <div className="StoryListItem__previews">
                     <StoryImage
                       attachment={story.attachment}
                       firstName={i18n('you')}
@@ -97,26 +97,27 @@ export const MyStories = ({
                       isMe
                       isThumbnail
                       label={i18n('MyStories__story')}
-                      moduleClassName="MyStories__story__preview"
+                      moduleClassName="StoryListItem__previews--image"
                       queueStoryDownload={queueStoryDownload}
                       storyId={story.messageId}
                     />
-                  </button>
-                )}
-                <div className="MyStories__story__details">
-                  {story.views === 1
-                    ? i18n('MyStories__views--singular', [String(story.views)])
-                    : i18n('MyStories__views--plural', [
-                        String(story.views || 0),
-                      ])}
-                  <MessageTimestamp
-                    i18n={i18n}
-                    isRelativeTime
-                    module="MyStories__story__timestamp"
-                    timestamp={story.timestamp}
-                  />
-                </div>
-
+                  </div>
+                  <div className="MyStories__story__details">
+                    {story.views === 1
+                      ? i18n('MyStories__views--singular', [
+                          String(story.views),
+                        ])
+                      : i18n('MyStories__views--plural', [
+                          String(story.views || 0),
+                        ])}
+                    <MessageTimestamp
+                      i18n={i18n}
+                      isRelativeTime
+                      module="MyStories__story__timestamp"
+                      timestamp={story.timestamp}
+                    />
+                  </div>
+                </button>
                 <button
                   aria-label={i18n('MyStories__download')}
                   className="MyStories__story__download"

@@ -8,6 +8,7 @@
     border-radius: 10px;
     display: flex;
     height: 96px;
+    min-height: 96px;
     padding: 0 10px;
     width: 100%;
 
@@ -87,14 +88,16 @@
       @include button-reset;
 
       align-items: center;
-      background-size: cover;
       background-color: $color-gray-60;
+      background-size: cover;
       border-radius: 8px;
       display: flex;
       height: 72px;
       justify-content: center;
+      left: 0;
       overflow: hidden;
       position: absolute;
+      top: 0;
       width: 46px;
       z-index: $z-index-base;
     }

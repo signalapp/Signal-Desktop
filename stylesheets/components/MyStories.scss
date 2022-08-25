@@ -3,19 +3,32 @@
 
 .MyStories {
   &__distribution {
-    padding: 0 14px;
-
     &__title {
       @include font-body-1-bold;
       color: $color-gray-05;
-      margin: 24px 0 8px 0;
+      margin: 24px 10px 8px 10px;
     }
+  }
+
+  &__story-button {
+    flex: 1;
   }
 
   &__story {
     align-items: center;
+    border-radius: 10px;
     display: flex;
     height: 96px;
+    padding-right: 10px;
+
+    &:hover {
+      background: $color-gray-65;
+
+      & .MyStories__story__download,
+      .MyStories__story__more__button {
+        background: $color-gray-60;
+      }
+    }
 
     &__details {
       @include font-body-1-bold;
@@ -23,11 +36,7 @@
       display: flex;
       flex-direction: column;
       flex: 1;
-    }
-
-    &__preview {
-      @include button-reset;
-      margin-right: 12px;
+      margin-left: 12px;
     }
 
     &__timestamp {
@@ -48,11 +57,15 @@
       &::after {
         @include color-svg(
           '../images/icons/v2/save-outline-24.svg',
-          $color-gray-25
+          $color-gray-15
         );
         content: '';
         height: 18px;
         width: 18px;
+      }
+
+      &:hover {
+        background: $color-gray-75 !important;
       }
     }
 
@@ -69,11 +82,15 @@
       &::after {
         @include color-svg(
           '../images/icons/v2/more-horiz-24.svg',
-          $color-gray-25
+          $color-gray-15
         );
         content: '';
         height: 18px;
         width: 18px;
+      }
+
+      &:hover {
+        background: $color-gray-75 !important;
       }
     }
   }

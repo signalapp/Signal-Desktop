@@ -133,6 +133,10 @@ export const TextAttachment = ({
     node.setSelectionRange(node.value.length, node.value.length);
   }, [isEditingText]);
 
+  const storyBackgroundColor = {
+    background: getBackgroundColor(textAttachment),
+  };
+
   return (
     <Measure bounds>
       {({ contentRect, measureRef }) => (
@@ -151,11 +155,12 @@ export const TextAttachment = ({
             }
           }}
           ref={measureRef}
+          style={isThumbnail ? storyBackgroundColor : undefined}
         >
           <div
             className="TextAttachment__story"
             style={{
-              background: getBackgroundColor(textAttachment),
+              ...(isThumbnail ? {} : storyBackgroundColor),
               transform: `scale(${(contentRect.bounds?.height || 1) / 1280})`,
             }}
           >
