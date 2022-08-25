@@ -18,7 +18,7 @@ const AvatarItem = (props: { memberPubkey: string; isAdmin: boolean }) => {
   );
 };
 
-const StyledSessionMemberItem = styled.div<{
+const StyledSessionMemberItem = styled.button<{
   inMentions?: boolean;
   zombie?: boolean;
   selected?: boolean;
@@ -29,6 +29,9 @@ const StyledSessionMemberItem = styled.div<{
   padding: 0px var(--margins-sm);
   height: ${props => (props.inMentions ? '40px' : '50px')};
   display: flex;
+
+  align-items: center;
+
   justify-content: space-between;
   transition: var(--default-duration);
 
@@ -99,7 +102,6 @@ export const MemberListItem = (props: {
             }
           : {}
       }
-      role="button"
       data-testid={dataTestId}
       zombie={isZombie}
       inMentions={inMentions}

@@ -96,7 +96,7 @@ textarea {
   background-color: rgba(0, 0, 0, 0);
 
   &.disabled {
-    cursor: default;
+    cursor: not-allowed;
   }
 
   &.default,

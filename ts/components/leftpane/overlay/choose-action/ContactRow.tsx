@@ -41,7 +41,7 @@ const StyledContactRowName = styled.div`
   font-size: var(--font-size-lg);
 `;
 
-const StyledRowContainer = styled.div`
+const StyledRowContainer = styled.button`
   display: flex;
   align-items: center;
   padding: 0 var(--margins-lg);

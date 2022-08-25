@@ -78,14 +78,13 @@ export const OverlayCommunity = () => {
 
       <SessionSpinner loading={loading} />
       <SessionJoinableRooms onRoomClicked={closeOverlay} />
-      {groupUrl && (
-        <SessionButton
-          buttonColor={SessionButtonColor.Green}
-          buttonType={SessionButtonType.BrandOutline}
-          text={buttonText}
-          onClick={onEnterPressed}
-        />
-      )}
+      <SessionButton
+        buttonColor={SessionButtonColor.Green}
+        buttonType={SessionButtonType.BrandOutline}
+        text={buttonText}
+        disabled={!groupUrl}
+        onClick={onEnterPressed}
+      />
     </div>
   );
 };

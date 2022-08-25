@@ -45,6 +45,8 @@ export const OverlayMessage = () => {
   const subtitle = window.i18n('enterSessionIDOrONSName');
   const placeholder = window.i18n('enterSessionIDOfRecipient');
 
+  const disableNextButton = !pubkeyOrOns || loading;
+
   async function openConvoOnceResolved(resolvedSessionID: string) {
     const convo = await getConversationController().getOrCreateAndWait(
       resolvedSessionID,
@@ -105,6 +107,7 @@ export const OverlayMessage = () => {
         placeholder={placeholder}
         onChange={setPubkeyOrOns}
         dataTestId="new-session-conversation"
+        onPressEnter={handleMessageButtonClick}
       />
 
       <SessionSpinner loading={loading} />
@@ -128,7 +131,7 @@ export const OverlayMessage = () => {
         buttonColor={SessionButtonColor.Green}
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
-        disabled={false}
+        disabled={disableNextButton}
         onClick={handleMessageButtonClick}
         dataTestId="next-new-conversation-button"
       />

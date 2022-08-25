@@ -6,7 +6,7 @@ import { getOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
 // tslint:disable: use-simple-attributes
 
-const StyledMenuButton = styled.label`
+const StyledMenuButton = styled.button`
   position: relative;
   display: inline-block;
 
@@ -23,12 +23,6 @@ const StyledMenuButton = styled.label`
   :hover {
     background: var(--hover-bg-color);
   }
-`;
-
-const StyledMenuInput = styled.input`
-  opacity: 0;
-  width: 0;
-  height: 0;
 `;
 
 /**
@@ -54,13 +48,14 @@ export const MenuButton = () => {
           '--fg-color': 'white',
         } as CSSProperties
       }
+      onClick={onClickFn}
     >
-      <StyledMenuInput type="checkbox" checked={isToggled} onClick={onClickFn} />
       <SessionIcon
         iconSize="small"
         iconType="plusFat"
         iconColor="var(--fg-color)"
         iconRotation={isToggled ? 45 : 0}
+        aria-label={window.i18n('chooseAnAction')}
       />
     </StyledMenuButton>
   );
