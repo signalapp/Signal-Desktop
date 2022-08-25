@@ -753,7 +753,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.id.startsWith('15')) {
         window.log.info('Sending a blinded message to this user: ', this.id);
-        // TODO confirm this works with Reacts
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
       }
@@ -789,7 +788,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const destinationPubkey = new PubKey(destination);
 
       if (this.isPrivate()) {
-        // TODO is this still fine without isMe?
         const chatMessageMe = new VisibleMessage({
           ...chatMessageParams,
           syncTarget: this.id,

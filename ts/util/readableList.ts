@@ -1,7 +1,11 @@
+// we need to use a character that cannot be used as a display name for string manipulation up until we render the UI
+export const defaultConjunction = '\uFFD7';
+export const defaultWordLimit = 3;
+
 export const readableList = (
   arr: Array<string>,
-  conjunction: string = '&',
-  limit: number = 3
+  conjunction: string = defaultConjunction,
+  wordLimit: number = defaultWordLimit
 ): string => {
   if (arr.length === 0) {
     return '';
@@ -15,11 +19,11 @@ export const readableList = (
       let result = '';
       let others = 0;
       for (let i = 0; i < count; i++) {
-        if (others === 0 && i === count - 1 && i < limit) {
+        if (others === 0 && i === count - 1 && i < wordLimit) {
           result += ` ${conjunction} `;
-        } else if (i !== 0 && i < limit) {
+        } else if (i !== 0 && i < wordLimit) {
           result += ', ';
-        } else if (i >= limit) {
+        } else if (i >= wordLimit) {
           others++;
         }
 

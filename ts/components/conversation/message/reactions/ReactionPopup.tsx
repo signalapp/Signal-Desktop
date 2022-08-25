@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { PubKey } from '../../../../session/types/PubKey';
 import { nativeEmojiData } from '../../../../util/emoji';
-import { readableList } from '../../../../util/readableList';
+import { defaultConjunction, defaultWordLimit, readableList } from '../../../../util/readableList';
 
 export type TipPosition = 'center' | 'left' | 'right';
 
@@ -59,8 +59,12 @@ const StyledOthers = styled.span`
   color: var(--color-accent);
 `;
 
-const generateContacts = async (messageId: string, senders: Array<string>) => {
-  let results = null;
+const generateContactsString = async (
+  messageId: string,
+  senders: Array<string>,
+  count: number
+): Promise<string | null> => {
+  let results = [];
   const message = await Data.getMessageById(messageId);
   if (message) {
     let meIndex = -1;
@@ -75,8 +79,18 @@ const generateContacts = async (messageId: string, senders: Array<string>) => {
       results.splice(meIndex, 1);
       results = [window.i18n('you'), ...results];
     }
+    if (results && results.length > 0) {
+      let contacts = readableList(results);
+      // This can only happen in an opengroup
+      if (results.length !== count) {
+        const [names, others] = contacts.split(`${defaultConjunction} `);
+        const [_, suffix] = others.split(' '); // i.e. 3 others
+        contacts = `${names} ${defaultConjunction} ${count - defaultWordLimit} ${suffix}`;
+      }
+      return contacts;
+    }
   }
-  return results;
+  return null;
 };
 
 const Contacts = (contacts: string) => {
@@ -84,8 +98,8 @@ const Contacts = (contacts: string) => {
     return;
   }
 
-  if (contacts.includes('&') && contacts.includes('other')) {
-    const [names, others] = contacts.split('&');
+  if (contacts.includes(defaultConjunction) && contacts.includes('other')) {
+    const [names, others] = contacts.split(defaultConjunction);
     return (
       <span>
         {names} & <StyledOthers>{others}</StyledOthers> {window.i18n('reactionTooltip')}
@@ -95,7 +109,7 @@ const Contacts = (contacts: string) => {
 
   return (
     <span>
-      {contacts} {window.i18n('reactionTooltip')}
+      {contacts.replace(defaultConjunction, '&')} {window.i18n('reactionTooltip')}
     </span>
   );
 };
@@ -103,25 +117,26 @@ const Contacts = (contacts: string) => {
 type Props = {
   messageId: string;
   emoji: string;
+  count: number;
   senders: Array<string>;
   tooltipPosition?: TipPosition;
   onClick: (...args: Array<any>) => void;
 };
 
 export const ReactionPopup = (props: Props): ReactElement => {
-  const { messageId, emoji, senders, tooltipPosition = 'center', onClick } = props;
+  const { messageId, emoji, count, senders, tooltipPosition = 'center', onClick } = props;
 
   const [contacts, setContacts] = useState('');
 
   useEffect(() => {
     let isCancelled = false;
-    generateContacts(messageId, senders)
+    generateContactsString(messageId, senders, count)
       .then(async results => {
         if (isCancelled) {
           return;
         }
-        if (results && results.length > 0) {
-          setContacts(readableList(results));
+        if (results) {
+          setContacts(results);
         }
       })
       .catch(() => {
@@ -133,7 +148,7 @@ export const ReactionPopup = (props: Props): ReactElement => {
     return () => {
       isCancelled = true;
     };
-  }, [generateContacts]);
+  }, [count, generateContactsString, messageId, senders]);
 
   return (
     <StyledPopupContainer tooltipPosition={tooltipPosition} onClick={onClick}>

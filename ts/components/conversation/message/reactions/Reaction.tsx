@@ -138,6 +138,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
         <ReactionPopup
           messageId={messageId}
           emoji={popupReaction}
+          count={reactionsMap[popupReaction].count}
           senders={reactionsMap[popupReaction].senders}
           tooltipPosition={tooltipPosition}
           onClick={() => {
