@@ -112,6 +112,7 @@
 
     &--clickable {
       @include button-reset;
+      flex: 1;
       border-radius: 4px;
       -webkit-app-region: no-drag;
 
