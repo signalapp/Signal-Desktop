@@ -833,6 +833,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return body;
   }
 
+  getAuthorText(): string | undefined {
+    // if it's outgoing, it must be self-authored
+    const selfAuthor = isOutgoing(this.attributes)
+      ? window.i18n('you')
+      : undefined;
+
+    // if it's not selfAuthor and there's no incoming contact,
+    // it might be a group notification, so we return undefined
+    return selfAuthor ?? this.getIncomingContact()?.getTitle();
+  }
+
   getNotificationText(): string {
     const { text, emoji } = this.getNotificationData();
     const { attributes } = this;
@@ -1258,12 +1269,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (!isIncoming(this.attributes)) {
       return null;
     }
-    const source = this.get('source');
-    if (!source) {
+    const sourceUuid = this.get('sourceUuid');
+    if (!sourceUuid) {
       return null;
     }
 
-    return window.ConversationController.getOrCreate(source, 'private');
+    return window.ConversationController.getOrCreate(sourceUuid, 'private');
   }
 
   async retrySend(): Promise<void> {
@@ -2723,6 +2734,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ) {
           conversation.set({
             lastMessage: message.getNotificationText(),
+            lastMessageAuthor: message.getAuthorText(),
             timestamp: message.get('sent_at'),
           });
         }

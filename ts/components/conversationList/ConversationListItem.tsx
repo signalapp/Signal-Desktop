@@ -148,6 +148,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       messageText = (
         <MessageBody
           text={truncateMessageText(lastMessage.text)}
+          author={type === 'group' ? lastMessage.author : undefined}
           disableJumbomoji
           disableLinks
           i18n={i18n}

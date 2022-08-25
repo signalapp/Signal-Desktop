@@ -124,8 +124,8 @@ const LAST_MESSAGE = 'start sending messages now';
 
       const item = leftPane.locator(
         '_react=BaseConversationListItem' +
-          `[title = ${JSON.stringify(group.title)}]` +
-          `>> ${JSON.stringify(LAST_MESSAGE)}`
+          `[title = ${JSON.stringify(group.title)}] ` +
+          `>> text=${LAST_MESSAGE}`
       );
       await item.click();
     }

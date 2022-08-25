@@ -150,6 +150,7 @@ export type ConversationType = {
     | {
         status?: LastMessageStatus;
         text: string;
+        author?: string;
         deletedForEveryone: false;
       }
     | { deletedForEveryone: true };

@@ -1703,6 +1703,7 @@ export class ConversationModel extends window.Backbone
       | {
           status?: LastMessageStatus;
           text: string;
+          author?: string;
           deletedForEveryone: false;
         }
       | { deletedForEveryone: true };
@@ -1715,6 +1716,7 @@ export class ConversationModel extends window.Backbone
         lastMessage = {
           status: dropNull(this.get('lastMessageStatus')),
           text: lastMessageText,
+          author: dropNull(this.get('lastMessageAuthor')),
           deletedForEveryone: false,
         };
       }
@@ -3992,6 +3994,7 @@ export class ConversationModel extends window.Backbone
               draft: null,
               draftTimestamp: null,
               lastMessage: model.getNotificationText(),
+              lastMessageAuthor: model.getAuthorText(),
               lastMessageStatus: 'sending' as const,
             };
 
@@ -4121,6 +4124,7 @@ export class ConversationModel extends window.Backbone
     this.set({
       lastMessage:
         (previewMessage ? previewMessage.getNotificationText() : '') || '',
+      lastMessageAuthor: previewMessage?.getAuthorText(),
       lastMessageStatus:
         (previewMessage
           ? getMessagePropStatus(previewMessage.attributes, ourConversationId)
@@ -4875,6 +4879,7 @@ export class ConversationModel extends window.Backbone
   async destroyMessages(): Promise<void> {
     this.set({
       lastMessage: null,
+      lastMessageAuthor: null,
       timestamp: null,
       active_at: null,
       pendingUniversalTimer: undefined,

@@ -27,6 +27,7 @@ type OpenConversationActionType = (
 export type Props = {
   direction?: 'incoming' | 'outgoing';
   text: string;
+  author?: string;
   textAttachment?: Pick<AttachmentType, 'pending' | 'digest' | 'key'>;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
@@ -74,6 +75,7 @@ export function MessageBody({
   onIncreaseTextLength,
   openConversation,
   text,
+  author,
   textAttachment,
   kickOffBodyDownload,
 }: Props): JSX.Element {
@@ -144,6 +146,20 @@ export function MessageBody({
 
   return (
     <span>
+      {author && (
+        <>
+          <span className="MessageBody__author">
+            {renderEmoji({
+              i18n,
+              text: author,
+              sizeClass,
+              key: 0,
+              renderNonEmoji: renderNewLines,
+            })}
+          </span>
+          :{' '}
+        </>
+      )}
       {disableLinks ? (
         renderEmoji({
           i18n,

@@ -281,6 +281,7 @@ export type ConversationAttributesType = {
   isPinned?: boolean;
   lastMessageDeletedForEveryone?: boolean;
   lastMessageStatus?: LastMessageStatus | null;
+  lastMessageAuthor?: string | null;
   markedUnread?: boolean;
   messageCount?: number;
   messageCountBeforeMessageRequests?: number | null;

@@ -54,4 +54,8 @@
       background-color: $color-black-alpha-40;
     }
   }
+
+  &__author {
+    @include font-body-2-bold;
+  }
 }
