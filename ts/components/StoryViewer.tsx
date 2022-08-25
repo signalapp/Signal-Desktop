@@ -147,13 +147,14 @@ export const StoryViewer = ({
     avatarPath,
     color,
     isMe,
-    id,
     firstName,
     name,
     profileName,
     sharedGroupNames,
     title,
   } = story.sender;
+
+  const conversationId = group?.id || story.sender.id;
 
   const [hasStoryViewsNRepliesModal, setHasStoryViewsNRepliesModal] =
     useState(false);
@@ -448,7 +449,7 @@ export const StoryViewer = ({
               : i18n('StoryListItem__hide'),
             onClick: () => {
               if (isHidden) {
-                onHideStory(id);
+                onHideStory(conversationId);
               } else {
                 setHasConfirmHideStory(true);
               }
@@ -458,7 +459,7 @@ export const StoryViewer = ({
             icon: 'StoryListItem__icon--chat',
             label: i18n('StoryListItem__go-to-chat'),
             onClick: () => {
-              onGoToConversation(id);
+              onGoToConversation(conversationId);
             },
           },
         ];
@@ -785,7 +786,7 @@ export const StoryViewer = ({
             actions={[
               {
                 action: () => {
-                  onHideStory(id);
+                  onHideStory(conversationId);
                   onClose();
                 },
                 style: 'affirmative',
