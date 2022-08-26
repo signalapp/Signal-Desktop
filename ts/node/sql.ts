@@ -420,6 +420,7 @@ function getConversationCount() {
 
 // tslint:disable-next-line: max-func-body-length
 // tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line: max-func-body-length
 function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
   const formatted = assertValidConversationAttributes(data);
 
@@ -458,10 +459,13 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     conversationIdOrigin,
   } = formatted;
 
-  // shorten the last message as we never need more than 60 chars (and it bloats the redux/ipc calls uselessly
+  const maxLength = 300;
+  // shorten the last message as we never need more than `maxLength` chars (and it bloats the redux/ipc calls uselessly.
 
   const shortenedLastMessage =
-    isString(lastMessage) && lastMessage.length > 60 ? lastMessage.substring(60) : lastMessage;
+    isString(lastMessage) && lastMessage.length > maxLength
+      ? lastMessage.substring(0, maxLength)
+      : lastMessage;
   assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${CONVERSATIONS_TABLE} (
@@ -1090,7 +1094,7 @@ function getUnreadByConversation(conversationId: string) {
       conversationId,
     });
 
-  return rows;
+  return map(rows, row => jsonToObject(row.json));
 }
 
 function getUnreadCountByConversation(conversationId: string) {

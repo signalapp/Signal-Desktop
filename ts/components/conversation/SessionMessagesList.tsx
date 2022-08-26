@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
@@ -15,6 +15,7 @@ import {
 import {
   getOldBottomMessageId,
   getOldTopMessageId,
+  getSelectedConversationKey,
   getSortedMessagesTypesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
@@ -32,6 +33,8 @@ function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;
 }
 
+let previousRenderedConvo: string | undefined;
+
 export const SessionMessagesList = (props: {
   scrollAfterLoadMore: (
     messageIdToScrollTo: string,
@@ -43,6 +46,9 @@ export const SessionMessagesList = (props: {
   onEndPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
+  const convoKey = useSelector(getSelectedConversationKey);
+
+  const [didScroll, setDidScroll] = useState(false);
   const oldTopMessageId = useSelector(getOldTopMessageId);
   const oldBottomMessageId = useSelector(getOldBottomMessageId);
 
@@ -84,12 +90,22 @@ export const SessionMessagesList = (props: {
     }
   });
 
+  if (didScroll && previousRenderedConvo !== convoKey) {
+    setDidScroll(false);
+    previousRenderedConvo = convoKey;
+  }
+
   return (
     <>
       {messagesProps.map(messageProps => {
         const messageId = messageProps.message.props.messageId;
         const unreadIndicator = messageProps.showUnreadIndicator ? (
-          <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} messageId={messageId} />
+          <SessionLastSeenIndicator
+            key={'unread-indicator'}
+            messageId={messageId}
+            didScroll={didScroll}
+            setDidScroll={setDidScroll}
+          />
         ) : null;
 
         const dateBreak =
@@ -100,24 +116,22 @@ export const SessionMessagesList = (props: {
               messageId={messageId}
             />
           ) : null;
+
+        const componentToMerge = [dateBreak, unreadIndicator];
         if (messageProps.message?.messageType === 'group-notification') {
           const msgProps = messageProps.message.props as PropsForGroupUpdate;
-          return [<GroupUpdateMessage key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+          return [<GroupUpdateMessage key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (messageProps.message?.messageType === 'group-invitation') {
           const msgProps = messageProps.message.props as PropsForGroupInvitation;
-          return [<GroupInvitation key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+          return [<GroupInvitation key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (messageProps.message?.messageType === 'message-request-response') {
           const msgProps = messageProps.message.props as PropsForMessageRequestResponse;
 
-          return [
-            <MessageRequestResponse key={messageId} {...msgProps} />,
-            dateBreak,
-            unreadIndicator,
-          ];
+          return [<MessageRequestResponse key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (messageProps.message?.messageType === 'data-extraction') {
@@ -125,28 +139,27 @@ export const SessionMessagesList = (props: {
 
           return [
             <DataExtractionNotification key={messageId} {...msgProps} />,
-            dateBreak,
-            unreadIndicator,
+            ...componentToMerge,
           ];
         }
 
         if (messageProps.message?.messageType === 'timer-notification') {
           const msgProps = messageProps.message.props as PropsForExpirationTimer;
 
-          return [<TimerNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+          return [<TimerNotification key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (messageProps.message?.messageType === 'call-notification') {
           const msgProps = messageProps.message.props as PropsForCallNotification;
 
-          return [<CallNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+          return [<CallNotification key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (!messageProps) {
           return null;
         }
 
-        return [<Message messageId={messageId} key={messageId} />, dateBreak, unreadIndicator];
+        return [<Message messageId={messageId} key={messageId} />, ...componentToMerge];
       })}
     </>
   );
