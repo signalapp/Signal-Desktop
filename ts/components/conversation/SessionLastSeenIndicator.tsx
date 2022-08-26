@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getQuotedMessageToAnimate } from '../../state/selectors/conversations';
@@ -35,19 +35,28 @@ const LastSeenText = styled.div`
   color: var(--color-last-seen-indicator);
 `;
 
-export const SessionLastSeenIndicator = (props: { messageId: string }) => {
+export const SessionLastSeenIndicator = (props: {
+  messageId: string;
+  didScroll: boolean;
+  setDidScroll: (scroll: boolean) => void;
+}) => {
   // if this unread-indicator is not unique it's going to cause issues
-  const [didScroll, setDidScroll] = useState(false);
   const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
-
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
 
-  // if this unread-indicator is rendered,
-  // we want to scroll here only if the conversation was not opened to a specific message
+  const { messageId, didScroll, setDidScroll } = props;
+
+  /**
+   * If this unread-indicator is rendered, we want to scroll here only if:
+   * 1. the conversation was not opened to a specific message (quoted message)
+   * 2. we already scrolled to this unread banner once for this convo https://github.com/oxen-io/session-desktop/issues/2308
+   *
+   * To achieve 2. we store the didScroll state in the parent and track the last rendered conversation in it.
+   */
 
   useLayoutEffect(() => {
     if (!quotedMessageToAnimate && !didScroll) {
-      scrollToLoadedMessage(props.messageId, 'unread-indicator');
+      scrollToLoadedMessage(messageId, 'unread-indicator');
       setDidScroll(true);
     } else if (quotedMessageToAnimate) {
       setDidScroll(true);
