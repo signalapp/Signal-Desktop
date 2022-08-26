@@ -501,62 +501,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return current;
   }
 
-  public async getQuoteAttachment(attachments: any, preview: any) {
-    if (attachments && attachments.length) {
-      return Promise.all(
-        attachments
-          .filter(
-            (attachment: any) =>
-              attachment && attachment.contentType && !attachment.pending && !attachment.error
-          )
-          .slice(0, 1)
-          .map(async (attachment: any) => {
-            const { fileName, thumbnail, contentType } = attachment;
-
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: fileName || null,
-              thumbnail: thumbnail
-                ? {
-                    ...(await loadAttachmentData(thumbnail)),
-                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                  }
-                : null,
-            };
-          })
-      );
-    }
-
-    if (preview && preview.length) {
-      return Promise.all(
-        preview
-          .filter((item: any) => item && item.image)
-          .slice(0, 1)
-          .map(async (attachment: any) => {
-            const { image } = attachment;
-            const { contentType } = image;
-
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: null,
-              thumbnail: image
-                ? {
-                    ...(await loadAttachmentData(image)),
-                    objectUrl: getAbsoluteAttachmentPath(image.path),
-                  }
-                : null,
-            };
-          })
-      );
-    }
-
-    return [];
-  }
-
   public async makeQuote(quotedMessage: MessageModel): Promise<ReplyingToMessageProps | null> {
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
@@ -2081,6 +2025,66 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return moderatorsOrAdminsChanged;
     }
     return false;
+  }
+
+  private async getQuoteAttachment(attachments: any, preview: any) {
+    if (attachments?.length) {
+      return Promise.all(
+        attachments
+          .filter(
+            (attachment: any) =>
+              attachment &&
+              attachment.contentType &&
+              !attachment.pending &&
+              !attachment.error &&
+              attachment?.thumbnail?.path // loadAttachmentData throws if the thumbnail.path is not set
+          )
+          .slice(0, 1)
+          .map(async (attachment: any) => {
+            const { fileName, thumbnail, contentType } = attachment;
+
+            return {
+              contentType,
+              // Our protos library complains about this field being undefined, so we
+              //   force it to null
+              fileName: fileName || null,
+              thumbnail: thumbnail
+                ? {
+                    ...(await loadAttachmentData(thumbnail)),
+                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                  }
+                : null,
+            };
+          })
+      );
+    }
+
+    if (preview?.length) {
+      return Promise.all(
+        preview
+          .filter((attachment: any) => attachment?.image?.path) // loadAttachmentData throws if the image.path is not set
+          .slice(0, 1)
+          .map(async (attachment: any) => {
+            const { image } = attachment;
+            const { contentType } = image;
+
+            return {
+              contentType,
+              // Our protos library complains about this field being undefined, so we
+              //   force it to null
+              fileName: null,
+              thumbnail: image
+                ? {
+                    ...(await loadAttachmentData(image)),
+                    objectUrl: getAbsoluteAttachmentPath(image.path),
+                  }
+                : null,
+            };
+          })
+      );
+    }
+
+    return [];
   }
 }
 

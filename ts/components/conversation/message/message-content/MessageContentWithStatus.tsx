@@ -44,6 +44,11 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
   }
 `;
 
+const StyledMessageContentWithAuthor = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const MessageContentWithStatuses = (props: Props) => {
   const contentProps = useSelector(state =>
     getMessageContentWithStatusesSelectorProps(state as any, props.messageId)
@@ -122,11 +127,11 @@ export const MessageContentWithStatuses = (props: Props) => {
           messageId={messageId}
           isCorrectSide={isIncoming}
         />
-        <div>
+        <StyledMessageContentWithAuthor>
           <MessageAuthorText messageId={messageId} />
 
           <MessageContent messageId={messageId} isDetailView={isDetailView} />
-        </div>
+        </StyledMessageContentWithAuthor>
         <MessageStatus
           dataTestId="msg-status-outgoing"
           messageId={messageId}

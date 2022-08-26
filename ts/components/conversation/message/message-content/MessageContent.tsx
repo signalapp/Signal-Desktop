@@ -28,6 +28,7 @@ import { MessagePreview } from './MessagePreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
+import styled from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -94,6 +95,24 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
     return;
   }
 }
+
+const radiusLg = '18px';
+const radiusSm = '4px';
+
+const StyledMessageContent = styled.div<{
+  isOutgoing: boolean;
+  firstOfSeries: boolean;
+  lastOfSeries: boolean;
+}>`
+  border-top-right-radius: ${props =>
+    props.isOutgoing ? (props.firstOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
+  border-bottom-right-radius: ${props =>
+    props.isOutgoing ? (props.lastOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
+  border-top-left-radius: ${props =>
+    !props.isOutgoing ? (props.firstOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
+  border-bottom-left-radius: ${props =>
+    !props.isOutgoing ? (props.lastOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
+`;
 
 export const IsMessageVisibleContext = createContext(false);
 
@@ -181,26 +200,25 @@ export const MessageContent = (props: Props) => {
 
   const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
+  // tslint:disable: use-simple-attributes
 
   return (
-    <div
+    <StyledMessageContent
       className={classNames(
         'module-message__container',
         `module-message__container--${direction}`,
         bgShouldBeTransparent
           ? `module-message__container--${direction}--transparent`
           : `module-message__container--${direction}--opaque`,
-        firstMessageOfSeries || props.isDetailView
-          ? `module-message__container--${direction}--first-of-series`
-          : '',
-        lastMessageOfSeries || props.isDetailView
-          ? `module-message__container--${direction}--last-of-series`
-          : '',
+
         flashGreen && 'flash-green-once'
       )}
       style={{
         width: isShowingImage ? width : undefined,
       }}
+      firstOfSeries={Boolean(firstMessageOfSeries || props.isDetailView)}
+      lastOfSeries={Boolean(lastMessageOfSeries || props.isDetailView)}
+      isOutgoing={direction === 'outgoing'}
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
@@ -235,7 +253,7 @@ export const MessageContent = (props: Props) => {
           ) : null}
         </IsMessageVisibleContext.Provider>
       </InView>
-    </div>
+    </StyledMessageContent>
   );
 };
 
