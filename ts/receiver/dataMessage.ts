@@ -79,34 +79,23 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
   }
 }
 
-export function isMessageEmpty(message: SignalService.DataMessage) {
-  const {
-    flags,
-    body,
-    attachments,
-    group,
-    quote,
-    preview,
-    openGroupInvitation,
-    reaction,
-  } = message;
+/**
+ * We separate the isMessageEmpty and the isMessageEmptyExceptReaction, because we
+ *  - sometimes want to drop a message only when it is completely empty,
+ *  - and sometimes only when the message is empty but have a reaction
+ */
+function isMessageEmpty(message: SignalService.DataMessage) {
+  const { reaction } = message;
 
-  return (
-    !flags &&
-    isEmpty(body) &&
-    isEmpty(attachments) &&
-    isEmpty(group) &&
-    isEmpty(quote) &&
-    isEmpty(preview) &&
-    isEmpty(openGroupInvitation) &&
-    isEmpty(reaction)
-  );
+  return isMessageEmptyExceptReaction(message) && isEmpty(reaction);
 }
 
 /**
- * Incoming sogs messages without reaction must be dropped when they are empty, so we had to separate this function and `isMessageEmpty`
+ * We separate the isMessageEmpty and the isMessageEmptyExceptReaction, because we
+ *  - sometimes want to drop a message only when it is completely empty,
+ *  - and sometimes only when the message is empty but have a reaction
  */
-export function isMessageEmptyNoReaction(message: SignalService.DataMessage) {
+export function isMessageEmptyExceptReaction(message: SignalService.DataMessage) {
   const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
 
   return (
