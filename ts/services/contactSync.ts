@@ -13,6 +13,7 @@ import type { ConversationModel } from '../models/conversations';
 import { validateConversation } from '../util/validateConversation';
 import { strictAssert } from '../util/assert';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
+import { normalizeUuid } from '../util/normalizeUuid';
 import * as log from '../logging/log';
 
 // When true - we are running the very first storage and contact sync after
@@ -78,11 +79,24 @@ const queue = new PQueue({ concurrency: 1 });
 
 async function doContactSync({
   contacts,
+  complete,
   receivedAtCounter,
 }: ContactSyncEvent): Promise<void> {
-  log.info(
-    `doContactSync(${receivedAtCounter}): got ${contacts.length} contacts`
-  );
+  // iOS sets `syncMessage.contacts.complete` flag to `true` unconditionally
+  // and so we have to employ tricks to figure out whether the sync is full or
+  // partial. Thankfully, iOS sends only two kinds of contact syncs: full or
+  // local sync. Local sync is always a single our own contact so we can do an
+  // UUID check.
+  const isFullSync =
+    complete &&
+    !(
+      contacts.length === 1 &&
+      normalizeUuid(contacts[0].uuid, 'doContactSync') ===
+        window.storage.user.getUuid()?.toString()
+    );
+
+  const logId = `doContactSync(${receivedAtCounter}, isFullSync=${isFullSync})`;
+  log.info(`${logId}: got ${contacts.length} contacts`);
 
   const updatedConversations = new Set<ConversationModel>();
 
@@ -97,7 +111,7 @@ async function doContactSync({
     const validationError = validateConversation(partialConversation);
     if (validationError) {
       log.error(
-        `doContactSync(${receivedAtCounter}): Invalid contact received`,
+        `${logId}: Invalid contact received`,
         Errors.toLogFormat(validationError)
       );
       continue;
@@ -106,32 +120,29 @@ async function doContactSync({
     const conversation = window.ConversationController.maybeMergeContacts({
       e164: details.number,
       aci: details.uuid,
-      reason: `doContactSync(${receivedAtCounter})`,
+      reason: logId,
     });
     strictAssert(conversation, 'need conversation to queue the job!');
 
     // It's important to use queueJob here because we might update the expiration timer
     //   and we don't want conflicts with incoming message processing happening on the
     //   conversation queue.
-    const job = conversation.queueJob(
-      `doContactSync(${receivedAtCounter}).set`,
-      async () => {
-        try {
-          await updateConversationFromContactSync(
-            conversation,
-            details,
-            receivedAtCounter
-          );
+    const job = conversation.queueJob(`${logId}.set`, async () => {
+      try {
+        await updateConversationFromContactSync(
+          conversation,
+          details,
+          receivedAtCounter
+        );
 
-          updatedConversations.add(conversation);
-        } catch (error) {
-          log.error(
-            'updateConversationFromContactSync error:',
-            Errors.toLogFormat(error)
-          );
-        }
+        updatedConversations.add(conversation);
+      } catch (error) {
+        log.error(
+          'updateConversationFromContactSync error:',
+          Errors.toLogFormat(error)
+        );
       }
-    );
+    });
 
     promises.push(job);
   }
@@ -140,15 +151,19 @@ async function doContactSync({
   await Promise.all(promises);
   promises = [];
 
-  const notUpdated = window.ConversationController.getAll().filter(
-    convo =>
-      !updatedConversations.has(convo) &&
-      isDirectConversation(convo.attributes) &&
-      !isMe(convo.attributes)
-  );
+  // Erase data in conversations that are not the part of contact sync only
+  // if we received a full contact sync (and not a one-off contact update).
+  const notUpdated = isFullSync
+    ? window.ConversationController.getAll().filter(
+        convo =>
+          !updatedConversations.has(convo) &&
+          isDirectConversation(convo.attributes) &&
+          !isMe(convo.attributes)
+      )
+    : [];
 
   log.info(
-    `doContactSync(${receivedAtCounter}): ` +
+    `${logId}: ` +
       `updated ${updatedConversations.size} ` +
       `resetting ${notUpdated.length}`
   );

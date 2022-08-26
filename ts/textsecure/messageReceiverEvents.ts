@@ -76,6 +76,7 @@ export class ErrorEvent extends Event {
 export class ContactSyncEvent extends Event {
   constructor(
     public readonly contacts: ReadonlyArray<ModifiedContactDetails>,
+    public readonly complete: boolean,
     public readonly receivedAtCounter: number
   ) {
     super('contactSync');
