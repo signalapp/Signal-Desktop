@@ -15,7 +15,7 @@ type ButtonSettingsProps = {
   onClick: () => void;
 };
 
-const StyledDescription = styled.div`
+export const StyledDescriptionSettingsItem = styled.div`
   font-family: var(--font-default);
   font-size: var(--font-size-sm);
   font-weight: 400;
@@ -23,7 +23,7 @@ const StyledDescription = styled.div`
   color: var(--color-text-subtle);
 `;
 
-const StyledTitle = styled.div`
+export const StyledTitleSettingsItem = styled.div`
   line-height: 1.7;
   font-size: var(--font-size-lg);
   font-weight: bold;
@@ -33,7 +33,7 @@ const StyledInfo = styled.div`
   padding-inline-end: var(--margins-lg);
 `;
 
-const StyledDescriptionContainer = styled(StyledDescription)`
+const StyledDescriptionContainer = styled(StyledDescriptionSettingsItem)`
   display: flex;
   align-items: center;
 `;
@@ -69,9 +69,11 @@ export const SettingsTitleAndDescription = (props: {
   const { description, childrenDescription, title } = props;
   return (
     <StyledInfo>
-      <StyledTitle>{title}</StyledTitle>
+      <StyledTitleSettingsItem>{title}</StyledTitleSettingsItem>
       <StyledDescriptionContainer>
-        {description && <StyledDescription>{description}</StyledDescription>}
+        {description && (
+          <StyledDescriptionSettingsItem>{description}</StyledDescriptionSettingsItem>
+        )}
         <>{childrenDescription}</>
       </StyledDescriptionContainer>
     </StyledInfo>

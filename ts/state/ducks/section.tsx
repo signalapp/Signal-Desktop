@@ -91,8 +91,8 @@ export const actions = {
 };
 
 export const initialSectionState: SectionStateType = {
-  focusedSection: SectionType.Message,
-  focusedSettingsSection: undefined,
+  focusedSection: SectionType.Settings,
+  focusedSettingsSection: SessionSettingCategory.Appearance,
   isAppFocused: false,
   overlayMode: undefined,
 };

@@ -18,7 +18,6 @@ import {
   getOurPrimaryConversation,
   getUnreadMessageCount,
 } from '../../state/selectors/conversations';
-import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
 import { clearSearch } from '../../state/ducks/search';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
@@ -39,7 +38,6 @@ import { debounce, isEmpty, isString } from 'lodash';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
-import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
 import { loadDefaultRooms } from '../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
@@ -57,6 +55,7 @@ import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
 import { SettingsKey } from '../../data/settings-key';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
+import { switchThemeTo } from '../../session/utils/Theme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -67,22 +66,15 @@ const Section = (props: { type: SectionType }) => {
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
-  const handleClick = () => {
+  const handleClick = async () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.Moon) {
-      const themeFromSettings = window.Events.getThemeSetting();
-      const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
-      window.setTheme(updatedTheme);
-      if (updatedTheme === 'dark') {
-        switchHtmlToDarkTheme();
-      } else {
-        switchHtmlToLightTheme();
-      }
+      const currentTheme = window.Events.getThemeSetting();
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-      const newThemeObject = updatedTheme === 'dark' ? 'dark' : 'light';
-      dispatch(applyTheme(newThemeObject));
+      await switchThemeTo(newTheme, dispatch);
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
       dispatch(onionPathModal({}));
@@ -163,16 +155,9 @@ const cleanUpMediasInterval = DURATION.MINUTES * 60;
 // * if there is a version on the fileserver more recent than our current, we fetch github to get the UpdateInfos and trigger an update as usual (asking user via dialog)
 const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
 
-const setupTheme = () => {
+const setupTheme = async () => {
   const theme = window.Events.getThemeSetting();
-  window.setTheme(theme);
-  if (theme === 'dark') {
-    switchHtmlToDarkTheme();
-  } else {
-    switchHtmlToLightTheme();
-  }
-  const newThemeObject = theme === 'dark' ? 'dark' : 'light';
-  window?.inboxStore?.dispatch(applyTheme(newThemeObject));
+  await switchThemeTo(theme, window?.inboxStore?.dispatch || null);
 };
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message

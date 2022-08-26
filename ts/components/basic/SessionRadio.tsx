@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { Flex } from '../basic/Flex';
 // tslint:disable: react-unused-props-and-state
 
@@ -11,37 +11,43 @@ type Props = {
   onClick?: (value: string) => void;
 };
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{
+  filledSize: number;
+  outlineOffset: number;
+  selectedColor: string;
+}>`
   opacity: 0;
   position: absolute;
   cursor: pointer;
-  width: calc(var(--filled-size) + var(--outline-offset));
-  height: calc(var(--filled-size) + var(--outline-offset));
+  width: ${props => props.filledSize + props.outlineOffset}px;
+  height: ${props => props.filledSize + props.outlineOffset}px;
 
   :checked + label:before,
   :hover + label:before {
-    background: var(--color-accent);
+    background: ${props => props.selectedColor};
   }
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{
+  selectedColor: string;
+  filledSize: number;
+  outlineOffset: number;
+}>`
   cursor: pointer;
 
   :before {
     content: '';
     display: inline-block;
-    margin-inline-end: var(--filled-size);
     border-radius: 100%;
 
     transition: var(--default-duration);
-    padding: calc(var(--filled-size) / 2);
-    outline-offset: 2px;
+    padding: ${props => props.filledSize}px;
     outline: var(--color-text) solid 1px;
     border: none;
-    margin-top: var(--filled-size);
+    outline-offset: ${props => props.outlineOffset}px;
 
     :hover {
-      background: var(--color-accent);
+      background: ${props => props.selectedColor};
     }
   }
 `;
@@ -53,20 +59,16 @@ export const SessionRadio = (props: Props) => {
     if (onClick) {
       // let something else catch the event if our click handler is not set
       e.stopPropagation();
-      onClick?.(value);
+      onClick(value);
     }
   }
 
+  const selectedColor = 'var(--color-accent)';
+  const filledSize = 15 / 2;
+  const outlineOffset = 2;
+
   return (
-    <Flex
-      container={true}
-      padding="0 0 5px"
-      style={
-        {
-          '--filled-size': '15px',
-        } as CSSProperties
-      }
-    >
+    <Flex container={true} padding="0 0 0 var(--margins-lg)">
       <StyledInput
         type="radio"
         name={inputName || ''}
@@ -74,11 +76,85 @@ export const SessionRadio = (props: Props) => {
         aria-checked={active}
         checked={active}
         onChange={clickHandler}
+        filledSize={filledSize}
+        outlineOffset={outlineOffset}
+        selectedColor={selectedColor}
       />
 
-      <StyledLabel role="button" onClick={clickHandler}>
+      <StyledLabel
+        role="button"
+        onClick={clickHandler}
+        selectedColor={selectedColor}
+        filledSize={filledSize}
+        outlineOffset={outlineOffset}
+      >
         {label}
       </StyledLabel>
+    </Flex>
+  );
+};
+
+const StyledInputOutlineSelected = styled(StyledInput)`
+  label:before,
+  label:before {
+    outline: none;
+  }
+  :checked + label:before {
+    outline: var(--color-text) solid 1px;
+  }
+`;
+const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`
+  :before {
+    background: ${props => props.selectedColor};
+    outline: #0000 solid 1px;
+  }
+`;
+
+/**
+ * Keeping this component here so we can reuse the `StyledInput` and `StyledLabel` defined locally rather than exporting them
+ */
+export const SessionRadioPrimaryColors = (props: {
+  value: string;
+  active: boolean;
+  inputName?: string;
+  onClick: (value: string) => void;
+  ariaLabel: string;
+  color: string; // by default, we use the theme accent color but for the settings screen we need to be able to force it
+}) => {
+  const { inputName, value, active, onClick, color, ariaLabel } = props;
+
+  function clickHandler(e: ChangeEvent<any>) {
+    e.stopPropagation();
+    onClick(value);
+  }
+
+  const filledSize = 31 / 2;
+  const outlineOffset = 5;
+
+  return (
+    <Flex container={true} padding="0 0 5px 0">
+      <StyledInputOutlineSelected
+        type="radio"
+        name={inputName || ''}
+        value={value}
+        aria-checked={active}
+        checked={active}
+        onChange={clickHandler}
+        filledSize={filledSize}
+        outlineOffset={outlineOffset}
+        selectedColor={color}
+        aria-label={ariaLabel}
+      />
+
+      <StyledLabelOutlineSelected
+        role="button"
+        onClick={clickHandler}
+        selectedColor={color}
+        filledSize={filledSize}
+        outlineOffset={outlineOffset}
+      >
+        {''}
+      </StyledLabelOutlineSelected>
     </Flex>
   );
 };

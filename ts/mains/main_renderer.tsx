@@ -169,7 +169,7 @@ Storage.onready(async () => {
 
   const themeSetting = window.Events.getThemeSetting();
   const newThemeSetting = mapOldThemeToNew(themeSetting);
-  window.Events.setThemeSetting(newThemeSetting);
+  await window.Events.setThemeSetting(newThemeSetting);
 
   try {
     initialiseEmojiData(nativeEmojiData);
@@ -281,8 +281,8 @@ async function start() {
   // tslint:disable-next-line: restrict-plus-operands
   const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
 
-  window.setTheme = newTheme => {
-    window.Events.setThemeSetting(newTheme);
+  window.setTheme = async newTheme => {
+    await window.Events.setThemeSetting(newTheme);
   };
 
   window.toggleMenuBar = () => {
