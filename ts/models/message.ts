@@ -94,6 +94,7 @@ import {
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
 import { ReactionList } from '../types/Reaction';
+import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -779,6 +780,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));
+
+    const { hasAttachments, hasVisualMediaAttachments, hasFileAttachments } = getAttachmentMetadata(
+      this
+    );
+    this.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
+    await this.commit();
 
     const conversation = this.getConversation();
 
