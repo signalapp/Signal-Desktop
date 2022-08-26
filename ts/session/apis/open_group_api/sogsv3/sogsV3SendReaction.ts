@@ -6,6 +6,12 @@ import { hitRateLimit } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
+import {
+  addToMutationCache,
+  ChangeType,
+  SogsV3Mutation,
+  updateMutationCache,
+} from './sogsV3MutationCache';
 
 export const hasReactionSupport = async (serverId: number): Promise<boolean> => {
   const found = await Data.getMessageByServerId(serverId);
@@ -57,6 +63,20 @@ export const sendSogsReactionOnionV4 = async (
   const method = reaction.action === Action.REACT ? 'PUT' : 'DELETE';
   const serverPubkey = allValidRoomInfos[0].serverPublicKey;
 
+  const cacheEntry: SogsV3Mutation = {
+    server: serverUrl,
+    room: room,
+    changeType: ChangeType.REACTIONS,
+    seqno: null,
+    metadata: {
+      messageId: reaction.id,
+      emoji,
+      action: reaction.action === Action.REACT ? 'ADD' : 'REMOVE',
+    },
+  };
+
+  addToMutationCache(cacheEntry);
+
   // reaction endpoint requires an empty dict {}
   const stringifiedBody = null;
   const result = await OnionSending.sendJsonViaOnionV4ToSogs({
@@ -93,5 +113,11 @@ export const sendSogsReactionOnionV4 = async (
     `reaction on ${serverUrl}/${room}`
   );
   const success = Boolean(reaction.action === Action.REACT ? rawMessage.added : rawMessage.removed);
+
+  if (success && rawMessage.seqno) {
+    cacheEntry.seqno = rawMessage.seqno;
+    updateMutationCache(cacheEntry);
+  }
+
   return success;
 };
