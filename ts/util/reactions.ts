@@ -101,7 +101,7 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
     let action: Action = Action.REACT;
 
     const reacts = found.get('reacts');
-    if (reacts && Object.keys(reacts).includes(emoji) && reacts[emoji].senders.includes(me)) {
+    if (reacts?.[emoji]?.senders?.includes(me)) {
       window.log.info('Found matching reaction removing it');
       action = Action.REMOVE;
     } else {
@@ -179,7 +179,7 @@ export const handleMessageReaction = async (
       break;
     case Action.REMOVE:
     default:
-      if (senders && senders.length > 0) {
+      if (senders?.length > 0) {
         const sendersIndex = senders.indexOf(sender);
         if (sendersIndex >= 0) {
           details.senders.splice(sendersIndex, 1);
@@ -240,12 +240,12 @@ export const handleOpenGroupMessageReactions = async (
       const you = reactions[key].you || false;
 
       if (you) {
-        if (reactions[key].reactors && reactions[key].reactors.length > 0) {
+        if (reactions[key]?.reactors.length > 0) {
           const reactorsWithoutMe = reactions[key].reactors.filter(
             reactor => !isUsAnySogsFromCache(reactor)
           );
 
-          // If you aren't included in the reactors then remove the extra reactor to match with the SOGSReactorsFetchCount.
+          // If we aren't included in the reactors then remove the extra reactor to match with the SOGSReactorsFetchCount.
           if (reactorsWithoutMe.length === SOGSReactorsFetchCount) {
             reactorsWithoutMe.pop();
           }

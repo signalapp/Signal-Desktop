@@ -76,7 +76,7 @@ export function initialiseEmojiData(data: any) {
 }
 
 // Synchronous version of Emoji Mart's SearchIndex.search()
-// If you upgrade the package things will probably break
+// If we upgrade the package things will probably break
 export function searchSync(query: string, args?: any): Array<any> {
   if (!nativeEmojiData) {
     window.log.error('No native emoji data found');
