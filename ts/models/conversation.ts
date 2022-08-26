@@ -479,10 +479,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
   }
 
-  public async getUnread() {
-    return Data.getUnreadByConversation(this.id);
-  }
-
   public async getUnreadCount() {
     const unreadCount = await Data.getUnreadCountByConversation(this.id);
 
@@ -1906,6 +1902,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.typingTimer = isTyping
       ? global.setTimeout(this.clearContactTypingTimer.bind(this, sender), 15 * 1000)
       : null;
+  }
+
+  private async getUnread() {
+    return Data.getUnreadByConversation(this.id);
   }
 
   /**
