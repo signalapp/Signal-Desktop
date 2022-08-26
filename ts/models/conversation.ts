@@ -89,12 +89,10 @@ import { addMessagePadding } from '../session/crypto/BufferPadding';
 import { getSodiumRenderer } from '../session/crypto';
 import {
   findCachedOurBlindedPubkeyOrLookItUp,
-  getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
-import { handleMessageReaction } from '../util/reactions';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -678,8 +676,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         throw new Error('Only opengroupv2 are supported now');
       }
 
-      let sender = UserUtils.getOurPubKeyStrFromCache();
-
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
         body: '',
@@ -697,7 +693,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.id.startsWith('15')) {
         window.log.info('Sending a blinded message to this user: ', this.id);
-        // TODO confirm this works with Reacts
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
       }
@@ -725,26 +720,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
         const blinded = Boolean(roomHasBlindEnabled(openGroup));
 
-        if (blinded) {
-          const blindedSender = getUsBlindedInThatServer(this);
-          if (blindedSender) {
-            sender = blindedSender;
-          }
-        }
-
-        await handleMessageReaction(reaction, sender, true);
-
         // send with blinding if we need to
         await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos, blinded, []);
         return;
-      } else {
-        await handleMessageReaction(reaction, sender, false);
       }
 
       const destinationPubkey = new PubKey(destination);
 
       if (this.isPrivate()) {
-        // TODO is this still fine without isMe?
         const chatMessageMe = new VisibleMessage({
           ...chatMessageParams,
           syncTarget: this.id,

@@ -319,17 +319,12 @@ async function handleSwarmMessage(
 
   void convoToAddMessageTo.queueJob(async () => {
     // this call has to be made inside the queueJob!
-    if (!msgModel.get('isPublic') && rawDataMessage.reaction && rawDataMessage.syncTarget) {
-      await handleMessageReaction(
-        rawDataMessage.reaction,
-        msgModel.get('source'),
-        false,
-        messageHash
-      );
+    // We handle reaction DataMessages separately
+    if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
+      await handleMessageReaction(rawDataMessage.reaction, msgModel.get('source'));
       confirm();
       return;
     }
-
     const isDuplicate = await isSwarmMessageDuplicate({
       source: msgModel.get('source'),
       sentAt,

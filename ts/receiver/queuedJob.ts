@@ -16,7 +16,6 @@ import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { handleMessageReaction } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
 
 function contentTypeSupported(type: string): boolean {
@@ -341,8 +340,6 @@ export async function handleMessageJob(
   );
 
   if (!messageModel.get('isPublic') && regularDataMessage.reaction) {
-    await handleMessageReaction(regularDataMessage.reaction, source, false, messageHash);
-
     if (
       regularDataMessage.reaction.action === Action.REACT &&
       conversation.isPrivate() &&

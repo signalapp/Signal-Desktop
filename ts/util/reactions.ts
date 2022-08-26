@@ -2,42 +2,58 @@ import { isEmpty } from 'lodash';
 import { Data } from '../data/data';
 import { MessageModel } from '../models/message';
 import { SignalService } from '../protobuf';
-import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import {
+  getUsBlindedInThatServer,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
 import { getRecentReactions, saveRecentReations } from '../util/storage';
 
+export const SOGSReactorsFetchCount = 5;
 const rateCountLimit = 20;
 const rateTimeLimit = 60 * 1000;
 const latestReactionTimestamps: Array<number> = [];
+
+export function hitRateLimit(): boolean {
+  const timestamp = Date.now();
+  latestReactionTimestamps.push(timestamp);
+
+  if (latestReactionTimestamps.length > rateCountLimit) {
+    const firstTimestamp = latestReactionTimestamps[0];
+    if (timestamp - firstTimestamp < rateTimeLimit) {
+      latestReactionTimestamps.pop();
+      window.log.warn('Only 20 reactions are allowed per minute');
+      return true;
+    } else {
+      latestReactionTimestamps.shift();
+    }
+  }
+  return false;
+}
 
 /**
  * Retrieves the original message of a reaction
  */
 const getMessageByReaction = async (
-  reaction: SignalService.DataMessage.IReaction,
-  isOpenGroup: boolean
+  reaction: SignalService.DataMessage.IReaction
 ): Promise<MessageModel | null> => {
   let originalMessage = null;
   const originalMessageId = Number(reaction.id);
   const originalMessageAuthor = reaction.author;
 
-  if (isOpenGroup) {
-    originalMessage = await Data.getMessageByServerId(originalMessageId);
-  } else {
-    const collection = await Data.getMessagesBySentAt(originalMessageId);
-    originalMessage = collection.find((item: MessageModel) => {
-      const messageTimestamp = item.get('sent_at');
-      const author = item.get('source');
-      return Boolean(
-        messageTimestamp &&
-          messageTimestamp === originalMessageId &&
-          author &&
-          author === originalMessageAuthor
-      );
-    });
-  }
+  const collection = await Data.getMessagesBySentAt(originalMessageId);
+  originalMessage = collection.find((item: MessageModel) => {
+    const messageTimestamp = item.get('sent_at');
+    const author = item.get('source');
+    return Boolean(
+      messageTimestamp &&
+        messageTimestamp === originalMessageId &&
+        author &&
+        author === originalMessageAuthor
+    );
+  });
 
   if (!originalMessage) {
     window?.log?.warn(`Cannot find the original reacted message ${originalMessageId}.`);
@@ -48,7 +64,7 @@ const getMessageByReaction = async (
 };
 
 /**
- * Sends a Reaction Data Message, don't use for OpenGroups
+ * Sends a Reaction Data Message
  */
 export const sendMessageReaction = async (messageId: string, emoji: string) => {
   const found = await Data.getMessageById(messageId);
@@ -64,34 +80,29 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
       return;
     }
 
-    const timestamp = Date.now();
-    latestReactionTimestamps.push(timestamp);
+    if (hitRateLimit()) {
+      return;
+    }
 
-    if (latestReactionTimestamps.length > rateCountLimit) {
-      const firstTimestamp = latestReactionTimestamps[0];
-      if (timestamp - firstTimestamp < rateTimeLimit) {
-        latestReactionTimestamps.pop();
-        return;
+    let me = UserUtils.getOurPubKeyStrFromCache();
+    let id = Number(found.get('sent_at'));
+
+    if (found.get('isPublic')) {
+      if (found.get('serverId')) {
+        id = found.get('serverId') || id;
+        me = getUsBlindedInThatServer(conversationModel) || me;
       } else {
-        latestReactionTimestamps.shift();
+        window.log.warn(`Server Id was not found in message ${messageId} for opengroup reaction`);
+        return;
       }
     }
 
-    const isOpenGroup = Boolean(found?.get('isPublic'));
-    const id = (isOpenGroup && found.get('serverId')) || Number(found.get('sent_at'));
-    const me =
-      (isOpenGroup && getUsBlindedInThatServer(conversationModel)) ||
-      UserUtils.getOurPubKeyStrFromCache();
     const author = found.get('source');
     let action: Action = Action.REACT;
 
     const reacts = found.get('reacts');
-    if (
-      reacts &&
-      Object.keys(reacts).includes(emoji) &&
-      Object.keys(reacts[emoji].senders).includes(me)
-    ) {
-      window.log.info('found matching reaction removing it');
+    if (reacts?.[emoji]?.senders?.includes(me)) {
+      window.log.info('Found matching reaction removing it');
       action = Action.REMOVE;
     } else {
       const reactions = getRecentReactions();
@@ -124,27 +135,32 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
 
 /**
  * Handle reactions on the client by updating the state of the source message
+ * Do not use for Open Groups
  */
 export const handleMessageReaction = async (
   reaction: SignalService.DataMessage.IReaction,
-  sender: string,
-  isOpenGroup: boolean,
-  messageId?: string
+  sender: string
 ) => {
   if (!reaction.emoji) {
-    window?.log?.warn(`There is no emoji for the reaction ${messageId}.`);
+    window?.log?.warn(`There is no emoji for the reaction ${reaction}.`);
     return;
   }
 
-  const originalMessage = await getMessageByReaction(reaction, isOpenGroup);
+  const originalMessage = await getMessageByReaction(reaction);
   if (!originalMessage) {
     return;
   }
 
+  if (originalMessage.get('isPublic')) {
+    window.log.warn("handleMessageReaction() shouldn't be used in opengroups");
+    return;
+  }
+
   const reacts: ReactionList = originalMessage.get('reacts') ?? {};
-  reacts[reaction.emoji] = reacts[reaction.emoji] || { count: null, senders: {} };
+  reacts[reaction.emoji] = reacts[reaction.emoji] || { count: null, senders: [] };
   const details = reacts[reaction.emoji] ?? {};
-  const senders = Object.keys(details.senders);
+  const senders = details.senders;
+  let count = details.count || 0;
 
   window.log.info(
     `${sender} ${reaction.action === Action.REACT ? 'added' : 'removed'} a ${
@@ -153,33 +169,30 @@ export const handleMessageReaction = async (
   );
 
   switch (reaction.action) {
-    case SignalService.DataMessage.Reaction.Action.REACT:
-      if (senders.includes(sender) && details.senders[sender] !== '') {
-        window?.log?.info(
-          'Received duplicate message reaction. Dropping it. id:',
-          details.senders[sender]
-        );
+    case Action.REACT:
+      if (senders.includes(sender)) {
+        window.log.warn('Received duplicate reaction message. Ignoring it', reaction, sender);
         return;
       }
-      details.senders[sender] = messageId ?? '';
+      details.senders.push(sender);
+      count += 1;
       break;
-    case SignalService.DataMessage.Reaction.Action.REMOVE:
+    case Action.REMOVE:
     default:
-      if (senders.length > 0) {
-        if (senders.indexOf(sender) >= 0) {
-          // tslint:disable-next-line: no-dynamic-delete
-          delete details.senders[sender];
+      if (senders?.length > 0) {
+        const sendersIndex = senders.indexOf(sender);
+        if (sendersIndex >= 0) {
+          details.senders.splice(sendersIndex, 1);
+          count -= 1;
         }
       }
   }
 
-  const count = Object.keys(details.senders).length;
   if (count > 0) {
     reacts[reaction.emoji].count = count;
     reacts[reaction.emoji].senders = details.senders;
 
-    // sorting for open groups convos is handled by SOGS
-    if (!isOpenGroup && details && details.index === undefined) {
+    if (details && details.index === undefined) {
       reacts[reaction.emoji].index = originalMessage.get('reactsIndex') ?? 0;
       originalMessage.set('reactsIndex', (originalMessage.get('reactsIndex') ?? 0) + 1);
     }
@@ -197,7 +210,7 @@ export const handleMessageReaction = async (
 };
 
 /**
- * Handle all updates to messages reactions from the SOGS API
+ * Handles all message reaction updates for opengroups
  */
 export const handleOpenGroupMessageReactions = async (
   reactions: OpenGroupReactionList,
@@ -206,6 +219,11 @@ export const handleOpenGroupMessageReactions = async (
   const originalMessage = await Data.getMessageByServerId(serverId);
   if (!originalMessage) {
     window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
+    return;
+  }
+
+  if (!originalMessage.get('isPublic')) {
+    window.log.warn('handleOpenGroupMessageReactions() should only be used in opengroups');
     return;
   }
 
@@ -219,11 +237,39 @@ export const handleOpenGroupMessageReactions = async (
     const reacts: ReactionList = {};
     Object.keys(reactions).forEach(key => {
       const emoji = decodeURI(key);
-      const senders: Record<string, string> = {};
+      const you = reactions[key].you || false;
+
+      if (you) {
+        if (reactions[key]?.reactors.length > 0) {
+          const reactorsWithoutMe = reactions[key].reactors.filter(
+            reactor => !isUsAnySogsFromCache(reactor)
+          );
+
+          // If we aren't included in the reactors then remove the extra reactor to match with the SOGSReactorsFetchCount.
+          if (reactorsWithoutMe.length === SOGSReactorsFetchCount) {
+            reactorsWithoutMe.pop();
+          }
+
+          const conversationModel = originalMessage?.getConversation();
+          if (conversationModel) {
+            const me =
+              getUsBlindedInThatServer(conversationModel) || UserUtils.getOurPubKeyStrFromCache();
+            reactions[key].reactors = [me, ...reactorsWithoutMe];
+          }
+        }
+      }
+
+      const senders: Array<string> = [];
       reactions[key].reactors.forEach(reactor => {
-        senders[reactor] = String(serverId);
+        senders.push(reactor);
       });
-      reacts[emoji] = { count: reactions[key].count, index: reactions[key].index, senders };
+
+      reacts[emoji] = {
+        count: reactions[key].count,
+        index: reactions[key].index,
+        senders,
+        you,
+      };
     });
 
     originalMessage.set({

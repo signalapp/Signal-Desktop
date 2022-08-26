@@ -2,6 +2,7 @@ import { AbortSignal } from 'abort-controller';
 import { Data } from '../../../../data/data';
 import { Action, OpenGroupReactionResponse, Reaction } from '../../../../types/Reaction';
 import { getEmojiDataFromNative } from '../../../../util/emoji';
+import { hitRateLimit } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
@@ -45,7 +46,12 @@ export const sendSogsReactionOnionV4 = async (
     return false;
   }
 
-  // for an invalid reaction we use https://emojipedia.org/frame-with-an-x/ as a replacement since it cannot rendered as an emoji
+  if (hitRateLimit()) {
+    return false;
+  }
+
+  // The SOGS endpoint supports any text input so we need to make sure we are sending a valid unicode emoji
+  // for an invalid input we use https://emojipedia.org/frame-with-an-x/ as a replacement since it cannot rendered as an emoji but is valid unicode
   const emoji = getEmojiDataFromNative(reaction.emoji) ? reaction.emoji : '🖾';
   const endpoint = `/room/${room}/reaction/${reaction.id}/${emoji}`;
   const method = reaction.action === Action.REACT ? 'PUT' : 'DELETE';

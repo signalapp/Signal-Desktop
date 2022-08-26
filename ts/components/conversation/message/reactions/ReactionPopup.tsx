@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { PubKey } from '../../../../session/types/PubKey';
 import { nativeEmojiData } from '../../../../util/emoji';
-import { readableList } from '../../../../util/readableList';
 
 export type TipPosition = 'center' | 'left' | 'right';
 
@@ -59,8 +58,11 @@ const StyledOthers = styled.span`
   color: var(--color-accent);
 `;
 
-const generateContacts = async (messageId: string, senders: Array<string>) => {
-  let results = null;
+const generateContactsString = async (
+  messageId: string,
+  senders: Array<string>
+): Promise<Array<string> | null> => {
+  let results = [];
   const message = await Data.getMessageById(messageId);
   if (message) {
     let meIndex = -1;
@@ -75,53 +77,71 @@ const generateContacts = async (messageId: string, senders: Array<string>) => {
       results.splice(meIndex, 1);
       results = [window.i18n('you'), ...results];
     }
+    if (results && results.length > 0) {
+      return results;
+    }
   }
-  return results;
+  return null;
 };
 
-const Contacts = (contacts: string) => {
-  if (!contacts) {
+const Contacts = (contacts: Array<string>, count: number) => {
+  if (!Boolean(contacts?.length > 0)) {
     return;
   }
 
-  if (contacts.includes('&') && contacts.includes('other')) {
-    const [names, others] = contacts.split('&');
+  const reactors = contacts.length;
+  if (reactors === 1 || reactors === 2 || reactors === 3) {
     return (
       <span>
-        {names} & <StyledOthers>{others}</StyledOthers> {window.i18n('reactionTooltip')}
+        {window.i18n(
+          reactors === 1
+            ? 'reactionPopupOne'
+            : reactors === 2
+            ? 'reactionPopupTwo'
+            : 'reactionPopupThree',
+          contacts
+        )}{' '}
+        {window.i18n('reactionPopup')}
       </span>
     );
+  } else if (reactors > 3) {
+    return (
+      <span>
+        {window.i18n('reactionPopupMany', [contacts[0], contacts[1], contacts[3]])}{' '}
+        <StyledOthers>
+          {window.i18n(reactors === 4 ? 'otherSingular' : 'otherPlural', [`${count - 3}`])}
+        </StyledOthers>{' '}
+        {window.i18n('reactionPopup')}
+      </span>
+    );
+  } else {
+    return null;
   }
-
-  return (
-    <span>
-      {contacts} {window.i18n('reactionTooltip')}
-    </span>
-  );
 };
 
 type Props = {
   messageId: string;
   emoji: string;
+  count: number;
   senders: Array<string>;
   tooltipPosition?: TipPosition;
   onClick: (...args: Array<any>) => void;
 };
 
 export const ReactionPopup = (props: Props): ReactElement => {
-  const { messageId, emoji, senders, tooltipPosition = 'center', onClick } = props;
+  const { messageId, emoji, count, senders, tooltipPosition = 'center', onClick } = props;
 
-  const [contacts, setContacts] = useState('');
+  const [contacts, setContacts] = useState<Array<string>>([]);
 
   useEffect(() => {
     let isCancelled = false;
-    generateContacts(messageId, senders)
+    generateContactsString(messageId, senders)
       .then(async results => {
         if (isCancelled) {
           return;
         }
-        if (results && results.length > 0) {
-          setContacts(readableList(results));
+        if (results) {
+          setContacts(results);
         }
       })
       .catch(() => {
@@ -133,11 +153,11 @@ export const ReactionPopup = (props: Props): ReactElement => {
     return () => {
       isCancelled = true;
     };
-  }, [generateContacts]);
+  }, [count, messageId, senders]);
 
   return (
     <StyledPopupContainer tooltipPosition={tooltipPosition} onClick={onClick}>
-      {Contacts(contacts)}
+      {Contacts(contacts, count)}
       <StyledEmoji role={'img'} aria-label={nativeEmojiData?.ariaLabels?.[emoji]}>
         {emoji}
       </StyledEmoji>
