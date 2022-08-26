@@ -570,11 +570,6 @@ type SetOutgoingRingActionType = {
   payload: boolean;
 };
 
-type ShowCallLobbyActionType = {
-  type: 'calling/START_CALLING_LOBBY';
-  payload: StartCallingLobbyPayloadType;
-};
-
 type StartDirectCallActionType = {
   type: 'calling/START_DIRECT_CALL';
   payload: StartDirectCallType;
@@ -636,7 +631,6 @@ export type CallingActionType =
   | SetLocalVideoFulfilledActionType
   | SetPresentingSourcesActionType
   | SetOutgoingRingActionType
-  | ShowCallLobbyActionType
   | StartDirectCallActionType
   | ToggleNeedsScreenRecordingPermissionsActionType
   | ToggleParticipantsActionType

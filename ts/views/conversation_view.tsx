@@ -113,6 +113,9 @@ import { sendDeleteForEveryoneMessage } from '../util/sendDeleteForEveryoneMessa
 import { SECOND } from '../util/durations';
 import { blockSendUntilConversationsAreVerified } from '../util/blockSendUntilConversationsAreVerified';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
+import { getOwn } from '../util/getOwn';
+import { CallMode } from '../types/Calling';
+import { isAnybodyElseInGroupCall } from '../state/ducks/calling';
 
 type AttachmentOptions = {
   messageId: string;
@@ -650,9 +653,28 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   async onOutgoingVideoCallInConversation(): Promise<void> {
     log.info('onOutgoingVideoCallInConversation: about to start a video call');
 
+    // if it's a group call on an announcementsOnly group
+    // only allow join if the call has already been started (presumably by the admin)
     if (this.model.get('announcementsOnly') && !this.model.areWeAdmin()) {
-      showToast(ToastCannotStartGroupCall);
-      return;
+      const call = getOwn(
+        window.reduxStore.getState().calling.callsByConversation,
+        this.model.id
+      );
+
+      // technically not necessary, but isAnybodyElseInGroupCall requires it
+      const ourUuid = window.storage.user.getCheckedUuid().toString();
+
+      const isOngoingGroupCall =
+        call &&
+        ourUuid &&
+        call.callMode === CallMode.Group &&
+        call.peekInfo &&
+        isAnybodyElseInGroupCall(call.peekInfo, ourUuid);
+
+      if (!isOngoingGroupCall) {
+        showToast(ToastCannotStartGroupCall);
+        return;
+      }
     }
 
     if (await this.isCallSafe()) {
