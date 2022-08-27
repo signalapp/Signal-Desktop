@@ -139,7 +139,8 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
  */
 export const handleMessageReaction = async (
   reaction: SignalService.DataMessage.IReaction,
-  sender: string
+  sender: string,
+  you: boolean
 ) => {
   if (!reaction.emoji) {
     window?.log?.warn(`There is no emoji for the reaction ${reaction}.`);
@@ -151,22 +152,27 @@ export const handleMessageReaction = async (
     return;
   }
 
-  if (originalMessage.get('isPublic')) {
-    window.log.warn("handleMessageReaction() shouldn't be used in opengroups");
-    return;
-  }
-
   const reacts: ReactionList = originalMessage.get('reacts') ?? {};
   reacts[reaction.emoji] = reacts[reaction.emoji] || { count: null, senders: [] };
   const details = reacts[reaction.emoji] ?? {};
   const senders = details.senders;
   let count = details.count || 0;
 
-  window.log.info(
-    `${sender} ${reaction.action === Action.REACT ? 'added' : 'removed'} a ${
-      reaction.emoji
-    } reaction`
-  );
+  if (originalMessage.get('isPublic')) {
+    window.log.warn("handleMessageReaction() shouldn't be used in opengroups");
+    return;
+  } else {
+    if (details.you && senders.includes(sender)) {
+      if (reaction.action === Action.REACT) {
+        window.log.warn('Received duplicate message for your reaction. Ignoring it');
+        return;
+      } else {
+        details.you = false;
+      }
+    } else {
+      details.you = you;
+    }
+  }
 
   switch (reaction.action) {
     case Action.REACT:
@@ -191,6 +197,7 @@ export const handleMessageReaction = async (
   if (count > 0) {
     reacts[reaction.emoji].count = count;
     reacts[reaction.emoji].senders = details.senders;
+    reacts[reaction.emoji].you = details.you;
 
     if (details && details.index === undefined) {
       reacts[reaction.emoji].index = originalMessage.get('reactsIndex') ?? 0;
@@ -206,6 +213,14 @@ export const handleMessageReaction = async (
   });
 
   await originalMessage.commit();
+
+  if (!you) {
+    window.log.info(
+      `${sender} ${reaction.action === Action.REACT ? 'added' : 'removed'} a ${
+        reaction.emoji
+      } reaction`
+    );
+  }
   return originalMessage;
 };
 

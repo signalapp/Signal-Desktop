@@ -321,7 +321,11 @@ async function handleSwarmMessage(
     // this call has to be made inside the queueJob!
     // We handle reaction DataMessages separately
     if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
-      await handleMessageReaction(rawDataMessage.reaction, msgModel.get('source'));
+      await handleMessageReaction(
+        rawDataMessage.reaction,
+        msgModel.get('source'),
+        msgModel.get('source') === UserUtils.getOurPubKeyStrFromCache()
+      );
       confirm();
       return;
     }
