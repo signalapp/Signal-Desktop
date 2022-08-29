@@ -52,7 +52,6 @@ export const OverlayCommunity = () => {
     }
   }
 
-  // FIXME autofocus inputref on mount
   useKey('Escape', closeOverlay);
 
   const title = window.i18n('joinOpenGroup');
@@ -76,8 +75,6 @@ export const OverlayCommunity = () => {
         />
       </div>
 
-      <SessionSpinner loading={loading} />
-      <SessionJoinableRooms onRoomClicked={closeOverlay} />
       <SessionButton
         buttonColor={SessionButtonColor.Green}
         buttonType={SessionButtonType.BrandOutline}
@@ -85,6 +82,9 @@ export const OverlayCommunity = () => {
         disabled={!groupUrl}
         onClick={onEnterPressed}
       />
+
+      <SessionSpinner loading={loading} />
+      <SessionJoinableRooms onRoomClicked={closeOverlay} />
     </div>
   );
 };

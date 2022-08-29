@@ -108,18 +108,6 @@ textarea {
       background: var(--color-clickable-hovered);
     }
 
-    &.green,
-    &.white,
-    &.primary,
-    &.secondary,
-    &.success,
-    &.danger,
-    &.warning {
-      &.disabled {
-        filter: brightness(60%);
-      }
-    }
-
     &.green {
       background-color: var(--color-accent-button);
       color: var(--color-text-opposite);
@@ -183,10 +171,10 @@ textarea {
     &.white,
     &.green {
       &.disabled {
-        filter: brightness(60%);
+        @include transparent-background(var(--color-text-subtle));
 
         &:hover {
-          filter: brightness(60%);
+          @include transparent-background(var(--color-text-subtle));
         }
       }
     }

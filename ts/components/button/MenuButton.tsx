@@ -20,6 +20,8 @@ const StyledMenuButton = styled.button`
   height: 33px;
   cursor: pointer;
 
+  transition: var(--default-duration);
+
   :hover {
     background: var(--hover-bg-color);
   }
