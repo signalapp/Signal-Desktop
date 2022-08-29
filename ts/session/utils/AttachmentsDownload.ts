@@ -1,21 +1,15 @@
 import { filter, isNumber, omit } from 'lodash';
 // tslint:disable-next-line: no-submodule-imports
-import { default as getGuid } from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
+
 import * as Constants from '../constants';
-import {
-  getMessageById,
-  getNextAttachmentDownloadJobs,
-  removeAttachmentDownloadJob,
-  resetAttachmentDownloadPending,
-  saveAttachmentDownloadJob,
-  setAttachmentDownloadJobPending,
-} from '../../../ts/data/data';
+import { Data } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
-import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
+import { downloadAttachment, downloadAttachmentSogsV3 } from '../../receiver/attachments';
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
 import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 
-// this cause issues if we increment that value to > 1.
+// this may cause issues if we increment that value to > 1, but only having one job will block the whole queue while one attachment is downloading
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
 const TICK_INTERVAL = Constants.DURATION.MINUTES;
@@ -32,7 +26,7 @@ let timeout: any;
 let logger: any;
 const _activeAttachmentDownloadJobs: any = {};
 
-// FIXME audric, type those `any` field
+// TODO type those `any` properties
 
 export async function start(options: any = {}) {
   ({ logger } = options);
@@ -41,7 +35,7 @@ export async function start(options: any = {}) {
   }
 
   enabled = true;
-  await resetAttachmentDownloadPending();
+  await Data.resetAttachmentDownloadPending();
 
   void _tick();
 }
@@ -70,8 +64,9 @@ export async function addJob(attachment: any, job: any = {}) {
     throw new Error('attachments_download/addJob: index must be a number');
   }
 
-  const id = getGuid();
+  const id = uuidv4();
   const timestamp = Date.now();
+
   const toSave = {
     ...job,
     id,
@@ -81,7 +76,7 @@ export async function addJob(attachment: any, job: any = {}) {
     attempts: 0,
   };
 
-  await saveAttachmentDownloadJob(toSave);
+  await Data.saveAttachmentDownloadJob(toSave);
 
   void _maybeStartJob();
 
@@ -108,7 +103,7 @@ async function _maybeStartJob() {
     return;
   }
 
-  const nextJobs = await getNextAttachmentDownloadJobs(limit);
+  const nextJobs = await Data.getNextAttachmentDownloadJobs(limit);
   if (nextJobs.length <= 0) {
     return;
   }
@@ -151,7 +146,7 @@ async function _runJob(job: any) {
       throw new Error(`_runJob: Key information required for job was missing. Job id: ${id}`);
     }
 
-    found = await getMessageById(messageId);
+    found = await Data.getMessageById(messageId);
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);
@@ -175,13 +170,13 @@ async function _runJob(job: any) {
     }
 
     const pending = true;
-    await setAttachmentDownloadJobPending(id, pending);
+    await Data.setAttachmentDownloadJobPending(id, pending);
 
     let downloaded;
 
     try {
       if (isOpenGroupV2) {
-        downloaded = await downloadAttachmentOpenGroupV2(attachment, openGroupV2Details);
+        downloaded = await downloadAttachmentSogsV3(attachment, openGroupV2Details);
       } else {
         downloaded = await downloadAttachment(attachment);
       }
@@ -195,7 +190,11 @@ async function _runJob(job: any) {
         );
 
         await _finishJob(found, id);
-        found = await getMessageById(messageId);
+
+        // Make sure to fetch the message from DB here right before writing it.
+        // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
+        // and tries to update the same message.
+        found = await Data.getMessageById(messageId);
 
         _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
@@ -212,7 +211,11 @@ async function _runJob(job: any) {
       fileName: attachment.fileName,
       contentType: attachment.contentType,
     });
-    found = await getMessageById(messageId);
+
+    // Make sure to fetch the message from DB here right before writing it.
+    // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
+    // and tries to update the same message.
+    found = await Data.getMessageById(messageId);
     if (found) {
       const {
         hasAttachments,
@@ -234,9 +237,16 @@ async function _runJob(job: any) {
         `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permament error:`,
         error && error.stack ? error.stack : error
       );
-      found = await getMessageById(messageId);
 
-      _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+      // Make sure to fetch the message from DB here right before writing it.
+      // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
+      // and tries to update the same message.
+      found = await Data.getMessageById(messageId);
+      try {
+        _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+      } catch (e) {
+        // just swallow any exceptions here, as it would be an unhandled one
+      }
       await _finishJob(found || null, id);
 
       return;
@@ -254,7 +264,7 @@ async function _runJob(job: any) {
       timestamp: Date.now() + RETRY_BACKOFF[currentAttempt],
     };
 
-    await saveAttachmentDownloadJob(failedJob);
+    await Data.saveAttachmentDownloadJob(failedJob);
     // tslint:disable-next-line: no-dynamic-delete
     delete _activeAttachmentDownloadJobs[id];
     void _maybeStartJob();
@@ -269,7 +279,7 @@ async function _finishJob(message: MessageModel | null, id: string) {
     }
   }
 
-  await removeAttachmentDownloadJob(id);
+  await Data.removeAttachmentDownloadJob(id);
   // tslint:disable-next-line: no-dynamic-delete
   delete _activeAttachmentDownloadJobs[id];
   await _maybeStartJob();

@@ -3,19 +3,35 @@ import { fromHexToArray } from '../utils/String';
 export const getStoragePubKey = (key: string) =>
   window.sessionFeatureFlags.useTestNet ? key.substring(2) : key;
 
+export enum KeyPrefixType {
+  /**
+   * Used for keys which have the blinding update and aren't using blinding
+   */
+  unblinded = '00',
+  /**
+   * Used for identified users, open groups, etc
+   */
+  standard = '05',
+  /**
+   * used for participants in open groups
+   */
+  blinded = '15',
+}
+
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
+  public static readonly PUBKEY_LEN_NO_PREFIX = PubKey.PUBKEY_LEN - 2;
   public static readonly HEX = '[0-9a-fA-F]';
 
   // This is a temporary fix to allow groupPubkeys created from mobile to be handled correctly
   // They have a different regex to match
   // FIXME move this to a new class which validates group ids and use it in all places where we have group ids (message sending included)
   // tslint:disable: member-ordering
-  public static readonly regexForPubkeys = `((05)?${PubKey.HEX}{64})`;
+  public static readonly regexForPubkeys = `(([0-1]5)?${PubKey.HEX}{${this.PUBKEY_LEN_NO_PREFIX}})`;
   public static readonly PREFIX_GROUP_TEXTSECURE = '__textsecure_group__!';
   // prettier-ignore
   private static readonly regex: RegExp = new RegExp(
-    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(05)?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
+    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(${KeyPrefixType.standard}|${KeyPrefixType.blinded}|${KeyPrefixType.unblinded})?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
   );
   /**
    * If you want to update this regex. Be sure that those are matches ;
@@ -61,11 +77,11 @@ export class PubKey {
     const valAny = value as PubKey;
     const pk = value instanceof PubKey ? valAny.key : value;
 
-    if (!pk) {
+    if (!pk || pk.length < 8) {
       throw new Error('PubkKey.shorten was given an invalid PubKey to shorten.');
     }
 
-    return `(...${pk.substring(pk.length - 6)})`;
+    return `(${pk.substring(0, 4)}...${pk.substring(pk.length - 4)})`;
   }
 
   /**
@@ -101,8 +117,11 @@ export class PubKey {
 
   /**
    * Returns a localized string of the error, or undefined in the given pubkey is valid.
+   *
+   * Note: this should be used when starting a conversation and we do not support starting conversation from scratch with a blinded sessionId.
+   * So if the given pubkey has a blinded prefix, this call will fail with a localized `invalidPubkeyFormat` error
    */
-  public static validateWithError(pubkey: string): string | undefined {
+  public static validateWithErrorNoBlinding(pubkey: string): string | undefined {
     // Check if it's hex
     const isHex = pubkey.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
     if (!isHex) {
@@ -111,21 +130,52 @@ export class PubKey {
 
     // Check if the pubkey length is 33 and leading with 05 or of length 32
     const len = pubkey.length;
-    if ((len !== 33 * 2 || !/^05/.test(pubkey)) && len !== 32 * 2) {
+
+    // we do not support blinded prefix, see Note above
+    const isProdOrDevValid = len === 33 * 2 && /^05/.test(pubkey); // prod pubkey can have only 66 chars and the 05 only.
+
+    // dev pubkey on testnet are now 66 chars too with the prefix, so every sessionID needs 66 chars and the prefix to be valid
+    if (!isProdOrDevValid) {
       return window.i18n('invalidPubkeyFormat');
     }
     return undefined;
   }
 
   /**
-   * This removes the 05 prefix from a Pubkey which have it and have a length of 66
+   * @param keyWithOrWithoutPrefix Key with or without prefix
+   * @returns If key is the correct length and has a supported prefix 05 or 15
+   */
+  public static isValidPrefixAndLength(keyWithOrWithoutPrefix: string): boolean {
+    return (
+      keyWithOrWithoutPrefix.length === 66 &&
+      (keyWithOrWithoutPrefix.startsWith(KeyPrefixType.blinded) ||
+        keyWithOrWithoutPrefix.startsWith(KeyPrefixType.standard))
+    );
+  }
+
+  /**
+   * This removes the 05 or 15 prefix from a Pubkey which have it and have a length of 66
    * @param keyWithOrWithoutPrefix the key with or without the prefix
    */
-  public static remove05PrefixIfNeeded(keyWithOrWithoutPrefix: string): string {
-    if (keyWithOrWithoutPrefix.length === 66 && keyWithOrWithoutPrefix.startsWith('05')) {
-      return keyWithOrWithoutPrefix.substr(2);
+  public static removePrefixIfNeeded(keyWithOrWithoutPrefix: string): string {
+    if (this.isValidPrefixAndLength(keyWithOrWithoutPrefix)) {
+      const keyWithoutPrefix = keyWithOrWithoutPrefix.substring(2);
+      return keyWithoutPrefix;
     }
     return keyWithOrWithoutPrefix;
+  }
+
+  /**
+   *
+   * @param key Key with the prefix included.
+   * @returns The prefix
+   */
+  public static getPrefix(key: string): KeyPrefixType | null {
+    if (this.isValidPrefixAndLength(key)) {
+      return key.substring(0, 2) as KeyPrefixType;
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -166,7 +216,7 @@ export class PubKey {
   }
 
   public withoutPrefix(): string {
-    return PubKey.remove05PrefixIfNeeded(this.key);
+    return PubKey.removePrefixIfNeeded(this.key);
   }
 
   public toArray(): Uint8Array {
@@ -174,6 +224,10 @@ export class PubKey {
   }
 
   public withoutPrefixToArray(): Uint8Array {
-    return fromHexToArray(PubKey.remove05PrefixIfNeeded(this.key));
+    return fromHexToArray(PubKey.removePrefixIfNeeded(this.key));
+  }
+
+  public static hasBlindedPrefix(key: string) {
+    return key.startsWith(KeyPrefixType.blinded);
   }
 }

@@ -4,10 +4,7 @@ import _ from 'lodash';
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getMessagesWithFileAttachments,
-  getMessagesWithVisualMediaAttachments,
-} from '../../data/data';
+import { Data } from '../../data/data';
 import {
   deleteAllMessagesByConvoIdWithConfirmation,
   setDisappearingMessagesByConvoId,
@@ -39,11 +36,11 @@ async function getMediaGalleryProps(
 }> {
   // We fetch more documents than media as they don’t require to be loaded
   // into memory right away. Revisit this once we have infinite scrolling:
-  const rawMedia = await getMessagesWithVisualMediaAttachments(
+  const rawMedia = await Data.getMessagesWithVisualMediaAttachments(
     conversationId,
     Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT
   );
-  const rawDocuments = await getMessagesWithFileAttachments(
+  const rawDocuments = await Data.getMessagesWithFileAttachments(
     conversationId,
     Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT
   );
@@ -124,6 +121,7 @@ const HeaderItem = () => {
         onClick={() => {
           dispatch(closeRightPanel());
         }}
+        style={{ position: 'absolute' }}
         dataTestId="back-button-conversation-options"
       />
       <Avatar size={AvatarSize.XL} pubkey={id} />
@@ -194,16 +192,17 @@ export const SessionRightPanelWithDetails = () => {
   const {
     id,
     subscriberCount,
-    name,
+    displayNameInProfile,
     isKickedFromGroup,
     left,
     isPublic,
     weAreAdmin,
     isBlocked,
     isGroup,
+    activeAt,
   } = selectedConversation;
   const showMemberCount = !!(subscriberCount && subscriberCount > 0);
-  const commonNoShow = isKickedFromGroup || left || isBlocked;
+  const commonNoShow = isKickedFromGroup || left || isBlocked || !activeAt;
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
     ? window.i18n('leaveGroup')
@@ -239,7 +238,7 @@ export const SessionRightPanelWithDetails = () => {
   return (
     <div className="group-settings">
       <HeaderItem />
-      <h2 data-testid="right-panel-group-name">{name}</h2>
+      <h2 data-testid="right-panel-group-name">{displayNameInProfile}</h2>
       {showMemberCount && (
         <>
           <SpacerLG />

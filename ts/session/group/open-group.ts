@@ -1,25 +1,24 @@
-import { getV2OpenGroupRoom } from '../../data/opengroups';
-import { downloadDataFromOpenGroupV2 } from '../../receiver/attachments';
+import { OpenGroupData } from '../../data/opengroups';
+import { downloadAttachmentSogsV3 } from '../../receiver/attachments';
 import { MIME } from '../../types';
 import { urlToBlob } from '../../types/attachments/VisualAttachment';
 import { processNewAttachment } from '../../types/MessageAttachment';
-import { ApiV2 } from '../apis/open_group_api/opengroupV2';
+import { uploadImageForRoomSogsV3 } from '../apis/open_group_api/sogsv3/sogsV3RoomImage';
 import { getConversationController } from '../conversations';
-import { sha256 } from '../crypto';
-import { fromArrayBufferToBase64 } from '../utils/String';
 
 export type OpenGroupUpdateAvatar = { objectUrl: string | null };
 
 /**
  * This function is only called when the local user makes a change to an open group.
  * So this function is not called on group updates from the network, even from another of our devices.
- *
  */
 export async function initiateOpenGroupUpdate(
   groupId: string,
   groupName: string,
   avatar: OpenGroupUpdateAvatar
 ) {
+  // we actually do not change the groupName just yet here, serverSide. This is just done client side. Maybe something to allow in a later release.
+  // For now, the UI is actually not allowing changing the room name so we do not care.
   const convo = getConversationController().get(groupId);
 
   if (!convo || !convo.isPublic() || !convo.isOpenGroupV2()) {
@@ -29,11 +28,11 @@ export async function initiateOpenGroupUpdate(
     const blobAvatarAlreadyScaled = await urlToBlob(avatar.objectUrl);
 
     const dataResized = await blobAvatarAlreadyScaled.arrayBuffer();
-    const roomInfos = await getV2OpenGroupRoom(convo.id);
+    const roomInfos = OpenGroupData.getV2OpenGroupRoom(convo.id);
     if (!roomInfos || !dataResized.byteLength) {
       return false;
     }
-    const uploadedFileDetails = await ApiV2.uploadImageForRoomOpenGroupV2(
+    const uploadedFileDetails = await uploadImageForRoomSogsV3(
       new Uint8Array(dataResized),
       roomInfos
     );
@@ -42,27 +41,38 @@ export async function initiateOpenGroupUpdate(
       window?.log?.warn('File opengroupv2 upload failed');
       return false;
     }
-    let url: URL;
     try {
-      url = new URL(uploadedFileDetails.fileUrl);
+      const { fileId, fileUrl } = uploadedFileDetails;
 
-      const pathname = url.pathname;
-      const downloaded = await downloadDataFromOpenGroupV2(pathname, roomInfos);
-      if (!(downloaded instanceof Uint8Array)) {
+      // this is kind of a hack just made to avoid having a specific function downloading from sogs by URL rather than fileID
+      const downloaded = await downloadAttachmentSogsV3(
+        { id: fileId, size: null, url: fileUrl },
+        roomInfos
+      );
+
+      if (!downloaded || !(downloaded.data instanceof ArrayBuffer)) {
         const typeFound = typeof downloaded;
-        throw new Error(`Expected a plain Uint8Array but got ${typeFound}`);
+        throw new Error(`Expected a plain ArrayBuffer but got ${typeFound}`);
+      }
+      const data = downloaded.data;
+      if (!downloaded.data?.byteLength) {
+        window?.log?.error('Failed to download attachment. Length is 0');
+        throw new Error(
+          `Failed to download attachment. Length is 0 for ${uploadedFileDetails.fileUrl}`
+        );
       }
 
       const upgraded = await processNewAttachment({
-        data: downloaded.buffer,
+        data,
         isRaw: true,
         contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
       });
-      const newHash = sha256(fromArrayBufferToBase64(downloaded.buffer));
-      await convo.setLokiProfile({
-        displayName: groupName || convo.get('name') || 'Unknown',
-        avatar: upgraded.path,
-        avatarHash: newHash,
+      const avatarImageId = fileId;
+      await convo.setSessionProfile({
+        displayName: groupName || convo.get('displayNameInProfile') || 'Unknown',
+        avatarPath: upgraded.path,
+
+        avatarImageId,
       });
     } catch (e) {
       window?.log?.error(`Could not decrypt profile image: ${e}`);

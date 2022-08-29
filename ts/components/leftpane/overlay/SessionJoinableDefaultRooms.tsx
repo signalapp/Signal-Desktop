@@ -6,7 +6,7 @@ import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
-import { downloadPreviewOpenGroupV2 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupAPIV2';
+import { sogsV3FetchPreviewBase64 } from '../../../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { updateDefaultBase64RoomData } from '../../../state/ducks/defaultRooms';
 import { StateType } from '../../../state/reducer';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
@@ -32,6 +32,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
 
     try {
       const parsedInfos = parseOpenGroupV2(props.completeUrl);
+      const imageID = props.imageId;
       if (parsedInfos) {
         if (props.base64Data) {
           return;
@@ -39,7 +40,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
         if (isCancelled) {
           return;
         }
-        downloadPreviewOpenGroupV2(parsedInfos)
+        sogsV3FetchPreviewBase64({ ...parsedInfos, imageID })
           .then(base64 => {
             if (isCancelled) {
               return;
@@ -54,7 +55,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
             if (isCancelled) {
               return;
             }
-            window?.log?.warn('downloadPreviewOpenGroupV2 failed', e);
+            window?.log?.warn('sogsV3FetchPreview failed', e);
             const payload = {
               roomId: props.roomId,
               base64Data: '',
@@ -136,6 +137,7 @@ export const SessionJoinableRooms = (props: { onRoomClicked: () => void }) => {
           completeUrl={r.completeUrl}
           name={r.name}
           roomId={r.id}
+          imageId={r.imageId}
           base64Data={r.base64Data}
           onClick={completeUrl => {
             void joinOpenGroupV2WithUIEvents(completeUrl, true, false, onRoomClicked);
@@ -148,7 +150,7 @@ export const SessionJoinableRooms = (props: { onRoomClicked: () => void }) => {
   return (
     <Flex container={true} flexGrow={1} flexDirection="column" width="93%">
       <H3 text={window.i18n('orJoinOneOfThese')} />
-      <Flex container={true} flexGrow={1} flexWrap="wrap" justifyContent="center">
+      <Flex container={true} flexGrow={0} flexWrap="wrap" justifyContent="center">
         {componentToRender}
       </Flex>
     </Flex>

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createOrUpdateItem, getItemById } from '../../../ts/data/channelsItem';
+import { Data } from '../../../ts/data/data';
 import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
@@ -107,7 +107,7 @@ export class PendingMessageCache {
   }
 
   protected async getFromStorage(): Promise<Array<RawMessage>> {
-    const data = await getItemById('pendingMessages');
+    const data = await Data.getItemById('pendingMessages');
     if (!data || !data.value) {
       return [];
     }
@@ -133,7 +133,7 @@ export class PendingMessageCache {
     });
 
     const encodedPendingMessages = JSON.stringify(encodedCache) || '[]';
-    await createOrUpdateItem({
+    await Data.createOrUpdateItem({
       id: 'pendingMessages',
       value: encodedPendingMessages,
     });

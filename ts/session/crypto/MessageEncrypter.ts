@@ -3,7 +3,7 @@ import { PubKey } from '../types';
 import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '.';
 import { fromHexToArray } from '../utils/String';
 export { concatUInt8Array, getSodiumRenderer };
-import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
+import { Data } from '../../../ts/data/data';
 import { UserUtils } from '../utils';
 import { addMessagePadding } from './BufferPadding';
 
@@ -38,7 +38,7 @@ export async function encrypt(
     // window?.log?.info(
     //   'Encrypting message with SessionProtocol and envelope type is CLOSED_GROUP_MESSAGE'
     // );
-    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(device.key);
+    const hexEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(device.key);
     if (!hexEncryptionKeyPair) {
       window?.log?.warn("Couldn't get key pair for closed group during encryption");
       throw new Error("Couldn't get key pair for closed group");

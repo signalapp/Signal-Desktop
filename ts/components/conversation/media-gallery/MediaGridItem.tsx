@@ -29,7 +29,7 @@ const MediaGridItemContent = (props: Props) => {
 
   const onImageError = () => {
     // tslint:disable-next-line no-console
-    console.log('MediaGridItem: Image failed to load; failing over to placeholder');
+    window.log.info('MediaGridItem: Image failed to load; failing over to placeholder');
     setImageBroken(true);
   };
 

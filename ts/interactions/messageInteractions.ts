@@ -1,6 +1,9 @@
 import _ from 'lodash';
-import { ApiV2 } from '../session/apis/open_group_api/opengroupV2';
 import { joinOpenGroupV2WithUIEvents } from '../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import {
+  sogsV3AddAdmin,
+  sogsV3RemoveAdmins,
+} from '../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
 import {
   isOpenGroupV2,
   openGroupV2CompleteURLRegex,
@@ -68,7 +71,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
     const convo = getConversationController().getOrThrow(convoId);
 
     const roomInfo = convo.toOpenGroupV2();
-    const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
+    const res = await sogsV3RemoveAdmins([pubKeyToRemove], roomInfo);
     if (!res) {
       window?.log?.warn('failed to remove moderator:', res);
 
@@ -88,7 +91,7 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
     const convo = getConversationController().getOrThrow(convoId);
 
     const roomInfo = convo.toOpenGroupV2();
-    const res = await ApiV2.addModerator(pubKeyToAdd, roomInfo);
+    const res = await sogsV3AddAdmin([pubKeyToAdd], roomInfo);
     if (!res) {
       window?.log?.warn('failed to add moderator:', res);
 

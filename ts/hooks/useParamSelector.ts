@@ -1,9 +1,10 @@
-import _ from 'lodash';
+import { pick } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
+import { getMessageReactsProps } from '../state/selectors/conversations';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -16,21 +17,23 @@ export function useOurAvatarPath() {
 
 /**
  *
- * @returns convo.profileName || convo.name || convo.id or undefined if the convo is not found
+ * @returns convo.nickname || convo.displayNameInProfile || convo.id or undefined if the convo is not found
  */
 export function useConversationUsername(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
 
-  return convoProps?.profileName || convoProps?.name || convoId;
+  return convoProps?.nickname || convoProps?.displayNameInProfile || convoId;
 }
 
 /**
- * Returns either the nickname, profileName, or the shorten pubkey
+ * Returns either the nickname, displayNameInProfile, or the shorten pubkey
  */
 export function useConversationUsernameOrShorten(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
 
-  return convoProps?.profileName || convoProps?.name || (convoId && PubKey.shorten(convoId));
+  return (
+    convoProps?.nickname || convoProps?.displayNameInProfile || (convoId && PubKey.shorten(convoId))
+  );
 }
 
 /**
@@ -39,7 +42,7 @@ export function useConversationUsernameOrShorten(convoId?: string) {
  */
 export function useConversationRealName(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return convoProps?.isPrivate ? convoProps?.name : undefined;
+  return convoProps?.isPrivate ? convoProps?.displayNameInProfile : undefined;
 }
 
 /**
@@ -52,7 +55,7 @@ export function useConversationsUsernameWithQuoteOrFullPubkey(pubkeys: Array<str
         return window.i18n('you');
       }
       const convo = state.conversations.conversationLookup[pubkey];
-      const nameGot = convo?.profileName || convo?.name;
+      const nameGot = convo?.displayNameInProfile;
       return nameGot?.length ? `"${nameGot}"` : pubkey;
     });
   });
@@ -76,6 +79,13 @@ export function useIsPrivate(convoId?: string) {
   return Boolean(convoProps && convoProps.isPrivate);
 }
 
+export function useIsBlinded(convoId?: string) {
+  if (!convoId) {
+    return false;
+  }
+  return Boolean(PubKey.hasBlindedPrefix(convoId));
+}
+
 export function useHasNickname(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.hasNickname);
@@ -95,6 +105,11 @@ export function useIsBlocked(convoId?: string) {
   return Boolean(convoProps && convoProps.isBlocked);
 }
 
+export function useIsActive(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.activeAt);
+}
+
 export function useIsLeft(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.left);
@@ -108,6 +123,11 @@ export function useIsKickedFromGroup(convoId?: string) {
 export function useWeAreAdmin(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.weAreAdmin);
+}
+
+export function useWeAreModerator(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && (convoProps.weAreAdmin || convoProps.weAreModerator));
 }
 
 export function useExpireTimer(convoId?: string) {
@@ -125,12 +145,15 @@ export function useIsApproved(convoId?: string) {
   return Boolean(convoProps && convoProps.isApproved);
 }
 
-export function useIsRequest(convoId: string) {
+export function useIsRequest(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return false;
+  }
   return Boolean(
     convoProps &&
       ConversationModel.hasValidIncomingRequestValues(
-        _.pick(convoProps, ['isMe', 'isApproved', 'isPrivate', 'isBlocked'])
+        pick(convoProps, ['isMe', 'isApproved', 'isPrivate', 'isBlocked', 'activeAt'])
       )
   );
 }
@@ -145,5 +168,18 @@ export function useConversationPropsById(convoId?: string) {
       return null;
     }
     return convo;
+  });
+}
+
+export function useMessageReactsPropsById(messageId?: string) {
+  return useSelector((state: StateType) => {
+    if (!messageId) {
+      return null;
+    }
+    const messageReactsProps = getMessageReactsProps(state, messageId);
+    if (!messageReactsProps) {
+      return null;
+    }
+    return messageReactsProps;
   });
 }

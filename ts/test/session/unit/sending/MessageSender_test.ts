@@ -7,10 +7,16 @@ import { MessageEncrypter } from '../../../../session/crypto';
 import { SignalService } from '../../../../protobuf';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
-import { ApiV2 } from '../../../../session/apis/open_group_api/opengroupV2';
-import * as Data from '../../../../../ts/data/data';
 import { SNodeAPI } from '../../../../session/apis/snode_api';
 import _ from 'lodash';
+import { OpenGroupPollingUtils } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupPollingUtils';
+import { TEST_identityKeyPair } from '../crypto/MessageEncrypter_test';
+import { stubCreateObjectUrl, stubData, stubUtilWorker } from '../../../test-utils/utils';
+import { SogsBlinding } from '../../../../session/apis/open_group_api/sogsv3/sogsBlinding';
+import { Onions } from '../../../../session/apis/snode_api/onions';
+import { OnionV4 } from '../../../../session/onions/onionv4';
+import { OnionSending } from '../../../../session/onions/onionSend';
+import { OpenGroupMessageV2 } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 
 describe('MessageSender', () => {
   afterEach(() => {
@@ -30,7 +36,7 @@ describe('MessageSender', () => {
     beforeEach(() => {
       sessionMessageAPISendStub = Sinon.stub(MessageSender, 'sendMessageToSnode').resolves();
 
-      Sinon.stub(Data, 'getMessageById').resolves();
+      stubData('getMessageById').resolves();
 
       encryptStub = Sinon.stub(MessageEncrypter, 'encrypt').resolves({
         envelopeType: SignalService.Envelope.Type.SESSION_MESSAGE,
@@ -184,54 +190,95 @@ describe('MessageSender', () => {
   });
 
   describe('sendToOpenGroupV2', () => {
-    let postMessageRetryableStub: sinon.SinonStub;
     beforeEach(() => {
       Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(
         TestUtils.generateFakePubKey().key
       );
+      Sinon.stub(UserUtils, 'getIdentityKeyPair').resolves(TEST_identityKeyPair);
 
-      postMessageRetryableStub = Sinon.stub(ApiV2, 'postMessageRetryable').resolves(
-        TestUtils.generateOpenGroupMessageV2()
-      );
+      Sinon.stub(SogsBlinding, 'getSogsSignature').resolves(new Uint8Array());
+
+      stubUtilWorker('arrayBufferToStringBase64', 'ba64');
+      Sinon.stub(OnionSending, 'getOnionPathForSending').resolves([{}] as any);
+      Sinon.stub(OnionSending, 'endpointRequiresDecoding').returnsArg(0);
+
+      stubData('getGuardNodes').resolves([]);
+
+      Sinon.stub(OpenGroupPollingUtils, 'getAllValidRoomInfos').returns([
+        { roomId: 'room', serverPublicKey: 'whatever', serverUrl: 'serverUrl' },
+      ]);
+      Sinon.stub(OpenGroupPollingUtils, 'getOurOpenGroupHeaders').resolves({
+        'X-SOGS-Pubkey': '00bac6e71efd7dfa4a83c98ed24f254ab2c267f9ccdb172a5280a0444ad24e89cc',
+        'X-SOGS-Timestamp': '1642472103',
+        'X-SOGS-Nonce': 'CdB5nyKVmQGCw6s0Bvv8Ww==',
+        'X-SOGS-Signature':
+          'gYqpWZX6fnF4Gb2xQM3xaXs0WIYEI49+B8q4mUUEg8Rw0ObaHUWfoWjMHMArAtP9QlORfiydsKWz1o6zdPVeCQ==',
+      });
+      stubCreateObjectUrl();
+
+      Sinon.stub(OpenGroupMessageV2, 'fromJson').resolves();
     });
 
     afterEach(() => {
       Sinon.restore();
     });
 
-    it('should call postMessageRetryableStub', async () => {
+    it('should call sendOnionRequestHandlingSnodeEjectStub', async () => {
+      const sendOnionRequestHandlingSnodeEjectStub = Sinon.stub(
+        Onions,
+        'sendOnionRequestHandlingSnodeEject'
+      ).resolves({} as any);
+      Sinon.stub(OnionV4, 'decodeV4Response').returns({
+        metadata: { code: 200 },
+        body: {},
+        bodyBinary: new Uint8Array(),
+        bodyContentType: 'a',
+      });
       const message = TestUtils.generateOpenGroupVisibleMessage();
       const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
-      await MessageSender.sendToOpenGroupV2(message, roomInfos);
-      expect(postMessageRetryableStub.callCount).to.eq(1);
+      await MessageSender.sendToOpenGroupV2(message, roomInfos, false, []);
+      expect(sendOnionRequestHandlingSnodeEjectStub.callCount).to.eq(1);
     });
 
-    it('should retry postMessageRetryableStub ', async () => {
+    it('should retry sendOnionRequestHandlingSnodeEjectStub ', async () => {
       const message = TestUtils.generateOpenGroupVisibleMessage();
       const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
+      Sinon.stub(Onions, 'sendOnionRequestHandlingSnodeEject').resolves({} as any);
 
-      postMessageRetryableStub.throws('whate');
-      Sinon.stub(ApiV2, 'getMinTimeout').returns(2);
+      const decodev4responseStub = Sinon.stub(OnionV4, 'decodeV4Response');
+      decodev4responseStub.throws('whate');
 
-      postMessageRetryableStub.onThirdCall().resolves();
-      await MessageSender.sendToOpenGroupV2(message, roomInfos);
-      expect(postMessageRetryableStub.callCount).to.eq(3);
+      decodev4responseStub.onThirdCall().returns({
+        metadata: { code: 200 },
+        body: {},
+        bodyBinary: new Uint8Array(),
+        bodyContentType: 'a',
+      });
+      await MessageSender.sendToOpenGroupV2(message, roomInfos, false, []);
+      expect(decodev4responseStub.callCount).to.eq(3);
     });
 
-    it('should not retry more than 3 postMessageRetryableStub ', async () => {
+    it('should not retry more than 3 sendOnionRequestHandlingSnodeEjectStub ', async () => {
       const message = TestUtils.generateOpenGroupVisibleMessage();
       const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
-      Sinon.stub(ApiV2, 'getMinTimeout').returns(2);
-      postMessageRetryableStub.throws('fake error');
-      postMessageRetryableStub.onCall(4).resolves();
+      Sinon.stub(Onions, 'sendOnionRequestHandlingSnodeEject').resolves({} as any);
+
+      const decodev4responseStub = Sinon.stub(OnionV4, 'decodeV4Response');
+      decodev4responseStub.throws('whate');
+
+      decodev4responseStub.onCall(4).returns({
+        metadata: { code: 200 },
+        body: {},
+        bodyBinary: new Uint8Array(),
+        bodyContentType: 'a',
+      });
       try {
-        await MessageSender.sendToOpenGroupV2(message, roomInfos);
-        throw new Error('Error expected');
-      } catch (e) {
-        expect(e.name).to.eq('fake error');
-      }
-      expect(postMessageRetryableStub.calledThrice);
+        await MessageSender.sendToOpenGroupV2(message, roomInfos, false, []);
+        // tslint:disable-next-line: no-empty
+      } catch (e) {}
+      // we made the fourth call success, but we should not get there. We should stop at 3 the retries (1+2)
+      expect(decodev4responseStub.calledThrice);
     });
   });
 });

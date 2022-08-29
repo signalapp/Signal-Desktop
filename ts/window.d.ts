@@ -38,6 +38,11 @@ declare global {
     sessionFeatureFlags: {
       useOnionRequests: boolean;
       useTestNet: boolean;
+      debug: {
+        debugFileServerRequests: boolean;
+        debugNonSnodeRequests: boolean;
+        debugOnionRequests: boolean;
+      };
     };
     SessionSnodeAPI: SessionSnodeAPI;
     onLogin: any;
@@ -45,7 +50,6 @@ declare global {
     restart: any;
     getSeedNodeList: () => Array<string> | undefined;
     setPassword: any;
-    storage: any;
     isOnline: boolean;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;

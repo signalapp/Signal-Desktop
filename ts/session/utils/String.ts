@@ -40,7 +40,10 @@ export const stringToArrayBuffer = (str: string): ArrayBuffer => {
   return encode(str, 'binary');
 };
 
-export const stringToUint8Array = (str: string): Uint8Array => {
+export const stringToUint8Array = (str?: string): Uint8Array => {
+  if (!str) {
+    return new Uint8Array();
+  }
   return new Uint8Array(stringToArrayBuffer(str));
 };
 

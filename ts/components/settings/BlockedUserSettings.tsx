@@ -23,13 +23,9 @@ export const BlockedUserSettings = () => {
   }
   const blockedEntries = blockedNumbers.map(blockedEntry => {
     const currentModel = getConversationController().get(blockedEntry);
-    let title: string;
+    const title =
+      currentModel?.getNicknameOrRealUsernameOrPlaceholder() || window.i18n('anonymous');
 
-    if (currentModel) {
-      title = currentModel.getProfileName() || currentModel.getName() || window.i18n('anonymous');
-    } else {
-      title = window.i18n('anonymous');
-    }
     return (
       <SessionSettingButtonItem
         key={blockedEntry}

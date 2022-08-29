@@ -1,42 +1,34 @@
-import _ from 'lodash';
-import { FileServerV2Request } from '../../file_server_api/FileServerApiV2';
-import { PubKey } from '../../../types';
+import _, { compact, flatten, isString } from 'lodash';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import {
   updateDefaultRooms,
   updateDefaultRoomsInProgress,
 } from '../../../../state/ducks/defaultRooms';
-import { BlockedNumberController } from '../../../../util';
 import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';
-import { getAllRoomInfos } from './OpenGroupAPIV2';
-import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
-import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { getAllRoomInfos } from '../sogsv3/sogsV3RoomInfos';
+import { OpenGroupData } from '../../../../data/opengroups';
+import { getConversationController } from '../../../conversations';
 
 export type OpenGroupRequestCommonType = {
   serverUrl: string;
   roomId: string;
 };
 
-export type OpenGroupV2Request = FileServerV2Request & {
-  room: string;
-  server: string;
-  isAuthRequired: boolean;
-  serverPublicKey?: string; // if not provided, a db called will be made to try to get it.
-  forcedTokenToUse?: string;
-};
-
-export type OpenGroupV2CompactPollRequest = {
+export type OpenGroupCapabilityRequest = {
   server: string;
   endpoint: string;
-  body: string;
   serverPubKey: string;
+  headers: Record<string, string | number>;
+  method: string;
+  useV4: boolean;
 };
 
 export type OpenGroupV2Info = {
   id: string;
   name: string;
   imageId?: string;
+  capabilities?: Array<string>;
 };
 
 export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
@@ -44,69 +36,110 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   base64Data?: string;
 };
 
-export const parseMessages = async (
-  rawMessages: Array<Record<string, any>>
-): Promise<Array<OpenGroupMessageV2>> => {
-  if (!rawMessages || rawMessages.length === 0) {
-    return [];
+// tslint:disable: no-http-string
+
+const legacyDefaultServerIP = '116.203.70.33';
+const defaultServer = 'https://open.getsession.org';
+const defaultServerHost = new window.URL(defaultServer).host;
+
+/**
+ * This function returns true if the server url given matches any of the sogs run by Session.
+ * It basically compares the hostname of the given server, to the hostname or the ip address of the session run sogs.
+ *
+ * Note: Exported for test only
+ */
+export function isSessionRunOpenGroup(server: string): boolean {
+  if (!server || !isString(server)) {
+    return false;
   }
 
-  const startParse = Date.now();
+  const lowerCased = server.toLowerCase();
+  let serverHost: string | undefined;
+  try {
+    const lowerCasedUrl = new window.URL(lowerCased);
+    serverHost = lowerCasedUrl.hostname; // hostname because we don't want the port to be part of this
+    if (!serverHost) {
+      throw new Error('Could not parse URL from serverURL');
+    }
+  } catch (e) {
+    // plain ip are not recognized are url, but we want to allow them
+    serverHost = lowerCased;
+  }
 
-  const opengroupMessagesSignatureUnchecked = _.compact(
-    rawMessages.map(rawMessage => {
-      try {
-        const opengroupv2Message = OpenGroupMessageV2.fromJson(rawMessage);
-        if (
-          !opengroupv2Message?.serverId ||
-          !opengroupv2Message.sentTimestamp || // this is our serverTimestamp
-          !opengroupv2Message.base64EncodedData ||
-          !opengroupv2Message.base64EncodedSignature
-        ) {
-          window?.log?.warn('invalid open group message received');
-          return null;
-        }
-        const sender = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
-        return { opengroupv2Message, sender };
-      } catch (e) {
-        window.log.warn('an error happened with opengroup message', e);
-        return null;
-      }
-    })
+  const options = [legacyDefaultServerIP, defaultServerHost];
+  return options.includes(serverHost);
+}
+
+/**
+ * Returns true if we have not joined any rooms matching this roomID and any combination of serverURL.
+ *
+ * This will look for http, https, and no prefix string serverURL, but also takes care of checking hostname/ip for session run sogs
+ */
+export function hasExistingOpenGroup(server: string, roomId: string) {
+  if (!server || !isString(server)) {
+    return false;
+  }
+
+  const serverNotLowerCased = server;
+  const serverLowerCase = serverNotLowerCased.toLowerCase();
+
+  let serverUrl: URL | undefined;
+  try {
+    serverUrl = new window.URL(serverLowerCase);
+    if (!serverUrl) {
+      throw new Error('failed to parse url in hasExistingOpenGroup');
+    }
+  } catch (e) {
+    try {
+      serverUrl = new window.URL(`http://${serverLowerCase}`);
+    } catch (e) {
+      window.log.error(`hasExistingOpenGroup with ${serverNotLowerCased} with ${e.message}`);
+
+      return false;
+    }
+  }
+
+  // make sure that serverUrl.host has the port set in it
+
+  const serverOptions: Set<string> = new Set([
+    serverLowerCase,
+    `${serverUrl.host}`,
+    `http://${serverUrl.host}`,
+    `https://${serverUrl.host}`,
+  ]);
+
+  // If the server is run by Session then include all configurations in case one of the alternate configurations is used
+  if (isSessionRunOpenGroup(serverLowerCase)) {
+    serverOptions.add(defaultServerHost);
+    serverOptions.add(`http://${defaultServerHost}`);
+    serverOptions.add(`https://${defaultServerHost}`);
+    serverOptions.add(legacyDefaultServerIP);
+    serverOptions.add(`http://${legacyDefaultServerIP}`);
+    serverOptions.add(`https://${legacyDefaultServerIP}`);
+  }
+
+  const rooms = flatten(
+    compact([...serverOptions].map(OpenGroupData.getV2OpenGroupRoomsByServerUrl))
   );
-  window.log.debug(`[perf] parseMessage took ${Date.now() - startParse}ms`);
 
-  const sentToWorker = opengroupMessagesSignatureUnchecked.map(m => {
-    return {
-      sender: m.sender,
-      base64EncodedSignature: m.opengroupv2Message.base64EncodedSignature,
-      base64EncodedData: m.opengroupv2Message.base64EncodedData,
-    };
-  });
-  const startVerify = Date.now();
+  if (rooms.length === 0) {
+    // we didn't find any room matching any of that url. We cannot have join that serverURL yet then
 
-  // this filters out any invalid signature and returns the array of valid encoded data
-  const signatureValidEncodedData = (await callUtilsWorker(
-    'verifyAllSignatures',
-    sentToWorker
-  )) as Array<string>;
-  window.log.info(`[perf] verifyAllSignatures took ${Date.now() - startVerify}ms.`);
+    return false;
+  }
 
-  const parsedMessages = opengroupMessagesSignatureUnchecked
-    .filter(m => signatureValidEncodedData.includes(m.opengroupv2Message.base64EncodedData))
-    .map(m => m.opengroupv2Message);
+  // We did find some rooms by serverURL but now we need to make sure none of those matches the room we are about to join.
+  const matchingRoom = rooms.find(r => r.roomId === roomId);
 
-  return _.compact(
-    parsedMessages.map(m =>
-      m && m.sender && !BlockedNumberController.isBlocked(m.sender) ? m : null
-    )
-  ).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));
-};
+  return Boolean(
+    matchingRoom &&
+      matchingRoom.conversationId &&
+      getConversationController().get(matchingRoom.conversationId)
+  );
+}
 
-// tslint:disable: no-http-string
-const defaultServerUrl = 'http://116.203.70.33';
 const defaultServerPublicKey = 'a03c383cf63c3c4efe67acc52112a6dd734b3a946b9545f488aaa93da7991238';
-const defaultRoom = `${defaultServerUrl}/main?public_key=${defaultServerPublicKey}`;
+const defaultRoom = `${defaultServer}/main?public_key=${defaultServerPublicKey}`;
 
 const loadDefaultRoomsSingle = () =>
   allowOnlyOneAtATime(

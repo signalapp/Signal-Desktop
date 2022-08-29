@@ -1,5 +1,7 @@
+import { expect } from 'chai';
 import Sinon from 'sinon';
-import * as DataShape from '../../../../ts/data/data';
+import { Data } from '../../../../ts/data/data';
+import { OpenGroupData } from '../../../data/opengroups';
 
 import * as utilWorker from '../../../webworker/workers/util_worker_interface';
 
@@ -8,9 +10,8 @@ const globalAny: any = global;
 // We have to do this in a weird way because Data uses module.exports
 //  which doesn't play well with sinon or ImportMock
 // tslint:disable: no-require-imports no-var-requires
-const Data = require('../../../../ts/data/data');
-const DataItem = require('../../../../ts/data/channelsItem');
-type DataFunction = typeof DataShape;
+type DataFunction = typeof Data;
+type OpenGroupDataFunction = typeof OpenGroupData;
 
 /**
  * Stub a function inside Data.
@@ -22,17 +23,18 @@ export function stubData<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
   return Sinon.stub(Data, fn);
 }
 
-export function stubDataItem<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
-  return Sinon.stub(DataItem, fn);
+export function stubOpenGroupData<K extends keyof OpenGroupDataFunction>(fn: K): sinon.SinonStub {
+  return Sinon.stub(OpenGroupData, fn);
 }
 
 export function stubUtilWorker(fnName: string, returnedValue: any): sinon.SinonStub {
   return Sinon.stub(utilWorker, 'callUtilsWorker')
-    .withArgs(fnName)
+    .withArgs(fnName as any)
     .resolves(returnedValue);
 }
 export function stubCreateObjectUrl() {
-  (global as any).URL = {};
+  // tslint:disable-next-line: no-empty no-function-expression
+  (global as any).URL = function() {};
   (global as any).URL.createObjectURL = () => {
     // tslint:disable-next-line: insecure-random
     return `${Date.now()}:${Math.floor(Math.random() * 1000)}`;
@@ -66,15 +68,24 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
-const enableLogRedirect = false;
+export const enableLogRedirect = false;
 
 export const stubWindowLog = () => {
   stubWindow('log', {
-    // tslint:disable: no-void-expression
-    // tslint:disable: no-console
-    info: (args: any) => (enableLogRedirect ? console.info(args) : {}),
-    warn: (args: any) => (enableLogRedirect ? console.warn(args) : {}),
-    error: (args: any) => (enableLogRedirect ? console.error(args) : {}),
-    debug: (args: any) => (enableLogRedirect ? console.debug(args) : {}),
+    // tslint:disable: no-void-expression no-console
+    info: (...args: any) => (enableLogRedirect ? console.info(...args) : {}),
+    warn: (...args: any) => (enableLogRedirect ? console.warn(...args) : {}),
+    error: (...args: any) => (enableLogRedirect ? console.error(...args) : {}),
+    debug: (...args: any) => (enableLogRedirect ? console.debug(...args) : {}),
   });
 };
+
+export async function expectAsyncToThrow(toAwait: () => Promise<any>, errorMessageToCatch: string) {
+  try {
+    await toAwait();
+    throw new Error('fake_error');
+  } catch (e) {
+    expect(e.message).to.not.be.eq('fake_error');
+    expect(e.message).to.be.eq(errorMessageToCatch);
+  }
+}

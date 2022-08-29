@@ -8,7 +8,7 @@ const config: PlaywrightTestConfig = {
   testDir: './ts/test/automation',
   testIgnore: '*.js',
   outputDir: './ts/test/automation/test-results',
-  retries: 0,
+  retries: 1,
   repeatEach: 1,
   workers: 1,
   reportSlowTests: null,

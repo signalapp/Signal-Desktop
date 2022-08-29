@@ -9,11 +9,11 @@ import { TestUtils } from '../../../test-utils';
 
 import Sinon from 'sinon';
 import * as cache from '../../../../receiver/cache';
-import * as data from '../../../../../ts/data/data';
 import { EnvelopePlus } from '../../../../receiver/types';
 
 import chaiAsPromised from 'chai-as-promised';
 import { handleConfigurationMessage } from '../../../../receiver/configMessage';
+import { stubData } from '../../../test-utils/utils';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -49,8 +49,8 @@ describe('ConfigurationMessage_receiving', () => {
     envelope = TestUtils.generateEnvelopePlus(sender);
 
     const proto = config.contentProto();
-    createOrUpdateStub = Sinon.stub(data, 'createOrUpdateItem').resolves();
-    getItemByIdStub = Sinon.stub(data, 'getItemById').resolves();
+    createOrUpdateStub = stubData('createOrUpdateItem').resolves();
+    getItemByIdStub = stubData('getItemById').resolves();
     await handleConfigurationMessage(
       envelope,
       proto.configurationMessage as SignalService.ConfigurationMessage
@@ -71,8 +71,8 @@ describe('ConfigurationMessage_receiving', () => {
       // sender !== ourNumber
       envelope = TestUtils.generateEnvelopePlus(sender);
 
-      createOrUpdateStub = Sinon.stub(data, 'createOrUpdateItem').resolves();
-      getItemByIdStub = Sinon.stub(data, 'getItemById').resolves();
+      createOrUpdateStub = stubData('createOrUpdateItem').resolves();
+      getItemByIdStub = stubData('getItemById').resolves();
       await handleConfigurationMessage(
         envelope,
         proto.configurationMessage as SignalService.ConfigurationMessage

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clone } from 'lodash';
-import { getMessageById } from '../../../../data/data';
+import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import {
   PropsForAttachment,
@@ -207,7 +207,7 @@ const onClickAttachment = async (onClickProps: {
 }) => {
   let index = -1;
 
-  const found = await getMessageById(onClickProps.messageId);
+  const found = await Data.getMessageById(onClickProps.messageId);
   if (!found) {
     window.log.warn('Such message not found');
     return;

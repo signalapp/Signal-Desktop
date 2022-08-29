@@ -7,11 +7,15 @@ import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
 import { Onions, SnodePool } from '../../../../session/apis/snode_api';
-import * as Data from '../../../../data/data';
+import { Snode } from '../../../../data/data';
 
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
-import { generateFakeSnodes, generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
+import {
+  generateFakeSnodes,
+  generateFakeSnodeWithEdKey,
+  stubData,
+} from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -22,7 +26,7 @@ const guard1ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f916153
 const guard2ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615349';
 const guard3ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f9161534a';
 
-const fakeSnodePool: Array<Data.Snode> = [
+const fakeSnodePool: Array<Snode> = [
   ...generateFakeSnodes(12),
   generateFakeSnodeWithEdKey(guard1ed),
   generateFakeSnodeWithEdKey(guard2ed),
@@ -53,7 +57,7 @@ describe('GuardNodes', () => {
     });
 
     it('does not fetch from seed if we got 12 or more snodes in the db', async () => {
-      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      stubData('getSnodePoolFromDb').resolves(fakeSnodePool);
 
       getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
         SnodePool,
@@ -65,7 +69,7 @@ describe('GuardNodes', () => {
       ).resolves();
       const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(true);
 
-      Sinon.stub(Data, 'updateGuardNodes').resolves();
+      stubData('updateGuardNodes').resolves();
       // run the command
       const fetchedGuardNodes = await OnionPaths.selectGuardNodes();
 
@@ -88,7 +92,7 @@ describe('GuardNodes', () => {
     });
 
     it('throws an error if we got enough snodes in the db but none test passes', async () => {
-      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+      stubData('getSnodePoolFromDb').resolves(fakeSnodePool);
 
       getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
         SnodePool,
@@ -100,7 +104,7 @@ describe('GuardNodes', () => {
       ).resolves();
       const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(false);
 
-      Sinon.stub(Data, 'updateGuardNodes').resolves();
+      stubData('updateGuardNodes').resolves();
       // run the command
       let throwedError: string | undefined;
       try {
@@ -126,7 +130,7 @@ describe('GuardNodes', () => {
 
     it('throws an error if we have to fetch from seed, fetch from seed enough snode but we still fail', async () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
-      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
+      stubData('getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
 
       getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
@@ -138,7 +142,7 @@ describe('GuardNodes', () => {
         'fetchSnodePoolFromSeedNodeWithRetries'
       ).resolves(fakeSnodePool);
 
-      Sinon.stub(Data, 'updateGuardNodes').resolves();
+      stubData('updateGuardNodes').resolves();
       // run the command
       let throwedError: string | undefined;
       try {
@@ -152,7 +156,7 @@ describe('GuardNodes', () => {
 
     it('returns valid guardnode if we have to fetch from seed, fetch from seed enough snodes but guard node tests passes', async () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
-      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
+      stubData('getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
       const testGuardNode = Sinon.stub(OnionPaths, 'testGuardNode').resolves(true);
 
@@ -165,7 +169,7 @@ describe('GuardNodes', () => {
         'fetchSnodePoolFromSeedNodeWithRetries'
       ).resolves(fakeSnodePool);
 
-      Sinon.stub(Data, 'updateGuardNodes').resolves();
+      stubData('updateGuardNodes').resolves();
       // run the command
       const guardNodes = await OnionPaths.selectGuardNodes();
 
@@ -175,7 +179,7 @@ describe('GuardNodes', () => {
 
     it('throws if we have to fetch from seed, fetch from seed but not have enough fetched snodes', async () => {
       const invalidSndodePool = fakeSnodePool.slice(0, 11);
-      Sinon.stub(Data, 'getSnodePoolFromDb').resolves(invalidSndodePool);
+      stubData('getSnodePoolFromDb').resolves(invalidSndodePool);
       TestUtils.stubWindow('getSeedNodeList', () => [{ url: 'whatever' }]);
 
       getSnodePoolFromDBOrFetchFromSeed = Sinon.stub(
@@ -187,7 +191,7 @@ describe('GuardNodes', () => {
         'fetchSnodePoolFromSeedNodeWithRetries'
       ).resolves(invalidSndodePool);
 
-      Sinon.stub(Data, 'updateGuardNodes').resolves();
+      stubData('updateGuardNodes').resolves();
       // run the command
       let throwedError: string | undefined;
       try {

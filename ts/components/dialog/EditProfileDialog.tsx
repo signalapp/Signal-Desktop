@@ -7,7 +7,7 @@ import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { PillDivider } from '../basic/PillDivider';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 
-import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationModel } from '../../models/conversation';
 
 import { getConversationController } from '../../session/conversations';
 import { SpacerLG, SpacerMD } from '../basic/Text';
@@ -22,10 +22,11 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 interface State {
   profileName: string;
-  setProfileName: string;
+  updatedProfileName: string;
   oldAvatarPath: string;
   newAvatarObjectUrl: string | null;
   mode: 'default' | 'edit' | 'qr';
@@ -51,8 +52,8 @@ export class EditProfileDialog extends React.Component<{}, State> {
     this.convo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
 
     this.state = {
-      profileName: this.convo.getProfileName() || '',
-      setProfileName: this.convo.getProfileName() || '',
+      profileName: this.convo.getRealSessionUsername() || '',
+      updatedProfileName: this.convo.getRealSessionUsername() || '',
       oldAvatarPath: this.convo.getAvatarPath() || '',
       newAvatarObjectUrl: null,
       mode: 'default',
@@ -185,7 +186,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
   }
 
   private renderDefaultView() {
-    const name = this.state.setProfileName || this.state.profileName;
+    const name = this.state.updatedProfileName || this.state.profileName;
     return (
       <>
         {this.renderProfileHeader()}
@@ -286,7 +287,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
           loading: false,
 
           mode: 'default',
-          setProfileName: this.state.profileName,
+          updatedProfileName: this.state.profileName,
         });
       }
     );
@@ -324,9 +325,7 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
     return;
   }
   // do not update the avatar if it did not change
-  await conversation.setLokiProfile({
-    displayName: newName,
-  });
+  conversation.setSessionDisplayNameNoCommit(newName);
   // might be good to not trigger a sync if the name did not change
   await conversation.commit();
   await setLastProfileUpdateTimestamp(Date.now());

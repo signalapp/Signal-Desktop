@@ -11,7 +11,7 @@ import _ from 'lodash';
 import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { removeUnprocessed } from '../data/data';
+import { Data } from '../data/data';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
@@ -195,7 +195,7 @@ async function queueCached(item: any) {
 
     try {
       const { id } = item;
-      await removeUnprocessed(id);
+      await Data.removeUnprocessed(id);
     } catch (deleteError) {
       window?.log?.error(
         'queueCached error deleting item',

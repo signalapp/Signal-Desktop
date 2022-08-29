@@ -17,8 +17,8 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db if undefined, and write to db false if db value is undefined', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF190();
       expect(ret).to.be.eq(false, 'getHasSeenHF190 should return false');
@@ -32,11 +32,11 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db if undefined, and does not write to db if db value is not undefined', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({
+      const getItemById = TestUtils.stubData('getItemById').resolves({
         id: 'getHasSeenHF190',
         value: false,
       });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF190();
       expect(ret).to.be.eq(false, 'getHasSeenHF190 should return false');
@@ -46,11 +46,11 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db if undefined, and does not write to db if db value is not undefined - 2', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({
+      const getItemById = TestUtils.stubData('getItemById').resolves({
         id: 'getHasSeenHF190',
         value: true,
       });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF190();
       expect(ret).to.be.eq(true, 'getHasSeenHF190 should return false');
@@ -60,11 +60,11 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db only the value is not cached already', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({
+      const getItemById = TestUtils.stubData('getItemById').resolves({
         id: 'getHasSeenHF190',
         value: true,
       });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF190();
       const ret2 = await getHasSeenHF190();
@@ -83,8 +83,8 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db if undefined, and write to db false if db value is undefined', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF191();
       expect(ret).to.be.eq(false, 'getHasSeenHF191 should return false');
@@ -98,11 +98,11 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db if undefined, and does not write to db if db value is not undefined', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({
+      const getItemById = TestUtils.stubData('getItemById').resolves({
         id: 'getHasSeenHF191',
         value: false,
       });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF191();
       expect(ret).to.be.eq(false, 'getHasSeenHF191 should return false');
@@ -112,11 +112,11 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db if undefined, and does not write to db if db value is not undefined - 2', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({
+      const getItemById = TestUtils.stubData('getItemById').resolves({
         id: 'getHasSeenHF191',
         value: true,
       });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF191();
       expect(ret).to.be.eq(true, 'getHasSeenHF191 should return false');
@@ -126,11 +126,11 @@ describe('hardfork handling', () => {
     });
 
     it('fetches from db only the value is not cached already', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({
+      const getItemById = TestUtils.stubData('getItemById').resolves({
         id: 'getHasSeenHF191',
         value: true,
       });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       const ret = await getHasSeenHF191();
       const ret2 = await getHasSeenHF191();
@@ -150,8 +150,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not fail if null is given as json', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult(null as any);
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -167,8 +167,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not fail on empty json object', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({});
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -184,8 +184,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not fail with invalid array length of 3', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [1, 2, 3] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -201,8 +201,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not fail with invalid array length of 3', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [1, 2, 3] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -218,8 +218,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not fail with invalid array length of but not numbers', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: ['1', 2] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -235,8 +235,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not fail with invalid array length of 1 ', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [1] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -252,8 +252,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not write new data if hf major is <= 18 ', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [18, 9] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -269,8 +269,8 @@ describe('hardfork handling', () => {
     });
 
     it('does write new data if hf major is === 19 and minor === 0  ', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [19, 0] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -297,8 +297,8 @@ describe('hardfork handling', () => {
     });
 
     it('does write new data if hf major is === 19 and minor === 1 ', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves(undefined);
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves(undefined);
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [19, 1] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');
@@ -329,8 +329,8 @@ describe('hardfork handling', () => {
     });
 
     it('does not write new data if hf major is === 19 and minor === 1 but it is already known we have seen both forks ', async () => {
-      const getItemById = TestUtils.stubDataItem('getItemById').resolves({ id: '', value: true });
-      const createItem = TestUtils.stubDataItem('createOrUpdateItem').resolves();
+      const getItemById = TestUtils.stubData('getItemById').resolves({ id: '', value: true });
+      const createItem = TestUtils.stubData('createOrUpdateItem').resolves();
 
       await handleHardforkResult({ hf: [19, 1] });
       expect(getItemById.calledTwice).to.be.eq(true, 'getItemById should have been calledTwice');

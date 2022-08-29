@@ -8,7 +8,7 @@ export interface Quote {
   referencedMessageNotFound: boolean;
 }
 
-export interface EnvelopePlus extends SignalService.Envelope {
+export interface EnvelopePlus extends Omit<SignalService.Envelope, 'toJSON'> {
   senderIdentity: string; // Sender's pubkey after it's been decrypted (for medium groups)
   receivedAt: number; // We only seem to set this for public messages?
   id: string;

@@ -24,3 +24,6 @@ playwright.config.js
 
 # Coverage
 release/**
+.nyc_output/
+coverage/
+stylesheets/dist/**

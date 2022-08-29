@@ -44,3 +44,7 @@ ts/node/**/*.d.ts
 ts/node/**/*.d.ts.map
 
 test-results/
+
+.nyc_output
+coverage/
+stylesheets/dist/

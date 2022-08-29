@@ -228,7 +228,8 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   });
 
   let quality = 0.95;
-  let i = 4;
+  const startI = 4;
+  let i = startI;
   const start = Date.now();
   do {
     i -= 1;
@@ -245,7 +246,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
       throw new Error('Failed to get blob during canvasToBlob.');
     }
     readAndResizedBlob = tempBlob;
-    quality = (quality * maxSize) / readAndResizedBlob.size;
+    quality = (quality * maxSize) / (readAndResizedBlob.size * (i === 1 ? 2 : 1)); // make the last iteration decrease drastically quality of the image
 
     if (quality > 1) {
       quality = 0.95;
