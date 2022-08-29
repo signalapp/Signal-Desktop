@@ -253,7 +253,7 @@ export const ReactListModal = (props: Props): ReactElement => {
       setSenders([]);
     }
 
-    if (reactionsMap[currentReact]?.count && !isEqual(count, reactionsMap[currentReact]?.count)) {
+    if (reactionsMap[currentReact]?.count && count !== reactionsMap[currentReact]?.count) {
       setCount(reactionsMap[currentReact].count);
     }
   }, [
