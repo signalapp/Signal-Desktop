@@ -2252,6 +2252,27 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extract-zip/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-08-25T18:40:51.202Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extract-zip/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-08-25T18:40:51.202Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extract-zip/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-08-25T18:40:51.202Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/fabric/dist/fabric.min.js",
     "reasonCategory": "falseMatch",
