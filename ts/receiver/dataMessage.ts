@@ -324,7 +324,7 @@ async function handleSwarmMessage(
       await handleMessageReaction(
         rawDataMessage.reaction,
         msgModel.get('source'),
-        msgModel.get('source') === UserUtils.getOurPubKeyStrFromCache()
+        isUsFromCache(msgModel.get('source'))
       );
       confirm();
       return;
