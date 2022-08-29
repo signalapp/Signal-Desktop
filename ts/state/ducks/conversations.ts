@@ -1,16 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
-import {
-  getFirstUnreadMessageIdInConversation,
-  getLastMessageIdInConversation,
-  getLastMessageInConversation,
-  getMessagesByConversation,
-  getOldestMessageInConversation,
-} from '../../data/data';
-import {
-  ConversationNotificationSettingType,
-  ConversationTypeEnum,
-} from '../../models/conversation';
+import { Data } from '../../data/data';
 import {
   MessageDeliveryStatus,
   MessageModelType,
@@ -21,6 +11,11 @@ import { omit } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
+import {
+  ConversationNotificationSettingType,
+  ConversationTypeEnum,
+} from '../../models/conversationAttributes';
+import { ReactionList } from '../../types/Reaction';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 export type PropsForCallNotification = {
@@ -181,6 +176,8 @@ export type PropsForMessageWithoutConvoProps = {
   serverId?: number;
   status?: LastMessageStatusType;
   attachments?: Array<PropsForAttachment>;
+  reacts?: ReactionList;
+  reactsIndex?: number;
   previews?: Array<any>;
   quote?: {
     text?: string;
@@ -222,16 +219,18 @@ export type LastMessageType = {
   text: string | null;
 };
 
+/**
+ * This closely matches ConversationAttributes except making a lot of fields optional.
+ * The size of the redux store is an issue considering the number of conversations we have, so having optional fields here
+ * allows us to not have them set if they have their default values.
+ */
 export interface ReduxConversationType {
   id: string;
   /**
-   * For a group, this is the groupName. For a private convo, this is always the realName of that user as he defined it (and so not a custom nickname)
+   * This must hold the real session username of the user for a private chat (not the nickname), and the real name of the group/closed group otherwise
    */
-  name?: string;
-  /**
-   * profileName is the bad duck. if a nickname is set, this holds the value of it. Otherwise, it holds the name of that user as he defined it
-   */
-  profileName?: string;
+  displayNameInProfile?: string;
+  nickname?: string;
   hasNickname?: boolean;
 
   activeAt?: number;
@@ -242,6 +241,7 @@ export interface ReduxConversationType {
   isGroup?: boolean;
   isPrivate?: boolean;
   weAreAdmin?: boolean;
+  weAreModerator?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
   isSelected?: boolean;
@@ -253,7 +253,8 @@ export interface ReduxConversationType {
   subscriberCount?: number;
   left?: boolean;
   avatarPath?: string | null; // absolute filepath to the avatar
-  groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
+  groupAdmins?: Array<string>; // admins for closed groups and admins for open groups
+  groupModerators?: Array<string>; // only for opengroups: moderators
   members?: Array<string>; // members for closed groups only
   zombies?: Array<string>; // members for closed groups only
 
@@ -265,6 +266,9 @@ export interface ReduxConversationType {
   isPinned?: boolean;
   isApproved?: boolean;
   didApproveMe?: boolean;
+
+  /** Should only be present on open groups - the key (stored as hex) that should be used when sending messages to an open group */
+  blindedPublicKey?: string;
 }
 
 export interface NotificationForConvoOption {
@@ -341,7 +345,7 @@ async function getMessages({
     return [];
   }
 
-  const messageSet = await getMessagesByConversation(conversationKey, {
+  const messageSet = await Data.getMessagesByConversation(conversationKey, {
     messageId,
   });
 
@@ -362,6 +366,7 @@ type FetchedTopMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
   oldTopMessageId: string | null;
+  newMostRecentMessageIdInConversation: string | null;
 } | null;
 
 export const fetchTopMessagesForConversation = createAsyncThunk(
@@ -374,7 +379,8 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     oldTopMessageId: string | null;
   }): Promise<FetchedTopMessageResults> => {
     // no need to load more top if we are already at the top
-    const oldestMessage = await getOldestMessageInConversation(conversationKey);
+    const oldestMessage = await Data.getOldestMessageInConversation(conversationKey);
+    const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!oldestMessage || oldestMessage.id === oldTopMessageId) {
       window.log.info('fetchTopMessagesForConversation: we are already at the top');
@@ -389,6 +395,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
       conversationKey,
       messagesProps,
       oldTopMessageId,
+      newMostRecentMessageIdInConversation: mostRecentMessage?.id || null,
     };
   }
 );
@@ -410,7 +417,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
     oldBottomMessageId: string | null;
   }): Promise<FetchedBottomMessageResults> => {
     // no need to load more bottom if we are already at the bottom
-    const mostRecentMessage = await getLastMessageInConversation(conversationKey);
+    const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!mostRecentMessage || mostRecentMessage.id === oldBottomMessageId) {
       window.log.info('fetchBottomMessagesForConversation: we are already at the bottom');
@@ -841,7 +848,12 @@ const conversationsSlice = createSlice({
           return { ...state, areMoreMessagesBeingFetched: false };
         }
         // this is called once the messages are loaded from the db for the currently selected conversation
-        const { messagesProps, conversationKey, oldTopMessageId } = action.payload;
+        const {
+          messagesProps,
+          conversationKey,
+          oldTopMessageId,
+          newMostRecentMessageIdInConversation,
+        } = action.payload;
         // double check that this update is for the shown convo
         if (conversationKey === state.selectedConversation) {
           return {
@@ -849,6 +861,7 @@ const conversationsSlice = createSlice({
             oldTopMessageId,
             messages: messagesProps,
             areMoreMessagesBeingFetched: false,
+            mostRecentMessageId: newMostRecentMessageIdInConversation,
           };
         }
         return state;
@@ -975,8 +988,8 @@ export async function openConversationWithMessages(args: {
   messageId: string | null;
 }) {
   const { conversationKey, messageId } = args;
-  const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
-  const mostRecentMessageIdOnOpen = await getLastMessageIdInConversation(conversationKey);
+  const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);
+  const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
   const initialMessages = await getMessages({
     conversationKey,
@@ -1005,7 +1018,7 @@ export async function openConversationToSpecificMessage(args: {
     messageId: messageIdToNavigateTo,
   });
 
-  const mostRecentMessageIdOnOpen = await getLastMessageIdInConversation(conversationKey);
+  const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
   // we do not care about the firstunread message id when opening to a specific message
   window.inboxStore?.dispatch(

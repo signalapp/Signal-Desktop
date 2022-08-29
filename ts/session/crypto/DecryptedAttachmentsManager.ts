@@ -7,9 +7,13 @@
  */
 
 import * as fse from 'fs-extra';
+import path from 'path';
 import { DURATION } from '../constants';
 import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';
-import { getAttachmentPath } from '../../types/MessageAttachment';
+import {
+  getAbsoluteAttachmentPath as msgGetAbsoluteAttachmentPath,
+  getAttachmentPath,
+} from '../../types/MessageAttachment';
 import { decryptAttachmentBufferRenderer } from '../../util/local_attachments_encrypter';
 
 export const urlToDecryptedBlobMap = new Map<
@@ -51,6 +55,10 @@ export const getLocalAttachmentPath = () => {
   return getAttachmentPath();
 };
 
+export const getAbsoluteAttachmentPath = (url: string) => {
+  return msgGetAbsoluteAttachmentPath(url);
+};
+
 export const readFileContent = async (url: string) => {
   return fse.readFile(url);
 };
@@ -65,7 +73,16 @@ export const getDecryptedMediaUrl = async (
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (exports.getLocalAttachmentPath && url.startsWith(exports.getLocalAttachmentPath())) {
+  }
+
+  const isAbsolute = path.isAbsolute(url);
+
+  if (
+    (isAbsolute &&
+      exports.getLocalAttachmentPath &&
+      url.startsWith(exports.getLocalAttachmentPath())) ||
+    fse.pathExistsSync(exports.getAbsoluteAttachmentPath(url))
+  ) {
     // this is a file encoded by session on our current attachments path.
     // we consider the file is encrypted.
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
@@ -82,52 +99,53 @@ export const getDecryptedMediaUrl = async (
       // typescript does not realize that the has above makes sure the get is not undefined
 
       return existingObjUrl;
-    } else {
-      if (urlToDecryptingPromise.has(url)) {
-        return urlToDecryptingPromise.get(url) as Promise<string>;
-      }
+    }
 
-      urlToDecryptingPromise.set(
-        url,
-        new Promise(async resolve => {
-          window.log.info('about to read and decrypt file :', url);
-          try {
-            const encryptedFileContent = await readFileContent(url);
-            const decryptedContent = await decryptAttachmentBufferRenderer(
-              encryptedFileContent.buffer
-            );
-            if (decryptedContent?.length) {
-              const arrayBuffer = decryptedContent.buffer;
-              const obj = makeObjectUrl(arrayBuffer, contentType);
-
-              if (!urlToDecryptedBlobMap.has(url)) {
-                urlToDecryptedBlobMap.set(url, {
-                  decrypted: obj,
-                  lastAccessTimestamp: Date.now(),
-                  forceRetain: isAvatar,
-                });
-              }
-              window.log.info(' file decrypted :', url, ' as ', obj);
-              urlToDecryptingPromise.delete(url);
-              resolve(obj);
-              return;
-            } else {
-              // failed to decrypt, fallback to url image loading
-              // it might be a media we received before the update encrypting attachments locally.
-              urlToDecryptingPromise.delete(url);
-              window.log.info('error decrypting file :', url);
-              resolve(url);
-
-              return;
-            }
-          } catch (e) {
-            window.log.warn(e);
-          }
-        })
-      );
-
+    if (urlToDecryptingPromise.has(url)) {
       return urlToDecryptingPromise.get(url) as Promise<string>;
     }
+
+    urlToDecryptingPromise.set(
+      url,
+      new Promise(async resolve => {
+        window.log.info('about to read and decrypt file :', url, path.isAbsolute(url));
+        try {
+          const absUrl = path.isAbsolute(url) ? url : getAbsoluteAttachmentPath(url);
+          const encryptedFileContent = await readFileContent(absUrl);
+          const decryptedContent = await decryptAttachmentBufferRenderer(
+            encryptedFileContent.buffer
+          );
+          if (decryptedContent?.length) {
+            const arrayBuffer = decryptedContent.buffer;
+            const obj = makeObjectUrl(arrayBuffer, contentType);
+
+            if (!urlToDecryptedBlobMap.has(url)) {
+              urlToDecryptedBlobMap.set(url, {
+                decrypted: obj,
+                lastAccessTimestamp: Date.now(),
+                forceRetain: isAvatar,
+              });
+            }
+            window.log.info(' file decrypted :', url, ' as ', obj);
+            urlToDecryptingPromise.delete(url);
+            resolve(obj);
+            return;
+          } else {
+            // failed to decrypt, fallback to url image loading
+            // it might be a media we received before the update encrypting attachments locally.
+            urlToDecryptingPromise.delete(url);
+            window.log.info('error decrypting file :', url);
+            resolve(url);
+
+            return;
+          }
+        } catch (e) {
+          window.log.warn(e);
+        }
+      })
+    );
+
+    return urlToDecryptingPromise.get(url) as Promise<string>;
   } else {
     // Not sure what we got here. Just return the file.
 
@@ -147,7 +165,14 @@ export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
     return url;
   } else if (exports.getLocalAttachmentPath() && url.startsWith(exports.getLocalAttachmentPath())) {
     if (urlToDecryptedBlobMap.has(url)) {
-      const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
+      const existing = urlToDecryptedBlobMap.get(url);
+
+      const existingObjUrl = existing?.decrypted as string;
+      urlToDecryptedBlobMap.set(url, {
+        decrypted: existingObjUrl,
+        lastAccessTimestamp: Date.now(),
+        forceRetain: existing?.forceRetain || false,
+      });
       return existingObjUrl;
     }
   }

@@ -25,13 +25,13 @@ describe('PendingMessageCache', () => {
       value: '[]',
     };
 
-    TestUtils.stubDataItem('getItemById')
+    TestUtils.stubData('getItemById')
       .withArgs('pendingMessages')
       .callsFake(async () => {
         return data;
       });
 
-    TestUtils.stubDataItem('createOrUpdateItem').callsFake((item: StorageItem) => {
+    TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
       if (item.id === storageID) {
         data = item;
       }

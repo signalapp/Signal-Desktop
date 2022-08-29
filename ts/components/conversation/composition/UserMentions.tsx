@@ -47,4 +47,4 @@ export function cleanMentions(text: string): string {
   return replacedMentions;
 }
 
-export const mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
+export const mentionsRegex = /@\uFFD2[0-1]5[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;

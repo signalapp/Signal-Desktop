@@ -8,7 +8,6 @@ import {
   chunk,
   compact,
   difference,
-  flattenDeep,
   forEach,
   fromPairs,
   isEmpty,
@@ -17,88 +16,47 @@ import {
   isString,
   last,
   map,
-  uniq,
 } from 'lodash';
 import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
-import { getAppRootPath } from './getRootPath';
-import { UpdateLastHashType } from '../types/sqlSharedTypes';
-// tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
-const openDbOptions = {
-  // tslint:disable-next-line: no-constant-condition
-  verbose: false ? console.log : undefined,
-  nativeBinding: path.join(
-    getAppRootPath(),
-    'node_modules',
-    'better-sqlite3',
-    'build',
-    'Release',
-    'better_sqlite3.node'
-  ),
-};
+import { ConversationAttributes } from '../models/conversationAttributes';
+import {
+  arrayStrToJson,
+  assertValidConversationAttributes,
+  ATTACHMENT_DOWNLOADS_TABLE,
+  CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
+  CONVERSATIONS_TABLE,
+  dropFtsAndTriggers,
+  formatRowOfConversation,
+  GUARD_NODE_TABLE,
+  HEX_KEY,
+  IDENTITY_KEYS_TABLE,
+  ITEMS_TABLE,
+  jsonToObject,
+  LAST_HASHES_TABLE,
+  MESSAGES_FTS_TABLE,
+  MESSAGES_TABLE,
+  NODES_FOR_PUBKEY_TABLE,
+  objectToJSON,
+  OPEN_GROUP_ROOMS_V2_TABLE,
+  rebuildFtsTable,
+  toSqliteBoolean,
+} from './database_utility';
 
-const CONVERSATIONS_TABLE = 'conversations';
-const MESSAGES_TABLE = 'messages';
-const MESSAGES_FTS_TABLE = 'messages_fts';
-const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
-const OPEN_GROUP_ROOMS_V2_TABLE = 'openGroupRoomsV2';
-const IDENTITY_KEYS_TABLE = 'identityKeys';
-const GUARD_NODE_TABLE = 'guardNodes';
-const ITEMS_TABLE = 'items';
-const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
-const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
-const LAST_HASHES_TABLE = 'lastHashes';
+import { UpdateLastHashType } from '../types/sqlSharedTypes';
+import { OpenGroupV2Room } from '../data/opengroups';
+
+import {
+  getSQLCipherIntegrityCheck,
+  openAndMigrateDatabase,
+  updateSchema,
+} from './migration/signalMigrations';
+
+// tslint:disable: no-console function-name non-literal-fs-path
 
 const MAX_PUBKEYS_MEMBERS = 300;
-
-function objectToJSON(data: Record<any, any>) {
-  return JSON.stringify(data);
-}
-function jsonToObject(json: string): Record<string, any> {
-  return JSON.parse(json);
-}
-
-function getSQLiteVersion(db: BetterSqlite3.Database) {
-  const { sqlite_version } = db.prepare('select sqlite_version() as sqlite_version').get();
-  return sqlite_version;
-}
-
-function getSchemaVersion(db: BetterSqlite3.Database) {
-  return db.pragma('schema_version', { simple: true });
-}
-
-function getSQLCipherVersion(db: BetterSqlite3.Database) {
-  return db.pragma('cipher_version', { simple: true });
-}
-
-function getSQLCipherIntegrityCheck(db: BetterSqlite3.Database) {
-  const rows = db.pragma('cipher_integrity_check');
-  if (rows.length === 0) {
-    return undefined;
-  }
-  return rows.map((row: any) => row.cipher_integrity_check);
-}
-
-function keyDatabase(db: BetterSqlite3.Database, key: string) {
-  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  // If the password isn't hex then we need to derive a key from it
-
-  const deriveKey = HEX_KEY.test(key);
-
-  const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
-
-  const pragramToRun = `key = ${value}`;
-
-  db.pragma(pragramToRun);
-}
-
-function switchToWAL(db: BetterSqlite3.Database) {
-  // https://sqlite.org/wal.html
-  db.pragma('journal_mode = WAL');
-  db.pragma('synchronous = FULL');
-}
 
 function getSQLIntegrityCheck(db: BetterSqlite3.Database) {
   const checkResult = db.pragma('quick_check', { simple: true });
@@ -107,103 +65,6 @@ function getSQLIntegrityCheck(db: BetterSqlite3.Database) {
   }
 
   return undefined;
-}
-
-const HEX_KEY = /[^0-9A-Fa-f]/;
-
-function migrateSchemaVersion(db: BetterSqlite3.Database) {
-  const userVersion = getUserVersion(db);
-  if (userVersion > 0) {
-    return;
-  }
-  const schemaVersion = getSchemaVersion(db);
-
-  const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
-  console.log(
-    'migrateSchemaVersion: Migrating from schema_version ' +
-      `${schemaVersion} to user_version ${newUserVersion}`
-  );
-
-  setUserVersion(db, newUserVersion);
-}
-
-function getUserVersion(db: BetterSqlite3.Database) {
-  try {
-    return db.pragma('user_version', { simple: true });
-  } catch (e) {
-    console.error('getUserVersion error', e);
-    return 0;
-  }
-}
-
-function setUserVersion(db: BetterSqlite3.Database, version: number) {
-  if (!isNumber(version)) {
-    throw new Error(`setUserVersion: version ${version} is not a number`);
-  }
-
-  db.pragma(`user_version = ${version}`);
-}
-
-function openAndMigrateDatabase(filePath: string, key: string) {
-  let db;
-
-  // First, we try to open the database without any cipher changes
-  try {
-    db = new (BetterSqlite3 as any).default(filePath, openDbOptions);
-
-    keyDatabase(db, key);
-    switchToWAL(db);
-    migrateSchemaVersion(db);
-    db.pragma('secure_delete = ON');
-
-    return db;
-  } catch (error) {
-    if (db) {
-      db.close();
-    }
-    console.log('migrateDatabase: Migration without cipher change failed', error);
-  }
-
-  // If that fails, we try to open the database with 3.x compatibility to extract the
-  //   user_version (previously stored in schema_version, blown away by cipher_migrate).
-
-  let db1;
-  try {
-    db1 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
-    keyDatabase(db1, key);
-
-    // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
-    db1.pragma('cipher_compatibility = 3');
-    migrateSchemaVersion(db1);
-    db1.close();
-  } catch (error) {
-    if (db1) {
-      db1.close();
-    }
-    console.log('migrateDatabase: migrateSchemaVersion failed', error);
-    return null;
-  }
-  // After migrating user_version -> schema_version, we reopen database, because we can't
-  //   migrate to the latest ciphers after we've modified the defaults.
-  let db2;
-  try {
-    db2 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
-    keyDatabase(db2, key);
-
-    db2.pragma('cipher_migrate');
-    switchToWAL(db2);
-
-    // Because foreign key support is not enabled by default!
-    db2.pragma('foreign_keys = OFF');
-
-    return db2;
-  } catch (error) {
-    if (db2) {
-      db2.close();
-    }
-    console.log('migrateDatabase: switchToWAL failed');
-    return null;
-  }
 }
 
 function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
@@ -231,1232 +92,6 @@ function vacuumDatabase(db: BetterSqlite3.Database) {
   console.info(`Vacuuming DB Finished in ${Date.now() - start}ms.`);
 }
 
-function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 1) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion1: starting...');
-
-  db.transaction(() => {
-    db.exec(
-      `CREATE TABLE ${MESSAGES_TABLE}(
-      id STRING PRIMARY KEY ASC,
-      json TEXT,
-
-      unread INTEGER,
-      expires_at INTEGER,
-      sent BOOLEAN,
-      sent_at INTEGER,
-      schemaVersion INTEGER,
-      conversationId STRING,
-      received_at INTEGER,
-      source STRING,
-      sourceDevice STRING,
-      hasAttachments INTEGER,
-      hasFileAttachments INTEGER,
-      hasVisualMediaAttachments INTEGER
-    );
-
-    CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
-      unread
-    );
-
-    CREATE INDEX messages_expires_at ON ${MESSAGES_TABLE} (
-      expires_at
-    );
-
-    CREATE INDEX messages_receipt ON ${MESSAGES_TABLE} (
-      sent_at
-    );
-
-    CREATE INDEX messages_schemaVersion ON ${MESSAGES_TABLE} (
-      schemaVersion
-    );
-
-    CREATE INDEX messages_conversation ON ${MESSAGES_TABLE} (
-      conversationId,
-      received_at
-    );
-
-    CREATE INDEX messages_duplicate_check ON ${MESSAGES_TABLE} (
-      source,
-      sourceDevice,
-      sent_at
-    );
-
-    CREATE INDEX messages_hasAttachments ON ${MESSAGES_TABLE} (
-      conversationId,
-      hasAttachments,
-      received_at
-    );
-
-    CREATE INDEX messages_hasFileAttachments ON ${MESSAGES_TABLE} (
-      conversationId,
-      hasFileAttachments,
-      received_at
-    );
-
-    CREATE INDEX messages_hasVisualMediaAttachments ON ${MESSAGES_TABLE} (
-      conversationId,
-      hasVisualMediaAttachments,
-      received_at
-    );
-
-    CREATE TABLE unprocessed(
-      id STRING,
-      timestamp INTEGER,
-      json TEXT
-    );
-
-    CREATE INDEX unprocessed_id ON unprocessed (
-      id
-    );
-
-    CREATE INDEX unprocessed_timestamp ON unprocessed (
-      timestamp
-    );
-
-
-    `
-    );
-    db.pragma('user_version = 1');
-  })();
-
-  console.log('updateToSchemaVersion1: success!');
-}
-
-function updateToSchemaVersion2(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 2) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion2: starting...');
-
-  db.transaction(() => {
-    db.exec(`ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN expireTimer INTEGER;
-
-     ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN expirationStartTimestamp INTEGER;
-
-     ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN type STRING;
-
-     CREATE INDEX messages_expiring ON ${MESSAGES_TABLE} (
-      expireTimer,
-      expirationStartTimestamp,
-      expires_at
-    );
-
-    UPDATE ${MESSAGES_TABLE} SET
-      expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
-      expireTimer = json_extract(json, '$.expireTimer'),
-      type = json_extract(json, '$.type');
-
-
-     `);
-    db.pragma('user_version = 2');
-  })();
-
-  console.log('updateToSchemaVersion2: success!');
-}
-
-function updateToSchemaVersion3(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 3) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion3: starting...');
-
-  db.transaction(() => {
-    db.exec(`
-    DROP INDEX messages_expiring;
-    DROP INDEX messages_unread;
-
-    CREATE INDEX messages_without_timer ON ${MESSAGES_TABLE} (
-      expireTimer,
-      expires_at,
-      type
-    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;
-
-    CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
-      conversationId,
-      unread
-    ) WHERE unread IS NOT NULL;
-
-    ANALYZE;
-
-    `);
-    db.pragma('user_version = 3');
-  })();
-
-  console.log('updateToSchemaVersion3: success!');
-}
-
-function updateToSchemaVersion4(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 4) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion4: starting...');
-
-  db.transaction(() => {
-    db.exec(`
-
-    CREATE TABLE ${CONVERSATIONS_TABLE}(
-      id STRING PRIMARY KEY ASC,
-      json TEXT,
-
-      active_at INTEGER,
-      type STRING,
-      members TEXT,
-      name TEXT,
-      profileName TEXT
-    );
-
-    CREATE INDEX conversations_active ON ${CONVERSATIONS_TABLE} (
-      active_at
-    ) WHERE active_at IS NOT NULL;
-    CREATE INDEX conversations_type ON ${CONVERSATIONS_TABLE} (
-      type
-    ) WHERE type IS NOT NULL;
-
-    `);
-
-    db.pragma('user_version = 4');
-  })();
-
-  console.log('updateToSchemaVersion4: success!');
-}
-
-function updateToSchemaVersion6(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 6) {
-    return;
-  }
-  console.log('updateToSchemaVersion6: starting...');
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE ${LAST_HASHES_TABLE}(
-      snode TEXT PRIMARY KEY,
-      hash TEXT,
-      expiresAt INTEGER
-    );
-
-    CREATE TABLE seenMessages(
-      hash TEXT PRIMARY KEY,
-      expiresAt INTEGER
-    );
-
-
-    CREATE TABLE sessions(
-      id STRING PRIMARY KEY ASC,
-      number STRING,
-      json TEXT
-    );
-
-    CREATE INDEX sessions_number ON sessions (
-      number
-    ) WHERE number IS NOT NULL;
-
-    CREATE TABLE groups(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );
-
-
-    CREATE TABLE ${IDENTITY_KEYS_TABLE}(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );
-
-    CREATE TABLE ${ITEMS_TABLE}(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );
-
-
-    CREATE TABLE preKeys(
-      id INTEGER PRIMARY KEY ASC,
-      recipient STRING,
-      json TEXT
-    );
-
-
-    CREATE TABLE signedPreKeys(
-      id INTEGER PRIMARY KEY ASC,
-      json TEXT
-    );
-
-    CREATE TABLE contactPreKeys(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      identityKeyString VARCHAR(255),
-      keyId INTEGER,
-      json TEXT
-    );
-
-    CREATE UNIQUE INDEX contact_prekey_identity_key_string_keyid ON contactPreKeys (
-      identityKeyString,
-      keyId
-    );
-
-    CREATE TABLE contactSignedPreKeys(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      identityKeyString VARCHAR(255),
-      keyId INTEGER,
-      json TEXT
-    );
-
-    CREATE UNIQUE INDEX contact_signed_prekey_identity_key_string_keyid ON contactSignedPreKeys (
-      identityKeyString,
-      keyId
-    );
-
-    `);
-    db.pragma('user_version = 6');
-  })();
-
-  console.log('updateToSchemaVersion6: success!');
-}
-
-function updateToSchemaVersion7(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 7) {
-    return;
-  }
-  console.log('updateToSchemaVersion7: starting...');
-
-  db.transaction(() => {
-    db.exec(`
-      -- SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
-      -- We create a new table then copy the data into it, since we can't modify columns
-      DROP INDEX sessions_number;
-      ALTER TABLE sessions RENAME TO sessions_old;
-
-      CREATE TABLE sessions(
-        id TEXT PRIMARY KEY,
-        number TEXT,
-        json TEXT
-      );
-      CREATE INDEX sessions_number ON sessions (
-        number
-      ) WHERE number IS NOT NULL;
-      INSERT INTO sessions(id, number, json)
-    SELECT "+" || id, number, json FROM sessions_old;
-      DROP TABLE sessions_old;
-    `);
-
-    db.pragma('user_version = 7');
-  })();
-
-  console.log('updateToSchemaVersion7: success!');
-}
-
-function updateToSchemaVersion8(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 8) {
-    return;
-  }
-  console.log('updateToSchemaVersion8: starting...');
-
-  db.transaction(() => {
-    db.exec(`
-    -- First, we pull a new body field out of the message table's json blob
-    ALTER TABLE ${MESSAGES_TABLE}
-      ADD COLUMN body TEXT;
-    UPDATE ${MESSAGES_TABLE} SET body = json_extract(json, '$.body');
-
-    -- Then we create our full-text search table and populate it
-    CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
-      USING fts5(id UNINDEXED, body);
-
-    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
-      SELECT id, body FROM ${MESSAGES_TABLE};
-
-    -- Then we set up triggers to keep the full-text search table up to date
-    CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
-      INSERT INTO ${MESSAGES_FTS_TABLE} (
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-    CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
-      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
-    END;
-    CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
-      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
-      INSERT INTO ${MESSAGES_FTS_TABLE}(
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-
-    `);
-    // For formatting search results:
-    //   https://sqlite.org/fts5.html#the_highlight_function
-    //   https://sqlite.org/fts5.html#the_snippet_function
-    db.pragma('user_version = 8');
-  })();
-
-  console.log('updateToSchemaVersion8: success!');
-}
-
-function updateToSchemaVersion9(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 9) {
-    return;
-  }
-  console.log('updateToSchemaVersion9: starting...');
-  db.transaction(() => {
-    db.exec(`
-      CREATE TABLE ${ATTACHMENT_DOWNLOADS_TABLE}(
-        id STRING primary key,
-        timestamp INTEGER,
-        pending INTEGER,
-        json TEXT
-      );
-
-      CREATE INDEX attachment_downloads_timestamp
-        ON ${ATTACHMENT_DOWNLOADS_TABLE} (
-          timestamp
-      ) WHERE pending = 0;
-      CREATE INDEX attachment_downloads_pending
-        ON ${ATTACHMENT_DOWNLOADS_TABLE} (
-          pending
-      ) WHERE pending != 0;
-    `);
-
-    db.pragma('user_version = 9');
-  })();
-
-  console.log('updateToSchemaVersion9: success!');
-}
-
-function updateToSchemaVersion10(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 10) {
-    return;
-  }
-  console.log('updateToSchemaVersion10: starting...');
-
-  db.transaction(() => {
-    db.exec(`
-      DROP INDEX unprocessed_id;
-      DROP INDEX unprocessed_timestamp;
-      ALTER TABLE unprocessed RENAME TO unprocessed_old;
-
-      CREATE TABLE unprocessed(
-        id STRING,
-        timestamp INTEGER,
-        version INTEGER,
-        attempts INTEGER,
-        envelope TEXT,
-        decrypted TEXT,
-        source TEXT,
-        sourceDevice TEXT,
-        serverTimestamp INTEGER
-      );
-
-      CREATE INDEX unprocessed_id ON unprocessed (
-        id
-      );
-      CREATE INDEX unprocessed_timestamp ON unprocessed (
-        timestamp
-      );
-
-      INSERT INTO unprocessed (
-        id,
-        timestamp,
-        version,
-        attempts,
-        envelope,
-        decrypted,
-        source,
-        sourceDevice,
-        serverTimestamp
-      ) SELECT
-        id,
-        timestamp,
-        json_extract(json, '$.version'),
-        json_extract(json, '$.attempts'),
-        json_extract(json, '$.envelope'),
-        json_extract(json, '$.decrypted'),
-        json_extract(json, '$.source'),
-        json_extract(json, '$.sourceDevice'),
-        json_extract(json, '$.serverTimestamp')
-      FROM unprocessed_old;
-
-      DROP TABLE unprocessed_old;
-    `);
-
-    db.pragma('user_version = 10');
-  })();
-  console.log('updateToSchemaVersion10: success!');
-}
-
-function updateToSchemaVersion11(currentVersion: number, db: BetterSqlite3.Database) {
-  if (currentVersion >= 11) {
-    return;
-  }
-  console.log('updateToSchemaVersion11: starting...');
-  db.transaction(() => {
-    db.exec(`
-      DROP TABLE groups;
-    `);
-
-    db.pragma('user_version = 11');
-  })();
-  console.log('updateToSchemaVersion11: success!');
-}
-
-const SCHEMA_VERSIONS = [
-  updateToSchemaVersion1,
-  updateToSchemaVersion2,
-  updateToSchemaVersion3,
-  updateToSchemaVersion4,
-  () => null, // version 5 was dropped
-  updateToSchemaVersion6,
-  updateToSchemaVersion7,
-  updateToSchemaVersion8,
-  updateToSchemaVersion9,
-  updateToSchemaVersion10,
-  updateToSchemaVersion11,
-];
-
-function updateSchema(db: BetterSqlite3.Database) {
-  const sqliteVersion = getSQLiteVersion(db);
-  const sqlcipherVersion = getSQLCipherVersion(db);
-  const userVersion = getUserVersion(db);
-  const maxUserVersion = SCHEMA_VERSIONS.length;
-  const schemaVersion = getSchemaVersion(db);
-
-  console.log('updateSchema:');
-  console.log(` Current user_version: ${userVersion}`);
-  console.log(` Most recent db schema: ${maxUserVersion}`);
-  console.log(` SQLite version: ${sqliteVersion}`);
-  console.log(` SQLCipher version: ${sqlcipherVersion}`);
-  console.log(` (deprecated) schema_version: ${schemaVersion}`);
-
-  for (let index = 0, max = SCHEMA_VERSIONS.length; index < max; index += 1) {
-    const runSchemaUpdate = SCHEMA_VERSIONS[index];
-    runSchemaUpdate(schemaVersion, db);
-  }
-  updateLokiSchema(db);
-}
-
-const LOKI_SCHEMA_VERSIONS = [
-  updateToLokiSchemaVersion1,
-  updateToLokiSchemaVersion2,
-  updateToLokiSchemaVersion3,
-  updateToLokiSchemaVersion4,
-  updateToLokiSchemaVersion5,
-  updateToLokiSchemaVersion6,
-  updateToLokiSchemaVersion7,
-  updateToLokiSchemaVersion8,
-  updateToLokiSchemaVersion9,
-  updateToLokiSchemaVersion10,
-  updateToLokiSchemaVersion11,
-  updateToLokiSchemaVersion12,
-  updateToLokiSchemaVersion13,
-  updateToLokiSchemaVersion14,
-  updateToLokiSchemaVersion15,
-  updateToLokiSchemaVersion16,
-  updateToLokiSchemaVersion17,
-  updateToLokiSchemaVersion18,
-  updateToLokiSchemaVersion19,
-  updateToLokiSchemaVersion20,
-  updateToLokiSchemaVersion21,
-  updateToLokiSchemaVersion22,
-  updateToLokiSchemaVersion23,
-];
-
-function updateToLokiSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 1;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  db.transaction(() => {
-    db.exec(`
-    ALTER TABLE ${MESSAGES_TABLE}
-    ADD COLUMN serverId INTEGER;
-
-    CREATE TABLE servers(
-      serverUrl STRING PRIMARY KEY ASC,
-      token TEXT
-    );
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion2(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 2;
-
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE pairingAuthorisations(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      primaryDevicePubKey VARCHAR(255),
-      secondaryDevicePubKey VARCHAR(255),
-      isGranted BOOLEAN,
-      json TEXT,
-      UNIQUE(primaryDevicePubKey, secondaryDevicePubKey)
-    );
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion3(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 3;
-
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE ${GUARD_NODE_TABLE}(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      ed25519PubKey VARCHAR(64)
-    );
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion4(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 4;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    DROP TABLE ${LAST_HASHES_TABLE};
-    CREATE TABLE ${LAST_HASHES_TABLE}(
-      id TEXT,
-      snode TEXT,
-      hash TEXT,
-      expiresAt INTEGER,
-      PRIMARY KEY (id, snode)
-    );
-    -- Add senderIdentity field to unprocessed needed for medium size groups
-    ALTER TABLE unprocessed ADD senderIdentity TEXT;
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion5(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 5;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE ${NODES_FOR_PUBKEY_TABLE} (
-      pubkey TEXT PRIMARY KEY,
-      json TEXT
-    );
-
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion6(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 6;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    -- Remove RSS Feed conversations
-    DELETE FROM ${CONVERSATIONS_TABLE} WHERE
-    type = 'group' AND
-    id LIKE 'rss://%';
-
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion7(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 7;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    -- Remove multi device data
-
-    DELETE FROM pairingAuthorisations;
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion8(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 8;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-
-    ALTER TABLE ${MESSAGES_TABLE}
-    ADD COLUMN serverTimestamp INTEGER;
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion9(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 9;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  db.transaction(() => {
-    const rows = db
-      .prepare(
-        `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE '__textsecure_group__!%';
-    `
-      )
-      .all();
-
-    const objs = map(rows, row => jsonToObject(row.json));
-
-    const conversationIdRows = db
-      .prepare(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
-      .all();
-
-    const allOldConversationIds = map(conversationIdRows, row => row.id);
-    objs.forEach(o => {
-      const oldId = o.id;
-      const newId = oldId.replace('__textsecure_group__!', '');
-      console.log(`migrating conversation, ${oldId} to ${newId}`);
-
-      if (allOldConversationIds.includes(newId)) {
-        console.log(
-          'Found a duplicate conversation after prefix removing. We need to take care of it'
-        );
-        // We have another conversation with the same future name.
-        // We decided to keep only the conversation with the higher number of messages
-        const countMessagesOld = getMessagesCountByConversation(oldId, db);
-        const countMessagesNew = getMessagesCountByConversation(newId, db);
-
-        console.log(`countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`);
-
-        const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
-        db.prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $deleteId;`).run({ deleteId });
-      }
-
-      const morphedObject = {
-        ...o,
-        id: newId,
-      };
-
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
-        id = $newId,
-        json = $json
-        WHERE id = $oldId;`
-      ).run({
-        newId,
-        json: objectToJSON(morphedObject),
-        oldId,
-      });
-    });
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion10(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 10;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      groupPublicKey TEXT,
-      timestamp NUMBER,
-      json TEXT
-    );
-
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion11(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 11;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    updateExistingClosedGroupV1ToClosedGroupV2(db);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion12(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 12;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE ${OPEN_GROUP_ROOMS_V2_TABLE} (
-      serverUrl TEXT NOT NULL,
-      roomId TEXT NOT NULL,
-      conversationId TEXT,
-      json TEXT,
-      PRIMARY KEY (serverUrl, roomId)
-    );
-
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion13(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 13;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  // Clear any already deleted db entries.
-  // secure_delete = ON will make sure next deleted entries are overwritten with 0 right away
-  db.transaction(() => {
-    db.pragma('secure_delete = ON');
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion14(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 14;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-    DROP TABLE IF EXISTS servers;
-    DROP TABLE IF EXISTS sessions;
-    DROP TABLE IF EXISTS preKeys;
-    DROP TABLE IF EXISTS contactPreKeys;
-    DROP TABLE IF EXISTS contactSignedPreKeys;
-    DROP TABLE IF EXISTS signedPreKeys;
-    DROP TABLE IF EXISTS senderKeys;
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion15(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 15;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-      DROP TABLE pairingAuthorisations;
-      DROP TRIGGER messages_on_delete;
-      DROP TRIGGER messages_on_update;
-    `);
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion16(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 16;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-      ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN serverHash TEXT;
-      ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN isDeleted BOOLEAN;
-
-      CREATE INDEX messages_serverHash ON ${MESSAGES_TABLE} (
-        serverHash
-      ) WHERE serverHash IS NOT NULL;
-
-      CREATE INDEX messages_isDeleted ON ${MESSAGES_TABLE} (
-        isDeleted
-      ) WHERE isDeleted IS NOT NULL;
-
-      ALTER TABLE unprocessed ADD serverHash TEXT;
-      CREATE INDEX messages_messageHash ON unprocessed (
-        serverHash
-      ) WHERE serverHash IS NOT NULL;
-    `);
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion17(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 17;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-      UPDATE ${CONVERSATIONS_TABLE} SET
-      json = json_set(json, '$.isApproved', 1)
-    `);
-    // remove the moderators field. As it was only used for opengroups a long time ago and whatever is there is probably unused
-    db.exec(`
-      UPDATE ${CONVERSATIONS_TABLE} SET
-      json = json_remove(json, '$.moderators', '$.dataMessage', '$.accessKey', '$.profileSharing', '$.sessionRestoreSeen')
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function dropFtsAndTriggers(db: BetterSqlite3.Database) {
-  console.info('dropping fts5 table');
-
-  db.exec(`
-  DROP TRIGGER IF EXISTS messages_on_insert;
-  DROP TRIGGER IF EXISTS messages_on_delete;
-  DROP TRIGGER IF EXISTS messages_on_update;
-  DROP TABLE IF EXISTS ${MESSAGES_FTS_TABLE};
-`);
-}
-
-function rebuildFtsTable(db: BetterSqlite3.Database) {
-  console.info('rebuildFtsTable');
-  db.exec(`
-    -- Then we create our full-text search table and populate it
-    CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
-      USING fts5(id UNINDEXED, body);
-    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
-      SELECT id, body FROM ${MESSAGES_TABLE};
-    -- Then we set up triggers to keep the full-text search table up to date
-    CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
-      INSERT INTO ${MESSAGES_FTS_TABLE} (
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-    CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
-      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
-    END;
-    CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
-      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
-      INSERT INTO ${MESSAGES_FTS_TABLE}(
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-    `);
-  console.info('rebuildFtsTable built');
-}
-
-function updateToLokiSchemaVersion18(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 18;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  // Dropping all pre-existing schema relating to message searching.
-  // Recreating the full text search and related triggers
-
-  db.transaction(() => {
-    dropFtsAndTriggers(db);
-    rebuildFtsTable(db);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion19(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 19;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-      DROP INDEX messages_schemaVersion;
-      ALTER TABLE ${MESSAGES_TABLE} DROP COLUMN schemaVersion;
-    `);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion20(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 20;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    // looking for all private conversations, with a nickname set
-    const rowsToUpdate = db
-      .prepare(
-        `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
-      )
-      .all();
-    // tslint:disable-next-line: no-void-expression
-    (rowsToUpdate || []).forEach(r => {
-      const obj = jsonToObject(r.json);
-
-      // obj.profile.displayName is the display as this user set it.
-      if (obj?.nickname?.length && obj?.profile?.displayName?.length) {
-        // this one has a nickname set, but name is unset, set it to the displayName in the lokiProfile if it's exisitng
-        obj.name = obj.profile.displayName;
-        updateConversation(obj, db);
-      }
-    });
-    writeLokiSchemaVersion(targetVersion, db);
-  });
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion21(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 21;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-        UPDATE ${CONVERSATIONS_TABLE} SET
-        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
-        WHERE type = 'private';
-      `);
-
-    // all closed group admins
-    const closedGroups = getAllClosedGroupConversations(db) || [];
-
-    const adminIds = closedGroups.map(g => g.groupAdmins);
-    const flattenedAdmins = uniq(flattenDeep(adminIds)) || [];
-
-    forEach(flattenedAdmins, id => {
-      db.prepare(
-        `
-        UPDATE ${CONVERSATIONS_TABLE} SET
-        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
-        WHERE id = $id;
-      `
-      ).run({
-        id,
-      });
-    });
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion22(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 22;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`DROP INDEX messages_duplicate_check;`);
-
-    db.exec(`
-    ALTER TABLE ${MESSAGES_TABLE} DROP sourceDevice;
-    `);
-    db.exec(`
-    ALTER TABLE unprocessed DROP sourceDevice;
-    `);
-    db.exec(`
-    CREATE INDEX messages_duplicate_check ON ${MESSAGES_TABLE} (
-      source,
-      sent_at
-    );
-    `);
-
-    dropFtsAndTriggers(db);
-    // we also want to remove the read_by it could have 20 times the same value set in the array
-    // we do this once, and updated the code to not allow multiple entries in read_by as we do not care about multiple entries
-    // (read_by is only used in private chats)
-    db.exec(`
-        UPDATE ${MESSAGES_TABLE} SET
-        json = json_remove(json, '$.schemaVersion', '$.recipients', '$.decrypted_at', '$.sourceDevice', '$.read_by')
-      `);
-    rebuildFtsTable(db);
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion23(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 23;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(
-      `
-      ALTER TABLE ${LAST_HASHES_TABLE} RENAME TO ${LAST_HASHES_TABLE}_old;
-      CREATE TABLE ${LAST_HASHES_TABLE}(
-        id TEXT,
-        snode TEXT,
-        hash TEXT,
-        expiresAt INTEGER,
-        namespace INTEGER NOT NULL DEFAULT 0,
-        PRIMARY KEY (id, snode, namespace)
-      );`
-    );
-
-    db.exec(
-      `INSERT INTO ${LAST_HASHES_TABLE}(id, snode, hash, expiresAt) SELECT id, snode, hash, expiresAt FROM ${LAST_HASHES_TABLE}_old;`
-    );
-    db.exec(`DROP TABLE ${LAST_HASHES_TABLE}_old;`);
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function writeLokiSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
-  db.prepare(
-    `INSERT INTO loki_schema(
-      version
-    ) values (
-      $newVersion
-    )`
-  ).run({ newVersion });
-}
-
-function updateLokiSchema(db: BetterSqlite3.Database) {
-  const result = db
-    .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';`)
-    .get();
-
-  if (!result) {
-    createLokiSchemaTable(db);
-  }
-  const lokiSchemaVersion = getLokiSchemaVersion(db);
-  console.log(
-    'updateLokiSchema:',
-    `Current loki schema version: ${lokiSchemaVersion};`,
-    `Most recent schema version: ${LOKI_SCHEMA_VERSIONS.length};`
-  );
-  for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
-    const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
-    runSchemaUpdate(lokiSchemaVersion, db);
-  }
-}
-
-function getLokiSchemaVersion(db: BetterSqlite3.Database) {
-  const result = db
-    .prepare(
-      `
-    SELECT MAX(version) as version FROM loki_schema;
-    `
-    )
-    .get();
-  if (!result || !result.version) {
-    return 0;
-  }
-  return result.version;
-}
-
-function createLokiSchemaTable(db: BetterSqlite3.Database) {
-  db.transaction(() => {
-    db.exec(`
-    CREATE TABLE loki_schema(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      version INTEGER
-    );
-    INSERT INTO loki_schema (
-      version
-    ) values (
-      0
-    );
-    `);
-  })();
-}
 let globalInstance: BetterSqlite3.Database | null = null;
 
 function assertGlobalInstance(): BetterSqlite3.Database {
@@ -1479,10 +114,10 @@ function assertGlobalInstanceOrInstance(
 
 let databaseFilePath: string | undefined;
 
-// tslint:disable-next-line: function-name
 function _initializePaths(configDir: string) {
   const dbDir = path.join(configDir, 'sql');
   fs.mkdirSync(dbDir, { recursive: true });
+  console.info('Made sure db folder exists at:', dbDir);
   databaseFilePath = path.join(dbDir, 'db.sqlite');
 }
 
@@ -1551,9 +186,8 @@ async function initializeSql({
 
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
-    cleanUpOldOpengroups();
-
-    cleanUpUnusedNodeForKeyEntries();
+    cleanUpOldOpengroupsOnStart();
+    cleanUpUnusedNodeForKeyEntriesOnStart();
     printDbStats();
 
     console.info('total message count after cleaning: ', getMessageCount());
@@ -1785,75 +419,160 @@ function getConversationCount() {
   return row['count(*)'];
 }
 
-function saveConversation(data: any, instance?: BetterSqlite3.Database) {
-  const { id, active_at, type, members, name, profileName } = data;
+// tslint:disable-next-line: max-func-body-length
+// tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line: max-func-body-length
+function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
+  const formatted = assertValidConversationAttributes(data);
 
-  assertGlobalInstanceOrInstance(instance)
-    .prepare(
-      `INSERT INTO ${CONVERSATIONS_TABLE} (
-    id,
-    json,
-
-    active_at,
-    type,
-    members,
-    name,
-    profileName
-  ) values (
-    $id,
-    $json,
-
-    $active_at,
-    $type,
-    $members,
-    $name,
-    $profileName
-  );`
-    )
-    .run({
-      id,
-      json: objectToJSON(data),
-
-      active_at,
-      type,
-      members: members ? members.join(' ') : null,
-      name,
-      profileName,
-    });
-}
-
-function updateConversation(data: any, instance?: BetterSqlite3.Database) {
   const {
     id,
-    // eslint-disable-next-line camelcase
     active_at,
     type,
     members,
-    name,
-    profileName,
-  } = data;
+    nickname,
+    profileKey,
+    zombies,
+    left,
+    expireTimer,
+    mentionedUs,
+    unreadCount,
+    lastMessageStatus,
+    lastMessage,
+    lastJoinedTimestamp,
+    groupAdmins,
+    groupModerators,
+    isKickedFromGroup,
+    subscriberCount,
+    readCapability,
+    writeCapability,
+    uploadCapability,
+    is_medium_group,
+    avatarPointer,
+    avatarImageId,
+    triggerNotificationsFor,
+    isTrustedForAttachmentDownload,
+    isPinned,
+    isApproved,
+    didApproveMe,
+    avatarInProfile,
+    displayNameInProfile,
+    conversationIdOrigin,
+  } = formatted;
 
+  const maxLength = 300;
+  // shorten the last message as we never need more than `maxLength` chars (and it bloats the redux/ipc calls uselessly.
+
+  const shortenedLastMessage =
+    isString(lastMessage) && lastMessage.length > maxLength
+      ? lastMessage.substring(0, maxLength)
+      : lastMessage;
   assertGlobalInstanceOrInstance(instance)
     .prepare(
-      `UPDATE ${CONVERSATIONS_TABLE} SET
-    json = $json,
-
-    active_at = $active_at,
-    type = $type,
-    members = $members,
-    name = $name,
-    profileName = $profileName
-    WHERE id = $id;`
+      `INSERT OR REPLACE INTO ${CONVERSATIONS_TABLE} (
+	id,
+	active_at,
+	type,
+	members,
+  nickname,
+  profileKey,
+  zombies,
+  left,
+  expireTimer,
+  mentionedUs,
+  unreadCount,
+  lastMessageStatus,
+  lastMessage,
+  lastJoinedTimestamp,
+  groupAdmins,
+  groupModerators,
+  isKickedFromGroup,
+  subscriberCount,
+  readCapability,
+  writeCapability,
+  uploadCapability,
+  is_medium_group,
+  avatarPointer,
+  avatarImageId,
+  triggerNotificationsFor,
+  isTrustedForAttachmentDownload,
+  isPinned,
+  isApproved,
+  didApproveMe,
+  avatarInProfile,
+  displayNameInProfile,
+  conversationIdOrigin
+	) values (
+	    $id,
+	    $active_at,
+	    $type,
+	    $members,
+      $nickname,
+      $profileKey,
+      $zombies,
+      $left,
+      $expireTimer,
+      $mentionedUs,
+      $unreadCount,
+      $lastMessageStatus,
+      $lastMessage,
+      $lastJoinedTimestamp,
+      $groupAdmins,
+      $groupModerators,
+      $isKickedFromGroup,
+      $subscriberCount,
+      $readCapability,
+      $writeCapability,
+      $uploadCapability,
+      $is_medium_group,
+      $avatarPointer,
+      $avatarImageId,
+      $triggerNotificationsFor,
+      $isTrustedForAttachmentDownload,
+      $isPinned,
+      $isApproved,
+      $didApproveMe,
+      $avatarInProfile,
+      $displayNameInProfile,
+      $conversationIdOrigin
+      )`
     )
     .run({
       id,
-      json: objectToJSON(data),
-
       active_at,
       type,
-      members: members ? members.join(' ') : null,
-      name,
-      profileName,
+      members: members && members.length ? arrayStrToJson(members) : '[]',
+      nickname,
+      profileKey,
+      zombies: zombies && zombies.length ? arrayStrToJson(zombies) : '[]',
+      left: toSqliteBoolean(left),
+      expireTimer,
+      mentionedUs: toSqliteBoolean(mentionedUs),
+      unreadCount,
+      lastMessageStatus,
+      lastMessage: shortenedLastMessage,
+
+      lastJoinedTimestamp,
+      groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
+      groupModerators:
+        groupModerators && groupModerators.length ? arrayStrToJson(groupModerators) : '[]',
+      isKickedFromGroup: toSqliteBoolean(isKickedFromGroup),
+      subscriberCount,
+      readCapability: toSqliteBoolean(readCapability),
+      writeCapability: toSqliteBoolean(writeCapability),
+      uploadCapability: toSqliteBoolean(uploadCapability),
+
+      is_medium_group: toSqliteBoolean(is_medium_group),
+      avatarPointer,
+      avatarImageId,
+      triggerNotificationsFor,
+      isTrustedForAttachmentDownload: toSqliteBoolean(isTrustedForAttachmentDownload),
+      isPinned: toSqliteBoolean(isPinned),
+      isApproved: toSqliteBoolean(isApproved),
+      didApproveMe: toSqliteBoolean(didApproveMe),
+      avatarInProfile,
+      displayNameInProfile,
+      conversationIdOrigin,
     });
 }
 
@@ -1884,47 +603,46 @@ function getConversationById(id: string) {
       id,
     });
 
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
+  return formatRowOfConversation(row);
 }
 
 function getAllConversations() {
   const rows = assertGlobalInstance()
-    .prepare(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
+    .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
     .all();
-  return map(rows, row => jsonToObject(row.json));
+  return (rows || []).map(formatRowOfConversation);
 }
 
-function getAllOpenGroupV1Conversations() {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE 'publicChat:1@%'
-     ORDER BY id ASC;`
-    )
-    .all();
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
-function getAllOpenGroupV2Conversations() {
-  // first _ matches all opengroupv1,
+function getAllOpenGroupV2Conversations(instance?: BetterSqlite3.Database) {
+  // first _ matches all opengroupv1 (they are completely removed in a migration now),
   // second _ force a second char to be there, so it can only be opengroupv2 convos
 
-  const rows = assertGlobalInstance()
+  const rows = assertGlobalInstanceOrInstance(instance)
     .prepare(
-      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+      `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id LIKE 'publicChat:__%@%'
      ORDER BY id ASC;`
     )
     .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  return (rows || []).map(formatRowOfConversation);
+}
+
+function getAllOpenGroupV2ConversationsIds(): Array<string> {
+  // first _ matches all opengroupv1 (they are completely removed in a migration now),
+  // second _ force a second char to be there, so it can only be opengroupv2 convos
+
+  const rows = assertGlobalInstance()
+    .prepare(
+      `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id LIKE 'publicChat:__%@%'
+     ORDER BY id ASC;`
+    )
+    .all();
+
+  return map(rows, row => row.id);
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
@@ -1941,39 +659,24 @@ function getPubkeysInPublicConversation(conversationId: string) {
   return map(rows, row => row.source);
 }
 
-function getAllGroupsInvolvingId(id: string) {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      members LIKE $id
-     ORDER BY id ASC;`
-    )
-    .all({
-      id: `%${id}%`,
-    });
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
 function searchConversations(query: string) {
   const rows = assertGlobalInstance()
     .prepare(
-      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+      `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
       (
-        name LIKE $name OR
-        profileName LIKE $profileName
+        displayNameInProfile LIKE $displayNameInProfile OR
+        nickname LIKE $nickname
       ) AND active_at IS NOT NULL AND active_at > 0
      ORDER BY active_at DESC
      LIMIT $limit`
     )
     .all({
-      name: `%${query}%`,
-      profileName: `%${query}%`,
+      displayNameInProfile: `%${query}%`,
+      nickname: `%${query}%`,
       limit: 50,
     });
 
-  return map(rows, row => jsonToObject(row.json));
+  return (rows || []).map(formatRowOfConversation);
 }
 
 // order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
@@ -2250,7 +953,7 @@ function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversat
   }
 
   // Sanitize the input as we're going to use it directly in the query
-  const validIds = serverIds.map(Number).filter(n => !Number.isNaN(n));
+  const validServerIds = serverIds.map(Number).filter(n => !Number.isNaN(n));
 
   /*
     Sqlite3 doesn't have a good way to have `IN` query with another query.
@@ -2261,7 +964,7 @@ function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversat
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT id FROM ${MESSAGES_TABLE} WHERE
-    serverId IN (${validIds.join(',')}) AND
+    serverId IN (${validServerIds.join(',')}) AND
     conversationId = $conversationId;`
     )
     .all({
@@ -2297,6 +1000,20 @@ function getMessageBySenderAndSentAt({ source, sentAt }: { source: string; sentA
     });
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+function getMessageByServerId(serverId: number) {
+  const row = assertGlobalInstance()
+    .prepare(`SELECT * FROM ${MESSAGES_TABLE} WHERE serverId = $serverId;`)
+    .get({
+      serverId,
+    });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
 }
 
 function getMessagesCountBySender({ source }: { source: string }) {
@@ -2342,7 +1059,7 @@ function getMessageBySenderAndTimestamp({
 function filterAlreadyFetchedOpengroupMessage(
   msgDetails: Array<{ sender: string; serverTimestamp: number }> // MsgDuplicateSearchOpenGroup
 ): Array<{ sender: string; serverTimestamp: number }> {
-  return msgDetails.filter(msg => {
+  const filteredNonBlinded = msgDetails.filter(msg => {
     const rows = assertGlobalInstance()
       .prepare(
         `SELECT source, serverTimestamp  FROM ${MESSAGES_TABLE} WHERE
@@ -2361,12 +1078,14 @@ function filterAlreadyFetchedOpengroupMessage(
     }
     return true;
   });
+
+  return filteredNonBlinded;
 }
 
 function getUnreadByConversation(conversationId: string) {
   const rows = assertGlobalInstance()
     .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
+      `SELECT * FROM ${MESSAGES_TABLE} WHERE
       unread = $unread AND
       conversationId = $conversationId
      ORDER BY received_at DESC;`
@@ -2414,10 +1133,9 @@ function markAllAsReadByConversationNoExpiration(
 function getUnreadCountByConversation(conversationId: string) {
   const row = assertGlobalInstance()
     .prepare(
-      `SELECT count(*) from ${MESSAGES_TABLE} WHERE
+      `SELECT count(*) FROM ${MESSAGES_TABLE} WHERE
     unread = $unread AND
-    conversationId = $conversationId
-    ORDER BY received_at DESC;`
+    conversationId = $conversationId;`
     )
     .get({
       unread: 1,
@@ -2611,11 +1329,14 @@ function getFirstUnreadMessageIdInConversation(conversationId: string) {
   return rows[0].id;
 }
 
-function getFirstUnreadMessageWithMention(conversationId: string, ourpubkey: string) {
-  if (!ourpubkey || !ourpubkey.length) {
+function getFirstUnreadMessageWithMention(
+  conversationId: string,
+  ourPkInThatRoom: string // this might be a blinded id for a sogs
+): string | undefined {
+  if (!ourPkInThatRoom || !ourPkInThatRoom.length) {
     throw new Error('getFirstUnreadMessageWithMention needs our pubkey but nothing was given');
   }
-  const likeMatch = `%@${ourpubkey}%`;
+  const likeMatch = `%@${ourPkInThatRoom}%`;
 
   const rows = assertGlobalInstance()
     .prepare(
@@ -2980,7 +1701,7 @@ function getMessagesWithFileAttachments(conversationId: string, limit: number) {
 }
 
 function getExternalFilesForMessage(message: any) {
-  const { attachments, contact, quote, preview } = message;
+  const { attachments, quote, preview } = message;
   const files: Array<any> = [];
 
   forEach(attachments, attachment => {
@@ -3008,16 +1729,6 @@ function getExternalFilesForMessage(message: any) {
     });
   }
 
-  if (contact && contact.length) {
-    forEach(contact, item => {
-      const { avatar } = item;
-
-      if (avatar && avatar.avatar && avatar.avatar.path) {
-        files.push(avatar.avatar.path);
-      }
-    });
-  }
-
   if (preview && preview.length) {
     forEach(preview, item => {
       const { image } = item;
@@ -3031,22 +1742,31 @@ function getExternalFilesForMessage(message: any) {
   return files;
 }
 
-function getExternalFilesForConversation(conversation: any) {
-  const { avatar, profileAvatar } = conversation;
+function getExternalFilesForConversation(
+  conversationAvatar:
+    | string
+    | {
+        path?: string | undefined;
+      }
+    | undefined
+) {
   const files = [];
 
-  if (avatar && avatar.path) {
-    files.push(avatar.path);
+  if (isString(conversationAvatar)) {
+    files.push(conversationAvatar);
   }
 
-  if (profileAvatar && profileAvatar.path) {
-    files.push(profileAvatar.path);
+  if (isObject(conversationAvatar)) {
+    const avatarObj = conversationAvatar as Record<string, any>;
+    if (isString(avatarObj.path)) {
+      files.push(avatarObj.path);
+    }
   }
 
   return files;
 }
 
-function removeKnownAttachments(allAttachments: any) {
+function removeKnownAttachments(allAttachments: Array<string>) {
   const lookup = fromPairs(map(allAttachments, file => [file, true]));
   const chunkSize = 50;
 
@@ -3101,9 +1821,9 @@ function removeKnownAttachments(allAttachments: any) {
   );
 
   while (!complete) {
-    const rows = assertGlobalInstance()
+    const conversations = assertGlobalInstance()
       .prepare(
-        `SELECT json FROM ${CONVERSATIONS_TABLE}
+        `SELECT * FROM ${CONVERSATIONS_TABLE}
        WHERE id > $id
        ORDER BY id ASC
        LIMIT $chunkSize;`
@@ -3113,9 +1833,9 @@ function removeKnownAttachments(allAttachments: any) {
         chunkSize,
       });
 
-    const conversations = map(rows, row => jsonToObject(row.json));
     forEach(conversations, conversation => {
-      const externalFiles = getExternalFilesForConversation(conversation);
+      const avatar = (conversation as ConversationAttributes)?.avatarInProfile;
+      const externalFiles = getExternalFilesForConversation(avatar);
       forEach(externalFiles, file => {
         // tslint:disable-next-line: no-dynamic-delete
         delete lookup[file];
@@ -3144,63 +1864,6 @@ function getMessagesCountByConversation(
     .get({ conversationId });
 
   return row ? row['count(*)'] : 0;
-}
-
-function getAllClosedGroupConversations(instance?: BetterSqlite3.Database) {
-  const rows = assertGlobalInstanceOrInstance(instance)
-    .prepare(
-      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id NOT LIKE 'publicChat:%'
-      ORDER BY id ASC;`
-    )
-    .all();
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
-function remove05PrefixFromStringIfNeeded(str: string) {
-  if (str.length === 66 && str.startsWith('05')) {
-    return str.substr(2);
-  }
-  return str;
-}
-
-function updateExistingClosedGroupV1ToClosedGroupV2(db: BetterSqlite3.Database) {
-  // the migration is called only once, so all current groups not being open groups are v1 closed group.
-  const allClosedGroupV1 = getAllClosedGroupConversations(db) || [];
-
-  allClosedGroupV1.forEach(groupV1 => {
-    const groupId = groupV1.id;
-    try {
-      console.log('Migrating closed group v1 to v2: pubkey', groupId);
-      const groupV1IdentityKey = getIdentityKeyById(groupId, db);
-      if (!groupV1IdentityKey) {
-        return;
-      }
-      const encryptionPubKeyWithoutPrefix = remove05PrefixFromStringIfNeeded(groupV1IdentityKey.id);
-
-      // Note:
-      // this is what we get from getIdentityKeyById:
-      //   {
-      //     id: string;
-      //     secretKey?: string;
-      //   }
-
-      // and this is what we want saved in db:
-      //   {
-      //    publicHex: string; // without prefix
-      //    privateHex: string;
-      //   }
-      const keyPair = {
-        publicHex: encryptionPubKeyWithoutPrefix,
-        privateHex: groupV1IdentityKey.secretKey,
-      };
-      addClosedGroupEncryptionKeyPair(groupId, keyPair, db);
-    } catch (e) {
-      console.error(e);
-    }
-  });
 }
 
 /**
@@ -3275,17 +1938,23 @@ function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string) {
 /**
  * Related to Opengroup V2
  */
-function getAllV2OpenGroupRooms() {
-  const rows = assertGlobalInstance()
+function getAllV2OpenGroupRooms(instance?: BetterSqlite3.Database): Array<OpenGroupV2Room> {
+  const rows = assertGlobalInstanceOrInstance(instance)
     .prepare(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`)
     .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  if (!rows) {
+    return [];
+  }
+
+  return rows.map(r => jsonToObject(r.json)) as Array<OpenGroupV2Room>;
 }
 
 function getV2OpenGroupRoom(conversationId: string) {
   const row = assertGlobalInstance()
-    .prepare(`SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`)
+    .prepare(
+      `SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`
+    )
     .get({
       conversationId,
     });
@@ -3297,26 +1966,9 @@ function getV2OpenGroupRoom(conversationId: string) {
   return jsonToObject(row.json);
 }
 
-function getV2OpenGroupRoomByRoomId(serverUrl: string, roomId: string) {
-  const row = assertGlobalInstance()
-    .prepare(
-      `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE serverUrl = $serverUrl AND roomId = $roomId;`
-    )
-    .get({
-      serverUrl,
-      roomId,
-    });
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
-}
-
-function saveV2OpenGroupRoom(opengroupsv2Room: any) {
+function saveV2OpenGroupRoom(opengroupsv2Room: OpenGroupV2Room, instance?: BetterSqlite3.Database) {
   const { serverUrl, roomId, conversationId } = opengroupsv2Room;
-  assertGlobalInstance()
+  assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${OPEN_GROUP_ROOMS_V2_TABLE} (
       serverUrl,
@@ -3391,12 +2043,12 @@ function printDbStats() {
  * Remove all the unused entries in the snodes for pubkey table.
  * This table is used to know which snodes we should contact to send a message to a recipient
  */
-function cleanUpUnusedNodeForKeyEntries() {
-  // we have to allow private and closed group entries
+function cleanUpUnusedNodeForKeyEntriesOnStart() {
+  // we have to keep private and closed group ids
   const allIdsToKeep =
     assertGlobalInstance()
       .prepare(
-        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'publicChat:1@%'
+        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'publicChat:%'
     `
       )
       .all()
@@ -3439,7 +2091,7 @@ function cleanUpMessagesJson() {
   console.info(`cleanUpMessagesJson took ${Date.now() - start}ms`);
 }
 
-function cleanUpOldOpengroups() {
+function cleanUpOldOpengroupsOnStart() {
   const ourNumber = getItemById('number_id');
   if (!ourNumber || !ourNumber.value) {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
@@ -3459,11 +2111,12 @@ function cleanUpOldOpengroups() {
     return;
   }
 
-  const v2Convos = getAllOpenGroupV2Conversations();
-  if (!v2Convos || !v2Convos.length) {
+  const v2ConvosIds = getAllOpenGroupV2ConversationsIds();
+  if (!v2ConvosIds || !v2ConvosIds.length) {
     console.info('cleanUpOldOpengroups: v2Convos is empty');
     return;
   }
+  console.info(`Count of v2 opengroup convos to clean: ${v2ConvosIds.length}`);
 
   // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
   // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
@@ -3473,13 +2126,10 @@ function cleanUpOldOpengroups() {
   const maxMessagePerOpengroupConvo = 2000;
 
   // first remove very old messages for each opengroups
-
   const db = assertGlobalInstance();
-
   db.transaction(() => {
     dropFtsAndTriggers(db);
-    v2Convos.forEach(convo => {
-      const convoId = convo.id;
+    v2ConvosIds.forEach(convoId => {
       const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
       if (messagesInConvoBefore >= maxMessagePerOpengroupConvo) {
@@ -3510,8 +2160,12 @@ function cleanUpOldOpengroups() {
         const convoProps = getConversationById(convoId);
         if (convoProps) {
           convoProps.unreadCount = unreadCount;
-          updateConversation(convoProps);
+          saveConversation(convoProps);
         }
+      } else {
+        console.info(
+          `Not cleaning messages older than 6 months in public convo: ${convoId}. message count: ${messagesInConvoBefore}`
+        );
       }
     });
 
@@ -3620,13 +2274,33 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
   for (let index = 0; index < numConvosToAdd; index++) {
     const activeAt = Date.now() - index;
     const id = Date.now() - 1000 * index;
-    const convoObjToAdd = {
+    const convoObjToAdd: ConversationAttributes = {
       active_at: activeAt,
       members: [],
-      profileName: `${activeAt}`,
-      name: `${activeAt}`,
+      displayNameInProfile: `${activeAt}`,
       id: `05${id}`,
       type: 'group',
+      didApproveMe: false,
+      expireTimer: 0,
+      groupAdmins: [],
+      groupModerators: [],
+      isApproved: false,
+      isKickedFromGroup: false,
+      isPinned: false,
+      isTrustedForAttachmentDownload: false,
+      is_medium_group: false,
+      lastJoinedTimestamp: 0,
+      lastMessage: null,
+      lastMessageStatus: undefined,
+      left: false,
+      mentionedUs: false,
+      subscriberCount: 0,
+      readCapability: true,
+      writeCapability: true,
+      uploadCapability: true,
+      triggerNotificationsFor: 'all',
+      unreadCount: 0,
+      zombies: [],
     };
     convosIdsAdded.push(id);
     try {
@@ -3721,15 +2395,11 @@ export const sqlNode = {
   getConversationCount,
   saveConversation,
   getConversationById,
-  updateConversation,
   removeConversation,
   getAllConversations,
-  getAllOpenGroupV1Conversations,
   getAllOpenGroupV2Conversations,
   getPubkeysInPublicConversation,
-  getAllGroupsInvolvingId,
   removeAllConversations,
-  cleanUpOldOpengroups,
 
   searchConversations,
   searchMessages,
@@ -3755,6 +2425,7 @@ export const sqlNode = {
   getMessageIdsFromServerIds,
   getMessageById,
   getMessagesBySentAt,
+  getMessageByServerId,
   getSeenMessagesByHashList,
   getLastHashBySnode,
   getExpiredMessages,
@@ -3789,6 +2460,7 @@ export const sqlNode = {
 
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+  getMessagesCountByConversation,
 
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
@@ -3799,6 +2471,5 @@ export const sqlNode = {
   getV2OpenGroupRoom,
   saveV2OpenGroupRoom,
   getAllV2OpenGroupRooms,
-  getV2OpenGroupRoomByRoomId,
   removeV2OpenGroupRoom,
 };

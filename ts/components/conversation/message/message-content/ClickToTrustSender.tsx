@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getLastMessagesByConversation, getMessageById } from '../../../../data/data';
+import { Data } from '../../../../data/data';
 import { getConversationController } from '../../../../session/conversations';
 import { AttachmentDownloads } from '../../../../session/utils';
 import { updateConfirmModal } from '../../../../state/ducks/modalDialog';
@@ -23,7 +23,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
   const openConfirmationModal = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
-    const found = await getMessageById(props.messageId);
+    const found = await Data.getMessageById(props.messageId);
     if (!found) {
       window.log.warn('message not found ClickToTrustSender');
       return;
@@ -42,7 +42,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
         onClickOk: async () => {
           convo.set({ isTrustedForAttachmentDownload: true });
           await convo.commit();
-          const messagesInConvo = await getLastMessagesByConversation(convo.id, 100, false);
+          const messagesInConvo = await Data.getLastMessagesByConversation(convo.id, 100, false);
 
           await Promise.all(
             messagesInConvo.map(async message => {

@@ -21,7 +21,7 @@ import { SessionFileDropzone } from './SessionFileDropzone';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
-import { getLastMessageInConversation, getPubkeysInPublicConversation } from '../../data/data';
+import { Data } from '../../data/data';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import {
@@ -177,7 +177,9 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     const sendAndScroll = async () => {
-      void conversationModel.sendMessage(msg);
+      // this needs to be awaited otherwise, the scrollToNow won't find the new message in the db.
+      // and this make the showScrollButton to be visible (even if we just scrolled to now)
+      await conversationModel.sendMessage(msg);
       await this.scrollToNow();
     };
 
@@ -283,12 +285,12 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     await markAllReadByConvoId(conversationKey);
-    const mostNowMessage = await getLastMessageInConversation(conversationKey);
+    const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
-    if (mostNowMessage) {
+    if (mostRecentMessage) {
       await openConversationToSpecificMessage({
         conversationKey,
-        messageIdToNavigateTo: mostNowMessage.id,
+        messageIdToNavigateTo: mostRecentMessage.id,
         shouldHighlightMessage: false,
       });
       const messageContainer = this.messageContainerRef.current;
@@ -484,7 +486,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
   private async updateMemberListBouncy() {
     const start = Date.now();
-    const allPubKeys = await getPubkeysInPublicConversation(this.props.selectedConversationKey);
+    const allPubKeys = await Data.getPubkeysInPublicConversation(
+      this.props.selectedConversationKey
+    );
 
     window?.log?.debug(
       `[perf] getPubkeysInPublicConversation returned '${
@@ -494,7 +498,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const allMembers = allPubKeys.map((pubKey: string) => {
       const conv = getConversationController().get(pubKey);
-      const profileName = conv?.getProfileName() || 'Anonymous';
+      const profileName = conv?.getNicknameOrRealUsernameOrPlaceholder();
 
       return {
         id: pubKey,

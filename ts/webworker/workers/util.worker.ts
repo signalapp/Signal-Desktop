@@ -74,6 +74,10 @@ function fromBase64ToArrayBuffer(base64Str: string) {
   return ByteBuffer.wrap(base64Str, 'base64').toArrayBuffer();
 }
 
+function fromBase64ToUint8Array(base64Str: string) {
+  return new Uint8Array(ByteBuffer.wrap(base64Str, 'base64').toArrayBuffer());
+}
+
 function fromHexToArray(hexStr: string) {
   return new Uint8Array(ByteBuffer.wrap(hexStr, 'hex').toArrayBuffer());
 }
@@ -94,25 +98,27 @@ async function verifyAllSignatures(
     sender: string;
   }>
 ) {
-  const checked = await Promise.all(
-    uncheckedSignatureMessages.map(async unchecked => {
-      try {
-        const valid = await verifySignature(
-          unchecked.sender,
-          unchecked.base64EncodedData,
-          unchecked.base64EncodedSignature
-        );
-        if (valid) {
-          return unchecked.base64EncodedData;
-        }
-        // tslint:disable: no-console
-        console.info('got an opengroup message with an invalid signature');
-        return null;
-      } catch (e) {
-        return null;
+  const checked = [];
+  // keep this out of a racing (i.e. no Promise.all) for easier debugging for now
+  // tslint:disable-next-line: prefer-for-of
+  for (let index = 0; index < uncheckedSignatureMessages.length; index++) {
+    const unchecked = uncheckedSignatureMessages[index];
+    try {
+      const valid = await verifySignature(
+        unchecked.sender,
+        unchecked.base64EncodedData,
+        unchecked.base64EncodedSignature
+      );
+      if (valid) {
+        checked.push(unchecked.base64EncodedData);
+        continue;
       }
-    })
-  );
+      // tslint:disable: no-console
+      console.info('got an opengroup message with an invalid signature');
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
   return _.compact(checked) || [];
 }
@@ -133,14 +139,33 @@ async function verifySignature(
     if (typeof signatureBase64 !== 'string') {
       throw new Error('signatureBase64 type not correct');
     }
-    const messageData = new Uint8Array(fromBase64ToArrayBuffer(messageBase64));
-    const signature = new Uint8Array(fromBase64ToArrayBuffer(signatureBase64));
+    const messageData = fromBase64ToUint8Array(messageBase64);
+    const signature = fromBase64ToUint8Array(signatureBase64);
+    const isBlindedSender = senderPubKey.startsWith('15');
+
+    const pubkeyWithoutPrefix = senderPubKey.slice(2);
+    const pubkeyBytes = fromHexToArray(pubkeyWithoutPrefix);
+
+    if (isBlindedSender) {
+      const sodium = await getSodiumWorker();
+      const blindedVerifySig = sodium.crypto_sign_verify_detached(
+        signature,
+        messageData,
+        pubkeyBytes
+      );
+      if (!blindedVerifySig) {
+        console.info('Invalid signature blinded');
+        return false;
+      }
+
+      return true;
+    }
     // verify returns true if the signature is not correct
 
-    const verifyRet = verify(fromHexToArray(senderPubKey), messageData, signature);
+    const verifyRet = verify(pubkeyBytes, messageData, signature);
 
     if (!verifyRet) {
-      console.error('Invalid signature');
+      console.error('Invalid signature not blinded');
       return false;
     }
 
@@ -191,9 +216,6 @@ async function encryptForPubkey(pubkeyX25519str: string, payloadBytes: Uint8Arra
     assertArrayBufferView(payloadBytes);
     const ran = (await getSodiumWorker()).randombytes_buf(32);
     const ephemeral = generateKeyPair(ran);
-    // Signal protocol prepends with "0x05"
-    // keys.pubKey = keys.pubKey.slice(1);
-    // return { pubKey: keys.public, privKey: keys.private };
     const pubkeyX25519Buffer = fromHexToArray(pubkeyX25519str);
     const symmetricKey = await deriveSymmetricKey(
       pubkeyX25519Buffer,
@@ -233,7 +255,6 @@ async function EncryptAESGCM(symmetricKey: ArrayBuffer, plaintext: ArrayBuffer) 
 // uint8array, uint8array
 async function DecryptAESGCM(symmetricKey: Uint8Array, ivAndCiphertext: Uint8Array) {
   assertArrayBufferView(symmetricKey);
-
   assertArrayBufferView(ivAndCiphertext);
 
   const nonce = ivAndCiphertext.buffer.slice(0, NONCE_LENGTH);

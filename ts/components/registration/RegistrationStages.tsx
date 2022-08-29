@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { SignUpMode, SignUpTab } from './SignUpTab';
 import { SignInMode, SignInTab } from './SignInTab';
-import { createOrUpdateItem, removeAll } from '../../data/data';
+import { Data } from '../../data/data';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
 import { mn_decode } from '../../session/crypto/mnemonic';
@@ -21,7 +21,7 @@ export const MAX_USERNAME_LENGTH = 26;
 // tslint:disable: use-simple-attributes
 
 export async function resetRegistration() {
-  await removeAll();
+  await Data.removeAll();
   Storage.reset();
   await Storage.fetch();
   getConversationController().reset();
@@ -60,7 +60,7 @@ export async function signUp(signUpDetails: {
   try {
     await resetRegistration();
     await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
-    await createOrUpdateItem({
+    await Data.createOrUpdateItem({
       id: 'hasSyncedInitialConfigurationItem',
       value: true,
       timestamp: Date.now(),

@@ -1,4 +1,4 @@
-import * as DataItem from '../data/channelsItem';
+import { Data } from '../data/data';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 
@@ -140,7 +140,7 @@ export class BlockedNumberController {
   }
 
   private static async getNumbersFromDB(id: string): Promise<Set<string>> {
-    const data = await DataItem.getItemById(id);
+    const data = await Data.getItemById(id);
     if (!data || !data.value) {
       return new Set();
     }
@@ -149,7 +149,7 @@ export class BlockedNumberController {
   }
 
   private static async saveToDB(id: string, numbers: Set<string>): Promise<void> {
-    await DataItem.createOrUpdateItem({
+    await Data.createOrUpdateItem({
       id,
       value: [...numbers],
     });

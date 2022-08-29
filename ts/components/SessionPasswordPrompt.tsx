@@ -17,6 +17,13 @@ interface State {
 
 export const MAX_LOGIN_TRIES = 3;
 
+const TextPleaseWait = (props: { isLoading: boolean }) => {
+  if (!props.isLoading) {
+    return null;
+  }
+  return <div>{window.i18n('pleaseWaitOpenAndOptimizeDb')}</div>;
+};
+
 class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   private inputRef?: any;
 
@@ -41,6 +48,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
   public render() {
     const showResetElements = this.state.errorCount >= MAX_LOGIN_TRIES;
+    const isLoading = this.state.loading;
 
     const wrapperClass = this.state.clearDataView
       ? 'clear-data-wrapper'
@@ -87,7 +95,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         )}
       </div>
     );
-    const spinner = this.state.loading ? <SessionSpinner loading={true} /> : null;
+    const spinner = isLoading ? <SessionSpinner loading={true} /> : null;
 
     return (
       <div className="password">
@@ -98,8 +106,9 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
               <h1>{infoTitle}</h1>
             </div>
-
             {spinner || featureElement}
+            <TextPleaseWait isLoading={isLoading} />
+
             {errorSection}
             {buttonGroup}
           </div>
@@ -145,6 +154,8 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     });
     const passPhrase = String((this.inputRef as HTMLInputElement).value);
 
+    // this is to make sure a render has the time to happen before we lock the thread with all of the db work
+    // this might be removed once we get the db operations to a worker thread
     global.setTimeout(() => this.onLogin(passPhrase), 100);
   }
 

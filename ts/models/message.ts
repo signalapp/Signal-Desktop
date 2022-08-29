@@ -2,12 +2,17 @@ import Backbone from 'backbone';
 // tslint:disable-next-line: match-default-export-name
 import filesize from 'filesize';
 import { SignalService } from '../../ts/protobuf';
-import { getMessageQueue, Utils } from '../../ts/session';
+import { getMessageQueue } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
 import { DataMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
-import { UserUtils } from '../../ts/session/utils';
+import {
+  uploadAttachmentsToFileServer,
+  uploadLinkPreviewToFileServer,
+  uploadQuoteThumbnailsToFileServer,
+  UserUtils,
+} from '../../ts/session/utils';
 import {
   DataExtractionNotificationMsg,
   fillMessageAttributesWithDefaults,
@@ -20,8 +25,8 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
-import { getFirstUnreadMessageWithMention, saveMessage } from '../../ts/data/data';
-import { ConversationModel, ConversationTypeEnum } from './conversation';
+import { Data } from '../../ts/data/data';
+import { ConversationModel } from './conversation';
 import {
   FindAndFormatContactType,
   LastMessageStatusType,
@@ -39,19 +44,35 @@ import {
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
 } from '../state/ducks/conversations';
-import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import {
+  VisibleMessage,
+  VisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
 import {
-  uploadAttachmentsV2,
-  uploadLinkPreviewsV2,
-  uploadQuoteThumbnailsV2,
+  uploadAttachmentsV3,
+  uploadLinkPreviewsV3,
+  uploadQuoteThumbnailsV3,
 } from '../session/utils/AttachmentsV2';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { getV2OpenGroupRoom } from '../data/opengroups';
+import { OpenGroupData } from '../data/opengroups';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import _, { isEmpty } from 'lodash';
+import _, {
+  cloneDeep,
+  debounce,
+  groupBy,
+  isEmpty,
+  map,
+  partition,
+  pick,
+  reduce,
+  reject,
+  size as lodashSize,
+  sortBy,
+  uniq,
+} from 'lodash';
 import { SettingsKey } from '../data/settings-key';
 import {
   deleteExternalMessageFiles,
@@ -64,6 +85,16 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { LinkPreviews } from '../util/linkPreviews';
+import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
+import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
+import {
+  findCachedBlindedIdFromUnblinded,
+  getUsBlindedInThatServer,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
+import { ReactionList } from '../types/Reaction';
+import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -152,13 +183,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public isExpirationTimerUpdate() {
     const expirationTimerFlag = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-    const flags = this.get('flags');
-    if (!flags) {
-      return false;
-    }
+    const flags = this.get('flags') || 0;
+    const expirationTimerUpdate = this.get('expirationTimerUpdate');
+
     // eslint-disable-next-line no-bitwise
     // tslint:disable-next-line: no-bitwise
-    return !!(flags & expirationTimerFlag);
+    return Boolean(flags & expirationTimerFlag) || !isEmpty(expirationTimerUpdate);
   }
 
   public isIncoming() {
@@ -201,12 +231,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // regex with a 'g' to ignore part groups
       const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
       const pubkeysInDesc = description.match(regex);
-      (pubkeysInDesc || []).forEach((pubkey: string) => {
+      (pubkeysInDesc || []).forEach((pubkeyWithAt: string) => {
+        const pubkey = pubkeyWithAt.slice(1);
+        const isUS = isUsAnySogsFromCache(pubkey);
         const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-          pubkey.slice(1)
+          pubkey
         );
-        if (displayName && displayName.length) {
-          description = description?.replace(pubkey, `@${displayName}`);
+        if (isUS) {
+          description = description?.replace(pubkeyWithAt, `@${window.i18n('you')}`);
+        } else if (displayName && displayName.length) {
+          description = description?.replace(pubkeyWithAt, `@${displayName}`);
         }
       });
       return description;
@@ -338,37 +372,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  public findContact(pubkey: string) {
-    return getConversationController().get(pubkey);
-  }
-
-  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
-    const contactModel = this.findContact(pubkey);
-    let profileName;
-    let isMe = false;
-
-    if (pubkey === UserUtils.getOurPubKeyStrFromCache()) {
-      profileName = window.i18n('you');
-      isMe = true;
-    } else {
-      profileName = contactModel ? contactModel.getProfileName() : null;
-    }
-
-    return {
-      pubkey: pubkey,
-      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-      name: (contactModel ? contactModel.getName() : null) as string | null,
-      profileName: profileName as string | null,
-      title: (contactModel ? contactModel.getTitle() : null) as string | null,
-      isMe,
-    };
-  }
-
   // tslint:disable-next-line: cyclomatic-complexity
   public getPropsForGroupUpdateMessage(): PropsForGroupUpdate | null {
     const groupUpdate = this.getGroupUpdateAsArray();
 
-    if (!groupUpdate || _.isEmpty(groupUpdate)) {
+    if (!groupUpdate || isEmpty(groupUpdate)) {
       return null;
     }
 
@@ -502,6 +510,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (previews && previews.length) {
       props.previews = previews;
     }
+    const reacts = this.getPropsForReacts();
+    if (reacts && Object.keys(reacts).length) {
+      props.reacts = reacts;
+    }
     const quote = this.getPropsForQuote(options);
     if (quote) {
       props.quote = quote;
@@ -523,8 +535,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const nbsp = '\xa0';
     const regex = /(\S)( +)(\S+\s*)$/;
     return text.replace(regex, (_match, start, spaces, end) => {
-      const newSpaces =
-        end.length < 12 ? _.reduce(spaces, accumulator => accumulator + nbsp, '') : spaces;
+      const newSpaces: any =
+        end.length < 12 ? reduce(spaces, accumulator => accumulator + nbsp, '') : spaces;
       return `${start}${newSpaces}${end}`;
     });
   }
@@ -574,6 +586,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     });
   }
 
+  public getPropsForReacts(): ReactionList | null {
+    return this.get('reacts') || null;
+  }
+
   public getPropsForQuote(_options: any = {}) {
     const quote = this.get('quote');
 
@@ -586,7 +602,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
 
-    const isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
+    let isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
+
+    if (this.getConversation()?.isPublic() && PubKey.hasBlindedPrefix(author)) {
+      const room = OpenGroupData.getV2OpenGroupRoom(this.get('conversationId'));
+      if (room && roomHasBlindEnabled(room)) {
+        const usFromCache = findCachedBlindedIdFromUnblinded(
+          UserUtils.getOurPubKeyStrFromCache(),
+          room.serverPublicKey
+        );
+        if (usFromCache && usFromCache === author) {
+          isFromMe = true;
+        }
+      }
+    }
 
     const firstAttachment = quote.attachments && quote.attachments[0];
     const quoteProps: {
@@ -696,8 +725,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // If an error has a specific number it's associated with, we'll show it next to
     //   that contact. Otherwise, it will be a standalone entry.
-    const errors = _.reject(allErrors, error => Boolean(error.number));
-    const errorsGroupedById = _.groupBy(allErrors, 'number');
+    const errors = reject(allErrors, error => Boolean(error.number));
+    const errorsGroupedById = groupBy(allErrors, 'number');
     const finalContacts = await Promise.all(
       (phoneNumbers || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
@@ -719,10 +748,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // The prefix created here ensures that contacts with errors are listed
     //   first; otherwise it's alphabetical
-    const sortedContacts = _.sortBy(
+    const sortedContacts = sortBy(
       finalContacts,
       contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.pubkey}`
     );
+
     const toRet: MessagePropsDetails = {
       sentAt: this.get('sent_at') || 0,
       receivedAt: this.get('received_at') || 0,
@@ -740,11 +770,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
    * Uploads attachments, previews and quotes.
    *
    * @returns The uploaded data which includes: body, attachments, preview and quote.
+   * Also returns the uploaded ids to include in the message post so that those attachments are linked to that message.
    */
   public async uploadData() {
-    // TODO: In the future it might be best if we cache the upload results if possible.
-    // This way we don't upload duplicated data.
-
     const finalAttachments = await Promise.all(
       (this.get('attachments') || []).map(loadAttachmentData)
     );
@@ -753,25 +781,36 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));
 
+    const { hasAttachments, hasVisualMediaAttachments, hasFileAttachments } = getAttachmentMetadata(
+      this
+    );
+    this.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
+    await this.commit();
+
     const conversation = this.getConversation();
 
     let attachmentPromise;
     let linkPreviewPromise;
     let quotePromise;
-    const { AttachmentFsV2Utils } = Utils;
+    const fileIdsToLink: Array<number> = [];
+
+    // we can only send a single preview
+    const firstPreviewWithData = previewWithData?.[0] || null;
 
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
-    if (conversation?.isOpenGroupV2()) {
+    if (conversation?.isPublic()) {
+      if (!conversation?.isOpenGroupV2()) {
+        throw new Error('Only opengroupv2 are supported now');
+      }
       const openGroupV2 = conversation.toOpenGroupV2();
-      attachmentPromise = uploadAttachmentsV2(finalAttachments, openGroupV2);
-      linkPreviewPromise = uploadLinkPreviewsV2(previewWithData, openGroupV2);
-      quotePromise = uploadQuoteThumbnailsV2(openGroupV2, quoteWithData);
+      attachmentPromise = uploadAttachmentsV3(finalAttachments, openGroupV2);
+      linkPreviewPromise = uploadLinkPreviewsV3(firstPreviewWithData, openGroupV2);
+      quotePromise = uploadQuoteThumbnailsV3(openGroupV2, quoteWithData);
     } else {
-      // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
-      // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
-      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(finalAttachments);
-      linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(previewWithData);
-      quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData);
+      // if that's not an sogs, the file is uploaded to the fileserver instead
+      attachmentPromise = uploadAttachmentsToFileServer(finalAttachments);
+      linkPreviewPromise = uploadLinkPreviewToFileServer(firstPreviewWithData);
+      quotePromise = uploadQuoteThumbnailsToFileServer(quoteWithData);
     }
 
     const [attachments, preview, quote] = await Promise.all([
@@ -779,13 +818,25 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       linkPreviewPromise,
       quotePromise,
     ]);
-    window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
+    fileIdsToLink.push(...attachments.map(m => m.id));
+    if (preview) {
+      fileIdsToLink.push(preview.id);
+    }
 
+    if (quote && quote.attachments?.length) {
+      // typing for all of this Attachment + quote + preview + send or unsend is pretty bad
+      const firstQuoteAttachmentId = (quote.attachments[0].thumbnail as any)?.id;
+      if (firstQuoteAttachmentId) {
+        fileIdsToLink.push(firstQuoteAttachmentId);
+      }
+    }
+    window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
     return {
       body,
       attachments,
       preview,
       quote,
+      fileIdsToLink: uniq(fileIdsToLink),
     };
   }
 
@@ -805,6 +856,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       hasVisualMediaAttachments: 0,
       attachments: undefined,
       preview: undefined,
+      reacts: undefined,
+      reactsIndex: undefined,
     });
     await this.markRead(Date.now());
     await this.commit();
@@ -817,7 +870,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    this.set({ errors: null });
+    this.set({ errors: null, sent: false, sent_to: [] });
     await this.commit();
     try {
       const conversation: ConversationModel | undefined = this.getConversation();
@@ -827,29 +880,33 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
         return;
       }
+      const { body, attachments, preview, quote, fileIdsToLink } = await this.uploadData();
 
       if (conversation.isPublic()) {
-        if (!conversation.isOpenGroupV2()) {
-          throw new Error('Only opengroupv2 are supported now');
-        }
-        const uploaded = await this.uploadData();
-
-        const openGroupParams = {
+        const openGroupParams: VisibleMessageParams = {
           identifier: this.id,
-          timestamp: Date.now(),
+          timestamp: getNowWithNetworkOffset(),
           lokiProfile: UserUtils.getOurProfile(),
-          ...uploaded,
+          body,
+          attachments,
+          preview: preview ? [preview] : [],
+          quote,
         };
-        const roomInfos = await getV2OpenGroupRoom(conversation.id);
+        const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
         if (!roomInfos) {
           throw new Error('Could not find roomInfos for this conversation');
         }
 
         const openGroupMessage = new OpenGroupVisibleMessage(openGroupParams);
-        return getMessageQueue().sendToOpenGroupV2(openGroupMessage, roomInfos);
-      }
+        const openGroup = OpenGroupData.getV2OpenGroupRoom(conversation.id);
 
-      const { body, attachments, preview, quote } = await this.uploadData();
+        return getMessageQueue().sendToOpenGroupV2(
+          openGroupMessage,
+          roomInfos,
+          roomHasBlindEnabled(openGroup),
+          fileIdsToLink
+        );
+      }
 
       const chatParams = {
         identifier: this.id,
@@ -857,7 +914,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         timestamp: Date.now(), // force a new timestamp to handle user fixed his clock
         expireTimer: this.get('expireTimer'),
         attachments,
-        preview,
+        preview: preview ? [preview] : [],
+        reacts: this.get('reacts'),
         quote,
         lokiProfile: UserUtils.getOurProfile(),
       };
@@ -899,7 +957,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public removeOutgoingErrors(number: string) {
-    const errors = _.partition(
+    const errors = partition(
       this.get('errors'),
       e => e.number === number && e.name === 'SendMessageNetworkError'
     );
@@ -935,22 +993,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return UserUtils.getOurPubKeyStrFromCache();
   }
 
-  public getContact() {
-    const source = this.getSource();
-
-    if (!source) {
-      return null;
-    }
-
-    return getConversationController().getOrCreate(source, ConversationTypeEnum.PRIVATE);
-  }
-
   public isOutgoing() {
     return this.get('type') === 'outgoing';
   }
 
   public hasErrors() {
-    return _.size(this.get('errors')) > 0;
+    return lodashSize(this.get('errors')) > 0;
   }
 
   public getStatus(pubkey: string) {
@@ -1032,7 +1080,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         e.constructor === TypeError ||
         e.constructor === ReferenceError
       ) {
-        return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
+        return pick(e, 'name', 'message', 'code', 'number', 'reason');
       }
       return e;
     });
@@ -1049,7 +1097,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     perfStart(`messageCommit-${this.attributes.id}`);
     // because the saving to db calls _cleanData which mutates the field for cleaning, we need to save a copy
-    const id = await saveMessage(_.cloneDeep(this.attributes));
+    const id = await Data.saveMessage(cloneDeep(this.attributes));
     if (triggerUIUpdate) {
       this.dispatchMessageUpdate();
     }
@@ -1069,10 +1117,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (convo) {
       const beforeUnread = convo.get('unreadCount');
       const unreadCount = await convo.getUnreadCount();
-
-      const nextMentionedUs = await getFirstUnreadMessageWithMention(
+      const usInThatConversation =
+        getUsBlindedInThatServer(convo) || UserUtils.getOurPubKeyStrFromCache();
+      const nextMentionedUs = await Data.getFirstUnreadMessageWithMention(
         convo.id,
-        UserUtils.getOurPubKeyStrFromCache()
+        usInThatConversation
       );
       let mentionedUsChange = false;
       if (convo.get('mentionedUs') && !nextMentionedUs) {
@@ -1148,7 +1197,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     try {
       const senderConvoId = this.getSource();
       const isClosedGroup = this.getConversation()?.isClosedGroup() || false;
-      if (!!this.get('isPublic') || isClosedGroup || isUsFromCache(senderConvoId)) {
+      const isOpengroup = this.getConversation()?.isOpenGroupV2() || false;
+      if (isOpengroup || isClosedGroup || isUsFromCache(senderConvoId)) {
         return true;
       }
       // check the convo from this user
@@ -1163,6 +1213,32 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return false;
     }
   }
+
+  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
+    const contactModel = getConversationController().get(pubkey);
+    let profileName: string | null = null;
+    let isMe = false;
+
+    if (
+      pubkey === UserUtils.getOurPubKeyStrFromCache() ||
+      (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
+    ) {
+      profileName = window.i18n('you');
+      isMe = true;
+    } else {
+      profileName = contactModel?.getNicknameOrRealUsername() || null;
+    }
+
+    return {
+      pubkey: pubkey,
+      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
+      name: contactModel?.getRealSessionUsername() || null,
+      profileName,
+      title: contactModel?.getTitle() || null,
+      isMe,
+    };
+  }
+
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
     throttledAllMessagesDispatch();
@@ -1174,7 +1250,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
    */
   private getGroupUpdateAsArray() {
     const groupUpdate = this.get('group_update');
-    if (!groupUpdate || _.isEmpty(groupUpdate)) {
+    if (!groupUpdate || isEmpty(groupUpdate)) {
       return undefined;
     }
     const left: Array<string> | undefined = Array.isArray(groupUpdate.left)
@@ -1235,7 +1311,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const names = groupUpdate.joined.map((pubKey: string) =>
-          getConversationController().getContactProfileNameOrFullPubKey(pubKey)
+          getConversationController().getContactProfileNameOrShortenedPubKey(pubKey)
         );
 
         if (names.length > 1) {
@@ -1243,10 +1319,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         } else {
           messages.push(window.i18n('joinedTheGroup', names));
         }
+        return messages.join(' ');
       }
 
       if (groupUpdate.kicked && groupUpdate.kicked.length) {
-        const names = _.map(
+        const names = map(
           groupUpdate.kicked,
           getConversationController().getContactProfileNameOrShortenedPubKey
         );
@@ -1295,19 +1372,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('answeredACall', [displayName]);
       }
     }
-    if (this.get('callNotificationType')) {
-      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-        this.get('conversationId')
-      );
-      const callNotificationType = this.get('callNotificationType');
-      if (callNotificationType === 'missed-call') {
-        return window.i18n('callMissed', [displayName]);
-      }
-      if (callNotificationType === 'started-call') {
-        return window.i18n('startedACall', [displayName]);
-      }
-      if (callNotificationType === 'answered-a-call') {
-        return window.i18n('answeredACall', [displayName]);
+    if (this.get('reaction')) {
+      const reaction = this.get('reaction');
+      if (reaction && reaction.emoji && reaction.emoji !== '') {
+        return window.i18n('reactionNotification', [reaction.emoji]);
       }
     }
     return this.get('body');
@@ -1319,10 +1387,10 @@ export function sliceQuoteText(quotedText: string | undefined | null) {
   if (!quotedText || isEmpty(quotedText)) {
     return '';
   }
-  return quotedText.slice(0, 60);
+  return quotedText.slice(0, QUOTED_TEXT_MAX_LENGTH);
 }
 
-const throttledAllMessagesDispatch = _.debounce(
+const throttledAllMessagesDispatch = debounce(
   () => {
     if (updatesToDispatch.size === 0) {
       return;

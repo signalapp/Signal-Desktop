@@ -8,18 +8,13 @@ import chaiAsPromised from 'chai-as-promised';
 import { TestUtils } from '../../../test-utils';
 import { UserUtils } from '../../../../session/utils';
 import { getConversationController } from '../../../../session/conversations';
-import * as Data from '../../../../../ts/data/data';
-import * as DataItem from '../../../../../ts/data/channelsItem';
 import { getSwarmPollingInstance, SNodeAPI, SnodePool } from '../../../../session/apis/snode_api';
 import { SwarmPolling } from '../../../../session/apis/snode_api/swarmPolling';
 import { SWARM_POLLING_TIMEOUT } from '../../../../session/constants';
-import {
-  ConversationCollection,
-  ConversationModel,
-  ConversationTypeEnum,
-} from '../../../../models/conversation';
+import { ConversationCollection, ConversationModel } from '../../../../models/conversation';
 import { PubKey } from '../../../../session/types';
-import { generateFakeSnodes } from '../../../test-utils/utils';
+import { generateFakeSnodes, stubData } from '../../../test-utils/utils';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { resetHardForkCachedValues } from '../../../../session/apis/snode_api/hfHandling';
 import { sleepFor } from '../../../../session/utils/Promise';
 // tslint:disable: chai-vague-errors
@@ -43,14 +38,16 @@ describe('SwarmPolling', () => {
 
   let clock: Sinon.SinonFakeTimers;
   beforeEach(async () => {
+    getConversationController().reset();
+
     // Utils Stubs
     Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
-    Sinon.stub(Data, 'getAllConversations').resolves(new ConversationCollection());
-    getItemByIdStub = TestUtils.stubDataItem('getItemById');
-    Sinon.stub(Data, 'saveConversation').resolves();
-    Sinon.stub(Data, 'getSwarmNodesForPubkey').resolves();
-    Sinon.stub(Data, 'getLastHashBySnode').resolves();
+    stubData('getAllConversations').resolves(new ConversationCollection());
+    getItemByIdStub = TestUtils.stubData('getItemById');
+    stubData('saveConversation').resolves();
+    stubData('getSwarmNodesForPubkey').resolves();
+    stubData('getLastHashBySnode').resolves();
 
     Sinon.stub(SnodePool, 'getSwarmFor').resolves(generateFakeSnodes(5));
     Sinon.stub(SNodeAPI, 'retrieveNextMessages').resolves([]);
@@ -135,7 +132,7 @@ describe('SwarmPolling', () => {
 
   describe('pollForAllKeys', () => {
     beforeEach(() => {
-      Sinon.stub(DataItem, 'createOrUpdateItem').resolves();
+      stubData('createOrUpdateItem').resolves();
     });
     afterEach(() => {
       Sinon.restore();
@@ -215,7 +212,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       getItemByIdStub.restore();
-      getItemByIdStub = TestUtils.stubDataItem('getItemById');
+      getItemByIdStub = TestUtils.stubData('getItemById');
       getItemByIdStub
         .withArgs('hasSeenHardfork190')
         .resolves({ id: 'hasSeenHardfork190', value: true })
@@ -234,7 +231,7 @@ describe('SwarmPolling', () => {
       expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, undefined]);
       expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([groupConvoPubkey, true, -10]);
       getItemByIdStub.restore();
-      getItemByIdStub = TestUtils.stubDataItem('getItemById');
+      getItemByIdStub = TestUtils.stubData('getItemById');
 
       getItemByIdStub.resolves();
     });
@@ -245,7 +242,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       getItemByIdStub.restore();
-      getItemByIdStub = TestUtils.stubDataItem('getItemById');
+      getItemByIdStub = TestUtils.stubData('getItemById');
       getItemByIdStub
         .withArgs('hasSeenHardfork190')
         .resolves({ id: 'hasSeenHardfork190', value: true })
@@ -263,7 +260,7 @@ describe('SwarmPolling', () => {
       expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, 0]);
       expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, -10]);
       getItemByIdStub.restore();
-      getItemByIdStub = TestUtils.stubDataItem('getItemById');
+      getItemByIdStub = TestUtils.stubData('getItemById');
 
       getItemByIdStub.resolves();
     });

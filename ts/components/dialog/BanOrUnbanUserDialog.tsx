@@ -6,13 +6,17 @@ import { useDispatch } from 'react-redux';
 import { BanType, updateBanOrUnbanUserModal } from '../../state/ducks/modalDialog';
 import { SpacerSM } from '../basic/Text';
 import { getConversationController } from '../../session/conversations/ConversationController';
-import { ApiV2 } from '../../session/apis/open_group_api/opengroupV2';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { ConversationModel } from '../../models/conversation';
 import { useFocusMount } from '../../hooks/useFocusMount';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
+import {
+  sogsV3BanUser,
+  sogsV3UnbanUser,
+} from '../../session/apis/open_group_api/sogsv3/sogsV3BanUnban';
+
 // tslint:disable: use-simple-attributes
 
 async function banOrUnBanUserCall(
@@ -33,8 +37,8 @@ async function banOrUnBanUserCall(
     const roomInfos = convo.toOpenGroupV2();
     const isChangeApplied =
       banType === 'ban'
-        ? await ApiV2.banUser(pubkey, roomInfos, deleteAll)
-        : await ApiV2.unbanUser(pubkey, roomInfos);
+        ? await sogsV3BanUser(pubkey, roomInfos, deleteAll)
+        : await sogsV3UnbanUser(pubkey, roomInfos);
 
     if (!isChangeApplied) {
       window?.log?.warn(`failed to ${banType} user: ${isChangeApplied}`);
@@ -73,7 +77,7 @@ export const BanOrUnBanUserDialog = (props: {
 
   const inputTextToDisplay =
     wasGivenAPubkey && sourceConvoProps
-      ? `${sourceConvoProps.profileName} ${PubKey.shorten(sourceConvoProps.id)}`
+      ? `${sourceConvoProps.displayNameInProfile} ${PubKey.shorten(sourceConvoProps.id)}`
       : undefined;
 
   /**
@@ -97,7 +101,7 @@ export const BanOrUnBanUserDialog = (props: {
     setInProgress(false);
   };
 
-  const chatName = convo.get('name');
+  const chatName = convo.getNicknameOrRealUsernameOrPlaceholder();
   const title = `${isBan ? window.i18n('banUser') : window.i18n('unbanUser')}: ${chatName}`;
 
   const onPubkeyBoxChanges = (e: React.ChangeEvent<HTMLInputElement>) => {

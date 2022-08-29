@@ -11,7 +11,85 @@ import chaiBytes from 'chai-bytes';
 import { PubKey } from '../../../../session/types';
 import { fromHex, toHex } from '../../../../session/utils/String';
 import { addMessagePadding } from '../../../../session/crypto/BufferPadding';
+import { SessionKeyPair } from '../../../../receiver/keypairs';
 
+// tslint:disable-next-line: variable-name
+export const TEST_identityKeyPair: SessionKeyPair = {
+  pubKey: new Uint8Array([
+    5,
+    44,
+    2,
+    168,
+    162,
+    203,
+    50,
+    66,
+    136,
+    81,
+    30,
+    221,
+    57,
+    245,
+    1,
+    148,
+    162,
+    194,
+    255,
+    47,
+    134,
+    104,
+    180,
+    207,
+    188,
+    18,
+    71,
+    62,
+    58,
+    107,
+    23,
+    92,
+    97,
+  ]),
+  privKey: new Uint8Array([
+    200,
+    45,
+    226,
+    75,
+    253,
+    235,
+    213,
+    108,
+    187,
+    188,
+    217,
+    9,
+    51,
+    105,
+    65,
+    15,
+    97,
+    36,
+    233,
+    33,
+    21,
+    31,
+    7,
+    90,
+    145,
+    30,
+    52,
+    254,
+    47,
+    162,
+    192,
+    105,
+  ]),
+  ed25519KeyPair: {
+    privateKey: new Uint8Array(),
+    publicKey: new Uint8Array(),
+    keyType: 'ed25519',
+  },
+};
 chai.use(chaiBytes);
 
 // tslint:disable-next-line: max-func-body-length
@@ -21,78 +99,6 @@ describe('MessageEncrypter', () => {
     pubKey: '37e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
     privKey:
       'be1d11154ff9b6de77873f0b6b0bcc460000000000000000000000000000000037e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
-  };
-
-  const ourIdentityKeypair = {
-    pubKey: new Uint8Array([
-      5,
-      44,
-      2,
-      168,
-      162,
-      203,
-      50,
-      66,
-      136,
-      81,
-      30,
-      221,
-      57,
-      245,
-      1,
-      148,
-      162,
-      194,
-      255,
-      47,
-      134,
-      104,
-      180,
-      207,
-      188,
-      18,
-      71,
-      62,
-      58,
-      107,
-      23,
-      92,
-      97,
-    ]),
-    privKey: new Uint8Array([
-      200,
-      45,
-      226,
-      75,
-      253,
-      235,
-      213,
-      108,
-      187,
-      188,
-      217,
-      9,
-      51,
-      105,
-      65,
-      15,
-      97,
-      36,
-      233,
-      33,
-      21,
-      31,
-      7,
-      90,
-      145,
-      30,
-      52,
-      254,
-      47,
-      162,
-      192,
-      105,
-    ]),
   };
 
   beforeEach(() => {
@@ -151,7 +157,7 @@ describe('MessageEncrypter', () => {
   // tslint:disable-next-line: max-func-body-length
   describe('Session Protocol', () => {
     beforeEach(() => {
-      Sinon.stub(UserUtils, 'getIdentityKeyPair').resolves(ourIdentityKeypair);
+      Sinon.stub(UserUtils, 'getIdentityKeyPair').resolves(TEST_identityKeyPair);
     });
 
     afterEach(() => {
@@ -184,7 +190,7 @@ describe('MessageEncrypter', () => {
         // tslint:disable: no-non-null-assertion
         StringUtils.fromHex(keypair!.pubKey)
       );
-      const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(recipient.key);
+      const recipientX25519PublicKeyWithoutPrefix = PubKey.removePrefixIfNeeded(recipient.key);
 
       const recipientX25519PublicKey = new Uint8Array(
         StringUtils.fromHex(recipientX25519PublicKeyWithoutPrefix)
@@ -221,7 +227,7 @@ describe('MessageEncrypter', () => {
 
       const recipientX25519PrivateKey = userX25519KeyPair!.privKey;
       const recipientX25519PublicKeyHex = toHex(userX25519KeyPair!.pubKey);
-      const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
+      const recipientX25519PublicKeyWithoutPrefix = PubKey.removePrefixIfNeeded(
         recipientX25519PublicKeyHex
       );
       const recipientX25519PublicKey = new PubKey(recipientX25519PublicKeyWithoutPrefix);

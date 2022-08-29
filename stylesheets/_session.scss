@@ -39,6 +39,9 @@ textarea {
   input,
   textarea {
     user-select: text;
+    a {
+      word-break: break-all;
+    }
   }
 }
 
@@ -349,14 +352,6 @@ label {
   border-bottom-right-radius: 5px;
 }
 
-.module-message__container--outgoing--first-of-series {
-  border-top-right-radius: $session_message-container-border-radius;
-}
-
-.module-message__container--outgoing--last-of-series {
-  border-bottom-right-radius: $session_message-container-border-radius;
-}
-
 .conversation-header {
   .module-avatar img {
     box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);
@@ -424,6 +419,7 @@ label {
   background-color: var(--color-modal-background);
   color: var(--color-text);
   border: var(--border-session);
+  border-radius: 14px;
   box-shadow: var(--color-session-shadow);
 
   overflow: hidden;
@@ -600,10 +596,14 @@ label {
   z-index: 30;
   min-width: 200px;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
-  background: var(--color-cell-background);
+  background-color: var(--color-received-message-background);
+
+  &.react-contexify__theme--dark {
+    background-color: var(--color-received-message-background);
+  }
 
   .react-contexify__item {
-    background: var(--color-cell-background);
+    background: var(--color-received-message-background);
   }
 
   .react-contexify__item:not(.react-contexify__item--disabled):hover
@@ -878,7 +878,7 @@ label {
     &__description {
       font-family: $session-font-default;
       font-size: $session-font-sm;
-      font-weight: 100;
+      font-weight: 400;
       max-width: 700px;
       @include session-color-subtle(var(--color-text));
     }
@@ -1136,30 +1136,6 @@ input {
 
   .session-modal {
     margin: auto auto;
-  }
-}
-
-.messages-container {
-  .session-icon-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    opacity: 1;
-    background-color: var(--color-cell-background);
-    box-shadow: var(--color-session-shadow);
-
-    svg path {
-      transition: $session-transition-duration;
-      opacity: 0.6;
-      fill: var(--color-text);
-    }
-
-    &:hover svg path {
-      opacity: 1;
-    }
   }
 }
 

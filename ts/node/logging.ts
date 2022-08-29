@@ -39,7 +39,6 @@ export async function initializeLogger() {
     }
 
     const logFile = path.join(logPath, 'log.log');
-
     logger = Logger.createLogger({
       name: 'log',
       streams: [
@@ -51,7 +50,7 @@ export async function initializeLogger() {
           type: 'rotating-file',
           path: logFile,
           period: '1d',
-          count: 3,
+          count: 1,
         },
       ],
     });

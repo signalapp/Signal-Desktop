@@ -4,7 +4,19 @@ import { getAppRootPath } from '../../node/getRootPath';
 
 let utilWorkerInterface: WorkerInterface | undefined;
 
-export const internalCallUtilsWorker = async (fnName: string, ...args: any): Promise<any> => {
+type WorkerAllowedFunctionName =
+  | 'arrayBufferToStringBase64'
+  | 'decryptAttachmentBufferNode'
+  | 'encryptAttachmentBufferNode'
+  | 'DecryptAESGCM'
+  | 'fromBase64ToArrayBuffer'
+  | 'verifyAllSignatures'
+  | 'encryptForPubkey';
+
+export const internalCallUtilsWorker = async (
+  fnName: WorkerAllowedFunctionName,
+  ...args: any
+): Promise<any> => {
   if (!utilWorkerInterface) {
     const utilWorkerPath = join(getAppRootPath(), 'ts', 'webworker', 'workers', 'util.worker.js');
     utilWorkerInterface = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000); //{ type: 'module' }
@@ -12,6 +24,9 @@ export const internalCallUtilsWorker = async (fnName: string, ...args: any): Pro
   return utilWorkerInterface?.callWorker(fnName, ...args);
 };
 
-export const callUtilsWorker = async (fnName: string, ...args: any): Promise<any> => {
+export const callUtilsWorker = async (
+  fnName: WorkerAllowedFunctionName,
+  ...args: any
+): Promise<any> => {
   return internalCallUtilsWorker(fnName, ...args);
 };

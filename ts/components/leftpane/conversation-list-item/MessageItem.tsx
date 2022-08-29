@@ -25,7 +25,7 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
   const conversationId = useContext(ContextConversationId);
   const convoProps = useMessageItemProps(conversationId);
 
-  const isGroup = !!useIsPrivate(conversationId);
+  const isGroup = !useIsPrivate(conversationId);
 
   const isSearchingMode = useSelector(isSearching);
   if (!convoProps) {

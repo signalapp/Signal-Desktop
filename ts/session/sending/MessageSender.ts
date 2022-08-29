@@ -5,9 +5,7 @@ import { SignalService } from '../../protobuf';
 import { MessageEncrypter } from '../crypto';
 import pRetry from 'p-retry';
 import { PubKey } from '../types';
-import { UserUtils } from '../utils';
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
-import { postMessage } from '../apis/open_group_api/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
@@ -17,12 +15,17 @@ import { getNowWithNetworkOffset, storeOnNode } from '../apis/snode_api/SNodeAPI
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
-import { getMessageById, Snode } from '../../../ts/data/data';
+import { Data, Snode } from '../../../ts/data/data';
 import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
 import { EmptySwarmError } from '../utils/errors';
 import ByteBuffer from 'bytebuffer';
 import { getHasSeenHF190, getHasSeenHF191 } from '../apis/snode_api/hfHandling';
+import {
+  sendMessageOnionV4BlindedRequest,
+  sendSogsMessageOnionV4,
+} from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
+import { AbortController } from 'abort-controller';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -101,7 +104,7 @@ export async function send(
       // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
       // before we return from the await below.
       // and the isDuplicate messages relies on sent_at timestamp to be valid.
-      const found = await getMessageById(message.identifier);
+      const found = await Data.getMessageById(message.identifier);
 
       // make sure to not update the sent timestamp if this a currently syncing message
       if (found && !found.get('sentSync')) {
@@ -209,7 +212,7 @@ export async function sendMessageToSnode(
 
   // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
   if (messageId && (isSyncMessage || isClosedGroup) && successfulSendHash) {
-    const message = await getMessageById(messageId);
+    const message = await Data.getMessageById(messageId);
     if (message) {
       await message.updateMessageHash(successfulSendHash);
       await message.commit();
@@ -272,18 +275,49 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
  */
 export async function sendToOpenGroupV2(
   rawMessage: OpenGroupVisibleMessage,
-  roomInfos: OpenGroupRequestCommonType
-): Promise<OpenGroupMessageV2> {
+  roomInfos: OpenGroupRequestCommonType,
+  blinded: boolean,
+  filesToLink: Array<number>
+): Promise<OpenGroupMessageV2 | boolean> {
   // we agreed to pad message for opengroupv2
   const paddedBody = addMessagePadding(rawMessage.plainTextBuffer());
   const v2Message = new OpenGroupMessageV2({
-    sentTimestamp: Date.now(),
-    sender: UserUtils.getOurPubKeyStrFromCache(),
+    sentTimestamp: getNowWithNetworkOffset(),
     base64EncodedData: fromUInt8ArrayToBase64(paddedBody),
-    // the signature is added in the postMessage())
+    filesToLink,
   });
 
-  // Warning: postMessage throws
-  const sentMessage = await postMessage(v2Message, roomInfos);
-  return sentMessage;
+  const msg = await sendSogsMessageOnionV4(
+    roomInfos.serverUrl,
+    roomInfos.roomId,
+    new AbortController().signal,
+    v2Message,
+    blinded
+  );
+  return msg;
+}
+
+/**
+ * Send a message to an open group v2.
+ * @param message The open group message.
+ */
+export async function sendToOpenGroupV2BlindedRequest(
+  encryptedContent: Uint8Array,
+  roomInfos: OpenGroupRequestCommonType,
+  recipientBlindedId: string
+): Promise<{ serverId: number; serverTimestamp: number }> {
+  const v2Message = new OpenGroupMessageV2({
+    sentTimestamp: getNowWithNetworkOffset(),
+    base64EncodedData: fromUInt8ArrayToBase64(encryptedContent),
+  });
+
+  // Warning: sendMessageOnionV4BlindedRequest throws
+  const msg = await sendMessageOnionV4BlindedRequest(
+    roomInfos.serverUrl,
+    roomInfos.roomId,
+    new AbortController().signal,
+    v2Message,
+    recipientBlindedId
+  );
+  return msg;
 }

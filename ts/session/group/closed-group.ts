@@ -5,15 +5,15 @@ import _ from 'lodash';
 import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { getConversationController } from '../conversations';
-import { getLatestClosedGroupEncryptionKeyPair } from '../../data/data';
-import uuid from 'uuid';
+import { Data } from '../../data/data';
+import { v4 as uuidv4 } from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { UserUtils } from '../utils';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
-import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import {
   addKeyPairToCacheAndDBIfNeeded,
@@ -28,6 +28,7 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
+import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
 
 export type GroupInfo = {
   id: string;
@@ -36,8 +37,6 @@ export type GroupInfo = {
   zombies?: Array<string>;
   activeAt?: number;
   expireTimer?: number | null;
-  avatar?: any;
-  color?: any; // what is this???
   blocked?: boolean;
   admins?: Array<string>;
   secretKey?: Uint8Array;
@@ -61,7 +60,6 @@ export interface MemberChanges {
  * @param groupId the conversationID
  * @param groupName the new name (or just pass the old one if nothing changed)
  * @param members the new members (or just pass the old one if nothing changed)
- * @param avatar the new avatar (or just pass the old one if nothing changed)
  * @returns nothing
  */
 export async function initiateClosedGroupUpdate(
@@ -88,7 +86,6 @@ export async function initiateClosedGroupUpdate(
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
     expireTimer: convo.get('expireTimer'),
-    avatar: null,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -196,7 +193,7 @@ export async function addUpdateMessage(
 function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {
   const groupDiff: GroupDiff = {};
 
-  if (convo.get('name') !== update.name) {
+  if (convo.get('displayNameInProfile') !== update.name) {
     groupDiff.newName = update.name;
   }
 
@@ -227,26 +224,26 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     ConversationTypeEnum.GROUP
   );
 
-  const updates: any = {
-    name: details.name,
+  const updates: Pick<
+    ConversationAttributes,
+    | 'type'
+    | 'members'
+    | 'displayNameInProfile'
+    | 'is_medium_group'
+    | 'active_at'
+    | 'left'
+    | 'lastJoinedTimestamp'
+    | 'zombies'
+  > = {
+    displayNameInProfile: details.name,
     members: details.members,
     type: 'group',
     is_medium_group: true,
+    zombies: details.zombies?.length ? details.zombies : [],
+    active_at: details.activeAt ? details.activeAt : 0,
+    left: details.activeAt ? false : true,
+    lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
   };
-
-  if (details.activeAt) {
-    updates.active_at = details.activeAt;
-    updates.timestamp = updates.active_at;
-
-    updates.left = false;
-    updates.lastJoinedTimestamp = weWereJustAdded ? Date.now() : updates.active_at;
-  } else {
-    updates.left = true;
-  }
-
-  if (details.zombies) {
-    updates.zombies = details.zombies;
-  }
 
   conversation.set(updates);
 
@@ -256,7 +253,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   }
 
   if (details.admins?.length) {
-    await conversation.updateGroupAdmins(details.admins);
+    await conversation.updateGroupAdmins(details.admins, false);
   }
 
   await conversation.commit();
@@ -364,7 +361,7 @@ async function sendAddedMembers(
   const admins = groupUpdate.admins || [];
 
   // Check preconditions
-  const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(groupId);
+  const hexEncryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(groupId);
   if (!hexEncryptionKeyPair) {
     throw new Error("Couldn't get key pair for closed group");
   }
@@ -388,7 +385,7 @@ async function sendAddedMembers(
     admins,
     members,
     keypair: encryptionKeyPair,
-    identifier: messageId || uuid(),
+    identifier: messageId || uuidv4(),
     expireTimer: existingExpireTimer,
   });
 

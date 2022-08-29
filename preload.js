@@ -29,6 +29,11 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
+  debug: {
+    debugFileServerRequests: false,
+    debugNonSnodeRequests: false,
+    debugOnionRequests: false,
+  },
 };
 
 window.versionInfo = {
@@ -119,6 +124,7 @@ window.drawAttention = () => {
   // window.log.debug('draw attention');
   ipc.send('draw-attention');
 };
+
 window.showWindow = () => {
   window.log.info('show window');
   ipc.send('show-window');
@@ -225,6 +231,8 @@ const data = require('./ts/data/dataInit');
 const { setupi18n } = require('./ts/util/i18n');
 window.Signal = data.initData();
 
+const { getConversationController } = require('./ts/session/conversations/ConversationController');
+window.getConversationController = getConversationController;
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
   // tslint:disable-next-line: no-empty

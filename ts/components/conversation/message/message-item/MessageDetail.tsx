@@ -3,15 +3,20 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { Message } from './Message';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, AvatarSize } from '../../../avatar/Avatar';
 import { deleteMessagesById } from '../../../../interactions/conversations/unsendingInteractions';
-import { ContactPropsMessageDetail } from '../../../../state/ducks/conversations';
+import {
+  closeMessageDetailsView,
+  ContactPropsMessageDetail,
+} from '../../../../state/ducks/conversations';
 import {
   getMessageDetailsViewProps,
   getMessageIsDeletable,
 } from '../../../../state/selectors/conversations';
 import { ContactName } from '../../ContactName';
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
 
 const AvatarItem = (props: { pubkey: string }) => {
   const { pubkey } = props;
@@ -95,6 +100,13 @@ export const MessageDetail = () => {
   const isDeletable = useSelector(state =>
     getMessageIsDeletable(state as any, messageDetailProps?.messageId || '')
   );
+
+  const dispatch = useDispatch();
+
+  useKey('Escape', () => {
+    dispatch(closeMessageDetailsView());
+  });
+
   if (!messageDetailProps) {
     return null;
   }
@@ -114,7 +126,7 @@ export const MessageDetail = () => {
                 <td className="module-message-detail__label">{i18n('error')}</td>
                 <td>
                   {' '}
-                  <span className="error-message">{error.message}</span>{' '}
+                  <span className="error-message text-selectable">{error.message}</span>{' '}
                 </td>
               </tr>
             ))}

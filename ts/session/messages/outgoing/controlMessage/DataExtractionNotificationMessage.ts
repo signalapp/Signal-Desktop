@@ -6,6 +6,8 @@ import { PubKey } from '../../../types';
 import { getMessageQueue } from '../../..';
 import { getConversationController } from '../../../conversations';
 import { UserUtils } from '../../../utils';
+import { SettingsKey } from '../../../../data/settings-key';
+import { Storage } from '../../../../util/storage';
 interface DataExtractionNotificationMessageParams extends MessageParams {
   referencedAttachmentTimestamp: number;
 }
@@ -49,7 +51,13 @@ export const sendDataExtractionNotification = async (
   referencedAttachmentTimestamp: number
 ) => {
   const convo = getConversationController().get(conversationId);
-  if (!convo || !convo.isPrivate() || convo.isMe() || UserUtils.isUsFromCache(attachmentSender)) {
+  if (
+    !convo ||
+    !convo.isPrivate() ||
+    convo.isMe() ||
+    UserUtils.isUsFromCache(attachmentSender) ||
+    !Storage.get(SettingsKey.settingsReadReceipt)
+  ) {
     window.log.warn('Not sending saving attachment notification for', attachmentSender);
     return;
   }

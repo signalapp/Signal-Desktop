@@ -1,0 +1,8 @@
+{
+  "includePaths": [
+    "node_modules/sanitize.css",
+    "node_modules/react-h5-audio-player/lib",
+    "node_modules/react-contexify/dist",
+    "node_modules/react-toastify/dist"
+  ]
+}

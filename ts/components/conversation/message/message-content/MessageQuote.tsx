@@ -11,7 +11,7 @@ import {
 } from '../../../../state/selectors/conversations';
 import { Quote } from './Quote';
 import { ToastUtils } from '../../../../session/utils';
-import { getMessagesBySentAt } from '../../../../data/data';
+import { Data } from '../../../../data/data';
 import { MessageModel } from '../../../../models/message';
 
 // tslint:disable: use-simple-attributes
@@ -57,9 +57,9 @@ export const MessageQuote = (props: Props) => {
         return;
       }
 
-      const collection = await getMessagesBySentAt(_.toNumber(quotedMessageSentAt));
+      const collection = await Data.getMessagesBySentAt(_.toNumber(quotedMessageSentAt));
       const foundInDb = collection.find((item: MessageModel) => {
-        const messageAuthor = item.getSource();
+        const messageAuthor = item.get('source');
 
         return Boolean(messageAuthor && quoteAuthor === messageAuthor);
       });

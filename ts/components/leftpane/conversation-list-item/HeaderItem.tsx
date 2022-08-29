@@ -2,8 +2,9 @@ import classNames from 'classnames';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getFirstUnreadMessageWithMention } from '../../../data/data';
+import { Data } from '../../../data/data';
 import { useConversationPropsById, useIsPinned } from '../../../hooks/useParamSelector';
+import { getUsBlindedInThatServer } from '../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../../session/utils';
 import {
   openConversationToSpecificMessage,
@@ -123,11 +124,12 @@ export const ConversationListItemHeaderItem = () => {
 
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
+        const usInThatConversation =
+          getUsBlindedInThatServer(conversationId) || UserUtils.getOurPubKeyStrFromCache();
+
         const oldestMessageUnreadWithMention =
-          (await getFirstUnreadMessageWithMention(
-            conversationId,
-            UserUtils.getOurPubKeyStrFromCache()
-          )) || null;
+          (await Data.getFirstUnreadMessageWithMention(conversationId, usInThatConversation)) ||
+          null;
         if (oldestMessageUnreadWithMention) {
           await openConversationToSpecificMessage({
             conversationKey: conversationId,

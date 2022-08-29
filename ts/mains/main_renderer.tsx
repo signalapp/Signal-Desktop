@@ -10,13 +10,18 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
 import { isSignInByLinking, Storage } from '../util/storage';
-import * as Data from '../data/data';
+import { Data } from '../data/data';
 import Backbone from 'backbone';
 import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
 import { SessionInboxView } from '../components/SessionInboxView';
 import { deleteAllLogs } from '../node/logs';
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { OpenGroupData } from '../data/opengroups';
+import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import nativeEmojiData from '@emoji-mart/data';
+import { initialiseEmojiData } from '../util/emoji';
+import { loadEmojiPanelI18n } from '../util/i18n';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -167,9 +172,16 @@ Storage.onready(async () => {
   window.Events.setThemeSetting(newThemeSetting);
 
   try {
+    initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
 
-    await Promise.all([getConversationController().load(), BlockedNumberController.load()]);
+    await Promise.all([
+      getConversationController().load(),
+      BlockedNumberController.load(),
+      OpenGroupData.opengroupRoomsLoad(),
+      loadKnownBlindedKeys(),
+      loadEmojiPanelI18n(),
+    ]);
   } catch (error) {
     window.log.error(
       'main_start.js: ConversationController failed to load:',

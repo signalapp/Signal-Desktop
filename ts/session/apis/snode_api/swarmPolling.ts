@@ -4,13 +4,7 @@ import { ERROR_CODE_NO_CONNECT, retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
 import _, { concat } from 'lodash';
-import {
-  getLastHashBySnode,
-  getSeenMessagesByHashList,
-  saveSeenMessageHashes,
-  Snode,
-  updateLastHash,
-} from '../../../data/data';
+import { Data, Snode } from '../../../data/data';
 
 import { StringUtils, UserUtils } from '../../utils';
 import { ConversationModel } from '../../../models/conversation';
@@ -67,7 +61,9 @@ export class SwarmPolling {
     if (waitForFirstPoll) {
       await this.pollForAllKeys();
     } else {
-      void this.pollForAllKeys();
+      setTimeout(() => {
+        void this.pollForAllKeys();
+      }, 4000);
     }
   }
 
@@ -360,7 +356,7 @@ export class SwarmPolling {
 
     const incomingHashes = messages.map((m: Message) => m.hash);
 
-    const dupHashes = await getSeenMessagesByHashList(incomingHashes);
+    const dupHashes = await Data.getSeenMessagesByHashList(incomingHashes);
     const newMessages = messages.filter((m: Message) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
@@ -368,7 +364,7 @@ export class SwarmPolling {
         expiresAt: m.expiration,
         hash: m.hash,
       }));
-      await saveSeenMessageHashes(newHashes);
+      await Data.saveSeenMessageHashes(newHashes);
     }
     return newMessages;
   }
@@ -388,7 +384,7 @@ export class SwarmPolling {
   }): Promise<void> {
     const pkStr = pubkey.key;
 
-    await updateLastHash({
+    await Data.updateLastHash({
       convoId: pkStr,
       snode: edkey,
       hash,
@@ -407,7 +403,7 @@ export class SwarmPolling {
 
   private async getLastHash(nodeEdKey: string, pubkey: string, namespace: number): Promise<string> {
     if (!this.lastHashes[nodeEdKey]?.[pubkey]?.[namespace]) {
-      const lastHash = await getLastHashBySnode(pubkey, nodeEdKey, namespace);
+      const lastHash = await Data.getLastHashBySnode(pubkey, nodeEdKey, namespace);
 
       if (!this.lastHashes[nodeEdKey]) {
         this.lastHashes[nodeEdKey] = {};

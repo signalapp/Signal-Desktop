@@ -6,7 +6,7 @@ import { TimerOptionsArray } from '../state/ducks/timerOptions';
 import { LocalizerKeys } from '../types/LocalizerKeys';
 import { initWallClockListener } from './wallClockListener';
 
-import * as Data from '../data/data';
+import { Data } from '../data/data';
 
 async function destroyExpiredMessages() {
   try {

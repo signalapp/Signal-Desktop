@@ -230,7 +230,7 @@ export const QuoteText = (
   const { text, attachment, isIncoming } = props;
 
   const convoId = useSelector(getSelectedConversationKey);
-  const isGroup = useIsPrivate(convoId);
+  const isGroup = !useIsPrivate(convoId);
 
   if (text) {
     return (

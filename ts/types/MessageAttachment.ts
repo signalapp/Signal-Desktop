@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { isArrayBuffer, isEmpty, isUndefined, omit } from 'lodash';
+import { isArrayBuffer, isEmpty, isString, isUndefined, omit } from 'lodash';
 import {
   createAbsolutePathGetter,
   createReader,
@@ -13,6 +13,7 @@ import {
   loadData,
   replaceUnicodeV2,
 } from './attachments/migrations';
+import { ConversationAttributes } from '../models/conversationAttributes';
 
 // tslint:disable: prefer-object-spread
 
@@ -21,10 +22,9 @@ import {
 export const deleteExternalMessageFiles = async (message: {
   attachments: any;
   quote: any;
-  contact: any;
   preview: any;
 }) => {
-  const { attachments, quote, contact, preview } = message;
+  const { attachments, quote, preview } = message;
 
   if (attachments && attachments.length) {
     await Promise.all(attachments.map(deleteData));
@@ -40,18 +40,6 @@ export const deleteExternalMessageFiles = async (message: {
         //   that field set to true.
         if (thumbnail && thumbnail.path && !thumbnail.copied) {
           await deleteOnDisk(thumbnail.path);
-        }
-      })
-    );
-  }
-
-  if (contact && contact.length) {
-    await Promise.all(
-      contact.map(async (item: { avatar: any }) => {
-        const { avatar } = item;
-
-        if (avatar && avatar.avatar && avatar.avatar.path) {
-          await deleteOnDisk(avatar.avatar.path);
         }
       })
     );
@@ -228,21 +216,16 @@ export const migrateDataToFileSystem = async (data?: ArrayBuffer) => {
   return path;
 };
 
-export async function deleteExternalFilesOfConversation(conversation: {
-  avatar: any;
-  profileAvatar: any;
-}) {
-  if (!conversation) {
+export async function deleteExternalFilesOfConversation(
+  conversationAttributes: ConversationAttributes
+) {
+  if (!conversationAttributes) {
     return;
   }
 
-  const { avatar, profileAvatar } = conversation;
+  const { avatarInProfile } = conversationAttributes;
 
-  if (avatar && avatar.path) {
-    await deleteOnDisk(avatar.path);
-  }
-
-  if (profileAvatar && profileAvatar.path) {
-    await deleteOnDisk(profileAvatar.path);
+  if (isString(avatarInProfile)) {
+    await deleteOnDisk(avatarInProfile);
   }
 }

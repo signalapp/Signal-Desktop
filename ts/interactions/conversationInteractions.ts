@@ -3,9 +3,12 @@ import {
   openGroupPrefixRegex,
   openGroupV2ConversationIdRegex,
 } from '../session/apis/open_group_api/utils/OpenGroupUtils';
-import { getV2OpenGroupRoom } from '../data/opengroups';
+import { OpenGroupData } from '../data/opengroups';
 import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
-import { ConversationNotificationSettingType, ConversationTypeEnum } from '../models/conversation';
+import {
+  ConversationNotificationSettingType,
+  ConversationTypeEnum,
+} from '../models/conversationAttributes';
 
 import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
@@ -21,22 +24,10 @@ import {
   updateInviteContactModal,
   updateRemoveModeratorsModal,
 } from '../state/ducks/modalDialog';
-import {
-  createOrUpdateItem,
-  getItemById,
-  getMessageById,
-  hasLinkPreviewPopupBeenDisplayed,
-  lastAvatarUploadTimestamp,
-  removeAllMessagesInConversation,
-} from '../data/data';
-import {
-  conversationReset,
-  quoteMessage,
-  resetConversationExternal,
-} from '../state/ducks/conversations';
+import { Data, hasLinkPreviewPopupBeenDisplayed, lastAvatarUploadTimestamp } from '../data/data';
+import { quoteMessage, resetConversationExternal } from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
-import { FSv2 } from '../session/apis/file_server_api';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { SessionButtonColor } from '../components/basic/SessionButton';
@@ -48,11 +39,12 @@ import { MIME } from '../types';
 import { setLastProfileUpdateTimestamp } from '../util/storage';
 import { getSodiumRenderer } from '../session/crypto';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
+import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
     // this is a v2 group, just build the url
-    const roomInfos = await getV2OpenGroupRoom(convoId);
+    const roomInfos = OpenGroupData.getV2OpenGroupRoom(convoId);
     if (roomInfos) {
       const fullUrl = getCompleteUrlFromRoom(roomInfos);
 
@@ -144,7 +136,7 @@ export const approveConvoAndSendResponse = async (
   await convoToApprove.setIsApproved(true, false);
 
   await convoToApprove.commit();
-  await convoToApprove.sendMessageRequestResponse(true);
+  await convoToApprove.sendMessageRequestResponse();
 
   // Conversation was not approved before so a sync is needed
   if (syncToDevices) {
@@ -311,7 +303,7 @@ export async function setNotificationForConvoId(
 }
 export async function clearNickNameByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
-  await conversation.setNickname(undefined);
+  await conversation.setNickname(null);
 }
 
 export function showChangeNickNameByConvoId(conversationId: string) {
@@ -320,8 +312,7 @@ export function showChangeNickNameByConvoId(conversationId: string) {
 
 export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
-  await removeAllMessagesInConversation(conversationId);
-  window.inboxStore?.dispatch(conversationReset(conversationId));
+  await Data.removeAllMessagesInConversation(conversationId);
 
   // destroy message keeps the active timestamp set so the
   // conversation still appears on the conversation list but is empty
@@ -329,7 +320,6 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
     lastMessage: null,
     unreadCount: 0,
     mentionedUs: false,
-    isApproved: false,
   });
 
   await conversation.commit();
@@ -377,7 +367,7 @@ export async function setDisappearingMessagesByConvoId(
 }
 
 /**
- * This function can be used for reupload our avatar to the fsv2 or upload a new avatar.
+ * This function can be used for reupload our avatar to the fileserver or upload a new avatar.
  *
  * If this is a reupload, the old profileKey is used, otherwise a new one is generated
  */
@@ -431,13 +421,12 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 
   const encryptedData = await encryptProfile(decryptedAvatarData, profileKey);
 
-  const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
-  let fileUrl;
+  const avatarPointer = await uploadFileToFsWithOnionV4(encryptedData);
   if (!avatarPointer) {
-    window.log.warn('failed to upload avatar to fsv2');
+    window.log.warn('failed to upload avatar to fileserver');
     return;
   }
-  ({ fileUrl } = avatarPointer);
+  const { fileUrl, fileId } = avatarPointer;
 
   ourConvo.set('avatarPointer', fileUrl);
 
@@ -448,19 +437,20 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
   });
   // Replace our temporary image with the attachment pointer from the server:
-  ourConvo.set('avatar', null);
-  const displayName = ourConvo.get('profileName');
+  ourConvo.set('avatarInProfile', undefined);
+  const displayName = ourConvo.get('displayNameInProfile');
 
   // write the profileKey even if it did not change
   ourConvo.set({ profileKey: toHex(profileKey) });
   // Replace our temporary image with the attachment pointer from the server:
   // this commits already
-  await ourConvo.setLokiProfile({
-    avatar: upgraded.path,
+  await ourConvo.setSessionProfile({
+    avatarPath: upgraded.path,
     displayName,
+    avatarImageId: fileId,
   });
   const newTimestampReupload = Date.now();
-  await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
+  await Data.createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
 
   if (newAvatarDecrypted) {
     await setLastProfileUpdateTimestamp(Date.now());
@@ -473,7 +463,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 }
 
 export async function replyToMessage(messageId: string) {
-  const quotedMessageModel = await getMessageById(messageId);
+  const quotedMessageModel = await Data.getMessageById(messageId);
   if (!quotedMessageModel) {
     window.log.warn('Failed to find message to reply to');
     return;
@@ -499,7 +489,7 @@ export async function showLinkSharingConfirmationModalDialog(e: any) {
   const pastedText = e.clipboardData.getData('text');
   if (isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
     const alreadyDisplayedPopup =
-      (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
+      (await Data.getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
     if (!alreadyDisplayedPopup) {
       window.inboxStore?.dispatch(
         updateConfirmModal({
@@ -512,7 +502,7 @@ export async function showLinkSharingConfirmationModalDialog(e: any) {
             window.setSettingValue('link-preview-setting', true);
           },
           onClickClose: async () => {
-            await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
+            await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
           },
         })
       );
