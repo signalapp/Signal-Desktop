@@ -32,15 +32,7 @@ import styled from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
-  | 'text'
-  | 'direction'
-  | 'timestamp'
-  | 'serverTimestamp'
-  | 'firstMessageOfSeries'
-  | 'lastMessageOfSeries'
-  | 'previews'
-  | 'quote'
-  | 'attachments'
+  'text' | 'direction' | 'timestamp' | 'serverTimestamp' | 'previews' | 'quote' | 'attachments'
 >;
 
 type Props = {
@@ -96,22 +88,8 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-const radiusLg = '18px';
-const radiusSm = '4px';
-
-const StyledMessageContent = styled.div<{
-  isOutgoing: boolean;
-  firstOfSeries: boolean;
-  lastOfSeries: boolean;
-}>`
-  border-top-right-radius: ${props =>
-    props.isOutgoing ? (props.firstOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
-  border-bottom-right-radius: ${props =>
-    props.isOutgoing ? (props.lastOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
-  border-top-left-radius: ${props =>
-    !props.isOutgoing ? (props.firstOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
-  border-bottom-left-radius: ${props =>
-    !props.isOutgoing ? (props.lastOfSeries ? `${radiusLg}` : `${radiusSm}`) : `${radiusLg}`};
+const StyledMessageContent = styled.div`
+  border-radius: 18px;
 `;
 
 export const IsMessageVisibleContext = createContext(false);
@@ -178,8 +156,6 @@ export const MessageContent = (props: Props) => {
     text,
     timestamp,
     serverTimestamp,
-    firstMessageOfSeries,
-    lastMessageOfSeries,
     previews,
     quote,
     attachments,
@@ -216,9 +192,6 @@ export const MessageContent = (props: Props) => {
       style={{
         width: isShowingImage ? width : undefined,
       }}
-      firstOfSeries={Boolean(firstMessageOfSeries || props.isDetailView)}
-      lastOfSeries={Boolean(lastMessageOfSeries || props.isDetailView)}
-      isOutgoing={direction === 'outgoing'}
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}

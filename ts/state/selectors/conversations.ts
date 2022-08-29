@@ -1089,8 +1089,6 @@ export const getMessageContentSelectorProps = createSelector(getMessagePropsByMe
   }
 
   const msgProps: MessageContentSelectorProps = {
-    firstMessageOfSeries: props.firstMessageOfSeries,
-    lastMessageOfSeries: props.lastMessageOfSeries,
     ...pick(props.propsForMessage, [
       'direction',
       'serverTimestamp',
