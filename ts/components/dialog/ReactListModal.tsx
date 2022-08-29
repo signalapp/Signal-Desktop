@@ -3,9 +3,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
-import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
+import { useMessageReactsPropsById, useWeAreModerator } from '../../hooks/useParamSelector';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import {
   updateReactClearAllModal,
@@ -285,9 +284,7 @@ export const ReactListModal = (props: Props): ReactElement => {
   const dispatch = useDispatch();
 
   const { convoId, isPublic } = msgProps;
-
-  const convo = getConversationController().get(convoId);
-  const weAreModerator = convo.getConversationModelProps().weAreModerator;
+  const weAreModerator = useWeAreModerator(convoId);
 
   const handleSelectedReaction = (emoji: string): boolean => {
     return currentReact === emoji;

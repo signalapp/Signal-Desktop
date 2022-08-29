@@ -1,4 +1,5 @@
 import AbortController from 'abort-controller';
+import { OpenGroupReactionResponse } from '../../../../types/Reaction';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import {
   batchFirstSubIsSuccess,
@@ -6,6 +7,12 @@ import {
   OpenGroupBatchRow,
   sogsBatchSend,
 } from './sogsV3BatchPoll';
+import {
+  addToMutationCache,
+  ChangeType,
+  SogsV3Mutation,
+  updateMutationCache,
+} from './sogsV3MutationCache';
 import { hasReactionSupport } from './sogsV3SendReaction';
 
 /**
@@ -23,6 +30,20 @@ export const clearSogsReactionByServerId = async (
     return false;
   }
 
+  const cacheEntry: SogsV3Mutation = {
+    server: roomInfos.serverUrl,
+    room: roomInfos.roomId,
+    changeType: ChangeType.REACTIONS,
+    seqno: null,
+    metadata: {
+      messageId: serverId,
+      emoji: reaction,
+      action: 'CLEAR',
+    },
+  };
+
+  addToMutationCache(cacheEntry);
+
   const options: Array<OpenGroupBatchRow> = [
     {
       type: 'deleteReaction',
@@ -37,8 +58,22 @@ export const clearSogsReactionByServerId = async (
     'batch'
   );
 
+  if (!result) {
+    throw new Error('Could not deleteReaction, res is invalid');
+  }
+
+  const rawMessage = (result.body && (result.body[0].body as OpenGroupReactionResponse)) || null;
+  if (!rawMessage) {
+    throw new Error('deleteReaction parsing failed');
+  }
+
   try {
-    return batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result);
+    if (batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result)) {
+      updateMutationCache(cacheEntry, rawMessage.seqno);
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
     window?.log?.error("clearSogsReactionByServerId Can't decode JSON body");
   }

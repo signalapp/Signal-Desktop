@@ -11,7 +11,7 @@ export enum ChangeType {
   REACTIONS = 0,
 }
 
-type ReactionAction = 'ADD' | 'REMOVE';
+type ReactionAction = 'ADD' | 'REMOVE' | 'CLEAR';
 
 type ReactionChange = {
   messageId: number; // will be serverId of the reacted message
@@ -73,16 +73,19 @@ export async function processMessagesUsingCache(
   message: OpenGroupMessageV4
 ) {
   const updatedReactions = message.reactions;
-  const matches: Array<SogsV3Mutation> = filter(sogsMutationCache, { server, room });
+  const roomMatches: Array<SogsV3Mutation> = filter(sogsMutationCache, { server, room });
 
-  if (matches?.length) {
-    for (const match of matches) {
-      if (message.seqno && match.seqno && match.seqno <= message.seqno) {
-        const removedEntry = remove(sogsMutationCache, match);
+  if (roomMatches?.length) {
+    for (const roomMatch of roomMatches) {
+      if (message.seqno && roomMatch.seqno && roomMatch.seqno <= message.seqno) {
+        const removedEntry = remove(sogsMutationCache, roomMatch);
         window.log.info('SOGS Mutation Cache: Entry ignored and removed!', removedEntry);
-      } else if (!message.seqno || (message.seqno && match.seqno && match.seqno > message.seqno)) {
+      } else if (
+        !message.seqno ||
+        (message.seqno && roomMatch.seqno && roomMatch.seqno > message.seqno)
+      ) {
         for (const reaction of Object.keys(message.reactions)) {
-          const _matches = filter(sogsMutationCache, {
+          const reactionMatches = filter(sogsMutationCache, {
             server,
             room,
             changeType: ChangeType.REACTIONS,
@@ -91,9 +94,9 @@ export async function processMessagesUsingCache(
               emoji: reaction,
             },
           });
-          if (_matches?.length) {
-            for (const match of _matches) {
-              switch (match.metadata.action) {
+          if (reactionMatches?.length) {
+            for (const reactionMatch of reactionMatches) {
+              switch (reactionMatch.metadata.action) {
                 case 'ADD':
                   updatedReactions[reaction].you = true;
                   updatedReactions[reaction].count += 1;
@@ -113,13 +116,12 @@ export async function processMessagesUsingCache(
                 default:
                   window.log.warn(
                     'SOGS Mutation Cache: Unsupported metadata action in OpenGroupMessageV4',
-                    match
+                    reactionMatch
                   );
-                  break;
               }
             }
 
-            const removedMatches = remove(sogsMutationCache, ...matches);
+            const removedMatches = remove(sogsMutationCache, ...roomMatches);
             window.log.info(
               'SOGS Mutation Cache: Removed processed entries from cache!',
               removedMatches
