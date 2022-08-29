@@ -124,7 +124,11 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
       `You ${action === Action.REACT ? 'added' : 'removed'} a`,
       emoji,
       'reaction for message',
-      id
+      id,
+      found.get('isPublic') &&
+        `on ${conversationModel.toOpenGroupV2().serverUrl}/${
+          conversationModel.toOpenGroupV2().roomId
+        }`
     );
     return reaction;
   } else {

@@ -36,7 +36,7 @@ export const hasReactionSupport = async (serverId: number): Promise<boolean> => 
 
 export const sendSogsReactionOnionV4 = async (
   serverUrl: string,
-  room: string,
+  room: string, // this is the roomId
   abortSignal: AbortSignal,
   reaction: Reaction,
   blinded: boolean
@@ -107,16 +107,10 @@ export const sendSogsReactionOnionV4 = async (
     throw new Error('putReaction parsing failed');
   }
 
-  window.log.info(
-    `You ${reaction.action === Action.REACT ? 'added' : 'removed'} a`,
-    reaction.emoji,
-    `reaction on ${serverUrl}/${room}`
-  );
   const success = Boolean(reaction.action === Action.REACT ? rawMessage.added : rawMessage.removed);
 
-  if (success && rawMessage.seqno) {
-    cacheEntry.seqno = rawMessage.seqno;
-    updateMutationCache(cacheEntry);
+  if (success) {
+    updateMutationCache(cacheEntry, rawMessage.seqno);
   }
 
   return success;
