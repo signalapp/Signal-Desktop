@@ -17,6 +17,7 @@ import { nativeEmojiData } from '../../util/emoji';
 import { sendMessageReaction, SOGSReactorsFetchCount } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
+import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
 import { SessionIconButton } from '../icon';
@@ -163,18 +164,28 @@ const StyledCountText = styled.p`
   color: var(--color-text-subtle);
   text-align: center;
   margin: 16px auto 0;
+
+  span {
+    color: var(--color-text);
+  }
 `;
 
-const CountText = ({ count }: { count: number }) => {
+const CountText = ({ count, emoji }: { count: number; emoji: string }) => {
   return (
     <StyledCountText>
-      {count > SOGSReactorsFetchCount + 1
-        ? window.i18n('reactionListCountPlural', [
-            window.i18n('otherPlural', [String(count - SOGSReactorsFetchCount)]),
-          ])
-        : window.i18n('reactionListCountSingular', [
-            window.i18n('otherSingular', [String(count - SOGSReactorsFetchCount)]),
-          ])}
+      <SessionHtmlRenderer
+        html={
+          count > SOGSReactorsFetchCount + 1
+            ? window.i18n('reactionListCountPlural', [
+                window.i18n('otherPlural', [String(count - SOGSReactorsFetchCount)]),
+                emoji,
+              ])
+            : window.i18n('reactionListCountSingular', [
+                window.i18n('otherSingular', [String(count - SOGSReactorsFetchCount)]),
+                emoji,
+              ])
+        }
+      />
     </StyledCountText>
   );
 };
@@ -355,7 +366,9 @@ export const ReactListModal = (props: Props): ReactElement => {
                 handleClose={handleClose}
               />
             )}
-            {isPublic && count && count > SOGSReactorsFetchCount && <CountText count={count} />}
+            {isPublic && currentReact && count && count > SOGSReactorsFetchCount && (
+              <CountText count={count} emoji={currentReact} />
+            )}
           </StyledSendersContainer>
         )}
       </StyledReactListContainer>
