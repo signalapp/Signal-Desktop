@@ -54,7 +54,8 @@ describe('ReactionMessage', () => {
     // Handling reaction
     const updatedMessage = await handleMessageReaction(
       reaction as SignalService.DataMessage.IReaction,
-      ourNumber
+      ourNumber,
+      true
     );
 
     expect(updatedMessage?.get('reacts'), 'original message should have reacts').to.not.be
@@ -85,7 +86,8 @@ describe('ReactionMessage', () => {
     // Handling reaction
     const updatedMessage = await handleMessageReaction(
       reaction as SignalService.DataMessage.IReaction,
-      ourNumber
+      ourNumber,
+      true
     );
 
     expect(updatedMessage?.get('reacts'), 'original message reacts should be undefined').to.be

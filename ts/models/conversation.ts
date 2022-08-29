@@ -93,6 +93,7 @@ import {
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
+import { handleMessageReaction } from '../util/reactions';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -736,7 +737,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-
+        await handleMessageReaction(reaction, UserUtils.getOurPubKeyStrFromCache(), true);
         return;
       }
 
@@ -748,6 +749,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+        await handleMessageReaction(reaction, UserUtils.getOurPubKeyStrFromCache(), true);
         return;
       }
 

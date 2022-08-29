@@ -124,7 +124,7 @@ export type ReactionList = Record<
     count: number;
     index: number; // relies on reactsIndex in the message model
     senders: Array<string>;
-    you?: boolean; // whether we are in the senders because sometimes we dont have the full list of senders yet.
+    you: boolean; // whether we are in the senders list, used within 1-1 and closed groups for ignoring duplicate data messages, used within opengroups since we dont always have the full list of senders.
   }
 >;
 
