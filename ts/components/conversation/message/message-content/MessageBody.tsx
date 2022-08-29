@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { shell } from 'electron';
 import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallbackType } from '../../../../types/Util';
@@ -8,9 +7,8 @@ import { getEmojiSizeClass, SizeClassType } from '../../../../util/emoji';
 import { AddMentions } from '../../AddMentions';
 import { AddNewLines } from '../../AddNewLines';
 import { Emojify } from '../../Emojify';
-import { MessageInteraction } from '../../../../interactions';
-import { updateConfirmModal } from '../../../../state/ducks/modalDialog';
 import { LinkPreviews } from '../../../../util/linkPreviews';
+import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
 const linkify = LinkifyIt();
 
@@ -152,27 +150,7 @@ const Linkify = (props: LinkifyProps): JSX.Element => {
 
     const url = e.target.href;
 
-    const openLink = () => {
-      void shell.openExternal(url);
-    };
-
-    dispatch(
-      updateConfirmModal({
-        title: window.i18n('linkVisitWarningTitle'),
-        message: window.i18n('linkVisitWarningMessage', url),
-        okText: window.i18n('open'),
-        cancelText: window.i18n('editMenuCopy'),
-        showExitIcon: true,
-        onClickOk: openLink,
-        onClickClose: () => {
-          dispatch(updateConfirmModal(null));
-        },
-
-        onClickCancel: () => {
-          MessageInteraction.copyBodyToClipboard(url);
-        },
-      })
-    );
+    showLinkVisitWarningDialog(url, dispatch);
   }, []);
 
   if (matchData.length === 0) {

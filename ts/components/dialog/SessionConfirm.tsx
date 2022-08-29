@@ -6,6 +6,9 @@ import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Dispatch } from 'redux';
+import { shell } from 'electron';
+import { MessageInteraction } from '../../interactions';
 
 export interface SessionConfirmDialogProps {
   message?: string;
@@ -143,5 +146,28 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         )}
       </div>
     </SessionWrapperModal>
+  );
+};
+
+export const showLinkVisitWarningDialog = (urlToOpen: string, dispatch: Dispatch<any>) => {
+  function onClickOk() {
+    void shell.openExternal(urlToOpen);
+  }
+
+  dispatch(
+    updateConfirmModal({
+      title: window.i18n('linkVisitWarningTitle'),
+      message: window.i18n('linkVisitWarningMessage', [urlToOpen]),
+      okText: window.i18n('open'),
+      cancelText: window.i18n('editMenuCopy'),
+      showExitIcon: true,
+      onClickOk,
+      onClickClose: () => {
+        dispatch(updateConfirmModal(null));
+      },
+      onClickCancel: () => {
+        MessageInteraction.copyBodyToClipboard(urlToOpen);
+      },
+    })
   );
 };
