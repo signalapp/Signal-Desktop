@@ -462,5 +462,7 @@
   "reactionPopupOne": "$name$",
   "reactionPopupTwo": "$name$ & $name2$",
   "reactionPopupThree": "$name$, $name2$ & $name3$",
-  "reactionPopupMany": "$name$, $name2$, $name3$ &"
+  "reactionPopupMany": "$name$, $name2$, $name3$ &",
+  "reactionListCountSingular": "And $otherSingular$ has reacted to this message",
+  "reactionListCountPlural": "And $otherPlural$ have reacted to this message"
 }

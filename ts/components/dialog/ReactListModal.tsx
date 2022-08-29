@@ -14,7 +14,7 @@ import {
 } from '../../state/ducks/modalDialog';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
-import { sendMessageReaction } from '../../util/reactions';
+import { sendMessageReaction, SOGSReactorsFetchCount } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
 import { ContactName } from '../conversation/ContactName';
@@ -36,12 +36,12 @@ const StyledReactionsContainer = styled.div`
 
 const StyledSendersContainer = styled(Flex)`
   width: 100%;
-  min-height: 350px;
+  min-height: 332px;
   height: 100%;
   max-height: 496px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 16px 32px;
+  padding: 0 16px 16px;
 `;
 
 const StyledReactionBar = styled(Flex)`
@@ -159,6 +159,26 @@ const ReactionSenders = (props: ReactionSendersProps) => {
   );
 };
 
+const StyledCountText = styled.p`
+  color: var(--color-text-subtle);
+  text-align: center;
+  margin: 16px auto 0;
+`;
+
+const CountText = ({ count }: { count: number }) => {
+  return (
+    <StyledCountText>
+      {count > SOGSReactorsFetchCount + 1
+        ? window.i18n('reactionListCountPlural', [
+            window.i18n('otherPlural', [String(count - SOGSReactorsFetchCount)]),
+          ])
+        : window.i18n('reactionListCountSingular', [
+            window.i18n('otherSingular', [String(count - SOGSReactorsFetchCount)]),
+          ])}
+    </StyledCountText>
+  );
+};
+
 type Props = {
   reaction: string;
   messageId: string;
@@ -182,6 +202,7 @@ const handleSenders = (senders: Array<string>, me: string) => {
   return updatedSenders;
 };
 
+// tslint:disable-next-line: max-func-body-length
 export const ReactListModal = (props: Props): ReactElement => {
   const { reaction, messageId } = props;
 
@@ -189,6 +210,7 @@ export const ReactListModal = (props: Props): ReactElement => {
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
   const [currentReact, setCurrentReact] = useState('');
   const [reactAriaLabel, setReactAriaLabel] = useState<string | undefined>();
+  const [count, setCount] = useState<number | null>(null);
   const [senders, setSenders] = useState<Array<string>>([]);
   const me = UserUtils.getOurPubKeyStrFromCache();
 
@@ -230,7 +252,20 @@ export const ReactListModal = (props: Props): ReactElement => {
     if (senders.length > 0 && (!reactionsMap[currentReact]?.senders || isEmpty(_senders))) {
       setSenders([]);
     }
-  }, [currentReact, me, reaction, msgProps?.sortedReacts, reactionsMap, senders]);
+
+    if (reactionsMap[currentReact]?.count && !isEqual(count, reactionsMap[currentReact]?.count)) {
+      setCount(reactionsMap[currentReact].count);
+    }
+  }, [
+    count,
+    currentReact,
+    me,
+    reaction,
+    reactionsMap[currentReact]?.count,
+    msgProps?.sortedReacts,
+    reactionsMap,
+    senders,
+  ]);
 
   if (!msgProps) {
     return <></>;
@@ -320,6 +355,7 @@ export const ReactListModal = (props: Props): ReactElement => {
                 handleClose={handleClose}
               />
             )}
+            {isPublic && count && count > SOGSReactorsFetchCount && <CountText count={count} />}
           </StyledSendersContainer>
         )}
       </StyledReactListContainer>
