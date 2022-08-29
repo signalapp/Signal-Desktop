@@ -125,10 +125,11 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
       emoji,
       'reaction for message',
       id,
-      found.get('isPublic') &&
-        `on ${conversationModel.toOpenGroupV2().serverUrl}/${
-          conversationModel.toOpenGroupV2().roomId
-        }`
+      found.get('isPublic')
+        ? `on ${conversationModel.toOpenGroupV2().serverUrl}/${
+            conversationModel.toOpenGroupV2().roomId
+          }`
+        : ''
     );
     return reaction;
   } else {

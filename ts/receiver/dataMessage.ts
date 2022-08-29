@@ -22,6 +22,7 @@ import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { handleMessageReaction } from '../util/reactions';
+import { Action, Reaction } from '../types/Reaction';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -326,6 +327,15 @@ async function handleSwarmMessage(
         msgModel.get('source'),
         isUsFromCache(msgModel.get('source'))
       );
+      if (
+        convoToAddMessageTo.isPrivate() &&
+        msgModel.get('unread') &&
+        rawDataMessage.reaction.action === Action.REACT
+      ) {
+        msgModel.set('reaction', rawDataMessage.reaction as Reaction);
+        convoToAddMessageTo.throttledNotify(msgModel);
+      }
+
       confirm();
       return;
     }
