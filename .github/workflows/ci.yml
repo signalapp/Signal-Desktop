@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.13.2'
+        node-version: '16.15.0'
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
@@ -51,7 +51,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.13.2'
+        node-version: '16.15.0'
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
@@ -89,7 +89,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.13.2'
+        node-version: '16.15.0'
     - run: sudo apt-get install xvfb
     - run: npm install -g yarn@1.22.10
 
@@ -130,7 +130,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.13.2'
+        node-version: '16.15.0'
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
@@ -176,7 +176,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16.13.2'
+        node-version: '16.15.0'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10
 
