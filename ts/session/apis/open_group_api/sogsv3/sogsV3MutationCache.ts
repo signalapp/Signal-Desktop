@@ -131,7 +131,9 @@ export async function processMessagesUsingCache(
   }
 
   const removedMatches = remove(sogsMutationCache, ...roomMatches);
-  window.log.info('SOGS Mutation Cache: Removed processed entries from cache!', removedMatches);
+  if (removedMatches?.length) {
+    window.log.info('SOGS Mutation Cache: Removed processed entries from cache!', removedMatches);
+  }
 
   message.reactions = updatedReactions;
   await Reactions.handleOpenGroupMessageReactions(message.reactions, message.id);
