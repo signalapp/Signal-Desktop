@@ -36,6 +36,7 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
 
   const { plainTextBuffer } = message;
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
+
   const { dataMessage, dataExtractionNotification, typingMessage } = contentDecoded;
   if (dataMessage && dataMessage.timestamp && dataMessage.timestamp > 0) {
     // this is a sync message, do not overwrite the message timestamp
