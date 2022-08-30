@@ -25,6 +25,7 @@ const StyledSessionMemberItem = styled.button<{
 }>`
   cursor: pointer;
   flex-shrink: 0;
+  flex-grow: 1;
   font-family: var(--font-default);
   padding: 0px var(--margins-sm);
   height: ${props => (props.inMentions ? '40px' : '50px')};

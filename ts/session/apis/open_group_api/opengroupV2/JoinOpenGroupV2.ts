@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
+import { getEventSessionSogsFirstPoll } from '../../../utils/GlobalEvents';
+import { sleepFor, waitForTask } from '../../../utils/Promise';
 
 import { forceSyncConfigurationNowIfNeeded } from '../../../utils/syncUtils';
 import {
@@ -103,6 +105,11 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
   }
 }
 
+export type JoinSogsRoomUICallbackArgs = {
+  loadingState: 'started' | 'finished' | 'failed';
+  conversationKey: string | null;
+};
+
 /**
  * This function does not throw
  * This function can be used to join an opengroupv2 server, from a user initiated click or from a syncMessage.
@@ -121,7 +128,7 @@ export async function joinOpenGroupV2WithUIEvents(
   completeUrl: string,
   showToasts: boolean,
   fromConfigMessage: boolean,
-  uiCallback?: (loading: boolean) => void
+  uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void
 ): Promise<boolean> {
   try {
     const parsedRoom = parseOpenGroupV2(completeUrl);
@@ -142,10 +149,22 @@ export async function joinOpenGroupV2WithUIEvents(
     if (showToasts) {
       ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
     }
-    if (uiCallback) {
-      uiCallback(true);
-    }
+
+    uiCallback?.({ loadingState: 'started', conversationKey: conversationID });
+
     await joinOpenGroupV2(parsedRoom, fromConfigMessage);
+
+    // this is very hacky but is made so we wait for the poller to receive the first messages related to that room.
+    // once the poller added all the messages to the queue of jobs to be run, we still wait a bit for them to be processed.
+    // This won't age well, but I am not too sure how we can design better.
+    await waitForTask(done => {
+      const eventToWait = getEventSessionSogsFirstPoll(parsedRoom.roomId);
+      window.Whisper.events.on(eventToWait, async () => {
+        window.Whisper.events.off(eventToWait);
+        await sleepFor(5000);
+        done(0);
+      });
+    }, 25000);
 
     const isConvoCreated = getConversationController().get(conversationID);
     if (isConvoCreated) {
@@ -155,21 +174,21 @@ export async function joinOpenGroupV2WithUIEvents(
           window.i18n('connectToServerSuccess')
         );
       }
+      uiCallback?.({ loadingState: 'finished', conversationKey: conversationID });
+
       return true;
     } else {
       if (showToasts) {
         ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
       }
     }
+    uiCallback?.({ loadingState: 'failed', conversationKey: conversationID });
   } catch (error) {
     window?.log?.warn('got error while joining open group:', error.message);
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
     }
-  } finally {
-    if (uiCallback) {
-      uiCallback(false);
-    }
+    uiCallback?.({ loadingState: 'failed', conversationKey: null });
   }
   return false;
 }

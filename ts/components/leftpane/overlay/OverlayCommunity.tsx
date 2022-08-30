@@ -7,12 +7,17 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basi
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetOverlayMode } from '../../../state/ducks/section';
-import { joinOpenGroupV2WithUIEvents } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import {
+  joinOpenGroupV2WithUIEvents,
+  JoinSogsRoomUICallbackArgs,
+} from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { ToastUtils } from '../../../session/utils';
 import useKey from 'react-use/lib/useKey';
+import { getOverlayMode } from '../../../state/selectors/section';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
 
 async function joinOpenGroup(serverUrl: string) {
   // guess if this is an open
@@ -30,6 +35,8 @@ export const OverlayCommunity = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [groupUrl, setGroupUrl] = useState('');
+
+  const overlayModeIsCommunity = useSelector(getOverlayMode) === 'open-group';
 
   function closeOverlay() {
     dispatch(resetOverlayMode());
@@ -49,6 +56,15 @@ export const OverlayCommunity = () => {
       window.log.warn(e);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function onJoinSessionSogsRoom(args: JoinSogsRoomUICallbackArgs) {
+    setLoading(args.loadingState === 'started');
+
+    if (args.loadingState === 'finished' && overlayModeIsCommunity && args.conversationKey) {
+      closeOverlay();
+      void openConversationWithMessages({ conversationKey: args.conversationKey, messageId: null }); // open to last unread for a session run sogs
     }
   }
 
@@ -84,7 +100,10 @@ export const OverlayCommunity = () => {
       />
 
       <SessionSpinner loading={loading} />
-      <SessionJoinableRooms onRoomClicked={closeOverlay} />
+      <SessionJoinableRooms
+        onJoinSessionSogsRoom={onJoinSessionSogsRoom}
+        alreadyJoining={loading}
+      />
     </div>
   );
 };

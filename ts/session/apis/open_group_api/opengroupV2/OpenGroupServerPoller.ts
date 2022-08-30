@@ -1,6 +1,6 @@
 import { AbortController } from 'abort-controller';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { OpenGroupRequestCommonType } from './ApiUtil';
+import { defaultServer, OpenGroupRequestCommonType } from './ApiUtil';
 import _, { isNumber, isObject } from 'lodash';
 
 import { OpenGroupData } from '../../../../data/opengroups';
@@ -20,6 +20,7 @@ import {
   roomHasBlindEnabled,
 } from '../sogsv3/sogsV3Capabilities';
 import { OpenGroupReaction } from '../../../../types/Reaction';
+import { getEventSessionSogsFirstPoll } from '../../../utils/GlobalEvents';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
@@ -317,6 +318,14 @@ export class OpenGroupServerPoller {
         subrequestOptions,
         this.roomIdsToPoll
       );
+
+      if (this.serverUrl === defaultServer) {
+        for (const room of subrequestOptions) {
+          if (room.type === 'messages' && !room.messages?.sinceSeqNo && room.messages?.roomId) {
+            window.Whisper.events.trigger(getEventSessionSogsFirstPoll(room.messages.roomId));
+          }
+        }
+      }
     } catch (e) {
       window?.log?.warn('Got error while compact fetch:', e.message);
     } finally {

@@ -21,11 +21,7 @@ declare global {
     CONSTANTS: any;
     Events: any;
     Lodash: any;
-    SessionSnodeAPI: any;
     Session: any;
-    StubAppDotNetApi: any;
-    StringView: any;
-    StubMessageAPI: any;
     Whisper: any;
     clearLocalData: any;
     clipboard: any;

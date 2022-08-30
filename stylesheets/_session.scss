@@ -999,6 +999,8 @@ input {
 }
 
 .contact-selection-list {
+  display: flex;
+  flex-direction: column;
   width: 20vw;
 }
 

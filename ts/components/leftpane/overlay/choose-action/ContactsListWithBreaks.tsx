@@ -113,7 +113,9 @@ const ContactsTitle = () => {
     return null;
   }
 
-  return <StyledChooseActionTitle>{window.i18n('contactsHeader')}</StyledChooseActionTitle>;
+  return (
+    <StyledChooseActionTitle tabIndex={0}>{window.i18n('contactsHeader')}</StyledChooseActionTitle>
+  );
 };
 
 export const ContactsListWithBreaks = () => {
