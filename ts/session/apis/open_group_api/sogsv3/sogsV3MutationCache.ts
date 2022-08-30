@@ -57,10 +57,8 @@ export function updateMutationCache(entry: SogsV3Mutation, seqno: number) {
   } else {
     const entryIndex = findIndex(sogsMutationCache, entry);
     if (entryIndex >= 0) {
-      const updatedEntry = entry;
-      updatedEntry.seqno = seqno;
-      sogsMutationCache[entryIndex] = updatedEntry;
-      window.log.info('SOGS Mutation Cache: Entry updated!', updatedEntry);
+      sogsMutationCache[entryIndex].seqno = seqno;
+      window.log.info('SOGS Mutation Cache: Entry updated!', sogsMutationCache[entryIndex]);
     } else {
       window.log.error('SOGS Mutation Cache: Updated failed! Cannot find entry', entry);
     }
@@ -75,62 +73,56 @@ export async function processMessagesUsingCache(
   const updatedReactions = message.reactions;
   const roomMatches: Array<SogsV3Mutation> = filter(sogsMutationCache, { server, room });
 
-  if (roomMatches?.length) {
-    for (const roomMatch of roomMatches) {
-      if (message.seqno && roomMatch.seqno && roomMatch.seqno <= message.seqno) {
-        const removedEntry = remove(sogsMutationCache, roomMatch);
-        window.log.info('SOGS Mutation Cache: Entry ignored and removed!', removedEntry);
-      } else if (
-        !message.seqno ||
-        (message.seqno && roomMatch.seqno && roomMatch.seqno > message.seqno)
-      ) {
-        for (const reaction of Object.keys(message.reactions)) {
-          const reactionMatches = filter(sogsMutationCache, {
-            server,
-            room,
-            changeType: ChangeType.REACTIONS,
-            metadata: {
-              messageId: message.id,
-              emoji: reaction,
-            },
-          });
-          if (reactionMatches?.length) {
-            for (const reactionMatch of reactionMatches) {
-              switch (reactionMatch.metadata.action) {
-                case 'ADD':
-                  updatedReactions[reaction].you = true;
-                  updatedReactions[reaction].count += 1;
-                  window.log.info(
-                    'SOGS Mutation Cache: Added our reaction based on the cache',
-                    updatedReactions[reaction]
-                  );
-                  break;
-                case 'REMOVE':
-                  updatedReactions[reaction].you = false;
-                  updatedReactions[reaction].count -= 1;
-                  window.log.info(
-                    'SOGS Mutation Cache: Removed our reaction based on the cache',
-                    updatedReactions[reaction]
-                  );
-                  break;
-                default:
-                  window.log.warn(
-                    'SOGS Mutation Cache: Unsupported metadata action in OpenGroupMessageV4',
-                    reactionMatch
-                  );
-              }
-            }
+  for (const roomMatch of roomMatches) {
+    if (message.seqno && roomMatch.seqno && roomMatch.seqno <= message.seqno) {
+      const removedEntry = remove(sogsMutationCache, roomMatch);
+      window.log.info('SOGS Mutation Cache: Entry ignored and removed!', removedEntry);
+    } else if (
+      !message.seqno ||
+      (message.seqno && roomMatch.seqno && roomMatch.seqno > message.seqno)
+    ) {
+      for (const reaction of Object.keys(message.reactions)) {
+        const reactionMatches = filter(sogsMutationCache, {
+          server,
+          room,
+          changeType: ChangeType.REACTIONS,
+          metadata: {
+            messageId: message.id,
+            emoji: reaction,
+          },
+        });
 
-            const removedMatches = remove(sogsMutationCache, ...roomMatches);
-            window.log.info(
-              'SOGS Mutation Cache: Removed processed entries from cache!',
-              removedMatches
-            );
+        for (const reactionMatch of reactionMatches) {
+          switch (reactionMatch.metadata.action) {
+            case 'ADD':
+              updatedReactions[reaction].you = true;
+              updatedReactions[reaction].count += 1;
+              window.log.info(
+                'SOGS Mutation Cache: Added our reaction based on the cache',
+                updatedReactions[reaction]
+              );
+              break;
+            case 'REMOVE':
+              updatedReactions[reaction].you = false;
+              updatedReactions[reaction].count -= 1;
+              window.log.info(
+                'SOGS Mutation Cache: Removed our reaction based on the cache',
+                updatedReactions[reaction]
+              );
+              break;
+            default:
+              window.log.warn(
+                'SOGS Mutation Cache: Unsupported metadata action in OpenGroupMessageV4',
+                reactionMatch
+              );
           }
         }
       }
     }
   }
+
+  const removedMatches = remove(sogsMutationCache, ...roomMatches);
+  window.log.info('SOGS Mutation Cache: Removed processed entries from cache!', removedMatches);
 
   message.reactions = updatedReactions;
   await handleOpenGroupMessageReactions(message.reactions, message.id);

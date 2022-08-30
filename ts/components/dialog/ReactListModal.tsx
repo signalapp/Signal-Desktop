@@ -216,15 +216,17 @@ const handleSenders = (senders: Array<string>, me: string) => {
 export const ReactListModal = (props: Props): ReactElement => {
   const { reaction, messageId } = props;
 
+  const dispatch = useDispatch();
   const [reactions, setReactions] = useState<SortedReactionList>([]);
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
   const [currentReact, setCurrentReact] = useState('');
   const [reactAriaLabel, setReactAriaLabel] = useState<string | undefined>();
   const [count, setCount] = useState<number | null>(null);
   const [senders, setSenders] = useState<Array<string>>([]);
-  const me = UserUtils.getOurPubKeyStrFromCache();
 
   const msgProps = useMessageReactsPropsById(messageId);
+  const weAreModerator = useWeAreModerator(msgProps?.convoId);
+  const me = UserUtils.getOurPubKeyStrFromCache();
 
   // tslint:disable: cyclomatic-complexity
   useEffect(() => {
@@ -281,10 +283,7 @@ export const ReactListModal = (props: Props): ReactElement => {
     return <></>;
   }
 
-  const dispatch = useDispatch();
-
-  const { convoId, isPublic } = msgProps;
-  const weAreModerator = useWeAreModerator(convoId);
+  const { isPublic } = msgProps;
 
   const handleSelectedReaction = (emoji: string): boolean => {
     return currentReact === emoji;
