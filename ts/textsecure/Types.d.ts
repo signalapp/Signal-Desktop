@@ -250,7 +250,7 @@ export type CustomError = Error & {
   number?: string;
 };
 
-export interface CallbackResultType {
+export type CallbackResultType = {
   successfulIdentifiers?: Array<string>;
   failoverIdentifiers?: Array<string>;
   errors?: Array<CustomError>;
@@ -268,11 +268,11 @@ export interface CallbackResultType {
   recipients?: Record<string, Array<number>>;
   urgent?: boolean;
   hasPniSignatureMessage?: boolean;
-}
+};
 
-export interface IRequestHandler {
+export type IRequestHandler = {
   handleRequest(request: IncomingWebSocketRequest): void;
-}
+};
 
 export type PniKeyMaterialType = Readonly<{
   identityKeyPair: Uint8Array;

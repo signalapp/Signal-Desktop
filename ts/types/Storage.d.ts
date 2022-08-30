@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AudioDevice } from 'ringrtc';
@@ -145,7 +145,7 @@ export type StorageAccessType = {
   'challenge:retry-message-ids': never;
 };
 
-export interface StorageInterface {
+export type StorageInterface = {
   onready(callback: () => void): void;
 
   get<K extends keyof StorageAccessType, V extends StorageAccessType[K]>(
@@ -163,4 +163,4 @@ export interface StorageInterface {
   ): Promise<void>;
 
   remove<K extends keyof StorageAccessType>(key: K): Promise<void>;
-}
+};

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 declare module 'mp4box' {
-  interface MP4MediaTrack {
+  type MP4MediaTrack = {
     alternate_group: number;
     bitrate: number;
     codec: string;
@@ -18,30 +18,30 @@ declare module 'mp4box' {
     track_height: number;
     track_width: number;
     volume: number;
-  }
+  };
 
-  interface MP4VideoData {
+  type MP4VideoData = {
     height: number;
     width: number;
-  }
+  };
 
-  interface MP4VideoTrack extends MP4MediaTrack {
+  type MP4VideoTrack = MP4MediaTrack & {
     video: MP4VideoData;
-  }
+  };
 
-  interface MP4AudioData {
+  type MP4AudioData = {
     channel_count: number;
     sample_rate: number;
     sample_size: number;
-  }
+  };
 
-  interface MP4AudioTrack extends MP4MediaTrack {
+  type MP4AudioTrack = MP4MediaTrack & {
     audio: MP4AudioData;
-  }
+  };
 
   type MP4Track = MP4VideoTrack | MP4AudioTrack;
 
-  interface MP4Info {
+  type MP4Info = {
     brands: Array<string>;
     created: Date;
     duration: number;
@@ -53,16 +53,16 @@ declare module 'mp4box' {
     modified: Date;
     timescale: number;
     tracks: Array<MP4Track>;
-  }
+  };
 
   export type MP4ArrayBuffer = ArrayBuffer & { fileStart: number };
 
-  export interface MP4File {
+  export type MP4File = {
     appendBuffer(data: MP4ArrayBuffer): number;
     flush(): void;
     onError?: (e: string) => void;
     onReady?: (info: MP4Info) => void;
-  }
+  };
 
   export function createFile(): MP4File;
 }
