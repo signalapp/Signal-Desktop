@@ -14,7 +14,6 @@ import {
 import {
   canDisplayImage,
   getGridDimensions,
-  getImageDimensionsInAttachment,
   hasImage,
   hasVideoScreenshot,
   isImage,
@@ -22,7 +21,6 @@ import {
   isVideo,
 } from '../../../../types/Attachment';
 import { Flex } from '../../../basic/Flex';
-import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
 import { MessageAttachment } from './MessageAttachment';
 import { MessagePreview } from './MessagePreview';
 import { MessageQuote } from './MessageQuote';
@@ -168,7 +166,7 @@ export const MessageContent = (props: Props) => {
     isDeleted = selectedMsg.isDeleted;
   }
 
-  const width = getWidth({ previews, attachments });
+  const width = getWidth({ attachments });
   const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
   const hasText = Boolean(text);
   const hasQuote = !isEmpty(quote);
@@ -230,10 +228,8 @@ export const MessageContent = (props: Props) => {
   );
 };
 
-function getWidth(
-  props: Pick<MessageRenderingProps, 'attachments' | 'previews'>
-): number | undefined {
-  const { attachments, previews } = props;
+function getWidth(props: Pick<MessageRenderingProps, 'attachments'>): number | undefined {
+  const { attachments } = props;
 
   if (attachments && attachments.length) {
     const dimensions = getGridDimensions(attachments);
@@ -241,22 +237,8 @@ function getWidth(
       return dimensions.width;
     }
   }
-
-  if (previews && previews.length) {
-    const first = previews[0];
-
-    if (!first || !first.image) {
-      return;
-    }
-    const { width } = first.image;
-
-    if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensionsInAttachment(first.image);
-      if (dimensions) {
-        return dimensions.width;
-      }
-    }
-  }
+  // we do not care about the presence of a preview or not to hardcode the width.
+  // the width with a preview will be determined by a flexbox
 
   return;
 }

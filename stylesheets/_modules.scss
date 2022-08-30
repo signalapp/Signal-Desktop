@@ -147,6 +147,11 @@
   cursor: pointer;
   border-top-left-radius: $session_message-container-border-radius;
   border-top-right-radius: $session_message-container-border-radius;
+  display: flex;
+}
+
+.module-message__link-preview__text {
+  align-self: center;
 }
 
 .module-message__link-preview__content {
@@ -155,6 +160,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  flex-grow: 1;
   border: 1px solid $color-black-015;
 }
 
@@ -201,10 +207,6 @@
   width: 32px;
   border-radius: 50%;
   background-color: $color-gray-05;
-}
-
-.module-message__link-preview__text--with-icon {
-  margin-top: 5px;
 }
 
 .module-message__link-preview__title {
