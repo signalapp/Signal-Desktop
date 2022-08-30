@@ -52,11 +52,12 @@ describe('ReactionMessage', () => {
     expect(reaction?.action, 'action should be 0').to.be.equal(0);
 
     // Handling reaction
-    const updatedMessage = await handleMessageReaction(
-      reaction as SignalService.DataMessage.IReaction,
-      ourNumber,
-      true
-    );
+    const updatedMessage = await handleMessageReaction({
+      reaction: reaction as SignalService.DataMessage.IReaction,
+      sender: ourNumber,
+      you: true,
+      isOpenGroup: false,
+    });
 
     expect(updatedMessage?.get('reacts'), 'original message should have reacts').to.not.be
       .undefined;
@@ -84,11 +85,12 @@ describe('ReactionMessage', () => {
     expect(reaction?.action, 'action should be 1').to.be.equal(1);
 
     // Handling reaction
-    const updatedMessage = await handleMessageReaction(
-      reaction as SignalService.DataMessage.IReaction,
-      ourNumber,
-      true
-    );
+    const updatedMessage = await handleMessageReaction({
+      reaction: reaction as SignalService.DataMessage.IReaction,
+      sender: ourNumber,
+      you: true,
+      isOpenGroup: false,
+    });
 
     expect(updatedMessage?.get('reacts'), 'original message reacts should be undefined').to.be
       .undefined;

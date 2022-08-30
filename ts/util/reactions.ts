@@ -37,23 +37,28 @@ export function hitRateLimit(): boolean {
  * Retrieves the original message of a reaction
  */
 const getMessageByReaction = async (
-  reaction: SignalService.DataMessage.IReaction
+  reaction: SignalService.DataMessage.IReaction,
+  isOpenGroup: boolean
 ): Promise<MessageModel | null> => {
   let originalMessage = null;
   const originalMessageId = Number(reaction.id);
   const originalMessageAuthor = reaction.author;
 
-  const collection = await Data.getMessagesBySentAt(originalMessageId);
-  originalMessage = collection.find((item: MessageModel) => {
-    const messageTimestamp = item.get('sent_at');
-    const author = item.get('source');
-    return Boolean(
-      messageTimestamp &&
-        messageTimestamp === originalMessageId &&
-        author &&
-        author === originalMessageAuthor
-    );
-  });
+  if (isOpenGroup) {
+    originalMessage = await Data.getMessageByServerId(originalMessageId);
+  } else {
+    const collection = await Data.getMessagesBySentAt(originalMessageId);
+    originalMessage = collection.find((item: MessageModel) => {
+      const messageTimestamp = item.get('sent_at');
+      const author = item.get('source');
+      return Boolean(
+        messageTimestamp &&
+          messageTimestamp === originalMessageId &&
+          author &&
+          author === originalMessageAuthor
+      );
+    });
+  }
 
   if (!originalMessage) {
     window?.log?.warn(`Cannot find the original reacted message ${originalMessageId}.`);
@@ -140,19 +145,25 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
 
 /**
  * Handle reactions on the client by updating the state of the source message
- * Do not use for Open Groups
+ * Used in OpenGroups for sending reactions only, not handling responses
  */
-export const handleMessageReaction = async (
-  reaction: SignalService.DataMessage.IReaction,
-  sender: string,
-  you: boolean
-) => {
+export const handleMessageReaction = async ({
+  reaction,
+  sender,
+  you,
+  isOpenGroup,
+}: {
+  reaction: SignalService.DataMessage.IReaction;
+  sender: string;
+  you: boolean;
+  isOpenGroup: boolean;
+}) => {
   if (!reaction.emoji) {
     window?.log?.warn(`There is no emoji for the reaction ${reaction}.`);
     return;
   }
 
-  const originalMessage = await getMessageByReaction(reaction);
+  const originalMessage = await getMessageByReaction(reaction, isOpenGroup);
   if (!originalMessage) {
     return;
   }
@@ -163,20 +174,15 @@ export const handleMessageReaction = async (
   const senders = details.senders;
   let count = details.count || 0;
 
-  if (originalMessage.get('isPublic')) {
-    window.log.warn("handleMessageReaction() shouldn't be used in opengroups");
-    return;
-  } else {
-    if (details.you && senders.includes(sender)) {
-      if (reaction.action === Action.REACT) {
-        window.log.warn('Received duplicate message for your reaction. Ignoring it');
-        return;
-      } else {
-        details.you = false;
-      }
+  if (details.you && senders.includes(sender)) {
+    if (reaction.action === Action.REACT) {
+      window.log.warn('Received duplicate message for your reaction. Ignoring it');
+      return;
     } else {
-      details.you = you;
+      details.you = false;
     }
+  } else {
+    details.you = you;
   }
 
   switch (reaction.action) {
@@ -230,7 +236,34 @@ export const handleMessageReaction = async (
 };
 
 /**
- * Handles all message reaction updates for opengroups
+ * Handles updating the UI when clearing all reactions for a certain emoji
+ * Only usable by moderators in opengroups and runs on their client
+ */
+export const handleClearReaction = async (serverId: number, emoji: string) => {
+  const originalMessage = await Data.getMessageByServerId(serverId);
+  if (!originalMessage) {
+    window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
+    return;
+  }
+
+  const reacts: ReactionList | undefined = originalMessage.get('reacts');
+  if (reacts) {
+    // tslint:disable-next-line: no-dynamic-delete
+    delete reacts[emoji];
+  }
+
+  originalMessage.set({
+    reacts: !isEmpty(reacts) ? reacts : undefined,
+  });
+
+  await originalMessage.commit();
+
+  window.log.info(`You cleared all ${emoji} reactions on message ${serverId}`);
+  return originalMessage;
+};
+
+/**
+ * Handles all message reaction updates/responses for opengroups
  */
 export const handleOpenGroupMessageReactions = async (
   reactions: OpenGroupReactionList,

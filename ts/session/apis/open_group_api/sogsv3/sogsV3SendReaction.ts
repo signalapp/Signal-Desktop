@@ -1,10 +1,13 @@
 import { AbortSignal } from 'abort-controller';
 import { Data } from '../../../../data/data';
+import { ConversationModel } from '../../../../models/conversation';
 import { Action, OpenGroupReactionResponse, Reaction } from '../../../../types/Reaction';
 import { getEmojiDataFromNative } from '../../../../util/emoji';
-import { hitRateLimit } from '../../../../util/reactions';
+import { handleMessageReaction, hitRateLimit } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
+import { UserUtils } from '../../../utils';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
+import { getUsBlindedInThatServer } from './knownBlindedkeys';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
 import {
   addToMutationCache,
@@ -13,25 +16,27 @@ import {
   updateMutationCache,
 } from './sogsV3MutationCache';
 
-export const hasReactionSupport = async (serverId: number): Promise<boolean> => {
+export const hasReactionSupport = async (
+  serverId: number
+): Promise<{ supported: boolean; conversation: ConversationModel | null }> => {
   const found = await Data.getMessageByServerId(serverId);
   if (!found) {
     window.log.warn(`Open Group Message ${serverId} not found in db`);
-    return false;
+    return { supported: false, conversation: null };
   }
 
   const conversationModel = found?.getConversation();
   if (!conversationModel) {
     window.log.warn(`Conversation for ${serverId} not found in db`);
-    return false;
+    return { supported: false, conversation: null };
   }
 
   if (!conversationModel.hasReactions()) {
     window.log.warn("This open group doesn't have reaction support. Server Message ID", serverId);
-    return false;
+    return { supported: false, conversation: null };
   }
 
-  return true;
+  return { supported: true, conversation: conversationModel };
 };
 
 export const sendSogsReactionOnionV4 = async (
@@ -47,12 +52,17 @@ export const sendSogsReactionOnionV4 = async (
     throw new Error(`Could not find sogs pubkey of url:${serverUrl}`);
   }
 
-  const canReact = await hasReactionSupport(reaction.id);
-  if (!canReact) {
+  const { supported, conversation } = await hasReactionSupport(reaction.id);
+  if (!supported) {
     return false;
   }
 
   if (hitRateLimit()) {
+    return false;
+  }
+
+  if (!conversation) {
+    window.log.warn(`Conversation for ${reaction.id} not found in db`);
     return false;
   }
 
@@ -76,6 +86,15 @@ export const sendSogsReactionOnionV4 = async (
   };
 
   addToMutationCache(cacheEntry);
+
+  // Since responses can take a long time we immediately update the sender's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
+  const me = UserUtils.getOurPubKeyStrFromCache();
+  await handleMessageReaction({
+    reaction,
+    sender: blinded ? getUsBlindedInThatServer(conversation) || me : me,
+    you: true,
+    isOpenGroup: true,
+  });
 
   // reaction endpoint requires an empty dict {}
   const stringifiedBody = null;

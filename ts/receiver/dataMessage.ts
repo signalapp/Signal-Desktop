@@ -322,11 +322,12 @@ async function handleSwarmMessage(
     // this call has to be made inside the queueJob!
     // We handle reaction DataMessages separately
     if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
-      await handleMessageReaction(
-        rawDataMessage.reaction,
-        msgModel.get('source'),
-        isUsFromCache(msgModel.get('source'))
-      );
+      await handleMessageReaction({
+        reaction: rawDataMessage.reaction,
+        sender: msgModel.get('source'),
+        you: isUsFromCache(msgModel.get('source')),
+        isOpenGroup: false,
+      });
       if (
         convoToAddMessageTo.isPrivate() &&
         msgModel.get('unread') &&

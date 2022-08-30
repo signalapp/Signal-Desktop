@@ -737,7 +737,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-        await handleMessageReaction(reaction, UserUtils.getOurPubKeyStrFromCache(), true);
+        await handleMessageReaction({
+          reaction,
+          sender: UserUtils.getOurPubKeyStrFromCache(),
+          you: true,
+          isOpenGroup: false,
+        });
         return;
       }
 
@@ -749,7 +754,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
-        await handleMessageReaction(reaction, UserUtils.getOurPubKeyStrFromCache(), true);
+        await handleMessageReaction({
+          reaction,
+          sender: UserUtils.getOurPubKeyStrFromCache(),
+          you: true,
+          isOpenGroup: false,
+        });
         return;
       }
 

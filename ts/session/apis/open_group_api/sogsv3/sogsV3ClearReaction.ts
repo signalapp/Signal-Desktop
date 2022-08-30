@@ -1,5 +1,6 @@
 import AbortController from 'abort-controller';
 import { OpenGroupReactionResponse } from '../../../../types/Reaction';
+import { handleClearReaction } from '../../../../util/reactions';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import {
   batchFirstSubIsSuccess,
@@ -25,8 +26,13 @@ export const clearSogsReactionByServerId = async (
   serverId: number,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<boolean> => {
-  const canReact = await hasReactionSupport(serverId);
-  if (!canReact) {
+  const { supported, conversation } = await hasReactionSupport(serverId);
+  if (!supported) {
+    return false;
+  }
+
+  if (!conversation) {
+    window.log.warn(`Conversation for ${reaction} not found in db`);
     return false;
   }
 
@@ -44,10 +50,17 @@ export const clearSogsReactionByServerId = async (
 
   addToMutationCache(cacheEntry);
 
+  // Since responses can take a long time we immediately update the moderators's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
+  await handleClearReaction(serverId, reaction);
+
   const options: Array<OpenGroupBatchRow> = [
     {
       type: 'deleteReaction',
-      deleteReaction: { reaction, messageId: serverId, roomId: roomInfos.roomId },
+      deleteReaction: {
+        reaction,
+        messageId: serverId,
+        roomId: roomInfos.roomId,
+      },
     },
   ];
   const result = await sogsBatchSend(
