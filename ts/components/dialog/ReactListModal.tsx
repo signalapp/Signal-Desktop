@@ -13,7 +13,7 @@ import {
 } from '../../state/ducks/modalDialog';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
-import { sendMessageReaction, SOGSReactorsFetchCount } from '../../util/reactions';
+import { Reactions } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
@@ -110,7 +110,7 @@ const ReactionSenders = (props: ReactionSendersProps) => {
   };
 
   const handleRemoveReaction = async () => {
-    await sendMessageReaction(messageId, currentReact);
+    await Reactions.sendMessageReaction(messageId, currentReact);
 
     if (senders.length <= 1) {
       dispatch(updateReactListModal(null));
@@ -174,13 +174,13 @@ const CountText = ({ count, emoji }: { count: number; emoji: string }) => {
     <StyledCountText>
       <SessionHtmlRenderer
         html={
-          count > SOGSReactorsFetchCount + 1
+          count > Reactions.SOGSReactorsFetchCount + 1
             ? window.i18n('reactionListCountPlural', [
-                window.i18n('otherPlural', [String(count - SOGSReactorsFetchCount)]),
+                window.i18n('otherPlural', [String(count - Reactions.SOGSReactorsFetchCount)]),
                 emoji,
               ])
             : window.i18n('reactionListCountSingular', [
-                window.i18n('otherSingular', [String(count - SOGSReactorsFetchCount)]),
+                window.i18n('otherSingular', [String(count - Reactions.SOGSReactorsFetchCount)]),
                 emoji,
               ])
         }
@@ -362,7 +362,7 @@ export const ReactListModal = (props: Props): ReactElement => {
                 handleClose={handleClose}
               />
             )}
-            {isPublic && currentReact && count && count > SOGSReactorsFetchCount && (
+            {isPublic && currentReact && count && count > Reactions.SOGSReactorsFetchCount && (
               <CountText count={count} emoji={currentReact} />
             )}
           </StyledSendersContainer>

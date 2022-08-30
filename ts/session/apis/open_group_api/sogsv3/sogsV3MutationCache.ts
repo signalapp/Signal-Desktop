@@ -4,7 +4,7 @@
  */
 
 import { filter, findIndex, remove } from 'lodash';
-import { handleOpenGroupMessageReactions } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 import { OpenGroupMessageV4 } from '../opengroupV2/OpenGroupServerPoller';
 
 export enum ChangeType {
@@ -32,28 +32,35 @@ const sogsMutationCache: Array<SogsV3Mutation> = [];
 
 function verifyEntry(entry: SogsV3Mutation): boolean {
   return Boolean(
-    !entry.server ||
-      !entry.room ||
-      entry.seqno !== null ||
-      entry.metadata.messageId ||
-      entry.metadata.emoji ||
-      entry.metadata.action === 'ADD' ||
-      entry.metadata.action === 'REMOVE'
+    entry.server &&
+      entry.server !== '' &&
+      entry.room &&
+      entry.room !== '' &&
+      entry.changeType === ChangeType.REACTIONS &&
+      entry.metadata.messageId &&
+      entry.metadata.emoji &&
+      entry.metadata.emoji !== '' &&
+      (entry.metadata.action === 'ADD' ||
+        entry.metadata.action === 'REMOVE' ||
+        entry.metadata.action === 'CLEAR')
   );
 }
 
-export function addToMutationCache(entry: SogsV3Mutation) {
+// we return the cache for testing
+export function addToMutationCache(entry: SogsV3Mutation): Array<SogsV3Mutation> {
   if (!verifyEntry(entry)) {
     window.log.error('SOGS Mutation Cache: Entry verification on add failed!', entry);
   } else {
     sogsMutationCache.push(entry);
     window.log.info('SOGS Mutation Cache: Entry added!', entry);
   }
+  return sogsMutationCache;
 }
 
-export function updateMutationCache(entry: SogsV3Mutation, seqno: number) {
+// we return the cache for testing
+export function updateMutationCache(entry: SogsV3Mutation, seqno: number): Array<SogsV3Mutation> {
   if (!verifyEntry(entry)) {
-    window.log.error('SOGS Mutation Cache: Entry verification on update failed!');
+    window.log.error('SOGS Mutation Cache: Entry verification on update failed!', entry);
   } else {
     const entryIndex = findIndex(sogsMutationCache, entry);
     if (entryIndex >= 0) {
@@ -63,13 +70,15 @@ export function updateMutationCache(entry: SogsV3Mutation, seqno: number) {
       window.log.error('SOGS Mutation Cache: Updated failed! Cannot find entry', entry);
     }
   }
+  return sogsMutationCache;
 }
 
+// return is for testing purposes only
 export async function processMessagesUsingCache(
   server: string,
   room: string,
   message: OpenGroupMessageV4
-) {
+): Promise<OpenGroupMessageV4> {
   const updatedReactions = message.reactions;
   const roomMatches: Array<SogsV3Mutation> = filter(sogsMutationCache, { server, room });
 
@@ -125,5 +134,6 @@ export async function processMessagesUsingCache(
   window.log.info('SOGS Mutation Cache: Removed processed entries from cache!', removedMatches);
 
   message.reactions = updatedReactions;
-  await handleOpenGroupMessageReactions(message.reactions, message.id);
+  await Reactions.handleOpenGroupMessageReactions(message.reactions, message.id);
+  return message;
 }

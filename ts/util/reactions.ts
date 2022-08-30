@@ -11,12 +11,12 @@ import { UserUtils } from '../session/utils';
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
 import { getRecentReactions, saveRecentReations } from '../util/storage';
 
-export const SOGSReactorsFetchCount = 5;
+const SOGSReactorsFetchCount = 5;
 const rateCountLimit = 20;
 const rateTimeLimit = 60 * 1000;
 const latestReactionTimestamps: Array<number> = [];
 
-export function hitRateLimit(): boolean {
+function hitRateLimit(): boolean {
   const timestamp = Date.now();
   latestReactionTimestamps.push(timestamp);
 
@@ -71,7 +71,7 @@ const getMessageByReaction = async (
 /**
  * Sends a Reaction Data Message
  */
-export const sendMessageReaction = async (messageId: string, emoji: string) => {
+const sendMessageReaction = async (messageId: string, emoji: string) => {
   const found = await Data.getMessageById(messageId);
   if (found) {
     const conversationModel = found?.getConversation();
@@ -147,7 +147,7 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
  * Handle reactions on the client by updating the state of the source message
  * Used in OpenGroups for sending reactions only, not handling responses
  */
-export const handleMessageReaction = async ({
+const handleMessageReaction = async ({
   reaction,
   sender,
   you,
@@ -239,7 +239,7 @@ export const handleMessageReaction = async ({
  * Handles updating the UI when clearing all reactions for a certain emoji
  * Only usable by moderators in opengroups and runs on their client
  */
-export const handleClearReaction = async (serverId: number, emoji: string) => {
+const handleClearReaction = async (serverId: number, emoji: string) => {
   const originalMessage = await Data.getMessageByServerId(serverId);
   if (!originalMessage) {
     window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
@@ -265,7 +265,7 @@ export const handleClearReaction = async (serverId: number, emoji: string) => {
 /**
  * Handles all message reaction updates/responses for opengroups
  */
-export const handleOpenGroupMessageReactions = async (
+const handleOpenGroupMessageReactions = async (
   reactions: OpenGroupReactionList,
   serverId: number
 ) => {
@@ -334,7 +334,7 @@ export const handleOpenGroupMessageReactions = async (
   return originalMessage;
 };
 
-export const updateRecentReactions = async (reactions: Array<string>, newReaction: string) => {
+const updateRecentReactions = async (reactions: Array<string>, newReaction: string) => {
   window?.log?.info('updating recent reactions with', newReaction);
   const recentReactions = new RecentReactions(reactions);
   const foundIndex = recentReactions.items.indexOf(newReaction);
@@ -347,4 +347,15 @@ export const updateRecentReactions = async (reactions: Array<string>, newReactio
     recentReactions.push(newReaction);
   }
   await saveRecentReations(recentReactions.items);
+};
+
+// exported for testing purposes
+export const Reactions = {
+  SOGSReactorsFetchCount,
+  hitRateLimit,
+  sendMessageReaction,
+  handleMessageReaction,
+  handleClearReaction,
+  handleOpenGroupMessageReactions,
+  updateRecentReactions,
 };

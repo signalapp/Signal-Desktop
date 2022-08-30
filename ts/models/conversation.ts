@@ -93,7 +93,7 @@ import {
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
-import { handleMessageReaction } from '../util/reactions';
+import { Reactions } from '../util/reactions';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -193,7 +193,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isPublic()) {
-      return `opengroup(${this.id})`;
+      const opengroup = this.toOpenGroupV2();
+      return `${opengroup.serverUrl}/${opengroup.roomId}`;
     }
 
     return `group(${ed25519Str(this.id)})`;
@@ -737,7 +738,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-        await handleMessageReaction({
+        await Reactions.handleMessageReaction({
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
           you: true,
@@ -754,7 +755,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
-        await handleMessageReaction({
+        await Reactions.handleMessageReaction({
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
           you: true,

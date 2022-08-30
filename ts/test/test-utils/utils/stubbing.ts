@@ -68,7 +68,7 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
-export const enableLogRedirect = false;
+export const enableLogRedirect = true;
 
 export const stubWindowLog = () => {
   stubWindow('log', {

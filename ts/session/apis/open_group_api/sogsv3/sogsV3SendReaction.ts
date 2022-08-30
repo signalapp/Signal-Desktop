@@ -3,7 +3,7 @@ import { Data } from '../../../../data/data';
 import { ConversationModel } from '../../../../models/conversation';
 import { Action, OpenGroupReactionResponse, Reaction } from '../../../../types/Reaction';
 import { getEmojiDataFromNative } from '../../../../util/emoji';
-import { handleMessageReaction, hitRateLimit } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
 import { UserUtils } from '../../../utils';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
@@ -57,7 +57,7 @@ export const sendSogsReactionOnionV4 = async (
     return false;
   }
 
-  if (hitRateLimit()) {
+  if (Reactions.hitRateLimit()) {
     return false;
   }
 
@@ -89,7 +89,7 @@ export const sendSogsReactionOnionV4 = async (
 
   // Since responses can take a long time we immediately update the sender's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
   const me = UserUtils.getOurPubKeyStrFromCache();
-  await handleMessageReaction({
+  await Reactions.handleMessageReaction({
     reaction,
     sender: blinded ? getUsBlindedInThatServer(conversation) || me : me,
     you: true,

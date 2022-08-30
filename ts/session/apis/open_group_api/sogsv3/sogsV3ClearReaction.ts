@@ -1,6 +1,6 @@
 import AbortController from 'abort-controller';
 import { OpenGroupReactionResponse } from '../../../../types/Reaction';
-import { handleClearReaction } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import {
   batchFirstSubIsSuccess,
@@ -51,7 +51,7 @@ export const clearSogsReactionByServerId = async (
   addToMutationCache(cacheEntry);
 
   // Since responses can take a long time we immediately update the moderators's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
-  await handleClearReaction(serverId, reaction);
+  await Reactions.handleClearReaction(serverId, reaction);
 
   const options: Array<OpenGroupBatchRow> = [
     {

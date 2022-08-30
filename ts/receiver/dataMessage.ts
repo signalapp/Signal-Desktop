@@ -21,7 +21,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { handleMessageReaction } from '../util/reactions';
+import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
 
 function cleanAttachment(attachment: any) {
@@ -322,7 +322,7 @@ async function handleSwarmMessage(
     // this call has to be made inside the queueJob!
     // We handle reaction DataMessages separately
     if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
-      await handleMessageReaction({
+      await Reactions.handleMessageReaction({
         reaction: rawDataMessage.reaction,
         sender: msgModel.get('source'),
         you: isUsFromCache(msgModel.get('source')),

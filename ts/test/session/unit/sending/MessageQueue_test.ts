@@ -215,7 +215,7 @@ describe('MessageQueue', () => {
         let sendToOpenGroupV2Stub: sinon.SinonStub;
         beforeEach(() => {
           sendToOpenGroupV2Stub = Sinon.stub(MessageSender, 'sendToOpenGroupV2').resolves(
-            TestUtils.generateOpenGroupMessageV2()
+            TestUtils.generateOpenGroupMessageV2({ serverId: 5125 })
           );
         });
 

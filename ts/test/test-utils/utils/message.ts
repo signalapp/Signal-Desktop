@@ -7,6 +7,8 @@ import { TestUtils } from '..';
 import { OpenGroupRequestCommonType } from '../../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { MessageModel } from '../../../models/message';
+import { OpenGroupMessageV4 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
+import { OpenGroupReaction } from '../../../types/Reaction';
 
 export function generateVisibleMessage({
   identifier,
@@ -27,8 +29,9 @@ export function generateVisibleMessage({
   });
 }
 
-export function generateOpenGroupMessageV2(): OpenGroupMessageV2 {
+export function generateOpenGroupMessageV2({ serverId }: { serverId: number }): OpenGroupMessageV2 {
   return new OpenGroupMessageV2({
+    serverId,
     sentTimestamp: Date.now(),
     sender: TestUtils.generateFakePubKey().key,
     base64EncodedData: 'whatever',
@@ -61,4 +64,24 @@ export function generateFakeIncomingPrivateMessage(): MessageModel {
     source: convoId,
     type: 'incoming',
   });
+}
+
+export function generateFakeIncomingOpenGroupMessageV4({
+  id,
+  seqno,
+  reactions,
+}: {
+  seqno: number;
+  id: number;
+  reactions?: Record<string, OpenGroupReaction>;
+}): OpenGroupMessageV4 {
+  return {
+    id, // serverId
+    seqno,
+    /** base64 */
+    signature: 'whatever',
+    /** timestamp number with decimal */
+    posted: Date.now(),
+    reactions: reactions ?? {},
+  };
 }
