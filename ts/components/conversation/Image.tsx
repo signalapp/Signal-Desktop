@@ -16,7 +16,6 @@ type Props = {
 
   overlayText?: string;
 
-  bottomOverlay?: boolean;
   closeButton?: boolean;
 
   darkOverlay?: boolean;
@@ -35,7 +34,6 @@ export const Image = (props: Props) => {
   const {
     alt,
     attachment,
-    bottomOverlay,
     closeButton,
     darkOverlay,
     height,
@@ -154,7 +152,6 @@ export const Image = (props: Props) => {
           className="module-image__close-button"
         />
       ) : null}
-      {bottomOverlay ? <div className={classNames('module-image__bottom-overlay')} /> : null}
       {!(pending || loading) && playIconOverlay ? (
         <div className="module-image__play-overlay__circle">
           <div className="module-image__play-overlay__icon" />

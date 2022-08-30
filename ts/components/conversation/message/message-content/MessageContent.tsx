@@ -4,27 +4,16 @@ import React, { createContext, useCallback, useContext, useLayoutEffect, useStat
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { MessageRenderingProps } from '../../../../models/messageType';
+import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
   getMessageTextProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
-import {
-  canDisplayImage,
-  getGridDimensions,
-  getImageDimensionsInAttachment,
-  hasImage,
-  hasVideoScreenshot,
-  isImage,
-  isImageAttachment,
-  isVideo,
-} from '../../../../types/Attachment';
-import { Flex } from '../../../basic/Flex';
-import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
+
 import { MessageAttachment } from './MessageAttachment';
-import { MessagePreview } from './MessagePreview';
+import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
@@ -40,40 +29,6 @@ type Props = {
   isDetailView?: boolean;
 };
 
-function getIsShowingImage(
-  props: Pick<MessageRenderingProps, 'attachments' | 'previews' | 'text'> & { imageBroken: boolean }
-): boolean {
-  const { attachments, previews, text, imageBroken } = props;
-
-  if (imageBroken) {
-    return false;
-  }
-
-  if (attachments && attachments.length) {
-    const displayImage = canDisplayImage(attachments);
-    const hasText = text?.length;
-    return Boolean(
-      displayImage &&
-        !hasText &&
-        ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) && hasVideoScreenshot(attachments)))
-    );
-  }
-
-  if (previews && previews.length) {
-    const first = previews[0];
-    const { image } = first;
-
-    if (!image) {
-      return false;
-    }
-
-    return isImageAttachment(image);
-  }
-
-  return false;
-}
-
 function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>) {
   const selection = window.getSelection();
   // Text is being selected
@@ -88,11 +43,17 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-const StyledMessageContent = styled.div`
-  border-radius: 18px;
+const StyledMessageOpaqueContent = styled.div<{ messageDirection: MessageModelType }>`
+  background: ${props =>
+    props.messageDirection === 'incoming'
+      ? 'var(--color-received-message-background)'
+      : 'var(--color-sent-message-background)'};
+  padding: 7px 13px; // FIXME
+  border-radius: 16px; //FIXME
 `;
 
 export const IsMessageVisibleContext = createContext(false);
+// tslint:disable: use-simple-attributes
 
 export const MessageContent = (props: Props) => {
   const [flashGreen, setFlashGreen] = useState(false);
@@ -151,15 +112,7 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const {
-    direction,
-    text,
-    timestamp,
-    serverTimestamp,
-    previews,
-    quote,
-    attachments,
-  } = contentProps;
+  const { direction, text, timestamp, serverTimestamp, previews } = contentProps;
 
   const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
 
@@ -168,30 +121,17 @@ export const MessageContent = (props: Props) => {
     isDeleted = selectedMsg.isDeleted;
   }
 
-  const width = getWidth({ previews, attachments });
-  const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
-  const hasText = Boolean(text);
-  const hasQuote = !isEmpty(quote);
   const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
 
-  const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
-  // tslint:disable: use-simple-attributes
 
   return (
-    <StyledMessageContent
+    <div
       className={classNames(
         'module-message__container',
         `module-message__container--${direction}`,
-        bgShouldBeTransparent
-          ? `module-message__container--${direction}--transparent`
-          : `module-message__container--${direction}--opaque`,
-
         flashGreen && 'flash-green-once'
       )}
-      style={{
-        width: isShowingImage ? width : undefined,
-      }}
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
@@ -204,59 +144,29 @@ export const MessageContent = (props: Props) => {
         triggerOnce={false}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
-          {!isDeleted && (
-            <>
-              <MessageQuote messageId={props.messageId} />
-              <MessageAttachment
-                messageId={props.messageId}
-                imageBroken={imageBroken}
-                handleImageError={handleImageError}
-              />
-            </>
-          )}
           {hasContentAfterAttachmentAndQuote ? (
-            <>
+            <StyledMessageOpaqueContent messageDirection={direction}>
               {!isDeleted && (
-                <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
+                <>
+                  <MessageQuote messageId={props.messageId} />
+                  <MessageLinkPreview
+                    messageId={props.messageId}
+                    handleImageError={handleImageError}
+                  />
+                </>
               )}
-              <Flex padding="7px 13px" container={true} flexDirection="column">
-                <MessageText messageId={props.messageId} />
-              </Flex>
-            </>
+              <MessageText messageId={props.messageId} />
+            </StyledMessageOpaqueContent>
           ) : null}
+          {!isDeleted && (
+            <MessageAttachment
+              messageId={props.messageId}
+              imageBroken={imageBroken}
+              handleImageError={handleImageError}
+            />
+          )}
         </IsMessageVisibleContext.Provider>
       </InView>
-    </StyledMessageContent>
+    </div>
   );
 };
-
-function getWidth(
-  props: Pick<MessageRenderingProps, 'attachments' | 'previews'>
-): number | undefined {
-  const { attachments, previews } = props;
-
-  if (attachments && attachments.length) {
-    const dimensions = getGridDimensions(attachments);
-    if (dimensions) {
-      return dimensions.width;
-    }
-  }
-
-  if (previews && previews.length) {
-    const first = previews[0];
-
-    if (!first || !first.image) {
-      return;
-    }
-    const { width } = first.image;
-
-    if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensionsInAttachment(first.image);
-      if (dimensions) {
-        return dimensions.width;
-      }
-    }
-  }
-
-  return;
-}

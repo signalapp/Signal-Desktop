@@ -348,6 +348,9 @@ $rhap_font-family: inherit !default;
   padding: 0px;
   background-color: transparent;
   box-shadow: none;
+  background: var(--color-accent);
+  padding: $padding-message-content;
+  border-radius: $border-radius-message-box;
 
   svg {
     transition: fill $session-transition-duration;

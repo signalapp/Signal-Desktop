@@ -345,11 +345,6 @@ label {
   text-align: center;
   position: relative;
   overflow: hidden;
-
-  border-top-left-radius: $session_message-container-border-radius;
-  border-bottom-left-radius: $session_message-container-border-radius;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
 }
 
 .conversation-header {

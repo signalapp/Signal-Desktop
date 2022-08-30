@@ -6,11 +6,12 @@ import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
 import { ATTACHMENT_DEFAULT_MAX_SIDE } from '../util/attachmentsUtil';
+import { THUMBNAIL_SIDE } from './attachments/VisualAttachment';
 
-const MAX_WIDTH = 200;
-const MAX_HEIGHT = MAX_WIDTH;
-const MIN_WIDTH = MAX_WIDTH;
-const MIN_HEIGHT = MAX_WIDTH;
+const MAX_WIDTH = THUMBNAIL_SIDE;
+const MAX_HEIGHT = THUMBNAIL_SIDE;
+const MIN_WIDTH = THUMBNAIL_SIDE;
+const MIN_HEIGHT = THUMBNAIL_SIDE;
 
 // Used for display
 
@@ -215,39 +216,6 @@ export function areAllAttachmentsVisual(attachments?: Array<AttachmentType>): bo
   }
 
   return true;
-}
-
-export function getGridDimensions(attachments?: Array<AttachmentType>): null | DimensionsType {
-  if (!attachments || !attachments.length) {
-    return null;
-  }
-
-  if (!isImage(attachments) && !isVideo(attachments)) {
-    return null;
-  }
-
-  if (attachments.length === 1) {
-    return getImageDimensionsInAttachment(attachments[0]);
-  }
-
-  if (attachments.length === 2) {
-    return {
-      height: 150,
-      width: 300,
-    };
-  }
-
-  if (attachments.length === 4) {
-    return {
-      height: 300,
-      width: 300,
-    };
-  }
-
-  return {
-    height: 200,
-    width: 300,
-  };
 }
 
 export function getAlt(attachment: AttachmentType): string {
